@@ -1,0 +1,256 @@
+00 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a heart)
+01 - Green Rupee (1)
+02 - Blue Rupee (5)
+03 - Yellow Rupee (10)
+04 - Red Rupee (20)
+05 - Purple Rupee (50)
+06 - Orange Rupee (100)
+07 - Piece of Heart
+08 - Heart Container
+09 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a pot)
+0A - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a different pot)
+0B - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a bomb)
+0C - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a bomb)
+0D - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a bomb)
+0E - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a bomb)
+0F - Silver Rupee (200)
+10 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like an arrow)
+11 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like an arrow)
+12 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like an arrow)
+13 - Green Rupee (dupe?)
+14 - Green Rupee (dupe?)
+15 - Small Key
+16 - Game crash.
+17 - Green Rupee (dupe?)
+18 - Green Rupee (dupe?)
+19 - Green Rupee (dupe?)
+1A - Yellow Rupee (dupe?)
+1B - Green Rupee (dupe?)
+1C - Green Rupee (dupe?)
+1D - Green Rupee (dupe?)
+1E - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a heart)
+1F - Joy Pendant
+20 - Telescope
+21 - Tingle Tuner
+22 - Wind Waker
+23 - Picto Box
+24 - Spoils Bag
+25 - Grappling Hook
+26 - Deluxe Picto Box
+27 - Hero's Bow
+28 - Power Bracelets
+29 - Iron Boots
+2A - Magic Armor
+2B - Green Rupee (dupe?)
+2C - Bait Bag
+2D - Boomerang
+2E - BUGGED, "You can only call Tingle from areas that have maps!"
+2F - Hookshot
+30 - Delivery Bag
+31 - Bombs
+32 - Hero's Clothes (doesn't actually change your clothes?)
+33 - Skull Hammer
+34 - Deku Leaf
+35 - Fire and Ice Arrows
+36 - Light Arrow
+37 - Green Rupee (dupe?)
+38 - Hero's Sword
+39 - Green Rupee (dupe?)
+3A - Green Rupee (dupe?)
+3B - Hero's Shield
+3C - Mirror Shield
+3D - Got back the Hero's Sword you dropped?
+3E - Green Rupee (dupe?)
+3F - Piece of Heart (dupe?)
+40 - Green Rupee (dupe?)
+41 - Green Rupee (dupe?)
+42 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like the pirate's charm)
+43 - Hero's Charm
+44 - Green Rupee (dupe?)
+45 - Skull Necklace
+46 - Boko Baba Seed
+47 - Golden Feather
+48 - Knight's Crest
+49 - Red Chu Jelly
+4A - Green Chu Jelly
+4B - Blue Chu Jelly
+4C - Dungeon Map
+4D - Compass
+4E - Big Key
+4F - Green Rupee (dupe?)
+50 - Empty Bottle
+51 - Red Potion
+52 - Green Potion
+53 - Blue Potion
+54 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like elixir soup)
+55 - Elixir Soup
+56 - Bottled Water
+57 - Fairy
+58 - Forest Firefly
+59 - Forest Water
+5A - Green Rupee (dupe?)
+5B - Green Rupee (dupe?)
+5C - Green Rupee (dupe?)
+5D - Green Rupee (dupe?)
+5E - Green Rupee (dupe?)
+5F - Green Rupee (dupe?)
+60 - Green Rupee (dupe?)
+61 - Triforce Shard (1?)
+62 - Triforce Shard (2?)
+63 - Triforce Shard (3?)
+64 - Triforce Shard (4?)
+65 - Triforce Shard (5?)
+66 - Triforce Shard (6?)
+67 - Triforce Shard (7?)
+68 - Triforce Shard (8?)
+69 - Nayru's Pearl
+6A - Din's Pearl
+6B - Farore's Pearl
+6C - BUGGED, "You can only call Tingle from areas that have maps!" (looks like the pirate's charm)
+6D - Wind's Requiem
+6E - Ballad of Gales
+6F - Command Melody
+70 - Earth God's Lyric
+71 - Wind God's Aria
+72 - Song of Passing
+73 - Green Rupee (dupe?)
+74 - Green Rupee (dupe?)
+75 - Green Rupee (dupe?)
+76 - Green Rupee (dupe?)
+77 - Green Rupee (dupe?)
+78 - Boat's Sail
+79 - Triforce Chart got deciphered (1?)
+7A - Triforce Chart got deciphered (2?)
+7B - Triforce Chart got deciphered (3?)
+7C - Triforce Chart got deciphered (4?)
+7D - Triforce Chart got deciphered (5?)
+7E - Triforce Chart got deciphered (6?)
+7F - Triforce Chart got deciphered (7?)
+80 - Triforce Chart got deciphered (8?)
+81 - Green Rupee (dupe?)
+82 - All-Purpose Bait
+83 - Hyoi Pear
+84 - Green Rupee (dupe?)
+85 - Green Rupee (dupe?)
+86 - Green Rupee (dupe?)
+87 - Green Rupee (dupe?)
+88 - Green Rupee (dupe?)
+89 - Green Rupee (dupe?)
+8A - Green Rupee (dupe?)
+8B - Green Rupee (dupe?)
+8C - Town Flower
+8D - Sea Flower
+8E - Exotic Flower
+8F - Hero's Flag
+90 - Big Catch Flag
+91 - Big Sale Flag
+92 - Pinwheel
+93 - Sickle Moon Flag
+94 - Skull Tower Idol
+95 - Fountain Idol
+96 - Postman Statue
+97 - Shop Guru Statue
+98 - Father's Letter
+99 - Note to Mom
+9A - Maggie's Letter
+9B - Moblin's Letter
+9C - Cabana Deed
+9D - Complimentary ID
+9E - Fill-Up Coupon
+9F - "one of the legendary pictographs in your deluxe pictobox"
+A0 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like the pirate's charm)
+A1 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like the pirate's charm)
+A2 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like the pirate's charm)
+A3 - Dragon Tingle Statue
+A4 - Forbidden Tingle Statue
+A5 - Goddess Tingle Statue
+A6 - Earth Tingle Statue
+A7 - Wind Tingle Statue
+A8 - Green Rupee (dupe?)
+A9 - Green Rupee (dupe?)
+AA - Hurricane Spin
+AB - 1000 Rupee Wallet
+AC - 5000 Rupee Wallet
+AD - 60 Bomb Bomb Bag
+AE - 99 Bomb Bomb Bag
+AF - 60 Arrow Quiver
+B0 - 99 Arrow Quiver
+B1 - Green Rupee (dupe?)
+B2 - Green Rupee (dupe?)
+B3 - 50 rupees (1 tingle statue collected)?
+B4 - 100 rupees (2 tingle statues collected)?
+B5 - 150 rupees (3 tingle statues collected)?
+B6 - 200? rupees (4 tingle statues collected)?
+B7 - ? rupees (? tingle statues collected)?
+B8 - 500 Rupees (Reward for getting all 5 tingle statues)
+B9 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a green rupee)
+BA - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a green rupee)
+BB - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a green rupee)
+BC - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a green rupee)
+BD - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a green rupee)
+BE - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a green rupee)
+BF - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a green rupee)
+C0 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a green rupee)
+C1 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a green rupee)
+C2 - Submarine Chart
+C3 - Beedle's Chart
+C4 - Platform Chart
+C5 - Light Ring Chart
+C6 - Secret Cave Chart
+C7 - Sea Hearts Chart
+C8 - Island Hearts Chart
+C9 - Great Fairy Chart
+CA - Octo Chart
+CB - IN-credible Chart
+CC - Treasure Chart
+CD - Treasure Chart
+CE - Treasure Chart
+CF - Treasure Chart
+D0 - Treasure Chart
+D1 - Treasure Chart
+D2 - Treasure Chart
+D3 - Treasure Chart
+D4 - Treasure Chart
+D5 - Treasure Chart
+D6 - Treasure Chart
+D7 - Treasure Chart
+D8 - Treasure Chart
+D9 - Treasure Chart
+DA - Treasure Chart
+DB - Ghost Ship Chart
+DC - Tingle's Chart
+DD - Treasure Chart
+DE - Treasure Chart
+DF - Treasure Chart
+E0 - Treasure Chart
+E1 - Treasure Chart
+E2 - Treasure Chart
+E3 - Treasure Chart
+E4 - Treasure Chart
+E5 - Treasure Chart
+E6 - Treasure Chart
+E7 - Treasure Chart
+E8 - Treasure Chart
+E9 - Treasure Chart
+EA - Treasure Chart
+EB - Treasure Chart
+EC - Treasure Chart
+ED - Treasure Chart
+EE - Treasure Chart
+EF - Treasure Chart
+F0 - Treasure Chart
+F1 - Treasure Chart
+F2 - Treasure Chart
+F3 - Treasure Chart
+F4 - Treasure Chart
+F5 - Treasure Chart
+F6 - Treasure Chart
+F7 - Triforce Chart (1?)
+F8 - Triforce Chart (2?)
+F9 - Triforce Chart (3?)
+FA - Triforce Chart (4?)
+FB - Triforce Chart (5?)
+FC - Triforce Chart (6?)
+FD - Triforce Chart (7?)
+FE - Triforce Chart (8?)
+FF - Game crash...?
