@@ -1,10 +1,10 @@
 00 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a heart)
-01 - Green Rupee (1)
-02 - Blue Rupee (5)
-03 - Yellow Rupee (10)
-04 - Red Rupee (20)
-05 - Purple Rupee (50)
-06 - Orange Rupee (100)
+01 - Green Rupee
+02 - Blue Rupee
+03 - Yellow Rupee
+04 - Red Rupee
+05 - Purple Rupee
+06 - Orange Rupee
 07 - Piece of Heart
 08 - Heart Container
 09 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a pot)
@@ -13,7 +13,7 @@
 0C - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a bomb)
 0D - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a bomb)
 0E - BUGGED, "You can only call Tingle from areas that have maps!" (looks like a bomb)
-0F - Silver Rupee (200)
+0F - Silver Rupee
 10 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like an arrow)
 11 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like an arrow)
 12 - BUGGED, "You can only call Tingle from areas that have maps!" (looks like an arrow)
@@ -95,14 +95,14 @@
 5E - Green Rupee (dupe?)
 5F - Green Rupee (dupe?)
 60 - Green Rupee (dupe?)
-61 - Triforce Shard (1?)
-62 - Triforce Shard (2?)
-63 - Triforce Shard (3?)
-64 - Triforce Shard (4?)
-65 - Triforce Shard (5?)
-66 - Triforce Shard (6?)
-67 - Triforce Shard (7?)
-68 - Triforce Shard (8?)
+61 - Triforce Shard 1
+62 - Triforce Shard 2
+63 - Triforce Shard 3
+64 - Triforce Shard 4
+65 - Triforce Shard 5
+66 - Triforce Shard 6
+67 - Triforce Shard 7
+68 - Triforce Shard 8
 69 - Nayru's Pearl
 6A - Din's Pearl
 6B - Farore's Pearl
@@ -119,14 +119,14 @@
 76 - Green Rupee (dupe?)
 77 - Green Rupee (dupe?)
 78 - Boat's Sail
-79 - Triforce Chart got deciphered (1?)
-7A - Triforce Chart got deciphered (2?)
-7B - Triforce Chart got deciphered (3?)
-7C - Triforce Chart got deciphered (4?)
-7D - Triforce Chart got deciphered (5?)
-7E - Triforce Chart got deciphered (6?)
-7F - Triforce Chart got deciphered (7?)
-80 - Triforce Chart got deciphered (8?)
+79 - Triforce Chart 1 got deciphered
+7A - Triforce Chart 2 got deciphered
+7B - Triforce Chart 3 got deciphered
+7C - Triforce Chart 4 got deciphered
+7D - Triforce Chart 5 got deciphered
+7E - Triforce Chart 6 got deciphered
+7F - Triforce Chart 7 got deciphered
+80 - Triforce Chart 8 got deciphered
 81 - Green Rupee (dupe?)
 82 - All-Purpose Bait
 83 - Hyoi Pear
@@ -245,12 +245,12 @@ F3 - Treasure Chart
 F4 - Treasure Chart
 F5 - Treasure Chart
 F6 - Treasure Chart
-F7 - Triforce Chart (1?)
-F8 - Triforce Chart (2?)
-F9 - Triforce Chart (3?)
-FA - Triforce Chart (4?)
-FB - Triforce Chart (5?)
-FC - Triforce Chart (6?)
-FD - Triforce Chart (7?)
-FE - Triforce Chart (8?)
+F7 - Triforce Chart 1
+F8 - Triforce Chart 2
+F9 - Triforce Chart 3
+FA - Triforce Chart 4
+FB - Triforce Chart 5
+FC - Triforce Chart 6
+FD - Triforce Chart 7
+FE - Triforce Chart 8
 FF - Game crash...?
