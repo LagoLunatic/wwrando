@@ -49,6 +49,7 @@ class Randomizer:
     print("On", arc_path)
     
     rarc = RARC(arc_path)
+    
     for dzr_or_dzs_file in rarc.dzx_files:
       for chunk in dzr_or_dzs_file.chunks:
         if chunk.chunk_type == "TRES":
@@ -76,6 +77,8 @@ class Randomizer:
             item_id,
             self.item_names.get(item_id, "")
           ))
+    
+    rarc.save_to_disk()
 
 if __name__ == "__main__":
   Randomizer()
