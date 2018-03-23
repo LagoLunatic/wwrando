@@ -57,7 +57,9 @@ class Randomizer:
         item_name = line[5:].rstrip()
         self.item_names[item_id] = item_name
     
-    self.generate_empty_progress_reqs_file()
+    #self.generate_empty_progress_reqs_file()
+    
+    self.apply_starting_cutscenes_skip_patch()
     
     # Randomize.
     #print("Randomizing...")
@@ -104,6 +106,86 @@ class Randomizer:
       #event_list.save_changes()
     
     #rarc.save_to_disk()
+  
+  def apply_starting_cutscenes_skip_patch(self):
+    original_free_space_ram_address = 0x803FCFA8
+    
+    dol_path = os.path.join(self.randomized_base_dir, "sys", "main.dol")
+    patch_path = os.path.join(".", "asm", "init_save_with_tweaks.bin")
+    with open(dol_path, "rb") as f:
+      dol_data = BytesIO(f.read())
+    with open(patch_path, "rb") as f:
+      patch_data = f.read()
+    
+    # First write our custom code to the end of the dol file.
+    dol_length = dol_data.seek(0, 2)
+    patch_length = len(patch_data)
+    dol_data.write(patch_data)
+    
+    # Next add a new text section to the dol (Text2).
+    write_u32(dol_data, 0x08, dol_length) # Write file offset of new Text2 section (which will be the original end of the file, where we put the patch)
+    write_u32(dol_data, 0x50, original_free_space_ram_address) # Write loading address of the new Text2 section
+    write_u32(dol_data, 0x98, patch_length) # Write length of the new Text2 section
+    
+    # Next we need to change a hardcoded pointer to where free space begins. Otherwise the game will overwrite the custom code.
+    padded_patch_length = ((patch_length + 3) & ~3) # Pad length of patch to next 4 just in case
+    new_start_pointer_for_default_thread = original_free_space_ram_address + padded_patch_length # New free space pointer after our custom code
+    high_halfword = (new_start_pointer_for_default_thread & 0xFFFF0000) >> 16
+    low_halfword = new_start_pointer_for_default_thread & 0xFFFF
+    if low_halfword >= 0x8000:
+      # If the low halfword has the highest bit set, it will be considered a negative number.
+      # Therefore we need to add 1 to the high halfword (equivalent to adding 0x10000) to compensate for the low halfword being negated.
+      high_halfword = high_halfword+1
+    # Now update the asm instructions that load this hardcoded pointer.
+    write_u32(dol_data, 0x304894, 0x3C600000 | high_halfword)
+    write_u32(dol_data, 0x30489C, 0x38030000 | low_halfword)
+    # Note: There's another hardcoded pointer near here, which points to 0x10000 later in RAM (0x8040CFA8).
+    # Does this need to be updated as well? Seems to work fine without updating it.
+    
+    
+    # 8005D618 is where the game calls the new game save init function.
+    # We replace this call with a call to our custom save init function.
+    address_of_save_init_call_to_replace = 0x8005D618
+    offset_of_call = original_free_space_ram_address - address_of_save_init_call_to_replace
+    offset_of_call &= 0x03FFFFFC
+    write_u32(dol_data, 0x5A558, 0x48000001 | offset_of_call) # 5A558 in the dol file is equivalent to 8005D618 in RAM
+    
+    # nop out a couple lines so the long intro movie is skipped.
+    write_u32(dol_data, 0x22FBB8, 0x60000000) # 0x80232C78 in RAM
+    write_u32(dol_data, 0x22FBC8, 0x60000000) # 0x80232C88 in RAM
+    
+    # Save changes to dol file.
+    with open(dol_path, "wb") as f:
+      dol_data.seek(0)
+      f.write(dol_data.read())
+    
+    
+    d_a_ship_path = os.path.join(self.randomized_base_dir, "files", "rels", "d_a_ship.rel")
+    with open(d_a_ship_path, "rb") as f:
+      ship_data = BytesIO(f.read())
+
+    # Modify King of Red Lions's code so he doesn't stop you when you veer off the path he wants you to go on.
+    # Specifically this replaces the first two lines of his checkOutRange function with what is equivalent to "return false".
+    write_u32(ship_data, 0x2918, 0x38600000)
+    write_u32(ship_data, 0x291C, 0x4E800020)
+    
+    # Skip the check for if you've seen the Dragon Roost Island intro which prevents you from getting in the King of Red Lions.
+    write_u32(ship_data, 0xB2D8, 0x48000018)
+
+    with open(d_a_ship_path, "wb") as f:
+      ship_data.seek(0)
+      f.write(ship_data.read())
+    
+    
+    # Get rid of the event that plays when you start the game where the camera zooms across the island and Aryll wakes Link up.
+    outset_arc_path = os.path.join(self.randomized_base_dir, "files", "res", "Stage", "sea", "Room44.arc")
+    outset_rarc = RARC(outset_arc_path)
+    dzx = outset_rarc.dzx_files[0]
+    outset_player_spawns = dzx.chunks["PLYR"].entries
+    begin_game_spawn = next(x for x in outset_player_spawns if x.spawn_id == 0xCE)
+    begin_game_spawn.event_index_to_play = 0xFF # FF = Don't play any event
+    begin_game_spawn.save_changes()
+    outset_rarc.save_to_disk()
   
   def generate_empty_progress_reqs_file(self):
     for arc_path in self.arc_paths:
