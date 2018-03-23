@@ -8,11 +8,11 @@ class DZx: # DZR or DZS, same format
     
     num_chunks = read_u32(data, 0)
     
-    self.chunks = []
+    self.chunks = {}
     for chunk_index in range(0, num_chunks):
       offset = 4 + chunk_index*0xC
       chunk = Chunk(self.file_entry, offset)
-      self.chunks.append(chunk)
+      self.chunks[chunk.chunk_type] = chunk
 
   def save_changes(self):
     data = self.file_entry.data
@@ -33,6 +33,9 @@ class Chunk:
     
     entry_class = {
       "TRES": TRES,
+      "SCOB": SCOB,
+      "ACTR": ACTR,
+      "PLYR": PLYR,
     }.get(self.chunk_type, None)
     
     if entry_class is None:
@@ -58,6 +61,8 @@ class TRES:
     
     self.name = read_str(data, offset, 8)
     
+    self.params = read_u8(data, offset+8)
+    
     chest_type_and_prereq_upper_nibble = read_u8(data, offset+9)
     prereq_lower_nibble_and_unknown = read_u8(data, offset+0xA)
     self.chest_type = (chest_type_and_prereq_upper_nibble >> 4)
@@ -66,11 +71,23 @@ class TRES:
     
     self.appear_condition = read_u8(data, offset+0xB)
     
+    self.x_pos = read_float(data, offset+0x0C)
+    self.y_pos = read_float(data, offset+0x10)
+    self.z_pos = read_float(data, offset+0x14)
+    self.room_num = read_u16(data, offset+0x18)
+    self.y_rot = read_u16(data, offset+0x1A)
+    
     self.item_id = read_u8(data, offset+0x1C)
     self.flag_id = read_u8(data, offset+0x1D) # nothing??
     
+    self.padding = read_u16(data, offset + 0x1E)
+    
   def save_changes(self):
     data = self.file_entry.data
+    
+    write_str(data, self.offset, self.name, 8)
+    
+    write_u8(data, self.offset+0x08, self.params)
     
     chest_type_and_prereq_upper_nibble = (self.chest_type << 4)
     chest_type_and_prereq_upper_nibble |= ((self.appear_condition_flag_id >> 4) & 0xF)
@@ -80,5 +97,117 @@ class TRES:
     write_u8(data, self.offset+0x0A, prereq_lower_nibble_and_unknown)
     
     write_u8(data, self.offset+0x0B, self.appear_condition)
+    
+    write_float(data, self.offset+0x0C, self.x_pos)
+    write_float(data, self.offset+0x10, self.y_pos)
+    write_float(data, self.offset+0x14, self.z_pos)
+    write_u16(data, self.offset+0x18, self.room_num)
+    write_u16(data, self.offset+0x1A, self.y_rot)
+    
     write_u8(data, self.offset+0x1C, self.item_id)
     write_u8(data, self.offset+0x1D, self.flag_id)
+    
+    write_u16(data, self.offset+0x1E, self.padding)
+
+class SCOB:
+  DATA_SIZE = 0x24
+  
+  def __init__(self, file_entry, offset):
+    self.file_entry = file_entry
+    data = self.file_entry.data
+    self.offset = offset
+    
+    self.name = read_str(data, offset, 8)
+    
+    self.auxilary_param = read_u16(data, offset + 0x18)
+    self.unknown_1 = read_u16(data, offset + 0x1C)
+    self.unknown_2 = read_u16(data, offset + 0x1E)
+    
+    params = read_u32(data, offset + 8)
+    self.item_id = ((params & 0x00000FF0) >> 4) # only for salvage. TODO how to tell if a SCOB is a salvage?
+    self.params = params
+    
+  def save_changes(self):
+    pass
+
+class ACTR:
+  DATA_SIZE = 0x20
+  
+  def __init__(self, file_entry, offset):
+    self.file_entry = file_entry
+    data = self.file_entry.data
+    self.offset = offset
+    
+    self.name = read_str(data, offset, 8)
+    
+    self.params = read_u32(data, offset + 8)
+    
+    self.x_pos = read_float(data, offset + 0x0C)
+    self.y_pos = read_float(data, offset + 0x10)
+    self.z_pos = read_float(data, offset + 0x14)
+    self.x_rot = read_u16(data, offset + 0x18)
+    self.y_rot = read_u16(data, offset + 0x1A)
+    
+    self.set_flag = read_u16(data, offset + 0x1C)
+    self.enemy_number = read_u16(data, offset + 0x1E)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_str(data, self.offset, self.name, 8)
+    
+    write_u32(data, self.offset+0x08, self.params)
+    
+    write_float(data, self.offset+0x0C, self.x_pos)
+    write_float(data, self.offset+0x10, self.y_pos)
+    write_float(data, self.offset+0x14, self.z_pos)
+    write_u16(data, self.offset+0x18, self.x_rot)
+    write_u16(data, self.offset+0x1A, self.y_rot)
+    
+    write_u16(data, self.offset+0x1C, self.set_flag)
+    write_u16(data, self.offset+0x1E, self.enemy_number)
+
+class PLYR:
+  DATA_SIZE = 0x20
+  
+  def __init__(self, file_entry, offset):
+    self.file_entry = file_entry
+    data = self.file_entry.data
+    self.offset = offset
+    
+    self.name = read_str(data, offset, 8)
+    
+    self.event_index_to_play = read_u8(data, offset + 8)
+    self.unknown1 = read_u8(data, offset + 9)
+    self.spawn_type = read_u8(data, offset + 0x0A)
+    self.room_num = read_u8(data, offset + 0x0B)
+    
+    self.x_pos = read_float(data, offset + 0x0C)
+    self.y_pos = read_float(data, offset + 0x10)
+    self.z_pos = read_float(data, offset + 0x14)
+    self.unknown2 = read_u16(data, offset + 0x18)
+    self.y_rot = read_u16(data, offset + 0x1A)
+    
+    self.unknown3 = read_u8(data, offset + 0x1C)
+    self.spawn_id = read_u8(data, offset + 0x1D)
+    self.unknown4 = read_u16(data, offset + 0x1E)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_str(data, self.offset, self.name, 8)
+    
+    write_u8(data, self.offset+0x08, self.event_index_to_play)
+    write_u8(data, self.offset+0x09, self.unknown1)
+    write_u8(data, self.offset+0x0A, self.spawn_type)
+    write_u8(data, self.offset+0x0B, self.room_num)
+    
+    write_float(data, self.offset+0x0C, self.x_pos)
+    write_float(data, self.offset+0x10, self.y_pos)
+    write_float(data, self.offset+0x14, self.z_pos)
+    write_u16(data, self.offset+0x18, self.unknown2)
+    write_u16(data, self.offset+0x1A, self.y_rot)
+    
+    write_u8(data, self.offset+0x1C, self.unknown3)
+    write_u8(data, self.offset+0x1D, self.spawn_id)
+    write_u16(data, self.offset+0x1E, self.unknown4)

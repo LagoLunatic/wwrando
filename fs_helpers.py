@@ -19,6 +19,18 @@ def read_str(data, offset, length):
   string = string.rstrip("\0") # Remove trailing null bytes
   return string
 
+def write_str(data, offset, new_string, max_length):
+  str_len = len(new_string)
+  if str_len > max_length:
+    raise Exception("String %s is too long (max length %X)" % (new_string, max_length))
+  
+  padding_length = max_length - str_len
+  null_padding = b"\x00"*padding_length
+  new_value = new_string.encode("ascii") + null_padding
+  
+  data.seek(offset)
+  data.write(new_value)
+
 def try_read_str(data, offset, length):
   try:
     return read_str(data, offset, length)
