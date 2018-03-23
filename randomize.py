@@ -1,9 +1,10 @@
 
 import os
+from io import BytesIO
 import shutil
 from pathlib import Path
+
 from fs_helpers import *
-from io import BytesIO
 from yaz0_decomp import Yaz0Decompressor
 from rarc import RARC
 from rel import REL
@@ -14,8 +15,8 @@ class Randomizer:
     self.randomized_base_dir = "../Wind Waker Files Randomized"
     
     # TODO: if dest dir already exists, don't overwrite most files since they wouldn't be changed. only overwrite randomized stage files.
-    #print("Copying clean files...")
-    #shutil.copytree(self.clean_base_dir, self.randomized_base_dir)
+    print("Copying clean files...")
+    shutil.copytree(self.clean_base_dir, self.randomized_base_dir)
     
     self.stage_dir = os.path.join(self.randomized_base_dir, "files", "res", "Stage")
     arc_paths = Path(self.stage_dir).glob("**/*.arc")
@@ -25,29 +26,34 @@ class Randomizer:
     rel_paths = Path(self.rels_dir).glob("**/*.rel")
     self.rel_paths = [str(rel_path) for rel_path in rel_paths]
     
+    # Extract all the extra rel files from RELS.arc.
+    print("Extracting rels...")
+    rels_arc_path = os.path.join(self.randomized_base_dir, "files", "RELS.arc")
+    rels_arc = RARC(rels_arc_path)
+    rels_arc.extract_all_files_to_disk(self.rels_dir)
+    # And then delete RELS.arc. If we don't do this then the original rels inside it will take precedence over the modified ones we extracted.
+    os.remove(rels_arc_path)
+    rels_arc = None
+    
     # Decompress any compressed arcs.
-    #print("Decompressing archives...")
-    #for arc_path in self.arc_paths:
-    #  with open(arc_path, "rb") as file:
-    #    data = BytesIO(file.read())
-    #  if try_read_str(data, 0, 4) == "Yaz0":
-    #    #print("  ", arc_path)
-    #    decomp_data = Yaz0Decompressor.decompress(data)
-    #    with open(arc_path, "wb") as file:
-    #      file.write(decomp_data)
-    #return
+    print("Decompressing archives...")
+    for arc_path in self.arc_paths:
+      with open(arc_path, "rb") as file:
+        data = BytesIO(file.read())
+      if try_read_str(data, 0, 4) == "Yaz0":
+        decomp_data = Yaz0Decompressor.decompress(data)
+        with open(arc_path, "wb") as file:
+          file.write(decomp_data)
     
     # Decompress any compressed rels.
-    #print("Decompressing rels...")
-    #for rel_path in self.rel_paths:
-    #  with open(rel_path, "rb") as file:
-    #    data = BytesIO(file.read())
-    #  if try_read_str(data, 0, 4) == "Yaz0":
-    #    print("  ", rel_path)
-    #    decomp_data = Yaz0Decompressor.decompress(data)
-    #    with open(rel_path, "wb") as file:
-    #      file.write(decomp_data)
-    #return
+    print("Decompressing rels...")
+    for rel_path in self.rel_paths:
+      with open(rel_path, "rb") as file:
+        data = BytesIO(file.read())
+      if try_read_str(data, 0, 4) == "Yaz0":
+        decomp_data = Yaz0Decompressor.decompress(data)
+        with open(rel_path, "wb") as file:
+          file.write(decomp_data)
     
     # Get item names for debug purposes.
     self.item_names = {}
@@ -57,9 +63,9 @@ class Randomizer:
         item_name = line[5:].rstrip()
         self.item_names[item_id] = item_name
     
-    #self.generate_empty_progress_reqs_file()
-    
     self.apply_starting_cutscenes_skip_patch()
+    
+    #self.generate_empty_progress_reqs_file()
     
     # Randomize.
     #print("Randomizing...")

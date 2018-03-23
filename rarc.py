@@ -1,8 +1,10 @@
 
+import os
+from io import BytesIO
+
 from dzx import DZx
 from events import EventList
 from fs_helpers import *
-from io import BytesIO
 
 class RARC:
   def __init__(self, file_path):
@@ -17,6 +19,7 @@ class RARC:
     file_entries_list_offset = read_u32(data, 0x2C) + 0x20
     self.string_list_offset = read_u32(data, 0x34) + 0x20
     
+    self.file_entries = []
     self.dzx_files = []
     self.event_list_files = []
     for node_index in range(0, num_nodes):
@@ -29,6 +32,7 @@ class RARC:
         file_entry_offset = file_entries_list_offset + file_index*0x14
         
         file_entry = FileEntry(data, file_entry_offset, self)
+        self.file_entries.append(file_entry)
         
         if file_entry.id == 0xFFFF:
           continue
@@ -44,6 +48,18 @@ class RARC:
         elif file_entry.name == "event_list.dat":
           event_list = EventList(file_entry)
           self.event_list_files.append(event_list)
+  
+  def extract_all_files_to_disk(self, output_directory):
+    # Note: This function does not currently preserve directory structure of the RARC, it simply extracts all files flat into the output directory.
+    for file_entry in self.file_entries:
+      if file_entry.id == 0xFFFF: # Directory
+        continue
+      
+      output_file_path = os.path.join(output_directory, file_entry.name)
+      
+      file_entry.data.seek(0)
+      with open(output_file_path, "wb") as f:
+        f.write(file_entry.data.read())
   
   def save_to_disk(self):
     for dzx in self.dzx_files:
