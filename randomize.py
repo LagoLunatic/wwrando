@@ -193,6 +193,20 @@ class Randomizer:
     begin_game_spawn.event_index_to_play = 0xFF # FF = Don't play any event
     begin_game_spawn.save_changes()
     outset_rarc.save_to_disk()
+    
+    # Change the King of Red Lion's default position so that he appears on Outset at the start of the game.
+    sea_stage_rarc_path = os.path.join(self.randomized_base_dir, "files", "res", "Stage", "sea", "Stage.arc")
+    sea_stage_rarc = RARC(sea_stage_rarc_path)
+    dzx = sea_stage_rarc.dzx_files[0]
+    sea_actors = dzx.chunks["ACTR"].entries
+    ship_actor = next(x for x in sea_actors if x.name == "Ship")
+    ship_actor.x_pos = -202000.0
+    ship_actor.y_pos = 0.0
+    ship_actor.z_pos = 312200.0
+    ship_actor.x_rot = 0
+    ship_actor.y_rot = 0x7555
+    ship_actor.save_changes()
+    sea_stage_rarc.save_to_disk()
   
   def generate_empty_progress_reqs_file(self):
     for arc_path in self.arc_paths:
