@@ -6,6 +6,7 @@ from fs_helpers import *
 from io import BytesIO
 from yaz0_decomp import Yaz0Decompressor
 from rarc import RARC
+from rel import REL
 
 class Randomizer:
   def __init__(self):
@@ -20,6 +21,10 @@ class Randomizer:
     arc_paths = Path(self.stage_dir).glob("**/*.arc")
     self.arc_paths = [str(arc_path) for arc_path in arc_paths]
     
+    self.rels_dir = os.path.join(self.randomized_base_dir, "files", "rels")
+    rel_paths = Path(self.rels_dir).glob("**/*.rel")
+    self.rel_paths = [str(rel_path) for rel_path in rel_paths]
+    
     # Decompress any compressed arcs.
     #print("Decompressing archives...")
     #for arc_path in self.arc_paths:
@@ -29,6 +34,18 @@ class Randomizer:
     #    #print("  ", arc_path)
     #    decomp_data = Yaz0Decompressor.decompress(data)
     #    with open(arc_path, "wb") as file:
+    #      file.write(decomp_data)
+    #return
+    
+    # Decompress any compressed rels.
+    #print("Decompressing rels...")
+    #for rel_path in self.rel_paths:
+    #  with open(rel_path, "rb") as file:
+    #    data = BytesIO(file.read())
+    #  if try_read_str(data, 0, 4) == "Yaz0":
+    #    print("  ", rel_path)
+    #    decomp_data = Yaz0Decompressor.decompress(data)
+    #    with open(rel_path, "wb") as file:
     #      file.write(decomp_data)
     #return
     
