@@ -19,12 +19,7 @@ class Randomizer:
     shutil.copytree(self.clean_base_dir, self.randomized_base_dir)
     
     self.stage_dir = os.path.join(self.randomized_base_dir, "files", "res", "Stage")
-    arc_paths = Path(self.stage_dir).glob("**/*.arc")
-    self.arc_paths = [str(arc_path) for arc_path in arc_paths]
-    
     self.rels_dir = os.path.join(self.randomized_base_dir, "files", "rels")
-    rel_paths = Path(self.rels_dir).glob("**/*.rel")
-    self.rel_paths = [str(rel_path) for rel_path in rel_paths]
     
     # Extract all the extra rel files from RELS.arc.
     print("Extracting rels...")
@@ -35,6 +30,9 @@ class Randomizer:
     os.remove(rels_arc_path)
     rels_arc = None
     
+    arc_paths = Path(self.stage_dir).glob("**/*.arc")
+    self.arc_paths = [str(arc_path) for arc_path in arc_paths]
+    
     # Decompress any compressed arcs.
     print("Decompressing archives...")
     for arc_path in self.arc_paths:
@@ -44,6 +42,9 @@ class Randomizer:
         decomp_data = Yaz0Decompressor.decompress(data)
         with open(arc_path, "wb") as file:
           file.write(decomp_data)
+    
+    rel_paths = Path(self.rels_dir).glob("**/*.rel")
+    self.rel_paths = [str(rel_path) for rel_path in rel_paths]
     
     # Decompress any compressed rels.
     print("Decompressing rels...")
