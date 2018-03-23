@@ -25,7 +25,7 @@ class Randomizer:
     #for arc_path in self.arc_paths:
     #  with open(arc_path, "rb") as file:
     #    data = BytesIO(file.read())
-    #  if read_str(data, 0, 4) == "Yaz0":
+    #  if try_read_str(data, 0, 4) == "Yaz0":
     #    #print("  ", arc_path)
     #    decomp_data = Yaz0Decompressor.decompress(data)
     #    with open(arc_path, "wb") as file:

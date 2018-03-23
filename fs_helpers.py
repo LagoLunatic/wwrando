@@ -19,6 +19,12 @@ def read_str(data, offset, length):
   string = string.rstrip("\0") # Remove trailing null bytes
   return string
 
+def try_read_str(data, offset, length):
+  try:
+    return read_str(data, offset, length)
+  except UnicodeDecodeError:
+    return None
+
 def read_str_until_null_character(data, offset):
   data_length = data.seek(0, 2)
   if offset > data_length:

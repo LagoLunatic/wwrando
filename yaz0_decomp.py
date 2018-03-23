@@ -4,7 +4,7 @@ from fs_helpers import *
 
 class Yaz0Decompressor:
   def decompress(comp_data):
-    if read_str(comp_data, 0, 4) != "Yaz0":
+    if try_read_str(comp_data, 0, 4) != "Yaz0":
       print("File is not compressed.")
       return comp_data
     

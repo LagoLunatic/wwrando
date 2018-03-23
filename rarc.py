@@ -7,10 +7,8 @@ from io import BytesIO
 class RARC:
   def __init__(self, file_path):
     self.file_path = file_path
-    
     with open(self.file_path, "rb") as file:
       self.data = BytesIO(file.read())
-    
     data = self.data
     
     self.file_data_list_offset = read_u32(data, 0xC) + 0x20
