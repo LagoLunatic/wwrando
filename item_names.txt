@@ -245,12 +245,12 @@ F3 - Treasure Chart
 F4 - Treasure Chart
 F5 - Treasure Chart
 F6 - Treasure Chart
-F7 - Triforce Chart 1
-F8 - Triforce Chart 2
-F9 - Triforce Chart 3
-FA - Triforce Chart 4
-FB - Triforce Chart 5
-FC - Triforce Chart 6
-FD - Triforce Chart 7
-FE - Triforce Chart 8
+F7 - Triforce Chart 8
+F8 - Triforce Chart 7
+F9 - Triforce Chart 6
+FA - Triforce Chart 5
+FB - Triforce Chart 4
+FC - Triforce Chart 3
+FD - Triforce Chart 2
+FE - Triforce Chart 1
 FF - 
