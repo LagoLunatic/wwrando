@@ -3,6 +3,7 @@ import os
 from io import BytesIO
 import shutil
 from pathlib import Path
+import re
 
 from fs_helpers import *
 from yaz0_decomp import Yaz0Decompressor
@@ -11,58 +12,72 @@ from rel import REL
 
 class Randomizer:
   def __init__(self):
-    self.clean_base_dir = "../Wind Waker Files"
+    clean_base_dir = "../Wind Waker Files"
     self.randomized_base_dir = "../Wind Waker Files Randomized"
     
-    # TODO: if dest dir already exists, don't overwrite most files since they wouldn't be changed. only overwrite randomized stage files.
-    print("Copying clean files...")
-    shutil.copytree(self.clean_base_dir, self.randomized_base_dir)
+    copy_and_decompress_clean_files = True
+    
+    if copy_and_decompress_clean_files:
+      print("Copying clean files...")
+      shutil.copytree(clean_base_dir, self.randomized_base_dir)
     
     self.stage_dir = os.path.join(self.randomized_base_dir, "files", "res", "Stage")
     self.rels_dir = os.path.join(self.randomized_base_dir, "files", "rels")
     
-    # Extract all the extra rel files from RELS.arc.
-    print("Extracting rels...")
-    rels_arc_path = os.path.join(self.randomized_base_dir, "files", "RELS.arc")
-    rels_arc = RARC(rels_arc_path)
-    rels_arc.extract_all_files_to_disk(self.rels_dir)
-    # And then delete RELS.arc. If we don't do this then the original rels inside it will take precedence over the modified ones we extracted.
-    os.remove(rels_arc_path)
-    rels_arc = None
+    if copy_and_decompress_clean_files:
+      # Extract all the extra rel files from RELS.arc.
+      print("Extracting rels...")
+      rels_arc_path = os.path.join(self.randomized_base_dir, "files", "RELS.arc")
+      rels_arc = RARC(rels_arc_path)
+      rels_arc.extract_all_files_to_disk(self.rels_dir)
+      # And then delete RELS.arc. If we don't do this then the original rels inside it will take precedence over the modified ones we extracted.
+      os.remove(rels_arc_path)
+      rels_arc = None
     
     arc_paths = Path(self.stage_dir).glob("**/*.arc")
     self.arc_paths = [str(arc_path) for arc_path in arc_paths]
     
-    # Decompress any compressed arcs.
-    print("Decompressing archives...")
-    for arc_path in self.arc_paths:
-      with open(arc_path, "rb") as file:
-        data = BytesIO(file.read())
-      if try_read_str(data, 0, 4) == "Yaz0":
-        decomp_data = Yaz0Decompressor.decompress(data)
-        with open(arc_path, "wb") as file:
-          file.write(decomp_data)
+    if copy_and_decompress_clean_files:
+      # Decompress any compressed arcs.
+      print("Decompressing archives...")
+      for arc_path in self.arc_paths:
+        with open(arc_path, "rb") as file:
+          data = BytesIO(file.read())
+        if try_read_str(data, 0, 4) == "Yaz0":
+          decomp_data = Yaz0Decompressor.decompress(data)
+          with open(arc_path, "wb") as file:
+            file.write(decomp_data)
     
     rel_paths = Path(self.rels_dir).glob("**/*.rel")
     self.rel_paths = [str(rel_path) for rel_path in rel_paths]
     
-    # Decompress any compressed rels.
-    print("Decompressing rels...")
-    for rel_path in self.rel_paths:
-      with open(rel_path, "rb") as file:
-        data = BytesIO(file.read())
-      if try_read_str(data, 0, 4) == "Yaz0":
-        decomp_data = Yaz0Decompressor.decompress(data)
-        with open(rel_path, "wb") as file:
-          file.write(decomp_data)
+    if copy_and_decompress_clean_files:
+      # Decompress any compressed rels.
+      print("Decompressing rels...")
+      for rel_path in self.rel_paths:
+        with open(rel_path, "rb") as file:
+          data = BytesIO(file.read())
+        if try_read_str(data, 0, 4) == "Yaz0":
+          decomp_data = Yaz0Decompressor.decompress(data)
+          with open(rel_path, "wb") as file:
+            file.write(decomp_data)
     
     # Get item names for debug purposes.
     self.item_names = {}
-    with open("items.txt", "r") as f:
+    with open("item_names.txt", "r") as f:
       for line in f:
         item_id = int(line[:2], 16)
         item_name = line[5:].rstrip()
         self.item_names[item_id] = item_name
+    
+    # Get function names for debug purposes.
+    self.function_names = {}
+    with open(os.path.join(self.randomized_base_dir, "files", "maps", "framework.map"), "r") as f:
+      matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})  4 (\S+) 	\S+ $", f.read(), re.IGNORECASE | re.MULTILINE)
+      for match in matches:
+        address, name = match
+        address = int(address, 16)
+        self.function_names[address] = name
     
     self.apply_starting_cutscenes_skip_patch()
     self.make_all_text_instant()
@@ -82,7 +97,8 @@ class Randomizer:
     
     rarc = RARC(arc_path)
     
-    for dzx_file in rarc.dzx_files:
+    if rarc.dzx_files:
+      dzx_file = rarc.dzx_files[0]
       for chunk in dzx_file.chunks:
         if chunk.chunk_type == "TRES":
           for chest in chunk.entries:
@@ -94,7 +110,8 @@ class Randomizer:
               self.item_names.get(chest.item_id, "")
             ))
     
-    for event_list in rarc.event_list_files:
+    if rarc.event_list_files:
+      event_list = rarc.event_list_files[0]
       for action in event_list.actions:
         if action.name == "011get_item":
           if action.property_index == 0xFFFFFFFF:
@@ -223,12 +240,13 @@ class Randomizer:
       rarc = RARC(arc_path)
       
       chests = []
-      for dzx_file in rarc.dzx_files:
-        for chunk in dzx_file.chunks:
-          if chunk.chunk_type == "TRES":
-            for i, chest in enumerate(chunk.entries):
-              item_name = self.item_names.get(chest.item_id, "")
-              lines_for_this_arc.append("  Chest %03X (%s): " % (i, item_name))
+      if rarc.dzx_files:
+        dzx = rarc.dzx_files[0]
+        if "TRES" in dzx.chunks:
+          tres_chunk = dzx.chunks["TRES"]
+          for i, chest in enumerate(tres_chunk.entries):
+            item_name = self.item_names.get(chest.item_id, "")
+            lines_for_this_arc.append("  Chest %03X (%s): " % (i, item_name))
       
       for event_list in rarc.event_list_files:
         for i, action in enumerate(event_list.actions):
