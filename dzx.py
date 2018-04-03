@@ -112,6 +112,15 @@ class TRES:
 class SCOB:
   DATA_SIZE = 0x24
   
+  SALVAGE_NAMES = [
+    "Salvage",
+    "SwSlvg",
+    "Salvag2",
+    "SalvagN",
+    "SalvagE",
+    "SalvFM",
+  ]
+  
   def __init__(self, file_entry, offset):
     self.file_entry = file_entry
     data = self.file_entry.data
@@ -119,16 +128,39 @@ class SCOB:
     
     self.name = read_str(data, offset, 8)
     
+    self.params = read_u32(data, offset + 8)
+    
+    self.x_pos = read_float(data, offset + 0x0C)
+    self.y_pos = read_float(data, offset + 0x10)
+    self.z_pos = read_float(data, offset + 0x14)
+    
     self.auxilary_param = read_u16(data, offset + 0x18)
+    
+    self.y_rot = read_u16(data, offset + 0x1A)
+    
     self.unknown_1 = read_u16(data, offset + 0x1C)
     self.unknown_2 = read_u16(data, offset + 0x1E)
     
-    params = read_u32(data, offset + 8)
-    self.item_id = ((params & 0x00000FF0) >> 4) # only for salvage. TODO how to tell if a SCOB is a salvage?
-    self.params = params
+    self.scale_x = read_u8(data, offset + 0x20)
+    self.scale_y = read_u8(data, offset + 0x21)
+    self.scale_z = read_u8(data, offset + 0x22)
+    self.padding = read_u8(data, offset + 0x23)
+    
+    if self.is_salvage():
+      self.salvage_type = ((self.params & 0xF0000000) >> 28)
+      self.item_id = ((self.params & 0x00000FF0) >> 4)
+      if self.salvage_type == 0:
+        self.chart_index_plus_1 = ((self.params & 0x0FF00000) >> 20)
+        self.duplicate_id = (self.unknown_1 & 3)
     
   def save_changes(self):
     pass
+  
+  def is_salvage(self):
+    if self.name in self.SALVAGE_NAMES:
+      return True
+    else:
+      return False
 
 class ACTR:
   DATA_SIZE = 0x20
