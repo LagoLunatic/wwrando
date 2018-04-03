@@ -65,6 +65,7 @@ class Randomizer:
         self.item_names[item_id] = item_name
     
     self.apply_starting_cutscenes_skip_patch()
+    self.make_all_text_instant()
     
     #self.generate_empty_progress_reqs_file()
     
@@ -250,6 +251,16 @@ class Randomizer:
         print(stage_folder + "/" + arc_name + ":")
         for line in lines_for_this_arc:
           print(line)
-
+  
+  def make_all_text_instant(self):
+    bmgres_path = os.path.join(self.randomized_base_dir, "files", "res", "Msg", "bmgres.arc")
+    
+    bmgres_rarc = RARC(bmgres_path)
+    bmg = bmgres_rarc.bmg_files[0]
+    for msg in bmg.messages:
+      msg.initial_draw_type = 1 # Instant draw
+      msg.save_changes()
+    bmgres_rarc.save_to_disk()
+  
 if __name__ == "__main__":
   Randomizer()
