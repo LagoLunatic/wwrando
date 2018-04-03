@@ -2,9 +2,11 @@
 import os
 from io import BytesIO
 
+from fs_helpers import *
+
 from dzx import DZx
 from events import EventList
-from fs_helpers import *
+from bmg import BMG
 
 class RARC:
   def __init__(self, file_path):
@@ -22,6 +24,7 @@ class RARC:
     self.file_entries = []
     self.dzx_files = []
     self.event_list_files = []
+    self.bmg_files = []
     for node_index in range(0, num_nodes):
       node_offset = node_list_offset + node_index*0x10
       node_name = read_str(data, node_offset, 4)
@@ -38,16 +41,17 @@ class RARC:
           continue
         
         if file_entry.name.endswith(".dzs"):
-          pass
           dzx = DZx(file_entry)
           self.dzx_files.append(dzx)
         elif file_entry.name.endswith(".dzr"):
-          pass
           dzx = DZx(file_entry)
           self.dzx_files.append(dzx)
         elif file_entry.name == "event_list.dat":
           event_list = EventList(file_entry)
           self.event_list_files.append(event_list)
+        elif file_entry.name.endswith(".bmg"):
+          bmg = BMG(file_entry)
+          self.bmg_files.append(bmg)
   
   def extract_all_files_to_disk(self, output_directory):
     # Note: This function does not currently preserve directory structure of the RARC, it simply extracts all files flat into the output directory.
@@ -62,15 +66,12 @@ class RARC:
         f.write(file_entry.data.read())
   
   def save_to_disk(self):
-    for dzx in self.dzx_files:
-      self.data.seek(dzx.file_entry.data_offset + self.file_data_list_offset)
-      dzx.file_entry.data.seek(0)
-      self.data.write(dzx.file_entry.data.read())
-    
-    for event_list in self.event_list_files:
-      self.data.seek(event_list.file_entry.data_offset + self.file_data_list_offset)
-      event_list.file_entry.data.seek(0)
-      self.data.write(event_list.file_entry.data.read())
+    for file_entry in self.file_entries:
+      if file_entry.id == 0xFFFF: # Directory
+        continue
+      self.data.seek(file_entry.data_offset + self.file_data_list_offset)
+      file_entry.data.seek(0)
+      self.data.write(file_entry.data.read())
     
     with open(self.file_path, "wb") as file:
       self.data.seek(0)
