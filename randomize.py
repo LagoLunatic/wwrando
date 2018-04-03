@@ -172,9 +172,13 @@ class Randomizer:
       ship_data = BytesIO(f.read())
 
     # Modify King of Red Lions's code so he doesn't stop you when you veer off the path he wants you to go on.
-    # Specifically this replaces the first two lines of his checkOutRange function with what is equivalent to "return false".
-    write_u32(ship_data, 0x2918, 0x38600000)
-    write_u32(ship_data, 0x291C, 0x4E800020)
+    # We need to change some of the conditions in his checkOutRange function so he still prevents you from leaving the bounds of the map, but doesn't railroad you based on your story progress.
+    # First is the check for before you've reached Dragon Roost Island. Make this branch unconditional so it considers you to have seen Dragon Roost's intro whether you have or not.
+    write_u32(ship_data, 0x29EC, 0x48000064) # b 0x80F2EA90
+    # Second is the check for whether you've gotten Farore's Pearl. Make this branch unconditional too.
+    write_u32(ship_data, 0x2A08, 0x48000048) # b 0x80F2EA90
+    # Third is the check for whether you have the Master Sword. Again make the branch unconditional.
+    write_u32(ship_data, 0x2A24, 0x48000010) # b 0x80F2EA74
     
     # Skip the check for if you've seen the Dragon Roost Island intro which prevents you from getting in the King of Red Lions.
     write_u32(ship_data, 0xB2D8, 0x48000018)
