@@ -231,6 +231,7 @@ class Randomizer:
     sea_stage_rarc.save_to_disk()
   
   def generate_empty_progress_reqs_file(self):
+    output_str = ""
     for arc_path in self.arc_paths:
       relative_arc_path = os.path.relpath(arc_path, self.stage_dir)
       stage_folder, arc_name = os.path.split(relative_arc_path)
@@ -266,9 +267,12 @@ class Randomizer:
             lines_for_this_arc.append("  Event action %03X (%s): " % (i, item_name))
       
       if any(lines_for_this_arc):
-        print(stage_folder + "/" + arc_name + ":")
+        output_str += stage_folder + "/" + arc_name + ":\n"
         for line in lines_for_this_arc:
-          print(line)
+          output_str += line + "\n"
+    
+    with open("progress_reqs.txt", "w") as f:
+      f.write(output_str)
   
   def make_all_text_instant(self):
     bmgres_path = os.path.join(self.randomized_base_dir, "files", "res", "Msg", "bmgres.arc")
