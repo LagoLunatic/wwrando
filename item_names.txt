@@ -202,49 +202,49 @@ C8 - Island Hearts Chart
 C9 - Great Fairy Chart
 CA - Octo Chart
 CB - IN-credible Chart
-CC - Treasure Chart
-CD - Treasure Chart
-CE - Treasure Chart
-CF - Treasure Chart
-D0 - Treasure Chart
-D1 - Treasure Chart
-D2 - Treasure Chart
-D3 - Treasure Chart
-D4 - Treasure Chart
-D5 - Treasure Chart
-D6 - Treasure Chart
-D7 - Treasure Chart
-D8 - Treasure Chart
-D9 - Treasure Chart
-DA - Treasure Chart
+CC - Treasure Chart 7
+CD - Treasure Chart 27
+CE - Treasure Chart 21
+CF - Treasure Chart 13
+D0 - Treasure Chart 32
+D1 - Treasure Chart 19
+D2 - Treasure Chart 41
+D3 - Treasure Chart 26
+D4 - Treasure Chart 8
+D5 - Treasure Chart 37
+D6 - Treasure Chart 25
+D7 - Treasure Chart 17
+D8 - Treasure Chart 36
+D9 - Treasure Chart 22
+DA - Treasure Chart 9
 DB - Ghost Ship Chart
 DC - Tingle's Chart
-DD - Treasure Chart
-DE - Treasure Chart
-DF - Treasure Chart
-E0 - Treasure Chart
-E1 - Treasure Chart
-E2 - Treasure Chart
-E3 - Treasure Chart
-E4 - Treasure Chart
-E5 - Treasure Chart
-E6 - Treasure Chart
-E7 - Treasure Chart
-E8 - Treasure Chart
-E9 - Treasure Chart
-EA - Treasure Chart
-EB - Treasure Chart
-EC - Treasure Chart
-ED - Treasure Chart
-EE - Treasure Chart
-EF - Treasure Chart
-F0 - Treasure Chart
-F1 - Treasure Chart
-F2 - Treasure Chart
-F3 - Treasure Chart
-F4 - Treasure Chart
-F5 - Treasure Chart
-F6 - Treasure Chart
+DD - Treasure Chart 14
+DE - Treasure Chart 10
+DF - Treasure Chart 40
+E0 - Treasure Chart 3
+E1 - Treasure Chart 4
+E2 - Treasure Chart 28
+E3 - Treasure Chart 16
+E4 - Treasure Chart 18
+E5 - Treasure Chart 34
+E6 - Treasure Chart 29
+E7 - Treasure Chart 1
+E8 - Treasure Chart 35
+E9 - Treasure Chart 12
+EA - Treasure Chart 6
+EB - Treasure Chart 24
+EC - Treasure Chart 39
+ED - Treasure Chart 38
+EE - Treasure Chart 2
+EF - Treasure Chart 33
+F0 - Treasure Chart 31
+F1 - Treasure Chart 23
+F2 - Treasure Chart 5
+F3 - Treasure Chart 20
+F4 - Treasure Chart 30
+F5 - Treasure Chart 15
+F6 - Treasure Chart 11
 F7 - Triforce Chart 8
 F8 - Triforce Chart 7
 F9 - Triforce Chart 6
