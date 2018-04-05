@@ -36,6 +36,7 @@ class Chunk:
       "SCOB": SCOB,
       "ACTR": ACTR,
       "PLYR": PLYR,
+      "SCLS": SCLS,
     }.get(self.chunk_type, None)
     
     if entry_class is None:
@@ -243,3 +244,26 @@ class PLYR:
     write_u8(data, self.offset+0x1C, self.unknown3)
     write_u8(data, self.offset+0x1D, self.spawn_id)
     write_u16(data, self.offset+0x1E, self.unknown4)
+
+class SCLS:
+  DATA_SIZE = 0xC
+  
+  def __init__(self, file_entry, offset):
+    self.file_entry = file_entry
+    data = self.file_entry.data
+    self.offset = offset
+    
+    self.dest_stage_name = read_str(data, offset, 8)
+    self.spawn_index = read_u8(data, offset+8)
+    self.room_index = read_u8(data, offset+9)
+    self.fade_type = read_u8(data, offset+0xA)
+    self.padding = read_u8(data, offset+0xB)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_str(data, self.offset, self.dest_stage_name, 8)
+    write_u8(data, self.offset+0x8, self.spawn_index)
+    write_u8(data, self.offset+0x9, self.room_index)
+    write_u8(data, self.offset+0xA, self.fade_type)
+    write_u8(data, self.offset+0xB, self.padding)
