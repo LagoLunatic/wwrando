@@ -249,44 +249,108 @@ class Randomizer:
   
   def generate_empty_progress_reqs_file(self):
     output_str = ""
+    
+    found_items = []
+    expected_duplicate_items = ["Piece of Heart", "Joy Pendant", "Small Key", "Dungeon Map", "Compass", "Golden Feather", "Boko Baba Seed", "Skull Necklace", "Big Key", "Knight's Crest"]
+    
+    known_unused_locations = ["sea/Room22.arc/ScalableObject014", "Siren/Stage.arc/Chest003"]
+    
     for arc_path in self.arc_paths:
       relative_arc_path = os.path.relpath(arc_path, self.stage_dir)
       stage_folder, arc_name = os.path.split(relative_arc_path)
+      stage_path = stage_folder + "/" + arc_name
       
-      lines_for_this_arc = []
+      stage_name = self.stage_names[stage_folder]
+      if stage_name == "Unused":
+        continue
+      elif stage_name == "The Great Sea" and arc_name in self.island_names:
+        stage_name = self.island_names[arc_name]
+      
+      locations_for_this_arc = []
       
       rarc = RARC(arc_path)
       
-      chests = []
       if rarc.dzx_files:
         dzx = rarc.dzx_files[0]
-        if "TRES" in dzx.chunks:
-          tres_chunk = dzx.chunks["TRES"]
-          for i, chest in enumerate(tres_chunk.entries):
-            item_name = self.item_names.get(chest.item_id, "")
-            lines_for_this_arc.append("  Chest %03X (%s): " % (i, item_name))
+        
+        for i, chest in enumerate(dzx.entries_by_type("TRES")):
+          if chest.item_id == 0xFF:
+            #print("Item ID FF: ", stage_name, "Chest%03X" % i)
+            continue
+          item_name = self.item_names.get(chest.item_id, "")
+          locations_for_this_arc.append((item_name, ["Chest%03X" % i]))
+        
+        for i, actr in enumerate(dzx.entries_by_type("ACTR")):
+          if actr.name == "item":
+            item_id = actr.params & 0xFF
+            item_name = self.item_names.get(item_id, "")
+            if "Rupee" in item_name or "Pickup" in item_name:
+              continue
+            locations_for_this_arc.append((item_name, ["Actor%03X" % i]))
+        
+        scobs = dzx.entries_by_type("SCOB")
+        for i, scob in enumerate(scobs):
+          if scob.is_salvage():
+            item_name = self.item_names.get(scob.item_id, "")
+            if not item_name:
+              continue
+            if scob.salvage_type == 0:
+              # The type of salvage point you need a treasure chart to get.
+              if scob.duplicate_id == 0:
+                all_four_duplicate_salvages = [
+                  "ScalableObject%03X" % i
+                  for i, other_scob
+                  in enumerate(scobs)
+                  if other_scob.is_salvage() and other_scob.salvage_type == 0 and other_scob.chart_index_plus_1 == scob.chart_index_plus_1
+                ]
+                #locations_for_this_arc.append((item_name, all_four_duplicate_salvages))
+            elif "Rupee" not in item_name:
+              locations_for_this_arc.append((item_name, ["ScalableObject%03X" % i]))
       
       for event_list in rarc.event_list_files:
-        for i, action in enumerate(event_list.actions):
-          if action.name == "011get_item":
-            if action.property_index == 0xFFFFFFFF:
+        for event_index, event in enumerate(event_list.events):
+          for actor_index, actor in enumerate(event.actors):
+            if actor is None:
               continue
             
-            property = event_list.properties[action.property_index]
-            if property.data_type != 3:
-              raise "A 011get_item action has a property that is not of type integer."
-            
-            item_id = event_list.integers[property.data_index]
-            if item_id == 0x100: # ??? TODO
-              continue
-            
-            item_name = self.item_names.get(item_id, "")
-            lines_for_this_arc.append("  Event action %03X (%s): " % (i, item_name))
+            for action_index, action in enumerate(actor.actions):
+              #action_path_string = "EventAction%03X" % i
+              action_path_string = "Event%03X:%s/Actor%03X/Action%03X" % (event_index, event.name, actor_index, action_index)
+              if action.name in ["011get_item", "011_get_item"]:
+                if action.property_index == 0xFFFFFFFF:
+                  continue
+                
+                item_id = event_list.get_property_value(action.property_index)
+                if item_id == 0x100:
+                  #print("Item ID 100: ", stage_name, "EventAction%03X" % i)
+                  continue
+                
+                item_name = self.item_names.get(item_id, "")
+                locations_for_this_arc.append((item_name, [action_path_string]))
+              elif action.name == "059get_dance":
+                song_index = event_list.get_property_value(action.property_index)
+                item_name = self.item_names.get(0x6D+song_index)
+                locations_for_this_arc.append((item_name, [action_path_string]))
       
-      if any(lines_for_this_arc):
-        output_str += stage_folder + "/" + arc_name + ":\n"
-        for line in lines_for_this_arc:
-          output_str += line + "\n"
+      for original_item_name, locations in locations_for_this_arc:
+        if not original_item_name:
+          print("Unknown item at: ", stage_folder + "/" + locations[0])
+          continue
+        
+        if any(stage_path + "/" + location in known_unused_locations for location in locations):
+          print("Unused locations in " + stage_path)
+          continue
+        
+        if original_item_name in found_items and "Rupee" not in original_item_name and original_item_name not in expected_duplicate_items:
+          print("Duplicate item: " + original_item_name)
+        found_items.append(original_item_name)
+        
+        output_str += stage_name + ":\n"
+        output_str += "  Need: \n"
+        output_str += "  Original item: " + original_item_name + "\n"
+        output_str += "  Location:\n"
+        for location in locations:
+          output_str += "    - " + stage_path + "/" + location + "\n"
     
     with open("progress_reqs.txt", "w") as f:
       f.write(output_str)
