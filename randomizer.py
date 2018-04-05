@@ -64,10 +64,10 @@ class Randomizer:
     
     # Get item names for debug purposes.
     self.item_names = {}
-    with open("item_names.txt", "r") as f:
-      for line in f:
-        item_id = int(line[:2], 16)
-        item_name = line[5:].rstrip()
+    with open("./data/item_names.txt", "r") as f:
+      matches = re.findall(r"^([0-9a-f]{2}) - (.+)$", f.read(), re.IGNORECASE | re.MULTILINE)
+      for item_id, item_name in matches:
+        item_id = int(item_id, 16)
         self.item_names[item_id] = item_name
     
     # Get function names for debug purposes.
@@ -78,6 +78,24 @@ class Randomizer:
         address, name = match
         address = int(address, 16)
         self.function_names[address] = name
+    
+    # Get stage and island names for debug purposes.
+    self.stage_names = {}
+    with open("./data/stage_names.txt", "r") as f:
+      while True:
+        stage_folder = f.readline()
+        if not stage_folder:
+          break
+        stage_name = f.readline()
+        self.stage_names[stage_folder.strip()] = stage_name.strip()
+    self.island_names = {}
+    with open("./data/island_names.txt", "r") as f:
+      while True:
+        room_arc_name = f.readline()
+        if not room_arc_name:
+          break
+        island_name = f.readline()
+        self.island_names[room_arc_name.strip()] = island_name.strip()
     
     self.apply_starting_cutscenes_skip_patch()
     self.make_all_text_instant()

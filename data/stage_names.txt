@@ -1,0 +1,312 @@
+Abesso
+  Cabana Interior
+Abship
+  Submarines
+Adanmae
+  Dragon Roost Cavern Entrance
+ADMumi
+  Unused
+Amos_T
+  Unused
+Asoko
+  Pirate Ship Interior
+Atorizk
+  Rito Aerie
+A_mori
+  Outset Island Fairy Woods
+A_nami
+  Unused
+A_R00
+  Unused
+A_umikz
+  Unused
+Cave01
+  Bomb Island Cave
+Cave02
+  Star Island Cave
+Cave03
+  Cliff Plateau Isles Cave
+Cave04
+  Rock Spire Isle Cave
+Cave05
+  Horseshoe Island Cave
+Cave06
+  Unused
+Cave07
+  Pawprint Isle Wizzrobe Cave
+Cave08
+  Unused
+Cave09
+  Savage Labyrinth
+Cave10
+  Savage Labyrinth
+Cave11
+  Savage Labyrinth
+Comori
+  Komali's Room
+DmSpot0
+  Unused
+E3ROOP
+  Unused
+Ebesso
+  Unused
+Edaichi
+  Earth Temple Entrance
+Ekaze
+  Wind Temple Entrance
+ENDumi
+  Ending
+Fairy01
+  Northern Fairy Island Fairy Fountain
+Fairy02
+  Eastern Fairy Island Fairy Fountain
+Fairy03
+  Western Fairy Island Fairy Fountain
+Fairy04
+  Outset Island Fairy Fountain
+Fairy05
+  Thorned Fairy Island Fairy Fountain
+Fairy06
+  Southern Fairy Island Fairy Fountain
+figureA
+  Nintendo Gallery Hall A
+figureB
+  Nintendo Gallery Hall B
+figureC
+  Nintendo Gallery Hall C
+figureD
+  Nintendo Gallery Hall D
+figureE
+  Nintendo Gallery Hall E
+figureF
+  Nintendo Gallery Hall F
+figureG
+  Nintendo Gallery Hall G
+GanonA
+  Ganon's Tower Entrance
+GanonB
+  Ganon's Tower Before Gohma Rematch
+GanonC
+  Ganon's Tower Before Molgera Rematch
+GanonD
+  Ganon's Tower Before Kalle Demos Rematch
+GanonE
+  Ganon's Tower Before Jalhalla Rematch
+GanonJ
+  Ganon's Tower Maze
+GanonK
+  Ganon's Tower Puppet Ganon
+GanonL
+  Ganon's Tower Stairs To Puppet Ganon
+GanonM
+  Ganon's Tower Phantom Ganon
+GanonN
+  Ganon's Tower Stairs To Phantom Ganon
+GTower
+  Ganon's Tower - Rooftop
+Hyroom
+  Hyrule Castle Interior
+Hyrule
+  Hyrule Castle
+H_test
+  Unused
+ITest61
+  Unused
+ITest62
+  Ice Ring Isle Inner Cave
+ITest63
+  Shark Island Cave
+I_SubAN
+  Unused
+I_TestM
+  Unused
+I_TestR
+  Unused
+Kaisen
+  Squid Hunt Minigame
+KATA_HB
+  Unused
+KATA_RM
+  Unused
+kazan
+  Unused
+kaze
+  Wind Temple
+kazeB
+  Wind Temple Molgera Boss Room
+kazeMB
+  Wind Temple Wizzrobe Mini-Boss Room
+kenroom
+  Master Sword Chamber
+kinBOSS
+  Forbidden Woods Kalle Demos Boss Room
+kindan
+  Forbidden Woods
+kinMB
+  Forbidden Woods Mothula Mini-Boss Room
+K_Test2
+  Unused
+K_Test3
+  Unused
+K_Test4
+  Unused
+K_Test5
+  Unused
+K_Test6
+  Unused
+K_Test8
+  Unused
+K_Test9
+  Unused
+K_Testa
+  Unused
+K_Testb
+  Unused
+K_Testc
+  Unused
+K_Testd
+  Unused
+K_Teste
+  Unused
+LinkRM
+  Link's House
+LinkUG
+  Underneath Link's House
+M2ganon
+  Forsaken Fortress Ganon's Room (2nd visit)
+M2tower
+  Forsaken Fortress Tower (2nd visit)
+ma2room
+  Forsaken Fortress Interior (2nd visit)
+ma3room
+  Forsaken Fortress Interior (3rd visit)
+majroom
+  Forsaken Fortress Interior (1st visit)
+MajyuE
+  Forsaken Fortress Exterior (1st visit)
+MiniHyo
+  Ice Ring Isle Cave
+MiniKaz
+  Fire Mountain Cave
+Mjtower
+  Forsaken Fortress Tower (1st visit)
+morocam
+  Unused
+Msmoke
+  Unused
+Mukao
+  Unused
+M_Dai
+  Earth Temple
+M_DaiB
+  Earth Temple Jalhalla Boss Room
+M_DaiMB
+  Earth Temple Stalfos Mini-Boss Room
+M_Dra09
+  Dragon Roost Cavern Moblin Mini-Boss Room
+M_DragB
+  Dragon Roost Cavern Gohma Boss Room
+M_NewD2
+  Dragon Roost Cavern
+Name
+  Unused
+Nitiyou
+  Mrs. Marie's School
+Obombh
+  Windfall Island Bomb Shop
+Obshop
+  Beedle's Shop Ship
+Ocean
+  Unused
+Ocmera
+  Lenzo's House
+Ocrogh
+  Hollo's Forest Potion Shop
+Ojhous
+  Orca's Room
+Ojhous2
+  Sturgeon's Room
+Omasao
+  Mesa the Grasscutter's House
+Omori
+  Forest Haven Interior
+Onobuta
+  Rose's House
+Opub
+  Windfall Island Cafe Bar
+Orichh
+  House of Wealth
+Otkura
+  Cave Behind Forest Haven Waterfall
+Pdrgsh
+  Chu Jelly Juice Shop
+Pfigure
+  Nintendo Gallery Main Room
+Pjavdou
+  Jabun's Cave
+Pnezumi
+  Windfall Town Jail
+PShip
+  Ghost Ship (Part 1)
+PShip2
+  Ghost Ship (Part 2)
+PShip3
+  Ghost Ship (Part 3)
+sea
+  The Great Sea
+sea_E
+  Unused
+sea_T
+  Unused
+ShipD
+  Islet of Steel Interior
+Siren
+  Tower of the Gods
+SirenB
+  Tower of the Gods Gohdan Boss Room
+SirenMB
+  Tower of the Gods Darknut Mini-Boss Room
+SubD42
+  Needle Rock Isle Cave
+SubD43
+  Angular Isles Cave
+SubD44
+  Unused
+SubD45
+  Unused
+SubD51
+  Unused
+SubD71
+  Boating Course Cave
+TEST
+  Unused
+TF_01
+  Stone Watcher Island Cave
+TF_02
+  Overlook Island Cave
+TF_03
+  Bird's Peak Rock Cave
+TF_04
+  Cabana Labyrinth
+TF_05
+  Unused
+TF_06
+  Dragon Roost Island Secret Cave
+TF_07
+  Unused
+tincle
+  Unused
+TyuTyu
+  Pawprint Isle Chuchu Cave
+VrTest
+  Unused
+WarpD
+  Diamond Steppe Island Warp Maze
+Xboss0
+  Gohma Rematch
+Xboss1
+  Kalle Demos Rematch
+Xboss2
+  Jalhalla Rematch
+Xboss3
+  Molgera Rematch

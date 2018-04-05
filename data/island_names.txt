@@ -1,0 +1,100 @@
+Room0.arc
+  Unknown
+Room1.arc
+  Forsaken Fortress
+Room2.arc
+  Star Island
+Room3.arc
+  Northern Fairy Island
+Room4.arc
+  Gale Isle
+Room5.arc
+  Crescent Moon Island
+Room6.arc
+  Seven-Star Isles
+Room7.arc
+  Overlook Island
+Room8.arc
+  Four-Eye Reef
+Room9.arc
+  Mother and Child Isles
+Room10.arc
+  Spectacle Island
+Room11.arc
+  Windfall Island
+Room12.arc
+  Pawprint Isle
+Room13.arc
+  Dragon Roost Island
+Room14.arc
+  Flight Control Platform
+Room15.arc
+  Western Fairy Island
+Room16.arc
+  Rock Spire Isle
+Room17.arc
+  Tingle Island
+Room18.arc
+  Northern Triangle Island
+Room19.arc
+  Eastern Fairy Island
+Room20.arc
+  Fire Mountain
+Room21.arc
+  Star Belt Archipelago
+Room22.arc
+  Three-Eye Reef
+Room23.arc
+  Greatfish Isle
+Room24.arc
+  Cyclops Reef
+Room25.arc
+  Six-Eye Reef
+Room26.arc
+  Tower of the Gods
+Room27.arc
+  Eastern Triangle Island
+Room28.arc
+  Thorned Fairy Island
+Room29.arc
+  Needle Rock Isle
+Room30.arc
+  Islet of Steel
+Room31.arc
+  Stone Watcher Island
+Room32.arc
+  Southern Triangle Island
+Room33.arc
+  Private Oasis
+Room34.arc
+  Bomb Island
+Room35.arc
+  Bird's Peak Rock
+Room36.arc
+  Diamond Steppe Island
+Room37.arc
+  Five-Eye Reef
+Room38.arc
+  Shark Island
+Room39.arc
+  Southern Fairy Island
+Room40.arc
+  Ice Ring Isle
+Room41.arc
+  Forest Haven
+Room42.arc
+  Cliff Plateau Isles
+Room43.arc
+  Horseshoe Island
+Room44.arc
+  Outset Island
+Room45.arc
+  Headstone Island
+Room46.arc
+  Two-Eye Reef
+Room47.arc
+  Angular Isles
+Room48.arc
+  Boating Course
+Room49.arc
+  Five-Star Isles
