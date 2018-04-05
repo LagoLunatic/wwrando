@@ -117,16 +117,15 @@ class Randomizer:
     
     if rarc.dzx_files:
       dzx_file = rarc.dzx_files[0]
-      for chunk in dzx_file.chunks:
-        if chunk.chunk_type == "TRES":
-          for chest in chunk.entries:
-            print("Chest with item ID: %02X, type: %02X, appear condition: %02X, %02X, name: %s" % (
-              chest.item_id,
-              chest.chest_type,
-              chest.appear_condition,
-              chest.appear_condition_flag_id,
-              self.item_names.get(chest.item_id, "")
-            ))
+      for chest in dzx_file.entries_by_type("TRES"):
+        for chest in chunk.entries:
+          print("Chest with item ID: %02X, type: %02X, appear condition: %02X, %02X, name: %s" % (
+            chest.item_id,
+            chest.chest_type,
+            chest.appear_condition,
+            chest.appear_condition_flag_id,
+            self.item_names.get(chest.item_id, "")
+          ))
     
     if rarc.event_list_files:
       event_list = rarc.event_list_files[0]
@@ -228,7 +227,7 @@ class Randomizer:
     outset_arc_path = os.path.join(self.randomized_base_dir, "files", "res", "Stage", "sea", "Room44.arc")
     outset_rarc = RARC(outset_arc_path)
     dzx = outset_rarc.dzx_files[0]
-    outset_player_spawns = dzx.chunks["PLYR"].entries
+    outset_player_spawns = dzx.entries_by_type("PLYR")
     begin_game_spawn = next(x for x in outset_player_spawns if x.spawn_id == 0xCE)
     begin_game_spawn.event_index_to_play = 0xFF # FF = Don't play any event
     begin_game_spawn.save_changes()
@@ -238,7 +237,7 @@ class Randomizer:
     sea_stage_rarc_path = os.path.join(self.randomized_base_dir, "files", "res", "Stage", "sea", "Stage.arc")
     sea_stage_rarc = RARC(sea_stage_rarc_path)
     dzx = sea_stage_rarc.dzx_files[0]
-    sea_actors = dzx.chunks["ACTR"].entries
+    sea_actors = dzx.entries_by_type("ACTR")
     ship_actor = next(x for x in sea_actors if x.name == "Ship")
     ship_actor.x_pos = -202000.0
     ship_actor.y_pos = 0.0

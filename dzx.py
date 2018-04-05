@@ -8,18 +8,27 @@ class DZx: # DZR or DZS, same format
     
     num_chunks = read_u32(data, 0)
     
-    self.chunks = {}
+    self.chunks = []
     for chunk_index in range(0, num_chunks):
       offset = 4 + chunk_index*0xC
       chunk = Chunk(self.file_entry, offset)
-      self.chunks[chunk.chunk_type] = chunk
+      self.chunks.append(chunk)
 
   def save_changes(self):
     data = self.file_entry.data
     
     # TODO
+  
+  def entries_by_type(self, chunk_type):
+    entries = []
+    for chunk in self.chunks:
+      if chunk_type == chunk.chunk_type:
+        entries += chunk.entries
+    return entries
 
 class Chunk:
+  LAYER_CHAR_TO_LAYER_INDEX = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'a': 10, 'b': 11}
+  
   def __init__(self, file_entry, offset):
     self.file_entry = file_entry
     data = self.file_entry.data
@@ -28,6 +37,19 @@ class Chunk:
     self.chunk_type = read_str(data, self.offset, 4)
     num_entries = read_u32(data, self.offset+4)
     first_entry_offset = read_u32(data, self.offset+8)
+    
+    # Some types of chunks are conditional and only appear on certain layers. The 4th character of their type determines what letter they appear on.
+    self.layer = None
+    if self.chunk_type.startswith("TRE") or self.chunk_type.startswith("ACT") or self.chunk_type.startswith("SCO"):
+      layer_char = self.chunk_type[3]
+      if layer_char in self.LAYER_CHAR_TO_LAYER_INDEX:
+        self.layer = self.LAYER_CHAR_TO_LAYER_INDEX[layer_char]
+    if self.chunk_type.startswith("TRE"):
+      self.chunk_type = "TRES"
+    if self.chunk_type.startswith("ACT"):
+      self.chunk_type = "ACTR"
+    if self.chunk_type.startswith("SCO"):
+      self.chunk_type = "SCOB"
     
     self.entries = []
     
@@ -79,7 +101,7 @@ class TRES:
     self.y_rot = read_u16(data, offset+0x1A)
     
     self.item_id = read_u8(data, offset+0x1C)
-    self.flag_id = read_u8(data, offset+0x1D) # nothing??
+    self.flag_id = read_u8(data, offset+0x1D)
     
     self.padding = read_u16(data, offset + 0x1E)
     
