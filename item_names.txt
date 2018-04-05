@@ -20,11 +20,11 @@
 13 - 
 14 - 
 15 - Small Key
-16 - Fairy (Pickup?)
+16 - Fairy (Pickup)
 17 - 
 18 - 
 19 - 
-1A - Yellow Rupee (dupe?) (joke message?)
+1A - Yellow Rupee (Joke Message)
 1B - 
 1C - 
 1D - 
@@ -48,20 +48,20 @@
 2F - Hookshot
 30 - Delivery Bag
 31 - Bombs
-32 - Hero's Clothes (doesn't actually change your clothes?)
+32 - Hero's Clothes
 33 - Skull Hammer
 34 - Deku Leaf
 35 - Fire and Ice Arrows
 36 - Light Arrow
-37 - Hero's New Clothes (doesn't actually change your clothes?)
+37 - Hero's New Clothes
 38 - Hero's Sword
 39 - Master Sword (Powerless)
 3A - Master Sword (Half power)
 3B - Hero's Shield
 3C - Mirror Shield
-3D - Hero's Sword (Got back after dropping)
+3D - Recovered Hero's Sword
 3E - Master Sword (Full power)
-3F - 
+3F - Piece of Heart
 40 - 
 41 - 
 42 - Pirate's Charm
