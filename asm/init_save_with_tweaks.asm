@@ -23,6 +23,8 @@ li r4, 0x3510 ; HAS_SEEN_INTRO
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x2A80 ; HAS_HEROS_CLOTHES
 bl onEventBit__11dSv_event_cFUs
+li r4, 0x0520 ; GOSSIP_STONE_AT_FF1 (Causes Aryll and the pirates to disappear from Outset)
+bl onEventBit__11dSv_event_cFUs
 li r4, 0x0F80 ; KORL_UNLOCKED_AND_SPAWN_ON_WINDFALL
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x0908 ; SAIL_INTRODUCTION_TEXT_AND_MAP_UNLOCKED
@@ -38,6 +40,13 @@ lis r3, 0x803C
 addi r3, r3, 0x5D60
 li r4, 0x0310 ; Saw event where Grandma gives you the Hero's Clothes
 bl onEventBit__11dSv_event_cFUs
+
+; Set four switches for several events that happen in the Fairy Woods on Outset.
+; Setting these flags causes the Tetra hanging from a tree and rescuing her from Bokoblins events to be marked as finished.
+lis r3, 0x803C
+addi r3, r3, 0x5118
+li r4, 0x8B
+stw r4, 0 (r3)
 
 
 ; Function end stuff
