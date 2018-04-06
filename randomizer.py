@@ -103,6 +103,7 @@ class Randomizer:
     tweaks.skip_wakeup_intro(self)
     tweaks.start_ship_at_outset(self)
     tweaks.make_all_text_instant(self)
+    tweaks.make_fairy_upgrades_unconditional(self)
     
     #self.generate_empty_progress_reqs_file()
     

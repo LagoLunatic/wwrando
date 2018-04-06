@@ -114,3 +114,20 @@ def make_all_text_instant(self):
     msg.initial_draw_type = 1 # Instant draw
     msg.save_changes()
   bmgres_rarc.save_to_disk()
+
+def make_fairy_upgrades_unconditional(self):
+  # Makes the items given by Great Fairies always the same so they can be randomized, as opposed to changing depending on what wall/bomb bag/quiver upgrades you already have.
+  
+  great_fairy_rel_path = os.path.join(self.randomized_base_dir, "files", "rels", "d_a_bigelf.rel")
+  patch_path = os.path.join(".", "asm", "unconditional_fairy_upgrades.bin")
+  with open(great_fairy_rel_path, "rb") as f:
+    rel_data = BytesIO(f.read())
+  with open(patch_path, "rb") as f:
+    patch_data = f.read()
+  
+  rel_data.seek(0x217C)
+  rel_data.write(patch_data)
+  
+  with open(great_fairy_rel_path, "wb") as f:
+    rel_data.seek(0)
+    f.write(rel_data.read())
