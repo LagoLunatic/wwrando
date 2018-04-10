@@ -13,11 +13,6 @@ class DZx: # DZR or DZS, same format
       offset = 4 + chunk_index*0xC
       chunk = Chunk(self.file_entry, offset)
       self.chunks.append(chunk)
-
-  def save_changes(self):
-    data = self.file_entry.data
-    
-    # TODO
   
   def entries_by_type(self, chunk_type):
     entries = []
@@ -169,24 +164,69 @@ class SCOB:
     self.scale_z = read_u8(data, offset + 0x22)
     self.padding = read_u8(data, offset + 0x23)
     
-    if self.is_salvage():
-      self.salvage_type = ((self.params & 0xF0000000) >> 28)
-      self.item_id = ((self.params & 0x00000FF0) >> 4)
-      if self.salvage_type == 0:
-        self.chart_index_plus_1 = ((self.params & 0x0FF00000) >> 20)
-        self.duplicate_id = (self.unknown_1 & 3)
-    
   def save_changes(self):
-    pass
+    data = self.file_entry.data
+    
+    write_str(data, self.offset, self.name, 8)
+    
+    write_u32(data, self.offset+0x08, self.params)
+    
+    write_float(data, self.offset+0x0C, self.x_pos)
+    write_float(data, self.offset+0x10, self.y_pos)
+    write_float(data, self.offset+0x14, self.z_pos)
+    write_u16(data, self.offset+0x18, self.auxilary_param)
+    write_u16(data, self.offset+0x1A, self.y_rot)
+    
+    write_u16(data, self.offset+0x1C, self.unknown_1)
+    write_u16(data, self.offset+0x1E, self.unknown_2)
+    
+    write_u8(data, self.offset+0x20, self.scale_x)
+    write_u8(data, self.offset+0x21, self.scale_y)
+    write_u8(data, self.offset+0x22, self.scale_z)
+    write_u8(data, self.offset+0x23, self.padding)
   
   def is_salvage(self):
-    if self.name in self.SALVAGE_NAMES:
-      return True
-    else:
-      return False
+    return self.name in self.SALVAGE_NAMES
+  
+  @property
+  def salvage_type(self):
+    return ((self.params & 0xF0000000) >> 28)
+  
+  @salvage_type.setter
+  def salvage_type(self, value):
+    self.params = (self.params & (~0xF0000000)) | ((value&0xF) << 28)
+  
+  @property
+  def salvage_item_id(self):
+    return ((self.params & 0x00000FF0) >> 4)
+  
+  @salvage_item_id.setter
+  def salvage_item_id(self, value):
+    self.params = (self.params & (~0x00000FF0)) | ((value&0xFF) << 4)
+  
+  @property
+  def salvage_chart_index_plus_1(self):
+    return ((self.params & 0x0FF00000) >> 20)
+  
+  @salvage_chart_index_plus_1.setter
+  def salvage_chart_index_plus_1(self, value):
+    self.params = (self.params & (~0x0FF00000)) | ((value&0xFF) << 20)
+  
+  @property
+  def salvage_duplicate_id(self):
+    return (self.unknown_1 & 0x0003)
+  
+  @salvage_duplicate_id.setter
+  def salvage_duplicate_id(self, value):
+    self.unknown_1 = (self.unknown_1 & (~0x0003)) | (value&0x0003)
 
 class ACTR:
   DATA_SIZE = 0x20
+  
+  ITEM_NAMES = [
+    "item",
+    "itemFLY",
+  ]
   
   def __init__(self, file_entry, offset):
     self.file_entry = file_entry
@@ -221,6 +261,25 @@ class ACTR:
     
     write_u16(data, self.offset+0x1C, self.set_flag)
     write_u16(data, self.offset+0x1E, self.enemy_number)
+  
+  def is_item(self):
+    return self.name in self.ITEM_NAMES
+  
+  @property
+  def item_id(self):
+    return (self.params & 0x000000FF)
+  
+  @item_id.setter
+  def item_id(self, value):
+    self.params = (self.params & (~0x000000FF)) | (value&0xFF)
+  
+  @property
+  def item_flag(self):
+    return ((self.params & 0x0000FF00) >> 8)
+  
+  @item_flag.setter
+  def item_flag(self, value):
+    self.params = (self.params & (~0x0000FF00)) | ((value&0xFF) << 8)
 
 class PLYR:
   DATA_SIZE = 0x20
