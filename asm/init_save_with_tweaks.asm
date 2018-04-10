@@ -41,11 +41,18 @@ addi r3, r3, 0x5D60
 li r4, 0x0310 ; Saw event where Grandma gives you the Hero's Clothes
 bl onEventBit__11dSv_event_cFUs
 
+
 ; Set four switches for several events that happen in the Fairy Woods on Outset.
 ; Setting these flags causes the Tetra hanging from a tree and rescuing her from Bokoblins events to be marked as finished.
 lis r3, 0x803C
 addi r3, r3, 0x5118
 li r4, 0x8B
+stw r4, 0 (r3)
+
+; Set a switch for the event on Greatfish Isle so that the endless night never starts.
+lis r3, 0x803C
+addi r3, r3, 0x4F8C
+lis r4, 0x0200
 stw r4, 0 (r3)
 
 
