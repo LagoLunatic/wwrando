@@ -1,0 +1,2017 @@
+Outset Island - Aryll's Birthday Gift:
+  Need: 
+  Original item: Telescope
+  Paths:
+    - sea/Stage.arc/Event085:get_telescope/Actor002/Action001
+Outset Island - Underneath Link's House:
+  Need: 
+  Original item: Orange Rupee
+  Paths:
+    - LinkUG/Stage.arc/Chest000
+Outset Island - Mesa the Grasscutter's House:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - Omasao/Stage.arc/Chest000
+Outset Island - Orca - Tutorial:
+  Need: 
+  Original item: Hero's Sword
+  Paths:
+    - rels/d_a_npc_ji1.rel@4253
+Outset Island - Shield from Grandma:
+  Need: 
+  Original item: Hero's Shield
+  Paths:
+    - main.dol@358D3B
+Outset Island - Orca - Reward for Knights Crests:
+  Need: 
+  Original item: Hurricane Spin
+  Paths:
+    - rels/d_a_npc_ji1.rel@4267
+Outset Island - Orca - Hit 100 Times:
+  Need: 
+  Original item: Purple Rupee
+  Paths:
+    - rels/d_a_npc_ji1.rel@4297
+Outset Island - Orca - Hit 300 Times:
+  Need: 
+  Original item: Orange Rupee
+  Paths:
+    - rels/d_a_npc_ji1.rel@42BB
+Outset Island - Orca - Hit 500 Times:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_npc_ji1.rel@42F7
+Outset Island - Orca - Hit 999 Times:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - rels/d_a_npc_ji1.rel@42EF
+Outset Island - Great Fairy:
+  Need: 
+  Original item: 5000 Rupee Wallet
+  Paths:
+    - rels/d_a_bigelf.rel@21C7
+Outset Island - Grandma Cured:
+  Need: 
+  Original item: Elixir Soup
+  Paths:
+    - LinkRM/Stage.arc/Event003:Ba1_Get_Itm/Actor002/Action001
+Outset Island - Jabun:
+  Need: 
+  Original item: Nayru's Pearl
+  Paths:
+    - main.dol@358D39
+Savage Labyrinth - Floor 30:
+  Need: 
+  Original item: Triforce Chart 6
+  Paths:
+    - Cave09/Room20.arc/Chest000
+Savage Labyrinth - Floor 50:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - Cave10/Room20.arc/Chest000
+
+Pirate Ship - First Visit:
+  Need: 
+  Original item: Spoils Bag
+  Paths:
+    - Asoko/Stage.arc/Chest000
+Pirate Ship - Second Visit:
+  Need: 
+  Original item: Bombs
+  Paths:
+    - Asoko/Stage.arc/Chest001
+Pirate Ship - Second Visit? TODO duplicate?:
+  Need: 
+  Original item: Bombs
+  Paths:
+    - Asoko/Stage.arc/Chest002
+
+Forsaken Fortress Interior - Map Chest:
+  Need: 
+  Original item: Dungeon Map
+  Paths:
+    - majroom/Stage.arc/Chest000
+    - ma2room/Stage.arc/Chest000
+    - ma3room/Stage.arc/Chest000
+Forsaken Fortress Interior - Chest on Bed:
+  Need: 
+  Original item: Yellow Rupee
+  Paths:
+    - majroom/Stage.arc/Chest001
+    - ma2room/Stage.arc/Chest001
+    - ma3room/Stage.arc/Chest001
+Forsaken Fortress Interior - Compass Chest:
+  Need: 
+  Original item: Compass
+  Paths:
+    - majroom/Stage.arc/Chest002
+    - ma2room/Stage.arc/Chest002
+    - ma3room/Stage.arc/Chest002
+Forsaken Fortress Interior - Jail Cell:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - majroom/Stage.arc/Chest003
+    - ma2room/Stage.arc/Chest003
+    - ma3room/Stage.arc/Chest003
+Forsaken Fortress Exterior - Dropped Sword:
+  Need: 
+  Original item: Recovered Hero's Sword
+  Paths:
+    - MajyuE/Room0.arc/Actor016
+Forsaken Fortress - Phantom Ganon:
+  Need: 
+  Original item: Skull Hammer
+  Paths:
+    - sea/Room1.arc/Chest000
+
+Windfall Island - Tingle - First Gift:
+  Need: 
+  Original item: Tingle Tuner
+  Paths:
+    - rels/d_a_npc_tc.rel@6117
+Windfall Island - Tingle - Second Gift:
+  Need: 
+  Original item: Tingle's Chart
+  Paths:
+    - rels/d_a_npc_tc.rel@611F
+Windfall Town Jail:
+  Need: 
+  Original item: Picto Box
+  Paths:
+    - Pnezumi/Stage.arc/Chest000
+Chu Jelly Juice Shop - Red Potion Free Sample:
+  Need: 
+  Original item: Red Potion
+  Paths:
+    - rels/d_a_npc_ds1.rel@28C7
+Chu Jelly Juice Shop - Green Potion Free Sample:
+  Need: 
+  Original item: Green Potion
+  Paths:
+    - rels/d_a_npc_ds1.rel@28D7
+Chu Jelly Juice Shop - Blue Potion Free Sample:
+  Need: 
+  Original item: Blue Potion
+  Paths:
+    - rels/d_a_npc_ds1.rel@28DF
+Windfall Island - Ivan - Reward for Catching Killer Bees:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_npc_mk.rel@20CB
+Mrs. Marie's School - Reward for Catching Killer Bees:
+  Need: 
+  Original item: Purple Rupee
+  Paths:
+    - rels/d_a_npc_ho.rel@0A07
+Mrs. Marie's School - Reward for Giving 1 Joy Pendant:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - rels/d_a_npc_ho.rel@0B4B
+Mrs. Marie's School - Reward for Giving 20 Joy Pendants:
+  Need: 
+  Original item: Cabana Deed
+  Paths:
+    - rels/d_a_npc_ho.rel@0B77
+Mrs. Marie's School - Reward for Giving 40 Joy Pendants:
+  Need: 
+  Original item: Hero's Charm
+  Paths:
+    - rels/d_a_npc_ho.rel@0C87
+#Mrs. Marie's School - Reward for Giving 1 or 2 Joy Pendants at Once:
+#  Need: 
+#  Original item: Red Rupee
+#  Paths:
+#    - rels/d_a_npc_ho.rel@0C4B
+#Mrs. Marie's School - Reward for Giving 3 or 4 Joy Pendants at Once:
+#  Need: 
+#  Original item: Purple Rupee
+#  Paths:
+#    - rels/d_a_npc_ho.rel@0C5F
+#Mrs. Marie's School - Reward for Giving 5+ Joy Pendants at Once:
+#  Need: 
+#  Original item: Orange Rupee
+#  Paths:
+#    - rels/d_a_npc_ho.rel@0C6B
+Lenzo's House - Left Chest:
+  Need: 
+  Original item: Treasure Chart 29
+  Paths:
+    - Ocmera/Stage.arc/Chest000
+Lenzo's House - Right Chest:
+  Need: 
+  Original item: Purple Rupee
+  Paths:
+    - Ocmera/Stage.arc/Chest001
+Lenzo's House - Reward for Becoming Lenzo's Assistant:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - rels/d_a_npc_photo.rel@1C13
+Lenzo's House - Deluxe Picto Box:
+  Need: 
+  Original item: Deluxe Picto Box
+  Paths:
+    - rels/d_a_npc_photo.rel@1C37
+Lenzo's House - TODO:
+  Need: 
+  Original item: Legendary Pictograph
+  Paths:
+    - rels/d_a_npc_photo.rel@3B8B
+Lenzo's House - Deluxe Picto Box 2? TODO dupe:
+  Need: 
+  Original item: Deluxe Picto Box
+  Paths:
+    - rels/d_a_npc_photo.rel@3BE3
+Cafe Bar - Postman:
+  Need: 
+  Original item: Moblin's Letter
+  Paths:
+    - Opub/Stage.arc/Event00E:Get_Mo3_Ltr/Actor002/Action001
+House of Wealth - Chest:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - Orichh/Room0.arc/Chest000
+House of Wealth - Reward for Giving 20 Skull neckalces:
+  Need: 
+  Original item: Treasure Chart 2
+  Paths:
+    - Orichh/Stage.arc/Event04C:Gp1_Get_Itm/Actor002/Action001
+House of Wealth - Maggie - Letter:
+  Need: 
+  Original item: Maggie's Letter
+  Paths:
+    - rels/d_a_npc_kp1.rel@17D7
+House of Wealth - Maggie - Reward:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_npc_kp1.rel@1817
+Windfall Island - Transparent Chest:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room11.arc/Chest000
+    - sea/Room11.arc/Chest001
+    - sea/Room11.arc/Chest002
+Windfall Island - Tott:
+  Need: 
+  Original item: Song of Passing
+  Paths:
+    - sea/Stage.arc/Event0E3:TACT_TT11/Actor001/Action003
+Windfall Island - Auction 1:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - rels/d_a_auction.rel@4489
+Windfall Island - Auction 2:
+  Need: 
+  Original item: Treasure Chart 18
+  Paths:
+    - rels/d_a_auction.rel@4491
+Windfall Island - Auction 3:
+  Need: 
+  Original item: Treasure Chart 38
+  Paths:
+    - rels/d_a_auction.rel@4499
+Windfall Island - Auction 4:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_auction.rel@44A1
+Windfall Island - Zunari - Island Trading Starter:
+  Need: 
+  Original item: Town Flower
+  Paths:
+    - rels/d_a_npc_rsh1.rel@30DF
+Windfall Island - Zunari - Sail:
+  Need: 
+  Original item: Boat's Sail
+  Paths:
+    - rels/d_a_npc_rsh1.rel@30FB
+Windfall Island - Zunari - Give Exotic Flower:
+  Need: 
+  Original item: Magic Armor
+  Paths:
+    - rels/d_a_npc_rsh1.rel@3117
+Windfall Island - Mila:
+  Need: 
+  Original item: Empty Bottle
+  Paths:
+    - sea/Stage.arc/Event084:get_empty_btl/Actor002/Action001
+Windfall Island - Sinking Ships - First Prize:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_npc_kg1.rel@2C28
+Windfall Island - Sinking Ships - Second Prize:
+  Need: 
+  Original item: Treasure Chart 7
+  Paths:
+    - rels/d_a_npc_kg1.rel@2C29
+#Windfall Island - Sinking Ships - Prize 3+:
+#  Need: 
+#  Original item: Purple Rupee
+#  Paths:
+#    - rels/d_a_npc_kg1.rel@2C2A
+Windfall Island - Sinking Ships - 20 Shots or Less Prize:
+  Need: 
+  Original item: Treasure Chart 23
+  Paths:
+    - rels/d_a_npc_kg1.rel@2C2C
+#Windfall Island - Sinking Ships - 20 Shots or Less Prize 2+:
+#  Need: 
+#  Original item: Orange Rupee
+#  Paths:
+#    - rels/d_a_npc_kg1.rel@2C2D
+Windfall Island - Pompie and Vera:
+  Need: 
+  Original item: Treasure Chart 24
+  Paths:
+    - rels/d_a_npc_people.rel@C54F
+Windfall Island - Kamo:
+  Need: 
+  Original item: Treasure Chart 31
+  Paths:
+    - rels/d_a_npc_people.rel@C55F
+Windfall Island - Minenco:
+  Need: 
+  Original item: Treasure Chart 33
+  Paths:
+    - rels/d_a_npc_people.rel@C553
+Windfall Island - TODO 1 (Kreeb, Linda, or Sam):
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_npc_people.rel@C54B
+Windfall Island - TODO 2 (Kreeb, Linda, or Sam):
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_npc_people.rel@C557
+Windfall Island - TODO 3 (Kreeb, Linda, or Sam):
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_npc_people.rel@C55B
+
+Dragon Roost Island - Gift from King of Red Lions:
+  Need: 
+  Original item: Wind Waker
+  Paths:
+    - sea/Stage.arc/Event025:TACT_TEARCH3/Actor000/Action002
+Dragon Roost Island - Wind Shrine:
+  Need: 
+  Original item: Wind's Requiem
+  Paths:
+    - sea/Stage.arc/Event0D8:TACT_HT/Actor001/Action005
+    - rels/d_a_npc_hr.rel@1167
+Dragon Roost Island - Quill:
+  Need: 
+  Original item: Delivery Bag
+  Paths:
+    - main.dol@358D3A
+Dragon Roost Island - Letter for Komali:
+  Need: 
+  Original item: Father's Letter
+  Paths:
+    - rels/d_a_npc_md.rel@AF1B
+    - rels/d_a_npc_md.rel@AF47
+Dragon Roost Island - Komali:
+  Need: 
+  Original item: Din's Pearl
+  Paths:
+    - main.dol@358D37
+Dragon Roost Island - Rito Aerie - Hoskit:
+  Need: 
+  Original item: Orange Rupee
+  Paths:
+    - Atorizk/Stage.arc/Event000:Get_Rupee/Actor002/Action001
+Dragon Roost Island - Chest on Top of Boulder:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room13.arc/Chest000
+Dragon Roost Island - Long Cave Passage:
+  Need: 
+  Original item: Orange Rupee
+  Paths:
+    - sea/Room13.arc/Chest001
+Dragon Roost Island - Rito Aerie - Baito:
+  Need: 
+  Original item: Note to Mom
+  Paths:
+    - Atorizk/Stage.arc/Event003:GETMOTHERLETTER/Actor000/Action000
+Dragon Roost Island - Secret Cave:
+  Need: 
+  Original item: Purple Rupee
+  Paths:
+    - TF_06/Stage.arc/Chest000
+
+
+# Dragon Roost Cavern
+Dragon Roost Cavern Entrance - Medli's Gift:
+  Need: 
+  Original item: Empty Bottle
+  Paths:
+    - rels/d_a_npc_md.rel@AF3F
+Dragon Roost Cavern - First Room:
+  Need: 
+  Original item: Small Key
+  Paths:
+    - M_NewD2/Stage.arc/Chest005
+Dragon Roost Cavern - Map Chest:
+  Need: 
+  Original item: Dungeon Map
+  Paths:
+    - M_NewD2/Stage.arc/Chest008
+Dragon Roost Cavern - Boarded Up Chest:
+  Need: 
+  Original item: Small Key
+  Paths:
+    - M_NewD2/Stage.arc/Chest006
+Dragon Roost Cavern - Compass Chest:
+  Need: 
+  Original item: Compass
+  Paths:
+    - M_NewD2/Stage.arc/Chest007
+Dragon Roost Cavern - Rat Room:
+  Need: 
+  Original item: Small Key
+  Paths:
+    - M_NewD2/Stage.arc/Chest00B
+Dragon Roost Cavern - Bird's Nest:
+  Need: 
+  Original item: Small Key
+  Paths:
+    - M_NewD2/Room3.arc/Actor016
+Dragon Roost Cavern - Dark Room:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - M_NewD2/Stage.arc/Chest004
+Dragon Roost Cavern - Pot Room Chest:
+  Need: 
+  Original item: Treasure Chart 39
+  Paths:
+    - M_NewD2/Stage.arc/Chest003
+Dragon Roost Cavern - Mini-boss:
+  Need: 
+  Original item: Grappling Hook
+  Paths:
+    - rels/d_a_npc_md.rel@AF2F
+Dragon Roost Cavern - Under Rope Bridge:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - M_NewD2/Stage.arc/Chest009
+Dragon Roost Cavern - Tingle Statue Chest:
+  Need: 
+  Original item: Dragon Tingle Statue
+  Paths:
+    - M_NewD2/Stage.arc/Chest00C
+Dragon Roost Cavern - Big Key Chest:
+  Need: 
+  Original item: Big Key
+  Paths:
+    - M_NewD2/Stage.arc/Chest000
+Dragon Roost Cavern - Chest Across Lava Pit:
+  Need: 
+  Original item: Treasure Chart 11
+  Paths:
+    - M_NewD2/Stage.arc/Chest00A
+Dragon Roost Cavern - Boss Stairs Right Chest:
+  Need: 
+  Original item: Knight's Crest
+  Paths:
+    - M_NewD2/Stage.arc/Chest001
+Dragon Roost Cavern - Boss Stairs Left Chest:
+  Need: 
+  Original item: Yellow Rupee
+  Paths:
+    - M_NewD2/Stage.arc/Chest002
+#Dragon Roost Cavern - Unused?:
+#  Need: 
+#  Original item: Yellow Rupee
+#  Paths:
+#    - M_NewD2/Stage.arc/Chest00D
+
+
+Forest Haven - Deku Leaf:
+  Need: 
+  Original item: Deku Leaf
+  Paths:
+    - rels/d_a_deku_item.rel@0DC3
+Forest Haven - Farore's Pearl:
+  Need: 
+  Original item: Farore's Pearl
+  Paths:
+    - main.dol@358D38
+Forest Haven - Small Island Chest:
+  Need: 
+  Original item: Treasure Chart 3
+  Paths:
+    - sea/Room41.arc/Chest000
+Hollo's Forest Potion Shop:
+  Need: 
+  Original item: Blue Potion
+  Paths:
+    - Ocrogh/Stage.arc/Event03F:Get_Blu_Btl/Actor002/Action001
+
+# TODO: order and name forbidden woods
+Forbidden Woods:
+  Need: 
+  Original item: Treasure Chart 1
+  Paths:
+    - kindan/Stage.arc/Chest000
+Forbidden Woods:
+  Need: 
+  Original item: Knight's Crest
+  Paths:
+    - kindan/Stage.arc/Chest001
+Forbidden Woods:
+  Need: 
+  Original item: Dungeon Map
+  Paths:
+    - kindan/Stage.arc/Chest002
+Forbidden Woods:
+  Need: 
+  Original item: Small Key
+  Paths:
+    - kindan/Stage.arc/Chest003
+Forbidden Woods:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - kindan/Stage.arc/Chest004
+Forbidden Woods:
+  Need: 
+  Original item: Compass
+  Paths:
+    - kindan/Stage.arc/Chest006
+Forbidden Woods:
+  Need: 
+  Original item: Treasure Chart 15
+  Paths:
+    - kindan/Stage.arc/Chest007
+Forbidden Woods:
+  Need: 
+  Original item: Big Key
+  Paths:
+    - kindan/Stage.arc/Chest008
+Forbidden Woods:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - kindan/Stage.arc/Chest009
+Forbidden Woods:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - kindan/Stage.arc/Chest00A
+Forbidden Woods:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - kindan/Stage.arc/Chest00B
+Forbidden Woods:
+  Need: 
+  Original item: Yellow Rupee
+  Paths:
+    - kindan/Stage.arc/Chest00C
+Forbidden Woods:
+  Need: 
+  Original item: Yellow Rupee
+  Paths:
+    - kindan/Stage.arc/Chest00D
+Forbidden Woods:
+  Need: 
+  Original item: Forbidden Tingle Statue
+  Paths:
+    - kindan/Stage.arc/Chest00E
+Forbidden Woods Mothula Mini-Boss Room:
+  Need: 
+  Original item: Boomerang
+  Paths:
+    - kinMB/Stage.arc/Chest000
+
+Greatfish Isle - Chest in Opening:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room23.arc/Chest000
+
+# TODO: order and name tower of the gods
+Tower of the Gods:
+  Need: 
+  Original item: Small Key
+  Paths:
+    - Siren/Stage.arc/Chest000
+Tower of the Gods:
+  Need: 
+  Original item: Dungeon Map
+  Paths:
+    - Siren/Stage.arc/Chest001
+Tower of the Gods:
+  Need: 
+  Original item: Compass
+  Paths:
+    - Siren/Stage.arc/Chest002
+Tower of the Gods:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - Siren/Stage.arc/Chest004
+Tower of the Gods:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - Siren/Stage.arc/Chest005
+Tower of the Gods:
+  Need: 
+  Original item: Treasure Chart 6
+  Paths:
+    - Siren/Stage.arc/Chest006
+Tower of the Gods:
+  Need: 
+  Original item: Treasure Chart 30
+  Paths:
+    - Siren/Stage.arc/Chest007
+Tower of the Gods:
+  Need: 
+  Original item: Small Key
+  Paths:
+    - Siren/Stage.arc/Chest008
+Tower of the Gods:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - Siren/Stage.arc/Chest009
+Tower of the Gods:
+  Need: 
+  Original item: Goddess Tingle Statue
+  Paths:
+    - Siren/Stage.arc/Chest00A
+Tower of the Gods:
+  Need: 
+  Original item: Big Key
+  Paths:
+    - Siren/Stage.arc/Chest00B
+Tower of the Gods:
+  Need: 
+  Original item: Command Melody
+  Paths:
+    - Siren/Stage.arc/Event060:hsehi1_tact/Actor003/Action004
+Tower of the Gods Darknut Mini-Boss Room:
+  Need: 
+  Original item: Hero's Bow
+  Paths:
+    - SirenMB/Stage.arc/Chest000
+#Tower of the Gods - Gohdan - Arrow Refill:
+#  Need: 
+#  Original item: 10 Arrows (Pickup)
+#  Paths:
+#    - rels/d_a_bst.rel@5CA7
+#Tower of the Gods - Gohdan - Bomb Refill:
+#  Need: 
+#  Original item: 5 Bombs (Pickup)
+#  Paths:
+#    - rels/d_a_bst.rel@5CD3
+
+Hyrule - Master Sword Chamber:
+  Need: 
+  Original item: Master Sword (Powerless)
+  Paths:
+    - main.dol@358D34
+
+Mother and Child Isles - Queen Fairy:
+  Need: 
+  Original item: Fire and Ice Arrows
+  Paths:
+    - main.dol@358D3C
+
+Ice Ring Isle - Frozen Chest:
+  Need: 
+  Original item: Treasure Chart 36
+  Paths:
+    - sea/Room40.arc/Chest000
+Ice Ring Isle Cave - Chest:
+  Need: 
+  Original item: Iron Boots
+  Paths:
+    - MiniHyo/Stage.arc/Chest000
+Ice Ring Isle Inner Cave - Chest:
+  Need: 
+  Original item: Orange Rupee
+  Paths:
+    - ITest62/Stage.arc/Chest000
+
+Fire Mountain - Lookout Platform Center Chest:
+  Need: 
+  Original item: Golden Feather
+  Paths:
+    - sea/Room20.arc/Chest000
+Fire Mountain - Lookout Platform Left Chest:
+  Need: 
+  Original item: Yellow Rupee
+  Paths:
+    - sea/Room20.arc/Chest001
+Fire Mountain Cave - Chest:
+  Need: 
+  Original item: Power Bracelets
+  Paths:
+    - MiniKaz/Stage.arc/Chest000
+
+Headstone Island - Top of the Island:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room45.arc/Actor013
+Headstone Island - Submarine:
+  Need: 
+  Original item: Treasure Chart 14
+  Paths:
+    - Abship/Room3.arc/Chest000
+Headstone Island - Submarine 2? TODO:
+  Need: 
+  Original item: Treasure Chart 14
+  Paths:
+    - Abship/Room5.arc/Chest000
+Earth Temple Entrance:
+  Need: 
+  Original item: Earth God's Lyric
+  Paths:
+    - Edaichi/Stage.arc/Event043:MKNJD_D_LESSON/Actor003/Action006
+Earth Temple - Map Chest:
+  Need: 
+  Original item: Dungeon Map
+  Paths:
+    - M_Dai/Stage.arc/Chest000
+Earth Temple - Behind Curtain Next to Map Chest:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - M_Dai/Room2.arc/Actor010
+Earth Temple - Transparent Chest in First Crypt:
+  Need: 
+  Original item: Small Key
+  Paths:
+    - M_Dai/Stage.arc/Chest001
+Earth Temple - Compass Chest:
+  Need: 
+  Original item: Compass
+  Paths:
+    - M_Dai/Stage.arc/Chest002
+Earth Temple - Chest Behind Statues:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - M_Dai/Stage.arc/Chest003
+Earth Temple - Casket in Second Crypt:
+  Need: 
+  Original item: Small Key
+  Paths:
+    - M_Dai/Room8.arc/Actor008
+Earth Temple Stalfos Mini-Boss Room:
+  Need: 
+  Original item: Mirror Shield
+  Paths:
+    - M_DaiMB/Stage.arc/Chest000
+Earth Temple - Chest Behind Destructible Walls:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - M_Dai/Stage.arc/Chest00A
+Earth Temple - Tingle Statue Chest:
+  Need: 
+  Original item: Earth Tingle Statue
+  Paths:
+    - M_Dai/Stage.arc/Chest00D
+Earth Temple - End of Foggy Room With Floormasters:
+  Need: 
+  Original item: Small Key
+  Paths:
+    - M_Dai/Stage.arc/Chest004
+Earth Temple - Kill All Floormasters in Foggy Room:
+  Need: 
+  Original item: Treasure Chart 20
+  Paths:
+    - M_Dai/Stage.arc/Chest009
+Earth Temple - Behind Curtains Next to Hammer Button:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - M_Dai/Room13.arc/Actor01A
+Earth Temple - Chest in Third Crypt:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - M_Dai/Stage.arc/Chest005
+Earth Temple - Many Mirrors Room Right Chest:
+  Need: 
+  Original item: Purple Rupee
+  Paths:
+    - M_Dai/Stage.arc/Chest007
+Earth Temple - Many Mirrors Room Left Chest:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - M_Dai/Stage.arc/Chest008
+Earth Temple - Stalfos Crypt Room:
+  Need: 
+  Original item: Treasure Chart 12
+  Paths:
+    - M_Dai/Stage.arc/Chest00B
+Earth Temple - Big Key Chest:
+  Need: 
+  Original item: Big Key
+  Paths:
+    - M_Dai/Stage.arc/Chest006
+#Earth Temple - Duplicate Earth God's Lyric? TODO:
+#  Need: 
+#  Original item: Earth God's Lyric
+#  Paths:
+#    - M_Dai/Stage.arc/Event050:MKNJD_D_LESSON/Actor003/Action006
+Earth Temple - Master Sword Upgrade:
+  Need: 
+  Original item: Master Sword (Half power)
+  Paths:
+    - main.dol@358D35
+
+# TODO: order and name wind temple
+Wind Temple Entrance:
+  Need: 
+  Original item: Wind God's Aria
+  Paths:
+    - Ekaze/Stage.arc/Event042:MKNJD_K_LESSON/Actor003/Action006
+Wind Temple:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - kaze/Stage.arc/Chest000
+Wind Temple:
+  Need: 
+  Original item: Small Key
+  Paths:
+    - kaze/Stage.arc/Chest001
+Wind Temple:
+  Need: 
+  Original item: Big Key
+  Paths:
+    - kaze/Stage.arc/Chest002
+Wind Temple:
+  Need: 
+  Original item: Small Key
+  Paths:
+    - kaze/Stage.arc/Chest003
+Wind Temple:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - kaze/Stage.arc/Chest004
+Wind Temple:
+  Need: 
+  Original item: Orange Rupee
+  Paths:
+    - kaze/Stage.arc/Chest005
+Wind Temple:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - kaze/Stage.arc/Chest006
+Wind Temple:
+  Need: 
+  Original item: Treasure Chart 35
+  Paths:
+    - kaze/Stage.arc/Chest007
+Wind Temple:
+  Need: 
+  Original item: Dungeon Map
+  Paths:
+    - kaze/Stage.arc/Chest008
+Wind Temple:
+  Need: 
+  Original item: Treasure Chart 5
+  Paths:
+    - kaze/Stage.arc/Chest009
+Wind Temple:
+  Need: 
+  Original item: Compass
+  Paths:
+    - kaze/Stage.arc/Chest00A
+Wind Temple:
+  Need: 
+  Original item: Wind Tingle Statue
+  Paths:
+    - kaze/Stage.arc/Chest00C
+Wind Temple:
+  Need: 
+  Original item: Wind God's Aria
+  Paths:
+    - kaze/Stage.arc/Event04F:MKNJD_K_LESSON/Actor003/Action006
+Wind Temple Wizzrobe Mini-Boss Room:
+  Need: 
+  Original item: Hookshot
+  Paths:
+    - kazeMB/Stage.arc/Chest000
+Wind Temple - Molgera:
+  Need: 
+  Original item: Master Sword (Full power)
+  Paths:
+    - main.dol@358D36
+
+Ganon's Tower - Maze Chest:
+  Need: 
+  Original item: Light Arrow
+  Paths:
+    - GanonJ/Stage.arc/Chest000
+
+Mailbox - Letter from Baito's Mother:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_obj_toripost.rel@2564
+Mailbox - Letter from Komali's Father:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_obj_toripost.rel@2570
+Mailbox - Letter Advertising Bombs in Beedle's Shop:
+  Need: 
+  Original item: Beedle's Chart
+  Paths:
+    - rels/d_a_obj_toripost.rel@257C
+Mailbox - Letter from Orca:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - rels/d_a_obj_toripost.rel@2588
+Mailbox - Letter from Grandma:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - rels/d_a_obj_toripost.rel@2594
+Mailbox - Letter Advertising Rock Spire Shop Ship:
+  Need: 
+  Original item: Green Rupee
+  Paths:
+    - rels/d_a_obj_toripost.rel@25A0
+Mailbox - Letter from Tingle:
+  Need: 
+  Original item: IN-credible Chart
+  Paths:
+    - rels/d_a_obj_toripost.rel@25AC
+Mailbox - Letter from Aryll:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - rels/d_a_obj_toripost.rel@25B8
+Mailbox - Letter from Baito's Mother: # TODO: duplicate?
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_obj_toripost.rel@25C4
+Mailbox - Beedle's Silver Membership Reward:
+  Need: 
+  Original item: Complimentary ID
+  Paths:
+    - rels/d_a_obj_toripost.rel@25D0
+Mailbox - Letter from Hoskit's Girlfriend:
+  Need: 
+  Original item: Piece of Heart (Alternate Message)
+  Paths:
+    - rels/d_a_obj_toripost.rel@25DC
+Mailbox - Letter from Baito:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - rels/d_a_obj_toripost.rel@25E8
+Mailbox - Beedle's Gold Membership Reward:
+  Need: 
+  Original item: Fill-Up Coupon
+  Paths:
+    - rels/d_a_obj_toripost.rel@25F4
+
+The Great Sea - Cyclos:
+  Need: 
+  Original item: Ballad of Gales
+  Paths:
+    - sea/Stage.arc/Event0E0:TACT1_RT/Actor001/Action003
+
+Salvage Corp - Gift:
+  Need: 
+  Original item: Treasure Chart 34
+  Paths:
+    - rels/d_a_npc_sv.rel@3327
+
+Island Trading - Reward:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_npc_roten.rel@533B
+
+Ghost Ship:
+  Need: 
+  Original item: Triforce Chart 4
+  Paths:
+    - PShip/Stage.arc/Chest000
+    - PShip/Stage.arc/Chest001
+    - PShip/Stage.arc/Chest002
+    - PShip2/Stage.arc/Chest000
+    - PShip3/Stage.arc/Chest000
+
+The Great Sea - TODO:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - sea/Stage.arc/Event093:MK_PENDANT/Actor001/Action005
+The Great Sea - TODO:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - sea/Stage.arc/Event0B1:Get_Rupee/Actor002/Action000
+The Great Sea - TODO:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Stage.arc/Event0D2:SO_GET_RUPEE/Actor002/Action000
+
+TODO - unknown npc 1:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_npc_ah.rel@174F
+TODO - unknown npc 2:
+  Need: 
+  Original item: Purple Rupee
+  Paths:
+    - rels/d_a_npc_ah.rel@1773
+TODO - unknown npc 3:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_npc_bmcon1.rel@2B7B
+TODO - unknown npc 4:
+  Need: 
+  Original item: Purple Rupee
+  Paths:
+    - rels/d_a_npc_bmcon1.rel@2B9F
+TODO - unknown npc 5:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_npc_mt.rel@18AB
+TODO - unknown npc 6:
+  Need: 
+  Original item: Purple Rupee
+  Paths:
+    - rels/d_a_npc_mt.rel@18CF
+TODO - unknown npc 7:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - rels/d_a_npc_people.rel@5BC3
+TODO - unknown npc 8:
+  Need: 
+  Original item: Purple Rupee
+  Paths:
+    - rels/d_a_npc_people.rel@5BDF
+TODO - unknown npc 9:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - rels/d_a_npc_kf1.rel@17AF
+TODO - unknown npc 10:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - rels/d_a_npc_kf1.rel@1A23
+
+Private Oasis - Chest at Top of Waterfall:
+  Need: 
+  Original item: Treasure Chart 27
+  Paths:
+    - sea/Room33.arc/Chest000
+Cabana Labyrinth - End of Maze:
+  Need: 
+  Original item: Triforce Chart 2
+  Paths:
+    - TF_04/Stage.arc/Chest000
+Cabana Labyrinth - Down the Ladder:
+  Need: 
+  Original item: Orange Rupee
+  Paths:
+    - TF_04/Stage.arc/Chest001
+
+Spectacle Island - Target Shooting - First Prize:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_npc_kg2.rel@20FF
+Spectacle Island - Target Shooting - Second Prize:
+  Need: 
+  Original item: Treasure Chart 17
+  Paths:
+    - rels/d_a_npc_kg2.rel@2107
+#Spectacle Island - Target Shooting - Prize 3+:
+#  Need: 
+#  Original item: Orange Rupee
+#  Paths:
+#    - rels/d_a_npc_kg2.rel@210F
+
+# TODO:
+Needle Rock Isle:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room29.arc/Chest000
+Needle Rock Isle Cave:
+  Need: 
+  Original item: Orange Rupee
+  Paths:
+    - SubD42/Stage.arc/Chest000
+
+Angular Isles - Peak:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room47.arc/Chest000
+Angular Isles Cave:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - SubD43/Stage.arc/Chest000
+
+# TODO:
+Boating Course:
+  Need: 
+  Original item: Boko Baba Seed
+  Paths:
+    - sea/Room48.arc/Chest000
+Boating Course Cave:
+  Need: 
+  Original item: Submarine Chart
+  Paths:
+    - SubD71/Stage.arc/Chest000
+
+Stone Watcher Island - Destroy the Cannons:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room31.arc/Chest000
+Stone Watcher Island - Lookout Platform:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - sea/Room31.arc/Chest001
+Stone Watcher Island Cave:
+  Need: 
+  Original item: Triforce Chart 7
+  Paths:
+    - TF_01/Stage.arc/Chest000
+
+Islet of Steel - Lookout Platform:
+  Need: 
+  Original item: Skull Necklace
+  Paths:
+    - sea/Room30.arc/Chest000
+Islet of Steel Interior:
+  Need: 
+  Original item: Triforce Chart 1
+  Paths:
+    - ShipD/Stage.arc/Chest000
+
+Overlook Island Cave:
+  Need: 
+  Original item: Triforce Chart 8
+  Paths:
+    - TF_02/Stage.arc/Chest000
+
+Bird's Peak Rock Cave:
+  Need: 
+  Original item: Triforce Chart 3
+  Paths:
+    - TF_03/Stage.arc/Chest000
+
+# TODO:
+Pawprint Isle:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - sea/Room12.arc/Chest000
+Pawprint Isle Chuchu Cave:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - TyuTyu/Stage.arc/Chest000
+Pawprint Isle Chuchu Cave:
+  Need: 
+  Original item: Purple Rupee
+  Paths:
+    - TyuTyu/Stage.arc/Chest001
+Pawprint Isle Chuchu Cave:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - TyuTyu/Stage.arc/Chest002
+Pawprint Isle Chuchu Cave:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - TyuTyu/Stage.arc/Chest003
+Pawprint Isle Wizzrobe Cave:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - Cave07/Stage.arc/Chest000
+
+# TODO:
+Thorned Fairy Island:
+  Need: 
+  Original item: Golden Feather
+  Paths:
+    - sea/Room28.arc/Chest000
+Thorned Fairy Island:
+  Need: 
+  Original item: Boko Baba Seed
+  Paths:
+    - sea/Room28.arc/Chest001
+Thorned Fairy Island - Great Fairy:
+  Need: 
+  Original item: 99 Arrow Quiver
+  Paths:
+    - rels/d_a_bigelf.rel@221F
+
+Eastern Fairy Island - Lookout Platform:
+  Need: 
+  Original item: Boko Baba Seed
+  Paths:
+    - sea/Room19.arc/Chest000
+Eastern Fairy Island - Great Fairy:
+  Need: 
+  Original item: 60 Bomb Bomb Bag
+  Paths:
+    - rels/d_a_bigelf.rel@21E7
+
+Western Fairy Island - Lookout Platform:
+  Need: 
+  Original item: Skull Necklace
+  Paths:
+    - sea/Room15.arc/Chest000
+Western Fairy Island - Great Fairy:
+  Need: 
+  Original item: 60 Arrow Quiver
+  Paths:
+    - rels/d_a_bigelf.rel@2213
+
+Southern Fairy Island - Lookout Platform Right Chest:
+  Need: 
+  Original item: Treasure Chart 40
+  Paths:
+    - sea/Room39.arc/Chest000
+Southern Fairy Island - Lookout Platform Left Chest:
+  Need: 
+  Original item: Skull Necklace
+  Paths:
+    - sea/Room39.arc/Chest001
+Southern Fairy Island Great Fairy:
+  Need: 
+  Original item: 99 Bomb Bomb Bag
+  Paths:
+    - rels/d_a_bigelf.rel@21F3
+
+Northern Fairy Island - Great Fairy:
+  Need: 
+  Original item: 1000 Rupee Wallet
+  Paths:
+    - rels/d_a_bigelf.rel@21BB
+Northern Fairy Island - Submarine:
+  Need: 
+  Original item: Treasure Chart 22
+  Paths:
+    - Abship/Room4.arc/Chest000
+
+#Tingle Island - Reward for 1 Tingle Statue:
+#  Need: 
+#  Original item: 50 Rupees, reward for finding 1 Tingle Statue
+#  Paths:
+#    - rels/d_a_npc_tc.rel@617F
+#Tingle Island - Reward for 2 Tingle Statues:
+#  Need: 
+#  Original item: 100 Rupees, reward for finding 2 Tingle Statues
+#  Paths:
+#    - rels/d_a_npc_tc.rel@6187
+#Tingle Island - Reward for 3 Tingle Statues:
+#  Need: 
+#  Original item: 150 Rupees, reward for finding 3 Tingle Statues
+#  Paths:
+#    - rels/d_a_npc_tc.rel@618F
+#Tingle Island - Reward for 4 Tingle Statues:
+#  Need: 
+#  Original item: 200 Rupees, reward for finding 4 Tingle Statues
+#  Paths:
+#    - rels/d_a_npc_tc.rel@6197
+#Tingle Island - Reward for 5 Tingle Statues:
+#  Need: 
+#  Original item: 250 Rupees, reward for finding 5 Tingle Statues
+#  Paths:
+#    - rels/d_a_npc_tc.rel@619F
+#Tingle Island - Reward for All Tingle Statues:
+#  Need: 
+#  Original item: 500 Rupees, reward for finding 5 Tingle Statues
+#  Paths:
+#    - rels/d_a_npc_tc.rel@6143
+#Tingle Island - Triforce Chart 1 Deciphered:
+#  Need: 
+#  Original item: Triforce Chart 1 got deciphered
+#  Paths:
+#    - rels/d_a_npc_tc.rel@61D7
+#Tingle Island - Triforce Chart 2 Deciphered:
+#  Need: 
+#  Original item: Triforce Chart 2 got deciphered
+#  Paths:
+#    - rels/d_a_npc_tc.rel@61DF
+#Tingle Island - Triforce Chart 3 Deciphered:
+#  Need: 
+#  Original item: Triforce Chart 3 got deciphered
+#  Paths:
+#    - rels/d_a_npc_tc.rel@61E7
+#Tingle Island - Triforce Chart 4 Deciphered:
+#  Need: 
+#  Original item: Triforce Chart 4 got deciphered
+#  Paths:
+#    - rels/d_a_npc_tc.rel@61EF
+#Tingle Island - Triforce Chart 5 Deciphered:
+#  Need: 
+#  Original item: Triforce Chart 5 got deciphered
+#  Paths:
+#    - rels/d_a_npc_tc.rel@61F7
+#Tingle Island - Triforce Chart 6 Deciphered:
+#  Need: 
+#  Original item: Triforce Chart 6 got deciphered
+#  Paths:
+#    - rels/d_a_npc_tc.rel@61FF
+#Tingle Island - Triforce Chart 7 Deciphered:
+#  Need: 
+#  Original item: Triforce Chart 7 got deciphered
+#  Paths:
+#    - rels/d_a_npc_tc.rel@6207
+#Tingle Island - Triforce Chart 8 Deciphered:
+#  Need: 
+#  Original item: Triforce Chart 8 got deciphered
+#  Paths:
+#    - rels/d_a_npc_tc.rel@620F
+
+# TODO:
+Diamond Steppe Island Warp Maze:
+  Need: 
+  Original item: Ghost Ship Chart
+  Paths:
+    - WarpD/Stage.arc/Chest000
+Diamond Steppe Island Warp Maze:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - WarpD/Stage.arc/Chest001
+
+# TODO:
+Bomb Island:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - sea/Room34.arc/Chest000
+Bomb Island Cave:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - Cave01/Stage.arc/Chest000
+Bomb Island - Submarine:
+  Need: 
+  Original item: Empty Bottle
+  Paths:
+    - Abship/Room2.arc/Chest000
+
+Rock Spire Isle - Western Lookout Platform:
+  Need: 
+  Original item: Orange Rupee
+  Paths:
+    - sea/Room16.arc/Chest000
+Rock Spire Isle - Eastern Lookout Platform:
+  Need: 
+  Original item: Golden Feather
+  Paths:
+    - sea/Room16.arc/Chest001
+Rock Spire Isle - Center Lookout Platform:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - sea/Room16.arc/Chest002
+Rock Spire Isle Cave:
+  Need: 
+  Original item: Treasure Chart 37
+  Paths:
+    - Cave04/Stage.arc/Chest000
+
+Shark Island Cave:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - ITest63/Stage.arc/Chest000
+
+# TODO:
+Cliff Plateau Isles:
+  Need: 
+  Original item: Treasure Chart 25
+  Paths:
+    - sea/Room42.arc/Chest000
+Cliff Plateau Isles:
+  Need: 
+  Original item: Boko Baba Seed
+  Paths:
+    - sea/Room42.arc/Chest001
+Cliff Plateau Isles Cave:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - Cave03/Stage.arc/Chest000
+
+# TODO:
+Crescent Moon Island:
+  Need: 
+  Original item: Treasure Chart 10
+  Paths:
+    - sea/Room5.arc/Chest000
+Crescent Moon Island - Submarine:
+  Need: 
+  Original item: Treasure Chart 9
+  Paths:
+    - Abship/Room7.arc/Chest000
+
+# TODO:
+Horseshoe Island:
+  Need: 
+  Original item: Treasure Chart 28
+  Paths:
+    - sea/Room43.arc/Chest000
+Horseshoe Island:
+  Need: 
+  Original item: Skull Necklace
+  Paths:
+    - sea/Room43.arc/Chest001
+Horseshoe Island:
+  Need: 
+  Original item: Golden Feather
+  Paths:
+    - sea/Room43.arc/Chest002
+Horseshoe Island Cave:
+  Need: 
+  Original item: Treasure Chart 8
+  Paths:
+    - Cave05/Stage.arc/Chest000
+
+Flight Control Platform - Submarine:
+  Need: 
+  Original item: Platform Chart
+  Paths:
+    - Abship/Room6.arc/Chest000
+
+# TODO:
+Star Island:
+  Need: 
+  Original item: Golden Feather
+  Paths:
+    - sea/Room2.arc/Chest000
+Star Island Cave:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - Cave02/Stage.arc/Chest000
+
+# TODO:
+Star Belt Archipelago:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - sea/Room21.arc/Chest000
+
+# TODO:
+Five-Star Isles:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - sea/Room49.arc/Chest000
+Five-Star Isles:
+  Need: 
+  Original item: Golden Feather
+  Paths:
+    - sea/Room49.arc/Chest001
+Five-Star Isles - Submarine:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - Abship/Room0.arc/Chest000
+
+# TODO:
+Seven-Star Isles:
+  Need: 
+  Original item: Golden Feather
+  Paths:
+    - sea/Room6.arc/Chest000
+Seven-Star Isles:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - sea/Room6.arc/Chest001
+Seven-Star Isles:
+  Need: 
+  Original item: Treasure Chart 16
+  Paths:
+    - sea/Room6.arc/Chest002
+
+# TODO:
+Cyclops Reef:
+  Need: 
+  Original item: Treasure Chart 21
+  Paths:
+    - sea/Room24.arc/Chest000
+Cyclops Reef:
+  Need: 
+  Original item: Golden Feather
+  Paths:
+    - sea/Room24.arc/Chest001
+
+# TODO:
+Two-Eye Reef:
+  Need: 
+  Original item: Treasure Chart 13
+  Paths:
+    - sea/Room46.arc/Chest000
+Two-Eye Reef:
+  Need: 
+  Original item: Purple Rupee
+  Paths:
+    - sea/Room46.arc/Chest001
+
+# TODO:
+Three-Eye Reef:
+  Need: 
+  Original item: Treasure Chart 32
+  Paths:
+    - sea/Room22.arc/Chest000
+
+# TODO:
+Four-Eye Reef:
+  Need: 
+  Original item: Treasure Chart 19
+  Paths:
+    - sea/Room8.arc/Chest000
+
+# TODO:
+Five-Eye Reef:
+  Need: 
+  Original item: Treasure Chart 41
+  Paths:
+    - sea/Room37.arc/Chest000
+Five-Eye Reef:
+  Need: 
+  Original item: Golden Feather
+  Paths:
+    - sea/Room37.arc/Chest001
+
+# TODO:
+Six-Eye Reef:
+  Need: 
+  Original item: Treasure Chart 26
+  Paths:
+    - sea/Room25.arc/Chest000
+Six-Eye Reef:
+  Need: 
+  Original item: Skull Necklace
+  Paths:
+    - sea/Room25.arc/Chest001
+Six-Eye Reef - Submarine:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - Abship/Room1.arc/Chest000
+
+Forsaken Fortress - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room1.arc/ScalableObject000
+    - sea/Room1.arc/ScalableObject00A
+    - sea/Room1.arc/ScalableObject00B
+    - sea/Room1.arc/ScalableObject00C
+Spectacle Island - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room10.arc/ScalableObject006
+    - sea/Room10.arc/ScalableObject007
+    - sea/Room10.arc/ScalableObject008
+    - sea/Room10.arc/ScalableObject009
+Windfall Island - Sunken Treasure:
+  Need: 
+  Original item: Green Rupee
+  Paths:
+    - sea/Room11.arc/ScalableObject022
+    - sea/Room11.arc/ScalableObject023
+    - sea/Room11.arc/ScalableObject024
+    - sea/Room11.arc/ScalableObject025
+Pawprint Isle - Sunken Treasure:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room12.arc/ScalableObject006
+    - sea/Room12.arc/ScalableObject007
+    - sea/Room12.arc/ScalableObject008
+    - sea/Room12.arc/ScalableObject009
+Dragon Roost Island - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room13.arc/ScalableObject008
+    - sea/Room13.arc/ScalableObject009
+    - sea/Room13.arc/ScalableObject00A
+    - sea/Room13.arc/ScalableObject00B
+Flight Control Platform - Sunken Treasure:
+  Need: 
+  Original item: Island Hearts Chart
+  Paths:
+    - sea/Room14.arc/ScalableObject008
+    - sea/Room14.arc/ScalableObject009
+    - sea/Room14.arc/ScalableObject00A
+    - sea/Room14.arc/ScalableObject00B
+Western Fairy Island - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room15.arc/ScalableObject007
+    - sea/Room15.arc/ScalableObject008
+    - sea/Room15.arc/ScalableObject009
+    - sea/Room15.arc/ScalableObject00A
+Rock Spire Isle - Sunken Treasure:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room16.arc/ScalableObject008
+    - sea/Room16.arc/ScalableObject009
+    - sea/Room16.arc/ScalableObject00A
+    - sea/Room16.arc/ScalableObject00B
+Tingle Island - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room17.arc/ScalableObject00B
+    - sea/Room17.arc/ScalableObject00C
+    - sea/Room17.arc/ScalableObject00D
+    - sea/Room17.arc/ScalableObject00E
+Northern Triangle Island - Sunken Treasure:
+  Need: 
+  Original item: Octo Chart
+  Paths:
+    - sea/Room18.arc/ScalableObject006
+    - sea/Room18.arc/ScalableObject007
+    - sea/Room18.arc/ScalableObject008
+    - sea/Room18.arc/ScalableObject009
+Eastern Fairy Island - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room19.arc/ScalableObject006
+    - sea/Room19.arc/ScalableObject007
+    - sea/Room19.arc/ScalableObject008
+    - sea/Room19.arc/ScalableObject009
+Star Island - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room2.arc/ScalableObject00A
+    - sea/Room2.arc/ScalableObject00B
+    - sea/Room2.arc/ScalableObject00C
+    - sea/Room2.arc/ScalableObject00D
+Fire Mountain - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room20.arc/ScalableObject00B
+    - sea/Room20.arc/ScalableObject00C
+    - sea/Room20.arc/ScalableObject00D
+    - sea/Room20.arc/ScalableObject00E
+Star Belt Archipelago - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room21.arc/ScalableObject009
+    - sea/Room21.arc/ScalableObject00A
+    - sea/Room21.arc/ScalableObject00B
+    - sea/Room21.arc/ScalableObject00C
+Three-Eye Reef - Sunken Treasure:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room22.arc/ScalableObject007
+    - sea/Room22.arc/ScalableObject008
+    - sea/Room22.arc/ScalableObject009
+    - sea/Room22.arc/ScalableObject00A
+Greatfish Isle - Sunken Treasure:
+  Need: 
+  Original item: Triforce Shard 1
+  Paths:
+    - sea/Room23.arc/ScalableObject005
+    - sea/Room23.arc/ScalableObject006
+    - sea/Room23.arc/ScalableObject007
+    - sea/Room23.arc/ScalableObject008
+Cyclops Reef - Sunken Treasure:
+  Need: 
+  Original item: Light Ring Chart
+  Paths:
+    - sea/Room24.arc/ScalableObject00C
+    - sea/Room24.arc/ScalableObject00D
+    - sea/Room24.arc/ScalableObject00E
+    - sea/Room24.arc/ScalableObject00F
+Six-Eye Reef - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room25.arc/ScalableObject007
+    - sea/Room25.arc/ScalableObject008
+    - sea/Room25.arc/ScalableObject009
+    - sea/Room25.arc/ScalableObject00A
+Tower of the Gods - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room26.arc/ScalableObject006
+    - sea/Room26.arc/ScalableObject007
+    - sea/Room26.arc/ScalableObject008
+    - sea/Room26.arc/ScalableObject009
+Eastern Triangle Island - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room27.arc/ScalableObject006
+    - sea/Room27.arc/ScalableObject007
+    - sea/Room27.arc/ScalableObject008
+    - sea/Room27.arc/ScalableObject009
+Thorned Fairy Island - Sunken Treasure:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room28.arc/ScalableObject006
+    - sea/Room28.arc/ScalableObject007
+    - sea/Room28.arc/ScalableObject008
+    - sea/Room28.arc/ScalableObject009
+Needle Rock Isle - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room29.arc/ScalableObject006
+    - sea/Room29.arc/ScalableObject007
+    - sea/Room29.arc/ScalableObject008
+    - sea/Room29.arc/ScalableObject009
+Northern Fairy Island - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room3.arc/ScalableObject006
+    - sea/Room3.arc/ScalableObject007
+    - sea/Room3.arc/ScalableObject008
+    - sea/Room3.arc/ScalableObject009
+Islet of Steel - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room30.arc/ScalableObject007
+    - sea/Room30.arc/ScalableObject008
+    - sea/Room30.arc/ScalableObject009
+    - sea/Room30.arc/ScalableObject00A
+Stone Watcher Island - Sunken Treasure:
+  Need: 
+  Original item: Triforce Shard 3
+  Paths:
+    - sea/Room31.arc/ScalableObject006
+    - sea/Room31.arc/ScalableObject007
+    - sea/Room31.arc/ScalableObject008
+    - sea/Room31.arc/ScalableObject009
+Southern Triangle Island - Sunken Treasure:
+  Need: 
+  Original item: Triforce Shard 6
+  Paths:
+    - sea/Room32.arc/ScalableObject006
+    - sea/Room32.arc/ScalableObject007
+    - sea/Room32.arc/ScalableObject008
+    - sea/Room32.arc/ScalableObject009
+Private Oasis - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room33.arc/ScalableObject008
+    - sea/Room33.arc/ScalableObject009
+    - sea/Room33.arc/ScalableObject00A
+    - sea/Room33.arc/ScalableObject00B
+Bomb Island - Sunken Treasure:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room34.arc/ScalableObject006
+    - sea/Room34.arc/ScalableObject007
+    - sea/Room34.arc/ScalableObject008
+    - sea/Room34.arc/ScalableObject009
+Bird's Peak Rock - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room35.arc/ScalableObject007
+    - sea/Room35.arc/ScalableObject008
+    - sea/Room35.arc/ScalableObject009
+    - sea/Room35.arc/ScalableObject00A
+Diamond Steppe Island - Sunken Treasure:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room36.arc/ScalableObject009
+    - sea/Room36.arc/ScalableObject00A
+    - sea/Room36.arc/ScalableObject00B
+    - sea/Room36.arc/ScalableObject00C
+Five-Eye Reef - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room37.arc/ScalableObject007
+    - sea/Room37.arc/ScalableObject008
+    - sea/Room37.arc/ScalableObject009
+    - sea/Room37.arc/ScalableObject00A
+Shark Island - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room38.arc/ScalableObject00D
+    - sea/Room38.arc/ScalableObject00E
+    - sea/Room38.arc/ScalableObject00F
+    - sea/Room38.arc/ScalableObject010
+Southern Fairy Island - Sunken Treasure:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room39.arc/ScalableObject006
+    - sea/Room39.arc/ScalableObject007
+    - sea/Room39.arc/ScalableObject008
+    - sea/Room39.arc/ScalableObject009
+Gale Isle - Sunken Treasure:
+  Need: 
+  Original item: Triforce Shard 2
+  Paths:
+    - sea/Room4.arc/ScalableObject007
+    - sea/Room4.arc/ScalableObject008
+    - sea/Room4.arc/ScalableObject009
+    - sea/Room4.arc/ScalableObject00A
+Ice Ring Isle - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room40.arc/ScalableObject00A
+    - sea/Room40.arc/ScalableObject00B
+    - sea/Room40.arc/ScalableObject00C
+    - sea/Room40.arc/ScalableObject00D
+Forest Haven - Sunken Treasure:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room41.arc/ScalableObject014
+    - sea/Room41.arc/ScalableObject015
+    - sea/Room41.arc/ScalableObject016
+    - sea/Room41.arc/ScalableObject017
+Cliff Plateau Isles - Sunken Treasure:
+  Need: 
+  Original item: Triforce Shard 5
+  Paths:
+    - sea/Room42.arc/ScalableObject006
+    - sea/Room42.arc/ScalableObject007
+    - sea/Room42.arc/ScalableObject008
+    - sea/Room42.arc/ScalableObject009
+Horseshoe Island - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room43.arc/ScalableObject007
+    - sea/Room43.arc/ScalableObject008
+    - sea/Room43.arc/ScalableObject009
+    - sea/Room43.arc/ScalableObject00A
+Outset Island - Sunken Treasure:
+  Need: 
+  Original item: Triforce Shard 4
+  Paths:
+    - sea/Room44.arc/ScalableObject013
+    - sea/Room44.arc/ScalableObject014
+    - sea/Room44.arc/ScalableObject015
+    - sea/Room44.arc/ScalableObject016
+Headstone Island - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room45.arc/ScalableObject026
+    - sea/Room45.arc/ScalableObject027
+    - sea/Room45.arc/ScalableObject028
+    - sea/Room45.arc/ScalableObject029
+Two-Eye Reef - Sunken Treasure:
+  Need: 
+  Original item: Triforce Shard 8
+  Paths:
+    - sea/Room46.arc/ScalableObject008
+    - sea/Room46.arc/ScalableObject009
+    - sea/Room46.arc/ScalableObject00A
+    - sea/Room46.arc/ScalableObject00B
+Angular Isles - Sunken Treasure:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room47.arc/ScalableObject006
+    - sea/Room47.arc/ScalableObject007
+    - sea/Room47.arc/ScalableObject008
+    - sea/Room47.arc/ScalableObject009
+Boating Course - Sunken Treasure:
+  Need: 
+  Original item: Sea Hearts Chart
+  Paths:
+    - sea/Room48.arc/ScalableObject006
+    - sea/Room48.arc/ScalableObject007
+    - sea/Room48.arc/ScalableObject008
+    - sea/Room48.arc/ScalableObject009
+Five-Star Isles - Sunken Treasure:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room49.arc/ScalableObject006
+    - sea/Room49.arc/ScalableObject007
+    - sea/Room49.arc/ScalableObject008
+    - sea/Room49.arc/ScalableObject009
+Crescent Moon Island - Sunken Treasure:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room5.arc/ScalableObject006
+    - sea/Room5.arc/ScalableObject007
+    - sea/Room5.arc/ScalableObject008
+    - sea/Room5.arc/ScalableObject009
+Seven-Star Isles - Sunken Treasure:
+  Need: 
+  Original item: Triforce Shard 7
+  Paths:
+    - sea/Room6.arc/ScalableObject008
+    - sea/Room6.arc/ScalableObject009
+    - sea/Room6.arc/ScalableObject00A
+    - sea/Room6.arc/ScalableObject00B
+Overlook Island - Sunken Treasure:
+  Need: 
+  Original item: Secret Cave Chart
+  Paths:
+    - sea/Room7.arc/ScalableObject006
+    - sea/Room7.arc/ScalableObject007
+    - sea/Room7.arc/ScalableObject008
+    - sea/Room7.arc/ScalableObject009
+Four-Eye Reef - Sunken Treasure:
+  Need: 
+  Original item: Great Fairy Chart
+  Paths:
+    - sea/Room8.arc/ScalableObject00E
+    - sea/Room8.arc/ScalableObject00F
+    - sea/Room8.arc/ScalableObject010
+    - sea/Room8.arc/ScalableObject011
+Mother and Child Isles - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room9.arc/ScalableObject006
+    - sea/Room9.arc/ScalableObject007
+    - sea/Room9.arc/ScalableObject008
+    - sea/Room9.arc/ScalableObject009
+
+Rock Spire Isle - Gunboat:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room16.arc/ScalableObject000
+Tingle Island - Big Octo:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room17.arc/ScalableObject001
+Needle Rock Isle - Golden Gunboat:
+  Need: 
+  Original item: Triforce Chart 5
+  Paths:
+    - sea/Room29.arc/ScalableObject00D
+Seven-Star Isles - Big Octo:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room6.arc/ScalableObject000
