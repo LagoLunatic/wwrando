@@ -23,19 +23,19 @@ class EventList:
     self.events = []
     for event_index in range(0, self.num_events):
       offset = self.event_list_offset + event_index * Event.DATA_SIZE
-      event = Event(data, offset)
+      event = Event(self.file_entry, offset)
       self.events.append(event)
     
     self.actors = []
     for actor_index in range(0, self.num_actors):
       offset = self.actor_list_offset + actor_index * Actor.DATA_SIZE
-      actor = Actor(data, offset)
+      actor = Actor(self.file_entry, offset)
       self.actors.append(actor)
     
     self.actions = []
     for action_index in range(0, self.num_actions):
       offset = self.action_list_offset + action_index * Action.DATA_SIZE
-      action = Action(data, offset)
+      action = Action(self.file_entry, offset)
       self.actions.append(action)
     
     # Populate each events's list of actors.
@@ -59,7 +59,7 @@ class EventList:
     self.properties = []
     for property_index in range(0, self.num_properties):
       offset = self.property_list_offset + property_index * Property.DATA_SIZE
-      property = Property(data, offset)
+      property = Property(self.file_entry, offset)
       self.properties.append(property)
     
     self.integers = []
@@ -94,11 +94,26 @@ class EventList:
       string_pointer = self.string_list_offset + property.data_index
       string = read_str(self.file_entry.data, string_pointer, property.data_size)
       return string
+  
+  def set_property_value(self, property_index, new_value):
+    data = self.file_entry.data
+    
+    property = self.properties[property_index]
+    
+    if property.data_type == 1:
+      pass # TODO
+    elif property.data_type == 3:
+      offset = self.integer_list_offset + property.data_index * 4
+      write_u32(data, offset, new_value)
+    elif property.data_type == 4:
+      pass # TODO
 
 class Event:
   DATA_SIZE = 0xB0
   
-  def __init__(self, data, offset):
+  def __init__(self, file_entry, offset):
+    self.file_entry = file_entry
+    data = self.file_entry.data
     self.offset = offset
     
     self.name = read_str(data, offset, 0x20)
@@ -116,7 +131,9 @@ class Event:
 class Actor:
   DATA_SIZE = 0x50
   
-  def __init__(self, data, offset):
+  def __init__(self, file_entry, offset):
+    self.file_entry = file_entry
+    data = self.file_entry.data
     self.offset = offset
     
     self.name = read_str(data, offset, 0x20)
@@ -131,7 +148,9 @@ class Actor:
 class Action:
   DATA_SIZE = 0x50
   
-  def __init__(self, data, offset):
+  def __init__(self, file_entry, offset):
+    self.file_entry = file_entry
+    data = self.file_entry.data
     self.offset = offset
     
     self.name = read_str(data, offset, 0x20)
@@ -140,11 +159,25 @@ class Action:
     self.flag_id_to_set = read_u32(data, offset+0x34)
     self.property_index = read_u32(data, offset+0x38)
     self.next_action_index = read_u32(data, offset+0x3C)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_str(data, self.offset, self.name, 0x20)
+    write_u32(data, self.offset+0x20, self.duplicate_id)
+    write_u32(data, self.offset+0x24, self.action_index)
+    write_u32(data, self.offset+0x34, self.flag_id_to_set)
+    write_u32(data, self.offset+0x38, self.property_index)
+    write_u32(data, self.offset+0x3C, self.next_action_index)
 
 class Property:
   DATA_SIZE = 0x40
   
-  def __init__(self, data, offset):
+  def __init__(self, file_entry, offset):
+    self.file_entry = file_entry
+    data = self.file_entry.data
+    self.offset = offset
+    
     self.name = read_str(data, offset, 0x20)
     
     self.data_type = read_u32(data, offset+0x24)
