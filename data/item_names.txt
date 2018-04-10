@@ -61,7 +61,7 @@
 3C - Mirror Shield
 3D - Recovered Hero's Sword
 3E - Master Sword (Full power)
-3F - Piece of Heart
+3F - Piece of Heart (Alternate Message)
 40 - 
 41 - 
 42 - Pirate's Charm
@@ -157,7 +157,7 @@
 9C - Cabana Deed
 9D - Complimentary ID
 9E - Fill-Up Coupon
-9F - "one of the legendary pictographs in your deluxe pictobox" (doesn't work?) (salvage_item1?)
+9F - Legendary Pictograph
 A0 - 
 A1 - 
 A2 - 

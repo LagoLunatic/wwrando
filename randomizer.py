@@ -210,7 +210,7 @@ class Randomizer:
                   in enumerate(scobs)
                   if other_scob.is_salvage() and other_scob.salvage_type == 0 and other_scob.chart_index_plus_1 == scob.chart_index_plus_1
                 ]
-                #locations_for_this_arc.append((item_name, all_four_duplicate_salvages))
+                locations_for_this_arc.append((item_name, all_four_duplicate_salvages))
             elif "Rupee" not in item_name:
               locations_for_this_arc.append((item_name, ["ScalableObject%03X" % i]))
       

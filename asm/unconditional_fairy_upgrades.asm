@@ -13,9 +13,9 @@ beq 0x21C4 ; Outset Island Great Fairy. Give 5000 Rupee Wallet.
 cmpwi r0, 2
 beq 0x21E4 ; Eastern Fairy Island Great Fairy. Give 60 Bomb Bomb Bag.
 cmpwi r0, 3
-beq 0x21F0 ; Southern Fairy Island Great Fairy. Give 90 Bomb Bomb Bag.
+beq 0x21F0 ; Southern Fairy Island Great Fairy. Give 99 Bomb Bomb Bag.
 cmpwi r0, 4
 beq 0x2210 ; Western Fairy Island Great Fairy. Give 60 Arrow Quiver.
 cmpwi r0, 5
-beq 0x221C ; Thorned Fairy Island Great Fairy. Give 90 Arrow Quiver.
+beq 0x221C ; Thorned Fairy Island Great Fairy. Give 99 Arrow Quiver.
 b 0x2228 ; Failsafe code in case the index was invalid (give a red rupee instead)
