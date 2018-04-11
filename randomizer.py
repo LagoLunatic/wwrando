@@ -4,17 +4,22 @@ from io import BytesIO
 import shutil
 from pathlib import Path
 import re
+import random
 
 from fs_helpers import *
 from yaz0_decomp import Yaz0Decompressor
 from rarc import RARC
 from rel import REL
 import tweaks
+from logic.logic import Logic
 
 class Randomizer:
   def __init__(self):
     clean_base_dir = "../Wind Waker Files"
     self.randomized_base_dir = "../Wind Waker Files Randomized"
+    self.seed = 5
+    random.seed(self.seed)
+    self.logic = Logic(self)
     
     self.stage_dir = os.path.join(self.randomized_base_dir, "files", "res", "Stage")
     self.rels_dir = os.path.join(self.randomized_base_dir, "files", "rels")
@@ -39,6 +44,8 @@ class Randomizer:
     tweaks.start_ship_at_outset(self)
     tweaks.make_all_text_instant(self)
     tweaks.make_fairy_upgrades_unconditional(self)
+    
+    self.randomize_items()
     
     self.save_changed_files()
   
@@ -227,6 +234,19 @@ class Randomizer:
     # TODO: also raise exception if the item id is one that won't appear as an ACTR item.
     actr.item_id = item_id
     actr.save_changes()
+  
+  def randomize_items(self):
+    print("Randomizing items...")
+    
+    valid_item_ids = [item_id for item_id in self.item_names if self.item_names[item_id]]
+    for location_name in self.logic.remaining_item_locations:
+      item_id = random.choice(valid_item_ids)
+      paths = self.logic.item_locations[location_name]["Paths"]
+      for path in paths:
+        self.change_item(path, item_id)
+      
+      item_name = self.item_names[item_id]
+      print("Placed %s at %s" % (item_name, location_name))
   
 if __name__ == "__main__":
   Randomizer()
