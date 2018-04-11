@@ -4,20 +4,47 @@ import re
 
 import os
 
+from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS
+
 from rarc import RARC
 from rel import REL
 
 class Logic:
   def __init__(self, rando):
+    self.rando = rando
+    
+    self.unplaced_progress_items = list(PROGRESS_ITEMS)
+    self.unplaced_nonprogress_items = list(NONPROGRESS_ITEMS)
+    self.consumable_items = list(CONSUMABLE_ITEMS)
+    
     with open("./logic/item_locations.txt") as f:
       self.item_locations = yaml.safe_load(f)
     
     self.remaining_item_locations = list(self.item_locations.keys())
-    
     # Dict keys are not in a consistent order so we have to sort it so random seeding works consistently.
     self.remaining_item_locations.sort()
     
-    self.rando = rando
+    self.done_item_locations = {}
+    for location_name in self.item_locations:
+      self.done_item_locations[location_name] = None
+  
+  def set_location_to_item(self, location_name, item_name):
+    if self.done_item_locations[location_name]:
+      raise Exception("Location was used twice: " + location_name)
+    
+    paths = self.item_locations[location_name]["Paths"]
+    for path in paths:
+      self.rando.change_item(path, item_name)
+    
+    self.done_item_locations[location_name] = item_name
+    self.remaining_item_locations.remove(location_name)
+    
+    if item_name in self.unplaced_progress_items:
+      self.unplaced_progress_items.remove(item_name)
+    if item_name in self.unplaced_nonprogress_items:
+      self.unplaced_nonprogress_items.remove(item_name)
+    
+    print("Placed %s at %s" % (item_name, location_name))
   
   def generate_empty_progress_reqs_file(self):
     output_str = ""

@@ -89,11 +89,16 @@ class Randomizer:
   def read_name_lists(self):
     # Get item names.
     self.item_names = {}
+    self.item_name_to_id = {}
     with open("./data/item_names.txt", "r") as f:
       matches = re.findall(r"^([0-9a-f]{2}) - (.+)$", f.read(), re.IGNORECASE | re.MULTILINE)
       for item_id, item_name in matches:
-        item_id = int(item_id, 16)
-        self.item_names[item_id] = item_name
+        if item_name:
+          item_id = int(item_id, 16)
+          self.item_names[item_id] = item_name
+          if item_name in self.item_name_to_id:
+            raise Exception("Duplicate item name: " + item_name)
+          self.item_name_to_id[item_name] = item_id
     
     # Get function names for debug purposes.
     self.function_names = {}
@@ -158,7 +163,9 @@ class Randomizer:
         data.seek(0)
         f.write(data.read())
 
-  def change_item(self, path, item_id):
+  def change_item(self, path, item_name):
+    item_id = self.item_name_to_id[item_name]
+    
     rel_match = re.search(r"^(rels/[^.]+\.rel)@([0-9A-F]{4})$", path)
     main_dol_match = re.search(r"^main.dol@([0-9A-F]{6})$", path)
     chest_match = re.search(r"^([^/]+/[^/]+\.arc)/Chest([0-9A-F]{3})$", path)
@@ -238,15 +245,29 @@ class Randomizer:
   def randomize_items(self):
     print("Randomizing items...")
     
-    valid_item_ids = [item_id for item_id in self.item_names if self.item_names[item_id]]
+    if True:
+      # Don't randomize dungeon keys.
+      for location_name in self.logic.remaining_item_locations:
+        orig_item = self.logic.item_locations[location_name]["Original item"]
+        if orig_item in ["Small Key", "Big Key"]:
+          self.logic.set_location_to_item(location_name, orig_item)
+    
+    # Place progress items.
+    while self.logic.unplaced_progress_items:
+      item_name = random.choice(self.logic.unplaced_progress_items)
+      location_name = random.choice(self.logic.remaining_item_locations)
+      self.logic.set_location_to_item(location_name, item_name)
+    
+    # Place unique non-progress items.
+    while self.logic.unplaced_nonprogress_items:
+      item_name = random.choice(self.logic.unplaced_nonprogress_items)
+      location_name = random.choice(self.logic.remaining_item_locations)
+      self.logic.set_location_to_item(location_name, item_name)
+    
+    # Fill remaining unused locations with consumables (Rupees and Spoils).
     for location_name in self.logic.remaining_item_locations:
-      item_id = random.choice(valid_item_ids)
-      paths = self.logic.item_locations[location_name]["Paths"]
-      for path in paths:
-        self.change_item(path, item_id)
-      
-      item_name = self.item_names[item_id]
-      print("Placed %s at %s" % (item_name, location_name))
+      item_name = random.choice(self.logic.consumable_items)
+      self.logic.set_location_to_item(location_name, item_name)
   
 if __name__ == "__main__":
   Randomizer()
