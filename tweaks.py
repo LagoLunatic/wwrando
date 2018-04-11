@@ -15,12 +15,12 @@ def modify_new_game_start_code(self):
     patch_data = f.read()
   
   # First write our custom code to the end of the dol file.
-  dol_length = dol_data.seek(0, 2)
+  original_dol_size = 0x3A52C0
   patch_length = len(patch_data)
-  write_bytes(dol_data, dol_length, patch_data)
+  write_bytes(dol_data, original_dol_size, patch_data)
   
   # Next add a new text section to the dol (Text2).
-  write_u32(dol_data, 0x08, dol_length) # Write file offset of new Text2 section (which will be the original end of the file, where we put the patch)
+  write_u32(dol_data, 0x08, original_dol_size) # Write file offset of new Text2 section (which will be the original end of the file, where we put the patch)
   write_u32(dol_data, 0x50, original_free_space_ram_address) # Write loading address of the new Text2 section
   write_u32(dol_data, 0x98, patch_length) # Write length of the new Text2 section
   
