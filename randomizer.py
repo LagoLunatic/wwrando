@@ -16,54 +16,71 @@ class Randomizer:
     clean_base_dir = "../Wind Waker Files"
     self.randomized_base_dir = "../Wind Waker Files Randomized"
     
-    copy_and_decompress_clean_files = True
-    
-    if copy_and_decompress_clean_files:
-      print("Copying clean files...")
-      shutil.copytree(clean_base_dir, self.randomized_base_dir)
-    
     self.stage_dir = os.path.join(self.randomized_base_dir, "files", "res", "Stage")
     self.rels_dir = os.path.join(self.randomized_base_dir, "files", "rels")
     
-    if copy_and_decompress_clean_files:
-      # Extract all the extra rel files from RELS.arc.
+    self.copy_and_extract_files(clean_base_dir)
+    
+    arc_paths = Path(self.stage_dir).glob("**/*.arc")
+    self.arc_paths = [str(arc_path) for arc_path in arc_paths]
+    rel_paths = Path(self.rels_dir).glob("**/*.rel")
+    self.rel_paths = [str(rel_path) for rel_path in rel_paths]
+    
+    #self.decompress_files()
+    
+    self.read_name_lists()
+    
+    self.arcs_by_path = {}
+    self.raw_files_by_path = {}
+    
+    tweaks.modify_new_game_start_code(self)
+    tweaks.remove_story_railroading(self)
+    tweaks.skip_wakeup_intro(self)
+    tweaks.start_ship_at_outset(self)
+    tweaks.make_all_text_instant(self)
+    tweaks.make_fairy_upgrades_unconditional(self)
+    
+    self.save_changed_files()
+  
+  def copy_and_extract_files(self, clean_base_dir):
+    # Copy the vanilla files to the randomized directory.
+    if not os.path.isdir(self.randomized_base_dir):
+      print("Copying clean files...")
+      shutil.copytree(clean_base_dir, self.randomized_base_dir)
+    
+    # Extract all the extra rel files from RELS.arc.
+    rels_arc_path = os.path.join(self.randomized_base_dir, "files", "RELS.arc")
+    if os.path.isfile(rels_arc_path):
       print("Extracting rels...")
-      rels_arc_path = os.path.join(self.randomized_base_dir, "files", "RELS.arc")
       rels_arc = RARC(rels_arc_path)
       rels_arc.extract_all_files_to_disk(self.rels_dir)
       # And then delete RELS.arc. If we don't do this then the original rels inside it will take precedence over the modified ones we extracted.
       os.remove(rels_arc_path)
       rels_arc = None
+  
+  def decompress_files(self):
+    # Decompress any compressed arcs.
+    print("Decompressing archives...")
+    for arc_path in self.arc_paths:
+      with open(arc_path, "rb") as file:
+        data = BytesIO(file.read())
+      if try_read_str(data, 0, 4) == "Yaz0":
+        decomp_data = Yaz0Decompressor.decompress(data)
+        with open(arc_path, "wb") as file:
+          file.write(decomp_data)
     
-    arc_paths = Path(self.stage_dir).glob("**/*.arc")
-    self.arc_paths = [str(arc_path) for arc_path in arc_paths]
-    
-    if copy_and_decompress_clean_files:
-      # Decompress any compressed arcs.
-      print("Decompressing archives...")
-      for arc_path in self.arc_paths:
-        with open(arc_path, "rb") as file:
-          data = BytesIO(file.read())
-        if try_read_str(data, 0, 4) == "Yaz0":
-          decomp_data = Yaz0Decompressor.decompress(data)
-          with open(arc_path, "wb") as file:
-            file.write(decomp_data)
-    
-    rel_paths = Path(self.rels_dir).glob("**/*.rel")
-    self.rel_paths = [str(rel_path) for rel_path in rel_paths]
-    
-    if copy_and_decompress_clean_files:
-      # Decompress any compressed rels.
-      print("Decompressing rels...")
-      for rel_path in self.rel_paths:
-        with open(rel_path, "rb") as file:
-          data = BytesIO(file.read())
-        if try_read_str(data, 0, 4) == "Yaz0":
-          decomp_data = Yaz0Decompressor.decompress(data)
-          with open(rel_path, "wb") as file:
-            file.write(decomp_data)
-    
-    # Get item names for debug purposes.
+    # Decompress any compressed rels.
+    print("Decompressing rels...")
+    for rel_path in self.rel_paths:
+      with open(rel_path, "rb") as file:
+        data = BytesIO(file.read())
+      if try_read_str(data, 0, 4) == "Yaz0":
+        decomp_data = Yaz0Decompressor.decompress(data)
+        with open(rel_path, "wb") as file:
+          file.write(decomp_data)
+  
+  def read_name_lists(self):
+    # Get item names.
     self.item_names = {}
     with open("./data/item_names.txt", "r") as f:
       matches = re.findall(r"^([0-9a-f]{2}) - (.+)$", f.read(), re.IGNORECASE | re.MULTILINE)
@@ -97,171 +114,119 @@ class Randomizer:
           break
         island_name = f.readline()
         self.island_names[room_arc_name.strip()] = island_name.strip()
-    
-    tweaks.modify_new_game_start_code(self)
-    tweaks.remove_story_railroading(self)
-    tweaks.skip_wakeup_intro(self)
-    tweaks.start_ship_at_outset(self)
-    tweaks.make_all_text_instant(self)
-    tweaks.make_fairy_upgrades_unconditional(self)
-    
-    #self.generate_empty_progress_reqs_file()
-    
-    # Randomize.
-    #print("Randomizing...")
-    #for arc_path in self.arc_paths:
-    #  self.randomize_arc(arc_path)
   
-  def randomize_arc(self, arc_path):
-    if arc_path != r"..\Wind Waker Files Randomized\files\res\Stage\sea\Stage.arc":
-      return
+  def get_arc(self, arc_path):
+    arc_path = arc_path.replace("\\", "/")
     
-    print("On", arc_path)
-    
-    rarc = RARC(arc_path)
-    
-    if rarc.dzx_files:
-      dzx_file = rarc.dzx_files[0]
-      for chest in dzx_file.entries_by_type("TRES"):
-        for chest in chunk.entries:
-          print("Chest with item ID: %02X, type: %02X, appear condition: %02X, %02X, name: %s" % (
-            chest.item_id,
-            chest.chest_type,
-            chest.appear_condition,
-            chest.appear_condition_flag_id,
-            self.item_names.get(chest.item_id, "")
-          ))
-    
-    if rarc.event_list_files:
-      event_list = rarc.event_list_files[0]
-      for action in event_list.actions:
-        if action.name == "011get_item":
-          if action.property_index == 0xFFFFFFFF:
-            continue
-          
-          property = event_list.properties[action.property_index]
-          if property.data_type != 3:
-            raise "A 011get_item action has a property that is not of type integer."
-          
-          item_id = event_list.integers[property.data_index]
-          print("Event that gives item ID: %02X, name: %s" % (
-            item_id,
-            self.item_names.get(item_id, "")
-          ))
-          
-          #event_list.integers[property.data_index] = 0x100
-      #event_list.save_changes()
-    
-    #rarc.save_to_disk()
+    if arc_path in self.arcs_by_path:
+      return self.arcs_by_path[arc_path]
+    else:
+      full_path = os.path.join(self.randomized_base_dir, arc_path)
+      arc = RARC(full_path)
+      self.arcs_by_path[arc_path] = arc
+      return arc
   
-  def generate_empty_progress_reqs_file(self):
-    output_str = ""
+  def get_raw_file(self, file_path):
+    file_path = file_path.replace("\\", "/")
     
-    found_items = []
-    expected_duplicate_items = ["Piece of Heart", "Joy Pendant", "Small Key", "Dungeon Map", "Compass", "Golden Feather", "Boko Baba Seed", "Skull Necklace", "Big Key", "Knight's Crest"]
-    
-    known_unused_locations = ["sea/Room22.arc/ScalableObject014", "Siren/Stage.arc/Chest003"]
-    
-    for arc_path in self.arc_paths:
-      relative_arc_path = os.path.relpath(arc_path, self.stage_dir)
-      stage_folder, arc_name = os.path.split(relative_arc_path)
-      stage_path = stage_folder + "/" + arc_name
+    if file_path in self.raw_files_by_path:
+      return self.raw_files_by_path[file_path]
+    else:
+      full_path = os.path.join(self.randomized_base_dir, file_path)
+      with open(full_path, "rb") as f:
+        data = BytesIO(f.read())
       
-      stage_name = self.stage_names[stage_folder]
-      if stage_name == "Unused":
-        continue
-      elif stage_name == "The Great Sea" and arc_name in self.island_names:
-        stage_name = self.island_names[arc_name]
+      if try_read_str(data, 0, 4) == "Yaz0":
+        data = BytesIO(Yaz0Decompressor.decompress(data))
       
-      locations_for_this_arc = []
-      
-      rarc = RARC(arc_path)
-      
-      if rarc.dzx_files:
-        dzx = rarc.dzx_files[0]
-        
-        for i, chest in enumerate(dzx.entries_by_type("TRES")):
-          if chest.item_id == 0xFF:
-            #print("Item ID FF: ", stage_name, "Chest%03X" % i)
-            continue
-          item_name = self.item_names.get(chest.item_id, "")
-          locations_for_this_arc.append((item_name, ["Chest%03X" % i]))
-        
-        for i, actr in enumerate(dzx.entries_by_type("ACTR")):
-          if actr.name == "item":
-            item_id = actr.params & 0xFF
-            item_name = self.item_names.get(item_id, "")
-            if "Rupee" in item_name or "Pickup" in item_name:
-              continue
-            locations_for_this_arc.append((item_name, ["Actor%03X" % i]))
-        
-        scobs = dzx.entries_by_type("SCOB")
-        for i, scob in enumerate(scobs):
-          if scob.is_salvage():
-            item_name = self.item_names.get(scob.item_id, "")
-            if not item_name:
-              continue
-            if scob.salvage_type == 0:
-              # The type of salvage point you need a treasure chart to get.
-              if scob.duplicate_id == 0:
-                all_four_duplicate_salvages = [
-                  "ScalableObject%03X" % i
-                  for i, other_scob
-                  in enumerate(scobs)
-                  if other_scob.is_salvage() and other_scob.salvage_type == 0 and other_scob.chart_index_plus_1 == scob.chart_index_plus_1
-                ]
-                locations_for_this_arc.append((item_name, all_four_duplicate_salvages))
-            elif "Rupee" not in item_name:
-              locations_for_this_arc.append((item_name, ["ScalableObject%03X" % i]))
-      
-      for event_list in rarc.event_list_files:
-        for event_index, event in enumerate(event_list.events):
-          for actor_index, actor in enumerate(event.actors):
-            if actor is None:
-              continue
-            
-            for action_index, action in enumerate(actor.actions):
-              #action_path_string = "EventAction%03X" % i
-              action_path_string = "Event%03X:%s/Actor%03X/Action%03X" % (event_index, event.name, actor_index, action_index)
-              if action.name in ["011get_item", "011_get_item"]:
-                if action.property_index == 0xFFFFFFFF:
-                  continue
-                
-                item_id = event_list.get_property_value(action.property_index)
-                if item_id == 0x100:
-                  #print("Item ID 100: ", stage_name, "EventAction%03X" % i)
-                  continue
-                
-                item_name = self.item_names.get(item_id, "")
-                locations_for_this_arc.append((item_name, [action_path_string]))
-              elif action.name == "059get_dance":
-                song_index = event_list.get_property_value(action.property_index)
-                item_name = self.item_names.get(0x6D+song_index)
-                locations_for_this_arc.append((item_name, [action_path_string]))
-      
-      for original_item_name, locations in locations_for_this_arc:
-        if not original_item_name:
-          print("Unknown item at: ", stage_folder + "/" + locations[0])
-          continue
-        
-        if any(stage_path + "/" + location in known_unused_locations for location in locations):
-          print("Unused locations in " + stage_path)
-          continue
-        
-        if original_item_name in found_items and "Rupee" not in original_item_name and original_item_name not in expected_duplicate_items:
-          print("Duplicate item: " + original_item_name)
-        found_items.append(original_item_name)
-        
-        output_str += stage_name + ":\n"
-        output_str += "  Need: \n"
-        output_str += "  Original item: " + original_item_name + "\n"
-        output_str += "  Location:\n"
-        for location in locations:
-          output_str += "    - " + stage_path + "/" + location + "\n"
-    
-    with open("progress_reqs.txt", "w") as f:
-      f.write(output_str)
+      self.raw_files_by_path[file_path] = data
+      return data
   
+  def save_changed_files(self):
+    for arc_path, arc in self.arcs_by_path.items():
+      arc.save_to_disk()
+    for file_path, data in self.raw_files_by_path.items():
+      full_path = os.path.join(self.randomized_base_dir, file_path)
+      with open(full_path, "wb") as f:
+        data.seek(0)
+        f.write(data.read())
+
+  def change_item(self, path, item_id):
+    rel_match = re.search(r"^(rels/[^.]+\.rel)@([0-9A-F]{4})$", path)
+    main_dol_match = re.search(r"^main.dol@([0-9A-F]{6})$", path)
+    chest_match = re.search(r"^([^/]+/[^/]+\.arc)/Chest([0-9A-F]{3})$", path)
+    event_match = re.search(r"^([^/]+/[^/]+\.arc)/Event([0-9A-F]{3}):[^/]+/Actor([0-9A-F]{3})/Action([0-9A-F]{3})$", path)
+    salvage_match = re.search(r"^([^/]+/[^/]+\.arc)/ScalableObject([0-9A-F]{3})$", path)
+    actor_match = re.search(r"^([^/]+/[^/]+\.arc)/Actor([0-9A-F]{3})$", path)
+    
+    if rel_match:
+      rel_path = rel_match.group(1)
+      offset = int(rel_match.group(2), 16)
+      path = os.path.join("files", rel_path)
+      self.change_hardcoded_item(path, offset, item_id)
+    elif main_dol_match:
+      offset = int(main_dol_match.group(1), 16)
+      path = os.path.join("sys", "main.dol")
+      self.change_hardcoded_item(path, offset, item_id)
+    elif chest_match:
+      arc_path = "files/res/Stage/" + chest_match.group(1)
+      chest_index = int(chest_match.group(2), 16)
+      self.change_chest_item(arc_path, chest_index, item_id)
+    elif event_match:
+      arc_path = "files/res/Stage/" + event_match.group(1)
+      event_index = int(event_match.group(2), 16)
+      actor_index = int(event_match.group(3), 16)
+      action_index = int(event_match.group(4), 16)
+      self.change_event_item(arc_path, event_index, actor_index, action_index, item_id)
+    elif salvage_match:
+      arc_path = "files/res/Stage/" + salvage_match.group(1)
+      scob_index = int(salvage_match.group(2), 16)
+      self.change_salvage_item(arc_path, scob_index, item_id)
+    elif actor_match:
+      arc_path = "files/res/Stage/" + actor_match.group(1)
+      actor_index = int(actor_match.group(2), 16)
+      self.change_actor_item(arc_path, actor_index, item_id)
+    else:
+      raise Exception("Invalid item path: " + path)
+
+  def change_hardcoded_item(self, path, offset, item_id):
+    data = self.get_raw_file(path)
+    write_u8(data, offset, item_id)
+
+  def change_chest_item(self, arc_path, chest_index, item_id):
+    dzx = self.get_arc(arc_path).dzx_files[0]
+    chest = dzx.entries_by_type("TRES")[chest_index]
+    chest.item_id = item_id
+    chest.save_changes()
+
+  def change_event_item(self, arc_path, event_index, actor_index, action_index, item_id):
+    event_list = self.get_arc(arc_path).event_list_files[0]
+    action = event_list.events[event_index].actors[actor_index].actions[action_index]
+    
+    if 0x6D <= item_id <= 0x72: # Song
+      action.name = "059get_dance"
+      event_list.set_property_value(action.property_index, item_id-0x6D)
+    else:
+      action.name = "011get_item"
+      event_list.set_property_value(action.property_index, item_id)
+    action.save_changes()
+
+  def change_salvage_item(self, arc_path, scob_index, item_id):
+    dzx = self.get_arc(arc_path).dzx_files[0]
+    scob = dzx.entries_by_type("SCOB")[scob_index]
+    if not scob.is_salvage():
+      raise Exception("%s/SCOB%03X is not a salvage point" % (arc_path, scob_index))
+    scob.salvage_item_id = item_id
+    scob.save_changes()
+
+  def change_actor_item(self, arc_path, actor_index, item_id):
+    dzx = self.get_arc(arc_path).dzx_files[0]
+    actr = dzx.entries_by_type("ACTR")[actor_index]
+    if not actr.is_item():
+      raise Exception("%s/ACTR%03X is not an item" % (arc_path, actor_index))
+    # TODO: also raise exception if the item id is one that won't appear as an ACTR item.
+    actr.item_id = item_id
+    actr.save_changes()
   
 if __name__ == "__main__":
   Randomizer()

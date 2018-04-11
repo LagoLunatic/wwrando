@@ -8,17 +8,16 @@ from rarc import RARC
 def modify_new_game_start_code(self):
   original_free_space_ram_address = 0x803FCFA8
   
-  dol_path = os.path.join(self.randomized_base_dir, "sys", "main.dol")
+  dol_data = self.get_raw_file("sys/main.dol")
+  
   patch_path = os.path.join(".", "asm", "init_save_with_tweaks.bin")
-  with open(dol_path, "rb") as f:
-    dol_data = BytesIO(f.read())
   with open(patch_path, "rb") as f:
     patch_data = f.read()
   
   # First write our custom code to the end of the dol file.
   dol_length = dol_data.seek(0, 2)
   patch_length = len(patch_data)
-  dol_data.write(patch_data)
+  write_bytes(dol_data, dol_length, patch_data)
   
   # Next add a new text section to the dol (Text2).
   write_u32(dol_data, 0x08, dol_length) # Write file offset of new Text2 section (which will be the original end of the file, where we put the patch)
@@ -51,18 +50,11 @@ def modify_new_game_start_code(self):
   # nop out a couple lines so the long intro movie is skipped.
   write_u32(dol_data, 0x22FBB8, 0x60000000) # 0x80232C78 in RAM
   write_u32(dol_data, 0x22FBC8, 0x60000000) # 0x80232C88 in RAM
-  
-  # Save changes to dol file.
-  with open(dol_path, "wb") as f:
-    dol_data.seek(0)
-    f.write(dol_data.read())
 
 def remove_story_railroading(self):
   # Modify King of Red Lions's code so he doesn't stop you when you veer off the path he wants you to go on.
   
-  d_a_ship_path = os.path.join(self.randomized_base_dir, "files", "rels", "d_a_ship.rel")
-  with open(d_a_ship_path, "rb") as f:
-    ship_data = BytesIO(f.read())
+  ship_data = self.get_raw_file("files/rels/d_a_ship.rel")
   
   # We need to change some of the conditions in his checkOutRange function so he still prevents you from leaving the bounds of the map, but doesn't railroad you based on your story progress.
   # First is the check for before you've reached Dragon Roost Island. Make this branch unconditional so it considers you to have seen Dragon Roost's intro whether you have or not.
@@ -75,26 +67,17 @@ def remove_story_railroading(self):
   # Skip the check for if you've seen the Dragon Roost Island intro which prevents you from getting in the King of Red Lions.
   write_u32(ship_data, 0xB2D8, 0x48000018)
 
-  with open(d_a_ship_path, "wb") as f:
-    ship_data.seek(0)
-    f.write(ship_data.read())
-
 def skip_wakeup_intro(self):
   # Get rid of the event that plays when you start the game where the camera zooms across the island and Aryll wakes Link up.
-  outset_arc_path = os.path.join(self.randomized_base_dir, "files", "res", "Stage", "sea", "Room44.arc")
-  outset_rarc = RARC(outset_arc_path)
-  dzx = outset_rarc.dzx_files[0]
+  dzx = self.get_arc("files/res/Stage/sea/Room44.arc").dzx_files[0]
   outset_player_spawns = dzx.entries_by_type("PLYR")
   begin_game_spawn = next(x for x in outset_player_spawns if x.spawn_id == 0xCE)
   begin_game_spawn.event_index_to_play = 0xFF # FF = Don't play any event
   begin_game_spawn.save_changes()
-  outset_rarc.save_to_disk()
 
 def start_ship_at_outset(self):
   # Change the King of Red Lion's default position so that he appears on Outset at the start of the game.
-  sea_stage_rarc_path = os.path.join(self.randomized_base_dir, "files", "res", "Stage", "sea", "Stage.arc")
-  sea_stage_rarc = RARC(sea_stage_rarc_path)
-  dzx = sea_stage_rarc.dzx_files[0]
+  dzx = self.get_arc("files/res/Stage/sea/Stage.arc").dzx_files[0]
   sea_actors = dzx.entries_by_type("ACTR")
   ship_actor = next(x for x in sea_actors if x.name == "Ship")
   ship_actor.x_pos = -202000.0
@@ -103,31 +86,20 @@ def start_ship_at_outset(self):
   ship_actor.x_rot = 0
   ship_actor.y_rot = 0x7555
   ship_actor.save_changes()
-  sea_stage_rarc.save_to_disk()
   
 def make_all_text_instant(self):
-  bmgres_path = os.path.join(self.randomized_base_dir, "files", "res", "Msg", "bmgres.arc")
-  
-  bmgres_rarc = RARC(bmgres_path)
-  bmg = bmgres_rarc.bmg_files[0]
+  bmg = self.get_arc("files/res/Msg/bmgres.arc").bmg_files[0]
   for msg in bmg.messages:
     msg.initial_draw_type = 1 # Instant draw
     msg.save_changes()
-  bmgres_rarc.save_to_disk()
 
 def make_fairy_upgrades_unconditional(self):
   # Makes the items given by Great Fairies always the same so they can be randomized, as opposed to changing depending on what wall/bomb bag/quiver upgrades you already have.
   
-  great_fairy_rel_path = os.path.join(self.randomized_base_dir, "files", "rels", "d_a_bigelf.rel")
+  great_fairy_rel_data = self.get_raw_file("files/rels/d_a_bigelf.rel")
+  
   patch_path = os.path.join(".", "asm", "unconditional_fairy_upgrades.bin")
-  with open(great_fairy_rel_path, "rb") as f:
-    rel_data = BytesIO(f.read())
   with open(patch_path, "rb") as f:
     patch_data = f.read()
   
-  rel_data.seek(0x217C)
-  rel_data.write(patch_data)
-  
-  with open(great_fairy_rel_path, "wb") as f:
-    rel_data.seek(0)
-    f.write(rel_data.read())
+  write_bytes(great_fairy_rel_data, 0x217C, patch_data)
