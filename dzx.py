@@ -54,6 +54,7 @@ class Chunk:
       "ACTR": ACTR,
       "PLYR": PLYR,
       "SCLS": SCLS,
+      "STAG": STAG,
     }.get(self.chunk_type, None)
     
     if entry_class is None:
@@ -363,3 +364,15 @@ class SCLS:
     write_u8(data, self.offset+0x9, self.room_index)
     write_u8(data, self.offset+0xA, self.fade_type)
     write_u8(data, self.offset+0xB, self.padding)
+
+class STAG:
+  DATA_SIZE = 0x14
+  
+  def __init__(self, file_entry, offset):
+    self.file_entry = file_entry
+    data = self.file_entry.data
+    self.offset = offset
+    
+    is_dungeon_and_stage_id = read_u16(data, offset+8)
+    self.is_dungeon = is_dungeon_and_stage_id & 1
+    self.stage_id = is_dungeon_and_stage_id >> 1
