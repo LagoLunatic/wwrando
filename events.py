@@ -62,6 +62,17 @@ class EventList:
       property = Property(self.file_entry, offset)
       self.properties.append(property)
     
+    # Populate each action's list of properties.
+    for action in self.actions:
+      if action.property_index == 0xFFFFFFFF:
+        continue
+      first_property = self.properties[action.property_index]
+      action.properties.append(first_property)
+      property = first_property
+      while property.next_property_index != 0xFFFFFFFF:
+        property = self.properties[property.next_property_index]
+        action.properties.append(property)
+    
     self.integers = []
     for integer_index in range(0, self.num_integers):
       offset = self.integer_list_offset + integer_index * 4
@@ -144,6 +155,16 @@ class Actor:
     self.initial_action_index = read_u32(data, offset+0x30)
     
     self.actions = [] # This will be populated by the event list after it reads the actions.
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_str(data, self.offset, self.name, 0x20)
+    write_u32(data, self.offset+0x20, self.staff_identifier)
+    write_u32(data, self.offset+0x24, self.actor_index)
+    write_u32(data, self.offset+0x28, self.flag_id_to_set)
+    write_u32(data, self.offset+0x2C, self.staff_type)
+    write_u32(data, self.offset+0x30, self.initial_action_index)
 
 class Action:
   DATA_SIZE = 0x50
@@ -159,6 +180,8 @@ class Action:
     self.flag_id_to_set = read_u32(data, offset+0x34)
     self.property_index = read_u32(data, offset+0x38)
     self.next_action_index = read_u32(data, offset+0x3C)
+    
+    self.properties = [] # This will be populated by the event list after it reads the properties.
   
   def save_changes(self):
     data = self.file_entry.data
@@ -180,7 +203,18 @@ class Property:
     
     self.name = read_str(data, offset, 0x20)
     
+    self.property_index = read_u32(data, offset+0x20)
     self.data_type = read_u32(data, offset+0x24)
     self.data_index = read_u32(data, offset+0x28)
     self.data_size = read_u32(data, offset+0x2C)
     self.next_property_index = read_u32(data, offset+0x30)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_str(data, self.offset, self.name, 0x20)
+    write_u32(data, self.offset+0x20, self.property_index)
+    write_u32(data, self.offset+0x24, self.data_type)
+    write_u32(data, self.offset+0x28, self.data_index)
+    write_u32(data, self.offset+0x2C, self.data_size)
+    write_u32(data, self.offset+0x30, self.next_property_index)
