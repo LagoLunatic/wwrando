@@ -34,6 +34,8 @@ li r4, 0x2A08 ; ENTER_KORL_FOR_THE_FIRST_TIME_AND_SPAWN_ANYWHERE
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x0902 ; SAW_DRAGON_ROOST_ISLAND_INTRO
 bl onEventBit__11dSv_event_cFUs
+li r4, 0x1F40 ; SAW_QUILL_CUTSCENE_ON_DRI
+bl onEventBit__11dSv_event_cFUs
 li r4, 0x0A20 ; WATCHED_FOREST_HAVEN_INTRO_CUTSCENE
 bl onEventBit__11dSv_event_cFUs
 
@@ -43,11 +45,12 @@ li r4, 0x0310 ; Saw event where Grandma gives you the Hero's Clothes
 bl onEventBit__11dSv_event_cFUs
 
 
-; Set four switches for several events that happen in the Fairy Woods on Outset.
-; Setting these flags causes the Tetra hanging from a tree and rescuing her from Bokoblins events to be marked as finished.
+; Set four switch bits (8B) for several events that happen in the Fairy Woods on Outset.
+; Setting these switches causes the Tetra hanging from a tree and rescuing her from Bokoblins events to be marked as finished.
+; Also set the switch (200) for having seen the event where you enter the Rito Aerie for the first time and get the Delivery Bag.
 lis r3, 0x803C
 addi r3, r3, 0x5118
-li r4, 0x8B
+li r4, 0x28B
 stw r4, 0 (r3)
 
 ; Set a switch for the event on Greatfish Isle so that the endless night never starts.
