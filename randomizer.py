@@ -46,6 +46,7 @@ class Randomizer:
     tweaks.make_fairy_upgrades_unconditional(self)
     tweaks.make_fishmen_active_before_gohma(self)
     tweaks.fix_zephos_double_item(self)
+    tweaks.fix_deku_leaf_model(self)
     
     self.randomize_items()
     

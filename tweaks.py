@@ -119,3 +119,16 @@ def fix_zephos_double_item(self):
   zephos_rel_data = self.get_raw_file("files/rels/d_a_npc_hr.rel")
   
   write_u32(zephos_rel_data, 0x1164, 0x48000008) # Branch to skip over the line of code where Zephos gives the Wind's Requiem.
+
+def fix_deku_leaf_model(self):
+  # The Deku Leaf is a unique object not used for other items. It's easy to change what item it gives you, but the visual model cannot be changed.
+  # So instead we replace the unique Deku Leaf actor ("itemDek") with a more general actor that can be for any field item ("item").
+  
+  dzx = self.get_arc("files/res/Stage/Omori/Room0.arc").dzx_files[0]
+  deku_leaf_actors = [actor for actor in dzx.entries_by_type("ACTR") if actor.name == "itemDek"]
+  for actor in deku_leaf_actors:
+    actor.name = "item"
+    actor.params = 0x01FF0000 # Unknown params. TODO?
+    actor.item_id = 0x34 # Deku Leaf
+    actor.item_flag = 2 # This is the same item pickup flag that itemDek originally had in its params.
+    actor.save_changes()
