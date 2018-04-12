@@ -63,6 +63,11 @@ Outset Island - Jabun:
   Original item: Nayru's Pearl
   Paths:
     - main.dol@358D39
+Outset Island - Dig up Black Soil:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room44.arc/ScalableObject03A
 Savage Labyrinth - Floor 30:
   Need: 
   Original item: Triforce Chart 6
@@ -129,17 +134,18 @@ Forsaken Fortress - Phantom Ganon:
   Paths:
     - sea/Room1.arc/Chest000
 
-Windfall Island - Tingle - First Gift:
+
+Windfall Town Jail - Tingle - First Gift:
   Need: 
   Original item: Tingle Tuner
   Paths:
     - rels/d_a_npc_tc.rel@6117
-Windfall Island - Tingle - Second Gift:
+Windfall Town Jail - Tingle - Second Gift:
   Need: 
   Original item: Tingle's Chart
   Paths:
     - rels/d_a_npc_tc.rel@611F
-Windfall Town Jail:
+Windfall Town Jail - Maze Chest:
   Need: 
   Original item: Picto Box
   Paths:
@@ -239,11 +245,21 @@ House of Wealth - Chest:
   Original item: Red Rupee
   Paths:
     - Orichh/Room0.arc/Chest000
-House of Wealth - Reward for Giving 20 Skull neckalces:
+House of Wealth - Maggie's Father - Reward for Giving 20 Skull Necklaces:
   Need: 
   Original item: Treasure Chart 2
   Paths:
     - Orichh/Stage.arc/Event04C:Gp1_Get_Itm/Actor002/Action001
+House of Wealth - Maggie's Father - Reward for Giving More than 20 Skull Necklaces:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - rels/d_a_npc_kf1.rel@17AF
+House of Wealth - Maggie's Father - Reward for Giving More than 20 Skull Necklaces (dupe? TODO):
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - rels/d_a_npc_kf1.rel@1A23
 House of Wealth - Maggie - Letter:
   Need: 
   Original item: Maggie's Letter
@@ -296,7 +312,7 @@ Windfall Island - Zunari - Sail:
   Original item: Boat's Sail
   Paths:
     - rels/d_a_npc_rsh1.rel@30FB
-Windfall Island - Zunari - Give Exotic Flower:
+Windfall Island - Zunari - Make Three Merchant's Oaths:
   Need: 
   Original item: Magic Armor
   Paths:
@@ -362,6 +378,7 @@ Windfall Island - TODO 3 (Kreeb, Linda, or Sam):
   Paths:
     - rels/d_a_npc_people.rel@C55B
 
+
 Dragon Roost Island - Gift from King of Red Lions:
   Need: 
   Original item: Wind Waker
@@ -389,7 +406,7 @@ Dragon Roost Island - Komali:
   Original item: Din's Pearl
   Paths:
     - main.dol@358D37
-Dragon Roost Island - Rito Aerie - Hoskit:
+Dragon Roost Island - Rito Aerie - Give Hoskit 20 Golden Feathers:
   Need: 
   Original item: Orange Rupee
   Paths:
@@ -414,7 +431,6 @@ Dragon Roost Island - Secret Cave:
   Original item: Purple Rupee
   Paths:
     - TF_06/Stage.arc/Chest000
-
 
 # Dragon Roost Cavern
 Dragon Roost Cavern Entrance - Medli's Gift:
@@ -525,88 +541,89 @@ Hollo's Forest Potion Shop:
   Paths:
     - Ocrogh/Stage.arc/Event03F:Get_Blu_Btl/Actor002/Action001
 
-# TODO: order and name forbidden woods
-Forbidden Woods:
-  Need: 
-  Original item: Treasure Chart 1
-  Paths:
-    - kindan/Stage.arc/Chest000
-Forbidden Woods:
-  Need: 
-  Original item: Knight's Crest
-  Paths:
-    - kindan/Stage.arc/Chest001
-Forbidden Woods:
+Forbidden Woods - Map Chest:
   Need: 
   Original item: Dungeon Map
   Paths:
     - kindan/Stage.arc/Chest002
-Forbidden Woods:
+Forbidden Woods - Inside Hollow Tree's Mouth:
   Need: 
-  Original item: Small Key
+  Original item: Knight's Crest
   Paths:
-    - kindan/Stage.arc/Chest003
-Forbidden Woods:
+    - kindan/Stage.arc/Chest001
+Forbidden Woods - Hole in Tree:
   Need: 
   Original item: Red Rupee
   Paths:
     - kindan/Stage.arc/Chest004
-Forbidden Woods:
-  Need: 
-  Original item: Compass
-  Paths:
-    - kindan/Stage.arc/Chest006
-Forbidden Woods:
-  Need: 
-  Original item: Treasure Chart 15
-  Paths:
-    - kindan/Stage.arc/Chest007
-Forbidden Woods:
-  Need: 
-  Original item: Big Key
-  Paths:
-    - kindan/Stage.arc/Chest008
-Forbidden Woods:
-  Need: 
-  Original item: Joy Pendant
-  Paths:
-    - kindan/Stage.arc/Chest009
-Forbidden Woods:
-  Need: 
-  Original item: Joy Pendant
-  Paths:
-    - kindan/Stage.arc/Chest00A
-Forbidden Woods:
-  Need: 
-  Original item: Joy Pendant
-  Paths:
-    - kindan/Stage.arc/Chest00B
-Forbidden Woods:
+Forbidden Woods - Morth Pit:
   Need: 
   Original item: Yellow Rupee
   Paths:
     - kindan/Stage.arc/Chest00C
-Forbidden Woods:
+Forbidden Woods - Vine Maze Compass Chest:
   Need: 
-  Original item: Yellow Rupee
+  Original item: Compass
   Paths:
-    - kindan/Stage.arc/Chest00D
-Forbidden Woods:
+    - kindan/Stage.arc/Chest006
+Forbidden Woods - Vine Maze Chest:
   Need: 
-  Original item: Forbidden Tingle Statue
+  Original item: Small Key
   Paths:
-    - kindan/Stage.arc/Chest00E
-Forbidden Woods Mothula Mini-Boss Room:
+    - kindan/Stage.arc/Chest003
+Forbidden Woods - Tall Peahat Room:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - kindan/Stage.arc/Chest009
+Forbidden Woods - Mothula Mini-Boss Room:
   Need: 
   Original item: Boomerang
   Paths:
     - kinMB/Stage.arc/Chest000
+Forbidden Woods - Past Seeds Hanging by Vines:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - kindan/Stage.arc/Chest00B
+Forbidden Woods - Chest Across Red Hanging Flower:
+  Need: 
+  Original item: Yellow Rupee
+  Paths:
+    - kindan/Stage.arc/Chest00D
+Forbidden Woods - Tingle Statue Chest:
+  Need: 
+  Original item: Forbidden Tingle Statue
+  Paths:
+    - kindan/Stage.arc/Chest00E
+Forbidden Woods - Chest in Locked Tree Trunk:
+  Need: 
+  Original item: Treasure Chart 15
+  Paths:
+    - kindan/Stage.arc/Chest007
+Forbidden Woods - Big Key Chest:
+  Need: 
+  Original item: Big Key
+  Paths:
+    - kindan/Stage.arc/Chest008
+Forbidden Woods - Double Mothula Room:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - kindan/Stage.arc/Chest00A
+Forbidden Woods - Climb to Top Using Boko Baba Bulbs:
+  Need: 
+  Original item: Treasure Chart 1
+  Paths:
+    - kindan/Stage.arc/Chest000
+
 
 Greatfish Isle - Chest in Opening:
   Need: 
   Original item: Piece of Heart
   Paths:
     - sea/Room23.arc/Chest000
+
 
 # TODO: order and name tower of the gods
 Tower of the Gods:
@@ -691,6 +708,7 @@ Hyrule - Master Sword Chamber:
   Paths:
     - main.dol@358D34
 
+
 Mother and Child Isles - Queen Fairy:
   Need: 
   Original item: Fire and Ice Arrows
@@ -729,6 +747,7 @@ Fire Mountain Cave - Chest:
   Paths:
     - MiniKaz/Stage.arc/Chest000
 
+
 Headstone Island - Top of the Island:
   Need: 
   Original item: Piece of Heart
@@ -744,6 +763,7 @@ Headstone Island - Submarine 2? TODO:
   Original item: Treasure Chart 14
   Paths:
     - Abship/Room5.arc/Chest000
+
 Earth Temple Entrance:
   Need: 
   Original item: Earth God's Lyric
@@ -834,16 +854,17 @@ Earth Temple - Big Key Chest:
   Original item: Big Key
   Paths:
     - M_Dai/Stage.arc/Chest006
-#Earth Temple - Duplicate Earth God's Lyric? TODO:
-#  Need: 
-#  Original item: Earth God's Lyric
-#  Paths:
-#    - M_Dai/Stage.arc/Event050:MKNJD_D_LESSON/Actor003/Action006
+Earth Temple - Duplicate Earth God's Lyric? TODO:
+  Need: 
+  Original item: Earth God's Lyric
+  Paths:
+    - M_Dai/Stage.arc/Event050:MKNJD_D_LESSON/Actor003/Action006
 Earth Temple - Master Sword Upgrade:
   Need: 
   Original item: Master Sword (Half power)
   Paths:
     - main.dol@358D35
+
 
 # TODO: order and name wind temple
 Wind Temple Entrance:
@@ -851,76 +872,76 @@ Wind Temple Entrance:
   Original item: Wind God's Aria
   Paths:
     - Ekaze/Stage.arc/Event042:MKNJD_K_LESSON/Actor003/Action006
-Wind Temple:
-  Need: 
-  Original item: Joy Pendant
-  Paths:
-    - kaze/Stage.arc/Chest000
-Wind Temple:
-  Need: 
-  Original item: Small Key
-  Paths:
-    - kaze/Stage.arc/Chest001
-Wind Temple:
-  Need: 
-  Original item: Big Key
-  Paths:
-    - kaze/Stage.arc/Chest002
-Wind Temple:
-  Need: 
-  Original item: Small Key
-  Paths:
-    - kaze/Stage.arc/Chest003
-Wind Temple:
-  Need: 
-  Original item: Joy Pendant
-  Paths:
-    - kaze/Stage.arc/Chest004
-Wind Temple:
+Wind Temple - Chest Between Two Dirt Patches:
   Need: 
   Original item: Orange Rupee
   Paths:
     - kaze/Stage.arc/Chest005
-Wind Temple:
-  Need: 
-  Original item: Joy Pendant
-  Paths:
-    - kaze/Stage.arc/Chest006
-Wind Temple:
-  Need: 
-  Original item: Treasure Chart 35
-  Paths:
-    - kaze/Stage.arc/Chest007
-Wind Temple:
-  Need: 
-  Original item: Dungeon Map
-  Paths:
-    - kaze/Stage.arc/Chest008
-Wind Temple:
-  Need: 
-  Original item: Treasure Chart 5
-  Paths:
-    - kaze/Stage.arc/Chest009
-Wind Temple:
-  Need: 
-  Original item: Compass
-  Paths:
-    - kaze/Stage.arc/Chest00A
-Wind Temple:
+Wind Temple - Tingle Statue Chest:
   Need: 
   Original item: Wind Tingle Statue
   Paths:
     - kaze/Stage.arc/Chest00C
-Wind Temple:
+Wind Temple - Chest in Left Alcove:
   Need: 
-  Original item: Wind God's Aria
+  Original item: Joy Pendant
   Paths:
-    - kaze/Stage.arc/Event04F:MKNJD_K_LESSON/Actor003/Action006
+    - kaze/Stage.arc/Chest004
+Wind Temple - Map Chest:
+  Need: 
+  Original item: Dungeon Map
+  Paths:
+    - kaze/Stage.arc/Chest008
+Wind Temple - Spike Wall Room - First Chest:
+  Need: 
+  Original item: Small Key
+  Paths:
+    - kaze/Stage.arc/Chest003
+Wind Temple - Spike Wall Room - Destroy All Cracked Floors:
+  Need: 
+  Original item: Treasure Chart 35
+  Paths:
+    - kaze/Stage.arc/Chest007
 Wind Temple Wizzrobe Mini-Boss Room:
   Need: 
   Original item: Hookshot
   Paths:
     - kazeMB/Stage.arc/Chest000
+Wind Temple - Compass Chest:
+  Need: 
+  Original item: Compass
+  Paths:
+    - kaze/Stage.arc/Chest00A
+Wind Temple - Chest in Makar's Cell:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - kaze/Stage.arc/Chest006
+Wind Temple - Chest at Top of Hub Room:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - kaze/Stage.arc/Chest000
+Wind Temple - Chest Behind Seven Armos:
+  Need: 
+  Original item: Small Key
+  Paths:
+    - kaze/Stage.arc/Chest001
+Wind Temple - Big Key Chest:
+  Need: 
+  Original item: Big Key
+  Paths:
+    - kaze/Stage.arc/Chest002
+Wind Temple - Kill Bokoblins Behind Statue Heads:
+  Need: 
+  Original item: Treasure Chart 5
+  Paths:
+    - kaze/Stage.arc/Chest009
+Wind Temple - Duplicate Wind God's Aria? TODO:
+  Need: 
+  Original item: Wind God's Aria
+  Paths:
+    - kaze/Stage.arc/Event04F:MKNJD_K_LESSON/Actor003/Action006
 Wind Temple - Molgera:
   Need: 
   Original item: Master Sword (Full power)
@@ -1005,17 +1026,24 @@ The Great Sea - Cyclos:
   Paths:
     - sea/Stage.arc/Event0E0:TACT1_RT/Actor001/Action003
 
-Salvage Corp - Gift:
+The Great Sea - Salvage Corp Gift:
   Need: 
   Original item: Treasure Chart 34
   Paths:
     - rels/d_a_npc_sv.rel@3327
 
-Island Trading - Reward:
+The Great Sea - Island Trading Reward:
   Need: 
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_roten.rel@533B
+
+The Great Sea - Withered Trees:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_obj_ftree.rel@0237
+    - rels/d_a_obj_ftree.rel@03F3
 
 Ghost Ship:
   Need: 
@@ -1027,17 +1055,17 @@ Ghost Ship:
     - PShip2/Stage.arc/Chest000
     - PShip3/Stage.arc/Chest000
 
-The Great Sea - TODO:
+The Great Sea - TODO 1:
   Need: 
   Original item: Joy Pendant
   Paths:
     - sea/Stage.arc/Event093:MK_PENDANT/Actor001/Action005
-The Great Sea - TODO:
+The Great Sea - TODO 2:
   Need: 
   Original item: Red Rupee
   Paths:
     - sea/Stage.arc/Event0B1:Get_Rupee/Actor002/Action000
-The Great Sea - TODO:
+The Great Sea - TODO 3:
   Need: 
   Original item: Silver Rupee
   Paths:
@@ -1083,16 +1111,6 @@ TODO - unknown npc 8:
   Original item: Purple Rupee
   Paths:
     - rels/d_a_npc_people.rel@5BDF
-TODO - unknown npc 9:
-  Need: 
-  Original item: Red Rupee
-  Paths:
-    - rels/d_a_npc_kf1.rel@17AF
-TODO - unknown npc 10:
-  Need: 
-  Original item: Red Rupee
-  Paths:
-    - rels/d_a_npc_kf1.rel@1A23
 
 Private Oasis - Chest at Top of Waterfall:
   Need: 
@@ -1126,8 +1144,7 @@ Spectacle Island - Target Shooting - Second Prize:
 #  Paths:
 #    - rels/d_a_npc_kg2.rel@210F
 
-# TODO:
-Needle Rock Isle:
+Needle Rock Isle - Chest:
   Need: 
   Original item: Piece of Heart
   Paths:
@@ -1201,7 +1218,7 @@ Bird's Peak Rock Cave:
     - TF_03/Stage.arc/Chest000
 
 # TODO:
-Pawprint Isle:
+Pawprint Isle - Lookout Platform:
   Need: 
   Original item: Red Rupee
   Paths:
@@ -1369,17 +1386,16 @@ Northern Fairy Island - Submarine:
 #  Paths:
 #    - rels/d_a_npc_tc.rel@620F
 
-# TODO:
-Diamond Steppe Island Warp Maze:
-  Need: 
-  Original item: Ghost Ship Chart
-  Paths:
-    - WarpD/Stage.arc/Chest000
-Diamond Steppe Island Warp Maze:
+Diamond Steppe Island Warp Maze - First Chest:
   Need: 
   Original item: Joy Pendant
   Paths:
     - WarpD/Stage.arc/Chest001
+Diamond Steppe Island Warp Maze - Second Chest:
+  Need: 
+  Original item: Ghost Ship Chart
+  Paths:
+    - WarpD/Stage.arc/Chest000
 
 # TODO:
 Bomb Island:
@@ -1454,22 +1470,21 @@ Crescent Moon Island - Submarine:
   Paths:
     - Abship/Room7.arc/Chest000
 
-# TODO:
-Horseshoe Island:
-  Need: 
-  Original item: Treasure Chart 28
-  Paths:
-    - sea/Room43.arc/Chest000
-Horseshoe Island:
+Horseshoe Island - Northwestern Lookout Platform:
   Need: 
   Original item: Skull Necklace
   Paths:
     - sea/Room43.arc/Chest001
-Horseshoe Island:
+Horseshoe Island - Southeastern Lookout Platform:
   Need: 
   Original item: Golden Feather
   Paths:
     - sea/Room43.arc/Chest002
+Horseshoe Island - Center Chest:
+  Need: 
+  Original item: Treasure Chart 28
+  Paths:
+    - sea/Room43.arc/Chest000
 Horseshoe Island Cave:
   Need: 
   Original item: Treasure Chart 8
@@ -1559,27 +1574,24 @@ Two-Eye Reef:
   Paths:
     - sea/Room46.arc/Chest001
 
-# TODO:
-Three-Eye Reef:
+Three-Eye Reef - Chest:
   Need: 
   Original item: Treasure Chart 32
   Paths:
     - sea/Room22.arc/Chest000
 
-# TODO:
-Four-Eye Reef:
+Four-Eye Reef - Chest:
   Need: 
   Original item: Treasure Chart 19
   Paths:
     - sea/Room8.arc/Chest000
 
-# TODO:
-Five-Eye Reef:
+Five-Eye Reef - Chest:
   Need: 
   Original item: Treasure Chart 41
   Paths:
     - sea/Room37.arc/Chest000
-Five-Eye Reef:
+Five-Eye Reef - Lookout Platform Chest:
   Need: 
   Original item: Golden Feather
   Paths:

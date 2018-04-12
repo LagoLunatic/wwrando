@@ -54,6 +54,8 @@ PROGRESS_ITEMS = [
   "1000 Rupee Wallet",
   "5000 Rupee Wallet",
   
+  "Ghost Ship Chart",
+  
   "Triforce Chart 8",
   "Triforce Chart 7",
   "Triforce Chart 6",
@@ -96,7 +98,6 @@ NONPROGRESS_ITEMS = [
   "Great Fairy Chart",
   "Octo Chart",
   "IN-credible Chart",
-  "Ghost Ship Chart",
   
   "Treasure Chart 7",
   "Treasure Chart 27",
