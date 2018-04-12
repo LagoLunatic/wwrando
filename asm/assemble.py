@@ -30,6 +30,7 @@ try:
       branch_match = re.match(r"(?:b|beq|bne|blt|bgt|ble|bge)\s+0x([0-9a-f]+)(?:$|\s)", line, re.IGNORECASE)
       if org_match and not org_offset:
         org_offset = int(org_match.group(1), 16)
+        temp_asm += "\n"
       elif org_match and org_offset:
         raise Exception("Found more than one .org directive")
       elif branch_match:
