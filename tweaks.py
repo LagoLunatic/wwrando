@@ -102,3 +102,10 @@ def make_fairy_upgrades_unconditional(self):
     patch_data = f.read()
   
   write_bytes(great_fairy_rel_data, 0x217C, patch_data)
+
+def make_fishmen_active_before_gohma(self):
+  # Fishmen usually won't appear until Gohma is dead. This removes that check from their code so they appear from the start.
+  
+  fishman_rel_data = self.get_raw_file("files/rels/d_a_npc_so.rel")
+  
+  write_u32(fishman_rel_data, 0x3FD8, 0x4800000C) # Change conditional branch to unconditional branch.

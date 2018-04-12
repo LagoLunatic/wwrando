@@ -44,6 +44,7 @@ class Randomizer:
     tweaks.start_ship_at_outset(self)
     tweaks.make_all_text_instant(self)
     tweaks.make_fairy_upgrades_unconditional(self)
+    tweaks.make_fishmen_active_before_gohma(self)
     
     self.randomize_items()
     
