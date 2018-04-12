@@ -139,6 +139,10 @@ class SCOB:
     "SalvFM",
   ]
   
+  BURIED_PIG_ITEM_NAMES = [
+    "TagKb",
+  ]
+  
   def __init__(self, file_entry, offset):
     self.file_entry = file_entry
     data = self.file_entry.data
@@ -219,6 +223,17 @@ class SCOB:
   @salvage_duplicate_id.setter
   def salvage_duplicate_id(self, value):
     self.unknown_1 = (self.unknown_1 & (~0x0003)) | (value&0x0003)
+  
+  def is_buried_pig_item(self):
+    return self.name in self.BURIED_PIG_ITEM_NAMES
+  
+  @property
+  def buried_pig_item_id(self):
+    return (self.params & 0x000000FF)
+  
+  @buried_pig_item_id.setter
+  def buried_pig_item_id(self, value):
+    self.params = (self.params & (~0x000000FF)) | (value&0xFF)
 
 class ACTR:
   DATA_SIZE = 0x20

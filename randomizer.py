@@ -170,7 +170,7 @@ class Randomizer:
     main_dol_match = re.search(r"^main.dol@([0-9A-F]{6})$", path)
     chest_match = re.search(r"^([^/]+/[^/]+\.arc)/Chest([0-9A-F]{3})$", path)
     event_match = re.search(r"^([^/]+/[^/]+\.arc)/Event([0-9A-F]{3}):[^/]+/Actor([0-9A-F]{3})/Action([0-9A-F]{3})$", path)
-    salvage_match = re.search(r"^([^/]+/[^/]+\.arc)/ScalableObject([0-9A-F]{3})$", path)
+    scob_match = re.search(r"^([^/]+/[^/]+\.arc)/ScalableObject([0-9A-F]{3})$", path)
     actor_match = re.search(r"^([^/]+/[^/]+\.arc)/Actor([0-9A-F]{3})$", path)
     
     if rel_match:
@@ -192,10 +192,10 @@ class Randomizer:
       actor_index = int(event_match.group(3), 16)
       action_index = int(event_match.group(4), 16)
       self.change_event_item(arc_path, event_index, actor_index, action_index, item_id)
-    elif salvage_match:
-      arc_path = "files/res/Stage/" + salvage_match.group(1)
-      scob_index = int(salvage_match.group(2), 16)
-      self.change_salvage_item(arc_path, scob_index, item_id)
+    elif scob_match:
+      arc_path = "files/res/Stage/" + scob_match.group(1)
+      scob_index = int(scob_match.group(2), 16)
+      self.change_scob_item(arc_path, scob_index, item_id)
     elif actor_match:
       arc_path = "files/res/Stage/" + actor_match.group(1)
       actor_index = int(actor_match.group(2), 16)
@@ -225,13 +225,17 @@ class Randomizer:
       event_list.set_property_value(action.property_index, item_id)
     action.save_changes()
 
-  def change_salvage_item(self, arc_path, scob_index, item_id):
+  def change_scob_item(self, arc_path, scob_index, item_id):
     dzx = self.get_arc(arc_path).dzx_files[0]
     scob = dzx.entries_by_type("SCOB")[scob_index]
-    if not scob.is_salvage():
-      raise Exception("%s/SCOB%03X is not a salvage point" % (arc_path, scob_index))
-    scob.salvage_item_id = item_id
-    scob.save_changes()
+    if scob.is_salvage():
+      scob.salvage_item_id = item_id
+      scob.save_changes()
+    elif scob.is_buried_pig_item():
+      scob.buried_pig_item_id = item_id
+      scob.save_changes()
+    else:
+      raise Exception("%s/SCOB%03X is an unknown type of SCOB" % (arc_path, scob_index))
 
   def change_actor_item(self, arc_path, actor_index, item_id):
     dzx = self.get_arc(arc_path).dzx_files[0]
