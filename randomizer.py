@@ -45,6 +45,7 @@ class Randomizer:
     tweaks.make_all_text_instant(self)
     tweaks.make_fairy_upgrades_unconditional(self)
     tweaks.make_fishmen_active_before_gohma(self)
+    tweaks.fix_zephos_double_item(self)
     
     self.randomize_items()
     

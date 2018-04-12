@@ -109,3 +109,13 @@ def make_fishmen_active_before_gohma(self):
   fishman_rel_data = self.get_raw_file("files/rels/d_a_npc_so.rel")
   
   write_u32(fishman_rel_data, 0x3FD8, 0x4800000C) # Change conditional branch to unconditional branch.
+
+def fix_zephos_double_item(self):
+  # The event where the player gets the Wind's Requiem actually gives that song to the player twice.
+  # The first one is hardcoded into Zephos's AI and only gives the song.
+  # The second is part of the event, and also handles the text, model, animation, etc, of getting the song.
+  # Getting the same item twice is a problem for some items, such as rupees. So we remove the first one.
+  
+  zephos_rel_data = self.get_raw_file("files/rels/d_a_npc_hr.rel")
+  
+  write_u32(zephos_rel_data, 0x1164, 0x48000008) # Branch to skip over the line of code where Zephos gives the Wind's Requiem.

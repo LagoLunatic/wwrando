@@ -389,7 +389,7 @@ Dragon Roost Island - Wind Shrine:
   Original item: Wind's Requiem
   Paths:
     - sea/Stage.arc/Event0D8:TACT_HT/Actor001/Action005
-    - rels/d_a_npc_hr.rel@1167
+    #- rels/d_a_npc_hr.rel@1167 # Duplicate Wind's Requiem given by Zephos, we remove this from his code so the player doesn't get this item twice.
 #Dragon Roost Island - Quill:
 #  Need: 
 #  Original item: Delivery Bag
