@@ -40,7 +40,7 @@ class Randomizer:
     
     tweaks.modify_new_game_start_code(self)
     tweaks.remove_story_railroading(self)
-    tweaks.skip_wakeup_intro(self)
+    tweaks.skip_wakeup_intro_and_start_at_dock(self)
     tweaks.start_ship_at_outset(self)
     tweaks.make_all_text_instant(self)
     tweaks.make_fairy_upgrades_unconditional(self)

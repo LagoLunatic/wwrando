@@ -67,13 +67,12 @@ def remove_story_railroading(self):
   # Skip the check for if you've seen the Dragon Roost Island intro which prevents you from getting in the King of Red Lions.
   write_u32(ship_data, 0xB2D8, 0x48000018)
 
-def skip_wakeup_intro(self):
-  # Get rid of the event that plays when you start the game where the camera zooms across the island and Aryll wakes Link up.
-  dzx = self.get_arc("files/res/Stage/sea/Room44.arc").dzx_files[0]
-  outset_player_spawns = dzx.entries_by_type("PLYR")
-  begin_game_spawn = next(x for x in outset_player_spawns if x.spawn_id == 0xCE)
-  begin_game_spawn.event_index_to_play = 0xFF # FF = Don't play any event
-  begin_game_spawn.save_changes()
+def skip_wakeup_intro_and_start_at_dock(self):
+  # When the player starts a new game they usually start at spawn ID 206, which plays the wakeup event and puts the player on Aryll's lookout.
+  # We change the starting spawn ID to 0, which does not play the wakeup event and puts the player on the dock next to the ship.
+  dol_data = self.get_raw_file("sys/main.dol")
+  spawn_id = 0
+  write_u8(dol_data, 0x055AEF, spawn_id)
 
 def start_ship_at_outset(self):
   # Change the King of Red Lion's default position so that he appears on Outset at the start of the game.
