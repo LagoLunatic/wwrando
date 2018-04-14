@@ -1,8 +1,8 @@
-Outset Island - Aryll's Birthday Gift:
-  Need: 
-  Original item: Telescope
-  Paths:
-    - sea/Stage.arc/Event085:get_telescope/Actor002/Action001
+#Outset Island - Aryll's Birthday Gift:
+#  Need: 
+#  Original item: Telescope
+#  Paths:
+#    - sea/Stage.arc/Event085:get_telescope/Actor002/Action001
 Outset Island - Underneath Link's House:
   Need: 
   Original item: Orange Rupee
@@ -13,16 +13,16 @@ Outset Island - Mesa the Grasscutter's House:
   Original item: Red Rupee
   Paths:
     - Omasao/Stage.arc/Chest000
-Outset Island - Orca - Tutorial:
-  Need: 
-  Original item: Hero's Sword
-  Paths:
-    - rels/d_a_npc_ji1.rel@4253
-Outset Island - Shield from Grandma:
-  Need: 
-  Original item: Hero's Shield
-  Paths:
-    - main.dol@358D3B
+#Outset Island - Orca - Tutorial:
+#  Need: 
+#  Original item: Hero's Sword
+#  Paths:
+#    - rels/d_a_npc_ji1.rel@4253
+#Outset Island - Shield from Grandma:
+#  Need: 
+#  Original item: Hero's Shield
+#  Paths:
+#    - main.dol@358D3B
 Outset Island - Orca - Reward for Knights Crests:
   Need: 
   Original item: Hurricane Spin
@@ -79,21 +79,21 @@ Savage Labyrinth - Floor 50:
   Paths:
     - Cave10/Room20.arc/Chest000
 
-Pirate Ship - First Visit:
-  Need: 
-  Original item: Spoils Bag
-  Paths:
-    - Asoko/Stage.arc/Chest000
-Pirate Ship - Second Visit:
-  Need: 
-  Original item: Bombs
-  Paths:
-    - Asoko/Stage.arc/Chest001
-Pirate Ship - Second Visit? TODO duplicate?:
-  Need: 
-  Original item: Bombs
-  Paths:
-    - Asoko/Stage.arc/Chest002
+#Pirate Ship - First Visit:
+#  Need: 
+#  Original item: Spoils Bag
+#  Paths:
+#    - Asoko/Stage.arc/Chest000
+#Pirate Ship - Second Visit:
+#  Need: 
+#  Original item: Bombs
+#  Paths:
+#    - Asoko/Stage.arc/Chest001
+#Pirate Ship - Second Visit? TODO duplicate?:
+#  Need: 
+#  Original item: Bombs
+#  Paths:
+#    - Asoko/Stage.arc/Chest002
 
 Forsaken Fortress Interior - Map Chest:
   Need: 
@@ -123,11 +123,11 @@ Forsaken Fortress Interior - Jail Cell:
     - majroom/Stage.arc/Chest003
     - ma2room/Stage.arc/Chest003
     - ma3room/Stage.arc/Chest003
-Forsaken Fortress Exterior - Dropped Sword:
-  Need: 
-  Original item: Recovered Hero's Sword
-  Paths:
-    - MajyuE/Room0.arc/Actor016
+#Forsaken Fortress Exterior - Dropped Sword:
+#  Need: 
+#  Original item: Recovered Hero's Sword
+#  Paths:
+#    - MajyuE/Room0.arc/Actor016
 Forsaken Fortress - Phantom Ganon:
   Need: 
   Original item: Skull Hammer
@@ -525,6 +525,8 @@ Forest Haven - Deku Leaf:
   Original item: Deku Leaf
   Paths:
     - rels/d_a_deku_item.rel@0DC3
+    - Omori/Room0.arc/Actor099
+    - Omori/Room0.arc/Actor0AF
 Forest Haven - Farore's Pearl:
   Need: 
   Original item: Farore's Pearl
@@ -618,7 +620,7 @@ Forbidden Woods - Climb to Top Using Boko Baba Bulbs:
     - kindan/Stage.arc/Chest000
 
 
-Greatfish Isle - Chest in Opening:
+Greatfish Isle - Hidden Chest:
   Need: 
   Original item: Piece of Heart
   Paths:
@@ -731,6 +733,11 @@ Ice Ring Isle Inner Cave - Chest:
   Paths:
     - ITest62/Stage.arc/Chest000
 
+Fire Mountain Cave - Chest:
+  Need: 
+  Original item: Power Bracelets
+  Paths:
+    - MiniKaz/Stage.arc/Chest000
 Fire Mountain - Lookout Platform Center Chest:
   Need: 
   Original item: Golden Feather
@@ -741,11 +748,6 @@ Fire Mountain - Lookout Platform Left Chest:
   Original item: Yellow Rupee
   Paths:
     - sea/Room20.arc/Chest001
-Fire Mountain Cave - Chest:
-  Need: 
-  Original item: Power Bracelets
-  Paths:
-    - MiniKaz/Stage.arc/Chest000
 
 
 Headstone Island - Top of the Island:
@@ -1071,36 +1073,28 @@ The Great Sea - TODO 3:
   Paths:
     - sea/Stage.arc/Event0D2:SO_GET_RUPEE/Actor002/Action000
 
-TODO - unknown npc 1:
-  Need: 
-  Original item: Piece of Heart
-  Paths:
-    - rels/d_a_npc_ah.rel@174F
-TODO - unknown npc 2:
-  Need: 
-  Original item: Purple Rupee
-  Paths:
-    - rels/d_a_npc_ah.rel@1773
-TODO - unknown npc 3:
-  Need: 
-  Original item: Piece of Heart
-  Paths:
-    - rels/d_a_npc_bmcon1.rel@2B7B
-TODO - unknown npc 4:
-  Need: 
-  Original item: Purple Rupee
-  Paths:
-    - rels/d_a_npc_bmcon1.rel@2B9F
-TODO - unknown npc 5:
-  Need: 
-  Original item: Piece of Heart
-  Paths:
-    - rels/d_a_npc_mt.rel@18AB
-TODO - unknown npc 6:
-  Need: 
-  Original item: Purple Rupee
-  Paths:
-    - rels/d_a_npc_mt.rel@18CF
+#The Great Sea - Old Man Hoho 1 (Unused):
+#  Need: 
+#  Original item: Piece of Heart
+#  Paths:
+#    - rels/d_a_npc_ah.rel@174F
+#The Great Sea - Old Man Hoho 2 (Unused):
+#  Need: 
+#  Original item: Purple Rupee
+#  Paths:
+#    - rels/d_a_npc_ah.rel@1773
+
+#Nintendo Gallery - Carlov 1 (Unused):
+#  Need: 
+#  Original item: Piece of Heart
+#  Paths:
+#    - rels/d_a_npc_mt.rel@18AB
+#Nintendo Gallery - Carlov 2 (Unused):
+#  Need: 
+#  Original item: Purple Rupee
+#  Paths:
+#    - rels/d_a_npc_mt.rel@18CF
+
 TODO - unknown npc 7:
   Need: 
   Original item: Red Rupee
@@ -1117,16 +1111,21 @@ Private Oasis - Chest at Top of Waterfall:
   Original item: Treasure Chart 27
   Paths:
     - sea/Room33.arc/Chest000
-Cabana Labyrinth - End of Maze:
-  Need: 
-  Original item: Triforce Chart 2
-  Paths:
-    - TF_04/Stage.arc/Chest000
-Cabana Labyrinth - Down the Ladder:
+Cabana Labyrinth - First Chest:
   Need: 
   Original item: Orange Rupee
   Paths:
     - TF_04/Stage.arc/Chest001
+Cabana Labyrinth - Second Chest:
+  Need: 
+  Original item: Triforce Chart 2
+  Paths:
+    - TF_04/Stage.arc/Chest000
+Private Oasis - Big Octo:
+  Need: 
+  Original item: Orange Rupee
+  Paths:
+    - sea/Room33.arc/ScalableObject015
 
 Spectacle Island - Target Shooting - First Prize:
   Need: 
@@ -1154,75 +1153,74 @@ Needle Rock Isle Cave:
   Original item: Orange Rupee
   Paths:
     - SubD42/Stage.arc/Chest000
+Needle Rock Isle - Golden Gunboat:
+  Need: 
+  Original item: Triforce Chart 5
+  Paths:
+    - sea/Room29.arc/ScalableObject00D
 
 Angular Isles - Peak:
   Need: 
   Original item: Piece of Heart
   Paths:
     - sea/Room47.arc/Chest000
-Angular Isles Cave:
+Angular Isles - Cave:
   Need: 
   Original item: Silver Rupee
   Paths:
     - SubD43/Stage.arc/Chest000
 
-# TODO:
-Boating Course:
+Boating Course - Raft:
   Need: 
   Original item: Boko Baba Seed
   Paths:
     - sea/Room48.arc/Chest000
-Boating Course Cave:
+Boating Course - Cave:
   Need: 
   Original item: Submarine Chart
   Paths:
     - SubD71/Stage.arc/Chest000
 
-Stone Watcher Island - Destroy the Cannons:
-  Need: 
-  Original item: Piece of Heart
-  Paths:
-    - sea/Room31.arc/Chest000
-Stone Watcher Island - Lookout Platform:
-  Need: 
-  Original item: Red Rupee
-  Paths:
-    - sea/Room31.arc/Chest001
-Stone Watcher Island Cave:
+Stone Watcher Island - Cave:
   Need: 
   Original item: Triforce Chart 7
   Paths:
     - TF_01/Stage.arc/Chest000
+Stone Watcher Island - Lookout Platform Chest:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - sea/Room31.arc/Chest001
+Stone Watcher Island - Lookout Platform - Destroy the Cannons:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room31.arc/Chest000
 
+Islet of Steel - Interior:
+  Need: 
+  Original item: Triforce Chart 1
+  Paths:
+    - ShipD/Stage.arc/Chest000
 Islet of Steel - Lookout Platform:
   Need: 
   Original item: Skull Necklace
   Paths:
     - sea/Room30.arc/Chest000
-Islet of Steel Interior:
-  Need: 
-  Original item: Triforce Chart 1
-  Paths:
-    - ShipD/Stage.arc/Chest000
 
-Overlook Island Cave:
+Overlook Island - Cave:
   Need: 
   Original item: Triforce Chart 8
   Paths:
     - TF_02/Stage.arc/Chest000
 
-Bird's Peak Rock Cave:
+Bird's Peak Rock - Cave:
   Need: 
   Original item: Triforce Chart 3
   Paths:
     - TF_03/Stage.arc/Chest000
 
 # TODO:
-Pawprint Isle - Lookout Platform:
-  Need: 
-  Original item: Red Rupee
-  Paths:
-    - sea/Room12.arc/Chest000
 Pawprint Isle Chuchu Cave:
   Need: 
   Original item: Red Rupee
@@ -1248,46 +1246,55 @@ Pawprint Isle Wizzrobe Cave:
   Original item: Silver Rupee
   Paths:
     - Cave07/Stage.arc/Chest000
+Pawprint Isle - Lookout Platform:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - sea/Room12.arc/Chest000
 
-# TODO:
-Thorned Fairy Island:
-  Need: 
-  Original item: Golden Feather
-  Paths:
-    - sea/Room28.arc/Chest000
-Thorned Fairy Island:
-  Need: 
-  Original item: Boko Baba Seed
-  Paths:
-    - sea/Room28.arc/Chest001
 Thorned Fairy Island - Great Fairy:
   Need: 
   Original item: 99 Arrow Quiver
   Paths:
     - rels/d_a_bigelf.rel@221F
-
-Eastern Fairy Island - Lookout Platform:
+Thorned Fairy Island - Northeastern Lookout Platform:
+  Need: 
+  Original item: Golden Feather
+  Paths:
+    - sea/Room28.arc/Chest000
+Thorned Fairy Island - Southwestern Lookout Platform:
   Need: 
   Original item: Boko Baba Seed
   Paths:
-    - sea/Room19.arc/Chest000
+    - sea/Room28.arc/Chest001
+
 Eastern Fairy Island - Great Fairy:
   Need: 
   Original item: 60 Bomb Bomb Bag
   Paths:
     - rels/d_a_bigelf.rel@21E7
-
-Western Fairy Island - Lookout Platform:
+Eastern Fairy Island - Lookout Platform:
   Need: 
-  Original item: Skull Necklace
+  Original item: Boko Baba Seed
   Paths:
-    - sea/Room15.arc/Chest000
+    - sea/Room19.arc/Chest000
+
 Western Fairy Island - Great Fairy:
   Need: 
   Original item: 60 Arrow Quiver
   Paths:
     - rels/d_a_bigelf.rel@2213
+Western Fairy Island - Lookout Platform:
+  Need: 
+  Original item: Skull Necklace
+  Paths:
+    - sea/Room15.arc/Chest000
 
+Southern Fairy Island Great Fairy:
+  Need: 
+  Original item: 99 Bomb Bomb Bag
+  Paths:
+    - rels/d_a_bigelf.rel@21F3
 Southern Fairy Island - Lookout Platform Right Chest:
   Need: 
   Original item: Treasure Chart 40
@@ -1298,11 +1305,6 @@ Southern Fairy Island - Lookout Platform Left Chest:
   Original item: Skull Necklace
   Paths:
     - sea/Room39.arc/Chest001
-Southern Fairy Island Great Fairy:
-  Need: 
-  Original item: 99 Bomb Bomb Bag
-  Paths:
-    - rels/d_a_bigelf.rel@21F3
 
 Northern Fairy Island - Great Fairy:
   Need: 
@@ -1385,6 +1387,11 @@ Northern Fairy Island - Submarine:
 #  Original item: Triforce Chart 8 got deciphered
 #  Paths:
 #    - rels/d_a_npc_tc.rel@620F
+Tingle Island - Big Octo:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room17.arc/ScalableObject001
 
 Diamond Steppe Island Warp Maze - First Chest:
   Need: 
@@ -1397,23 +1404,27 @@ Diamond Steppe Island Warp Maze - Second Chest:
   Paths:
     - WarpD/Stage.arc/Chest000
 
-# TODO:
-Bomb Island:
-  Need: 
-  Original item: Red Rupee
-  Paths:
-    - sea/Room34.arc/Chest000
-Bomb Island Cave:
+Bomb Island - Cave:
   Need: 
   Original item: Piece of Heart
   Paths:
     - Cave01/Stage.arc/Chest000
+Bomb Island - Lookout Platform:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - sea/Room34.arc/Chest000
 Bomb Island - Submarine:
   Need: 
   Original item: Empty Bottle
   Paths:
     - Abship/Room2.arc/Chest000
 
+Rock Spire Isle - Cave:
+  Need: 
+  Original item: Treasure Chart 37
+  Paths:
+    - Cave04/Stage.arc/Chest000
 Rock Spire Isle - Western Lookout Platform:
   Need: 
   Original item: Orange Rupee
@@ -1429,11 +1440,11 @@ Rock Spire Isle - Center Lookout Platform:
   Original item: Red Rupee
   Paths:
     - sea/Room16.arc/Chest002
-Rock Spire Isle Cave:
+Rock Spire Isle - Gunboat:
   Need: 
-  Original item: Treasure Chart 37
+  Original item: Piece of Heart
   Paths:
-    - Cave04/Stage.arc/Chest000
+    - sea/Room16.arc/ScalableObject000
 
 Shark Island Cave:
   Need: 
@@ -1441,25 +1452,23 @@ Shark Island Cave:
   Paths:
     - ITest63/Stage.arc/Chest000
 
-# TODO:
-Cliff Plateau Isles:
+Cliff Plateau Isles - Highest Isle:
   Need: 
   Original item: Treasure Chart 25
   Paths:
     - sea/Room42.arc/Chest000
-Cliff Plateau Isles:
-  Need: 
-  Original item: Boko Baba Seed
-  Paths:
-    - sea/Room42.arc/Chest001
-Cliff Plateau Isles Cave:
+Cliff Plateau Isles - Cave:
   Need: 
   Original item: Joy Pendant
   Paths:
     - Cave03/Stage.arc/Chest000
+Cliff Plateau Isles - Lookout Platform:
+  Need: 
+  Original item: Boko Baba Seed
+  Paths:
+    - sea/Room42.arc/Chest001
 
-# TODO:
-Crescent Moon Island:
+Crescent Moon Island - Chest:
   Need: 
   Original item: Treasure Chart 10
   Paths:
@@ -1470,16 +1479,6 @@ Crescent Moon Island - Submarine:
   Paths:
     - Abship/Room7.arc/Chest000
 
-Horseshoe Island - Northwestern Lookout Platform:
-  Need: 
-  Original item: Skull Necklace
-  Paths:
-    - sea/Room43.arc/Chest001
-Horseshoe Island - Southeastern Lookout Platform:
-  Need: 
-  Original item: Golden Feather
-  Paths:
-    - sea/Room43.arc/Chest002
 Horseshoe Island - Center Chest:
   Need: 
   Original item: Treasure Chart 28
@@ -1490,7 +1489,27 @@ Horseshoe Island Cave:
   Original item: Treasure Chart 8
   Paths:
     - Cave05/Stage.arc/Chest000
+Horseshoe Island - Northwestern Lookout Platform:
+  Need: 
+  Original item: Skull Necklace
+  Paths:
+    - sea/Room43.arc/Chest001
+Horseshoe Island - Southeastern Lookout Platform:
+  Need: 
+  Original item: Golden Feather
+  Paths:
+    - sea/Room43.arc/Chest002
 
+Flight Control Platform - Bird-Man Contest - First Prize:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_npc_bmcon1.rel@2B7B
+#Flight Control Platform - Bird-Man Contest - Prize 2+:
+#  Need: 
+#  Original item: Purple Rupee
+#  Paths:
+#    - rels/d_a_npc_bmcon1.rel@2B9F
 Flight Control Platform - Submarine:
   Need: 
   Original item: Platform Chart
@@ -1509,66 +1528,66 @@ Star Island Cave:
   Paths:
     - Cave02/Stage.arc/Chest000
 
-# TODO:
-Star Belt Archipelago:
+Star Belt Archipelago - Lookout Platform:
   Need: 
   Original item: Red Rupee
   Paths:
     - sea/Room21.arc/Chest000
 
-# TODO:
-Five-Star Isles:
-  Need: 
-  Original item: Red Rupee
-  Paths:
-    - sea/Room49.arc/Chest000
-Five-Star Isles:
+Five-Star Isles - Lookout Platform - Destroy the Cannons:
   Need: 
   Original item: Golden Feather
   Paths:
     - sea/Room49.arc/Chest001
+Five-Star Isles - Raft:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - sea/Room49.arc/Chest000
 Five-Star Isles - Submarine:
   Need: 
   Original item: Piece of Heart
   Paths:
     - Abship/Room0.arc/Chest000
 
-# TODO:
-Seven-Star Isles:
+Seven-Star Isles - Northern Lookout Platform:
   Need: 
   Original item: Golden Feather
   Paths:
     - sea/Room6.arc/Chest000
-Seven-Star Isles:
+Seven-Star Isles - Center Lookout Platform:
   Need: 
   Original item: Red Rupee
   Paths:
     - sea/Room6.arc/Chest001
-Seven-Star Isles:
+Seven-Star Isles - Southern Lookout Platform:
   Need: 
   Original item: Treasure Chart 16
   Paths:
     - sea/Room6.arc/Chest002
+Seven-Star Isles - Big Octo:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room6.arc/ScalableObject000
 
-# TODO:
-Cyclops Reef:
+Cyclops Reef - Chest:
   Need: 
   Original item: Treasure Chart 21
   Paths:
     - sea/Room24.arc/Chest000
-Cyclops Reef:
+Cyclops Reef - Lookout Platform:
   Need: 
   Original item: Golden Feather
   Paths:
     - sea/Room24.arc/Chest001
 
-# TODO:
-Two-Eye Reef:
+Two-Eye Reef - Chest:
   Need: 
   Original item: Treasure Chart 13
   Paths:
     - sea/Room46.arc/Chest000
-Two-Eye Reef:
+Two-Eye Reef - Lookout Platform:
   Need: 
   Original item: Purple Rupee
   Paths:
@@ -1591,7 +1610,7 @@ Five-Eye Reef - Chest:
   Original item: Treasure Chart 41
   Paths:
     - sea/Room37.arc/Chest000
-Five-Eye Reef - Lookout Platform Chest:
+Five-Eye Reef - Lookout Platform:
   Need: 
   Original item: Golden Feather
   Paths:
@@ -2006,24 +2025,3 @@ Mother and Child Isles - Sunken Treasure:
     - sea/Room9.arc/ScalableObject007
     - sea/Room9.arc/ScalableObject008
     - sea/Room9.arc/ScalableObject009
-
-Rock Spire Isle - Gunboat:
-  Need: 
-  Original item: Piece of Heart
-  Paths:
-    - sea/Room16.arc/ScalableObject000
-Tingle Island - Big Octo:
-  Need: 
-  Original item: Piece of Heart
-  Paths:
-    - sea/Room17.arc/ScalableObject001
-Needle Rock Isle - Golden Gunboat:
-  Need: 
-  Original item: Triforce Chart 5
-  Paths:
-    - sea/Room29.arc/ScalableObject00D
-Seven-Star Isles - Big Octo:
-  Need: 
-  Original item: Piece of Heart
-  Paths:
-    - sea/Room6.arc/ScalableObject000
