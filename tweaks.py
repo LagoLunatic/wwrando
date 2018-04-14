@@ -1,6 +1,7 @@
 
 import os
 from io import BytesIO
+import re
 
 from fs_helpers import *
 from rarc import RARC
@@ -132,3 +133,68 @@ def fix_deku_leaf_model(self):
     actor.item_id = 0x34 # Deku Leaf
     actor.item_flag = 2 # This is the same item pickup flag that itemDek originally had in its params.
     actor.save_changes()
+
+def allow_all_items_to_be_field_items(self):
+  # Most items cannot be field items (items that appear freely floating on the ground) because they don't have a field model defined.
+  # Here we copy the regular item get model to the field model so that any item can be a field item.
+  # We also change the code run when you touch the item so that these items play out the full item get animation with text, instead of merely popping up above the player's head like a rupee.
+  
+  item_resources_list_start = 0x3812B0 # 803842B0 in RAM
+  field_item_resources_list_start = 0x3836B0 # 803866B0 in RAM
+  itemGetExecute_switch_statement_entries_list_start = 0x389A6C # 8038CA6C in RAM
+  
+  dol_data = self.get_raw_file("sys/main.dol")
+  
+  arc_name_pointers = {}
+  with open("./data/item_resource_arc_name_pointers.txt", "r") as f:
+    matches = re.findall(r"^([0-9a-f]{2}) ([0-9a-f]{8}) ", f.read(), re.IGNORECASE | re.MULTILINE)
+  for item_id, arc_name_pointer in matches:
+    item_id = int(item_id, 16)
+    arc_name_pointer = int(arc_name_pointer, 16)
+    arc_name_pointers[item_id] = arc_name_pointer
+  
+  for item_id in self.item_ids_without_a_field_model:
+    if item_id in [0x39, 0x3A, 0x3E]:
+      # Master Swords don't have a proper item get model defined, so we need to use the Hero's Sword instead.
+      item_id_to_copy_from = 0x38
+      # We also change the item get model too, not just the field model.
+      item_resources_offset_to_fix = item_resources_list_start + item_id*0x24
+    elif item_id in [0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72]:
+      # Songs use the Pirate's Charm model by default, so we change it to use the Wind Waker model instead.
+      item_id_to_copy_from = 0x22
+      # We also change the item get model too, not just the field model.
+      item_resources_offset_to_fix = item_resources_list_start + item_id*0x24
+    else:
+      item_id_to_copy_from = item_id
+      item_resources_offset_to_fix = None
+    
+    item_resources_offset_to_copy_from = item_resources_list_start + item_id_to_copy_from*0x24
+    field_item_resources_offset = field_item_resources_list_start + item_id*0x1C
+    
+    arc_name_pointer = arc_name_pointers[item_id_to_copy_from]
+    
+    write_u32(dol_data, field_item_resources_offset, arc_name_pointer)
+    if item_resources_offset_to_fix:
+      write_u32(dol_data, item_resources_offset_to_fix, arc_name_pointer)
+    
+    data1 = read_bytes(dol_data, item_resources_offset_to_copy_from+8, 0xD)
+    data2 = read_bytes(dol_data, item_resources_offset_to_copy_from+0x1C, 4)
+    write_bytes(dol_data, field_item_resources_offset+4, data1)
+    write_bytes(dol_data, field_item_resources_offset+0x14, data2)
+    if item_resources_offset_to_fix:
+      write_bytes(dol_data, item_resources_offset_to_fix+8, data1)
+      write_bytes(dol_data, item_resources_offset_to_fix+0x1C, data2)
+    
+    if 0 <= item_id <= 0x83:
+      # Update the switch statement case for this item so that it uses the proper item get event with the text explaining it and Link's animation.
+      # By default, these items would just appear above Link's head for a brief moment like a Rupee.
+      location_of_items_switch_statement_case = itemGetExecute_switch_statement_entries_list_start + item_id*4
+      write_u32(dol_data, location_of_items_switch_statement_case, 0x800F675C)
+  
+  # Also change the "default" of the itemGetExecute switch statement to go to 800F675C too, so that items with IDs 0x84+ also get a proper item get event.
+  write_u32(dol_data, 0xF33A8, 0x418102F4) # 800F6468 in RAM
+  
+  # Also nop out the 6 lines of code that initialize the arc filename pointer for the 6 songs.
+  # These lines would overwrite the change we made from the Pirate's Charm model to the Wind Waker model for songs.
+  for offset in [0xBE8B0, 0xBE8B8, 0xBE8C0, 0xBE8C8, 0xBE8D0, 0xBE8D8]: # First is at 800C1970 in RAM
+    write_u32(dol_data, offset, 0x60000000) # nop

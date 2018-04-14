@@ -47,6 +47,7 @@ class Randomizer:
     tweaks.make_fishmen_active_before_gohma(self)
     tweaks.fix_zephos_double_item(self)
     tweaks.fix_deku_leaf_model(self)
+    tweaks.allow_all_items_to_be_field_items(self)
     
     self.randomize_items()
     
@@ -253,8 +254,14 @@ class Randomizer:
     actr = dzx.entries_by_type("ACTR")[actor_index]
     if not actr.is_item():
       raise Exception("%s/ACTR%03X is not an item" % (arc_path, actor_index))
-    # TODO: also raise exception if the item id is one that won't appear as an ACTR item.
+    original_item_id = actr.item_id
     actr.item_id = item_id
+    
+    if item_id in self.item_ids_without_a_field_model and original_item_id not in self.item_ids_without_a_field_model:
+      # This item didn't originally have a field model. Instead we changed it to use its item get model as its field model.
+      # Offset the item upwards so it's not lodged inside the floor due to the model being centered on the origin.
+      actr.y_pos += 25
+    
     actr.save_changes()
   
   def randomize_items(self):

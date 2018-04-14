@@ -1,0 +1,256 @@
+00 8035A0A8 Heart (Pickup)
+01 8035A2B1 Green Rupee
+02 8035A2B1 Blue Rupee
+03 8035A2B1 Yellow Rupee
+04 8035A2B1 Red Rupee
+05 8035A2B1 Purple Rupee
+06 8035A2B1 Orange Rupee
+07 8035A0B5 Piece of Heart
+08 8035A0AF Heart Container
+09 8035A0A8 Small Magic Jar (Pickup)
+0A 8035A0A8 Large Magic Jar (Pickup)
+0B 8035A0D0 5 Bombs (Pickup)
+0C 8035A0D0 10 Bombs (Pickup)
+0D 8035A0D0 20 Bombs (Pickup)
+0E 8035A0D0 30 Bombs (Pickup)
+0F 8035A2B1 Silver Rupee
+10 8035A0A8 10 Arrows (Pickup)
+11 8035A0A8 20 Arrows (Pickup)
+12 8035A0A8 30 Arrows (Pickup)
+13 00000000 
+14 00000000 
+15 8035A0BB Small Key
+16 8035A26C Fairy (Pickup)
+17 00000000 
+18 00000000 
+19 00000000 
+1A 8035A2B1 Yellow Rupee (Joke Message)
+1B 00000000 
+1C 00000000 
+1D 00000000 
+1E 8035A0A8 
+1F 8035A20C Joy Pendant
+20 8035A0C8 Telescope
+21 8035A1C6 Tingle Tuner
+22 8035A24F Wind Waker
+23 8035A13D Picto Box
+24 8035A15B Spoils Bag
+25 8035A212 Grappling Hook
+26 8035A316 Deluxe Picto Box
+27 8035A267 Hero's Bow
+28 8035A1B0 Power Bracelets
+29 8035A121 Iron Boots
+2A 8035A218 Magic Armor
+2B 8035A127 
+2C 8035A161 Bait Bag
+2D 8035A11C Boomerang
+2E 8035A29F 
+2F 8035A1AA Hookshot
+30 8035A155 Delivery Bag
+31 8035A0D0 Bombs
+32 8035A29F Hero's Clothes
+33 8035A1CC Skull Hammer
+34 8035A14F Deku Leaf
+35 8035A255 Fire and Ice Arrows
+36 8035A261 Light Arrow
+37 00000000 Hero's New Clothes
+38 8035A237 Hero's Sword
+39 00000000 Master Sword (Powerless)
+3A 00000000 Master Sword (Half power)
+3B 8035A243 Hero's Shield
+3C 8035A23D Mirror Shield
+3D 8035A237 Recovered Hero's Sword
+3E 00000000 Master Sword (Full power)
+3F 8035A0B5 Piece of Heart (Alternate Message)
+40 00000000 
+41 00000000 
+42 8035A1D2 Pirate's Charm
+43 8035A1D8 Hero's Charm
+44 00000000 
+45 8035A2A5 Skull Necklace
+46 8035A0E3 Boko Baba Seed
+47 8035A0DD Golden Feather
+48 8035A2AB Knight's Crest
+49 8035A0E9 Red Chu Jelly
+4A 8035A0E9 Green Chu Jelly
+4B 8035A0E9 Blue Chu Jelly
+4C 8035A149 Dungeon Map
+4D 8035A143 Compass
+4E 8035A0C1 Big Key
+4F 00000000 
+50 8035A112 Empty Bottle
+51 8035A1EA Red Potion
+52 8035A1E4 Green Potion
+53 8035A1DE Blue Potion
+54 8035A293 
+55 8035A293 Elixir Soup
+56 8035A299 Bottled Water
+57 8035A287 Fairy in Bottle
+58 8035A28D Forest Firefly
+59 8035A281 Forest Water
+5A 00000000 
+5B 00000000 
+5C 00000000 
+5D 00000000 
+5E 00000000 
+5F 00000000 
+60 00000000 
+61 8035A249 Triforce Shard 1
+62 8035A2D4 Triforce Shard 2
+63 8035A2DA Triforce Shard 3
+64 8035A2E0 Triforce Shard 4
+65 8035A2E6 Triforce Shard 5
+66 8035A2EC Triforce Shard 6
+67 8035A2F2 Triforce Shard 7
+68 8035A2F8 Triforce Shard 8
+69 8035A21E Nayru's Pearl
+6A 8035A26F Din's Pearl
+6B 8035A278 Farore's Pearl
+6C 8035A1D2 
+6D 8035A1D2 Wind's Requiem
+6E 8035A1D2 Ballad of Gales
+6F 8035A1D2 Command Melody
+70 8035A1D2 Earth God's Lyric
+71 8035A1D2 Wind God's Aria
+72 8035A1D2 Song of Passing
+73 00000000 
+74 00000000 
+75 00000000 
+76 00000000 
+77 00000000 
+78 8035A1B6 Boat's Sail
+79 8035A2FE Triforce Chart 1 got deciphered
+7A 8035A2FE Triforce Chart 2 got deciphered
+7B 8035A2FE Triforce Chart 3 got deciphered
+7C 8035A2FE Triforce Chart 4 got deciphered
+7D 8035A2FE Triforce Chart 5 got deciphered
+7E 8035A2FE Triforce Chart 6 got deciphered
+7F 8035A2FE Triforce Chart 7 got deciphered
+80 8035A2FE Triforce Chart 8 got deciphered
+81 00000000 
+82 8035A16D All-Purpose Bait
+83 8035A167 Hyoi Pear
+84 00000000 
+85 00000000 
+86 00000000 
+87 00000000 
+88 00000000 
+89 00000000 
+8A 00000000 
+8B 00000000 
+8C 8035A195 Town Flower
+8D 8035A19C Sea Flower
+8E 8035A1A3 Exotic Flower
+8F 8035A18E Hero's Flag
+90 8035A187 Big Catch Flag
+91 8035A180 Big Sale Flag
+92 8035A179 Pinwheel
+93 8035A172 Sickle Moon Flag
+94 8035A1F0 Skull Tower Idol
+95 8035A1F7 Fountain Idol
+96 8035A205 Postman Statue
+97 8035A1FE Shop Guru Statue
+98 8035A2B7 Father's Letter
+99 8035A2BD Note to Mom
+9A 8035A2C3 Maggie's Letter
+9B 8035A2C9 Moblin's Letter
+9C 8035A33A Cabana Deed
+9D 8035A1C0 Complimentary ID
+9E 8035A1BA Fill-Up Coupon
+9F 8035A316 Legendary Pictograph
+A0 8035A1D2 
+A1 8035A1D2 
+A2 8035A1D2 
+A3 8035A31C Dragon Tingle Statue
+A4 8035A322 Forbidden Tingle Statue
+A5 8035A328 Goddess Tingle Statue
+A6 8035A32E Earth Tingle Statue
+A7 8035A334 Wind Tingle Statue
+A8 00000000 
+A9 00000000 
+AA 8035A237 Hurricane Spin
+AB 8035A0F5 1000 Rupee Wallet
+AC 8035A0FB 5000 Rupee Wallet
+AD 8035A116 60 Bomb Bomb Bag
+AE 8035A127 99 Bomb Bomb Bag
+AF 8035A101 60 Arrow Quiver
+B0 8035A107 99 Arrow Quiver
+B1 00000000 gives magic power?
+B2 00000000 increases magic power?
+B3 8035A2B1 50 Rupees, reward for finding 1 Tingle Statue
+B4 8035A2B1 100 Rupees, reward for finding 2 Tingle Statues
+B5 8035A2B1 150 Rupees, reward for finding 3 Tingle Statues
+B6 8035A2B1 200 Rupees, reward for finding 4 Tingle Statues
+B7 8035A2B1 250 Rupees, reward for finding 5 Tingle Statues
+B8 8035A2B1 500 Rupees, reward for finding 5 Tingle Statues
+B9 8035A2B1 
+BA 8035A2B1 
+BB 8035A2B1 
+BC 8035A2B1 
+BD 8035A2B1 
+BE 8035A2B1 
+BF 8035A2B1 
+C0 8035A2B1 
+C1 8035A2B1 
+C2 8035A25B Submarine Chart
+C3 8035A25B Beedle's Chart
+C4 8035A25B Platform Chart
+C5 8035A25B Light Ring Chart
+C6 8035A25B Secret Cave Chart
+C7 8035A25B Sea Hearts Chart
+C8 8035A25B Island Hearts Chart
+C9 8035A25B Great Fairy Chart
+CA 8035A25B Octo Chart
+CB 8035A0EF IN-credible Chart
+CC 8035A304 Treasure Chart 7
+CD 8035A304 Treasure Chart 27
+CE 8035A304 Treasure Chart 21
+CF 8035A304 Treasure Chart 13
+D0 8035A304 Treasure Chart 32
+D1 8035A304 Treasure Chart 19
+D2 8035A304 Treasure Chart 41
+D3 8035A304 Treasure Chart 26
+D4 8035A304 Treasure Chart 8
+D5 8035A304 Treasure Chart 37
+D6 8035A304 Treasure Chart 25
+D7 8035A304 Treasure Chart 17
+D8 8035A304 Treasure Chart 36
+D9 8035A304 Treasure Chart 22
+DA 8035A304 Treasure Chart 9
+DB 8035A310 Ghost Ship Chart
+DC 8035A0EF Tingle's Chart
+DD 8035A304 Treasure Chart 14
+DE 8035A304 Treasure Chart 10
+DF 8035A304 Treasure Chart 40
+E0 8035A304 Treasure Chart 3
+E1 8035A304 Treasure Chart 4
+E2 8035A304 Treasure Chart 28
+E3 8035A304 Treasure Chart 16
+E4 8035A304 Treasure Chart 18
+E5 8035A304 Treasure Chart 34
+E6 8035A304 Treasure Chart 29
+E7 8035A304 Treasure Chart 1
+E8 8035A304 Treasure Chart 35
+E9 8035A304 Treasure Chart 12
+EA 8035A304 Treasure Chart 6
+EB 8035A304 Treasure Chart 24
+EC 8035A304 Treasure Chart 39
+ED 8035A30A Treasure Chart 38
+EE 8035A30A Treasure Chart 2
+EF 8035A30A Treasure Chart 33
+F0 8035A30A Treasure Chart 31
+F1 8035A30A Treasure Chart 23
+F2 8035A30A Treasure Chart 5
+F3 8035A30A Treasure Chart 20
+F4 8035A30A Treasure Chart 30
+F5 8035A30A Treasure Chart 15
+F6 8035A30A Treasure Chart 11
+F7 8035A2FE Triforce Chart 8
+F8 8035A2FE Triforce Chart 7
+F9 8035A2FE Triforce Chart 6
+FA 8035A2FE Triforce Chart 5
+FB 8035A2FE Triforce Chart 4
+FC 8035A2FE Triforce Chart 3
+FD 8035A2FE Triforce Chart 2
+FE 8035A2FE Triforce Chart 1
+FF 00000000
