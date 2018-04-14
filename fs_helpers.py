@@ -4,15 +4,19 @@ import struct
 class InvalidOffsetError(Exception):
   pass
 
-def read_bytes(data, offset, length, format_string):
+def read_bytes(data, offset, length):
   data.seek(offset)
-  requested_data = data.read(length)
-  unpacked_data = struct.unpack(format_string, requested_data)
-  return unpacked_data
+  return data.read(length)
 
 def write_bytes(data, offset, raw_bytes):
   data.seek(offset)
   data.write(raw_bytes)
+
+def read_and_unpack_bytes(data, offset, length, format_string):
+  data.seek(offset)
+  requested_data = data.read(length)
+  unpacked_data = struct.unpack(format_string, requested_data)
+  return unpacked_data
 
 
 def read_str(data, offset, length):

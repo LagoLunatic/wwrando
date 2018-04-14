@@ -11,7 +11,7 @@ class Yaz0Decompressor:
     uncomp_size = read_u32(comp_data, 4)
     comp_size = comp_data.seek(0, 2)
     
-    comp = read_bytes(comp_data, 0, comp_size, "B"*comp_size)
+    comp = read_and_unpack_bytes(comp_data, 0, comp_size, "B"*comp_size)
     
     output = []
     output_len = 0
