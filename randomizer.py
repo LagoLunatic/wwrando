@@ -33,7 +33,7 @@ class Randomizer:
     
     #self.decompress_files()
     
-    self.read_name_lists()
+    self.read_text_file_lists()
     
     self.arcs_by_path = {}
     self.raw_files_by_path = {}
@@ -89,28 +89,28 @@ class Randomizer:
         with open(rel_path, "wb") as file:
           file.write(decomp_data)
   
-  def read_name_lists(self):
+  def read_text_file_lists(self):
     # Get item names.
     self.item_names = {}
     self.item_name_to_id = {}
     with open("./data/item_names.txt", "r") as f:
       matches = re.findall(r"^([0-9a-f]{2}) - (.+)$", f.read(), re.IGNORECASE | re.MULTILINE)
-      for item_id, item_name in matches:
-        if item_name:
-          item_id = int(item_id, 16)
-          self.item_names[item_id] = item_name
-          if item_name in self.item_name_to_id:
-            raise Exception("Duplicate item name: " + item_name)
-          self.item_name_to_id[item_name] = item_id
+    for item_id, item_name in matches:
+      if item_name:
+        item_id = int(item_id, 16)
+        self.item_names[item_id] = item_name
+        if item_name in self.item_name_to_id:
+          raise Exception("Duplicate item name: " + item_name)
+        self.item_name_to_id[item_name] = item_id
     
     # Get function names for debug purposes.
     self.function_names = {}
     with open(os.path.join(self.randomized_base_dir, "files", "maps", "framework.map"), "r") as f:
       matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})  4 (\S+) 	\S+ $", f.read(), re.IGNORECASE | re.MULTILINE)
-      for match in matches:
-        address, name = match
-        address = int(address, 16)
-        self.function_names[address] = name
+    for match in matches:
+      address, name = match
+      address = int(address, 16)
+      self.function_names[address] = name
     
     # Get stage and island names for debug purposes.
     self.stage_names = {}
@@ -129,6 +129,14 @@ class Randomizer:
           break
         island_name = f.readline()
         self.island_names[room_arc_name.strip()] = island_name.strip()
+    
+    self.item_ids_without_a_field_model = []
+    with open("./data/items_without_field_models.txt", "r") as f:
+      matches = re.findall(r"^([0-9a-f]{2}) ", f.read(), re.IGNORECASE | re.MULTILINE)
+    for item_id in matches:
+      if item_name:
+        item_id = int(item_id, 16)
+        self.item_ids_without_a_field_model.append(item_id)
   
   def get_arc(self, arc_path):
     arc_path = arc_path.replace("\\", "/")

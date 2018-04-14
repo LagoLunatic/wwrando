@@ -1,0 +1,167 @@
+1A Yellow Rupee (Joke Message)
+20 Telescope
+21 Tingle Tuner
+22 Wind Waker
+23 Picto Box
+24 Spoils Bag
+25 Grappling Hook
+26 Deluxe Picto Box
+27 Hero's Bow
+28 Power Bracelets
+29 Iron Boots
+2A Magic Armor
+2B 
+2C Bait Bag
+2D Boomerang
+2E 
+2F Hookshot
+30 Delivery Bag
+31 Bombs
+32 Hero's Clothes
+33 Skull Hammer
+39 Master Sword (Powerless)
+3A Master Sword (Half power)
+3C Mirror Shield
+3E Master Sword (Full power)
+3F Piece of Heart (Alternate Message)
+42 Pirate's Charm
+43 Hero's Charm
+4C Dungeon Map
+4D Compass
+4E Big Key
+50 Empty Bottle
+51 Red Potion
+52 Green Potion
+53 Blue Potion
+54 
+55 Elixir Soup
+56 Bottled Water
+57 Fairy in Bottle
+58 Forest Firefly
+59 Forest Water
+61 Triforce Shard 1
+62 Triforce Shard 2
+63 Triforce Shard 3
+64 Triforce Shard 4
+65 Triforce Shard 5
+66 Triforce Shard 6
+67 Triforce Shard 7
+68 Triforce Shard 8
+69 Nayru's Pearl
+6A Din's Pearl
+6B Farore's Pearl
+6C 
+6D Wind's Requiem
+6E Ballad of Gales
+6F Command Melody
+70 Earth God's Lyric
+71 Wind God's Aria
+72 Song of Passing
+78 Boat's Sail
+79 Triforce Chart 1 got deciphered
+7A Triforce Chart 2 got deciphered
+7B Triforce Chart 3 got deciphered
+7C Triforce Chart 4 got deciphered
+7D Triforce Chart 5 got deciphered
+7E Triforce Chart 6 got deciphered
+7F Triforce Chart 7 got deciphered
+80 Triforce Chart 8 got deciphered
+98 Father's Letter
+99 Note to Mom
+9A Maggie's Letter
+9B Moblin's Letter
+9C Cabana Deed
+9D Complimentary ID
+9E Fill-Up Coupon
+9F Legendary Pictograph
+A0 
+A1 
+A2 
+A3 Dragon Tingle Statue
+A4 Forbidden Tingle Statue
+A5 Goddess Tingle Statue
+A6 Earth Tingle Statue
+A7 Wind Tingle Statue
+AA Hurricane Spin
+AB 1000 Rupee Wallet
+AC 5000 Rupee Wallet
+AD 60 Bomb Bomb Bag
+AE 99 Bomb Bomb Bag
+AF 60 Arrow Quiver
+B0 99 Arrow Quiver
+B3 50 Rupees, reward for finding 1 Tingle Statue
+B4 100 Rupees, reward for finding 2 Tingle Statues
+B5 150 Rupees, reward for finding 3 Tingle Statues
+B6 200 Rupees, reward for finding 4 Tingle Statues
+B7 250 Rupees, reward for finding 5 Tingle Statues
+B8 500 Rupees, reward for finding 5 Tingle Statues
+B9 
+BA 
+BB 
+BC 
+BD 
+BE 
+BF 
+C0 
+C1 
+C2 Submarine Chart
+C3 Beedle's Chart
+C4 Platform Chart
+C5 Light Ring Chart
+C6 Secret Cave Chart
+C7 Sea Hearts Chart
+C8 Island Hearts Chart
+C9 Great Fairy Chart
+CA Octo Chart
+CB IN-credible Chart
+CC Treasure Chart 7
+CD Treasure Chart 27
+CE Treasure Chart 21
+CF Treasure Chart 13
+D0 Treasure Chart 32
+D1 Treasure Chart 19
+D2 Treasure Chart 41
+D3 Treasure Chart 26
+D4 Treasure Chart 8
+D5 Treasure Chart 37
+D6 Treasure Chart 25
+D7 Treasure Chart 17
+D8 Treasure Chart 36
+D9 Treasure Chart 22
+DA Treasure Chart 9
+DB Ghost Ship Chart
+DC Tingle's Chart
+DD Treasure Chart 14
+DE Treasure Chart 10
+DF Treasure Chart 40
+E0 Treasure Chart 3
+E1 Treasure Chart 4
+E2 Treasure Chart 28
+E3 Treasure Chart 16
+E4 Treasure Chart 18
+E5 Treasure Chart 34
+E6 Treasure Chart 29
+E7 Treasure Chart 1
+E8 Treasure Chart 35
+E9 Treasure Chart 12
+EA Treasure Chart 6
+EB Treasure Chart 24
+EC Treasure Chart 39
+ED Treasure Chart 38
+EE Treasure Chart 2
+EF Treasure Chart 33
+F0 Treasure Chart 31
+F1 Treasure Chart 23
+F2 Treasure Chart 5
+F3 Treasure Chart 20
+F4 Treasure Chart 30
+F5 Treasure Chart 15
+F6 Treasure Chart 11
+F7 Triforce Chart 8
+F8 Triforce Chart 7
+F9 Triforce Chart 6
+FA Triforce Chart 5
+FB Triforce Chart 4
+FC Triforce Chart 3
+FD Triforce Chart 2
+FE Triforce Chart 1
