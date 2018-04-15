@@ -49,6 +49,7 @@ class Randomizer:
     tweaks.fix_deku_leaf_model(self)
     tweaks.allow_all_items_to_be_field_items(self)
     tweaks.allow_changing_boss_drop_items(self)
+    tweaks.skip_post_boss_warp_cutscenes(self)
     
     self.randomize_items()
     

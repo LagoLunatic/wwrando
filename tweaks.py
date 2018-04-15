@@ -236,3 +236,12 @@ def allow_changing_boss_drop_items(self):
   # For Gohdan and Molgera, the call is to createItemForBoss directly, so argument r4 needs to be the item ID.
   # For Gohma, Kalle Demos, Helmaroc King, and Jalhalla, they instead call createDisappear, so we need to upper byte of argument r7 to have the item ID.
   # But the randomizer itself handles all 6 of these changes when randomizing, since these locations are all listed in the "Paths" of each item location. So no need to do anything here.
+
+def skip_post_boss_warp_cutscenes(self):
+  # This makes the warps out of boss rooms always skip the cutscene usually shown the first time you beat the boss and warp out.
+  
+  # Function C3C of d_a_warpf.rel is checking if the post-boss cutscene for this dungeon has been viewed yet or not.
+  # Change it to simply always return true, that it has been viewed.
+  warpf_rel_data = self.get_raw_file("files/rels/d_a_warpf.rel")
+  write_u32(warpf_rel_data, 0xC3C, 0x38600001) # li r3, 1
+  write_u32(warpf_rel_data, 0xC40, 0x4E800020) # blr

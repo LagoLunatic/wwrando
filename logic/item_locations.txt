@@ -409,11 +409,11 @@ Dragon Roost Island - Letter for Komali:
   Paths:
     - rels/d_a_npc_md.rel@AF1B
     - rels/d_a_npc_md.rel@AF47
-Dragon Roost Island - Komali:
-  Need: 
-  Original item: Din's Pearl
-  Paths:
-    - main.dol@358D37
+#Dragon Roost Island - Komali:
+#  Need: 
+#  Original item: Din's Pearl
+#  Paths:
+#    - main.dol@358D37
 Dragon Roost Island - Rito Aerie - Give Hoskit 20 Golden Feathers:
   Need: 
   Original item: Orange Rupee
@@ -541,11 +541,11 @@ Forest Haven - Deku Leaf:
     - rels/d_a_deku_item.rel@0DC3
     - Omori/Room0.arc/Actor099
     - Omori/Room0.arc/Actor0AF
-Forest Haven - Farore's Pearl:
-  Need: 
-  Original item: Farore's Pearl
-  Paths:
-    - main.dol@358D38
+#Forest Haven - Farore's Pearl:
+#  Need: 
+#  Original item: Farore's Pearl
+#  Paths:
+#    - main.dol@358D38
 Forest Haven - Small Island Chest:
   Need: 
   Original item: Treasure Chart 3
@@ -893,11 +893,11 @@ Earth Temple - Jalhalla Heart Container:
   Paths:
     - rels/d_a_bpw.rel@877E
     - M_DaiB/Room0.arc/Actor001
-Earth Temple - Master Sword Upgrade:
-  Need: 
-  Original item: Master Sword (Half power)
-  Paths:
-    - main.dol@358D35
+#Earth Temple - Master Sword Upgrade:
+#  Need: 
+#  Original item: Master Sword (Half power)
+#  Paths:
+#    - main.dol@358D35
 
 
 Wind Temple Entrance:
@@ -981,11 +981,11 @@ Wind Temple - Molgera Heart Container:
   Paths:
     - rels/d_a_bwd.rel@6D83
     - kazeB/Room0.arc/Actor001
-Wind Temple - Master Sword Upgrade:
-  Need: 
-  Original item: Master Sword (Full power)
-  Paths:
-    - main.dol@358D36
+#Wind Temple - Master Sword Upgrade:
+#  Need: 
+#  Original item: Master Sword (Full power)
+#  Paths:
+#    - main.dol@358D36
 
 Ganon's Tower - Maze Chest:
   Need: 
