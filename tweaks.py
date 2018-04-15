@@ -4,7 +4,6 @@ from io import BytesIO
 import re
 
 from fs_helpers import *
-from rarc import RARC
 
 def modify_new_game_start_code(self):
   original_free_space_ram_address = 0x803FCFA8

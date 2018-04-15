@@ -2,8 +2,6 @@
 import os
 from io import BytesIO
 
-from dzx import DZx
-from events import EventList
 from fs_helpers import *
 
 class BMG:
