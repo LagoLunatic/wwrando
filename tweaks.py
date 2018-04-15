@@ -138,6 +138,7 @@ def allow_all_items_to_be_field_items(self):
   # Most items cannot be field items (items that appear freely floating on the ground) because they don't have a field model defined.
   # Here we copy the regular item get model to the field model so that any item can be a field item.
   # We also change the code run when you touch the item so that these items play out the full item get animation with text, instead of merely popping up above the player's head like a rupee.
+  # And we change the Y offsets so the items don't appear lodged inside the floor, and can be picked up easily.
   
   item_resources_list_start = 0x3812B0 # 803842B0 in RAM
   field_item_resources_list_start = 0x3836B0 # 803866B0 in RAM
@@ -184,20 +185,42 @@ def allow_all_items_to_be_field_items(self):
     if item_resources_offset_to_fix:
       write_bytes(dol_data, item_resources_offset_to_fix+8, data1)
       write_bytes(dol_data, item_resources_offset_to_fix+0x1C, data2)
-    
-    if 0 <= item_id <= 0x83:
-      # Update the switch statement case for this item so that it uses the proper item get event with the text explaining it and Link's animation.
-      # By default, these items would just appear above Link's head for a brief moment like a Rupee.
-      location_of_items_switch_statement_case = itemGetExecute_switch_statement_entries_list_start + item_id*4
-      write_u32(dol_data, location_of_items_switch_statement_case, 0x800F675C)
-  
-  # Also change the "default" of the itemGetExecute switch statement to go to 800F675C too, so that items with IDs 0x84+ also get a proper item get event.
-  write_u32(dol_data, 0xF33A8, 0x418102F4) # 800F6468 in RAM
   
   # Also nop out the 6 lines of code that initialize the arc filename pointer for the 6 songs.
   # These lines would overwrite the change we made from the Pirate's Charm model to the Wind Waker model for songs.
   for offset in [0xBE8B0, 0xBE8B8, 0xBE8C0, 0xBE8C8, 0xBE8D0, 0xBE8D8]: # First is at 800C1970 in RAM
     write_u32(dol_data, offset, 0x60000000) # nop
+  
+  
+  # Fix which code runs when the player touches the field item to pick the item up.
+  for item_id in range(0, 0x83+1):
+    # Update the switch statement cases in function itemGetExecute for items that originally used the default case (0x800F6C8C).
+    # This default case wouldn't give the player the item. It would just appear above the player's head for a moment like a Rupee and not be added to the player's inventory.
+    # We switch it to case 0x800F675C, which will use the proper item get event with all the animations, text, etc.
+    location_of_items_switch_statement_case = itemGetExecute_switch_statement_entries_list_start + item_id*4
+    original_switch_case = read_u32(dol_data, location_of_items_switch_statement_case)
+    if original_switch_case == 0x800F6C8C:
+      write_u32(dol_data, location_of_items_switch_statement_case, 0x800F675C)
+  
+  # Also change the switch case in itemGetExecute used by items with IDs 0x84+ to go to 800F675C as well.
+  write_u32(dol_data, 0xF33A8, 0x418102F4) # 800F6468 in RAM
+  
+  
+  # Update the visual Y offsets so the item doesn't look like it's halfway inside the floor and difficult to see.
+  # First update the default case of the switch statement in the function getYOffset so that it reads from 803F9E84 (value: 23.0), instead of 803F9E80 (value: 0.0).
+  write_u32(dol_data, 0xF1C10, 0xC022A184) # lfs f1, -0x5E7C(rtoc) (at 800F4CD0 in RAM)
+  # And fix then Big Key so it uses the default case with the 23.0 offset, instead of using the 0.0 offset. (Other items already use the default case, so we don't need to fix any besides Big Key.)
+  write_u32(dol_data, 0x3898B8 + 0x4E*4, 0x800F4CD0)
+  
+  
+  # We also change the Y offset of the hitbox for any items that have 0 for the Y offset.
+  # Without this change the item would be very difficult to pick up, the only way would be to stand on top of it and do a spin attack.
+  extra_item_data_list_start = 0x3852B0 # 803882B0 in RAM
+  for item_id in range(0, 0xFF+1):
+    item_extra_data_entry_offset = extra_item_data_list_start+4*item_id
+    original_y_offset = read_u8(dol_data, item_extra_data_entry_offset+1)
+    if original_y_offset == 0:
+      write_u8(dol_data, item_extra_data_entry_offset+1, 0x28) # Y offset of 0x28
 
 def allow_changing_boss_drop_items(self):
   # The 6 Heart Containers that appear after you kill a boss are all created by the function createItemForBoss.

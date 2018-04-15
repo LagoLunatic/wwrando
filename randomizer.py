@@ -255,19 +255,11 @@ class Randomizer:
     dzx = self.get_arc(arc_path).dzx_files[0]
     actr = dzx.entries_by_type("ACTR")[actor_index]
     if actr.is_item():
-      original_item_id = actr.item_id
       actr.item_id = item_id
     elif actr.is_boss_item():
-      original_item_id = actr.boss_item_id
       actr.boss_item_id = item_id
     else:
       raise Exception("%s/ACTR%03X is not an item" % (arc_path, actor_index))
-    
-    if item_id in self.item_ids_without_a_field_model and original_item_id not in self.item_ids_without_a_field_model:
-      # This item didn't originally have a field model. Instead we changed it to use its item get model as its field model.
-      # Offset the item upwards so it's not lodged inside the floor due to the model being centered on the origin.
-      actr.y_pos += 25
-      # TODO: This doesn't work for boss items. They're affected by gravity and just fall back to their normal height.
     
     actr.save_changes()
   
