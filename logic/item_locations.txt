@@ -133,6 +133,14 @@ Forsaken Fortress - Phantom Ganon:
   Original item: Skull Hammer
   Paths:
     - sea/Room1.arc/Chest000
+Forsaken Fortress - Helmaroc King Heart Container:
+  Need: 
+  Original item: Heart Container
+  Paths:
+    - rels/d_a_bdk.rel@5CCE
+    - M2tower/Room0.arc/Actor032
+    - sea/Room1.arc/Actor052
+    - sea/Room1.arc/Actor05B
 
 
 Windfall Town Jail - Tingle - First Gift:
@@ -518,6 +526,12 @@ Dragon Roost Cavern - Boss Stairs Left Chest:
 #  Original item: Yellow Rupee
 #  Paths:
 #    - M_NewD2/Stage.arc/Chest00D
+Dragon Roost Cavern - Gohma Heart Container:
+  Need: 
+  Original item: Heart Container
+  Paths:
+    - rels/d_a_btd.rel@36FE
+    - M_DragB/Room0.arc/Actor015
 
 
 Forest Haven - Deku Leaf:
@@ -618,6 +632,12 @@ Forbidden Woods - Climb to Top Using Boko Baba Bulbs:
   Original item: Treasure Chart 1
   Paths:
     - kindan/Stage.arc/Chest000
+Forbidden Woods - Kalle Demos Heart Container:
+  Need: 
+  Original item: Heart Container
+  Paths:
+    - rels/d_a_bmd.rel@2B2E
+    - kinBOSS/Room0.arc/Actor002
 
 
 Greatfish Isle - Hidden Chest:
@@ -703,6 +723,12 @@ Tower of the Gods Darknut Mini-Boss Room:
 #  Original item: 5 Bombs (Pickup)
 #  Paths:
 #    - rels/d_a_bst.rel@5CD3
+Tower of the Gods - Gohdan Heart Container:
+  Need: 
+  Original item: Heart Container
+  Paths:
+    - rels/d_a_bst.rel@9D43
+    - SirenB/Room0.arc/Actor003
 
 Hyrule - Master Sword Chamber:
   Need: 
@@ -861,6 +887,12 @@ Earth Temple - Duplicate Earth God's Lyric? TODO:
   Original item: Earth God's Lyric
   Paths:
     - M_Dai/Stage.arc/Event050:MKNJD_D_LESSON/Actor003/Action006
+Earth Temple - Jalhalla Heart Container:
+  Need: 
+  Original item: Heart Container
+  Paths:
+    - rels/d_a_bpw.rel@877E
+    - M_DaiB/Room0.arc/Actor001
 Earth Temple - Master Sword Upgrade:
   Need: 
   Original item: Master Sword (Half power)
@@ -868,7 +900,6 @@ Earth Temple - Master Sword Upgrade:
     - main.dol@358D35
 
 
-# TODO: order and name wind temple
 Wind Temple Entrance:
   Need: 
   Original item: Wind God's Aria
@@ -944,7 +975,13 @@ Wind Temple - Duplicate Wind God's Aria? TODO:
   Original item: Wind God's Aria
   Paths:
     - kaze/Stage.arc/Event04F:MKNJD_K_LESSON/Actor003/Action006
-Wind Temple - Molgera:
+Wind Temple - Molgera Heart Container:
+  Need: 
+  Original item: Heart Container
+  Paths:
+    - rels/d_a_bwd.rel@6D83
+    - kazeB/Room0.arc/Actor001
+Wind Temple - Master Sword Upgrade:
   Need: 
   Original item: Master Sword (Full power)
   Paths:

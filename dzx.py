@@ -244,6 +244,10 @@ class ACTR:
     "itemFLY",
   ]
   
+  BOSS_ITEM_NAMES = [
+    "Bitem",
+  ]
+  
   def __init__(self, file_entry, offset):
     self.file_entry = file_entry
     data = self.file_entry.data
@@ -296,6 +300,27 @@ class ACTR:
   @item_flag.setter
   def item_flag(self, value):
     self.params = (self.params & (~0x0000FF00)) | ((value&0xFF) << 8)
+  
+  def is_boss_item(self):
+    return self.name in self.BOSS_ITEM_NAMES
+  
+  @property
+  def boss_item_stage_id(self):
+    return (self.params & 0x000000FF)
+  
+  @boss_item_stage_id.setter
+  def boss_item_stage_id(self, value):
+    self.params = (self.params & (~0x000000FF)) | (value&0xFF)
+  
+  # The below item ID parameter did not exist for boss items in the vanilla game.
+  # The randomizer adds it so that boss items can be randomized and not just always heart containers.
+  @property
+  def boss_item_id(self):
+    return (self.params & 0x0000FF00)
+  
+  @boss_item_id.setter
+  def boss_item_id(self, value):
+    self.params = (self.params & (~0x0000FF00)) | ((value&0xFF) << 8)
 
 class PLYR:
   DATA_SIZE = 0x20
@@ -307,7 +332,7 @@ class PLYR:
     
     self.name = read_str(data, offset, 8)
     
-    self.event_index_to_play = read_u8(data, offset + 8)
+    self.event_index = read_u8(data, offset + 8)
     self.unknown1 = read_u8(data, offset + 9)
     self.spawn_type = read_u8(data, offset + 0x0A)
     self.room_num = read_u8(data, offset + 0x0B)
@@ -327,7 +352,7 @@ class PLYR:
     
     write_str(data, self.offset, self.name, 8)
     
-    write_u8(data, self.offset+0x08, self.event_index_to_play)
+    write_u8(data, self.offset+0x08, self.event_index)
     write_u8(data, self.offset+0x09, self.unknown1)
     write_u8(data, self.offset+0x0A, self.spawn_type)
     write_u8(data, self.offset+0x0B, self.room_num)
@@ -351,7 +376,7 @@ class SCLS:
     self.offset = offset
     
     self.dest_stage_name = read_str(data, offset, 8)
-    self.spawn_index = read_u8(data, offset+8)
+    self.spawn_id = read_u8(data, offset+8)
     self.room_index = read_u8(data, offset+9)
     self.fade_type = read_u8(data, offset+0xA)
     self.padding = read_u8(data, offset+0xB)
@@ -360,7 +385,7 @@ class SCLS:
     data = self.file_entry.data
     
     write_str(data, self.offset, self.dest_stage_name, 8)
-    write_u8(data, self.offset+0x8, self.spawn_index)
+    write_u8(data, self.offset+0x8, self.spawn_id)
     write_u8(data, self.offset+0x9, self.room_index)
     write_u8(data, self.offset+0xA, self.fade_type)
     write_u8(data, self.offset+0xB, self.padding)

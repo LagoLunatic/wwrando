@@ -199,3 +199,40 @@ def allow_all_items_to_be_field_items(self):
   # These lines would overwrite the change we made from the Pirate's Charm model to the Wind Waker model for songs.
   for offset in [0xBE8B0, 0xBE8B8, 0xBE8C0, 0xBE8C8, 0xBE8D0, 0xBE8D8]: # First is at 800C1970 in RAM
     write_u32(dol_data, offset, 0x60000000) # nop
+
+def allow_changing_boss_drop_items(self):
+  # The 6 Heart Containers that appear after you kill a boss are all created by the function createItemForBoss.
+  # createItemForBoss hardcodes the item ID 8, and doesn't care which boss was just killed. This makes it hard to randomize boss drops without changing all 6 in sync.
+  # So we make some changes to createItemForBoss and the places that call it so that each boss can give a different item.
+  
+  # First we modify the createItemForBoss function itself to not hardcode the item ID as 8 (Heart Container).
+  # We nop out the two instructions that load 8 into r4. This way it simply passes whatever it got as argument r4 into the next function call to createItem.
+  dol_data = self.get_raw_file("sys/main.dol")
+  write_u32(dol_data, 0x239D0, 0x60000000) # nop (at 80026A90 in RAM)
+  write_u32(dol_data, 0x239F0, 0x60000000) # nop (at 80026AB0 in RAM)
+  
+  # Second we modify the code for the "disappear" cloud of smoke when the boss dies.
+  # This cloud of smoke is what spawns the item when Gohma, Kalle Demos, Helmaroc King, and Jalhalla die.
+  # So we need a way to pass the item ID from the boss's code to the disappear cloud's parameters and store them there.
+  # We do this by hijacking argument r7 when the boss calls createDisappear.
+  # Normally argument r7 is a byte, and gets stored to the disappear's params with mask 00FF0000.
+  # We change it to be a halfword and stored with the mask FFFF0000.
+  # The lower byte is unchanged from vanilla, it's still whatever argument r7 used to be for.
+  # But the upper byte, which used to be unused, now has the item ID in it.
+  write_u32(dol_data, 0x24A04, 0x50E4801E) # rlwimi r4, r7, 16, 0, 15 (at 80027AC4 in RAM)
+  # Then we need to read the item ID parameter when the cloud is about to call createItemForBoss.
+  write_u32(dol_data, 0xE495C, 0x888700B0) # lbz r4, 0x00B0(r7) (at 800E7A1C in RAM)
+  
+  # Third we change how the boss item ACTR calls createItemForBoss.
+  # (This is the ACTR that appears if the player skips getting the boss item after killing the boss, and instead comes back and does the whole dungeon again.)
+  # Normally it sets argument r4 to 1, but createItemForBoss doesn't even use argument r4.
+  # So we change it to load one of its params (mask: 0000FF00) and use that as argument r4.
+  # This param was unused and just 00 in the original game, but the randomizer will set it to the item ID it randomizes to that location.
+  # Then we will be calling createItemForBoss with the item ID to spawn in argument r4. Which due to the above change, will be used correctly now.
+  bossitem_rel_data = self.get_raw_file("files/rels/d_a_boss_item.rel")
+  write_u32(bossitem_rel_data, 0x1C4, 0x889E00B2) # lbz r4, 0x00B2(r30)
+  
+  # The third change necessary is for all 6 boss's code to be modified so that they pass the item ID to spawn to a function call.
+  # For Gohdan and Molgera, the call is to createItemForBoss directly, so argument r4 needs to be the item ID.
+  # For Gohma, Kalle Demos, Helmaroc King, and Jalhalla, they instead call createDisappear, so we need to upper byte of argument r7 to have the item ID.
+  # But the randomizer itself handles all 6 of these changes when randomizing, since these locations are all listed in the "Paths" of each item location. So no need to do anything here.
