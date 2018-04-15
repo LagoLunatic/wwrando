@@ -1,5 +1,7 @@
 
 from fs_helpers import *
+from yaz0_decomp import Yaz0Decompressor
+
 from io import BytesIO
 
 class REL:
@@ -7,6 +9,10 @@ class REL:
     self.file_path = file_path
     with open(self.file_path, "rb") as file:
       self.data = BytesIO(file.read())
+    
+    if try_read_str(self.data, 0, 4) == "Yaz0":
+      self.data = BytesIO(Yaz0Decompressor.decompress(self.data))
+    
     data = self.data
     
     self.id = read_u32(data, 0)
