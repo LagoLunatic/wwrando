@@ -39,13 +39,16 @@ class Logic:
     self.done_item_locations[location_name] = item_name
     self.remaining_item_locations.remove(location_name)
     
+    self.mark_item_as_placed(item_name)
+    
+    spoiler_log_entry = "Placed %s at %s\n" % (item_name, location_name)
+    self.rando.spoiler_log += spoiler_log_entry
+  
+  def mark_item_as_placed(self, item_name):
     if item_name in self.unplaced_progress_items:
       self.unplaced_progress_items.remove(item_name)
     if item_name in self.unplaced_nonprogress_items:
       self.unplaced_nonprogress_items.remove(item_name)
-    
-    spoiler_log_entry = "Placed %s at %s\n" % (item_name, location_name)
-    self.rando.spoiler_log += spoiler_log_entry
   
   def generate_empty_progress_reqs_file(self):
     output_str = ""

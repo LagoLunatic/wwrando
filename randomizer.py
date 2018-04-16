@@ -53,6 +53,13 @@ class Randomizer:
     tweaks.skip_post_boss_warp_cutscenes(self)
     tweaks.remove_shop_item_forced_uniqueness_bit(self)
     
+    self.logic.mark_item_as_placed("Wind Waker")
+    self.logic.mark_item_as_placed("Wind's Requiem")
+    self.logic.mark_item_as_placed("Ballad of Gales")
+    self.logic.mark_item_as_placed("Hero's Sword")
+    self.logic.mark_item_as_placed("Hero's Shield")
+    self.logic.mark_item_as_placed("Boat's Sail")
+    
     self.randomize_items()
     
     self.save_changed_files()
