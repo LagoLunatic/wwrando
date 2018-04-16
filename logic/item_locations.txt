@@ -785,10 +785,6 @@ Headstone Island - Submarine:
   Original item: Treasure Chart 14
   Paths:
     - Abship/Room3.arc/Chest000
-Headstone Island - Submarine 2? TODO:
-  Need: 
-  Original item: Treasure Chart 14
-  Paths:
     - Abship/Room5.arc/Chest000
 
 Earth Temple Entrance:
