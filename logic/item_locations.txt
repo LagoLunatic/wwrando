@@ -647,63 +647,37 @@ Greatfish Isle - Hidden Chest:
     - sea/Room23.arc/Chest000
 
 
-# TODO: order and name tower of the gods
-Tower of the Gods:
-  Need: 
-  Original item: Small Key
-  Paths:
-    - Siren/Stage.arc/Chest000
-Tower of the Gods:
+Tower of the Gods - Map Chest:
   Need: 
   Original item: Dungeon Map
   Paths:
     - Siren/Stage.arc/Chest001
-Tower of the Gods:
+Tower of the Gods - Hop Across Floating Boxes:
   Need: 
-  Original item: Compass
+  Original item: Small Key
   Paths:
-    - Siren/Stage.arc/Chest002
-Tower of the Gods:
-  Need: 
-  Original item: Joy Pendant
-  Paths:
-    - Siren/Stage.arc/Chest004
-Tower of the Gods:
+    - Siren/Stage.arc/Chest000
+Tower of the Gods - Light Two Torches:
   Need: 
   Original item: Joy Pendant
   Paths:
     - Siren/Stage.arc/Chest005
-Tower of the Gods:
+Tower of the Gods - Compass Chest:
+  Need: 
+  Original item: Compass
+  Paths:
+    - Siren/Stage.arc/Chest002
+Tower of the Gods - Shoot Eye Above Compass Chest:
   Need: 
   Original item: Treasure Chart 6
   Paths:
     - Siren/Stage.arc/Chest006
-Tower of the Gods:
-  Need: 
-  Original item: Treasure Chart 30
-  Paths:
-    - Siren/Stage.arc/Chest007
-Tower of the Gods:
-  Need: 
-  Original item: Small Key
-  Paths:
-    - Siren/Stage.arc/Chest008
-Tower of the Gods:
-  Need: 
-  Original item: Joy Pendant
-  Paths:
-    - Siren/Stage.arc/Chest009
-Tower of the Gods:
+Tower of the Gods - Tingle Statue Chest:
   Need: 
   Original item: Goddess Tingle Statue
   Paths:
     - Siren/Stage.arc/Chest00A
-Tower of the Gods:
-  Need: 
-  Original item: Big Key
-  Paths:
-    - Siren/Stage.arc/Chest00B
-Tower of the Gods:
+Tower of the Gods - Stone Tablet:
   Need: 
   Original item: Command Melody
   Paths:
@@ -713,6 +687,31 @@ Tower of the Gods Darknut Mini-Boss Room:
   Original item: Hero's Bow
   Paths:
     - SirenMB/Stage.arc/Chest000
+Tower of the Gods - First Chest Guarded by Armos Knights:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - Siren/Stage.arc/Chest004
+Tower of the Gods - Second Chest Guarded by Armos Knights:
+  Need: 
+  Original item: Treasure Chart 30
+  Paths:
+    - Siren/Stage.arc/Chest007
+Tower of the Gods - Floating Platforms Room:
+  Need: 
+  Original item: Small Key
+  Paths:
+    - Siren/Stage.arc/Chest008
+Tower of the Gods - Top of Floating Platforms Room:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - Siren/Stage.arc/Chest009
+Tower of the Gods - Big Key Chest:
+  Need: 
+  Original item: Big Key
+  Paths:
+    - Siren/Stage.arc/Chest00B
 #Tower of the Gods - Gohdan - Arrow Refill:
 #  Need: 
 #  Original item: 10 Arrows (Pickup)
@@ -1257,28 +1256,27 @@ Bird's Peak Rock - Cave:
   Paths:
     - TF_03/Stage.arc/Chest000
 
-# TODO:
-Pawprint Isle Chuchu Cave:
-  Need: 
-  Original item: Red Rupee
-  Paths:
-    - TyuTyu/Stage.arc/Chest000
-Pawprint Isle Chuchu Cave:
-  Need: 
-  Original item: Purple Rupee
-  Paths:
-    - TyuTyu/Stage.arc/Chest001
-Pawprint Isle Chuchu Cave:
-  Need: 
-  Original item: Joy Pendant
-  Paths:
-    - TyuTyu/Stage.arc/Chest002
-Pawprint Isle Chuchu Cave:
+Pawprint Isle - Chuchu Cave - Chest:
   Need: 
   Original item: Piece of Heart
   Paths:
     - TyuTyu/Stage.arc/Chest003
-Pawprint Isle Wizzrobe Cave:
+Pawprint Isle - Chuchu Cave - Behind First Boulder:
+  Need: 
+  Original item: Purple Rupee
+  Paths:
+    - TyuTyu/Stage.arc/Chest001
+Pawprint Isle - Chuchu Cave - Behind Second Boulder:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - TyuTyu/Stage.arc/Chest002
+Pawprint Isle Chuchu Cave - Scale the Wall:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - TyuTyu/Stage.arc/Chest000
+Pawprint Isle - Wizzrobe Cave:
   Need: 
   Original item: Silver Rupee
   Paths:
@@ -1553,17 +1551,16 @@ Flight Control Platform - Submarine:
   Paths:
     - Abship/Room6.arc/Chest000
 
-# TODO:
-Star Island:
-  Need: 
-  Original item: Golden Feather
-  Paths:
-    - sea/Room2.arc/Chest000
-Star Island Cave:
+Star Island - Cave:
   Need: 
   Original item: Piece of Heart
   Paths:
     - Cave02/Stage.arc/Chest000
+Star Island - Lookout Platform:
+  Need: 
+  Original item: Golden Feather
+  Paths:
+    - sea/Room2.arc/Chest000
 
 Star Belt Archipelago - Lookout Platform:
   Need: 
@@ -1653,13 +1650,12 @@ Five-Eye Reef - Lookout Platform:
   Paths:
     - sea/Room37.arc/Chest001
 
-# TODO:
-Six-Eye Reef:
+Six-Eye Reef - Chest:
   Need: 
   Original item: Treasure Chart 26
   Paths:
     - sea/Room25.arc/Chest000
-Six-Eye Reef:
+Six-Eye Reef - Lookout Platform:
   Need: 
   Original item: Skull Necklace
   Paths:
