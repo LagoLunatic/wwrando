@@ -267,3 +267,17 @@ def skip_post_boss_warp_cutscenes(self):
   warpf_rel_data = self.get_raw_file("files/rels/d_a_warpf.rel")
   write_u32(warpf_rel_data, 0xC3C, 0x38600001) # li r3, 1
   write_u32(warpf_rel_data, 0xC40, 0x4E800020) # blr
+
+def remove_shop_item_forced_uniqueness_bit(self):
+  # Some shop items have a bit set that disallows you from buying the item if you already own one of that item.
+  # This can be undesirable depending on what we randomize the items to be, so we unset this bit.
+  # Also, Beedle doesn't have a message to say when this you try to buy an item with this bit you already own. So the game would just crash if the player tried to buy these items while already owning them.
+  
+  shop_item_data_list_start = 0x372E1C
+  dol_data = self.get_raw_file("sys/main.dol")
+  
+  for shop_item_index in [0, 0xB, 0xC, 0xD]: # Bait Bag, Empty Bottle, Piece of Heart, and Treasure Chart 4 in Beedle's shops
+    shop_item_data_offset = shop_item_data_list_start + shop_item_index*0x10
+    buy_requirements_bitfield = read_u8(dol_data, shop_item_data_offset+0xC)
+    buy_requirements_bitfield = (buy_requirements_bitfield & (~2)) # Bit 02 specifies that the player must not already own this item
+    write_u8(dol_data, shop_item_data_offset+0xC, buy_requirements_bitfield)

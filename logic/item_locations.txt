@@ -1083,6 +1083,27 @@ The Great Sea - Withered Trees:
     - rels/d_a_obj_ftree.rel@0237
     - rels/d_a_obj_ftree.rel@03F3
 
+Beedle's Shop Ship - Bait Bag:
+  Need: 
+  Original item: Bait Bag
+  Paths:
+    - main.dol@372E1F
+Beedle's Special Shop Ship - Empty Bottle:
+  Need: 
+  Original item: Empty Bottle
+  Paths:
+    - main.dol@372ECF
+Beedle's Special Shop Ship - Piece of Heart:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - main.dol@372EDF
+Beedle's Special Shop Ship - Treasure Chart:
+  Need: 
+  Original item: Treasure Chart 4
+  Paths:
+    - main.dol@372EEF
+
 Ghost Ship:
   Need: 
   Original item: Triforce Chart 4

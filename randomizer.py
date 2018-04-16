@@ -50,6 +50,7 @@ class Randomizer:
     tweaks.allow_all_items_to_be_field_items(self)
     tweaks.allow_changing_boss_drop_items(self)
     tweaks.skip_post_boss_warp_cutscenes(self)
+    tweaks.remove_shop_item_forced_uniqueness_bit(self)
     
     self.randomize_items()
     
