@@ -44,7 +44,8 @@ class Logic:
     if item_name in self.unplaced_nonprogress_items:
       self.unplaced_nonprogress_items.remove(item_name)
     
-    print("Placed %s at %s" % (item_name, location_name))
+    spoiler_log_entry = "Placed %s at %s\n" % (item_name, location_name)
+    self.rando.spoiler_log += spoiler_log_entry
   
   def generate_empty_progress_reqs_file(self):
     output_str = ""
