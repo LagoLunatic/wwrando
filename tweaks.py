@@ -58,14 +58,15 @@ def remove_story_railroading(self):
   
   # We need to change some of the conditions in his checkOutRange function so he still prevents you from leaving the bounds of the map, but doesn't railroad you based on your story progress.
   # First is the check for before you've reached Dragon Roost Island. Make this branch unconditional so it considers you to have seen Dragon Roost's intro whether you have or not.
-  write_u32(ship_data, 0x29EC, 0x48000064) # b 0x80F2EA90
+  write_u32(ship_data, 0x29EC, 0x48000064) # b 0x2A50
   # Second is the check for whether you've gotten Farore's Pearl. Make this branch unconditional too.
-  write_u32(ship_data, 0x2A08, 0x48000048) # b 0x80F2EA90
+  write_u32(ship_data, 0x2A08, 0x48000048) # b 0x2A50
   # Third is the check for whether you have the Master Sword. Again make the branch unconditional.
-  write_u32(ship_data, 0x2A24, 0x48000010) # b 0x80F2EA74
+  write_u32(ship_data, 0x2A24, 0x48000010) # b 0x2A34
   
   # Skip the check for if you've seen the Dragon Roost Island intro which prevents you from getting in the King of Red Lions.
-  write_u32(ship_data, 0xB2D8, 0x48000018)
+  # Make this branch unconditional as well.
+  write_u32(ship_data, 0xB2D8, 0x48000018) # b 0xB2F0
 
 def skip_wakeup_intro_and_start_at_dock(self):
   # When the player starts a new game they usually start at spawn ID 206, which plays the wakeup event and puts the player on Aryll's lookout.
