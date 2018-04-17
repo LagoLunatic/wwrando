@@ -56,11 +56,11 @@
 37 - Hero's New Clothes
 38 - Hero's Sword
 39 - Master Sword (Powerless)
-3A - Master Sword (Half power)
+3A - Master Sword (Half Power)
 3B - Hero's Shield
 3C - Mirror Shield
 3D - Recovered Hero's Sword
-3E - Master Sword (Full power)
+3E - Master Sword (Full Power)
 3F - Piece of Heart (Alternate Message)
 40 - 
 41 - 

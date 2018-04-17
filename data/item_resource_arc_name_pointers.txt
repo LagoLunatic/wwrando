@@ -56,11 +56,11 @@
 37 00000000 Hero's New Clothes
 38 8035A237 Hero's Sword
 39 00000000 Master Sword (Powerless)
-3A 00000000 Master Sword (Half power)
+3A 00000000 Master Sword (Half Power)
 3B 8035A243 Hero's Shield
 3C 8035A23D Mirror Shield
 3D 8035A237 Recovered Hero's Sword
-3E 00000000 Master Sword (Full power)
+3E 00000000 Master Sword (Full Power)
 3F 8035A0B5 Piece of Heart (Alternate Message)
 40 00000000 
 41 00000000 

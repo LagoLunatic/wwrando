@@ -921,7 +921,7 @@ Earth Temple - Jalhalla Heart Container:
     - M_DaiB/Room0.arc/Actor001
 #Earth Temple - Master Sword Upgrade:
 #  Need: 
-#  Original item: Master Sword (Half power)
+#  Original item: Master Sword (Half Power)
 #  Paths:
 #    - main.dol@358D35
 
@@ -1009,7 +1009,7 @@ Wind Temple - Molgera Heart Container:
     - kazeB/Room0.arc/Actor001
 #Wind Temple - Master Sword Upgrade:
 #  Need: 
-#  Original item: Master Sword (Full power)
+#  Original item: Master Sword (Full Power)
 #  Paths:
 #    - main.dol@358D36
 

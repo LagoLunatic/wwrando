@@ -17,9 +17,9 @@ PROGRESS_ITEMS = [
   "Fire and Ice Arrows",
   "Light Arrow",
   "Master Sword (Powerless)",
-  "Master Sword (Half power)",
+  "Master Sword (Half Power)",
   "Mirror Shield",
-  "Master Sword (Full power)",
+  "Master Sword (Full Power)",
   
   "Triforce Shard 1",
   "Triforce Shard 2",

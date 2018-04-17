@@ -20,9 +20,9 @@
 32 Hero's Clothes
 33 Skull Hammer
 39 Master Sword (Powerless)
-3A Master Sword (Half power)
+3A Master Sword (Half Power)
 3C Mirror Shield
-3E Master Sword (Full power)
+3E Master Sword (Full Power)
 3F Piece of Heart (Alternate Message)
 42 Pirate's Charm
 43 Hero's Charm
