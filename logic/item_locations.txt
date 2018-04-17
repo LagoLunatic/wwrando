@@ -4,12 +4,12 @@
 #  Paths:
 #    - sea/Stage.arc/Event085:get_telescope/Actor002/Action001
 Outset Island - Underneath Link's House:
-  Need: 
+  Need: Nothing
   Original item: Orange Rupee
   Paths:
     - LinkUG/Stage.arc/Chest000
 Outset Island - Mesa the Grasscutter's House:
-  Need: 
+  Need: Nothing
   Original item: Red Rupee
   Paths:
     - Omasao/Stage.arc/Chest000
@@ -23,58 +23,64 @@ Outset Island - Mesa the Grasscutter's House:
 #  Original item: Hero's Shield
 #  Paths:
 #    - main.dol@358D3B
-Outset Island - Orca - Reward for Knights Crests:
-  Need: 
+Outset Island - Orca - Reward for Knight's Crests:
+  Need: Spoils Bag & Can Farm Knight's Crests
   Original item: Hurricane Spin
   Paths:
     - rels/d_a_npc_ji1.rel@4267
 Outset Island - Orca - Hit 100 Times:
-  Need: 
+  Need: Nothing
   Original item: Purple Rupee
   Paths:
     - rels/d_a_npc_ji1.rel@4297
 Outset Island - Orca - Hit 300 Times:
-  Need: 
+  Need: Nothing
   Original item: Orange Rupee
   Paths:
     - rels/d_a_npc_ji1.rel@42BB
 Outset Island - Orca - Hit 500 Times:
-  Need: 
+  Need: Nothing
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_ji1.rel@42F7
 Outset Island - Orca - Hit 999 Times:
-  Need: 
+  Need: Nothing
   Original item: Silver Rupee
   Paths:
     - rels/d_a_npc_ji1.rel@42EF
 Outset Island - Great Fairy:
-  Need: 
+  Need: Can Fly With Deku Leaf & Can Move Boulders
   Original item: 5000 Rupee Wallet
   Paths:
     - rels/d_a_bigelf.rel@21C7
 Outset Island - Grandma Cured:
-  Need: 
+  Need: Empty Bottle & Can Get Fairies
   Original item: Elixir Soup
   Paths:
     - LinkRM/Stage.arc/Event003:Ba1_Get_Itm/Actor002/Action001
-Outset Island - Jabun:
-  Need: 
-  Original item: Nayru's Pearl
-  Paths:
-    - main.dol@358D39
+#Outset Island - Jabun:
+#  Need: 
+#  Original item: Nayru's Pearl
+#  Paths:
+#    - main.dol@358D39
 Outset Island - Dig up Black Soil:
-  Need: 
+  Need: Bait Bag & Can Buy Bait & Power Bracelets
   Original item: Piece of Heart
   Paths:
     - sea/Room44.arc/ScalableObject03A
 Savage Labyrinth - Floor 30:
-  Need: 
+  Need:
+    Can Fly With Deku Leaf
+    & Power Bracelets # TODO: Do you need anything else to do savage labyrinth?
   Original item: Triforce Chart 6
   Paths:
     - Cave09/Room20.arc/Chest000
 Savage Labyrinth - Floor 50:
-  Need: 
+  Need:
+    Can Fly With Deku Leaf
+    & Power Bracelets
+    & Mirror Shield
+    & Skull Hammer # TODO: Do you need anything else to do savage labyrinth?
   Original item: Piece of Heart
   Paths:
     - Cave10/Room20.arc/Chest000
@@ -95,29 +101,30 @@ Savage Labyrinth - Floor 50:
 #  Paths:
 #    - Asoko/Stage.arc/Chest002
 
+# TODO: progress reqs for forsaken fortress
 Forsaken Fortress Interior - Map Chest:
-  Need: 
+  Need: Can Get Inside Forsaken Fortress & TODO
   Original item: Dungeon Map
   Paths:
     - majroom/Stage.arc/Chest000
     - ma2room/Stage.arc/Chest000
     - ma3room/Stage.arc/Chest000
 Forsaken Fortress Interior - Chest on Bed:
-  Need: 
+  Need: Can Get Inside Forsaken Fortress & TODO
   Original item: Yellow Rupee
   Paths:
     - majroom/Stage.arc/Chest001
     - ma2room/Stage.arc/Chest001
     - ma3room/Stage.arc/Chest001
 Forsaken Fortress Interior - Compass Chest:
-  Need: 
+  Need: Can Get Inside Forsaken Fortress & TODO
   Original item: Compass
   Paths:
     - majroom/Stage.arc/Chest002
     - ma2room/Stage.arc/Chest002
     - ma3room/Stage.arc/Chest002
 Forsaken Fortress Interior - Jail Cell:
-  Need: 
+  Need: Can Get Inside Forsaken Fortress & TODO
   Original item: Piece of Heart
   Paths:
     - majroom/Stage.arc/Chest003
@@ -129,12 +136,12 @@ Forsaken Fortress Interior - Jail Cell:
 #  Paths:
 #    - MajyuE/Room0.arc/Actor016
 Forsaken Fortress - Phantom Ganon:
-  Need: 
+  Need: Can Reach and Defeat Phantom Ganon
   Original item: Skull Hammer
   Paths:
     - sea/Room1.arc/Chest000
 Forsaken Fortress - Helmaroc King Heart Container:
-  Need: 
+  Need: Can Get Inside Forsaken Fortress & TODO
   Original item: Heart Container
   Paths:
     - rels/d_a_bdk.rel@5CCE
@@ -144,57 +151,57 @@ Forsaken Fortress - Helmaroc King Heart Container:
 
 
 Windfall Town Jail - Tingle - First Gift:
-  Need: 
+  Need: Nothing
   Original item: Tingle Tuner
   Paths:
     - rels/d_a_npc_tc.rel@6117
 Windfall Town Jail - Tingle - Second Gift:
-  Need: 
+  Need: Nothing
   Original item: Tingle's Chart
   Paths:
     - rels/d_a_npc_tc.rel@611F
 Windfall Town Jail - Maze Chest:
-  Need: 
+  Need: Nothing
   Original item: Picto Box
   Paths:
     - Pnezumi/Stage.arc/Chest000
-Chu Jelly Juice Shop - Red Potion Free Sample:
-  Need: 
-  Original item: Red Potion
-  Paths:
-    - rels/d_a_npc_ds1.rel@28C7
-Chu Jelly Juice Shop - Green Potion Free Sample:
-  Need: 
-  Original item: Green Potion
-  Paths:
-    - rels/d_a_npc_ds1.rel@28D7
-Chu Jelly Juice Shop - Blue Potion Free Sample:
-  Need: 
-  Original item: Blue Potion
-  Paths:
-    - rels/d_a_npc_ds1.rel@28DF
+#Chu Jelly Juice Shop - Red Potion Free Sample:
+#  Need: 
+#  Original item: Red Potion
+#  Paths:
+#    - rels/d_a_npc_ds1.rel@28C7
+#Chu Jelly Juice Shop - Green Potion Free Sample:
+#  Need: 
+#  Original item: Green Potion
+#  Paths:
+#    - rels/d_a_npc_ds1.rel@28D7
+#Chu Jelly Juice Shop - Blue Potion Free Sample:
+#  Need: 
+#  Original item: Blue Potion
+#  Paths:
+#    - rels/d_a_npc_ds1.rel@28DF
 Windfall Island - Ivan - Reward for Catching Killer Bees:
-  Need: 
+  Need: Nothing
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_mk.rel@20CB
 Mrs. Marie's School - Reward for Catching Killer Bees:
-  Need: 
+  Need: Nothing
   Original item: Purple Rupee
   Paths:
     - rels/d_a_npc_ho.rel@0A07
 Mrs. Marie's School - Reward for Giving 1 Joy Pendant:
-  Need: 
+  Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Red Rupee
   Paths:
     - rels/d_a_npc_ho.rel@0B4B
 Mrs. Marie's School - Reward for Giving 20 Joy Pendants:
-  Need: 
+  Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Cabana Deed
   Paths:
     - rels/d_a_npc_ho.rel@0B77
 Mrs. Marie's School - Reward for Giving 40 Joy Pendants:
-  Need: 
+  Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Hero's Charm
   Paths:
     - rels/d_a_npc_ho.rel@0C87
@@ -214,186 +221,209 @@ Mrs. Marie's School - Reward for Giving 40 Joy Pendants:
 #  Paths:
 #    - rels/d_a_npc_ho.rel@0C6B
 Lenzo's House - Left Chest:
-  Need: 
+  Need:
+    # Need Wind's Requiem to activate the Windmill
+    # Need Picto Box because Lenzo will not unlock his upper door until you talk to him after obtaining it
+    Can Play Wind's Requiem 
+    & Picto Box
   Original item: Treasure Chart 29
   Paths:
     - Ocmera/Stage.arc/Chest000
 Lenzo's House - Right Chest:
-  Need: 
+  Need:
+    # Need Wind's Requiem to activate the Windmill
+    # Need Picto Box because Lenzo will not unlock his upper door until you talk to him after obtaining it
+    Can Play Wind's Requiem 
+    & Picto Box
   Original item: Purple Rupee
   Paths:
     - Ocmera/Stage.arc/Chest001
 Lenzo's House - Reward for Becoming Lenzo's Assistant:
-  Need: 
+  Need:
+    Picto Box
+    & TODO # might need to have rescued aryll
   Original item: Joy Pendant
   Paths:
     - rels/d_a_npc_photo.rel@1C13
 Lenzo's House - Deluxe Picto Box:
-  Need: 
+  Need:
+    Picto Box
+    & TODO
+    & Empty Bottle
+    & Can Access Forest Haven
   Original item: Deluxe Picto Box
   Paths:
     - rels/d_a_npc_photo.rel@1C37
 Lenzo's House - TODO:
-  Need: 
+  Need: TODO
   Original item: Legendary Pictograph
   Paths:
     - rels/d_a_npc_photo.rel@3B8B
 Lenzo's House - Deluxe Picto Box 2? TODO dupe:
-  Need: 
+  Need: TODO
   Original item: Deluxe Picto Box
   Paths:
     - rels/d_a_npc_photo.rel@3BE3
-Cafe Bar - Postman:
-  Need: 
-  Original item: Moblin's Letter
-  Paths:
-    - Opub/Stage.arc/Event00E:Get_Mo3_Ltr/Actor002/Action001
 House of Wealth - Chest:
-  Need: 
+  Need: Nothing
   Original item: Red Rupee
   Paths:
     - Orichh/Room0.arc/Chest000
 House of Wealth - Maggie's Father - Reward for Giving 20 Skull Necklaces:
-  Need: 
+  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
   Original item: Treasure Chart 2
   Paths:
     - Orichh/Stage.arc/Event04C:Gp1_Get_Itm/Actor002/Action001
-House of Wealth - Maggie's Father - Reward for Giving More than 20 Skull Necklaces:
-  Need: 
+House of Wealth - Maggie's Father - Reward for Giving More than 20 Skull Necklaces (TODO?):
+  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
   Original item: Red Rupee
   Paths:
     - rels/d_a_npc_kf1.rel@17AF
 House of Wealth - Maggie's Father - Reward for Giving More than 20 Skull Necklaces (dupe? TODO):
-  Need: 
+  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
   Original item: Red Rupee
   Paths:
     - rels/d_a_npc_kf1.rel@1A23
 House of Wealth - Maggie - Letter:
-  Need: 
+  Need: Rescued Aryll & TODO
   Original item: Maggie's Letter
   Paths:
     - rels/d_a_npc_kp1.rel@17D7
 House of Wealth - Maggie - Reward:
-  Need: 
+  Need: Rescued Aryll & Delivery Bag & TODO
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_kp1.rel@1817
+Cafe Bar - Postman:
+  Need: Rescued Aryll & Delivery Bag & TODO
+  Original item: Moblin's Letter
+  Paths:
+    - Opub/Stage.arc/Event00E:Get_Mo3_Ltr/Actor002/Action001
 Windfall Island - Transparent Chest:
-  Need: 
+  Need:
+    # Need to activate the windmill, light up the lighthouse, and then get to the chest either by flying or with hookshot.
+    Can Play Wind's Requiem
+    & Fire Arrows
+    & (Can Fly With Deku Leaf | Hookshot)
   Original item: Piece of Heart
   Paths:
     - sea/Room11.arc/Chest000
     - sea/Room11.arc/Chest001
     - sea/Room11.arc/Chest002
 Windfall Island - Tott:
-  Need: 
+  Need: Wind Waker
   Original item: Song of Passing
   Paths:
     - sea/Stage.arc/Event0E3:TACT_TT11/Actor001/Action003
-Windfall Island - Auction 1:
-  Need: 
+Windfall Island - Auction 1: # the order of auctions may be reversed, 4-1? TODO
+  Need: Nothing
   Original item: Joy Pendant
   Paths:
     - rels/d_a_auction.rel@4489
 Windfall Island - Auction 2:
-  Need: 
+  Need: Nothing
   Original item: Treasure Chart 18
   Paths:
     - rels/d_a_auction.rel@4491
 Windfall Island - Auction 3:
-  Need: 
+  Need: Nothing
   Original item: Treasure Chart 38
   Paths:
     - rels/d_a_auction.rel@4499
 Windfall Island - Auction 4:
-  Need: 
+  Need: Nothing
   Original item: Piece of Heart
   Paths:
     - rels/d_a_auction.rel@44A1
 Windfall Island - Zunari - Island Trading Starter:
-  Need: 
+  Need: TODO # Maybe rescue Aryll?
   Original item: Town Flower
   Paths:
     - rels/d_a_npc_rsh1.rel@30DF
-Windfall Island - Zunari - Sail:
-  Need: 
-  Original item: Boat's Sail
-  Paths:
-    - rels/d_a_npc_rsh1.rel@30FB
+#Windfall Island - Zunari - Sail:
+#  Need: 
+#  Original item: Boat's Sail
+#  Paths:
+#    - rels/d_a_npc_rsh1.rel@30FB
 Windfall Island - Zunari - Make Three Merchant's Oaths:
-  Need: 
+  Need: TODO # Maybe rescue Aryll?
   Original item: Magic Armor
   Paths:
     - rels/d_a_npc_rsh1.rel@3117
 Windfall Island - Mila:
-  Need: 
+  Need: Rescued Aryll & TODO
   Original item: Empty Bottle
   Paths:
     - sea/Stage.arc/Event084:get_empty_btl/Actor002/Action001
 Windfall Island - Sinking Ships - First Prize:
-  Need: 
+  Need: Nothing
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_kg1.rel@2C28
 Windfall Island - Sinking Ships - Second Prize:
-  Need: 
+  Need: Nothing
   Original item: Treasure Chart 7
   Paths:
     - rels/d_a_npc_kg1.rel@2C29
 #Windfall Island - Sinking Ships - Prize 3+:
-#  Need: 
+#  Need: Nothing
 #  Original item: Purple Rupee
 #  Paths:
 #    - rels/d_a_npc_kg1.rel@2C2A
 Windfall Island - Sinking Ships - 20 Shots or Less Prize:
-  Need: 
+  Need: Nothing
   Original item: Treasure Chart 23
   Paths:
     - rels/d_a_npc_kg1.rel@2C2C
 #Windfall Island - Sinking Ships - 20 Shots or Less Prize 2+:
-#  Need: 
+#  Need: Nothing
 #  Original item: Orange Rupee
 #  Paths:
 #    - rels/d_a_npc_kg1.rel@2C2D
 Windfall Island - Pompie and Vera:
-  Need: 
+  Need:
+    # Need to snap a photo of Lenzo and Minenco in Lenzo's house at night.
+    # Need Wind's Requiem to activate the Windmill
+    # Need Picto Box because Lenzo will not unlock his upper door until you talk to him after obtaining it
+    Can Play Wind's Requiem 
+    & Picto Box
   Original item: Treasure Chart 24
   Paths:
     - rels/d_a_npc_people.rel@C54F
 Windfall Island - Kamo:
-  Need: 
+  Need: Deluxe Picto Box
   Original item: Treasure Chart 31
   Paths:
     - rels/d_a_npc_people.rel@C55F
 Windfall Island - Minenco:
-  Need: 
+  Need: Deluxe Picto Box
   Original item: Treasure Chart 33
   Paths:
     - rels/d_a_npc_people.rel@C553
 Windfall Island - TODO 1 (Kreeb, Linda, or Sam):
-  Need: 
+  Need: TODO # Linda requires Deluxe Picto Box. regular picto box might work but probably not, test
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_people.rel@C54B
 Windfall Island - TODO 2 (Kreeb, Linda, or Sam):
-  Need: 
+  Need: TODO
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_people.rel@C557
 Windfall Island - TODO 3 (Kreeb, Linda, or Sam):
-  Need: 
+  Need: TODO
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_people.rel@C55B
 
 
-Dragon Roost Island - Gift from King of Red Lions:
-  Need: 
-  Original item: Wind Waker
-  Paths:
-    - sea/Stage.arc/Event025:TACT_TEARCH3/Actor000/Action002
+#Dragon Roost Island - Gift from King of Red Lions:
+#  Need: 
+#  Original item: Wind Waker
+#  Paths:
+#    - sea/Stage.arc/Event025:TACT_TEARCH3/Actor000/Action002
 Dragon Roost Island - Wind Shrine:
-  Need: 
+  Need: Wind Waker
   Original item: Wind's Requiem
   Paths:
     - sea/Stage.arc/Event0D8:TACT_HT/Actor001/Action005
@@ -404,7 +434,7 @@ Dragon Roost Island - Wind Shrine:
 #  Paths:
 #    - main.dol@358D3A
 Dragon Roost Island - Letter for Komali:
-  Need: 
+  Need: Nothing
   Original item: Father's Letter
   Paths:
     - rels/d_a_npc_md.rel@AF1B
@@ -415,34 +445,35 @@ Dragon Roost Island - Letter for Komali:
 #  Paths:
 #    - main.dol@358D37
 Dragon Roost Island - Rito Aerie - Give Hoskit 20 Golden Feathers:
-  Need: 
+  Need: Spoils Bag & Can Farm Golden Feathers
   Original item: Orange Rupee
   Paths:
     - Atorizk/Stage.arc/Event000:Get_Rupee/Actor002/Action001
 Dragon Roost Island - Chest on Top of Boulder:
-  Need: 
+  Need: TODO # Bow works, but see if coming out of the long cave passage near it allows boomerang to reach too
   Original item: Silver Rupee
   Paths:
     - sea/Room13.arc/Chest000
 Dragon Roost Island - Long Cave Passage:
-  Need: 
+  Need: Can Fly With Deku Leaf
   Original item: Orange Rupee
   Paths:
     - sea/Room13.arc/Chest001
 Dragon Roost Island - Rito Aerie - Baito:
-  Need: 
+  Need: TODO # Probably need to beat Gohma before Baito will appear?
   Original item: Note to Mom
   Paths:
     - Atorizk/Stage.arc/Event003:GETMOTHERLETTER/Actor000/Action000
 Dragon Roost Island - Secret Cave:
-  Need: 
+  Need: Can Move Boulders
   Original item: Purple Rupee
   Paths:
     - TF_06/Stage.arc/Chest000
 
 # Dragon Roost Cavern
+# TODO: progress reqs for dragon roost cavern
 Dragon Roost Cavern Entrance - Medli's Gift:
-  Need: 
+  Need: Delivery Bag & Father's Letter # Need to deliver this to Komali before Medli will appear
   Original item: Empty Bottle
   Paths:
     - rels/d_a_npc_md.rel@AF3F
@@ -737,7 +768,7 @@ Hyrule - Master Sword Chamber:
 
 
 Mother and Child Isles - Queen Fairy:
-  Need: 
+  Need: Can Play Ballad of Gales
   Original item: Fire and Ice Arrows
   Paths:
     - main.dol@358D3C
@@ -776,12 +807,12 @@ Fire Mountain - Lookout Platform Left Chest:
 
 
 Headstone Island - Top of the Island:
-  Need: 
+  Need: Bait Bag & Hyoi Pear
   Original item: Piece of Heart
   Paths:
     - sea/Room45.arc/Actor013
 Headstone Island - Submarine:
-  Need: 
+  Need: Nothing
   Original item: Treasure Chart 14
   Paths:
     - Abship/Room3.arc/Chest000
@@ -1055,7 +1086,7 @@ Mailbox - Beedle's Gold Membership Reward:
     - rels/d_a_obj_toripost.rel@25F4
 
 The Great Sea - Cyclos:
-  Need: 
+  Need: Hero's Bow
   Original item: Ballad of Gales
   Paths:
     - sea/Stage.arc/Event0E0:TACT1_RT/Actor001/Action003
@@ -1197,17 +1228,17 @@ Spectacle Island - Target Shooting - Second Prize:
 #    - rels/d_a_npc_kg2.rel@210F
 
 Needle Rock Isle - Chest:
-  Need: 
+  Need: TODO # probably needs either bow or bait bag & hyoi pear. buy just the bow might be too hard.
   Original item: Piece of Heart
   Paths:
     - sea/Room29.arc/Chest000
-Needle Rock Isle Cave:
-  Need: 
+Needle Rock Isle - Cave:
+  Need: Fire Arrows
   Original item: Orange Rupee
   Paths:
     - SubD42/Stage.arc/Chest000
 Needle Rock Isle - Golden Gunboat:
-  Need: 
+  Need: Bombs & Grappling Hook
   Original item: Triforce Chart 5
   Paths:
     - sea/Room29.arc/ScalableObject00D
@@ -1268,7 +1299,11 @@ Overlook Island - Cave:
     - TF_02/Stage.arc/Chest000
 
 Bird's Peak Rock - Cave:
-  Need: 
+  Need:
+    # Need to hit the switches with a seagull.
+    # Also need to play the Wind's Requiem to get the chest to appear.
+    Bait Bag & Hyoi Pear
+    & Can Play Wind's Requiem
   Original item: Triforce Chart 3
   Paths:
     - TF_03/Stage.arc/Chest000
@@ -1321,12 +1356,12 @@ Thorned Fairy Island - Southwestern Lookout Platform:
     - sea/Room28.arc/Chest001
 
 Eastern Fairy Island - Great Fairy:
-  Need: 
+  Need: Can Move Boulders
   Original item: 60 Bomb Bomb Bag
   Paths:
     - rels/d_a_bigelf.rel@21E7
-Eastern Fairy Island - Lookout Platform:
-  Need: 
+Eastern Fairy Island - Lookout Platform - Destroy the Cannons:
+  Need: Bombs
   Original item: Boko Baba Seed
   Paths:
     - sea/Room19.arc/Chest000
@@ -1343,28 +1378,32 @@ Western Fairy Island - Lookout Platform:
     - sea/Room15.arc/Chest000
 
 Southern Fairy Island Great Fairy:
-  Need: 
+  Need: Bombs | Fire Arrows # Can either blow up or burn the blockade
   Original item: 99 Bomb Bomb Bag
   Paths:
     - rels/d_a_bigelf.rel@21F3
-Southern Fairy Island - Lookout Platform Right Chest:
-  Need: 
+Southern Fairy Island - Lookout Platform - Destroy the Northwest Cannons:
+  Need:
+    Bombs
+    & Can Fly With Deku Leaf
   Original item: Treasure Chart 40
   Paths:
     - sea/Room39.arc/Chest000
-Southern Fairy Island - Lookout Platform Left Chest:
-  Need: 
+Southern Fairy Island - Lookout Platform - Destroy the Southeast Cannons:
+  Need:
+    Bombs
+    & Can Fly With Deku Leaf
   Original item: Skull Necklace
   Paths:
     - sea/Room39.arc/Chest001
 
 Northern Fairy Island - Great Fairy:
-  Need: 
+  Need: Nothing
   Original item: 1000 Rupee Wallet
   Paths:
     - rels/d_a_bigelf.rel@21BB
 Northern Fairy Island - Submarine:
-  Need: 
+  Need: Nothing
   Original item: Treasure Chart 22
   Paths:
     - Abship/Room4.arc/Chest000
@@ -1473,7 +1512,7 @@ Bomb Island - Submarine:
     - Abship/Room2.arc/Chest000
 
 Rock Spire Isle - Cave:
-  Need: 
+  Need: Bombs
   Original item: Treasure Chart 37
   Paths:
     - Cave04/Stage.arc/Chest000
@@ -1488,7 +1527,7 @@ Rock Spire Isle - Eastern Lookout Platform:
   Paths:
     - sea/Room16.arc/Chest001
 Rock Spire Isle - Center Lookout Platform:
-  Need: 
+  Need: Nothing
   Original item: Red Rupee
   Paths:
     - sea/Room16.arc/Chest002
@@ -1532,22 +1571,22 @@ Crescent Moon Island - Submarine:
     - Abship/Room7.arc/Chest000
 
 Horseshoe Island - Center Chest:
-  Need: 
+  Need: Deku Leaf # TODO?
   Original item: Treasure Chart 28
   Paths:
     - sea/Room43.arc/Chest000
-Horseshoe Island Cave:
-  Need: 
+Horseshoe Island - Cave:
+  Need: Deku Leaf # TODO?
   Original item: Treasure Chart 8
   Paths:
     - Cave05/Stage.arc/Chest000
 Horseshoe Island - Northwestern Lookout Platform:
-  Need: 
+  Need: Nothing
   Original item: Skull Necklace
   Paths:
     - sea/Room43.arc/Chest001
 Horseshoe Island - Southeastern Lookout Platform:
-  Need: 
+  Need: Nothing
   Original item: Golden Feather
   Paths:
     - sea/Room43.arc/Chest002
@@ -1569,12 +1608,12 @@ Flight Control Platform - Submarine:
     - Abship/Room6.arc/Chest000
 
 Star Island - Cave:
-  Need: 
+  Need: Can Move Boulders
   Original item: Piece of Heart
   Paths:
     - Cave02/Stage.arc/Chest000
 Star Island - Lookout Platform:
-  Need: 
+  Need: Nothing
   Original item: Golden Feather
   Paths:
     - sea/Room2.arc/Chest000
@@ -1602,28 +1641,32 @@ Five-Star Isles - Submarine:
     - Abship/Room0.arc/Chest000
 
 Seven-Star Isles - Northern Lookout Platform:
-  Need: 
+  Need: Nothing
   Original item: Golden Feather
   Paths:
     - sea/Room6.arc/Chest000
 Seven-Star Isles - Center Lookout Platform:
-  Need: 
+  Need: Nothing
   Original item: Red Rupee
   Paths:
     - sea/Room6.arc/Chest001
 Seven-Star Isles - Southern Lookout Platform:
-  Need: 
+  Need: Can Defeat Wizzrobes at Range # The other two chests appear when killing Wizzrobes as well, but those ones can appear at melee distance.
   Original item: Treasure Chart 16
   Paths:
     - sea/Room6.arc/Chest002
 Seven-Star Isles - Big Octo:
-  Need: 
+  Need: Can Defeat Big Octos & Grappling Hook
   Original item: Piece of Heart
   Paths:
     - sea/Room6.arc/ScalableObject000
 
-Cyclops Reef - Chest:
-  Need: 
+Cyclops Reef - Destroy the Cannons:
+  Need:
+    # The cannons at the eye reefs don't appear until Phantom Ganon is dead.
+    Can Reach and Defeat Phantom Ganon
+    & Bombs
+    & Can Fly With Deku Leaf
   Original item: Treasure Chart 21
   Paths:
     - sea/Room24.arc/Chest000
@@ -1633,8 +1676,12 @@ Cyclops Reef - Lookout Platform:
   Paths:
     - sea/Room24.arc/Chest001
 
-Two-Eye Reef - Chest:
-  Need: 
+Two-Eye Reef - Destroy the Cannons:
+  Need:
+    # The cannons at the eye reefs don't appear until Phantom Ganon is dead.
+    Can Reach and Defeat Phantom Ganon
+    & Bombs
+    & Can Fly With Deku Leaf
   Original item: Treasure Chart 13
   Paths:
     - sea/Room46.arc/Chest000
@@ -1644,20 +1691,32 @@ Two-Eye Reef - Lookout Platform:
   Paths:
     - sea/Room46.arc/Chest001
 
-Three-Eye Reef - Chest:
-  Need: 
+Three-Eye Reef - Destroy the Cannons:
+  Need:
+    # The cannons at the eye reefs don't appear until Phantom Ganon is dead.
+    Can Reach and Defeat Phantom Ganon
+    & Bombs
+    & Can Fly With Deku Leaf
   Original item: Treasure Chart 32
   Paths:
     - sea/Room22.arc/Chest000
 
-Four-Eye Reef - Chest:
-  Need: 
+Four-Eye Reef - Destroy the Cannons:
+  Need:
+    # The cannons at the eye reefs don't appear until Phantom Ganon is dead.
+    Can Reach and Defeat Phantom Ganon
+    & Bombs
+    & Can Fly With Deku Leaf
   Original item: Treasure Chart 19
   Paths:
     - sea/Room8.arc/Chest000
 
-Five-Eye Reef - Chest:
-  Need: 
+Five-Eye Reef - Destroy the Cannons:
+  Need:
+    # The cannons at the eye reefs don't appear until Phantom Ganon is dead.
+    Can Reach and Defeat Phantom Ganon
+    & Bombs
+    & Can Fly With Deku Leaf
   Original item: Treasure Chart 41
   Paths:
     - sea/Room37.arc/Chest000
@@ -1667,18 +1726,22 @@ Five-Eye Reef - Lookout Platform:
   Paths:
     - sea/Room37.arc/Chest001
 
-Six-Eye Reef - Chest:
-  Need: 
+Six-Eye Reef - Destroy the Cannons:
+  Need:
+    # The cannons at the eye reefs don't appear until Phantom Ganon is dead.
+    Can Reach and Defeat Phantom Ganon
+    & Bombs
+    & Can Fly With Deku Leaf
   Original item: Treasure Chart 26
   Paths:
     - sea/Room25.arc/Chest000
-Six-Eye Reef - Lookout Platform:
-  Need: 
+Six-Eye Reef - Lookout Platform - Destroy the Cannons:
+  Need: Bombs
   Original item: Skull Necklace
   Paths:
     - sea/Room25.arc/Chest001
 Six-Eye Reef - Submarine:
-  Need: 
+  Need: Nothing
   Original item: Piece of Heart
   Paths:
     - Abship/Room1.arc/Chest000

@@ -1,0 +1,48 @@
+Can Play Wind's Requiem:
+  Wind Waker & Wind's Requiem
+Can Play Ballad of Gales:
+  Wind Waker & Ballad of Gales
+Can Fly With Deku Leaf:
+  Deku Leaf & Can Play Wind's Requiem
+Any Master Sword:
+  Master Sword (Powerless) | Master Sword (Half power) | Master Sword (Full power)
+Can Access Forest Haven:
+  TODO
+Can Get Past Forsaken Fortress Gate:
+  Bombs
+  # (It's also possible to blow up the door without bombs by using the mounted cannons, but this is not required by the logic.)
+Can Get Inside Forsaken Fortress:
+  Can Get Past Forsaken Fortress Gate & Skull Hammer
+  # Even though you can kill Phantom Ganon without the Skull Hammer, that only lets you access the one chest he spawns.
+  # You can't access the other chests/boss without Skull Hammer.
+Can Reach and Defeat Phantom Ganon:
+  # Phantom Ganon's energy balls can be reflected with any form of the Master Sword, or with an empty bottle.
+  Can Get Past Forsaken Fortress Gate
+  & (Any Master Sword | Empty Bottle)
+Can Move Boulders:
+  Bombs | Power Bracelets
+Can Farm Knight's Crests:
+  Spoils Bag
+  & TODO
+Can Farm Joy Pendants:
+  Spoils Bag
+  & TODO
+Can Farm Skull Necklaces:
+  Spoils Bag
+  & TODO
+Can Farm Golden Feathers:
+  Spoils Bag
+  & TODO
+Can Defeat Wizzrobes at Range:
+  Hero's Bow
+  | Hookshot
+  | TODO # Does Grappling Hook help? What about Bombs?
+Can Defeat Big Octos:
+  Hero's Bow
+  | Bombs
+  | Boomerang
+  # Hookshot can technically damage Big Octos, but it only reaches at the end when your time limit is almost up.
+Fire Arrows:
+  Hero's Bow & Fire and Ice Arrows # TODO: also need magic meter
+TODO:
+  Impossible
