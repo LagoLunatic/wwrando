@@ -17,8 +17,14 @@ class Logic:
     self.unplaced_nonprogress_items = list(NONPROGRESS_ITEMS)
     self.consumable_items = list(CONSUMABLE_ITEMS)
     
-    with open("./logic/item_locations.txt") as f:
-      self.item_locations = yaml.safe_load(f)
+    self.currently_owned_items = []
+    
+    self.all_cleaned_item_names = []
+    for item_id, item_name in self.rando.item_names.items():
+      cleaned_item_name = self.clean_item_name(item_name)
+      self.all_cleaned_item_names.append(cleaned_item_name)
+    
+    self.load_and_parse_item_locations()
     
     self.remaining_item_locations = list(self.item_locations.keys())
     # Dict keys are not in a consistent order so we have to sort it so random seeding works consistently.
@@ -39,16 +45,121 @@ class Logic:
     self.done_item_locations[location_name] = item_name
     self.remaining_item_locations.remove(location_name)
     
-    self.mark_item_as_placed(item_name)
+    self.add_owned_item(item_name)
     
     spoiler_log_entry = "Placed %s at %s\n" % (item_name, location_name)
     self.rando.spoiler_log += spoiler_log_entry
   
-  def mark_item_as_placed(self, item_name):
+  def add_owned_item(self, item_name):
+    cleaned_item_name = self.clean_item_name(item_name)
+    if cleaned_item_name not in self.all_cleaned_item_names:
+      raise Exception("Unknown item name: " + item_name)
+    self.currently_owned_items.append(cleaned_item_name)
+    
     if item_name in self.unplaced_progress_items:
       self.unplaced_progress_items.remove(item_name)
     if item_name in self.unplaced_nonprogress_items:
       self.unplaced_nonprogress_items.remove(item_name)
+  
+  def get_accessible_remaining_locations(self):
+    accessible_location_names = []
+    
+    for location_name in self.remaining_item_locations:
+      requirement_expression = self.item_locations[location_name]["Need"]
+      if self.check_logical_expression_req(requirement_expression):
+        accessible_location_names.append(location_name)
+    
+    return accessible_location_names
+  
+  def load_and_parse_item_locations(self):
+    with open("./logic/item_locations.txt") as f:
+      self.item_locations = yaml.safe_load(f)
+    for location_name in self.item_locations:
+      req_string = self.item_locations[location_name]["Need"]
+      if req_string is None:
+        # TODO, blank reqs should be an error. Temporarily we will just consider them to be impossible.
+        self.item_locations[location_name]["Need"] = self.parse_logic_expression("TODO")
+      else:
+        self.item_locations[location_name]["Need"] = self.parse_logic_expression(req_string)
+    
+    with open("./logic/macros.txt") as f:
+      macro_strings = yaml.safe_load(f)
+    self.macros = {}
+    for name, string in macro_strings.items():
+      self.macros[name] = self.parse_logic_expression(string)
+  
+  def clean_item_name(self, item_name):
+    # Remove parentheses from Master Sword and other names.
+    return item_name.replace("(", "").replace(")", "")
+  
+  def parse_logic_expression(self, string):
+    tokens = [str.strip() for str in re.split("([&|()])", string)]
+    tokens = [token for token in tokens if token != ""]
+    
+    stack = []
+    for token in tokens:
+      if token == "(":
+        stack.append("(")
+      elif token == ")":
+        nested_tokens = []
+        
+        while len(stack) != 0:
+          exp = stack.pop()
+          if exp == "(":
+            break
+          nested_tokens.append(exp)
+        
+        nested_tokens.reverse()
+        stack.append("(")
+        stack.append(nested_tokens)
+        stack.append(")")
+      else:
+        stack.append(token)
+    
+    return stack
+  
+  def check_requirement_met(self, req_name):
+    if req_name in self.all_cleaned_item_names:
+      return req_name in self.currently_owned_items
+    elif req_name in self.macros:
+      logical_expression = self.macros[req_name]
+      return self.check_logical_expression_req(logical_expression)
+    elif req_name == "Nothing":
+      return True
+    elif req_name == "Impossible":
+      return False
+    else:
+      raise Exception("Unknown requirement name: " + req_name)
+  
+  def check_logical_expression_req(self, logical_expression):
+    expression_type = None
+    subexpression_results = []
+    tokens = list(logical_expression)
+    tokens.reverse()
+    while len(tokens) != 0:
+      token = tokens.pop()
+      if token == "|":
+        if expression_type == "AND":
+          raise Exception("Error parsing progression requirements: & and | must not be within the same nesting level.")
+        expression_type = "OR"
+      elif token == "&":
+        if expression_type == "OR":
+          raise Exception("Error parsing progression requirements: & and | must not be within the same nesting level.")
+        expression_type = "AND"
+      elif token == "(":
+        nested_expression = tokens.pop()
+        result = self.check_logical_expression_req(nested_expression)
+        subexpression_results.append(result)
+        assert tokens.pop() == ")"
+      else:
+        # Subexpression.
+        result = self.check_requirement_met(token)
+        subexpression_results.append(result)
+    
+    if expression_type == "OR":
+      return any(subexpression_results)
+    else:
+      return all(subexpression_results)
   
   def generate_empty_progress_reqs_file(self):
     output_str = ""

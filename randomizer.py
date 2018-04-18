@@ -17,8 +17,9 @@ class Randomizer:
   def __init__(self):
     clean_base_dir = "../Wind Waker Files"
     self.randomized_base_dir = "../Wind Waker Files Randomized"
-    self.seed = 5
+    self.seed = 1
     random.seed(self.seed)
+    self.read_text_file_lists()
     self.logic = Logic(self)
     
     self.stage_dir = os.path.join(self.randomized_base_dir, "files", "res", "Stage")
@@ -32,8 +33,6 @@ class Randomizer:
     self.rel_paths = [str(rel_path) for rel_path in rel_paths]
     
     #self.decompress_files()
-    
-    self.read_text_file_lists()
     
     self.arcs_by_path = {}
     self.raw_files_by_path = {}
@@ -55,12 +54,12 @@ class Randomizer:
     tweaks.allow_randomizing_magic_meter_upgrade_item(self)
     tweaks.start_with_sea_chart_fully_revealed(self)
     
-    self.logic.mark_item_as_placed("Wind Waker")
-    self.logic.mark_item_as_placed("Wind's Requiem")
-    self.logic.mark_item_as_placed("Ballad of Gales")
-    self.logic.mark_item_as_placed("Hero's Sword")
-    self.logic.mark_item_as_placed("Hero's Shield")
-    self.logic.mark_item_as_placed("Boat's Sail")
+    self.logic.add_owned_item("Wind Waker")
+    self.logic.add_owned_item("Wind's Requiem")
+    self.logic.add_owned_item("Ballad of Gales")
+    self.logic.add_owned_item("Hero's Sword")
+    self.logic.add_owned_item("Hero's Shield")
+    self.logic.add_owned_item("Boat's Sail")
     
     self.randomize_items()
     
