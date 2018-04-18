@@ -8,6 +8,7 @@ from yaz0_decomp import Yaz0Decompressor
 from dzx import DZx
 from events import EventList
 from bmg import BMG
+from charts import ChartList
 
 class RARC:
   def __init__(self, file_path):
@@ -36,6 +37,7 @@ class RARC:
     self.dzx_files = []
     self.event_list_files = []
     self.bmg_files = []
+    self.chart_lists = []
     for node in self.nodes:
       for file_index in range(node.first_file_index, node.first_file_index+node.num_files):
         file_entry_offset = file_entries_list_offset + file_index*0x14
@@ -60,6 +62,9 @@ class RARC:
         elif file_entry.name.endswith(".bmg"):
           bmg = BMG(file_entry)
           self.bmg_files.append(bmg)
+        elif file_entry.name == "cmapdat.bin":
+          chart_list = ChartList(file_entry)
+          self.chart_lists.append(chart_list)
   
   def extract_all_files_to_disk(self, output_directory=None):
     if output_directory is None:
