@@ -53,6 +53,7 @@ class Randomizer:
     tweaks.skip_post_boss_warp_cutscenes(self)
     tweaks.remove_shop_item_forced_uniqueness_bit(self)
     tweaks.allow_randomizing_magic_meter_upgrade_item(self)
+    tweaks.start_with_sea_chart_fully_revealed(self)
     
     self.logic.mark_item_as_placed("Wind Waker")
     self.logic.mark_item_as_placed("Wind's Requiem")

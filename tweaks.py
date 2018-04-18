@@ -297,3 +297,10 @@ def allow_randomizing_magic_meter_upgrade_item(self):
   
   write_u32(great_fairy_rel_data, 0x7C0, 0x60000000) # nop, for max MP
   write_u32(great_fairy_rel_data, 0x7CC, 0x60000000) # nop, for current MP
+
+def start_with_sea_chart_fully_revealed(self):
+  # Changes the function that initializes the sea chart when starting a new game so that the whole chart has been drawn out.
+  
+  dol_data = self.get_raw_file("sys/main.dol")
+  
+  write_u32(dol_data, 0x5820C, 0x38800001) # li r4, 1 (at 8005B2CC in RAM)
