@@ -54,6 +54,8 @@ PROGRESS_ITEMS = [
   "1000 Rupee Wallet",
   "5000 Rupee Wallet",
   
+  "Magic Meter Upgrade",
+  
   "Ghost Ship Chart",
   
   "Triforce Chart 8",

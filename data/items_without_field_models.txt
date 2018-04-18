@@ -89,6 +89,7 @@ AD 60 Bomb Bomb Bag
 AE 99 Bomb Bomb Bag
 AF 60 Arrow Quiver
 B0 99 Arrow Quiver
+B2 Magic Meter Upgrade
 B3 50 Rupees, reward for finding 1 Tingle Statue
 B4 100 Rupees, reward for finding 2 Tingle Statues
 B5 150 Rupees, reward for finding 3 Tingle Statues

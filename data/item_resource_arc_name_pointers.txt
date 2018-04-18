@@ -175,8 +175,8 @@ AD 8035A116 60 Bomb Bomb Bag
 AE 8035A127 99 Bomb Bomb Bag
 AF 8035A101 60 Arrow Quiver
 B0 8035A107 99 Arrow Quiver
-B1 00000000 gives magic power?
-B2 00000000 increases magic power?
+B1 00000000 
+B2 00000000 Magic Meter Upgrade
 B3 8035A2B1 50 Rupees, reward for finding 1 Tingle Statue
 B4 8035A2B1 100 Rupees, reward for finding 2 Tingle Statues
 B5 8035A2B1 150 Rupees, reward for finding 3 Tingle Statues

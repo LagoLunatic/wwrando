@@ -52,6 +52,7 @@ class Randomizer:
     tweaks.allow_changing_boss_drop_items(self)
     tweaks.skip_post_boss_warp_cutscenes(self)
     tweaks.remove_shop_item_forced_uniqueness_bit(self)
+    tweaks.allow_randomizing_magic_meter_upgrade_item(self)
     
     self.logic.mark_item_as_placed("Wind Waker")
     self.logic.mark_item_as_placed("Wind's Requiem")

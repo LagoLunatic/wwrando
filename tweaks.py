@@ -166,6 +166,12 @@ def allow_all_items_to_be_field_items(self):
       item_id_to_copy_from = 0x22
       # We also change the item get model too, not just the field model.
       item_resources_offset_to_fix = item_resources_list_start + item_id*0x24
+    elif item_id == 0xB2:
+      # The Magic Meter Upgrade has no model, so we have to copy the Large Magic Jar model.
+      # TODO: This could look confusing as a field item, the player might think that it's literally just a Large Magic Jar.
+      item_id_to_copy_from = 0x0A
+      # We also change the item get model too, not just the field model.
+      item_resources_offset_to_fix = item_resources_list_start + item_id*0x24
     else:
       item_id_to_copy_from = item_id
       item_resources_offset_to_fix = None
@@ -282,3 +288,12 @@ def remove_shop_item_forced_uniqueness_bit(self):
     buy_requirements_bitfield = read_u8(dol_data, shop_item_data_offset+0xC)
     buy_requirements_bitfield = (buy_requirements_bitfield & (~2)) # Bit 02 specifies that the player must not already own this item
     write_u8(dol_data, shop_item_data_offset+0xC, buy_requirements_bitfield)
+
+def allow_randomizing_magic_meter_upgrade_item(self):
+  # The Great Fairy inside the Big Octo is hardcoded to double your max magic meter (and fill up your current magic meter too).
+  # Since we randomize what item she gives you, we need to remove this code so that she doesn't always give you the increased magic meter.
+  
+  great_fairy_rel_data = self.get_raw_file("files/rels/d_a_bigelf.rel")
+  
+  write_u32(great_fairy_rel_data, 0x7C0, 0x60000000) # nop, for max MP
+  write_u32(great_fairy_rel_data, 0x7CC, 0x60000000) # nop, for current MP

@@ -1702,6 +1702,11 @@ Two-Eye Reef - Lookout Platform:
   Original item: Purple Rupee
   Paths:
     - sea/Room46.arc/Chest001
+Two-Eye Reef - Big Octo Great Fairy: # TODO: test if this randomizes correctly
+  Need: Can Defeat Big Octos & Grappling Hook
+  Original item: Magic Meter Upgrade
+  Paths:
+    - sea/Stage.arc/Event02A:BIGELF_ARRIVAL2/Actor001/Action002
 
 Three-Eye Reef - Destroy the Cannons:
   Need:
