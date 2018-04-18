@@ -23,7 +23,7 @@ Outset Island - Mesa the Grasscutter's House:
 #  Original item: Hero's Shield
 #  Paths:
 #    - main.dol@358D3B
-Outset Island - Orca - Reward for Knight's Crests: # TODO: test if this randomizes correctly
+Outset Island - Orca - Give 10 Knight's Crests: # TODO: test if this randomizes correctly
   Need: Spoils Bag & Can Farm Knight's Crests
   Original item: Hurricane Spin
   Paths:
@@ -102,54 +102,6 @@ Savage Labyrinth - Floor 50:
 #  Paths:
 #    - Asoko/Stage.arc/Chest002
 
-# TODO: progress reqs for forsaken fortress
-Forsaken Fortress Interior - Map Chest:
-  Need: Can Get Inside Forsaken Fortress & TODO
-  Original item: Dungeon Map
-  Paths:
-    - majroom/Stage.arc/Chest000
-    - ma2room/Stage.arc/Chest000
-    - ma3room/Stage.arc/Chest000
-Forsaken Fortress Interior - Chest on Bed:
-  Need: Can Get Inside Forsaken Fortress & TODO
-  Original item: Yellow Rupee
-  Paths:
-    - majroom/Stage.arc/Chest001
-    - ma2room/Stage.arc/Chest001
-    - ma3room/Stage.arc/Chest001
-Forsaken Fortress Interior - Compass Chest:
-  Need: Can Get Inside Forsaken Fortress & TODO
-  Original item: Compass
-  Paths:
-    - majroom/Stage.arc/Chest002
-    - ma2room/Stage.arc/Chest002
-    - ma3room/Stage.arc/Chest002
-Forsaken Fortress Interior - Jail Cell:
-  Need: Can Get Inside Forsaken Fortress & TODO
-  Original item: Piece of Heart
-  Paths:
-    - majroom/Stage.arc/Chest003
-    - ma2room/Stage.arc/Chest003
-    - ma3room/Stage.arc/Chest003
-#Forsaken Fortress Exterior - Dropped Sword:
-#  Need: 
-#  Original item: Recovered Hero's Sword
-#  Paths:
-#    - MajyuE/Room0.arc/Actor016
-Forsaken Fortress - Phantom Ganon:
-  Need: Can Reach and Defeat Phantom Ganon
-  Original item: Skull Hammer
-  Paths:
-    - sea/Room1.arc/Chest000
-Forsaken Fortress - Helmaroc King Heart Container:
-  Need: Can Get Inside Forsaken Fortress & TODO
-  Original item: Heart Container
-  Paths:
-    - rels/d_a_bdk.rel@5CCE
-    - M2tower/Room0.arc/Actor032
-    - sea/Room1.arc/Actor052
-    - sea/Room1.arc/Actor05B
-
 
 Windfall Town Jail - Tingle - First Gift:
   Need: Nothing
@@ -181,42 +133,42 @@ Windfall Town Jail - Maze Chest:
 #  Original item: Blue Potion
 #  Paths:
 #    - rels/d_a_npc_ds1.rel@28DF
-Windfall Island - Ivan - Reward for Catching Killer Bees:
+Windfall Island - Ivan - Catch Killer Bees:
   Need: Nothing
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_mk.rel@20CB
-Mrs. Marie's School - Reward for Catching Killer Bees:
+Mrs. Marie's School - Catch Killer Bees:
   Need: Nothing
   Original item: Purple Rupee
   Paths:
     - rels/d_a_npc_ho.rel@0A07
-Mrs. Marie's School - Reward for Giving 1 Joy Pendant:
+Mrs. Marie's School - Give 1 Joy Pendant:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Red Rupee
   Paths:
     - rels/d_a_npc_ho.rel@0B4B
-Mrs. Marie's School - Reward for Giving 20 Joy Pendants:
+Mrs. Marie's School - Give 20 Joy Pendants:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Cabana Deed
   Paths:
     - rels/d_a_npc_ho.rel@0B77
-Mrs. Marie's School - Reward for Giving 40 Joy Pendants:
+Mrs. Marie's School - Give 40 Joy Pendants:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Hero's Charm
   Paths:
     - rels/d_a_npc_ho.rel@0C87
-#Mrs. Marie's School - Reward for Giving 1 or 2 Joy Pendants at Once:
+#Mrs. Marie's School - Give 1 or 2 Joy Pendants at Once:
 #  Need: 
 #  Original item: Red Rupee
 #  Paths:
 #    - rels/d_a_npc_ho.rel@0C4B
-#Mrs. Marie's School - Reward for Giving 3 or 4 Joy Pendants at Once:
+#Mrs. Marie's School - Give 3 or 4 Joy Pendants at Once:
 #  Need: 
 #  Original item: Purple Rupee
 #  Paths:
 #    - rels/d_a_npc_ho.rel@0C5F
-#Mrs. Marie's School - Reward for Giving 5+ Joy Pendants at Once:
+#Mrs. Marie's School - Give 5+ Joy Pendants at Once:
 #  Need: 
 #  Original item: Orange Rupee
 #  Paths:
@@ -239,7 +191,7 @@ Lenzo's House - Right Chest:
   Original item: Purple Rupee
   Paths:
     - Ocmera/Stage.arc/Chest001
-Lenzo's House - Reward for Becoming Lenzo's Assistant:
+Lenzo's House - Become Lenzo's Assistant:
   Need:
     Picto Box
     & TODO # might need to have rescued aryll
@@ -473,7 +425,7 @@ Dragon Roost Island - Secret Cave:
 
 # Dragon Roost Cavern
 # TODO: progress reqs for dragon roost cavern
-Dragon Roost Cavern Entrance - Medli's Gift:
+Dragon Roost Cavern - Entrance - Medli's Gift:
   Need: Delivery Bag & Father's Letter # Need to deliver this to Komali before Medli will appear
   Original item: Empty Bottle
   Paths:
@@ -719,7 +671,7 @@ Tower of the Gods - Stone Tablet:
   Original item: Command Melody
   Paths:
     - Siren/Stage.arc/Event060:hsehi1_tact/Actor003/Action004
-Tower of the Gods Darknut Mini-Boss Room:
+Tower of the Gods - Darknut Mini-Boss Room:
   Need: 
   Original item: Hero's Bow
   Paths:
@@ -773,6 +725,55 @@ Hyrule - Master Sword Chamber:
     - main.dol@358D34
 
 
+# TODO: progress reqs for forsaken fortress
+Forsaken Fortress - Phantom Ganon:
+  Need: Can Reach and Defeat Phantom Ganon
+  Original item: Skull Hammer
+  Paths:
+    - sea/Room1.arc/Chest000
+Forsaken Fortress - Map Chest:
+  Need: Can Get Inside Forsaken Fortress & TODO
+  Original item: Dungeon Map
+  Paths:
+    - majroom/Stage.arc/Chest000
+    - ma2room/Stage.arc/Chest000
+    - ma3room/Stage.arc/Chest000
+Forsaken Fortress - Chest on Bed:
+  Need: Can Get Inside Forsaken Fortress & TODO
+  Original item: Yellow Rupee
+  Paths:
+    - majroom/Stage.arc/Chest001
+    - ma2room/Stage.arc/Chest001
+    - ma3room/Stage.arc/Chest001
+Forsaken Fortress - Compass Chest:
+  Need: Can Get Inside Forsaken Fortress & TODO
+  Original item: Compass
+  Paths:
+    - majroom/Stage.arc/Chest002
+    - ma2room/Stage.arc/Chest002
+    - ma3room/Stage.arc/Chest002
+Forsaken Fortress - Jail Cell:
+  Need: Can Get Inside Forsaken Fortress & TODO
+  Original item: Piece of Heart
+  Paths:
+    - majroom/Stage.arc/Chest003
+    - ma2room/Stage.arc/Chest003
+    - ma3room/Stage.arc/Chest003
+#Forsaken Fortress - Dropped Sword:
+#  Need: 
+#  Original item: Recovered Hero's Sword
+#  Paths:
+#    - MajyuE/Room0.arc/Actor016
+Forsaken Fortress - Helmaroc King Heart Container:
+  Need: Can Get Inside Forsaken Fortress & TODO
+  Original item: Heart Container
+  Paths:
+    - rels/d_a_bdk.rel@5CCE
+    - M2tower/Room0.arc/Actor032
+    - sea/Room1.arc/Actor052
+    - sea/Room1.arc/Actor05B
+
+
 Mother and Child Isles - Queen Fairy:
   Need: Can Play Ballad of Gales
   Original item: Fire and Ice Arrows
@@ -784,18 +785,18 @@ Ice Ring Isle - Frozen Chest:
   Original item: Treasure Chart 36
   Paths:
     - sea/Room40.arc/Chest000
-Ice Ring Isle Cave - Chest:
+Ice Ring Isle - Cave - Chest:
   Need: 
   Original item: Iron Boots
   Paths:
     - MiniHyo/Stage.arc/Chest000
-Ice Ring Isle Inner Cave - Chest:
+Ice Ring Isle - Inner Cave - Chest:
   Need: 
   Original item: Orange Rupee
   Paths:
     - ITest62/Stage.arc/Chest000
 
-Fire Mountain Cave - Chest:
+Fire Mountain - Cave - Chest:
   Need: 
   Original item: Power Bracelets
   Paths:
@@ -824,7 +825,7 @@ Headstone Island - Submarine:
     - Abship/Room3.arc/Chest000
     - Abship/Room5.arc/Chest000
 
-Earth Temple Entrance:
+Earth Temple - Entrance:
   Need: 
   Original item: Earth God's Lyric
   Paths:
@@ -859,7 +860,7 @@ Earth Temple - Casket in Second Crypt:
   Original item: Small Key
   Paths:
     - M_Dai/Room8.arc/Actor008
-Earth Temple Stalfos Mini-Boss Room:
+Earth Temple - Stalfos Mini-Boss Room:
   Need: 
   Original item: Mirror Shield
   Paths:
@@ -932,7 +933,7 @@ Earth Temple - Jalhalla Heart Container:
 #    - main.dol@358D35
 
 
-Wind Temple Entrance:
+Wind Temple - Entrance:
   Need: 
   Original item: Wind God's Aria
   Paths:
@@ -967,7 +968,7 @@ Wind Temple - Spike Wall Room - Destroy All Cracked Floors:
   Original item: Treasure Chart 35
   Paths:
     - kaze/Stage.arc/Chest007
-Wind Temple Wizzrobe Mini-Boss Room:
+Wind Temple - Wizzrobe Mini-Boss Room:
   Need: 
   Original item: Hookshot
   Paths:
@@ -1140,7 +1141,7 @@ Beedle's Special Shop Ship - Treasure Chart:
   Paths:
     - main.dol@372EEF
 
-Ghost Ship:
+Ghost Ship - Chest:
   Need: 
   Original item: Triforce Chart 4
   Paths:
@@ -1386,7 +1387,7 @@ Western Fairy Island - Lookout Platform:
   Paths:
     - sea/Room15.arc/Chest000
 
-Southern Fairy Island Great Fairy:
+Southern Fairy Island - Great Fairy:
   Need: Bombs | Fire Arrows # Can either blow up or burn the blockade
   Original item: 99 Bomb Bomb Bag
   Paths:
@@ -1546,7 +1547,7 @@ Rock Spire Isle - Gunboat:
   Paths:
     - sea/Room16.arc/ScalableObject000
 
-Shark Island Cave:
+Shark Island - Cave:
   Need:
     Iron Boots
     & Skull Hammer
