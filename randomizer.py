@@ -36,7 +36,6 @@ class Randomizer:
     
     self.arcs_by_path = {}
     self.raw_files_by_path = {}
-    self.spoiler_log = ""
     
     tweaks.modify_new_game_start_code(self)
     tweaks.remove_story_railroading(self)
@@ -65,9 +64,7 @@ class Randomizer:
     
     self.save_changed_files()
     
-    spoiler_log_output_path = "../WW - %s - Spoiler Log.txt" % self.seed
-    with open(spoiler_log_output_path, "w") as f:
-      f.write(self.spoiler_log)
+    self.write_spoiler_log()
   
   def copy_and_extract_files(self, clean_base_dir):
     # Copy the vanilla files to the randomized directory.
@@ -306,5 +303,15 @@ class Randomizer:
       item_name = random.choice(self.logic.consumable_items)
       self.logic.set_location_to_item(location_name, item_name)
   
+  def write_spoiler_log(self):
+    spoiler_log = ""
+    max_location_name_length = max(len(location_name) for location_name in self.logic.done_item_locations)
+    format_string = "%-" + str(max_location_name_length+1) + "s %s\n"
+    for location_name, item_name in self.logic.done_item_locations.items():
+      spoiler_log += format_string % (location_name + ":", item_name)
+    spoiler_log_output_path = "../WW - %s - Spoiler Log.txt" % self.seed
+    with open(spoiler_log_output_path, "w") as f:
+      f.write(spoiler_log)
+
 if __name__ == "__main__":
   Randomizer()

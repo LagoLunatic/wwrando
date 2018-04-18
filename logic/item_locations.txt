@@ -270,17 +270,17 @@ House of Wealth - Chest:
   Original item: Red Rupee
   Paths:
     - Orichh/Room0.arc/Chest000
-House of Wealth - Maggie's Father - Reward for Giving 20 Skull Necklaces:
+House of Wealth - Maggie's Father - Give 20 Skull Necklaces:
   Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
   Original item: Treasure Chart 2
   Paths:
     - Orichh/Stage.arc/Event04C:Gp1_Get_Itm/Actor002/Action001
-House of Wealth - Maggie's Father - Reward for Giving More than 20 Skull Necklaces (TODO?):
+House of Wealth - Maggie's Father - Give More than 20 Skull Necklaces: # TODO?
   Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
   Original item: Red Rupee
   Paths:
     - rels/d_a_npc_kf1.rel@17AF
-House of Wealth - Maggie's Father - Reward for Giving More than 20 Skull Necklaces (dupe? TODO):
+House of Wealth - Maggie's Father - Give More than 20 Skull Necklaces 2: # TODO? dupe?
   Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
   Original item: Red Rupee
   Paths:
