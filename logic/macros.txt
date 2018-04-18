@@ -2,12 +2,12 @@ Can Play Wind's Requiem:
   Wind Waker & Wind's Requiem
 Can Play Ballad of Gales:
   Wind Waker & Ballad of Gales
-Can Fly With Deku Leaf:
+Can Fly With Deku Leaf Outdoors:
   Deku Leaf & Can Play Wind's Requiem
 Any Master Sword:
   Master Sword Powerless | Master Sword Half Power | Master Sword Full Power
 Can Access Forest Haven:
-  TODO
+  Grappling Hook
 Can Get Past Forsaken Fortress Gate:
   Bombs
   # (It's also possible to blow up the door without bombs by using the mounted cannons, but this is not required by the logic.)
