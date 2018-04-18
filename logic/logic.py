@@ -131,7 +131,11 @@ class Logic:
                 locations_for_this_arc.append((item_name, [action_path_string]))
               elif action.name == "059get_dance":
                 song_index = event_list.get_property_value(action.property_index)
-                item_name = self.rando.item_names.get(0x6D+song_index)
+                item_name = self.rando.item_names.get(0x6D+song_index, "")
+                locations_for_this_arc.append((item_name, [action_path_string]))
+              elif action.name == "046pget":
+                item_id = event_list.get_property_value(action.property_index)
+                item_name = self.rando.item_names.get(item_id, "")
                 locations_for_this_arc.append((item_name, [action_path_string]))
       
       for original_item_name, locations in locations_for_this_arc:
