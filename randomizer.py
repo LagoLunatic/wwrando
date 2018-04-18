@@ -5,6 +5,7 @@ import shutil
 from pathlib import Path
 import re
 import random
+from collections import OrderedDict
 
 from fs_helpers import *
 from yaz0_decomp import Yaz0Decompressor
@@ -62,9 +63,9 @@ class Randomizer:
     
     self.randomize_items()
     
-    self.save_changed_files()
-    
     self.write_spoiler_log()
+    
+    self.save_changed_files()
   
   def copy_and_extract_files(self, clean_base_dir):
     # Copy the vanilla files to the randomized directory.
@@ -305,10 +306,31 @@ class Randomizer:
   
   def write_spoiler_log(self):
     spoiler_log = ""
-    max_location_name_length = max(len(location_name) for location_name in self.logic.done_item_locations)
-    format_string = "%-" + str(max_location_name_length+1) + "s %s\n"
-    for location_name, item_name in self.logic.done_item_locations.items():
-      spoiler_log += format_string % (location_name + ":", item_name)
+    
+    zones = OrderedDict()
+    max_location_name_length = 0
+    for location_name in self.logic.done_item_locations:
+      if " - " in location_name:
+        zone_name, specific_location_name = location_name.split(" - ", 1)
+      else:
+        zone_name = specific_location_name = location_name
+      
+      if zone_name not in zones:
+        zones[zone_name] = []
+      zones[zone_name].append((location_name, specific_location_name))
+      
+      if len(specific_location_name) > max_location_name_length:
+        max_location_name_length = len(specific_location_name)
+    
+    format_string = "    %-" + str(max_location_name_length+1) + "s %s\n"
+    
+    for zone_name, locations_in_zone in zones.items():
+      spoiler_log += zone_name + ":\n"
+      
+      for (location_name, specific_location_name) in locations_in_zone:
+        item_name = self.logic.done_item_locations[location_name]
+        spoiler_log += format_string % (specific_location_name + ":", item_name)
+    
     spoiler_log_output_path = "../WW - %s - Spoiler Log.txt" % self.seed
     with open(spoiler_log_output_path, "w") as f:
       f.write(spoiler_log)
