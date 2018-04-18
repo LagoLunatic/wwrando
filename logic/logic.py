@@ -1,6 +1,7 @@
 
 import yaml
 import re
+from collections import OrderedDict
 
 import os
 
@@ -27,10 +28,8 @@ class Logic:
     self.load_and_parse_item_locations()
     
     self.remaining_item_locations = list(self.item_locations.keys())
-    # Dict keys are not in a consistent order so we have to sort it so random seeding works consistently.
-    self.remaining_item_locations.sort()
     
-    self.done_item_locations = {}
+    self.done_item_locations = OrderedDict()
     for location_name in self.item_locations:
       self.done_item_locations[location_name] = None
   
@@ -46,9 +45,6 @@ class Logic:
     self.remaining_item_locations.remove(location_name)
     
     self.add_owned_item(item_name)
-    
-    spoiler_log_entry = "Placed %s at %s\n" % (item_name, location_name)
-    self.rando.spoiler_log += spoiler_log_entry
   
   def add_owned_item(self, item_name):
     cleaned_item_name = self.clean_item_name(item_name)
@@ -73,7 +69,7 @@ class Logic:
   
   def load_and_parse_item_locations(self):
     with open("./logic/item_locations.txt") as f:
-      self.item_locations = yaml.safe_load(f)
+      self.item_locations = yaml.load(f, YamlOrderedDictLoader)
     for location_name in self.item_locations:
       req_string = self.item_locations[location_name]["Need"]
       if req_string is None:
@@ -271,3 +267,11 @@ class Logic:
     
     with open("progress_reqs.txt", "w") as f:
       f.write(output_str)
+
+class YamlOrderedDictLoader(yaml.SafeLoader):
+  pass
+
+YamlOrderedDictLoader.add_constructor(
+  yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+  lambda loader, node: OrderedDict(loader.construct_pairs(node))
+)
