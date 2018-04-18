@@ -290,7 +290,8 @@ class Randomizer:
     # Place progress items.
     while self.logic.unplaced_progress_items:
       item_name = random.choice(self.logic.unplaced_progress_items)
-      location_name = random.choice(self.logic.remaining_item_locations)
+      possible_locations = self.logic.get_accessible_remaining_locations()
+      location_name = random.choice(possible_locations)
       self.logic.set_location_to_item(location_name, item_name)
     
     # Place unique non-progress items.
