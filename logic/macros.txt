@@ -4,6 +4,10 @@ Can Play Ballad of Gales:
   Wind Waker & Ballad of Gales
 Can Fly With Deku Leaf Outdoors:
   Deku Leaf & Can Play Wind's Requiem
+Can Move Boulders:
+  Bombs | Power Bracelets
+Can Buy Bait:
+  TODO
 Any Master Sword:
   Master Sword Powerless | Master Sword Half Power | Master Sword Full Power
 Can Access Forest Haven:
@@ -19,8 +23,10 @@ Can Reach and Defeat Phantom Ganon:
   # Phantom Ganon's energy balls can be reflected with any form of the Master Sword, or with an empty bottle.
   Can Get Past Forsaken Fortress Gate
   & (Any Master Sword | Empty Bottle)
-Can Move Boulders:
-  Bombs | Power Bracelets
+Rescued Aryll:
+  TODO
+Can Get Fairies:
+  TODO
 Can Farm Knight's Crests:
   Spoils Bag
   & TODO
