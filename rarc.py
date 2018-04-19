@@ -66,7 +66,20 @@ class RARC:
           chart_list = ChartList(file_entry)
           self.chart_lists.append(chart_list)
   
+  def extract_all_files_to_disk_flat(self, output_directory):
+    # Does not preserve directory structure.
+    for file_entry in self.file_entries:
+      if file_entry.id == 0xFFFF: # Directory
+        continue
+      
+      output_file_path = os.path.join(output_directory, file_entry.name)
+      
+      file_entry.data.seek(0)
+      with open(output_file_path, "wb") as f:
+        f.write(file_entry.data.read())
+  
   def extract_all_files_to_disk(self, output_directory=None):
+    # Preserves directory structure.
     if output_directory is None:
       output_directory, _ = os.path.splitext(self.file_path)
     

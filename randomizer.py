@@ -78,7 +78,7 @@ class Randomizer:
     if os.path.isfile(rels_arc_path):
       print("Extracting rels...")
       rels_arc = RARC(rels_arc_path)
-      rels_arc.extract_all_files_to_disk(self.rels_dir)
+      rels_arc.extract_all_files_to_disk_flat(self.rels_dir)
       # And then delete RELS.arc. If we don't do this then the original rels inside it will take precedence over the modified ones we extracted.
       os.remove(rels_arc_path)
       rels_arc = None
