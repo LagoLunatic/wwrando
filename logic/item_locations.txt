@@ -1772,6 +1772,70 @@ Forsaken Fortress - Sunken Treasure:
     - sea/Room1.arc/ScalableObject00A
     - sea/Room1.arc/ScalableObject00B
     - sea/Room1.arc/ScalableObject00C
+Star Island - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room2.arc/ScalableObject00A
+    - sea/Room2.arc/ScalableObject00B
+    - sea/Room2.arc/ScalableObject00C
+    - sea/Room2.arc/ScalableObject00D
+Northern Fairy Island - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room3.arc/ScalableObject006
+    - sea/Room3.arc/ScalableObject007
+    - sea/Room3.arc/ScalableObject008
+    - sea/Room3.arc/ScalableObject009
+Gale Isle - Sunken Treasure:
+  Need: 
+  Original item: Triforce Shard 2
+  Paths:
+    - sea/Room4.arc/ScalableObject007
+    - sea/Room4.arc/ScalableObject008
+    - sea/Room4.arc/ScalableObject009
+    - sea/Room4.arc/ScalableObject00A
+Crescent Moon Island - Sunken Treasure:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - sea/Room5.arc/ScalableObject006
+    - sea/Room5.arc/ScalableObject007
+    - sea/Room5.arc/ScalableObject008
+    - sea/Room5.arc/ScalableObject009
+Seven-Star Isles - Sunken Treasure:
+  Need: 
+  Original item: Triforce Shard 7
+  Paths:
+    - sea/Room6.arc/ScalableObject008
+    - sea/Room6.arc/ScalableObject009
+    - sea/Room6.arc/ScalableObject00A
+    - sea/Room6.arc/ScalableObject00B
+Overlook Island - Sunken Treasure:
+  Need: 
+  Original item: Secret Cave Chart
+  Paths:
+    - sea/Room7.arc/ScalableObject006
+    - sea/Room7.arc/ScalableObject007
+    - sea/Room7.arc/ScalableObject008
+    - sea/Room7.arc/ScalableObject009
+Four-Eye Reef - Sunken Treasure:
+  Need: 
+  Original item: Great Fairy Chart
+  Paths:
+    - sea/Room8.arc/ScalableObject00E
+    - sea/Room8.arc/ScalableObject00F
+    - sea/Room8.arc/ScalableObject010
+    - sea/Room8.arc/ScalableObject011
+Mother and Child Isles - Sunken Treasure:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Room9.arc/ScalableObject006
+    - sea/Room9.arc/ScalableObject007
+    - sea/Room9.arc/ScalableObject008
+    - sea/Room9.arc/ScalableObject009
 Spectacle Island - Sunken Treasure:
   Need: 
   Original item: Silver Rupee
@@ -1852,14 +1916,6 @@ Eastern Fairy Island - Sunken Treasure:
     - sea/Room19.arc/ScalableObject007
     - sea/Room19.arc/ScalableObject008
     - sea/Room19.arc/ScalableObject009
-Star Island - Sunken Treasure:
-  Need: 
-  Original item: Silver Rupee
-  Paths:
-    - sea/Room2.arc/ScalableObject00A
-    - sea/Room2.arc/ScalableObject00B
-    - sea/Room2.arc/ScalableObject00C
-    - sea/Room2.arc/ScalableObject00D
 Fire Mountain - Sunken Treasure:
   Need: 
   Original item: Silver Rupee
@@ -1940,14 +1996,6 @@ Needle Rock Isle - Sunken Treasure:
     - sea/Room29.arc/ScalableObject007
     - sea/Room29.arc/ScalableObject008
     - sea/Room29.arc/ScalableObject009
-Northern Fairy Island - Sunken Treasure:
-  Need: 
-  Original item: Silver Rupee
-  Paths:
-    - sea/Room3.arc/ScalableObject006
-    - sea/Room3.arc/ScalableObject007
-    - sea/Room3.arc/ScalableObject008
-    - sea/Room3.arc/ScalableObject009
 Islet of Steel - Sunken Treasure:
   Need: 
   Original item: Silver Rupee
@@ -2028,14 +2076,6 @@ Southern Fairy Island - Sunken Treasure:
     - sea/Room39.arc/ScalableObject007
     - sea/Room39.arc/ScalableObject008
     - sea/Room39.arc/ScalableObject009
-Gale Isle - Sunken Treasure:
-  Need: 
-  Original item: Triforce Shard 2
-  Paths:
-    - sea/Room4.arc/ScalableObject007
-    - sea/Room4.arc/ScalableObject008
-    - sea/Room4.arc/ScalableObject009
-    - sea/Room4.arc/ScalableObject00A
 Ice Ring Isle - Sunken Treasure:
   Need: 
   Original item: Silver Rupee
@@ -2116,43 +2156,3 @@ Five-Star Isles - Sunken Treasure:
     - sea/Room49.arc/ScalableObject007
     - sea/Room49.arc/ScalableObject008
     - sea/Room49.arc/ScalableObject009
-Crescent Moon Island - Sunken Treasure:
-  Need: 
-  Original item: Piece of Heart
-  Paths:
-    - sea/Room5.arc/ScalableObject006
-    - sea/Room5.arc/ScalableObject007
-    - sea/Room5.arc/ScalableObject008
-    - sea/Room5.arc/ScalableObject009
-Seven-Star Isles - Sunken Treasure:
-  Need: 
-  Original item: Triforce Shard 7
-  Paths:
-    - sea/Room6.arc/ScalableObject008
-    - sea/Room6.arc/ScalableObject009
-    - sea/Room6.arc/ScalableObject00A
-    - sea/Room6.arc/ScalableObject00B
-Overlook Island - Sunken Treasure:
-  Need: 
-  Original item: Secret Cave Chart
-  Paths:
-    - sea/Room7.arc/ScalableObject006
-    - sea/Room7.arc/ScalableObject007
-    - sea/Room7.arc/ScalableObject008
-    - sea/Room7.arc/ScalableObject009
-Four-Eye Reef - Sunken Treasure:
-  Need: 
-  Original item: Great Fairy Chart
-  Paths:
-    - sea/Room8.arc/ScalableObject00E
-    - sea/Room8.arc/ScalableObject00F
-    - sea/Room8.arc/ScalableObject010
-    - sea/Room8.arc/ScalableObject011
-Mother and Child Isles - Sunken Treasure:
-  Need: 
-  Original item: Silver Rupee
-  Paths:
-    - sea/Room9.arc/ScalableObject006
-    - sea/Room9.arc/ScalableObject007
-    - sea/Room9.arc/ScalableObject008
-    - sea/Room9.arc/ScalableObject009
