@@ -18,6 +18,13 @@ class ChartList:
       chart = Chart(self.file_entry, offset)
       self.charts.append(chart)
       offset += Chart.DATA_SIZE
+  
+  def find_chart_for_island_number(self, island_number):
+    return next(
+      chart for chart in self.charts
+      if chart.island_number == island_number
+      and chart.type in [0, 1, 2, 6]
+    )
 
 class Chart:
   DATA_SIZE = 0x26
@@ -41,7 +48,18 @@ class Chart:
       possible_pos = ChartPossibleRandomPosition(self.file_entry, offset)
       self.possible_random_positions.append(possible_pos)
       offset += ChartPossibleRandomPosition.DATA_SIZE
-
+  
+  @property
+  def island_number(self):
+    return self.sector_x+3 + (self.sector_y+3)*7 + 1
+  
+  @island_number.setter
+  def island_number(self, value):
+    assert 1 <= island_number <= 49
+    island_index = island_number - 1
+    self.sector_x = (island_index % 7) - 3
+    self.sector_y = (island_index // 7) - 3
+  
   def save_changes(self):
     data = self.file_entry.data
     

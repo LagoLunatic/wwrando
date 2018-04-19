@@ -120,6 +120,8 @@ class Logic:
     elif req_name in self.macros:
       logical_expression = self.macros[req_name]
       return self.check_logical_expression_req(logical_expression)
+    elif req_name.startswith("Chart for Island "):
+      return self.check_chart_req(req_name)
     elif req_name == "Nothing":
       return True
     elif req_name == "Impossible":
@@ -156,6 +158,20 @@ class Logic:
       return any(subexpression_results)
     else:
       return all(subexpression_results)
+  
+  def check_chart_req(self, req_name):
+    match = re.search(r"^Chart for Island (\d+)$", req_name)
+    island_number = int(match.group(1))
+    assert 1 <= island_number <= 49
+    
+    chart = self.rando.chart_list.find_chart_for_island_number(island_number)
+    if chart.number <= 8:
+      chart_name = "Triforce Chart " + str(chart.number)
+    else:
+      chart_name = "Treasure Chart " + str(chart.number-8)
+    assert chart_name in self.all_cleaned_item_names
+    
+    return chart_name in self.currently_owned_items
   
   def generate_empty_progress_reqs_file(self):
     output_str = ""

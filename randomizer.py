@@ -40,6 +40,8 @@ class Randomizer:
     self.arcs_by_path = {}
     self.raw_files_by_path = {}
     
+    self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").chart_lists[0]
+    
     tweaks.modify_new_game_start_code(self)
     tweaks.remove_story_railroading(self)
     tweaks.skip_wakeup_intro_and_start_at_dock(self)
@@ -311,8 +313,7 @@ class Randomizer:
   def randomize_charts(self):
     # Shuffles around which chart points to each sector.
     
-    chart_list = self.get_arc("files/res/Msg/fmapres.arc").chart_lists[0]
-    randomizable_charts = [chart for chart in chart_list.charts if chart.type in [0, 1, 2, 6]]
+    randomizable_charts = [chart for chart in self.chart_list.charts if chart.type in [0, 1, 2, 6]]
     
     original_charts = copy.deepcopy(randomizable_charts)
     # Sort the charts by their texture ID so we get the same results even if we randomize them multiple times.
