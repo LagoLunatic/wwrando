@@ -111,3 +111,19 @@ def write_float(data, offset, new_value):
   new_value = struct.pack(">f", new_value)
   data.seek(offset)
   data.write(new_value)
+
+
+def write_s8(data, offset, new_value):
+  new_value = struct.pack(">b", new_value)
+  data.seek(offset)
+  data.write(new_value)
+
+def write_s16(data, offset, new_value):
+  new_value = struct.pack(">h", new_value)
+  data.seek(offset)
+  data.write(new_value)
+
+def write_s32(data, offset, new_value):
+  new_value = struct.pack(">i", new_value)
+  data.seek(offset)
+  data.write(new_value)
