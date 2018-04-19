@@ -20,13 +20,14 @@ class Randomizer:
     self.randomized_base_dir = "../Wind Waker Files Randomized"
     self.seed = 1
     random.seed(self.seed)
-    self.read_text_file_lists()
-    self.logic = Logic(self)
     
     self.stage_dir = os.path.join(self.randomized_base_dir, "files", "res", "Stage")
     self.rels_dir = os.path.join(self.randomized_base_dir, "files", "rels")
     
     self.copy_and_extract_files(clean_base_dir)
+    
+    self.read_text_file_lists()
+    self.logic = Logic(self)
     
     arc_paths = Path(self.stage_dir).glob("**/*.arc")
     self.arc_paths = [str(arc_path) for arc_path in arc_paths]
