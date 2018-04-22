@@ -29,26 +29,26 @@ Outset Island - Orca - Give 10 Knight's Crests: # TODO: test if this randomizes 
   Paths:
     - rels/d_a_npc_ji1.rel@4267
     - Ojhous/Stage.arc/Event00D:Ji1_TeachSpRollCut/Actor003/Action003
-Outset Island - Orca - Hit 100 Times:
-  Need: Nothing
-  Original item: Purple Rupee
-  Paths:
-    - rels/d_a_npc_ji1.rel@4297
-Outset Island - Orca - Hit 300 Times:
-  Need: Nothing
-  Original item: Orange Rupee
-  Paths:
-    - rels/d_a_npc_ji1.rel@42BB
+#Outset Island - Orca - Hit 100 Times:
+#  Need: Nothing
+#  Original item: Purple Rupee
+#  Paths:
+#    - rels/d_a_npc_ji1.rel@4297
+#Outset Island - Orca - Hit 300 Times:
+#  Need: Nothing
+#  Original item: Orange Rupee
+#  Paths:
+#    - rels/d_a_npc_ji1.rel@42BB
 Outset Island - Orca - Hit 500 Times:
   Need: Nothing
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_ji1.rel@42F7
-Outset Island - Orca - Hit 999 Times:
-  Need: Nothing
-  Original item: Silver Rupee
-  Paths:
-    - rels/d_a_npc_ji1.rel@42EF
+#Outset Island - Orca - Hit 999 Times:
+#  Need: Nothing
+#  Original item: Silver Rupee
+#  Paths:
+#    - rels/d_a_npc_ji1.rel@42EF
 Outset Island - Great Fairy:
   Need: Can Fly With Deku Leaf Outdoors & Can Move Boulders
   Original item: 5000 Rupee Wallet
@@ -288,16 +288,16 @@ Windfall Island - Auction 4:
   Original item: Piece of Heart
   Paths:
     - rels/d_a_auction.rel@44A1
-Windfall Island - Zunari - Island Trading Starter:
-  Need: TODO # Maybe rescue Aryll?
-  Original item: Town Flower
-  Paths:
-    - rels/d_a_npc_rsh1.rel@30DF
 #Windfall Island - Zunari - Sail:
 #  Need: 
 #  Original item: Boat's Sail
 #  Paths:
 #    - rels/d_a_npc_rsh1.rel@30FB
+Windfall Island - Zunari - Island Trading Starter:
+  Need: TODO # Maybe rescue Aryll?
+  Original item: Town Flower
+  Paths:
+    - rels/d_a_npc_rsh1.rel@30DF
 Windfall Island - Zunari - Make Three Merchant's Oaths:
   Need: TODO # Maybe rescue Aryll?
   Original item: Magic Armor
@@ -386,12 +386,12 @@ Dragon Roost Island - Wind Shrine:
 #  Original item: Delivery Bag
 #  Paths:
 #    - main.dol@358D3A
-Dragon Roost Island - Letter for Komali:
-  Need: Nothing
-  Original item: Father's Letter
-  Paths:
-    - rels/d_a_npc_md.rel@AF1B
-    - rels/d_a_npc_md.rel@AF47
+#Dragon Roost Island - Rito Aerie - Letter for Komali:
+#  Need: Nothing
+#  Original item: Father's Letter
+#  Paths:
+#    - rels/d_a_npc_md.rel@AF1B
+#    - rels/d_a_npc_md.rel@AF47
 #Dragon Roost Island - Komali:
 #  Need: 
 #  Original item: Din's Pearl
@@ -630,7 +630,7 @@ Forbidden Woods - Kalle Demos Heart Container:
 
 
 Greatfish Isle - Hidden Chest:
-  Need: 
+  Need: Can Fly With Deku Leaf Outdoors
   Original item: Piece of Heart
   Paths:
     - sea/Room23.arc/Chest000
@@ -732,28 +732,31 @@ Forsaken Fortress - Phantom Ganon:
   Paths:
     - sea/Room1.arc/Chest000
 Forsaken Fortress - Map Chest:
-  Need: Can Get Inside Forsaken Fortress & TODO
+  Need:
+    # Instead of using Deku Leaf to fly over to the chest, you could also use the Hookshot on the chest.
+    Can Get Inside Forsaken Fortress
+    & (Deku Leaf | Hookshot)
   Original item: Dungeon Map
   Paths:
     - majroom/Stage.arc/Chest000
     - ma2room/Stage.arc/Chest000
     - ma3room/Stage.arc/Chest000
 Forsaken Fortress - Chest on Bed:
-  Need: Can Get Inside Forsaken Fortress & TODO
+  Need: Can Get Inside Forsaken Fortress
   Original item: Yellow Rupee
   Paths:
     - majroom/Stage.arc/Chest001
     - ma2room/Stage.arc/Chest001
     - ma3room/Stage.arc/Chest001
 Forsaken Fortress - Compass Chest:
-  Need: Can Get Inside Forsaken Fortress & TODO
+  Need: Can Get Inside Forsaken Fortress
   Original item: Compass
   Paths:
     - majroom/Stage.arc/Chest002
     - ma2room/Stage.arc/Chest002
     - ma3room/Stage.arc/Chest002
 Forsaken Fortress - Jail Cell:
-  Need: Can Get Inside Forsaken Fortress & TODO
+  Need: Can Get Inside Forsaken Fortress
   Original item: Piece of Heart
   Paths:
     - majroom/Stage.arc/Chest003
@@ -764,8 +767,17 @@ Forsaken Fortress - Jail Cell:
 #  Original item: Recovered Hero's Sword
 #  Paths:
 #    - MajyuE/Room0.arc/Actor016
-Forsaken Fortress - Helmaroc King Heart Container:
-  Need: Can Get Inside Forsaken Fortress & TODO
+Forsaken Fortress - Helmaroc King Heart Container: # TODO: check if this fight works correctly with all the cutscenes
+  Need:
+    Can Get Inside Forsaken Fortress
+    & Skull Hammer
+    & Deku Leaf
+    & Can Reach and Defeat Phantom Ganon
+    # The reason you need to be able to defeat Phantom Ganon is because his fight triggers even if you skip him and try to go straight to Helmaroc King.
+    # There's a cannon that makes sidling across a gap difficult, but you don't need bombs because you can just kill the searchlight operator Bokoblin instead to get rid of the cannon simultaneously.
+    # Note: It is possible to get up there without Deku Leaf.
+    # To do it, go to the southwest room, and jump on top of the wooden bedposts. Then jump diagonally onto the corner of the platform with the Bokoblin and the Skull Hammer pegs on it.
+    # TODO: If adding difficulty options, take that trick into account.
   Original item: Heart Container
   Paths:
     - rels/d_a_bdk.rel@5CCE
@@ -774,6 +786,7 @@ Forsaken Fortress - Helmaroc King Heart Container:
     - sea/Room1.arc/Actor05B
 
 
+# TODO: remove this cutscene.
 Mother and Child Isles - Queen Fairy:
   Need: Can Play Ballad of Gales
   Original item: Fire and Ice Arrows
@@ -934,7 +947,7 @@ Earth Temple - Jalhalla Heart Container:
 
 
 Wind Temple - Entrance:
-  Need: 
+  Need: Iron Boots & Skull Hammer & Wind Waker
   Original item: Wind God's Aria
   Paths:
     - Ekaze/Stage.arc/Event042:MKNJD_K_LESSON/Actor003/Action006
@@ -1037,7 +1050,7 @@ Mailbox - Letter from Komali's Father:
   Paths:
     - rels/d_a_obj_toripost.rel@2570
 Mailbox - Letter Advertising Bombs in Beedle's Shop:
-  Need: 
+  Need: # Seems like you get this letter after you get bombs?
   Original item: Beedle's Chart
   Paths:
     - rels/d_a_obj_toripost.rel@257C
@@ -1254,23 +1267,31 @@ Needle Rock Isle - Golden Gunboat:
     - sea/Room29.arc/ScalableObject00D
 
 Angular Isles - Peak:
-  Need: 
+  Need: Nothing
   Original item: Piece of Heart
   Paths:
     - sea/Room47.arc/Chest000
 Angular Isles - Cave:
-  Need: 
+  Need:
+    # Either Deku Leaf or Hookshot are needed both to get into the cave, and to reach the chest in the cave.
+    # Mirror Shield is to shine light on the chest and make it not be transparent.
+    (Can Fly With Deku Leaf Outdoors | Hookshot)
+    & Mirror Shield
   Original item: Silver Rupee
   Paths:
     - SubD43/Stage.arc/Chest000
 
 Boating Course - Raft:
-  Need: 
+  Need: Nothing
   Original item: Boko Baba Seed
   Paths:
     - sea/Room48.arc/Chest000
 Boating Course - Cave:
-  Need: 
+  Need:
+    # Getting inside the cave requires flying with Deku Leaf or Hookshotting the pole.
+    # Hitting the 3 diamond switches inside the cave needs a ranged weapon. The imps make it difficult though.
+    (Can Fly With Deku Leaf Outdoors | Hookshot)
+    & (Boomerang | Hero's Bow | Hookshot)
   Original item: Submarine Chart
   Paths:
     - SubD71/Stage.arc/Chest000
@@ -1382,7 +1403,7 @@ Western Fairy Island - Great Fairy:
   Paths:
     - rels/d_a_bigelf.rel@2213
 Western Fairy Island - Lookout Platform:
-  Need: 
+  Need: Nothing
   Original item: Skull Necklace
   Paths:
     - sea/Room15.arc/Chest000
@@ -1506,17 +1527,17 @@ Diamond Steppe Island Warp Maze - Second Chest:
     - WarpD/Stage.arc/Chest000
 
 Bomb Island - Cave:
-  Need: 
+  Need: Can Move Boulders
   Original item: Piece of Heart
   Paths:
     - Cave01/Stage.arc/Chest000
 Bomb Island - Lookout Platform:
-  Need: 
+  Need: Nothing
   Original item: Red Rupee
   Paths:
     - sea/Room34.arc/Chest000
 Bomb Island - Submarine:
-  Need: 
+  Need: Nothing
   Original item: Empty Bottle
   Paths:
     - Abship/Room2.arc/Chest000
@@ -1526,13 +1547,19 @@ Rock Spire Isle - Cave:
   Original item: Treasure Chart 37
   Paths:
     - Cave04/Stage.arc/Chest000
-Rock Spire Isle - Western Lookout Platform:
-  Need: 
+Rock Spire Isle - Western Lookout Platform - Destroy the Cannons:
+  Need:
+    # Need Deku Leaf to fly over from the center platform to this platform.
+    Bombs
+    & Can Fly With Deku Leaf Outdoors
   Original item: Orange Rupee
   Paths:
     - sea/Room16.arc/Chest000
-Rock Spire Isle - Eastern Lookout Platform:
-  Need: 
+Rock Spire Isle - Eastern Lookout Platform - Destroy the Cannons:
+  Need:
+    # Need Deku Leaf to fly over from the center platform to this platform.
+    Bombs
+    & Can Fly With Deku Leaf Outdoors
   Original item: Golden Feather
   Paths:
     - sea/Room16.arc/Chest001
@@ -1542,16 +1569,19 @@ Rock Spire Isle - Center Lookout Platform:
   Paths:
     - sea/Room16.arc/Chest002
 Rock Spire Isle - Gunboat:
-  Need: 
+  Need: Bombs
   Original item: Piece of Heart
   Paths:
     - sea/Room16.arc/ScalableObject000
+# TODO: there's another gunboat here. originally gave orange rupee
 
 Shark Island - Cave:
   Need:
+    # Iron Boots and Skull Hammer are necessary to hit the two big buttons.
+    # The diamond switch does not require Boomerang or any ranged weapon - you can just hit it with your sword.
+    # You also need to kill a ton of enemies inside the cave, but no ranged weapons are required.
     Iron Boots
     & Skull Hammer
-    & TODO # Do you need boomerang or arrows to hit the other switch within the time limit?
   Original item: Silver Rupee
   Paths:
     - ITest63/Stage.arc/Chest000
@@ -1583,13 +1613,16 @@ Crescent Moon Island - Submarine:
   Paths:
     - Abship/Room7.arc/Chest000
 
-Horseshoe Island - Center Chest:
-  Need: Deku Leaf # TODO?
+Horseshoe Island - Play Golf:
+  Need:
+    # Need Deku Leaf to play golf, and need to fly with Deku Leaf to reach the chest.
+    Deku Leaf
+    & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 28
   Paths:
     - sea/Room43.arc/Chest000
 Horseshoe Island - Cave:
-  Need: Deku Leaf # TODO?
+  Need: Deku Leaf # Need Deku Leaf to play golf.
   Original item: Treasure Chart 8
   Paths:
     - Cave05/Stage.arc/Chest000
@@ -1638,17 +1671,17 @@ Star Belt Archipelago - Lookout Platform:
     - sea/Room21.arc/Chest000
 
 Five-Star Isles - Lookout Platform - Destroy the Cannons:
-  Need: 
+  Need: Bombs
   Original item: Golden Feather
   Paths:
     - sea/Room49.arc/Chest001
 Five-Star Isles - Raft:
-  Need: 
+  Need: Nothing
   Original item: Red Rupee
   Paths:
     - sea/Room49.arc/Chest000
 Five-Star Isles - Submarine:
-  Need: 
+  Need: Nothing
   Original item: Piece of Heart
   Paths:
     - Abship/Room0.arc/Chest000
@@ -1664,7 +1697,7 @@ Seven-Star Isles - Center Lookout Platform:
   Paths:
     - sea/Room6.arc/Chest001
 Seven-Star Isles - Southern Lookout Platform:
-  Need: Can Defeat Wizzrobes at Range # The other two chests appear when killing Wizzrobes as well, but those ones can appear at melee distance.
+  Need: Can Defeat Wizzrobes at Range # The other two chests on these lookout platforms also appear when killing Wizzrobes, but those Wizzrobes can appear at melee distance so nothing is required to kill them.
   Original item: Treasure Chart 16
   Paths:
     - sea/Room6.arc/Chest002
@@ -1674,9 +1707,9 @@ Seven-Star Isles - Big Octo:
   Paths:
     - sea/Room6.arc/ScalableObject000
 
-Cyclops Reef - Destroy the Cannons:
+Cyclops Reef - Destroy the Cannons and Gunboats:
   Need:
-    # The cannons at the eye reefs don't appear until Phantom Ganon is dead.
+    # The cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead.
     Can Reach and Defeat Phantom Ganon
     & Bombs
     & Can Fly With Deku Leaf Outdoors
@@ -1689,9 +1722,9 @@ Cyclops Reef - Lookout Platform:
   Paths:
     - sea/Room24.arc/Chest001
 
-Two-Eye Reef - Destroy the Cannons:
+Two-Eye Reef - Destroy the Cannons and Gunboats:
   Need:
-    # The cannons at the eye reefs don't appear until Phantom Ganon is dead.
+    # The cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead.
     Can Reach and Defeat Phantom Ganon
     & Bombs
     & Can Fly With Deku Leaf Outdoors
@@ -1709,9 +1742,9 @@ Two-Eye Reef - Big Octo Great Fairy: # TODO: test if this randomizes correctly
   Paths:
     - sea/Stage.arc/Event02A:BIGELF_ARRIVAL2/Actor001/Action002
 
-Three-Eye Reef - Destroy the Cannons:
+Three-Eye Reef - Destroy the Cannons and Gunboats:
   Need:
-    # The cannons at the eye reefs don't appear until Phantom Ganon is dead.
+    # The cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead.
     Can Reach and Defeat Phantom Ganon
     & Bombs
     & Can Fly With Deku Leaf Outdoors
@@ -1719,9 +1752,9 @@ Three-Eye Reef - Destroy the Cannons:
   Paths:
     - sea/Room22.arc/Chest000
 
-Four-Eye Reef - Destroy the Cannons:
+Four-Eye Reef - Destroy the Cannons and Gunboats:
   Need:
-    # The cannons at the eye reefs don't appear until Phantom Ganon is dead.
+    # The cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead.
     Can Reach and Defeat Phantom Ganon
     & Bombs
     & Can Fly With Deku Leaf Outdoors
@@ -1729,9 +1762,9 @@ Four-Eye Reef - Destroy the Cannons:
   Paths:
     - sea/Room8.arc/Chest000
 
-Five-Eye Reef - Destroy the Cannons:
+Five-Eye Reef - Destroy the Cannons and Gunboats:
   Need:
-    # The cannons at the eye reefs don't appear until Phantom Ganon is dead.
+    # The cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead.
     Can Reach and Defeat Phantom Ganon
     & Bombs
     & Can Fly With Deku Leaf Outdoors
@@ -1744,9 +1777,9 @@ Five-Eye Reef - Lookout Platform:
   Paths:
     - sea/Room37.arc/Chest001
 
-Six-Eye Reef - Destroy the Cannons:
+Six-Eye Reef - Destroy the Cannons and Gunboats:
   Need:
-    # The cannons at the eye reefs don't appear until Phantom Ganon is dead.
+    # The cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead.
     Can Reach and Defeat Phantom Ganon
     & Bombs
     & Can Fly With Deku Leaf Outdoors
