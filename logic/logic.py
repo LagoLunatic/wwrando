@@ -165,10 +165,7 @@ class Logic:
     assert 1 <= island_number <= 49
     
     chart = self.rando.chart_list.find_chart_for_island_number(island_number)
-    if chart.number <= 8:
-      chart_name = "Triforce Chart " + str(chart.number)
-    else:
-      chart_name = "Treasure Chart " + str(chart.number-8)
+    chart_name = chart.item_name
     assert chart_name in self.all_cleaned_item_names
     
     return chart_name in self.currently_owned_items

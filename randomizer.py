@@ -143,13 +143,16 @@ class Randomizer:
         stage_name = f.readline()
         self.stage_names[stage_folder.strip()] = stage_name.strip()
     self.island_names = {}
+    self.island_number_to_name = {}
     with open("./data/island_names.txt", "r") as f:
       while True:
         room_arc_name = f.readline()
         if not room_arc_name:
           break
-        island_name = f.readline()
-        self.island_names[room_arc_name.strip()] = island_name.strip()
+        island_name = f.readline().strip()
+        self.island_names[room_arc_name.strip()] = island_name
+        island_number = int(re.search(r"Room(\d+)", room_arc_name).group(1))
+        self.island_number_to_name[island_number] = island_name
     
     self.item_ids_without_a_field_model = []
     with open("./data/items_without_field_models.txt", "r") as f:
@@ -348,6 +351,7 @@ class Randomizer:
   def write_spoiler_log(self):
     spoiler_log = ""
     
+    # Write item locations.
     zones = OrderedDict()
     max_location_name_length = 0
     for location_name in self.logic.done_item_locations:
@@ -371,6 +375,13 @@ class Randomizer:
       for (location_name, specific_location_name) in locations_in_zone:
         item_name = self.logic.done_item_locations[location_name]
         spoiler_log += format_string % (specific_location_name + ":", item_name)
+    
+    # Write treasure charts.
+    spoiler_log += "Charts:\n"
+    for chart_number in range(1, 49+1):
+      chart = self.chart_list.find_chart_by_chart_number(chart_number)
+      island_name = self.island_number_to_name[chart.island_number]
+      spoiler_log += "  %-18s %s\n" % (chart.item_name+":", island_name)
     
     spoiler_log_output_path = "../WW - %s - Spoiler Log.txt" % self.seed
     with open(spoiler_log_output_path, "w") as f:

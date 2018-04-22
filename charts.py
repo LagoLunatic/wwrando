@@ -19,6 +19,12 @@ class ChartList:
       self.charts.append(chart)
       offset += Chart.DATA_SIZE
   
+  def find_chart_by_chart_number(self, chart_number):
+    return next(
+      chart for chart in self.charts
+      if chart.number == chart_number
+    )
+  
   def find_chart_for_island_number(self, island_number):
     return next(
       chart for chart in self.charts
@@ -55,10 +61,18 @@ class Chart:
   
   @island_number.setter
   def island_number(self, value):
-    assert 1 <= island_number <= 49
-    island_index = island_number - 1
+    assert 1 <= value <= 49
+    island_index = value - 1
     self.sector_x = (island_index % 7) - 3
     self.sector_y = (island_index // 7) - 3
+  
+  @property
+  def item_name(self):
+    assert 1 <= self.number <= 49
+    if self.number <= 8:
+      return "Triforce Chart " + str(self.number)
+    else:
+      return "Treasure Chart " + str(self.number-8)
   
   def save_changes(self):
     data = self.file_entry.data
