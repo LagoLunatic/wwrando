@@ -289,8 +289,8 @@ class Randomizer:
     
     if True:
       # Don't randomize dungeon keys.
-      for location_name in self.logic.remaining_item_locations:
-        orig_item = self.logic.item_locations[location_name]["Original item"]
+      for location_name, item_location in self.logic.item_locations.items():
+        orig_item = item_location["Original item"]
         if orig_item in ["Small Key", "Big Key"]:
           self.logic.set_location_to_item(location_name, orig_item)
     
