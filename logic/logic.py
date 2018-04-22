@@ -168,7 +168,13 @@ class Logic:
     chart_name = chart.item_name
     assert chart_name in self.all_cleaned_item_names
     
-    return chart_name in self.currently_owned_items
+    if chart_name not in self.currently_owned_items:
+      return False
+    if "Triforce Chart" in chart_name:
+      # Must have a wallet upgrade to get Triforce Charts deciphered by Tingle.
+      return self.check_requirement_met("Any Wallet Upgrade")
+    
+    return True
   
   def generate_empty_progress_reqs_file(self):
     output_str = ""
