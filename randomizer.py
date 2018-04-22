@@ -337,6 +337,13 @@ class Randomizer:
         possible_pos.salvage_y_pos = possible_pos_to_copy_from.salvage_y_pos
       
       chart.save_changes()
+      
+      # Then update the salvage object on the sea so it knows what chart corresponds to it now.
+      dzx = self.get_arc("files/res/Stage/sea/Room%d.arc" % chart.island_number).dzx_files[0]
+      for scob in dzx.entries_by_type("SCOB"):
+        if scob.is_salvage() and scob.salvage_type == 0:
+          scob.salvage_chart_index_plus_1 = chart.owned_chart_index_plus_1
+          scob.save_changes()
   
   def write_spoiler_log(self):
     spoiler_log = ""
