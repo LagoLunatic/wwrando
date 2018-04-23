@@ -118,17 +118,17 @@ Windfall Town Jail - Maze Chest:
   Original item: Picto Box
   Paths:
     - Pnezumi/Stage.arc/Chest000
-#Chu Jelly Juice Shop - Red Potion Free Sample:
+#Windfall Island - Chu Jelly Juice Shop - Red Potion Free Sample:
 #  Need: 
 #  Original item: Red Potion
 #  Paths:
 #    - rels/d_a_npc_ds1.rel@28C7
-#Chu Jelly Juice Shop - Green Potion Free Sample:
+#Windfall Island - Chu Jelly Juice Shop - Green Potion Free Sample:
 #  Need: 
 #  Original item: Green Potion
 #  Paths:
 #    - rels/d_a_npc_ds1.rel@28D7
-#Chu Jelly Juice Shop - Blue Potion Free Sample:
+#Windfall Island - Chu Jelly Juice Shop - Blue Potion Free Sample:
 #  Need: 
 #  Original item: Blue Potion
 #  Paths:
@@ -138,42 +138,42 @@ Windfall Island - Ivan - Catch Killer Bees:
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_mk.rel@20CB
-Mrs. Marie's School - Catch Killer Bees:
+Windfall Island - Mrs. Marie's School - Catch Killer Bees:
   Need: Nothing
   Original item: Purple Rupee
   Paths:
     - rels/d_a_npc_ho.rel@0A07
-Mrs. Marie's School - Give 1 Joy Pendant:
+Windfall Island - Mrs. Marie's School - Give 1 Joy Pendant:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Red Rupee
   Paths:
     - rels/d_a_npc_ho.rel@0B4B
-Mrs. Marie's School - Give 20 Joy Pendants:
+Windfall Island - Mrs. Marie's School - Give 20 Joy Pendants:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Cabana Deed
   Paths:
     - rels/d_a_npc_ho.rel@0B77
-Mrs. Marie's School - Give 40 Joy Pendants:
+Windfall Island - Mrs. Marie's School - Give 40 Joy Pendants:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Hero's Charm
   Paths:
     - rels/d_a_npc_ho.rel@0C87
-#Mrs. Marie's School - Give 1 or 2 Joy Pendants at Once:
+#Windfall Island - Mrs. Marie's School - Give 1 or 2 Joy Pendants at Once:
 #  Need: 
 #  Original item: Red Rupee
 #  Paths:
 #    - rels/d_a_npc_ho.rel@0C4B
-#Mrs. Marie's School - Give 3 or 4 Joy Pendants at Once:
+#Windfall Island - Mrs. Marie's School - Give 3 or 4 Joy Pendants at Once:
 #  Need: 
 #  Original item: Purple Rupee
 #  Paths:
 #    - rels/d_a_npc_ho.rel@0C5F
-#Mrs. Marie's School - Give 5+ Joy Pendants at Once:
+#Windfall Island - Mrs. Marie's School - Give 5+ Joy Pendants at Once:
 #  Need: 
 #  Original item: Orange Rupee
 #  Paths:
 #    - rels/d_a_npc_ho.rel@0C6B
-Lenzo's House - Left Chest:
+Windfall Island - Lenzo's House - Left Chest:
   Need:
     # Need Wind's Requiem to activate the Windmill
     # Need Picto Box because Lenzo will not unlock his upper door until you talk to him after obtaining it
@@ -182,7 +182,7 @@ Lenzo's House - Left Chest:
   Original item: Treasure Chart 29
   Paths:
     - Ocmera/Stage.arc/Chest000
-Lenzo's House - Right Chest:
+Windfall Island - Lenzo's House - Right Chest:
   Need:
     # Need Wind's Requiem to activate the Windmill
     # Need Picto Box because Lenzo will not unlock his upper door until you talk to him after obtaining it
@@ -191,14 +191,14 @@ Lenzo's House - Right Chest:
   Original item: Purple Rupee
   Paths:
     - Ocmera/Stage.arc/Chest001
-Lenzo's House - Become Lenzo's Assistant:
+Windfall Island - Lenzo's House - Become Lenzo's Assistant:
   Need:
     Picto Box
     & TODO # might need to have rescued aryll
   Original item: Joy Pendant
   Paths:
     - rels/d_a_npc_photo.rel@1C13
-Lenzo's House - Deluxe Picto Box:
+Windfall Island - Lenzo's House - Deluxe Picto Box:
   Need:
     Picto Box
     & TODO
@@ -207,47 +207,47 @@ Lenzo's House - Deluxe Picto Box:
   Original item: Deluxe Picto Box
   Paths:
     - rels/d_a_npc_photo.rel@1C37
-Lenzo's House - TODO:
+Windfall Island - Lenzo's House - TODO:
   Need: TODO
   Original item: Legendary Pictograph
   Paths:
     - rels/d_a_npc_photo.rel@3B8B
-Lenzo's House - Deluxe Picto Box 2? TODO dupe:
+Windfall Island - Lenzo's House - Deluxe Picto Box 2? TODO dupe:
   Need: TODO
   Original item: Deluxe Picto Box
   Paths:
     - rels/d_a_npc_photo.rel@3BE3
-House of Wealth - Chest:
+Windfall Island - House of Wealth - Chest:
   Need: Nothing
   Original item: Red Rupee
   Paths:
     - Orichh/Room0.arc/Chest000
-House of Wealth - Maggie's Father - Give 20 Skull Necklaces:
+Windfall Island - House of Wealth - Maggie's Father - Give 20 Skull Necklaces:
   Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
   Original item: Treasure Chart 2
   Paths:
     - Orichh/Stage.arc/Event04C:Gp1_Get_Itm/Actor002/Action001
-House of Wealth - Maggie's Father - Give More than 20 Skull Necklaces: # TODO?
+Windfall Island - House of Wealth - Maggie's Father - Give More than 20 Skull Necklaces: # TODO?
   Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
   Original item: Red Rupee
   Paths:
     - rels/d_a_npc_kf1.rel@17AF
-House of Wealth - Maggie's Father - Give More than 20 Skull Necklaces 2: # TODO? dupe?
+Windfall Island - House of Wealth - Maggie's Father - Give More than 20 Skull Necklaces 2: # TODO? dupe?
   Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
   Original item: Red Rupee
   Paths:
     - rels/d_a_npc_kf1.rel@1A23
-House of Wealth - Maggie - Letter:
+Windfall Island - House of Wealth - Maggie - Letter:
   Need: Rescued Aryll & TODO
   Original item: Maggie's Letter
   Paths:
     - rels/d_a_npc_kp1.rel@17D7
-House of Wealth - Maggie - Reward:
+Windfall Island - House of Wealth - Maggie - Reward:
   Need: Rescued Aryll & Delivery Bag & TODO
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_kp1.rel@1817
-Cafe Bar - Postman:
+Windfall Island - Cafe Bar - Postman:
   Need: Rescued Aryll & Delivery Bag & TODO
   Original item: Moblin's Letter
   Paths:
