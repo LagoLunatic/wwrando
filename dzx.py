@@ -80,15 +80,7 @@ class TRES:
     
     self.name = read_str(data, offset, 8)
     
-    self.params = read_u8(data, offset+8)
-    
-    chest_type_and_prereq_upper_nibble = read_u8(data, offset+9)
-    prereq_lower_nibble_and_unknown = read_u8(data, offset+0xA)
-    self.chest_type = (chest_type_and_prereq_upper_nibble >> 4)
-    self.appear_condition_flag_id = ((chest_type_and_prereq_upper_nibble & 0xF) << 4) | (prereq_lower_nibble_and_unknown >> 4)
-    self.unknown = (prereq_lower_nibble_and_unknown & 0xF) # flag for having picked this up?
-    
-    self.appear_condition = read_u8(data, offset+0xB)
+    self.params = read_u32(data, offset+8)
     
     self.x_pos = read_float(data, offset+0x0C)
     self.y_pos = read_float(data, offset+0x10)
@@ -106,16 +98,7 @@ class TRES:
     
     write_str(data, self.offset, self.name, 8)
     
-    write_u8(data, self.offset+0x08, self.params)
-    
-    chest_type_and_prereq_upper_nibble = (self.chest_type << 4)
-    chest_type_and_prereq_upper_nibble |= ((self.appear_condition_flag_id >> 4) & 0xF)
-    write_u8(data, self.offset+0x09, chest_type_and_prereq_upper_nibble)
-    prereq_lower_nibble_and_unknown = ((self.appear_condition_flag_id & 0xF) << 4)
-    prereq_lower_nibble_and_unknown |= (self.unknown & 0xF)
-    write_u8(data, self.offset+0x0A, prereq_lower_nibble_and_unknown)
-    
-    write_u8(data, self.offset+0x0B, self.appear_condition)
+    write_u32(data, self.offset+0x08, self.params)
     
     write_float(data, self.offset+0x0C, self.x_pos)
     write_float(data, self.offset+0x10, self.y_pos)
@@ -127,6 +110,38 @@ class TRES:
     write_u8(data, self.offset+0x1D, self.flag_id)
     
     write_u16(data, self.offset+0x1E, self.padding)
+  
+  @property
+  def chest_type(self):
+    return ((self.params & 0x00F00000) >> 20)
+  
+  @chest_type.setter
+  def chest_type(self, value):
+    self.params = (self.params & (~0x00F00000)) | ((value&0xF) << 20)
+
+  @property
+  def appear_condition_switch(self):
+    return ((self.params & 0x000FF000) >> 12)
+  
+  @appear_condition_switch.setter
+  def appear_condition_switch(self, value):
+    self.params = (self.params & (~0x000FF000)) | ((value&0xFF) << 12)
+
+  @property
+  def opened_flag(self):
+    return ((self.params & 0x00000F80) >> 8)
+  
+  @opened_flag.setter
+  def opened_flag(self, value):
+    self.params = (self.params & (~0x00000F80)) | ((value&0x1F) << 7)
+
+  @property
+  def appear_condition_type(self):
+    return ((self.params & 0x0000007F) >> 0)
+  
+  @appear_condition_type.setter
+  def appear_condition_type(self, value):
+    self.params = (self.params & (~0x0000007F)) | ((value&0x7F) << 0)
 
 class SCOB:
   DATA_SIZE = 0x24
