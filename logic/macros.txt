@@ -6,14 +6,28 @@ Can Fly With Deku Leaf Outdoors:
   Deku Leaf & Can Play Wind's Requiem
 Can Move Boulders:
   Bombs | Power Bracelets
+Can Defeat Door Flowers:
+  Boomerang | Hero's Bow | Bombs | Hookshot
+Can Hit Diamond Switches at Range:
+  Boomerang | Hero's Bow | Hookshot
 Can Buy Bait:
   TODO
 Any Master Sword:
   Master Sword Powerless | Master Sword Half Power | Master Sword Full Power
 Any Wallet Upgrade:
   1000 Rupee Wallet | 5000 Rupee Wallet
+Fire Arrows:
+  Hero's Bow & Fire and Ice Arrows & TODO # TODO: also need magic meter
+Tingle Tuner Bombs:
+  Tingle Tuner & TODO
+
+Can Access Dragon Roost Cavern:
+  Nothing
 Can Access Forest Haven:
-  Grappling Hook
+  Grappling Hook | Can Fly With Deku Leaf Outdoors
+Can Access Forbidden Woods:
+  Can Access Forest Haven & Grappling Hook & Can Fly With Deku Leaf Outdoors
+
 Can Get Past Forsaken Fortress Gate:
   Bombs
   # (It's also possible to blow up the door without bombs by using the mounted cannons, but this is not required by the logic.)
@@ -26,8 +40,9 @@ Can Reach and Defeat Phantom Ganon:
   # Note that his energy balls can be reflected with either the Master Sword or an empty bottle, but you still need the Master Sword to deal damage.
   Can Get Past Forsaken Fortress Gate
   & Any Master Sword
+
 Rescued Aryll:
-  TODO
+  Nothing # We set the event bit for having rescued Aryll by default.
 Can Get Fairies:
   TODO
 Can Farm Knight's Crests:
@@ -51,7 +66,5 @@ Can Defeat Big Octos:
   | Bombs
   | Boomerang
   # Hookshot can technically damage Big Octos, but it only reaches at the end when your time limit is almost up.
-Fire Arrows:
-  Hero's Bow & Fire and Ice Arrows # TODO: also need magic meter
 TODO:
   Impossible

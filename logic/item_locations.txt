@@ -294,12 +294,12 @@ Windfall Island - Auction 4:
 #  Paths:
 #    - rels/d_a_npc_rsh1.rel@30FB
 Windfall Island - Zunari - Island Trading Starter:
-  Need: TODO # Maybe rescue Aryll?
+  Need: Rescued Aryll & Delivery Bag & TODO
   Original item: Town Flower
   Paths:
     - rels/d_a_npc_rsh1.rel@30DF
 Windfall Island - Zunari - Make Three Merchant's Oaths:
-  Need: TODO # Maybe rescue Aryll?
+  Need: Rescued Aryll & Delivery Bag & TODO
   Original item: Magic Armor
   Paths:
     - rels/d_a_npc_rsh1.rel@3117
@@ -392,6 +392,11 @@ Dragon Roost Island - Wind Shrine:
 #  Paths:
 #    - rels/d_a_npc_md.rel@AF1B
 #    - rels/d_a_npc_md.rel@AF47
+#Dragon Roost Cavern - Entrance - Medli's Gift:
+#  Need: Delivery Bag & Father's Letter # Need to deliver this to Komali before Medli will appear
+#  Original item: Empty Bottle
+#  Paths:
+#    - rels/d_a_npc_md.rel@AF3F
 #Dragon Roost Island - Komali:
 #  Need: 
 #  Original item: Din's Pearl
@@ -403,7 +408,7 @@ Dragon Roost Island - Rito Aerie - Give Hoskit 20 Golden Feathers:
   Paths:
     - Atorizk/Stage.arc/Event000:Get_Rupee/Actor002/Action001
 Dragon Roost Island - Chest on Top of Boulder:
-  Need: TODO # Bow works, but see if coming out of the long cave passage near it allows boomerang to reach too
+  Need: Hero's Bow
   Original item: Silver Rupee
   Paths:
     - sea/Room13.arc/Chest000
@@ -424,84 +429,114 @@ Dragon Roost Island - Secret Cave:
     - TF_06/Stage.arc/Chest000
 
 # Dragon Roost Cavern
-# TODO: progress reqs for dragon roost cavern
-Dragon Roost Cavern - Entrance - Medli's Gift:
-  Need: Delivery Bag & Father's Letter # Need to deliver this to Komali before Medli will appear
-  Original item: Empty Bottle
-  Paths:
-    - rels/d_a_npc_md.rel@AF3F
 Dragon Roost Cavern - First Room:
-  Need: 
+  Need: Can Access Dragon Roost Cavern
   Original item: Small Key
   Paths:
     - M_NewD2/Stage.arc/Chest005
 Dragon Roost Cavern - Map Chest:
-  Need: 
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x1
   Original item: Dungeon Map
   Paths:
     - M_NewD2/Stage.arc/Chest008
 Dragon Roost Cavern - Boarded Up Chest:
-  Need: 
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x1
   Original item: Small Key
   Paths:
     - M_NewD2/Stage.arc/Chest006
 Dragon Roost Cavern - Compass Chest:
-  Need: 
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x2
   Original item: Compass
   Paths:
     - M_NewD2/Stage.arc/Chest007
 Dragon Roost Cavern - Rat Room:
-  Need: 
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x2
   Original item: Small Key
   Paths:
     - M_NewD2/Stage.arc/Chest00B
 Dragon Roost Cavern - Bird's Nest:
-  Need: 
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x3
   Original item: Small Key
   Paths:
     - M_NewD2/Room3.arc/Actor016
 Dragon Roost Cavern - Dark Room:
-  Need: 
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x4
   Original item: Joy Pendant
   Paths:
     - M_NewD2/Stage.arc/Chest004
 Dragon Roost Cavern - Pot Room Chest:
-  Need: 
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x4
   Original item: Treasure Chart 39
   Paths:
     - M_NewD2/Stage.arc/Chest003
 Dragon Roost Cavern - Mini-boss:
-  Need: 
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x4
+  # Need to escape: Grappling Hook | Can Fly With Deku Leaf Outdoors
   Original item: Grappling Hook
   Paths:
     - rels/d_a_npc_md.rel@AF2F
 Dragon Roost Cavern - Under Rope Bridge:
-  Need: 
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x4
+    & (Grappling Hook | Can Fly With Deku Leaf Outdoors)
   Original item: Joy Pendant
   Paths:
     - M_NewD2/Stage.arc/Chest009
 Dragon Roost Cavern - Tingle Statue Chest:
-  Need: 
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x4
+    & Grappling Hook
+    & Tingle Tuner Bombs
   Original item: Dragon Tingle Statue
   Paths:
     - M_NewD2/Stage.arc/Chest00C
 Dragon Roost Cavern - Big Key Chest:
-  Need: 
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x4
+    & Grappling Hook
   Original item: Big Key
   Paths:
     - M_NewD2/Stage.arc/Chest000
 Dragon Roost Cavern - Chest Across Lava Pit:
-  Need: 
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x2
+    & Grappling Hook
   Original item: Treasure Chart 11
   Paths:
     - M_NewD2/Stage.arc/Chest00A
 Dragon Roost Cavern - Boss Stairs Right Chest:
-  Need: 
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x4
+    & (Grappling Hook | Deku Leaf)
   Original item: Knight's Crest
   Paths:
     - M_NewD2/Stage.arc/Chest001
 Dragon Roost Cavern - Boss Stairs Left Chest:
-  Need: 
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x4
+    & (Grappling Hook | Deku Leaf)
   Original item: Yellow Rupee
   Paths:
     - M_NewD2/Stage.arc/Chest002
@@ -511,7 +546,11 @@ Dragon Roost Cavern - Boss Stairs Left Chest:
 #  Paths:
 #    - M_NewD2/Stage.arc/Chest00D
 Dragon Roost Cavern - Gohma Heart Container:
-  Need: 
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x4
+    & Grappling Hook
+    & DRC Big Key
   Original item: Heart Container
   Paths:
     - rels/d_a_btd.rel@36FE
@@ -547,82 +586,135 @@ Forest Haven - Small Island Chest:
 #    - Ocrogh/Stage.arc/Event03F:Get_Blu_Btl/Actor002/Action001
 
 Forbidden Woods - Map Chest:
-  Need: 
+  Need: Can Access Forbidden Woods
   Original item: Dungeon Map
   Paths:
     - kindan/Stage.arc/Chest002
 Forbidden Woods - Inside Hollow Tree's Mouth:
-  Need: 
+  Need: Can Access Forbidden Woods
   Original item: Knight's Crest
   Paths:
     - kindan/Stage.arc/Chest001
 Forbidden Woods - Hole in Tree:
-  Need: 
+  Need:
+    Can Access Forbidden Woods
+    & Deku Leaf
   Original item: Red Rupee
   Paths:
     - kindan/Stage.arc/Chest004
 Forbidden Woods - Morth Pit:
-  Need: 
+  Need:
+    Can Access Forbidden Woods
+    & Deku Leaf
+    & Grappling Hook
   Original item: Yellow Rupee
   Paths:
     - kindan/Stage.arc/Chest00C
 Forbidden Woods - Vine Maze Compass Chest:
-  Need: 
+  Need:
+    Can Access Forbidden Woods
+    & Deku Leaf
+    & Grappling Hook
   Original item: Compass
   Paths:
     - kindan/Stage.arc/Chest006
 Forbidden Woods - Vine Maze Chest:
-  Need: 
+  Need:
+    Can Access Forbidden Woods
+    & Deku Leaf
+    & Grappling Hook
   Original item: Small Key
   Paths:
     - kindan/Stage.arc/Chest003
 Forbidden Woods - Tall Peahat Room:
-  Need: 
+  Need:
+    Can Access Forbidden Woods
+    & Deku Leaf
+    & Grappling Hook
+    & FW Small Key x1
   Original item: Joy Pendant
   Paths:
     - kindan/Stage.arc/Chest009
 Forbidden Woods - Mothula Mini-Boss Room:
-  Need: 
+  Need:
+    Can Access Forbidden Woods
+    & Deku Leaf
+    & Grappling Hook
+    & FW Small Key x1
+  # Need to escape: Can Hit Diamond Switches at Range
   Original item: Boomerang
   Paths:
     - kinMB/Stage.arc/Chest000
 Forbidden Woods - Past Seeds Hanging by Vines:
-  Need: 
+  Need:
+    Can Access Forbidden Woods
+    & Deku Leaf
+    & Grappling Hook
+    & FW Small Key x1
+    & Can Defeat Door Flowers
   Original item: Joy Pendant
   Paths:
     - kindan/Stage.arc/Chest00B
 Forbidden Woods - Chest Across Red Hanging Flower:
-  Need: 
+  Need:
+    Can Access Forbidden Woods
+    & Deku Leaf
+    & Grappling Hook
+    & Boomerang
   Original item: Yellow Rupee
   Paths:
     - kindan/Stage.arc/Chest00D
 Forbidden Woods - Tingle Statue Chest:
-  Need: 
+  Need:
+    Can Access Forbidden Woods
+    & Deku Leaf
+    & Grappling Hook
+    & Boomerang
+    & Tingle Tuner Bombs
   Original item: Forbidden Tingle Statue
   Paths:
     - kindan/Stage.arc/Chest00E
 Forbidden Woods - Chest in Locked Tree Trunk:
-  Need: 
+  Need:
+    Can Access Forbidden Woods
+    & Deku Leaf
+    & Grappling Hook
+    & Boomerang
   Original item: Treasure Chart 15
   Paths:
     - kindan/Stage.arc/Chest007
 Forbidden Woods - Big Key Chest:
-  Need: 
+  Need:
+    Can Access Forbidden Woods
+    & Deku Leaf
+    & Grappling Hook
+    & Boomerang
   Original item: Big Key
   Paths:
     - kindan/Stage.arc/Chest008
 Forbidden Woods - Double Mothula Room:
-  Need: 
+  Need:
+    Can Access Forbidden Woods
+    & Deku Leaf
+    & Can Defeat Door Flowers
   Original item: Joy Pendant
   Paths:
     - kindan/Stage.arc/Chest00A
 Forbidden Woods - Climb to Top Using Boko Baba Bulbs:
-  Need: 
+  Need:
+    Can Access Forbidden Woods
+    & Deku Leaf
+    & Can Defeat Door Flowers
   Original item: Treasure Chart 1
   Paths:
     - kindan/Stage.arc/Chest000
 Forbidden Woods - Kalle Demos Heart Container:
-  Need: 
+  Need:
+    Can Access Forbidden Woods
+    & Deku Leaf
+    & Can Defeat Door Flowers
+    & FW Big Key
+    & Boomerang
   Original item: Heart Container
   Paths:
     - rels/d_a_bmd.rel@2B2E
@@ -725,7 +817,6 @@ Hyrule - Master Sword Chamber:
     - main.dol@358D34
 
 
-# TODO: progress reqs for forsaken fortress
 Forsaken Fortress - Phantom Ganon:
   Need: Can Reach and Defeat Phantom Ganon
   Original item: Skull Hammer
@@ -767,7 +858,7 @@ Forsaken Fortress - Jail Cell:
 #  Original item: Recovered Hero's Sword
 #  Paths:
 #    - MajyuE/Room0.arc/Actor016
-Forsaken Fortress - Helmaroc King Heart Container: # TODO: check if this fight works correctly with all the cutscenes
+Forsaken Fortress - Helmaroc King Heart Container:
   Need:
     Can Get Inside Forsaken Fortress
     & Skull Hammer
@@ -1214,17 +1305,17 @@ TODO - unknown npc 8:
     - rels/d_a_npc_people.rel@5BDF
 
 Private Oasis - Chest at Top of Waterfall:
-  Need: 
+  Need: TODO # Hookshot?
   Original item: Treasure Chart 27
   Paths:
     - sea/Room33.arc/Chest000
 Cabana Labyrinth - First Chest:
-  Need: 
+  Need: Cabana Deed & Grappling Hook & TODO
   Original item: Orange Rupee
   Paths:
     - TF_04/Stage.arc/Chest001
 Cabana Labyrinth - Second Chest:
-  Need: 
+  Need: Cabana Deed & Grappling Hook & TODO
   Original item: Triforce Chart 2
   Paths:
     - TF_04/Stage.arc/Chest000
@@ -1251,7 +1342,7 @@ Spectacle Island - Target Shooting - Second Prize:
 #    - rels/d_a_npc_kg2.rel@210F
 
 Needle Rock Isle - Chest:
-  Need: TODO # probably needs either bow or bait bag & hyoi pear. buy just the bow might be too hard.
+  Need: TODO # probably needs either bow or bait bag & hyoi pear. but just the bow might be too hard.
   Original item: Piece of Heart
   Paths:
     - sea/Room29.arc/Chest000
@@ -1291,7 +1382,7 @@ Boating Course - Cave:
     # Getting inside the cave requires flying with Deku Leaf or Hookshotting the pole.
     # Hitting the 3 diamond switches inside the cave needs a ranged weapon. The imps make it difficult though.
     (Can Fly With Deku Leaf Outdoors | Hookshot)
-    & (Boomerang | Hero's Bow | Hookshot)
+    & Can Hit Diamond Switches at Range
   Original item: Submarine Chart
   Paths:
     - SubD71/Stage.arc/Chest000
