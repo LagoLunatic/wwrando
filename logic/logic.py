@@ -11,6 +11,14 @@ from rarc import RARC
 from rel import REL
 
 class Logic:
+  DUNGEON_NAMES = {
+    "DRC":  "Dragon Roost Cavern",
+    "FW":   "Forbidden Woods",
+    "TotG": "Tower of the Gods",
+    "ET":   "Earth Temple",
+    "WT":   "Wind Temple",
+  }
+  
   def __init__(self, rando):
     self.rando = rando
     
@@ -19,6 +27,12 @@ class Logic:
     self.consumable_items = list(CONSUMABLE_ITEMS)
     
     self.currently_owned_items = []
+    
+    self.small_keys_owned_by_dungeon = {}
+    self.big_key_owned_by_dungeon = {}
+    for short_dungeon_name, dungeon_name in self.DUNGEON_NAMES.items():
+      self.small_keys_owned_by_dungeon[dungeon_name] = 0
+      self.big_key_owned_by_dungeon[dungeon_name] = False
     
     self.all_cleaned_item_names = []
     for item_id, item_name in self.rando.item_names.items():
@@ -45,7 +59,12 @@ class Logic:
     self.done_item_locations[location_name] = item_name
     self.remaining_item_locations.remove(location_name)
     
-    self.add_owned_item(item_name)
+    if "Key" in item_name:
+      # TODO: Will need to change this if implementing key randomization outside the normal dungeon the keys would appear in.
+      dungeon_name = location_name.split(" - ", 1)[0]
+      self.add_owned_key_for_dungeon(item_name, dungeon_name)
+    else:
+      self.add_owned_item(item_name)
   
   def add_owned_item(self, item_name):
     cleaned_item_name = self.clean_item_name(item_name)
@@ -57,6 +76,14 @@ class Logic:
       self.unplaced_progress_items.remove(item_name)
     if item_name in self.unplaced_nonprogress_items:
       self.unplaced_nonprogress_items.remove(item_name)
+  
+  def add_owned_key_for_dungeon(self, item_name, dungeon_name):
+    if item_name == "Small Key":
+      self.small_keys_owned_by_dungeon[dungeon_name] += 1
+    elif item_name == "Big Key":
+      self.big_key_owned_by_dungeon[dungeon_name] = True
+    else:
+      raise "Unknown key item: " + item_name
   
   def get_accessible_remaining_locations(self):
     accessible_location_names = []
@@ -123,6 +150,10 @@ class Logic:
   def check_requirement_met(self, req_name):
     if req_name in self.all_cleaned_item_names:
       return req_name in self.currently_owned_items
+    elif "Small Key" in req_name:
+      return self.check_small_key_req(req_name)
+    elif "Big Key" in req_name:
+      return self.check_big_key_req(req_name)
     elif req_name in self.macros:
       logical_expression = self.macros[req_name]
       return self.check_logical_expression_req(logical_expression)
@@ -164,6 +195,22 @@ class Logic:
       return any(subexpression_results)
     else:
       return all(subexpression_results)
+  
+  def check_small_key_req(self, req_name):
+    match = re.search(r"^(.+) Small Key x(\d+)$", req_name)
+    short_dungeon_name = match.group(1)
+    dungeon_name = self.DUNGEON_NAMES[short_dungeon_name]
+    num_keys_required = int(match.group(2))
+    
+    num_small_keys_owned = self.small_keys_owned_by_dungeon[dungeon_name]
+    return num_small_keys_owned >= num_keys_required
+  
+  def check_big_key_req(self, req_name):
+    match = re.search(r"^(.+) Big Key$", req_name)
+    short_dungeon_name = match.group(1)
+    dungeon_name = self.DUNGEON_NAMES[short_dungeon_name]
+    
+    return self.big_key_owned_by_dungeon[dungeon_name]
   
   def check_chart_req(self, req_name):
     match = re.search(r"^Chart for Island (\d+)$", req_name)
