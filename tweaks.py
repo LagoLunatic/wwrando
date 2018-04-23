@@ -334,3 +334,12 @@ def remove_forsaken_fortress_2_cutscenes(self):
     exit.room_index = 1
     exit.spawn_id = 0
     exit.save_changes()
+
+def remove_medli_that_gives_fathers_letter(self):
+  # The first instance of Medli, who gives the letter for Komali, can disappear under certain circumstances.
+  # For example, owning the half-power Master Sword makes her disappear. Deliving the letter to Komali also makes her disappear.
+  # So in order to avoid the item she gives being missable, we just remove it entirely.
+  # To do this we modify the chkLetterPassed function to always return true, so she thinks you've delivered the letter.
+  
+  dol_data = self.get_raw_file("sys/main.dol")
+  write_u32(dol_data, 0x218EC0, 0x38600001) # li r3, 1 (at 8021BF80 in RAM)
