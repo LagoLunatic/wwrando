@@ -40,6 +40,24 @@ li r4, 0x0A20 ; WATCHED_FOREST_HAVEN_INTRO_CUTSCENE
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x1801 ; WATCHED_DEKU_TREE_CUTSCENE
 bl onEventBit__11dSv_event_cFUs
+li r4, 0x0A08 ; TALKED_TO_KORL_AFTER_LEAVING_FH
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x1F02 ; TALKED_TO_KORL_AFTER_GETTING_BOMBS
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x2F20 ; Talked to KoRL after getting Nayru's Pearl
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x2D01 ; Saw cutscene before Helmaroc King where Aryll is rescued
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x2E04 ; MEDLI_IN_EARTH_TEMPLE_ENTRANCE
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x2920 ; MEDLI_IN_EARTH_TEMPLE
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x1620 ; Medli is in dungeon mode and can be lifted/called
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x2910 ; MAKAR_IN_WIND_TEMPLE
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x1610 ; Makar is in dungeon mode and can be lifted/called
+bl onEventBit__11dSv_event_cFUs
 
 lis r3, 0x803C
 addi r3, r3, 0x5D60
@@ -50,12 +68,17 @@ bl onEventBit__11dSv_event_cFUs
 ; Set four switch bits (0, 1, 3, 7) for several events that happen in the Fairy Woods on Outset.
 ; Setting these switches causes the Tetra hanging from a tree and rescuing her from Bokoblins events to be marked as finished.
 ; Also set the switch (9) for having seen the event where you enter the Rito Aerie for the first time and get the Delivery Bag.
+; Also set the switch (8) for having unclogged the pond, since that boulder doesn't respond to normal bombs which would be odd.
 ; Also set the the switch (1E) for having seen the intro to the interior of the Forest Haven, where the camera pans up.
 lis r3, 0x803C
 addi r3, r3, 0x5118
 lis r4, 0x4000
-addi r4, r4, 0x028B
+addi r4, r4, 0x038B
 stw r4, 0 (r3)
+
+; Set two switch bits (3E and 3F) for having unlocked the song tablets in the Earth and Wind Temple entrances.
+lis r4, 0xC000
+stw r4, 4 (r3)
 
 ; Set a switch bit (19) for the event on Greatfish Isle so that the endless night never starts.
 lis r3, 0x803C
@@ -65,6 +88,9 @@ stw r4, 0 (r3)
 ; Also set a switch bit (3F) for having seen the Windfall Island intro scene.
 lis r4, 0x8000
 stw r4, 4 (r3)
+; Also set a switch bit (58) for having seen the short event when you enter Forsaken Fortress 2 for the first time.
+lis r4, 0x0100
+stw r4, 8 (r3)
 
 
 ; Function end stuff
