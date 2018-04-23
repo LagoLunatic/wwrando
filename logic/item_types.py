@@ -45,7 +45,6 @@ PROGRESS_ITEMS = [
   
   "Town Flower",
   
-  "Father's Letter",
   "Note to Mom",
   "Maggie's Letter",
   "Moblin's Letter",
