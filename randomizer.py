@@ -312,7 +312,7 @@ class Randomizer:
       if newly_accessible_unrandomized_locations:
         for unrandomized_location_name in newly_accessible_unrandomized_locations:
           unrandomized_item_name = self.logic.item_locations[unrandomized_location_name]["Original item"]
-          self.logic.set_location_to_item(unrandomized_location_name, unrandomized_location_name)
+          self.logic.set_location_to_item(unrandomized_location_name, unrandomized_item_name)
         
         continue # Redo this loop iteration with the unrandomized locations no longer being considered 'remaining'.
       
