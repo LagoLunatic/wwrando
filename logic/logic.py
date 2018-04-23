@@ -117,6 +117,14 @@ class Logic:
     # Remove parentheses from Master Sword and other names.
     return item_name.replace("(", "").replace(")", "")
   
+  def split_location_name_by_zone(self, location_name):
+    if " - " in location_name:
+      zone_name, specific_location_name = location_name.split(" - ", 1)
+    else:
+      zone_name = specific_location_name = location_name
+    
+    return zone_name, specific_location_name
+  
   def parse_logic_expression(self, string):
     tokens = [str.strip() for str in re.split("([&|()])", string)]
     tokens = [token for token in tokens if token != ""]

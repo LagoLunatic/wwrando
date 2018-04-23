@@ -389,10 +389,7 @@ class Randomizer:
     zones = OrderedDict()
     max_location_name_length = 0
     for location_name in self.logic.done_item_locations:
-      if " - " in location_name:
-        zone_name, specific_location_name = location_name.split(" - ", 1)
-      else:
-        zone_name = specific_location_name = location_name
+      zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
       
       if zone_name not in zones:
         zones[zone_name] = []
