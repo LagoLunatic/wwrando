@@ -30,6 +30,13 @@ class Randomizer:
     self.read_text_file_lists()
     self.logic = Logic(self)
     
+    self.logic.add_owned_item("Wind Waker")
+    self.logic.add_owned_item("Wind's Requiem")
+    self.logic.add_owned_item("Ballad of Gales")
+    self.logic.add_owned_item("Hero's Sword")
+    self.logic.add_owned_item("Hero's Shield")
+    self.logic.add_owned_item("Boat's Sail")
+    
     arc_paths = Path(self.stage_dir).glob("**/*.arc")
     self.arc_paths = [str(arc_path) for arc_path in arc_paths]
     rel_paths = Path(self.rels_dir).glob("**/*.rel")
@@ -41,12 +48,26 @@ class Randomizer:
     self.raw_files_by_path = {}
     
     self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").chart_lists[0]
+  
+  def randomize(self):
+    self.apply_necessary_tweaks()
     
+    tweaks.make_all_text_instant(self)
+    tweaks.start_with_sea_chart_fully_revealed(self)
+    
+    self.randomize_charts()
+    
+    self.randomize_items()
+    
+    self.write_spoiler_log()
+    
+    self.save_changed_files()
+  
+  def apply_necessary_tweaks(self):
     tweaks.modify_new_game_start_code(self)
     tweaks.remove_story_railroading(self)
     tweaks.skip_wakeup_intro_and_start_at_dock(self)
     tweaks.start_ship_at_outset(self)
-    tweaks.make_all_text_instant(self)
     tweaks.make_fairy_upgrades_unconditional(self)
     tweaks.make_fishmen_active_before_gohma(self)
     tweaks.fix_zephos_double_item(self)
@@ -56,25 +77,9 @@ class Randomizer:
     tweaks.skip_post_boss_warp_cutscenes(self)
     tweaks.remove_shop_item_forced_uniqueness_bit(self)
     tweaks.allow_randomizing_magic_meter_upgrade_item(self)
-    tweaks.start_with_sea_chart_fully_revealed(self)
     tweaks.fix_triforce_charts_not_needing_to_be_deciphered(self)
     tweaks.remove_forsaken_fortress_2_cutscenes(self)
     tweaks.remove_medli_that_gives_fathers_letter(self)
-    
-    self.logic.add_owned_item("Wind Waker")
-    self.logic.add_owned_item("Wind's Requiem")
-    self.logic.add_owned_item("Ballad of Gales")
-    self.logic.add_owned_item("Hero's Sword")
-    self.logic.add_owned_item("Hero's Shield")
-    self.logic.add_owned_item("Boat's Sail")
-    
-    self.randomize_charts()
-    
-    self.randomize_items()
-    
-    self.write_spoiler_log()
-    
-    self.save_changed_files()
   
   def copy_and_extract_files(self, clean_base_dir):
     # Copy the vanilla files to the randomized directory.
@@ -409,4 +414,5 @@ class Randomizer:
       f.write(spoiler_log)
 
 if __name__ == "__main__":
-  Randomizer()
+  rando = Randomizer()
+  rando.randomize()
