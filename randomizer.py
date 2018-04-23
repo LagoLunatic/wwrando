@@ -59,6 +59,8 @@ class Randomizer:
     
     self.randomize_items()
     
+    self.write_changed_items()
+    
     self.write_spoiler_log()
     
     self.save_changed_files()
@@ -338,6 +340,12 @@ class Randomizer:
     for location_name in locations_to_place_consumables_at:
       item_name = random.choice(self.logic.consumable_items)
       self.logic.set_location_to_item(location_name, item_name)
+  
+  def write_changed_items(self):
+    for location_name, item_name in self.logic.done_item_locations:
+      paths = self.logic.item_locations[location_name]["Paths"]
+      for path in paths:
+        self.change_item(path, item_name)
   
   def randomize_charts(self):
     # Shuffles around which chart points to each sector.

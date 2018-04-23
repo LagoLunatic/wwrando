@@ -52,10 +52,6 @@ class Logic:
     if self.done_item_locations[location_name]:
       raise Exception("Location was used twice: " + location_name)
     
-    paths = self.item_locations[location_name]["Paths"]
-    for path in paths:
-      self.rando.change_item(path, item_name)
-    
     self.done_item_locations[location_name] = item_name
     self.remaining_item_locations.remove(location_name)
     
