@@ -28,6 +28,7 @@ class Logic:
     self.load_and_parse_item_locations()
     
     self.remaining_item_locations = list(self.item_locations.keys())
+    self.unrandomized_item_locations = []
     
     self.done_item_locations = OrderedDict()
     for location_name in self.item_locations:
@@ -66,6 +67,11 @@ class Logic:
         accessible_location_names.append(location_name)
     
     return accessible_location_names
+  
+  def add_unrandomized_location(self, location_name):
+    # For locations that should not be randomized on this seed, e.g. dungeon keys.
+    assert location_name in self.item_locations
+    self.unrandomized_item_locations.append(location_name)
   
   def load_and_parse_item_locations(self):
     with open("./logic/item_locations.txt") as f:

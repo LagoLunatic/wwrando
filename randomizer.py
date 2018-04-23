@@ -295,13 +295,31 @@ class Randomizer:
       for location_name, item_location in self.logic.item_locations.items():
         orig_item = item_location["Original item"]
         if orig_item in ["Small Key", "Big Key"]:
-          self.logic.set_location_to_item(location_name, orig_item)
+          self.logic.add_unrandomized_location(location_name)
     
     # Place progress items.
     while self.logic.unplaced_progress_items:
+      accessible_locations = self.logic.get_accessible_remaining_locations()
+      
+      if not accessible_locations:
+        raise Exception("No locations left to place progress items!")
+      
+      # If the player gained access to any unrandomized locations, we need to give them those items.
+      newly_accessible_unrandomized_locations = [
+        loc for loc in accessible_locations
+        if loc in self.logic.unrandomized_item_locations
+      ]
+      if newly_accessible_unrandomized_locations:
+        for unrandomized_location_name in newly_accessible_unrandomized_locations:
+          unrandomized_item_name = self.logic.item_locations[unrandomized_location_name]["Original item"]
+          self.logic.set_location_to_item(unrandomized_location_name, unrandomized_location_name)
+        
+        continue # Redo this loop iteration with the unrandomized locations no longer being considered 'remaining'.
+      
+      # TODO: prioritize useful items over useless items
       item_name = random.choice(self.logic.unplaced_progress_items)
-      possible_locations = self.logic.get_accessible_remaining_locations()
-      location_name = random.choice(possible_locations)
+      
+      location_name = random.choice(accessible_locations)
       self.logic.set_location_to_item(location_name, item_name)
     
     # Place unique non-progress items.
