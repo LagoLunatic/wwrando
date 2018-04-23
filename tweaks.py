@@ -319,3 +319,18 @@ def fix_triforce_charts_not_needing_to_be_deciphered(self):
   # Then we branch to skip the line of code that originally called getItemNo.
   # We can't easily nop the line out, since the REL's relocation would overwrite our nop.
   write_u32(salvage_data, 0x10C4, 0x48000008) # b 0x10CC
+
+def remove_forsaken_fortress_2_cutscenes(self):
+  # Removes the rescuing-Aryll cutscene played by the spawn when you enter the Forsaken Fortress tower.
+  dzx = self.get_arc("files/res/Stage/M2tower/Room0.arc").dzx_files[0]
+  spawn = next(spawn for spawn in dzx.entries_by_type("PLYR") if spawn.spawn_id == 16)
+  spawn.event_index = 0xFF
+  spawn.save_changes()
+  
+  # Removes the Ganon cutscene by making the door to his room lead back to the start of Forsaken Fortress instead.
+  exit = next((exit for exit in dzx.entries_by_type("SCLS") if exit.dest_stage_name == "M2ganon"), None)
+  if exit:
+    exit.dest_stage_name = "sea"
+    exit.room_index = 1
+    exit.spawn_id = 0
+    exit.save_changes()

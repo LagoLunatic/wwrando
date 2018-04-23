@@ -58,6 +58,7 @@ class Randomizer:
     tweaks.allow_randomizing_magic_meter_upgrade_item(self)
     tweaks.start_with_sea_chart_fully_revealed(self)
     tweaks.fix_triforce_charts_not_needing_to_be_deciphered(self)
+    tweaks.remove_forsaken_fortress_2_cutscenes(self)
     
     self.logic.add_owned_item("Wind Waker")
     self.logic.add_owned_item("Wind's Requiem")
