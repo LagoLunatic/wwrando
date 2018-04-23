@@ -57,6 +57,7 @@ class Randomizer:
     tweaks.remove_shop_item_forced_uniqueness_bit(self)
     tweaks.allow_randomizing_magic_meter_upgrade_item(self)
     tweaks.start_with_sea_chart_fully_revealed(self)
+    tweaks.fix_triforce_charts_not_needing_to_be_deciphered(self)
     
     self.logic.add_owned_item("Wind Waker")
     self.logic.add_owned_item("Wind's Requiem")

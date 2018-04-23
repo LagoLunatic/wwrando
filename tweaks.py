@@ -304,3 +304,18 @@ def start_with_sea_chart_fully_revealed(self):
   dol_data = self.get_raw_file("sys/main.dol")
   
   write_u32(dol_data, 0x5820C, 0x38800001) # li r4, 1 (at 8005B2CC in RAM)
+
+def fix_triforce_charts_not_needing_to_be_deciphered(self):
+  # When salvage points decide if they should show their ray of light, they originally only checked if you
+  # have the appropriate Triforce Chart deciphered if the item there is actually a Triforce Shard.
+  # We don't want the ray of light to show until the chart is deciphered, so we change the salvage point code
+  # to check the chart index instead of the item ID when determining if it's a Triforce or not.
+  
+  salvage_data = self.get_raw_file("files/rels/d_a_salvage.rel")
+  # We replace the call to getItemNo, so it instead just adds 0x61 to the chart index.
+  # 0x61 to 0x68 are the Triforce Shard IDs, and 0 to 8 are the Triforce Chart indexes,
+  # so by adding 0x61 we simulate whether the item would be a Triforce Shard or not based on the chart index.
+  write_u32(salvage_data, 0x10C0, 0x38730061) # addi r3, r19, 0x61
+  # Then we branch to skip the line of code that originally called getItemNo.
+  # We can't easily nop the line out, since the REL's relocation would overwrite our nop.
+  write_u32(salvage_data, 0x10C4, 0x48000008) # b 0x10CC
