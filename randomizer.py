@@ -16,10 +16,10 @@ import tweaks
 from logic.logic import Logic
 
 class Randomizer:
-  def __init__(self):
+  def __init__(self, seed):
     clean_base_dir = "../Wind Waker Files"
     self.randomized_base_dir = "../Wind Waker Files Randomized"
-    self.seed = 1
+    self.seed = seed
     random.seed(self.seed)
     
     self.stage_dir = os.path.join(self.randomized_base_dir, "files", "res", "Stage")
@@ -414,5 +414,5 @@ class Randomizer:
       f.write(spoiler_log)
 
 if __name__ == "__main__":
-  rando = Randomizer()
+  rando = Randomizer(1)
   rando.randomize()
