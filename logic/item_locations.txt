@@ -877,12 +877,12 @@ Forsaken Fortress - Helmaroc King Heart Container:
     - sea/Room1.arc/Actor05B
 
 
-# TODO: remove this cutscene.
-Mother and Child Isles - Queen Fairy:
-  Need: Can Play Ballad of Gales
-  Original item: Fire and Ice Arrows
-  Paths:
-    - main.dol@358D3C
+# TODO: add a field item here so this place isn't totally empty
+#Mother and Child Isles - Queen Fairy:
+#  Need: Can Play Ballad of Gales
+#  Original item: Fire and Ice Arrows
+#  Paths:
+#    - main.dol@358D3C
 
 Ice Ring Isle - Frozen Chest:
   Need: 

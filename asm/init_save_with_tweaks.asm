@@ -48,6 +48,8 @@ li r4, 0x2F20 ; Talked to KoRL after getting Nayru's Pearl
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x2D01 ; Saw cutscene before Helmaroc King where Aryll is rescued
 bl onEventBit__11dSv_event_cFUs
+li r4, 0x1001 ; WATCHED_FIRE_AND_ICE_ARROWS_CUTSCENE
+bl onEventBit__11dSv_event_cFUs
 li r4, 0x2E04 ; MEDLI_IN_EARTH_TEMPLE_ENTRANCE
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x2920 ; MEDLI_IN_EARTH_TEMPLE
