@@ -2,6 +2,10 @@ Can Play Wind's Requiem:
   Wind Waker & Wind's Requiem
 Can Play Ballad of Gales:
   Wind Waker & Ballad of Gales
+Can Play Command Melody:
+  Wind Waker & Command Melody
+Can Play Earth God's Lyric:
+  Wind Waker & Earth God's Lyric
 Can Fly With Deku Leaf Outdoors:
   Deku Leaf & Can Play Wind's Requiem
 Can Move Boulders:
@@ -18,6 +22,8 @@ Any Wallet Upgrade:
   1000 Rupee Wallet | 5000 Rupee Wallet
 Fire Arrows:
   Hero's Bow & Fire and Ice Arrows & TODO # TODO: also need magic meter
+Ice Arrows:
+  Hero's Bow & Fire and Ice Arrows & TODO # TODO: also need magic meter
 Tingle Tuner Bombs:
   Tingle Tuner & TODO
 
@@ -27,6 +33,8 @@ Can Access Forest Haven:
   Grappling Hook | Can Fly With Deku Leaf Outdoors
 Can Access Forbidden Woods:
   Can Access Forest Haven & Grappling Hook & Can Fly With Deku Leaf Outdoors
+Can Access Earth Temple:
+  Power Bracelets & Can Play Command Melody
 
 Can Get Past Forsaken Fortress Gate:
   Bombs
@@ -66,5 +74,10 @@ Can Defeat Big Octos:
   | Bombs
   | Boomerang
   # Hookshot can technically damage Big Octos, but it only reaches at the end when your time limit is almost up.
+Can Defeat Blue Bubbles:
+  Deku Leaf
+  | Ice Arrows
+  | Hookshot
+  | Bombs
 TODO:
   Impossible

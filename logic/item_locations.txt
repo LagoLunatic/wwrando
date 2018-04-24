@@ -929,103 +929,182 @@ Headstone Island - Submarine:
     - Abship/Room3.arc/Chest000
     - Abship/Room5.arc/Chest000
 
-Earth Temple - Entrance:
-  Need: 
-  Original item: Earth God's Lyric
-  Paths:
-    - Edaichi/Stage.arc/Event043:MKNJD_D_LESSON/Actor003/Action006
+#Earth Temple - Entrance:
+#  Need: 
+#  Original item: Earth God's Lyric
+#  Paths:
+#    - Edaichi/Stage.arc/Event043:MKNJD_D_LESSON/Actor003/Action006
 Earth Temple - Map Chest:
-  Need: 
+  Need: Can Access Earth Temple
   Original item: Dungeon Map
   Paths:
     - M_Dai/Stage.arc/Chest000
-Earth Temple - Behind Curtain Next to Map Chest:
-  Need: 
-  Original item: Joy Pendant
-  Paths:
-    - M_Dai/Room2.arc/Actor010
+#Earth Temple - Behind Curtain Next to Map Chest:
+#  Need:
+#    Can Access Earth Temple
+#    & Fire Arrows
+#    & Boomerang & TODO # Does boomerang work for items here other than rupees and spoils?
+#  Original item: Joy Pendant
+#  Paths:
+#    - M_Dai/Room2.arc/Actor010
 Earth Temple - Transparent Chest in First Crypt:
-  Need: 
+  Need:
+    Can Access Earth Temple
+    & Skull Hammer
+    & Power Bracelets
+    # Power Bracelets necessary to move the large black pushable box and reveal a light ray.
   Original item: Small Key
   Paths:
     - M_Dai/Stage.arc/Chest001
 Earth Temple - Compass Chest:
-  Need: 
+  Need:
+    Can Access Earth Temple
+    & ET Small Key x1
+    & Fire Arrows
+    & Power Bracelets
+    # Power Bracelets necessary again to move the large black pushable box and unlock a door.
   Original item: Compass
   Paths:
     - M_Dai/Stage.arc/Chest002
 Earth Temple - Chest Behind Statues:
-  Need: 
+  Need:
+    Can Access Earth Temple
+    & ET Small Key x1
+    & Fire Arrows
+    & Power Bracelets
   Original item: Joy Pendant
   Paths:
     - M_Dai/Stage.arc/Chest003
 Earth Temple - Casket in Second Crypt:
-  Need: 
+  Need:
+    Can Access Earth Temple
+    & ET Small Key x1
+    & Fire Arrows
+    & Power Bracelets
   Original item: Small Key
   Paths:
     - M_Dai/Room8.arc/Actor008
 Earth Temple - Stalfos Mini-Boss Room:
-  Need: 
+  Need:
+    Can Access Earth Temple
+    & ET Small Key x2
+    & Fire Arrows
+    & Power Bracelets
+  # Need to escape: Mirror Shield
   Original item: Mirror Shield
   Paths:
     - M_DaiMB/Stage.arc/Chest000
 Earth Temple - Chest Behind Destructible Walls:
-  Need: 
+  Need:
+    Can Access Earth Temple
+    & Skull Hammer
+    & Mirror Shield
   Original item: Joy Pendant
   Paths:
     - M_Dai/Stage.arc/Chest00A
 Earth Temple - Tingle Statue Chest:
-  Need: 
+  Need:
+    Can Access Earth Temple
+    & Mirror Shield
+    & Deku Leaf
+    & Tingle Tuner Bombs
   Original item: Earth Tingle Statue
   Paths:
     - M_Dai/Stage.arc/Chest00D
 Earth Temple - End of Foggy Room With Floormasters:
-  Need: 
+  Need:
+    Can Access Earth Temple
+    & Mirror Shield
+    & Can Play Earth God's Lyric
   Original item: Small Key
   Paths:
     - M_Dai/Stage.arc/Chest004
 Earth Temple - Kill All Floormasters in Foggy Room:
-  Need: 
+  Need:
+    Can Access Earth Temple
+    & Mirror Shield
+    & Can Play Earth God's Lyric
   Original item: Treasure Chart 20
   Paths:
     - M_Dai/Stage.arc/Chest009
-Earth Temple - Behind Curtains Next to Hammer Button:
-  Need: 
-  Original item: Joy Pendant
-  Paths:
-    - M_Dai/Room13.arc/Actor01A
+#Earth Temple - Behind Curtains Next to Hammer Button:
+#  Need:
+#    Can Access Earth Temple
+#    & Mirror Shield
+#    & Can Play Earth God's Lyric
+#    & Boomerang & TODO # Does boomerang work for items here other than rupees and spoils?
+#  Original item: Joy Pendant
+#  Paths:
+#    - M_Dai/Room13.arc/Actor01A
 Earth Temple - Chest in Third Crypt:
-  Need: 
+  Need:
+    Can Access Earth Temple
+    & Mirror Shield
+    & Can Play Earth God's Lyric
+    & Power Bracelets
+    & ET Small Key x3
+    # Power Bracelets necessary again to move the large mirror under the light.
+    # Note: You don't necessarily need 3 small keys if you already had Mirror Shield going into the Earth Temple.
+    # But that's hard to code logic for, so assume the player needed 2 keys earlier in the dungeon, and now needs a third.
+    # Another note: The player can potentially softlock themself if they get a small key earlier in the dungeon and use it here instead of the vanilla location the player is supposed to use it, again only if the player had the Mirror Shield going in.
+    # But we can't prevent that, so just assume the player will use small keys the vanilla way.
   Original item: Red Rupee
   Paths:
     - M_Dai/Stage.arc/Chest005
 Earth Temple - Many Mirrors Room Right Chest:
-  Need: 
+  Need:
+    Can Access Earth Temple
+    & Mirror Shield
+    & Can Play Earth God's Lyric
+    & Power Bracelets
+    & ET Small Key x3
   Original item: Purple Rupee
   Paths:
     - M_Dai/Stage.arc/Chest007
 Earth Temple - Many Mirrors Room Left Chest:
-  Need: 
+  Need:
+    Can Access Earth Temple
+    & Mirror Shield
+    & Can Play Earth God's Lyric
+    & Power Bracelets
+    & ET Small Key x3
   Original item: Joy Pendant
   Paths:
     - M_Dai/Stage.arc/Chest008
 Earth Temple - Stalfos Crypt Room:
-  Need: 
+  Need:
+    Can Access Earth Temple
+    & Mirror Shield
+    & Can Play Earth God's Lyric
+    & Power Bracelets
+    & ET Small Key x3
   Original item: Treasure Chart 12
   Paths:
     - M_Dai/Stage.arc/Chest00B
 Earth Temple - Big Key Chest:
-  Need: 
+  Need:
+    Can Access Earth Temple
+    & Mirror Shield
+    & Can Play Earth God's Lyric
+    & Power Bracelets
+    & ET Small Key x3
+    & Can Defeat Blue Bubbles
   Original item: Big Key
   Paths:
     - M_Dai/Stage.arc/Chest006
-Earth Temple - Duplicate Earth God's Lyric? TODO:
-  Need: 
-  Original item: Earth God's Lyric
-  Paths:
-    - M_Dai/Stage.arc/Event050:MKNJD_D_LESSON/Actor003/Action006
+#Earth Temple - Duplicate Earth God's Lyric?:
+#  Need: 
+#  Original item: Earth God's Lyric
+#  Paths:
+#    - M_Dai/Stage.arc/Event050:MKNJD_D_LESSON/Actor003/Action006
 Earth Temple - Jalhalla Heart Container:
-  Need: 
+  Need:
+    Can Access Earth Temple
+    & Mirror Shield
+    & Can Play Earth God's Lyric
+    & Power Bracelets
+    & ET Small Key x3
+    & ET Big Key
   Original item: Heart Container
   Paths:
     - rels/d_a_bpw.rel@877E
@@ -1107,11 +1186,11 @@ Wind Temple - Kill Bokoblins Behind Statue Heads:
   Original item: Treasure Chart 5
   Paths:
     - kaze/Stage.arc/Chest009
-Wind Temple - Duplicate Wind God's Aria? TODO:
-  Need: 
-  Original item: Wind God's Aria
-  Paths:
-    - kaze/Stage.arc/Event04F:MKNJD_K_LESSON/Actor003/Action006
+#Wind Temple - Duplicate Wind God's Aria?:
+#  Need: 
+#  Original item: Wind God's Aria
+#  Paths:
+#    - kaze/Stage.arc/Event04F:MKNJD_K_LESSON/Actor003/Action006
 Wind Temple - Molgera Heart Container:
   Need: 
   Original item: Heart Container
@@ -1606,12 +1685,12 @@ Tingle Island - Big Octo:
   Paths:
     - sea/Room17.arc/ScalableObject001
 
-Diamond Steppe Island Warp Maze - First Chest:
+Diamond Steppe Island - Warp Maze - First Chest:
   Need: 
   Original item: Joy Pendant
   Paths:
     - WarpD/Stage.arc/Chest001
-Diamond Steppe Island Warp Maze - Second Chest:
+Diamond Steppe Island - Warp Maze - Second Chest:
   Need: 
   Original item: Ghost Ship Chart
   Paths:
