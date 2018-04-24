@@ -69,14 +69,14 @@ Outset Island - Dig up Black Soil:
   Original item: Piece of Heart
   Paths:
     - sea/Room44.arc/ScalableObject03A
-Savage Labyrinth - Floor 30:
+Outset Island - Savage Labyrinth - Floor 30:
   Need:
     Can Fly With Deku Leaf Outdoors
     & Power Bracelets # TODO: Do you need anything else to do savage labyrinth?
   Original item: Triforce Chart 6
   Paths:
     - Cave09/Room20.arc/Chest000
-Savage Labyrinth - Floor 50:
+Outset Island - Savage Labyrinth - Floor 50:
   Need:
     Can Fly With Deku Leaf Outdoors
     & Power Bracelets
@@ -103,17 +103,17 @@ Savage Labyrinth - Floor 50:
 #    - Asoko/Stage.arc/Chest002
 
 
-Windfall Town Jail - Tingle - First Gift:
+Windfall Island - Jail - Tingle - First Gift:
   Need: Nothing
   Original item: Tingle Tuner
   Paths:
     - rels/d_a_npc_tc.rel@6117
-Windfall Town Jail - Tingle - Second Gift:
+Windfall Island - Jail - Tingle - Second Gift:
   Need: Nothing
   Original item: Tingle's Chart
   Paths:
     - rels/d_a_npc_tc.rel@611F
-Windfall Town Jail - Maze Chest:
+Windfall Island - Jail - Maze Chest:
   Need: Nothing
   Original item: Picto Box
   Paths:
