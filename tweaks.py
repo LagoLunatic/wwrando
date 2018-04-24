@@ -343,3 +343,13 @@ def remove_medli_that_gives_fathers_letter(self):
   
   dol_data = self.get_raw_file("sys/main.dol")
   write_u32(dol_data, 0x218EC0, 0x38600001) # li r3, 1 (at 8021BF80 in RAM)
+
+def medli_remains_after_master_sword_upgrade(self):
+  # Normally Medli would disappear once you own the Master Sword (Half Power).
+  # This could make the Earth Temple uncompletable if you get the Master Sword (Half Power) before doing it.
+  # So we slightly modify Medli's code to not care about your sword.
+  
+  medli_data = self.get_raw_file("files/rels/d_a_npc_md.rel")
+  
+  # Make branch that depends on your sword unconditional instead.
+  write_u32(medli_data, 0xA24, 0x4800003C) # b 0xA60
