@@ -16,9 +16,8 @@ import tweaks
 from logic.logic import Logic
 
 class Randomizer:
-  def __init__(self, seed):
-    clean_base_dir = "../Wind Waker Files"
-    self.randomized_base_dir = "../Wind Waker Files Randomized"
+  def __init__(self, seed, clean_base_dir, randomized_base_dir):
+    self.randomized_base_dir = randomized_base_dir
     self.seed = seed
     random.seed(self.seed)
     
@@ -420,5 +419,5 @@ class Randomizer:
       f.write(spoiler_log)
 
 if __name__ == "__main__":
-  rando = Randomizer(1)
+  rando = Randomizer(1, "../Wind Waker Files", "../Wind Waker Files Randomized")
   rando.randomize()
