@@ -173,6 +173,12 @@ class Randomizer:
       if item_name:
         item_id = int(item_id, 16)
         self.item_ids_without_a_field_model.append(item_id)
+    
+    self.custom_symbols = {}
+    with open("./asm/custom_symbols.txt", "r") as f:
+      matches = re.findall(r"^([0-9a-f]{8}) (\S+)", f.read(), re.IGNORECASE | re.MULTILINE)
+    for symbol_address, symbol_name in matches:
+      self.custom_symbols[symbol_name] = int(symbol_address, 16)
   
   def get_arc(self, arc_path):
     arc_path = arc_path.replace("\\", "/")
