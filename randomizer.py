@@ -343,7 +343,7 @@ class Randomizer:
       self.logic.set_location_to_item(location_name, item_name)
   
   def write_changed_items(self):
-    for location_name, item_name in self.logic.done_item_locations:
+    for location_name, item_name in self.logic.done_item_locations.items():
       paths = self.logic.item_locations[location_name]["Paths"]
       for path in paths:
         self.change_item(path, item_name)
