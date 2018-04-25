@@ -124,8 +124,6 @@ class Message:
         control_code_byte_strs = re.findall(r"[0-9a-f]+", substr, re.IGNORECASE)
         for control_code_byte_str in control_code_byte_strs:
           byte = int(control_code_byte_str, 16)
-          print(byte)
-          print(substr)
           assert 0 <= byte <= 255
           bytes_to_write.append(byte)
         
