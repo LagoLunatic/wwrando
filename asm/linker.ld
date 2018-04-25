@@ -10,5 +10,11 @@ item_func_tact_song2__Fv = 0x800c449c;
 item_func_master_sword__Fv = 0x800c3b14;
 item_func_lv3_sword__Fv = 0x800c3b54;
 item_func_master_sword_ex__Fv = 0x800c3c54;
+item_func_max_rupee_up1__Fv = 0x800c4c80;
+item_func_max_rupee_up2__Fv = 0x800c4c94;
+item_func_max_bomb_up1__Fv = 0x800c4ca8;
+item_func_max_bomb_up2__Fv = 0x800c4cc0;
+item_func_max_arrow_up1__Fv = 0x800c4cd8;
+item_func_max_arrow_up2__Fv = 0x800c4cf0;
 
 onEventBit__11dSv_event_cFUs = 0x8005cb04;

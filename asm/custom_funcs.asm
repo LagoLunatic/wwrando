@@ -97,6 +97,18 @@ lis r4, 0x0100
 stw r4, 8 (r3)
 
 
+; Start the player with 30 bombs and arrows. (But not the ability to actually use them.)
+; This change is so we can remove the code that sets your current bombs/arrows to 30 when you first get the bombs/bow.
+; That code would be bad if the player got a bomb bag/quiver upgrade beforehand, as then that code would reduce the max.
+lis r3, 0x803C
+addi r3, r3, 0x4C71
+li r4, 30
+stb r4, 0 (r3) ; Current arrows
+stb r4, 1 (r3) ; Current bombs
+stb r4, 6 (r3) ; Max arrows
+stb r4, 7 (r3) ; Max bombs
+
+
 ; Function end stuff
 lwz r0, 0x14 (sp)
 mtlr r0
@@ -116,7 +128,7 @@ stw r0, 0x14 (sp)
 
 lis r3, 0x803C
 addi r3, r3, 0x4CBC
-lbz r4, 0 (r3)
+lbz r4, 0 (r3) ; Bitfield of swords you own
 cmpwi r4, 0
 beq get_normal_sword
 cmpwi r4, 1
@@ -125,27 +137,85 @@ cmpwi r4, 3
 beq get_half_power_master_sword
 cmpwi r4, 7
 beq get_full_power_master_sword
-b func_end
+b sword_func_end
 
 get_normal_sword:
 bl item_func_sword__Fv
-b func_end
+b sword_func_end
 
 get_powerless_master_sword:
 bl item_func_master_sword__Fv
-b func_end
+b sword_func_end
 
 get_half_power_master_sword:
 bl item_func_lv3_sword__Fv
-b func_end
+b sword_func_end
 
 get_full_power_master_sword:
 bl item_func_master_sword_ex__Fv
 
 
-func_end:
+sword_func_end:
 ; Function end stuff
 lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
+blr
+
+
+
+
+.global progressive_bomb_bag_item_func
+progressive_bomb_bag_item_func:
+
+lis r3, 0x803C
+addi r3, r3, 0x4C72
+lbz r4, 6 (r3) ; Max number of bombs the player can currently hold
+cmpwi r4, 30
+beq get_60_bomb_bomb_bag
+cmpwi r4, 60
+beq get_99_bomb_bomb_bag
+b bomb_bag_func_end
+
+get_60_bomb_bomb_bag:
+li r4, 60
+stb r4, 0 (r3) ; Current num bombs
+stb r4, 6 (r3) ; Max num bombs
+b bomb_bag_func_end
+
+get_99_bomb_bomb_bag:
+li r4, 99
+stb r4, 0 (r3) ; Current num bombs
+stb r4, 6 (r3) ; Max num bombs
+
+bomb_bag_func_end:
+blr
+
+
+
+
+.global progressive_quiver_item_func
+progressive_quiver_item_func:
+
+lis r3, 0x803C
+addi r3, r3, 0x4C71
+lbz r4, 6 (r3) ; Max number of arrows the player can currently hold
+cmpwi r4, 30
+beq get_60_arrow_quiver
+cmpwi r4, 60
+beq get_99_arrow_quiver
+b quiver_func_end
+
+get_60_arrow_quiver:
+li r4, 60
+stb r4, 0 (r3) ; Current num arrows
+stb r4, 6 (r3) ; Max num arrows
+b quiver_func_end
+
+get_99_arrow_quiver:
+li r4, 99
+stb r4, 0 (r3) ; Current num arrows
+stb r4, 6 (r3) ; Max num arrows
+
+quiver_func_end:
 blr

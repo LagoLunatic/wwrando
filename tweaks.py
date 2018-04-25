@@ -379,3 +379,20 @@ def make_items_progressive(self):
   for sword_item_id in [0x38, 0x39, 0x3A, 0x3D, 0x3E]:
     sword_item_get_func_offset = item_get_funcs_list + sword_item_id*4
     write_u32(dol_data, sword_item_get_func_offset, self.custom_symbols["progressive_sword_item_func"])
+  
+  for bomb_bag_item_id in [0xAD, 0xAE]:
+    bomb_bag_item_get_func_offset = item_get_funcs_list + bomb_bag_item_id*4
+    write_u32(dol_data, bomb_bag_item_get_func_offset, self.custom_symbols["progressive_bomb_bag_item_func"])
+  
+  for quiver_item_id in [0xAF, 0xB0]:
+    quiver_item_get_func_offset = item_get_funcs_list + quiver_item_id*4
+    write_u32(dol_data, quiver_item_get_func_offset, self.custom_symbols["progressive_quiver_item_func"])
+  
+  # Modify the item get funcs for bombs and the hero's bow to nop out the code that sets your current and max bombs/arrows to 30.
+  # Without this change, getting bombs after a bomb bag upgrade would negate the bomb bag upgrade.
+  # Note that normally making this change would cause the player to have 0 max bombs/arrows if they get bombs/bow before any bomb bag/quiver upgrades.
+  # But in the new game start code, we set the player's current and max bombs and arrows to 30, so that is no longer an issue.
+  write_u32(dol_data, 0xC0600, 0x60000000) # Sets current bombs (at 800C36C0 in RAM)
+  write_u32(dol_data, 0xC0604, 0x60000000) # Sets max bombs (at 800C36C4 in RAM)
+  write_u32(dol_data, 0xC03AC, 0x60000000) # Sets current arrows (at 800C346C in RAM)
+  write_u32(dol_data, 0xC03B0, 0x60000000) # Sets max arrows (at 800C3470 in RAM)
