@@ -18,6 +18,11 @@ def read_and_unpack_bytes(data, offset, length, format_string):
   unpacked_data = struct.unpack(format_string, requested_data)
   return unpacked_data
 
+def write_and_pack_bytes(data, offset, new_values, format_string):
+  packed_data = struct.pack(format_string, *new_values)
+  data.seek(offset)
+  data.write(packed_data)
+
 
 def read_str(data, offset, length):
   data_length = data.seek(0, 2)
