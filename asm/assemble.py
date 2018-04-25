@@ -10,6 +10,8 @@ temp_dir = tempfile.mkdtemp()
 print(temp_dir)
 print()
 
+custom_symbols = []
+
 try:
   with open("linker.ld") as f:
     linker_script = f.read()
@@ -65,11 +67,13 @@ try:
       raise Exception("Assembler call failed")
     
     bin_name = os.path.splitext(filename)[0] + ".bin"
+    map_name = os.path.join(temp_dir, "tmp_" + os.path.splitext(filename)[0] + ".map")
     command = [
       r"C:\devkitPro\devkitPPC\bin\powerpc-eabi-ld.exe",
       "-Ttext", "%X" % org_offset,
       "-T", temp_linker_name,
       "--oformat", "binary",
+      "-Map=" + map_name,
       o_name,
       "-o", bin_name
     ]
@@ -78,5 +82,24 @@ try:
     result = call(command)
     if result != 0:
       raise Exception("Linker call failed")
+    
+    with open(map_name) as f:
+      on_custom_symbols = False
+      for line in f.read().splitlines():
+        if line.startswith(" .text          "):
+          on_custom_symbols = True
+          continue
+        
+        if on_custom_symbols:
+          if not line:
+            break
+          match = re.search(r" +0x([0-9a-f]{8}) +(\S+)", line)
+          symbol_address = match.group(1)
+          symbol_name = match.group(2)
+          custom_symbols.append((symbol_address, symbol_name))
 finally:
   shutil.rmtree(temp_dir)
+
+with open("./custom_symbols.txt", "w") as f:
+  for symbol_address, symbol_name in custom_symbols:
+    f.write("%s %s\n" % (symbol_address, symbol_name))
