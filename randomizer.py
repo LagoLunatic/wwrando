@@ -65,7 +65,9 @@ class Randomizer:
     self.save_changed_files()
   
   def apply_necessary_tweaks(self):
-    tweaks.modify_new_game_start_code(self)
+    tweaks.add_custom_functions(self)
+    tweaks.call_custom_new_game_start_code(self)
+    tweaks.skip_intro_movie(self)
     tweaks.remove_story_railroading(self)
     tweaks.skip_wakeup_intro_and_start_at_dock(self)
     tweaks.start_ship_at_outset(self)

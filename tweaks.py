@@ -5,12 +5,12 @@ import re
 
 from fs_helpers import *
 
-def modify_new_game_start_code(self):
+def add_custom_functions(self):
   original_free_space_ram_address = 0x803FCFA8
   
   dol_data = self.get_raw_file("sys/main.dol")
   
-  patch_path = os.path.join(".", "asm", "init_save_with_tweaks.bin")
+  patch_path = os.path.join(".", "asm", "custom_funcs.bin")
   with open(patch_path, "rb") as f:
     patch_data = f.read()
   
@@ -38,18 +38,6 @@ def modify_new_game_start_code(self):
   high_halfword, low_halfword = split_pointer_into_high_and_low_half_for_hardcoding(new_end_pointer_for_default_thread)
   write_u32(dol_data, 0x30488C, 0x3C600000 | high_halfword) # at 8030794C in RAM
   write_u32(dol_data, 0x304890, 0x38030000 | low_halfword) # at 80307950 in RAM
-  
-  
-  # 8005D618 is where the game calls the new game save init function.
-  # We replace this call with a call to our custom save init function.
-  address_of_save_init_call_to_replace = 0x8005D618
-  offset_of_call = original_free_space_ram_address - address_of_save_init_call_to_replace
-  offset_of_call &= 0x03FFFFFC
-  write_u32(dol_data, 0x5A558, 0x48000001 | offset_of_call) # 5A558 in the dol file is equivalent to 8005D618 in RAM
-  
-  # nop out a couple lines so the long intro movie is skipped.
-  write_u32(dol_data, 0x22FBB8, 0x60000000) # 0x80232C78 in RAM
-  write_u32(dol_data, 0x22FBC8, 0x60000000) # 0x80232C88 in RAM
 
 def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
   high_halfword = (pointer & 0xFFFF0000) >> 16
@@ -61,6 +49,20 @@ def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
     high_halfword = high_halfword+1
   
   return high_halfword, low_halfword
+
+def call_custom_new_game_start_code(self):
+  # 8005D618 is where the game calls the new game save init function.
+  # We replace this call with a call to our custom save init function.
+  address_of_save_init_call_to_replace = 0x8005D618
+  offset_of_call = original_free_space_ram_address - address_of_save_init_call_to_replace
+  offset_of_call &= 0x03FFFFFC
+  write_u32(dol_data, 0x5A558, 0x48000001 | offset_of_call) # 5A558 in the dol file is equivalent to 8005D618 in RAM
+
+def skip_intro_movie(self):
+  # nop out a couple lines so the long intro movie is skipped.
+  dol_data = self.get_raw_file("sys/main.dol")
+  write_u32(dol_data, 0x22FBB8, 0x60000000) # 0x80232C78 in RAM
+  write_u32(dol_data, 0x22FBC8, 0x60000000) # 0x80232C88 in RAM
 
 def remove_story_railroading(self):
   # Modify King of Red Lions's code so he doesn't stop you when you veer off the path he wants you to go on.

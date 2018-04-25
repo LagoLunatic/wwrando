@@ -1,6 +1,7 @@
 
 .org 0x803FCFA8
 
+init_save_with_tweaks:
 ; Function start stuff
 stwu sp, -0x10 (sp)
 mflr r0
