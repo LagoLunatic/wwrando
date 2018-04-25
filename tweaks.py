@@ -27,17 +27,17 @@ def modify_new_game_start_code(self):
   # Next we need to change a hardcoded pointer to where free space begins. Otherwise the game will overwrite the custom code.
   padded_patch_length = ((patch_length + 3) & ~3) # Pad length of patch to next 4 just in case
   new_start_pointer_for_default_thread = original_free_space_ram_address + padded_patch_length # New free space pointer after our custom code
-  high_halfword = (new_start_pointer_for_default_thread & 0xFFFF0000) >> 16
-  low_halfword = new_start_pointer_for_default_thread & 0xFFFF
-  if low_halfword >= 0x8000:
-    # If the low halfword has the highest bit set, it will be considered a negative number.
-    # Therefore we need to add 1 to the high halfword (equivalent to adding 0x10000) to compensate for the low halfword being negated.
-    high_halfword = high_halfword+1
+  high_halfword, low_halfword = split_pointer_into_high_and_low_half_for_hardcoding(new_start_pointer_for_default_thread)
   # Now update the asm instructions that load this hardcoded pointer.
-  write_u32(dol_data, 0x304894, 0x3C600000 | high_halfword)
-  write_u32(dol_data, 0x30489C, 0x38030000 | low_halfword)
-  # Note: There's another hardcoded pointer near here, which points to 0x10000 later in RAM (0x8040CFA8).
-  # Does this need to be updated as well? Seems to work fine without updating it.
+  write_u32(dol_data, 0x304894, 0x3C600000 | high_halfword) # at 80307954 in RAM
+  write_u32(dol_data, 0x30489C, 0x38030000 | low_halfword) # at 8030795C in RAM
+  # We also update another pointer which seems like it should remain at 0x10000 later in RAM from the pointer we updated.
+  # (This pointer was originally 0x8040CFA8.)
+  # Updating this one may not actually be necessary to update, but this is to be safe.
+  new_end_pointer_for_default_thread = new_start_pointer_for_default_thread + 0x10000
+  high_halfword, low_halfword = split_pointer_into_high_and_low_half_for_hardcoding(new_end_pointer_for_default_thread)
+  write_u32(dol_data, 0x30488C, 0x3C600000 | high_halfword) # at 8030794C in RAM
+  write_u32(dol_data, 0x304890, 0x38030000 | low_halfword) # at 80307950 in RAM
   
   
   # 8005D618 is where the game calls the new game save init function.
@@ -50,6 +50,17 @@ def modify_new_game_start_code(self):
   # nop out a couple lines so the long intro movie is skipped.
   write_u32(dol_data, 0x22FBB8, 0x60000000) # 0x80232C78 in RAM
   write_u32(dol_data, 0x22FBC8, 0x60000000) # 0x80232C88 in RAM
+
+def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
+  high_halfword = (pointer & 0xFFFF0000) >> 16
+  low_halfword = pointer & 0xFFFF
+  
+  if low_halfword >= 0x8000:
+    # If the low halfword has the highest bit set, it will be considered a negative number.
+    # Therefore we need to add 1 to the high halfword (equivalent to adding 0x10000) to compensate for the low halfword being negated.
+    high_halfword = high_halfword+1
+  
+  return high_halfword, low_halfword
 
 def remove_story_railroading(self):
   # Modify King of Red Lions's code so he doesn't stop you when you veer off the path he wants you to go on.
