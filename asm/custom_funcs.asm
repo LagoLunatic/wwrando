@@ -1,6 +1,7 @@
 
 .org 0x803FCFA8
 
+.global init_save_with_tweaks
 init_save_with_tweaks:
 ; Function start stuff
 stwu sp, -0x10 (sp)
@@ -96,6 +97,53 @@ lis r4, 0x0100
 stw r4, 8 (r3)
 
 
+; Function end stuff
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
+.global progressive_sword_item_func
+progressive_sword_item_func:
+; Function start stuff
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+
+lis r3, 0x803C
+addi r3, r3, 0x4CBC
+lbz r4, 0 (r3)
+cmpwi r4, 0
+beq get_normal_sword
+cmpwi r4, 1
+beq get_powerless_master_sword
+cmpwi r4, 3
+beq get_half_power_master_sword
+cmpwi r4, 7
+beq get_full_power_master_sword
+b func_end
+
+get_normal_sword:
+bl item_func_sword__Fv
+b func_end
+
+get_powerless_master_sword:
+bl item_func_master_sword__Fv
+b func_end
+
+get_half_power_master_sword:
+bl item_func_lv3_sword__Fv
+b func_end
+
+get_full_power_master_sword:
+bl item_func_master_sword_ex__Fv
+
+
+func_end:
 ; Function end stuff
 lwz r0, 0x14 (sp)
 mtlr r0

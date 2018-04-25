@@ -1,0 +1,2 @@
+803fcfa8 init_save_with_tweaks
+803fd0d4 progressive_sword_item_func

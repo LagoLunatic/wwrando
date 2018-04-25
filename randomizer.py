@@ -84,6 +84,7 @@ class Randomizer:
     tweaks.remove_forsaken_fortress_2_cutscenes(self)
     tweaks.remove_medli_that_gives_fathers_letter(self)
     tweaks.medli_remains_after_master_sword_upgrade(self)
+    tweaks.make_items_progressive(self)
   
   def copy_and_extract_files(self, clean_base_dir):
     # Copy the vanilla files to the randomized directory.

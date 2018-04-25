@@ -53,8 +53,9 @@ def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
 def call_custom_new_game_start_code(self):
   # 8005D618 is where the game calls the new game save init function.
   # We replace this call with a call to our custom save init function.
+  dol_data = self.get_raw_file("sys/main.dol")
   address_of_save_init_call_to_replace = 0x8005D618
-  offset_of_call = original_free_space_ram_address - address_of_save_init_call_to_replace
+  offset_of_call = self.custom_symbols["init_save_with_tweaks"] - address_of_save_init_call_to_replace
   offset_of_call &= 0x03FFFFFC
   write_u32(dol_data, 0x5A558, 0x48000001 | offset_of_call) # 5A558 in the dol file is equivalent to 8005D618 in RAM
 
@@ -366,3 +367,15 @@ def medli_remains_after_master_sword_upgrade(self):
   
   # Make branch that depends on your sword unconditional instead.
   write_u32(medli_data, 0xA24, 0x4800003C) # b 0xA60
+
+def make_items_progressive(self):
+  # This makes items progressive, so even if you get them out of order, they will always be upgraded, never downgraded.
+  
+  dol_data = self.get_raw_file("sys/main.dol")
+  
+  # Update the item get funcs for the items to point to our custom progressive item get funcs instead.
+  item_get_funcs_list = 0x3858C8 # at 803888C8 in RAM
+  
+  for sword_item_id in [0x38, 0x39, 0x3A, 0x3D, 0x3E]:
+    sword_item_get_func_offset = item_get_funcs_list + sword_item_id*4
+    write_u32(dol_data, sword_item_get_func_offset, self.custom_symbols["progressive_sword_item_func"])
