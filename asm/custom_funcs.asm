@@ -165,6 +165,33 @@ blr
 
 
 
+.global progressive_wallet_item_func
+progressive_wallet_item_func:
+
+lis r3, 0x803C
+addi r3, r3, 0x4C1A
+lbz r4, 0 (r3) ; Which wallet you have
+cmpwi r4, 0
+beq get_1000_rupee_wallet
+cmpwi r4, 1
+beq get_5000_rupee_wallet
+b wallet_func_end
+
+get_1000_rupee_wallet:
+li r4, 1
+stb r4, 0 (r3) ; Which wallet you have
+b wallet_func_end
+
+get_5000_rupee_wallet:
+li r4, 2
+stb r4, 0 (r3) ; Which wallet you have
+
+wallet_func_end:
+blr
+
+
+
+
 .global progressive_bomb_bag_item_func
 progressive_bomb_bag_item_func:
 
