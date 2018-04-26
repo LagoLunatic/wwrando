@@ -32,7 +32,7 @@ class Randomizer:
     self.logic.add_owned_item("Wind Waker")
     self.logic.add_owned_item("Wind's Requiem")
     self.logic.add_owned_item("Ballad of Gales")
-    self.logic.add_owned_item("Hero's Sword")
+    self.logic.add_owned_item("Progressive Sword")
     self.logic.add_owned_item("Hero's Shield")
     self.logic.add_owned_item("Boat's Sail")
     
@@ -136,6 +136,13 @@ class Randomizer:
         if item_name in self.item_name_to_id:
           raise Exception("Duplicate item name: " + item_name)
         self.item_name_to_id[item_name] = item_id
+    
+    # Also list progressive item names.
+    self.item_name_to_id["Progressive Sword"] = 0x38
+    self.item_name_to_id["Progressive Bow"] = 0x27
+    self.item_name_to_id["Progressive Wallet"] = 0xAB
+    self.item_name_to_id["Progressive Bomb Bag"] = 0xAD
+    self.item_name_to_id["Progressive Quiver"] = 0xAF
     
     # Get function names for debug purposes.
     self.function_names = {}

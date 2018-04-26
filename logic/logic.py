@@ -26,7 +26,17 @@ class Logic:
     self.unplaced_nonprogress_items = list(NONPROGRESS_ITEMS)
     self.consumable_items = list(CONSUMABLE_ITEMS)
     
+    # TODO: dynamically modify progress items/nonprogress items lists depending on whether treasure charts and triforce charts should be progress
+    
     self.currently_owned_items = []
+    
+    self.progressive_items_owned = {
+      "Progressive Sword": 0,
+      "Progressive Bow": 0,
+      "Progressive Wallet": 0,
+      "Progressive Bomb Bag": 0,
+      "Progressive Quiver": 0,
+    }
     
     self.small_keys_owned_by_dungeon = {}
     self.big_key_owned_by_dungeon = {}
@@ -35,9 +45,10 @@ class Logic:
       self.big_key_owned_by_dungeon[dungeon_name] = False
     
     self.all_cleaned_item_names = []
-    for item_id, item_name in self.rando.item_names.items():
+    for item_name in (PROGRESS_ITEMS + NONPROGRESS_ITEMS + CONSUMABLE_ITEMS):
       cleaned_item_name = self.clean_item_name(item_name)
-      self.all_cleaned_item_names.append(cleaned_item_name)
+      if cleaned_item_name not in self.all_cleaned_item_names:
+        self.all_cleaned_item_names.append(cleaned_item_name)
     
     self.load_and_parse_item_locations()
     
@@ -66,11 +77,15 @@ class Logic:
     cleaned_item_name = self.clean_item_name(item_name)
     if cleaned_item_name not in self.all_cleaned_item_names:
       raise Exception("Unknown item name: " + item_name)
-    self.currently_owned_items.append(cleaned_item_name)
+    
+    if cleaned_item_name in self.progressive_items_owned:
+      self.progressive_items_owned[cleaned_item_name] += 1
+    else:
+      self.currently_owned_items.append(cleaned_item_name)
     
     if item_name in self.unplaced_progress_items:
       self.unplaced_progress_items.remove(item_name)
-    if item_name in self.unplaced_nonprogress_items:
+    elif item_name in self.unplaced_nonprogress_items:
       self.unplaced_nonprogress_items.remove(item_name)
   
   def add_owned_key_for_dungeon(self, item_name, dungeon_name):
@@ -114,7 +129,7 @@ class Logic:
       self.macros[name] = self.parse_logic_expression(string)
   
   def clean_item_name(self, item_name):
-    # Remove parentheses from Master Sword and other names.
+    # Remove parentheses from any item names that may have them. (Formerly Master Swords, though that's not an issue anymore.)
     return item_name.replace("(", "").replace(")", "")
   
   def split_location_name_by_zone(self, location_name):
@@ -152,7 +167,9 @@ class Logic:
     return stack
   
   def check_requirement_met(self, req_name):
-    if req_name in self.all_cleaned_item_names:
+    if "Progressive" in req_name:
+      return self.check_progressive_item_req(req_name)
+    elif req_name in self.all_cleaned_item_names:
       return req_name in self.currently_owned_items
     elif "Small Key" in req_name:
       return self.check_small_key_req(req_name)
@@ -199,6 +216,14 @@ class Logic:
       return any(subexpression_results)
     else:
       return all(subexpression_results)
+  
+  def check_progressive_item_req(self, req_name):
+    match = re.search(r"^(Progressive .+) x(\d+)$", req_name)
+    item_name = match.group(1)
+    num_required = int(match.group(2))
+    
+    num_owned = self.progressive_items_owned[item_name]
+    return num_owned >= num_required
   
   def check_small_key_req(self, req_name):
     match = re.search(r"^(.+) Small Key x(\d+)$", req_name)

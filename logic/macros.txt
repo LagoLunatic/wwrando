@@ -16,14 +16,20 @@ Can Hit Diamond Switches at Range:
   Boomerang | Hero's Bow | Hookshot
 Can Buy Bait:
   TODO
+
 Any Master Sword:
-  Master Sword Powerless | Master Sword Half Power | Master Sword Full Power
-Any Wallet Upgrade:
-  1000 Rupee Wallet | 5000 Rupee Wallet
+  Progressive Sword x2
+Hero's Bow:
+  Progressive Bow x1
 Fire Arrows:
-  Hero's Bow & Fire and Ice Arrows & TODO # TODO: also need magic meter
+  Progressive Bow x2
 Ice Arrows:
-  Hero's Bow & Fire and Ice Arrows & TODO # TODO: also need magic meter
+  Progressive Bow x2
+Light Arrows:
+  Progressive Bow x3
+Any Wallet Upgrade:
+  Progressive Wallet x1
+
 Tingle Tuner Bombs:
   Tingle Tuner & TODO
 

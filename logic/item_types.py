@@ -1,10 +1,11 @@
 
 PROGRESS_ITEMS = [
+  "Wind Waker",
   "Picto Box",
   "Spoils Bag",
   "Grappling Hook",
   "Deluxe Picto Box",
-  "Hero's Bow",
+  "Progressive Bow",
   "Power Bracelets",
   "Iron Boots",
   "Bait Bag",
@@ -14,12 +15,13 @@ PROGRESS_ITEMS = [
   "Bombs",
   "Skull Hammer",
   "Deku Leaf",
-  "Fire and Ice Arrows",
-  "Light Arrow",
-  "Master Sword (Powerless)",
-  "Master Sword (Half Power)",
+  "Progressive Bow",
+  "Progressive Bow",
+  "Progressive Sword",
+  "Progressive Sword",
+  "Hero's Shield",
   "Mirror Shield",
-  "Master Sword (Full Power)",
+  "Progressive Sword",
   
   "Triforce Shard 1",
   "Triforce Shard 2",
@@ -34,11 +36,14 @@ PROGRESS_ITEMS = [
   "Din's Pearl",
   "Farore's Pearl",
   
+  "Wind's Requiem",
   "Ballad of Gales",
   "Command Melody",
   "Earth God's Lyric",
   "Wind God's Aria",
   "Song of Passing",
+  
+  "Boat's Sail",
   
   "All-Purpose Bait",
   "Hyoi Pear",
@@ -50,8 +55,8 @@ PROGRESS_ITEMS = [
   "Moblin's Letter",
   "Cabana Deed",
   
-  "1000 Rupee Wallet",
-  "5000 Rupee Wallet",
+  "Progressive Wallet",
+  "Progressive Wallet",
   
   "Magic Meter Upgrade",
   
@@ -84,10 +89,10 @@ NONPROGRESS_ITEMS = [
 
   "Hurricane Spin",
 
-  "60 Bomb Bomb Bag",
-  "99 Bomb Bomb Bag",
-  "60 Arrow Quiver",
-  "99 Arrow Quiver",
+  "Progressive Bomb Bag",
+  "Progressive Bomb Bag",
+  "Progressive Quiver",
+  "Progressive Quiver",
 
   "Submarine Chart",
   "Beedle's Chart",
