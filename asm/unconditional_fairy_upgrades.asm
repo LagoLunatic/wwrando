@@ -6,16 +6,13 @@
 .org 0x217C
 
 ; Check this Great Fairy's index to determine what item to give.
-cmpwi r0, 0
-beq 0x21B8 ; Northern Fairy Island Great Fairy. Give 1000 Rupee Wallet.
 cmpwi r0, 1
-beq 0x21C4 ; Outset Island Great Fairy. Give 5000 Rupee Wallet.
-cmpwi r0, 2
-beq 0x21E4 ; Eastern Fairy Island Great Fairy. Give 60 Bomb Bomb Bag.
+blt 0x21B8 ; 0, Northern Fairy Island Great Fairy. Give 1000 Rupee Wallet.
+beq 0x21C4 ; 1, Outset Island Great Fairy. Give 5000 Rupee Wallet.
 cmpwi r0, 3
-beq 0x21F0 ; Southern Fairy Island Great Fairy. Give 99 Bomb Bomb Bag.
-cmpwi r0, 4
-beq 0x2210 ; Western Fairy Island Great Fairy. Give 60 Arrow Quiver.
+blt 0x21E4 ; 2, Eastern Fairy Island Great Fairy. Give 60 Bomb Bomb Bag.
+beq 0x21F0 ; 3, Southern Fairy Island Great Fairy. Give 99 Bomb Bomb Bag.
 cmpwi r0, 5
-beq 0x221C ; Thorned Fairy Island Great Fairy. Give 99 Arrow Quiver.
+blt 0x2210 ; 4, Western Fairy Island Great Fairy. Give 60 Arrow Quiver.
+beq 0x221C ; 5, Thorned Fairy Island Great Fairy. Give 99 Arrow Quiver.
 b 0x2228 ; Failsafe code in case the index was invalid (give a red rupee instead)
