@@ -38,6 +38,8 @@ li r4, 0x0902 ; SAW_DRAGON_ROOST_ISLAND_INTRO
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x1F40 ; SAW_QUILL_CUTSCENE_ON_DRI
 bl onEventBit__11dSv_event_cFUs
+li r4, 0x0901 ; TRIGGERED_MAP_FISH
+bl onEventBit__11dSv_event_cFUs
 li r4, 0x0A20 ; WATCHED_FOREST_HAVEN_INTRO_CUTSCENE
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x1801 ; WATCHED_DEKU_TREE_CUTSCENE
