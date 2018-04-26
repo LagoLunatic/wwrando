@@ -108,6 +108,13 @@ stb r4, 1 (r3) ; Current bombs
 stb r4, 6 (r3) ; Max arrows
 stb r4, 7 (r3) ; Max bombs
 
+; Start the player with a magic meter so items that use it work correctly.
+lis r3, 0x803C
+addi r3, r3, 0x4C1B
+li r4, 16 ; 16 is the normal starting size of the magic meter.
+stb r4, 0 (r3) ; Max magic meter
+stb r4, 1 (r3) ; Current magic meter
+
 
 ; Function end stuff
 lwz r0, 0x14 (sp)

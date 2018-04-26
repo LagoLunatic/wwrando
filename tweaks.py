@@ -396,7 +396,13 @@ def make_items_progressive(self):
   # Without this change, getting bombs after a bomb bag upgrade would negate the bomb bag upgrade.
   # Note that normally making this change would cause the player to have 0 max bombs/arrows if they get bombs/bow before any bomb bag/quiver upgrades.
   # But in the new game start code, we set the player's current and max bombs and arrows to 30, so that is no longer an issue.
-  write_u32(dol_data, 0xC0600, 0x60000000) # Sets current bombs (at 800C36C0 in RAM)
-  write_u32(dol_data, 0xC0604, 0x60000000) # Sets max bombs (at 800C36C4 in RAM)
-  write_u32(dol_data, 0xC03AC, 0x60000000) # Sets current arrows (at 800C346C in RAM)
-  write_u32(dol_data, 0xC03B0, 0x60000000) # Sets max arrows (at 800C3470 in RAM)
+  write_u32(dol_data, 0xC0600, 0x60000000) # Don't set current bombs (at 800C36C0 in RAM)
+  write_u32(dol_data, 0xC0604, 0x60000000) # Don't set max bombs (at 800C36C4 in RAM)
+  write_u32(dol_data, 0xC03AC, 0x60000000) # Don't set current arrows (at 800C346C in RAM)
+  write_u32(dol_data, 0xC03B0, 0x60000000) # Don't set max arrows (at 800C3470 in RAM)
+  
+  # Modify the item get func for deku leaf to nop out the part where it adds to your magic meter.
+  # Instead we start the player with a magic meter when they start a new game.
+  # This way other items can use the magic meter before the player gets deku leaf.
+  write_u32(dol_data, 0xC069C, 0x60000000) # Don't set max magic meter (at 800C375C in RAM)
+  write_u32(dol_data, 0xC06A8, 0x60000000) # Don't set current magic meter (at 800C3768 in RAM)
