@@ -172,6 +172,47 @@ blr
 
 
 
+.global progressive_bow_func
+progressive_bow_func:
+; Function start stuff
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+
+lis r3, 0x803C
+addi r3, r3, 0x4C65
+lbz r4, 0 (r3) ; Bitfield of arrow types you own
+cmpwi r4, 0
+beq get_heros_bow
+cmpwi r4, 1
+beq get_fire_and_ice_arrows
+cmpwi r4, 3
+beq get_light_arrows
+b bow_func_end
+
+get_heros_bow:
+bl item_func_bow__Fv
+b bow_func_end
+
+get_fire_and_ice_arrows:
+bl item_func_magic_arrow__Fv
+b bow_func_end
+
+get_light_arrows:
+bl item_func_light_arrow__Fv
+
+
+bow_func_end:
+; Function end stuff
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 .global progressive_wallet_item_func
 progressive_wallet_item_func:
 

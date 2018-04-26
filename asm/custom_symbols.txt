@@ -1,5 +1,6 @@
 803fcfa8 init_save_with_tweaks
 803fd104 progressive_sword_item_func
-803fd16c progressive_wallet_item_func
-803fd1a4 progressive_bomb_bag_item_func
-803fd1e4 progressive_quiver_item_func
+803fd16c progressive_bow_func
+803fd1c4 progressive_wallet_item_func
+803fd1fc progressive_bomb_bag_item_func
+803fd23c progressive_quiver_item_func

@@ -380,6 +380,10 @@ def make_items_progressive(self):
     sword_item_get_func_offset = item_get_funcs_list + sword_item_id*4
     write_u32(dol_data, sword_item_get_func_offset, self.custom_symbols["progressive_sword_item_func"])
   
+  for bow_item_id in [0x27, 0x35, 0x36]:
+    bow_item_get_func_offset = item_get_funcs_list + bow_item_id*4
+    write_u32(dol_data, bow_item_get_func_offset, self.custom_symbols["progressive_bow_func"])
+  
   for wallet_item_id in [0xAB, 0xAC]:
     wallet_item_get_func_offset = item_get_funcs_list + wallet_item_id*4
     write_u32(dol_data, wallet_item_get_func_offset, self.custom_symbols["progressive_wallet_item_func"])
