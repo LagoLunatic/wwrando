@@ -884,37 +884,44 @@ Forsaken Fortress - Helmaroc King Heart Container:
 #  Paths:
 #    - main.dol@358D3C
 
+Fire Mountain - Cave - Chest:
+  Need: Ice Arrows
+  # Need to escape: Power Bracelets
+  Original item: Power Bracelets
+  Paths:
+    - MiniKaz/Stage.arc/Chest000
+Fire Mountain - Lookout Platform Chest:
+  Need: Nothing
+  Original item: Yellow Rupee
+  Paths:
+    - sea/Room20.arc/Chest001
+Fire Mountain - Lookout Platform - Destroy the Cannons:
+  Need: Bombs
+  Original item: Golden Feather
+  Paths:
+    - sea/Room20.arc/Chest000
+Fire Mountain - Big Octo: # TODO: test if this randomizes correctly
+  Need: Can Defeat Big Octos & Grappling Hook
+  Original item: Orange Rupee
+  Paths:
+    - sea/Room20.arc/ScalableObject001
+
 Ice Ring Isle - Frozen Chest:
-  Need: 
+  Need: Fire Arrows
   Original item: Treasure Chart 36
   Paths:
     - sea/Room40.arc/Chest000
 Ice Ring Isle - Cave - Chest:
-  Need: 
+  Need: Fire Arrows
+  # Need to escape: Iron Boots
   Original item: Iron Boots
   Paths:
     - MiniHyo/Stage.arc/Chest000
 Ice Ring Isle - Inner Cave - Chest:
-  Need: 
+  Need: Fire Arrows & Iron Boots
   Original item: Orange Rupee
   Paths:
     - ITest62/Stage.arc/Chest000
-
-Fire Mountain - Cave - Chest:
-  Need: 
-  Original item: Power Bracelets
-  Paths:
-    - MiniKaz/Stage.arc/Chest000
-Fire Mountain - Lookout Platform Center Chest:
-  Need: 
-  Original item: Golden Feather
-  Paths:
-    - sea/Room20.arc/Chest000
-Fire Mountain - Lookout Platform Left Chest:
-  Need: 
-  Original item: Yellow Rupee
-  Paths:
-    - sea/Room20.arc/Chest001
 
 
 Headstone Island - Top of the Island:
@@ -1282,7 +1289,7 @@ The Great Sea - Cyclos:
     - sea/Stage.arc/Event0E0:TACT1_RT/Actor001/Action003
 
 The Great Sea - Salvage Corp Gift:
-  Need: 
+  Need: Nothing
   Original item: Treasure Chart 34
   Paths:
     - rels/d_a_npc_sv.rel@3327
@@ -1510,48 +1517,52 @@ Bird's Peak Rock - Cave:
     - TF_03/Stage.arc/Chest000
 
 Pawprint Isle - Chuchu Cave - Chest:
-  Need: 
+  Need: Nothing
   Original item: Piece of Heart
   Paths:
     - TyuTyu/Stage.arc/Chest003
 Pawprint Isle - Chuchu Cave - Behind First Boulder:
-  Need: 
+  Need: Can Move Boulders
   Original item: Purple Rupee
   Paths:
     - TyuTyu/Stage.arc/Chest001
 Pawprint Isle - Chuchu Cave - Behind Second Boulder:
-  Need: 
+  Need: Can Move Boulders
   Original item: Joy Pendant
   Paths:
     - TyuTyu/Stage.arc/Chest002
 Pawprint Isle Chuchu Cave - Scale the Wall:
-  Need: 
+  Need: Grappling Hook
   Original item: Red Rupee
   Paths:
     - TyuTyu/Stage.arc/Chest000
 Pawprint Isle - Wizzrobe Cave:
-  Need: 
+  Need:
+    Hookshot
+    & Can Defeat Wizzrobes at Range
+    & Can Defeat Yellow ChuChus
+    & Can Defeat Peahats
   Original item: Silver Rupee
   Paths:
     - Cave07/Stage.arc/Chest000
 Pawprint Isle - Lookout Platform:
-  Need: 
+  Need: Nothing
   Original item: Red Rupee
   Paths:
     - sea/Room12.arc/Chest000
 
 Thorned Fairy Island - Great Fairy:
-  Need: 
+  Need: Skull Hammer
   Original item: 99 Arrow Quiver
   Paths:
     - rels/d_a_bigelf.rel@221F
-Thorned Fairy Island - Northeastern Lookout Platform:
-  Need: 
+Thorned Fairy Island - Northeastern Lookout Platform - Destroy the Cannons:
+  Need: Bombs
   Original item: Golden Feather
   Paths:
     - sea/Room28.arc/Chest000
 Thorned Fairy Island - Southwestern Lookout Platform:
-  Need: 
+  Need: Can Fly With Deku Leaf Outdoors
   Original item: Boko Baba Seed
   Paths:
     - sea/Room28.arc/Chest001
@@ -1686,15 +1697,20 @@ Tingle Island - Big Octo:
     - sea/Room17.arc/ScalableObject001
 
 Diamond Steppe Island - Warp Maze - First Chest:
-  Need: 
+  Need: Hookshot
   Original item: Joy Pendant
   Paths:
     - WarpD/Stage.arc/Chest001
 Diamond Steppe Island - Warp Maze - Second Chest:
-  Need: 
+  Need: Hookshot
   Original item: Ghost Ship Chart
   Paths:
     - WarpD/Stage.arc/Chest000
+Diamond Steppe Island - Big Octo: # TODO: test if this randomizes correctly
+  Need: Can Defeat Big Octos & Grappling Hook
+  Original item: Orange Rupee
+  Paths:
+    - sea/Room36.arc/ScalableObject001
 
 Bomb Island - Cave:
   Need: Can Move Boulders
@@ -1835,7 +1851,7 @@ Star Island - Lookout Platform:
     - sea/Room2.arc/Chest000
 
 Star Belt Archipelago - Lookout Platform:
-  Need: 
+  Need: Nothing
   Original item: Red Rupee
   Paths:
     - sea/Room21.arc/Chest000

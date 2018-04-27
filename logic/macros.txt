@@ -74,7 +74,14 @@ Can Farm Golden Feathers:
 Can Defeat Wizzrobes at Range:
   Hero's Bow
   | Hookshot
-  | TODO # Does Grappling Hook help? What about Bombs?
+Can Defeat Yellow ChuChus:
+  Boomerang
+  | Hero's Bow
+  | TODO # test bombs, deku leaf, grappling hook, hookshot.
+Can Defeat Peahats:
+  Boomerang
+  | Hookshot
+  | TODO # test bow (by itself - fire arrows do work), grappling hook, skull hammer, deku leaf
 Can Defeat Big Octos:
   Hero's Bow
   | Bombs
