@@ -311,6 +311,16 @@ def allow_randomizing_magic_meter_upgrade_item(self):
   
   write_u32(great_fairy_rel_data, 0x7C0, 0x60000000) # nop, for max MP
   write_u32(great_fairy_rel_data, 0x7CC, 0x60000000) # nop, for current MP
+  
+  # Also, the magic meter upgrade item itself only increases your max MP.
+  # In the vanilla game, the Great Fairy would also refill your MP for you.
+  # Therefore we modify the code of the magic meter upgrade to also refill your MP.
+  
+  dol_data = self.get_raw_file("sys/main.dol")
+  
+  # Instead of adding 32 to the player's previous max MP, simply set both the current and max MP to 32.
+  write_u32(dol_data, 0xC1C54, 0x38000020) # li r0, 32 (at 800C4D14 in RAM)
+  write_u32(dol_data, 0xC1C58, 0xB0045B78) # sth r0, 0x5B78 (r4) (at 800C4D18 in RAM)
 
 def start_with_sea_chart_fully_revealed(self):
   # Changes the function that initializes the sea chart when starting a new game so that the whole chart has been drawn out.
