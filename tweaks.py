@@ -406,6 +406,7 @@ def make_items_progressive(self):
     quiver_item_get_func_offset = item_get_funcs_list + quiver_item_id*4
     write_u32(dol_data, quiver_item_get_func_offset, self.custom_symbols["progressive_quiver_item_func"])
   
+  
   # Modify the item get funcs for bombs and the hero's bow to nop out the code that sets your current and max bombs/arrows to 30.
   # Without this change, getting bombs after a bomb bag upgrade would negate the bomb bag upgrade.
   # Note that normally making this change would cause the player to have 0 max bombs/arrows if they get bombs/bow before any bomb bag/quiver upgrades.
@@ -420,3 +421,30 @@ def make_items_progressive(self):
   # This way other items can use the magic meter before the player gets deku leaf.
   write_u32(dol_data, 0xC069C, 0x60000000) # Don't set max magic meter (at 800C375C in RAM)
   write_u32(dol_data, 0xC06A8, 0x60000000) # Don't set current magic meter (at 800C3768 in RAM)
+  
+  
+  # Also update the item get descriptions of progressive items to just generically say you got *a* upgrade, without saying which.
+  sword_id = self.item_name_to_id["Progressive Sword"]
+  sword_msg = self.bmg.messages_by_id[101 + sword_id]
+  sword_msg.string = "\{1A 05 00 00 01}You got a \{1A 06 FF 00 00 01}sword upgrade\{1A 06 FF 00 00 00}!"
+  sword_msg.save_changes()
+  
+  bow_id = self.item_name_to_id["Progressive Bow"]
+  bow_msg = self.bmg.messages_by_id[101 + bow_id]
+  bow_msg.string = "\{1A 05 00 00 01}You got a \{1A 06 FF 00 00 01}bow upgrade\{1A 06 FF 00 00 00}!"
+  bow_msg.save_changes()
+  
+  wallet_id = self.item_name_to_id["Progressive Wallet"]
+  wallet_msg = self.bmg.messages_by_id[101 + wallet_id]
+  wallet_msg.string = "\{1A 05 00 00 01}You can now carry more \{1A 06 FF 00 00 01}Rupees\{1A 06 FF 00 00 00}!"
+  wallet_msg.save_changes()
+  
+  bomb_bag_id = self.item_name_to_id["Progressive Bomb Bag"]
+  bomb_bag_msg = self.bmg.messages_by_id[101 + bomb_bag_id]
+  bomb_bag_msg.string = "\{1A 05 00 00 01}You can now carry more \{1A 06 FF 00 00 01}bombs\{1A 06 FF 00 00 00}!"
+  bomb_bag_msg.save_changes()
+  
+  quiver_id = self.item_name_to_id["Progressive Quiver"]
+  quiver_msg = self.bmg.messages_by_id[101 + quiver_id]
+  quiver_msg.string = "\{1A 05 00 00 01}You can now carry more \{1A 06 FF 00 00 01}arrows\{1A 06 FF 00 00 00}!"
+  quiver_msg.save_changes()
