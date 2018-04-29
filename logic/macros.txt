@@ -19,6 +19,8 @@ Can Buy Bait:
 
 Any Master Sword:
   Progressive Sword x2
+Full Power Master Sword:
+  Progressive Sword x4
 Hero's Bow:
   Progressive Bow x1
 Fire Arrows:
@@ -29,6 +31,15 @@ Light Arrows:
   Progressive Bow x3
 Any Wallet Upgrade:
   Progressive Wallet x1
+All 8 Triforce Shards:
+  Triforce Shard 1
+  & Triforce Shard 2
+  & Triforce Shard 3
+  & Triforce Shard 4
+  & Triforce Shard 5
+  & Triforce Shard 6
+  & Triforce Shard 7
+  & Triforce Shard 8
 
 Tingle Tuner Bombs:
   Tingle Tuner & TODO
@@ -42,6 +53,11 @@ Can Access Forbidden Woods:
 Can Access Earth Temple:
   Power Bracelets & Can Play Command Melody
 
+Can Access Tower of the Gods:
+  Din's Pearl
+  & Farore's Pearl
+  & Nayru's Pearl
+
 Can Get Past Forsaken Fortress Gate:
   Bombs
   # (It's also possible to blow up the door without bombs by using the mounted cannons, but this is not required by the logic.)
@@ -54,6 +70,36 @@ Can Reach and Defeat Phantom Ganon:
   # Note that his energy balls can be reflected with either the Master Sword or an empty bottle, but you still need the Master Sword to deal damage.
   Can Get Past Forsaken Fortress Gate
   & Any Master Sword
+
+Can Access Hyrule:
+  Full Power Master Sword
+  & All 8 Triforce Shards
+Can Access Ganon's Tower:
+  Can Access Hyrule
+  & (Hookshot | Deku Leaf)
+Can Complete Memory Dragon Roost Cavern and Gohma:
+  Grappling Hook & Deku Leaf
+Can Complete Memory Forbidden Woods and Kalle Demos:
+  Deku Leaf & Boomerang
+Can Complete Memory Earth Temple and Jalhalla:
+  Mirror Shield & Power Bracelets
+Can Complete Memory Wind Temple and Molgera:
+  Iron Boots & Deku Leaf & Hookshot
+  # Iron boots are not strictly necessary to get across the gaps - just Deku Leaf and Hookshot work, but it's more difficult, and requires damage boosting off spikes. TODO: Consider taking this into account for higher difficulty levels.
+Can Reach Ganon's Tower Maze:
+  Can Access Ganon's Tower
+  & Can Complete Memory Dragon Roost Cavern and Gohma
+  & Can Complete Memory Forbidden Woods and Kalle Demos
+  & Can Complete Memory Earth Temple and Jalhalla
+  & Can Complete Memory Wind Temple and Molgera
+Can Reach and Defeat Puppet Ganon:
+  Can Reach Ganon's Tower Maze
+  & Boomerang
+  & Light Arrows
+Can Reach and Defeat Ganondorf:
+  Can Reach and Defeat Puppet Ganon
+  & Grappling Hook
+  & Hookshot
 
 Rescued Aryll:
   Nothing # We set the event bit for having rescued Aryll by default.
@@ -77,11 +123,19 @@ Can Defeat Wizzrobes at Range:
 Can Defeat Yellow ChuChus:
   Boomerang
   | Hero's Bow
-  | TODO # test bombs, deku leaf, grappling hook, hookshot.
+  | Bombs
+  | Deku Leaf
+  # Note: Grappling Hook does stun it just barely long enough for you to kill it with your sword.
+  # But this is not immediately obvious and somewhat tricky to time, so maybe reserve that for a higher difficulty level.
+  # Another note: Skull Hammer does kill it, but the player takes damage in the process.
 Can Defeat Peahats:
   Boomerang
   | Hookshot
   | TODO # test bow (by itself - fire arrows do work), grappling hook, skull hammer, deku leaf
+Can Defeat Armos:
+  Hero's Bow
+  # Note: You don't actually need the bow to kill them, you can just roll behind them and hit their crystal with your sword.
+  # But this is finicky to do, so let's not require this on the easiest difficulty.
 Can Defeat Big Octos:
   Hero's Bow
   | Bombs

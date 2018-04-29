@@ -72,7 +72,8 @@ Outset Island - Dig up Black Soil:
 Outset Island - Savage Labyrinth - Floor 30:
   Need:
     Can Fly With Deku Leaf Outdoors
-    & Power Bracelets # TODO: Do you need anything else to do savage labyrinth?
+    & Power Bracelets
+    & TODO # Do you need anything else to do savage labyrinth?
   Original item: Triforce Chart 6
   Paths:
     - Cave09/Room20.arc/Chest000
@@ -81,7 +82,8 @@ Outset Island - Savage Labyrinth - Floor 50:
     Can Fly With Deku Leaf Outdoors
     & Power Bracelets
     & Mirror Shield
-    & Skull Hammer # TODO: Do you need anything else to do savage labyrinth?
+    & Skull Hammer
+    & TODO # Do you need anything else to do savage labyrinth?
   Original item: Piece of Heart
   Paths:
     - Cave10/Room20.arc/Chest000
@@ -96,10 +98,6 @@ Outset Island - Savage Labyrinth - Floor 50:
 #  Original item: Bombs
 #  Paths:
 #    - Asoko/Stage.arc/Chest001
-#Pirate Ship - Second Visit? TODO duplicate?:
-#  Need: 
-#  Original item: Bombs
-#  Paths:
 #    - Asoko/Stage.arc/Chest002
 
 
@@ -207,7 +205,7 @@ Windfall Island - Lenzo's House - Deluxe Picto Box:
   Original item: Deluxe Picto Box
   Paths:
     - rels/d_a_npc_photo.rel@1C37
-Windfall Island - Lenzo's House - TODO:
+Windfall Island - Lenzo's House - TODO unknown:
   Need: TODO
   Original item: Legendary Pictograph
   Paths:
@@ -239,6 +237,7 @@ Windfall Island - House of Wealth - Maggie's Father - Give More than 20 Skull Ne
     - rels/d_a_npc_kf1.rel@1A23
 Windfall Island - House of Wealth - Maggie - Letter:
   Need: Rescued Aryll & TODO
+  # TODO: What happens if you give her the Moblin's Letter before recieving Maggie's Letter? Does this location become missable?
   Original item: Maggie's Letter
   Paths:
     - rels/d_a_npc_kp1.rel@17D7
@@ -418,7 +417,7 @@ Dragon Roost Island - Long Cave Passage:
   Paths:
     - sea/Room13.arc/Chest001
 Dragon Roost Island - Rito Aerie - Baito:
-  Need: TODO # Probably need to beat Gohma before Baito will appear?
+  Need: TODO # Need to sort 25 letters in the minigame, and also push down a block so Baito can climb up? Is beating gohma necessary? Then you need to sort 25 again in front of him
   Original item: Note to Mom
   Paths:
     - Atorizk/Stage.arc/Event003:GETMOTHERLETTER/Actor000/Action000
@@ -729,67 +728,122 @@ Greatfish Isle - Hidden Chest:
 
 
 Tower of the Gods - Map Chest:
-  Need: 
+  Need:
+    Can Access Tower of the Gods
+    & Bombs
   Original item: Dungeon Map
   Paths:
     - Siren/Stage.arc/Chest001
 Tower of the Gods - Hop Across Floating Boxes:
-  Need: 
+  Need: Can Access Tower of the Gods
   Original item: Small Key
   Paths:
     - Siren/Stage.arc/Chest000
 Tower of the Gods - Light Two Torches:
-  Need: 
+  Need: Can Access Tower of the Gods
   Original item: Joy Pendant
   Paths:
     - Siren/Stage.arc/Chest005
 Tower of the Gods - Compass Chest:
-  Need: 
+  Need: Can Access Tower of the Gods
   Original item: Compass
   Paths:
     - Siren/Stage.arc/Chest002
 Tower of the Gods - Shoot Eye Above Compass Chest:
-  Need: 
+  Need:
+    Can Access Tower of the Gods
+    & Hero's Bow
   Original item: Treasure Chart 6
   Paths:
     - Siren/Stage.arc/Chest006
 Tower of the Gods - Tingle Statue Chest:
-  Need: 
+  Need:
+    Can Access Tower of the Gods
+    & TotG Small Key x1
+    & Can Defeat Yellow ChuChus
+    & Tingle Tuner Bombs
   Original item: Goddess Tingle Statue
   Paths:
     - Siren/Stage.arc/Chest00A
 Tower of the Gods - Stone Tablet:
-  Need: 
+  Need:
+    Can Access Tower of the Gods
+    & TotG Small Key x1
+    & Can Defeat Yellow ChuChus
+    & Wind Waker
   Original item: Command Melody
   Paths:
     - Siren/Stage.arc/Event060:hsehi1_tact/Actor003/Action004
 Tower of the Gods - Darknut Mini-Boss Room:
-  Need: 
+  Need:
+    Can Access Tower of the Gods
+    & TotG Small Key x1
+    & Can Defeat Yellow ChuChus
+    & Wind Waker
+    & Grappling Hook
+    & Command Melody
+    # Note: You can do this without Grappling Hook if you have Deku Leaf instead. But if you run out of MP you can get trapped and not be able to escape since there are no MP refill jars on this side of the gap. So Deku Leaf is not considered an option here by the logic.
+    # TODO: Maybe we should modify the pots around here to also drop MP refill jars?
   Original item: Hero's Bow
   Paths:
     - SirenMB/Stage.arc/Chest000
 Tower of the Gods - First Chest Guarded by Armos Knights:
-  Need: 
+  Need:
+    Can Access Tower of the Gods
+    & TotG Small Key x1
+    & Can Defeat Yellow ChuChus
+    & Bombs
   Original item: Joy Pendant
   Paths:
     - Siren/Stage.arc/Chest004
 Tower of the Gods - Second Chest Guarded by Armos Knights:
-  Need: 
+  Need:
+    Can Access Tower of the Gods
+    & TotG Small Key x1
+    & Can Defeat Yellow ChuChus
+    & Wind Waker
+    & Grappling Hook
+    & Command Melody
+    & Hero's Bow
+    & Wind's Requiem
+    # Bombs are needed to kill the Armos Knights, but killing them is not necessary for any reason, since the chest appears when you play Wind's Requiem, and the door is not locked.
   Original item: Treasure Chart 30
   Paths:
     - Siren/Stage.arc/Chest007
 Tower of the Gods - Floating Platforms Room:
-  Need: 
+  Need:
+    Can Access Tower of the Gods
+    & TotG Small Key x1
+    & Can Defeat Yellow ChuChus
+    & Wind Waker
+    & Grappling Hook
+    & Command Melody
+    & Hero's Bow
   Original item: Small Key
   Paths:
     - Siren/Stage.arc/Chest008
 Tower of the Gods - Top of Floating Platforms Room:
-  Need: 
+  Need:
+    Can Access Tower of the Gods
+    & TotG Small Key x1
+    & Can Defeat Yellow ChuChus
+    & Wind Waker
+    & Grappling Hook
+    & Command Melody
+    & Hero's Bow
   Original item: Joy Pendant
   Paths:
     - Siren/Stage.arc/Chest009
 Tower of the Gods - Big Key Chest:
-  Need: 
+  Need:
+    Can Access Tower of the Gods
+    & Can Defeat Yellow ChuChus
+    & Wind Waker
+    & Grappling Hook
+    & Command Melody
+    & Hero's Bow
+    & TotG Small Key x2
+    & Deku Leaf
   Original item: Big Key
   Paths:
     - Siren/Stage.arc/Chest00B
@@ -804,17 +858,27 @@ Tower of the Gods - Big Key Chest:
 #  Paths:
 #    - rels/d_a_bst.rel@5CD3
 Tower of the Gods - Gohdan Heart Container:
-  Need: 
+  Need:
+    Can Access Tower of the Gods
+    & Can Defeat Yellow ChuChus
+    & Wind Waker
+    & Grappling Hook
+    & Command Melody
+    & Hero's Bow
+    & TotG Small Key x2
+    & Deku Leaf
+    & TotG Big Key
+    & Bombs
   Original item: Heart Container
   Paths:
     - rels/d_a_bst.rel@9D43
     - SirenB/Room0.arc/Actor003
 
-Hyrule - Master Sword Chamber:
-  Need: 
-  Original item: Master Sword (Powerless)
-  Paths:
-    - main.dol@358D34
+#Hyrule - Master Sword Chamber:
+#  Need: 
+#  Original item: Master Sword (Powerless)
+#  Paths:
+#    - main.dol@358D34
 
 
 Forsaken Fortress - Phantom Ganon:
@@ -1211,28 +1275,28 @@ Wind Temple - Molgera Heart Container:
 #    - main.dol@358D36
 
 Ganon's Tower - Maze Chest:
-  Need: 
+  Need: Can Reach Ganon's Tower Maze
   Original item: Light Arrow
   Paths:
     - GanonJ/Stage.arc/Chest000
 
 Mailbox - Letter from Baito's Mother:
-  Need: 
+  Need: Delivery Bag & Note to Mom & TODO
   Original item: Piece of Heart
   Paths:
     - rels/d_a_obj_toripost.rel@2564
 Mailbox - Letter from Komali's Father:
-  Need: 
+  Need: # Might appear after you get half-power master sword?
   Original item: Piece of Heart
   Paths:
     - rels/d_a_obj_toripost.rel@2570
 Mailbox - Letter Advertising Bombs in Beedle's Shop:
-  Need: # Seems like you get this letter after you get bombs?
+  Need: # Seems like you get this letter after you get bombs? Maybe you need to kill a boss to get the letter?
   Original item: Beedle's Chart
   Paths:
     - rels/d_a_obj_toripost.rel@257C
 Mailbox - Letter from Orca:
-  Need: 
+  Need: # Might appear after event bit 1E80 (QUILL_TELLS_US_JABUN_IS_HIDING_AT_OUTSET) is set?
   Original item: Red Rupee
   Paths:
     - rels/d_a_obj_toripost.rel@2588
@@ -1242,7 +1306,7 @@ Mailbox - Letter from Grandma:
   Paths:
     - rels/d_a_obj_toripost.rel@2594
 Mailbox - Letter Advertising Rock Spire Shop Ship:
-  Need: 
+  Need: # Might appear after getting either wallet upgrade? Maybe you need to kill a boss to get the letter?
   Original item: Green Rupee
   Paths:
     - rels/d_a_obj_toripost.rel@25A0
@@ -1257,7 +1321,7 @@ Mailbox - Letter from Aryll:
   Paths:
     - rels/d_a_obj_toripost.rel@25B8
 Mailbox - Letter from Baito's Mother: # TODO: duplicate?
-  Need: 
+  Need: Delivery Bag & Note to Mom & TODO
   Original item: Piece of Heart
   Paths:
     - rels/d_a_obj_toripost.rel@25C4
@@ -1267,12 +1331,12 @@ Mailbox - Beedle's Silver Membership Reward:
   Paths:
     - rels/d_a_obj_toripost.rel@25D0
 Mailbox - Letter from Hoskit's Girlfriend:
-  Need: 
+  Need: Spoils Bag & Can Farm Golden Feathers & TODO # Maybe you need to kill a boss to get the letter?
   Original item: Piece of Heart (Alternate Message)
   Paths:
     - rels/d_a_obj_toripost.rel@25DC
 Mailbox - Letter from Baito:
-  Need: 
+  Need: # Might appear after beating earth temple boss? and also his mother must have sent out her letter (but maybe you don't need to have received it)
   Original item: Red Rupee
   Paths:
     - rels/d_a_obj_toripost.rel@25E8
@@ -1295,7 +1359,7 @@ The Great Sea - Salvage Corp Gift:
     - rels/d_a_npc_sv.rel@3327
 
 The Great Sea - Island Trading Reward:
-  Need: 
+  Need: Rescued Aryll & Delivery Bag & TODO
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_roten.rel@533B
@@ -1332,7 +1396,7 @@ Beedle's Special Shop Ship - Treasure Chart:
     - main.dol@372EEF
 
 Ghost Ship - Chest:
-  Need: 
+  Need: Ghost Ship Chart
   Original item: Triforce Chart 4
   Paths:
     - PShip/Stage.arc/Chest000
@@ -1340,22 +1404,6 @@ Ghost Ship - Chest:
     - PShip/Stage.arc/Chest002
     - PShip2/Stage.arc/Chest000
     - PShip3/Stage.arc/Chest000
-
-The Great Sea - TODO 1:
-  Need: 
-  Original item: Joy Pendant
-  Paths:
-    - sea/Stage.arc/Event093:MK_PENDANT/Actor001/Action005
-The Great Sea - TODO 2:
-  Need: 
-  Original item: Red Rupee
-  Paths:
-    - sea/Stage.arc/Event0B1:Get_Rupee/Actor002/Action000
-The Great Sea - TODO 3:
-  Need: 
-  Original item: Silver Rupee
-  Paths:
-    - sea/Stage.arc/Event0D2:SO_GET_RUPEE/Actor002/Action000
 
 #The Great Sea - Old Man Hoho 1 (Unused):
 #  Need: 
@@ -1379,29 +1427,25 @@ The Great Sea - TODO 3:
 #  Paths:
 #    - rels/d_a_npc_mt.rel@18CF
 
-TODO - unknown npc 7:
-  Need: 
-  Original item: Red Rupee
-  Paths:
-    - rels/d_a_npc_people.rel@5BC3
-TODO - unknown npc 8:
-  Need: 
-  Original item: Purple Rupee
-  Paths:
-    - rels/d_a_npc_people.rel@5BDF
-
 Private Oasis - Chest at Top of Waterfall:
-  Need: TODO # Hookshot?
+  Need: Hookshot | Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 27
   Paths:
     - sea/Room33.arc/Chest000
 Cabana Labyrinth - First Chest:
-  Need: Cabana Deed & Grappling Hook & TODO
+  Need:
+    Delivery Bag & Cabana Deed
+    & Grappling Hook
+    & Skull Hammer
   Original item: Orange Rupee
   Paths:
     - TF_04/Stage.arc/Chest001
 Cabana Labyrinth - Second Chest:
-  Need: Cabana Deed & Grappling Hook & TODO
+  Need:
+    Delivery Bag & Cabana Deed
+    & Grappling Hook
+    & Skull Hammer
+    & Can Play Wind's Requiem
   Original item: Triforce Chart 2
   Paths:
     - TF_04/Stage.arc/Chest000
@@ -1412,12 +1456,12 @@ Private Oasis - Big Octo:
     - sea/Room33.arc/ScalableObject015
 
 Spectacle Island - Target Shooting - First Prize:
-  Need: 
+  Need: Nothing
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_kg2.rel@20FF
 Spectacle Island - Target Shooting - Second Prize:
-  Need: 
+  Need: Nothing
   Original item: Treasure Chart 17
   Paths:
     - rels/d_a_npc_kg2.rel@2107
@@ -1474,34 +1518,39 @@ Boating Course - Cave:
     - SubD71/Stage.arc/Chest000
 
 Stone Watcher Island - Cave:
-  Need: 
+  Need:
+    Power Bracelets
+    & Can Defeat Armos
+    & Can Play Wind's Requiem
   Original item: Triforce Chart 7
   Paths:
     - TF_01/Stage.arc/Chest000
 Stone Watcher Island - Lookout Platform Chest:
-  Need: 
+  Need: Nothing
   Original item: Red Rupee
   Paths:
     - sea/Room31.arc/Chest001
 Stone Watcher Island - Lookout Platform - Destroy the Cannons:
-  Need: 
+  Need: Bombs
   Original item: Piece of Heart
   Paths:
     - sea/Room31.arc/Chest000
 
 Islet of Steel - Interior:
-  Need: 
+  Need:
+    Bombs
+    & Can Play Wind's Requiem
   Original item: Triforce Chart 1
   Paths:
     - ShipD/Stage.arc/Chest000
 Islet of Steel - Lookout Platform:
-  Need: 
+  Need: Can Defeat Wizzrobes at Range
   Original item: Skull Necklace
   Paths:
     - sea/Room30.arc/Chest000
 
 Overlook Island - Cave:
-  Need: 
+  Need: Hookshot
   Original item: Triforce Chart 8
   Paths:
     - TF_02/Stage.arc/Chest000
@@ -1772,29 +1821,29 @@ Shark Island - Cave:
   Paths:
     - ITest63/Stage.arc/Chest000
 
-Cliff Plateau Isles - Highest Isle:
-  Need: 
-  Original item: Treasure Chart 25
-  Paths:
-    - sea/Room42.arc/Chest000
 Cliff Plateau Isles - Cave:
-  Need: 
+  Need: Nothing
   Original item: Joy Pendant
   Paths:
     - Cave03/Stage.arc/Chest000
+Cliff Plateau Isles - Highest Isle:
+  Need: Deku Leaf
+  Original item: Treasure Chart 25
+  Paths:
+    - sea/Room42.arc/Chest000
 Cliff Plateau Isles - Lookout Platform:
-  Need: 
+  Need: Nothing
   Original item: Boko Baba Seed
   Paths:
     - sea/Room42.arc/Chest001
 
 Crescent Moon Island - Chest:
-  Need: 
+  Need: Nothing
   Original item: Treasure Chart 10
   Paths:
     - sea/Room5.arc/Chest000
 Crescent Moon Island - Submarine:
-  Need: 
+  Need: Nothing
   Original item: Treasure Chart 9
   Paths:
     - Abship/Room7.arc/Chest000
@@ -1982,6 +2031,32 @@ Six-Eye Reef - Submarine:
   Original item: Piece of Heart
   Paths:
     - Abship/Room1.arc/Chest000
+
+TODO - unknown npc 1:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - rels/d_a_npc_people.rel@5BC3
+TODO - unknown npc 2:
+  Need: 
+  Original item: Purple Rupee
+  Paths:
+    - rels/d_a_npc_people.rel@5BDF
+TODO - The Great Sea - event 1:
+  Need: 
+  Original item: Joy Pendant
+  Paths:
+    - sea/Stage.arc/Event093:MK_PENDANT/Actor001/Action005
+TODO - The Great Sea - event 2:
+  Need: 
+  Original item: Red Rupee
+  Paths:
+    - sea/Stage.arc/Event0B1:Get_Rupee/Actor002/Action000
+TODO - The Great Sea - event 3:
+  Need: 
+  Original item: Silver Rupee
+  Paths:
+    - sea/Stage.arc/Event0D2:SO_GET_RUPEE/Actor002/Action000
 
 Forsaken Fortress - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 1
