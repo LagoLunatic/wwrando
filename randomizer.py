@@ -366,6 +366,10 @@ class Randomizer:
       if location_name in self.logic.remaining_item_locations:
         unrandomized_item_name = self.logic.item_locations[location_name]["Original item"]
         self.logic.set_location_to_item(location_name, unrandomized_item_name)
+    
+    game_beatable = self.logic.check_requirement_met("Can Reach and Defeat Ganondorf")
+    if not game_beatable:
+      raise Exception("Game is not beatable on this seed! This error shouldn't happen.")
   
   def write_changed_items(self):
     for location_name, item_name in self.logic.done_item_locations.items():
