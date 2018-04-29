@@ -47,6 +47,7 @@ class Randomizer:
     self.raw_files_by_path = {}
     
     self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").chart_lists[0]
+    self.bmg = self.get_arc("files/res/Msg/bmgres.arc").bmg_files[0]
   
   def randomize(self):
     self.apply_necessary_tweaks()
