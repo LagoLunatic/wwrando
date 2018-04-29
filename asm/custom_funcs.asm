@@ -38,6 +38,8 @@ li r4, 0x0902 ; SAW_DRAGON_ROOST_ISLAND_INTRO
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x1F40 ; SAW_QUILL_CUTSCENE_ON_DRI
 bl onEventBit__11dSv_event_cFUs
+li r4, 0x0A80 ; KORL_DINS_PEARL_TEXT_ALLOWING_YOU_TO_ENTER_HIM
+bl onEventBit__11dSv_event_cFUs
 li r4, 0x0901 ; TRIGGERED_MAP_FISH
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x0A20 ; WATCHED_FOREST_HAVEN_INTRO_CUTSCENE
@@ -50,7 +52,15 @@ li r4, 0x1F02 ; TALKED_TO_KORL_AFTER_GETTING_BOMBS
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x2F20 ; Talked to KoRL after getting Nayru's Pearl
 bl onEventBit__11dSv_event_cFUs
+li r4, 0x3840 ; TALKED_TO_KORL_POST_TOWER_CUTSCENE
+bl onEventBit__11dSv_event_cFUs
 li r4, 0x2D01 ; Saw cutscene before Helmaroc King where Aryll is rescued
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x2D02 ; TETRA_TO_ZELDA_CUTSCENE
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x3201 ; KoRL told you about the sages
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x3380 ; KoRL told you about the Triforce shards
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x1001 ; WATCHED_FIRE_AND_ICE_ARROWS_CUTSCENE
 bl onEventBit__11dSv_event_cFUs
@@ -63,6 +73,10 @@ bl onEventBit__11dSv_event_cFUs
 li r4, 0x2910 ; MAKAR_IN_WIND_TEMPLE
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x1610 ; Makar is in dungeon mode and can be lifted/called
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x2D08 ; HYRULE_3_WARP_CUTSCENE
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x3980 ; HYRULE_3_ELECTRICAL_BARRIER_CUTSCENE_1
 bl onEventBit__11dSv_event_cFUs
 
 lis r3, 0x803C
