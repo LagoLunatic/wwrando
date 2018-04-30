@@ -323,6 +323,12 @@ class Randomizer:
       location_name = random.choice(self.logic.remaining_item_locations)
       self.logic.set_location_to_item(location_name, item_name)
     
+    inaccessible_locations = [loc for loc in self.logic.remaining_item_locations if loc not in accessible_undone_locations]
+    if inaccessible_locations:
+      print("Inaccessible locations:")
+      for location_name in inaccessible_locations:
+        print(location_name)
+    
     # Fill remaining unused locations with consumables (Rupees and Spoils).
     locations_to_place_consumables_at = self.logic.remaining_item_locations.copy()
     for location_name in locations_to_place_consumables_at:
