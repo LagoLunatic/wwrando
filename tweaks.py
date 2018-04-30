@@ -448,3 +448,11 @@ def make_items_progressive(self):
   quiver_msg = self.bmg.messages_by_id[101 + quiver_id]
   quiver_msg.string = "\{1A 05 00 00 01}You can now carry more \{1A 06 FF 00 00 01}arrows\{1A 06 FF 00 00 00}!"
   quiver_msg.save_changes()
+
+def remove_tower_of_the_gods_raising_cutscene(self):
+  # Remove the cutscene where the Tower of the Gods rises out of the sea.
+  # To do this we modify the goddess statue's code to skip starting the raising cutscene.
+  # Instead we branch to code that ends the current pearl-placing event after the tower raised event bit is set.
+  
+  goddess_statue_data = self.get_raw_file("files/rels/d_a_obj_doguu.rel")
+  write_u32(goddess_statue_data, 0x267C, 0x48000024) # b 0x26A0
