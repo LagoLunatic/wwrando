@@ -43,8 +43,6 @@ class Logic:
     self.unplaced_progress_items = self.all_progress_items.copy()
     self.unplaced_nonprogress_items = self.all_nonprogress_items.copy()
     
-    # TODO: dynamically modify progress items/nonprogress items lists depending on whether treasure charts and triforce charts should be progress
-    
     self.currently_owned_items = []
     
     self.progressive_items_owned = {
@@ -112,6 +110,22 @@ class Logic:
       self.big_key_owned_by_dungeon[dungeon_name] = True
     else:
       raise "Unknown key item: " + item_name
+  
+  def remove_owned_item(self, item_name):
+    cleaned_item_name = self.clean_item_name(item_name)
+    if cleaned_item_name not in self.all_cleaned_item_names:
+      raise Exception("Unknown item name: " + item_name)
+    
+    if cleaned_item_name in self.progressive_items_owned:
+      assert self.progressive_items_owned[cleaned_item_name] > 0
+      self.progressive_items_owned[cleaned_item_name] -= 1
+    else:
+      self.currently_owned_items.remove(cleaned_item_name)
+    
+    if item_name in self.all_progress_items:
+      self.unplaced_progress_items.append(item_name)
+    elif item_name in self.all_nonprogress_items:
+      self.unplaced_nonprogress_items.append(item_name)
   
   def get_accessible_remaining_locations(self):
     accessible_location_names = []
