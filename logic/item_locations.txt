@@ -1437,21 +1437,29 @@ Beedle's Shop Ship - Bait Bag:
   Original item: Bait Bag
   Paths:
     - main.dol@372E1F
-Beedle's Special Shop Ship - Empty Bottle:
+    - rels/d_a_npc_bs1.rel@1CDB
+    - rels/d_a_npc_bs1.rel@2DBB
+Beedle's Shop Ship - Rock Spire Shop Ship - Empty Bottle:
   Need: 
   Original item: Empty Bottle
   Paths:
     - main.dol@372ECF
-Beedle's Special Shop Ship - Piece of Heart:
+    - rels/d_a_npc_bs1.rel@1E9B
+    - rels/d_a_npc_bs1.rel@1ED3
+Beedle's Shop Ship - Rock Spire Shop Ship - Piece of Heart:
   Need: 
   Original item: Piece of Heart
   Paths:
     - main.dol@372EDF
-Beedle's Special Shop Ship - Treasure Chart:
+    - rels/d_a_npc_bs1.rel@1EA3
+    - rels/d_a_npc_bs1.rel@1EDF
+Beedle's Shop Ship - Rock Spire Shop Ship - Treasure Chart:
   Need: 
   Original item: Treasure Chart 4
   Paths:
     - main.dol@372EEF
+    - rels/d_a_npc_bs1.rel@1EAB
+    - rels/d_a_npc_bs1.rel@1EEB
 
 Ghost Ship - Chest:
   Need: Ghost Ship Chart
