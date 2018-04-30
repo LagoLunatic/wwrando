@@ -1580,7 +1580,7 @@ Pawprint Isle - Chuchu Cave - Behind Second Boulder:
   Original item: Joy Pendant
   Paths:
     - TyuTyu/Stage.arc/Chest002
-Pawprint Isle Chuchu Cave - Scale the Wall:
+Pawprint Isle - Chuchu Cave - Scale the Wall:
   Need: Grappling Hook
   Original item: Red Rupee
   Paths:
