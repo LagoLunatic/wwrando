@@ -54,11 +54,11 @@ Outset Island - Great Fairy:
   Original item: 5000 Rupee Wallet
   Paths:
     - rels/d_a_bigelf.rel@21C7
-Outset Island - Grandma Cured:
-  Need: Empty Bottle & Can Get Fairies
-  Original item: Elixir Soup
-  Paths:
-    - LinkRM/Stage.arc/Event003:Ba1_Get_Itm/Actor002/Action001
+#Outset Island - Grandma Cured: # TODO: randomizing this might mess getting the soup later on too?
+#  Need: Empty Bottle & Can Get Fairies
+#  Original item: Elixir Soup
+#  Paths:
+#    - LinkRM/Stage.arc/Event003:Ba1_Get_Itm/Actor002/Action001
 #Outset Island - Jabun:
 #  Need: 
 #  Original item: Nayru's Pearl
@@ -1187,73 +1187,124 @@ Earth Temple - Jalhalla Heart Container:
 #    - main.dol@358D35
 
 
-Wind Temple - Entrance:
-  Need: Iron Boots & Skull Hammer & Wind Waker
-  Original item: Wind God's Aria
-  Paths:
-    - Ekaze/Stage.arc/Event042:MKNJD_K_LESSON/Actor003/Action006
+#Wind Temple - Entrance:
+#  Need: 
+#  Original item: Wind God's Aria
+#  Paths:
+#    - Ekaze/Stage.arc/Event042:MKNJD_K_LESSON/Actor003/Action006
 Wind Temple - Chest Between Two Dirt Patches:
-  Need: 
+  Need: Can Access Wind Temple
   Original item: Orange Rupee
   Paths:
     - kaze/Stage.arc/Chest005
 Wind Temple - Tingle Statue Chest:
-  Need: 
+  Need:
+    Can Access Wind Temple
+    & Iron Boots
+    & Deku Leaf
+    & Tingle Tuner Bombs
   Original item: Wind Tingle Statue
   Paths:
     - kaze/Stage.arc/Chest00C
 Wind Temple - Chest in Left Alcove:
-  Need: 
+  Need:
+    Can Access Wind Temple
+    & Iron Boots
+    & Deku Leaf
   Original item: Joy Pendant
   Paths:
     - kaze/Stage.arc/Chest004
 Wind Temple - Map Chest:
-  Need: 
+  Need:
+    Can Access Wind Temple
+    & Iron Boots
+    & Deku Leaf
   Original item: Dungeon Map
   Paths:
     - kaze/Stage.arc/Chest008
+Wind Temple - Compass Chest:
+  Need:
+    Can Access Wind Temple
+    & Iron Boots
+    & Deku Leaf
+  Original item: Compass
+  Paths:
+    - kaze/Stage.arc/Chest00A
 Wind Temple - Spike Wall Room - First Chest:
-  Need: 
+  Need:
+    Can Access Wind Temple
+    & Iron Boots
+    & Deku Leaf
   Original item: Small Key
   Paths:
     - kaze/Stage.arc/Chest003
 Wind Temple - Spike Wall Room - Destroy All Cracked Floors:
-  Need: 
+  Need:
+    Can Access Wind Temple
+    & Iron Boots
+    & Deku Leaf
   Original item: Treasure Chart 35
   Paths:
     - kaze/Stage.arc/Chest007
 Wind Temple - Wizzrobe Mini-Boss Room:
-  Need: 
+  Need:
+    Can Access Wind Temple
+    & Iron Boots
+    & Deku Leaf
+    & WT Small Key x1
+    & Can Defeat Peahats
+    # Killing the Wizzrobe doesn't require ranged weapons because he occasionally comes down to ground level.
+    # But you also need to be able to defeat Peahats in case they were summoned.
+  # Need to escape: Hookshot & Skull Hammer
   Original item: Hookshot
   Paths:
     - kazeMB/Stage.arc/Chest000
-Wind Temple - Compass Chest:
-  Need: 
-  Original item: Compass
-  Paths:
-    - kaze/Stage.arc/Chest00A
 Wind Temple - Chest in Makar's Cell:
-  Need: 
+  Need:
+    Can Access Wind Temple
+    & Iron Boots
+    & Deku Leaf
+    & Hookshot
   Original item: Joy Pendant
   Paths:
     - kaze/Stage.arc/Chest006
 Wind Temple - Chest at Top of Hub Room:
-  Need: 
+  Need:
+    Can Access Wind Temple
+    & Iron Boots
+    & Deku Leaf
+    & Hookshot
   Original item: Joy Pendant
   Paths:
     - kaze/Stage.arc/Chest000
 Wind Temple - Chest Behind Seven Armos:
-  Need: 
+  Need:
+    Can Access Wind Temple
+    & Iron Boots
+    & Deku Leaf
+    & Hookshot
+    & Can Defeat Armos
   Original item: Small Key
   Paths:
     - kaze/Stage.arc/Chest001
 Wind Temple - Big Key Chest:
-  Need: 
+  Need:
+    Can Access Wind Temple
+    & Iron Boots
+    & Deku Leaf
+    & Hookshot
+    & Can Play Wind God's Aria
   Original item: Big Key
   Paths:
     - kaze/Stage.arc/Chest002
-Wind Temple - Kill Bokoblins Behind Statue Heads:
-  Need: 
+Wind Temple - Kill All Enemies:
+  Need:
+    Can Access Wind Temple
+    & Iron Boots
+    & Deku Leaf
+    & Hookshot
+    & WT Small Key x2
+    # Note: You might only need 1 small key in some cases, but even then the player may have used the first small key elsewhere, so we require 2 here.
   Original item: Treasure Chart 5
   Paths:
     - kaze/Stage.arc/Chest009
@@ -1263,7 +1314,14 @@ Wind Temple - Kill Bokoblins Behind Statue Heads:
 #  Paths:
 #    - kaze/Stage.arc/Event04F:MKNJD_K_LESSON/Actor003/Action006
 Wind Temple - Molgera Heart Container:
-  Need: 
+  Need:
+    Can Access Wind Temple
+    & Iron Boots
+    & Deku Leaf
+    & Hookshot
+    & WT Small Key x2
+    & Can Play Wind God's Aria
+    & WT Big Key
   Original item: Heart Container
   Paths:
     - rels/d_a_bwd.rel@6D83

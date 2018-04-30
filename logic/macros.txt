@@ -6,6 +6,8 @@ Can Play Command Melody:
   Wind Waker & Command Melody
 Can Play Earth God's Lyric:
   Wind Waker & Earth God's Lyric
+Can Play Wind God's Aria:
+  Wind Waker & Wind God's Aria
 Can Fly With Deku Leaf Outdoors:
   Deku Leaf & Can Play Wind's Requiem
 Can Move Boulders:
@@ -44,19 +46,21 @@ All 8 Triforce Shards:
 Tingle Tuner Bombs:
   Tingle Tuner & TODO
 
+# TODO: If randomizing dungeon entrances, some of the below reqs would need to be copied into the item location reqs.
 Can Access Dragon Roost Cavern:
   Nothing
 Can Access Forest Haven:
   Grappling Hook | Can Fly With Deku Leaf Outdoors
 Can Access Forbidden Woods:
   Can Access Forest Haven & Grappling Hook & Can Fly With Deku Leaf Outdoors
-Can Access Earth Temple:
-  Power Bracelets & Can Play Command Melody
-
 Can Access Tower of the Gods:
   Din's Pearl
   & Farore's Pearl
   & Nayru's Pearl
+Can Access Earth Temple:
+  Power Bracelets & Can Play Command Melody
+Can Access Wind Temple:
+  Iron Boots & Skull Hammer & Can Play Command Melody
 
 Can Get Past Forsaken Fortress Gate:
   Bombs
@@ -131,11 +135,12 @@ Can Defeat Yellow ChuChus:
 Can Defeat Peahats:
   Boomerang
   | Hookshot
-  | TODO # test bow (by itself - fire arrows do work), grappling hook, skull hammer, deku leaf
+  | Deku Leaf
+  | Skull Hammer
+  | Hero's Bow
 Can Defeat Armos:
-  Hero's Bow
-  # Note: You don't actually need the bow to kill them, you can just roll behind them and hit their crystal with your sword.
-  # But this is finicky to do, so let's not require this on the easiest difficulty.
+  Nothing
+  # Hero's Bow makes killing these more convenient.
 Can Defeat Big Octos:
   Hero's Bow
   | Bombs
