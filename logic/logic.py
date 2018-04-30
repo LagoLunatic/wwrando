@@ -167,7 +167,7 @@ class Logic:
     return stack
   
   def check_requirement_met(self, req_name):
-    if "Progressive" in req_name:
+    if req_name.startswith("Progressive "):
       return self.check_progressive_item_req(req_name)
     elif req_name in self.all_cleaned_item_names:
       return req_name in self.currently_owned_items
@@ -192,7 +192,7 @@ class Logic:
     subexpression_results = []
     tokens = logical_expression.copy()
     tokens.reverse()
-    while len(tokens) != 0:
+    while tokens:
       token = tokens.pop()
       if token == "|":
         if expression_type == "AND":
