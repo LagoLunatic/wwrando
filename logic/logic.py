@@ -22,9 +22,9 @@ class Logic:
   def __init__(self, rando):
     self.rando = rando
     
-    self.unplaced_progress_items = list(PROGRESS_ITEMS)
-    self.unplaced_nonprogress_items = list(NONPROGRESS_ITEMS)
-    self.consumable_items = list(CONSUMABLE_ITEMS)
+    self.unplaced_progress_items = PROGRESS_ITEMS.copy()
+    self.unplaced_nonprogress_items = NONPROGRESS_ITEMS.copy()
+    self.consumable_items = CONSUMABLE_ITEMS.copy()
     
     # TODO: dynamically modify progress items/nonprogress items lists depending on whether treasure charts and triforce charts should be progress
     
@@ -190,7 +190,7 @@ class Logic:
   def check_logical_expression_req(self, logical_expression):
     expression_type = None
     subexpression_results = []
-    tokens = list(logical_expression)
+    tokens = logical_expression.copy()
     tokens.reverse()
     while len(tokens) != 0:
       token = tokens.pop()
