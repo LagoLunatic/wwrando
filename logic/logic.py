@@ -22,9 +22,26 @@ class Logic:
   def __init__(self, rando):
     self.rando = rando
     
-    self.unplaced_progress_items = PROGRESS_ITEMS.copy()
-    self.unplaced_nonprogress_items = NONPROGRESS_ITEMS.copy()
+    self.all_progress_items = PROGRESS_ITEMS.copy()
+    self.all_nonprogress_items = NONPROGRESS_ITEMS.copy()
     self.consumable_items = CONSUMABLE_ITEMS.copy()
+    
+    self.triforce_chart_names = []
+    self.treasure_chart_names = []
+    for i in range(1, 8+1):
+      self.triforce_chart_names.append("Triforce Chart %d" % i)
+    for i in range(1, 41+1):
+      self.treasure_chart_names.append("Treasure Chart %d" % i)
+    
+    if False:
+      self.all_progress_items += self.triforce_chart_names
+      self.all_progress_items += self.treasure_chart_names
+    else:
+      self.all_nonprogress_items += self.triforce_chart_names
+      self.all_nonprogress_items += self.treasure_chart_names
+    
+    self.unplaced_progress_items = self.all_progress_items.copy()
+    self.unplaced_nonprogress_items = self.all_nonprogress_items.copy()
     
     # TODO: dynamically modify progress items/nonprogress items lists depending on whether treasure charts and triforce charts should be progress
     
@@ -45,7 +62,7 @@ class Logic:
       self.big_key_owned_by_dungeon[dungeon_name] = False
     
     self.all_cleaned_item_names = []
-    for item_name in (PROGRESS_ITEMS + NONPROGRESS_ITEMS + CONSUMABLE_ITEMS):
+    for item_name in (self.all_progress_items + self.all_nonprogress_items + self.consumable_items):
       cleaned_item_name = self.clean_item_name(item_name)
       if cleaned_item_name not in self.all_cleaned_item_names:
         self.all_cleaned_item_names.append(cleaned_item_name)
