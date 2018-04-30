@@ -319,8 +319,10 @@ class Randomizer:
     
     # Place unique non-progress items.
     while self.logic.unplaced_nonprogress_items:
+      accessible_undone_locations = self.logic.get_accessible_remaining_locations()
+      
       item_name = random.choice(self.logic.unplaced_nonprogress_items)
-      location_name = random.choice(self.logic.remaining_item_locations)
+      location_name = random.choice(accessible_undone_locations)
       self.logic.set_location_to_item(location_name, item_name)
     
     inaccessible_locations = [loc for loc in self.logic.remaining_item_locations if loc not in accessible_undone_locations]
