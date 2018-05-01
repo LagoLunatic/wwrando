@@ -17,7 +17,9 @@ Can Defeat Door Flowers:
 Can Hit Diamond Switches at Range:
   Boomerang | Hero's Bow | Hookshot
 Can Buy Bait:
-  TODO
+  Nothing
+Can Buy Hyoi Pears:
+  Nothing
 
 Any Master Sword:
   Progressive Sword x2
@@ -111,16 +113,16 @@ Can Get Fairies:
   TODO
 Can Farm Knight's Crests:
   Spoils Bag
-  & TODO
+  & TODO # test ice ring isle and savage labyrinth
 Can Farm Joy Pendants:
   Spoils Bag
-  & TODO
 Can Farm Skull Necklaces:
   Spoils Bag
-  & TODO
 Can Farm Golden Feathers:
   Spoils Bag
-  & TODO
+Can Farm Lots of Rupees:
+  Nothing
+  # TODO: We might want to add some restrictions here until the player can access efficient farming spots?
 Can Defeat Wizzrobes at Range:
   Hero's Bow
   | Hookshot
@@ -151,5 +153,6 @@ Can Defeat Blue Bubbles:
   | Ice Arrows
   | Hookshot
   | Bombs
+
 TODO:
   Impossible

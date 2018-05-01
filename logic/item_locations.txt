@@ -251,6 +251,14 @@ Windfall Island - Cafe Bar - Postman:
   Original item: Moblin's Letter
   Paths:
     - Opub/Stage.arc/Event00E:Get_Mo3_Ltr/Actor002/Action001
+Windfall Island - Kreeb:
+  Need:
+    # Need to activate the windmill and light up the lighthouse for him to give this to you.
+    Can Play Wind's Requiem
+    & Fire Arrows
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_npc_people.rel@C55B
 Windfall Island - Transparent Chest:
   Need:
     # Need to activate the windmill, light up the lighthouse, and then get to the chest either by flying or with hookshot.
@@ -352,21 +360,16 @@ Windfall Island - Minenco:
   Original item: Treasure Chart 33
   Paths:
     - rels/d_a_npc_people.rel@C553
-Windfall Island - TODO 1 (Kreeb, Linda, or Sam):
+Windfall Island - TODO 1 (Linda, or Sam):
   Need: TODO # Linda requires Deluxe Picto Box. regular picto box might work but probably not, test
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_people.rel@C54B
-Windfall Island - TODO 2 (Kreeb, Linda, or Sam):
+Windfall Island - TODO 2 (Linda, or Sam):
   Need: TODO
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_people.rel@C557
-Windfall Island - TODO 3 (Kreeb, Linda, or Sam):
-  Need: TODO
-  Original item: Piece of Heart
-  Paths:
-    - rels/d_a_npc_people.rel@C55B
 
 
 #Dragon Roost Island - Gift from King of Red Lions:
@@ -989,7 +992,7 @@ Ice Ring Isle - Inner Cave - Chest:
 
 
 Headstone Island - Top of the Island:
-  Need: Bait Bag & Hyoi Pear
+  Need: Bait Bag & Can Buy Hyoi Pears
   Original item: Piece of Heart
   Paths:
     - sea/Room45.arc/Actor013
@@ -1405,7 +1408,7 @@ Mailbox - Beedle's Gold Membership Reward:
     - rels/d_a_obj_toripost.rel@25F4
 
 The Great Sea - Beedle's Shop Ship - Bait Bag:
-  Need: 
+  Need: Nothing
   Original item: Bait Bag
   Paths:
     - main.dol@372E1F
@@ -1513,7 +1516,8 @@ Spectacle Island - Target Shooting - Second Prize:
 #    - rels/d_a_npc_kg2.rel@210F
 
 Needle Rock Isle - Chest:
-  Need: TODO # probably needs either bow or bait bag & hyoi pear. but just the bow might be too hard.
+  Need: Bait Bag & Can Buy Hyoi Pears
+    # Note: It might be theoretically possible to hit the switch at the top with a fire arrow's explosion, but it's not easy.
   Original item: Piece of Heart
   Paths:
     - sea/Room29.arc/Chest000
@@ -1600,7 +1604,7 @@ Bird's Peak Rock - Cave:
   Need:
     # Need to hit the switches with a seagull.
     # Also need to play the Wind's Requiem to get the chest to appear.
-    Bait Bag & Hyoi Pear
+    Bait Bag & Can Buy Hyoi Pears
     & Can Play Wind's Requiem
   Original item: Triforce Chart 3
   Paths:
@@ -1824,21 +1828,21 @@ Rock Spire Isle - Cave:
   Paths:
     - Cave04/Stage.arc/Chest000
 Rock Spire Isle - Beedle's Special Shop Ship - Empty Bottle:
-  Need: 
+  Need: Can Farm Lots of Rupees
   Original item: Empty Bottle
   Paths:
     - main.dol@372ECF
     - rels/d_a_npc_bs1.rel@1E9B
     - rels/d_a_npc_bs1.rel@1ED3
 Rock Spire Isle - Beedle's Special Shop Ship - Piece of Heart:
-  Need: 
+  Need: Can Farm Lots of Rupees
   Original item: Piece of Heart
   Paths:
     - main.dol@372EDF
     - rels/d_a_npc_bs1.rel@1EA3
     - rels/d_a_npc_bs1.rel@1EDF
 Rock Spire Isle - Beedle's Special Shop Ship - Treasure Chart:
-  Need: 
+  Need: Can Farm Lots of Rupees
   Original item: Treasure Chart 4
   Paths:
     - main.dol@372EEF
@@ -1935,7 +1939,9 @@ Horseshoe Island - Southeastern Lookout Platform:
     - sea/Room43.arc/Chest002
 
 Flight Control Platform - Bird-Man Contest - First Prize:
-  Need: 
+  Need:
+    Can Fly With Deku Leaf Outdoors
+    & Magic Meter Upgrade
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_bmcon1.rel@2B7B
@@ -1945,7 +1951,7 @@ Flight Control Platform - Bird-Man Contest - First Prize:
 #  Paths:
 #    - rels/d_a_npc_bmcon1.rel@2B9F
 Flight Control Platform - Submarine:
-  Need: 
+  Need: Can Defeat Wizzrobes at Range
   Original item: Platform Chart
   Paths:
     - Abship/Room6.arc/Chest000
@@ -2014,7 +2020,7 @@ Cyclops Reef - Destroy the Cannons and Gunboats:
   Paths:
     - sea/Room24.arc/Chest000
 Cyclops Reef - Lookout Platform:
-  Need: 
+  Need: Nothing
   Original item: Golden Feather
   Paths:
     - sea/Room24.arc/Chest001
@@ -2029,7 +2035,7 @@ Two-Eye Reef - Destroy the Cannons and Gunboats:
   Paths:
     - sea/Room46.arc/Chest000
 Two-Eye Reef - Lookout Platform:
-  Need: 
+  Need: Nothing
   Original item: Purple Rupee
   Paths:
     - sea/Room46.arc/Chest001
@@ -2069,7 +2075,7 @@ Five-Eye Reef - Destroy the Cannons and Gunboats:
   Paths:
     - sea/Room37.arc/Chest000
 Five-Eye Reef - Lookout Platform:
-  Need: 
+  Need: Nothing
   Original item: Golden Feather
   Paths:
     - sea/Room37.arc/Chest001

@@ -39,9 +39,6 @@ PROGRESS_ITEMS = [
   
   "Boat's Sail",
   
-  "All-Purpose Bait",
-  "Hyoi Pear",
-  
   "Town Flower",
   
   "Note to Mom",
@@ -107,4 +104,7 @@ CONSUMABLE_ITEMS = [
   "Red Chu Jelly",
   "Green Chu Jelly",
   "Blue Chu Jelly",
+  
+  "All-Purpose Bait",
+  "Hyoi Pear",
 ]
