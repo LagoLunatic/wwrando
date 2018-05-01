@@ -1404,24 +1404,28 @@ Mailbox - Beedle's Gold Membership Reward:
   Paths:
     - rels/d_a_obj_toripost.rel@25F4
 
-The Great Sea - Cyclos:
-  Need: Hero's Bow
-  Original item: Ballad of Gales
+The Great Sea - Beedle's Shop Ship - Bait Bag:
+  Need: 
+  Original item: Bait Bag
   Paths:
-    - sea/Stage.arc/Event0E0:TACT1_RT/Actor001/Action003
-
+    - main.dol@372E1F
+    - rels/d_a_npc_bs1.rel@1CDB
+    - rels/d_a_npc_bs1.rel@2DBB
 The Great Sea - Salvage Corp Gift:
   Need: Nothing
   Original item: Treasure Chart 34
   Paths:
     - rels/d_a_npc_sv.rel@3327
-
+The Great Sea - Cyclos:
+  Need: Hero's Bow
+  Original item: Ballad of Gales
+  Paths:
+    - sea/Stage.arc/Event0E0:TACT1_RT/Actor001/Action003
 The Great Sea - Island Trading Reward:
   Need: Rescued Aryll & Delivery Bag & TODO
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_roten.rel@533B
-
 The Great Sea - Withered Trees:
   Need:
     Can Access Forest Haven
@@ -1431,35 +1435,6 @@ The Great Sea - Withered Trees:
   Paths:
     - rels/d_a_obj_ftree.rel@0237
     - rels/d_a_obj_ftree.rel@03F3
-
-Beedle's Shop Ship - Bait Bag:
-  Need: 
-  Original item: Bait Bag
-  Paths:
-    - main.dol@372E1F
-    - rels/d_a_npc_bs1.rel@1CDB
-    - rels/d_a_npc_bs1.rel@2DBB
-Beedle's Shop Ship - Rock Spire Shop Ship - Empty Bottle:
-  Need: 
-  Original item: Empty Bottle
-  Paths:
-    - main.dol@372ECF
-    - rels/d_a_npc_bs1.rel@1E9B
-    - rels/d_a_npc_bs1.rel@1ED3
-Beedle's Shop Ship - Rock Spire Shop Ship - Piece of Heart:
-  Need: 
-  Original item: Piece of Heart
-  Paths:
-    - main.dol@372EDF
-    - rels/d_a_npc_bs1.rel@1EA3
-    - rels/d_a_npc_bs1.rel@1EDF
-Beedle's Shop Ship - Rock Spire Shop Ship - Treasure Chart:
-  Need: 
-  Original item: Treasure Chart 4
-  Paths:
-    - main.dol@372EEF
-    - rels/d_a_npc_bs1.rel@1EAB
-    - rels/d_a_npc_bs1.rel@1EEB
 
 Ghost Ship - Chest:
   Need: Ghost Ship Chart
@@ -1848,6 +1823,27 @@ Rock Spire Isle - Cave:
   Original item: Treasure Chart 37
   Paths:
     - Cave04/Stage.arc/Chest000
+Rock Spire Isle - Beedle's Special Shop Ship - Empty Bottle:
+  Need: 
+  Original item: Empty Bottle
+  Paths:
+    - main.dol@372ECF
+    - rels/d_a_npc_bs1.rel@1E9B
+    - rels/d_a_npc_bs1.rel@1ED3
+Rock Spire Isle - Beedle's Special Shop Ship - Piece of Heart:
+  Need: 
+  Original item: Piece of Heart
+  Paths:
+    - main.dol@372EDF
+    - rels/d_a_npc_bs1.rel@1EA3
+    - rels/d_a_npc_bs1.rel@1EDF
+Rock Spire Isle - Beedle's Special Shop Ship - Treasure Chart:
+  Need: 
+  Original item: Treasure Chart 4
+  Paths:
+    - main.dol@372EEF
+    - rels/d_a_npc_bs1.rel@1EAB
+    - rels/d_a_npc_bs1.rel@1EEB
 Rock Spire Isle - Western Lookout Platform - Destroy the Cannons:
   Need:
     # Need Deku Leaf to fly over from the center platform to this platform.
