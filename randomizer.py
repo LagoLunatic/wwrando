@@ -149,7 +149,7 @@ class Randomizer:
     # Get function names for debug purposes.
     self.function_names = {}
     with open(os.path.join(self.randomized_base_dir, "files", "maps", "framework.map"), "r") as f:
-      matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})  4 (\S+) 	\S+ $", f.read(), re.IGNORECASE | re.MULTILINE)
+      matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})  \d (\S+)", f.read(), re.IGNORECASE | re.MULTILINE)
     for match in matches:
       address, name = match
       address = int(address, 16)
