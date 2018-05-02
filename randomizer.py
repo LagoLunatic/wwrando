@@ -339,10 +339,10 @@ class Randomizer:
   
   def randomize_progression_items(self):
     if True:
-      # Don't randomize dungeon keys.
+      # Don't randomize dungeon keys/maps/compasses.
       for location_name, item_location in self.logic.item_locations.items():
         orig_item = item_location["Original item"]
-        if orig_item in ["Small Key", "Big Key"]:
+        if orig_item in ["Small Key", "Big Key", "Dungeon Map", "Compass"]:
           self.logic.add_unrandomized_location(location_name)
     
     # Place progress items.
