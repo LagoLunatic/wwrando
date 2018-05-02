@@ -39,8 +39,6 @@ PROGRESS_ITEMS = [
   
   "Boat's Sail",
   
-  "Town Flower",
-  
   "Note to Mom",
   "Maggie's Letter",
   "Moblin's Letter",

@@ -221,17 +221,17 @@ Windfall Island - House of Wealth - Chest:
   Paths:
     - Orichh/Room0.arc/Chest000
 Windfall Island - House of Wealth - Maggie's Father - Give 20 Skull Necklaces:
-  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
+  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces & TODO
   Original item: Treasure Chart 2
   Paths:
     - Orichh/Stage.arc/Event04C:Gp1_Get_Itm/Actor002/Action001
 Windfall Island - House of Wealth - Maggie's Father - Give More than 20 Skull Necklaces: # TODO?
-  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
+  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces & TODO
   Original item: Red Rupee
   Paths:
     - rels/d_a_npc_kf1.rel@17AF
 Windfall Island - House of Wealth - Maggie's Father - Give More than 20 Skull Necklaces 2: # TODO? dupe?
-  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
+  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces & TODO
   Original item: Red Rupee
   Paths:
     - rels/d_a_npc_kf1.rel@1A23
@@ -300,18 +300,18 @@ Windfall Island - Auction 4:
 #  Original item: Boat's Sail
 #  Paths:
 #    - rels/d_a_npc_rsh1.rel@30FB
-Windfall Island - Zunari - Island Trading Starter:
-  Need: Rescued Aryll & Delivery Bag & TODO
-  Original item: Town Flower
-  Paths:
-    - rels/d_a_npc_rsh1.rel@30DF
+#Windfall Island - Zunari - Island Trading Starter: # Doesn't randomize correctly, he just keeps giving you this item repeatedly
+#  Need: Rescued Aryll & Delivery Bag
+#  Original item: Town Flower
+#  Paths:
+#    - rels/d_a_npc_rsh1.rel@30DF
 Windfall Island - Zunari - Make Three Merchant's Oaths:
   Need: Rescued Aryll & Delivery Bag & TODO
   Original item: Magic Armor
   Paths:
     - rels/d_a_npc_rsh1.rel@3117
 Windfall Island - Mila:
-  Need: Rescued Aryll & TODO
+  Need: Rescued Aryll
   Original item: Empty Bottle
   Paths:
     - sea/Stage.arc/Event084:get_empty_btl/Actor002/Action001
