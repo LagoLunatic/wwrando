@@ -325,6 +325,7 @@ class Randomizer:
       location_name = random.choice(accessible_undone_locations)
       self.logic.set_location_to_item(location_name, item_name)
     
+    accessible_undone_locations = self.logic.get_accessible_remaining_locations()
     inaccessible_locations = [loc for loc in self.logic.remaining_item_locations if loc not in accessible_undone_locations]
     if inaccessible_locations:
       print("Inaccessible locations:")
