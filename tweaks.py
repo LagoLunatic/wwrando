@@ -469,3 +469,20 @@ def allow_randomizing_hurricane_spin(self):
   item_get_funcs_list = 0x3858C8 # at 803888C8 in RAM
   hurricane_spin_id = self.item_name_to_id["Hurricane Spin"]
   write_u32(dol_data, item_get_funcs_list + hurricane_spin_id*4, self.custom_symbols["hurricane_spin_item_func"])
+
+def make_withered_trees_appear_from_start(self):
+  # Originally the withered trees and the Koroks next to them only appear after you get Farore's Pearl.
+  # This gets rid of all those checks so they appear from the start of the game.
+  
+  withered_tree_data = self.get_raw_file("files/rels/d_a_obj_ftree.rel")
+  write_u32(withered_tree_data, 0xA4C, 0x60000000) # nop
+  
+  korok_data = self.get_raw_file("files/rels/d_a_npc_bj1.rel")
+  write_u32(korok_data, 0x784, 0x3800001F) # li r0, 0x1F
+  write_u32(korok_data, 0x788, 0x3BE00000) # li r31, 0
+  write_u32(korok_data, 0x830, 0x3800001F) # li r0, 0x1F
+  write_u32(korok_data, 0x834, 0x3BC00000) # li r30, 0
+  write_u32(korok_data, 0x984, 0x3800001F) # li r0, 0x1F
+  write_u32(korok_data, 0x988, 0x3BE00000) # li r31, 0
+  write_u32(korok_data, 0xA30, 0x38000000) # li r0, 0
+  write_u32(korok_data, 0x2200, 0x60000000) # nop
