@@ -88,6 +88,7 @@ class Randomizer:
     tweaks.make_items_progressive(self)
     tweaks.remove_tower_of_the_gods_raising_cutscene(self)
     tweaks.allow_randomizing_hurricane_spin(self)
+    tweaks.allow_randomizing_bait_bag_shop_slot(self)
     tweaks.make_withered_trees_appear_from_start(self)
     tweaks.fix_buried_item_and_withered_tree_item(self)
   

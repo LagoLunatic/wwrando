@@ -338,6 +338,49 @@ blr
 
 
 
+.global set_shop_item_in_bait_bag_slot_sold_out
+set_shop_item_in_bait_bag_slot_sold_out:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+; First call the regular SoldOutItem function with the given arguments since we overwrote a call to that in order to call this custom function.
+bl SoldOutItem__11ShopItems_cFi
+
+; Set bit 40 of byte 803C4CBF.
+; That bit was unused in the base game, but we repurpose it to keep track of whether you've purchased whatever item is in the Bait Bag slot of Beedle's shop.
+lis r3,0x803C4CBC@h
+addi r3,r3,0x803C4CBC@l
+li r4,3
+li r5,6
+bl onCollect__20dSv_player_collect_cFiUc
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+.global check_shop_item_in_bait_bag_slot_sold_out
+check_shop_item_in_bait_bag_slot_sold_out:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+; Check bit 40 of byte 803C4CBF, which was originally unused but we use it to keep track of whether the item in the Bait Bag slot has been purchased or not.
+lis     r3,0x803C4CBC@h
+addi    r3,r3,0x803C4CBC@l
+li      r4,3
+li      r5,6
+bl      isCollect__20dSv_player_collect_cFiUc
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 ; This function takes the same arguments as fastCreateItem, but it loads in any unloaded models without crashing like createItem.
 ; This is so we can replace any randomized item spawns that use fastCreateItem with a call to this new function instead.
 .global custom_createItem

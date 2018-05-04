@@ -5,4 +5,6 @@
 803fd23c progressive_bomb_bag_item_func
 803fd27c progressive_quiver_item_func
 803fd2bc hurricane_spin_item_func
-803fd2ec custom_createItem
+803fd2ec set_shop_item_in_bait_bag_slot_sold_out
+803fd320 check_shop_item_in_bait_bag_slot_sold_out
+803fd350 custom_createItem

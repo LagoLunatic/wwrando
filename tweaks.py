@@ -475,6 +475,18 @@ def allow_randomizing_hurricane_spin(self):
   hurricane_spin_id = self.item_name_to_id["Hurricane Spin"]
   write_u32(dol_data, item_get_funcs_list + hurricane_spin_id*4, self.custom_symbols["hurricane_spin_item_func"])
 
+def allow_randomizing_bait_bag_shop_slot(self):
+  # Normally Beedle checks if you've bought the Bait Bag by actually checking if you own the Bait Bag item.
+  # That method is problematic for many items that can get randomized into that shop slot, including progressive items.
+  # So we change the functions he calls to set the slot as sold out and check if it's sold out to custom functions.
+  # These custom functions use bit 40 of byte 803C4CBF, which was originally unused, to keep track of this.
+  
+  beedle_data = self.get_raw_file("files/rels/d_a_npc_bs1.rel")
+  # Change the relocation for line 1CE8, which originally called SoldOutItem.
+  write_u32(beedle_data, 0x7834, self.custom_symbols["set_shop_item_in_bait_bag_slot_sold_out"])
+  # Change the relocation for line 2DC4, which originally called checkGetItem.
+  write_u32(beedle_data, 0x7BD4, self.custom_symbols["check_shop_item_in_bait_bag_slot_sold_out"])
+
 def make_withered_trees_appear_from_start(self):
   # Originally the withered trees and the Koroks next to them only appear after you get Farore's Pearl.
   # This gets rid of all those checks so they appear from the start of the game.
