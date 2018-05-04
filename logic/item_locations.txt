@@ -73,7 +73,10 @@ Outset Island - Savage Labyrinth - Floor 30:
   Need:
     Can Fly With Deku Leaf Outdoors
     & Power Bracelets
-    & TODO # Do you need anything else to do savage labyrinth?
+    & Can Defeat Peahats
+    & Can Defeat Armos
+    & Can Defeat Yellow ChuChus
+    & Can Play Wind's Requiem
   Original item: Triforce Chart 6
   Paths:
     - Cave09/Room20.arc/Chest000
@@ -81,9 +84,13 @@ Outset Island - Savage Labyrinth - Floor 50:
   Need:
     Can Fly With Deku Leaf Outdoors
     & Power Bracelets
+    & Can Defeat Peahats
+    & Can Defeat Armos
+    & Can Defeat Yellow ChuChus
+    & Can Play Wind's Requiem
     & Mirror Shield
+    & Can Defeat Blue Bubbles
     & Skull Hammer
-    & TODO # Do you need anything else to do savage labyrinth?
   Original item: Piece of Heart
   Paths:
     - Cave10/Room20.arc/Chest000
@@ -1425,7 +1432,7 @@ The Great Sea - Cyclos:
   Paths:
     - sea/Stage.arc/Event0E0:TACT1_RT/Actor001/Action003
 The Great Sea - Island Trading Reward:
-  Need: Rescued Aryll & Delivery Bag & TODO
+  Need: Rescued Aryll & Delivery Bag
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_roten.rel@533B
@@ -1434,6 +1441,8 @@ The Great Sea - Withered Trees:
     Can Access Forest Haven
     & Empty Bottle
     & Can Play Ballad of Gales
+    & Deku Leaf
+    # Deku Leaf is for the tree on Cliff Plateau Islands.
   Original item: Piece of Heart
   Paths:
     - rels/d_a_obj_ftree.rel@0237
