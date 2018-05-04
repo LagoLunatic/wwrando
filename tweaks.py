@@ -456,3 +456,16 @@ def remove_tower_of_the_gods_raising_cutscene(self):
   
   goddess_statue_data = self.get_raw_file("files/rels/d_a_obj_doguu.rel")
   write_u32(goddess_statue_data, 0x267C, 0x48000024) # b 0x26A0
+
+def allow_randomizing_hurricane_spin(self):
+  # Change the code that checks if you can use Hurricane Spin to check a specific bit which was unused in the base game.
+  dol_data = self.get_raw_file("sys/main.dol")
+  patch_path = os.path.join(".", "asm", "randomizable_hurricane_spin.bin")
+  with open(patch_path, "rb") as f:
+    patch_data = f.read()
+  write_bytes(dol_data, 0x155B3C, patch_data) # at 80158BFC in RAM
+  
+  # Then the Hurricane Spin's item get func to our custom function which sets this previously unused bit.
+  item_get_funcs_list = 0x3858C8 # at 803888C8 in RAM
+  hurricane_spin_id = self.item_name_to_id["Hurricane Spin"]
+  write_u32(dol_data, item_get_funcs_list + hurricane_spin_id*4, self.custom_symbols["hurricane_spin_item_func"])

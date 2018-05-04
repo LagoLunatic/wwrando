@@ -21,3 +21,5 @@ item_func_max_arrow_up1__Fv = 0x800c4cd8;
 item_func_max_arrow_up2__Fv = 0x800c4cf0;
 
 onEventBit__11dSv_event_cFUs = 0x8005cb04;
+isCollect__20dSv_player_collect_cFiUc = 0x8005ae10;
+onCollect__20dSv_player_collect_cFiUc = 0x8005ace0;

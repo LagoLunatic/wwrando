@@ -23,7 +23,7 @@ Outset Island - Mesa the Grasscutter's House:
 #  Original item: Hero's Shield
 #  Paths:
 #    - main.dol@358D3B
-Outset Island - Orca - Give 10 Knight's Crests: # TODO: test if this randomizes correctly
+Outset Island - Orca - Give 10 Knight's Crests:
   Need: Spoils Bag & Can Farm Knight's Crests
   Original item: Hurricane Spin
   Paths:

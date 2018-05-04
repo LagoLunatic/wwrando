@@ -87,6 +87,7 @@ class Randomizer:
     tweaks.medli_remains_after_master_sword_upgrade(self)
     tweaks.make_items_progressive(self)
     tweaks.remove_tower_of_the_gods_raising_cutscene(self)
+    tweaks.allow_randomizing_hurricane_spin(self)
   
   def copy_and_extract_files(self, clean_base_dir):
     # Copy the vanilla files to the randomized directory.

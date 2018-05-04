@@ -310,3 +310,27 @@ stb r4, 6 (r3) ; Max num arrows
 
 quiver_func_end:
 blr
+
+
+
+
+.global hurricane_spin_item_func
+hurricane_spin_item_func:
+; Function start stuff
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+; Set bit 80 of byte 803C4CBF.
+; That bit was unused in the base game, but we repurpose it to keep track of whether you have Hurricane Spin separately from whether you've seen the event where Orca would normally give you Hurricane Spin.
+lis r3,0x803C4CBC@h
+addi r3,r3,0x803C4CBC@l
+li r4,3
+li r5,7
+bl onCollect__20dSv_player_collect_cFiUc
+
+; Function end stuff
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
