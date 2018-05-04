@@ -5,3 +5,4 @@
 803fd23c progressive_bomb_bag_item_func
 803fd27c progressive_quiver_item_func
 803fd2bc hurricane_spin_item_func
+803fd2ec custom_createItem

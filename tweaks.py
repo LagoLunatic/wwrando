@@ -50,14 +50,19 @@ def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
   
   return high_halfword, low_halfword
 
+def create_bl_instruction(program_counter, dest_function_address):
+  offset_of_call = dest_function_address - program_counter
+  offset_of_call &= 0x03FFFFFC
+  bl_instruction = 0x48000001 | offset_of_call
+  return bl_instruction
+
 def call_custom_new_game_start_code(self):
   # 8005D618 is where the game calls the new game save init function.
   # We replace this call with a call to our custom save init function.
   dol_data = self.get_raw_file("sys/main.dol")
   address_of_save_init_call_to_replace = 0x8005D618
-  offset_of_call = self.custom_symbols["init_save_with_tweaks"] - address_of_save_init_call_to_replace
-  offset_of_call &= 0x03FFFFFC
-  write_u32(dol_data, 0x5A558, 0x48000001 | offset_of_call) # 5A558 in the dol file is equivalent to 8005D618 in RAM
+  bl_instruction = create_bl_instruction(address_of_save_init_call_to_replace, self.custom_symbols["init_save_with_tweaks"])
+  write_u32(dol_data, 0x5A558, bl_instruction) # 5A558 in the dol file is equivalent to 8005D618 in RAM
 
 def skip_intro_movie(self):
   # nop out a couple lines so the long intro movie is skipped.
@@ -486,3 +491,24 @@ def make_withered_trees_appear_from_start(self):
   write_u32(korok_data, 0x988, 0x3BE00000) # li r31, 0
   write_u32(korok_data, 0xA30, 0x38000000) # li r0, 0
   write_u32(korok_data, 0x2200, 0x60000000) # nop
+
+def fix_buried_item_and_withered_tree_item(self):
+  # The item buried under black soil and the item given by the withered trees are spawned by a call to fastCreateItem.
+  # This is bad since fastCreateItem doesn't load the field item model in. If the model isn't already loaded the game will crash.
+  # So we add a new custom function to create an item and load the model, and replace the relevant calls so they call the new function.
+  
+  # Buried item
+  dol_data = self.get_raw_file("sys/main.dol")
+  address_of_fastCreateItem_call_to_replace = 0x80056C0C
+  bl_instruction = create_bl_instruction(address_of_fastCreateItem_call_to_replace, self.custom_symbols["custom_createItem"])
+  write_u32(dol_data, 0x53B4C, bl_instruction) # 53B4C in the dol file is equivalent to 80056C0C in RAM
+  
+  # Withered trees
+  withered_tree_data = self.get_raw_file("files/rels/d_a_obj_ftree.rel")
+  # This is a rel, so overwrite the relocation addresses instead of the actual code.
+  write_u32(withered_tree_data, 0x60E8, self.custom_symbols["custom_createItem"])
+  write_u32(withered_tree_data, 0x6190, self.custom_symbols["custom_createItem"])
+  # Also change the code that reads the entity ID from entity+4 to instead read from entity+3C.
+  # I'm not sure why, but the location of the ID in the entity returned by fastCreateItem and this custom function are different.
+  write_u32(withered_tree_data, 0x26C, 0x801F003C)
+  write_u32(withered_tree_data, 0x428, 0x8003003C)

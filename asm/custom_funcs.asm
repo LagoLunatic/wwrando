@@ -334,3 +334,34 @@ lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
 blr
+
+
+
+
+; This function takes the same arguments as fastCreateItem, but it loads in any unloaded models without crashing like createItem.
+; This is so we can replace any randomized item spawns that use fastCreateItem with a call to this new function instead.
+.global custom_createItem
+custom_createItem:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+; Create the item by calling createItem, which will load the item's model if necessary.
+mr r9, r5
+mr r5, r8
+mr r8, r6
+mr r6, r9
+mr r10, r7
+li r7, 3 ; Don't fade out
+li r9, 5 ; Item action, how it behaves. 5 causes it to make a ding sound so that it's more obvious.
+bl fopAcM_createItem__FP4cXyziiiiP5csXyziP4cXyz
+
+; We need to return a pointer to the item entity to match fastCreateItem.
+; But createItem only returns the entity ID.
+; However, the entity pointer is still conveniently leftover in r5, so we just return that.
+mr r3, r5
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
