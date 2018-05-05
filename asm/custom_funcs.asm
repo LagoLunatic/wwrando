@@ -112,6 +112,13 @@ stw r4, 4 (r3)
 lis r4, 0x0100
 stw r4, 8 (r3)
 
+; If the player does the early part of Dragon Roost Cavern backwards, they can walk through a door while it's still blocked off by a boulder. This softlocks the game as Link will just walk into the boulder infinitely.
+; Set a switch (5) for having destroyed the boulder in front of the door so that doesn't happen.
+lis r3, 0x803C4FF4@h ; Dragon Roost Cavern stage info.
+addi r3, r3, 0x803C4FF4@l
+li r4, 0x0020
+stw r4, 4 (r3)
+
 
 ; Start the player with 30 bombs and arrows. (But not the ability to actually use them.)
 ; This change is so we can remove the code that sets your current bombs/arrows to 30 when you first get the bombs/bow.
