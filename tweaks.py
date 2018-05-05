@@ -524,3 +524,13 @@ def fix_buried_item_and_withered_tree_item(self):
   # I'm not sure why, but the location of the ID in the entity returned by fastCreateItem and this custom function are different.
   write_u32(withered_tree_data, 0x26C, 0x801F003C)
   write_u32(withered_tree_data, 0x428, 0x8003003C)
+
+def fix_warp_to_hyrule_unlock_condition(self):
+  # In order to get rid of the cutscene where the player warps down to Hyrule 3, we set the HYRULE_3_WARP_CUTSCENE event bit.
+  # But then that results in the warp appearing even before the player should unlock it.
+  # So we replace a couple places that check that event bit to instead call a custom function that returns whether the warp should be unlocked or not.
+  
+  hyrule_warp_data = self.get_raw_file("files/rels/d_a_warpdm20.rel")
+  # This is a rel, so overwrite the relocation addresses instead of the actual code.
+  write_u32(hyrule_warp_data, 0x2530, self.custom_symbols["check_hyrule_warp_unlocked"])
+  write_u32(hyrule_warp_data, 0x2650, self.custom_symbols["check_hyrule_warp_unlocked"])

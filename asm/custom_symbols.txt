@@ -8,3 +8,4 @@
 803fd2ec set_shop_item_in_bait_bag_slot_sold_out
 803fd320 check_shop_item_in_bait_bag_slot_sold_out
 803fd350 custom_createItem
+803fd390 check_hyrule_warp_unlocked
