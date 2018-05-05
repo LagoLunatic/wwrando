@@ -534,3 +534,10 @@ def fix_warp_to_hyrule_unlock_condition(self):
   # This is a rel, so overwrite the relocation addresses instead of the actual code.
   write_u32(hyrule_warp_data, 0x2530, self.custom_symbols["check_hyrule_warp_unlocked"])
   write_u32(hyrule_warp_data, 0x2650, self.custom_symbols["check_hyrule_warp_unlocked"])
+
+def ff2_never_changes_to_ff3(self):
+  # The warp object down to Hyrule sets the event bit to change FF2 into FF3 once the event bit for seeing Tetra transform into Zelda is set.
+  # We want FF2 to stay permanently, so we skip over the line that sets this bit.
+  
+  hyrule_warp_data = self.get_raw_file("files/rels/d_a_warpdm20.rel")
+  write_u32(hyrule_warp_data, 0x68C, 0x48000008) # b 0x694

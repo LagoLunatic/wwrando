@@ -92,6 +92,7 @@ class Randomizer:
     tweaks.make_withered_trees_appear_from_start(self)
     tweaks.fix_buried_item_and_withered_tree_item(self)
     tweaks.fix_warp_to_hyrule_unlock_condition(self)
+    tweaks.ff2_never_changes_to_ff3(self)
   
   def copy_and_extract_files(self, clean_base_dir):
     # Copy the vanilla files to the randomized directory.
