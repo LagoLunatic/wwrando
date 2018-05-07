@@ -54,6 +54,7 @@ class Randomizer:
     
     tweaks.make_all_text_instant(self)
     tweaks.apply_patch(self, "reveal_sea_chart")
+    tweaks.make_sail_behave_like_swift_sail(self)
     
     self.randomize_charts()
     

@@ -314,3 +314,14 @@ def make_items_progressive(self):
   quiver_msg = self.bmg.messages_by_id[101 + quiver_id]
   quiver_msg.string = "\{1A 05 00 00 01}You can now carry more \{1A 06 FF 00 00 01}arrows\{1A 06 FF 00 00 00}!"
   quiver_msg.save_changes()
+
+def make_sail_behave_like_swift_sail(self):
+  # Causes the wind direction to always change to face the direction KoRL is facing as long as the sail is out.
+  # Also doubles KoRL's speed.
+  
+  ship_data = self.get_raw_file("files/rels/d_a_ship.rel")
+  # Change the relocation for line B9FC, which originally called setShipSailState.
+  write_u32(ship_data, 0x11C94, self.custom_symbols["set_wind_dir_to_ship_dir"])
+  
+  write_float(ship_data, 0xDBE8, 55.0*2) # Sailing speed
+  write_float(ship_data, 0xDBC0, 80.0*2) # Initial speed

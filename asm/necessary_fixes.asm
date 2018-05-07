@@ -204,7 +204,7 @@
 ; The lower bits of byte 803C4CBF are used to keep track of whether you have the Pirate's Charm or not, but bit 80 is unused, so we can safely use it for Hurricane Spin.
 .open "sys/main.dol"
 .org 0x80158BFC
-  lis r3,0x803C4CBC@h
+  lis r3,0x803C4CBC@ha
   addi r3,r3,0x803C4CBC@l
   li r4,3
   li r5,7

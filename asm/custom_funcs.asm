@@ -115,7 +115,7 @@ stw r4, 8 (r3)
 
 ; If the player does the early part of Dragon Roost Cavern backwards, they can walk through a door while it's still blocked off by a boulder. This softlocks the game as Link will just walk into the boulder infinitely.
 ; Set a switch (5) for having destroyed the boulder in front of the door so that doesn't happen.
-lis r3, 0x803C4FF4@h ; Dragon Roost Cavern stage info.
+lis r3, 0x803C4FF4@ha ; Dragon Roost Cavern stage info.
 addi r3, r3, 0x803C4FF4@l
 li r4, 0x0020
 stw r4, 4 (r3)
@@ -331,7 +331,7 @@ stw r0, 0x14 (sp)
 
 ; Set bit 80 of byte 803C4CBF.
 ; That bit was unused in the base game, but we repurpose it to keep track of whether you have Hurricane Spin separately from whether you've seen the event where Orca would normally give you Hurricane Spin.
-lis r3,0x803C4CBC@h
+lis r3,0x803C4CBC@ha
 addi r3,r3,0x803C4CBC@l
 li r4,3
 li r5,7
@@ -357,7 +357,7 @@ bl SoldOutItem__11ShopItems_cFi
 
 ; Set bit 40 of byte 803C4CBF.
 ; That bit was unused in the base game, but we repurpose it to keep track of whether you've purchased whatever item is in the Bait Bag slot of Beedle's shop.
-lis r3,0x803C4CBC@h
+lis r3,0x803C4CBC@ha
 addi r3,r3,0x803C4CBC@l
 li r4,3
 li r5,6
@@ -375,7 +375,7 @@ mflr r0
 stw r0, 0x14 (sp)
 
 ; Check bit 40 of byte 803C4CBF, which was originally unused but we use it to keep track of whether the item in the Bait Bag slot has been purchased or not.
-lis     r3,0x803C4CBC@h
+lis     r3,0x803C4CBC@ha
 addi    r3,r3,0x803C4CBC@l
 li      r4,3
 li      r5,6
@@ -428,7 +428,7 @@ stwu sp, -0x10 (sp)
 mflr r0
 stw r0, 0x14 (sp)
 
-lis     r3,0x803C4C08@h
+lis     r3,0x803C4C08@ha
 addi    r3,r3,0x803C4C08@l
 lbz     r0,0xE(r3)
 cmplwi  r0,0x3E ; Check if currently equipped sword is Full Power Master Sword
@@ -447,6 +447,35 @@ hyrule_warp_unlocked:
 li r3,1
 
 hyrule_warp_end:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
+; Updates the current wind direction to match KoRL's direction.
+.global set_wind_dir_to_ship_dir
+set_wind_dir_to_ship_dir:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+; First call setShipSailState since we overwrote a call to this in KoRL's code in order to call this custom function.
+bl setShipSailState__11JAIZelBasicFl
+
+lis r3,0x803CA75C@ha
+addi r3,r3,0x803CA75C@l
+lwz r3, 0 (r3) ; Read the pointer to KoRL's entity
+lha r3, 0x206 (r3) ; Read KoRL's Y rotation
+neg r3, r3 ; Negate his Y rotation since it's backwards
+addi r3, r3, 0x4000 ; Add 90 degrees to get the diretion KoRL is actually facing
+
+lis r4,0x803E545A@ha
+addi r4,r4,0x803E545A@l
+sth r3, 0 (r4) ; Store to current wind direction
+
 lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10

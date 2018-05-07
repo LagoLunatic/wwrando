@@ -9,3 +9,4 @@
 803fd330 check_shop_item_in_bait_bag_slot_sold_out
 803fd360 custom_createItem
 803fd3a0 check_hyrule_warp_unlocked
+803fd3ec set_wind_dir_to_ship_dir
