@@ -1,4 +1,5 @@
 
+.open "sys/main.dol"
 .org 0x803FCFA8
 
 .global init_save_with_tweaks

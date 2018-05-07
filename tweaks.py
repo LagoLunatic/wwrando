@@ -1,43 +1,30 @@
 
-import os
-from io import BytesIO
 import re
+import yaml
 
 from fs_helpers import *
 
-def add_custom_functions(self):
-  original_free_space_ram_address = 0x803FCFA8
-  
-  dol_data = self.get_raw_file("sys/main.dol")
-  
-  patch_path = os.path.join(".", "asm", "custom_funcs.bin")
-  with open(patch_path, "rb") as f:
-    patch_data = f.read()
-  
-  # First write our custom code to the end of the dol file.
-  original_dol_size = 0x3A52C0
-  patch_length = len(patch_data)
-  write_bytes(dol_data, original_dol_size, patch_data)
-  
-  # Next add a new text section to the dol (Text2).
-  write_u32(dol_data, 0x08, original_dol_size) # Write file offset of new Text2 section (which will be the original end of the file, where we put the patch)
-  write_u32(dol_data, 0x50, original_free_space_ram_address) # Write loading address of the new Text2 section
-  write_u32(dol_data, 0x98, patch_length) # Write length of the new Text2 section
-  
-  # Next we need to change a hardcoded pointer to where free space begins. Otherwise the game will overwrite the custom code.
-  padded_patch_length = ((patch_length + 3) & ~3) # Pad length of patch to next 4 just in case
-  new_start_pointer_for_default_thread = original_free_space_ram_address + padded_patch_length # New free space pointer after our custom code
-  high_halfword, low_halfword = split_pointer_into_high_and_low_half_for_hardcoding(new_start_pointer_for_default_thread)
-  # Now update the asm instructions that load this hardcoded pointer.
-  write_u32(dol_data, 0x304894, 0x3C600000 | high_halfword) # at 80307954 in RAM
-  write_u32(dol_data, 0x30489C, 0x38030000 | low_halfword) # at 8030795C in RAM
-  # We also update another pointer which seems like it should remain at 0x10000 later in RAM from the pointer we updated.
-  # (This pointer was originally 0x8040CFA8.)
-  # Updating this one may not actually be necessary to update, but this is to be safe.
-  new_end_pointer_for_default_thread = new_start_pointer_for_default_thread + 0x10000
-  high_halfword, low_halfword = split_pointer_into_high_and_low_half_for_hardcoding(new_end_pointer_for_default_thread)
-  write_u32(dol_data, 0x30488C, 0x3C600000 | high_halfword) # at 8030794C in RAM
-  write_u32(dol_data, 0x304890, 0x38030000 | low_halfword) # at 80307950 in RAM
+ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
+ORIGINAL_DOL_SIZE = 0x3A52C0
+
+# These are from main.dol. Hardcoded since it's easier than reading them from the dol.
+TEXT1_SECTION_OFFSET = 0x2620
+TEXT1_SECTION_ADDRESS = 0x800056E0
+TEXT1_SECTION_SIZE = 0x332FA0
+DATA5_SECTION_OFFSET = 0x36E580
+DATA5_SECTION_ADDRESS = 0x80371580
+DATA5_SECTION_SIZE = 0x313E0
+
+def address_to_offset(address):
+  # Takes an address in one of the sections of main.dol and converts it to an offset within main.dol.
+  # (Currently only supports the .text1 and .data5 sections.)
+  if TEXT1_SECTION_ADDRESS <= address < TEXT1_SECTION_ADDRESS+TEXT1_SECTION_SIZE:
+    offset = address - TEXT1_SECTION_ADDRESS + TEXT1_SECTION_OFFSET
+  elif DATA5_SECTION_ADDRESS <= address < DATA5_SECTION_ADDRESS+DATA5_SECTION_SIZE:
+    offset = address - DATA5_SECTION_ADDRESS + DATA5_SECTION_OFFSET
+  else:
+    raise Exception("Unknown address: %08X" % address)
+  return offset
 
 def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
   high_halfword = (pointer & 0xFFFF0000) >> 16
@@ -50,49 +37,57 @@ def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
   
   return high_halfword, low_halfword
 
-def create_bl_instruction(program_counter, dest_function_address):
-  offset_of_call = dest_function_address - program_counter
-  offset_of_call &= 0x03FFFFFC
-  bl_instruction = 0x48000001 | offset_of_call
-  return bl_instruction
+def apply_patch(self, patch_name):
+  with open("./asm/" + patch_name + "_diff.txt") as f:
+    diffs = yaml.load(f)
+  
+  for file_path, diffs_for_file in diffs.items():
+    data = self.get_raw_file(file_path)
+    for org_address, new_bytes in diffs_for_file.items():
+      if file_path == "sys/main.dol":
+        if org_address == ORIGINAL_FREE_SPACE_RAM_ADDRESS:
+          add_custom_functions_to_free_space(self, new_bytes)
+          continue
+        else:
+          offset = address_to_offset(org_address)
+      else:
+        offset = org_address
+      
+      write_and_pack_bytes(data, offset, new_bytes, "B"*len(new_bytes))
 
-def call_custom_new_game_start_code(self):
-  # 8005D618 is where the game calls the new game save init function.
-  # We replace this call with a call to our custom save init function.
+def add_custom_functions_to_free_space(self, new_bytes):
   dol_data = self.get_raw_file("sys/main.dol")
-  address_of_save_init_call_to_replace = 0x8005D618
-  bl_instruction = create_bl_instruction(address_of_save_init_call_to_replace, self.custom_symbols["init_save_with_tweaks"])
-  write_u32(dol_data, 0x5A558, bl_instruction) # 5A558 in the dol file is equivalent to 8005D618 in RAM
-
-def skip_intro_movie(self):
-  # nop out a couple lines so the long intro movie is skipped.
-  dol_data = self.get_raw_file("sys/main.dol")
-  write_u32(dol_data, 0x22FBB8, 0x60000000) # 0x80232C78 in RAM
-  write_u32(dol_data, 0x22FBC8, 0x60000000) # 0x80232C88 in RAM
-
-def remove_story_railroading(self):
-  # Modify King of Red Lions's code so he doesn't stop you when you veer off the path he wants you to go on.
   
-  ship_data = self.get_raw_file("files/rels/d_a_ship.rel")
+  # First write our custom code to the end of the dol file.
+  patch_length = len(new_bytes)
+  write_and_pack_bytes(dol_data, ORIGINAL_DOL_SIZE, new_bytes, "B"*len(new_bytes))
   
-  # We need to change some of the conditions in his checkOutRange function so he still prevents you from leaving the bounds of the map, but doesn't railroad you based on your story progress.
-  # First is the check for before you've reached Dragon Roost Island. Make this branch unconditional so it considers you to have seen Dragon Roost's intro whether you have or not.
-  write_u32(ship_data, 0x29EC, 0x48000064) # b 0x2A50
-  # Second is the check for whether you've gotten Farore's Pearl. Make this branch unconditional too.
-  write_u32(ship_data, 0x2A08, 0x48000048) # b 0x2A50
-  # Third is the check for whether you have the Master Sword. Again make the branch unconditional.
-  write_u32(ship_data, 0x2A24, 0x48000010) # b 0x2A34
+  # Next add a new text section to the dol (Text2).
+  write_u32(dol_data, 0x08, ORIGINAL_DOL_SIZE) # Write file offset of new Text2 section (which will be the original end of the file, where we put the patch)
+  write_u32(dol_data, 0x50, ORIGINAL_FREE_SPACE_RAM_ADDRESS) # Write loading address of the new Text2 section
+  write_u32(dol_data, 0x98, patch_length) # Write length of the new Text2 section
   
-  # Skip the check for if you've seen the Dragon Roost Island intro which prevents you from getting in the King of Red Lions.
-  # Make this branch unconditional as well.
-  write_u32(ship_data, 0xB2D8, 0x48000018) # b 0xB2F0
+  # Next we need to change a hardcoded pointer to where free space begins. Otherwise the game will overwrite the custom code.
+  padded_patch_length = ((patch_length + 3) & ~3) # Pad length of patch to next 4 just in case
+  new_start_pointer_for_default_thread = ORIGINAL_FREE_SPACE_RAM_ADDRESS + padded_patch_length # New free space pointer after our custom code
+  high_halfword, low_halfword = split_pointer_into_high_and_low_half_for_hardcoding(new_start_pointer_for_default_thread)
+  # Now update the asm instructions that load this hardcoded pointer.
+  write_u32(dol_data, address_to_offset(0x80307954), 0x3C600000 | high_halfword)
+  write_u32(dol_data, address_to_offset(0x8030795C), 0x38030000 | low_halfword)
+  # We also update another pointer which seems like it should remain at 0x10000 later in RAM from the pointer we updated.
+  # (This pointer was originally 0x8040CFA8.)
+  # Updating this one may not actually be necessary to update, but this is to be safe.
+  new_end_pointer_for_default_thread = new_start_pointer_for_default_thread + 0x10000
+  high_halfword, low_halfword = split_pointer_into_high_and_low_half_for_hardcoding(new_end_pointer_for_default_thread)
+  write_u32(dol_data, address_to_offset(0x8030794C), 0x3C600000 | high_halfword)
+  write_u32(dol_data, address_to_offset(0x80307950), 0x38030000 | low_halfword)
 
 def skip_wakeup_intro_and_start_at_dock(self):
   # When the player starts a new game they usually start at spawn ID 206, which plays the wakeup event and puts the player on Aryll's lookout.
   # We change the starting spawn ID to 0, which does not play the wakeup event and puts the player on the dock next to the ship.
   dol_data = self.get_raw_file("sys/main.dol")
   spawn_id = 0
-  write_u8(dol_data, 0x055AEF, spawn_id)
+  write_u8(dol_data, address_to_offset(0x80058BAF), spawn_id)
 
 def start_ship_at_outset(self):
   # Change the King of Red Lion's default position so that he appears on Outset at the start of the game.
@@ -111,34 +106,6 @@ def make_all_text_instant(self):
   for msg in bmg.messages:
     msg.initial_draw_type = 1 # Instant draw
     msg.save_changes()
-
-def make_fairy_upgrades_unconditional(self):
-  # Makes the items given by Great Fairies always the same so they can be randomized, as opposed to changing depending on what wall/bomb bag/quiver upgrades you already have.
-  
-  great_fairy_rel_data = self.get_raw_file("files/rels/d_a_bigelf.rel")
-  
-  patch_path = os.path.join(".", "asm", "unconditional_fairy_upgrades.bin")
-  with open(patch_path, "rb") as f:
-    patch_data = f.read()
-  
-  write_bytes(great_fairy_rel_data, 0x217C, patch_data)
-
-def make_fishmen_active_before_gohma(self):
-  # Fishmen usually won't appear until Gohma is dead. This removes that check from their code so they appear from the start.
-  
-  fishman_rel_data = self.get_raw_file("files/rels/d_a_npc_so.rel")
-  
-  write_u32(fishman_rel_data, 0x3FD8, 0x4800000C) # Change conditional branch to unconditional branch.
-
-def fix_zephos_double_item(self):
-  # The event where the player gets the Wind's Requiem actually gives that song to the player twice.
-  # The first one is hardcoded into Zephos's AI and only gives the song.
-  # The second is part of the event, and also handles the text, model, animation, etc, of getting the song.
-  # Getting the same item twice is a problem for some items, such as rupees. So we remove the first one.
-  
-  zephos_rel_data = self.get_raw_file("files/rels/d_a_npc_hr.rel")
-  
-  write_u32(zephos_rel_data, 0x1164, 0x48000008) # Branch to skip over the line of code where Zephos gives the Wind's Requiem.
 
 def fix_deku_leaf_model(self):
   # The Deku Leaf is a unique object not used for other items. It's easy to change what item it gives you, but the visual model cannot be changed.
@@ -160,9 +127,9 @@ def allow_all_items_to_be_field_items(self):
   # We also change the code run when you touch the item so that these items play out the full item get animation with text, instead of merely popping up above the player's head like a rupee.
   # And we change the Y offsets so the items don't appear lodged inside the floor, and can be picked up easily.
   
-  item_resources_list_start = 0x3812B0 # 803842B0 in RAM
-  field_item_resources_list_start = 0x3836B0 # 803866B0 in RAM
-  itemGetExecute_switch_statement_entries_list_start = 0x389A6C # 8038CA6C in RAM
+  item_resources_list_start = address_to_offset(0x803842B0)
+  field_item_resources_list_start = address_to_offset(0x803866B0)
+  itemGetExecute_switch_statement_entries_list_start = address_to_offset(0x8038CA6C)
   
   dol_data = self.get_raw_file("sys/main.dol")
   
@@ -214,8 +181,8 @@ def allow_all_items_to_be_field_items(self):
   
   # Also nop out the 6 lines of code that initialize the arc filename pointer for the 6 songs.
   # These lines would overwrite the change we made from the Pirate's Charm model to the Wind Waker model for songs.
-  for offset in [0xBE8B0, 0xBE8B8, 0xBE8C0, 0xBE8C8, 0xBE8D0, 0xBE8D8]: # First is at 800C1970 in RAM
-    write_u32(dol_data, offset, 0x60000000) # nop
+  for address in [0x800C1970, 0x800C1978, 0x800C1980, 0x800C1988, 0x800C1990, 0x800C1998]:
+    write_u32(dol_data, address_to_offset(address), 0x60000000) # nop
   
   
   # Fix which code runs when the player touches the field item to pick the item up.
@@ -229,7 +196,7 @@ def allow_all_items_to_be_field_items(self):
       write_u32(dol_data, location_of_items_switch_statement_case, 0x800F675C)
   
   # Also change the switch case in itemGetExecute used by items with IDs 0x84+ to go to 800F675C as well.
-  write_u32(dol_data, 0xF33A8, 0x418102F4) # 800F6468 in RAM
+  write_u32(dol_data, address_to_offset(0x800F6468), 0x418102F4) # bgt 0x800F675C
   
   
   # Update the visual Y offsets so the item doesn't look like it's halfway inside the floor and difficult to see.
@@ -241,58 +208,12 @@ def allow_all_items_to_be_field_items(self):
   
   # We also change the Y offset of the hitbox for any items that have 0 for the Y offset.
   # Without this change the item would be very difficult to pick up, the only way would be to stand on top of it and do a spin attack.
-  extra_item_data_list_start = 0x3852B0 # 803882B0 in RAM
+  extra_item_data_list_start = address_to_offset(0x803882B0)
   for item_id in range(0, 0xFF+1):
     item_extra_data_entry_offset = extra_item_data_list_start+4*item_id
     original_y_offset = read_u8(dol_data, item_extra_data_entry_offset+1)
     if original_y_offset == 0:
       write_u8(dol_data, item_extra_data_entry_offset+1, 0x28) # Y offset of 0x28
-
-def allow_changing_boss_drop_items(self):
-  # The 6 Heart Containers that appear after you kill a boss are all created by the function createItemForBoss.
-  # createItemForBoss hardcodes the item ID 8, and doesn't care which boss was just killed. This makes it hard to randomize boss drops without changing all 6 in sync.
-  # So we make some changes to createItemForBoss and the places that call it so that each boss can give a different item.
-  
-  # First we modify the createItemForBoss function itself to not hardcode the item ID as 8 (Heart Container).
-  # We nop out the two instructions that load 8 into r4. This way it simply passes whatever it got as argument r4 into the next function call to createItem.
-  dol_data = self.get_raw_file("sys/main.dol")
-  write_u32(dol_data, 0x239D0, 0x60000000) # nop (at 80026A90 in RAM)
-  write_u32(dol_data, 0x239F0, 0x60000000) # nop (at 80026AB0 in RAM)
-  
-  # Second we modify the code for the "disappear" cloud of smoke when the boss dies.
-  # This cloud of smoke is what spawns the item when Gohma, Kalle Demos, Helmaroc King, and Jalhalla die.
-  # So we need a way to pass the item ID from the boss's code to the disappear cloud's parameters and store them there.
-  # We do this by hijacking argument r7 when the boss calls createDisappear.
-  # Normally argument r7 is a byte, and gets stored to the disappear's params with mask 00FF0000.
-  # We change it to be a halfword and stored with the mask FFFF0000.
-  # The lower byte is unchanged from vanilla, it's still whatever argument r7 used to be for.
-  # But the upper byte, which used to be unused, now has the item ID in it.
-  write_u32(dol_data, 0x24A04, 0x50E4801E) # rlwimi r4, r7, 16, 0, 15 (at 80027AC4 in RAM)
-  # Then we need to read the item ID parameter when the cloud is about to call createItemForBoss.
-  write_u32(dol_data, 0xE495C, 0x888700B0) # lbz r4, 0x00B0(r7) (at 800E7A1C in RAM)
-  
-  # Third we change how the boss item ACTR calls createItemForBoss.
-  # (This is the ACTR that appears if the player skips getting the boss item after killing the boss, and instead comes back and does the whole dungeon again.)
-  # Normally it sets argument r4 to 1, but createItemForBoss doesn't even use argument r4.
-  # So we change it to load one of its params (mask: 0000FF00) and use that as argument r4.
-  # This param was unused and just 00 in the original game, but the randomizer will set it to the item ID it randomizes to that location.
-  # Then we will be calling createItemForBoss with the item ID to spawn in argument r4. Which due to the above change, will be used correctly now.
-  bossitem_rel_data = self.get_raw_file("files/rels/d_a_boss_item.rel")
-  write_u32(bossitem_rel_data, 0x1C4, 0x889E00B2) # lbz r4, 0x00B2(r30)
-  
-  # The third change necessary is for all 6 boss's code to be modified so that they pass the item ID to spawn to a function call.
-  # For Gohdan and Molgera, the call is to createItemForBoss directly, so argument r4 needs to be the item ID.
-  # For Gohma, Kalle Demos, Helmaroc King, and Jalhalla, they instead call createDisappear, so we need to upper byte of argument r7 to have the item ID.
-  # But the randomizer itself handles all 6 of these changes when randomizing, since these locations are all listed in the "Paths" of each item location. So no need to do anything here.
-
-def skip_post_boss_warp_cutscenes(self):
-  # This makes the warps out of boss rooms always skip the cutscene usually shown the first time you beat the boss and warp out.
-  
-  # Function C3C of d_a_warpf.rel is checking if the post-boss cutscene for this dungeon has been viewed yet or not.
-  # Change it to simply always return true, that it has been viewed.
-  warpf_rel_data = self.get_raw_file("files/rels/d_a_warpf.rel")
-  write_u32(warpf_rel_data, 0xC3C, 0x38600001) # li r3, 1
-  write_u32(warpf_rel_data, 0xC40, 0x4E800020) # blr
 
 def remove_shop_item_forced_uniqueness_bit(self):
   # Some shop items have a bit set that disallows you from buying the item if you already own one of that item.
@@ -307,47 +228,6 @@ def remove_shop_item_forced_uniqueness_bit(self):
     buy_requirements_bitfield = read_u8(dol_data, shop_item_data_offset+0xC)
     buy_requirements_bitfield = (buy_requirements_bitfield & (~2)) # Bit 02 specifies that the player must not already own this item
     write_u8(dol_data, shop_item_data_offset+0xC, buy_requirements_bitfield)
-
-def allow_randomizing_magic_meter_upgrade_item(self):
-  # The Great Fairy inside the Big Octo is hardcoded to double your max magic meter (and fill up your current magic meter too).
-  # Since we randomize what item she gives you, we need to remove this code so that she doesn't always give you the increased magic meter.
-  
-  great_fairy_rel_data = self.get_raw_file("files/rels/d_a_bigelf.rel")
-  
-  write_u32(great_fairy_rel_data, 0x7C0, 0x60000000) # nop, for max MP
-  write_u32(great_fairy_rel_data, 0x7CC, 0x60000000) # nop, for current MP
-  
-  # Also, the magic meter upgrade item itself only increases your max MP.
-  # In the vanilla game, the Great Fairy would also refill your MP for you.
-  # Therefore we modify the code of the magic meter upgrade to also refill your MP.
-  
-  dol_data = self.get_raw_file("sys/main.dol")
-  
-  # Instead of adding 32 to the player's previous max MP, simply set both the current and max MP to 32.
-  write_u32(dol_data, 0xC1C54, 0x38000020) # li r0, 32 (at 800C4D14 in RAM)
-  write_u32(dol_data, 0xC1C58, 0xB0045B78) # sth r0, 0x5B78 (r4) (at 800C4D18 in RAM)
-
-def start_with_sea_chart_fully_revealed(self):
-  # Changes the function that initializes the sea chart when starting a new game so that the whole chart has been drawn out.
-  
-  dol_data = self.get_raw_file("sys/main.dol")
-  
-  write_u32(dol_data, 0x5820C, 0x38800001) # li r4, 1 (at 8005B2CC in RAM)
-
-def fix_triforce_charts_not_needing_to_be_deciphered(self):
-  # When salvage points decide if they should show their ray of light, they originally only checked if you
-  # have the appropriate Triforce Chart deciphered if the item there is actually a Triforce Shard.
-  # We don't want the ray of light to show until the chart is deciphered, so we change the salvage point code
-  # to check the chart index instead of the item ID when determining if it's a Triforce or not.
-  
-  salvage_data = self.get_raw_file("files/rels/d_a_salvage.rel")
-  # We replace the call to getItemNo, so it instead just adds 0x61 to the chart index.
-  # 0x61 to 0x68 are the Triforce Shard IDs, and 0 to 8 are the Triforce Chart indexes,
-  # so by adding 0x61 we simulate whether the item would be a Triforce Shard or not based on the chart index.
-  write_u32(salvage_data, 0x10C0, 0x38730061) # addi r3, r19, 0x61
-  # Then we branch to skip the line of code that originally called getItemNo.
-  # We can't easily nop the line out, since the REL's relocation would overwrite our nop.
-  write_u32(salvage_data, 0x10C4, 0x48000008) # b 0x10CC
 
 def remove_forsaken_fortress_2_cutscenes(self):
   # Removes the rescuing-Aryll cutscene played by the spawn when you enter the Forsaken Fortress tower.
@@ -364,32 +244,13 @@ def remove_forsaken_fortress_2_cutscenes(self):
     exit.spawn_id = 0
     exit.save_changes()
 
-def remove_medli_that_gives_fathers_letter(self):
-  # The first instance of Medli, who gives the letter for Komali, can disappear under certain circumstances.
-  # For example, owning the half-power Master Sword makes her disappear. Deliving the letter to Komali also makes her disappear.
-  # So in order to avoid the item she gives being missable, we just remove it entirely.
-  # To do this we modify the chkLetterPassed function to always return true, so she thinks you've delivered the letter.
-  
-  dol_data = self.get_raw_file("sys/main.dol")
-  write_u32(dol_data, 0x218EC0, 0x38600001) # li r3, 1 (at 8021BF80 in RAM)
-
-def medli_remains_after_master_sword_upgrade(self):
-  # Normally Medli would disappear once you own the Master Sword (Half Power).
-  # This could make the Earth Temple uncompletable if you get the Master Sword (Half Power) before doing it.
-  # So we slightly modify Medli's code to not care about your sword.
-  
-  medli_data = self.get_raw_file("files/rels/d_a_npc_md.rel")
-  
-  # Make branch that depends on your sword unconditional instead.
-  write_u32(medli_data, 0xA24, 0x4800003C) # b 0xA60
-
 def make_items_progressive(self):
   # This makes items progressive, so even if you get them out of order, they will always be upgraded, never downgraded.
   
   dol_data = self.get_raw_file("sys/main.dol")
   
   # Update the item get funcs for the items to point to our custom progressive item get funcs instead.
-  item_get_funcs_list = 0x3858C8 # at 803888C8 in RAM
+  item_get_funcs_list = address_to_offset(0x803888C8)
   
   for sword_item_id in [0x38, 0x39, 0x3A, 0x3D, 0x3E]:
     sword_item_get_func_offset = item_get_funcs_list + sword_item_id*4
@@ -416,16 +277,16 @@ def make_items_progressive(self):
   # Without this change, getting bombs after a bomb bag upgrade would negate the bomb bag upgrade.
   # Note that normally making this change would cause the player to have 0 max bombs/arrows if they get bombs/bow before any bomb bag/quiver upgrades.
   # But in the new game start code, we set the player's current and max bombs and arrows to 30, so that is no longer an issue.
-  write_u32(dol_data, 0xC0600, 0x60000000) # Don't set current bombs (at 800C36C0 in RAM)
-  write_u32(dol_data, 0xC0604, 0x60000000) # Don't set max bombs (at 800C36C4 in RAM)
-  write_u32(dol_data, 0xC03AC, 0x60000000) # Don't set current arrows (at 800C346C in RAM)
-  write_u32(dol_data, 0xC03B0, 0x60000000) # Don't set max arrows (at 800C3470 in RAM)
+  write_u32(dol_data, address_to_offset(0x800C36C0), 0x60000000) # Don't set current bombs
+  write_u32(dol_data, address_to_offset(0x800C36C4), 0x60000000) # Don't set max bombs
+  write_u32(dol_data, address_to_offset(0x800C346C), 0x60000000) # Don't set current arrows
+  write_u32(dol_data, address_to_offset(0x800C3470), 0x60000000) # Don't set max arrows
   
   # Modify the item get func for deku leaf to nop out the part where it adds to your magic meter.
   # Instead we start the player with a magic meter when they start a new game.
   # This way other items can use the magic meter before the player gets deku leaf.
-  write_u32(dol_data, 0xC069C, 0x60000000) # Don't set max magic meter (at 800C375C in RAM)
-  write_u32(dol_data, 0xC06A8, 0x60000000) # Don't set current magic meter (at 800C3768 in RAM)
+  write_u32(dol_data, address_to_offset(0x800C375C), 0x60000000) # Don't set max magic meter
+  write_u32(dol_data, address_to_offset(0x800C3768), 0x60000000) # Don't set current magic meter
   
   
   # Also update the item get descriptions of progressive items to just generically say you got *a* upgrade, without saying which.
@@ -453,91 +314,3 @@ def make_items_progressive(self):
   quiver_msg = self.bmg.messages_by_id[101 + quiver_id]
   quiver_msg.string = "\{1A 05 00 00 01}You can now carry more \{1A 06 FF 00 00 01}arrows\{1A 06 FF 00 00 00}!"
   quiver_msg.save_changes()
-
-def remove_tower_of_the_gods_raising_cutscene(self):
-  # Remove the cutscene where the Tower of the Gods rises out of the sea.
-  # To do this we modify the goddess statue's code to skip starting the raising cutscene.
-  # Instead we branch to code that ends the current pearl-placing event after the tower raised event bit is set.
-  
-  goddess_statue_data = self.get_raw_file("files/rels/d_a_obj_doguu.rel")
-  write_u32(goddess_statue_data, 0x267C, 0x48000024) # b 0x26A0
-
-def allow_randomizing_hurricane_spin(self):
-  # Change the code that checks if you can use Hurricane Spin to check a specific bit which was unused in the base game.
-  dol_data = self.get_raw_file("sys/main.dol")
-  patch_path = os.path.join(".", "asm", "randomizable_hurricane_spin.bin")
-  with open(patch_path, "rb") as f:
-    patch_data = f.read()
-  write_bytes(dol_data, 0x155B3C, patch_data) # at 80158BFC in RAM
-  
-  # Then the Hurricane Spin's item get func to our custom function which sets this previously unused bit.
-  item_get_funcs_list = 0x3858C8 # at 803888C8 in RAM
-  hurricane_spin_id = self.item_name_to_id["Hurricane Spin"]
-  write_u32(dol_data, item_get_funcs_list + hurricane_spin_id*4, self.custom_symbols["hurricane_spin_item_func"])
-
-def allow_randomizing_bait_bag_shop_slot(self):
-  # Normally Beedle checks if you've bought the Bait Bag by actually checking if you own the Bait Bag item.
-  # That method is problematic for many items that can get randomized into that shop slot, including progressive items.
-  # So we change the functions he calls to set the slot as sold out and check if it's sold out to custom functions.
-  # These custom functions use bit 40 of byte 803C4CBF, which was originally unused, to keep track of this.
-  
-  beedle_data = self.get_raw_file("files/rels/d_a_npc_bs1.rel")
-  # Change the relocation for line 1CE8, which originally called SoldOutItem.
-  write_u32(beedle_data, 0x7834, self.custom_symbols["set_shop_item_in_bait_bag_slot_sold_out"])
-  # Change the relocation for line 2DC4, which originally called checkGetItem.
-  write_u32(beedle_data, 0x7BD4, self.custom_symbols["check_shop_item_in_bait_bag_slot_sold_out"])
-
-def make_withered_trees_appear_from_start(self):
-  # Originally the withered trees and the Koroks next to them only appear after you get Farore's Pearl.
-  # This gets rid of all those checks so they appear from the start of the game.
-  
-  withered_tree_data = self.get_raw_file("files/rels/d_a_obj_ftree.rel")
-  write_u32(withered_tree_data, 0xA4C, 0x60000000) # nop
-  
-  korok_data = self.get_raw_file("files/rels/d_a_npc_bj1.rel")
-  write_u32(korok_data, 0x784, 0x3800001F) # li r0, 0x1F
-  write_u32(korok_data, 0x788, 0x3BE00000) # li r31, 0
-  write_u32(korok_data, 0x830, 0x3800001F) # li r0, 0x1F
-  write_u32(korok_data, 0x834, 0x3BC00000) # li r30, 0
-  write_u32(korok_data, 0x984, 0x3800001F) # li r0, 0x1F
-  write_u32(korok_data, 0x988, 0x3BE00000) # li r31, 0
-  write_u32(korok_data, 0xA30, 0x38000000) # li r0, 0
-  write_u32(korok_data, 0x2200, 0x60000000) # nop
-
-def fix_buried_item_and_withered_tree_item(self):
-  # The item buried under black soil and the item given by the withered trees are spawned by a call to fastCreateItem.
-  # This is bad since fastCreateItem doesn't load the field item model in. If the model isn't already loaded the game will crash.
-  # So we add a new custom function to create an item and load the model, and replace the relevant calls so they call the new function.
-  
-  # Buried item
-  dol_data = self.get_raw_file("sys/main.dol")
-  address_of_fastCreateItem_call_to_replace = 0x80056C0C
-  bl_instruction = create_bl_instruction(address_of_fastCreateItem_call_to_replace, self.custom_symbols["custom_createItem"])
-  write_u32(dol_data, 0x53B4C, bl_instruction) # 53B4C in the dol file is equivalent to 80056C0C in RAM
-  
-  # Withered trees
-  withered_tree_data = self.get_raw_file("files/rels/d_a_obj_ftree.rel")
-  # This is a rel, so overwrite the relocation addresses instead of the actual code.
-  write_u32(withered_tree_data, 0x60E8, self.custom_symbols["custom_createItem"])
-  write_u32(withered_tree_data, 0x6190, self.custom_symbols["custom_createItem"])
-  # Also change the code that reads the entity ID from entity+4 to instead read from entity+3C.
-  # I'm not sure why, but the location of the ID in the entity returned by fastCreateItem and this custom function are different.
-  write_u32(withered_tree_data, 0x26C, 0x801F003C)
-  write_u32(withered_tree_data, 0x428, 0x8003003C)
-
-def fix_warp_to_hyrule_unlock_condition(self):
-  # In order to get rid of the cutscene where the player warps down to Hyrule 3, we set the HYRULE_3_WARP_CUTSCENE event bit.
-  # But then that results in the warp appearing even before the player should unlock it.
-  # So we replace a couple places that check that event bit to instead call a custom function that returns whether the warp should be unlocked or not.
-  
-  hyrule_warp_data = self.get_raw_file("files/rels/d_a_warpdm20.rel")
-  # This is a rel, so overwrite the relocation addresses instead of the actual code.
-  write_u32(hyrule_warp_data, 0x2530, self.custom_symbols["check_hyrule_warp_unlocked"])
-  write_u32(hyrule_warp_data, 0x2650, self.custom_symbols["check_hyrule_warp_unlocked"])
-
-def ff2_never_changes_to_ff3(self):
-  # The warp object down to Hyrule sets the event bit to change FF2 into FF3 once the event bit for seeing Tetra transform into Zelda is set.
-  # We want FF2 to stay permanently, so we skip over the line that sets this bit.
-  
-  hyrule_warp_data = self.get_raw_file("files/rels/d_a_warpdm20.rel")
-  write_u32(hyrule_warp_data, 0x68C, 0x48000008) # b 0x694

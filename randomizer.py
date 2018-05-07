@@ -53,7 +53,7 @@ class Randomizer:
     self.apply_necessary_tweaks()
     
     tweaks.make_all_text_instant(self)
-    tweaks.start_with_sea_chart_fully_revealed(self)
+    tweaks.apply_patch(self, "reveal_sea_chart")
     
     self.randomize_charts()
     
@@ -66,33 +66,15 @@ class Randomizer:
     self.save_changed_files()
   
   def apply_necessary_tweaks(self):
-    tweaks.add_custom_functions(self)
-    tweaks.call_custom_new_game_start_code(self)
-    tweaks.skip_intro_movie(self)
-    tweaks.remove_story_railroading(self)
+    tweaks.apply_patch(self, "custom_funcs")
+    tweaks.apply_patch(self, "necessary_fixes")
     tweaks.skip_wakeup_intro_and_start_at_dock(self)
     tweaks.start_ship_at_outset(self)
-    tweaks.make_fairy_upgrades_unconditional(self)
-    tweaks.make_fishmen_active_before_gohma(self)
-    tweaks.fix_zephos_double_item(self)
     tweaks.fix_deku_leaf_model(self)
     tweaks.allow_all_items_to_be_field_items(self)
-    tweaks.allow_changing_boss_drop_items(self)
-    tweaks.skip_post_boss_warp_cutscenes(self)
     tweaks.remove_shop_item_forced_uniqueness_bit(self)
-    tweaks.allow_randomizing_magic_meter_upgrade_item(self)
-    tweaks.fix_triforce_charts_not_needing_to_be_deciphered(self)
     tweaks.remove_forsaken_fortress_2_cutscenes(self)
-    tweaks.remove_medli_that_gives_fathers_letter(self)
-    tweaks.medli_remains_after_master_sword_upgrade(self)
     tweaks.make_items_progressive(self)
-    tweaks.remove_tower_of_the_gods_raising_cutscene(self)
-    tweaks.allow_randomizing_hurricane_spin(self)
-    tweaks.allow_randomizing_bait_bag_shop_slot(self)
-    tweaks.make_withered_trees_appear_from_start(self)
-    tweaks.fix_buried_item_and_withered_tree_item(self)
-    tweaks.fix_warp_to_hyrule_unlock_condition(self)
-    tweaks.ff2_never_changes_to_ff3(self)
   
   def copy_and_extract_files(self, clean_base_dir):
     # Copy the vanilla files to the randomized directory.
