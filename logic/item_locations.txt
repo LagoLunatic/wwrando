@@ -427,7 +427,7 @@ Dragon Roost Island - Long Cave Passage:
   Paths:
     - sea/Room13.arc/Chest001
 Dragon Roost Island - Rito Aerie - Baito:
-  Need: TODO # Need to sort 25 letters in the minigame, and also push down a block so Baito can climb up? Is beating gohma necessary? Then you need to sort 25 again in front of him
+  Need: Nothing # Need to pull down a block for Baito and sort 25 letters twice
   Original item: Note to Mom
   Paths:
     - Atorizk/Stage.arc/Event003:GETMOTHERLETTER/Actor000/Action000
@@ -492,14 +492,14 @@ Dragon Roost Cavern - Pot Room Chest:
   Original item: Treasure Chart 39
   Paths:
     - M_NewD2/Stage.arc/Chest003
-Dragon Roost Cavern - Mini-boss:
-  Need:
-    Can Access Dragon Roost Cavern
-    & DRC Small Key x4
-  # Need to escape: Grappling Hook | Can Fly With Deku Leaf Outdoors
-  Original item: Grappling Hook
-  Paths:
-    - rels/d_a_npc_md.rel@AF2F
+#Dragon Roost Cavern - Mini-boss: # TODO: this item doesn't appear because medli is gone.
+#  Need:
+#    Can Access Dragon Roost Cavern
+#    & DRC Small Key x4
+#  # Need to escape: Grappling Hook | Can Fly With Deku Leaf Outdoors
+#  Original item: Grappling Hook
+#  Paths:
+#    - rels/d_a_npc_md.rel@AF2F
 Dragon Roost Cavern - Under Rope Bridge:
   Need:
     Can Access Dragon Roost Cavern
@@ -529,7 +529,7 @@ Dragon Roost Cavern - Chest Across Lava Pit:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x2
-    & Grappling Hook
+    & (Grappling Hook | Deku Leaf)
   Original item: Treasure Chart 11
   Paths:
     - M_NewD2/Stage.arc/Chest00A
@@ -566,7 +566,7 @@ Dragon Roost Cavern - Gohma Heart Container:
     - M_DragB/Room0.arc/Actor015
 
 
-Forest Haven - Deku Leaf:
+Forest Haven - On Tree Branch:
   Need:
     Can Access Forest Haven
     & Grappling Hook
@@ -1675,8 +1675,8 @@ Eastern Fairy Island - Great Fairy:
   Original item: 60 Bomb Bomb Bag
   Paths:
     - rels/d_a_bigelf.rel@21E7
-Eastern Fairy Island - Lookout Platform - Destroy the Cannons:
-  Need: Bombs
+Eastern Fairy Island - Lookout Platform:
+  Need: Nothing
   Original item: Boko Baba Seed
   Paths:
     - sea/Room19.arc/Chest000
