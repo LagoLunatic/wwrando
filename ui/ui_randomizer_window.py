@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Thu Apr 26 18:02:19 2018
+# Created: Mon May  7 12:03:13 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 159)
+        MainWindow.resize(800, 256)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtGui.QVBoxLayout(self.centralwidget)
@@ -47,6 +47,33 @@ class Ui_MainWindow(object):
         self.generate_seed_button.setObjectName("generate_seed_button")
         self.gridLayout.addWidget(self.generate_seed_button, 2, 2, 1, 1)
         self.verticalLayout.addLayout(self.gridLayout)
+        self.horizontalLayout_2 = QtGui.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.short_mode = QtGui.QCheckBox(self.centralwidget)
+        self.short_mode.setChecked(True)
+        self.short_mode.setObjectName("short_mode")
+        self.horizontalLayout_2.addWidget(self.short_mode)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
+        self.horizontalLayout_3 = QtGui.QHBoxLayout()
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.swift_sail = QtGui.QCheckBox(self.centralwidget)
+        self.swift_sail.setChecked(True)
+        self.swift_sail.setObjectName("swift_sail")
+        self.horizontalLayout_3.addWidget(self.swift_sail)
+        self.instant_text_boxes = QtGui.QCheckBox(self.centralwidget)
+        self.instant_text_boxes.setChecked(True)
+        self.instant_text_boxes.setObjectName("instant_text_boxes")
+        self.horizontalLayout_3.addWidget(self.instant_text_boxes)
+        self.reveal_full_sea_chart = QtGui.QCheckBox(self.centralwidget)
+        self.reveal_full_sea_chart.setChecked(True)
+        self.reveal_full_sea_chart.setObjectName("reveal_full_sea_chart")
+        self.horizontalLayout_3.addWidget(self.reveal_full_sea_chart)
+        self.verticalLayout.addLayout(self.horizontalLayout_3)
+        self.option_description = QtGui.QLabel(self.centralwidget)
+        self.option_description.setMinimumSize(QtCore.QSize(0, 32))
+        self.option_description.setWordWrap(True)
+        self.option_description.setObjectName("option_description")
+        self.verticalLayout.addWidget(self.option_description)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.about_button = QtGui.QPushButton(self.centralwidget)
@@ -71,6 +98,11 @@ class Ui_MainWindow(object):
         self.clean_files_path_browse_button.setText(QtGui.QApplication.translate("MainWindow", "Browse", None, QtGui.QApplication.UnicodeUTF8))
         self.output_folder_browse_button.setText(QtGui.QApplication.translate("MainWindow", "Browse", None, QtGui.QApplication.UnicodeUTF8))
         self.generate_seed_button.setText(QtGui.QApplication.translate("MainWindow", "New seed", None, QtGui.QApplication.UnicodeUTF8))
+        self.short_mode.setText(QtGui.QApplication.translate("MainWindow", "Short Mode", None, QtGui.QApplication.UnicodeUTF8))
+        self.swift_sail.setText(QtGui.QApplication.translate("MainWindow", "Swift Sail", None, QtGui.QApplication.UnicodeUTF8))
+        self.instant_text_boxes.setText(QtGui.QApplication.translate("MainWindow", "Instant Text Boxes", None, QtGui.QApplication.UnicodeUTF8))
+        self.reveal_full_sea_chart.setText(QtGui.QApplication.translate("MainWindow", "Reveal Full Sea Chart", None, QtGui.QApplication.UnicodeUTF8))
+        self.option_description.setText(QtGui.QApplication.translate("MainWindow", "(Hover over an option to see a description of what it does.)", None, QtGui.QApplication.UnicodeUTF8))
         self.about_button.setText(QtGui.QApplication.translate("MainWindow", "About", None, QtGui.QApplication.UnicodeUTF8))
         self.randomize_button.setText(QtGui.QApplication.translate("MainWindow", "Randomize", None, QtGui.QApplication.UnicodeUTF8))
 
