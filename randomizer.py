@@ -101,8 +101,9 @@ class Randomizer:
         data = BytesIO(file.read())
       if try_read_str(data, 0, 4) == "Yaz0":
         decomp_data = Yaz0Decompressor.decompress(data)
+        decomp_data.seek(0)
         with open(arc_path, "wb") as file:
-          file.write(decomp_data)
+          file.write(decomp_data.read())
     
     # Decompress any compressed rels.
     print("Decompressing rels...")
@@ -111,8 +112,9 @@ class Randomizer:
         data = BytesIO(file.read())
       if try_read_str(data, 0, 4) == "Yaz0":
         decomp_data = Yaz0Decompressor.decompress(data)
+        decomp_data.seek(0)
         with open(rel_path, "wb") as file:
-          file.write(decomp_data)
+          file.write(decomp_data.read())
   
   def read_text_file_lists(self):
     # Get item names.
@@ -207,7 +209,7 @@ class Randomizer:
         data = BytesIO(f.read())
       
       if try_read_str(data, 0, 4) == "Yaz0":
-        data = BytesIO(Yaz0Decompressor.decompress(data))
+        data = Yaz0Decompressor.decompress(data)
       
       self.raw_files_by_path[file_path] = data
       return data

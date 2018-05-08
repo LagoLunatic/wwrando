@@ -11,7 +11,7 @@ class REL:
       self.data = BytesIO(file.read())
     
     if try_read_str(self.data, 0, 4) == "Yaz0":
-      self.data = BytesIO(Yaz0Decompressor.decompress(self.data))
+      self.data = Yaz0Decompressor.decompress(self.data)
     
     data = self.data
     

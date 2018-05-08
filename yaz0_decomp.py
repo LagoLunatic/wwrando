@@ -1,5 +1,7 @@
 
 import struct
+from io import BytesIO
+
 from fs_helpers import *
 
 class Yaz0Decompressor:
@@ -52,4 +54,4 @@ class Yaz0Decompressor:
     
     uncomp_data = struct.pack("B"*output_len, *output)
     
-    return uncomp_data
+    return BytesIO(uncomp_data)

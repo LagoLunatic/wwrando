@@ -17,7 +17,7 @@ class RARC:
       self.data = BytesIO(file.read())
     
     if try_read_str(self.data, 0, 4) == "Yaz0":
-      self.data = BytesIO(Yaz0Decompressor.decompress(self.data))
+      self.data = Yaz0Decompressor.decompress(self.data)
     
     data = self.data
     
@@ -188,7 +188,7 @@ class FileEntry:
   
   def decompress_data_if_necessary(self):
     if try_read_str(self.data, 0, 4) == "Yaz0":
-      self.data = BytesIO(Yaz0Decompressor.decompress(self.data))
+      self.data = Yaz0Decompressor.decompress(self.data)
       self.type &= ~0x84 # Clear compressed type bits
   
   def save_changes(self):
