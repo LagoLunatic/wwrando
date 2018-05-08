@@ -50,8 +50,7 @@ class RARC:
         self.file_entries.append(file_entry)
         node.files.append(file_entry)
         
-        if file_entry.id == 0xFFFF:
-          # Directory
+        if file_entry.is_dir:
           continue
         
         if file_entry.name.endswith(".dzs"):
@@ -73,7 +72,7 @@ class RARC:
   def extract_all_files_to_disk_flat(self, output_directory):
     # Does not preserve directory structure.
     for file_entry in self.file_entries:
-      if file_entry.id == 0xFFFF: # Directory
+      if file_entry.is_dir:
         continue
       
       output_file_path = os.path.join(output_directory, file_entry.name)
@@ -95,8 +94,7 @@ class RARC:
       os.mkdir(path)
     
     for file in node.files:
-      if file.id == 0xFFFF:
-        # Directory
+      if file.is_dir:
         if file.name not in [".", ".."]:
           subdir_path = os.path.join(path, file.name)
           subdir_node = self.nodes[file.node_index]
@@ -115,7 +113,7 @@ class RARC:
     
     next_file_data_offset = 0
     for file_entry in self.file_entries:
-      if file_entry.id == 0xFFFF: # Directory
+      if file_entry.is_dir:
         continue
       
       data_size = file_entry.data.seek(0, 2)
@@ -173,12 +171,12 @@ class FileEntry:
     #   04 - Compressed.
     #   10 - File?
     #   80 - Yaz0 compressed (as opposed to Yay0?).
+    self.is_dir = (self.type & 0x02) != 0
     
     self.name_offset = type_and_name_offset & 0x00FFFFFF
     self.name = read_str_until_null_character(rarc_data, rarc.string_list_offset + self.name_offset)
     
-    if self.id == 0xFFFF:
-      # Directory
+    if self.is_dir:
       self.node_index = data_offset_or_node_index
       self.data = None
     else:
@@ -204,7 +202,7 @@ class FileEntry:
     
     type_and_name_offset = (self.type << 24) | (self.name_offset & 0x00FFFFFF)
     
-    if self.id == 0xFFFF:
+    if self.is_dir:
       data_offset_or_node_index = self.node_index
     else:
       data_offset_or_node_index = self.data_offset
