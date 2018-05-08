@@ -140,6 +140,29 @@ class Logic:
     
     return accessible_location_names
   
+  def get_first_useful_item(self, items_to_check):
+    # Searches through a given list of items and returns the first one that opens up at least 1 new location.
+    # The randomizer shuffles the list before passing it to this function, so in effect it picks a random useful item.
+    
+    accessible_undone_locations = self.get_accessible_remaining_locations()
+    inaccessible_undone_item_locations = []
+    for location_name in self.remaining_item_locations:
+      if location_name not in accessible_undone_locations:
+        inaccessible_undone_item_locations.append(location_name)
+    
+    for item_name in items_to_check:
+      self.add_owned_item(item_name)
+      
+      for location_name in inaccessible_undone_item_locations:
+        requirement_expression = self.item_locations[location_name]["Need"]
+        if self.check_logical_expression_req(requirement_expression):
+          self.remove_owned_item(item_name)
+          return item_name
+      
+      self.remove_owned_item(item_name)
+    
+    return None
+  
   def add_unrandomized_location(self, location_name):
     # For locations that should not be randomized on this seed, e.g. dungeon keys.
     assert location_name in self.item_locations

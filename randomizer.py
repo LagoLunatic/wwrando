@@ -342,6 +342,7 @@ class Randomizer:
           self.logic.add_unrandomized_location(location_name)
     
     # Place progress items.
+    previously_accessible_undone_locations = []
     while self.logic.unplaced_progress_items:
       accessible_undone_locations = self.logic.get_accessible_remaining_locations()
       
@@ -360,11 +361,44 @@ class Randomizer:
         
         continue # Redo this loop iteration with the unrandomized locations no longer being considered 'remaining'.
       
-      # TODO: prioritize useful items over useless items
-      item_name = random.choice(self.logic.unplaced_progress_items)
+      must_place_useful_item = False
+      should_place_useful_item = False
       
-      location_name = random.choice(accessible_undone_locations)
+      if len(accessible_undone_locations) == 1 and len(self.logic.unplaced_progress_items) > 1:
+        must_place_useful_item = True
+      elif random.random() < 0.5: # 50% chance to place an item that opens up new locations
+        should_place_useful_item = True
+      
+      if must_place_useful_item or should_place_useful_item:
+        shuffled_list = self.logic.unplaced_progress_items.copy()
+        random.shuffle(shuffled_list)
+        item_name = self.logic.get_first_useful_item(shuffled_list)
+        if item_name is None:
+          if must_place_useful_item:
+            raise Exception("No useful progress items to place!")
+          else:
+            item_name = random.choice(self.logic.unplaced_progress_items)
+      else:
+        item_name = random.choice(self.logic.unplaced_progress_items)
+      
+      # We weight it so newly accessible locations are 10x more likely to be chosen.
+      # This way there is still a good chance it will not choose a new location.
+      possible_locations_with_weighting = []
+      newly_accessible_undone_locations = [
+        loc for loc in accessible_undone_locations
+        if loc not in previously_accessible_undone_locations
+      ]
+      for location_name in accessible_undone_locations:
+        if location_name in newly_accessible_undone_locations:
+          weight = 10
+        else:
+          weight = 1
+        possible_locations_with_weighting += [location_name]*weight
+      
+      location_name = random.choice(possible_locations_with_weighting)
       self.logic.set_location_to_item(location_name, item_name)
+      
+      previously_accessible_undone_locations = accessible_undone_locations
     
     # Make sure locations that shouldn't be randomized aren't, even if above logic missed them for some reason.
     for location_name in self.logic.unrandomized_item_locations:
