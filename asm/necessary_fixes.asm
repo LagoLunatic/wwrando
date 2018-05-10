@@ -133,10 +133,10 @@
 ; The Great Fairy inside the Big Octo is hardcoded to double your max magic meter (and fill up your current magic meter too).
 ; Since we randomize what item she gives you, we need to remove this code so that she doesn't always give you the increased magic meter.
 .open "files/rels/d_a_bigelf.rel" ; Great Fairy
-.org 0x7C0
-  nop ; for max MP
-.org 0x7CC
-  nop ; for current MP
+.org 0x7C4
+  nop ; For max MP
+.org 0x7D0
+  nop ; For current MP
 ; Also, the magic meter upgrade item itself only increases your max MP.
 ; In the vanilla game, the Great Fairy would also refill your MP for you.
 ; Therefore we modify the code of the magic meter upgrade to also refill your MP.
