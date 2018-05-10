@@ -19,6 +19,8 @@ item_func_max_bomb_up1__Fv = 0x800c4ca8;
 item_func_max_bomb_up2__Fv = 0x800c4cc0;
 item_func_max_arrow_up1__Fv = 0x800c4cd8;
 item_func_max_arrow_up2__Fv = 0x800c4cf0;
+item_func_camera__Fv = 0x800c3324;
+item_func_camera2__Fv = 0x800c33f0;
 
 onEventBit__11dSv_event_cFUs = 0x8005cb04;
 isCollect__20dSv_player_collect_cFiUc = 0x8005ae10;
@@ -27,5 +29,4 @@ fopAcM_createItem__FP4cXyziiiiP5csXyziP4cXyz = 0x80026adc;
 SoldOutItem__11ShopItems_cFi = 0x8005ff10;
 getTriforceNum__20dSv_player_collect_cFv = 0x8005b230;
 setShipSailState__11JAIZelBasicFl = 0x802a965c;
-item_func_camera__Fv = 0x800c3324;
-item_func_camera2__Fv = 0x800c33f0;
+dKyw_tact_wind_set__Fss = 0x8008a7d0;

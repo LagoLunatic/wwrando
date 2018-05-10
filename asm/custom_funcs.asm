@@ -505,11 +505,10 @@ addi r3,r3,0x803CA75C@l
 lwz r3, 0 (r3) ; Read the pointer to KoRL's entity
 lha r3, 0x206 (r3) ; Read KoRL's Y rotation
 neg r3, r3 ; Negate his Y rotation since it's backwards
-addi r3, r3, 0x4000 ; Add 90 degrees to get the diretion KoRL is actually facing
+addi r4, r3, 0x4000 ; Add 90 degrees to get the diretion KoRL is actually facing
 
-lis r4,0x803E545A@ha
-addi r4,r4,0x803E545A@l
-sth r3, 0 (r4) ; Store to current wind direction
+li r3, 0
+bl dKyw_tact_wind_set__Fss ; Pass the new angle as argument r4 to the function that changes wind direction
 
 lwz r0, 0x14 (sp)
 mtlr r0
