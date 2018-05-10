@@ -1369,7 +1369,7 @@ Mailbox - Letter from Orca:
   Paths:
     - rels/d_a_obj_toripost.rel@2588
 Mailbox - Letter from Grandma:
-  Need: 
+  Need: TODO
   Original item: Red Rupee
   Paths:
     - rels/d_a_obj_toripost.rel@2594
@@ -1379,12 +1379,12 @@ Mailbox - Letter Advertising Rock Spire Shop Ship:
   Paths:
     - rels/d_a_obj_toripost.rel@25A0
 Mailbox - Letter from Tingle:
-  Need: 
+  Need: TODO
   Original item: IN-credible Chart
   Paths:
     - rels/d_a_obj_toripost.rel@25AC
 Mailbox - Letter from Aryll:
-  Need: 
+  Need: TODO
   Original item: Red Rupee
   Paths:
     - rels/d_a_obj_toripost.rel@25B8
@@ -1394,7 +1394,7 @@ Mailbox - Letter from Baito's Mother: # TODO: duplicate?
   Paths:
     - rels/d_a_obj_toripost.rel@25C4
 Mailbox - Beedle's Silver Membership Reward:
-  Need: 
+  Need: TODO
   Original item: Complimentary ID
   Paths:
     - rels/d_a_obj_toripost.rel@25D0
@@ -1409,7 +1409,7 @@ Mailbox - Letter from Baito:
   Paths:
     - rels/d_a_obj_toripost.rel@25E8
 Mailbox - Beedle's Gold Membership Reward:
-  Need: 
+  Need: TODO
   Original item: Fill-Up Coupon
   Paths:
     - rels/d_a_obj_toripost.rel@25F4
@@ -1837,21 +1837,21 @@ Rock Spire Isle - Cave:
   Paths:
     - Cave04/Stage.arc/Chest000
 Rock Spire Isle - Beedle's Special Shop Ship - Empty Bottle:
-  Need: Can Farm Lots of Rupees
+  Need: Any Wallet Upgrade & Can Farm Lots of Rupees
   Original item: Empty Bottle
   Paths:
     - main.dol@372ECF
     - rels/d_a_npc_bs1.rel@1E9B
     - rels/d_a_npc_bs1.rel@1ED3
 Rock Spire Isle - Beedle's Special Shop Ship - Piece of Heart:
-  Need: Can Farm Lots of Rupees
+  Need: Any Wallet Upgrade & Can Farm Lots of Rupees
   Original item: Piece of Heart
   Paths:
     - main.dol@372EDF
     - rels/d_a_npc_bs1.rel@1EA3
     - rels/d_a_npc_bs1.rel@1EDF
 Rock Spire Isle - Beedle's Special Shop Ship - Treasure Chart:
-  Need: Can Farm Lots of Rupees
+  Need: Any Wallet Upgrade & Can Farm Lots of Rupees
   Original item: Treasure Chart 4
   Paths:
     - main.dol@372EEF
@@ -2109,31 +2109,31 @@ Six-Eye Reef - Submarine:
   Paths:
     - Abship/Room1.arc/Chest000
 
-TODO - unknown npc 1:
-  Need: 
-  Original item: Red Rupee
-  Paths:
-    - rels/d_a_npc_people.rel@5BC3
-TODO - unknown npc 2:
-  Need: 
-  Original item: Purple Rupee
-  Paths:
-    - rels/d_a_npc_people.rel@5BDF
-TODO - The Great Sea - event 1:
-  Need: 
-  Original item: Joy Pendant
-  Paths:
-    - sea/Stage.arc/Event093:MK_PENDANT/Actor001/Action005
-TODO - The Great Sea - event 2:
-  Need: 
-  Original item: Red Rupee
-  Paths:
-    - sea/Stage.arc/Event0B1:Get_Rupee/Actor002/Action000
-TODO - The Great Sea - event 3:
-  Need: 
-  Original item: Silver Rupee
-  Paths:
-    - sea/Stage.arc/Event0D2:SO_GET_RUPEE/Actor002/Action000
+#TODO - unknown npc 1:
+#  Need: TODO
+#  Original item: Red Rupee
+#  Paths:
+#    - rels/d_a_npc_people.rel@5BC3
+#TODO - unknown npc 2:
+#  Need: TODO
+#  Original item: Purple Rupee
+#  Paths:
+#    - rels/d_a_npc_people.rel@5BDF
+#TODO - The Great Sea - unknown event 1:
+#  Need: TODO
+#  Original item: Joy Pendant
+#  Paths:
+#    - sea/Stage.arc/Event093:MK_PENDANT/Actor001/Action005
+#TODO - The Great Sea - unknown event 2:
+#  Need: TODO
+#  Original item: Red Rupee
+#  Paths:
+#    - sea/Stage.arc/Event0B1:Get_Rupee/Actor002/Action000
+#TODO - The Great Sea - unknown event 3:
+#  Need: TODO
+#  Original item: Silver Rupee
+#  Paths:
+#    - sea/Stage.arc/Event0D2:SO_GET_RUPEE/Actor002/Action000
 
 Forsaken Fortress - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 1
