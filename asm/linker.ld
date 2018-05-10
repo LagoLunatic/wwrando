@@ -27,3 +27,5 @@ fopAcM_createItem__FP4cXyziiiiP5csXyziP4cXyz = 0x80026adc;
 SoldOutItem__11ShopItems_cFi = 0x8005ff10;
 getTriforceNum__20dSv_player_collect_cFv = 0x8005b230;
 setShipSailState__11JAIZelBasicFl = 0x802a965c;
+item_func_camera__Fv = 0x800c3324;
+item_func_camera2__Fv = 0x800c33f0;

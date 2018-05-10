@@ -130,13 +130,6 @@ class Randomizer:
           raise Exception("Duplicate item name: " + item_name)
         self.item_name_to_id[item_name] = item_id
     
-    # Also list progressive item names.
-    self.item_name_to_id["Progressive Sword"] = 0x38
-    self.item_name_to_id["Progressive Bow"] = 0x27
-    self.item_name_to_id["Progressive Wallet"] = 0xAB
-    self.item_name_to_id["Progressive Bomb Bag"] = 0xAD
-    self.item_name_to_id["Progressive Quiver"] = 0xAF
-    
     # Get function names for debug purposes.
     self.function_names = {}
     with open(os.path.join(self.randomized_base_dir, "files", "maps", "framework.map"), "r") as f:

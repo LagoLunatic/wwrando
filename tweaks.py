@@ -272,6 +272,17 @@ def make_items_progressive(self):
     quiver_item_get_func_offset = item_get_funcs_list + quiver_item_id*4
     write_u32(dol_data, quiver_item_get_func_offset, self.custom_symbols["progressive_quiver_item_func"])
   
+  for picto_box_item_id in [0x23, 0x26]:
+    picto_box_item_get_func_offset = item_get_funcs_list + picto_box_item_id*4
+    write_u32(dol_data, picto_box_item_get_func_offset, self.custom_symbols["progressive_picto_box_item_func"])
+  
+  # Register which item ID is for which progressive item.
+  self.item_name_to_id["Progressive Sword"] = 0x38
+  self.item_name_to_id["Progressive Bow"] = 0x27
+  self.item_name_to_id["Progressive Wallet"] = 0xAB
+  self.item_name_to_id["Progressive Bomb Bag"] = 0xAD
+  self.item_name_to_id["Progressive Quiver"] = 0xAF
+  self.item_name_to_id["Progressive Picto Box"] = 0x23
   
   # Modify the item get funcs for bombs and the hero's bow to nop out the code that sets your current and max bombs/arrows to 30.
   # Without this change, getting bombs after a bomb bag upgrade would negate the bomb bag upgrade.
@@ -314,6 +325,11 @@ def make_items_progressive(self):
   quiver_msg = self.bmg.messages_by_id[101 + quiver_id]
   quiver_msg.string = "\{1A 05 00 00 01}You can now carry more \{1A 06 FF 00 00 01}arrows\{1A 06 FF 00 00 00}!"
   quiver_msg.save_changes()
+  
+  picto_box_id = self.item_name_to_id["Progressive Picto Box"]
+  picto_box_msg = self.bmg.messages_by_id[101 + picto_box_id]
+  picto_box_msg.string = "\{1A 05 00 00 01}You got a \{1A 06 FF 00 00 01}Picto Box upgrade\{1A 06 FF 00 00 00}!"
+  picto_box_msg.save_changes()
 
 def make_sail_behave_like_swift_sail(self):
   # Causes the wind direction to always change to face the direction KoRL is facing as long as the sail is out.

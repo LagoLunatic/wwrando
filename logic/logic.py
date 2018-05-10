@@ -51,6 +51,7 @@ class Logic:
       "Progressive Wallet": 0,
       "Progressive Bomb Bag": 0,
       "Progressive Quiver": 0,
+      "Progressive Picto Box": 0,
     }
     
     self.small_keys_owned_by_dungeon = {}

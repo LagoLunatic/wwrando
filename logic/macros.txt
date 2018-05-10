@@ -35,6 +35,10 @@ Light Arrows:
   Progressive Bow x3
 Any Wallet Upgrade:
   Progressive Wallet x1
+Picto Box:
+  Progressive Picto Box x1
+Deluxe Picto Box:
+  Progressive Picto Box x2
 All 8 Triforce Shards:
   Triforce Shard 1
   & Triforce Shard 2

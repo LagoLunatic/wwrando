@@ -1,10 +1,8 @@
 
 PROGRESS_ITEMS = [
   "Wind Waker",
-  "Picto Box",
   "Spoils Bag",
   "Grappling Hook",
-  "Deluxe Picto Box",
   "Power Bracelets",
   "Iron Boots",
   "Bait Bag",
@@ -47,7 +45,7 @@ PROGRESS_ITEMS = [
   "Magic Meter Upgrade",
   
   "Ghost Ship Chart",
-] + ["Progressive Sword"]*4 + ["Progressive Bow"]*3 + ["Progressive Wallet"]*2 + ["Empty Bottle"]*4
+] + ["Progressive Sword"]*4 + ["Progressive Bow"]*3 + ["Progressive Wallet"]*2 + ["Progressive Picto Box"]*2 + ["Empty Bottle"]*4
 
 NONPROGRESS_ITEMS = [
   "Telescope",

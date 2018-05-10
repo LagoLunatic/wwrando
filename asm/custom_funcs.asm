@@ -322,6 +322,41 @@ blr
 
 
 
+.global progressive_picto_box_item_func
+progressive_picto_box_item_func:
+; Function start stuff
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+
+lis r3, 0x803C
+addi r3, r3, 0x4C61
+lbz r4, 0 (r3) ; Bitfield of picto boxes you own
+cmpwi r4, 0
+beq get_normal_picto_box
+cmpwi r4, 1
+beq get_deluxe_picto_box
+b picto_box_func_end
+
+get_normal_picto_box:
+bl item_func_camera__Fv
+b picto_box_func_end
+
+get_deluxe_picto_box:
+bl item_func_camera2__Fv
+
+
+picto_box_func_end:
+; Function end stuff
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 .global hurricane_spin_item_func
 hurricane_spin_item_func:
 ; Function start stuff
