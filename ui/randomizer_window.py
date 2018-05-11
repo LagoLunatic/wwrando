@@ -66,7 +66,6 @@ class WWRandomizerWindow(QMainWindow):
     if not seed:
       self.generate_seed()
       seed = self.settings["seed"]
-    seed = int(seed)
     self.settings["seed"] = seed
     self.ui.seed.setText(seed)
     self.save_settings()
@@ -75,7 +74,7 @@ class WWRandomizerWindow(QMainWindow):
     for option_name in OPTIONS:
       options[option_name] = getattr(self.ui, option_name).isChecked()
     
-    rando = Randomizer(seed, clean_files_path, output_folder, options)
+    rando = Randomizer(int(seed), clean_files_path, output_folder, options)
     #rando.randomize()
   
   def load_settings(self):
