@@ -119,6 +119,9 @@ lis r3, 0x803C4FF4@ha ; Dragon Roost Cavern stage info.
 addi r3, r3, 0x803C4FF4@l
 li r4, 0x0020
 stw r4, 4 (r3)
+; Also set a switch (21) for having seen the gossip stone event where KoRL tells you about giving bait to rats.
+li r4, 0x0002
+stw r4, 8 (r3)
 
 
 ; Start the player with 30 bombs and arrows. (But not the ability to actually use them.)
