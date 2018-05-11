@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Mon May  7 12:03:13 2018
+# Created: Thu May 10 22:05:49 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -71,6 +71,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout_3)
         self.option_description = QtGui.QLabel(self.centralwidget)
         self.option_description.setMinimumSize(QtCore.QSize(0, 32))
+        self.option_description.setText("")
         self.option_description.setWordWrap(True)
         self.option_description.setObjectName("option_description")
         self.verticalLayout.addWidget(self.option_description)
@@ -102,7 +103,6 @@ class Ui_MainWindow(object):
         self.swift_sail.setText(QtGui.QApplication.translate("MainWindow", "Swift Sail", None, QtGui.QApplication.UnicodeUTF8))
         self.instant_text_boxes.setText(QtGui.QApplication.translate("MainWindow", "Instant Text Boxes", None, QtGui.QApplication.UnicodeUTF8))
         self.reveal_full_sea_chart.setText(QtGui.QApplication.translate("MainWindow", "Reveal Full Sea Chart", None, QtGui.QApplication.UnicodeUTF8))
-        self.option_description.setText(QtGui.QApplication.translate("MainWindow", "(Hover over an option to see a description of what it does.)", None, QtGui.QApplication.UnicodeUTF8))
         self.about_button.setText(QtGui.QApplication.translate("MainWindow", "About", None, QtGui.QApplication.UnicodeUTF8))
         self.randomize_button.setText(QtGui.QApplication.translate("MainWindow", "Randomize", None, QtGui.QApplication.UnicodeUTF8))
 

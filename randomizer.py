@@ -16,8 +16,9 @@ import tweaks
 from logic.logic import Logic
 
 class Randomizer:
-  def __init__(self, seed, clean_base_dir, randomized_base_dir):
+  def __init__(self, seed, clean_base_dir, randomized_base_dir, options):
     self.randomized_base_dir = randomized_base_dir
+    self.options = options
     self.seed = seed
     random.seed(self.seed)
     
@@ -52,9 +53,12 @@ class Randomizer:
   def randomize(self):
     self.apply_necessary_tweaks()
     
-    tweaks.make_all_text_instant(self)
-    tweaks.apply_patch(self, "reveal_sea_chart")
-    tweaks.make_sail_behave_like_swift_sail(self)
+    if self.options["swift_sail"]:
+      tweaks.make_sail_behave_like_swift_sail(self)
+    if self.options["instant_text_boxes"]:
+      tweaks.make_all_text_instant(self)
+    if self.options["reveal_full_sea_chart"]:
+      tweaks.apply_patch(self, "reveal_sea_chart")
     
     self.randomize_charts()
     
