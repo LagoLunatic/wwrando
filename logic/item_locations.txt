@@ -1369,7 +1369,7 @@ Mailbox - Letter from Orca:
   Paths:
     - rels/d_a_obj_toripost.rel@2588
 Mailbox - Letter from Grandma:
-  Need: TODO
+  Need: Empty Bottle & Can Get Fairies & TODO
   Original item: Red Rupee
   Paths:
     - rels/d_a_obj_toripost.rel@2594
@@ -1675,8 +1675,8 @@ Eastern Fairy Island - Great Fairy:
   Original item: 60 Bomb Bomb Bag
   Paths:
     - rels/d_a_bigelf.rel@21E7
-Eastern Fairy Island - Lookout Platform:
-  Need: Nothing
+Eastern Fairy Island - Lookout Platform - Destroy the Cannons:
+  Need: Bombs
   Original item: Boko Baba Seed
   Paths:
     - sea/Room19.arc/Chest000
@@ -2048,8 +2048,8 @@ Two-Eye Reef - Lookout Platform:
   Original item: Purple Rupee
   Paths:
     - sea/Room46.arc/Chest001
-Two-Eye Reef - Big Octo Great Fairy: # TODO: test if this randomizes correctly
-  Need: Can Defeat Big Octos & Grappling Hook
+Two-Eye Reef - Big Octo Great Fairy:
+  Need: Can Defeat Big Octos
   Original item: Magic Meter Upgrade
   Paths:
     - sea/Stage.arc/Event02A:BIGELF_ARRIVAL2/Actor001/Action002

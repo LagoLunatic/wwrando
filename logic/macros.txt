@@ -117,7 +117,12 @@ Can Get Fairies:
   TODO
 Can Farm Knight's Crests:
   Spoils Bag
-  & TODO # test ice ring isle and savage labyrinth
+  & (
+    (Fire Arrows & Iron Boots)
+    | TODO
+  )
+  # There are respawning Darknuts in Ice Ring Isle and Savage Labyrinth.
+  # TODO: what do you need to reach the savage labyrinth ones?
 Can Farm Joy Pendants:
   Spoils Bag
 Can Farm Skull Necklaces:
