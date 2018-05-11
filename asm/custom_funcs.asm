@@ -123,6 +123,12 @@ stw r4, 4 (r3)
 li r4, 0x0002
 stw r4, 8 (r3)
 
+; Set a switch (2A) for having seen the gossip stone event where KoRL tells you Medli shows up on the compass.
+lis r3, 0x803C5060@ha ; Earth Temple stage info.
+addi r3, r3, 0x803C5060@l
+li r4, 0x0400
+stw r4, 8 (r3)
+
 
 ; Start the player with 30 bombs and arrows. (But not the ability to actually use them.)
 ; This change is so we can remove the code that sets your current bombs/arrows to 30 when you first get the bombs/bow.
