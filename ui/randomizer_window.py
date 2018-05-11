@@ -83,7 +83,9 @@ class WWRandomizerWindow(QMainWindow):
     if os.path.isfile(self.settings_path):
       with open(self.settings_path) as f:
         self.settings = yaml.safe_load(f)
-    if not self.settings:
+      if self.settings is None:
+        self.settings = OrderedDict()
+    else:
       self.settings = OrderedDict()
     
     if "clean_files_path" in self.settings:
