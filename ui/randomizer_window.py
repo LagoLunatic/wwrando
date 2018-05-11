@@ -8,6 +8,7 @@ from ui.options import OPTIONS
 import random
 from collections import OrderedDict
 import os
+import yaml
 
 from randomizer import Randomizer
 
@@ -16,6 +17,14 @@ class WWRandomizerWindow(QMainWindow):
     super(WWRandomizerWindow, self).__init__()
     self.ui = Ui_MainWindow()
     self.ui.setupUi(self)
+    
+    self.load_settings()
+    
+    self.ui.clean_files_path.editingFinished.connect(self.update_settings)
+    self.ui.output_folder.editingFinished.connect(self.update_settings)
+    self.ui.seed.editingFinished.connect(self.update_settings)
+    for option_name in OPTIONS:
+      getattr(self.ui, option_name).clicked.connect(self.update_settings)
     
     self.ui.generate_seed_button.clicked.connect(self.generate_seed)
     
@@ -26,19 +35,26 @@ class WWRandomizerWindow(QMainWindow):
       getattr(self.ui, option_name).installEventFilter(self)
     self.set_option_description(None)
     
+    self.update_settings()
+    
     self.show()
   
   def generate_seed(self):
     random.seed(None)
     seed = random.randrange(0, 1000000)
     seed = str(seed)
+    self.settings["seed"] = seed
     self.ui.seed.setText(seed)
+    self.save_settings()
   
   def randomize(self):
-    clean_files_path = self.ui.clean_files_path.text().strip()
-    output_folder = self.ui.output_folder.text().strip()
+    clean_files_path = self.settings["clean_files_path"].strip()
+    output_folder = self.settings["output_folder"].strip()
+    self.settings["clean_files_path"] = clean_files_path
+    self.settings["output_folder"] = output_folder
     self.ui.clean_files_path.setText(clean_files_path)
     self.ui.output_folder.setText(output_folder)
+    
     if not os.path.isdir(clean_files_path):
       QMessageBox.warning(self, "Clean files path not specified", "Must specify path to clean your Wind Waker files.")
       return
@@ -46,11 +62,14 @@ class WWRandomizerWindow(QMainWindow):
       QMessageBox.warning(self, "No output folder specified", "Must specify a valid output folder for the randomized files.")
       return
     
-    seed = self.ui.seed.text().strip()
+    seed = self.settings["seed"].strip()
     if not seed:
       self.generate_seed()
-      seed = self.ui.seed.text().strip()
+      seed = self.settings["seed"]
     seed = int(seed)
+    self.settings["seed"] = seed
+    self.ui.seed.setText(seed)
+    self.save_settings()
     
     options = OrderedDict()
     for option_name in OPTIONS:
@@ -58,6 +77,39 @@ class WWRandomizerWindow(QMainWindow):
     
     rando = Randomizer(seed, clean_files_path, output_folder, options)
     #rando.randomize()
+  
+  def load_settings(self):
+    self.settings_path = "settings.txt"
+    if os.path.isfile(self.settings_path):
+      with open(self.settings_path) as f:
+        self.settings = yaml.safe_load(f)
+    if not self.settings:
+      self.settings = OrderedDict()
+    
+    if "clean_files_path" in self.settings:
+      self.ui.clean_files_path.setText(self.settings["clean_files_path"])
+    if "output_folder" in self.settings:
+      self.ui.output_folder.setText(self.settings["output_folder"])
+    if "seed" in self.settings:
+      self.ui.seed.setText(self.settings["seed"])
+    
+    for option_name in OPTIONS:
+      if option_name in self.settings:
+        getattr(self.ui, option_name).setChecked(self.settings[option_name])
+  
+  def save_settings(self):
+    with open(self.settings_path, "w") as f:
+      yaml.dump(self.settings, f, default_flow_style=False, Dumper=yaml.CDumper)
+  
+  def update_settings(self):
+    self.settings["clean_files_path"] = self.ui.clean_files_path.text()
+    self.settings["output_folder"] = self.ui.output_folder.text()
+    self.settings["seed"] = self.ui.seed.text()
+    
+    for option_name in OPTIONS:
+      self.settings[option_name] = getattr(self.ui, option_name).isChecked()
+    
+    self.save_settings()
   
   def eventFilter(self, target, event):
     if event.type() == QEvent.Enter:
@@ -92,3 +144,13 @@ class WWRandomizerWindow(QMainWindow):
     self.about_dialog.setWindowTitle("Wind Waker Randomizer")
     self.about_dialog.setText(text)
     self.about_dialog.show()
+
+# Allow yaml to load and dump OrderedDicts.
+yaml.SafeLoader.add_constructor(
+  yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+  lambda loader, node: OrderedDict(loader.construct_pairs(node))
+)
+yaml.CDumper.add_representer(
+  OrderedDict,
+  lambda dumper, data: dumper.represent_dict(data.items())
+)
