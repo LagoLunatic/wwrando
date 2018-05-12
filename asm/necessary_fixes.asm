@@ -193,6 +193,17 @@
 
 
 
+; Normally Medli and Makar disappear from the dungeon map after you get the half-power or full-power master sword, respectively.
+; We remove these checks so they still appear on the map even after that (of course, only if you have the compass).
+.open "sys/main.dol"
+.org 0x801A9A6C
+  li r3, 0
+.org 0x801A9AA8
+  li r3, 0
+
+
+
+
 ; Remove the cutscene where the Tower of the Gods rises out of the sea.
 ; To do this we modify the goddess statue's code to skip starting the raising cutscene.
 ; Instead we branch to code that ends the current pearl-placing event after the tower raised event bit is set.
