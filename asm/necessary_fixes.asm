@@ -184,6 +184,11 @@
 .org 0xA24
   ; Make branch that depends on your sword unconditional instead.
   b 0xA60
+; Same for Makar, with the Master Sword (Full Power) instead.
+.open "files/rels/d_a_npc_cb1.rel" ; Makar
+.org 0x640
+  ; Make branch that depends on your sword unconditional instead.
+  b 0x658
 
 
 

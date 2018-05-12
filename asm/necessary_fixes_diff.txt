@@ -34,6 +34,8 @@ files/rels/d_a_salvage.rel:
   4288: [56, 115, 0, 97, 72, 0, 0, 8]
 files/rels/d_a_npc_md.rel:
   2596: [72, 0, 0, 60]
+files/rels/d_a_npc_cb1.rel:
+  1600: [72, 0, 0, 24]
 files/rels/d_a_obj_doguu.rel:
   9852: [72, 0, 0, 36]
 files/rels/d_a_npc_bs1.rel:
