@@ -74,13 +74,15 @@ NONPROGRESS_ITEMS = [
   "Platform Chart",
   "Light Ring Chart",
   "Secret Cave Chart",
-  "Sea Hearts Chart",
-  "Island Hearts Chart",
   "Great Fairy Chart",
   "Octo Chart",
-  "IN-credible Chart",
-
   "Tingle's Chart",
+  
+  # These three charts are inaccurate in the randomizer so they're not placed.
+  # If a way to update them is found they should be placed.
+  #"Sea Hearts Chart",
+  #"Island Hearts Chart",
+  #"IN-credible Chart",
 ] + ["Piece of Heart"]*44 + ["Heart Container"]*6
 
 CONSUMABLE_ITEMS = [
