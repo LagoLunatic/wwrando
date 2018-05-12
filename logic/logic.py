@@ -262,6 +262,9 @@ class Logic:
         expression_type = "AND"
       elif token == "(":
         nested_expression = tokens.pop()
+        if nested_expression == "(":
+          # Nested parentheses
+          nested_expression = ["("] + tokens.pop()
         result = self.check_logical_expression_req(nested_expression)
         subexpression_results.append(result)
         assert tokens.pop() == ")"
