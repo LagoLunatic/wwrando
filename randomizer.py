@@ -53,11 +53,11 @@ class Randomizer:
   def randomize(self):
     self.apply_necessary_tweaks()
     
-    if self.options["swift_sail"]:
+    if self.options.get("swift_sail"):
       tweaks.make_sail_behave_like_swift_sail(self)
-    if self.options["instant_text_boxes"]:
+    if self.options.get("instant_text_boxes"):
       tweaks.make_all_text_instant(self)
-    if self.options["reveal_full_sea_chart"]:
+    if self.options.get("reveal_full_sea_chart"):
       tweaks.apply_patch(self, "reveal_sea_chart")
     
     self.randomize_charts()
@@ -487,5 +487,10 @@ class Randomizer:
       f.write(spoiler_log)
 
 if __name__ == "__main__":
-  rando = Randomizer(1, "../Wind Waker Files", "../Wind Waker Files Randomized")
+  rando = Randomizer(1, "../Wind Waker Files", "../Wind Waker Files Randomized", {
+    "short_mode": True,
+    "swift_sail": True,
+    "instant_text_boxes": True,
+    "reveal_full_sea_chart": True,
+  })
   rando.randomize()
