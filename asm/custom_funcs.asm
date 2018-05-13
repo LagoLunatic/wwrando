@@ -55,6 +55,8 @@ li r4, 0x2F20 ; Talked to KoRL after getting Nayru's Pearl
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x3840 ; TALKED_TO_KORL_POST_TOWER_CUTSCENE
 bl onEventBit__11dSv_event_cFUs
+li r4, 0x2D04 ; MASTER_SWORD_CUTSCENE
+bl onEventBit__11dSv_event_cFUs
 li r4, 0x2D01 ; Saw cutscene before Helmaroc King where Aryll is rescued
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x2D02 ; TETRA_TO_ZELDA_CUTSCENE
@@ -74,6 +76,8 @@ bl onEventBit__11dSv_event_cFUs
 li r4, 0x2910 ; MAKAR_IN_WIND_TEMPLE
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x1610 ; Makar is in dungeon mode and can be lifted/called
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x3A20 ; Fishman and KoRL talked about Forsaken Fortress after you beat Molgera
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x2D08 ; HYRULE_3_WARP_CUTSCENE
 bl onEventBit__11dSv_event_cFUs
@@ -128,6 +132,14 @@ lis r3, 0x803C5060@ha ; Earth Temple stage info.
 addi r3, r3, 0x803C5060@l
 li r4, 0x0400
 stw r4, 8 (r3)
+
+; Set a switch (12) for having seen the camera moving around event when you first enter Hyrule.
+; Also set a switch (6) for having completed the Triforce pushable blocks puzzle.
+lis r3, 0x803C50CC@ha ; Hyrule stage info.
+addi r3, r3, 0x803C50CC@l
+lis r4, 0x0004
+addi r4, r4, 0x0040
+stw r4, 4 (r3)
 
 
 ; Start the player with 30 bombs and arrows. (But not the ability to actually use them.)
