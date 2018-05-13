@@ -26,21 +26,34 @@ class DZx: # DZR or DZS, same format
     data.truncate(0)
     
     offset = 0
+    write_u32(data, offset, len(self.chunks))
+    offset += 4
+    
     for chunk in self.chunks:
       chunk.offset = offset
       write_str(data, chunk.offset, chunk.fourcc, 4)
       write_u32(data, chunk.offset+4, len(chunk.entries))
       write_u32(data, chunk.offset+8, 0) # Placeholder for first entry offset
+      offset += 0xC
     
     for chunk in self.chunks:
       first_entry_offset = offset
       write_u32(data, chunk.offset+8, first_entry_offset)
       
       for entry in chunk.entries:
+        if entry is None:
+          raise Exception("Tried to save unknown chunk type: %s" % chunk.chunk_type)
+        
         entry.offset = offset
         entry.save_changes()
         
         offset += chunk.entry_class.DATA_SIZE
+    
+    # Pad the length of this file to 0x20 bytes.
+    file_size = offset
+    padded_file_size = (file_size + 0x1F) & ~0x1F
+    padding_size_needed = padded_file_size - file_size
+    write_bytes(data, offset, b"\xFF"*padding_size_needed)
 
 class Chunk:
   LAYER_CHAR_TO_LAYER_INDEX = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'a': 10, 'b': 11}
@@ -80,12 +93,16 @@ class Chunk:
     
     for entry_index in range(0, num_entries):
       entry_offset = first_entry_offset + entry_index*entry_size
-      entry = self.entry_class(self.file_entry, entry_offset)
+      entry = self.entry_class(self.file_entry)
+      entry.read(entry_offset)
       self.entries.append(entry)
   
   @property
   def entry_class(self):
-    return globals().get(self.chunk_type, None)
+    class_name = self.chunk_type
+    if class_name[0].isdigit():
+      class_name = "_" + class_name
+    return globals().get(class_name, None)
   
   @property
   def fourcc(self):
@@ -99,10 +116,12 @@ class Chunk:
 class TRES:
   DATA_SIZE = 0x20
   
-  def __init__(self, file_entry, offset):
+  def __init__(self, file_entry):
     self.file_entry = file_entry
-    data = self.file_entry.data
+  
+  def read(self, offset):
     self.offset = offset
+    data = self.file_entry.data
     
     self.name = read_str(data, offset, 8)
     
@@ -185,10 +204,12 @@ class SCOB:
     "TagKb",
   ]
   
-  def __init__(self, file_entry, offset):
+  def __init__(self, file_entry):
     self.file_entry = file_entry
-    data = self.file_entry.data
+  
+  def read(self, offset):
     self.offset = offset
+    data = self.file_entry.data
     
     self.name = read_str(data, offset, 8)
     
@@ -289,10 +310,12 @@ class ACTR:
     "Bitem",
   ]
   
-  def __init__(self, file_entry, offset):
+  def __init__(self, file_entry):
     self.file_entry = file_entry
-    data = self.file_entry.data
+  
+  def read(self, offset):
     self.offset = offset
+    data = self.file_entry.data
     
     self.name = read_str(data, offset, 8)
     
@@ -366,10 +389,12 @@ class ACTR:
 class PLYR:
   DATA_SIZE = 0x20
   
-  def __init__(self, file_entry, offset):
+  def __init__(self, file_entry):
     self.file_entry = file_entry
-    data = self.file_entry.data
+  
+  def read(self, offset):
     self.offset = offset
+    data = self.file_entry.data
     
     self.name = read_str(data, offset, 8)
     
@@ -411,10 +436,12 @@ class PLYR:
 class SCLS:
   DATA_SIZE = 0xC
   
-  def __init__(self, file_entry, offset):
+  def __init__(self, file_entry):
     self.file_entry = file_entry
-    data = self.file_entry.data
+  
+  def read(self, offset):
     self.offset = offset
+    data = self.file_entry.data
     
     self.dest_stage_name = read_str(data, offset, 8)
     self.spawn_id = read_u8(data, offset+8)
@@ -434,11 +461,89 @@ class SCLS:
 class STAG:
   DATA_SIZE = 0x14
   
-  def __init__(self, file_entry, offset):
+  def __init__(self, file_entry):
     self.file_entry = file_entry
-    data = self.file_entry.data
+  
+  def read(self, offset):
     self.offset = offset
+    data = self.file_entry.data
+    
+    self.depth_min = read_float(data, offset)
+    self.depth_max = read_float(data, offset+4)
     
     is_dungeon_and_stage_id = read_u16(data, offset+8)
     self.is_dungeon = is_dungeon_and_stage_id & 1
     self.stage_id = is_dungeon_and_stage_id >> 1
+    
+    self.loaded_particle_bank = read_u16(data, offset+0xA)
+    self.property_index = read_u16(data, offset+0xC)
+    self.unknown_1 = read_u8(data, offset+0xE)
+    self.unknown_2 = read_u8(data, offset+0xF)
+    self.unknown_3 = read_u8(data, offset+0x10)
+    self.unknown_4 = read_u8(data, offset+0x11)
+    self.draw_range = read_u16(data, offset+0x12)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_float(data, self.offset, self.depth_min)
+    write_float(data, self.offset+4, self.depth_max)
+    
+    is_dungeon_and_stage_id = (self.stage_id << 1) | (self.is_dungeon & 1)
+    write_u16(data, self.offset+8, is_dungeon_and_stage_id)
+    
+    write_u16(data, self.offset+0xA, self.loaded_particle_bank)
+    write_u16(data, self.offset+0xC, self.property_index)
+    write_u8(data, self.offset+0xE, self.unknown_1)
+    write_u8(data, self.offset+0xF, self.unknown_2)
+    write_u8(data, self.offset+0x10, self.unknown_3)
+    write_u8(data, self.offset+0x11, self.unknown_4)
+    write_u16(data, self.offset+0x12, self.draw_range)
+
+class DummyEntry():
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+  
+  def read(self, offset):
+    self.offset = offset
+    data = self.file_entry.data
+    
+    self.raw_data_bytes = read_bytes(data, self.offset, self.DATA_SIZE)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_bytes(data, self.offset, self.raw_data_bytes)
+
+class FILI(DummyEntry):
+  DATA_SIZE = 8
+
+class TGOB(DummyEntry):
+  DATA_SIZE = 0x20
+
+class FLOR(DummyEntry):
+  DATA_SIZE = 0x14
+
+class _2DMA(DummyEntry):
+  DATA_SIZE = 0x38
+
+class LBNK(DummyEntry):
+  DATA_SIZE = 0x1
+
+class RPAT(DummyEntry):
+  DATA_SIZE = 0xC
+
+class RPPN(DummyEntry):
+  DATA_SIZE = 0x10
+
+class SOND(DummyEntry):
+  DATA_SIZE = 0x1C
+
+class RCAM(DummyEntry):
+  DATA_SIZE = 0x14
+
+class RARO(DummyEntry):
+  DATA_SIZE = 0x14
+
+class SHIP(DummyEntry):
+  DATA_SIZE = 0x10
