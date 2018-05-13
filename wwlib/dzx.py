@@ -11,7 +11,8 @@ class DZx: # DZR or DZS, same format
     self.chunks = []
     for chunk_index in range(0, num_chunks):
       offset = 4 + chunk_index*0xC
-      chunk = Chunk(self.file_entry, offset)
+      chunk = Chunk(self.file_entry)
+      chunk.read(offset)
       self.chunks.append(chunk)
   
   def entries_by_type(self, chunk_type):
@@ -20,6 +21,31 @@ class DZx: # DZR or DZS, same format
       if chunk_type == chunk.chunk_type:
         entries += chunk.entries
     return entries
+  
+  def entries_by_type_and_layer(self, chunk_type, layer):
+    entries = []
+    for chunk in self.chunks:
+      if chunk_type == chunk.chunk_type and layer == chunk.layer:
+        entries += chunk.entries
+    return entries
+  
+  def add_entity(self, chunk_type, layer=None):
+    chunk_to_add_entity_to = None
+    for chunk in self.chunks:
+      if chunk_type == chunk.chunk_type and layer == chunk.layer:
+        chunk_to_add_entity_to = chunk
+        break
+    
+    if chunk_to_add_entity_to is None:
+      chunk_to_add_entity_to = Chunk(self.file_entry)
+      chunk_to_add_entity_to.chunk_type = chunk_type
+      chunk_to_add_entity_to.layer = layer
+      self.chunks.append(chunk_to_add_entity_to)
+    
+    entity = chunk_to_add_entity_to.entry_class(self.file_entry)
+    chunk_to_add_entity_to.entries.append(entity)
+    
+    return entity
   
   def save_changes(self):
     data = self.file_entry.data
@@ -58,17 +84,22 @@ class DZx: # DZR or DZS, same format
 class Chunk:
   LAYER_CHAR_TO_LAYER_INDEX = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'a': 10, 'b': 11}
   
-  def __init__(self, file_entry, offset):
+  
+  def __init__(self, file_entry):
     self.file_entry = file_entry
-    data = self.file_entry.data
+    
+    self.entries = []
+    self.layer = None
+  
+  def read(self, offset):
     self.offset = offset
+    data = self.file_entry.data
     
     self.chunk_type = read_str(data, self.offset, 4)
     num_entries = read_u32(data, self.offset+4)
     first_entry_offset = read_u32(data, self.offset+8)
     
     # Some types of chunks are conditional and only appear on certain layers. The 4th character of their type determines what letter they appear on.
-    self.layer = None
     if self.chunk_type.startswith("TRE") or self.chunk_type.startswith("ACT") or self.chunk_type.startswith("SCO"):
       layer_char = self.chunk_type[3]
       if layer_char in self.LAYER_CHAR_TO_LAYER_INDEX:
@@ -79,8 +110,6 @@ class Chunk:
       self.chunk_type = "ACTR"
     if self.chunk_type.startswith("SCO"):
       self.chunk_type = "SCOB"
-    
-    self.entries = []
     
     if self.entry_class is None:
       #raise Exception("Unknown chunk type: " + self.chunk_type)
