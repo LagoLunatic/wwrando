@@ -9,9 +9,9 @@ from collections import OrderedDict
 import copy
 
 from fs_helpers import *
-from yaz0_decomp import Yaz0Decompressor
-from rarc import RARC
-from rel import REL
+from wwlib.yaz0_decomp import Yaz0Decompressor
+from wwlib.rarc import RARC
+from wwlib.rel import REL
 import tweaks
 from logic.logic import Logic
 

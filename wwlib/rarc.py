@@ -3,12 +3,12 @@ import os
 from io import BytesIO
 
 from fs_helpers import *
-from yaz0_decomp import Yaz0Decompressor
+from wwlib.yaz0_decomp import Yaz0Decompressor
 
-from dzx import DZx
-from events import EventList
-from bmg import BMG
-from charts import ChartList
+from wwlib.dzx import DZx
+from wwlib.events import EventList
+from wwlib.bmg import BMG
+from wwlib.charts import ChartList
 
 class RARC:
   def __init__(self, file_path):

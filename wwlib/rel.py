@@ -1,6 +1,6 @@
 
 from fs_helpers import *
-from yaz0_decomp import Yaz0Decompressor
+from wwlib.yaz0_decomp import Yaz0Decompressor
 
 from io import BytesIO
 
