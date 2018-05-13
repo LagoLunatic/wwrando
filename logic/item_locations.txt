@@ -143,37 +143,37 @@ Windfall Island - Ivan - Catch Killer Bees:
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_mk.rel@20CB
-Windfall Island - Mrs. Marie's School - Catch Killer Bees:
+Windfall Island - Mrs. Marie's - Catch Killer Bees:
   Need: Nothing
   Original item: Purple Rupee
   Paths:
     - rels/d_a_npc_ho.rel@0A07
-Windfall Island - Mrs. Marie's School - Give 1 Joy Pendant:
+Windfall Island - Mrs. Marie's - Give 1 Joy Pendant:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Red Rupee
   Paths:
     - rels/d_a_npc_ho.rel@0B4B
-Windfall Island - Mrs. Marie's School - Give 20 Joy Pendants:
+Windfall Island - Mrs. Marie's - Give 21 Joy Pendants:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Cabana Deed
   Paths:
     - rels/d_a_npc_ho.rel@0B77
-Windfall Island - Mrs. Marie's School - Give 40 Joy Pendants:
+Windfall Island - Mrs. Marie's - Give 41 Joy Pendants:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Hero's Charm
   Paths:
     - rels/d_a_npc_ho.rel@0C87
-#Windfall Island - Mrs. Marie's School - Give 1 or 2 Joy Pendants at Once:
+#Windfall Island - Mrs. Marie's - Give 1 or 2 Joy Pendants at Once:
 #  Need: 
 #  Original item: Red Rupee
 #  Paths:
 #    - rels/d_a_npc_ho.rel@0C4B
-#Windfall Island - Mrs. Marie's School - Give 3 or 4 Joy Pendants at Once:
+#Windfall Island - Mrs. Marie's - Give 3 or 4 Joy Pendants at Once:
 #  Need: 
 #  Original item: Purple Rupee
 #  Paths:
 #    - rels/d_a_npc_ho.rel@0C5F
-#Windfall Island - Mrs. Marie's School - Give 5+ Joy Pendants at Once:
+#Windfall Island - Mrs. Marie's - Give 5+ Joy Pendants at Once:
 #  Need: 
 #  Original item: Orange Rupee
 #  Paths:
@@ -792,7 +792,8 @@ Tower of the Gods - Darknut Mini-Boss Room:
     & Wind Waker
     & Grappling Hook
     & Command Melody
-    # Note: You can do this without Grappling Hook if you have Deku Leaf instead. But if you run out of MP you can get trapped and not be able to escape since there are no MP refill jars on this side of the gap. So Deku Leaf is not considered an option here by the logic.
+    # Note: If you already have the bow you can get the statue guy across the previous room without getting this item, which might appear to make this chest permanently missable, but in reality you can use the deactivated Armos from across the pit to keep the button pressed.
+    # Note: You can reach this without Grappling Hook if you have Deku Leaf instead. But if you run out of MP you can get trapped and not be able to escape since there are no MP refill jars on this side of the gap. So Deku Leaf is not considered an option here by the logic.
     # TODO: Maybe we should modify the pots around here to also drop MP refill jars?
   Original item: Hero's Bow
   Paths:
@@ -1307,7 +1308,7 @@ Wind Temple - Big Key Chest:
   Original item: Big Key
   Paths:
     - kaze/Stage.arc/Chest002
-Wind Temple - Kill All Enemies:
+Wind Temple - Kill All Enemies in Tall Basement Room:
   Need:
     Can Access Wind Temple
     & Iron Boots
@@ -1836,21 +1837,21 @@ Rock Spire Isle - Cave:
   Original item: Treasure Chart 37
   Paths:
     - Cave04/Stage.arc/Chest000
-Rock Spire Isle - Beedle's Special Shop Ship - Empty Bottle:
+Rock Spire Isle - Beedle's Special Shop Ship - 500 Rupee Item:
   Need: Any Wallet Upgrade & Can Farm Lots of Rupees
   Original item: Empty Bottle
   Paths:
     - main.dol@372ECF
     - rels/d_a_npc_bs1.rel@1E9B
     - rels/d_a_npc_bs1.rel@1ED3
-Rock Spire Isle - Beedle's Special Shop Ship - Piece of Heart:
+Rock Spire Isle - Beedle's Special Shop Ship - 950 Rupee Item:
   Need: Any Wallet Upgrade & Can Farm Lots of Rupees
   Original item: Piece of Heart
   Paths:
     - main.dol@372EDF
     - rels/d_a_npc_bs1.rel@1EA3
     - rels/d_a_npc_bs1.rel@1EDF
-Rock Spire Isle - Beedle's Special Shop Ship - Treasure Chart:
+Rock Spire Isle - Beedle's Special Shop Ship - 900 Rupee Item:
   Need: Any Wallet Upgrade & Can Farm Lots of Rupees
   Original item: Treasure Chart 4
   Paths:
