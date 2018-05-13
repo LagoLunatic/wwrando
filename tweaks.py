@@ -340,3 +340,26 @@ def make_sail_behave_like_swift_sail(self):
   
   write_float(ship_data, 0xDBE8, 55.0*2) # Sailing speed
   write_float(ship_data, 0xDBC0, 80.0*2) # Initial speed
+
+def add_ganons_tower_warp_to_ff2(self):
+  # Normally the warp object from Forsaken Fortress down to Ganon's Tower only appears in FF3.
+  # But we changed Forsaken Fortress to remain permanently as FF2.
+  # So we need to add the warp object to FF2 as well so the player can conveniently go between the sea and Ganon's Tower.
+  # To do this we copy the warp entity from layer 2 onto layer 1.
+  
+  dzx = self.get_arc("files/res/Stage/sea/Room1.arc").dzx_files[0]
+  layer_2_actors = dzx.entries_by_type_and_layer("ACTR", 2)
+  layer_2_warp = next(x for x in layer_2_actors if x.name == "Warpmj")
+  
+  layer_1_warp = dzx.add_entity("ACTR", layer=1)
+  layer_1_warp.name = layer_2_warp.name
+  layer_1_warp.params = layer_2_warp.params
+  layer_1_warp.x_pos = layer_2_warp.x_pos
+  layer_1_warp.y_pos = layer_2_warp.y_pos
+  layer_1_warp.z_pos = layer_2_warp.z_pos
+  layer_1_warp.x_rot = layer_2_warp.x_rot
+  layer_1_warp.y_rot = layer_2_warp.y_rot
+  layer_1_warp.set_flag = layer_2_warp.set_flag
+  layer_1_warp.enemy_number = layer_2_warp.enemy_number
+  
+  dzx.save_changes()

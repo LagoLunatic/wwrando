@@ -80,6 +80,7 @@ class Randomizer:
     tweaks.remove_shop_item_forced_uniqueness_bit(self)
     tweaks.remove_forsaken_fortress_2_cutscenes(self)
     tweaks.make_items_progressive(self)
+    tweaks.add_ganons_tower_warp_to_ff2(self)
   
   def copy_and_extract_files(self, clean_base_dir):
     # Copy the vanilla files to the randomized directory.
