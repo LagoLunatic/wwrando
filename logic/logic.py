@@ -170,7 +170,13 @@ class Logic:
     self.unrandomized_item_locations.append(location_name)
   
   def load_and_parse_item_locations(self):
-    with open("./logic/item_locations.txt") as f:
+    try:
+      from sys import _MEIPASS
+      logic_path = os.path.join(_MEIPASS, "logic")
+    except ImportError:
+      logic_path = "logic"
+    
+    with open(os.path.join(logic_path, "item_locations.txt")) as f:
       self.item_locations = yaml.load(f, YamlOrderedDictLoader)
     for location_name in self.item_locations:
       req_string = self.item_locations[location_name]["Need"]
@@ -180,7 +186,7 @@ class Logic:
       else:
         self.item_locations[location_name]["Need"] = self.parse_logic_expression(req_string)
     
-    with open("./logic/macros.txt") as f:
+    with open(os.path.join(logic_path, "macros.txt")) as f:
       macro_strings = yaml.safe_load(f)
     self.macros = {}
     for name, string in macro_strings.items():

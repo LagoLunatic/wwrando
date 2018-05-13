@@ -1,0 +1,2 @@
+
+pyinstaller wwrando.spec

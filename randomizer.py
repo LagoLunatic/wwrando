@@ -121,10 +121,18 @@ class Randomizer:
           file.write(decomp_data.read())
   
   def read_text_file_lists(self):
+    try:
+      from sys import _MEIPASS
+      data_path = os.path.join(_MEIPASS, "data")
+      asm_path = os.path.join(_MEIPASS, "asm")
+    except ImportError:
+      data_path = "data"
+      asm_path = "asm"
+    
     # Get item names.
     self.item_names = {}
     self.item_name_to_id = {}
-    with open("./data/item_names.txt", "r") as f:
+    with open(os.path.join(data_path, "item_names.txt"), "r") as f:
       matches = re.findall(r"^([0-9a-f]{2}) - (.+)$", f.read(), re.IGNORECASE | re.MULTILINE)
     for item_id, item_name in matches:
       if item_name:
@@ -145,7 +153,7 @@ class Randomizer:
     
     # Get stage and island names for debug purposes.
     self.stage_names = {}
-    with open("./data/stage_names.txt", "r") as f:
+    with open(os.path.join(data_path, "stage_names.txt"), "r") as f:
       while True:
         stage_folder = f.readline()
         if not stage_folder:
@@ -154,7 +162,7 @@ class Randomizer:
         self.stage_names[stage_folder.strip()] = stage_name.strip()
     self.island_names = {}
     self.island_number_to_name = {}
-    with open("./data/island_names.txt", "r") as f:
+    with open(os.path.join(data_path, "island_names.txt"), "r") as f:
       while True:
         room_arc_name = f.readline()
         if not room_arc_name:
@@ -165,15 +173,23 @@ class Randomizer:
         self.island_number_to_name[island_number] = island_name
     
     self.item_ids_without_a_field_model = []
-    with open("./data/items_without_field_models.txt", "r") as f:
+    with open(os.path.join(data_path, "items_without_field_models.txt"), "r") as f:
       matches = re.findall(r"^([0-9a-f]{2}) ", f.read(), re.IGNORECASE | re.MULTILINE)
     for item_id in matches:
       if item_name:
         item_id = int(item_id, 16)
         self.item_ids_without_a_field_model.append(item_id)
     
+    self.arc_name_pointers = {}
+    with open(os.path.join(data_path, "item_resource_arc_name_pointers.txt"), "r") as f:
+      matches = re.findall(r"^([0-9a-f]{2}) ([0-9a-f]{8}) ", f.read(), re.IGNORECASE | re.MULTILINE)
+    for item_id, arc_name_pointer in matches:
+      item_id = int(item_id, 16)
+      arc_name_pointer = int(arc_name_pointer, 16)
+      self.arc_name_pointers[item_id] = arc_name_pointer
+    
     self.custom_symbols = {}
-    with open("./asm/custom_symbols.txt", "r") as f:
+    with open(os.path.join(asm_path, "custom_symbols.txt"), "r") as f:
       matches = re.findall(r"^([0-9a-f]{8}) (\S+)", f.read(), re.IGNORECASE | re.MULTILINE)
     for symbol_address, symbol_name in matches:
       self.custom_symbols[symbol_name] = int(symbol_address, 16)

@@ -1,6 +1,7 @@
 
 import re
 import yaml
+import os
 
 from fs_helpers import *
 
@@ -38,7 +39,13 @@ def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
   return high_halfword, low_halfword
 
 def apply_patch(self, patch_name):
-  with open("./asm/" + patch_name + "_diff.txt") as f:
+  try:
+    from sys import _MEIPASS
+    asm_path = os.path.join(_MEIPASS, "asm")
+  except ImportError:
+    asm_path = "asm"
+  
+  with open(os.path.join(asm_path, patch_name + "_diff.txt")) as f:
     diffs = yaml.load(f)
   
   for file_path, diffs_for_file in diffs.items():
@@ -133,14 +140,6 @@ def allow_all_items_to_be_field_items(self):
   
   dol_data = self.get_raw_file("sys/main.dol")
   
-  arc_name_pointers = {}
-  with open("./data/item_resource_arc_name_pointers.txt", "r") as f:
-    matches = re.findall(r"^([0-9a-f]{2}) ([0-9a-f]{8}) ", f.read(), re.IGNORECASE | re.MULTILINE)
-  for item_id, arc_name_pointer in matches:
-    item_id = int(item_id, 16)
-    arc_name_pointer = int(arc_name_pointer, 16)
-    arc_name_pointers[item_id] = arc_name_pointer
-  
   for item_id in self.item_ids_without_a_field_model:
     if item_id in [0x39, 0x3A, 0x3E]:
       # Master Swords don't have a proper item get model defined, so we need to use the Hero's Sword instead.
@@ -165,7 +164,7 @@ def allow_all_items_to_be_field_items(self):
     item_resources_offset_to_copy_from = item_resources_list_start + item_id_to_copy_from*0x24
     field_item_resources_offset = field_item_resources_list_start + item_id*0x1C
     
-    arc_name_pointer = arc_name_pointers[item_id_to_copy_from]
+    arc_name_pointer = self.arc_name_pointers[item_id_to_copy_from]
     
     write_u32(dol_data, field_item_resources_offset, arc_name_pointer)
     if item_resources_offset_to_fix:

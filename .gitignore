@@ -1,3 +1,5 @@
 __pycache__
 /wip
 settings.txt
+/build
+/dist
