@@ -499,17 +499,18 @@ class STAG:
     
     self.depth_min = read_float(data, offset)
     self.depth_max = read_float(data, offset+4)
+    self.unknown_1 = read_u8(data, offset+8)
     
-    is_dungeon_and_stage_id = read_u16(data, offset+8)
+    is_dungeon_and_stage_id = read_u8(data, offset+9)
     self.is_dungeon = is_dungeon_and_stage_id & 1
     self.stage_id = is_dungeon_and_stage_id >> 1
     
     self.loaded_particle_bank = read_u16(data, offset+0xA)
     self.property_index = read_u16(data, offset+0xC)
-    self.unknown_1 = read_u8(data, offset+0xE)
-    self.unknown_2 = read_u8(data, offset+0xF)
-    self.unknown_3 = read_u8(data, offset+0x10)
-    self.unknown_4 = read_u8(data, offset+0x11)
+    self.unknown_2 = read_u8(data, offset+0xE)
+    self.unknown_3 = read_u8(data, offset+0xF)
+    self.unknown_4 = read_u8(data, offset+0x10)
+    self.unknown_5 = read_u8(data, offset+0x11)
     self.draw_range = read_u16(data, offset+0x12)
   
   def save_changes(self):
@@ -517,16 +518,17 @@ class STAG:
     
     write_float(data, self.offset, self.depth_min)
     write_float(data, self.offset+4, self.depth_max)
+    write_u8(data, self.offset+8, self.unknown_1)
     
     is_dungeon_and_stage_id = (self.stage_id << 1) | (self.is_dungeon & 1)
     write_u16(data, self.offset+8, is_dungeon_and_stage_id)
     
     write_u16(data, self.offset+0xA, self.loaded_particle_bank)
     write_u16(data, self.offset+0xC, self.property_index)
-    write_u8(data, self.offset+0xE, self.unknown_1)
-    write_u8(data, self.offset+0xF, self.unknown_2)
-    write_u8(data, self.offset+0x10, self.unknown_3)
-    write_u8(data, self.offset+0x11, self.unknown_4)
+    write_u8(data, self.offset+0xE, self.unknown_2)
+    write_u8(data, self.offset+0xF, self.unknown_3)
+    write_u8(data, self.offset+0x10, self.unknown_4)
+    write_u8(data, self.offset+0x11, self.unknown_5)
     write_u16(data, self.offset+0x12, self.draw_range)
 
 class DummyEntry():
