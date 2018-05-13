@@ -222,39 +222,40 @@ Windfall Island - Lenzo's House - Deluxe Picto Box 2? TODO dupe:
   Original item: Deluxe Picto Box
   Paths:
     - rels/d_a_npc_photo.rel@3BE3
-Windfall Island - House of Wealth - Chest:
+Windfall Island - House of Wealth Chest:
   Need: Nothing
   Original item: Red Rupee
   Paths:
     - Orichh/Room0.arc/Chest000
-Windfall Island - House of Wealth - Maggie's Father - Give 20 Skull Necklaces:
-  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces & TODO
+Windfall Island - Maggie's Father - Give 20 Skull Necklaces:
+  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
   Original item: Treasure Chart 2
   Paths:
     - Orichh/Stage.arc/Event04C:Gp1_Get_Itm/Actor002/Action001
-Windfall Island - House of Wealth - Maggie's Father - Give More than 20 Skull Necklaces: # TODO?
-  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces & TODO
-  Original item: Red Rupee
-  Paths:
-    - rels/d_a_npc_kf1.rel@17AF
-Windfall Island - House of Wealth - Maggie's Father - Give More than 20 Skull Necklaces 2: # TODO? dupe?
-  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces & TODO
-  Original item: Red Rupee
-  Paths:
-    - rels/d_a_npc_kf1.rel@1A23
-Windfall Island - House of Wealth - Maggie - Letter:
+#Windfall Island - Maggie's Father - Give More than 20 Skull Necklaces: # Doesn't work
+#  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
+#  Original item: Red Rupee
+#  Paths:
+#    - rels/d_a_npc_kf1.rel@17AF
+#Windfall Island - Maggie's Father - Give More than 20 Skull Necklaces 2: # Doesn't work
+#  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
+#  Original item: Red Rupee
+#  Paths:
+#    - rels/d_a_npc_kf1.rel@1A23
+Windfall Island - Maggie - Letter:
   Need: Rescued Aryll & TODO
-  # TODO: What happens if you give her the Moblin's Letter before recieving Maggie's Letter? Does this location become missable?
+  # TODO: This item becomes missable once you own Maggie's Letter (or Moblin's Letter?).
   Original item: Maggie's Letter
   Paths:
     - rels/d_a_npc_kp1.rel@17D7
-Windfall Island - House of Wealth - Maggie - Reward:
-  Need: Rescued Aryll & Delivery Bag & TODO
+Windfall Island - Maggie - Reward:
+  Need: Rescued Aryll & Delivery Bag & Moblin's Letter
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_kp1.rel@1817
 Windfall Island - Cafe Bar - Postman:
-  Need: Rescued Aryll & Delivery Bag & TODO
+  Need: Rescued Aryll & Delivery Bag & Maggie's Letter & TODO
+  # TODO: The postman disappears once you've ever owned the Moblin's Letter.
   Original item: Moblin's Letter
   Paths:
     - Opub/Stage.arc/Event00E:Get_Mo3_Ltr/Actor002/Action001
@@ -282,22 +283,22 @@ Windfall Island - Tott:
   Original item: Song of Passing
   Paths:
     - sea/Stage.arc/Event0E3:TACT_TT11/Actor001/Action003
-Windfall Island - Auction 1: # the order of auctions may be reversed, 4-1? TODO
+Windfall Island - 40 Rupee Auction:
   Need: Nothing
   Original item: Joy Pendant
   Paths:
     - rels/d_a_auction.rel@4489
-Windfall Island - Auction 2:
+Windfall Island - 5 Rupee Auction:
   Need: Nothing
   Original item: Treasure Chart 18
   Paths:
     - rels/d_a_auction.rel@4491
-Windfall Island - Auction 3:
+Windfall Island - 60 Rupee Auction:
   Need: Nothing
   Original item: Treasure Chart 38
   Paths:
     - rels/d_a_auction.rel@4499
-Windfall Island - Auction 4:
+Windfall Island - 80 Rupee Auction:
   Need: Nothing
   Original item: Piece of Heart
   Paths:
