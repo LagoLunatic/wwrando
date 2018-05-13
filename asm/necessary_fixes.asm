@@ -312,3 +312,15 @@
 .open "files/rels/d_a_warpdm20.rel" ; Hyrule warp object
 .org 0x68C
   b 0x694
+
+
+
+
+; Fix the Phantom Ganon from Ganon's Tower so he doesn't disappear from the maze when the player gets Light Arrows, but instead when they open the chest at the end of the maze which originally had Light Arrows.
+; We replace where he calls dComIfGs_checkGetItem__FUc with a custom function that checks the appropriate treasure chest open flag.
+.open "files/rels/d_a_fganon.rel" ; Phantom Ganon
+; This is a rel, so overwrite the relocation addresses instead of the actual code.
+.org 0xDB4C
+  .int check_ganons_tower_chest_opened
+.org 0xDB54
+  .int check_ganons_tower_chest_opened

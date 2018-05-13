@@ -11,3 +11,4 @@
 803fd3e4 custom_createItem
 803fd424 check_hyrule_warp_unlocked
 803fd470 set_wind_dir_to_ship_dir
+803fd4b0 check_ganons_tower_chest_opened

@@ -30,3 +30,4 @@ SoldOutItem__11ShopItems_cFi = 0x8005ff10;
 getTriforceNum__20dSv_player_collect_cFv = 0x8005b230;
 setShipSailState__11JAIZelBasicFl = 0x802a965c;
 dKyw_tact_wind_set__Fss = 0x8008a7d0;
+dComIfGs_isStageTbox__Fii = 0x80053918;

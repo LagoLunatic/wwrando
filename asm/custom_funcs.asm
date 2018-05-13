@@ -535,3 +535,23 @@ lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
 blr
+
+
+
+
+; Custom function that checks if the treasure chest in Ganon's Tower (that originally had the Light Arrows) has been opened.
+; This is to make the Phantom Ganon that appears in the maze still work if you got Light Arrows beforehand.
+.global check_ganons_tower_chest_opened
+check_ganons_tower_chest_opened:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 8 ; Stage ID for Ganon's Tower.
+li r4, 0 ; Chest open flag for the Light Arrows chest. Just 0 since this is the only chest in the whole dungeon.
+bl dComIfGs_isStageTbox__Fii
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
