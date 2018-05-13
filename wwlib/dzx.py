@@ -20,6 +20,27 @@ class DZx: # DZR or DZS, same format
       if chunk_type == chunk.chunk_type:
         entries += chunk.entries
     return entries
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    data.truncate(0)
+    
+    offset = 0
+    for chunk in self.chunks:
+      chunk.offset = offset
+      write_str(data, chunk.offset, chunk.fourcc, 4)
+      write_u32(data, chunk.offset+4, len(chunk.entries))
+      write_u32(data, chunk.offset+8, 0) # Placeholder for first entry offset
+    
+    for chunk in self.chunks:
+      first_entry_offset = offset
+      write_u32(data, chunk.offset+8, first_entry_offset)
+      
+      for entry in chunk.entries:
+        entry.offset = offset
+        entry.save_changes()
+        
+        offset += chunk.entry_class.DATA_SIZE
 
 class Chunk:
   LAYER_CHAR_TO_LAYER_INDEX = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'a': 10, 'b': 11}
@@ -48,27 +69,32 @@ class Chunk:
     
     self.entries = []
     
-    entry_class = {
-      "TRES": TRES,
-      "SCOB": SCOB,
-      "ACTR": ACTR,
-      "PLYR": PLYR,
-      "SCLS": SCLS,
-      "STAG": STAG,
-    }.get(self.chunk_type, None)
-    
-    if entry_class is None:
-      #print("Unknown chunk type:", self.chunk_type)
+    if self.entry_class is None:
+      #raise Exception("Unknown chunk type: " + self.chunk_type)
+      self.entries = [None]*num_entries
       return
     
     #print("First entry offset: %X" % first_entry_offset)
     
-    entry_size = entry_class.DATA_SIZE
+    entry_size = self.entry_class.DATA_SIZE
     
     for entry_index in range(0, num_entries):
       entry_offset = first_entry_offset + entry_index*entry_size
-      entry = entry_class(self.file_entry, entry_offset)
+      entry = self.entry_class(self.file_entry, entry_offset)
       self.entries.append(entry)
+  
+  @property
+  def entry_class(self):
+    return globals().get(self.chunk_type, None)
+  
+  @property
+  def fourcc(self):
+    fourcc = self.chunk_type
+    if self.layer:
+      assert 0 <= self.layer <= 11
+      fourcc = fourcc[:3]
+      fourcc += "%x" % self.layer
+    return fourcc
 
 class TRES:
   DATA_SIZE = 0x20
