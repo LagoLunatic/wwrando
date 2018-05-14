@@ -396,13 +396,12 @@ stwu sp, -0x10 (sp)
 mflr r0
 stw r0, 0x14 (sp)
 
-; Set bit 80 of byte 803C4CBF.
-; That bit was unused in the base game, but we repurpose it to keep track of whether you have Hurricane Spin separately from whether you've seen the event where Orca would normally give you Hurricane Spin.
-lis r3,0x803C4CBC@ha
-addi r3,r3,0x803C4CBC@l
-li r4,3
-li r5,7
-bl onCollect__20dSv_player_collect_cFiUc
+; Set event bit 6901 (bit 01 of byte 803C5295).
+; This bit was unused in the base game, but we repurpose it to keep track of whether you have Hurricane Spin separately from whether you've seen the event where Orca would normally give you Hurricane Spin.
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6901 ; Unused event bit
+bl onEventBit__11dSv_event_cFUs
 
 ; Function end stuff
 lwz r0, 0x14 (sp)
@@ -422,13 +421,12 @@ stw r0, 0x14 (sp)
 ; First call the regular SoldOutItem function with the given arguments since we overwrote a call to that in order to call this custom function.
 bl SoldOutItem__11ShopItems_cFi
 
-; Set bit 40 of byte 803C4CBF.
-; That bit was unused in the base game, but we repurpose it to keep track of whether you've purchased whatever item is in the Bait Bag slot of Beedle's shop.
-lis r3,0x803C4CBC@ha
-addi r3,r3,0x803C4CBC@l
-li r4,3
-li r5,6
-bl onCollect__20dSv_player_collect_cFiUc
+; Set event bit 6902 (bit 02 of byte 803C5295).
+; This bit was unused in the base game, but we repurpose it to keep track of whether you've purchased whatever item is in the Bait Bag slot of Beedle's shop.
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6902 ; Unused event bit
+bl onEventBit__11dSv_event_cFUs
 
 lwz r0, 0x14 (sp)
 mtlr r0
@@ -441,12 +439,11 @@ stwu sp, -0x10 (sp)
 mflr r0
 stw r0, 0x14 (sp)
 
-; Check bit 40 of byte 803C4CBF, which was originally unused but we use it to keep track of whether the item in the Bait Bag slot has been purchased or not.
-lis     r3,0x803C4CBC@ha
-addi    r3,r3,0x803C4CBC@l
-li      r4,3
-li      r5,6
-bl      isCollect__20dSv_player_collect_cFiUc
+; Check event bit 6902 (bit 02 of byte 803C5295), which was originally unused but we use it to keep track of whether the item in the Bait Bag slot has been purchased or not.
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6902 ; Unused event bit
+bl isEventBit__11dSv_event_cFUs
 
 lwz r0, 0x14 (sp)
 mtlr r0
