@@ -78,6 +78,9 @@ class WWRandomizerWindow(QMainWindow):
     
     rando = Randomizer(int(seed), clean_files_path, seed_output_folder, options)
     rando.randomize()
+    
+    msg = "Randomization complete."
+    QMessageBox.information(self, "Done", msg)
   
   def load_settings(self):
     self.settings_path = "settings.txt"
