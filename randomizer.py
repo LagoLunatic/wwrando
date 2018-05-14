@@ -511,7 +511,7 @@ class Randomizer:
       island_name = self.island_number_to_name[chart.island_number]
       spoiler_log += "  %-18s %s\n" % (chart.item_name+":", island_name)
     
-    spoiler_log_output_path = "../WW - %s - Spoiler Log.txt" % self.seed
+    spoiler_log_output_path = self.randomized_base_dir + " - Spoiler Log.txt"
     with open(spoiler_log_output_path, "w") as f:
       f.write(spoiler_log)
 
