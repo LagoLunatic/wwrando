@@ -83,6 +83,10 @@ li r4, 0x2D08 ; HYRULE_3_WARP_CUTSCENE
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x3980 ; HYRULE_3_ELECTRICAL_BARRIER_CUTSCENE_1
 bl onEventBit__11dSv_event_cFUs
+li r4, 0x3B02 ; Saw cutscene before Puppet Ganon fight
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x4002 ; Saw cutscene before Ganondorf fight
+bl onEventBit__11dSv_event_cFUs
 
 lis r3, 0x803C
 addi r3, r3, 0x5D60
@@ -139,6 +143,13 @@ lis r3, 0x803C50CC@ha ; Hyrule stage info.
 addi r3, r3, 0x803C50CC@l
 lis r4, 0x0004
 addi r4, r4, 0x0040
+stw r4, 4 (r3)
+
+; Set a switch (1E) for having seen the cutscene before the Puppet Ganon fight.
+; Also set a switch (1F) for having seen the cutscene before the Ganondorf fight.
+lis r3, 0x803C50A8@ha ; Ganon's Tower stage info.
+addi r3, r3, 0x803C50A8@l
+lis r4, 0xC000
 stw r4, 4 (r3)
 
 
