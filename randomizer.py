@@ -242,10 +242,10 @@ class Randomizer:
     
     rel_match = re.search(r"^(rels/[^.]+\.rel)@([0-9A-F]{4})$", path)
     main_dol_match = re.search(r"^main.dol@([0-9A-F]{6})$", path)
-    chest_match = re.search(r"^([^/]+/[^/]+\.arc)/Chest([0-9A-F]{3})$", path)
+    chest_match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/Chest([0-9A-F]{3})$", path)
     event_match = re.search(r"^([^/]+/[^/]+\.arc)/Event([0-9A-F]{3}):[^/]+/Actor([0-9A-F]{3})/Action([0-9A-F]{3})$", path)
-    scob_match = re.search(r"^([^/]+/[^/]+\.arc)/ScalableObject([0-9A-F]{3})$", path)
-    actor_match = re.search(r"^([^/]+/[^/]+\.arc)/Actor([0-9A-F]{3})$", path)
+    scob_match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/ScalableObject([0-9A-F]{3})$", path)
+    actor_match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/Actor([0-9A-F]{3})$", path)
     
     if rel_match:
       rel_path = rel_match.group(1)
@@ -258,8 +258,12 @@ class Randomizer:
       self.change_hardcoded_item(path, offset, item_id)
     elif chest_match:
       arc_path = "files/res/Stage/" + chest_match.group(1)
-      chest_index = int(chest_match.group(2), 16)
-      self.change_chest_item(arc_path, chest_index, item_id)
+      if chest_match.group(2):
+        layer = int(chest_match.group(2), 16)
+      else:
+        layer = None
+      chest_index = int(chest_match.group(3), 16)
+      self.change_chest_item(arc_path, chest_index, layer, item_id)
     elif event_match:
       arc_path = "files/res/Stage/" + event_match.group(1)
       event_index = int(event_match.group(2), 16)
@@ -268,12 +272,20 @@ class Randomizer:
       self.change_event_item(arc_path, event_index, actor_index, action_index, item_id)
     elif scob_match:
       arc_path = "files/res/Stage/" + scob_match.group(1)
-      scob_index = int(scob_match.group(2), 16)
-      self.change_scob_item(arc_path, scob_index, item_id)
+      if scob_match.group(2):
+        layer = int(scob_match.group(2), 16)
+      else:
+        layer = None
+      scob_index = int(scob_match.group(3), 16)
+      self.change_scob_item(arc_path, scob_index, layer, item_id)
     elif actor_match:
       arc_path = "files/res/Stage/" + actor_match.group(1)
-      actor_index = int(actor_match.group(2), 16)
-      self.change_actor_item(arc_path, actor_index, item_id)
+      if actor_match.group(2):
+        layer = int(actor_match.group(2), 16)
+      else:
+        layer = None
+      actor_index = int(actor_match.group(3), 16)
+      self.change_actor_item(arc_path, actor_index, layer, item_id)
     else:
       raise Exception("Invalid item path: " + path)
 
@@ -281,9 +293,9 @@ class Randomizer:
     data = self.get_raw_file(path)
     write_u8(data, offset, item_id)
 
-  def change_chest_item(self, arc_path, chest_index, item_id):
+  def change_chest_item(self, arc_path, chest_index, layer, item_id):
     dzx = self.get_arc(arc_path).dzx_files[0]
-    chest = dzx.entries_by_type("TRES")[chest_index]
+    chest = dzx.entries_by_type_and_layer("TRES", layer)[chest_index]
     chest.item_id = item_id
     chest.save_changes()
 
@@ -299,9 +311,9 @@ class Randomizer:
       event_list.set_property_value(action.property_index, item_id)
     action.save_changes()
 
-  def change_scob_item(self, arc_path, scob_index, item_id):
+  def change_scob_item(self, arc_path, scob_index, layer, item_id):
     dzx = self.get_arc(arc_path).dzx_files[0]
-    scob = dzx.entries_by_type("SCOB")[scob_index]
+    scob = dzx.entries_by_type_and_layer("SCOB", layer)[scob_index]
     if scob.is_salvage():
       scob.salvage_item_id = item_id
       scob.save_changes()
@@ -311,9 +323,9 @@ class Randomizer:
     else:
       raise Exception("%s/SCOB%03X is an unknown type of SCOB" % (arc_path, scob_index))
 
-  def change_actor_item(self, arc_path, actor_index, item_id):
+  def change_actor_item(self, arc_path, actor_index, layer, item_id):
     dzx = self.get_arc(arc_path).dzx_files[0]
-    actr = dzx.entries_by_type("ACTR")[actor_index]
+    actr = dzx.entries_by_type_and_layer("ACTR", layer)[actor_index]
     if actr.is_item():
       actr.item_id = item_id
     elif actr.is_boss_item():

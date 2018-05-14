@@ -275,9 +275,9 @@ Windfall Island - Transparent Chest:
     & (Can Fly With Deku Leaf Outdoors | Hookshot)
   Original item: Piece of Heart
   Paths:
-    - sea/Room11.arc/Chest000
-    - sea/Room11.arc/Chest001
-    - sea/Room11.arc/Chest002
+    - sea/Room11.arc/Layer1/Chest000
+    - sea/Room11.arc/Layer3/Chest000
+    - sea/Room11.arc/Layer5/Chest000
 Windfall Island - Tott:
   Need: Wind Waker
   Original item: Song of Passing
@@ -574,8 +574,8 @@ Forest Haven - On Tree Branch:
   Original item: Deku Leaf
   Paths:
     - rels/d_a_deku_item.rel@0DC3
-    - Omori/Room0.arc/Actor099
-    - Omori/Room0.arc/Actor0AF
+    - Omori/Room0.arc/Layer0/Actor000
+    - Omori/Room0.arc/Layer1/Actor00B
 #Forest Haven - Farore's Pearl:
 #  Need: 
 #  Original item: Farore's Pearl
@@ -948,9 +948,9 @@ Forsaken Fortress - Helmaroc King Heart Container:
   Original item: Heart Container
   Paths:
     - rels/d_a_bdk.rel@5CCE
-    - M2tower/Room0.arc/Actor032
-    - sea/Room1.arc/Actor052
-    - sea/Room1.arc/Actor05B
+    - M2tower/Room0.arc/Layer3/Actor01B
+    - sea/Room1.arc/Layer2/Actor001
+    - sea/Room1.arc/Layer3/Actor001
 
 
 # TODO: add a field item here so this place isn't totally empty
