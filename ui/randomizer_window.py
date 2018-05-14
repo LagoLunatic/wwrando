@@ -74,8 +74,10 @@ class WWRandomizerWindow(QMainWindow):
     for option_name in OPTIONS:
       options[option_name] = getattr(self.ui, option_name).isChecked()
     
-    rando = Randomizer(int(seed), clean_files_path, output_folder, options)
-    #rando.randomize()
+    seed_output_folder = os.path.join(output_folder, "WW Random %s" % seed)
+    
+    rando = Randomizer(int(seed), clean_files_path, seed_output_folder, options)
+    rando.randomize()
   
   def load_settings(self):
     self.settings_path = "settings.txt"
