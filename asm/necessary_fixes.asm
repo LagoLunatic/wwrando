@@ -389,3 +389,28 @@
   li r3, 0x6904
 .org 0x9F4 ; For Lenzo, checking Pompie and Vera's event bit
   li r3, 0x6904
+
+; Fix Lenzo thinking you've completed his research assistant quest if you own the Deluxe Picto Box.
+; First we need to change a function Lenzo calls when he gives you the item in the Deluxe Picto Box slot to call a custom function.
+; This custom function will set an event bit to keep track of whether you've done this independantly of what the item itself is.
+.org 0x7B04 ; Relocation for line 0x3BDC
+  .int lenzo_set_deluxe_picto_box_event_bit
+; Then we change the calls to checkGetItem to see if the player owns the Deluxe Picto Box to instead check the event bit we just set (6920).
+; Change the calls to checkGetItem to instead call isEventBit.
+.org 0x7AEC ; Relocation for line 0x3BB4
+  .int dComIfGs_isEventBit__FUs
+.org 0x7B14 ; Relocation for line 0x3C6C
+  .int dComIfGs_isEventBit__FUs
+.org 0x7B6C ; Relocation for line 0x3E58
+  .int dComIfGs_isEventBit__FUs
+.org 0x7D6C ; Relocation for line 0x4AFC
+  .int dComIfGs_isEventBit__FUs
+; And change argument r3 passed to isEventBit to be the event bit we set (6920), as opposed to the item ID that it originally was for checkGetItem.
+.org 0x3BB0
+  li r3, 0x6920
+.org 0x3C68
+  li r3, 0x6920
+.org 0x3E54
+  li r3, 0x6920
+.org 0x4AF8
+  li r3, 0x6920

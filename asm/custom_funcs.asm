@@ -594,3 +594,28 @@ lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
 blr
+
+
+
+
+; Lenzo normally won't let you start his assistant quest if he detects you already have the Deluxe Picto Box, which is bad when that's randomized.
+; So we need to set a custom event bit to keep track of whether you've gotten whatever item is in the Deluxe Picto Box slot.
+.global lenzo_set_deluxe_picto_box_event_bit
+lenzo_set_deluxe_picto_box_event_bit:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+; First replace the function call we overwrote to call this custom function.
+bl setEquipBottleItemEmpty__17dSv_player_item_cFv
+
+; Next set an originally-unused event bit to keep track of whether the player got the item that was the Deluxe Picto Box in vanilla.
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6920
+bl onEventBit__11dSv_event_cFUs
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
