@@ -70,6 +70,8 @@ class Section:
 
 class RelocationDataEntry:
   def __init__(self, data, offset, prev_relocation_offset, curr_section_num):
+    self.offset = offset
+    
     offset_of_curr_relocation_from_prev = read_u16(data, offset)
     self.relocation_type = read_u8(data, offset+2)
     self.section_num_to_relocate_against = read_u8(data, offset+3)
