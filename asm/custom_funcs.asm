@@ -563,3 +563,34 @@ lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
 blr
+
+
+
+
+; Custom function that creates an item given by a Windfall townsperson, and also sets an event bit to keep track of the item being given.
+.global create_item_and_set_event_bit_for_townsperson
+create_item_and_set_event_bit_for_townsperson:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+stw r31, 0xC (sp)
+mr r31, r4 ; Preserve argument r4, which has both the item ID and the event bit to set.
+
+clrlwi r4,r4,24 ; Get the lowest byte (0x000000FF), which has the item ID
+bl fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz
+
+
+rlwinm. r4,r31,16,16,31 ; Get the upper halfword (0xFFFF0000), which has the event bit to set
+beq create_item_and_set_event_bit_for_townsperson_end ; If the event bit specified is 0000, skip to the end of the function instead
+mr r31, r3 ; Preserve the return value from createItemForPresentDemo so we can still return that
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+bl onEventBit__11dSv_event_cFUs ; Otherwise, set that event bit
+mr r3, r31
+
+create_item_and_set_event_bit_for_townsperson_end:
+lwz r31, 0xC (sp)
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr

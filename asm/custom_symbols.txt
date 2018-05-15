@@ -12,3 +12,4 @@
 803fd438 check_hyrule_warp_unlocked
 803fd484 set_wind_dir_to_ship_dir
 803fd4c4 check_ganons_tower_chest_opened
+803fd4ec create_item_and_set_event_bit_for_townsperson

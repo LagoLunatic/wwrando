@@ -319,3 +319,73 @@
   .int check_ganons_tower_chest_opened
 .org 0xDB54
   .int check_ganons_tower_chest_opened
+
+
+
+
+; Fix some Windfall townspeople not properly keeping track of whether they've given you their quest reward item yet or not.
+; Pompie/Vera, Minenco, and Kamo give you treasure charts in the vanilla game, and they check if they've given you their item by calling checkGetItem.
+; But that doesn't work for non-unique items, such as progressive items, rupees, etc.
+; So we need to change their code to set and check event bits that were originally unused in the base game.
+.open "files/rels/d_a_npc_people.rel" ; Various Windfall Island townspeople
+; First we need to specify what event bit each townsperson should set.
+; They store their item IDs as a word originally, so we can use the upper halfwords of those words to store the event bits.
+; The other townspeople besides these 3 we just leave the upper halfword at 0000.
+.org 0xC54C ; For Pompie and Vera
+  .short 0x6904 ; Unused event bit
+.org 0xC550 ; For Minenco
+  .short 0x6908 ; Unused event bit
+.org 0xC55C ; For Kamo
+  .short 0x6910 ; Unused event bit
+; Then change the function call to createItemForPresentDemo to call our own custom function instead.
+; This custom function will both call createItemForPresentDemo and set one of the event bits specified above, by extracting the item ID and event bit separately from argument r4.
+.org 0xFB34 ;  Relocation for line 0x4BEC
+  .int create_item_and_set_event_bit_for_townsperson
+; We also need to change the calls to checkGetItem to instead call isEventBit.
+.org 0xF17C ; Relocation for line 0x8D8
+  .int dComIfGs_isEventBit__FUs
+.org 0xF40C ; Relocation for line 0x14D0
+  .int dComIfGs_isEventBit__FUs
+.org 0xF5CC ; Relocation for line 0x1C38
+  .int dComIfGs_isEventBit__FUs
+.org 0xFFA4 ; Relocation for line 0x6174
+  .int dComIfGs_isEventBit__FUs
+.org 0x102BC ; Relocation for line 0x6C54
+  .int dComIfGs_isEventBit__FUs
+.org 0x102DC ; Relocation for line 0x6CC8
+  .int dComIfGs_isEventBit__FUs
+.org 0x106FC ; Relocation for line 0x88A8
+  .int dComIfGs_isEventBit__FUs
+.org 0x10744 ; Relocation for line 0x8A60
+  .int dComIfGs_isEventBit__FUs
+.org 0x10954 ; Relocation for line 0x91C4
+  .int dComIfGs_isEventBit__FUs
+; And finally, we change argument r3 passed to isEventBit to be the relevant event bit, as opposed to the item ID that it originally was for checkGetItem.
+.org 0x08D4 ; For Pompie and Vera
+  li r3, 0x6904
+.org 0x14CC ; For Kamo
+  li r3, 0x6910
+.org 0x1C34 ; For Kamo
+  li r3, 0x6910
+.org 0x6170 ; For Minenco
+  li r3, 0x6908
+.org 0x6C50 ; For Kamo
+  li r3, 0x6910
+.org 0x6CC4 ; For Kamo
+  li r3, 0x6910
+.org 0x88A4 ; For Kamo
+  li r3, 0x6910
+.org 0x8A5C ; For Kamo
+  li r3, 0x6910
+.org 0x91C0 ; For Pompie and Vera
+  li r3, 0x6904
+; Also, we need to change a couple checks Lenzo does, since he also checks if you got the item from Pompie and Vera.
+.open "files/rels/d_a_npc_photo.rel" ; Lenzo
+.org 0x717C ; Relocation for line 0x9C8
+  .int dComIfGs_isEventBit__FUs
+.org 0x7194 ; Relocation for line 0x9F8
+  .int dComIfGs_isEventBit__FUs
+.org 0x9C4 ; For Lenzo, checking Pompie and Vera's event bit
+  li r3, 0x6904
+.org 0x9F4 ; For Lenzo, checking Pompie and Vera's event bit
+  li r3, 0x6904
