@@ -203,7 +203,7 @@ class TRES:
 
   @property
   def opened_flag(self):
-    return ((self.params & 0x00000F80) >> 8)
+    return ((self.params & 0x00000F80) >> 7)
   
   @opened_flag.setter
   def opened_flag(self, value):
