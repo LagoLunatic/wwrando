@@ -199,29 +199,23 @@ Windfall Island - Lenzo's House - Right Chest:
 Windfall Island - Lenzo's House - Become Lenzo's Assistant:
   Need:
     Picto Box
-    & TODO # might need to have rescued aryll
   Original item: Joy Pendant
   Paths:
     - rels/d_a_npc_photo.rel@1C13
-Windfall Island - Lenzo's House - Deluxe Picto Box:
+Windfall Island - Lenzo's House - Bring Forest Firefly:
   Need:
     Picto Box
-    & TODO
     & Empty Bottle
     & Can Access Forest Haven
   Original item: Deluxe Picto Box
   Paths:
     - rels/d_a_npc_photo.rel@1C37
-Windfall Island - Lenzo's House - TODO unknown:
-  Need: TODO
-  Original item: Legendary Pictograph
-  Paths:
-    - rels/d_a_npc_photo.rel@3B8B
-Windfall Island - Lenzo's House - Deluxe Picto Box 2? TODO dupe:
-  Need: TODO
-  Original item: Deluxe Picto Box
-  Paths:
     - rels/d_a_npc_photo.rel@3BE3
+#Windfall Island - Lenzo's House - Legendary Pictograph:
+#  Need: TODO
+#  Original item: Legendary Pictograph
+#  Paths:
+#    - rels/d_a_npc_photo.rel@3B8B
 Windfall Island - House of Wealth Chest:
   Need: Nothing
   Original item: Red Rupee
@@ -313,8 +307,13 @@ Windfall Island - 80 Rupee Auction:
 #  Original item: Town Flower
 #  Paths:
 #    - rels/d_a_npc_rsh1.rel@30DF
-Windfall Island - Zunari - Make Three Merchant's Oaths:
-  Need: Rescued Aryll & Delivery Bag & TODO
+Windfall Island - Sam - Decorate the Town:
+  Need: Rescued Aryll & Delivery Bag
+  Original item: Piece of Heart
+  Paths:
+    - rels/d_a_npc_people.rel@C54B
+Windfall Island - Zunari - Get Three Items Zunari's Shop:
+  Need: Rescued Aryll & Delivery Bag
   Original item: Magic Armor
   Paths:
     - rels/d_a_npc_rsh1.rel@3117
@@ -368,13 +367,8 @@ Windfall Island - Minenco:
   Original item: Treasure Chart 33
   Paths:
     - rels/d_a_npc_people.rel@C553
-Windfall Island - TODO 1 (Linda, or Sam):
+Windfall Island - Linda:
   Need: TODO # Linda requires Deluxe Picto Box. regular picto box might work but probably not, test
-  Original item: Piece of Heart
-  Paths:
-    - rels/d_a_npc_people.rel@C54B
-Windfall Island - TODO 2 (Linda, or Sam):
-  Need: TODO
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_people.rel@C557
@@ -1435,6 +1429,7 @@ The Great Sea - Cyclos:
     - sea/Stage.arc/Event0E0:TACT1_RT/Actor001/Action003
 The Great Sea - Island Trading Reward:
   Need: Rescued Aryll & Delivery Bag
+  # You need at least 560 rupees to get the final item, but you don't need a wallet upgrade since the most you need at one time is 200 rupees.
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_roten.rel@533B
