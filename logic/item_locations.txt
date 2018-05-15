@@ -212,7 +212,7 @@ Windfall Island - Lenzo's House - Bring Forest Firefly:
     - rels/d_a_npc_photo.rel@1C37
     - rels/d_a_npc_photo.rel@3BE3
 #Windfall Island - Lenzo's House - Legendary Pictograph:
-#  Need: TODO
+#  Need: 
 #  Original item: Legendary Pictograph
 #  Paths:
 #    - rels/d_a_npc_photo.rel@3B8B
@@ -487,7 +487,7 @@ Dragon Roost Cavern - Pot Room Chest:
   Original item: Treasure Chart 39
   Paths:
     - M_NewD2/Stage.arc/Chest003
-#Dragon Roost Cavern - Mini-boss: # TODO: this item doesn't appear because medli is gone.
+#Dragon Roost Cavern - Mini-boss: # TODO: this item doesn't appear because medli is gone. even if it did, the player could get softlocked because the stairs disappear after the first visit.
 #  Need:
 #    Can Access Dragon Roost Cavern
 #    & DRC Small Key x4
@@ -938,7 +938,7 @@ Forsaken Fortress - Helmaroc King Heart Container:
     # There's a cannon that makes sidling across a gap difficult, but you don't need bombs because you can just kill the searchlight operator Bokoblin instead to get rid of the cannon simultaneously.
     # Note: It is possible to get up there without Deku Leaf.
     # To do it, go to the southwest room, and jump on top of the wooden bedposts. Then jump diagonally onto the corner of the platform with the Bokoblin and the Skull Hammer pegs on it.
-    # TODO: If adding difficulty options, take that trick into account.
+    # If adding difficulty options, take that trick into account.
   Original item: Heart Container
   Paths:
     - rels/d_a_bdk.rel@5CCE
@@ -947,7 +947,7 @@ Forsaken Fortress - Helmaroc King Heart Container:
     - sea/Room1.arc/Layer3/Actor001
 
 
-# TODO: add a field item here so this place isn't totally empty
+# TODO: add a field item or treasure chest here so this place isn't totally empty
 #Mother and Child Isles - Queen Fairy:
 #  Need: Can Play Ballad of Gales
 #  Original item: Fire and Ice Arrows
@@ -2106,28 +2106,28 @@ Six-Eye Reef - Submarine:
   Paths:
     - Abship/Room1.arc/Chest000
 
-#TODO - unknown npc 1:
-#  Need: TODO
+#unknown - unknown npc 1:
+#  Need: 
 #  Original item: Red Rupee
 #  Paths:
 #    - rels/d_a_npc_people.rel@5BC3
-#TODO - unknown npc 2:
-#  Need: TODO
+#unknown - unknown npc 2:
+#  Need: 
 #  Original item: Purple Rupee
 #  Paths:
 #    - rels/d_a_npc_people.rel@5BDF
-#TODO - The Great Sea - unknown event 1:
-#  Need: TODO
+#unknown - The Great Sea - unknown event 1:
+#  Need: 
 #  Original item: Joy Pendant
 #  Paths:
 #    - sea/Stage.arc/Event093:MK_PENDANT/Actor001/Action005
-#TODO - The Great Sea - unknown event 2:
-#  Need: TODO
+#unknown - The Great Sea - unknown event 2:
+#  Need: 
 #  Original item: Red Rupee
 #  Paths:
 #    - sea/Stage.arc/Event0B1:Get_Rupee/Actor002/Action000
-#TODO - The Great Sea - unknown event 3:
-#  Need: TODO
+#unknown - The Great Sea - unknown event 3:
+#  Need: 
 #  Original item: Silver Rupee
 #  Paths:
 #    - sea/Stage.arc/Event0D2:SO_GET_RUPEE/Actor002/Action000
