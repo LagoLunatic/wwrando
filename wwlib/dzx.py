@@ -142,8 +142,45 @@ class Chunk:
       fourcc += "%x" % self.layer
     return fourcc
 
-class TRES:
+class ChunkEntry:
+  PARAMS = {}
+  
+  def __getattr__(self, name):
+    if name in self.PARAMS:
+      mask = self.PARAMS[name]
+      amount_to_shift = self.get_lowest_set_bit(mask)
+      return ((self.params & mask) >> amount_to_shift)
+    else:
+      return super(self.__class__, self).__getattribute__(name)
+  
+  def __setattr__(self, name, value):
+    if name in self.PARAMS:
+      mask = self.PARAMS[name]
+      amount_to_shift = self.get_lowest_set_bit(mask)
+      self.params = (self.params & (~mask)) | ((value << amount_to_shift) & mask)
+    else:
+      self.__dict__[name] = value
+  
+  @staticmethod
+  def get_lowest_set_bit(integer):
+    lowest_set_bit_index = None
+    for bit_index in range(32):
+      if integer & (1 << bit_index):
+        lowest_set_bit_index = bit_index
+        break
+    if lowest_set_bit_index is None:
+      raise Exception("Invalid mask: %08X" % mask)
+    return lowest_set_bit_index
+
+class TRES(ChunkEntry):
   DATA_SIZE = 0x20
+  
+  PARAMS = {
+    "chest_type":              0x00F00000,
+    "appear_condition_switch": 0x000FF000,
+    "opened_flag":             0x00000F80,
+    "appear_condition_type":   0x0000007F,
+  }
   
   def __init__(self, file_entry):
     self.file_entry = file_entry
@@ -184,41 +221,17 @@ class TRES:
     write_u8(data, self.offset+0x1D, self.flag_id)
     
     write_u16(data, self.offset+0x1E, self.padding)
-  
-  @property
-  def chest_type(self):
-    return ((self.params & 0x00F00000) >> 20)
-  
-  @chest_type.setter
-  def chest_type(self, value):
-    self.params = (self.params & (~0x00F00000)) | ((value&0xF) << 20)
 
-  @property
-  def appear_condition_switch(self):
-    return ((self.params & 0x000FF000) >> 12)
-  
-  @appear_condition_switch.setter
-  def appear_condition_switch(self, value):
-    self.params = (self.params & (~0x000FF000)) | ((value&0xFF) << 12)
-
-  @property
-  def opened_flag(self):
-    return ((self.params & 0x00000F80) >> 7)
-  
-  @opened_flag.setter
-  def opened_flag(self, value):
-    self.params = (self.params & (~0x00000F80)) | ((value&0x1F) << 7)
-
-  @property
-  def appear_condition_type(self):
-    return ((self.params & 0x0000007F) >> 0)
-  
-  @appear_condition_type.setter
-  def appear_condition_type(self, value):
-    self.params = (self.params & (~0x0000007F)) | ((value&0x7F) << 0)
-
-class SCOB:
+class SCOB(ChunkEntry):
   DATA_SIZE = 0x24
+  
+  PARAMS = {
+    "salvage_type":               0xF0000000,
+    "salvage_chart_index_plus_1": 0x0FF00000,
+    "salvage_item_id":            0x00000FF0,
+    
+    "buried_pig_item_id":         0x000000FF,
+  }
   
   SALVAGE_NAMES = [
     "Salvage",
@@ -285,30 +298,6 @@ class SCOB:
     return self.name in self.SALVAGE_NAMES
   
   @property
-  def salvage_type(self):
-    return ((self.params & 0xF0000000) >> 28)
-  
-  @salvage_type.setter
-  def salvage_type(self, value):
-    self.params = (self.params & (~0xF0000000)) | ((value&0xF) << 28)
-  
-  @property
-  def salvage_item_id(self):
-    return ((self.params & 0x00000FF0) >> 4)
-  
-  @salvage_item_id.setter
-  def salvage_item_id(self, value):
-    self.params = (self.params & (~0x00000FF0)) | ((value&0xFF) << 4)
-  
-  @property
-  def salvage_chart_index_plus_1(self):
-    return ((self.params & 0x0FF00000) >> 20)
-  
-  @salvage_chart_index_plus_1.setter
-  def salvage_chart_index_plus_1(self, value):
-    self.params = (self.params & (~0x0FF00000)) | ((value&0xFF) << 20)
-  
-  @property
   def salvage_duplicate_id(self):
     return (self.unknown_1 & 0x0003)
   
@@ -318,17 +307,19 @@ class SCOB:
   
   def is_buried_pig_item(self):
     return self.name in self.BURIED_PIG_ITEM_NAMES
-  
-  @property
-  def buried_pig_item_id(self):
-    return (self.params & 0x000000FF)
-  
-  @buried_pig_item_id.setter
-  def buried_pig_item_id(self, value):
-    self.params = (self.params & (~0x000000FF)) | (value&0xFF)
 
-class ACTR:
+class ACTR(ChunkEntry):
   DATA_SIZE = 0x20
+  
+  PARAMS = {
+    "item_id":   0x000000FF,
+    "item_flag": 0x0000FF00,
+    
+    "boss_item_stage_id": 0x000000FF,
+    # The below boss_item_id parameter did not exist for boss items in the vanilla game.
+    # The randomizer adds it so that boss items can be randomized and are not just always heart containers.
+    "boss_item_id":       0x0000FF00,
+  }
   
   ITEM_NAMES = [
     "item",
@@ -378,44 +369,10 @@ class ACTR:
   def is_item(self):
     return self.name in self.ITEM_NAMES
   
-  @property
-  def item_id(self):
-    return (self.params & 0x000000FF)
-  
-  @item_id.setter
-  def item_id(self, value):
-    self.params = (self.params & (~0x000000FF)) | (value&0xFF)
-  
-  @property
-  def item_flag(self):
-    return ((self.params & 0x0000FF00) >> 8)
-  
-  @item_flag.setter
-  def item_flag(self, value):
-    self.params = (self.params & (~0x0000FF00)) | ((value&0xFF) << 8)
-  
   def is_boss_item(self):
     return self.name in self.BOSS_ITEM_NAMES
-  
-  @property
-  def boss_item_stage_id(self):
-    return (self.params & 0x000000FF)
-  
-  @boss_item_stage_id.setter
-  def boss_item_stage_id(self, value):
-    self.params = (self.params & (~0x000000FF)) | (value&0xFF)
-  
-  # The below item ID parameter did not exist for boss items in the vanilla game.
-  # The randomizer adds it so that boss items can be randomized and not just always heart containers.
-  @property
-  def boss_item_id(self):
-    return (self.params & 0x0000FF00)
-  
-  @boss_item_id.setter
-  def boss_item_id(self, value):
-    self.params = (self.params & (~0x0000FF00)) | ((value&0xFF) << 8)
 
-class PLYR:
+class PLYR(ChunkEntry):
   DATA_SIZE = 0x20
   
   def __init__(self, file_entry):
@@ -462,7 +419,7 @@ class PLYR:
     write_u8(data, self.offset+0x1D, self.spawn_id)
     write_u16(data, self.offset+0x1E, self.unknown4)
 
-class SCLS:
+class SCLS(ChunkEntry):
   DATA_SIZE = 0xC
   
   def __init__(self, file_entry):
@@ -487,7 +444,7 @@ class SCLS:
     write_u8(data, self.offset+0xA, self.fade_type)
     write_u8(data, self.offset+0xB, self.padding)
 
-class STAG:
+class STAG(ChunkEntry):
   DATA_SIZE = 0x14
   
   def __init__(self, file_entry):
@@ -531,7 +488,7 @@ class STAG:
     write_u8(data, self.offset+0x11, self.unknown_5)
     write_u16(data, self.offset+0x12, self.draw_range)
 
-class DummyEntry():
+class DummyEntry(ChunkEntry):
   def __init__(self, file_entry):
     self.file_entry = file_entry
   
