@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>256</height>
+    <height>332</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -71,52 +71,76 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QCheckBox" name="short_mode">
-        <property name="text">
-         <string>Short Mode</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Which Charts Can Lead to Progress Items</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QRadioButton" name="no_progression_charts">
+         <property name="text">
+          <string>None</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="triforce_progression_charts">
+         <property name="text">
+          <string>Triforce Charts Only</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="all_progression_charts">
+         <property name="text">
+          <string>Triforce and Treasure Charts</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <widget class="QCheckBox" name="swift_sail">
-        <property name="text">
-         <string>Swift Sail</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="instant_text_boxes">
-        <property name="text">
-         <string>Instant Text Boxes</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="reveal_full_sea_chart">
-        <property name="text">
-         <string>Reveal Full Sea Chart</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="title">
+       <string>Convenience Tweaks</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QCheckBox" name="swift_sail">
+         <property name="text">
+          <string>Swift Sail</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="instant_text_boxes">
+         <property name="text">
+          <string>Instant Text Boxes</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="reveal_full_sea_chart">
+         <property name="text">
+          <string>Reveal Full Sea Chart</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </item>
     <item>
      <widget class="QLabel" name="option_description">

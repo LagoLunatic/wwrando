@@ -2,11 +2,13 @@
 from collections import OrderedDict
 
 OPTIONS = OrderedDict([
-  ("short_mode", "Limits the number of possible locations that progress items can appear. With this option, progress items will not appear on lookout platforms, in submarines, as rewards for sidequests, or as sunken treasures."),
+  ("no_progression_charts", "The sunken treasure chests marked on charts will never contain progress items."),
+  ("triforce_progression_charts", "The sunken treasure chests marked on Triforce Charts may contain progress items, but the ones marked on Treasure Charts will not."),
+  ("all_progression_charts", "The sunken treasure chests marked on either Triforce Charts or Treasure Charts may contain progress items."),
   
-  ("swift_sail", "Makes the sail behave similar to the Swift Sail from TWWHD: Sailing speed is doubled and the direction of the wind is always at your back as long as the sail is out."),
+  ("swift_sail", "Sailing speed is doubled and the direction of the wind is always at your back as long as the sail is out."),
   
-  ("instant_text_boxes", "Makes text appear instantly in most text boxes, so you don't need to wait for it to slowly advance."),
+  ("instant_text_boxes", "Text appears instantly for most text boxes."),
   
   ("reveal_full_sea_chart", "Start the game with the sea chart fully drawn out."),
 ])

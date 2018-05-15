@@ -33,9 +33,12 @@ class Logic:
     for i in range(1, 41+1):
       self.treasure_chart_names.append("Treasure Chart %d" % i)
     
-    if False:
+    if self.rando.options.get("all_progression_charts"):
       self.all_progress_items += self.triforce_chart_names
       self.all_progress_items += self.treasure_chart_names
+    elif self.rando.options.get("triforce_progression_charts"):
+      self.all_progress_items += self.triforce_chart_names
+      self.all_nonprogress_items += self.treasure_chart_names
     else:
       self.all_nonprogress_items += self.triforce_chart_names
       self.all_nonprogress_items += self.treasure_chart_names
