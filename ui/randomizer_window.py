@@ -23,6 +23,9 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.clean_files_path.editingFinished.connect(self.update_settings)
     self.ui.output_folder.editingFinished.connect(self.update_settings)
     self.ui.seed.editingFinished.connect(self.update_settings)
+    self.ui.clean_files_path_browse_button.clicked.connect(self.browse_for_clean_files)
+    self.ui.output_folder_browse_button.clicked.connect(self.browse_for_output_folder)
+    
     for option_name in OPTIONS:
       getattr(self.ui, option_name).clicked.connect(self.update_settings)
     
@@ -123,6 +126,30 @@ class WWRandomizerWindow(QMainWindow):
       self.settings[option_name] = getattr(self.ui, option_name).isChecked()
     
     self.save_settings()
+  
+  def browse_for_clean_files(self):
+    if self.settings["clean_files_path"] and os.path.isdir(self.settings["clean_files_path"]):
+      default_dir = self.settings["clean_files_path"]
+    else:
+      default_dir = None
+    
+    clean_files_path = QFileDialog.getExistingDirectory(self, "Select clean Wind Waker files", default_dir)
+    if not clean_files_path:
+      return
+    self.ui.clean_files_path.setText(clean_files_path)
+    self.update_settings()
+  
+  def browse_for_output_folder(self):
+    if self.settings["output_folder"] and os.path.isdir(self.settings["output_folder"]):
+      default_dir = self.settings["output_folder"]
+    else:
+      default_dir = None
+    
+    output_folder_path = QFileDialog.getExistingDirectory(self, "Select output folder", default_dir)
+    if not output_folder_path:
+      return
+    self.ui.output_folder.setText(output_folder_path)
+    self.update_settings()
   
   def eventFilter(self, target, event):
     if event.type() == QEvent.Enter:
