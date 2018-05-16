@@ -76,8 +76,15 @@ class WWRandomizerWindow(QMainWindow):
     
     seed_output_folder = os.path.join(output_folder, "WW Random %s" % seed)
     
-    rando = Randomizer(int(seed), clean_files_path, seed_output_folder, options)
-    rando.randomize()
+    try:
+      rando = Randomizer(int(seed), clean_files_path, seed_output_folder, options)
+      rando.randomize()
+    except Exception as e:
+      QMessageBox.critical(
+        self, "Randomization Failed",
+        "Randomization failed with error:\n" + str(e)
+      )
+      return
     
     msg = "Randomization complete."
     QMessageBox.information(self, "Done", msg)
