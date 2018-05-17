@@ -11,7 +11,7 @@ import os
 import yaml
 import traceback
 
-from randomizer import Randomizer
+from randomizer import Randomizer, VERSION
 
 class WWRandomizerWindow(QMainWindow):
   def __init__(self):
@@ -40,6 +40,8 @@ class WWRandomizerWindow(QMainWindow):
     self.set_option_description(None)
     
     self.update_settings()
+    
+    self.setWindowTitle("Wind Waker Randomizer %s" % VERSION)
     
     self.show()
   
@@ -178,10 +180,10 @@ class WWRandomizerWindow(QMainWindow):
       self.ui.option_description.setStyleSheet("")
   
   def open_about(self):
-    text = """Wind Waker Randomizer<br><br>
+    text = """Wind Waker Randomizer Version %s<br><br>
       Created by LagoLunatic<br><br>
       Report issues here:<br><a href=\"https://github.com/LagoLunatic/wwrando/issues\">https://github.com/LagoLunatic/wwrando/issues</a><br><br>
-      Source code:<br><a href=\"https://github.com/LagoLunatic/wwrando\">https://github.com/LagoLunatic/wwrando</a>"""
+      Source code:<br><a href=\"https://github.com/LagoLunatic/wwrando\">https://github.com/LagoLunatic/wwrando</a>""" % VERSION
     
     self.about_dialog = QMessageBox()
     self.about_dialog.setTextFormat(Qt.TextFormat.RichText)

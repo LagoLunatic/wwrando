@@ -15,6 +15,8 @@ from wwlib.rel import REL
 import tweaks
 from logic.logic import Logic
 
+VERSION = "0.1-BETA"
+
 class Randomizer:
   def __init__(self, seed, clean_base_dir, randomized_base_dir, options):
     self.randomized_base_dir = randomized_base_dir
@@ -483,6 +485,8 @@ class Randomizer:
   
   def write_spoiler_log(self):
     spoiler_log = ""
+    
+    spoiler_log += "Wind Waker Randomizer Version %s\n" % VERSION
     
     spoiler_log += "Options selected:\n  "
     true_options = [name for name in self.options if self.options[name]]
