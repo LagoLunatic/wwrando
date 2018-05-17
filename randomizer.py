@@ -236,6 +236,8 @@ class Randomizer:
         raise Exception("File opened as both an arc and a raw file: " + file_path)
       
       full_path = os.path.join(self.randomized_base_dir, arc_path)
+      if not os.path.isfile(full_path):
+        raise Exception("File %s does not exist." % arc_path)
       arc = RARC(full_path)
       self.arcs_by_path[arc_path] = arc
       return arc
@@ -250,6 +252,8 @@ class Randomizer:
         raise Exception("File opened as both an arc and a raw file: " + file_path)
       
       full_path = os.path.join(self.randomized_base_dir, file_path)
+      if not os.path.isfile(full_path):
+        raise Exception("File %s does not exist." % file_path)
       with open(full_path, "rb") as f:
         data = BytesIO(f.read())
       
