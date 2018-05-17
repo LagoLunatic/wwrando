@@ -484,6 +484,11 @@ class Randomizer:
   def write_spoiler_log(self):
     spoiler_log = ""
     
+    spoiler_log += "Options selected:\n  "
+    true_options = [name for name in self.options if self.options[name]]
+    spoiler_log += ", ".join(true_options)
+    spoiler_log += "\n\n\n"
+    
     # Write item locations.
     zones = OrderedDict()
     max_location_name_length = 0
@@ -505,6 +510,8 @@ class Randomizer:
       for (location_name, specific_location_name) in locations_in_zone:
         item_name = self.logic.done_item_locations[location_name]
         spoiler_log += format_string % (specific_location_name + ":", item_name)
+    
+    spoiler_log += "\n\n"
     
     # Write treasure charts.
     spoiler_log += "Charts:\n"
