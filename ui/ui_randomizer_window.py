@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Tue May 15 13:03:18 2018
+# Created: Thu May 17 16:35:41 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -28,18 +28,18 @@ class Ui_MainWindow(object):
         self.label_2 = QtGui.QLabel(self.centralwidget)
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 1, 0, 1, 1)
-        self.clean_files_path = QtGui.QLineEdit(self.centralwidget)
-        self.clean_files_path.setObjectName("clean_files_path")
-        self.gridLayout.addWidget(self.clean_files_path, 0, 1, 1, 1)
+        self.clean_iso_path = QtGui.QLineEdit(self.centralwidget)
+        self.clean_iso_path.setObjectName("clean_iso_path")
+        self.gridLayout.addWidget(self.clean_iso_path, 0, 1, 1, 1)
         self.output_folder = QtGui.QLineEdit(self.centralwidget)
         self.output_folder.setObjectName("output_folder")
         self.gridLayout.addWidget(self.output_folder, 1, 1, 1, 1)
         self.label_3 = QtGui.QLabel(self.centralwidget)
         self.label_3.setObjectName("label_3")
         self.gridLayout.addWidget(self.label_3, 2, 0, 1, 1)
-        self.clean_files_path_browse_button = QtGui.QPushButton(self.centralwidget)
-        self.clean_files_path_browse_button.setObjectName("clean_files_path_browse_button")
-        self.gridLayout.addWidget(self.clean_files_path_browse_button, 0, 2, 1, 1)
+        self.clean_iso_path_browse_button = QtGui.QPushButton(self.centralwidget)
+        self.clean_iso_path_browse_button.setObjectName("clean_iso_path_browse_button")
+        self.gridLayout.addWidget(self.clean_iso_path_browse_button, 0, 2, 1, 1)
         self.output_folder_browse_button = QtGui.QPushButton(self.centralwidget)
         self.output_folder_browse_button.setObjectName("output_folder_browse_button")
         self.gridLayout.addWidget(self.output_folder_browse_button, 1, 2, 1, 1)
@@ -103,10 +103,10 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Wind Waker Randomizer", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("MainWindow", "Clean WW Files", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("MainWindow", "Clean WW ISO", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("MainWindow", "Output Folder", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("MainWindow", "Seed (optional)", None, QtGui.QApplication.UnicodeUTF8))
-        self.clean_files_path_browse_button.setText(QtGui.QApplication.translate("MainWindow", "Browse", None, QtGui.QApplication.UnicodeUTF8))
+        self.clean_iso_path_browse_button.setText(QtGui.QApplication.translate("MainWindow", "Browse", None, QtGui.QApplication.UnicodeUTF8))
         self.output_folder_browse_button.setText(QtGui.QApplication.translate("MainWindow", "Browse", None, QtGui.QApplication.UnicodeUTF8))
         self.generate_seed_button.setText(QtGui.QApplication.translate("MainWindow", "New seed", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox.setTitle(QtGui.QApplication.translate("MainWindow", "Which Charts Can Lead to Progress Items", None, QtGui.QApplication.UnicodeUTF8))

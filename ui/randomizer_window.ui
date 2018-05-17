@@ -23,7 +23,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Clean WW Files</string>
+         <string>Clean WW ISO</string>
         </property>
        </widget>
       </item>
@@ -35,7 +35,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="clean_files_path"/>
+       <widget class="QLineEdit" name="clean_iso_path"/>
       </item>
       <item row="1" column="1">
        <widget class="QLineEdit" name="output_folder"/>
@@ -48,7 +48,7 @@
        </widget>
       </item>
       <item row="0" column="2">
-       <widget class="QPushButton" name="clean_files_path_browse_button">
+       <widget class="QPushButton" name="clean_iso_path_browse_button">
         <property name="text">
          <string>Browse</string>
         </property>

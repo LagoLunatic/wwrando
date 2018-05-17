@@ -21,10 +21,10 @@ class WWRandomizerWindow(QMainWindow):
     
     self.load_settings()
     
-    self.ui.clean_files_path.editingFinished.connect(self.update_settings)
+    self.ui.clean_iso_path.editingFinished.connect(self.update_settings)
     self.ui.output_folder.editingFinished.connect(self.update_settings)
     self.ui.seed.editingFinished.connect(self.update_settings)
-    self.ui.clean_files_path_browse_button.clicked.connect(self.browse_for_clean_files)
+    self.ui.clean_iso_path_browse_button.clicked.connect(self.browse_for_clean_iso)
     self.ui.output_folder_browse_button.clicked.connect(self.browse_for_output_folder)
     
     for option_name in OPTIONS:
@@ -54,15 +54,15 @@ class WWRandomizerWindow(QMainWindow):
     self.save_settings()
   
   def randomize(self):
-    clean_files_path = self.settings["clean_files_path"].strip()
+    clean_iso_path = self.settings["clean_iso_path"].strip()
     output_folder = self.settings["output_folder"].strip()
-    self.settings["clean_files_path"] = clean_files_path
+    self.settings["clean_iso_path"] = clean_iso_path
     self.settings["output_folder"] = output_folder
-    self.ui.clean_files_path.setText(clean_files_path)
+    self.ui.clean_iso_path.setText(clean_iso_path)
     self.ui.output_folder.setText(output_folder)
     
-    if not os.path.isdir(clean_files_path):
-      QMessageBox.warning(self, "Clean files path not specified", "Must specify path to clean your Wind Waker files.")
+    if not os.path.isfile(clean_iso_path):
+      QMessageBox.warning(self, "Clean ISO path not specified", "Must specify path to clean your Wind Waker ISO (USA).")
       return
     if not os.path.isdir(output_folder):
       QMessageBox.warning(self, "No output folder specified", "Must specify a valid output folder for the randomized files.")
@@ -83,7 +83,7 @@ class WWRandomizerWindow(QMainWindow):
     seed_output_folder = os.path.join(output_folder, "WW Random %s" % seed)
     
     try:
-      rando = Randomizer(int(seed), clean_files_path, seed_output_folder, options)
+      rando = Randomizer(int(seed), clean_iso_path, seed_output_folder, options)
       rando.randomize()
     except Exception as e:
       stack_trace = traceback.format_exc()
@@ -108,8 +108,8 @@ class WWRandomizerWindow(QMainWindow):
     else:
       self.settings = OrderedDict()
     
-    if "clean_files_path" in self.settings:
-      self.ui.clean_files_path.setText(self.settings["clean_files_path"])
+    if "clean_iso_path" in self.settings:
+      self.ui.clean_iso_path.setText(self.settings["clean_iso_path"])
     if "output_folder" in self.settings:
       self.ui.output_folder.setText(self.settings["output_folder"])
     if "seed" in self.settings:
@@ -124,7 +124,7 @@ class WWRandomizerWindow(QMainWindow):
       yaml.dump(self.settings, f, default_flow_style=False, Dumper=yaml.CDumper)
   
   def update_settings(self):
-    self.settings["clean_files_path"] = self.ui.clean_files_path.text()
+    self.settings["clean_iso_path"] = self.ui.clean_iso_path.text()
     self.settings["output_folder"] = self.ui.output_folder.text()
     self.settings["seed"] = self.ui.seed.text()
     
@@ -133,16 +133,16 @@ class WWRandomizerWindow(QMainWindow):
     
     self.save_settings()
   
-  def browse_for_clean_files(self):
-    if self.settings["clean_files_path"] and os.path.isdir(self.settings["clean_files_path"]):
-      default_dir = self.settings["clean_files_path"]
+  def browse_for_clean_iso(self):
+    if self.settings["clean_iso_path"] and os.path.isfile(self.settings["clean_iso_path"]):
+      default_dir = os.path.dirname(self.settings["clean_iso_path"])
     else:
       default_dir = None
     
-    clean_files_path = QFileDialog.getExistingDirectory(self, "Select clean Wind Waker files", default_dir)
-    if not clean_files_path:
+    clean_iso_path, selected_filter = QFileDialog.getOpenFileName(self, "Select clean Wind Waker ISO", default_dir, "GC ISO Files (*.iso *.gcm)")
+    if not clean_iso_path:
       return
-    self.ui.clean_files_path.setText(clean_files_path)
+    self.ui.clean_iso_path.setText(clean_iso_path)
     self.update_settings()
   
   def browse_for_output_folder(self):
