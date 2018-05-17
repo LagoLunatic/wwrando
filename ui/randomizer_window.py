@@ -9,6 +9,7 @@ import random
 from collections import OrderedDict
 import os
 import yaml
+import traceback
 
 from randomizer import Randomizer
 
@@ -83,9 +84,12 @@ class WWRandomizerWindow(QMainWindow):
       rando = Randomizer(int(seed), clean_files_path, seed_output_folder, options)
       rando.randomize()
     except Exception as e:
+      stack_trace = traceback.format_exc()
+      print(stack_trace)
       QMessageBox.critical(
         self, "Randomization Failed",
         "Randomization failed with error:\n" + str(e)
+        + "\n\n" + stack_trace
       )
       return
     
