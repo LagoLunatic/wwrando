@@ -115,19 +115,19 @@ class Randomizer:
   
   def copy_and_extract_files(self, clean_base_dir):
     # Copy the vanilla files to the randomized directory.
-    if not os.path.isdir(self.randomized_base_dir):
-      print("Copying clean files...")
-      shutil.copytree(clean_base_dir, self.randomized_base_dir)
+    print("Copying clean files...")
+    shutil.copytree(clean_base_dir, self.randomized_base_dir)
     
     # Extract all the extra rel files from RELS.arc.
     rels_arc_path = os.path.join(self.randomized_base_dir, "files", "RELS.arc")
-    if os.path.isfile(rels_arc_path):
-      print("Extracting rels...")
-      rels_arc = RARC(rels_arc_path)
-      rels_arc.extract_all_files_to_disk_flat(self.rels_dir)
-      # And then delete RELS.arc. If we don't do this then the original rels inside it will take precedence over the modified ones we extracted.
-      os.remove(rels_arc_path)
-      rels_arc = None
+    if not os.path.isfile(rels_arc_path):
+      raise Exception("Could not find RELS.arc!")
+    print("Extracting rels...")
+    rels_arc = RARC(rels_arc_path)
+    rels_arc.extract_all_files_to_disk_flat(self.rels_dir)
+    # And then delete RELS.arc. If we don't do this then the original rels inside it will take precedence over the modified ones we extracted.
+    os.remove(rels_arc_path)
+    rels_arc = None
   
   def decompress_files(self):
     # Decompress any compressed arcs.
