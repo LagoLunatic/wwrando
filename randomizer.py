@@ -81,6 +81,8 @@ class Randomizer:
     tweaks.remove_forsaken_fortress_2_cutscenes(self)
     tweaks.make_items_progressive(self)
     tweaks.add_ganons_tower_warp_to_ff2(self)
+    tweaks.add_chest_in_place_medli_grappling_hook_gift(self)
+    tweaks.add_chest_in_place_queen_fairy_cutscene(self)
   
   def copy_and_extract_files(self, clean_base_dir):
     # Copy the vanilla files to the randomized directory.

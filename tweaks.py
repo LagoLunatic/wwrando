@@ -348,6 +348,11 @@ def add_ganons_tower_warp_to_ff2(self):
   # To do this we copy the warp entity from layer 2 onto layer 1.
   
   dzx = self.get_arc("files/res/Stage/sea/Room1.arc").dzx_files[0]
+  
+  layer_1_actors = dzx.entries_by_type_and_layer("ACTR", 1)
+  if any(x for x in layer_1_actors if x.name == "Warpmj"):
+    return # This tweak was already applied, don't double up the warp
+  
   layer_2_actors = dzx.entries_by_type_and_layer("ACTR", 2)
   layer_2_warp = next(x for x in layer_2_actors if x.name == "Warpmj")
   
@@ -361,5 +366,55 @@ def add_ganons_tower_warp_to_ff2(self):
   layer_1_warp.y_rot = layer_2_warp.y_rot
   layer_1_warp.set_flag = layer_2_warp.set_flag
   layer_1_warp.enemy_number = layer_2_warp.enemy_number
+  
+  dzx.save_changes()
+
+def add_chest_in_place_medli_grappling_hook_gift(self):
+  # Add a chest in place of Medli locked in the jail cell at the peak of Dragon Roost Cavern.
+  
+  dzx = self.get_arc("files/res/Stage/M_Dra09/Stage.arc").dzx_files[0]
+  
+  chests = dzx.entries_by_type("TRES")
+  if any(x for x in chests if x.opened_flag == 0x11):
+    return # This tweak was already applied, don't double up the chest
+  
+  chest_in_jail = dzx.add_entity("TRES", layer=None)
+  chest_in_jail.name = "takara3"
+  chest_in_jail.params = 0xFF000000 # Unknown param, probably unused
+  chest_in_jail.chest_type = 2
+  chest_in_jail.opened_flag = 0x11
+  chest_in_jail.x_pos = -1620.81
+  chest_in_jail.y_pos = 13600
+  chest_in_jail.z_pos = 263.034
+  chest_in_jail.room_num = 9
+  chest_in_jail.y_rot = 0xCC16
+  chest_in_jail.item_id = self.item_name_to_id["Grappling Hook"]
+  chest_in_jail.flag_id = 0xFF
+  chest_in_jail.padding = 0xFFFF
+  
+  dzx.save_changes()
+
+def add_chest_in_place_queen_fairy_cutscene(self):
+  # Add a chest in place of the Queen Fairy cutscene inside Mother Isle.
+  
+  dzx = self.get_arc("files/res/Stage/sea/Room9.arc").dzx_files[0]
+  
+  chests = dzx.entries_by_type("TRES")
+  if any(x for x in chests if x.opened_flag == 0x1C):
+    return # This tweak was already applied, don't double up the chest
+  
+  mother_island_chest = dzx.add_entity("TRES", layer=None)
+  mother_island_chest.name = "takara3"
+  mother_island_chest.params = 0xFF000000 # Unknown param, probably unused
+  mother_island_chest.chest_type = 2
+  mother_island_chest.opened_flag = 0x1C
+  mother_island_chest.x_pos = -180031
+  mother_island_chest.y_pos = 740
+  mother_island_chest.z_pos = -199995
+  mother_island_chest.room_num = 9
+  mother_island_chest.y_rot = 0x1000
+  mother_island_chest.item_id = self.item_name_to_id["Progressive Bow"]
+  mother_island_chest.flag_id = 0xFF
+  mother_island_chest.padding = 0xFFFF
   
   dzx.save_changes()
