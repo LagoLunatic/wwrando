@@ -54,7 +54,7 @@ Outset Island - Great Fairy:
   Original item: 5000 Rupee Wallet
   Paths:
     - rels/d_a_bigelf.rel@21C7
-#Outset Island - Grandma Cured: # TODO: randomizing this might mess getting the soup later on too?
+#Outset Island - Grandma Cured: # randomizing this might mess getting the soup later on too
 #  Need: Empty Bottle & Can Get Fairies
 #  Original item: Elixir Soup
 #  Paths:
@@ -237,8 +237,7 @@ Windfall Island - Maggie's Father - Give 20 Skull Necklaces:
 #  Paths:
 #    - rels/d_a_npc_kf1.rel@1A23
 Windfall Island - Maggie - Letter:
-  Need: Rescued Aryll & TODO
-  # TODO: This item becomes missable once you own Maggie's Letter (or Moblin's Letter?).
+  Need: Rescued Aryll & TODO # This item becomes missable once you own Maggie's Letter (or Moblin's Letter?).
   Original item: Maggie's Letter
   Paths:
     - rels/d_a_npc_kp1.rel@17D7
@@ -248,8 +247,7 @@ Windfall Island - Maggie - Reward:
   Paths:
     - rels/d_a_npc_kp1.rel@1817
 Windfall Island - Cafe Bar - Postman:
-  Need: Rescued Aryll & Delivery Bag & Maggie's Letter & TODO
-  # TODO: The postman disappears once you've ever owned the Moblin's Letter.
+  Need: Rescued Aryll & Delivery Bag & Maggie's Letter & TODO # The postman disappears once you've ever owned the Moblin's Letter.
   Original item: Moblin's Letter
   Paths:
     - Opub/Stage.arc/Event00E:Get_Mo3_Ltr/Actor002/Action001
@@ -368,7 +366,7 @@ Windfall Island - Minenco:
   Paths:
     - rels/d_a_npc_people.rel@C553
 Windfall Island - Linda:
-  Need: TODO # Linda requires Deluxe Picto Box. regular picto box might work but probably not, test
+  Need: Deluxe Picto Box
   Original item: Piece of Heart
   Paths:
     - rels/d_a_npc_people.rel@C557
