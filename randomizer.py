@@ -24,6 +24,8 @@ class Randomizer:
     self.seed = seed
     random.seed(self.seed)
     
+    self.verify_supported_version(clean_base_dir)
+    
     self.stage_dir = os.path.join(self.randomized_base_dir, "files", "res", "Stage")
     self.rels_dir = os.path.join(self.randomized_base_dir, "files", "rels")
     
@@ -85,6 +87,31 @@ class Randomizer:
     tweaks.add_ganons_tower_warp_to_ff2(self)
     tweaks.add_chest_in_place_medli_grappling_hook_gift(self)
     tweaks.add_chest_in_place_queen_fairy_cutscene(self)
+  
+  def verify_supported_version(self, clean_base_dir):
+    if not os.path.isdir(clean_base_dir):
+      raise Exception("Clean WW files directory does not exist: %s" % clean_base_dir)
+    
+    files_to_verify_exist = [
+      "sys/main.dol",
+      "sys/boot.bin",
+      "sys/apploader.img",
+      "files/maps/framework.map",
+    ]
+    for relative_path in files_to_verify_exist:
+      full_path = os.path.join(clean_base_dir, relative_path)
+      if not os.path.isfile(full_path):
+        raise Exception("Clean WW files directory is invalid, make sure you extracted it with the latest version of Dolphin 5.0: %s" % clean_base_dir)
+    
+    boot_full_path = os.path.join(clean_base_dir, "sys", "boot.bin")
+    with open(boot_full_path, "rb") as f:
+      boot_data = BytesIO(f.read())
+    game_id = read_str(boot_data, 0, 6)
+    if game_id != "GZLE01":
+      if game_id.startswith("GZL"):
+        raise Exception("Invalid version of Wind Waker. Only the USA version is supported by this randomizer.")
+      else:
+        raise Exception("Invalid game given as the clean files folder. You must specify a folder of files extracted from the USA version of Wind Waker.")
   
   def copy_and_extract_files(self, clean_base_dir):
     # Copy the vanilla files to the randomized directory.
