@@ -71,9 +71,30 @@ class DZx: # DZR or DZS, same format
           raise Exception("Tried to save unknown chunk type: %s" % chunk.chunk_type)
         
         entry.offset = offset
-        entry.save_changes()
         
         offset += chunk.entry_class.DATA_SIZE
+      
+      if chunk.fourcc == "RTBL":
+        # Assign offsets for RTBL sub entries.
+        for rtbl_entry in chunk.entries:
+          rtbl_entry.sub_entry.offset = offset
+          offset += rtbl_entry.sub_entry.DATA_SIZE
+        
+        # Assign offsets for RTBL sub entry adjacent rooms.
+        for rtbl_entry in chunk.entries:
+          for adjacent_room in rtbl_entry.sub_entry.adjacent_rooms:
+            adjacent_room.offset = offset
+            offset += adjacent_room.DATA_SIZE
+        
+        # Pad the end of the adjacent rooms list to 4 bytes.
+        file_size = offset
+        padded_file_size = (file_size + 3) & ~3
+        padding_size_needed = padded_file_size - file_size
+        write_bytes(data, offset, b"\xFF"*padding_size_needed)
+        offset += padding_size_needed
+      
+      for entry in chunk.entries:
+        entry.save_changes()
     
     # Pad the length of this file to 0x20 bytes.
     file_size = offset
@@ -488,6 +509,90 @@ class STAG(ChunkEntry):
     write_u8(data, self.offset+0x11, self.unknown_5)
     write_u16(data, self.offset+0x12, self.draw_range)
 
+class RTBL(ChunkEntry):
+  DATA_SIZE = 0x4
+  
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+  
+  def read(self, offset):
+    self.offset = offset
+    data = self.file_entry.data
+    
+    sub_entry_offset = read_u32(data, offset)
+    self.sub_entry = RTBL_SubEntry(self.file_entry)
+    self.sub_entry.read(sub_entry_offset)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_u32(data, self.offset, self.sub_entry.offset)
+    
+    self.sub_entry.save_changes()
+
+class RTBL_SubEntry:
+  DATA_SIZE = 0x8
+  
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+  
+  def read(self, offset):
+    self.offset = offset
+    data = self.file_entry.data
+    
+    num_rooms = read_u8(data, offset)
+    self.reverb_amount = read_u8(data, offset+1)
+    self.does_time_pass = read_u8(data, offset+2)
+    self.unknown = read_u8(data, offset+3)
+    
+    adjacent_rooms_list_offset = read_u32(data, offset+4)
+    self.adjacent_rooms = []
+    for i in range(num_rooms):
+      adjacent_room = RTBL_AdjacentRoom(self.file_entry)
+      adjacent_room.read(adjacent_rooms_list_offset + i)
+      self.adjacent_rooms.append(adjacent_room)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    num_rooms = len(self.adjacent_rooms)
+    write_u8(data, self.offset, num_rooms)
+    write_u8(data, self.offset+1, self.reverb_amount)
+    write_u8(data, self.offset+2, self.does_time_pass)
+    write_u8(data, self.offset+3, self.unknown)
+    
+    adjacent_rooms_list_offset = self.adjacent_rooms[0].offset
+    write_u32(data, self.offset+4, adjacent_rooms_list_offset)
+    
+    for adjacent_room in self.adjacent_rooms:
+      adjacent_room.save_changes()
+
+class RTBL_AdjacentRoom:
+  DATA_SIZE = 0x1
+  
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+  
+  def read(self, offset):
+    self.offset = offset
+    data = self.file_entry.data
+    
+    byte = read_u8(data, offset)
+    self.should_load_room = ((byte & 0x80) != 0)
+    self.unknown = ((byte & 0x40) != 0)
+    self.room_index = (byte & 0x3F)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    byte = (self.room_index & 0x3F)
+    if self.should_load_room:
+      byte |= 0x80
+    if self.unknown:
+      byte |= 0x40
+    
+    write_u8(data, self.offset, byte)
+
 class DummyEntry(ChunkEntry):
   def __init__(self, file_entry):
     self.file_entry = file_entry
@@ -535,3 +640,30 @@ class RARO(DummyEntry):
 
 class SHIP(DummyEntry):
   DATA_SIZE = 0x10
+
+class EVNT(DummyEntry):
+  DATA_SIZE = 0x18
+
+class TGDR(DummyEntry):
+  DATA_SIZE = 0x24
+
+class MULT(DummyEntry):
+  DATA_SIZE = 0xC
+
+class DMAP(DummyEntry):
+  DATA_SIZE = 0x10
+
+class EnvR(DummyEntry):
+  DATA_SIZE = 0x8
+
+class Colo(DummyEntry):
+  DATA_SIZE = 0xC
+
+class Pale(DummyEntry):
+  DATA_SIZE = 0x2C
+
+class Virt(DummyEntry):
+  DATA_SIZE = 0x24
+
+class LGHT(DummyEntry):
+  DATA_SIZE = 0x1C
