@@ -487,14 +487,15 @@ Dragon Roost Cavern - Pot Room Chest:
   Original item: Treasure Chart 39
   Paths:
     - M_NewD2/Stage.arc/Chest003
-#Dragon Roost Cavern - Mini-boss: # TODO: this item doesn't appear because medli is gone. even if it did, the player could get softlocked because the stairs disappear after the first visit.
-#  Need:
-#    Can Access Dragon Roost Cavern
-#    & DRC Small Key x4
-#  # Need to escape: Grappling Hook | Can Fly With Deku Leaf Outdoors
-#  Original item: Grappling Hook
-#  Paths:
-#    - rels/d_a_npc_md.rel@AF2F
+Dragon Roost Cavern - Mini-boss:
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x4
+  # Need to escape: Grappling Hook | Can Fly With Deku Leaf Outdoors
+  Original item: Grappling Hook
+  Paths:
+    - rels/d_a_npc_md.rel@AF2F
+    - M_Dra09/Stage.arc/Chest000
 Dragon Roost Cavern - Under Rope Bridge:
   Need:
     Can Access Dragon Roost Cavern
@@ -947,12 +948,12 @@ Forsaken Fortress - Helmaroc King Heart Container:
     - sea/Room1.arc/Layer3/Actor001
 
 
-# TODO: add a field item or treasure chest here so this place isn't totally empty
-#Mother and Child Isles - Queen Fairy:
-#  Need: Can Play Ballad of Gales
-#  Original item: Fire and Ice Arrows
-#  Paths:
-#    - main.dol@358D3C
+Mother and Child Isles - Inside Mother Isle:
+  Need: Can Play Ballad of Gales
+  Original item: Fire and Ice Arrows
+  Paths:
+    - main.dol@358D3C
+    - sea/Room9.arc/Chest000
 
 Fire Mountain - Cave - Chest:
   Need: Ice Arrows
@@ -970,7 +971,7 @@ Fire Mountain - Lookout Platform - Destroy the Cannons:
   Original item: Golden Feather
   Paths:
     - sea/Room20.arc/Chest000
-Fire Mountain - Big Octo: # TODO: test if this randomizes correctly
+Fire Mountain - Big Octo:
   Need: Can Defeat Big Octos & Grappling Hook
   Original item: Orange Rupee
   Paths:
@@ -1806,7 +1807,7 @@ Diamond Steppe Island - Warp Maze - Second Chest:
   Original item: Ghost Ship Chart
   Paths:
     - WarpD/Stage.arc/Chest000
-Diamond Steppe Island - Big Octo: # TODO: test if this randomizes correctly
+Diamond Steppe Island - Big Octo:
   Need: Can Defeat Big Octos & Grappling Hook
   Original item: Orange Rupee
   Paths:
