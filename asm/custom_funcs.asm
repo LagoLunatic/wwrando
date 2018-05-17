@@ -99,27 +99,28 @@ bl onEventBit__11dSv_event_cFUs
 ; Also set the switch (9) for having seen the event where you enter the Rito Aerie for the first time and get the Delivery Bag.
 ; Also set the switch (8) for having unclogged the pond, since that boulder doesn't respond to normal bombs which would be odd.
 ; Also set the the switch (1E) for having seen the intro to the interior of the Forest Haven, where the camera pans up.
-lis r3, 0x803C
-addi r3, r3, 0x5118
-lis r4, 0x4000
+; Also set the the switch (13) for having seen the camera panning towards the treasure chest in Windfall Town Jail.
+lis r3, 0x803C5114@ha
+addi r3, r3, 0x803C5114@l
+lis r4, 0x4008
 addi r4, r4, 0x038B
-stw r4, 0 (r3)
+stw r4, 4 (r3)
 
 ; Set two switch bits (3E and 3F) for having unlocked the song tablets in the Earth and Wind Temple entrances.
 lis r4, 0xC000
-stw r4, 4 (r3)
+stw r4, 8 (r3)
 
 ; Set a switch bit (19) for the event on Greatfish Isle so that the endless night never starts.
-lis r3, 0x803C
-addi r3, r3, 0x4F8C
+lis r3, 0x803C4F88@ha
+addi r3, r3, 0x803C4F88@l
 lis r4, 0x0200
-stw r4, 0 (r3)
+stw r4, 4 (r3)
 ; Also set a switch bit (3F) for having seen the Windfall Island intro scene.
 lis r4, 0x8000
-stw r4, 4 (r3)
+stw r4, 8 (r3)
 ; Also set a switch bit (58) for having seen the short event when you enter Forsaken Fortress 2 for the first time.
 lis r4, 0x0100
-stw r4, 8 (r3)
+stw r4, 0xC (r3)
 
 ; If the player does the early part of Dragon Roost Cavern backwards, they can walk through a door while it's still blocked off by a boulder. This softlocks the game as Link will just walk into the boulder infinitely.
 ; Set a switch (5) for having destroyed the boulder in front of the door so that doesn't happen.
