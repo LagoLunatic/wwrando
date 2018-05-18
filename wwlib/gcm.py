@@ -184,11 +184,14 @@ class GCM:
       
       current_file_start_offset = self.output_iso.tell()
       
-      # Read large files in chunks to avoid hitting memory issues.
-      if file_entry.file_size > MAX_DATA_SIZE_TO_READ_AT_ONCE:
-        if file_entry.file_path in self.changed_files:
-          raise Exception("Very large file was changed")
-        
+      if file_entry.file_path in self.changed_files:
+        file_data = self.changed_files[file_entry.file_path]
+        file_data.seek(0)
+        self.output_iso.write(file_data.read())
+      else:
+        # Unchanged file.
+        # Most of the game's data falls into this category, so we read the data directly instead of calling read_file_data which would create a BytesIO object, which would add unnecessary performance overhead.
+        # Also, we need to read very large files in chunks to avoid running out of memory.
         size_remaining = file_entry.file_size
         offset_in_file = 0
         while size_remaining > 0:
@@ -200,10 +203,6 @@ class GCM:
           
           size_remaining -= size_to_read
           offset_in_file += size_to_read
-      else:
-        file_data = self.get_changed_file_data(file_entry.file_path)
-        file_data.seek(0)
-        self.output_iso.write(file_data.read())
       
       file_entry_offset = self.fst_offset + file_entry.file_index*0xC
       write_u32(self.output_iso, file_entry_offset+4, current_file_start_offset)
