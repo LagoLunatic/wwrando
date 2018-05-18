@@ -265,7 +265,10 @@
 
 
 
-; The item buried under black soil and the item given by the withered trees are spawned by a call to fastCreateItem.
+; Three items are spawned by a call to fastCreateItem:
+; * The item buried under black soil that you need the pig to dig up.
+; * The item given by the withered trees.
+; * The item hidden in a tree on Windfall.
 ; This is bad since fastCreateItem doesn't load the field item model in. If the model isn't already loaded the game will crash.
 ; So we add a new custom function to create an item and load the model, and replace the relevant calls so they call the new function.
 ; Buried item
@@ -274,17 +277,24 @@
   bl custom_createItem
 ; Withered trees
 .open "files/rels/d_a_obj_ftree.rel" ; Withered Trees
-; This is a rel, so overwrite the relocation addresses instead of the actual code.
-.org 0x60E8
+.org 0x60E8 ; Relocation for line 0x25C
   .int custom_createItem
-.org 0x6190
+.org 0x6190 ; Relocation for line 0x418
   .int custom_createItem
-; Also change the code that reads the entity ID from entity+4 to instead read from entity+3C.
-; I'm not sure why, but the location of the ID in the entity returned by fastCreateItem and this custom function are different.
+; Also change the code that reads the entity ID from subentity+4 to instead read from entity+3C.
+; fastCreateItem returns a pointer to the item subentity, but when slow-loading an item, that sub entity doesn't even exist yet.
+; But this is mostly fine, since all we need is to read the entity ID - and the exact same ID is at entity+3C.
 .org 0x26C
   lwz r0,0x3C(r31)
 .org 0x428
   lwz r0,0x3C(r3)
+; Item Ivan hid in a tree on Windfall
+.open "files/rels/d_a_tag_mk.rel" ; Item in Windfall tree
+.org 0x1828 ; Relocation for line 0x658
+  .int custom_createItem
+; Again, change the code that reads the entity ID to read from entity+3C instead of subentity+4.
+.org 0x6A4
+  lwz r0,0x3C(r30)
 
 
 

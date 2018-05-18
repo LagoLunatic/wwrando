@@ -456,6 +456,9 @@ blr
 
 ; This function takes the same arguments as fastCreateItem, but it loads in any unloaded models without crashing like createItem.
 ; This is so we can replace any randomized item spawns that use fastCreateItem with a call to this new function instead.
+; Note: One part of fastCreateItem that this custom function cannot emulate is giving the item a starting velocity.
+; fastCreateItem can do that because the item subentity is created instantly, but when slow-loading the model for the item, the subentity is created asynchronously later on, so there's no way for us to store the velocity to it.
+; The proper way to store a velocity to a slow-loaded item is for the object that created this item to check if the item is loaded every frame, and once it is it then stores the velocity to it. But this would be too complex to implement via ASM.
 .global custom_createItem
 custom_createItem:
 stwu sp, -0x10 (sp)

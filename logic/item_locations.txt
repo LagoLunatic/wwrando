@@ -148,6 +148,12 @@ Windfall Island - Mrs. Marie's - Catch Killer Bees:
   Original item: Purple Rupee
   Paths:
     - rels/d_a_npc_ho.rel@0A07
+Windfall Island - Roll Into Tree: # Note: Only works during the day since the kids aren't out at night.
+  Need: Nothing
+  Original item: Joy Pendant
+  Paths:
+    - rels/d_a_tag_mk.rel@0637
+    - sea/Stage.arc/Event093:MK_PENDANT/Actor001/Action005
 Windfall Island - Mrs. Marie's - Give 1 Joy Pendant:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Red Rupee
@@ -2115,11 +2121,6 @@ Six-Eye Reef - Submarine:
 #  Original item: Purple Rupee
 #  Paths:
 #    - rels/d_a_npc_people.rel@5BDF
-#unknown - The Great Sea - unknown event 1:
-#  Need: 
-#  Original item: Joy Pendant
-#  Paths:
-#    - sea/Stage.arc/Event093:MK_PENDANT/Actor001/Action005
 #unknown - The Great Sea - unknown event 2:
 #  Need: 
 #  Original item: Red Rupee
