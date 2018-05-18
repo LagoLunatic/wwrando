@@ -356,11 +356,23 @@ class Randomizer:
   
   def randomize_progression_items(self):
     if True:
-      # Don't randomize dungeon keys/maps/compasses.
+      # Don't randomize dungeon keys.
       for location_name, item_location in self.logic.item_locations.items():
         orig_item = item_location["Original item"]
-        if orig_item in ["Small Key", "Big Key", "Dungeon Map", "Compass"]:
+        if orig_item in ["Small Key", "Big Key"]:
           self.logic.add_unrandomized_location(location_name)
+    
+    # Places one dungeon map and compass in each dungeon.
+    for dungeon_name in self.logic.DUNGEON_NAMES.values():
+      locations_for_dungeon = self.logic.locations_by_zone_name[dungeon_name]
+      for item_name in ["Dungeon Map", "Compass"]:
+        possible_locations = [
+          loc for loc in locations_for_dungeon
+          if loc in self.logic.remaining_item_locations
+          and not loc in self.logic.unrandomized_item_locations
+        ]
+        location_name = random.choice(possible_locations)
+        self.logic.set_location_to_item(location_name, item_name)
     
     # Place progress items.
     previously_accessible_undone_locations = []

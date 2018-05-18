@@ -15,6 +15,7 @@ class Logic:
     "DRC":  "Dragon Roost Cavern",
     "FW":   "Forbidden Woods",
     "TotG": "Tower of the Gods",
+    "FF":   "Forsaken Fortress",
     "ET":   "Earth Temple",
     "WT":   "Wind Temple",
   }
@@ -70,6 +71,13 @@ class Logic:
         self.all_cleaned_item_names.append(cleaned_item_name)
     
     self.load_and_parse_item_locations()
+    
+    self.locations_by_zone_name = OrderedDict()
+    for location_name in self.item_locations:
+      zone_name, specific_location_name = self.split_location_name_by_zone(location_name)
+      if zone_name not in self.locations_by_zone_name:
+        self.locations_by_zone_name[zone_name] = []
+      self.locations_by_zone_name[zone_name].append(location_name)
     
     self.remaining_item_locations = list(self.item_locations.keys())
     self.unrandomized_item_locations = []
