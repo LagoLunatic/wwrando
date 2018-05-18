@@ -80,10 +80,8 @@ class WWRandomizerWindow(QMainWindow):
     for option_name in OPTIONS:
       options[option_name] = getattr(self.ui, option_name).isChecked()
     
-    seed_output_folder = os.path.join(output_folder, "WW Random %s" % seed)
-    
     try:
-      rando = Randomizer(int(seed), clean_iso_path, seed_output_folder, options)
+      rando = Randomizer(int(seed), clean_iso_path, output_folder, options)
       rando.randomize()
     except Exception as e:
       stack_trace = traceback.format_exc()

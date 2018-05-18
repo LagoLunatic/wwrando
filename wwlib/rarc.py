@@ -11,10 +11,8 @@ from wwlib.bmg import BMG
 from wwlib.charts import ChartList
 
 class RARC:
-  def __init__(self, file_path):
-    self.file_path = file_path
-    with open(self.file_path, "rb") as file:
-      self.data = BytesIO(file.read())
+  def __init__(self, data):
+    self.data = data
     
     if try_read_str(self.data, 0, 4) == "Yaz0":
       self.data = Yaz0Decompressor.decompress(self.data)
@@ -25,6 +23,7 @@ class RARC:
     self.file_data_list_offset = read_u32(data, 0xC) + 0x20
     self.file_data_total_size = read_u32(data, 0x10)
     self.file_data_total_size_2 = read_u32(data, 0x14)
+    self.file_data_total_size_3 = read_u32(data, 0x18)
     num_nodes = read_u32(data, 0x20)
     node_list_offset = 0x40
     self.total_num_file_entries = read_u32(data, 0x28)
@@ -105,8 +104,9 @@ class RARC:
         with open(file_path, "wb") as f:
           f.write(file.data.read())
   
-  def save_to_disk(self):
-    # Saves a modified .arc file to the disk. Supports files changing in size.
+  def save_changes(self):
+    # Repacks the .arc file.
+    # Supports files changing in size but not changing filenames or adding/removing files.
     
     # Cut off the file data first since we're replacing this data entirely.
     self.data.truncate(self.file_data_list_offset)
@@ -136,12 +136,20 @@ class RARC:
     write_u32(self.data, 4, self.size)
     self.file_data_total_size = next_file_data_offset
     write_u32(self.data, 0x10, self.file_data_total_size)
-    self.file_data_total_size_2 = self.file_data_total_size
-    write_u32(self.data, 0x14, self.file_data_total_size_2)
-    
-    with open(self.file_path, "wb") as file:
-      self.data.seek(0)
-      file.write(self.data.read())
+    if self.file_data_total_size_2 != 0:
+      # Unknown what this is for, but it must be properly set for arcs except for RELS.arc
+      self.file_data_total_size_2 = self.file_data_total_size
+      write_u32(self.data, 0x14, self.file_data_total_size_2)
+    if self.file_data_total_size_3 != 0:
+      # Unknown what this is for, but it must be properly set for RELS.arc
+      self.file_data_total_size_3 = self.file_data_total_size
+      write_u32(self.data, 0x18, self.file_data_total_size_3)
+  
+  def get_file_entry_by_name(self, file_name):
+    for file_entry in self.file_entries:
+      if file_entry.name == file_name:
+        return file_entry
+    return None
 
 class Node:
   def __init__(self, data, offset):
@@ -169,7 +177,8 @@ class FileEntry:
     #   01 - File?
     #   02 - Directory.
     #   04 - Compressed.
-    #   10 - File?
+    #   10 - Data file? (As opposed to a REL file)
+    #   20 - For dynamic link libraries, aka REL files?
     #   80 - Yaz0 compressed (as opposed to Yay0?).
     self.is_dir = (self.type & 0x02) != 0
     

@@ -19,8 +19,8 @@ from logic.logic import Logic
 VERSION = "0.1-BETA"
 
 class Randomizer:
-  def __init__(self, seed, clean_iso_path, randomized_base_dir, options):
-    self.randomized_base_dir = randomized_base_dir
+  def __init__(self, seed, clean_iso_path, randomized_output_folder, options):
+    self.randomized_output_folder = randomized_output_folder
     self.options = options
     self.seed = seed
     random.seed(self.seed)
@@ -28,12 +28,7 @@ class Randomizer:
     self.verify_supported_version(clean_iso_path)
     
     self.gcm = GCM(clean_iso_path)
-    self.gcm.extract_disc(self.randomized_base_dir)
-    
-    self.stage_dir = os.path.join(self.randomized_base_dir, "files", "res", "Stage")
-    self.rels_dir = os.path.join(self.randomized_base_dir, "files", "rels")
-    
-    self.extract_all_rels()
+    self.gcm.read_entire_disc()
     
     self.read_text_file_lists()
     self.logic = Logic(self)
@@ -44,13 +39,6 @@ class Randomizer:
     self.logic.add_owned_item("Progressive Sword")
     self.logic.add_owned_item("Hero's Shield")
     self.logic.add_owned_item("Boat's Sail")
-    
-    arc_paths = Path(self.stage_dir).glob("**/*.arc")
-    self.arc_paths = [str(arc_path) for arc_path in arc_paths]
-    rel_paths = Path(self.rels_dir).glob("**/*.rel")
-    self.rel_paths = [str(rel_path) for rel_path in rel_paths]
-    
-    #self.decompress_files()
     
     self.arcs_by_path = {}
     self.raw_files_by_path = {}
@@ -76,7 +64,7 @@ class Randomizer:
     
     self.write_spoiler_log()
     
-    self.save_changed_files()
+    self.save_randomized_iso()
   
   def apply_necessary_tweaks(self):
     tweaks.apply_patch(self, "custom_funcs")
@@ -104,41 +92,6 @@ class Randomizer:
       else:
         raise Exception("Invalid game given as the clean ISO. You must specify a Wind Waker ISO (USA version).")
   
-  def extract_all_rels(self):
-    # Extract all the extra rel files from RELS.arc.
-    rels_arc_path = os.path.join(self.randomized_base_dir, "files", "RELS.arc")
-    if not os.path.isfile(rels_arc_path):
-      raise Exception("Could not find RELS.arc!")
-    print("Extracting rels...")
-    rels_arc = RARC(rels_arc_path)
-    rels_arc.extract_all_files_to_disk_flat(self.rels_dir)
-    # And then delete RELS.arc. If we don't do this then the original rels inside it will take precedence over the modified ones we extracted.
-    os.remove(rels_arc_path)
-    rels_arc = None
-  
-  def decompress_files(self):
-    # Decompress any compressed arcs.
-    print("Decompressing archives...")
-    for arc_path in self.arc_paths:
-      with open(arc_path, "rb") as file:
-        data = BytesIO(file.read())
-      if try_read_str(data, 0, 4) == "Yaz0":
-        decomp_data = Yaz0Decompressor.decompress(data)
-        decomp_data.seek(0)
-        with open(arc_path, "wb") as file:
-          file.write(decomp_data.read())
-    
-    # Decompress any compressed rels.
-    print("Decompressing rels...")
-    for rel_path in self.rel_paths:
-      with open(rel_path, "rb") as file:
-        data = BytesIO(file.read())
-      if try_read_str(data, 0, 4) == "Yaz0":
-        decomp_data = Yaz0Decompressor.decompress(data)
-        decomp_data.seek(0)
-        with open(rel_path, "wb") as file:
-          file.write(decomp_data.read())
-  
   def read_text_file_lists(self):
     try:
       from sys import _MEIPASS
@@ -163,8 +116,10 @@ class Randomizer:
     
     # Get function names for debug purposes.
     self.function_names = {}
-    with open(os.path.join(self.randomized_base_dir, "files", "maps", "framework.map"), "r") as f:
-      matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})  \d (\S+)", f.read(), re.IGNORECASE | re.MULTILINE)
+    framework_map_contents = self.gcm.read_file_data("files/maps/framework.map")
+    framework_map_contents.seek(0)
+    framework_map_contents = framework_map_contents.read().decode("ascii")
+    matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})  \d (\S+)", framework_map_contents, re.IGNORECASE | re.MULTILINE)
     for match in matches:
       address, name = match
       address = int(address, 16)
@@ -222,10 +177,8 @@ class Randomizer:
       if arc_path in self.raw_files_by_path:
         raise Exception("File opened as both an arc and a raw file: " + file_path)
       
-      full_path = os.path.join(self.randomized_base_dir, arc_path)
-      if not os.path.isfile(full_path):
-        raise Exception("File %s does not exist." % arc_path)
-      arc = RARC(full_path)
+      data = self.gcm.read_file_data(arc_path)
+      arc = RARC(data)
       self.arcs_by_path[arc_path] = arc
       return arc
   
@@ -238,11 +191,18 @@ class Randomizer:
       if file_path in self.arcs_by_path:
         raise Exception("File opened as both an arc and a raw file: " + file_path)
       
-      full_path = os.path.join(self.randomized_base_dir, file_path)
-      if not os.path.isfile(full_path):
-        raise Exception("File %s does not exist." % file_path)
-      with open(full_path, "rb") as f:
-        data = BytesIO(f.read())
+      if file_path.startswith("files/rels/"):
+        rel_name = os.path.basename(file_path)
+        rels_arc = self.get_arc("files/RELS.arc")
+        rel_file_entry = rels_arc.get_file_entry_by_name(rel_name)
+      else:
+        rel_file_entry = None
+      
+      if rel_file_entry:
+        rel_file_entry.decompress_data_if_necessary()
+        data = rel_file_entry.data
+      else:
+        data = self.gcm.read_file_data(file_path)
       
       if try_read_str(data, 0, 4) == "Yaz0":
         data = Yaz0Decompressor.decompress(data)
@@ -250,14 +210,25 @@ class Randomizer:
       self.raw_files_by_path[file_path] = data
       return data
   
-  def save_changed_files(self):
-    for arc_path, arc in self.arcs_by_path.items():
-      arc.save_to_disk()
+  def save_randomized_iso(self):
+    changed_files = {}
     for file_path, data in self.raw_files_by_path.items():
-      full_path = os.path.join(self.randomized_base_dir, file_path)
-      with open(full_path, "wb") as f:
-        data.seek(0)
-        f.write(data.read())
+      if file_path.startswith("files/rels/"):
+        rel_name = os.path.basename(file_path)
+        rels_arc = self.get_arc("files/RELS.arc")
+        rel_file_entry = rels_arc.get_file_entry_by_name(rel_name)
+        if rel_file_entry:
+          # Modify the RELS.arc entry for this rel.
+          rel_file_entry.data = data
+          continue
+      
+      changed_files[file_path] = data
+    for arc_path, arc in self.arcs_by_path.items():
+      arc.save_changes()
+      changed_files[arc_path] = arc.data
+    
+    output_file_path = os.path.join(self.randomized_output_folder, "WW Random %s.iso" % self.seed)
+    self.gcm.export_iso_with_changed_files(output_file_path, changed_files)
 
   def change_item(self, path, item_name):
     item_id = self.item_name_to_id[item_name]
@@ -542,7 +513,7 @@ class Randomizer:
       island_name = self.island_number_to_name[chart.island_number]
       spoiler_log += "  %-18s %s\n" % (chart.item_name+":", island_name)
     
-    spoiler_log_output_path = self.randomized_base_dir + " - Spoiler Log.txt"
+    spoiler_log_output_path = os.path.join(self.randomized_output_folder, "WW Random %s - Spoiler Log.txt" % self.seed)
     with open(spoiler_log_output_path, "w") as f:
       f.write(spoiler_log)
 
