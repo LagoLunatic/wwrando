@@ -4,6 +4,11 @@ import struct
 class InvalidOffsetError(Exception):
   pass
 
+def data_len(data):
+  data_length = data.seek(0, 2)
+  return data_length
+
+
 def read_bytes(data, offset, length):
   data.seek(offset)
   return data.read(length)
