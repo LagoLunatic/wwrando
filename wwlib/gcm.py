@@ -42,16 +42,12 @@ class GCM:
       file_entry = self.file_entries[i]
       if file_entry.is_dir:
         subdir_path = os.path.join(output_dir, file_entry.name)
-        #print("Writing directory %s" % subdir_path)
         os.makedirs(subdir_path)
         self.extract_directory(file_entry, subdir_path)
         i = file_entry.next_fst_index
       else:
         file_path = os.path.join(output_dir, file_entry.name)
-        #print("Writing file %s" % file_path)
-        file_data = read_bytes(self.iso_file, file_entry.file_data_offset, file_entry.file_size)
-        with open(file_path, "wb") as f:
-          f.write(file_data)
+        self.extract_file(file_entry.file_data_offset, file_entry.file_size, file_path)
         i += 1
   
   def extract_system_data(self, output_dir):
