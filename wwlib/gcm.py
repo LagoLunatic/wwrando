@@ -168,8 +168,6 @@ class GCM:
     self.output_iso.write(fst_data.read())
     write_u32(self.output_iso, 0x424, self.fst_offset)
     self.output_iso.seek(self.fst_offset + self.fst_size)
-    
-    self.align_output_iso_to_nearest(4)
   
   def export_filesystem_to_iso(self):
     # Updates file offsets and sizes in the FST, and writes the files to the ISO.
@@ -177,6 +175,7 @@ class GCM:
     
     file_data_start_offset = self.fst_offset + self.fst_size
     self.output_iso.seek(file_data_start_offset)
+    self.align_output_iso_to_nearest(4)
     
     for file_entry in self.file_entries:
       if file_entry.is_dir:
