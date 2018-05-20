@@ -509,6 +509,33 @@ class STAG(ChunkEntry):
     write_u8(data, self.offset+0x11, self.unknown_5)
     write_u16(data, self.offset+0x12, self.draw_range)
 
+class SHIP(ChunkEntry):
+  DATA_SIZE = 0x10
+  
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+  
+  def read(self, offset):
+    self.offset = offset
+    data = self.file_entry.data
+    
+    self.x_pos = read_float(data, offset + 0x00)
+    self.y_pos = read_float(data, offset + 0x04)
+    self.z_pos = read_float(data, offset + 0x08)
+    self.y_rot = read_u16(data, offset + 0x0C)
+    self.ship_id = read_u8(data, offset + 0x0E)
+    self.unknown = read_u8(data, offset + 0x0F)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_float(data, self.offset+0x00, self.x_pos)
+    write_float(data, self.offset+0x04, self.y_pos)
+    write_float(data, self.offset+0x08, self.z_pos)
+    write_u16(data, self.offset+0x0C, self.y_rot)
+    write_u8(data, self.offset+0x0E, self.ship_id)
+    write_u8(data, self.offset+0x0F, self.unknown)
+
 class RTBL(ChunkEntry):
   DATA_SIZE = 0x4
   
@@ -637,9 +664,6 @@ class RCAM(DummyEntry):
 
 class RARO(DummyEntry):
   DATA_SIZE = 0x14
-
-class SHIP(DummyEntry):
-  DATA_SIZE = 0x10
 
 class EVNT(DummyEntry):
   DATA_SIZE = 0x18
