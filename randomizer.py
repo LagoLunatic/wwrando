@@ -16,7 +16,7 @@ from wwlib.gcm import GCM
 import tweaks
 from logic.logic import Logic
 
-VERSION = "0.1-BETA"
+VERSION = "0.2-BETA"
 
 class Randomizer:
   def __init__(self, seed, clean_iso_path, randomized_output_folder, options):
