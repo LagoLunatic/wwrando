@@ -370,6 +370,7 @@ class Randomizer:
           loc for loc in locations_for_dungeon
           if loc in self.logic.remaining_item_locations
           and not loc in self.logic.unrandomized_item_locations
+          and self.logic.item_locations[loc]["Type"] != "Tingle Statue Chest"
         ]
         location_name = random.choice(possible_locations)
         self.logic.set_location_to_item(location_name, item_name)
