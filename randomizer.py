@@ -23,7 +23,8 @@ class Randomizer:
     self.randomized_output_folder = randomized_output_folder
     self.options = options
     self.seed = seed
-    random.seed(self.seed)
+    self.rng = random.Random()
+    self.rng.seed(self.seed)
     
     self.verify_supported_version(clean_iso_path)
     
@@ -337,8 +338,8 @@ class Randomizer:
     while self.logic.unplaced_nonprogress_items:
       accessible_undone_locations = self.logic.get_accessible_remaining_locations()
       
-      item_name = random.choice(self.logic.unplaced_nonprogress_items)
-      location_name = random.choice(accessible_undone_locations)
+      item_name = self.rng.choice(self.logic.unplaced_nonprogress_items)
+      location_name = self.rng.choice(accessible_undone_locations)
       self.logic.set_location_to_item(location_name, item_name)
     
     accessible_undone_locations = self.logic.get_accessible_remaining_locations()
@@ -351,7 +352,7 @@ class Randomizer:
     # Fill remaining unused locations with consumables (Rupees and Spoils).
     locations_to_place_consumables_at = self.logic.remaining_item_locations.copy()
     for location_name in locations_to_place_consumables_at:
-      item_name = random.choice(self.logic.consumable_items)
+      item_name = self.rng.choice(self.logic.consumable_items)
       self.logic.set_location_to_item(location_name, item_name)
   
   def randomize_progression_items(self):
@@ -372,7 +373,7 @@ class Randomizer:
           and not loc in self.logic.unrandomized_item_locations
           and self.logic.item_locations[loc]["Type"] != "Tingle Statue Chest"
         ]
-        location_name = random.choice(possible_locations)
+        location_name = self.rng.choice(possible_locations)
         self.logic.set_location_to_item(location_name, item_name)
     
     # Place progress items.
@@ -400,20 +401,20 @@ class Randomizer:
       
       if len(accessible_undone_locations) == 1 and len(self.logic.unplaced_progress_items) > 1:
         must_place_useful_item = True
-      elif random.random() < 0.5: # 50% chance to place an item that opens up new locations
+      elif self.rng.random() < 0.5: # 50% chance to place an item that opens up new locations
         should_place_useful_item = True
       
       if must_place_useful_item or should_place_useful_item:
         shuffled_list = self.logic.unplaced_progress_items.copy()
-        random.shuffle(shuffled_list)
+        self.rng.shuffle(shuffled_list)
         item_name = self.logic.get_first_useful_item(shuffled_list)
         if item_name is None:
           if must_place_useful_item:
             raise Exception("No useful progress items to place!")
           else:
-            item_name = random.choice(self.logic.unplaced_progress_items)
+            item_name = self.rng.choice(self.logic.unplaced_progress_items)
       else:
-        item_name = random.choice(self.logic.unplaced_progress_items)
+        item_name = self.rng.choice(self.logic.unplaced_progress_items)
       
       # We weight it so newly accessible locations are 10x more likely to be chosen.
       # This way there is still a good chance it will not choose a new location.
@@ -429,7 +430,7 @@ class Randomizer:
           weight = 1
         possible_locations_with_weighting += [location_name]*weight
       
-      location_name = random.choice(possible_locations_with_weighting)
+      location_name = self.rng.choice(possible_locations_with_weighting)
       self.logic.set_location_to_item(location_name, item_name)
       
       previously_accessible_undone_locations = accessible_undone_locations
@@ -458,7 +459,7 @@ class Randomizer:
     original_charts = copy.deepcopy(randomizable_charts)
     # Sort the charts by their texture ID so we get the same results even if we randomize them multiple times.
     original_charts.sort(key=lambda chart: chart.texture_id)
-    random.shuffle(original_charts)
+    self.rng.shuffle(original_charts)
     
     for chart in randomizable_charts:
       chart_to_copy_from = original_charts.pop()
