@@ -34,14 +34,13 @@ class Logic:
     for i in range(1, 41+1):
       self.treasure_chart_names.append("Treasure Chart %d" % i)
     
-    if self.rando.options.get("all_progression_charts"):
+    if self.rando.options.get("progression_triforce_charts"):
       self.all_progress_items += self.triforce_chart_names
-      self.all_progress_items += self.treasure_chart_names
-    elif self.rando.options.get("triforce_progression_charts"):
-      self.all_progress_items += self.triforce_chart_names
-      self.all_nonprogress_items += self.treasure_chart_names
     else:
       self.all_nonprogress_items += self.triforce_chart_names
+    if self.rando.options.get("progression_treasure_charts"):
+      self.all_progress_items += self.treasure_chart_names
+    else:
       self.all_nonprogress_items += self.treasure_chart_names
     
     self.unplaced_progress_items = self.all_progress_items.copy()
@@ -142,10 +141,14 @@ class Logic:
     elif item_name in self.all_nonprogress_items:
       self.unplaced_nonprogress_items.append(item_name)
   
-  def get_accessible_remaining_locations(self):
+  def get_accessible_remaining_locations(self, for_progression=False):
     accessible_location_names = []
     
-    for location_name in self.remaining_item_locations:
+    locations_to_check = self.remaining_item_locations
+    if for_progression:
+      locations_to_check = self.filter_locations_for_progression(locations_to_check)
+    
+    for location_name in locations_to_check:
       requirement_expression = self.item_locations[location_name]["Need"]
       if self.check_logical_expression_req(requirement_expression):
         accessible_location_names.append(location_name)
@@ -175,6 +178,34 @@ class Logic:
     
     return None
   
+  def filter_locations_for_progression(self, locations_to_filter):
+    filtered_locations = []
+    for location_name in locations_to_filter:
+      type = self.item_locations[location_name]["Type"]
+      if type == "No progression":
+        continue
+      if type == "Dungeon" and not self.rando.options.get("progression_dungeons"):
+        continue
+      if type == "Secret Cave" and not self.rando.options.get("progression_secret_caves"):
+        continue
+      if type == "Sidequest" and not self.rando.options.get("progression_sidequests"):
+        continue
+      if type == "Minigame" and not self.rando.options.get("progression_minigames"):
+        continue
+      if type in ["Platform", "Raft"] and not self.rando.options.get("progression_platforms_rafts"):
+        continue
+      if type == "Submarine" and not self.rando.options.get("progression_submarines"):
+        continue
+      if type == "Expensive Purchase" and not self.rando.options.get("progression_expensive_purchases"):
+        continue
+      # Note: The Triforce/Treasure Chart sunken treasures are not filtered here.
+      # Instead they are handled by not considering the charts themselves to be progress items.
+      # This results in the item randomizer considering these locations inaccessible until after all progress items are placed.
+      
+      filtered_locations.append(location_name)
+    
+    return filtered_locations
+  
   def add_unrandomized_location(self, location_name):
     # For locations that should not be randomized on this seed, e.g. dungeon keys.
     assert location_name in self.item_locations
@@ -196,6 +227,9 @@ class Logic:
         self.item_locations[location_name]["Need"] = self.parse_logic_expression("TODO")
       else:
         self.item_locations[location_name]["Need"] = self.parse_logic_expression(req_string)
+      
+      if "Type" not in self.item_locations[location_name]:
+        self.item_locations[location_name]["Type"] = None
     
     with open(os.path.join(logic_path, "macros.txt")) as f:
       macro_strings = yaml.safe_load(f)

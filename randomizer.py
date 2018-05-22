@@ -377,7 +377,7 @@ class Randomizer:
     # Place progress items.
     previously_accessible_undone_locations = []
     while self.logic.unplaced_progress_items:
-      accessible_undone_locations = self.logic.get_accessible_remaining_locations()
+      accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
       
       if not accessible_undone_locations:
         raise Exception("No locations left to place progress items!")

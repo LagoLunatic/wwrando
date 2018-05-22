@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>332</height>
+    <height>440</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -73,30 +73,91 @@
     <item>
      <widget class="QGroupBox" name="groupBox">
       <property name="title">
-       <string>Which Charts Can Lead to Progress Items</string>
+       <string>Where Should Progress Items Appear?</string>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <item>
-        <widget class="QRadioButton" name="no_progression_charts">
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="progression_dungeons">
          <property name="text">
-          <string>None</string>
+          <string>Dungeons</string>
          </property>
          <property name="checked">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QRadioButton" name="triforce_progression_charts">
+       <item row="2" column="1">
+        <widget class="QCheckBox" name="progression_submarines">
          <property name="text">
-          <string>Triforce Charts Only</string>
+          <string>Submarines</string>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QRadioButton" name="all_progression_charts">
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="progression_platforms_rafts">
          <property name="text">
-          <string>Triforce and Treasure Charts</string>
+          <string>Lookout Platforms and Rafts</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="progression_sidequests">
+         <property name="text">
+          <string>Sidequests</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="progression_minigames">
+         <property name="text">
+          <string>Minigames</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QCheckBox" name="progression_triforce_charts">
+         <property name="text">
+          <string>Sunken Treasure (From Triforce Charts)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QCheckBox" name="progression_secret_caves">
+         <property name="text">
+          <string>Secret Caves</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="progression_treasure_charts">
+         <property name="text">
+          <string>Sunken Treasure (From Treasure Charts)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="progression_misc">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Everywhere Else</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QCheckBox" name="progression_expensive_purchases">
+         <property name="text">
+          <string>Expensive Purchases</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

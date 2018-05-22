@@ -26,6 +26,7 @@ Outset Island - Mesa the Grasscutter's House:
 Outset Island - Orca - Give 10 Knight's Crests:
   Need: Spoils Bag & Can Farm Knight's Crests
   Original item: Hurricane Spin
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_ji1.rel@4267
     - Ojhous/Stage.arc/Event00D:Ji1_TeachSpRollCut/Actor003/Action003
@@ -40,8 +41,9 @@ Outset Island - Orca - Give 10 Knight's Crests:
 #  Paths:
 #    - rels/d_a_npc_ji1.rel@42BB
 Outset Island - Orca - Hit 500 Times:
-  Need: Nothing & TODO # This is just tedious to do, so for now let's prevent it from being required
+  Need: Nothing
   Original item: Piece of Heart
+  Type: No progression # This is just tedious to do
   Paths:
     - rels/d_a_npc_ji1.rel@42F7
 #Outset Island - Orca - Hit 999 Times:
@@ -78,6 +80,7 @@ Outset Island - Savage Labyrinth - Floor 30:
     & Can Defeat Yellow ChuChus
     & Can Play Wind's Requiem
   Original item: Triforce Chart 6
+  Type: Secret Cave
   Paths:
     - Cave09/Room20.arc/Chest000
 Outset Island - Savage Labyrinth - Floor 50:
@@ -92,6 +95,7 @@ Outset Island - Savage Labyrinth - Floor 50:
     & Can Defeat Blue Bubbles
     & Skull Hammer
   Original item: Piece of Heart
+  Type: Secret Cave
   Paths:
     - Cave10/Room20.arc/Chest000
 
@@ -141,32 +145,38 @@ Windfall Island - Jail - Maze Chest:
 Windfall Island - Ivan - Catch Killer Bees:
   Need: Nothing
   Original item: Piece of Heart
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_mk.rel@20CB
 Windfall Island - Mrs. Marie's - Catch Killer Bees:
   Need: Nothing
   Original item: Purple Rupee
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_ho.rel@0A07
-Windfall Island - Roll Into Tree: # Note: Only works during the day since the kids aren't out at night.
+Windfall Island - Roll Into Tree:
   Need: Nothing
   Original item: Joy Pendant
+  Type: No progression # Many people won't know about this item. Also, it only works during the day, and only after playing hide and seek.
   Paths:
     - rels/d_a_tag_mk.rel@0637
     - sea/Stage.arc/Event093:MK_PENDANT/Actor001/Action005
 Windfall Island - Mrs. Marie's - Give 1 Joy Pendant:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Red Rupee
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_ho.rel@0B4B
 Windfall Island - Mrs. Marie's - Give 21 Joy Pendants:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Cabana Deed
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_ho.rel@0B77
 Windfall Island - Mrs. Marie's - Give 41 Joy Pendants:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Hero's Charm
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_ho.rel@0C87
 #Windfall Island - Mrs. Marie's - Give 1 or 2 Joy Pendants at Once:
@@ -206,6 +216,7 @@ Windfall Island - Lenzo's House - Become Lenzo's Assistant:
   Need:
     Picto Box
   Original item: Joy Pendant
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_photo.rel@1C13
 Windfall Island - Lenzo's House - Bring Forest Firefly:
@@ -214,6 +225,7 @@ Windfall Island - Lenzo's House - Bring Forest Firefly:
     & Empty Bottle
     & Can Access Forest Haven
   Original item: Deluxe Picto Box
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_photo.rel@1C37
     - rels/d_a_npc_photo.rel@3BE3
@@ -230,6 +242,7 @@ Windfall Island - House of Wealth Chest:
 Windfall Island - Maggie's Father - Give 20 Skull Necklaces:
   Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
   Original item: Treasure Chart 2
+  Type: Sidequest
   Paths:
     - Orichh/Stage.arc/Event04C:Gp1_Get_Itm/Actor002/Action001
 #Windfall Island - Maggie's Father - Give More than 20 Skull Necklaces: # Doesn't work
@@ -245,16 +258,19 @@ Windfall Island - Maggie's Father - Give 20 Skull Necklaces:
 Windfall Island - Maggie - Letter:
   Need: Rescued Aryll & TODO # This item becomes missable once you own Maggie's Letter (or Moblin's Letter?).
   Original item: Maggie's Letter
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_kp1.rel@17D7
 Windfall Island - Maggie - Reward:
   Need: Rescued Aryll & Delivery Bag & Moblin's Letter
   Original item: Piece of Heart
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_kp1.rel@1817
 Windfall Island - Cafe Bar - Postman:
   Need: Rescued Aryll & Delivery Bag & Maggie's Letter & TODO # The postman disappears once you've ever owned the Moblin's Letter.
   Original item: Moblin's Letter
+  Type: Sidequest
   Paths:
     - Opub/Stage.arc/Event00E:Get_Mo3_Ltr/Actor002/Action001
 Windfall Island - Kreeb:
@@ -263,6 +279,7 @@ Windfall Island - Kreeb:
     Can Play Wind's Requiem
     & Fire Arrows
   Original item: Piece of Heart
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_people.rel@C55B
 Windfall Island - Transparent Chest:
@@ -284,21 +301,25 @@ Windfall Island - Tott:
 Windfall Island - 40 Rupee Auction:
   Need: Nothing
   Original item: Joy Pendant
+  Type: Sidequest
   Paths:
     - rels/d_a_auction.rel@4489
 Windfall Island - 5 Rupee Auction:
   Need: Nothing
   Original item: Treasure Chart 18
+  Type: Sidequest
   Paths:
     - rels/d_a_auction.rel@4491
 Windfall Island - 60 Rupee Auction:
   Need: Nothing
   Original item: Treasure Chart 38
+  Type: Sidequest
   Paths:
     - rels/d_a_auction.rel@4499
 Windfall Island - 80 Rupee Auction:
   Need: Nothing
   Original item: Piece of Heart
+  Type: Sidequest
   Paths:
     - rels/d_a_auction.rel@44A1
 #Windfall Island - Zunari - Sail:
@@ -314,26 +335,31 @@ Windfall Island - 80 Rupee Auction:
 Windfall Island - Sam - Decorate the Town:
   Need: Rescued Aryll & Delivery Bag
   Original item: Piece of Heart
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_people.rel@C54B
-Windfall Island - Zunari - Get Three Items Zunari's Shop:
+Windfall Island - Zunari - Get Three Items for Zunari's Shop:
   Need: Rescued Aryll & Delivery Bag
   Original item: Magic Armor
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_rsh1.rel@3117
 Windfall Island - Mila:
   Need: Rescued Aryll
   Original item: Empty Bottle
+  Type: Sidequest
   Paths:
     - sea/Stage.arc/Event084:get_empty_btl/Actor002/Action001
 Windfall Island - Sinking Ships - First Prize:
   Need: Nothing
   Original item: Piece of Heart
+  Type: Minigame
   Paths:
     - rels/d_a_npc_kg1.rel@2C28
 Windfall Island - Sinking Ships - Second Prize:
   Need: Nothing
   Original item: Treasure Chart 7
+  Type: Minigame
   Paths:
     - rels/d_a_npc_kg1.rel@2C29
 #Windfall Island - Sinking Ships - Prize 3+:
@@ -344,6 +370,7 @@ Windfall Island - Sinking Ships - Second Prize:
 Windfall Island - Sinking Ships - 20 Shots or Less Prize:
   Need: Nothing
   Original item: Treasure Chart 23
+  Type: Minigame
   Paths:
     - rels/d_a_npc_kg1.rel@2C2C
 #Windfall Island - Sinking Ships - 20 Shots or Less Prize 2+:
@@ -359,21 +386,25 @@ Windfall Island - Pompie and Vera:
     Can Play Wind's Requiem 
     & Picto Box
   Original item: Treasure Chart 24
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_people.rel@C54F
 Windfall Island - Kamo:
   Need: Deluxe Picto Box
   Original item: Treasure Chart 31
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_people.rel@C55F
 Windfall Island - Minenco:
   Need: Deluxe Picto Box
   Original item: Treasure Chart 33
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_people.rel@C553
 Windfall Island - Linda:
   Need: Deluxe Picto Box
   Original item: Piece of Heart
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_people.rel@C557
 
@@ -400,7 +431,7 @@ Dragon Roost Island - Wind Shrine:
 #  Paths:
 #    - rels/d_a_npc_md.rel@AF1B
 #    - rels/d_a_npc_md.rel@AF47
-#Dragon Roost Cavern - Entrance - Medli's Gift:
+#Dragon Roost Island - Entrance to Cavern - Medli's Gift:
 #  Need: Delivery Bag & Father's Letter # Need to deliver this to Komali before Medli will appear
 #  Original item: Empty Bottle
 #  Paths:
@@ -413,6 +444,7 @@ Dragon Roost Island - Wind Shrine:
 Dragon Roost Island - Rito Aerie - Give Hoskit 20 Golden Feathers:
   Need: Spoils Bag & Can Farm Golden Feathers
   Original item: Orange Rupee
+  Type: Sidequest
   Paths:
     - Atorizk/Stage.arc/Event000:Get_Rupee/Actor002/Action001
 Dragon Roost Island - Chest on Top of Boulder:
@@ -420,7 +452,7 @@ Dragon Roost Island - Chest on Top of Boulder:
   Original item: Silver Rupee
   Paths:
     - sea/Room13.arc/Chest000
-Dragon Roost Island - Long Cave Passage:
+Dragon Roost Island - Long Passage:
   Need: Can Fly With Deku Leaf Outdoors
   Original item: Orange Rupee
   Paths:
@@ -428,11 +460,13 @@ Dragon Roost Island - Long Cave Passage:
 Dragon Roost Island - Rito Aerie - Baito:
   Need: Nothing # Need to pull down a block for Baito and sort 25 letters twice
   Original item: Note to Mom
+  Type: Minigame
   Paths:
     - Atorizk/Stage.arc/Event003:GETMOTHERLETTER/Actor000/Action000
 Dragon Roost Island - Secret Cave:
   Need: Can Move Boulders
   Original item: Purple Rupee
+  Type: Secret Cave
   Paths:
     - TF_06/Stage.arc/Chest000
 
@@ -440,6 +474,7 @@ Dragon Roost Island - Secret Cave:
 Dragon Roost Cavern - First Room:
   Need: Can Access Dragon Roost Cavern
   Original item: Small Key
+  Type: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest005
 Dragon Roost Cavern - Map Chest:
@@ -447,6 +482,7 @@ Dragon Roost Cavern - Map Chest:
     Can Access Dragon Roost Cavern
     & DRC Small Key x1
   Original item: Dungeon Map
+  Type: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest008
 Dragon Roost Cavern - Boarded Up Chest:
@@ -454,6 +490,7 @@ Dragon Roost Cavern - Boarded Up Chest:
     Can Access Dragon Roost Cavern
     & DRC Small Key x1
   Original item: Small Key
+  Type: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest006
 Dragon Roost Cavern - Compass Chest:
@@ -461,6 +498,7 @@ Dragon Roost Cavern - Compass Chest:
     Can Access Dragon Roost Cavern
     & DRC Small Key x2
   Original item: Compass
+  Type: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest007
 Dragon Roost Cavern - Rat Room:
@@ -468,6 +506,7 @@ Dragon Roost Cavern - Rat Room:
     Can Access Dragon Roost Cavern
     & DRC Small Key x2
   Original item: Small Key
+  Type: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest00B
 Dragon Roost Cavern - Bird's Nest:
@@ -475,6 +514,7 @@ Dragon Roost Cavern - Bird's Nest:
     Can Access Dragon Roost Cavern
     & DRC Small Key x3
   Original item: Small Key
+  Type: Dungeon
   Paths:
     - M_NewD2/Room3.arc/Actor016
 Dragon Roost Cavern - Dark Room:
@@ -482,6 +522,7 @@ Dragon Roost Cavern - Dark Room:
     Can Access Dragon Roost Cavern
     & DRC Small Key x4
   Original item: Joy Pendant
+  Type: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest004
 Dragon Roost Cavern - Pot Room Chest:
@@ -489,6 +530,7 @@ Dragon Roost Cavern - Pot Room Chest:
     Can Access Dragon Roost Cavern
     & DRC Small Key x4
   Original item: Treasure Chart 39
+  Type: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest003
 Dragon Roost Cavern - Mini-boss:
@@ -497,6 +539,7 @@ Dragon Roost Cavern - Mini-boss:
     & DRC Small Key x4
   # Need to escape: Grappling Hook | Can Fly With Deku Leaf Outdoors
   Original item: Grappling Hook
+  Type: Dungeon
   Paths:
     - rels/d_a_npc_md.rel@AF2F
     - M_Dra09/Stage.arc/Chest000
@@ -506,6 +549,7 @@ Dragon Roost Cavern - Under Rope Bridge:
     & DRC Small Key x4
     & (Grappling Hook | Can Fly With Deku Leaf Outdoors)
   Original item: Joy Pendant
+  Type: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest009
 Dragon Roost Cavern - Tingle Statue Chest:
@@ -515,6 +559,7 @@ Dragon Roost Cavern - Tingle Statue Chest:
     & Grappling Hook
     & Tingle Tuner Bombs
   Original item: Dragon Tingle Statue
+  Type: Tingle Statue Chest
   Paths:
     - M_NewD2/Stage.arc/Chest00C
 Dragon Roost Cavern - Big Key Chest:
@@ -523,6 +568,7 @@ Dragon Roost Cavern - Big Key Chest:
     & DRC Small Key x4
     & Grappling Hook
   Original item: Big Key
+  Type: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest000
 Dragon Roost Cavern - Chest Across Lava Pit:
@@ -531,6 +577,7 @@ Dragon Roost Cavern - Chest Across Lava Pit:
     & DRC Small Key x2
     & (Grappling Hook | Deku Leaf)
   Original item: Treasure Chart 11
+  Type: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest00A
 Dragon Roost Cavern - Boss Stairs Right Chest:
@@ -539,6 +586,7 @@ Dragon Roost Cavern - Boss Stairs Right Chest:
     & DRC Small Key x4
     & (Grappling Hook | Deku Leaf)
   Original item: Knight's Crest
+  Type: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest001
 Dragon Roost Cavern - Boss Stairs Left Chest:
@@ -547,6 +595,7 @@ Dragon Roost Cavern - Boss Stairs Left Chest:
     & DRC Small Key x4
     & (Grappling Hook | Deku Leaf)
   Original item: Yellow Rupee
+  Type: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest002
 #Dragon Roost Cavern - Unused?:
@@ -561,6 +610,7 @@ Dragon Roost Cavern - Gohma Heart Container:
     & Grappling Hook
     & DRC Big Key
   Original item: Heart Container
+  Type: Dungeon
   Paths:
     - rels/d_a_btd.rel@36FE
     - M_DragB/Room0.arc/Actor015
@@ -597,11 +647,13 @@ Forest Haven - Small Island Chest:
 Forbidden Woods - Map Chest:
   Need: Can Access Forbidden Woods
   Original item: Dungeon Map
+  Type: Dungeon
   Paths:
     - kindan/Stage.arc/Chest002
 Forbidden Woods - Inside Hollow Tree's Mouth:
   Need: Can Access Forbidden Woods
   Original item: Knight's Crest
+  Type: Dungeon
   Paths:
     - kindan/Stage.arc/Chest001
 Forbidden Woods - Hole in Tree:
@@ -609,6 +661,7 @@ Forbidden Woods - Hole in Tree:
     Can Access Forbidden Woods
     & Deku Leaf
   Original item: Red Rupee
+  Type: Dungeon
   Paths:
     - kindan/Stage.arc/Chest004
 Forbidden Woods - Morth Pit:
@@ -617,6 +670,7 @@ Forbidden Woods - Morth Pit:
     & Deku Leaf
     & Grappling Hook
   Original item: Yellow Rupee
+  Type: Dungeon
   Paths:
     - kindan/Stage.arc/Chest00C
 Forbidden Woods - Vine Maze Compass Chest:
@@ -625,6 +679,7 @@ Forbidden Woods - Vine Maze Compass Chest:
     & Deku Leaf
     & Grappling Hook
   Original item: Compass
+  Type: Dungeon
   Paths:
     - kindan/Stage.arc/Chest006
 Forbidden Woods - Vine Maze Chest:
@@ -633,6 +688,7 @@ Forbidden Woods - Vine Maze Chest:
     & Deku Leaf
     & Grappling Hook
   Original item: Small Key
+  Type: Dungeon
   Paths:
     - kindan/Stage.arc/Chest003
 Forbidden Woods - Tall Peahat Room:
@@ -642,6 +698,7 @@ Forbidden Woods - Tall Peahat Room:
     & Grappling Hook
     & FW Small Key x1
   Original item: Joy Pendant
+  Type: Dungeon
   Paths:
     - kindan/Stage.arc/Chest009
 Forbidden Woods - Mothula Mini-Boss Room:
@@ -652,6 +709,7 @@ Forbidden Woods - Mothula Mini-Boss Room:
     & FW Small Key x1
   # Need to escape: Can Hit Diamond Switches at Range
   Original item: Boomerang
+  Type: Dungeon
   Paths:
     - kinMB/Stage.arc/Chest000
 Forbidden Woods - Past Seeds Hanging by Vines:
@@ -662,6 +720,7 @@ Forbidden Woods - Past Seeds Hanging by Vines:
     & FW Small Key x1
     & Can Defeat Door Flowers
   Original item: Joy Pendant
+  Type: Dungeon
   Paths:
     - kindan/Stage.arc/Chest00B
 Forbidden Woods - Chest Across Red Hanging Flower:
@@ -671,6 +730,7 @@ Forbidden Woods - Chest Across Red Hanging Flower:
     & Grappling Hook
     & Boomerang
   Original item: Yellow Rupee
+  Type: Dungeon
   Paths:
     - kindan/Stage.arc/Chest00D
 Forbidden Woods - Tingle Statue Chest:
@@ -681,6 +741,7 @@ Forbidden Woods - Tingle Statue Chest:
     & Boomerang
     & Tingle Tuner Bombs
   Original item: Forbidden Tingle Statue
+  Type: Tingle Statue Chest
   Paths:
     - kindan/Stage.arc/Chest00E
 Forbidden Woods - Chest in Locked Tree Trunk:
@@ -690,6 +751,7 @@ Forbidden Woods - Chest in Locked Tree Trunk:
     & Grappling Hook
     & Boomerang
   Original item: Treasure Chart 15
+  Type: Dungeon
   Paths:
     - kindan/Stage.arc/Chest007
 Forbidden Woods - Big Key Chest:
@@ -699,6 +761,7 @@ Forbidden Woods - Big Key Chest:
     & Grappling Hook
     & Boomerang
   Original item: Big Key
+  Type: Dungeon
   Paths:
     - kindan/Stage.arc/Chest008
 Forbidden Woods - Double Mothula Room:
@@ -707,6 +770,7 @@ Forbidden Woods - Double Mothula Room:
     & Deku Leaf
     & Can Defeat Door Flowers
   Original item: Joy Pendant
+  Type: Dungeon
   Paths:
     - kindan/Stage.arc/Chest00A
 Forbidden Woods - Climb to Top Using Boko Baba Bulbs:
@@ -715,6 +779,7 @@ Forbidden Woods - Climb to Top Using Boko Baba Bulbs:
     & Deku Leaf
     & Can Defeat Door Flowers
   Original item: Treasure Chart 1
+  Type: Dungeon
   Paths:
     - kindan/Stage.arc/Chest000
 Forbidden Woods - Kalle Demos Heart Container:
@@ -725,6 +790,7 @@ Forbidden Woods - Kalle Demos Heart Container:
     & FW Big Key
     & Boomerang
   Original item: Heart Container
+  Type: Dungeon
   Paths:
     - rels/d_a_bmd.rel@2B2E
     - kinBOSS/Room0.arc/Actor002
@@ -742,21 +808,25 @@ Tower of the Gods - Map Chest:
     Can Access Tower of the Gods
     & Bombs
   Original item: Dungeon Map
+  Type: Dungeon
   Paths:
     - Siren/Stage.arc/Chest001
 Tower of the Gods - Hop Across Floating Boxes:
   Need: Can Access Tower of the Gods
   Original item: Small Key
+  Type: Dungeon
   Paths:
     - Siren/Stage.arc/Chest000
 Tower of the Gods - Light Two Torches:
   Need: Can Access Tower of the Gods
   Original item: Joy Pendant
+  Type: Dungeon
   Paths:
     - Siren/Stage.arc/Chest005
 Tower of the Gods - Compass Chest:
   Need: Can Access Tower of the Gods
   Original item: Compass
+  Type: Dungeon
   Paths:
     - Siren/Stage.arc/Chest002
 Tower of the Gods - Shoot Eye Above Compass Chest:
@@ -764,6 +834,7 @@ Tower of the Gods - Shoot Eye Above Compass Chest:
     Can Access Tower of the Gods
     & Hero's Bow
   Original item: Treasure Chart 6
+  Type: Dungeon
   Paths:
     - Siren/Stage.arc/Chest006
 Tower of the Gods - Tingle Statue Chest:
@@ -773,6 +844,7 @@ Tower of the Gods - Tingle Statue Chest:
     & Can Defeat Yellow ChuChus
     & Tingle Tuner Bombs
   Original item: Goddess Tingle Statue
+  Type: Tingle Statue Chest
   Paths:
     - Siren/Stage.arc/Chest00A
 Tower of the Gods - Stone Tablet:
@@ -782,6 +854,7 @@ Tower of the Gods - Stone Tablet:
     & Can Defeat Yellow ChuChus
     & Wind Waker
   Original item: Command Melody
+  Type: Dungeon
   Paths:
     - Siren/Stage.arc/Event060:hsehi1_tact/Actor003/Action004
 Tower of the Gods - Darknut Mini-Boss Room:
@@ -796,6 +869,7 @@ Tower of the Gods - Darknut Mini-Boss Room:
     # Note: You can reach this without Grappling Hook if you have Deku Leaf instead. But if you run out of MP you can get trapped and not be able to escape since there are no MP refill jars on this side of the gap. So Deku Leaf is not considered an option here by the logic.
     # TODO: Maybe we should modify the pots around here to also drop MP refill jars?
   Original item: Hero's Bow
+  Type: Dungeon
   Paths:
     - SirenMB/Stage.arc/Chest000
 Tower of the Gods - First Chest Guarded by Armos Knights:
@@ -805,6 +879,7 @@ Tower of the Gods - First Chest Guarded by Armos Knights:
     & Can Defeat Yellow ChuChus
     & Bombs
   Original item: Joy Pendant
+  Type: Dungeon
   Paths:
     - Siren/Stage.arc/Chest004
 Tower of the Gods - Second Chest Guarded by Armos Knights:
@@ -819,6 +894,7 @@ Tower of the Gods - Second Chest Guarded by Armos Knights:
     & Wind's Requiem
     # Bombs are needed to kill the Armos Knights, but killing them is not necessary for any reason, since the chest appears when you play Wind's Requiem, and the door is not locked.
   Original item: Treasure Chart 30
+  Type: Dungeon
   Paths:
     - Siren/Stage.arc/Chest007
 Tower of the Gods - Floating Platforms Room:
@@ -831,6 +907,7 @@ Tower of the Gods - Floating Platforms Room:
     & Command Melody
     & Hero's Bow
   Original item: Small Key
+  Type: Dungeon
   Paths:
     - Siren/Stage.arc/Chest008
 Tower of the Gods - Top of Floating Platforms Room:
@@ -843,6 +920,7 @@ Tower of the Gods - Top of Floating Platforms Room:
     & Command Melody
     & Hero's Bow
   Original item: Joy Pendant
+  Type: Dungeon
   Paths:
     - Siren/Stage.arc/Chest009
 Tower of the Gods - Big Key Chest:
@@ -856,6 +934,7 @@ Tower of the Gods - Big Key Chest:
     & TotG Small Key x2
     & Deku Leaf
   Original item: Big Key
+  Type: Dungeon
   Paths:
     - Siren/Stage.arc/Chest00B
 #Tower of the Gods - Gohdan - Arrow Refill:
@@ -881,6 +960,7 @@ Tower of the Gods - Gohdan Heart Container:
     & TotG Big Key
     & Bombs
   Original item: Heart Container
+  Type: Dungeon
   Paths:
     - rels/d_a_bst.rel@9D43
     - SirenB/Room0.arc/Actor003
@@ -895,6 +975,7 @@ Tower of the Gods - Gohdan Heart Container:
 Forsaken Fortress - Phantom Ganon:
   Need: Can Reach and Defeat Phantom Ganon
   Original item: Skull Hammer
+  Type: Dungeon
   Paths:
     - sea/Room1.arc/Chest000
 Forsaken Fortress - Map Chest:
@@ -903,6 +984,7 @@ Forsaken Fortress - Map Chest:
     Can Get Inside Forsaken Fortress
     & (Deku Leaf | Hookshot)
   Original item: Dungeon Map
+  Type: Dungeon
   Paths:
     - majroom/Stage.arc/Chest000
     - ma2room/Stage.arc/Chest000
@@ -910,6 +992,7 @@ Forsaken Fortress - Map Chest:
 Forsaken Fortress - Chest on Bed:
   Need: Can Get Inside Forsaken Fortress
   Original item: Yellow Rupee
+  Type: Dungeon
   Paths:
     - majroom/Stage.arc/Chest001
     - ma2room/Stage.arc/Chest001
@@ -917,6 +1000,7 @@ Forsaken Fortress - Chest on Bed:
 Forsaken Fortress - Compass Chest:
   Need: Can Get Inside Forsaken Fortress
   Original item: Compass
+  Type: Dungeon
   Paths:
     - majroom/Stage.arc/Chest002
     - ma2room/Stage.arc/Chest002
@@ -924,6 +1008,7 @@ Forsaken Fortress - Compass Chest:
 Forsaken Fortress - Jail Cell:
   Need: Can Get Inside Forsaken Fortress
   Original item: Piece of Heart
+  Type: Dungeon
   Paths:
     - majroom/Stage.arc/Chest003
     - ma2room/Stage.arc/Chest003
@@ -945,6 +1030,7 @@ Forsaken Fortress - Helmaroc King Heart Container:
     # To do it, go to the southwest room, and jump on top of the wooden bedposts. Then jump diagonally onto the corner of the platform with the Bokoblin and the Skull Hammer pegs on it.
     # If adding difficulty options, take that trick into account.
   Original item: Heart Container
+  Type: Dungeon
   Paths:
     - rels/d_a_bdk.rel@5CCE
     - M2tower/Room0.arc/Layer3/Actor01B
@@ -963,16 +1049,19 @@ Fire Mountain - Cave - Chest:
   Need: Ice Arrows
   # Need to escape: Power Bracelets
   Original item: Power Bracelets
+  Type: Secret Cave
   Paths:
     - MiniKaz/Stage.arc/Chest000
 Fire Mountain - Lookout Platform Chest:
   Need: Nothing
   Original item: Yellow Rupee
+  Type: Platform
   Paths:
     - sea/Room20.arc/Chest001
 Fire Mountain - Lookout Platform - Destroy the Cannons:
   Need: Bombs
   Original item: Golden Feather
+  Type: Platform
   Paths:
     - sea/Room20.arc/Chest000
 Fire Mountain - Big Octo:
@@ -990,11 +1079,13 @@ Ice Ring Isle - Cave - Chest:
   Need: Fire Arrows
   # Need to escape: Iron Boots
   Original item: Iron Boots
+  Type: Secret Cave
   Paths:
     - MiniHyo/Stage.arc/Chest000
 Ice Ring Isle - Inner Cave - Chest:
   Need: Fire Arrows & Iron Boots
   Original item: Orange Rupee
+  Type: Secret Cave
   Paths:
     - ITest62/Stage.arc/Chest000
 
@@ -1007,6 +1098,7 @@ Headstone Island - Top of the Island:
 Headstone Island - Submarine:
   Need: Nothing
   Original item: Treasure Chart 14
+  Type: Submarine
   Paths:
     - Abship/Room3.arc/Chest000
     - Abship/Room5.arc/Chest000
@@ -1019,6 +1111,7 @@ Headstone Island - Submarine:
 Earth Temple - Map Chest:
   Need: Can Access Earth Temple
   Original item: Dungeon Map
+  Type: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest000
 #Earth Temple - Behind Curtain Next to Map Chest:
@@ -1036,6 +1129,7 @@ Earth Temple - Transparent Chest in First Crypt:
     & Power Bracelets
     # Power Bracelets necessary to move the large black pushable box and reveal a light ray.
   Original item: Small Key
+  Type: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest001
 Earth Temple - Compass Chest:
@@ -1046,6 +1140,7 @@ Earth Temple - Compass Chest:
     & Power Bracelets
     # Power Bracelets necessary again to move the large black pushable box and unlock a door.
   Original item: Compass
+  Type: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest002
 Earth Temple - Chest Behind Statues:
@@ -1055,6 +1150,7 @@ Earth Temple - Chest Behind Statues:
     & Fire Arrows
     & Power Bracelets
   Original item: Joy Pendant
+  Type: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest003
 Earth Temple - Casket in Second Crypt:
@@ -1064,6 +1160,7 @@ Earth Temple - Casket in Second Crypt:
     & Fire Arrows
     & Power Bracelets
   Original item: Small Key
+  Type: Dungeon
   Paths:
     - M_Dai/Room8.arc/Actor008
 Earth Temple - Stalfos Mini-Boss Room:
@@ -1074,6 +1171,7 @@ Earth Temple - Stalfos Mini-Boss Room:
     & Power Bracelets
   # Need to escape: Mirror Shield
   Original item: Mirror Shield
+  Type: Dungeon
   Paths:
     - M_DaiMB/Stage.arc/Chest000
 Earth Temple - Chest Behind Destructible Walls:
@@ -1082,6 +1180,7 @@ Earth Temple - Chest Behind Destructible Walls:
     & Skull Hammer
     & Mirror Shield
   Original item: Joy Pendant
+  Type: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest00A
 Earth Temple - Tingle Statue Chest:
@@ -1091,6 +1190,7 @@ Earth Temple - Tingle Statue Chest:
     & Deku Leaf
     & Tingle Tuner Bombs
   Original item: Earth Tingle Statue
+  Type: Tingle Statue Chest
   Paths:
     - M_Dai/Stage.arc/Chest00D
 Earth Temple - End of Foggy Room With Floormasters:
@@ -1099,6 +1199,7 @@ Earth Temple - End of Foggy Room With Floormasters:
     & Mirror Shield
     & Can Play Earth God's Lyric
   Original item: Small Key
+  Type: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest004
 Earth Temple - Kill All Floormasters in Foggy Room:
@@ -1107,6 +1208,7 @@ Earth Temple - Kill All Floormasters in Foggy Room:
     & Mirror Shield
     & Can Play Earth God's Lyric
   Original item: Treasure Chart 20
+  Type: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest009
 #Earth Temple - Behind Curtains Next to Hammer Button:
@@ -1131,6 +1233,7 @@ Earth Temple - Chest in Third Crypt:
     # Another note: The player can potentially softlock themself if they get a small key earlier in the dungeon and use it here instead of the vanilla location the player is supposed to use it, again only if the player had the Mirror Shield going in.
     # But we can't prevent that, so just assume the player will use small keys the vanilla way.
   Original item: Red Rupee
+  Type: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest005
 Earth Temple - Many Mirrors Room Right Chest:
@@ -1141,6 +1244,7 @@ Earth Temple - Many Mirrors Room Right Chest:
     & Power Bracelets
     & ET Small Key x3
   Original item: Purple Rupee
+  Type: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest007
 Earth Temple - Many Mirrors Room Left Chest:
@@ -1151,6 +1255,7 @@ Earth Temple - Many Mirrors Room Left Chest:
     & Power Bracelets
     & ET Small Key x3
   Original item: Joy Pendant
+  Type: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest008
 Earth Temple - Stalfos Crypt Room:
@@ -1161,6 +1266,7 @@ Earth Temple - Stalfos Crypt Room:
     & Power Bracelets
     & ET Small Key x3
   Original item: Treasure Chart 12
+  Type: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest00B
 Earth Temple - Big Key Chest:
@@ -1172,6 +1278,7 @@ Earth Temple - Big Key Chest:
     & ET Small Key x3
     & Can Defeat Blue Bubbles
   Original item: Big Key
+  Type: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest006
 #Earth Temple - Duplicate Earth God's Lyric?:
@@ -1188,6 +1295,7 @@ Earth Temple - Jalhalla Heart Container:
     & ET Small Key x3
     & ET Big Key
   Original item: Heart Container
+  Type: Dungeon
   Paths:
     - rels/d_a_bpw.rel@877E
     - M_DaiB/Room0.arc/Actor001
@@ -1206,6 +1314,7 @@ Earth Temple - Jalhalla Heart Container:
 Wind Temple - Chest Between Two Dirt Patches:
   Need: Can Access Wind Temple
   Original item: Orange Rupee
+  Type: Dungeon
   Paths:
     - kaze/Stage.arc/Chest005
 Wind Temple - Tingle Statue Chest:
@@ -1215,6 +1324,7 @@ Wind Temple - Tingle Statue Chest:
     & Deku Leaf
     & Tingle Tuner Bombs
   Original item: Wind Tingle Statue
+  Type: Tingle Statue Chest
   Paths:
     - kaze/Stage.arc/Chest00C
 Wind Temple - Chest in Left Alcove:
@@ -1223,6 +1333,7 @@ Wind Temple - Chest in Left Alcove:
     & Iron Boots
     & Deku Leaf
   Original item: Joy Pendant
+  Type: Dungeon
   Paths:
     - kaze/Stage.arc/Chest004
 Wind Temple - Map Chest:
@@ -1231,6 +1342,7 @@ Wind Temple - Map Chest:
     & Iron Boots
     & Deku Leaf
   Original item: Dungeon Map
+  Type: Dungeon
   Paths:
     - kaze/Stage.arc/Chest008
 Wind Temple - Compass Chest:
@@ -1239,6 +1351,7 @@ Wind Temple - Compass Chest:
     & Iron Boots
     & Deku Leaf
   Original item: Compass
+  Type: Dungeon
   Paths:
     - kaze/Stage.arc/Chest00A
 Wind Temple - Spike Wall Room - First Chest:
@@ -1247,6 +1360,7 @@ Wind Temple - Spike Wall Room - First Chest:
     & Iron Boots
     & Deku Leaf
   Original item: Small Key
+  Type: Dungeon
   Paths:
     - kaze/Stage.arc/Chest003
 Wind Temple - Spike Wall Room - Destroy All Cracked Floors:
@@ -1255,6 +1369,7 @@ Wind Temple - Spike Wall Room - Destroy All Cracked Floors:
     & Iron Boots
     & Deku Leaf
   Original item: Treasure Chart 35
+  Type: Dungeon
   Paths:
     - kaze/Stage.arc/Chest007
 Wind Temple - Wizzrobe Mini-Boss Room:
@@ -1268,6 +1383,7 @@ Wind Temple - Wizzrobe Mini-Boss Room:
     # But you also need to be able to defeat Peahats in case they were summoned.
   # Need to escape: Hookshot & Skull Hammer
   Original item: Hookshot
+  Type: Dungeon
   Paths:
     - kazeMB/Stage.arc/Chest000
 Wind Temple - Chest in Makar's Cell:
@@ -1277,6 +1393,7 @@ Wind Temple - Chest in Makar's Cell:
     & Deku Leaf
     & Hookshot
   Original item: Joy Pendant
+  Type: Dungeon
   Paths:
     - kaze/Stage.arc/Chest006
 Wind Temple - Chest at Top of Hub Room:
@@ -1286,6 +1403,7 @@ Wind Temple - Chest at Top of Hub Room:
     & Deku Leaf
     & Hookshot
   Original item: Joy Pendant
+  Type: Dungeon
   Paths:
     - kaze/Stage.arc/Chest000
 Wind Temple - Chest Behind Seven Armos:
@@ -1296,6 +1414,7 @@ Wind Temple - Chest Behind Seven Armos:
     & Hookshot
     & Can Defeat Armos
   Original item: Small Key
+  Type: Dungeon
   Paths:
     - kaze/Stage.arc/Chest001
 Wind Temple - Big Key Chest:
@@ -1306,6 +1425,7 @@ Wind Temple - Big Key Chest:
     & Hookshot
     & Can Play Wind God's Aria
   Original item: Big Key
+  Type: Dungeon
   Paths:
     - kaze/Stage.arc/Chest002
 Wind Temple - Kill All Enemies in Tall Basement Room:
@@ -1317,6 +1437,7 @@ Wind Temple - Kill All Enemies in Tall Basement Room:
     & WT Small Key x2
     # Note: You might only need 1 small key in some cases, but even then the player may have used the first small key elsewhere, so we require 2 here.
   Original item: Treasure Chart 5
+  Type: Dungeon
   Paths:
     - kaze/Stage.arc/Chest009
 #Wind Temple - Duplicate Wind God's Aria?:
@@ -1334,6 +1455,7 @@ Wind Temple - Molgera Heart Container:
     & Can Play Wind God's Aria
     & WT Big Key
   Original item: Heart Container
+  Type: Dungeon
   Paths:
     - rels/d_a_bwd.rel@6D83
     - kazeB/Room0.arc/Actor001
@@ -1346,6 +1468,7 @@ Wind Temple - Molgera Heart Container:
 Ganon's Tower - Maze Chest:
   Need: Can Reach Ganon's Tower Maze
   Original item: Light Arrow
+  Type: Dungeon
   Paths:
     - GanonJ/Stage.arc/Chest000
 
@@ -1436,6 +1559,7 @@ The Great Sea - Island Trading Reward:
   Need: Rescued Aryll & Delivery Bag
   # You need at least 560 rupees to get the final item, but you don't need a wallet upgrade since the most you need at one time is 200 rupees.
   Original item: Piece of Heart
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_roten.rel@533B
 The Great Sea - Withered Trees:
@@ -1446,6 +1570,7 @@ The Great Sea - Withered Trees:
     & Deku Leaf
     # Deku Leaf is for the tree on Cliff Plateau Islands.
   Original item: Piece of Heart
+  Type: Sidequest
   Paths:
     - rels/d_a_obj_ftree.rel@0237
     - rels/d_a_obj_ftree.rel@03F3
@@ -1487,21 +1612,23 @@ Private Oasis - Chest at Top of Waterfall:
   Original item: Treasure Chart 27
   Paths:
     - sea/Room33.arc/Chest000
-Cabana Labyrinth - First Chest:
+Private Oasis - Cabana Labyrinth - First Chest:
   Need:
     Delivery Bag & Cabana Deed
     & Grappling Hook
     & Skull Hammer
   Original item: Orange Rupee
+  Type: Secret Cave
   Paths:
     - TF_04/Stage.arc/Chest001
-Cabana Labyrinth - Second Chest:
+Private Oasis - Cabana Labyrinth - Second Chest:
   Need:
     Delivery Bag & Cabana Deed
     & Grappling Hook
     & Skull Hammer
     & Can Play Wind's Requiem
   Original item: Triforce Chart 2
+  Type: Secret Cave
   Paths:
     - TF_04/Stage.arc/Chest000
 Private Oasis - Big Octo:
@@ -1513,11 +1640,13 @@ Private Oasis - Big Octo:
 Spectacle Island - Target Shooting - First Prize:
   Need: Nothing
   Original item: Piece of Heart
+  Type: Minigame
   Paths:
     - rels/d_a_npc_kg2.rel@20FF
 Spectacle Island - Target Shooting - Second Prize:
   Need: Nothing
   Original item: Treasure Chart 17
+  Type: Minigame
   Paths:
     - rels/d_a_npc_kg2.rel@2107
 #Spectacle Island - Target Shooting - Prize 3+:
@@ -1535,6 +1664,7 @@ Needle Rock Isle - Chest:
 Needle Rock Isle - Cave:
   Need: Fire Arrows
   Original item: Orange Rupee
+  Type: Secret Cave
   Paths:
     - SubD42/Stage.arc/Chest000
 Needle Rock Isle - Golden Gunboat:
@@ -1555,12 +1685,14 @@ Angular Isles - Cave:
     (Can Fly With Deku Leaf Outdoors | Hookshot)
     & Mirror Shield
   Original item: Silver Rupee
+  Type: Secret Cave
   Paths:
     - SubD43/Stage.arc/Chest000
 
 Boating Course - Raft:
   Need: Nothing
   Original item: Boko Baba Seed
+  Type: Raft
   Paths:
     - sea/Room48.arc/Chest000
 Boating Course - Cave:
@@ -1570,6 +1702,7 @@ Boating Course - Cave:
     (Can Fly With Deku Leaf Outdoors | Hookshot)
     & Can Hit Diamond Switches at Range
   Original item: Submarine Chart
+  Type: Secret Cave
   Paths:
     - SubD71/Stage.arc/Chest000
 
@@ -1579,16 +1712,19 @@ Stone Watcher Island - Cave:
     & Can Defeat Armos
     & Can Play Wind's Requiem
   Original item: Triforce Chart 7
+  Type: Secret Cave
   Paths:
     - TF_01/Stage.arc/Chest000
 Stone Watcher Island - Lookout Platform Chest:
   Need: Nothing
   Original item: Red Rupee
+  Type: Platform
   Paths:
     - sea/Room31.arc/Chest001
 Stone Watcher Island - Lookout Platform - Destroy the Cannons:
   Need: Bombs
   Original item: Piece of Heart
+  Type: Platform
   Paths:
     - sea/Room31.arc/Chest000
 
@@ -1602,12 +1738,14 @@ Islet of Steel - Interior:
 Islet of Steel - Lookout Platform:
   Need: Can Defeat Wizzrobes at Range
   Original item: Skull Necklace
+  Type: Platform
   Paths:
     - sea/Room30.arc/Chest000
 
 Overlook Island - Cave:
   Need: Hookshot
   Original item: Triforce Chart 8
+  Type: Secret Cave
   Paths:
     - TF_02/Stage.arc/Chest000
 
@@ -1618,27 +1756,32 @@ Bird's Peak Rock - Cave:
     Bait Bag & Can Buy Hyoi Pears
     & Can Play Wind's Requiem
   Original item: Triforce Chart 3
+  Type: Secret Cave
   Paths:
     - TF_03/Stage.arc/Chest000
 
 Pawprint Isle - Chuchu Cave - Chest:
   Need: Nothing
   Original item: Piece of Heart
+  Type: Secret Cave
   Paths:
     - TyuTyu/Stage.arc/Chest003
 Pawprint Isle - Chuchu Cave - Behind First Boulder:
   Need: Can Move Boulders
   Original item: Purple Rupee
+  Type: Secret Cave
   Paths:
     - TyuTyu/Stage.arc/Chest001
 Pawprint Isle - Chuchu Cave - Behind Second Boulder:
   Need: Can Move Boulders
   Original item: Joy Pendant
+  Type: Secret Cave
   Paths:
     - TyuTyu/Stage.arc/Chest002
 Pawprint Isle - Chuchu Cave - Scale the Wall:
   Need: Grappling Hook
   Original item: Red Rupee
+  Type: Secret Cave
   Paths:
     - TyuTyu/Stage.arc/Chest000
 Pawprint Isle - Wizzrobe Cave:
@@ -1648,11 +1791,13 @@ Pawprint Isle - Wizzrobe Cave:
     & Can Defeat Yellow ChuChus
     & Can Defeat Peahats
   Original item: Silver Rupee
+  Type: Secret Cave
   Paths:
     - Cave07/Stage.arc/Chest000
 Pawprint Isle - Lookout Platform:
   Need: Nothing
   Original item: Red Rupee
+  Type: Platform
   Paths:
     - sea/Room12.arc/Chest000
 
@@ -1664,11 +1809,13 @@ Thorned Fairy Island - Great Fairy:
 Thorned Fairy Island - Northeastern Lookout Platform - Destroy the Cannons:
   Need: Bombs
   Original item: Golden Feather
+  Type: Platform
   Paths:
     - sea/Room28.arc/Chest000
 Thorned Fairy Island - Southwestern Lookout Platform:
   Need: Can Fly With Deku Leaf Outdoors
   Original item: Boko Baba Seed
+  Type: Platform
   Paths:
     - sea/Room28.arc/Chest001
 
@@ -1680,6 +1827,7 @@ Eastern Fairy Island - Great Fairy:
 Eastern Fairy Island - Lookout Platform - Destroy the Cannons:
   Need: Bombs
   Original item: Boko Baba Seed
+  Type: Platform
   Paths:
     - sea/Room19.arc/Chest000
 
@@ -1691,6 +1839,7 @@ Western Fairy Island - Great Fairy:
 Western Fairy Island - Lookout Platform:
   Need: Nothing
   Original item: Skull Necklace
+  Type: Platform
   Paths:
     - sea/Room15.arc/Chest000
 
@@ -1704,6 +1853,7 @@ Southern Fairy Island - Lookout Platform - Destroy the Northwest Cannons:
     Bombs
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 40
+  Type: Platform
   Paths:
     - sea/Room39.arc/Chest000
 Southern Fairy Island - Lookout Platform - Destroy the Southeast Cannons:
@@ -1711,6 +1861,7 @@ Southern Fairy Island - Lookout Platform - Destroy the Southeast Cannons:
     Bombs
     & Can Fly With Deku Leaf Outdoors
   Original item: Skull Necklace
+  Type: Platform
   Paths:
     - sea/Room39.arc/Chest001
 
@@ -1722,6 +1873,7 @@ Northern Fairy Island - Great Fairy:
 Northern Fairy Island - Submarine:
   Need: Nothing
   Original item: Treasure Chart 22
+  Type: Submarine
   Paths:
     - Abship/Room4.arc/Chest000
 
@@ -1801,14 +1953,16 @@ Tingle Island - Big Octo:
   Paths:
     - sea/Room17.arc/ScalableObject001
 
-Diamond Steppe Island - Warp Maze - First Chest:
+Diamond Steppe Island - Warp Maze Cave - First Chest:
   Need: Hookshot
   Original item: Joy Pendant
+  Type: Secret Cave
   Paths:
     - WarpD/Stage.arc/Chest001
-Diamond Steppe Island - Warp Maze - Second Chest:
+Diamond Steppe Island - Warp Maze Cave - Second Chest:
   Need: Hookshot
   Original item: Ghost Ship Chart
+  Type: Secret Cave
   Paths:
     - WarpD/Stage.arc/Chest000
 Diamond Steppe Island - Big Octo:
@@ -1820,27 +1974,32 @@ Diamond Steppe Island - Big Octo:
 Bomb Island - Cave:
   Need: Can Move Boulders
   Original item: Piece of Heart
+  Type: Secret Cave
   Paths:
     - Cave01/Stage.arc/Chest000
 Bomb Island - Lookout Platform:
   Need: Nothing
   Original item: Red Rupee
+  Type: Platform
   Paths:
     - sea/Room34.arc/Chest000
 Bomb Island - Submarine:
   Need: Nothing
   Original item: Empty Bottle
+  Type: Submarine
   Paths:
     - Abship/Room2.arc/Chest000
 
 Rock Spire Isle - Cave:
   Need: Bombs
   Original item: Treasure Chart 37
+  Type: Secret Cave
   Paths:
     - Cave04/Stage.arc/Chest000
 Rock Spire Isle - Beedle's Special Shop Ship - 500 Rupee Item:
   Need: Any Wallet Upgrade & Can Farm Lots of Rupees
   Original item: Empty Bottle
+  Type: Expensive Purchase
   Paths:
     - main.dol@372ECF
     - rels/d_a_npc_bs1.rel@1E9B
@@ -1848,6 +2007,7 @@ Rock Spire Isle - Beedle's Special Shop Ship - 500 Rupee Item:
 Rock Spire Isle - Beedle's Special Shop Ship - 950 Rupee Item:
   Need: Any Wallet Upgrade & Can Farm Lots of Rupees
   Original item: Piece of Heart
+  Type: Expensive Purchase
   Paths:
     - main.dol@372EDF
     - rels/d_a_npc_bs1.rel@1EA3
@@ -1855,6 +2015,7 @@ Rock Spire Isle - Beedle's Special Shop Ship - 950 Rupee Item:
 Rock Spire Isle - Beedle's Special Shop Ship - 900 Rupee Item:
   Need: Any Wallet Upgrade & Can Farm Lots of Rupees
   Original item: Treasure Chart 4
+  Type: Expensive Purchase
   Paths:
     - main.dol@372EEF
     - rels/d_a_npc_bs1.rel@1EAB
@@ -1865,6 +2026,7 @@ Rock Spire Isle - Western Lookout Platform - Destroy the Cannons:
     Bombs
     & Can Fly With Deku Leaf Outdoors
   Original item: Orange Rupee
+  Type: Platform
   Paths:
     - sea/Room16.arc/Chest000
 Rock Spire Isle - Eastern Lookout Platform - Destroy the Cannons:
@@ -1873,11 +2035,13 @@ Rock Spire Isle - Eastern Lookout Platform - Destroy the Cannons:
     Bombs
     & Can Fly With Deku Leaf Outdoors
   Original item: Golden Feather
+  Type: Platform
   Paths:
     - sea/Room16.arc/Chest001
 Rock Spire Isle - Center Lookout Platform:
   Need: Nothing
   Original item: Red Rupee
+  Type: Platform
   Paths:
     - sea/Room16.arc/Chest002
 Rock Spire Isle - Gunboat:
@@ -1895,22 +2059,26 @@ Shark Island - Cave:
     Iron Boots
     & Skull Hammer
   Original item: Silver Rupee
+  Type: Secret Cave
   Paths:
     - ITest63/Stage.arc/Chest000
 
 Cliff Plateau Isles - Cave:
   Need: Nothing
   Original item: Joy Pendant
+  Type: Secret Cave
   Paths:
     - Cave03/Stage.arc/Chest000
 Cliff Plateau Isles - Highest Isle:
   Need: Deku Leaf
   Original item: Treasure Chart 25
+  Type: Secret Cave
   Paths:
     - sea/Room42.arc/Chest000
 Cliff Plateau Isles - Lookout Platform:
   Need: Nothing
   Original item: Boko Baba Seed
+  Type: Platform
   Paths:
     - sea/Room42.arc/Chest001
 
@@ -1922,6 +2090,7 @@ Crescent Moon Island - Chest:
 Crescent Moon Island - Submarine:
   Need: Nothing
   Original item: Treasure Chart 9
+  Type: Submarine
   Paths:
     - Abship/Room7.arc/Chest000
 
@@ -1936,16 +2105,19 @@ Horseshoe Island - Play Golf:
 Horseshoe Island - Cave:
   Need: Deku Leaf # Need Deku Leaf to play golf.
   Original item: Treasure Chart 8
+  Type: Secret Cave
   Paths:
     - Cave05/Stage.arc/Chest000
 Horseshoe Island - Northwestern Lookout Platform:
   Need: Nothing
   Original item: Skull Necklace
+  Type: Platform
   Paths:
     - sea/Room43.arc/Chest001
 Horseshoe Island - Southeastern Lookout Platform:
   Need: Nothing
   Original item: Golden Feather
+  Type: Platform
   Paths:
     - sea/Room43.arc/Chest002
 
@@ -1954,6 +2126,7 @@ Flight Control Platform - Bird-Man Contest - First Prize:
     Can Fly With Deku Leaf Outdoors
     & Magic Meter Upgrade
   Original item: Piece of Heart
+  Type: Minigame
   Paths:
     - rels/d_a_npc_bmcon1.rel@2B7B
 #Flight Control Platform - Bird-Man Contest - Prize 2+:
@@ -1964,55 +2137,65 @@ Flight Control Platform - Bird-Man Contest - First Prize:
 Flight Control Platform - Submarine:
   Need: Can Defeat Wizzrobes at Range
   Original item: Platform Chart
+  Type: Submarine
   Paths:
     - Abship/Room6.arc/Chest000
 
 Star Island - Cave:
   Need: Can Move Boulders
   Original item: Piece of Heart
+  Type: Secret Cave
   Paths:
     - Cave02/Stage.arc/Chest000
 Star Island - Lookout Platform:
   Need: Nothing
   Original item: Golden Feather
+  Type: Platform
   Paths:
     - sea/Room2.arc/Chest000
 
 Star Belt Archipelago - Lookout Platform:
   Need: Nothing
   Original item: Red Rupee
+  Type: Platform
   Paths:
     - sea/Room21.arc/Chest000
 
 Five-Star Isles - Lookout Platform - Destroy the Cannons:
   Need: Bombs
   Original item: Golden Feather
+  Type: Platform
   Paths:
     - sea/Room49.arc/Chest001
 Five-Star Isles - Raft:
   Need: Nothing
   Original item: Red Rupee
+  Type: Raft
   Paths:
     - sea/Room49.arc/Chest000
 Five-Star Isles - Submarine:
   Need: Nothing
   Original item: Piece of Heart
+  Type: Submarine
   Paths:
     - Abship/Room0.arc/Chest000
 
 Seven-Star Isles - Northern Lookout Platform:
   Need: Nothing
   Original item: Golden Feather
+  Type: Platform
   Paths:
     - sea/Room6.arc/Chest000
 Seven-Star Isles - Center Lookout Platform:
   Need: Nothing
   Original item: Red Rupee
+  Type: Platform
   Paths:
     - sea/Room6.arc/Chest001
 Seven-Star Isles - Southern Lookout Platform:
   Need: Can Defeat Wizzrobes at Range # The other two chests on these lookout platforms also appear when killing Wizzrobes, but those Wizzrobes can appear at melee distance so nothing is required to kill them.
   Original item: Treasure Chart 16
+  Type: Platform
   Paths:
     - sea/Room6.arc/Chest002
 Seven-Star Isles - Big Octo:
@@ -2033,6 +2216,7 @@ Cyclops Reef - Destroy the Cannons and Gunboats:
 Cyclops Reef - Lookout Platform:
   Need: Nothing
   Original item: Golden Feather
+  Type: Platform
   Paths:
     - sea/Room24.arc/Chest001
 
@@ -2048,6 +2232,7 @@ Two-Eye Reef - Destroy the Cannons and Gunboats:
 Two-Eye Reef - Lookout Platform:
   Need: Nothing
   Original item: Purple Rupee
+  Type: Platform
   Paths:
     - sea/Room46.arc/Chest001
 Two-Eye Reef - Big Octo Great Fairy:
@@ -2088,6 +2273,7 @@ Five-Eye Reef - Destroy the Cannons and Gunboats:
 Five-Eye Reef - Lookout Platform:
   Need: Nothing
   Original item: Golden Feather
+  Type: Platform
   Paths:
     - sea/Room37.arc/Chest001
 
@@ -2103,11 +2289,13 @@ Six-Eye Reef - Destroy the Cannons and Gunboats:
 Six-Eye Reef - Lookout Platform - Destroy the Cannons:
   Need: Bombs
   Original item: Skull Necklace
+  Type: Platform
   Paths:
     - sea/Room25.arc/Chest001
 Six-Eye Reef - Submarine:
   Need: Nothing
   Original item: Piece of Heart
+  Type: Submarine
   Paths:
     - Abship/Room1.arc/Chest000
 
