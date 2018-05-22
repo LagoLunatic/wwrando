@@ -89,24 +89,37 @@ def add_custom_functions_to_free_space(self, new_bytes):
   write_u32(dol_data, address_to_offset(0x8030794C), 0x3C600000 | high_halfword)
   write_u32(dol_data, address_to_offset(0x80307950), 0x38030000 | low_halfword)
 
+def set_new_game_starting_spawn_id(self, spawn_id):
+  dol_data = self.get_raw_file("sys/main.dol")
+  write_u8(dol_data, address_to_offset(0x80058BAF), spawn_id)
+
+def set_new_game_starting_room_index(self, room_index):
+  dol_data = self.get_raw_file("sys/main.dol")
+  write_u8(dol_data, address_to_offset(0x80058BA7), room_index)
+
+def change_ship_starting_island(self, starting_island_room_index):
+  island_dzx = self.get_arc("files/res/Stage/sea/Room%d.arc" % starting_island_room_index).dzx_files[0]
+  ship_spawns = island_dzx.entries_by_type("SHIP")
+  island_ship_spawn_0 = next(x for x in ship_spawns if x.ship_id == 0)
+  
+  sea_dzx = self.get_arc("files/res/Stage/sea/Stage.arc").dzx_files[0]
+  sea_actors = sea_dzx.entries_by_type("ACTR")
+  ship_actor = next(x for x in sea_actors if x.name == "Ship")
+  ship_actor.x_pos = island_ship_spawn_0.x_pos
+  ship_actor.y_pos = island_ship_spawn_0.y_pos
+  ship_actor.z_pos = island_ship_spawn_0.z_pos
+  ship_actor.x_rot = 0
+  ship_actor.y_rot = island_ship_spawn_0.y_rot
+  ship_actor.save_changes()
+
 def skip_wakeup_intro_and_start_at_dock(self):
   # When the player starts a new game they usually start at spawn ID 206, which plays the wakeup event and puts the player on Aryll's lookout.
   # We change the starting spawn ID to 0, which does not play the wakeup event and puts the player on the dock next to the ship.
-  dol_data = self.get_raw_file("sys/main.dol")
-  spawn_id = 0
-  write_u8(dol_data, address_to_offset(0x80058BAF), spawn_id)
+  set_new_game_starting_spawn_id(self, 0)
 
 def start_ship_at_outset(self):
   # Change the King of Red Lion's default position so that he appears on Outset at the start of the game.
-  dzx = self.get_arc("files/res/Stage/sea/Stage.arc").dzx_files[0]
-  sea_actors = dzx.entries_by_type("ACTR")
-  ship_actor = next(x for x in sea_actors if x.name == "Ship")
-  ship_actor.x_pos = -202000.0
-  ship_actor.y_pos = 0.0
-  ship_actor.z_pos = 312200.0
-  ship_actor.x_rot = 0
-  ship_actor.y_rot = 0x7555
-  ship_actor.save_changes()
+  change_ship_starting_island(self, 44)
   
 def make_all_text_instant(self):
   bmg = self.get_arc("files/res/Msg/bmgres.arc").bmg_files[0]

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Tue May 22 14:10:11 2018
+# Created: Tue May 22 17:21:11 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 440)
+        MainWindow.resize(800, 507)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtGui.QVBoxLayout(self.centralwidget)
@@ -87,6 +87,18 @@ class Ui_MainWindow(object):
         self.progression_expensive_purchases.setObjectName("progression_expensive_purchases")
         self.gridLayout_2.addWidget(self.progression_expensive_purchases, 4, 0, 1, 1)
         self.verticalLayout.addWidget(self.groupBox)
+        self.groupBox_3 = QtGui.QGroupBox(self.centralwidget)
+        self.groupBox_3.setObjectName("groupBox_3")
+        self.horizontalLayout_3 = QtGui.QHBoxLayout(self.groupBox_3)
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.randomize_charts = QtGui.QCheckBox(self.groupBox_3)
+        self.randomize_charts.setChecked(True)
+        self.randomize_charts.setObjectName("randomize_charts")
+        self.horizontalLayout_3.addWidget(self.randomize_charts)
+        self.randomize_starting_island = QtGui.QCheckBox(self.groupBox_3)
+        self.randomize_starting_island.setObjectName("randomize_starting_island")
+        self.horizontalLayout_3.addWidget(self.randomize_starting_island)
+        self.verticalLayout.addWidget(self.groupBox_3)
         self.groupBox_2 = QtGui.QGroupBox(self.centralwidget)
         self.groupBox_2.setObjectName("groupBox_2")
         self.horizontalLayout_2 = QtGui.QHBoxLayout(self.groupBox_2)
@@ -145,6 +157,9 @@ class Ui_MainWindow(object):
         self.progression_treasure_charts.setText(QtGui.QApplication.translate("MainWindow", "Sunken Treasure (From Treasure Charts)", None, QtGui.QApplication.UnicodeUTF8))
         self.progression_misc.setText(QtGui.QApplication.translate("MainWindow", "Everywhere Else", None, QtGui.QApplication.UnicodeUTF8))
         self.progression_expensive_purchases.setText(QtGui.QApplication.translate("MainWindow", "Expensive Purchases", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_3.setTitle(QtGui.QApplication.translate("MainWindow", "Additional Randomization Options", None, QtGui.QApplication.UnicodeUTF8))
+        self.randomize_charts.setText(QtGui.QApplication.translate("MainWindow", "Randomize Charts", None, QtGui.QApplication.UnicodeUTF8))
+        self.randomize_starting_island.setText(QtGui.QApplication.translate("MainWindow", "Randomize Starting Island", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_2.setTitle(QtGui.QApplication.translate("MainWindow", "Convenience Tweaks", None, QtGui.QApplication.UnicodeUTF8))
         self.swift_sail.setText(QtGui.QApplication.translate("MainWindow", "Swift Sail", None, QtGui.QApplication.UnicodeUTF8))
         self.instant_text_boxes.setText(QtGui.QApplication.translate("MainWindow", "Instant Text Boxes", None, QtGui.QApplication.UnicodeUTF8))

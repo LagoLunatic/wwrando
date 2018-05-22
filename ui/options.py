@@ -13,6 +13,9 @@ OPTIONS = OrderedDict([
   ("progression_expensive_purchases", "This controls whether the three expensive items sold in the Rock Spire Shop Ship can be progress items.\nIf this is not checked, the Rock Spire Shop Ship will only sell optional items you don't need to beat the game."),
   ("progression_misc", "Miscellaneous locations not listed above, such as outdoors chests and free gifts.\nThese locations can always have progress items."),
   
+  ("randomize_charts", "Randomizes which sectors are drawn on each Triforce/Treasure Chart."),
+  ("randomize_starting_island", "Randomizes which island you start the game on."),
+  
   ("swift_sail", "Sailing speed is doubled and the direction of the wind is always at your back as long as the sail is out."),
   
   ("instant_text_boxes", "Text appears instantly for most text boxes."),

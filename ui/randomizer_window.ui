@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>440</height>
+    <height>507</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -158,6 +158,32 @@
          </property>
          <property name="checked">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="title">
+       <string>Additional Randomization Options</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QCheckBox" name="randomize_charts">
+         <property name="text">
+          <string>Randomize Charts</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="randomize_starting_island">
+         <property name="text">
+          <string>Randomize Starting Island</string>
          </property>
         </widget>
        </item>

@@ -57,7 +57,11 @@ class Randomizer:
     if self.options.get("reveal_full_sea_chart"):
       tweaks.apply_patch(self, "reveal_sea_chart")
     
-    self.randomize_charts()
+    if self.options.get("randomize_charts"):
+      self.randomize_charts()
+    
+    if self.options.get("randomize_starting_island"):
+      self.randomize_starting_island()
     
     self.randomize_items()
     
@@ -485,6 +489,11 @@ class Randomizer:
         if scob.is_salvage() and scob.salvage_type == 0:
           scob.salvage_chart_index_plus_1 = chart.owned_chart_index_plus_1
           scob.save_changes()
+  
+  def randomize_starting_island(self):
+    starting_island_room_index = self.rng.randrange(1, 49+1)
+    tweaks.set_new_game_starting_room_index(self, starting_island_room_index)
+    tweaks.change_ship_starting_island(self, starting_island_room_index)
   
   def write_spoiler_log(self):
     spoiler_log = ""
