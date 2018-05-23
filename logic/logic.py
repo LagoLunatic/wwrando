@@ -11,14 +11,14 @@ from wwlib.rarc import RARC
 from wwlib.rel import REL
 
 class Logic:
-  DUNGEON_NAMES = {
-    "DRC":  "Dragon Roost Cavern",
-    "FW":   "Forbidden Woods",
-    "TotG": "Tower of the Gods",
-    "FF":   "Forsaken Fortress",
-    "ET":   "Earth Temple",
-    "WT":   "Wind Temple",
-  }
+  DUNGEON_NAMES = OrderedDict([
+    ("DRC",  "Dragon Roost Cavern"),
+    ("FW",   "Forbidden Woods"),
+    ("TotG", "Tower of the Gods"),
+    ("FF",   "Forsaken Fortress"),
+    ("ET",   "Earth Temple"),
+    ("WT",   "Wind Temple"),
+  ])
   
   def __init__(self, rando):
     self.rando = rando
