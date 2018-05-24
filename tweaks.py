@@ -431,3 +431,19 @@ def add_chest_in_place_queen_fairy_cutscene(self):
   mother_island_chest.padding = 0xFFFF
   
   dzx.save_changes()
+
+def add_cube_to_earth_temple_first_room(self):
+  # If the player enters Earth Temple, uses Medli to cross the gap, brings Medli into the next room, then leaves Earth Temple, Medli will no longer be in the first room.
+  # This can softlock the player if they don't have Deku Leaf to get across the gap in that first room.
+  # So we add a cube to that first room so the player can just climb up.
+  
+  dzx = self.get_arc("files/res/Stage/M_Dai/Room0.arc").dzx_files[0]
+  
+  cube = dzx.add_entity("ACTR", layer=None)
+  cube.name = "Ecube"
+  cube.params = 0x8C00FF00
+  cube.x_pos = -6986.07
+  cube.y_pos = -600
+  cube.z_pos = 4077.37
+  
+  dzx.save_changes()

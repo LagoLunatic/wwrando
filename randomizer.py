@@ -84,6 +84,7 @@ class Randomizer:
     tweaks.add_ganons_tower_warp_to_ff2(self)
     tweaks.add_chest_in_place_medli_grappling_hook_gift(self)
     tweaks.add_chest_in_place_queen_fairy_cutscene(self)
+    tweaks.add_cube_to_earth_temple_first_room(self)
   
   def verify_supported_version(self, clean_iso_path):
     if not os.path.isfile(clean_iso_path):
