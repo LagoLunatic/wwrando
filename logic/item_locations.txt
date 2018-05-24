@@ -1060,7 +1060,7 @@ Fire Mountain - Lookout Platform Chest:
   Paths:
     - sea/Room20.arc/Chest001
 Fire Mountain - Lookout Platform - Destroy the Cannons:
-  Need: Bombs
+  Need: Can Destroy Cannons
   Original item: Golden Feather
   Type: Platform
   Paths:
@@ -1725,7 +1725,7 @@ Stone Watcher Island - Lookout Platform Chest:
   Paths:
     - sea/Room31.arc/Chest001
 Stone Watcher Island - Lookout Platform - Destroy the Cannons:
-  Need: Bombs
+  Need: Can Destroy Cannons
   Original item: Piece of Heart
   Type: Platform
   Paths:
@@ -1810,7 +1810,7 @@ Thorned Fairy Island - Great Fairy:
   Paths:
     - rels/d_a_bigelf.rel@221F
 Thorned Fairy Island - Northeastern Lookout Platform - Destroy the Cannons:
-  Need: Bombs
+  Need: Can Destroy Cannons
   Original item: Golden Feather
   Type: Platform
   Paths:
@@ -1828,7 +1828,7 @@ Eastern Fairy Island - Great Fairy:
   Paths:
     - rels/d_a_bigelf.rel@21E7
 Eastern Fairy Island - Lookout Platform - Destroy the Cannons:
-  Need: Bombs
+  Need: Can Destroy Cannons
   Original item: Boko Baba Seed
   Type: Platform
   Paths:
@@ -2028,7 +2028,7 @@ Rock Spire Isle - Beedle's Special Shop Ship - 900 Rupee Item:
 Rock Spire Isle - Western Lookout Platform - Destroy the Cannons:
   Need:
     # Need Deku Leaf to fly over from the center platform to this platform.
-    Bombs
+    Can Destroy Cannons
     & Can Fly With Deku Leaf Outdoors
   Original item: Orange Rupee
   Type: Platform
@@ -2037,7 +2037,7 @@ Rock Spire Isle - Western Lookout Platform - Destroy the Cannons:
 Rock Spire Isle - Eastern Lookout Platform - Destroy the Cannons:
   Need:
     # Need Deku Leaf to fly over from the center platform to this platform.
-    Bombs
+    Can Destroy Cannons
     & Can Fly With Deku Leaf Outdoors
   Original item: Golden Feather
   Type: Platform
@@ -2167,7 +2167,7 @@ Star Belt Archipelago - Lookout Platform:
     - sea/Room21.arc/Chest000
 
 Five-Star Isles - Lookout Platform - Destroy the Cannons:
-  Need: Bombs
+  Need: Can Destroy Cannons
   Original item: Golden Feather
   Type: Platform
   Paths:
@@ -2300,7 +2300,7 @@ Six-Eye Reef - Destroy the Cannons and Gunboats:
   Paths:
     - sea/Room25.arc/Chest000
 Six-Eye Reef - Lookout Platform - Destroy the Cannons:
-  Need: Bombs
+  Need: Can Destroy Cannons
   Original item: Skull Necklace
   Type: Platform
   Paths:

@@ -166,6 +166,10 @@ Can Defeat Blue Bubbles:
   | Ice Arrows
   | Hookshot
   | Bombs
+Can Destroy Cannons:
+  Bombs
+  | Boomerang
+  # Two hits from the boomerang also destroys cannons.
 
 TODO:
   Impossible
