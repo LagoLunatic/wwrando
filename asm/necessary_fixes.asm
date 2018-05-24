@@ -401,6 +401,7 @@
   li r3, 0x6904
 
 ; Fix Lenzo thinking you've completed his research assistant quest if you own the Deluxe Picto Box.
+.open "files/rels/d_a_npc_photo.rel" ; Lenzo
 ; First we need to change a function Lenzo calls when he gives you the item in the Deluxe Picto Box slot to call a custom function.
 ; This custom function will set an event bit to keep track of whether you've done this independantly of what the item itself is.
 .org 0x7B04 ; Relocation for line 0x3BDC
@@ -436,3 +437,17 @@
   li r3, 1 ; Bait Bag
 .org 0x800C7E84
   li r3, 1 ; Spoils Bag
+
+
+
+
+; Normally the Earth/Wind Temple song tablets rely on whether you have the Earth God's Lyric or Wind God's Aria to tell which version they are.
+; For example, the second tablet halfway through Earth Temple will act like the first one at the entrance if you don't own the Earth God's Lyric yet. As a result, it will give you the Earth God's Lyric, and then teleport you back to the entrance for the Zora sage cutscene.
+; So we remove the checks for if you have the songs yet, and instead always act as if the player has them.
+.open "files/rels/d_a_obj_mknjd.rel" ; Earth/Wind Temple song tablet
+.org 0x96C
+  b 0x994 ; Make branch unconditional
+.org 0x205C
+  nop ; Remove branch
+.org 0x20D4
+  nop ; Remove branch
