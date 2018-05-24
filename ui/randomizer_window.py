@@ -80,21 +80,41 @@ class WWRandomizerWindow(QMainWindow):
     for option_name in OPTIONS:
       options[option_name] = getattr(self.ui, option_name).isChecked()
     
+    max_progress_val = 20
+    self.progress_dialog = RandomizerProgressDialog("Randomizing", "Initializing...", max_progress_val)
+    
     try:
       rando = Randomizer(int(seed), clean_iso_path, output_folder, options)
-      rando.randomize()
     except Exception as e:
       stack_trace = traceback.format_exc()
-      print(stack_trace)
-      QMessageBox.critical(
-        self, "Randomization Failed",
-        "Randomization failed with error:\n" + str(e)
-        + "\n\n" + stack_trace
-      )
+      error_message = "Randomization failed with error:\n" + str(e) + "\n\n" + stack_trace
+      self.randomization_failed(error_message)
       return
+    
+    self.randomizer_thread = RandomizerThread(rando)
+    self.randomizer_thread.update_progress.connect(self.update_progress_dialog)
+    self.randomizer_thread.randomization_complete.connect(self.randomization_complete)
+    self.randomizer_thread.randomization_failed.connect(self.randomization_failed)
+    self.randomizer_thread.start()
+  
+  def update_progress_dialog(self, next_option_description, options_finished):
+    self.progress_dialog.setLabelText(next_option_description)
+    self.progress_dialog.setValue(options_finished)
+  
+  def randomization_complete(self):
+    self.progress_dialog.reset()
     
     msg = "Randomization complete."
     QMessageBox.information(self, "Done", msg)
+  
+  def randomization_failed(self, error_message):
+    self.progress_dialog.reset()
+    
+    print(error_message)
+    QMessageBox.critical(
+      self, "Randomization Failed",
+      error_message
+    )
   
   def load_settings(self):
     self.settings_path = "settings.txt"
@@ -188,6 +208,41 @@ class WWRandomizerWindow(QMainWindow):
     self.about_dialog.setWindowTitle("Wind Waker Randomizer")
     self.about_dialog.setText(text)
     self.about_dialog.show()
+
+class RandomizerProgressDialog(QProgressDialog):
+  def __init__(self, title, description, max_val):
+    QProgressDialog.__init__(self)
+    self.setWindowTitle(title)
+    self.setLabelText(description)
+    self.setMaximum(max_val)
+    self.setWindowModality(Qt.ApplicationModal)
+    self.setWindowFlags(Qt.CustomizeWindowHint | Qt.WindowTitleHint)
+    self.setFixedSize(self.size())
+    self.setAutoReset(False)
+    self.setCancelButton(None)
+    self.show()
+
+class RandomizerThread(QThread):
+  update_progress = Signal(str, int)
+  randomization_complete = Signal()
+  randomization_failed = Signal(str)
+  
+  def __init__(self, randomizer):
+    QThread.__init__(self)
+    
+    self.randomizer = randomizer
+  
+  def run(self):
+    try:
+      for next_option_description, options_finished in self.randomizer.randomize():
+        self.update_progress.emit(next_option_description, options_finished)
+    except Exception as e:
+      stack_trace = traceback.format_exc()
+      error_message = "Randomization failed with error:\n" + str(e) + "\n\n" + stack_trace
+      self.randomization_failed.emit(error_message)
+      return
+    
+    self.randomization_complete.emit()
 
 # Allow yaml to load and dump OrderedDicts.
 yaml.SafeLoader.add_constructor(

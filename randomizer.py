@@ -48,6 +48,9 @@ class Randomizer:
     self.bmg = self.get_arc("files/res/Msg/bmgres.arc").bmg_files[0]
   
   def randomize(self):
+    options_completed = 0
+    yield("Modifying game code...", options_completed)
+    
     self.apply_necessary_tweaks()
     
     if self.options.get("swift_sail"):
@@ -56,6 +59,9 @@ class Randomizer:
       tweaks.make_all_text_instant(self)
     if self.options.get("reveal_full_sea_chart"):
       tweaks.apply_patch(self, "reveal_sea_chart")
+    
+    options_completed += 1
+    yield("Randomizing...", options_completed)
     
     if self.options.get("randomize_charts"):
       self.randomize_charts()
@@ -67,9 +73,12 @@ class Randomizer:
     
     self.write_changed_items()
     
-    self.write_spoiler_log()
+    options_completed += 9
+    yield("Saving randomized ISO...", options_completed)
     
     self.save_randomized_iso()
+    
+    self.write_spoiler_log()
   
   def apply_necessary_tweaks(self):
     tweaks.apply_patch(self, "custom_funcs")
