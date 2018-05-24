@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>507</height>
+    <height>534</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -76,20 +76,10 @@
        <string>Where Should Progress Items Appear?</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QCheckBox" name="progression_dungeons">
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="progression_treasure_charts">
          <property name="text">
-          <string>Dungeons</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QCheckBox" name="progression_submarines">
-         <property name="text">
-          <string>Submarines</string>
+          <string>Sunken Treasure (From Treasure Charts)</string>
          </property>
         </widget>
        </item>
@@ -114,10 +104,53 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="progression_dungeons">
+         <property name="text">
+          <string>Dungeons</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QCheckBox" name="progression_submarines">
+         <property name="text">
+          <string>Submarines</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
         <widget class="QCheckBox" name="progression_triforce_charts">
          <property name="text">
           <string>Sunken Treasure (From Triforce Charts)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QCheckBox" name="progression_misc">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Everywhere Else</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QCheckBox" name="progression_expensive_purchases">
+         <property name="text">
+          <string>Expensive Purchases</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -131,30 +164,17 @@
          </property>
         </widget>
        </item>
+       <item row="3" column="0">
+        <widget class="QCheckBox" name="progression_eye_reef_chests">
+         <property name="text">
+          <string>Eye Reef Chests</string>
+         </property>
+        </widget>
+       </item>
        <item row="3" column="1">
-        <widget class="QCheckBox" name="progression_treasure_charts">
+        <widget class="QCheckBox" name="progression_big_octos">
          <property name="text">
-          <string>Sunken Treasure (From Treasure Charts)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QCheckBox" name="progression_misc">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Everywhere Else</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QCheckBox" name="progression_expensive_purchases">
-         <property name="text">
-          <string>Expensive Purchases</string>
+          <string>Big Octos</string>
          </property>
          <property name="checked">
           <bool>true</bool>

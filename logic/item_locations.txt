@@ -289,6 +289,7 @@ Windfall Island - Transparent Chest:
     & Fire Arrows
     & (Can Fly With Deku Leaf Outdoors | Hookshot)
   Original item: Piece of Heart
+  Type: Sidequest
   Paths:
     - sea/Room11.arc/Layer1/Chest000
     - sea/Room11.arc/Layer3/Chest000
@@ -1067,6 +1068,7 @@ Fire Mountain - Lookout Platform - Destroy the Cannons:
 Fire Mountain - Big Octo:
   Need: Can Defeat Big Octos & Grappling Hook
   Original item: Orange Rupee
+  Type: Big Octo
   Paths:
     - sea/Room20.arc/ScalableObject001
 
@@ -1634,6 +1636,7 @@ Private Oasis - Cabana Labyrinth - Second Chest:
 Private Oasis - Big Octo:
   Need: Can Defeat Big Octos & Grappling Hook
   Original item: Orange Rupee
+  Type: Big Octo
   Paths:
     - sea/Room33.arc/ScalableObject015
 
@@ -1950,6 +1953,7 @@ Northern Fairy Island - Submarine:
 Tingle Island - Big Octo:
   Need: Can Defeat Big Octos & Grappling Hook
   Original item: Piece of Heart
+  Type: Big Octo
   Paths:
     - sea/Room17.arc/ScalableObject001
 
@@ -1968,6 +1972,7 @@ Diamond Steppe Island - Warp Maze Cave - Second Chest:
 Diamond Steppe Island - Big Octo:
   Need: Can Defeat Big Octos & Grappling Hook
   Original item: Orange Rupee
+  Type: Big Octo
   Paths:
     - sea/Room36.arc/ScalableObject001
 
@@ -2201,6 +2206,7 @@ Seven-Star Isles - Southern Lookout Platform:
 Seven-Star Isles - Big Octo:
   Need: Can Defeat Big Octos & Grappling Hook
   Original item: Piece of Heart
+  Type: Big Octo
   Paths:
     - sea/Room6.arc/ScalableObject000
 
@@ -2211,6 +2217,7 @@ Cyclops Reef - Destroy the Cannons and Gunboats:
     & Bombs
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 21
+  Type: Eye Reef Chest
   Paths:
     - sea/Room24.arc/Chest000
 Cyclops Reef - Lookout Platform:
@@ -2227,6 +2234,7 @@ Two-Eye Reef - Destroy the Cannons and Gunboats:
     & Bombs
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 13
+  Type: Eye Reef Chest
   Paths:
     - sea/Room46.arc/Chest000
 Two-Eye Reef - Lookout Platform:
@@ -2238,6 +2246,7 @@ Two-Eye Reef - Lookout Platform:
 Two-Eye Reef - Big Octo Great Fairy:
   Need: Can Defeat Big Octos
   Original item: Magic Meter Upgrade
+  Type: Big Octo
   Paths:
     - sea/Stage.arc/Event02A:BIGELF_ARRIVAL2/Actor001/Action002
 
@@ -2248,6 +2257,7 @@ Three-Eye Reef - Destroy the Cannons and Gunboats:
     & Bombs
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 32
+  Type: Eye Reef Chest
   Paths:
     - sea/Room22.arc/Chest000
 
@@ -2258,6 +2268,7 @@ Four-Eye Reef - Destroy the Cannons and Gunboats:
     & Bombs
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 19
+  Type: Eye Reef Chest
   Paths:
     - sea/Room8.arc/Chest000
 
@@ -2268,6 +2279,7 @@ Five-Eye Reef - Destroy the Cannons and Gunboats:
     & Bombs
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 41
+  Type: Eye Reef Chest
   Paths:
     - sea/Room37.arc/Chest000
 Five-Eye Reef - Lookout Platform:
@@ -2284,6 +2296,7 @@ Six-Eye Reef - Destroy the Cannons and Gunboats:
     & Bombs
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 26
+  Type: Eye Reef Chest
   Paths:
     - sea/Room25.arc/Chest000
 Six-Eye Reef - Lookout Platform - Destroy the Cannons:

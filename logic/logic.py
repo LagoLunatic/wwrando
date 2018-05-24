@@ -196,6 +196,10 @@ class Logic:
         continue
       if type == "Submarine" and not self.rando.options.get("progression_submarines"):
         continue
+      if type == "Eye Reef Chest" and not self.rando.options.get("progression_eye_reef_chests"):
+        continue
+      if type == "Big Octo" and not self.rando.options.get("progression_big_octos"):
+        continue
       if type == "Expensive Purchase" and not self.rando.options.get("progression_expensive_purchases"):
         continue
       # Note: The Triforce/Treasure Chart sunken treasures are not filtered here.
