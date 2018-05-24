@@ -340,6 +340,8 @@ class ACTR(ChunkEntry):
     # The below boss_item_id parameter did not exist for boss items in the vanilla game.
     # The randomizer adds it so that boss items can be randomized and are not just always heart containers.
     "boss_item_id":       0x0000FF00,
+    
+    "bridge_rpat_index": 0x00FF0000,
   }
   
   ITEM_NAMES = [
@@ -353,6 +355,16 @@ class ACTR(ChunkEntry):
   
   def __init__(self, file_entry):
     self.file_entry = file_entry
+    
+    self.name = ""
+    self.params = 0
+    self.x_pos = 0
+    self.y_pos = 0
+    self.z_pos = 0
+    self.x_rot = 0
+    self.y_rot = 0
+    self.set_flag = 0
+    self.enemy_number = 0xFFFF
   
   def read(self, offset):
     self.offset = offset
@@ -620,6 +632,117 @@ class RTBL_AdjacentRoom:
     
     write_u8(data, self.offset, byte)
 
+class RPAT(ChunkEntry):
+  DATA_SIZE = 0xC
+  
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+    
+    self.num_points = 0
+    self.next_path_index = 0xFFFF
+    self.unknown = 0xFF
+    self.is_loop = 0
+    self.padding = 0xFFFF
+    self.first_waypoint_offset = 0
+  
+  def read(self, offset):
+    self.offset = offset
+    data = self.file_entry.data
+    
+    self.num_points = read_u16(data, self.offset)
+    self.next_path_index = read_u16(data, self.offset+2)
+    self.unknown = read_u8(data, self.offset+4)
+    self.is_loop = read_u8(data, self.offset+5)
+    self.padding = read_u16(data, self.offset+6)
+    self.first_waypoint_offset = read_u32(data, self.offset+8)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_u16(data, self.offset, self.num_points)
+    write_u16(data, self.offset+2, self.next_path_index)
+    write_u8(data, self.offset+4, self.unknown)
+    write_u8(data, self.offset+5, self.is_loop)
+    write_u16(data, self.offset+6, self.padding)
+    write_u32(data, self.offset+8, self.first_waypoint_offset)
+
+class RPPN(ChunkEntry):
+  DATA_SIZE = 0x10
+  
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+    
+    self.unknown = 0xFFFFFFFF
+    self.x_pos = 0
+    self.y_pos = 0
+    self.z_pos = 0
+  
+  def read(self, offset):
+    self.offset = offset
+    data = self.file_entry.data
+    
+    self.unknown = read_u32(data, self.offset)
+    self.x_pos = read_float(data, self.offset+4)
+    self.y_pos = read_float(data, self.offset+8)
+    self.z_pos = read_float(data, self.offset+0xC)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_u32(data, self.offset, self.unknown)
+    write_float(data, self.offset+4, self.x_pos)
+    write_float(data, self.offset+8, self.y_pos)
+    write_float(data, self.offset+0xC, self.z_pos)
+
+class TGOB(ChunkEntry):
+  DATA_SIZE = 0x20
+  
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+    
+    self.name = ""
+    self.params = 0
+    self.x_pos = 0
+    self.y_pos = 0
+    self.z_pos = 0
+    self.x_rot = 0
+    self.y_rot = 0
+    self.z_rot = 0
+    self.padding = 0xFFFF
+  
+  def read(self, offset):
+    self.offset = offset
+    data = self.file_entry.data
+    
+    self.name = read_str(data, offset, 8)
+    
+    self.params = read_u32(data, offset + 8)
+    
+    self.x_pos = read_float(data, offset + 0x0C)
+    self.y_pos = read_float(data, offset + 0x10)
+    self.z_pos = read_float(data, offset + 0x14)
+    self.x_rot = read_u16(data, offset + 0x18)
+    self.y_rot = read_u16(data, offset + 0x1A)
+    self.z_rot = read_u16(data, offset + 0x1C)
+    
+    self.padding = read_u16(data, offset + 0x1E)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_str(data, self.offset, self.name, 8)
+    
+    write_u32(data, self.offset+0x08, self.params)
+    
+    write_float(data, self.offset+0x0C, self.x_pos)
+    write_float(data, self.offset+0x10, self.y_pos)
+    write_float(data, self.offset+0x14, self.z_pos)
+    write_u16(data, self.offset+0x18, self.x_rot)
+    write_u16(data, self.offset+0x1A, self.y_rot)
+    write_u16(data, self.offset+0x1C, self.z_rot)
+    
+    write_u16(data, self.offset+0x1E, self.padding)
+
 class DummyEntry(ChunkEntry):
   def __init__(self, file_entry):
     self.file_entry = file_entry
@@ -638,9 +761,6 @@ class DummyEntry(ChunkEntry):
 class FILI(DummyEntry):
   DATA_SIZE = 8
 
-class TGOB(DummyEntry):
-  DATA_SIZE = 0x20
-
 class FLOR(DummyEntry):
   DATA_SIZE = 0x14
 
@@ -649,12 +769,6 @@ class _2DMA(DummyEntry):
 
 class LBNK(DummyEntry):
   DATA_SIZE = 0x1
-
-class RPAT(DummyEntry):
-  DATA_SIZE = 0xC
-
-class RPPN(DummyEntry):
-  DATA_SIZE = 0x10
 
 class SOND(DummyEntry):
   DATA_SIZE = 0x1C
@@ -690,4 +804,7 @@ class Virt(DummyEntry):
   DATA_SIZE = 0x24
 
 class LGHT(DummyEntry):
+  DATA_SIZE = 0x1C
+
+class LGTV(DummyEntry):
   DATA_SIZE = 0x1C
