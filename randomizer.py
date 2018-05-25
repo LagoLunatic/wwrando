@@ -353,7 +353,10 @@ class Randomizer:
       accessible_undone_locations = self.logic.get_accessible_remaining_locations()
       
       item_name = self.rng.choice(self.logic.unplaced_nonprogress_items)
-      location_name = self.rng.choice(accessible_undone_locations)
+      
+      possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
+      
+      location_name = self.rng.choice(possible_locations)
       self.logic.set_location_to_item(location_name, item_name)
     
     accessible_undone_locations = self.logic.get_accessible_remaining_locations()
@@ -363,10 +366,11 @@ class Randomizer:
       for location_name in inaccessible_locations:
         print(location_name)
     
-    # Fill remaining unused locations with consumables (Rupees and Spoils).
+    # Fill remaining unused locations with consumables (Rupees, spoils, and bait).
     locations_to_place_consumables_at = self.logic.remaining_item_locations.copy()
     for location_name in locations_to_place_consumables_at:
-      item_name = self.rng.choice(self.logic.consumable_items)
+      possible_items = self.logic.filter_items_valid_for_location(self.logic.consumable_items, location_name)
+      item_name = self.rng.choice(possible_items)
       self.logic.set_location_to_item(location_name, item_name)
   
   def randomize_progression_items(self):
@@ -410,35 +414,36 @@ class Randomizer:
         
         continue # Redo this loop iteration with the unrandomized locations no longer being considered 'remaining'.
       
+      # Filter out items that are not valid in any of the locations we might use.
+      possible_items = self.logic.filter_items_by_any_valid_location(self.logic.unplaced_progress_items, accessible_undone_locations)
+      
       must_place_useful_item = False
       should_place_useful_item = False
       
-      if len(accessible_undone_locations) == 1 and len(self.logic.unplaced_progress_items) > 1:
+      if len(accessible_undone_locations) == 1 and len(possible_items) > 1:
         must_place_useful_item = True
       elif self.rng.random() < 0.5: # 50% chance to place an item that opens up new locations
         should_place_useful_item = True
       
       if must_place_useful_item or should_place_useful_item:
-        shuffled_list = self.logic.unplaced_progress_items.copy()
+        shuffled_list = possible_items.copy()
         self.rng.shuffle(shuffled_list)
         item_name = self.logic.get_first_useful_item(shuffled_list)
         if item_name is None:
           if must_place_useful_item:
             raise Exception("No useful progress items to place!")
           else:
-            item_name = self.rng.choice(self.logic.unplaced_progress_items)
+            item_name = self.rng.choice(possible_items)
       else:
-        item_name = self.rng.choice(self.logic.unplaced_progress_items)
+        item_name = self.rng.choice(possible_items)
+      
+      possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
       
       # We weight it so newly accessible locations are 10x more likely to be chosen.
       # This way there is still a good chance it will not choose a new location.
       possible_locations_with_weighting = []
-      newly_accessible_undone_locations = [
-        loc for loc in accessible_undone_locations
-        if loc not in previously_accessible_undone_locations
-      ]
-      for location_name in accessible_undone_locations:
-        if location_name in newly_accessible_undone_locations:
+      for location_name in possible_locations:
+        if location_name not in previously_accessible_undone_locations:
           weight = 10
         else:
           weight = 1

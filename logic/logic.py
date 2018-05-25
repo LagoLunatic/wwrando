@@ -84,6 +84,11 @@ class Logic:
     self.done_item_locations = OrderedDict()
     for location_name in self.item_locations:
       self.done_item_locations[location_name] = None
+    
+    self.rock_spire_shop_ship_locations = []
+    for location_name, location in self.item_locations.items():
+      if location["Type"] == "Expensive Purchase":
+        self.rock_spire_shop_ship_locations.append(location_name)
   
   def set_location_to_item(self, location_name, item_name):
     if self.done_item_locations[location_name]:
@@ -209,6 +214,48 @@ class Logic:
       filtered_locations.append(location_name)
     
     return filtered_locations
+  
+  def check_item_valid_in_location(self, item_name, location_name):
+    # Beedle's shop does not work properly if the same item is in multiple slots of the same shop.
+    # Ban the Bait Bag slot from having bait.
+    if location_name == "The Great Sea - Beedle's Shop Ship - Bait Bag" and item_name in ["All-Purpose Bait", "Hyoi Pear"]:
+      return False
+    
+    # Also ban the same item from appearing more than once in the rock spire shop ship.
+    if location_name in self.rock_spire_shop_ship_locations:
+      for other_location_name in self.rock_spire_shop_ship_locations:
+        if other_location_name == location_name:
+          continue
+        if other_location_name in self.done_item_locations:
+          other_item_name = self.done_item_locations[other_location_name]
+          if item_name == other_item_name:
+            return False
+    
+    return True
+  
+  def filter_items_by_any_valid_location(self, items, locations):
+    # Filters out items that cannot be in any of the given possible locations.
+    valid_items = []
+    for item_name in items:
+      for location_name in locations:
+        if self.check_item_valid_in_location(item_name, location_name):
+          valid_items.append(item_name)
+          break
+    return valid_items
+  
+  def filter_locations_valid_for_item(self, locations, item_name):
+    valid_locations = []
+    for location_name in locations:
+      if self.check_item_valid_in_location(item_name, location_name):
+        valid_locations.append(location_name)
+    return valid_locations
+  
+  def filter_items_valid_for_location(self, items, location_name):
+    valid_items = []
+    for item_name in items:
+      if self.check_item_valid_in_location(item_name, location_name):
+        valid_items.append(item_name)
+    return valid_items
   
   def add_unrandomized_location(self, location_name):
     # For locations that should not be randomized on this seed, e.g. dungeon keys.
