@@ -10,10 +10,13 @@ from collections import OrderedDict
 import os
 import yaml
 import traceback
+import string
 
 from randomizer import Randomizer, VERSION
 
 class WWRandomizerWindow(QMainWindow):
+  VALID_SEED_CHARACTERS = "-_'%%.%s%s" % (string.ascii_letters, string.digits)
+  
   def __init__(self):
     super(WWRandomizerWindow, self).__init__()
     self.ui = Ui_MainWindow()
@@ -62,9 +65,17 @@ class WWRandomizerWindow(QMainWindow):
     words = [word.capitalize() for word in words]
     seed = "".join(words)
     
+    seed = self.sanitize_seed(seed)
+    
     self.settings["seed"] = seed
     self.ui.seed.setText(seed)
     self.save_settings()
+  
+  def sanitize_seed(self, seed):
+    seed = str(seed)
+    seed = seed.strip()
+    seed = "".join(char for char in seed if char in self.VALID_SEED_CHARACTERS)
+    return seed
   
   def randomize(self):
     clean_iso_path = self.settings["clean_iso_path"].strip()
@@ -81,10 +92,13 @@ class WWRandomizerWindow(QMainWindow):
       QMessageBox.warning(self, "No output folder specified", "Must specify a valid output folder for the randomized files.")
       return
     
-    seed = self.settings["seed"].strip()
+    seed = self.settings["seed"]
+    seed = self.sanitize_seed(seed)
+    
     if not seed:
       self.generate_seed()
       seed = self.settings["seed"]
+    
     self.settings["seed"] = seed
     self.ui.seed.setText(seed)
     self.save_settings()
