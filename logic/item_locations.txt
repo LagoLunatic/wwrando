@@ -374,6 +374,12 @@ Windfall Island - Sinking Ships - 20 Shots or Less Prize:
   Type: Minigame
   Paths:
     - rels/d_a_npc_kg1.rel@2C2C
+#Windfall Island - Dampa's Piggy Sitting Minigame:
+#  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
+#  Original item: Purple Rupee
+#  Type: Minigame
+#  Paths:
+#    - rels/d_a_npc_people.rel@5BDF
 #Windfall Island - Sinking Ships - 20 Shots or Less Prize 2+:
 #  Need: Nothing
 #  Original item: Orange Rupee
