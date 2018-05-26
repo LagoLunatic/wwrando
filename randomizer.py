@@ -79,6 +79,8 @@ class Randomizer:
     options_completed += 9
     yield("Saving randomized ISO...", options_completed)
     
+    self.update_game_name_in_banner()
+    
     self.save_randomized_iso()
     
     self.write_spoiler_log()
@@ -227,6 +229,12 @@ class Randomizer:
       
       self.raw_files_by_path[file_path] = data
       return data
+  
+  def update_game_name_in_banner(self):
+    new_game_name = "Wind Waker Randomized %s" % self.seed
+    
+    banner_data = self.get_raw_file("files/opening.bnr")
+    write_str(banner_data, 0x1860, new_game_name, 0x40)
   
   def save_randomized_iso(self):
     changed_files = {}
