@@ -1,5 +1,6 @@
 
 PROGRESS_ITEMS = [
+  "Tingle Tuner",
   "Wind Waker",
   "Spoils Bag",
   "Grappling Hook",
@@ -49,7 +50,6 @@ PROGRESS_ITEMS = [
 
 NONPROGRESS_ITEMS = [
   "Telescope",
-  "Tingle Tuner",
   "Magic Armor",
   "Hero's Charm",
 
