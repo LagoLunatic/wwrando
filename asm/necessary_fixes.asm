@@ -451,3 +451,15 @@
   nop ; Remove branch
 .org 0x20D4
   nop ; Remove branch
+
+
+
+
+; Rock Spire Shop Ship Beedle's code checks the item IDs using some unnecessary greater than or equal checks.
+; This is a problem when the item IDs are randomized because which ones are greater than which other ones is not the same as vanilla.
+; We remove a couple of lines here so that it only checks equality, not greater than or equal.
+.open "files/rels/d_a_npc_bs1.rel" ; Beedle
+.org 0x1ED8
+  nop
+.org 0x1EE4
+  nop
