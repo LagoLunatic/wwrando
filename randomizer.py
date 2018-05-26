@@ -517,6 +517,7 @@ class Randomizer:
     spoiler_log = ""
     
     spoiler_log += "Wind Waker Randomizer Version %s\n" % VERSION
+    spoiler_log += "Seed: %s\n" % self.seed
     
     spoiler_log += "Options selected:\n  "
     true_options = [name for name in self.options if self.options[name]]
