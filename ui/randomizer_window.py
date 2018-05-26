@@ -46,9 +46,22 @@ class WWRandomizerWindow(QMainWindow):
     self.show()
   
   def generate_seed(self):
+    try:
+      from sys import _MEIPASS
+      seedgen_path = os.path.join(_MEIPASS, "seedgen")
+    except ImportError:
+      seedgen_path = "seedgen"
+    
     random.seed(None)
-    seed = random.randrange(0, 1000000)
-    seed = str(seed)
+    
+    with open(os.path.join(seedgen_path, "adjectives.txt")) as f:
+      adjectives = random.sample(f.read().splitlines(), 2)
+    with open(os.path.join(seedgen_path, "nouns.txt")) as f:
+      noun = random.choice(f.read().splitlines())
+    words = adjectives + [noun]
+    words = [word.capitalize() for word in words]
+    seed = "".join(words)
+    
     self.settings["seed"] = seed
     self.ui.seed.setText(seed)
     self.save_settings()
@@ -84,7 +97,7 @@ class WWRandomizerWindow(QMainWindow):
     self.progress_dialog = RandomizerProgressDialog("Randomizing", "Initializing...", max_progress_val)
     
     try:
-      rando = Randomizer(int(seed), clean_iso_path, output_folder, options)
+      rando = Randomizer(seed, clean_iso_path, output_folder, options)
     except Exception as e:
       stack_trace = traceback.format_exc()
       error_message = "Randomization failed with error:\n" + str(e) + "\n\n" + stack_trace

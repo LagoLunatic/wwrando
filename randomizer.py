@@ -7,6 +7,7 @@ import re
 import random
 from collections import OrderedDict
 import copy
+import hashlib
 
 from fs_helpers import *
 from wwlib.yaz0_decomp import Yaz0Decompressor
@@ -23,8 +24,10 @@ class Randomizer:
     self.randomized_output_folder = randomized_output_folder
     self.options = options
     self.seed = seed
+    
+    self.integer_seed = int(hashlib.md5(self.seed.encode('utf-8')).hexdigest(), 16)
     self.rng = random.Random()
-    self.rng.seed(self.seed)
+    self.rng.seed(self.integer_seed)
     
     self.verify_supported_version(clean_iso_path)
     
