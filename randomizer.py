@@ -439,7 +439,7 @@ class Randomizer:
       if must_place_useful_item or should_place_useful_item:
         shuffled_list = possible_items.copy()
         self.rng.shuffle(shuffled_list)
-        item_name = self.logic.get_first_useful_item(shuffled_list)
+        item_name = self.logic.get_first_useful_item(shuffled_list, for_progression=True)
         if item_name is None:
           if must_place_useful_item:
             raise Exception("No useful progress items to place!")

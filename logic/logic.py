@@ -160,13 +160,16 @@ class Logic:
     
     return accessible_location_names
   
-  def get_first_useful_item(self, items_to_check):
+  def get_first_useful_item(self, items_to_check, for_progression=False):
     # Searches through a given list of items and returns the first one that opens up at least 1 new location.
     # The randomizer shuffles the list before passing it to this function, so in effect it picks a random useful item.
     
-    accessible_undone_locations = self.get_accessible_remaining_locations()
+    accessible_undone_locations = self.get_accessible_remaining_locations(for_progression=for_progression)
     inaccessible_undone_item_locations = []
-    for location_name in self.remaining_item_locations:
+    locations_to_check = self.remaining_item_locations
+    if for_progression:
+      locations_to_check = self.filter_locations_for_progression(locations_to_check)
+    for location_name in locations_to_check:
       if location_name not in accessible_undone_locations:
         inaccessible_undone_item_locations.append(location_name)
     
