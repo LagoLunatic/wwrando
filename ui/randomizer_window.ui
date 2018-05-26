@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>534</height>
+    <height>561</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -76,6 +76,23 @@
        <string>Where Should Progress Items Appear?</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
+       <item row="6" column="1">
+        <widget class="QCheckBox" name="progression_misc">
+         <property name="text">
+          <string>Everywhere Else</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="progression_sidequests">
+         <property name="text">
+          <string>Sidequests</string>
+         </property>
+        </widget>
+       </item>
        <item row="4" column="1">
         <widget class="QCheckBox" name="progression_treasure_charts">
          <property name="text">
@@ -90,10 +107,10 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QCheckBox" name="progression_sidequests">
+       <item row="4" column="0">
+        <widget class="QCheckBox" name="progression_triforce_charts">
          <property name="text">
-          <string>Sidequests</string>
+          <string>Sunken Treasure (From Triforce Charts)</string>
          </property>
         </widget>
        </item>
@@ -124,40 +141,20 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QCheckBox" name="progression_triforce_charts">
-         <property name="text">
-          <string>Sunken Treasure (From Triforce Charts)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QCheckBox" name="progression_misc">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Everywhere Else</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QCheckBox" name="progression_expensive_purchases">
-         <property name="text">
-          <string>Expensive Purchases</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="1">
         <widget class="QCheckBox" name="progression_secret_caves">
          <property name="text">
           <string>Secret Caves</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="progression_big_octos_gunboats">
+         <property name="text">
+          <string>Big Octos and Gunboats</string>
          </property>
          <property name="checked">
           <bool>true</bool>
@@ -171,13 +168,33 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="QCheckBox" name="progression_big_octos">
+       <item row="6" column="0">
+        <widget class="QCheckBox" name="progression_expensive_purchases">
          <property name="text">
-          <string>Big Octos</string>
+          <string>Expensive Purchases</string>
          </property>
          <property name="checked">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QCheckBox" name="progression_gifts">
+         <property name="text">
+          <string>Free Gifts</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QCheckBox" name="progression_mail">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Mail</string>
          </property>
         </widget>
        </item>
