@@ -447,3 +447,24 @@ def add_cube_to_earth_temple_first_room(self):
   cube.z_pos = 4077.37
   
   dzx.save_changes()
+
+def add_more_magic_jars_to_dungeons(self):
+  # Dragon Roost Cavern doesn't have any magic jars in it since you normally wouldn't have Deku Leaf for it.
+  # But since using Deku Leaf in DRC can be required by the randomizer, it can be annoying to not have any way to refill MP.
+  # We change several skulls that originally dropped nothing when destroyed to drop magic jars instead.
+  
+  drc_center_room = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").dzx_files[0]
+  actors = drc_center_room.entries_by_type("ACTR")
+  skulls = [actor for actor in actors if actor.name == "Odokuro"]
+  skulls[2].pot_item_id = self.item_name_to_id["Small Magic Jar (Pickup)"]
+  skulls[2].save_changes()
+  skulls[5].pot_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
+  skulls[5].save_changes()
+  
+  drc_before_boss_room = self.get_arc("files/res/Stage/M_NewD2/Room10.arc").dzx_files[0]
+  actors = drc_before_boss_room.entries_by_type("ACTR")
+  skulls = [actor for actor in actors if actor.name == "Odokuro"]
+  skulls[0].pot_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
+  skulls[0].save_changes()
+  skulls[9].pot_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
+  skulls[9].save_changes()

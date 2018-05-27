@@ -342,6 +342,8 @@ class ACTR(ChunkEntry):
     "boss_item_id":       0x0000FF00,
     
     "bridge_rpat_index": 0x00FF0000,
+    
+    "pot_item_id": 0x0000003F,
   }
   
   ITEM_NAMES = [
@@ -351,6 +353,21 @@ class ACTR(ChunkEntry):
   
   BOSS_ITEM_NAMES = [
     "Bitem",
+  ]
+  
+  POT_NAMES = [
+    "kotubo",
+    "ootubo1",
+    "Kmtub",
+    "Ktaru",
+    "Ostool",
+    "Odokuro",
+    "Okioke",
+    "Kmi02",
+    "Ptubo",
+    "KkibaB",
+    "Kmi00",
+    "Hbox2S",
   ]
   
   def __init__(self, file_entry):
@@ -404,6 +421,9 @@ class ACTR(ChunkEntry):
   
   def is_boss_item(self):
     return self.name in self.BOSS_ITEM_NAMES
+  
+  def is_pot(self):
+    return self.name in self.POT_NAMES
 
 class PLYR(ChunkEntry):
   DATA_SIZE = 0x20
