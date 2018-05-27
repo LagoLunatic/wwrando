@@ -309,9 +309,6 @@ class Logic:
         self.item_locations[location_name]["Need"] = self.parse_logic_expression("TODO")
       else:
         self.item_locations[location_name]["Need"] = self.parse_logic_expression(req_string)
-      
-      if "Type" not in self.item_locations[location_name]:
-        self.item_locations[location_name]["Type"] = None
     
     with open(os.path.join(logic_path, "macros.txt")) as f:
       macro_strings = yaml.safe_load(f)
