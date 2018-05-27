@@ -89,6 +89,7 @@ class Randomizer:
     self.save_randomized_iso()
     
     self.write_spoiler_log()
+    self.write_non_spoiler_log()
   
   def apply_necessary_tweaks(self):
     tweaks.apply_patch(self, "custom_funcs")
@@ -551,18 +552,20 @@ class Randomizer:
     tweaks.set_new_game_starting_room_index(self, starting_island_room_index)
     tweaks.change_ship_starting_island(self, starting_island_room_index)
   
-  def write_spoiler_log(self):
-    spoiler_log = ""
+  def get_log_header(self):
+    header = ""
     
-    spoiler_log += "Wind Waker Randomizer Version %s\n" % VERSION
-    spoiler_log += "Seed: %s\n" % self.seed
+    header += "Wind Waker Randomizer Version %s\n" % VERSION
+    header += "Seed: %s\n" % self.seed
     
-    spoiler_log += "Options selected:\n  "
+    header += "Options selected:\n  "
     true_options = [name for name in self.options if self.options[name]]
-    spoiler_log += ", ".join(true_options)
-    spoiler_log += "\n\n\n"
+    header += ", ".join(true_options)
+    header += "\n\n\n"
     
-    # Write item locations.
+    return header
+  
+  def get_zones_and_max_location_name_len(self):
     zones = OrderedDict()
     max_location_name_length = 0
     for location_name in self.logic.done_item_locations:
@@ -575,6 +578,56 @@ class Randomizer:
       if len(specific_location_name) > max_location_name_length:
         max_location_name_length = len(specific_location_name)
     
+    return (zones, max_location_name_length)
+  
+  def write_non_spoiler_log(self):
+    log_str = self.get_log_header()
+    
+    progress_locations, nonprogress_locations = self.logic.get_progress_and_non_progress_locations()
+    
+    zones, max_location_name_length = self.get_zones_and_max_location_name_len()
+    format_string = "    %s\n"
+    
+    # Write progress item locations.
+    log_str += "### Locations that may or may not have progress items in them on this run:\n"
+    for zone_name, locations_in_zone in zones.items():
+      if not any(loc for (loc, _) in locations_in_zone if loc in progress_locations):
+        # No progress locations for this zone.
+        continue
+      
+      log_str += zone_name + ":\n"
+      
+      for (location_name, specific_location_name) in locations_in_zone:
+        if location_name in progress_locations:
+          item_name = self.logic.done_item_locations[location_name]
+          log_str += format_string % specific_location_name
+    
+    log_str += "\n\n"
+    
+    
+    # Write nonprogress item locations.
+    log_str += "### Locations that cannot have progress items in them on this run:\n"
+    for zone_name, locations_in_zone in zones.items():
+      if not any(loc for (loc, _) in locations_in_zone if loc in nonprogress_locations):
+        # No nonprogress locations for this zone.
+        continue
+      
+      log_str += zone_name + ":\n"
+      
+      for (location_name, specific_location_name) in locations_in_zone:
+        if location_name in nonprogress_locations:
+          item_name = self.logic.done_item_locations[location_name]
+          log_str += format_string % specific_location_name
+    
+    nonspoiler_log_output_path = os.path.join(self.randomized_output_folder, "WW Random %s - Non-Spoiler Log.txt" % self.seed)
+    with open(nonspoiler_log_output_path, "w") as f:
+      f.write(log_str)
+  
+  def write_spoiler_log(self):
+    spoiler_log = self.get_log_header()
+    
+    # Write item locations.
+    zones, max_location_name_length = self.get_zones_and_max_location_name_len()
     format_string = "    %-" + str(max_location_name_length+1) + "s %s\n"
     
     for zone_name, locations_in_zone in zones.items():

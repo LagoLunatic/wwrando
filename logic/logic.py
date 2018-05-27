@@ -161,6 +161,32 @@ class Logic:
     
     return num_progress_locations
   
+  def get_progress_and_non_progress_locations(self):
+    all_locations = self.item_locations.keys()
+    progress_locations = self.filter_locations_for_progression(all_locations, filter_sunken_treasure=True)
+    nonprogress_locations = []
+    for location_name in all_locations:
+      if location_name in progress_locations:
+        continue
+      
+      type = self.item_locations[location_name]["Type"]
+      if type == "Sunken Treasure":
+        chart_name = self.chart_name_for_location(location_name)
+        if "Triforce Chart" in chart_name:
+          if self.rando.options.get("progression_triforce_charts"):
+            progress_locations.append(location_name)
+          else:
+            nonprogress_locations.append(location_name)
+        else:
+          if self.rando.options.get("progression_treasure_charts"):
+            progress_locations.append(location_name)
+          else:
+            nonprogress_locations.append(location_name)
+      else:
+        nonprogress_locations.append(location_name)
+    
+    return (progress_locations, nonprogress_locations)
+  
   def add_owned_item(self, item_name):
     cleaned_item_name = self.clean_item_name(item_name)
     if cleaned_item_name not in self.all_cleaned_item_names:
@@ -523,6 +549,17 @@ class Logic:
       return self.check_requirement_met("Any Wallet Upgrade")
     
     return True
+  
+  def chart_name_for_location(self, location_name):
+    reqs = self.item_locations[location_name]["Need"]
+    chart_req = next(req for req in reqs if req.startswith("Chart for Island "))
+    
+    match = re.search(r"^Chart for Island (\d+)$", chart_req)
+    island_number = int(match.group(1))
+    assert 1 <= island_number <= 49
+    
+    chart = self.rando.chart_list.find_chart_for_island_number(island_number)
+    return chart.item_name
   
   def generate_empty_progress_reqs_file(self):
     output_str = ""
