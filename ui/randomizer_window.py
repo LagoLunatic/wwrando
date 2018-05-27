@@ -250,6 +250,10 @@ class WWRandomizerWindow(QMainWindow):
     self.about_dialog.setWindowTitle("Wind Waker Randomizer")
     self.about_dialog.setText(text)
     self.about_dialog.show()
+  
+  def keyPressEvent(self, event):
+    if event.key() == Qt.Key_Escape:
+      self.close()
 
 class RandomizerProgressDialog(QProgressDialog):
   def __init__(self, title, description, max_val):
