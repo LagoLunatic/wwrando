@@ -17,7 +17,7 @@ from wwlib.gcm import GCM
 import tweaks
 from logic.logic import Logic
 
-VERSION = "0.3-BETA"
+VERSION = "0.4-BETA"
 
 class TooFewProgressionLocationsError(Exception):
   pass
