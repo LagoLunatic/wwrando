@@ -19,6 +19,9 @@ from logic.logic import Logic
 
 VERSION = "0.3-BETA"
 
+class TooFewProgressionLocationsError(Exception):
+  pass
+
 class Randomizer:
   def __init__(self, seed, clean_iso_path, randomized_output_folder, options):
     self.randomized_output_folder = randomized_output_folder
@@ -37,12 +40,14 @@ class Randomizer:
     self.read_text_file_lists()
     self.logic = Logic(self)
     
-    self.logic.add_owned_item("Wind Waker")
-    self.logic.add_owned_item("Wind's Requiem")
-    self.logic.add_owned_item("Ballad of Gales")
-    self.logic.add_owned_item("Progressive Sword")
-    self.logic.add_owned_item("Hero's Shield")
-    self.logic.add_owned_item("Boat's Sail")
+    num_progress_locations = self.logic.get_num_progression_locations()
+    num_progress_items = len(self.logic.all_progress_items)
+    if num_progress_locations < num_progress_items: 
+      error_message = "Not enough progress locations to place all progress items.\n\n"
+      error_message += "Total progress items: %d\n" % num_progress_items
+      error_message += "Progress locations with current options: %d\n\n" % num_progress_locations
+      error_message += "You need to check more of the progress location options in order to give the randomizer enough space to place all the items."
+      raise TooFewProgressionLocationsError(error_message)
     
     self.arcs_by_path = {}
     self.raw_files_by_path = {}

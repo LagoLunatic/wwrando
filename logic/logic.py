@@ -89,6 +89,13 @@ class Logic:
     for location_name, location in self.item_locations.items():
       if location["Type"] == "Expensive Purchase":
         self.rock_spire_shop_ship_locations.append(location_name)
+    
+    self.add_owned_item("Wind Waker")
+    self.add_owned_item("Wind's Requiem")
+    self.add_owned_item("Ballad of Gales")
+    self.add_owned_item("Progressive Sword")
+    self.add_owned_item("Hero's Shield")
+    self.add_owned_item("Boat's Sail")
   
   def set_location_to_item(self, location_name, item_name):
     if self.done_item_locations[location_name]:
@@ -106,6 +113,16 @@ class Logic:
       pass
     else:
       self.add_owned_item(item_name)
+  
+  def get_num_progression_locations(self):
+    progress_locations = self.filter_locations_for_progression(self.item_locations.keys(), filter_sunken_treasure=True)
+    num_progress_locations = len(progress_locations)
+    if self.rando.options.get("progression_triforce_charts"):
+      num_progress_locations += 8
+    if self.rando.options.get("progression_treasure_charts"):
+      num_progress_locations += 41
+    
+    return num_progress_locations
   
   def add_owned_item(self, item_name):
     cleaned_item_name = self.clean_item_name(item_name)
@@ -186,11 +203,13 @@ class Logic:
     
     return None
   
-  def filter_locations_for_progression(self, locations_to_filter):
+  def filter_locations_for_progression(self, locations_to_filter, filter_sunken_treasure=False):
     filtered_locations = []
     for location_name in locations_to_filter:
       type = self.item_locations[location_name]["Type"]
       if type == "No progression":
+        continue
+      if type == "Tingle Statue Chest":
         continue
       if type == "Dungeon" and not self.rando.options.get("progression_dungeons"):
         continue
@@ -216,9 +235,12 @@ class Logic:
         continue
       if type in ["Other Chest", "Misc"] and not self.rando.options.get("progression_misc"):
         continue
-      # Note: The Triforce/Treasure Chart sunken treasures are not filtered here.
-      # Instead they are handled by not considering the charts themselves to be progress items.
-      # This results in the item randomizer considering these locations inaccessible until after all progress items are placed.
+      if type == "Sunken Treasure" and filter_sunken_treasure:
+        continue
+      # Note: The Triforce/Treasure Chart sunken treasures are handled differently from other types.
+      # During randomization they are handled by not considering the charts themselves to be progress items.
+      # That results in the item randomizer considering these locations inaccessible until after all progress items are placed.
+      # But when calculating the total number of progression locations, sunken treasures are filtered out entirely here so they can be specially counted elsewhere.
       
       filtered_locations.append(location_name)
     

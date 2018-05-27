@@ -268,7 +268,7 @@ Windfall Island - Maggie's Father - Give 20 Skull Necklaces:
 Windfall Island - Maggie - Letter:
   Need: Rescued Aryll & TODO # This item becomes missable once you own Maggie's Letter (or Moblin's Letter?).
   Original item: Maggie's Letter
-  Type: Sidequest
+  Type: No progression # Sidequest, TODO
   Paths:
     - rels/d_a_npc_kp1.rel@17D7
 Windfall Island - Maggie - Reward:
@@ -280,7 +280,7 @@ Windfall Island - Maggie - Reward:
 Windfall Island - Cafe Bar - Postman:
   Need: Rescued Aryll & Delivery Bag & Maggie's Letter & TODO # The postman disappears once you've ever owned the Moblin's Letter.
   Original item: Moblin's Letter
-  Type: Sidequest
+  Type: No progression # Sidequest, TODO
   Paths:
     - Opub/Stage.arc/Event00E:Get_Mo3_Ltr/Actor002/Action001
 Windfall Island - Kreeb:
@@ -2392,6 +2392,7 @@ Six-Eye Reef - Submarine:
 Forsaken Fortress - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 1
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room1.arc/ScalableObject000
     - sea/Room1.arc/ScalableObject00A
@@ -2400,6 +2401,7 @@ Forsaken Fortress - Sunken Treasure:
 Star Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 2
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room2.arc/ScalableObject00A
     - sea/Room2.arc/ScalableObject00B
@@ -2408,6 +2410,7 @@ Star Island - Sunken Treasure:
 Northern Fairy Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 3
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room3.arc/ScalableObject006
     - sea/Room3.arc/ScalableObject007
@@ -2416,6 +2419,7 @@ Northern Fairy Island - Sunken Treasure:
 Gale Isle - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 4
   Original item: Triforce Shard 2
+  Type: Sunken Treasure
   Paths:
     - sea/Room4.arc/ScalableObject007
     - sea/Room4.arc/ScalableObject008
@@ -2424,6 +2428,7 @@ Gale Isle - Sunken Treasure:
 Crescent Moon Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 5
   Original item: Piece of Heart
+  Type: Sunken Treasure
   Paths:
     - sea/Room5.arc/ScalableObject006
     - sea/Room5.arc/ScalableObject007
@@ -2432,6 +2437,7 @@ Crescent Moon Island - Sunken Treasure:
 Seven-Star Isles - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 6
   Original item: Triforce Shard 7
+  Type: Sunken Treasure
   Paths:
     - sea/Room6.arc/ScalableObject008
     - sea/Room6.arc/ScalableObject009
@@ -2440,6 +2446,7 @@ Seven-Star Isles - Sunken Treasure:
 Overlook Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 7
   Original item: Secret Cave Chart
+  Type: Sunken Treasure
   Paths:
     - sea/Room7.arc/ScalableObject006
     - sea/Room7.arc/ScalableObject007
@@ -2448,6 +2455,7 @@ Overlook Island - Sunken Treasure:
 Four-Eye Reef - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 8
   Original item: Great Fairy Chart
+  Type: Sunken Treasure
   Paths:
     - sea/Room8.arc/ScalableObject00E
     - sea/Room8.arc/ScalableObject00F
@@ -2456,6 +2464,7 @@ Four-Eye Reef - Sunken Treasure:
 Mother and Child Isles - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 9
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room9.arc/ScalableObject006
     - sea/Room9.arc/ScalableObject007
@@ -2464,6 +2473,7 @@ Mother and Child Isles - Sunken Treasure:
 Spectacle Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 10
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room10.arc/ScalableObject006
     - sea/Room10.arc/ScalableObject007
@@ -2472,6 +2482,7 @@ Spectacle Island - Sunken Treasure:
 Windfall Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 11
   Original item: Green Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room11.arc/ScalableObject022
     - sea/Room11.arc/ScalableObject023
@@ -2480,6 +2491,7 @@ Windfall Island - Sunken Treasure:
 Pawprint Isle - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 12
   Original item: Piece of Heart
+  Type: Sunken Treasure
   Paths:
     - sea/Room12.arc/ScalableObject006
     - sea/Room12.arc/ScalableObject007
@@ -2488,6 +2500,7 @@ Pawprint Isle - Sunken Treasure:
 Dragon Roost Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 13
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room13.arc/ScalableObject008
     - sea/Room13.arc/ScalableObject009
@@ -2496,6 +2509,7 @@ Dragon Roost Island - Sunken Treasure:
 Flight Control Platform - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 14
   Original item: Island Hearts Chart
+  Type: Sunken Treasure
   Paths:
     - sea/Room14.arc/ScalableObject008
     - sea/Room14.arc/ScalableObject009
@@ -2504,6 +2518,7 @@ Flight Control Platform - Sunken Treasure:
 Western Fairy Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 15
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room15.arc/ScalableObject007
     - sea/Room15.arc/ScalableObject008
@@ -2512,6 +2527,7 @@ Western Fairy Island - Sunken Treasure:
 Rock Spire Isle - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 16
   Original item: Piece of Heart
+  Type: Sunken Treasure
   Paths:
     - sea/Room16.arc/ScalableObject008
     - sea/Room16.arc/ScalableObject009
@@ -2520,6 +2536,7 @@ Rock Spire Isle - Sunken Treasure:
 Tingle Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 17
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room17.arc/ScalableObject00B
     - sea/Room17.arc/ScalableObject00C
@@ -2528,6 +2545,7 @@ Tingle Island - Sunken Treasure:
 Northern Triangle Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 18
   Original item: Octo Chart
+  Type: Sunken Treasure
   Paths:
     - sea/Room18.arc/ScalableObject006
     - sea/Room18.arc/ScalableObject007
@@ -2536,6 +2554,7 @@ Northern Triangle Island - Sunken Treasure:
 Eastern Fairy Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 19
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room19.arc/ScalableObject006
     - sea/Room19.arc/ScalableObject007
@@ -2544,6 +2563,7 @@ Eastern Fairy Island - Sunken Treasure:
 Fire Mountain - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 20
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room20.arc/ScalableObject00B
     - sea/Room20.arc/ScalableObject00C
@@ -2552,6 +2572,7 @@ Fire Mountain - Sunken Treasure:
 Star Belt Archipelago - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 21
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room21.arc/ScalableObject009
     - sea/Room21.arc/ScalableObject00A
@@ -2560,6 +2581,7 @@ Star Belt Archipelago - Sunken Treasure:
 Three-Eye Reef - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 22
   Original item: Piece of Heart
+  Type: Sunken Treasure
   Paths:
     - sea/Room22.arc/ScalableObject007
     - sea/Room22.arc/ScalableObject008
@@ -2568,6 +2590,7 @@ Three-Eye Reef - Sunken Treasure:
 Greatfish Isle - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 23
   Original item: Triforce Shard 1
+  Type: Sunken Treasure
   Paths:
     - sea/Room23.arc/ScalableObject005
     - sea/Room23.arc/ScalableObject006
@@ -2576,6 +2599,7 @@ Greatfish Isle - Sunken Treasure:
 Cyclops Reef - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 24
   Original item: Light Ring Chart
+  Type: Sunken Treasure
   Paths:
     - sea/Room24.arc/ScalableObject00C
     - sea/Room24.arc/ScalableObject00D
@@ -2584,6 +2608,7 @@ Cyclops Reef - Sunken Treasure:
 Six-Eye Reef - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 25
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room25.arc/ScalableObject007
     - sea/Room25.arc/ScalableObject008
@@ -2592,6 +2617,7 @@ Six-Eye Reef - Sunken Treasure:
 Tower of the Gods - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 26
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room26.arc/ScalableObject006
     - sea/Room26.arc/ScalableObject007
@@ -2600,6 +2626,7 @@ Tower of the Gods - Sunken Treasure:
 Eastern Triangle Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 27
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room27.arc/ScalableObject006
     - sea/Room27.arc/ScalableObject007
@@ -2608,6 +2635,7 @@ Eastern Triangle Island - Sunken Treasure:
 Thorned Fairy Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 28
   Original item: Piece of Heart
+  Type: Sunken Treasure
   Paths:
     - sea/Room28.arc/ScalableObject006
     - sea/Room28.arc/ScalableObject007
@@ -2616,6 +2644,7 @@ Thorned Fairy Island - Sunken Treasure:
 Needle Rock Isle - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 29
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room29.arc/ScalableObject006
     - sea/Room29.arc/ScalableObject007
@@ -2624,6 +2653,7 @@ Needle Rock Isle - Sunken Treasure:
 Islet of Steel - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 30
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room30.arc/ScalableObject007
     - sea/Room30.arc/ScalableObject008
@@ -2632,6 +2662,7 @@ Islet of Steel - Sunken Treasure:
 Stone Watcher Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 31
   Original item: Triforce Shard 3
+  Type: Sunken Treasure
   Paths:
     - sea/Room31.arc/ScalableObject006
     - sea/Room31.arc/ScalableObject007
@@ -2640,6 +2671,7 @@ Stone Watcher Island - Sunken Treasure:
 Southern Triangle Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 32
   Original item: Triforce Shard 6
+  Type: Sunken Treasure
   Paths:
     - sea/Room32.arc/ScalableObject006
     - sea/Room32.arc/ScalableObject007
@@ -2648,6 +2680,7 @@ Southern Triangle Island - Sunken Treasure:
 Private Oasis - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 33
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room33.arc/ScalableObject008
     - sea/Room33.arc/ScalableObject009
@@ -2656,6 +2689,7 @@ Private Oasis - Sunken Treasure:
 Bomb Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 34
   Original item: Piece of Heart
+  Type: Sunken Treasure
   Paths:
     - sea/Room34.arc/ScalableObject006
     - sea/Room34.arc/ScalableObject007
@@ -2664,6 +2698,7 @@ Bomb Island - Sunken Treasure:
 Bird's Peak Rock - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 35
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room35.arc/ScalableObject007
     - sea/Room35.arc/ScalableObject008
@@ -2672,6 +2707,7 @@ Bird's Peak Rock - Sunken Treasure:
 Diamond Steppe Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 36
   Original item: Piece of Heart
+  Type: Sunken Treasure
   Paths:
     - sea/Room36.arc/ScalableObject009
     - sea/Room36.arc/ScalableObject00A
@@ -2680,6 +2716,7 @@ Diamond Steppe Island - Sunken Treasure:
 Five-Eye Reef - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 37
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room37.arc/ScalableObject007
     - sea/Room37.arc/ScalableObject008
@@ -2688,6 +2725,7 @@ Five-Eye Reef - Sunken Treasure:
 Shark Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 38
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room38.arc/ScalableObject00D
     - sea/Room38.arc/ScalableObject00E
@@ -2696,6 +2734,7 @@ Shark Island - Sunken Treasure:
 Southern Fairy Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 39
   Original item: Piece of Heart
+  Type: Sunken Treasure
   Paths:
     - sea/Room39.arc/ScalableObject006
     - sea/Room39.arc/ScalableObject007
@@ -2704,6 +2743,7 @@ Southern Fairy Island - Sunken Treasure:
 Ice Ring Isle - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 40
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room40.arc/ScalableObject00A
     - sea/Room40.arc/ScalableObject00B
@@ -2712,6 +2752,7 @@ Ice Ring Isle - Sunken Treasure:
 Forest Haven - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 41
   Original item: Piece of Heart
+  Type: Sunken Treasure
   Paths:
     - sea/Room41.arc/ScalableObject014
     - sea/Room41.arc/ScalableObject015
@@ -2720,6 +2761,7 @@ Forest Haven - Sunken Treasure:
 Cliff Plateau Isles - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 42
   Original item: Triforce Shard 5
+  Type: Sunken Treasure
   Paths:
     - sea/Room42.arc/ScalableObject006
     - sea/Room42.arc/ScalableObject007
@@ -2728,6 +2770,7 @@ Cliff Plateau Isles - Sunken Treasure:
 Horseshoe Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 43
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room43.arc/ScalableObject007
     - sea/Room43.arc/ScalableObject008
@@ -2736,6 +2779,7 @@ Horseshoe Island - Sunken Treasure:
 Outset Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 44
   Original item: Triforce Shard 4
+  Type: Sunken Treasure
   Paths:
     - sea/Room44.arc/ScalableObject013
     - sea/Room44.arc/ScalableObject014
@@ -2744,6 +2788,7 @@ Outset Island - Sunken Treasure:
 Headstone Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 45
   Original item: Silver Rupee
+  Type: Sunken Treasure
   Paths:
     - sea/Room45.arc/ScalableObject026
     - sea/Room45.arc/ScalableObject027
@@ -2752,6 +2797,7 @@ Headstone Island - Sunken Treasure:
 Two-Eye Reef - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 46
   Original item: Triforce Shard 8
+  Type: Sunken Treasure
   Paths:
     - sea/Room46.arc/ScalableObject008
     - sea/Room46.arc/ScalableObject009
@@ -2760,6 +2806,7 @@ Two-Eye Reef - Sunken Treasure:
 Angular Isles - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 47
   Original item: Piece of Heart
+  Type: Sunken Treasure
   Paths:
     - sea/Room47.arc/ScalableObject006
     - sea/Room47.arc/ScalableObject007
@@ -2768,6 +2815,7 @@ Angular Isles - Sunken Treasure:
 Boating Course - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 48
   Original item: Sea Hearts Chart
+  Type: Sunken Treasure
   Paths:
     - sea/Room48.arc/ScalableObject006
     - sea/Room48.arc/ScalableObject007
@@ -2776,6 +2824,7 @@ Boating Course - Sunken Treasure:
 Five-Star Isles - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 49
   Original item: Piece of Heart
+  Type: Sunken Treasure
   Paths:
     - sea/Room49.arc/ScalableObject006
     - sea/Room49.arc/ScalableObject007

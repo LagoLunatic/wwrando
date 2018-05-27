@@ -12,7 +12,7 @@ import yaml
 import traceback
 import string
 
-from randomizer import Randomizer, VERSION
+from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError
 
 class WWRandomizerWindow(QMainWindow):
   VALID_SEED_CHARACTERS = "-_'%%.%s%s" % (string.ascii_letters, string.digits)
@@ -112,6 +112,10 @@ class WWRandomizerWindow(QMainWindow):
     
     try:
       rando = Randomizer(seed, clean_iso_path, output_folder, options)
+    except TooFewProgressionLocationsError as e:
+      error_message = str(e)
+      self.randomization_failed(error_message)
+      return
     except Exception as e:
       stack_trace = traceback.format_exc()
       error_message = "Randomization failed with error:\n" + str(e) + "\n\n" + stack_trace
