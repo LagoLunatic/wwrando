@@ -85,24 +85,23 @@ NONPROGRESS_ITEMS = [
   #"IN-credible Chart",
 ] + ["Piece of Heart"]*44 + ["Heart Container"]*6
 
-CONSUMABLE_ITEMS = [
-  "Green Rupee",
-  "Blue Rupee",
-  "Yellow Rupee",
-  "Red Rupee",
-  "Purple Rupee",
-  "Orange Rupee",
-  "Silver Rupee",
-
-  "Joy Pendant",
-  "Skull Necklace",
-  "Boko Baba Seed",
-  "Golden Feather",
-  "Knight's Crest",
-  "Red Chu Jelly",
-  "Green Chu Jelly",
-  "Blue Chu Jelly",
-  
-  "All-Purpose Bait",
-  "Hyoi Pear",
-]
+CONSUMABLE_ITEMS = \
+   1 * ["Green Rupee"] + \
+   2 * ["Blue Rupee"] + \
+   4 * ["Yellow Rupee"] + \
+   8 * ["Red Rupee"] + \
+  11 * ["Purple Rupee"] + \
+  17 * ["Orange Rupee"] + \
+  27 * ["Silver Rupee"] + \
+  \
+   8 * ["Joy Pendant"] + \
+   8 * ["Skull Necklace"] + \
+   1 * ["Boko Baba Seed"] + \
+   8 * ["Golden Feather"] + \
+   3 * ["Knight's Crest"] + \
+   1 * ["Red Chu Jelly"] + \
+   1 * ["Green Chu Jelly"] + \
+   1 * ["Blue Chu Jelly"] + \
+  \
+   1 * ["All-Purpose Bait"] + \
+   4 * ["Hyoi Pear"]

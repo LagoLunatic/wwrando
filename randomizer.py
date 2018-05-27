@@ -386,7 +386,7 @@ class Randomizer:
     # Fill remaining unused locations with consumables (Rupees, spoils, and bait).
     locations_to_place_consumables_at = self.logic.remaining_item_locations.copy()
     for location_name in locations_to_place_consumables_at:
-      possible_items = self.logic.filter_items_valid_for_location(self.logic.consumable_items, location_name)
+      possible_items = self.logic.filter_items_valid_for_location(self.logic.unplaced_consumable_items, location_name)
       item_name = self.rng.choice(possible_items)
       self.logic.set_location_to_item(location_name, item_name)
   

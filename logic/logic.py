@@ -43,7 +43,7 @@ class Logic:
     
     self.all_progress_items = PROGRESS_ITEMS.copy()
     self.all_nonprogress_items = NONPROGRESS_ITEMS.copy()
-    self.consumable_items = CONSUMABLE_ITEMS.copy()
+    self.all_consumable_items = CONSUMABLE_ITEMS.copy()
     
     self.triforce_chart_names = []
     self.treasure_chart_names = []
@@ -63,6 +63,7 @@ class Logic:
     
     self.unplaced_progress_items = self.all_progress_items.copy()
     self.unplaced_nonprogress_items = self.all_nonprogress_items.copy()
+    self.unplaced_consumable_items = self.all_consumable_items.copy()
     
     # Replace progress items that are part of a group with the group name instead.
     for group_name, item_names in self.PROGRESS_ITEM_GROUPS.items():
@@ -88,7 +89,7 @@ class Logic:
       self.big_key_owned_by_dungeon[dungeon_name] = False
     
     self.all_cleaned_item_names = []
-    for item_name in (self.all_progress_items + self.all_nonprogress_items + self.consumable_items):
+    for item_name in (self.all_progress_items + self.all_nonprogress_items + self.all_consumable_items):
       cleaned_item_name = self.clean_item_name(item_name)
       if cleaned_item_name not in self.all_cleaned_item_names:
         self.all_cleaned_item_names.append(cleaned_item_name)
@@ -174,6 +175,8 @@ class Logic:
       self.unplaced_progress_items.remove(item_name)
     elif item_name in self.unplaced_nonprogress_items:
       self.unplaced_nonprogress_items.remove(item_name)
+    elif item_name in self.unplaced_consumable_items:
+      self.unplaced_consumable_items.remove(item_name)
   
   def add_owned_key_for_dungeon(self, item_name, dungeon_name):
     if item_name == "Small Key":
@@ -198,6 +201,8 @@ class Logic:
       self.unplaced_progress_items.append(item_name)
     elif item_name in self.all_nonprogress_items:
       self.unplaced_nonprogress_items.append(item_name)
+    elif item_name in self.all_consumable_items:
+      self.unplaced_consumable_items.append(item_name)
   
   def add_owned_item_or_item_group(self, item_name):
     if item_name in self.PROGRESS_ITEM_GROUPS:
