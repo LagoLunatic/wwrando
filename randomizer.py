@@ -433,7 +433,11 @@ class Randomizer:
       
       if len(accessible_undone_locations) == 1 and len(possible_items) > 1:
         must_place_useful_item = True
-      elif self.rng.random() < 0.5: # 50% chance to place an item that opens up new locations
+      elif len(accessible_undone_locations) < 5:
+        # If we're running out locations we need to start always placing progress items due to items that you need multiple to get anywhere (e.g. pearls, triforce shards).
+        should_place_useful_item = True
+      elif self.rng.random() < 0.5:
+        # 50% chance to place an item that opens up new locations
         should_place_useful_item = True
       
       if must_place_useful_item or should_place_useful_item:
