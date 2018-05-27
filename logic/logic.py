@@ -20,6 +20,24 @@ class Logic:
     ("WT",   "Wind Temple"),
   ])
   
+  PROGRESS_ITEM_GROUPS = OrderedDict([
+    ("Triforce Shards",  [
+      "Triforce Shard 1",
+      "Triforce Shard 2",
+      "Triforce Shard 3",
+      "Triforce Shard 4",
+      "Triforce Shard 5",
+      "Triforce Shard 6",
+      "Triforce Shard 7",
+      "Triforce Shard 8",
+    ]),
+    ("Goddess Pearls",  [
+      "Nayru's Pearl",
+      "Din's Pearl",
+      "Farore's Pearl",
+    ]),
+  ])
+  
   def __init__(self, rando):
     self.rando = rando
     
@@ -45,6 +63,12 @@ class Logic:
     
     self.unplaced_progress_items = self.all_progress_items.copy()
     self.unplaced_nonprogress_items = self.all_nonprogress_items.copy()
+    
+    # Replace progress items that are part of a group with the group name instead.
+    for group_name, item_names in self.PROGRESS_ITEM_GROUPS.items():
+      for item_name in item_names:
+        self.unplaced_progress_items.remove(item_name)
+    self.unplaced_progress_items += self.PROGRESS_ITEM_GROUPS.keys()
     
     self.currently_owned_items = []
     
@@ -114,6 +138,18 @@ class Logic:
     else:
       self.add_owned_item(item_name)
   
+  def set_multiple_locations_to_group(self, available_locations, group_name):
+    items_in_group = self.PROGRESS_ITEM_GROUPS[group_name]
+    
+    if len(available_locations) < len(items_in_group):
+      raise Exception("Not enough locations to place all items in group %s" % group_name)
+    
+    for i, item_name in enumerate(items_in_group):
+      location_name = available_locations[i]
+      self.set_location_to_item(location_name, item_name)
+    
+    self.unplaced_progress_items.remove(group_name)
+  
   def get_num_progression_locations(self):
     progress_locations = self.filter_locations_for_progression(self.item_locations.keys(), filter_sunken_treasure=True)
     num_progress_locations = len(progress_locations)
@@ -163,6 +199,29 @@ class Logic:
     elif item_name in self.all_nonprogress_items:
       self.unplaced_nonprogress_items.append(item_name)
   
+  def add_owned_item_or_item_group(self, item_name):
+    if item_name in self.PROGRESS_ITEM_GROUPS:
+      group_name = item_name
+      for item_name in self.PROGRESS_ITEM_GROUPS[group_name]:
+        if item_name in self.progressive_items_owned:
+          self.progressive_items_owned[item_name] += 1
+        else:
+          self.currently_owned_items.append(item_name)
+    else:
+      self.add_owned_item(item_name)
+  
+  def remove_owned_item_or_item_group(self, item_name):
+    if item_name in self.PROGRESS_ITEM_GROUPS:
+      group_name = item_name
+      for item_name in self.PROGRESS_ITEM_GROUPS[group_name]:
+        if item_name in self.progressive_items_owned:
+          assert self.progressive_items_owned[item_name] > 0
+          self.progressive_items_owned[item_name] -= 1
+        else:
+          self.currently_owned_items.remove(item_name)
+    else:
+      self.remove_owned_item(item_name)
+  
   def get_accessible_remaining_locations(self, for_progression=False):
     accessible_location_names = []
     
@@ -191,15 +250,15 @@ class Logic:
         inaccessible_undone_item_locations.append(location_name)
     
     for item_name in items_to_check:
-      self.add_owned_item(item_name)
+      self.add_owned_item_or_item_group(item_name)
       
       for location_name in inaccessible_undone_item_locations:
         requirement_expression = self.item_locations[location_name]["Need"]
         if self.check_logical_expression_req(requirement_expression):
-          self.remove_owned_item(item_name)
+          self.remove_owned_item_or_item_group(item_name)
           return item_name
       
-      self.remove_owned_item(item_name)
+      self.remove_owned_item_or_item_group(item_name)
     
     return None
   
@@ -268,10 +327,21 @@ class Logic:
     # Filters out items that cannot be in any of the given possible locations.
     valid_items = []
     for item_name in items:
-      for location_name in locations:
-        if self.check_item_valid_in_location(item_name, location_name):
-          valid_items.append(item_name)
-          break
+      if item_name in self.PROGRESS_ITEM_GROUPS:
+        group_name = item_name
+        items_in_group = self.PROGRESS_ITEM_GROUPS[group_name]
+        if len(items_in_group) > len(locations):
+          # Not enough locations to place all items in this group.
+          continue
+        # If the number of locations is sufficient, we consider this group able to be placed.
+        # NOTE: We do not check if each individual item in the group can also be placed.
+        # This is fine for shards and pearls, but would be incorrect for items that actually have location restrictions.
+        valid_items.append(group_name)
+      else:
+        for location_name in locations:
+          if self.check_item_valid_in_location(item_name, location_name):
+            valid_items.append(item_name)
+            break
     return valid_items
   
   def filter_locations_valid_for_item(self, locations, item_name):

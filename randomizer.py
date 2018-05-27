@@ -436,15 +436,20 @@ class Randomizer:
       
       must_place_useful_item = False
       should_place_useful_item = False
-      
       if len(accessible_undone_locations) == 1 and len(possible_items) > 1:
+        # If we're on the last accessible location but not the last item we HAVE to place an item that unlocks new locations.
         must_place_useful_item = True
-      elif len(accessible_undone_locations) < 5:
-        # If we're running out locations we need to start always placing progress items due to items that you need multiple to get anywhere (e.g. pearls, triforce shards).
+      else:
+        # Otherwise we will still try to place a useful item, but failing will not result in an error.
         should_place_useful_item = True
-      elif self.rng.random() < 0.5:
-        # 50% chance to place an item that opens up new locations
-        should_place_useful_item = True
+      
+      # If we wind up placing a useful item it can be a single item or a group.
+      # But if we place an item that is not yet useful, we need to exclude groups.
+      # This is so that a group doesn't wind up taking every single possible remaining location while not opening up new ones.
+      possible_items_when_not_placing_useful = [name for name in possible_items if name not in self.logic.PROGRESS_ITEM_GROUPS]
+      # Only exception is when there's exclusively groups left to place. Then we allow groups even if they're not useful.
+      if len(possible_items_when_not_placing_useful) == 0 and len(possible_items) > 0:
+        possible_items_when_not_placing_useful = possible_items
       
       if must_place_useful_item or should_place_useful_item:
         shuffled_list = possible_items.copy()
@@ -454,28 +459,37 @@ class Randomizer:
           if must_place_useful_item:
             raise Exception("No useful progress items to place!")
           else:
-            item_name = self.rng.choice(possible_items)
+            item_name = self.rng.choice(possible_items_when_not_placing_useful)
       else:
-        item_name = self.rng.choice(possible_items)
+        item_name = self.rng.choice(possible_items_when_not_placing_useful)
       
-      possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
-      
-      # We weight it so newly accessible locations are 10x more likely to be chosen.
-      # This way there is still a good chance it will not choose a new location.
-      possible_locations_with_weighting = []
-      for location_name in possible_locations:
-        if location_name not in previously_accessible_undone_locations:
-          weight = 10
-        else:
-          weight = 1
-        possible_locations_with_weighting += [location_name]*weight
-      
-      location_name = self.rng.choice(possible_locations_with_weighting)
-      self.logic.set_location_to_item(location_name, item_name)
+      if item_name in self.logic.PROGRESS_ITEM_GROUPS:
+        # If we're placing an entire item group, we use different logic for deciding the location.
+        # We do not weight towards newly accessible locations.
+        # And we have to select multiple different locations, one for each item in the group.
+        group_name = item_name
+        possible_locations_for_group = accessible_undone_locations.copy()
+        self.rng.shuffle(possible_locations_for_group)
+        self.logic.set_multiple_locations_to_group(possible_locations_for_group, group_name)
+      else:
+        possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
+        
+        # We weight it so newly accessible locations are 10x more likely to be chosen.
+        # This way there is still a good chance it will not choose a new location.
+        possible_locations_with_weighting = []
+        for location_name in possible_locations:
+          if location_name not in previously_accessible_undone_locations:
+            weight = 10
+          else:
+            weight = 1
+          possible_locations_with_weighting += [location_name]*weight
+        
+        location_name = self.rng.choice(possible_locations_with_weighting)
+        self.logic.set_location_to_item(location_name, item_name)
       
       previously_accessible_undone_locations = accessible_undone_locations
     
-    # Make sure locations that shouldn't be randomized aren't, even if above logic missed them for some reason.
+    # Make sure locations that shouldn't be randomized aren't, even if the above logic missed them for some reason.
     for location_name in self.logic.unrandomized_item_locations:
       if location_name in self.logic.remaining_item_locations:
         unrandomized_item_name = self.logic.item_locations[location_name]["Original item"]
