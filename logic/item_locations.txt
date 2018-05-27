@@ -842,13 +842,17 @@ Tower of the Gods - Hop Across Floating Boxes:
   Paths:
     - Siren/Stage.arc/Chest000
 Tower of the Gods - Light Two Torches:
-  Need: Can Access Tower of the Gods
+  Need:
+    Can Access Tower of the Gods
+    & Bombs
   Original item: Joy Pendant
   Type: Dungeon
   Paths:
     - Siren/Stage.arc/Chest005
 Tower of the Gods - Compass Chest:
-  Need: Can Access Tower of the Gods
+  Need:
+    Can Access Tower of the Gods
+    & Bombs
   Original item: Compass
   Type: Dungeon
   Paths:
@@ -856,6 +860,7 @@ Tower of the Gods - Compass Chest:
 Tower of the Gods - Shoot Eye Above Compass Chest:
   Need:
     Can Access Tower of the Gods
+    & Bombs
     & Hero's Bow
   Original item: Treasure Chart 6
   Type: Dungeon
@@ -864,6 +869,7 @@ Tower of the Gods - Shoot Eye Above Compass Chest:
 Tower of the Gods - Tingle Statue Chest:
   Need:
     Can Access Tower of the Gods
+    & Bombs
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
     & Tingle Tuner Bombs
@@ -874,6 +880,7 @@ Tower of the Gods - Tingle Statue Chest:
 Tower of the Gods - Stone Tablet:
   Need:
     Can Access Tower of the Gods
+    & Bombs
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
     & Wind Waker
@@ -884,6 +891,7 @@ Tower of the Gods - Stone Tablet:
 Tower of the Gods - Darknut Mini-Boss Room:
   Need:
     Can Access Tower of the Gods
+    & Bombs
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
     & Wind Waker
@@ -899,6 +907,7 @@ Tower of the Gods - Darknut Mini-Boss Room:
 Tower of the Gods - First Chest Guarded by Armos Knights:
   Need:
     Can Access Tower of the Gods
+    & Bombs
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
     & Bombs
@@ -909,6 +918,7 @@ Tower of the Gods - First Chest Guarded by Armos Knights:
 Tower of the Gods - Second Chest Guarded by Armos Knights:
   Need:
     Can Access Tower of the Gods
+    & Bombs
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
     & Wind Waker
@@ -924,6 +934,7 @@ Tower of the Gods - Second Chest Guarded by Armos Knights:
 Tower of the Gods - Floating Platforms Room:
   Need:
     Can Access Tower of the Gods
+    & Bombs
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
     & Wind Waker
@@ -937,6 +948,7 @@ Tower of the Gods - Floating Platforms Room:
 Tower of the Gods - Top of Floating Platforms Room:
   Need:
     Can Access Tower of the Gods
+    & Bombs
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
     & Wind Waker
@@ -950,6 +962,7 @@ Tower of the Gods - Top of Floating Platforms Room:
 Tower of the Gods - Big Key Chest:
   Need:
     Can Access Tower of the Gods
+    & Bombs
     & Can Defeat Yellow ChuChus
     & Wind Waker
     & Grappling Hook
@@ -974,6 +987,7 @@ Tower of the Gods - Big Key Chest:
 Tower of the Gods - Gohdan Heart Container:
   Need:
     Can Access Tower of the Gods
+    & Bombs
     & Can Defeat Yellow ChuChus
     & Wind Waker
     & Grappling Hook
