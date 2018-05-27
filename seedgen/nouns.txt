@@ -32,7 +32,6 @@ angel
 anger
 angle
 animal
-ankle
 anniversary
 answer
 antique
@@ -67,7 +66,6 @@ auction
 auto
 autopilot
 average
-b
 baby
 bachelor
 back
@@ -156,7 +154,6 @@ butler
 button
 buzz
 bye
-c
 cabin
 cable
 cake
@@ -198,7 +195,6 @@ cheapskate
 cheer
 chest
 chieftain
-child
 childhood
 chin
 china
@@ -287,7 +283,6 @@ curtain
 customer
 cutlery
 cutting
-d
 dad
 damage
 daring
@@ -495,7 +490,6 @@ fruit
 fruition
 fun
 funeral
-g
 gal
 gale
 gallery
@@ -631,7 +625,6 @@ hurricane
 hurry
 husband
 hutch
-i
 ice
 icon
 idea
@@ -673,7 +666,6 @@ isle
 islet
 issue
 item
-j
 jamboree
 jar
 jelly
@@ -706,8 +698,6 @@ knapsack
 knife
 knight
 knowledge
-knuckle
-l
 labyrinth
 lack
 lad
@@ -767,7 +757,6 @@ love
 lover
 luck
 lust
-m
 ma'am
 machine
 maestro
@@ -852,7 +841,6 @@ muscle
 music
 mystery
 mystic
-n
 nail
 name
 native
@@ -883,7 +871,6 @@ nothing
 notice
 number
 nurse
-o
 oasis
 oath
 object
@@ -906,7 +893,6 @@ outset
 outside
 outsider
 owner
-p
 pace
 pack
 pad
@@ -1056,7 +1042,6 @@ query
 quest
 question
 quill
-r
 race
 racehorse
 racket
@@ -1125,7 +1110,6 @@ rumor
 rung
 running
 rupee
-s
 sack
 safety
 sage
@@ -1408,7 +1392,6 @@ underling
 underpants
 underwear
 urchin
-v
 valley
 value
 variety
@@ -1429,7 +1412,6 @@ voice
 volcano
 volunteer
 voyage
-w
 walking
 wall
 wallet
@@ -1481,7 +1463,6 @@ wreckage
 wretch
 wrist
 writing
-y
 yank
 year
 youngster

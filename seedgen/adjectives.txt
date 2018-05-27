@@ -484,7 +484,6 @@ plain
 pleasant
 plentiful
 pointless
-polish
 poor
 popular
 positive
@@ -790,3 +789,7 @@ wrong
 wry
 yellow
 young
+undead
+ghostly
+forbidden
+ganon's

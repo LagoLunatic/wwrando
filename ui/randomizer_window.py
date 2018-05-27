@@ -59,11 +59,22 @@ class WWRandomizerWindow(QMainWindow):
     
     with open(os.path.join(seedgen_path, "adjectives.txt")) as f:
       adjectives = random.sample(f.read().splitlines(), 2)
-    with open(os.path.join(seedgen_path, "nouns.txt")) as f:
+    noun_file_to_use = random.choice(["nouns.txt", "names.txt"])
+    with open(os.path.join(seedgen_path, noun_file_to_use)) as f:
       noun = random.choice(f.read().splitlines())
     words = adjectives + [noun]
-    words = [word.capitalize() for word in words]
-    seed = "".join(words)
+    capitalized_words = []
+    for word in words:
+      capitalized_word = ""
+      seen_first_letter = False
+      for char in word:
+        if char in string.ascii_letters and not seen_first_letter:
+          capitalized_word += char.capitalize()
+          seen_first_letter = True
+        else:
+          capitalized_word += char
+      capitalized_words.append(capitalized_word)
+    seed = "".join(capitalized_words)
     
     seed = self.sanitize_seed(seed)
     
