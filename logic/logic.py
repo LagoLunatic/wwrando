@@ -131,7 +131,7 @@ class Logic:
     
     if "Key" in item_name:
       # TODO: Will need to change this if implementing key randomization outside the normal dungeon the keys would appear in.
-      dungeon_name = location_name.split(" - ", 1)[0]
+      dungeon_name, _ = self.split_location_name_by_zone(location_name)
       self.add_owned_key_for_dungeon(item_name, dungeon_name)
     elif item_name in ["Dungeon Map", "Compass"]:
       # No need to keep track of these in the logic.

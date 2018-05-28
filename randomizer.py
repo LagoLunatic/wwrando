@@ -552,6 +552,57 @@ class Randomizer:
     tweaks.set_new_game_starting_room_index(self, starting_island_room_index)
     tweaks.change_ship_starting_island(self, starting_island_room_index)
   
+  def calculate_playthrough_progression_spheres(self):
+    progression_spheres = []
+    
+    logic = Logic(self)
+    previously_accessible_locations = []
+    while logic.unplaced_progress_items:
+      progress_items_in_this_sphere = OrderedDict()
+      
+      accessible_locations = logic.get_accessible_remaining_locations()
+      locations_in_this_sphere = [
+        loc for loc in accessible_locations
+        if loc not in previously_accessible_locations
+      ]
+      
+      
+      # If the player gained access to any unrandomized locations, we need to give them those items without counting that as a new sphere.
+      newly_accessible_unrandomized_locations = [
+        loc for loc in locations_in_this_sphere
+        if loc in self.logic.unrandomized_item_locations
+      ]
+      if newly_accessible_unrandomized_locations:
+        for unrandomized_location_name in newly_accessible_unrandomized_locations:
+          unrandomized_item_name = self.logic.item_locations[unrandomized_location_name]["Original item"]
+          if "Key" in unrandomized_item_name:
+            dungeon_name, _ = logic.split_location_name_by_zone(unrandomized_location_name)
+            logic.add_owned_key_for_dungeon(unrandomized_item_name, dungeon_name)
+          else:
+            raise Exception("Unrandomized item is not a key.")
+        
+        previously_accessible_locations += newly_accessible_unrandomized_locations
+        continue # Redo this loop iteration with the unrandomized locations no longer being considered 'remaining'.
+      
+      
+      for location_name in locations_in_this_sphere:
+        item_name = self.logic.done_item_locations[location_name]
+        if item_name in logic.all_progress_items:
+          progress_items_in_this_sphere[location_name] = item_name
+      
+      progression_spheres.append(progress_items_in_this_sphere)
+      
+      for location_name, item_name in progress_items_in_this_sphere.items():
+        logic.add_owned_item(item_name)
+      for group_name, item_names in logic.PROGRESS_ITEM_GROUPS.items():
+        entire_group_is_owned = all(item_name in logic.currently_owned_items for item_name in item_names)
+        if entire_group_is_owned and group_name in logic.unplaced_progress_items:
+          logic.unplaced_progress_items.remove(group_name)
+      
+      previously_accessible_locations = accessible_locations
+    
+    return progression_spheres
+  
   def get_log_header(self):
     header = ""
     
@@ -565,10 +616,10 @@ class Randomizer:
     
     return header
   
-  def get_zones_and_max_location_name_len(self):
+  def get_zones_and_max_location_name_len(self, locations):
     zones = OrderedDict()
     max_location_name_length = 0
-    for location_name in self.logic.done_item_locations:
+    for location_name in locations:
       zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
       
       if zone_name not in zones:
@@ -585,7 +636,7 @@ class Randomizer:
     
     progress_locations, nonprogress_locations = self.logic.get_progress_and_non_progress_locations()
     
-    zones, max_location_name_length = self.get_zones_and_max_location_name_len()
+    zones, max_location_name_length = self.get_zones_and_max_location_name_len(self.logic.done_item_locations)
     format_string = "    %s\n"
     
     # Write progress item locations.
@@ -626,10 +677,33 @@ class Randomizer:
   def write_spoiler_log(self):
     spoiler_log = self.get_log_header()
     
-    # Write item locations.
-    zones, max_location_name_length = self.get_zones_and_max_location_name_len()
-    format_string = "    %-" + str(max_location_name_length+1) + "s %s\n"
+    # Write progression spheres.
+    spoiler_log += "Playthrough:\n"
+    progression_spheres = self.calculate_playthrough_progression_spheres()
+    all_progression_sphere_locations = [loc for locs in progression_spheres for loc in locs]
+    zones, max_location_name_length = self.get_zones_and_max_location_name_len(all_progression_sphere_locations)
+    format_string = "      %-" + str(max_location_name_length+1) + "s %s\n"
+    for i, progression_sphere in enumerate(progression_spheres):
+      spoiler_log += "%d:\n" % (i+1)
+      
+      for zone_name, locations_in_zone in zones.items():
+        if not any(loc for (loc, _) in locations_in_zone if loc in progression_sphere):
+          # No locations in this zone are used in this sphere.
+          continue
+        
+        spoiler_log += "  %s:\n" % zone_name
+        
+        for (location_name, specific_location_name) in locations_in_zone:
+          if location_name in progression_sphere:
+            item_name = self.logic.done_item_locations[location_name]
+            spoiler_log += format_string % (specific_location_name + ":", item_name)
+      
+    spoiler_log += "\n\n\n"
     
+    # Write item locations.
+    spoiler_log += "All item locations:\n"
+    zones, max_location_name_length = self.get_zones_and_max_location_name_len(self.logic.done_item_locations)
+    format_string = "    %-" + str(max_location_name_length+1) + "s %s\n"
     for zone_name, locations_in_zone in zones.items():
       spoiler_log += zone_name + ":\n"
       
@@ -637,7 +711,7 @@ class Randomizer:
         item_name = self.logic.done_item_locations[location_name]
         spoiler_log += format_string % (specific_location_name + ":", item_name)
     
-    spoiler_log += "\n\n"
+    spoiler_log += "\n\n\n"
     
     # Write treasure charts.
     spoiler_log += "Charts:\n"
