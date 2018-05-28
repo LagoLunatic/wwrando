@@ -41,7 +41,7 @@ class Randomizer:
     self.logic = Logic(self)
     
     num_progress_locations = self.logic.get_num_progression_locations()
-    num_progress_items = len(self.logic.unplaced_progress_items)
+    num_progress_items = self.logic.get_num_progression_items()
     if num_progress_locations < num_progress_items: 
       error_message = "Not enough progress locations to place all progress items.\n\n"
       error_message += "Total progress items: %d\n" % num_progress_items

@@ -151,6 +151,18 @@ class Logic:
     
     self.unplaced_progress_items.remove(group_name)
   
+  def get_num_progression_items(self):
+    num_progress_items = 0
+    for item_name in self.unplaced_progress_items:
+      if item_name in self.PROGRESS_ITEM_GROUPS:
+        group_name = item_name
+        for item_name in self.PROGRESS_ITEM_GROUPS[group_name]:
+          num_progress_items += 1
+      else:
+        num_progress_items += 1
+    
+    return num_progress_items
+  
   def get_num_progression_locations(self):
     progress_locations = self.filter_locations_for_progression(self.item_locations.keys(), filter_sunken_treasure=True)
     num_progress_locations = len(progress_locations)
