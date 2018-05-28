@@ -29,6 +29,8 @@ li r4, 0x2A80 ; HAS_HEROS_CLOTHES
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x0520 ; GOSSIP_STONE_AT_FF1 (Causes Aryll and the pirates to disappear from Outset)
 bl onEventBit__11dSv_event_cFUs
+li r4, 0x2E01 ; WATCHED_MEETING_KORL_CUTSCENE (Necessary for Windfall music to play when warping there)
+bl onEventBit__11dSv_event_cFUs
 li r4, 0x0F80 ; KORL_UNLOCKED_AND_SPAWN_ON_WINDFALL
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x0908 ; SAIL_INTRODUCTION_TEXT_AND_MAP_UNLOCKED
