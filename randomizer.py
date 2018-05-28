@@ -407,8 +407,12 @@ class Randomizer:
           loc for loc in locations_for_dungeon
           if loc in self.logic.remaining_item_locations
           and not loc in self.logic.unrandomized_item_locations
-          and self.logic.item_locations[loc]["Type"] != "Tingle Statue Chest"
+          and self.logic.item_locations[loc]["Type"] not in ["Tingle Statue Chest", "Sunken Treasure"]
         ]
+        if dungeon_name == "Forsaken Fortress":
+          # These are outdoors, which means their stage ID is not properly set to be Forsaken Fortress. This means the map/compass wouldn't work properly if placed here.
+          possible_locations.remove("Forsaken Fortress - Phantom Ganon")
+          possible_locations.remove("Forsaken Fortress - Helmaroc King Heart Container")
         location_name = self.rng.choice(possible_locations)
         self.logic.set_location_to_item(location_name, item_name)
     
