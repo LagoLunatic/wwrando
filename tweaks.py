@@ -468,3 +468,9 @@ def add_more_magic_jars_to_dungeons(self):
   skulls[0].save_changes()
   skulls[9].pot_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   skulls[9].save_changes()
+  
+  totg_before_miniboss_room = self.get_arc("files/res/Stage/Siren/Room14.arc").dzx_files[0]
+  actors = totg_before_miniboss_room.entries_by_type("ACTR")
+  pots = [actor for actor in actors if actor.name == "kotubo"]
+  pots[1].pot_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
+  pots[1].save_changes()
