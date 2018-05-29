@@ -4,6 +4,7 @@
 .open "sys/main.dol"
 .org 0x8005D618
   bl init_save_with_tweaks
+.close
 
 
 
@@ -14,6 +15,7 @@
   nop
 .org 0x80232C88
   nop
+.close
 
 
 
@@ -34,6 +36,7 @@
 ; Make this branch unconditional as well.
 .org 0xB2D8
   b 0xB2F0
+.close
 
 
 
@@ -54,6 +57,7 @@
   blt 0x2210 ; 4, Western Fairy Island Great Fairy. Give 60 Arrow Quiver.
   beq 0x221C ; 5, Thorned Fairy Island Great Fairy. Give 99 Arrow Quiver.
   b 0x2228 ; Failsafe code in case the index was invalid (give a red rupee instead)
+.close
 
 
 
@@ -63,6 +67,7 @@
 .org 0x3FD8
   ; Change the conditional branch to an unconditional branch.
   b 0x3FE4
+.close
 
 
 
@@ -75,6 +80,7 @@
 .org 0x1164
   ; Branch to skip over the line of code where Zephos gives the Wind's Requiem.
   b 0x116C
+.close
 
 
 
@@ -102,6 +108,7 @@
 ; Then we need to read the item ID parameter when the cloud is about to call createItemForBoss.
 .org 0x800E7A1C
   lbz r4, 0x00B0(r7)
+.close
 ; Third we change how the boss item ACTR calls createItemForBoss.
 ; (This is the ACTR that appears if the player skips getting the boss item after killing the boss, and instead comes back and does the whole dungeon again.)
 ; Normally it sets argument r4 to 1, but createItemForBoss doesn't even use argument r4.
@@ -111,6 +118,7 @@
 .open "files/rels/d_a_boss_item.rel"
 .org 0x1C4
   lbz r4, 0x00B2(r30)
+.close
 ; The final change necessary is for all 6 bosses' code to be modified so that they pass the item ID to spawn to a function call.
 ; For Gohdan and Molgera, the call is to createItemForBoss directly, so argument r4 needs to be the item ID.
 ; For Gohma, Kalle Demos, Helmaroc King, and Jalhalla, they instead call createDisappear, so we need to upper byte of argument r7 to have the item ID.
@@ -126,6 +134,7 @@
   ; Change it to simply always return true, so that it acts like it has been viewed from the start.
   li r3, 1
   blr
+.close
 
 
 
@@ -137,6 +146,7 @@
   nop ; For max MP
 .org 0x7D0
   nop ; For current MP
+.close
 ; Also, the magic meter upgrade item itself only increases your max MP.
 ; In the vanilla game, the Great Fairy would also refill your MP for you.
 ; Therefore we modify the code of the magic meter upgrade to also refill your MP.
@@ -145,6 +155,7 @@
   ; Instead of adding 32 to the player's previous max MP, simply set both the current and max MP to 32.
   li r0, 32
   sth r0, 0x5B78 (r4)
+.close
 
 
 
@@ -162,6 +173,7 @@
   ; Then we branch to skip the line of code that originally called getItemNo.
   ; We can't easily nop the line out, since the REL's relocation would overwrite our nop.
   b 0x10CC
+.close
 
 
 
@@ -173,6 +185,7 @@
 .open "sys/main.dol"
 .org 0x8021BF80
   li r3, 1
+.close
 
 
 
@@ -184,11 +197,13 @@
 .org 0xA24
   ; Make branch that depends on your sword unconditional instead.
   b 0xA60
+.close
 ; Same for Makar, with the Master Sword (Full Power) instead.
 .open "files/rels/d_a_npc_cb1.rel" ; Makar
 .org 0x640
   ; Make branch that depends on your sword unconditional instead.
   b 0x658
+.close
 
 
 
@@ -200,6 +215,7 @@
   li r3, 0
 .org 0x801A9AA8
   li r3, 0
+.close
 
 
 
@@ -210,6 +226,7 @@
 .open "files/rels/d_a_obj_doguu.rel" ; Goddess statues
 .org 0x267C
   b 0x26A0
+.close
 
 
 
@@ -223,6 +240,7 @@
 ; Then change the Hurricane Spin's item get func to our custom function which sets this previously unused bit.
 .org 0x80388B70 ; 0x803888C8 + 0xAA*4
   .int hurricane_spin_item_func
+.close
 
 
 
@@ -238,6 +256,7 @@
 .org 0x7BD4
   ; Change the relocation for line 2DC4, which originally called checkGetItem.
   .int check_shop_item_in_bait_bag_slot_sold_out
+.close
 
 
 
@@ -247,6 +266,7 @@
 .open "files/rels/d_a_obj_ftree.rel" ; Withered Trees
 .org 0xA4C
   nop
+.close
 .open "files/rels/d_a_npc_bj1.rel" ; Koroks
 .org 0x784
   li r0, 0x1F
@@ -261,6 +281,7 @@
   li r0, 0
 .org 0x2200
   nop
+.close
 
 
 
@@ -275,6 +296,7 @@
 .open "sys/main.dol"
 .org 0x80056C0C
   bl custom_createItem
+.close
 ; Withered trees
 .open "files/rels/d_a_obj_ftree.rel" ; Withered Trees
 .org 0x60E8 ; Relocation for line 0x25C
@@ -288,6 +310,7 @@
   lwz r0,0x3C(r31)
 .org 0x428
   lwz r0,0x3C(r3)
+.close
 ; Item Ivan hid in a tree on Windfall
 .open "files/rels/d_a_tag_mk.rel" ; Item in Windfall tree
 .org 0x1828 ; Relocation for line 0x658
@@ -295,6 +318,7 @@
 ; Again, change the code that reads the entity ID to read from entity+3C instead of subentity+4.
 .org 0x6A4
   lwz r0,0x3C(r30)
+.close
 
 
 
@@ -308,6 +332,7 @@
   .int check_hyrule_warp_unlocked
 .org 0x2650
   .int check_hyrule_warp_unlocked
+.close
 
 
 
@@ -317,6 +342,7 @@
 .open "files/rels/d_a_warpdm20.rel" ; Hyrule warp object
 .org 0x68C
   b 0x694
+.close
 
 
 
@@ -329,6 +355,7 @@
   .int check_ganons_tower_chest_opened
 .org 0xDB54
   .int check_ganons_tower_chest_opened
+.close
 
 
 
@@ -389,6 +416,7 @@
   li r3, 0x6910
 .org 0x91C0 ; For Pompie and Vera
   li r3, 0x6904
+.close
 ; Also, we need to change a couple checks Lenzo does, since he also checks if you got the item from Pompie and Vera.
 .open "files/rels/d_a_npc_photo.rel" ; Lenzo
 .org 0x717C ; Relocation for line 0x9C8
@@ -399,6 +427,7 @@
   li r3, 0x6904
 .org 0x9F4 ; For Lenzo, checking Pompie and Vera's event bit
   li r3, 0x6904
+.close
 
 ; Fix Lenzo thinking you've completed his research assistant quest if you own the Deluxe Picto Box.
 .open "files/rels/d_a_npc_photo.rel" ; Lenzo
@@ -425,6 +454,7 @@
   li r3, 0x6920
 .org 0x4AF8
   li r3, 0x6920
+.close
 
 
 
@@ -437,6 +467,7 @@
   li r3, 1 ; Bait Bag
 .org 0x800C7E84
   li r3, 1 ; Spoils Bag
+.close
 
 
 
@@ -451,6 +482,7 @@
   nop ; Remove branch
 .org 0x20D4
   nop ; Remove branch
+.close
 
 
 
@@ -463,6 +495,7 @@
   nop
 .org 0x1EE4
   nop
+.close
 
 
 
@@ -480,3 +513,4 @@
   blr
 .org 0x80055580 ; dComIfGs_exchangePlayerRecollectionData__Fv
   blr
+.close

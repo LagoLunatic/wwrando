@@ -3,3 +3,4 @@
 .open "sys/main.dol"
 .org 0x8005B2CC
   li r4, 1
+.close

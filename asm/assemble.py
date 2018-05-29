@@ -53,13 +53,15 @@ try:
       branch_match = re.match(r"(?:b|beq|bne|blt|bgt|ble|bge)\s+0x([0-9a-f]+)(?:$|\s)", line, re.IGNORECASE)
       if open_file_match:
         relative_file_path = open_file_match.group(1)
+        if most_recent_file_path or most_recent_org_offset:
+          raise Exception("File %s was not closed before opening new file %s" % (most_recent_file_path, relative_file_path))
         if relative_file_path not in code_chunks:
           code_chunks[relative_file_path] = OrderedDict()
         most_recent_file_path = relative_file_path
         continue
       elif org_match:
         if not most_recent_file_path:
-          raise Exception("Found .org directive before any .open directive")
+          raise Exception("Found .org directive when no file was open")
         
         org_offset = int(org_match.group(1), 16)
         code_chunks[most_recent_file_path][org_offset] = ""
@@ -71,12 +73,16 @@ try:
         branch_temp_label = "branch_label_%X" % branch_dest
         temp_linker_script += "%s = 0x%X;" % (branch_temp_label, branch_dest)
         line = re.sub(r"0x" + branch_match.group(1), branch_temp_label, line, 1)
+      elif line == ".close":
+        most_recent_file_path = None
+        most_recent_org_offset = None
+        continue
       elif not line:
         # Blank line
         continue
       
       if not most_recent_file_path:
-        raise Exception("Found code before any .open directive")
+        raise Exception("Found code when no file was open")
       if not most_recent_org_offset:
         raise Exception("Found code before any .org directive")
       
@@ -84,6 +90,9 @@ try:
     
     if not code_chunks:
       raise Exception("No code found")
+    
+    if most_recent_file_path or most_recent_org_offset:
+      raise Exception("File %s was not closed before the end of the file" % most_recent_file_path)
     
     temp_linker_name = os.path.join(temp_dir, "tmp_linker.ld")
     with open(temp_linker_name, "w") as f:
