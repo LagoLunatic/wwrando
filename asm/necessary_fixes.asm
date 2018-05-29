@@ -463,3 +463,19 @@
   nop
 .org 0x1EE4
   nop
+
+
+
+
+; Fixes a bug with the recollection boss fights that can happen if you skip at least one of the original boss fights.
+; If you fight a recollection boss without fighting the original form of that boss first, and then you fight a different recollection boss who you did fight the original form of, then when you kill that second boss your entire inventory will be replaced by null items (item ID 00, would be a heart pickup but in your inventory it looks like an empty bottle).
+; To fix this we simply remove the feature of resetting the player's inventory to what it was during the original form of the boss fight entirely, so the player's inventory is always left alone.
+; Replace all 4 functions related to this with instant returns.
+.org 0x80054CC0 ; dComIfGs_copyPlayerRecollectionData__Fv
+  blr
+.org 0x80054E9C ; dComIfGs_setPlayerRecollectionData__Fv
+  blr
+.org 0x80055318 ; dComIfGs_revPlayerRecollectionData__Fv
+  blr
+.org 0x80055580 ; dComIfGs_exchangePlayerRecollectionData__Fv
+  blr
