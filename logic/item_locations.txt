@@ -1151,7 +1151,9 @@ Headstone Island - Submarine:
 #  Paths:
 #    - Edaichi/Stage.arc/Event043:MKNJD_D_LESSON/Actor003/Action006
 Earth Temple - Map Chest:
-  Need: Can Access Earth Temple
+  Need:
+    Can Access Earth Temple
+    & Can Play Command Melody
   Original item: Dungeon Map
   Type: Dungeon
   Paths:
@@ -1159,6 +1161,7 @@ Earth Temple - Map Chest:
 #Earth Temple - Behind Curtain Next to Map Chest:
 #  Need:
 #    Can Access Earth Temple
+#    & Can Play Command Melody
 #    & Fire Arrows
 #    & Boomerang & TODO # Does boomerang work for items here other than rupees and spoils?
 #  Original item: Joy Pendant
@@ -1167,6 +1170,7 @@ Earth Temple - Map Chest:
 Earth Temple - Transparent Chest in First Crypt:
   Need:
     Can Access Earth Temple
+    & Can Play Command Melody
     & Skull Hammer
     & Power Bracelets
     # Power Bracelets necessary to move the large black pushable box and reveal a light ray.
@@ -1177,6 +1181,7 @@ Earth Temple - Transparent Chest in First Crypt:
 Earth Temple - Compass Chest:
   Need:
     Can Access Earth Temple
+    & Can Play Command Melody
     & ET Small Key x1
     & Fire Arrows
     & Power Bracelets
@@ -1188,6 +1193,7 @@ Earth Temple - Compass Chest:
 Earth Temple - Chest Behind Statues:
   Need:
     Can Access Earth Temple
+    & Can Play Command Melody
     & ET Small Key x1
     & Fire Arrows
     & Power Bracelets
@@ -1198,6 +1204,7 @@ Earth Temple - Chest Behind Statues:
 Earth Temple - Casket in Second Crypt:
   Need:
     Can Access Earth Temple
+    & Can Play Command Melody
     & ET Small Key x1
     & Fire Arrows
     & Power Bracelets
@@ -1208,6 +1215,7 @@ Earth Temple - Casket in Second Crypt:
 Earth Temple - Stalfos Mini-Boss Room:
   Need:
     Can Access Earth Temple
+    & Can Play Command Melody
     & ET Small Key x2
     & Fire Arrows
     & Power Bracelets
@@ -1219,6 +1227,7 @@ Earth Temple - Stalfos Mini-Boss Room:
 Earth Temple - Chest Behind Destructible Walls:
   Need:
     Can Access Earth Temple
+    & Can Play Command Melody
     & Skull Hammer
     & Mirror Shield
   Original item: Joy Pendant
@@ -1228,6 +1237,7 @@ Earth Temple - Chest Behind Destructible Walls:
 Earth Temple - Tingle Statue Chest:
   Need:
     Can Access Earth Temple
+    & Can Play Command Melody
     & Mirror Shield
     & Deku Leaf
     & Tingle Tuner Bombs
@@ -1238,6 +1248,7 @@ Earth Temple - Tingle Statue Chest:
 Earth Temple - End of Foggy Room With Floormasters:
   Need:
     Can Access Earth Temple
+    & Can Play Command Melody
     & Mirror Shield
     & Can Play Earth God's Lyric
   Original item: Small Key
@@ -1247,6 +1258,7 @@ Earth Temple - End of Foggy Room With Floormasters:
 Earth Temple - Kill All Floormasters in Foggy Room:
   Need:
     Can Access Earth Temple
+    & Can Play Command Melody
     & Mirror Shield
     & Can Play Earth God's Lyric
   Original item: Treasure Chart 20
@@ -1256,6 +1268,7 @@ Earth Temple - Kill All Floormasters in Foggy Room:
 #Earth Temple - Behind Curtains Next to Hammer Button:
 #  Need:
 #    Can Access Earth Temple
+#    & Can Play Command Melody
 #    & Mirror Shield
 #    & Can Play Earth God's Lyric
 #    & Boomerang & TODO # Does boomerang work for items here other than rupees and spoils?
@@ -1265,6 +1278,7 @@ Earth Temple - Kill All Floormasters in Foggy Room:
 Earth Temple - Chest in Third Crypt:
   Need:
     Can Access Earth Temple
+    & Can Play Command Melody
     & Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
@@ -1281,6 +1295,7 @@ Earth Temple - Chest in Third Crypt:
 Earth Temple - Many Mirrors Room Right Chest:
   Need:
     Can Access Earth Temple
+    & Can Play Command Melody
     & Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
@@ -1292,6 +1307,7 @@ Earth Temple - Many Mirrors Room Right Chest:
 Earth Temple - Many Mirrors Room Left Chest:
   Need:
     Can Access Earth Temple
+    & Can Play Command Melody
     & Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
@@ -1303,6 +1319,7 @@ Earth Temple - Many Mirrors Room Left Chest:
 Earth Temple - Stalfos Crypt Room:
   Need:
     Can Access Earth Temple
+    & Can Play Command Melody
     & Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
@@ -1314,6 +1331,7 @@ Earth Temple - Stalfos Crypt Room:
 Earth Temple - Big Key Chest:
   Need:
     Can Access Earth Temple
+    & Can Play Command Melody
     & Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
@@ -1331,6 +1349,7 @@ Earth Temple - Big Key Chest:
 Earth Temple - Jalhalla Heart Container:
   Need:
     Can Access Earth Temple
+    & Can Play Command Melody
     & Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
@@ -1354,7 +1373,9 @@ Earth Temple - Jalhalla Heart Container:
 #  Paths:
 #    - Ekaze/Stage.arc/Event042:MKNJD_K_LESSON/Actor003/Action006
 Wind Temple - Chest Between Two Dirt Patches:
-  Need: Can Access Wind Temple
+  Need:
+    Can Access Wind Temple
+    & Can Play Command Melody
   Original item: Orange Rupee
   Type: Dungeon
   Paths:
@@ -1362,6 +1383,7 @@ Wind Temple - Chest Between Two Dirt Patches:
 Wind Temple - Tingle Statue Chest:
   Need:
     Can Access Wind Temple
+    & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
     & Tingle Tuner Bombs
@@ -1372,6 +1394,7 @@ Wind Temple - Tingle Statue Chest:
 Wind Temple - Chest in Left Alcove:
   Need:
     Can Access Wind Temple
+    & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
   Original item: Joy Pendant
@@ -1381,6 +1404,7 @@ Wind Temple - Chest in Left Alcove:
 Wind Temple - Map Chest:
   Need:
     Can Access Wind Temple
+    & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
   Original item: Dungeon Map
@@ -1390,6 +1414,7 @@ Wind Temple - Map Chest:
 Wind Temple - Compass Chest:
   Need:
     Can Access Wind Temple
+    & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
   Original item: Compass
@@ -1399,6 +1424,7 @@ Wind Temple - Compass Chest:
 Wind Temple - Spike Wall Room - First Chest:
   Need:
     Can Access Wind Temple
+    & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
   Original item: Small Key
@@ -1408,6 +1434,7 @@ Wind Temple - Spike Wall Room - First Chest:
 Wind Temple - Spike Wall Room - Destroy All Cracked Floors:
   Need:
     Can Access Wind Temple
+    & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
   Original item: Treasure Chart 35
@@ -1417,6 +1444,7 @@ Wind Temple - Spike Wall Room - Destroy All Cracked Floors:
 Wind Temple - Wizzrobe Mini-Boss Room:
   Need:
     Can Access Wind Temple
+    & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
     & WT Small Key x1
@@ -1431,6 +1459,7 @@ Wind Temple - Wizzrobe Mini-Boss Room:
 Wind Temple - Chest in Makar's Cell:
   Need:
     Can Access Wind Temple
+    & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
     & Hookshot
@@ -1441,6 +1470,7 @@ Wind Temple - Chest in Makar's Cell:
 Wind Temple - Chest at Top of Hub Room:
   Need:
     Can Access Wind Temple
+    & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
     & Hookshot
@@ -1451,6 +1481,7 @@ Wind Temple - Chest at Top of Hub Room:
 Wind Temple - Chest Behind Seven Armos:
   Need:
     Can Access Wind Temple
+    & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
     & Hookshot
@@ -1462,6 +1493,7 @@ Wind Temple - Chest Behind Seven Armos:
 Wind Temple - Big Key Chest:
   Need:
     Can Access Wind Temple
+    & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
     & Hookshot
@@ -1473,6 +1505,7 @@ Wind Temple - Big Key Chest:
 Wind Temple - Kill All Enemies in Tall Basement Room:
   Need:
     Can Access Wind Temple
+    & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
     & Hookshot
@@ -1490,6 +1523,7 @@ Wind Temple - Kill All Enemies in Tall Basement Room:
 Wind Temple - Molgera Heart Container:
   Need:
     Can Access Wind Temple
+    & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
     & Hookshot

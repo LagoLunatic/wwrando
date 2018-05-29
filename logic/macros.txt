@@ -52,21 +52,33 @@ All 8 Triforce Shards:
 Tingle Tuner Bombs:
   Tingle Tuner & TODO
 
-# TODO: If randomizing dungeon entrances, some of the below reqs would need to be copied into the item location reqs.
-Can Access Dragon Roost Cavern:
+Can Access Dungeon Entrance On Dragon Roost Island:
   Nothing
 Can Access Forest Haven:
   Grappling Hook | Can Fly With Deku Leaf Outdoors
-Can Access Forbidden Woods:
+Can Access Dungeon Entrance In Forest Haven Sector:
   Can Access Forest Haven & Grappling Hook & Can Fly With Deku Leaf Outdoors
-Can Access Tower of the Gods:
+Can Access Dungeon Entrance In Tower of the Gods Sector:
   Din's Pearl
   & Farore's Pearl
   & Nayru's Pearl
+Can Access Dungeon Entrance On Headstone Island:
+  Power Bracelets
+Can Access Dungeon Entrance On Gale Isle:
+  Iron Boots & Skull Hammer
+
+# The below macros are used when dungeon entrances are not randomized.
+# When dungeon entrances are randomized, these macros are shuffled around by the randomizer logic.
+Can Access Dragon Roost Cavern:
+  Can Access Dungeon Entrance On Dragon Roost Island
+Can Access Forbidden Woods:
+  Can Access Dungeon Entrance In Forest Haven Sector
+Can Access Tower of the Gods:
+  Can Access Dungeon Entrance In Tower of the Gods Sector
 Can Access Earth Temple:
-  Power Bracelets & Can Play Command Melody
+  Can Access Dungeon Entrance On Headstone Island
 Can Access Wind Temple:
-  Iron Boots & Skull Hammer & Can Play Command Melody
+  Can Access Dungeon Entrance On Gale Isle
 
 Can Get Past Forsaken Fortress Gate:
   Bombs
