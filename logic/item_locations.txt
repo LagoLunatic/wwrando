@@ -155,7 +155,7 @@ Windfall Island - Ivan - Catch Killer Bees:
   Type: Sidequest
   Paths:
     - rels/d_a_npc_mk.rel@20CB
-Windfall Island - Mrs. Marie's - Catch Killer Bees:
+Windfall Island - Mrs. Marie - Catch Killer Bees:
   Need: Nothing
   Original item: Purple Rupee
   Type: Sidequest
@@ -168,35 +168,35 @@ Windfall Island - Roll Into Tree:
   Paths:
     - rels/d_a_tag_mk.rel@0637
     - sea/Stage.arc/Event093:MK_PENDANT/Actor001/Action005
-Windfall Island - Mrs. Marie's - Give 1 Joy Pendant:
+Windfall Island - Mrs. Marie - Give 1 Joy Pendant:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Red Rupee
   Type: Sidequest
   Paths:
     - rels/d_a_npc_ho.rel@0B4B
-Windfall Island - Mrs. Marie's - Give 21 Joy Pendants:
+Windfall Island - Mrs. Marie - Give 21 Joy Pendants:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Cabana Deed
   Type: Sidequest
   Paths:
     - rels/d_a_npc_ho.rel@0B77
-Windfall Island - Mrs. Marie's - Give 41 Joy Pendants:
+Windfall Island - Mrs. Marie - Give 40 Joy Pendants:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Hero's Charm
   Type: Sidequest
   Paths:
     - rels/d_a_npc_ho.rel@0C87
-#Windfall Island - Mrs. Marie's - Give 1 or 2 Joy Pendants at Once:
+#Windfall Island - Mrs. Marie - Give 1 or 2 Joy Pendants at Once:
 #  Need: 
 #  Original item: Red Rupee
 #  Paths:
 #    - rels/d_a_npc_ho.rel@0C4B
-#Windfall Island - Mrs. Marie's - Give 3 or 4 Joy Pendants at Once:
+#Windfall Island - Mrs. Marie - Give 3 or 4 Joy Pendants at Once:
 #  Need: 
 #  Original item: Purple Rupee
 #  Paths:
 #    - rels/d_a_npc_ho.rel@0C5F
-#Windfall Island - Mrs. Marie's - Give 5+ Joy Pendants at Once:
+#Windfall Island - Mrs. Marie - Give 5+ Joy Pendants at Once:
 #  Need: 
 #  Original item: Orange Rupee
 #  Paths:
