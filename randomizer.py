@@ -39,14 +39,25 @@ class Randomizer:
     
     self.read_text_file_lists()
     
+    # Starting items. This list is read by the Logic when initializing your currently owned items list.
+    self.starting_items = [
+      "Wind Waker",
+      "Wind's Requiem",
+      "Ballad of Gales",
+      "Progressive Sword",
+      "Hero's Shield",
+      "Boat's Sail",
+    ]
     # Default dungeon entrances to be used if dungeon entrance randomizer is not on.
     self.dungeon_entrances = OrderedDict([
-      ("Dragon Roost Cavern", "Dungeon Entrance On Dragon Roost Island"),
-      ("Forbidden Woods", "Dungeon Entrance In Forest Haven Sector"),
-      ("Tower of the Gods", "Dungeon Entrance In Tower of the Gods Sector"),
-      ("Earth Temple", "Dungeon Entrance On Headstone Island"),
-      ("Wind Temple", "Dungeon Entrance On Gale Isle"),
+      ("Dungeon Entrance On Dragon Roost Island", "Dragon Roost Cavern"),
+      ("Dungeon Entrance In Forest Haven Sector", "Forbidden Woods"),
+      ("Dungeon Entrance In Tower of the Gods Sector", "Tower of the Gods"),
+      ("Dungeon Entrance On Headstone Island", "Earth Temple"),
+      ("Dungeon Entrance On Gale Isle", "Wind Temple"),
     ])
+    # Default starting island (Outset) if the starting island randomizer is not on.
+    self.starting_island_index = 44
     
     self.logic = Logic(self)
     
@@ -572,6 +583,8 @@ class Randomizer:
     starting_island_room_index = self.rng.choice(possible_starting_islands)
     tweaks.set_new_game_starting_room_index(self, starting_island_room_index)
     tweaks.change_ship_starting_island(self, starting_island_room_index)
+    
+    self.starting_island_index = starting_island_room_index
   
   DUNGEON_ENTRANCES = [
     # Stage name, room index, SCLS entry index, spawn ID when exiting, entrance name for macro
@@ -615,7 +628,7 @@ class Randomizer:
       exit_scls.spawn_id = entrance_spawn_id
       exit_scls.save_changes()
       
-      self.dungeon_entrances[dungeon_name] = entrance_name
+      self.dungeon_entrances[entrance_name] = dungeon_name
     
     self.logic.update_dungeon_entrance_macros()
   

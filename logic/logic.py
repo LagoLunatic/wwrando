@@ -117,12 +117,8 @@ class Logic:
     
     self.update_dungeon_entrance_macros()
     
-    self.add_owned_item("Wind Waker")
-    self.add_owned_item("Wind's Requiem")
-    self.add_owned_item("Ballad of Gales")
-    self.add_owned_item("Progressive Sword")
-    self.add_owned_item("Hero's Shield")
-    self.add_owned_item("Boat's Sail")
+    for item_name in self.rando.starting_items:
+      self.add_owned_item(item_name)
   
   def set_location_to_item(self, location_name, item_name):
     #print("Setting %s to %s" % (location_name, item_name))
@@ -438,7 +434,7 @@ class Logic:
   
   def update_dungeon_entrance_macros(self):
     # Update all the dungeon access macros to take randomized entrances into account.
-    for dungeon_name, entrance_name in self.rando.dungeon_entrances.items():
+    for entrance_name, dungeon_name in self.rando.dungeon_entrances.items():
       dungeon_access_macro_name = "Can Access " + dungeon_name
       dungeon_entrance_access_macro_name = "Can Access " + entrance_name
       self.set_macro(dungeon_access_macro_name, dungeon_entrance_access_macro_name)
