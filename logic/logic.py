@@ -115,6 +115,8 @@ class Logic:
       if location["Type"] == "Expensive Purchase":
         self.rock_spire_shop_ship_locations.append(location_name)
     
+    self.update_dungeon_entrance_macros()
+    
     self.add_owned_item("Wind Waker")
     self.add_owned_item("Wind's Requiem")
     self.add_owned_item("Ballad of Gales")
@@ -123,6 +125,8 @@ class Logic:
     self.add_owned_item("Boat's Sail")
   
   def set_location_to_item(self, location_name, item_name):
+    #print("Setting %s to %s" % (location_name, item_name))
+    
     if self.done_item_locations[location_name]:
       raise Exception("Location was used twice: " + location_name)
     
@@ -426,8 +430,18 @@ class Logic:
     with open(os.path.join(logic_path, "macros.txt")) as f:
       macro_strings = yaml.safe_load(f)
     self.macros = {}
-    for name, string in macro_strings.items():
-      self.macros[name] = self.parse_logic_expression(string)
+    for macro_name, req_string in macro_strings.items():
+      self.set_macro(macro_name, req_string)
+  
+  def set_macro(self, macro_name, req_string):
+    self.macros[macro_name] = self.parse_logic_expression(req_string)
+  
+  def update_dungeon_entrance_macros(self):
+    # Update all the dungeon access macros to take randomized entrances into account.
+    for dungeon_name, entrance_name in self.rando.dungeon_entrances.items():
+      dungeon_access_macro_name = "Can Access " + dungeon_name
+      dungeon_entrance_access_macro_name = "Can Access " + entrance_name
+      self.set_macro(dungeon_access_macro_name, dungeon_entrance_access_macro_name)
   
   def clean_item_name(self, item_name):
     # Remove parentheses from any item names that may have them. (Formerly Master Swords, though that's not an issue anymore.)

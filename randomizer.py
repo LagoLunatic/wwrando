@@ -4,7 +4,7 @@ from io import BytesIO
 import shutil
 from pathlib import Path
 import re
-import random
+from random import Random
 from collections import OrderedDict
 import copy
 import hashlib
@@ -29,7 +29,7 @@ class Randomizer:
     self.seed = seed
     
     self.integer_seed = int(hashlib.md5(self.seed.encode('utf-8')).hexdigest(), 16)
-    self.rng = random.Random()
+    self.rng = Random()
     self.rng.seed(self.integer_seed)
     
     self.verify_supported_version(clean_iso_path)
@@ -38,6 +38,16 @@ class Randomizer:
     self.gcm.read_entire_disc()
     
     self.read_text_file_lists()
+    
+    # Default dungeon entrances to be used if dungeon entrance randomizer is not on.
+    self.dungeon_entrances = OrderedDict([
+      ("Dragon Roost Cavern", "Dungeon Entrance On Dragon Roost Island"),
+      ("Forbidden Woods", "Dungeon Entrance In Forest Haven Sector"),
+      ("Tower of the Gods", "Dungeon Entrance In Tower of the Gods Sector"),
+      ("Earth Temple", "Dungeon Entrance On Headstone Island"),
+      ("Wind Temple", "Dungeon Entrance On Gale Isle"),
+    ])
+    
     self.logic = Logic(self)
     
     num_progress_locations = self.logic.get_num_progression_locations()
@@ -76,6 +86,9 @@ class Randomizer:
     
     if self.options.get("randomize_starting_island"):
       self.randomize_starting_island()
+    
+    if self.options.get("randomize_dungeon_entrances"):
+      self.randomize_dungeon_entrances()
     
     self.randomize_items()
     
@@ -555,6 +568,52 @@ class Randomizer:
     starting_island_room_index = self.rng.choice(possible_starting_islands)
     tweaks.set_new_game_starting_room_index(self, starting_island_room_index)
     tweaks.change_ship_starting_island(self, starting_island_room_index)
+  
+  DUNGEON_ENTRANCES = [
+    # Stage name, room index, SCLS entry index, spawn ID when exiting, entrance name for macro
+    ("Adanmae", 0, 2, 2, "Dungeon Entrance On Dragon Roost Island"),
+    ("sea", 41, 6, 6, "Dungeon Entrance In Forest Haven Sector"),
+    ("sea", 26, 0, 2, "Dungeon Entrance In Tower of the Gods Sector"),
+    ("Edaichi", 0, 0, 1, "Dungeon Entrance On Headstone Island"),
+    ("Ekaze", 0, 0, 1, "Dungeon Entrance On Gale Isle"),
+  ]
+  DUNGEON_EXITS = [
+    # Stage name, room index, SCLS entry index, spawn ID when entering, dungeon name for macro
+    ("M_NewD2", 0, 0, 0, "Dragon Roost Cavern"),
+    ("kindan", 0, 0, 0, "Forbidden Woods"),
+    ("Siren", 0, 1, 0, "Tower of the Gods"),
+    ("M_Dai", 0, 0, 0, "Earth Temple"),
+    ("kaze", 15, 0, 15, "Wind Temple"),
+  ]
+  
+  def randomize_dungeon_entrances(self):
+    remaining_exits = self.DUNGEON_EXITS.copy()
+    for entrance_stage_name, entrance_room_index, entrance_scls_index, entrance_spawn_id, entrance_name in self.DUNGEON_ENTRANCES:
+      random_dungeon_exit = self.rng.choice(remaining_exits)
+      remaining_exits.remove(random_dungeon_exit)
+      exit_stage_name, exit_room_index, exit_scls_index, exit_spawn_id, dungeon_name = random_dungeon_exit
+      
+      # Update the dungeon this entrance takes you into.
+      entrance_dzx_path = "files/res/Stage/%s/Room%d.arc" % (entrance_stage_name, entrance_room_index)
+      entrance_dzx = self.get_arc(entrance_dzx_path).dzx_files[0]
+      entrance_scls = entrance_dzx.entries_by_type("SCLS")[entrance_scls_index]
+      entrance_scls.dest_stage_name = exit_stage_name
+      entrance_scls.room_index = exit_room_index
+      entrance_scls.spawn_id = exit_spawn_id
+      entrance_scls.save_changes()
+      
+      # Update the entrance you're put at when leaving the dungeon.
+      exit_dzx_path = "files/res/Stage/%s/Room%d.arc" % (exit_stage_name, exit_room_index)
+      exit_dzx = self.get_arc(exit_dzx_path).dzx_files[0]
+      exit_scls = exit_dzx.entries_by_type("SCLS")[exit_scls_index]
+      exit_scls.dest_stage_name = entrance_stage_name
+      exit_scls.room_index = entrance_room_index
+      exit_scls.spawn_id = entrance_spawn_id
+      exit_scls.save_changes()
+      
+      self.dungeon_entrances[dungeon_name] = entrance_name
+    
+    self.logic.update_dungeon_entrance_macros()
   
   def calculate_playthrough_progression_spheres(self):
     progression_spheres = []

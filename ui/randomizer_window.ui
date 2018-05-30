@@ -208,6 +208,13 @@
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
+        <widget class="QCheckBox" name="randomize_dungeon_entrances">
+         <property name="text">
+          <string>Randomize Dungeon Entrances</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="randomize_charts">
          <property name="text">
           <string>Randomize Charts</string>
