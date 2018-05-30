@@ -895,11 +895,11 @@ Tower of the Gods - Darknut Mini-Boss Room:
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
     & Wind Waker
-    & Grappling Hook
-    & Command Melody
+    & (Grappling Hook | Deku Leaf)
+    & (Command Melody | Hero's Bow)
     # Note: If you already have the bow you can get the statue guy across the previous room without getting this item, which might appear to make this chest permanently missable, but in reality you can use the deactivated Armos from across the pit to keep the button pressed.
-    # Note: You can reach this without Grappling Hook if you have Deku Leaf instead. But if you run out of MP you can get trapped and not be able to escape since there are no MP refill jars on this side of the gap. So Deku Leaf is not considered an option here by the logic.
-    # TODO: Maybe we should modify the pots around here to also drop MP refill jars?
+    # Note: Normally the only way to do this would be to use Command Melody on the statue guy, but if you already have the bow you can activate the moving platforms and use the deactivated Armos from across the pit to keep the button pressed instead.
+    # Note: You can reach this without Grappling Hook if you have Deku Leaf instead. But if you run out of MP you can get trapped and not be able to escape since there are no MP refill jars on this side of the gap. So we modify one of the pots to drop an MP refill jar.
   Original item: Hero's Bow
   Type: Dungeon
   Paths:
