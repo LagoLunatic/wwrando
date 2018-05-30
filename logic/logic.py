@@ -439,6 +439,13 @@ class Logic:
       dungeon_entrance_access_macro_name = "Can Access " + entrance_name
       self.set_macro(dungeon_access_macro_name, dungeon_entrance_access_macro_name)
   
+  def temporarily_make_dungeon_entrance_macros_impossible(self):
+    # Update all the dungeon access macros to be considered "Impossible".
+    # Useful when the dungeon entrance randomizer is selecting which dungeons should be allowed where.
+    for entrance_name, dungeon_name in self.rando.dungeon_entrances.items():
+      dungeon_access_macro_name = "Can Access " + dungeon_name
+      self.set_macro(dungeon_access_macro_name, "Impossible")
+  
   def clean_item_name(self, item_name):
     # Remove parentheses from any item names that may have them. (Formerly Master Swords, though that's not an issue anymore.)
     return item_name.replace("(", "").replace(")", "")
