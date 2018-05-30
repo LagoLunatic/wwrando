@@ -429,6 +429,10 @@ class Randomizer:
         location_name = self.rng.choice(possible_locations)
         self.logic.set_location_to_item(location_name, item_name)
     
+    accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
+    if len(accessible_undone_locations) == 0:
+      raise Exception("No progress locations are accessible at the very start of the game!")
+    
     # Place progress items.
     previously_accessible_undone_locations = []
     while self.logic.unplaced_progress_items:
