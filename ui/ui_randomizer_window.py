@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Tue May 29 16:44:53 2018
+# Created: Thu May 31 19:31:52 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -110,7 +110,6 @@ class Ui_MainWindow(object):
         self.randomize_dungeon_entrances.setObjectName("randomize_dungeon_entrances")
         self.horizontalLayout_3.addWidget(self.randomize_dungeon_entrances)
         self.randomize_charts = QtGui.QCheckBox(self.groupBox_3)
-        self.randomize_charts.setChecked(True)
         self.randomize_charts.setObjectName("randomize_charts")
         self.horizontalLayout_3.addWidget(self.randomize_charts)
         self.randomize_starting_island = QtGui.QCheckBox(self.groupBox_3)

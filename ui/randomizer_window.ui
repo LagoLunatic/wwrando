@@ -219,9 +219,6 @@
          <property name="text">
           <string>Randomize Charts</string>
          </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
         </widget>
        </item>
        <item>
