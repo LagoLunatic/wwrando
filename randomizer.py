@@ -416,29 +416,29 @@ class Randomizer:
       self.logic.set_location_to_item(location_name, item_name)
   
   def randomize_progression_items(self):
-    if True:
-      # Don't randomize dungeon keys.
-      for location_name, item_location in self.logic.item_locations.items():
-        orig_item = item_location["Original item"]
-        if orig_item in ["Small Key", "Big Key"]:
-          self.logic.add_unrandomized_location(location_name)
+    # Don't randomize dungeon keys.
+    for location_name, item_location in self.logic.item_locations.items():
+      orig_item = item_location["Original item"]
+      if orig_item == "Small Key":
+        self.logic.set_prerandomization_dungeon_item_location(location_name, orig_item)
     
-    # Places one dungeon map and compass in each dungeon.
+    # Places one big key, dungeon map and compass in each dungeon.
     for dungeon_name in self.logic.DUNGEON_NAMES.values():
       locations_for_dungeon = self.logic.locations_by_zone_name[dungeon_name]
-      for item_name in ["Dungeon Map", "Compass"]:
+      for item_name in ["Big Key", "Dungeon Map", "Compass"]:
         possible_locations = [
           loc for loc in locations_for_dungeon
           if loc in self.logic.remaining_item_locations
-          and not loc in self.logic.unrandomized_item_locations
+          and not loc in self.logic.prerandomization_dungeon_item_locations
           and self.logic.item_locations[loc]["Type"] not in ["Tingle Statue Chest", "Sunken Treasure"]
         ]
         if dungeon_name == "Forsaken Fortress":
-          # These are outdoors, which means their stage ID is not properly set to be Forsaken Fortress. This means the map/compass wouldn't work properly if placed here.
+          # These are outdoors, which means their stage ID is not properly set to be Forsaken Fortress. This means dungeon items wouldn't work properly if placed here.
           possible_locations.remove("Forsaken Fortress - Phantom Ganon")
           possible_locations.remove("Forsaken Fortress - Helmaroc King Heart Container")
         location_name = self.rng.choice(possible_locations)
-        self.logic.set_location_to_item(location_name, item_name)
+        
+        self.logic.set_prerandomization_dungeon_item_location(location_name, item_name)
     
     accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
     if len(accessible_undone_locations) == 0:
@@ -452,17 +452,17 @@ class Randomizer:
       if not accessible_undone_locations:
         raise Exception("No locations left to place progress items!")
       
-      # If the player gained access to any unrandomized locations, we need to give them those items.
-      newly_accessible_unrandomized_locations = [
+      # If the player gained access to any dungeon item locations, we need to give them those items.
+      newly_accessible_dungeon_item_locations = [
         loc for loc in accessible_undone_locations
-        if loc in self.logic.unrandomized_item_locations
+        if loc in self.logic.prerandomization_dungeon_item_locations
       ]
-      if newly_accessible_unrandomized_locations:
-        for unrandomized_location_name in newly_accessible_unrandomized_locations:
-          unrandomized_item_name = self.logic.item_locations[unrandomized_location_name]["Original item"]
-          self.logic.set_location_to_item(unrandomized_location_name, unrandomized_item_name)
+      if newly_accessible_dungeon_item_locations:
+        for dungeon_item_location_name in newly_accessible_dungeon_item_locations:
+          dungeon_item_name = self.logic.prerandomization_dungeon_item_locations[dungeon_item_location_name]
+          self.logic.set_location_to_item(dungeon_item_location_name, dungeon_item_name)
         
-        continue # Redo this loop iteration with the unrandomized locations no longer being considered 'remaining'.
+        continue # Redo this loop iteration with the dungeon item locations no longer being considered 'remaining'.
       
       # Filter out items that are not valid in any of the locations we might use.
       possible_items = self.logic.filter_items_by_any_valid_location(self.logic.unplaced_progress_items, accessible_undone_locations)
@@ -522,11 +522,11 @@ class Randomizer:
       
       previously_accessible_undone_locations = accessible_undone_locations
     
-    # Make sure locations that shouldn't be randomized aren't, even if the above logic missed them for some reason.
-    for location_name in self.logic.unrandomized_item_locations:
+    # Make sure locations that should have dungeon items in them have them properly placed, even if the above logic missed them for some reason.
+    for location_name in self.logic.prerandomization_dungeon_item_locations:
       if location_name in self.logic.remaining_item_locations:
-        unrandomized_item_name = self.logic.item_locations[location_name]["Original item"]
-        self.logic.set_location_to_item(location_name, unrandomized_item_name)
+        dungeon_item_name = self.logic.prerandomization_dungeon_item_locations[location_name]
+        self.logic.set_location_to_item(location_name, dungeon_item_name)
     
     game_beatable = self.logic.check_requirement_met("Can Reach and Defeat Ganondorf")
     if not game_beatable:
@@ -668,22 +668,24 @@ class Randomizer:
       ]
       
       
-      # If the player gained access to any unrandomized locations, we need to give them those items without counting that as a new sphere.
-      newly_accessible_unrandomized_locations = [
+      # If the player gained access to any dungeon item locations, we need to give them those items without counting that as a new sphere.
+      newly_accessible_dungeon_item_locations = [
         loc for loc in locations_in_this_sphere
-        if loc in self.logic.unrandomized_item_locations
+        if loc in self.logic.prerandomization_dungeon_item_locations
       ]
-      if newly_accessible_unrandomized_locations:
-        for unrandomized_location_name in newly_accessible_unrandomized_locations:
-          unrandomized_item_name = self.logic.item_locations[unrandomized_location_name]["Original item"]
-          if "Key" in unrandomized_item_name:
-            dungeon_name, _ = logic.split_location_name_by_zone(unrandomized_location_name)
-            logic.add_owned_key_for_dungeon(unrandomized_item_name, dungeon_name)
+      if newly_accessible_dungeon_item_locations:
+        for dungeon_item_location_name in newly_accessible_dungeon_item_locations:
+          dungeon_item_name = self.logic.prerandomization_dungeon_item_locations[dungeon_item_location_name]
+          if "Key" in dungeon_item_name:
+            dungeon_name, _ = logic.split_location_name_by_zone(dungeon_item_location_name)
+            logic.add_owned_key_for_dungeon(dungeon_item_name, dungeon_name)
+          elif dungeon_item_name in ["Dungeon Map", "Compass"]:
+            pass
           else:
-            raise Exception("Unrandomized item is not a key.")
+            raise Exception("Dungeon item is not a small key, big key, map, or compass.")
         
-        previously_accessible_locations += newly_accessible_unrandomized_locations
-        continue # Redo this loop iteration with the unrandomized locations no longer being considered 'remaining'.
+        previously_accessible_locations += newly_accessible_dungeon_item_locations
+        continue # Redo this loop iteration with the dungeon item locations no longer being considered 'remaining'.
       
       
       for location_name in locations_in_this_sphere:

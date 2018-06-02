@@ -104,7 +104,7 @@ class Logic:
       self.locations_by_zone_name[zone_name].append(location_name)
     
     self.remaining_item_locations = list(self.item_locations.keys())
-    self.unrandomized_item_locations = []
+    self.prerandomization_dungeon_item_locations = OrderedDict()
     
     self.done_item_locations = OrderedDict()
     for location_name in self.item_locations:
@@ -150,6 +150,12 @@ class Logic:
       self.set_location_to_item(location_name, item_name)
     
     self.unplaced_progress_items.remove(group_name)
+  
+  def set_prerandomization_dungeon_item_location(self, location_name, item_name):
+    # Temporarily keep track of where dungeon-specific items are placed before the main progression item randomization loop starts.
+    assert item_name in ["Small Key", "Big Key", "Dungeon Map", "Compass"]
+    assert location_name in self.item_locations
+    self.prerandomization_dungeon_item_locations[location_name] = item_name
   
   def get_num_progression_items(self):
     num_progress_items = 0
@@ -400,11 +406,6 @@ class Logic:
       if self.check_item_valid_in_location(item_name, location_name):
         valid_items.append(item_name)
     return valid_items
-  
-  def add_unrandomized_location(self, location_name):
-    # For locations that should not be randomized on this seed, e.g. dungeon keys.
-    assert location_name in self.item_locations
-    self.unrandomized_item_locations.append(location_name)
   
   def load_and_parse_item_locations(self):
     try:
