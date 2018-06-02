@@ -814,6 +814,20 @@ class Randomizer:
     
     spoiler_log += "\n\n\n"
     
+    # Write starting island.
+    spoiler_log += "Starting island: "
+    spoiler_log += self.island_number_to_name[self.starting_island_index]
+    spoiler_log += "\n"
+    
+    spoiler_log += "\n\n\n"
+    
+    # Write dungeon entrances.
+    spoiler_log += "Dungeon entrances:\n"
+    for entrance_name, dungeon_name in self.dungeon_entrances.items():
+      spoiler_log += "  %-45s %s\n" % (entrance_name+":", dungeon_name)
+    
+    spoiler_log += "\n\n\n"
+    
     # Write treasure charts.
     spoiler_log += "Charts:\n"
     for chart_number in range(1, 49+1):
