@@ -845,12 +845,3 @@ class Randomizer:
     spoiler_log_output_path = os.path.join(self.randomized_output_folder, "WW Random %s - Spoiler Log.txt" % self.seed)
     with open(spoiler_log_output_path, "w") as f:
       f.write(spoiler_log)
-
-if __name__ == "__main__":
-  rando = Randomizer(1, "../Wind Waker Files", "../Wind Waker Files Randomized", {
-    "progression_charts_none": True,
-    "swift_sail": True,
-    "instant_text_boxes": True,
-    "reveal_full_sea_chart": True,
-  })
-  rando.randomize()
