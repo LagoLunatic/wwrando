@@ -156,9 +156,10 @@ Can Defeat Yellow ChuChus:
   | Hero's Bow
   | Bombs
   | Deku Leaf
+  | Skull Hammer
+  # Note: Skull Hammer can stun them without taking damage if you hit the ground near them instead of hitting them directly.
   # Note: Grappling Hook does stun it just barely long enough for you to kill it with your sword.
   # But this is not immediately obvious and somewhat tricky to time, so maybe reserve that for a higher difficulty level.
-  # Another note: Skull Hammer does kill it, but the player takes damage in the process.
 Can Defeat Peahats:
   Boomerang
   | Hookshot
