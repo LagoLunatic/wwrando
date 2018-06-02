@@ -668,35 +668,40 @@ class Randomizer:
       ]
       
       
-      # If the player gained access to any dungeon item locations, we need to give them those items without counting that as a new sphere.
+      # If the player gained access to any small keys, we need to give them the keys without counting that as a new sphere.
       newly_accessible_dungeon_item_locations = [
         loc for loc in locations_in_this_sphere
         if loc in self.logic.prerandomization_dungeon_item_locations
       ]
-      if newly_accessible_dungeon_item_locations:
-        for dungeon_item_location_name in newly_accessible_dungeon_item_locations:
-          dungeon_item_name = self.logic.prerandomization_dungeon_item_locations[dungeon_item_location_name]
-          if "Key" in dungeon_item_name:
-            dungeon_name, _ = logic.split_location_name_by_zone(dungeon_item_location_name)
-            logic.add_owned_key_for_dungeon(dungeon_item_name, dungeon_name)
-          elif dungeon_item_name in ["Dungeon Map", "Compass"]:
-            pass
-          else:
-            raise Exception("Dungeon item is not a small key, big key, map, or compass.")
+      newly_accessible_small_key_locations = [
+        loc for loc in newly_accessible_dungeon_item_locations
+        if self.logic.prerandomization_dungeon_item_locations[loc] == "Small Key"
+      ]
+      if newly_accessible_small_key_locations:
+        for small_key_location_name in newly_accessible_small_key_locations:
+          item_name = self.logic.prerandomization_dungeon_item_locations[small_key_location_name]
+          assert item_name == "Small Key"
+          
+          dungeon_name, _ = logic.split_location_name_by_zone(small_key_location_name)
+          logic.add_owned_key_for_dungeon(item_name, dungeon_name)
         
-        previously_accessible_locations += newly_accessible_dungeon_item_locations
-        continue # Redo this loop iteration with the dungeon item locations no longer being considered 'remaining'.
+        previously_accessible_locations += newly_accessible_small_key_locations
+        continue # Redo this loop iteration with the small key locations no longer being considered 'remaining'.
       
       
       for location_name in locations_in_this_sphere:
         item_name = self.logic.done_item_locations[location_name]
-        if item_name in logic.all_progress_items:
+        if item_name in logic.all_progress_items or item_name == "Big Key":
           progress_items_in_this_sphere[location_name] = item_name
       
       progression_spheres.append(progress_items_in_this_sphere)
       
       for location_name, item_name in progress_items_in_this_sphere.items():
-        logic.add_owned_item(item_name)
+        if item_name == "Big Key":
+          dungeon_name, _ = logic.split_location_name_by_zone(location_name)
+          logic.add_owned_key_for_dungeon(item_name, dungeon_name)
+        else:
+          logic.add_owned_item(item_name)
       for group_name, item_names in logic.PROGRESS_ITEM_GROUPS.items():
         entire_group_is_owned = all(item_name in logic.currently_owned_items for item_name in item_names)
         if entire_group_is_owned and group_name in logic.unplaced_progress_items:
