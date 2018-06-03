@@ -146,7 +146,8 @@ class WWRandomizerWindow(QMainWindow):
   def randomization_complete(self):
     self.progress_dialog.reset()
     
-    msg = "Randomization complete."
+    msg = "Randomization complete.\n\n"
+    msg += "If you get stuck, check the progression spoiler log in the output folder."
     QMessageBox.information(self, "Done", msg)
   
   def randomization_failed(self, error_message):
