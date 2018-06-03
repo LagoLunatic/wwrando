@@ -6,7 +6,6 @@ from pathlib import Path
 import re
 from random import Random
 from collections import OrderedDict
-import copy
 import hashlib
 
 from fs_helpers import *
@@ -16,6 +15,11 @@ from wwlib.rel import REL
 from wwlib.gcm import GCM
 import tweaks
 from logic.logic import Logic
+
+from randomizers import items
+from randomizers import charts
+from randomizers import starting_island
+from randomizers import dungeon_entrances
 
 VERSION = "0.5.0-BETA"
 
@@ -93,17 +97,17 @@ class Randomizer:
     yield("Randomizing...", options_completed)
     
     if self.options.get("randomize_charts"):
-      self.randomize_charts()
+      charts.randomize_charts(self)
     
     if self.options.get("randomize_starting_island"):
-      self.randomize_starting_island()
+      starting_island.randomize_starting_island(self)
     
     if self.options.get("randomize_dungeon_entrances"):
-      self.randomize_dungeon_entrances()
+      dungeon_entrances.randomize_dungeon_entrances(self)
     
-    self.randomize_items()
+    items.randomize_items(self)
     
-    self.write_changed_items()
+    items.write_changed_items(self)
     
     options_completed += 9
     yield("Saving randomized ISO...", options_completed)
@@ -286,372 +290,6 @@ class Randomizer:
     
     output_file_path = os.path.join(self.randomized_output_folder, "WW Random %s.iso" % self.seed)
     self.gcm.export_iso_with_changed_files(output_file_path, changed_files)
-
-  def change_item(self, path, item_name):
-    item_id = self.item_name_to_id[item_name]
-    
-    rel_match = re.search(r"^(rels/[^.]+\.rel)@([0-9A-F]{4})$", path)
-    main_dol_match = re.search(r"^main.dol@([0-9A-F]{6})$", path)
-    chest_match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/Chest([0-9A-F]{3})$", path)
-    event_match = re.search(r"^([^/]+/[^/]+\.arc)/Event([0-9A-F]{3}):[^/]+/Actor([0-9A-F]{3})/Action([0-9A-F]{3})$", path)
-    scob_match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/ScalableObject([0-9A-F]{3})$", path)
-    actor_match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/Actor([0-9A-F]{3})$", path)
-    
-    if rel_match:
-      rel_path = rel_match.group(1)
-      offset = int(rel_match.group(2), 16)
-      path = os.path.join("files", rel_path)
-      self.change_hardcoded_item(path, offset, item_id)
-    elif main_dol_match:
-      offset = int(main_dol_match.group(1), 16)
-      path = os.path.join("sys", "main.dol")
-      self.change_hardcoded_item(path, offset, item_id)
-    elif chest_match:
-      arc_path = "files/res/Stage/" + chest_match.group(1)
-      if chest_match.group(2):
-        layer = int(chest_match.group(2), 16)
-      else:
-        layer = None
-      chest_index = int(chest_match.group(3), 16)
-      self.change_chest_item(arc_path, chest_index, layer, item_id)
-    elif event_match:
-      arc_path = "files/res/Stage/" + event_match.group(1)
-      event_index = int(event_match.group(2), 16)
-      actor_index = int(event_match.group(3), 16)
-      action_index = int(event_match.group(4), 16)
-      self.change_event_item(arc_path, event_index, actor_index, action_index, item_id)
-    elif scob_match:
-      arc_path = "files/res/Stage/" + scob_match.group(1)
-      if scob_match.group(2):
-        layer = int(scob_match.group(2), 16)
-      else:
-        layer = None
-      scob_index = int(scob_match.group(3), 16)
-      self.change_scob_item(arc_path, scob_index, layer, item_id)
-    elif actor_match:
-      arc_path = "files/res/Stage/" + actor_match.group(1)
-      if actor_match.group(2):
-        layer = int(actor_match.group(2), 16)
-      else:
-        layer = None
-      actor_index = int(actor_match.group(3), 16)
-      self.change_actor_item(arc_path, actor_index, layer, item_id)
-    else:
-      raise Exception("Invalid item path: " + path)
-
-  def change_hardcoded_item(self, path, offset, item_id):
-    data = self.get_raw_file(path)
-    write_u8(data, offset, item_id)
-
-  def change_chest_item(self, arc_path, chest_index, layer, item_id):
-    dzx = self.get_arc(arc_path).dzx_files[0]
-    chest = dzx.entries_by_type_and_layer("TRES", layer)[chest_index]
-    chest.item_id = item_id
-    chest.save_changes()
-
-  def change_event_item(self, arc_path, event_index, actor_index, action_index, item_id):
-    event_list = self.get_arc(arc_path).event_list_files[0]
-    action = event_list.events[event_index].actors[actor_index].actions[action_index]
-    
-    if 0x6D <= item_id <= 0x72: # Song
-      action.name = "059get_dance"
-      event_list.set_property_value(action.property_index, item_id-0x6D)
-    else:
-      action.name = "011get_item"
-      event_list.set_property_value(action.property_index, item_id)
-    action.save_changes()
-
-  def change_scob_item(self, arc_path, scob_index, layer, item_id):
-    dzx = self.get_arc(arc_path).dzx_files[0]
-    scob = dzx.entries_by_type_and_layer("SCOB", layer)[scob_index]
-    if scob.is_salvage():
-      scob.salvage_item_id = item_id
-      scob.save_changes()
-    elif scob.is_buried_pig_item():
-      scob.buried_pig_item_id = item_id
-      scob.save_changes()
-    else:
-      raise Exception("%s/SCOB%03X is an unknown type of SCOB" % (arc_path, scob_index))
-
-  def change_actor_item(self, arc_path, actor_index, layer, item_id):
-    dzx = self.get_arc(arc_path).dzx_files[0]
-    actr = dzx.entries_by_type_and_layer("ACTR", layer)[actor_index]
-    if actr.is_item():
-      actr.item_id = item_id
-    elif actr.is_boss_item():
-      actr.boss_item_id = item_id
-    else:
-      raise Exception("%s/ACTR%03X is not an item" % (arc_path, actor_index))
-    
-    actr.save_changes()
-  
-  def randomize_items(self):
-    print("Randomizing items...")
-    
-    self.randomize_progression_items()
-    
-    # Place unique non-progress items.
-    while self.logic.unplaced_nonprogress_items:
-      accessible_undone_locations = self.logic.get_accessible_remaining_locations()
-      
-      item_name = self.rng.choice(self.logic.unplaced_nonprogress_items)
-      
-      possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
-      
-      location_name = self.rng.choice(possible_locations)
-      self.logic.set_location_to_item(location_name, item_name)
-    
-    accessible_undone_locations = self.logic.get_accessible_remaining_locations()
-    inaccessible_locations = [loc for loc in self.logic.remaining_item_locations if loc not in accessible_undone_locations]
-    if inaccessible_locations:
-      print("Inaccessible locations:")
-      for location_name in inaccessible_locations:
-        print(location_name)
-    
-    # Fill remaining unused locations with consumables (Rupees, spoils, and bait).
-    locations_to_place_consumables_at = self.logic.remaining_item_locations.copy()
-    for location_name in locations_to_place_consumables_at:
-      possible_items = self.logic.filter_items_valid_for_location(self.logic.unplaced_consumable_items, location_name)
-      item_name = self.rng.choice(possible_items)
-      self.logic.set_location_to_item(location_name, item_name)
-  
-  def randomize_progression_items(self):
-    # Don't randomize dungeon keys.
-    for location_name, item_location in self.logic.item_locations.items():
-      orig_item = item_location["Original item"]
-      if orig_item == "Small Key":
-        self.logic.set_prerandomization_dungeon_item_location(location_name, orig_item)
-    
-    # Places one big key, dungeon map and compass in each dungeon.
-    for dungeon_name in self.logic.DUNGEON_NAMES.values():
-      locations_for_dungeon = self.logic.locations_by_zone_name[dungeon_name]
-      for item_name in ["Big Key", "Dungeon Map", "Compass"]:
-        possible_locations = [
-          loc for loc in locations_for_dungeon
-          if loc in self.logic.remaining_item_locations
-          and not loc in self.logic.prerandomization_dungeon_item_locations
-          and self.logic.item_locations[loc]["Type"] not in ["Tingle Statue Chest", "Sunken Treasure"]
-        ]
-        if dungeon_name == "Forsaken Fortress":
-          # These are outdoors, which means their stage ID is not properly set to be Forsaken Fortress. This means dungeon items wouldn't work properly if placed here.
-          possible_locations.remove("Forsaken Fortress - Phantom Ganon")
-          possible_locations.remove("Forsaken Fortress - Helmaroc King Heart Container")
-        location_name = self.rng.choice(possible_locations)
-        
-        self.logic.set_prerandomization_dungeon_item_location(location_name, item_name)
-    
-    accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
-    if len(accessible_undone_locations) == 0:
-      raise Exception("No progress locations are accessible at the very start of the game!")
-    
-    # Place progress items.
-    previously_accessible_undone_locations = []
-    while self.logic.unplaced_progress_items:
-      accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
-      
-      if not accessible_undone_locations:
-        raise Exception("No locations left to place progress items!")
-      
-      # If the player gained access to any dungeon item locations, we need to give them those items.
-      newly_accessible_dungeon_item_locations = [
-        loc for loc in accessible_undone_locations
-        if loc in self.logic.prerandomization_dungeon_item_locations
-      ]
-      if newly_accessible_dungeon_item_locations:
-        for dungeon_item_location_name in newly_accessible_dungeon_item_locations:
-          dungeon_item_name = self.logic.prerandomization_dungeon_item_locations[dungeon_item_location_name]
-          self.logic.set_location_to_item(dungeon_item_location_name, dungeon_item_name)
-        
-        continue # Redo this loop iteration with the dungeon item locations no longer being considered 'remaining'.
-      
-      # Filter out items that are not valid in any of the locations we might use.
-      possible_items = self.logic.filter_items_by_any_valid_location(self.logic.unplaced_progress_items, accessible_undone_locations)
-      
-      must_place_useful_item = False
-      should_place_useful_item = False
-      if len(accessible_undone_locations) == 1 and len(possible_items) > 1:
-        # If we're on the last accessible location but not the last item we HAVE to place an item that unlocks new locations.
-        must_place_useful_item = True
-      else:
-        # Otherwise we will still try to place a useful item, but failing will not result in an error.
-        should_place_useful_item = True
-      
-      # If we wind up placing a useful item it can be a single item or a group.
-      # But if we place an item that is not yet useful, we need to exclude groups.
-      # This is so that a group doesn't wind up taking every single possible remaining location while not opening up new ones.
-      possible_items_when_not_placing_useful = [name for name in possible_items if name not in self.logic.PROGRESS_ITEM_GROUPS]
-      # Only exception is when there's exclusively groups left to place. Then we allow groups even if they're not useful.
-      if len(possible_items_when_not_placing_useful) == 0 and len(possible_items) > 0:
-        possible_items_when_not_placing_useful = possible_items
-      
-      if must_place_useful_item or should_place_useful_item:
-        shuffled_list = possible_items.copy()
-        self.rng.shuffle(shuffled_list)
-        item_name = self.logic.get_first_useful_item(shuffled_list, for_progression=True)
-        if item_name is None:
-          if must_place_useful_item:
-            raise Exception("No useful progress items to place!")
-          else:
-            item_name = self.rng.choice(possible_items_when_not_placing_useful)
-      else:
-        item_name = self.rng.choice(possible_items_when_not_placing_useful)
-      
-      if item_name in self.logic.PROGRESS_ITEM_GROUPS:
-        # If we're placing an entire item group, we use different logic for deciding the location.
-        # We do not weight towards newly accessible locations.
-        # And we have to select multiple different locations, one for each item in the group.
-        group_name = item_name
-        possible_locations_for_group = accessible_undone_locations.copy()
-        self.rng.shuffle(possible_locations_for_group)
-        self.logic.set_multiple_locations_to_group(possible_locations_for_group, group_name)
-      else:
-        possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
-        
-        # We weight it so newly accessible locations are 10x more likely to be chosen.
-        # This way there is still a good chance it will not choose a new location.
-        possible_locations_with_weighting = []
-        for location_name in possible_locations:
-          if location_name not in previously_accessible_undone_locations:
-            weight = 10
-          else:
-            weight = 1
-          possible_locations_with_weighting += [location_name]*weight
-        
-        location_name = self.rng.choice(possible_locations_with_weighting)
-        self.logic.set_location_to_item(location_name, item_name)
-      
-      previously_accessible_undone_locations = accessible_undone_locations
-    
-    # Make sure locations that should have dungeon items in them have them properly placed, even if the above logic missed them for some reason.
-    for location_name in self.logic.prerandomization_dungeon_item_locations:
-      if location_name in self.logic.remaining_item_locations:
-        dungeon_item_name = self.logic.prerandomization_dungeon_item_locations[location_name]
-        self.logic.set_location_to_item(location_name, dungeon_item_name)
-    
-    game_beatable = self.logic.check_requirement_met("Can Reach and Defeat Ganondorf")
-    if not game_beatable:
-      raise Exception("Game is not beatable on this seed! This error shouldn't happen.")
-  
-  def write_changed_items(self):
-    for location_name, item_name in self.logic.done_item_locations.items():
-      paths = self.logic.item_locations[location_name]["Paths"]
-      for path in paths:
-        self.change_item(path, item_name)
-  
-  def randomize_charts(self):
-    # Shuffles around which chart points to each sector.
-    
-    randomizable_charts = [chart for chart in self.chart_list.charts if chart.type in [0, 1, 2, 6]]
-    
-    original_charts = copy.deepcopy(randomizable_charts)
-    # Sort the charts by their texture ID so we get the same results even if we randomize them multiple times.
-    original_charts.sort(key=lambda chart: chart.texture_id)
-    self.rng.shuffle(original_charts)
-    
-    for chart in randomizable_charts:
-      chart_to_copy_from = original_charts.pop()
-      
-      chart.texture_id = chart_to_copy_from.texture_id
-      chart.sector_x = chart_to_copy_from.sector_x
-      chart.sector_y = chart_to_copy_from.sector_y
-      
-      for random_pos_index in range(4):
-        possible_pos = chart.possible_random_positions[random_pos_index]
-        possible_pos_to_copy_from = chart_to_copy_from.possible_random_positions[random_pos_index]
-        
-        possible_pos.chart_texture_x_offset = possible_pos_to_copy_from.chart_texture_x_offset
-        possible_pos.chart_texture_y_offset = possible_pos_to_copy_from.chart_texture_y_offset
-        possible_pos.salvage_x_pos = possible_pos_to_copy_from.salvage_x_pos
-        possible_pos.salvage_y_pos = possible_pos_to_copy_from.salvage_y_pos
-      
-      chart.save_changes()
-      
-      # Then update the salvage object on the sea so it knows what chart corresponds to it now.
-      dzx = self.get_arc("files/res/Stage/sea/Room%d.arc" % chart.island_number).dzx_files[0]
-      for scob in dzx.entries_by_type("SCOB"):
-        if scob.is_salvage() and scob.salvage_type == 0:
-          scob.salvage_chart_index_plus_1 = chart.owned_chart_index_plus_1
-          scob.save_changes()
-  
-  def randomize_starting_island(self):
-    possible_starting_islands = list(range(1, 49+1))
-    
-    # Don't allow Forsaken Fortress to be the starting island.
-    # It wouldn't really cause problems, but it would be weird because you normally need bombs to get in, and you would need to use Ballad of Gales to get out.
-    possible_starting_islands.remove(1)
-    
-    starting_island_room_index = self.rng.choice(possible_starting_islands)
-    tweaks.set_new_game_starting_room_index(self, starting_island_room_index)
-    tweaks.change_ship_starting_island(self, starting_island_room_index)
-    
-    self.starting_island_index = starting_island_room_index
-  
-  DUNGEON_ENTRANCES = [
-    # Stage name, room index, SCLS entry index, spawn ID when exiting, entrance name for macro
-    ("Adanmae", 0, 2, 2, "Dungeon Entrance On Dragon Roost Island"),
-    ("sea", 41, 6, 6, "Dungeon Entrance In Forest Haven Sector"),
-    ("sea", 26, 0, 2, "Dungeon Entrance In Tower of the Gods Sector"),
-    ("Edaichi", 0, 0, 1, "Dungeon Entrance On Headstone Island"),
-    ("Ekaze", 0, 0, 1, "Dungeon Entrance On Gale Isle"),
-  ]
-  DUNGEON_EXITS = [
-    # Stage name, room index, SCLS entry index, spawn ID when entering, dungeon name for macro
-    ("M_NewD2", 0, 0, 0, "Dragon Roost Cavern"),
-    ("kindan", 0, 0, 0, "Forbidden Woods"),
-    ("Siren", 0, 1, 0, "Tower of the Gods"),
-    ("M_Dai", 0, 0, 0, "Earth Temple"),
-    ("kaze", 15, 0, 15, "Wind Temple"),
-  ]
-  
-  def randomize_dungeon_entrances(self):
-    # First we need to check how many locations the player can access at the start of the game (excluding dungeons since they're not randomized yet).
-    # If the player can't access any locations outside of dungeons, we need to limit the possibilities for what we allow the first dungeon (on DRI) to be.
-    # If that first dungeon is TotG, the player can't get any items because they need bombs.
-    # If that first dungeon is ET or WT, the player can't get any items because they need the command melody (and even with that they would only be able to access one single location).
-    # So in that case we limit the first dungeon to either be DRC or FW.
-    self.logic.temporarily_make_dungeon_entrance_macros_impossible()
-    accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
-    if len(accessible_undone_locations) == 0:
-      should_limit_first_dungeon_possibilities = True
-    else:
-      should_limit_first_dungeon_possibilities = False
-    
-    remaining_exits = self.DUNGEON_EXITS.copy()
-    for entrance_stage_name, entrance_room_index, entrance_scls_index, entrance_spawn_id, entrance_name in self.DUNGEON_ENTRANCES:
-      if should_limit_first_dungeon_possibilities and entrance_name == "Dungeon Entrance On Dragon Roost Island":
-        possible_remaining_exits = []
-        for exit_tuple in remaining_exits:
-          _, _, _, _, dungeon_name = exit_tuple
-          if dungeon_name in ["Dragon Roost Cavern", "Forbidden Woods"]:
-            possible_remaining_exits.append(exit_tuple)
-      else:
-        possible_remaining_exits = remaining_exits
-      
-      random_dungeon_exit = self.rng.choice(possible_remaining_exits)
-      remaining_exits.remove(random_dungeon_exit)
-      exit_stage_name, exit_room_index, exit_scls_index, exit_spawn_id, dungeon_name = random_dungeon_exit
-      
-      # Update the dungeon this entrance takes you into.
-      entrance_dzx_path = "files/res/Stage/%s/Room%d.arc" % (entrance_stage_name, entrance_room_index)
-      entrance_dzx = self.get_arc(entrance_dzx_path).dzx_files[0]
-      entrance_scls = entrance_dzx.entries_by_type("SCLS")[entrance_scls_index]
-      entrance_scls.dest_stage_name = exit_stage_name
-      entrance_scls.room_index = exit_room_index
-      entrance_scls.spawn_id = exit_spawn_id
-      entrance_scls.save_changes()
-      
-      # Update the entrance you're put at when leaving the dungeon.
-      exit_dzx_path = "files/res/Stage/%s/Room%d.arc" % (exit_stage_name, exit_room_index)
-      exit_dzx = self.get_arc(exit_dzx_path).dzx_files[0]
-      exit_scls = exit_dzx.entries_by_type("SCLS")[exit_scls_index]
-      exit_scls.dest_stage_name = entrance_stage_name
-      exit_scls.room_index = entrance_room_index
-      exit_scls.spawn_id = entrance_spawn_id
-      exit_scls.save_changes()
-      
-      self.dungeon_entrances[entrance_name] = dungeon_name
-    
-    self.logic.update_dungeon_entrance_macros()
   
   def calculate_playthrough_progression_spheres(self):
     progression_spheres = []
