@@ -350,12 +350,14 @@ Windfall Island - Sam - Decorate the Town:
   Type: Sidequest
   Paths:
     - rels/d_a_npc_people.rel@C54B
-Windfall Island - Zunari - Get Three Items for Zunari's Shop:
+Windfall Island - Zunari - Stock Exotic Flower in Zunari's Shop:
   Need: Rescued Aryll & Delivery Bag
   Original item: Magic Armor
   Type: Sidequest
   Paths:
     - rels/d_a_npc_rsh1.rel@3117
+    - rels/d_a_npc_rsh1.rel@338F
+    - CustomSymbol:zunari_magic_armor_slot_item_id
 Windfall Island - Mila:
   Need: Rescued Aryll
   Original item: Empty Bottle

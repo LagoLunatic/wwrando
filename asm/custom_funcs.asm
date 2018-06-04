@@ -628,4 +628,45 @@ mtlr r0
 addi sp, sp, 0x10
 blr
 
+
+
+
+; Zunari usually checks if he gave you the Magic Armor by calling checkGetItem on the Magic Armor item ID. This doesn't work properly when the item he gives is randomized.
+; So we need to set a custom event bit to keep track of whether you've gotten whatever item is in the Magic Armor slot.
+.global zunari_give_item_and_set_magic_armor_event_bit
+zunari_give_item_and_set_magic_armor_event_bit:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+stw r31, 0xC (sp)
+mr r31, r4 ; Preserve argument r4, which has the item ID
+
+bl fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz
+
+
+lis r4, zunari_magic_armor_slot_item_id@ha
+addi r4, r4, zunari_magic_armor_slot_item_id@l
+lbz r4, 0 (r4) ; Load what item ID is in the Magic Armor slot. This value is updated by the randomizer when it randomizes that item.
+
+cmpw r31, r4 ; Check if the item ID given is the same one from the Magic Armor slot.
+bne zunari_give_item_and_set_magic_armor_event_bit_end ; If it's not the item in the Magic Armor slot, skip to the end of the function
+mr r31, r3 ; Preserve the return value from createItemForPresentDemo so we can still return that
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6940 ; Unused event bit that we use to keep track of whether Zunari has given the Magic Armor item
+bl onEventBit__11dSv_event_cFUs
+mr r3, r31
+
+zunari_give_item_and_set_magic_armor_event_bit_end:
+lwz r31, 0xC (sp)
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global zunari_magic_armor_slot_item_id
+zunari_magic_armor_slot_item_id:
+.byte 0x2A ; Default item ID is Magic Armor. This value is updated by the randomizer when this item is randomized.
+
 .close

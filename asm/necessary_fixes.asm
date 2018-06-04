@@ -514,3 +514,20 @@
 .org 0x80055580 ; dComIfGs_exchangePlayerRecollectionData__Fv
   blr
 .close
+
+
+
+
+; Zunari usually checks if he's given you the item in the Magic Armor item slot by calling checkGetItem.
+; That doesn't work well when the item is randomized, so we have to replace the code with code to set and check a custom unused event bit.
+.open "files/rels/d_a_npc_rsh1.rel" ; Zunari
+.org 0x177C ; Where he checks if you have own the Magic Armor by calling checkItemGet.
+  ; We replace this with a call to isEventBit checking our custom event bit.
+  li r3, 0x6940
+  nop
+.org 0x71B4 ; Relocation for line 0x1784
+  .int dComIfGs_isEventBit__FUs
+.org 0x75F4 ; Relocation for line 0x32E8
+  ; Change the call to createItemForPresentDemo to instead call our custom function so that it can set the custom event bit if necessary.
+  .int zunari_give_item_and_set_magic_armor_event_bit
+.close

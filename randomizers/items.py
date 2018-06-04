@@ -3,6 +3,7 @@ import os
 import re
 
 from fs_helpers import *
+import tweaks
 
 def randomize_items(self):
   print("Randomizing items...")
@@ -165,6 +166,7 @@ def change_item(self, path, item_name):
   
   rel_match = re.search(r"^(rels/[^.]+\.rel)@([0-9A-F]{4})$", path)
   main_dol_match = re.search(r"^main.dol@([0-9A-F]{6})$", path)
+  custom_symbol_match = re.search(r"^CustomSymbol:(.+)$", path)
   chest_match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/Chest([0-9A-F]{3})$", path)
   event_match = re.search(r"^([^/]+/[^/]+\.arc)/Event([0-9A-F]{3}):[^/]+/Actor([0-9A-F]{3})/Action([0-9A-F]{3})$", path)
   scob_match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/ScalableObject([0-9A-F]{3})$", path)
@@ -177,6 +179,14 @@ def change_item(self, path, item_name):
     change_hardcoded_item(self, path, offset, item_id)
   elif main_dol_match:
     offset = int(main_dol_match.group(1), 16)
+    path = os.path.join("sys", "main.dol")
+    change_hardcoded_item(self, path, offset, item_id)
+  elif custom_symbol_match:
+    custom_symbol = custom_symbol_match.group(1)
+    if custom_symbol not in self.custom_symbols:
+      raise Exception("Invalid custom symbol: %s" % custom_symbol)
+    address = self.custom_symbols[custom_symbol]
+    offset = address - tweaks.ORIGINAL_FREE_SPACE_RAM_ADDRESS + tweaks.ORIGINAL_DOL_SIZE
     path = os.path.join("sys", "main.dol")
     change_hardcoded_item(self, path, offset, item_id)
   elif chest_match:
