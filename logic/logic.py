@@ -7,9 +7,6 @@ import os
 
 from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS
 
-from wwlib.rarc import RARC
-from wwlib.rel import REL
-
 class Logic:
   DUNGEON_NAMES = OrderedDict([
     ("DRC",  "Dragon Roost Cavern"),
