@@ -77,7 +77,7 @@ Outset Island - Dig up Black Soil:
     - sea/Room44.arc/ScalableObject03A
 Outset Island - Savage Labyrinth - Floor 30:
   Need:
-    Can Fly With Deku Leaf Outdoors
+    (Can Fly With Deku Leaf Outdoors | Hookshot)
     & Power Bracelets
     & Can Defeat Peahats
     & Can Defeat Armos
@@ -89,7 +89,7 @@ Outset Island - Savage Labyrinth - Floor 30:
     - Cave09/Room20.arc/Chest000
 Outset Island - Savage Labyrinth - Floor 50:
   Need:
-    Can Fly With Deku Leaf Outdoors
+    (Can Fly With Deku Leaf Outdoors | Hookshot)
     & Power Bracelets
     & Can Defeat Peahats
     & Can Defeat Armos
