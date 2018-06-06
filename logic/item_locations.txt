@@ -387,17 +387,17 @@ Windfall Island - Sinking Ships - 20 Shots or Less Prize:
   Type: Minigame
   Paths:
     - rels/d_a_npc_kg1.rel@2C2C
+#Windfall Island - Sinking Ships - 20 Shots or Less Prize 2+:
+#  Need: Nothing
+#  Original item: Orange Rupee
+#  Paths:
+#    - rels/d_a_npc_kg1.rel@2C2D
 #Windfall Island - Dampa's Piggy Sitting Minigame:
 #  Need: Rescued Aryll & Spoils Bag & Can Farm Skull Necklaces
 #  Original item: Purple Rupee
 #  Type: Minigame
 #  Paths:
 #    - rels/d_a_npc_people.rel@5BDF
-#Windfall Island - Sinking Ships - 20 Shots or Less Prize 2+:
-#  Need: Nothing
-#  Original item: Orange Rupee
-#  Paths:
-#    - rels/d_a_npc_kg1.rel@2C2D
 Windfall Island - Pompie and Vera:
   Need:
     # Need to snap a photo of Lenzo and Minenco in Lenzo's house at night.
@@ -469,7 +469,10 @@ Dragon Roost Island - Rito Aerie - Give Hoskit 20 Golden Feathers:
   Paths:
     - Atorizk/Stage.arc/Event000:Get_Rupee/Actor002/Action001
 Dragon Roost Island - Chest on Top of Boulder:
-  Need: Hero's Bow
+  Need:
+    Hero's Bow
+    | (Bait Bag & Can Buy Hyoi Pears)
+    # Note: It's also possible to hit the bottommost bomb flower with the boomerang, but this is pretty precise so it's not included.
   Original item: Silver Rupee
   Type: Other Chest
   Paths:

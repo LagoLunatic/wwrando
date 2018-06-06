@@ -126,16 +126,19 @@ Can Reach and Defeat Ganondorf:
 Rescued Aryll:
   Nothing # We set the event bit for having rescued Aryll by default.
 Can Get Fairies:
-  TODO
+  Nothing # Northern Fairy Island can be entered without any items.
 Can Farm Knight's Crests:
   Spoils Bag
   & (
     (Fire Arrows & Iron Boots)
     | TODO
   )
-  # There are respawning Darknuts in Ice Ring Isle and Savage Labyrinth.
+  # There are respawning Darknuts in:
+  # * The inner cave of Ice Ring Isle
+  # * Floor 27 (and below) of Savage Labyrinth
+  # * The big key room of Earth Temple
   # TODO: what do you need to reach the savage labyrinth ones?
-  # TODO: are the ones in the big key room of earth temple respawning?
+  # TODO: the one in the big key room of earth temple is respawning.
 Can Farm Joy Pendants:
   Spoils Bag
   # Dropped by Bokoblins, which are everywhere.
@@ -144,7 +147,7 @@ Can Farm Skull Necklaces:
   # Dropped by Moblins. The Moblins in submarines don't require any items to access.
 Can Farm Golden Feathers:
   Spoils Bag
-  # Dropped by Helmarocs and Peahats. TODO: Do you need anything to reach them?
+  # Dropped by Helmarocs and Peahats. Helmarocs are on platforms so you don't need anything to reach them.
 Can Farm Lots of Rupees:
   Nothing
   # TODO: We might want to add some restrictions here until the player can access efficient farming spots?
