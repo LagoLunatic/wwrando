@@ -546,3 +546,15 @@
   ; Change the call to createItemForPresentDemo to instead call our custom function so that it can set the custom event bit if necessary.
   .int salvage_corp_give_item_and_set_event_bit
 .close
+
+
+
+
+; The death zone in between Forest Haven and Forbidden Woods disappears once you have Farore's Pearl.
+; This makes it frustrating to make the trip to Forbidden Woods since you have to go all the way through Forest Haven every time you fail.
+; So we change this void to always be there, even after you own Farore's Pearl.
+.open "files/rels/d_a_tag_ret.rel" ; Void out death zone
+.org 0x22C
+  ; Change the branch here to be unconditional and always act like you do not have Farore's pearl.
+  b 0x238
+.close
