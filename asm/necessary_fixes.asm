@@ -531,3 +531,18 @@
   ; Change the call to createItemForPresentDemo to instead call our custom function so that it can set the custom event bit if necessary.
   .int zunari_give_item_and_set_magic_armor_event_bit
 .close
+
+
+
+
+; Salvage Corp usually check if they gave you their item by calling checkGetItem. That doesn't work well when it's randomized.
+; We replace the code so that it sets and checks a custom unused event bit.
+.open "files/rels/d_a_npc_sv.rel" ; Salvage Corp
+.org 0x2C8
+  li r3, 0x6980
+.org 0x3DFC ; Relocation for line 0x2CC
+  .int dComIfGs_isEventBit__FUs
+.org 0x41CC ; Relocation for line 0x19A8
+  ; Change the call to createItemForPresentDemo to instead call our custom function so that it can set the custom event bit if necessary.
+  .int salvage_corp_give_item_and_set_event_bit
+.close

@@ -668,5 +668,35 @@ blr
 .global zunari_magic_armor_slot_item_id
 zunari_magic_armor_slot_item_id:
 .byte 0x2A ; Default item ID is Magic Armor. This value is updated by the randomizer when this item is randomized.
+.align 2 ; Align to the next 4 bytes
+
+
+
+
+; Salvage Corp usually check if they gave you their item by calling checkGetItem. This doesn't work properly when the item is randomized.
+; So we need to set a custom event bit to keep track of whether you've gotten whatever item they give you.
+.global salvage_corp_give_item_and_set_event_bit
+salvage_corp_give_item_and_set_event_bit:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+stw r31, 0xC (sp)
+
+bl fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz
+
+
+mr r31, r3 ; Preserve the return value from createItemForPresentDemo so we can still return that
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6980 ; Unused event bit that we use to keep track of whether the Salvage Corp has given you their item yet or not
+bl onEventBit__11dSv_event_cFUs
+mr r3, r31
+
+
+lwz r31, 0xC (sp)
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
 
 .close
