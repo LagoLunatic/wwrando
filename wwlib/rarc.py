@@ -9,6 +9,8 @@ from wwlib.dzx import DZx
 from wwlib.events import EventList
 from wwlib.bmg import BMG
 from wwlib.charts import ChartList
+from wwlib.bdl import BDL
+from wwlib.bti import BTIFile
 
 class RARC:
   def __init__(self, data):
@@ -40,6 +42,8 @@ class RARC:
     self.dzx_files = []
     self.event_list_files = []
     self.bmg_files = []
+    self.bdl_files = []
+    self.bti_files = []
     self.chart_lists = []
     for node in self.nodes:
       for file_index in range(node.first_file_index, node.first_file_index+node.num_files):
@@ -64,6 +68,12 @@ class RARC:
         elif file_entry.name.endswith(".bmg"):
           bmg = BMG(file_entry)
           self.bmg_files.append(bmg)
+        elif file_entry.name.endswith(".bdl"):
+          bdl = BDL(file_entry)
+          self.bdl_files.append(bdl)
+        elif file_entry.name.endswith(".bti"):
+          bti = BTIFile(file_entry)
+          self.bti_files.append(bti)
         elif file_entry.name == "cmapdat.bin":
           chart_list = ChartList(file_entry)
           self.chart_lists.append(chart_list)
@@ -110,6 +120,7 @@ class RARC:
     
     # Cut off the file data first since we're replacing this data entirely.
     self.data.truncate(self.file_data_list_offset)
+    self.data.seek(self.file_data_list_offset)
     
     next_file_data_offset = 0
     for file_entry in self.file_entries:
