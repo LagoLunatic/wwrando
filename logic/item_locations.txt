@@ -161,13 +161,13 @@ Windfall Island - Mrs. Marie - Catch Killer Bees:
   Type: Sidequest
   Paths:
     - rels/d_a_npc_ho.rel@0A07
-Windfall Island - Roll Into Tree:
-  Need: Nothing
-  Original item: Joy Pendant
-  Type: No progression # Many people won't know about this item. Also, it only works during the day, and only after playing hide and seek.
-  Paths:
-    - rels/d_a_tag_mk.rel@0637
-    - sea/Stage.arc/Event093:MK_PENDANT/Actor001/Action005
+#Windfall Island - Roll Into Tree: # Buggy, if you get a rupee here you get it twice, and Link walking in the event looks weird
+#  Need: Nothing
+#  Original item: Joy Pendant
+#  Type: No progression # Many people won't know about this item. Also, it only works during the day, and only after playing hide and seek.
+#  Paths:
+#    - rels/d_a_tag_mk.rel@0637
+#    - sea/Stage.arc/Event093:MK_PENDANT/Actor001/Action005
 Windfall Island - Mrs. Marie - Give 1 Joy Pendant:
   Need: Spoils Bag & Can Farm Joy Pendants
   Original item: Red Rupee
