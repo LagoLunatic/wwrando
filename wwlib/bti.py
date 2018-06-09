@@ -19,26 +19,11 @@ class BTI:
     
     self.image_format = read_u8(data, header_offset+0)
     
-    if self.image_format in [3, 4, 5, 6, 0xA]:
-      self.block_width = 4
-      self.block_height = 4
-    elif self.image_format in [0, 8, 0xE]:
-      self.block_width = 8
-      self.block_height = 8
-    elif self.image_format in [1, 2, 9]:
-      self.block_width = 8
-      self.block_height = 4
-    else:
-      raise Exception("Unknown image format: %X" % self.image_format)
-    if self.image_format == 6:
-      self.block_data_size = 64
-    else:
-      self.block_data_size = 32
-    
     self.alpha_enabled = bool(read_u8(data, header_offset+1))
     self.width = read_u16(data, header_offset+2)
     self.height = read_u16(data, header_offset+4)
     
+    self.palettes_enabled = bool(read_u8(data, header_offset+8))
     self.palette_format = read_u8(data, header_offset+9)
     if not self.palette_format in [0, 1, 2]:
       raise Exception("Unknown palette format: %X" % self.palette_format)
@@ -56,12 +41,40 @@ class BTI:
     self.palette_data = BytesIO(read_bytes(data, header_offset+self.palette_data_offset, palette_data_size))
   
   def save_header_changes(self):
+    write_u8(self.data, self.header_offset+0, self.image_format)
     write_u16(self.data, self.header_offset+2, self.width)
     write_u16(self.data, self.header_offset+4, self.height)
+    self.palettes_enabled = (self.image_format in self.IMAGE_FORMATS_THAT_USE_PALETTES)
+    write_u8(self.data, self.header_offset+8, int(self.palettes_enabled))
+    write_u8(self.data, self.header_offset+9, self.palette_format)
     write_u16(self.data, self.header_offset+0xA, self.num_colors)
     write_u32(self.data, self.header_offset+0xC, self.palette_data_offset)
     write_u32(self.data, self.header_offset+0x1C, self.image_data_offset)
   
+  @property
+  def block_width(self):
+    if self.image_format in [3, 4, 5, 6, 0xA]:
+      return 4
+    elif self.image_format in [0, 1, 2, 8, 9, 0xE]:
+      return 8
+    else:
+      raise Exception("Unknown image format: %X" % self.image_format)
+  
+  @property
+  def block_height(self):
+    if self.image_format in [1, 2, 3, 4, 5, 6, 9, 0xA]:
+      return 4
+    elif self.image_format in [0, 8, 0xE]:
+      return 8
+    else:
+      raise Exception("Unknown image format: %X" % self.image_format)
+  
+  @property
+  def block_data_size(self):
+    if self.image_format == 6:
+      return 64
+    else:
+      return 32
   
   
   @staticmethod
@@ -123,7 +136,7 @@ class BTI:
   
   @staticmethod
   def convert_color_to_rgb5a3(color):
-    r, g, b, a = color
+    r, g, b, a = BTI.get_rgba(color)
     if a != 255:
       a = a*0x7//255
       r = r*0xF//255
@@ -166,7 +179,7 @@ class BTI:
   
   @staticmethod
   def convert_color_to_ia8(color):
-    r, g, b, a = color
+    r, g, b, a = BTI.get_rgba(color)
     assert r == g == b
     ia8 = 0x0000
     ia8 |= (r & 0xFF)
@@ -212,6 +225,20 @@ class BTI:
     colors = [color_0, color_1, color_2, color_3]
     return colors
   
+  @staticmethod
+  def get_best_cmpr_key_colors(all_colors):
+    # Warning: This is a naive approach to selecting key colors that results in poor quality.
+    # A proper implementation would be complicated to implement.
+    min_r = min(all_colors, key=lambda c: c[0])[0]
+    max_r = max(all_colors, key=lambda c: c[0])[0]
+    min_g = min(all_colors, key=lambda c: c[1])[1]
+    max_g = max(all_colors, key=lambda c: c[1])[1]
+    min_b = min(all_colors, key=lambda c: c[2])[2]
+    max_b = max(all_colors, key=lambda c: c[2])[2]
+    color_0 = (min_r, min_g, min_b)
+    color_1 = (max_r, max_g, max_b)
+    return (color_0, color_1)
+    
   # Picks a color from a palette that is visually the closest to the given color.
   # Based off Aseprite's code: https://github.com/aseprite/aseprite/blob/cc7bde6cd1d9ab74c31ccfa1bf41a000150a1fb2/src/doc/palette.cpp#L226-L272
   @staticmethod
@@ -291,6 +318,7 @@ class BTI:
   def generate_new_palettes_from_image(self, image):
     if self.image_format not in self.IMAGE_FORMATS_THAT_USE_PALETTES:
       self.colors = None
+      self.num_colors = 0
       return
     
     pixels = image.load()
@@ -314,7 +342,7 @@ class BTI:
   
   def save_palettes(self):
     if self.image_format not in self.IMAGE_FORMATS_THAT_USE_PALETTES:
-      self.colors = None
+      self.palette_data = BytesIO()
       return
     
     if len(self.colors) > self.MAX_COLORS_FOR_IMAGE_FORMAT[self.image_format]:
@@ -336,12 +364,6 @@ class BTI:
       
       write_u16(new_palette_data, offset, raw_color)
       offset += 2
-    
-    if len(self.colors) < self.num_colors:
-      # Pad out with dummy colors if there aren't enough.
-      for i in range(self.num_colors - len(self.colors)):
-        write_u16(new_palette_data, offset, 0xFFFF)
-        offset += 2
     
     self.palette_data = new_palette_data
   
@@ -645,8 +667,7 @@ class BTI:
         else:
           all_colors_in_subblock.append(color)
       
-      color_0 = all_colors_in_subblock[0] # TODO
-      color_1 = all_colors_in_subblock[-1] # TODO
+      color_0, color_1 = BTI.get_best_cmpr_key_colors(all_colors_in_subblock)
       color_0_rgb565 = BTI.convert_color_to_rgb565(color_0)
       color_1_rgb565 = BTI.convert_color_to_rgb565(color_1)
       

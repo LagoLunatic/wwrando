@@ -56,18 +56,16 @@ class BDLChunk:
       self.read_tex1()
   
   def save_changes(self):
-    write_str(self.data, 0, self.magic, 4)
-    write_u32(self.data, 4, self.size)
-    
     if self.magic == "TEX1":
       self.save_tex1()
     
     # Pad the size of this chunk to the next 0x20 bytes.
-    data_size = data_len(self.data)
-    padded_data_size = (data_size + 0x1F) & ~0x1F
-    padding_size_needed = padded_data_size - data_size
-    write_bytes(self.data, data_size, b"\0"*padding_size_needed)
+    align_data_to_nearest(self.data, 0x20)
     # The original BDLs used the repeating string "This is padding" for the padding, but we simply use null bytes instead.
+    
+    self.size = data_len(self.data)
+    write_str(self.data, 0, self.magic, 4)
+    write_u32(self.data, 4, self.size)
   
   def read_tex1(self):
     self.textures = []
@@ -106,13 +104,15 @@ class BDLChunk:
       texture.image_data_offset = next_available_data_offset - texture.header_offset
       texture.image_data.seek(0)
       self.data.write(texture.image_data.read())
-      next_available_data_offset += data_len(texture.image_data)
+      align_data_to_nearest(self.data, 0x20)
+      next_available_data_offset = data_len(self.data)
       
       if texture.image_format in BTI.IMAGE_FORMATS_THAT_USE_PALETTES:
         texture.palette_data_offset = next_available_data_offset - texture.header_offset
         texture.palette_data.seek(0)
         self.data.write(texture.palette_data.read())
-        next_available_data_offset += data_len(texture.palette_data)
+        align_data_to_nearest(self.data, 0x20)
+        next_available_data_offset = data_len(self.data)
       else:
         # If the image doesn't use palettes its palette offset is just the same as the first texture's image offset.
         first_texture = self.textures[0]

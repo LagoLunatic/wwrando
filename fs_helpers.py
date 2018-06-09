@@ -141,3 +141,11 @@ def write_s32(data, offset, new_value):
   new_value = struct.pack(">i", new_value)
   data.seek(offset)
   data.write(new_value)
+
+
+def align_data_to_nearest(data, size):
+  current_end = data_len(data)
+  next_offset = current_end + (size - current_end % size) % size
+  padding_needed = next_offset - current_end
+  data.seek(current_end)
+  data.write(b"\0"*padding_needed)
