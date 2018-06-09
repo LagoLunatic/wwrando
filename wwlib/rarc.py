@@ -127,7 +127,7 @@ class RARC:
       if file_entry.is_dir:
         continue
       
-      data_size = file_entry.data.seek(0, 2)
+      data_size = data_len(file_entry.data)
       file_entry.data_offset = next_file_data_offset
       file_entry.data_size = data_size
       file_entry.save_changes()

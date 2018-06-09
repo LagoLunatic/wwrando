@@ -2,6 +2,7 @@
 import os
 from enum import Enum
 from io import BytesIO
+from collections import OrderedDict
 
 from wwlib.bti import BTI
 
@@ -60,6 +61,13 @@ class BDLChunk:
     
     if self.magic == "TEX1":
       self.save_tex1()
+    
+    # Pad the size of this chunk to the next 0x20 bytes.
+    data_size = data_len(self.data)
+    padded_data_size = (data_size + 0x1F) & ~0x1F
+    padding_size_needed = padded_data_size - data_size
+    write_bytes(self.data, data_size, b"\0"*padding_size_needed)
+    # The original BDLs used the repeating string "This is padding" for the padding, but we simply use null bytes instead.
   
   def read_tex1(self):
     self.textures = []
@@ -69,6 +77,21 @@ class BDLChunk:
       bti_header_offset = self.texture_header_list_offset + texture_index*0x20
       texture = BTI(self.data, bti_header_offset)
       self.textures.append(texture)
+    
+    self.string_section_offset = read_u32(self.data, 0x10)
+    self.num_strings = read_u16(self.data, self.string_section_offset)
+    self.string_unknown_1 = read_u16(self.data, self.string_section_offset+2)
+    self.string_unknown_2 = read_u16(self.data, self.string_section_offset+4)
+    self.string_data_offset = read_u16(self.data, self.string_section_offset+6)
+    self.string_unknown_3 = read_bytes(self.data, self.string_section_offset+8, self.string_data_offset-8)
+    
+    self.textures_by_name = OrderedDict()
+    offset_in_string_list = self.string_data_offset
+    for texture in self.textures:
+      filename = read_str_until_null_character(self.data, self.string_section_offset + offset_in_string_list)
+      self.textures_by_name[filename] = texture
+      
+      offset_in_string_list += len(filename) + 1
   
   def save_tex1(self):
     # Does not support adding new textures currently.
@@ -81,16 +104,31 @@ class BDLChunk:
       self.data.seek(next_available_data_offset)
       
       texture.image_data_offset = next_available_data_offset - texture.header_offset
-      self.data.write(texture.image_data)
-      next_available_data_offset += len(texture.image_data)
+      texture.image_data.seek(0)
+      self.data.write(texture.image_data.read())
+      next_available_data_offset += data_len(texture.image_data)
       
       if texture.image_format in BTI.IMAGE_FORMATS_THAT_USE_PALETTES:
         texture.palette_data_offset = next_available_data_offset - texture.header_offset
-        self.data.write(texture.palette_data)
-        next_available_data_offset += len(texture.palette_data)
+        texture.palette_data.seek(0)
+        self.data.write(texture.palette_data.read())
+        next_available_data_offset += data_len(texture.palette_data)
       else:
         # If the image doesn't use palettes its palette offset is just the same as the first texture's image offset.
         first_texture = self.textures[0]
         texture.palette_data_offset = first_texture.image_data_offset + first_texture.header_offset - texture.header_offset
       
       texture.save_header_changes()
+    
+    self.string_section_offset = next_available_data_offset
+    write_u32(self.data, 0x10, self.string_section_offset)
+    write_u16(self.data, self.string_section_offset, self.num_strings)
+    write_u16(self.data, self.string_section_offset+2, self.string_unknown_1)
+    write_u16(self.data, self.string_section_offset+4, self.string_unknown_2)
+    write_u16(self.data, self.string_section_offset+6, self.string_data_offset)
+    write_bytes(self.data, self.string_section_offset+8, self.string_unknown_3)
+    
+    offset_in_string_list = self.string_data_offset
+    for filename, texture in self.textures_by_name.items():
+      write_str_with_null_byte(self.data, self.string_section_offset+offset_in_string_list, filename)
+      offset_in_string_list += len(filename) + 1

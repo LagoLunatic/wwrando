@@ -50,10 +50,10 @@ class BTI:
     blocks_wide = (self.width + (self.block_width-1)) // self.block_width
     blocks_tall = (self.height + (self.block_height-1)) // self.block_height
     image_data_size = blocks_wide*blocks_tall*self.block_data_size
-    self.image_data = read_bytes(data, header_offset+self.image_data_offset, image_data_size)
+    self.image_data = BytesIO(read_bytes(data, header_offset+self.image_data_offset, image_data_size))
     
     palette_data_size = self.num_colors*2
-    self.palette_data = read_bytes(data, header_offset+self.palette_data_offset, palette_data_size)
+    self.palette_data = BytesIO(read_bytes(data, header_offset+self.palette_data_offset, palette_data_size))
   
   def save_header_changes(self):
     write_u16(self.data, self.header_offset+2, self.width)
@@ -64,6 +64,15 @@ class BTI:
   
   
   
+  @staticmethod
+  def get_rgba(color):
+    if len(color) == 4:
+      r, g, b, a = color
+    else:
+      r, g, b = color
+      a = 0xFF
+    return (r, g, b, a)
+   
   @staticmethod
   def convert_rgb565_to_color(rgb565):
     r = ((rgb565 >> 11) & 0x1F)
@@ -76,7 +85,7 @@ class BTI:
   
   @staticmethod
   def convert_color_to_rgb565(color):
-    r, g, b, a = color
+    r, g, b, a = BTI.get_rgba(color)
     r = r*0x1F//255
     g = g*0x3F//255
     b = b*0x1F//255
@@ -178,15 +187,98 @@ class BTI:
     
     return (r, g, b, a)
   
+  @staticmethod
+  def get_interpolated_cmpr_colors(color_0_rgb565, color_1_rgb565):
+    color_0 = BTI.convert_rgb565_to_color(color_0_rgb565)
+    color_1 = BTI.convert_rgb565_to_color(color_1_rgb565)
+    r0, g0, b0, _ = color_0
+    r1, g1, b1, _ = color_1
+    if color_0_rgb565 > color_1_rgb565:
+      color_2 = (
+        (2*r0 + 1*r1)//3,
+        (2*g0 + 1*g1)//3,
+        (2*b0 + 1*b1)//3,
+        255
+      )
+      color_3 = (
+        (1*r0 + 2*r1)//3,
+        (1*g0 + 2*g1)//3,
+        (1*b0 + 2*b1)//3,
+        255
+      )
+    else:
+      color_2 = (r0//2+r1//2, g0//2+g1//2, b0//2+b1//2, 255)
+      color_3 = (0, 0, 0, 0)
+    colors = [color_0, color_1, color_2, color_3]
+    return colors
+  
+  # Picks a color from a palette that is visually the closest to the given color.
+  # Based off Aseprite's code: https://github.com/aseprite/aseprite/blob/cc7bde6cd1d9ab74c31ccfa1bf41a000150a1fb2/src/doc/palette.cpp#L226-L272
+  @staticmethod
+  def get_nearest_color(color, palette):
+    if color in palette:
+      return color
+    
+    r, g, b, a = BTI.get_rgba(color)
+    
+    if a == 0: # Transparent
+      for indexed_color in palette:
+        if len(indexed_color) == 4 and indexed_color[3] == 0:
+          return indexed_color
+    
+    min_dist = 9999999999.0
+    value = None
+    
+    col_diff_g = []
+    col_diff_r = []
+    col_diff_b = []
+    col_diff_a = []
+    for i in range(128):
+      col_diff_g.append(0)
+      col_diff_r.append(0)
+      col_diff_b.append(0)
+      col_diff_a.append(0)
+    for i in range(1, 63+1):
+      k = i*i
+      col_diff_g[i] = col_diff_g[128-i] = k * 59 * 59
+      col_diff_r[i] = col_diff_r[128-i] = k * 30 * 30
+      col_diff_b[i] = col_diff_b[128-i] = k * 11 * 11
+      col_diff_a[i] = col_diff_a[128-i] = k * 8 * 8
+    
+    for indexed_color in palette:
+      r1, g1, b1, a1 = BTI.get_rgba(color)
+      r2, g2, b2, a2 = BTI.get_rgba(indexed_color)
+      r1 >>= 3
+      g1 >>= 3
+      b1 >>= 3
+      a1 >>= 3
+      r2 >>= 3
+      g2 >>= 3
+      b2 >>= 3
+      a2 >>= 3
+      
+      coldiff = col_diff_g[g2 - g1 & 127]
+      if coldiff < min_dist:
+        coldiff += col_diff_r[r2 - r1 & 127]
+        if coldiff < min_dist:
+          coldiff += col_diff_b[b2 - b1 & 127]
+          if coldiff < min_dist:
+            coldiff += col_diff_a[a2 - a1 & 127]
+            if coldiff < min_dist:
+              min_dist = coldiff
+              value = indexed_color
+    
+    return value
+  
   def read_palettes(self):
     if self.image_format not in self.IMAGE_FORMATS_THAT_USE_PALETTES:
       self.colors = None
       return
     
     self.colors = []
-    offset = self.palette_data_offset + self.header_offset
+    offset = 0
     for i in range(self.num_colors):
-      raw_color = read_u16(self.data, offset)
+      raw_color = read_u16(self.palette_data, offset)
       if self.palette_format == 0:
         color = BTI.convert_ia8_to_color(raw_color)
       elif self.palette_format == 1:
@@ -251,8 +343,7 @@ class BTI:
         write_u16(new_palette_data, offset, 0xFFFF)
         offset += 2
     
-    new_palette_data.seek(0)
-    self.palette_data = new_palette_data.read()
+    self.palette_data = new_palette_data
   
   
   
@@ -261,7 +352,7 @@ class BTI:
     
     image = Image.new("RGBA", (self.width, self.height), (0, 0, 0, 0))
     pixels = image.load()
-    offset = self.image_data_offset + self.header_offset
+    offset = 0
     block_x = 0
     block_y = 0
     while block_y < self.height:
@@ -315,7 +406,7 @@ class BTI:
     pixel_color_data = []
     
     for byte_index in range(self.block_data_size):
-      byte = read_u8(self.data, offset+byte_index)
+      byte = read_u8(self.image_data, offset+byte_index)
       for nibble_index in range(2):
         i4 = (byte >> (1-nibble_index)*4) & 0xF
         color = BTI.convert_i4_to_color(i4)
@@ -328,7 +419,7 @@ class BTI:
     pixel_color_data = []
     
     for i in range(self.block_data_size):
-      i8 = read_u8(self.data, offset+i)
+      i8 = read_u8(self.image_data, offset+i)
       color = BTI.convert_i8_to_color(i8)
       
       pixel_color_data.append(color)
@@ -339,7 +430,7 @@ class BTI:
     pixel_color_data = []
     
     for i in range(self.block_data_size):
-      ia4 = read_u8(self.data, offset+i)
+      ia4 = read_u8(self.image_data, offset+i)
       color = BTI.convert_ia4_to_color(ia4)
       
       pixel_color_data.append(color)
@@ -350,7 +441,7 @@ class BTI:
     pixel_color_data = []
     
     for i in range(self.block_data_size//2):
-      ia8 = read_u16(self.data, offset+i*2)
+      ia8 = read_u16(self.image_data, offset+i*2)
       color = BTI.convert_ia8_to_color(ia8)
       
       pixel_color_data.append(color)
@@ -361,7 +452,7 @@ class BTI:
     pixel_color_data = []
     
     for i in range(self.block_data_size//2):
-      rgb565 = read_u16(self.data, offset+i*2)
+      rgb565 = read_u16(self.image_data, offset+i*2)
       color = BTI.convert_rgb565_to_color(rgb565)
       
       pixel_color_data.append(color)
@@ -372,7 +463,7 @@ class BTI:
     pixel_color_data = []
     
     for i in range(self.block_data_size//2):
-      rgb5a3 = read_u16(self.data, offset+i*2)
+      rgb5a3 = read_u16(self.image_data, offset+i*2)
       color = BTI.convert_rgb5a3_to_color(rgb5a3)
       
       pixel_color_data.append(color)
@@ -383,10 +474,10 @@ class BTI:
     pixel_color_data = []
     
     for i in range(16):
-      a = read_u8(self.data, offset+(i*2))
-      r = read_u8(self.data, offset+(i*2)+1)
-      g = read_u8(self.data, offset+(i*2)+32)
-      b = read_u8(self.data, offset+(i*2)+33)
+      a = read_u8(self.image_data, offset+(i*2))
+      r = read_u8(self.image_data, offset+(i*2)+1)
+      g = read_u8(self.image_data, offset+(i*2)+32)
+      b = read_u8(self.image_data, offset+(i*2)+33)
       color = (r, g, b, a)
       
       pixel_color_data.append(color)
@@ -397,7 +488,7 @@ class BTI:
     pixel_color_data = []
     
     for byte_index in range(self.block_data_size):
-      byte = read_u8(self.data, offset+byte_index)
+      byte = read_u8(self.image_data, offset+byte_index)
       for nibble_index in range(2):
         color_index = (byte >> (1-nibble_index)*4) & 0xF
         color = self.colors[color_index]
@@ -410,7 +501,7 @@ class BTI:
     pixel_color_data = []
     
     for i in range(self.block_data_size):
-      color_index = read_u8(self.data, offset+i)
+      color_index = read_u8(self.image_data, offset+i)
       if color_index == 0xFF:
         # This block bleeds past the edge of the image
         color = None
@@ -425,7 +516,7 @@ class BTI:
     pixel_color_data = []
     
     for i in range(self.block_data_size//2):
-      color_index = read_u16(self.data, offset+i*2) & 0x3FFF
+      color_index = read_u16(self.image_data, offset+i*2) & 0x3FFF
       if color_index == 0x3FFF:
         # This block bleeds past the edge of the image
         color = None
@@ -444,31 +535,11 @@ class BTI:
       subblock_x = (subblock_index%2)*4
       subblock_y = (subblock_index//2)*4
       
-      color_0_rgb565 = read_u16(self.data, subblock_offset)
-      color_1_rgb565 = read_u16(self.data, subblock_offset+2)
-      color_0 = BTI.convert_rgb565_to_color(color_0_rgb565)
-      color_1 = BTI.convert_rgb565_to_color(color_1_rgb565)
-      r0, g0, b0, _ = color_0
-      r1, g1, b1, _ = color_1
-      if color_0_rgb565 > color_1_rgb565:
-        color_2 = (
-          (2*r0 + 1*r1)//3,
-          (2*g0 + 1*g1)//3,
-          (2*b0 + 1*b1)//3,
-          255
-        )
-        color_3 = (
-          (1*r0 + 2*r1)//3,
-          (1*g0 + 2*g1)//3,
-          (1*b0 + 2*b1)//3,
-          255
-        )
-      else:
-        color_2 = (r0//2+r1//2, g0//2+g1//2, b0//2+b1//2, 255)
-        color_3 = (0, 0, 0, 0)
-      colors = [color_0, color_1, color_2, color_3]
+      color_0_rgb565 = read_u16(self.image_data, subblock_offset)
+      color_1_rgb565 = read_u16(self.image_data, subblock_offset+2)
+      colors = BTI.get_interpolated_cmpr_colors(color_0_rgb565, color_1_rgb565)
       
-      color_indexes = read_u32(self.data, subblock_offset+4)
+      color_indexes = read_u32(self.image_data, subblock_offset+4)
       for i in range(16):
         color_index = ((color_indexes >> ((15-i)*2)) & 3)
         color = colors[color_index]
@@ -486,9 +557,6 @@ class BTI:
   
   
   def replace_image(self, new_image_file_path):
-    if self.image_format not in [5, 9]:
-      raise Exception("Not implemented, cannot save image in format: %d" % self.image_format)
-    
     image = Image.open(new_image_file_path)
     new_image_width, new_image_height = image.size
     self.width = new_image_width
@@ -504,6 +572,8 @@ class BTI:
     while block_y < self.height:
       block_data = self.convert_image_to_block(pixels, block_x, block_y)
       
+      assert len(block_data) == self.block_data_size
+      
       write_bytes(new_image_data, offset_in_image_data, block_data)
       
       offset_in_image_data += self.block_data_size
@@ -514,14 +584,15 @@ class BTI:
     
     self.save_palettes()
     
-    new_image_data.seek(0)
-    self.image_data = new_image_data.read()
+    self.image_data = new_image_data
   
   def convert_image_to_block(self, pixels, block_x, block_y):
     if self.image_format == 5:
       return self.convert_image_to_rgb5a3_block(pixels, block_x, block_y)
     elif self.image_format == 9:
       return self.convert_image_to_c8_block(pixels, block_x, block_y)
+    elif self.image_format == 0xE:
+      return self.convert_image_to_cmpr_block(pixels, block_x, block_y)
     else:
       raise Exception("Unknown image format: %X" % self.image_format)
   
@@ -554,6 +625,63 @@ class BTI:
     
     new_data.seek(0)
     return new_data.read()
+  
+  def convert_image_to_cmpr_block(self, pixels, block_x, block_y):
+    new_data = BytesIO()
+    subblock_offset = 0
+    for subblock_index in range(4):
+      subblock_x = block_x + (subblock_index%2)*4
+      subblock_y = block_y + (subblock_index//2)*4
+      
+      all_colors_in_subblock = []
+      needs_transparent_color = False
+      for i in range(16):
+        x_in_subblock = i % 4
+        y_in_subblock = i // 4
+        color = pixels[subblock_x+x_in_subblock,subblock_y+y_in_subblock]
+        r, g, b, a = BTI.get_rgba(color)
+        if a == 0:
+          needs_transparent_color = True
+        else:
+          all_colors_in_subblock.append(color)
+      
+      color_0 = all_colors_in_subblock[0] # TODO
+      color_1 = all_colors_in_subblock[-1] # TODO
+      color_0_rgb565 = BTI.convert_color_to_rgb565(color_0)
+      color_1_rgb565 = BTI.convert_color_to_rgb565(color_1)
+      
+      if needs_transparent_color and color0_rgb565 > color1_rgb565:
+        color_0_rgb565, color_1_rgb565 = color_1_rgb565, color_0_rgb565
+        color_0, color_1 = color1, color0
+      elif color_0_rgb565 < color_1_rgb565:
+        color_0_rgb565, color_1_rgb565 = color_1_rgb565, color_0_rgb565
+        color_0, color1 = color_1, color_0
+      
+      colors = BTI.get_interpolated_cmpr_colors(color_0_rgb565, color_1_rgb565)
+      colors[0] = color_0
+      colors[1] = color_1
+      
+      write_u16(new_data, subblock_offset, color_0_rgb565)
+      write_u16(new_data, subblock_offset+2, color_1_rgb565)
+      
+      color_indexes = 0
+      for i in range(16):
+        x_in_subblock = i % 4
+        y_in_subblock = i // 4
+        color = pixels[subblock_x+x_in_subblock,subblock_y+y_in_subblock]
+        
+        if color in colors:
+          color_index = colors.index(color)
+        else:
+          new_color = BTI.get_nearest_color(color, colors)
+          color_index = colors.index(new_color)
+        color_indexes |= (color_index << ((15-i)*2))
+      write_u32(new_data, subblock_offset+4, color_indexes)
+      
+      subblock_offset += 8
+    
+    new_data.seek(0)
+    return new_data.read()
 
 class BTIFile(BTI): # For standalone .bti files (as opposed to textures embedded in .bdl models)
   def __init__(self, file_entry):
@@ -567,11 +695,13 @@ class BTIFile(BTI): # For standalone .bti files (as opposed to textures embedded
     self.data.seek(0x20)
     
     self.image_data_offset = 0x20
-    self.data.write(self.image_data)
+    self.image_data.seek(0)
+    self.data.write(self.image_data.read())
     
     if self.image_format in BTI.IMAGE_FORMATS_THAT_USE_PALETTES:
-      self.palette_data_offset = 0x20 + len(self.image_data)
-      self.data.write(self.palette_data)
+      self.palette_data_offset = 0x20 + data_len(self.image_data)
+      self.palette_data.seek(0)
+      self.data.write(self.palette_data.read())
     else:
       self.palette_data_offset = 0
     

@@ -71,6 +71,10 @@ def write_str(data, offset, new_string, max_length):
   data.seek(offset)
   data.write(new_value)
 
+def write_str_with_null_byte(data, offset, new_string):
+  str_len = len(new_string)
+  write_str(data, offset, new_string, str_len+1)
+
 
 def read_u8(data, offset):
   data.seek(offset)
