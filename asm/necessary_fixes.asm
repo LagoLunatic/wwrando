@@ -312,13 +312,13 @@
   lwz r0,0x3C(r3)
 .close
 ; Item Ivan hid in a tree on Windfall
-.open "files/rels/d_a_tag_mk.rel" ; Item in Windfall tree
-.org 0x1828 ; Relocation for line 0x658
-  .int custom_createItem
-; Again, change the code that reads the entity ID to read from entity+3C instead of subentity+4.
-.org 0x6A4
-  lwz r0,0x3C(r30)
-.close
+;.open "files/rels/d_a_tag_mk.rel" ; Item in Windfall tree
+;.org 0x1828 ; Relocation for line 0x658
+;  .int custom_createItem
+;; Again, change the code that reads the entity ID to read from entity+3C instead of subentity+4.
+;.org 0x6A4
+;  lwz r0,0x3C(r30)
+;.close
 
 
 
