@@ -543,6 +543,8 @@ lwz r3, 0 (r3) ; Read the pointer to KoRL's entity
 lha r3, 0x206 (r3) ; Read KoRL's Y rotation
 neg r3, r3 ; Negate his Y rotation since it's backwards
 addi r4, r3, 0x4000 ; Add 90 degrees to get the diretion KoRL is actually facing
+addi r4, r4, 0x1000 ; Add another 22.5 degrees in order to help round to the closest 45 degrees.
+rlwinm r4,r4,0,0,18 ; Now AND with 0xFFFFE000 in order to round down to the nearest 0x2000 (45 degrees). Because we added 22.5 degrees first, this accomplishes rounding either up or down to the nearest 45 degrees, whichever is closer.
 
 li r3, 0
 bl dKyw_tact_wind_set__Fss ; Pass the new angle as argument r4 to the function that changes wind direction
