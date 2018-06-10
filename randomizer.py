@@ -496,3 +496,12 @@ class Randomizer:
     spoiler_log_output_path = os.path.join(self.randomized_output_folder, "WW Random %s - Spoiler Log.txt" % self.seed)
     with open(spoiler_log_output_path, "w") as f:
       f.write(spoiler_log)
+  
+  def write_error_log(self, error_message):
+    error_log_str = self.get_log_header()
+    
+    error_log_str += error_message
+    
+    error_log_output_path = os.path.join(self.randomized_output_folder, "WW Random %s - Error Log.txt" % self.seed)
+    with open(error_log_output_path, "w") as f:
+      f.write(error_log_str)

@@ -153,6 +153,12 @@ class WWRandomizerWindow(QMainWindow):
   def randomization_failed(self, error_message):
     self.progress_dialog.reset()
     
+    try:
+      self.randomizer_thread.randomizer.write_error_log(error_message)
+    except:
+      # If an error happened when writing the error log just ignore it.
+      pass
+    
     print(error_message)
     QMessageBox.critical(
       self, "Randomization Failed",
