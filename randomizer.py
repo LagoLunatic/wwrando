@@ -135,6 +135,7 @@ class Randomizer:
     tweaks.add_cube_to_earth_temple_first_room(self)
     tweaks.add_more_magic_jars_to_dungeons(self)
     tweaks.remove_title_and_ending_videos(self)
+    tweaks.modify_title_screen_logo(self)
   
   def verify_supported_version(self, clean_iso_path):
     if not os.path.isfile(clean_iso_path):

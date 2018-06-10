@@ -525,3 +525,34 @@ def remove_title_and_ending_videos(self):
     new_data = BytesIO(f.read())
   self.replace_raw_file("files/thpdemo/title_loop.thp", new_data)
   self.replace_raw_file("files/thpdemo/end_st_epilogue.thp", new_data)
+
+def modify_title_screen_logo(self):
+  try:
+    from sys import _MEIPASS
+    assets_path = os.path.join(_MEIPASS, "assets")
+  except ImportError:
+    assets_path = "assets"
+  
+  new_subtitle_image_path = os.path.join(assets_path, "subtitle.png")
+  tlogoe_arc = self.get_arc("files/res/Object/TlogoE.arc")
+  
+  subtitle_model = tlogoe_arc.get_file("subtitle_start_anim_e.bdl")
+  subtitle_image = subtitle_model.tex1.textures_by_name["logo_sub_e"]
+  subtitle_image.replace_image(new_subtitle_image_path)
+  subtitle_model.save_changes()
+  
+  subtitle_glare_model = tlogoe_arc.get_file("subtitle_kirari_e.bdl")
+  subtitle_glare_image = subtitle_glare_model.tex1.textures_by_name["logo_sub_e"]
+  subtitle_glare_image.replace_image(new_subtitle_image_path)
+  subtitle_glare_model.save_changes()
+  
+  # Move where the subtitle is drawn downwards a bit so the word "the" doesn't get covered up by the main logo.
+  title_data = self.get_raw_file("files/rels/d_a_title.rel")
+  y_pos = read_float(title_data, 0x1F44)
+  y_pos -= 13.0
+  write_float(title_data, 0x1F44, y_pos)
+  
+  # Move the sparkle particle effect down a bit to fit the taller logo better.
+  # (This has the side effect of also moving down the clouds below the ship, but this is not noticeable.)
+  data = tlogoe_arc.get_file_entry("title_logo_e.blo").data
+  write_u16(data, 0x162, 0x106) # Increase Y pos by 16 pixels (0xF6 -> 0x106)
