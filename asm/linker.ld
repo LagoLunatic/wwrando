@@ -35,3 +35,4 @@ setShipSailState__11JAIZelBasicFl = 0x802a965c;
 dKyw_tact_wind_set__Fss = 0x8008a7d0;
 dComIfGs_isStageTbox__Fii = 0x80053918;
 setEquipBottleItemEmpty__17dSv_player_item_cFv = 0x80059408;
+fopAcM_orderOtherEventId__FP10fopAc_ac_csUcUsUsUs = 0x80025ea4;

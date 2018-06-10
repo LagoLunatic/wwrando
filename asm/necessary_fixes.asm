@@ -558,3 +558,44 @@
   ; Change the branch here to be unconditional and always act like you do not have Farore's pearl.
   b 0x238
 .close
+
+
+
+
+; Maggie usually checks if she's given you her letter by calling isReserve. That doesn't work well when the item is randomized.
+; So we change her to set and check a custom event bit (6A01).
+.open "files/rels/d_a_npc_kp1.rel" ; Maggie
+; Change how she checks if she's given you her first item yet.
+.org 0x1214
+  li r3, 0x6A01
+.org 0x40A8 ; Relocation for line 0x1218
+  .int dComIfGs_isEventBit__FUs
+; Change the function call when she gives you her first item to a custom function that will set the custom event bit.
+.org 0x4190 ; Relocation for line 0x17EC
+  .int maggie_give_item_and_set_event_bit
+; Also, normally if you finished her quest and get her second item, it locks you out from ever getting her first item.
+; So we change it so she never acts like the quest is complete (she thinks you still have Moe's Letter in your inventory).
+.org 0x11D8
+  b 0x1210 ; Change conditional branch to unconditional
+.close
+
+
+
+
+; The Rito postman in the Windfall cafe usually checks if he's given you Moe's letter by calling isReserve. That doesn't work well when the item is randomized.
+; So we change him to set and check a custom event bit (6A02).
+.open "files/rels/d_a_npc_bm1.rel" ; Rito postman
+; Change how he checks if he's given you his item yet when he's initializing.
+.org 0x1020
+  li r3, 0x6A02
+.org 0xD06C ; Relocation for line 0x1024
+  .int dComIfGs_isEventBit__FUs
+; Change how he checks if he's given you his item yet when you talk to him.
+.org 0x3178
+  li r3, 0x6A02
+.org 0xD5A4 ; Relocation for line 0x317C
+  .int dComIfGs_isEventBit__FUs
+; Change the function call when he starts the event that gives you his item to instead call a custom function that will set a custom event bit.
+.org 0xD384 ; Relocation for line 0x225C
+  .int rito_cafe_postman_start_event_and_set_event_bit
+.close

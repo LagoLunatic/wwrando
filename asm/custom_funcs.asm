@@ -701,4 +701,65 @@ mtlr r0
 addi sp, sp, 0x10
 blr
 
+
+
+
+; Maggie usually checks if she's given you her letter by calling isReserve. That doesn't work well when the item is randomized.
+; So we use this function to give her item and then set a custom event bit to keep track of it (6A01).
+.global maggie_give_item_and_set_event_bit
+maggie_give_item_and_set_event_bit:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+stw r31, 0xC (sp)
+
+bl fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz
+
+
+mr r31, r3 ; Preserve the return value from createItemForPresentDemo so we can still return that
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6A01 ; Unused event bit
+bl onEventBit__11dSv_event_cFUs
+mr r3, r31
+
+
+lwz r31, 0xC (sp)
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
+; The Rito postman in the Windfall cafe usually checks if he's given you Moe's letter by calling isReserve. That doesn't work well when the item is randomized.
+; So we use this function to start his item give event and then set a custom event bit to keep track of it (6A02).
+.global rito_cafe_postman_start_event_and_set_event_bit
+rito_cafe_postman_start_event_and_set_event_bit:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+stw r31, 0xC (sp)
+
+bl fopAcM_orderOtherEventId__FP10fopAc_ac_csUcUsUsUs
+
+
+mr r31, r3 ; Preserve the return value from orderOtherEventId so we can still return that (not sure if necessary, but just to be safe)
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6A02 ; Unused event bit
+bl onEventBit__11dSv_event_cFUs
+mr r3, r31
+
+
+lwz r31, 0xC (sp)
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 .close
