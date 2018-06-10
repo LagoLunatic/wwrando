@@ -250,7 +250,7 @@ class Randomizer:
       if file_path.startswith("files/rels/"):
         rel_name = os.path.basename(file_path)
         rels_arc = self.get_arc("files/RELS.arc")
-        rel_file_entry = rels_arc.get_file_entry_by_name(rel_name)
+        rel_file_entry = rels_arc.get_file_entry(rel_name)
       else:
         rel_file_entry = None
       
@@ -281,7 +281,7 @@ class Randomizer:
       if file_path.startswith("files/rels/"):
         rel_name = os.path.basename(file_path)
         rels_arc = self.get_arc("files/RELS.arc")
-        rel_file_entry = rels_arc.get_file_entry_by_name(rel_name)
+        rel_file_entry = rels_arc.get_file_entry(rel_name)
         if rel_file_entry:
           # Modify the RELS.arc entry for this rel.
           rel_file_entry.data = data

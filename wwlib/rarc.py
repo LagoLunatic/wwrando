@@ -156,11 +156,19 @@ class RARC:
       self.file_data_total_size_3 = self.file_data_total_size
       write_u32(self.data, 0x18, self.file_data_total_size_3)
   
-  def get_file_entry_by_name(self, file_name):
+  def get_file_entry(self, file_name):
     for file_entry in self.file_entries:
       if file_entry.name == file_name:
         return file_entry
     return None
+  
+  def get_file(self, file_name):
+    all_known_files = self.dzx_files + self.event_list_files + self.bmg_files + self.bdl_files + self.bti_files + self.chart_lists
+    
+    for known_file in all_known_files:
+      if known_file.file_entry.name == file_name:
+        return known_file
+    raise Exception("Could not find file: %s" % file_name)
 
 class Node:
   def __init__(self, data, offset):
