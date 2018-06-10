@@ -107,14 +107,20 @@ class Randomizer:
     
     items.randomize_items(self)
     
+    options_completed += 2
+    yield("Saving items...", options_completed)
+    
     items.write_changed_items(self)
     
-    options_completed += 9
+    options_completed += 7
     yield("Saving randomized ISO...", options_completed)
     
     self.update_game_name_in_banner()
     
     self.save_randomized_iso()
+    
+    options_completed += 9
+    yield("Writing logs...", options_completed)
     
     self.write_spoiler_log()
     self.write_non_spoiler_log()
