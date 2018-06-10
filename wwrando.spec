@@ -8,6 +8,7 @@ a = Analysis(['wwrando.py'],
              binaries=[],
              datas=[
                ('asm/*.txt', 'asm'),
+               ('assets/*.*', 'assets'),
                ('data/*.txt', 'data'),
                ('logic/*.txt', 'logic'),
                ('seedgen/*.txt', 'seedgen'),
@@ -31,4 +32,5 @@ exe = EXE(pyz,
           strip=False,
           upx=True,
           runtime_tmpdir=None,
-          console=True )
+          console=True,
+          icon="assets/icon.ico" )

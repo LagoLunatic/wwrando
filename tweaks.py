@@ -474,3 +474,19 @@ def add_more_magic_jars_to_dungeons(self):
   pots = [actor for actor in actors if actor.name == "kotubo"]
   pots[1].pot_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   pots[1].save_changes()
+
+def remove_title_and_ending_videos(self):
+  # Remove the huge video files that play during the ending and if you sit on the title screen a while.
+  # We replace them with a very small blank video file to save space.
+  
+  try:
+    from sys import _MEIPASS
+    assets_path = os.path.join(_MEIPASS, "assets")
+  except ImportError:
+    assets_path = "assets"
+  
+  blank_video_path = os.path.join(assets_path, "blank.thp")
+  with open(blank_video_path, "rb") as f:
+    new_data = BytesIO(f.read())
+  self.replace_raw_file("files/thpdemo/title_loop.thp", new_data)
+  self.replace_raw_file("files/thpdemo/end_st_epilogue.thp", new_data)

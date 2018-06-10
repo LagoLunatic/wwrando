@@ -134,6 +134,7 @@ class Randomizer:
     tweaks.add_chest_in_place_queen_fairy_cutscene(self)
     tweaks.add_cube_to_earth_temple_first_room(self)
     tweaks.add_more_magic_jars_to_dungeons(self)
+    tweaks.remove_title_and_ending_videos(self)
   
   def verify_supported_version(self, clean_iso_path):
     if not os.path.isfile(clean_iso_path):
@@ -264,6 +265,9 @@ class Randomizer:
       
       self.raw_files_by_path[file_path] = data
       return data
+  
+  def replace_raw_file(self, file_path, new_data):
+    self.raw_files_by_path[file_path] = new_data
   
   def update_game_name_in_banner(self):
     new_game_name = "Wind Waker Randomized %s" % self.seed
