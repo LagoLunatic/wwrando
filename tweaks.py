@@ -380,7 +380,7 @@ def make_sail_behave_like_swift_sail(self):
   
   # Modify the sail's item get texture.
   sail_itemget_arc = self.get_arc("files/res/Object/Vho.arc")
-  sail_itemget_model = sail_itemget_arc.bdl_files[0] # TODO: use filename as index instead of number
+  sail_itemget_model = sail_itemget_arc.get_file("vho.bdl")
   sail_itemget_tex_image = sail_itemget_model.tex1.textures_by_name["Vho"]
   # Originally it used image format 0xE, which is lossy DXT1 compression.
   # But implementing this while having the texture actually look good is too difficult, so instead switch this to image format 9 and palette format 1 (C8 with a 255 color RGB565 palette).
