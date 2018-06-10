@@ -2,6 +2,7 @@
 import re
 import yaml
 import os
+from io import BytesIO
 
 from fs_helpers import *
 
