@@ -21,7 +21,7 @@ from randomizers import charts
 from randomizers import starting_island
 from randomizers import dungeon_entrances
 
-VERSION = "0.5.0-BETA"
+VERSION = "0.6.0-BETA"
 
 class TooFewProgressionLocationsError(Exception):
   pass
