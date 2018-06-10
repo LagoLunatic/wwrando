@@ -266,9 +266,10 @@ Windfall Island - Maggie's Father - Give 20 Skull Necklaces:
 #  Paths:
 #    - rels/d_a_npc_kf1.rel@1A23
 Windfall Island - Maggie - Letter:
-  Need: Rescued Aryll & TODO # This item becomes missable once you own Maggie's Letter (or Moblin's Letter?).
+  Need: Rescued Aryll
+  ; Note: If you say no when she asks you to deliver her letter, she won't prompt you again - but that's temporary. Simply leave the room and re-enter and she will ask again.
   Original item: Maggie's Letter
-  Type: No progression # Sidequest, TODO
+  Type: Sidequest
   Paths:
     - rels/d_a_npc_kp1.rel@17D7
 Windfall Island - Maggie - Reward:
@@ -278,9 +279,9 @@ Windfall Island - Maggie - Reward:
   Paths:
     - rels/d_a_npc_kp1.rel@1817
 Windfall Island - Cafe Bar - Postman:
-  Need: Rescued Aryll & Delivery Bag & Maggie's Letter & TODO # The postman disappears once you've ever owned the Moblin's Letter.
+  Need: Rescued Aryll & Delivery Bag & Maggie's Letter
   Original item: Moblin's Letter
-  Type: No progression # Sidequest, TODO
+  Type: Sidequest
   Paths:
     - Opub/Stage.arc/Event00E:Get_Mo3_Ltr/Actor002/Action001
 Windfall Island - Kreeb:
