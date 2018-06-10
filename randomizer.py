@@ -304,6 +304,8 @@ class Randomizer:
         loc for loc in accessible_locations
         if loc not in previously_accessible_locations
       ]
+      if not locations_in_this_sphere:
+        raise Exception("Failed to calculate progression spheres")
       
       
       # If the player gained access to any small keys, we need to give them the keys without counting that as a new sphere.
