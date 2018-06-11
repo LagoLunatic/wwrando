@@ -123,9 +123,30 @@ def start_ship_at_outset(self):
   change_ship_starting_island(self, 44)
   
 def make_all_text_instant(self):
-  bmg = self.get_arc("files/res/Msg/bmgres.arc").bmg_files[0]
-  for msg in bmg.messages:
-    msg.initial_draw_type = 1 # Instant draw
+  for msg in self.bmg.messages:
+    msg.initial_draw_type = 1 # Instant initial draw type
+    
+    # Get rid of wait commands
+    msg.string = re.sub(
+      r"\\\{1A 07 00 00 07 [0-9a-f]{2} [0-9a-f]{2}\}",
+      "",
+      msg.string, 0, re.IGNORECASE
+    )
+    
+    # Get rid of wait+dismiss commands
+    msg.string = re.sub(
+      r"\\\{1A 07 00 00 04 [0-9a-f]{2} [0-9a-f]{2}\}",
+      "",
+      msg.string, 0, re.IGNORECASE
+    )
+    
+    # Get rid of wait+dismiss (prompt) commands
+    msg.string = re.sub(
+      r"\\\{1A 07 00 00 03 [0-9a-f]{2} [0-9a-f]{2}\}",
+      "",
+      msg.string, 0, re.IGNORECASE
+    )
+    
     msg.save_changes()
 
 def fix_deku_leaf_model(self):
