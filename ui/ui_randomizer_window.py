@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Thu May 31 19:31:52 2018
+# Created: Mon Jun 11 13:53:21 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -146,6 +146,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.about_button)
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
+        self.reset_settings_to_default = QtGui.QPushButton(self.centralwidget)
+        self.reset_settings_to_default.setObjectName("reset_settings_to_default")
+        self.horizontalLayout.addWidget(self.reset_settings_to_default)
+        spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem1)
         self.randomize_button = QtGui.QPushButton(self.centralwidget)
         self.randomize_button.setObjectName("randomize_button")
         self.horizontalLayout.addWidget(self.randomize_button)
@@ -187,5 +192,6 @@ class Ui_MainWindow(object):
         self.instant_text_boxes.setText(QtGui.QApplication.translate("MainWindow", "Instant Text Boxes", None, QtGui.QApplication.UnicodeUTF8))
         self.reveal_full_sea_chart.setText(QtGui.QApplication.translate("MainWindow", "Reveal Full Sea Chart", None, QtGui.QApplication.UnicodeUTF8))
         self.about_button.setText(QtGui.QApplication.translate("MainWindow", "About", None, QtGui.QApplication.UnicodeUTF8))
+        self.reset_settings_to_default.setText(QtGui.QApplication.translate("MainWindow", "Reset All Settings to Default", None, QtGui.QApplication.UnicodeUTF8))
         self.randomize_button.setText(QtGui.QApplication.translate("MainWindow", "Randomize", None, QtGui.QApplication.UnicodeUTF8))
 

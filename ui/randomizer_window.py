@@ -22,6 +22,8 @@ class WWRandomizerWindow(QMainWindow):
     self.ui = Ui_MainWindow()
     self.ui.setupUi(self)
     
+    self.preserve_default_settings()
+    
     self.load_settings()
     
     self.ui.clean_iso_path.editingFinished.connect(self.update_settings)
@@ -36,6 +38,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.generate_seed_button.clicked.connect(self.generate_seed)
     
     self.ui.randomize_button.clicked.connect(self.randomize)
+    self.ui.reset_settings_to_default.clicked.connect(self.reset_settings_to_default)
     self.ui.about_button.clicked.connect(self.open_about)
     
     for option_name in OPTIONS:
@@ -164,6 +167,29 @@ class WWRandomizerWindow(QMainWindow):
       self, "Randomization Failed",
       error_message
     )
+  
+  def preserve_default_settings(self):
+    self.default_settings = OrderedDict()
+    for option_name in OPTIONS:
+      self.default_settings[option_name] = getattr(self.ui, option_name).isChecked()
+  
+  def reset_settings_to_default(self):
+    any_setting_changed = False
+    for option_name in OPTIONS:
+      if option_name in self.default_settings:
+        default_value = self.default_settings[option_name]
+        current_value = getattr(self.ui, option_name).isChecked()
+        if default_value != current_value:
+          any_setting_changed = True
+        getattr(self.ui, option_name).setChecked(default_value)
+    
+    self.update_settings()
+    
+    if not any_setting_changed:
+      QMessageBox.information(self,
+        "Settings already default",
+        "You already have all the default randomization settings."
+      )
   
   def load_settings(self):
     self.settings_path = "settings.txt"
