@@ -263,6 +263,25 @@ def get_nearest_color(color, palette):
 
 
 
+def decode_palettes(palette_data, palette_format, num_colors, image_format):
+  if image_format not in IMAGE_FORMATS_THAT_USE_PALETTES:
+    return []
+  
+  colors = []
+  offset = 0
+  for i in range(num_colors):
+    raw_color = read_u16(palette_data, offset)
+    if palette_format == 0:
+      color = convert_ia8_to_color(raw_color)
+    elif palette_format == 1:
+      color = convert_rgb565_to_color(raw_color)
+    elif palette_format == 2:
+      color = convert_rgb5a3_to_color(raw_color)
+    colors.append(color)
+    offset += 2
+  
+  return colors
+
 def generate_new_palettes_from_image(image, image_format):
   if image_format not in IMAGE_FORMATS_THAT_USE_PALETTES:
     return []
@@ -310,6 +329,219 @@ def encode_palette(colors, palette_format, image_format):
     offset += 2
   
   return new_palette_data
+
+
+
+def decode_image(image_data, palette_data, image_format, palette_format, num_colors, image_width, image_height):
+  colors = decode_palettes(palette_data, palette_format, num_colors, image_format)
+  
+  block_width = BLOCK_WIDTHS[image_format]
+  block_height = BLOCK_HEIGHTS[image_format]
+  block_data_size = BLOCK_DATA_SIZES[image_format]
+  
+  image = Image.new("RGBA", (image_width, image_height), (0, 0, 0, 0))
+  pixels = image.load()
+  offset = 0
+  block_x = 0
+  block_y = 0
+  while block_y < image_height:
+    pixel_color_data = decode_block(image_format, image_data, offset, block_data_size, colors)
+    
+    for i, color in enumerate(pixel_color_data):
+      x_in_block = i % block_width
+      y_in_block = i // block_width
+      x = block_x+x_in_block
+      y = block_y+y_in_block
+      if x >= image_width or y >= image_height:
+        continue
+      
+      pixels[x,y] = color
+    
+    offset += block_data_size
+    block_x += block_width
+    if block_x >= image_width:
+      block_x = 0
+      block_y += block_height
+  
+  return image
+
+def decode_block(image_format, image_data, offset, block_data_size, colors):
+  if image_format == 0:
+    return decode_i4_block(image_format, image_data, offset, block_data_size, colors)
+  elif image_format == 1:
+    return decode_i8_block(image_format, image_data, offset, block_data_size, colors)
+  elif image_format == 2:
+    return decode_ia4_block(image_format, image_data, offset, block_data_size, colors)
+  elif image_format == 3:
+    return decode_ia8_block(image_format, image_data, offset, block_data_size, colors)
+  elif image_format == 4:
+    return decode_rgb565_block(image_format, image_data, offset, block_data_size, colors)
+  elif image_format == 5:
+    return decode_rgb5a3_block(image_format, image_data, offset, block_data_size, colors)
+  elif image_format == 6:
+    return decode_rgba32_block(image_format, image_data, offset, block_data_size, colors)
+  elif image_format == 8:
+    return decode_c4_block(image_format, image_data, offset, block_data_size, colors)
+  elif image_format == 9:
+    return decode_c8_block(image_format, image_data, offset, block_data_size, colors)
+  elif image_format == 0xA:
+    return decode_c14x2_block(image_format, image_data, offset, block_data_size, colors)
+  elif image_format == 0xE:
+    return decode_cmpr_block(image_format, image_data, offset, block_data_size, colors)
+  else:
+    raise Exception("Unknown image format: %X" % image_format)
+
+def decode_i4_block(image_format, image_data, offset, block_data_size, colors):
+  pixel_color_data = []
+  
+  for byte_index in range(block_data_size):
+    byte = read_u8(image_data, offset+byte_index)
+    for nibble_index in range(2):
+      i4 = (byte >> (1-nibble_index)*4) & 0xF
+      color = convert_i4_to_color(i4)
+      
+      pixel_color_data.append(color)
+  
+  return pixel_color_data
+
+def decode_i8_block(image_format, image_data, offset, block_data_size, colors):
+  pixel_color_data = []
+  
+  for i in range(block_data_size):
+    i8 = read_u8(image_data, offset+i)
+    color = convert_i8_to_color(i8)
+    
+    pixel_color_data.append(color)
+  
+  return pixel_color_data
+
+def decode_ia4_block(image_format, image_data, offset, block_data_size, colors):
+  pixel_color_data = []
+  
+  for i in range(block_data_size):
+    ia4 = read_u8(image_data, offset+i)
+    color = convert_ia4_to_color(ia4)
+    
+    pixel_color_data.append(color)
+  
+  return pixel_color_data
+
+def decode_ia8_block(image_format, image_data, offset, block_data_size, colors):
+  pixel_color_data = []
+  
+  for i in range(block_data_size//2):
+    ia8 = read_u16(image_data, offset+i*2)
+    color = convert_ia8_to_color(ia8)
+    
+    pixel_color_data.append(color)
+  
+  return pixel_color_data
+
+def decode_rgb565_block(image_format, image_data, offset, block_data_size, colors):
+  pixel_color_data = []
+  
+  for i in range(block_data_size//2):
+    rgb565 = read_u16(image_data, offset+i*2)
+    color = convert_rgb565_to_color(rgb565)
+    
+    pixel_color_data.append(color)
+  
+  return pixel_color_data
+
+def decode_rgb5a3_block(image_format, image_data, offset, block_data_size, colors):
+  pixel_color_data = []
+  
+  for i in range(block_data_size//2):
+    rgb5a3 = read_u16(image_data, offset+i*2)
+    color = convert_rgb5a3_to_color(rgb5a3)
+    
+    pixel_color_data.append(color)
+  
+  return pixel_color_data
+
+def decode_rgba32_block(image_format, image_data, offset, block_data_size, colors):
+  pixel_color_data = []
+  
+  for i in range(16):
+    a = read_u8(image_data, offset+(i*2))
+    r = read_u8(image_data, offset+(i*2)+1)
+    g = read_u8(image_data, offset+(i*2)+32)
+    b = read_u8(image_data, offset+(i*2)+33)
+    color = (r, g, b, a)
+    
+    pixel_color_data.append(color)
+  
+  return pixel_color_data
+
+def decode_c4_block(image_format, image_data, offset, block_data_size, colors):
+  pixel_color_data = []
+  
+  for byte_index in range(block_data_size):
+    byte = read_u8(image_data, offset+byte_index)
+    for nibble_index in range(2):
+      color_index = (byte >> (1-nibble_index)*4) & 0xF
+      color = colors[color_index]
+      
+      pixel_color_data.append(color)
+  
+  return pixel_color_data
+
+def decode_c8_block(image_format, image_data, offset, block_data_size, colors):
+  pixel_color_data = []
+  
+  for i in range(block_data_size):
+    color_index = read_u8(image_data, offset+i)
+    if color_index == 0xFF:
+      # This block bleeds past the edge of the image
+      color = None
+    else:
+      color = colors[color_index]
+    
+    pixel_color_data.append(color)
+  
+  return pixel_color_data
+
+def decode_c14x2_block(image_format, image_data, offset, block_data_size, colors):
+  pixel_color_data = []
+  
+  for i in range(block_data_size//2):
+    color_index = read_u16(image_data, offset+i*2) & 0x3FFF
+    if color_index == 0x3FFF:
+      # This block bleeds past the edge of the image
+      color = None
+    else:
+      color = colors[color_index]
+    
+    pixel_color_data.append(color)
+  
+  return pixel_color_data
+
+def decode_cmpr_block(image_format, image_data, offset, block_data_size, colors):
+  pixel_color_data = [None]*64
+  
+  subblock_offset = offset
+  for subblock_index in range(4):
+    subblock_x = (subblock_index%2)*4
+    subblock_y = (subblock_index//2)*4
+    
+    color_0_rgb565 = read_u16(image_data, subblock_offset)
+    color_1_rgb565 = read_u16(image_data, subblock_offset+2)
+    colors = get_interpolated_cmpr_colors(color_0_rgb565, color_1_rgb565)
+    
+    color_indexes = read_u32(image_data, subblock_offset+4)
+    for i in range(16):
+      color_index = ((color_indexes >> ((15-i)*2)) & 3)
+      color = colors[color_index]
+      
+      x_in_subblock = i % 4
+      y_in_subblock = i // 4
+      pixel_index_in_block = subblock_x + subblock_y*8 + y_in_subblock*8 + x_in_subblock
+      
+      pixel_color_data[pixel_index_in_block] = color
+    
+    subblock_offset += 8
+  
+  return pixel_color_data
 
 
 
