@@ -21,7 +21,8 @@ def randomize_dungeon_entrances(self):
   # If the player can't access any locations outside of dungeons, we need to limit the possibilities for what we allow the first dungeon (on DRI) to be.
   # If that first dungeon is TotG, the player can't get any items because they need bombs.
   # If that first dungeon is ET or WT, the player can't get any items because they need the command melody (and even with that they would only be able to access one single location).
-  # So in that case we limit the first dungeon to either be DRC or FW.
+  # If that first dungeon is FW, the player can access a couple chests, but that's not enough to give the randomizer enough breathing space.
+  # So in that case we limit the first dungeon to only be DRC.
   self.logic.temporarily_make_dungeon_entrance_macros_impossible()
   accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
   if len(accessible_undone_locations) == 0:
@@ -35,7 +36,7 @@ def randomize_dungeon_entrances(self):
       possible_remaining_exits = []
       for exit_tuple in remaining_exits:
         _, _, _, _, dungeon_name = exit_tuple
-        if dungeon_name in ["Dragon Roost Cavern", "Forbidden Woods"]:
+        if dungeon_name in ["Dragon Roost Cavern"]:
           possible_remaining_exits.append(exit_tuple)
     else:
       possible_remaining_exits = remaining_exits
