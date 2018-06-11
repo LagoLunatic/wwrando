@@ -546,7 +546,7 @@ def decode_cmpr_block(image_format, image_data, offset, block_data_size, colors)
 
 
 def encode_image(new_image_file_path, image_format, palette_format):
-  image = Image.open(new_image_file_path)
+  image = Image.open(new_image_file_path).convert("RGBA")
   image_width, image_height = image.size
   
   colors = generate_new_palettes_from_image(image, image_format)
