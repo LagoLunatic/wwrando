@@ -107,7 +107,7 @@ class BDLChunk:
       align_data_to_nearest(self.data, 0x20)
       next_available_data_offset = data_len(self.data)
       
-      if texture.image_format in BTI.IMAGE_FORMATS_THAT_USE_PALETTES:
+      if texture.needs_palettes():
         texture.palette_data_offset = next_available_data_offset - texture.header_offset
         texture.palette_data.seek(0)
         self.data.write(texture.palette_data.read())
