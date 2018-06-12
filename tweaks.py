@@ -187,9 +187,8 @@ def allow_all_items_to_be_field_items(self):
       # We also change the item get model too, not just the field model.
       item_resources_offset_to_fix = item_resources_list_start + item_id*0x24
     elif item_id == 0xB2:
-      # The Magic Meter Upgrade has no model, so we have to copy the Large Magic Jar model.
-      # TODO: This could look confusing as a field item, the player might think that it's literally just a Large Magic Jar.
-      item_id_to_copy_from = 0x0A
+      # The Magic Meter Upgrade has no model, so we have to copy the Green Potion model.
+      item_id_to_copy_from = 0x52
       # We also change the item get model too, not just the field model.
       item_resources_offset_to_fix = item_resources_list_start + item_id*0x24
     else:
