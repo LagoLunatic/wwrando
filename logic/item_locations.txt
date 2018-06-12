@@ -314,25 +314,25 @@ Windfall Island - Tott:
 Windfall Island - 40 Rupee Auction:
   Need: Nothing
   Original item: Joy Pendant
-  Type: Sidequest
+  Type: Expensive Purchase
   Paths:
     - rels/d_a_auction.rel@4489
 Windfall Island - 5 Rupee Auction:
   Need: Nothing
   Original item: Treasure Chart 18
-  Type: Sidequest
+  Type: Expensive Purchase
   Paths:
     - rels/d_a_auction.rel@4491
 Windfall Island - 60 Rupee Auction:
   Need: Nothing
   Original item: Treasure Chart 38
-  Type: Sidequest
+  Type: Expensive Purchase
   Paths:
     - rels/d_a_auction.rel@4499
 Windfall Island - 80 Rupee Auction:
   Need: Nothing
   Original item: Piece of Heart
-  Type: Sidequest
+  Type: Expensive Purchase
   Paths:
     - rels/d_a_auction.rel@44A1
 #Windfall Island - Zunari - Sail:
