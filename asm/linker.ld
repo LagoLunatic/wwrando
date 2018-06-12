@@ -21,6 +21,7 @@ item_func_max_arrow_up1__Fv = 0x800c4cd8;
 item_func_max_arrow_up2__Fv = 0x800c4cf0;
 item_func_camera__Fv = 0x800c3324;
 item_func_camera2__Fv = 0x800c33f0;
+item_func_pirates_omamori__Fv = 0x800c3c94;
 
 onEventBit__11dSv_event_cFUs = 0x8005cb04;
 isEventBit__11dSv_event_cFUs = 0x8005cb34;

@@ -19,6 +19,7 @@ bl item_func_normal_sail__Fv
 bl item_func_wind_tact__Fv ; Wind Waker
 bl item_func_tact_song1__Fv ; Wind's Requiem
 bl item_func_tact_song2__Fv ; Ballad of Gales
+bl item_func_pirates_omamori__Fv ; Pirate's Charm
 
 
 lis r3, 0x803C
