@@ -742,9 +742,14 @@ stwu sp, -0x10 (sp)
 mflr r0
 stw r0, 0x14 (sp)
 stw r31, 0xC (sp)
+mr r31, r3 ; Preserve argument r3, which has the Rito postman entity
 
 bl fopAcM_orderOtherEventId__FP10fopAc_ac_csUcUsUsUs
 
+
+lha r31, 0x86A(r31) ; Load the index of this Rito postman from the Rito postman entity
+cmpwi r31, 0 ; 0 is the one in the Windfall cafe. If it's not that one, we don't want to set the event bit.
+bne rito_cafe_postman_start_event_and_set_event_bit_end
 
 mr r31, r3 ; Preserve the return value from orderOtherEventId so we can still return that (not sure if necessary, but just to be safe)
 lis r3, 0x803C522C@ha
@@ -754,6 +759,7 @@ bl onEventBit__11dSv_event_cFUs
 mr r3, r31
 
 
+rito_cafe_postman_start_event_and_set_event_bit_end:
 lwz r31, 0xC (sp)
 lwz r0, 0x14 (sp)
 mtlr r0
