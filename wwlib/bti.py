@@ -3,7 +3,7 @@ from PIL import Image
 from io import BytesIO
 
 from fs_helpers import *
-from wwlib.color_helpers import *
+from wwlib.texture_utils import *
 
 class BTI:
   def __init__(self, data, header_offset=0):
