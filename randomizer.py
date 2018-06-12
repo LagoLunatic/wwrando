@@ -115,8 +115,6 @@ class Randomizer:
     options_completed += 7
     yield("Saving randomized ISO...", options_completed)
     
-    self.update_game_name_in_banner()
-    
     self.save_randomized_iso()
     
     options_completed += 9
@@ -142,6 +140,7 @@ class Randomizer:
     tweaks.add_more_magic_jars_to_dungeons(self)
     tweaks.remove_title_and_ending_videos(self)
     tweaks.modify_title_screen_logo(self)
+    tweaks.update_game_name_icon_and_banners(self)
   
   def verify_supported_version(self, clean_iso_path):
     if not os.path.isfile(clean_iso_path):
@@ -275,12 +274,6 @@ class Randomizer:
   
   def replace_raw_file(self, file_path, new_data):
     self.raw_files_by_path[file_path] = new_data
-  
-  def update_game_name_in_banner(self):
-    new_game_name = "Wind Waker Randomized %s" % self.seed
-    
-    banner_data = self.get_raw_file("files/opening.bnr")
-    write_str(banner_data, 0x1860, new_game_name, 0x40)
   
   def save_randomized_iso(self):
     changed_files = {}

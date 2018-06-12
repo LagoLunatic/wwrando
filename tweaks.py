@@ -5,6 +5,7 @@ import os
 from io import BytesIO
 
 from fs_helpers import *
+from wwlib import texture_utils
 
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
 ORIGINAL_DOL_SIZE = 0x3A52C0
@@ -13,6 +14,9 @@ ORIGINAL_DOL_SIZE = 0x3A52C0
 TEXT1_SECTION_OFFSET = 0x2620
 TEXT1_SECTION_ADDRESS = 0x800056E0
 TEXT1_SECTION_SIZE = 0x332FA0
+DATA4_SECTION_OFFSET = 0x335840
+DATA4_SECTION_ADDRESS = 0x80338840
+DATA4_SECTION_SIZE = 0x38D40
 DATA5_SECTION_OFFSET = 0x36E580
 DATA5_SECTION_ADDRESS = 0x80371580
 DATA5_SECTION_SIZE = 0x313E0
@@ -22,6 +26,8 @@ def address_to_offset(address):
   # (Currently only supports the .text1 and .data5 sections.)
   if TEXT1_SECTION_ADDRESS <= address < TEXT1_SECTION_ADDRESS+TEXT1_SECTION_SIZE:
     offset = address - TEXT1_SECTION_ADDRESS + TEXT1_SECTION_OFFSET
+  elif DATA4_SECTION_ADDRESS <= address < DATA4_SECTION_ADDRESS+DATA4_SECTION_SIZE:
+    offset = address - DATA4_SECTION_ADDRESS + DATA4_SECTION_OFFSET
   elif DATA5_SECTION_ADDRESS <= address < DATA5_SECTION_ADDRESS+DATA5_SECTION_SIZE:
     offset = address - DATA5_SECTION_ADDRESS + DATA5_SECTION_OFFSET
   else:
@@ -553,8 +559,13 @@ def modify_title_screen_logo(self):
   except ImportError:
     assets_path = "assets"
   
+  new_title_image_path = os.path.join(assets_path, "title.png")
   new_subtitle_image_path = os.path.join(assets_path, "subtitle.png")
   tlogoe_arc = self.get_arc("files/res/Object/TlogoE.arc")
+  
+  title_image = tlogoe_arc.get_file("logo_zelda_main.bti")
+  title_image.replace_image(new_title_image_path)
+  title_image.save_changes()
   
   subtitle_model = tlogoe_arc.get_file("subtitle_start_anim_e.bdl")
   subtitle_image = subtitle_model.tex1.textures_by_name["logo_sub_e"]
@@ -576,3 +587,41 @@ def modify_title_screen_logo(self):
   # (This has the side effect of also moving down the clouds below the ship, but this is not noticeable.)
   data = tlogoe_arc.get_file_entry("title_logo_e.blo").data
   write_u16(data, 0x162, 0x106) # Increase Y pos by 16 pixels (0xF6 -> 0x106)
+
+def update_game_name_icon_and_banners(self):
+  try:
+    from sys import _MEIPASS
+    assets_path = os.path.join(_MEIPASS, "assets")
+  except ImportError:
+    assets_path = "assets"
+  
+  new_game_name = "Wind Waker Randomized %s" % self.seed
+  banner_data = self.get_raw_file("files/opening.bnr")
+  write_str(banner_data, 0x1860, new_game_name, 0x40)
+  
+  new_game_id = "GZLR01"
+  boot_data = self.get_raw_file("sys/boot.bin")
+  write_str(boot_data, 0, new_game_id, 6)
+  
+  dol_data = self.get_raw_file("sys/main.dol")
+  new_memory_card_game_name = "Wind Waker Randomizer"
+  write_str(dol_data, address_to_offset(0x80339690), new_memory_card_game_name, 21)
+  
+  new_image_file_path = os.path.join(assets_path, "banner.png")
+  image_format = 5
+  palette_format = 2
+  image_data, _, _ = texture_utils.encode_image(new_image_file_path, image_format, palette_format)
+  image_data.seek(0)
+  write_bytes(banner_data, 0x20, image_data.read())
+  
+  cardicon_arc = self.get_arc("files/res/CardIcon/cardicon.arc")
+  
+  memory_card_icon_file_path = os.path.join(assets_path, "memory card icon.png")
+  memory_card_icon = cardicon_arc.get_file("ipl_icon1.bti")
+  memory_card_icon.replace_image(memory_card_icon_file_path)
+  memory_card_icon.save_changes()
+  
+  memory_card_banner_file_path = os.path.join(assets_path, "memory card banner.png")
+  memory_card_banner = cardicon_arc.get_file("ipl_banner.bti")
+  memory_card_banner.replace_image(memory_card_banner_file_path)
+  memory_card_banner.save_changes()
