@@ -1571,7 +1571,8 @@ Mailbox - Letter from Baito's Mother:
     - rels/d_a_obj_toripost.rel@2564
     - rels/d_a_obj_toripost.rel@25C4
 Mailbox - Letter from Baito:
-  Need: TODO # Need to kill Earth Temple boss, and Baito's mother must have sent out her letter (though it doesn't matter if you read it yet)
+  Need: Delivery Bag & Note to Mom & Can Access Other Location "Earth Temple - Jalhalla Heart Container"
+  # Need to kill Jalhalla and Baito's mom must have sent her letter (doesn't matter if you've read her letter or not).
   # Might need to wait for time to pass...? TODO
   Original item: Red Rupee
   Type: Mail
@@ -1604,9 +1605,9 @@ Mailbox - Beedle's Silver Membership Reward:
     | Empty Bottle
   # In order to get enough points to become a silver/gold member, you need to buy consumables.
   # Bait bag is needed to buy bait, bombs are needed to buy bombs, bow is needed to buy arrows, and empty bottle is needed to buy red potions.
-  # Might need to wait for time to pass...? TODO
+  # Need to wait for time to pass.
   Original item: Complimentary ID
-  Type: Mail # TODO: should also be Expensive Purchase (30*10 = minimum 300 rupees in total)
+  Type: No progression # Too tedious to buy 30 items just to progress
   Paths:
     - rels/d_a_obj_toripost.rel@25D0
 Mailbox - Beedle's Gold Membership Reward:
@@ -1617,9 +1618,9 @@ Mailbox - Beedle's Gold Membership Reward:
     | Empty Bottle
   # In order to get enough points to become a silver/gold member, you need to buy consumables.
   # Bait bag is needed to buy bait, bombs are needed to buy bombs, bow is needed to buy arrows, and empty bottle is needed to buy red potions.
-  # Might need to wait for time to pass...? TODO
+  # Need to wait for time to pass.
   Original item: Fill-Up Coupon
-  Type: Mail # TODO: should also be Expensive Purchase (60*10 = minimum 300 rupees in total)
+  Type: No progression # Too tedious to buy 60 items just to progress
   Paths:
     - rels/d_a_obj_toripost.rel@25F4
 Mailbox - Letter from Orca:
