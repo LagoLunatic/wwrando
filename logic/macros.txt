@@ -128,7 +128,7 @@ Rescued Aryll:
 Can Get Fairies:
   Nothing # Northern Fairy Island can be entered without any items.
 Can Farm Knight's Crests:
-  Spoils Bag
+  Grappling Hook & Spoils Bag
   & (
     (Fire Arrows & Iron Boots)
     | TODO
@@ -140,13 +140,13 @@ Can Farm Knight's Crests:
   # TODO: what do you need to reach the savage labyrinth ones?
   # TODO: the one in the big key room of earth temple is respawning.
 Can Farm Joy Pendants:
-  Spoils Bag
+  Grappling Hook & Spoils Bag
   # Dropped by Bokoblins, which are everywhere.
 Can Farm Skull Necklaces:
-  Spoils Bag
+  Grappling Hook & Spoils Bag
   # Dropped by Moblins. The Moblins in submarines don't require any items to access.
 Can Farm Golden Feathers:
-  Spoils Bag
+  Grappling Hook & Spoils Bag
   # Dropped by Helmarocs and Peahats. Helmarocs are on platforms so you don't need anything to reach them.
 Can Farm Lots of Rupees:
   Nothing
