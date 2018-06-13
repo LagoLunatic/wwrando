@@ -13,6 +13,7 @@ import traceback
 import string
 
 from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError
+from paths import ASSETS_PATH, SEEDGEN_PATH
 
 class WWRandomizerWindow(QMainWindow):
   VALID_SEED_CHARACTERS = "-_'%%.%s%s" % (string.ascii_letters, string.digits)
@@ -49,29 +50,18 @@ class WWRandomizerWindow(QMainWindow):
     
     self.setWindowTitle("Wind Waker Randomizer %s" % VERSION)
     
-    try:
-      from sys import _MEIPASS
-      assets_path = os.path.join(_MEIPASS, "assets")
-    except ImportError:
-      assets_path = "assets"
-    icon_path = os.path.join(assets_path, "icon.ico")
+    icon_path = os.path.join(ASSETS_PATH, "icon.ico")
     self.setWindowIcon(QIcon(icon_path))
     
     self.show()
   
   def generate_seed(self):
-    try:
-      from sys import _MEIPASS
-      seedgen_path = os.path.join(_MEIPASS, "seedgen")
-    except ImportError:
-      seedgen_path = "seedgen"
-    
     random.seed(None)
     
-    with open(os.path.join(seedgen_path, "adjectives.txt")) as f:
+    with open(os.path.join(SEEDGEN_PATH, "adjectives.txt")) as f:
       adjectives = random.sample(f.read().splitlines(), 2)
     noun_file_to_use = random.choice(["nouns.txt", "names.txt"])
-    with open(os.path.join(seedgen_path, noun_file_to_use)) as f:
+    with open(os.path.join(SEEDGEN_PATH, noun_file_to_use)) as f:
       noun = random.choice(f.read().splitlines())
     words = adjectives + [noun]
     capitalized_words = []

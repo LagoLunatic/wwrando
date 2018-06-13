@@ -6,6 +6,7 @@ from io import BytesIO
 
 from fs_helpers import *
 from wwlib import texture_utils
+from paths import ASSETS_PATH, ASM_PATH
 
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
 ORIGINAL_DOL_SIZE = 0x3A52C0
@@ -46,13 +47,7 @@ def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
   return high_halfword, low_halfword
 
 def apply_patch(self, patch_name):
-  try:
-    from sys import _MEIPASS
-    asm_path = os.path.join(_MEIPASS, "asm")
-  except ImportError:
-    asm_path = "asm"
-  
-  with open(os.path.join(asm_path, patch_name + "_diff.txt")) as f:
+  with open(os.path.join(ASM_PATH, patch_name + "_diff.txt")) as f:
     diffs = yaml.load(f)
   
   for file_path, diffs_for_file in diffs.items():
@@ -382,15 +377,9 @@ def make_sail_behave_like_swift_sail(self):
   write_float(ship_data, 0xDBE8, 55.0*2) # Sailing speed
   write_float(ship_data, 0xDBC0, 80.0*2) # Initial speed
   
-  try:
-    from sys import _MEIPASS
-    assets_path = os.path.join(_MEIPASS, "assets")
-  except ImportError:
-    assets_path = "assets"
-  
-  new_sail_tex_image_path = os.path.join(assets_path, "swift sail texture.png")
-  new_sail_icon_image_path = os.path.join(assets_path, "swift sail icon.png")
-  new_sail_itemget_tex_image_path = os.path.join(assets_path, "swift sail item get texture.png")
+  new_sail_tex_image_path = os.path.join(ASSETS_PATH, "swift sail texture.png")
+  new_sail_icon_image_path = os.path.join(ASSETS_PATH, "swift sail icon.png")
+  new_sail_itemget_tex_image_path = os.path.join(ASSETS_PATH, "swift sail item get texture.png")
   
   # Modify the sail's texture while sailing.
   ship_arc = self.get_arc("files/res/Object/Ship.arc")
@@ -540,27 +529,15 @@ def remove_title_and_ending_videos(self):
   # Remove the huge video files that play during the ending and if you sit on the title screen a while.
   # We replace them with a very small blank video file to save space.
   
-  try:
-    from sys import _MEIPASS
-    assets_path = os.path.join(_MEIPASS, "assets")
-  except ImportError:
-    assets_path = "assets"
-  
-  blank_video_path = os.path.join(assets_path, "blank.thp")
+  blank_video_path = os.path.join(ASSETS_PATH, "blank.thp")
   with open(blank_video_path, "rb") as f:
     new_data = BytesIO(f.read())
   self.replace_raw_file("files/thpdemo/title_loop.thp", new_data)
   self.replace_raw_file("files/thpdemo/end_st_epilogue.thp", new_data)
 
 def modify_title_screen_logo(self):
-  try:
-    from sys import _MEIPASS
-    assets_path = os.path.join(_MEIPASS, "assets")
-  except ImportError:
-    assets_path = "assets"
-  
-  new_title_image_path = os.path.join(assets_path, "title.png")
-  new_subtitle_image_path = os.path.join(assets_path, "subtitle.png")
+  new_title_image_path = os.path.join(ASSETS_PATH, "title.png")
+  new_subtitle_image_path = os.path.join(ASSETS_PATH, "subtitle.png")
   tlogoe_arc = self.get_arc("files/res/Object/TlogoE.arc")
   
   title_image = tlogoe_arc.get_file("logo_zelda_main.bti")
@@ -589,12 +566,6 @@ def modify_title_screen_logo(self):
   write_u16(data, 0x162, 0x106) # Increase Y pos by 16 pixels (0xF6 -> 0x106)
 
 def update_game_name_icon_and_banners(self):
-  try:
-    from sys import _MEIPASS
-    assets_path = os.path.join(_MEIPASS, "assets")
-  except ImportError:
-    assets_path = "assets"
-  
   new_game_name = "Wind Waker Randomized %s" % self.seed
   banner_data = self.get_raw_file("files/opening.bnr")
   write_str(banner_data, 0x1860, new_game_name, 0x40)
@@ -607,7 +578,7 @@ def update_game_name_icon_and_banners(self):
   new_memory_card_game_name = "Wind Waker Randomizer"
   write_str(dol_data, address_to_offset(0x80339690), new_memory_card_game_name, 21)
   
-  new_image_file_path = os.path.join(assets_path, "banner.png")
+  new_image_file_path = os.path.join(ASSETS_PATH, "banner.png")
   image_format = 5
   palette_format = 2
   image_data, _, _ = texture_utils.encode_image(new_image_file_path, image_format, palette_format)
@@ -616,12 +587,12 @@ def update_game_name_icon_and_banners(self):
   
   cardicon_arc = self.get_arc("files/res/CardIcon/cardicon.arc")
   
-  memory_card_icon_file_path = os.path.join(assets_path, "memory card icon.png")
+  memory_card_icon_file_path = os.path.join(ASSETS_PATH, "memory card icon.png")
   memory_card_icon = cardicon_arc.get_file("ipl_icon1.bti")
   memory_card_icon.replace_image(memory_card_icon_file_path)
   memory_card_icon.save_changes()
   
-  memory_card_banner_file_path = os.path.join(assets_path, "memory card banner.png")
+  memory_card_banner_file_path = os.path.join(ASSETS_PATH, "memory card banner.png")
   memory_card_banner = cardicon_arc.get_file("ipl_banner.bti")
   memory_card_banner.replace_image(memory_card_banner_file_path)
   memory_card_banner.save_changes()
