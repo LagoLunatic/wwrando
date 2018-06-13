@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 import os
 
-from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS
+from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUNGEON_PROGRESS_ITEMS, DUNGEON_NONPROGRESS_ITEMS
 from paths import LOGIC_PATH
 
 class Logic:
@@ -59,6 +59,18 @@ class Logic:
     else:
       self.all_nonprogress_items += self.treasure_chart_names
     
+    # Add dungeon items to the progress/nonprogress items lists.
+    if self.rando.options.get("progression_dungeons"):
+      self.all_progress_items += DUNGEON_PROGRESS_ITEMS
+    else:
+      self.all_nonprogress_items += DUNGEON_PROGRESS_ITEMS
+    self.all_nonprogress_items += DUNGEON_NONPROGRESS_ITEMS
+    
+    # Tell the randomizer to register dungeon-specific item names as the normal items.
+    for dungeon_item_name in (DUNGEON_PROGRESS_ITEMS + DUNGEON_NONPROGRESS_ITEMS):
+      regular_item_name = dungeon_item_name.split(" ", 1)[1]
+      self.rando.item_name_to_id[dungeon_item_name] = self.rando.item_name_to_id[regular_item_name]
+    
     self.unplaced_progress_items = self.all_progress_items.copy()
     self.unplaced_nonprogress_items = self.all_nonprogress_items.copy()
     self.unplaced_consumable_items = self.all_consumable_items.copy()
@@ -70,21 +82,6 @@ class Logic:
     self.unplaced_progress_items += self.PROGRESS_ITEM_GROUPS.keys()
     
     self.currently_owned_items = []
-    
-    self.progressive_items_owned = {
-      "Progressive Sword": 0,
-      "Progressive Bow": 0,
-      "Progressive Wallet": 0,
-      "Progressive Bomb Bag": 0,
-      "Progressive Quiver": 0,
-      "Progressive Picto Box": 0,
-    }
-    
-    self.small_keys_owned_by_dungeon = {}
-    self.big_key_owned_by_dungeon = {}
-    for short_dungeon_name, dungeon_name in self.DUNGEON_NAMES.items():
-      self.small_keys_owned_by_dungeon[dungeon_name] = 0
-      self.big_key_owned_by_dungeon[dungeon_name] = False
     
     self.all_cleaned_item_names = []
     for item_name in (self.all_progress_items + self.all_nonprogress_items + self.all_consumable_items):
@@ -127,15 +124,7 @@ class Logic:
     self.done_item_locations[location_name] = item_name
     self.remaining_item_locations.remove(location_name)
     
-    if "Key" in item_name:
-      # TODO: Will need to change this if implementing key randomization outside the normal dungeon the keys would appear in.
-      dungeon_name, _ = self.split_location_name_by_zone(location_name)
-      self.add_owned_key_for_dungeon(item_name, dungeon_name)
-    elif item_name in ["Dungeon Map", "Compass"]:
-      # No need to keep track of these in the logic.
-      pass
-    else:
-      self.add_owned_item(item_name)
+    self.add_owned_item(item_name)
   
   def set_multiple_locations_to_group(self, available_locations, group_name):
     items_in_group = self.PROGRESS_ITEM_GROUPS[group_name]
@@ -151,7 +140,7 @@ class Logic:
   
   def set_prerandomization_dungeon_item_location(self, location_name, item_name):
     # Temporarily keep track of where dungeon-specific items are placed before the main progression item randomization loop starts.
-    assert item_name in ["Small Key", "Big Key", "Dungeon Map", "Compass"]
+    assert self.is_dungeon_item(item_name)
     assert location_name in self.item_locations
     self.prerandomization_dungeon_item_locations[location_name] = item_name
   
@@ -208,10 +197,7 @@ class Logic:
     if cleaned_item_name not in self.all_cleaned_item_names:
       raise Exception("Unknown item name: " + item_name)
     
-    if cleaned_item_name in self.progressive_items_owned:
-      self.progressive_items_owned[cleaned_item_name] += 1
-    else:
-      self.currently_owned_items.append(cleaned_item_name)
+    self.currently_owned_items.append(cleaned_item_name)
     
     if item_name in self.unplaced_progress_items:
       self.unplaced_progress_items.remove(item_name)
@@ -220,24 +206,12 @@ class Logic:
     elif item_name in self.unplaced_consumable_items:
       self.unplaced_consumable_items.remove(item_name)
   
-  def add_owned_key_for_dungeon(self, item_name, dungeon_name):
-    if item_name == "Small Key":
-      self.small_keys_owned_by_dungeon[dungeon_name] += 1
-    elif item_name == "Big Key":
-      self.big_key_owned_by_dungeon[dungeon_name] = True
-    else:
-      raise "Unknown key item: " + item_name
-  
   def remove_owned_item(self, item_name):
     cleaned_item_name = self.clean_item_name(item_name)
     if cleaned_item_name not in self.all_cleaned_item_names:
       raise Exception("Unknown item name: " + item_name)
     
-    if cleaned_item_name in self.progressive_items_owned:
-      assert self.progressive_items_owned[cleaned_item_name] > 0
-      self.progressive_items_owned[cleaned_item_name] -= 1
-    else:
-      self.currently_owned_items.remove(cleaned_item_name)
+    self.currently_owned_items.remove(cleaned_item_name)
     
     if item_name in self.all_progress_items:
       self.unplaced_progress_items.append(item_name)
@@ -250,10 +224,7 @@ class Logic:
     if item_name in self.PROGRESS_ITEM_GROUPS:
       group_name = item_name
       for item_name in self.PROGRESS_ITEM_GROUPS[group_name]:
-        if item_name in self.progressive_items_owned:
-          self.progressive_items_owned[item_name] += 1
-        else:
-          self.currently_owned_items.append(item_name)
+        self.currently_owned_items.append(item_name)
     else:
       self.add_owned_item(item_name)
   
@@ -261,11 +232,7 @@ class Logic:
     if item_name in self.PROGRESS_ITEM_GROUPS:
       group_name = item_name
       for item_name in self.PROGRESS_ITEM_GROUPS[group_name]:
-        if item_name in self.progressive_items_owned:
-          assert self.progressive_items_owned[item_name] > 0
-          self.progressive_items_owned[item_name] -= 1
-        else:
-          self.currently_owned_items.remove(item_name)
+        self.currently_owned_items.remove(item_name)
     else:
       self.remove_owned_item(item_name)
   
@@ -353,6 +320,21 @@ class Logic:
     return filtered_locations
   
   def check_item_valid_in_location(self, item_name, location_name):
+    # Don't allow dungeon items to appear outside their proper dungeon or they wouldn't work correctly.
+    if self.is_dungeon_item(item_name):
+      short_dungeon_name = item_name.split(" ")[0]
+      dungeon_name = self.DUNGEON_NAMES[short_dungeon_name]
+      zone_name, specific_location_name = self.split_location_name_by_zone(location_name)
+      if dungeon_name != zone_name:
+        # Not a dungeon, or the wrong dungeon.
+        return False
+      if self.item_locations[location_name]["Type"] == "Sunken Treasure":
+        # Sunken treasure wouldn't work because the stage ID would be the sea's, not the dungeon's.
+        return False
+      if location_name in ["Forsaken Fortress - Phantom Ganon", "Forsaken Fortress - Helmaroc King Heart Container"]:
+        # Same as above, these are outdoors so the stage ID would be the sea's, not the Forsaken Fortress's.
+        return False
+    
     # Beedle's shop does not work properly if the same item is in multiple slots of the same shop.
     # Ban the Bait Bag slot from having bait.
     if location_name == "The Great Sea - Beedle's Shop Ship - Bait Bag" and item_name in ["All-Purpose Bait", "Hyoi Pear"]:
@@ -456,6 +438,9 @@ class Logic:
     
     return zone_name, specific_location_name
   
+  def is_dungeon_item(self, item_name):
+    return (item_name in DUNGEON_PROGRESS_ITEMS or item_name in DUNGEON_NONPROGRESS_ITEMS)
+  
   def parse_logic_expression(self, string):
     tokens = [str.strip() for str in re.split("([&|()])", string)]
     tokens = [token for token in tokens if token != ""]
@@ -487,10 +472,8 @@ class Logic:
       return self.check_progressive_item_req(req_name)
     elif req_name in self.all_cleaned_item_names:
       return req_name in self.currently_owned_items
-    elif "Small Key" in req_name:
+    elif " Small Key x" in req_name:
       return self.check_small_key_req(req_name)
-    elif "Big Key" in req_name:
-      return self.check_big_key_req(req_name)
     elif req_name in self.macros:
       logical_expression = self.macros[req_name]
       return self.check_logical_expression_req(logical_expression)
@@ -541,24 +524,16 @@ class Logic:
     item_name = match.group(1)
     num_required = int(match.group(2))
     
-    num_owned = self.progressive_items_owned[item_name]
+    num_owned = self.currently_owned_items.count(item_name)
     return num_owned >= num_required
   
   def check_small_key_req(self, req_name):
-    match = re.search(r"^(.+) Small Key x(\d+)$", req_name)
-    short_dungeon_name = match.group(1)
-    dungeon_name = self.DUNGEON_NAMES[short_dungeon_name]
+    match = re.search(r"^(.+ Small Key) x(\d+)$", req_name)
+    small_key_name = match.group(1)
     num_keys_required = int(match.group(2))
     
-    num_small_keys_owned = self.small_keys_owned_by_dungeon[dungeon_name]
+    num_small_keys_owned = self.currently_owned_items.count(small_key_name)
     return num_small_keys_owned >= num_keys_required
-  
-  def check_big_key_req(self, req_name):
-    match = re.search(r"^(.+) Big Key$", req_name)
-    short_dungeon_name = match.group(1)
-    dungeon_name = self.DUNGEON_NAMES[short_dungeon_name]
-    
-    return self.big_key_owned_by_dungeon[dungeon_name]
   
   def check_chart_req(self, req_name):
     match = re.search(r"^Chart for Island (\d+)$", req_name)

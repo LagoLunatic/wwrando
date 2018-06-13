@@ -312,15 +312,14 @@ class Randomizer:
       ]
       newly_accessible_small_key_locations = [
         loc for loc in newly_accessible_dungeon_item_locations
-        if self.logic.prerandomization_dungeon_item_locations[loc] == "Small Key"
+        if self.logic.prerandomization_dungeon_item_locations[loc].endswith(" Small Key")
       ]
       if newly_accessible_small_key_locations:
         for small_key_location_name in newly_accessible_small_key_locations:
           item_name = self.logic.prerandomization_dungeon_item_locations[small_key_location_name]
-          assert item_name == "Small Key"
+          assert item_name.endswith(" Small Key")
           
-          dungeon_name, _ = logic.split_location_name_by_zone(small_key_location_name)
-          logic.add_owned_key_for_dungeon(item_name, dungeon_name)
+          logic.add_owned_item(item_name)
         
         previously_accessible_locations += newly_accessible_small_key_locations
         continue # Redo this loop iteration with the small key locations no longer being considered 'remaining'.
@@ -328,17 +327,13 @@ class Randomizer:
       
       for location_name in locations_in_this_sphere:
         item_name = self.logic.done_item_locations[location_name]
-        if item_name in logic.all_progress_items or item_name == "Big Key":
+        if item_name in logic.all_progress_items:
           progress_items_in_this_sphere[location_name] = item_name
       
       progression_spheres.append(progress_items_in_this_sphere)
       
       for location_name, item_name in progress_items_in_this_sphere.items():
-        if item_name == "Big Key":
-          dungeon_name, _ = logic.split_location_name_by_zone(location_name)
-          logic.add_owned_key_for_dungeon(item_name, dungeon_name)
-        else:
-          logic.add_owned_item(item_name)
+        logic.add_owned_item(item_name)
       for group_name, item_names in logic.PROGRESS_ITEM_GROUPS.items():
         entire_group_is_owned = all(item_name in logic.currently_owned_items for item_name in item_names)
         if entire_group_is_owned and group_name in logic.unplaced_progress_items:

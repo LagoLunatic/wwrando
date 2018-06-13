@@ -45,7 +45,12 @@ PROGRESS_ITEMS = [
   "Magic Meter Upgrade",
   
   "Ghost Ship Chart",
-] + ["Progressive Sword"]*4 + ["Progressive Bow"]*3 + ["Progressive Wallet"]*2 + ["Progressive Picto Box"]*2 + ["Empty Bottle"]*4
+] + \
+  ["Progressive Sword"]*4 + \
+  ["Progressive Bow"]*3 + \
+  ["Progressive Wallet"]*2 + \
+  ["Progressive Picto Box"]*2 + \
+  ["Empty Bottle"]*4
 
 NONPROGRESS_ITEMS = [
   "Telescope",
@@ -84,7 +89,9 @@ NONPROGRESS_ITEMS = [
   #"Sea Hearts Chart",
   #"Island Hearts Chart",
   #"IN-credible Chart",
-] + ["Piece of Heart"]*44 + ["Heart Container"]*6
+] + \
+  ["Piece of Heart"]*44 + \
+  ["Heart Container"]*6
 
 CONSUMABLE_ITEMS = \
    1 * ["Green Rupee"] + \
@@ -106,3 +113,19 @@ CONSUMABLE_ITEMS = \
   \
    1 * ["All-Purpose Bait"] + \
    4 * ["Hyoi Pear"]
+
+DUNGEON_PROGRESS_ITEMS = \
+  ["DRC Big Key"] *1 + ["DRC Small Key"] *4 + \
+  ["FW Big Key"]  *1 + ["FW Small Key"]  *1 + \
+  ["TotG Big Key"]*1 + ["TotG Small Key"]*2 + \
+  ["FF Big Key"]  *0 + ["FF Small Key"]  *0 + \
+  ["ET Big Key"]  *1 + ["ET Small Key"]  *3 + \
+  ["WT Big Key"]  *1 + ["WT Small Key"]  *2
+
+DUNGEON_NONPROGRESS_ITEMS = \
+  ["DRC Dungeon Map", "DRC Compass"] + \
+  ["FW Dungeon Map", "FW Compass"] + \
+  ["TotG Dungeon Map", "TotG Compass"] + \
+  ["FF Dungeon Map", "FF Compass"] + \
+  ["ET Dungeon Map", "ET Compass"] + \
+  ["WT Dungeon Map", "WT Compass"]

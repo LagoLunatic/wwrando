@@ -8,6 +8,8 @@ import tweaks
 def randomize_items(self):
   print("Randomizing items...")
   
+  randomize_dungeon_items(self)
+  
   randomize_progression_items(self)
   
   # Place unique non-progress items.
@@ -35,17 +37,25 @@ def randomize_items(self):
     item_name = self.rng.choice(possible_items)
     self.logic.set_location_to_item(location_name, item_name)
 
-def randomize_progression_items(self):
-  # Don't randomize dungeon keys.
+def randomize_dungeon_items(self):
+  # Don't randomize small keys.
   for location_name, item_location in self.logic.item_locations.items():
     orig_item = item_location["Original item"]
     if orig_item == "Small Key":
-      self.logic.set_prerandomization_dungeon_item_location(location_name, orig_item)
+      dungeon_name, _ = self.logic.split_location_name_by_zone(location_name)
+      short_dungeon_name = next(k for k,v in self.logic.DUNGEON_NAMES.items() if v == dungeon_name)
+      item_name = short_dungeon_name + " Small Key"
+      self.logic.set_prerandomization_dungeon_item_location(location_name, item_name)
   
-  # Places one big key, dungeon map and compass in each dungeon.
-  for dungeon_name in self.logic.DUNGEON_NAMES.values():
+  # Places dungeon-specific items first so all the dungeon locations don't get used up by other items.
+  for short_dungeon_name, dungeon_name in self.logic.DUNGEON_NAMES.items():
     locations_for_dungeon = self.logic.locations_by_zone_name[dungeon_name]
     for item_name in ["Big Key", "Dungeon Map", "Compass"]:
+      item_name = short_dungeon_name + " " + item_name
+      if item_name == "FF Big Key":
+        # Forsaken Fortress has no big key.
+        continue
+      
       possible_locations = [
         loc for loc in locations_for_dungeon
         if loc in self.logic.remaining_item_locations
@@ -59,7 +69,8 @@ def randomize_progression_items(self):
       location_name = self.rng.choice(possible_locations)
       
       self.logic.set_prerandomization_dungeon_item_location(location_name, item_name)
-  
+
+def randomize_progression_items(self):
   accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
   if len(accessible_undone_locations) == 0:
     raise Exception("No progress locations are accessible at the very start of the game!")
@@ -88,13 +99,10 @@ def randomize_progression_items(self):
     possible_items = self.logic.filter_items_by_any_valid_location(self.logic.unplaced_progress_items, accessible_undone_locations)
     
     must_place_useful_item = False
-    should_place_useful_item = False
     if len(accessible_undone_locations) == 1 and len(possible_items) > 1:
       # If we're on the last accessible location but not the last item we HAVE to place an item that unlocks new locations.
+      # (Otherwise we will still try to place a useful item, but failing will not result in an error.)
       must_place_useful_item = True
-    else:
-      # Otherwise we will still try to place a useful item, but failing will not result in an error.
-      should_place_useful_item = True
     
     # If we wind up placing a useful item it can be a single item or a group.
     # But if we place an item that is not yet useful, we need to exclude groups.
@@ -104,17 +112,14 @@ def randomize_progression_items(self):
     if len(possible_items_when_not_placing_useful) == 0 and len(possible_items) > 0:
       possible_items_when_not_placing_useful = possible_items
     
-    if must_place_useful_item or should_place_useful_item:
-      shuffled_list = possible_items.copy()
-      self.rng.shuffle(shuffled_list)
-      item_name = self.logic.get_first_useful_item(shuffled_list, for_progression=True)
-      if item_name is None:
-        if must_place_useful_item:
-          raise Exception("No useful progress items to place!")
-        else:
-          item_name = self.rng.choice(possible_items_when_not_placing_useful)
-    else:
-      item_name = self.rng.choice(possible_items_when_not_placing_useful)
+    shuffled_list = possible_items.copy()
+    self.rng.shuffle(shuffled_list)
+    item_name = self.logic.get_first_useful_item(shuffled_list, for_progression=True)
+    if item_name is None:
+      if must_place_useful_item:
+        raise Exception("No useful progress items to place!")
+      else:
+        item_name = self.rng.choice(possible_items_when_not_placing_useful)
     
     if item_name in self.logic.PROGRESS_ITEM_GROUPS:
       # If we're placing an entire item group, we use different logic for deciding the location.
