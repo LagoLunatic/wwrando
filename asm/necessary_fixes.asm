@@ -599,3 +599,33 @@
 .org 0xD384 ; Relocation for line 0x225C
   .int rito_cafe_postman_start_event_and_set_event_bit
 .close
+
+
+
+
+; Change the conditions that cause letters to be sent to Link so that they work better in the randomizer.
+.open "files/rels/d_a_obj_toripost.rel" ; Mailbox
+.org 0x187C
+  ; In vanilla, the mailbox will not give you any mail until you own Din's Pearl.
+  ; Remove that condition so that only the letter-specific requirements matter.
+  nop
+.org 0x1B0C
+  ; In vanilla, Orca's letter is sent when you watch a cutscene on Greatfish Isle.
+  ; That cutscene is removed, so change it to be sent when you kill Kalle Demos.
+  li r3, 4
+.org 0x385C ; Relocation for line 0x1B10
+  .int dComIfGs_isStageBossEnemy__Fi
+.close
+.open "sys/main.dol"
+.org 0x80197ADC
+  ; In vanilla, Aryll's letter is sent after watching a cutscene in Hyrule 2.
+  ; That cutscene is removed, so change it to be after killing Helmaroc King.
+  li r3, 2
+  bl dComIfGs_isStageBossEnemy__Fi
+.org 0x80197AFC
+  ; In vanilla, Tingle's letter is sent after watching a cutscene in Hyrule 2 and rescuing Tingle.
+  ; That cutscene is removed, so change it to be after killing Helmaroc King and rescuing Tingle.
+  ; Change when Tingle's letter is sent.
+  li r3, 2
+  bl dComIfGs_isStageBossEnemy__Fi
+.close
