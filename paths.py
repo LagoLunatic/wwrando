@@ -1,4 +1,6 @@
 
+import os
+
 try:
   from sys import _MEIPASS
   ASSETS_PATH = os.path.join(_MEIPASS, "assets")
