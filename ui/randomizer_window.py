@@ -49,6 +49,14 @@ class WWRandomizerWindow(QMainWindow):
     
     self.setWindowTitle("Wind Waker Randomizer %s" % VERSION)
     
+    try:
+      from sys import _MEIPASS
+      assets_path = os.path.join(_MEIPASS, "assets")
+    except ImportError:
+      assets_path = "assets"
+    icon_path = os.path.join(assets_path, "icon.ico")
+    self.setWindowIcon(QIcon(icon_path))
+    
     self.show()
   
   def generate_seed(self):
