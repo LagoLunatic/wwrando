@@ -72,7 +72,7 @@ try:
         # Replace branches to specific addresses with labels, and define the address of those labels in the linker script.
         branch_dest = int(branch_match.group(1), 16)
         branch_temp_label = "branch_label_%X" % branch_dest
-        temp_linker_script += "%s = 0x%X;" % (branch_temp_label, branch_dest)
+        temp_linker_script += "%s = 0x%X;\n" % (branch_temp_label, branch_dest)
         line = re.sub(r"0x" + branch_match.group(1), branch_temp_label, line, 1)
       elif line == ".close":
         most_recent_file_path = None
