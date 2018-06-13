@@ -470,10 +470,12 @@ class Logic:
   def check_requirement_met(self, req_name):
     if req_name.startswith("Progressive "):
       return self.check_progressive_item_req(req_name)
-    elif req_name in self.all_cleaned_item_names:
-      return req_name in self.currently_owned_items
     elif " Small Key x" in req_name:
       return self.check_small_key_req(req_name)
+    elif req_name.startswith("Can Access Other Location \""):
+      return self.check_other_location_requirement(req_name)
+    elif req_name in self.all_cleaned_item_names:
+      return req_name in self.currently_owned_items
     elif req_name in self.macros:
       logical_expression = self.macros[req_name]
       return self.check_logical_expression_req(logical_expression)
@@ -534,6 +536,13 @@ class Logic:
     
     num_small_keys_owned = self.currently_owned_items.count(small_key_name)
     return num_small_keys_owned >= num_keys_required
+  
+  def check_other_location_requirement(self, req_name):
+    match = re.search(r"^Can Access Other Location \"([^\"]+)\"$", req_name)
+    other_location_name = match.group(1)
+    
+    requirement_expression = self.item_locations[other_location_name]["Need"]
+    return self.check_logical_expression_req(requirement_expression)
   
   def check_chart_req(self, req_name):
     match = re.search(r"^Chart for Island (\d+)$", req_name)
