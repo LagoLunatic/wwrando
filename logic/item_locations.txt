@@ -1554,84 +1554,109 @@ Ganon's Tower - Maze Chest:
   Paths:
     - GanonJ/Stage.arc/Chest000
 
+# Note: In the vanilla game, the mailbox would not give you any mail until you owned Din's Pearl. But this requirement is removed in the randomizer.
+Mailbox - Letter from Hoskit's Girlfriend:
+  Need: Spoils Bag & Can Farm Golden Feathers
+  # Need to wait for time to pass.
+  Original item: Piece of Heart (Alternate Message)
+  Type: Mail
+  Paths:
+    - rels/d_a_obj_toripost.rel@25DC
 Mailbox - Letter from Baito's Mother:
-  Need: Delivery Bag & Note to Mom & TODO
+  Need: Delivery Bag & Note to Mom
+  # Might need to wait for time to pass...? TODO
   Original item: Piece of Heart
   Type: Mail
   Paths:
     - rels/d_a_obj_toripost.rel@2564
+    - rels/d_a_obj_toripost.rel@25C4
+Mailbox - Letter from Baito:
+  Need: TODO # Need to kill Earth Temple boss, and Baito's mother must have sent out her letter (though it doesn't matter if you read it yet)
+  # Might need to wait for time to pass...? TODO
+  Original item: Red Rupee
+  Type: Mail
+  Paths:
+    - rels/d_a_obj_toripost.rel@25E8
 Mailbox - Letter from Komali's Father:
-  Need: # Might appear after you get half-power master sword?
+  Need: Farore's Pearl
+  # Need to wait for time to pass.
   Original item: Piece of Heart
   Type: Mail
   Paths:
     - rels/d_a_obj_toripost.rel@2570
 Mailbox - Letter Advertising Bombs in Beedle's Shop:
-  Need: # Seems like you get this letter after you get bombs? Maybe you need to kill a boss to get the letter?
+  Need: Bombs
   Original item: Beedle's Chart
   Type: Mail
   Paths:
     - rels/d_a_obj_toripost.rel@257C
+Mailbox - Letter Advertising Rock Spire Shop Ship:
+  Need: Any Wallet Upgrade
+  Original item: Green Rupee
+  Type: Mail
+  Paths:
+    - rels/d_a_obj_toripost.rel@25A0
+Mailbox - Beedle's Silver Membership Reward:
+  Need:
+    Bait Bag
+    | Bombs
+    | Hero's Bow
+    | Empty Bottle
+  # In order to get enough points to become a silver/gold member, you need to buy consumables.
+  # Bait bag is needed to buy bait, bombs are needed to buy bombs, bow is needed to buy arrows, and empty bottle is needed to buy red potions.
+  # Might need to wait for time to pass...? TODO
+  Original item: Complimentary ID
+  Type: Mail # TODO: should also be Expensive Purchase (30*10 = minimum 300 rupees in total)
+  Paths:
+    - rels/d_a_obj_toripost.rel@25D0
+Mailbox - Beedle's Gold Membership Reward:
+  Need:
+    Bait Bag
+    | Bombs
+    | Hero's Bow
+    | Empty Bottle
+  # In order to get enough points to become a silver/gold member, you need to buy consumables.
+  # Bait bag is needed to buy bait, bombs are needed to buy bombs, bow is needed to buy arrows, and empty bottle is needed to buy red potions.
+  # Might need to wait for time to pass...? TODO
+  Original item: Fill-Up Coupon
+  Type: Mail # TODO: should also be Expensive Purchase (60*10 = minimum 300 rupees in total)
+  Paths:
+    - rels/d_a_obj_toripost.rel@25F4
 Mailbox - Letter from Orca:
-  Need: # Might appear after event bit 1E80 (QUILL_TELLS_US_JABUN_IS_HIDING_AT_OUTSET) is set?
+  Need: Can Access Other Location "Forbidden Woods - Kalle Demos Heart Container"
+  # Note: In the vanilla game, this letter is sent after you watch a cutscene on Greatfish Isle.
+  # But since that's impossible when cutscenes are removed, the randomizer changes it to be sent when you kill Kalle Demos.
+  # Do not need to wait for time to pass.
   Original item: Red Rupee
   Type: Mail
   Paths:
     - rels/d_a_obj_toripost.rel@2588
 Mailbox - Letter from Grandma:
-  Need: Empty Bottle & Can Get Fairies & TODO
+  Need: Empty Bottle & Can Get Fairies
+  # Need to wait for time to pass.
   Original item: Red Rupee
   Type: Mail
   Paths:
     - rels/d_a_obj_toripost.rel@2594
-Mailbox - Letter Advertising Rock Spire Shop Ship:
-  Need: # Might appear after getting either wallet upgrade? Maybe you need to kill a boss to get the letter?
-  Original item: Green Rupee
-  Type: Mail
-  Paths:
-    - rels/d_a_obj_toripost.rel@25A0
-Mailbox - Letter from Tingle:
-  Need: TODO
-  Original item: IN-credible Chart
-  Type: Mail
-  Paths:
-    - rels/d_a_obj_toripost.rel@25AC
 Mailbox - Letter from Aryll:
-  Need: TODO
+  Need: Can Access Other Location "Forsaken Fortress - Helmaroc King Heart Container"
+  # Note: In the vanilla game, this letter is sent after you watch a cutscene in Hyrule 2.
+  # But since that's impossible when cutscenes are removed, the randomizer changes it to be sent when you kill Helmaroc King.
+  # Need to wait for time to pass.
   Original item: Red Rupee
   Type: Mail
   Paths:
     - rels/d_a_obj_toripost.rel@25B8
-Mailbox - Letter from Baito's Mother: # TODO: duplicate?
-  Need: Delivery Bag & Note to Mom & TODO
-  Original item: Piece of Heart
-  Type: Mail
+Mailbox - Letter from Tingle:
+  Need: Rescued Tingle & Any Wallet Upgrade & Can Access Other Location "Forsaken Fortress - Helmaroc King Heart Container"
+  # You need a wallet upgrade because it costs 201 rupees to receive this letter.
+  # Note: In the vanilla game, this letter is sent after you watch a cutscene in Hyrule 2.
+  # But since that's impossible when cutscenes are removed, the randomizer changes it to be sent when you kill Helmaroc King.
+  # Need to wait for time to pass.
+  Original item: IN-credible Chart
+  Type: Mail # TODO: should also be Expensive Purchase (costs 201 rupees to get it)
   Paths:
-    - rels/d_a_obj_toripost.rel@25C4
-Mailbox - Beedle's Silver Membership Reward:
-  Need: TODO
-  Original item: Complimentary ID
-  Type: Mail
-  Paths:
-    - rels/d_a_obj_toripost.rel@25D0
-Mailbox - Letter from Hoskit's Girlfriend:
-  Need: Spoils Bag & Can Farm Golden Feathers & TODO # Maybe you need to kill a boss to get the letter?
-  Original item: Piece of Heart (Alternate Message)
-  Type: Mail
-  Paths:
-    - rels/d_a_obj_toripost.rel@25DC
-Mailbox - Letter from Baito:
-  Need: # Might appear after beating earth temple boss? and also his mother must have sent out her letter (but maybe you don't need to have received it)
-  Original item: Red Rupee
-  Type: Mail
-  Paths:
-    - rels/d_a_obj_toripost.rel@25E8
-Mailbox - Beedle's Gold Membership Reward:
-  Need: TODO
-  Original item: Fill-Up Coupon
-  Type: Mail
-  Paths:
-    - rels/d_a_obj_toripost.rel@25F4
+    - rels/d_a_obj_toripost.rel@25AC
 
 The Great Sea - Beedle's Shop Ship - Bait Bag:
   Need: Nothing

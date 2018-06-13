@@ -125,6 +125,8 @@ Can Reach and Defeat Ganondorf:
 
 Rescued Aryll:
   Nothing # We set the event bit for having rescued Aryll by default.
+Rescued Tingle:
+  Nothing
 Can Get Fairies:
   Nothing # Northern Fairy Island can be entered without any items.
 Can Farm Knight's Crests:

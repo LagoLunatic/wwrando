@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Mon Jun 11 13:53:21 2018
+# Created: Wed Jun 13 16:47:22 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -98,7 +98,6 @@ class Ui_MainWindow(object):
         self.progression_gifts.setObjectName("progression_gifts")
         self.gridLayout_2.addWidget(self.progression_gifts, 5, 0, 1, 1)
         self.progression_mail = QtGui.QCheckBox(self.groupBox)
-        self.progression_mail.setEnabled(False)
         self.progression_mail.setObjectName("progression_mail")
         self.gridLayout_2.addWidget(self.progression_mail, 5, 1, 1, 1)
         self.verticalLayout.addWidget(self.groupBox)
