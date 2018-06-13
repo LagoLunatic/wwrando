@@ -8,6 +8,7 @@ import shutil
 from collections import OrderedDict
 import struct
 import yaml
+import traceback
 
 # Allow yaml to dump OrderedDicts for the diffs.
 yaml.CDumper.add_representer(
@@ -165,6 +166,11 @@ try:
     diff_name = basename + "_diff.txt"
     with open(diff_name, "w") as f:
       f.write(yaml.dump(diffs, Dumper=yaml.CDumper))
+except Exception as e:
+  stack_trace = traceback.format_exc()
+  error_message = str(e) + "\n\n" + stack_trace
+  print(error_message)
+  input()
 finally:
   shutil.rmtree(temp_dir)
 
