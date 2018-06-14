@@ -269,6 +269,8 @@ class Randomizer:
     self.raw_files_by_path[file_path] = new_data
   
   def save_randomized_iso(self):
+    self.bmg.save_changes()
+    
     changed_files = {}
     for file_path, data in self.raw_files_by_path.items():
       if file_path.startswith("files/rels/"):

@@ -14,35 +14,90 @@ class BMG:
     self.length = read_u32(data, 8)
     self.num_sections = read_u32(data, 0x0C)
     
-    self.messages = []
-    self.messages_by_id = {}
-    self.string_pool_offset = None
+    self.sections = []
     offset = 0x20
     for section_index in range(self.num_sections):
-      section_magic = read_str(data, offset, 4)
-      section_size = read_u32(data, offset+4)
+      section = BMGSection(data, offset, self)
+      self.sections.append(section)
       
-      if section_magic == "INF1":
-        num_messages = read_u16(data, offset+8)
-        message_length = read_u16(data, offset+0x0A)
-        for message_index in range(num_messages):
-          message = Message(file_entry, offset+0x10+message_index*message_length, self)
-          self.messages.append(message)
-          self.messages_by_id[message.message_id] = message
-      elif section_magic == "DAT1":
-        self.string_pool_offset = offset+8
+      if section.magic == "INF1":
+        self.inf1 = section
+      elif section.magic == "DAT1":
+        self.dat1 = section
       
-      offset += section_size
+      offset += section.size
     
-    assert self.string_pool_offset
+    assert self.inf1
+    assert self.dat1
     
     for message in self.messages:
       message.read_string()
-
-class Message:
-  def __init__(self, file_entry, offset, bmg):
-    self.file_entry = file_entry
+  
+  def save_changes(self):
     data = self.file_entry.data
+    
+    # Cut off the section data first since we're replacing this data entirely.
+    data.truncate(0x20)
+    data.seek(0x20)
+    
+    for section in self.sections:
+      section.save_changes()
+      
+      section.data.seek(0)
+      section_data = section.data.read()
+      data.write(section_data)
+  
+  @property
+  def messages(self):
+    return self.inf1.messages
+  
+  @messages.setter
+  def messages(self, value):
+    self.inf1.messages = value
+  
+  @property
+  def messages_by_id(self):
+    return self.inf1.messages_by_id
+  
+  @messages_by_id.setter
+  def messages_by_id(self, value):
+    self.inf1.messages_by_id = value
+
+class BMGSection:
+  def __init__(self, bmg_data, section_offset, bmg):
+    self.bmg = bmg
+    
+    self.magic = read_str(bmg_data, section_offset, 4)
+    self.size = read_u32(bmg_data, section_offset+4)
+    
+    bmg_data.seek(section_offset)
+    self.data = BytesIO(bmg_data.read(self.size))
+    
+    if self.magic == "INF1":
+      self.read_inf1()
+  
+  def save_changes(self):
+    # Pad the size of this section to the next 0x20 bytes.
+    align_data_to_nearest(self.data, 0x20)
+    
+    self.size = data_len(self.data)
+    write_str(self.data, 0, self.magic, 4)
+    write_u32(self.data, 4, self.size)
+  
+  def read_inf1(self):
+    self.messages = []
+    self.messages_by_id = {}
+    
+    num_messages = read_u16(self.data, 8)
+    message_length = read_u16(self.data, 0x0A)
+    for message_index in range(num_messages):
+      message = Message(self.data, 0x10+message_index*message_length, self.bmg)
+      self.messages.append(message)
+      self.messages_by_id[message.message_id] = message
+  
+class Message:
+  def __init__(self, data, offset, bmg):
+    self.data = data
     self.offset = offset
     self.bmg = bmg
     
@@ -59,23 +114,23 @@ class Message:
     self.string = None # Will be set after all messages are read.
   
   def read_string(self):
-    data = self.file_entry.data
+    string_pool_data = self.bmg.dat1.data
     
     self.string = ""
-    byte_offset = self.bmg.string_pool_offset+self.string_offset
+    byte_offset = 8 + self.string_offset
     
-    byte = read_u8(data, byte_offset)
+    byte = read_u8(string_pool_data, byte_offset)
     byte_offset += 1
     while byte != 0:
       if byte == 0x1A:
         # Control code.
-        control_code_size = read_u8(data, byte_offset)
+        control_code_size = read_u8(string_pool_data, byte_offset)
         byte_offset += 1
         
         self.string += "\\{%02X %02X" % (byte, control_code_size)
         
         for i in range(control_code_size-2):
-          contrl_code_data_byte = read_u8(data, byte_offset)
+          contrl_code_data_byte = read_u8(string_pool_data, byte_offset)
           byte_offset += 1
           self.string += " %02X" % contrl_code_data_byte
         self.string += "}"
@@ -83,13 +138,13 @@ class Message:
         # Normal character.
         self.string += chr(byte)
       
-      byte = read_u8(data, byte_offset)
+      byte = read_u8(string_pool_data, byte_offset)
       byte_offset += 1
     
     self.original_string_length = byte_offset
   
   def save_changes(self):
-    data = self.file_entry.data
+    data = self.data
     
     write_u32(data, self.offset, self.string_offset)
     write_u16(data, self.offset+4, self.message_id)
@@ -104,7 +159,7 @@ class Message:
     self.write_string()
   
   def write_string(self):
-    data = self.file_entry.data
+    data = self.data
     
     is_escaped_char = False
     index_in_str = 0
@@ -139,5 +194,6 @@ class Message:
     if len(bytes_to_write) > self.original_string_length:
       raise Exception("Length of string was increased")
     
-    str_start_offset = self.bmg.string_pool_offset+self.string_offset
-    write_and_pack_bytes(data, str_start_offset, bytes_to_write, "B"*len(bytes_to_write))
+    string_pool_data = self.bmg.dat1.data
+    str_start_offset = 8 + self.string_offset
+    write_and_pack_bytes(string_pool_data, str_start_offset, bytes_to_write, "B"*len(bytes_to_write))
