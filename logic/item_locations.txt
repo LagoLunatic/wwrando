@@ -1188,7 +1188,7 @@ Earth Temple - Compass Chest:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
-    & ET Small Key x1
+    & ET Small Key x2
     & Fire Arrows
     & Power Bracelets
     # Power Bracelets necessary again to move the large black pushable box and unlock a door.
@@ -1200,7 +1200,7 @@ Earth Temple - Chest Behind Statues:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
-    & ET Small Key x1
+    & ET Small Key x2
     & Fire Arrows
     & Power Bracelets
   Original item: Joy Pendant
@@ -1211,7 +1211,7 @@ Earth Temple - Casket in Second Crypt:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
-    & ET Small Key x1
+    & ET Small Key x2
     & Fire Arrows
     & Power Bracelets
   Original item: Small Key
@@ -1222,7 +1222,7 @@ Earth Temple - Stalfos Mini-Boss Room:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
-    & ET Small Key x2
+    & ET Small Key x3
     & Fire Arrows
     & Power Bracelets
   # Need to escape: Mirror Shield
@@ -1453,7 +1453,7 @@ Wind Temple - Wizzrobe Mini-Boss Room:
     & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
-    & WT Small Key x1
+    & WT Small Key x2
     & Can Defeat Peahats
     # Killing the Wizzrobe doesn't require ranged weapons because he occasionally comes down to ground level.
     # But you also need to be able to defeat Peahats in case they were summoned.
