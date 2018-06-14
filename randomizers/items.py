@@ -60,7 +60,8 @@ def randomize_dungeon_items(self):
         loc for loc in locations_for_dungeon
         if loc in self.logic.remaining_item_locations
         and not loc in self.logic.prerandomization_dungeon_item_locations
-        and self.logic.item_locations[loc]["Type"] not in ["Tingle Statue Chest", "Sunken Treasure"]
+        and not "Tingle Statue Chest" in self.logic.item_locations[loc]["Types"]
+        and not "Sunken Treasure" in self.logic.item_locations[loc]["Types"]
       ]
       if dungeon_name == "Forsaken Fortress":
         # These are outdoors, which means their stage ID is not properly set to be Forsaken Fortress. This means dungeon items wouldn't work properly if placed here.

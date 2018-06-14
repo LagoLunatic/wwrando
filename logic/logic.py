@@ -174,8 +174,8 @@ class Logic:
       if location_name in progress_locations:
         continue
       
-      type = self.item_locations[location_name]["Type"]
-      if type == "Sunken Treasure":
+      types = self.item_locations[location_name]["Types"]
+      if "Sunken Treasure" in types:
         chart_name = self.chart_name_for_location(location_name)
         if "Triforce Chart" in chart_name:
           if self.rando.options.get("progression_triforce_charts"):
@@ -279,36 +279,36 @@ class Logic:
   def filter_locations_for_progression(self, locations_to_filter, filter_sunken_treasure=False):
     filtered_locations = []
     for location_name in locations_to_filter:
-      type = self.item_locations[location_name]["Type"]
-      if type == "No progression":
+      types = self.item_locations[location_name]["Types"]
+      if "No progression" in types:
         continue
-      if type == "Tingle Statue Chest":
+      if "Tingle Statue Chest" in types:
         continue
-      if type == "Dungeon" and not self.rando.options.get("progression_dungeons"):
+      if "Dungeon" in types and not self.rando.options.get("progression_dungeons"):
         continue
-      if type == "Secret Cave" and not self.rando.options.get("progression_secret_caves"):
+      if "Secret Cave" in types and not self.rando.options.get("progression_secret_caves"):
         continue
-      if type == "Sidequest" and not self.rando.options.get("progression_sidequests"):
+      if "Sidequest" in types and not self.rando.options.get("progression_sidequests"):
         continue
-      if type == "Minigame" and not self.rando.options.get("progression_minigames"):
+      if "Minigame" in types and not self.rando.options.get("progression_minigames"):
         continue
-      if type in ["Platform", "Raft"] and not self.rando.options.get("progression_platforms_rafts"):
+      if ("Platform" in types or "Raft" in types) and not self.rando.options.get("progression_platforms_rafts"):
         continue
-      if type == "Submarine" and not self.rando.options.get("progression_submarines"):
+      if "Submarine" in types and not self.rando.options.get("progression_submarines"):
         continue
-      if type == "Eye Reef Chest" and not self.rando.options.get("progression_eye_reef_chests"):
+      if "Eye Reef Chest" in types and not self.rando.options.get("progression_eye_reef_chests"):
         continue
-      if type in ["Big Octo", "Gunboat"] and not self.rando.options.get("progression_big_octos_gunboats"):
+      if ("Big Octo" in types or "Gunboat" in types) and not self.rando.options.get("progression_big_octos_gunboats"):
         continue
-      if type == "Expensive Purchase" and not self.rando.options.get("progression_expensive_purchases"):
+      if "Expensive Purchase" in types and not self.rando.options.get("progression_expensive_purchases"):
         continue
-      if type == "Free Gift" and not self.rando.options.get("progression_gifts"):
+      if "Free Gift" in types and not self.rando.options.get("progression_gifts"):
         continue
-      if type == "Mail" and not self.rando.options.get("progression_mail"):
+      if "Mail" in types and not self.rando.options.get("progression_mail"):
         continue
-      if type in ["Other Chest", "Misc"] and not self.rando.options.get("progression_misc"):
+      if ("Other Chest" in types or "Misc" in types) and not self.rando.options.get("progression_misc"):
         continue
-      if type == "Sunken Treasure" and filter_sunken_treasure:
+      if "Sunken Treasure" in types and filter_sunken_treasure:
         continue
       # Note: The Triforce/Treasure Chart sunken treasures are handled differently from other types.
       # During randomization they are handled by not considering the charts themselves to be progress items.
@@ -328,7 +328,7 @@ class Logic:
       if dungeon_name != zone_name:
         # Not a dungeon, or the wrong dungeon.
         return False
-      if self.item_locations[location_name]["Type"] == "Sunken Treasure":
+      if "Sunken Treasure" in self.item_locations[location_name]["Types"]:
         # Sunken treasure wouldn't work because the stage ID would be the sea's, not the dungeon's.
         return False
       if location_name in ["Forsaken Fortress - Phantom Ganon", "Forsaken Fortress - Helmaroc King Heart Container"]:
@@ -402,6 +402,11 @@ class Logic:
         self.item_locations[location_name]["Need"] = self.parse_logic_expression("TODO")
       else:
         self.item_locations[location_name]["Need"] = self.parse_logic_expression(req_string)
+      
+      types_string = self.item_locations[location_name]["Types"]
+      types = types_string.split(",")
+      types = [type.strip() for type in types]
+      self.item_locations[location_name]["Types"] = types
     
     with open(os.path.join(LOGIC_PATH, "macros.txt")) as f:
       macro_strings = yaml.safe_load(f)
