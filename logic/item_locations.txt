@@ -2183,7 +2183,7 @@ Rock Spire Isle - Center Lookout Platform:
   Paths:
     - sea/Room16.arc/Chest002
 Rock Spire Isle - Gunboat:
-  Need: Bombs
+  Need: Bombs & Grappling Hook
   Original item: Piece of Heart
   Type: Gunboat
   Paths:
