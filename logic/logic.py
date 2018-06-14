@@ -107,7 +107,7 @@ class Logic:
     
     self.rock_spire_shop_ship_locations = []
     for location_name, location in self.item_locations.items():
-      if location["Type"] == "Expensive Purchase":
+      if location_name.startswith("Rock Spire Isle - Beedle's Special Shop Ship - "):
         self.rock_spire_shop_ship_locations.append(location_name)
     
     self.update_dungeon_entrance_macros()
