@@ -314,25 +314,25 @@ Windfall Island - Tott:
 Windfall Island - 40 Rupee Auction:
   Need: Nothing
   Original item: Joy Pendant
-  Types: Expensive Purchase
+  Types: Expensive Purchase, Minigame
   Paths:
     - rels/d_a_auction.rel@4489
 Windfall Island - 5 Rupee Auction:
   Need: Nothing
   Original item: Treasure Chart 18
-  Types: Expensive Purchase
+  Types: Expensive Purchase, Minigame
   Paths:
     - rels/d_a_auction.rel@4491
 Windfall Island - 60 Rupee Auction:
   Need: Nothing
   Original item: Treasure Chart 38
-  Types: Expensive Purchase
+  Types: Expensive Purchase, Minigame
   Paths:
     - rels/d_a_auction.rel@4499
 Windfall Island - 80 Rupee Auction:
   Need: Nothing
   Original item: Piece of Heart
-  Types: Expensive Purchase
+  Types: Expensive Purchase, Minigame
   Paths:
     - rels/d_a_auction.rel@44A1
 #Windfall Island - Zunari - Sail:
@@ -586,7 +586,7 @@ Dragon Roost Cavern - Tingle Statue Chest:
     & Grappling Hook
     & Tingle Tuner Bombs
   Original item: Dragon Tingle Statue
-  Types: Tingle Statue Chest
+  Types: Tingle Statue Chest, Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest00C
 Dragon Roost Cavern - Big Key Chest:
@@ -771,7 +771,7 @@ Forbidden Woods - Tingle Statue Chest:
     & Boomerang
     & Tingle Tuner Bombs
   Original item: Forbidden Tingle Statue
-  Types: Tingle Statue Chest
+  Types: Tingle Statue Chest, Dungeon
   Paths:
     - kindan/Stage.arc/Chest00E
 Forbidden Woods - Chest in Locked Tree Trunk:
@@ -881,7 +881,7 @@ Tower of the Gods - Tingle Statue Chest:
     & Can Defeat Yellow ChuChus
     & Tingle Tuner Bombs
   Original item: Goddess Tingle Statue
-  Types: Tingle Statue Chest
+  Types: Tingle Statue Chest, Dungeon
   Paths:
     - Siren/Stage.arc/Chest00A
 Tower of the Gods - Stone Tablet:
@@ -1249,7 +1249,7 @@ Earth Temple - Tingle Statue Chest:
     & Deku Leaf
     & Tingle Tuner Bombs
   Original item: Earth Tingle Statue
-  Types: Tingle Statue Chest
+  Types: Tingle Statue Chest, Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest00D
 Earth Temple - End of Foggy Room With Floormasters:
@@ -1395,7 +1395,7 @@ Wind Temple - Tingle Statue Chest:
     & Deku Leaf
     & Tingle Tuner Bombs
   Original item: Wind Tingle Statue
-  Types: Tingle Statue Chest
+  Types: Tingle Statue Chest, Dungeon
   Paths:
     - kaze/Stage.arc/Chest00C
 Wind Temple - Chest in Left Alcove:
@@ -1576,7 +1576,7 @@ Mailbox - Letter from Baito:
   # Need to kill Jalhalla and Baito's mom must have sent her letter (doesn't matter if you've read her letter or not).
   # Might need to wait for time to pass...? TODO
   Original item: Red Rupee
-  Types: Mail
+  Types: Mail, Dungeon
   Paths:
     - rels/d_a_obj_toripost.rel@25E8
 Mailbox - Letter from Komali's Father:
@@ -1630,7 +1630,7 @@ Mailbox - Letter from Orca:
   # But since that's impossible when cutscenes are removed, the randomizer changes it to be sent when you kill Kalle Demos.
   # Do not need to wait for time to pass.
   Original item: Red Rupee
-  Types: Mail
+  Types: Mail, Dungeon
   Paths:
     - rels/d_a_obj_toripost.rel@2588
 Mailbox - Letter from Grandma:
@@ -1646,7 +1646,7 @@ Mailbox - Letter from Aryll:
   # But since that's impossible when cutscenes are removed, the randomizer changes it to be sent when you kill Helmaroc King.
   # Need to wait for time to pass.
   Original item: Red Rupee
-  Types: Mail
+  Types: Mail, Dungeon
   Paths:
     - rels/d_a_obj_toripost.rel@25B8
 Mailbox - Letter from Tingle:
@@ -1656,7 +1656,7 @@ Mailbox - Letter from Tingle:
   # But since that's impossible when cutscenes are removed, the randomizer changes it to be sent when you kill Helmaroc King.
   # Need to wait for time to pass.
   Original item: IN-credible Chart
-  Types: Mail # TODO: should also be Expensive Purchase (costs 201 rupees to get it)
+  Types: Mail, Dungeon, Expensive Purchase
   Paths:
     - rels/d_a_obj_toripost.rel@25AC
 
