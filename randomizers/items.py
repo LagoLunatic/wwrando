@@ -149,10 +149,15 @@ def randomize_progression_items(self):
     possible_items = self.logic.filter_items_by_any_valid_location(possible_items, accessible_undone_locations)
     
     must_place_useful_item = False
+    should_place_useful_item = True
     if len(accessible_undone_locations) == 1 and len(possible_items) > 1:
       # If we're on the last accessible location but not the last item we HAVE to place an item that unlocks new locations.
       # (Otherwise we will still try to place a useful item, but failing will not result in an error.)
       must_place_useful_item = True
+    elif len(accessible_undone_locations) >= 17:
+      # If we have a lot of locations open, we don't need to be so strict with prioritizing currently useful items.
+      # This can give the randomizer a chance to place things like Delivery Bag or small keys for dungeons that need x2 to do anything.
+      should_place_useful_item = False
     
     # If we wind up placing a useful item it can be a single item or a group.
     # But if we place an item that is not yet useful, we need to exclude groups.
@@ -162,14 +167,17 @@ def randomize_progression_items(self):
     if len(possible_items_when_not_placing_useful) == 0 and len(possible_items) > 0:
       possible_items_when_not_placing_useful = possible_items
     
-    shuffled_list = possible_items.copy()
-    self.rng.shuffle(shuffled_list)
-    item_name = self.logic.get_first_useful_item(shuffled_list, for_progression=True)
-    if item_name is None:
-      if must_place_useful_item:
-        raise Exception("No useful progress items to place!")
-      else:
-        item_name = self.rng.choice(possible_items_when_not_placing_useful)
+    if must_place_useful_item or should_place_useful_item:
+      shuffled_list = possible_items.copy()
+      self.rng.shuffle(shuffled_list)
+      item_name = self.logic.get_first_useful_item(shuffled_list, for_progression=True)
+      if item_name is None:
+        if must_place_useful_item:
+          raise Exception("No useful progress items to place!")
+        else:
+          item_name = self.rng.choice(possible_items_when_not_placing_useful)
+    else:
+      item_name = self.rng.choice(possible_items_when_not_placing_useful)
     
     if item_name in self.logic.PROGRESS_ITEM_GROUPS:
       # If we're placing an entire item group, we use different logic for deciding the location.
