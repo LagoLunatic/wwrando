@@ -335,27 +335,27 @@ def make_items_progressive(self):
   # Also update the item get descriptions of progressive items to just generically say you got *a* upgrade, without saying which.
   sword_id = self.item_name_to_id["Progressive Sword"]
   sword_msg = self.bmg.messages_by_id[101 + sword_id]
-  sword_msg.string = "\{1A 05 00 00 01}You got a \{1A 06 FF 00 00 01}sword upgrade\{1A 06 FF 00 00 00}!"
+  sword_msg.string = "\\{1A 05 00 00 01}You got a \\{1A 06 FF 00 00 01}sword upgrade\\{1A 06 FF 00 00 00}!"
   
   bow_id = self.item_name_to_id["Progressive Bow"]
   bow_msg = self.bmg.messages_by_id[101 + bow_id]
-  bow_msg.string = "\{1A 05 00 00 01}You got a \{1A 06 FF 00 00 01}bow upgrade\{1A 06 FF 00 00 00}!"
+  bow_msg.string = "\\{1A 05 00 00 01}You got a \\{1A 06 FF 00 00 01}bow upgrade\\{1A 06 FF 00 00 00}!"
   
   wallet_id = self.item_name_to_id["Progressive Wallet"]
   wallet_msg = self.bmg.messages_by_id[101 + wallet_id]
-  wallet_msg.string = "\{1A 05 00 00 01}You can now carry more \{1A 06 FF 00 00 01}Rupees\{1A 06 FF 00 00 00}!"
+  wallet_msg.string = "\\{1A 05 00 00 01}You can now carry more \\{1A 06 FF 00 00 01}Rupees\\{1A 06 FF 00 00 00}!"
   
   bomb_bag_id = self.item_name_to_id["Progressive Bomb Bag"]
   bomb_bag_msg = self.bmg.messages_by_id[101 + bomb_bag_id]
-  bomb_bag_msg.string = "\{1A 05 00 00 01}You can now carry more \{1A 06 FF 00 00 01}bombs\{1A 06 FF 00 00 00}!"
+  bomb_bag_msg.string = "\\{1A 05 00 00 01}You can now carry more \\{1A 06 FF 00 00 01}bombs\\{1A 06 FF 00 00 00}!"
   
   quiver_id = self.item_name_to_id["Progressive Quiver"]
   quiver_msg = self.bmg.messages_by_id[101 + quiver_id]
-  quiver_msg.string = "\{1A 05 00 00 01}You can now carry more \{1A 06 FF 00 00 01}arrows\{1A 06 FF 00 00 00}!"
+  quiver_msg.string = "\\{1A 05 00 00 01}You can now carry more \\{1A 06 FF 00 00 01}arrows\\{1A 06 FF 00 00 00}!"
   
   picto_box_id = self.item_name_to_id["Progressive Picto Box"]
   picto_box_msg = self.bmg.messages_by_id[101 + picto_box_id]
-  picto_box_msg.string = "\{1A 05 00 00 01}You got a \{1A 06 FF 00 00 01}Picto Box upgrade\{1A 06 FF 00 00 00}!"
+  picto_box_msg.string = "\\{1A 05 00 00 01}You got a \\{1A 06 FF 00 00 01}Picto Box upgrade\\{1A 06 FF 00 00 00}!"
 
 def make_sail_behave_like_swift_sail(self):
   # Causes the wind direction to always change to face the direction KoRL is facing as long as the sail is out.
@@ -588,3 +588,94 @@ def update_game_name_icon_and_banners(self):
   memory_card_banner = cardicon_arc.get_file("ipl_banner.bti")
   memory_card_banner.replace_image(memory_card_banner_file_path)
   memory_card_banner.save_changes()
+
+def allow_dungeon_items_to_appear_anywhere(self):
+  dol_data = self.get_raw_file("sys/main.dol")
+  item_get_funcs_list = address_to_offset(0x803888C8)
+  item_resources_list_start = address_to_offset(0x803842B0)
+  field_item_resources_list_start = address_to_offset(0x803866B0)
+  
+  dungeon_items = [
+    ("DRC", "Small Key", 0x13),
+    ("DRC", "Big Key", 0x14),
+    ("DRC", "Dungeon Map", 0x17),
+    ("DRC", "Compass", 0x18),
+    ("FW", "Small Key", 0x19),
+    ("FW", "Big Key", 0x1B),
+    ("FW", "Dungeon Map", 0x1C),
+    ("FW", "Compass", 0x1D),
+    ("TotG", "Small Key", 0x1E),
+    ("TotG", "Big Key", 0x2B),
+    ("TotG", "Dungeon Map", 0x40),
+    ("TotG", "Compass", 0x41),
+    ("FF", "Dungeon Map", 0x44),
+    ("FF", "Compass", 0x4F),
+    ("ET", "Small Key", 0x5A),
+    ("ET", "Big Key", 0x5B),
+    ("ET", "Dungeon Map", 0x5C),
+    ("ET", "Compass", 0x5D),
+    ("WT", "Small Key", 0x5E),
+    ("WT", "Big Key", 0x5F),
+    ("WT", "Dungeon Map", 0x60),
+    ("WT", "Compass", 0x6C),
+  ]
+  
+  for short_dungeon_name, base_item_name, item_id in dungeon_items:
+    item_name = short_dungeon_name + " " + base_item_name
+    base_item_id = self.item_name_to_id[base_item_name]
+    dungeon_name = self.logic.DUNGEON_NAMES[short_dungeon_name]
+    
+    # Register the proper item ID for this item with the randomizer.
+    self.item_name_to_id[item_name] = item_id
+    
+    # Update the item get funcs for the dungeon items to point to our custom item get funcs instead.
+    custom_symbol_name = item_name.lower().replace(" ", "_") + "_item_get_func"
+    item_get_func_offset = item_get_funcs_list + item_id*4
+    write_u32(dol_data, item_get_func_offset, self.custom_symbols[custom_symbol_name])
+    
+    # Add item get messages for the items.
+    if base_item_name == "Small Key":
+      description_format_string = "\\{1A 05 00 00 01}You got a \\{1A 06 FF 00 00 01}%s small key\\{1A 06 FF 00 00 00}!\\{1A 06 FF 00 00 01}\\{1A 05 00 00 02}\n\\{1A 06 FF 00 00 00}\\{1A 07 00 00 07 00 0A}Use it to open locked doors.\nYou can use it only in this dungeon."
+    elif base_item_name == "Big Key":
+      description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Big Key\\{1A 06 FF 00 00 00}!\\{1A 05 00 00 02}\n\\{1A 07 00 00 07 00 0A}Use it to gain entrance to the room\nwhere the dungeon's boss lurks!\n\nPress \\{1A 05 00 00 12}\\{1A 05 00 00 16} to see for yourself\non your \\{1A 06 FF 00 00 01}map\\{1A 06 FF 00 00 00}."
+    elif base_item_name == "Dungeon Map":
+      description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Dungeon Map\\{1A 06 FF 00 00 00}!\\{1A 05 00 00 02}\n\\{1A 07 00 00 07 00 0A}Press \\{1A 05 00 00 12}\\{1A 05 00 00 16} to view it.\n\n\n\\{1A 06 FF 00 00 02}Green areas\\{1A 06 FF 00 00 00} are ones you've visited.\nThe \\{1A 06 FF 00 00 01}flashing area\\{1A 06 FF 00 00 00} is your current\nlocation. Tilt \\{1A 05 00 00 1C}\\{1A 05 00 00 16}\\{1A 05 00 00 17} to view other\nfloors."
+    elif base_item_name == "Compass":
+      description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Compass\\{1A 06 FF 00 00 00}!\\{1A 05 00 00 02}\n\\{1A 07 00 00 07 00 0A}Now you can see where things are\nhidden in the dungeon. Press \\{1A 05 00 00 12}\\{1A 05 00 00 16} to\nview your \\{1A 06 FF 00 00 01}map\\{1A 06 FF 00 00 00} and see for yourself!"
+    
+    msg = self.bmg.add_new_message(101 + item_id)
+    msg.string = description_format_string % dungeon_name
+    msg.text_box_type = 9 # Item get message box
+    msg.initial_draw_type = 2 # Slow initial message speed
+    msg.display_item_id = item_id
+    
+    # Update item resources and field item resources so the models/icons show correctly for these items.
+    item_resources_offset_to_copy_from = item_resources_list_start + base_item_id*0x24
+    field_item_resources_offset_to_copy_from = field_item_resources_list_start + base_item_id*0x24
+    item_resources_offset = item_resources_list_start + item_id*0x24
+    field_item_resources_offset = field_item_resources_list_start + item_id*0x1C
+    
+    arc_name_pointer = self.arc_name_pointers[base_item_id]
+    
+    write_u32(dol_data, field_item_resources_offset, arc_name_pointer)
+    write_u32(dol_data, item_resources_offset, arc_name_pointer)
+    
+    item_icon_filename_pointer = self.icon_name_pointer[base_item_id]
+    write_u32(dol_data, item_resources_offset+4, item_icon_filename_pointer)
+    
+    data1 = read_bytes(dol_data, item_resources_offset_to_copy_from+8, 0xD)
+    write_bytes(dol_data, item_resources_offset+8, data1)
+    write_bytes(dol_data, field_item_resources_offset+4, data1)
+    data2 = read_bytes(dol_data, item_resources_offset_to_copy_from+0x1C, 4)
+    write_bytes(dol_data, item_resources_offset+0x1C, data2)
+    write_bytes(dol_data, field_item_resources_offset+0x14, data2)
+    
+    data3 = read_bytes(dol_data, item_resources_offset_to_copy_from+0x15, 7)
+    write_bytes(dol_data, item_resources_offset+0x15, data3)
+    data4 = read_bytes(dol_data, item_resources_offset_to_copy_from+0x20, 4)
+    write_bytes(dol_data, item_resources_offset+0x20, data4)
+    
+    data5 = read_bytes(dol_data, field_item_resources_offset_to_copy_from+0x11, 3)
+    write_bytes(dol_data, field_item_resources_offset+0x11, data5)
+    data6 = read_bytes(dol_data, field_item_resources_offset_to_copy_from+0x18, 4)
+    write_bytes(dol_data, field_item_resources_offset+0x18, data6)

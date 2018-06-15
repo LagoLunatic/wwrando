@@ -769,4 +769,487 @@ blr
 
 
 
+.global generic_small_key_item_get_func
+generic_small_key_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+mr r5, r3 ; Argument r3 is the stage ID of the dungeon to add this item for
+
+lis r3, 0x803C53A4@ha ; This value is the stage ID of the current stage
+addi r3, r3, 0x803C53A4@l
+lbz r4, 0 (r3)
+cmpw r4, r5 ; Check if we're currently in the right dungeon for this key
+beq generic_small_key_item_get_func_in_correct_dungeon
+
+; Not in the correct dungeon for this small key.
+; We need to bypass the normal small key adding method.
+; Instead we add directly to the small key count for the correct dungeon's stage info.
+lis r3, 0x803C4F88@ha ; List of all stage info
+addi r3, r3, 0x803C4F88@l
+mulli r4, r5, 0x24 ; Use stage ID of the dungeon as the index, each entry in the list is 0x24 bytes long
+add r3, r3, r4
+lbz r4, 0x20 (r3) ; Current number of keys for the correct dungeon
+addi r4, r4, 1
+stb r4, 0x20 (r3) ; Current number of keys for the correct dungeon
+b generic_small_key_item_get_func_end
+
+generic_small_key_item_get_func_in_correct_dungeon:
+; In the correct dungeon for this small key.
+; Simply call the normal small key func, as it will work correctly in this case.
+bl item_func_small_key__Fv
+
+generic_small_key_item_get_func_end:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global generic_big_key_item_get_func
+generic_big_key_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+mr r5, r3 ; Argument r3 is the stage ID of the dungeon to add this item for
+
+lis r3, 0x803C53A4@ha ; This value is the stage ID of the current stage
+addi r3, r3, 0x803C53A4@l
+lbz r4, 0 (r3)
+cmpw r4, r5 ; Check if we're currently in the right dungeon for this key
+beq generic_big_key_item_get_func_in_correct_dungeon
+
+; Not in the correct dungeon for this big key. We need to set the big key bit for the correct dungeon's stage info.
+lis r3, 0x803C4F88@ha ; List of all stage info
+addi r3, r3, 0x803C4F88@l
+mulli r4, r5, 0x24 ; Use stage ID of the dungeon as the index, each entry in the list is 0x24 bytes long
+add r3, r3, r4
+li r4, 2 ; Bit index 2, for big keys
+bl onDungeonItem__12dSv_memBit_cFi
+b generic_big_key_item_get_func_end
+
+generic_big_key_item_get_func_in_correct_dungeon:
+; In the correct dungeon for this big key.
+; Simply call the normal big key func, as it will work correctly in this case.
+bl item_func_boss_key__Fv
+
+generic_big_key_item_get_func_end:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global generic_dungeon_map_item_get_func
+generic_dungeon_map_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+mr r5, r3 ; Argument r3 is the stage ID of the dungeon to add this item for
+
+lis r3, 0x803C53A4@ha ; This value is the stage ID of the current stage
+addi r3, r3, 0x803C53A4@l
+lbz r4, 0 (r3)
+cmpw r4, r5 ; Check if we're currently in the right dungeon for this item
+beq generic_dungeon_map_item_get_func_in_correct_dungeon
+
+; Not in the correct dungeon for this item. We need to set the dungeon item bit for the correct dungeon's stage info.
+lis r3, 0x803C4F88@ha ; List of all stage info
+addi r3, r3, 0x803C4F88@l
+mulli r4, r5, 0x24 ; Use stage ID of the dungeon as the index, each entry in the list is 0x24 bytes long
+add r3, r3, r4
+li r4, 0 ; Bit index 0, for dungeon maps
+bl onDungeonItem__12dSv_memBit_cFi
+b generic_dungeon_map_item_get_func_end
+
+generic_dungeon_map_item_get_func_in_correct_dungeon:
+; In the correct dungeon for this item.
+; Simply call the normal dungeon map func, as it will work correctly in this case.
+bl item_func_map__Fv
+
+generic_dungeon_map_item_get_func_end:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global generic_compass_item_get_func
+generic_compass_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+mr r5, r3 ; Argument r3 is the stage ID of the dungeon to add this item for
+
+lis r3, 0x803C53A4@ha ; This value is the stage ID of the current stage
+addi r3, r3, 0x803C53A4@l
+lbz r4, 0 (r3)
+cmpw r4, r5 ; Check if we're currently in the right dungeon for this item
+beq generic_compass_item_get_func_in_correct_dungeon
+
+; Not in the correct dungeon for this item. We need to set the dungeon item bit for the correct dungeon's stage info.
+lis r3, 0x803C4F88@ha ; List of all stage info
+addi r3, r3, 0x803C4F88@l
+mulli r4, r5, 0x24 ; Use stage ID of the dungeon as the index, each entry in the list is 0x24 bytes long
+add r3, r3, r4
+li r4, 1 ; Bit index 1, for compasses
+bl onDungeonItem__12dSv_memBit_cFi
+b generic_compass_item_get_func_end
+
+generic_compass_item_get_func_in_correct_dungeon:
+; In the correct dungeon for this item.
+; Simply call the normal compass func, as it will work correctly in this case.
+bl item_func_compass__Fv
+
+generic_compass_item_get_func_end:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
+.global drc_small_key_item_get_func
+drc_small_key_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 3
+bl generic_small_key_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global fw_small_key_item_get_func
+fw_small_key_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 4
+bl generic_small_key_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global totg_small_key_item_get_func
+totg_small_key_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 5
+bl generic_small_key_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global et_small_key_item_get_func
+et_small_key_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 6
+bl generic_small_key_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global wt_small_key_item_get_func
+wt_small_key_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 7
+bl generic_small_key_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
+.global drc_big_key_item_get_func
+drc_big_key_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 3
+bl generic_big_key_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global fw_big_key_item_get_func
+fw_big_key_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 4
+bl generic_big_key_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global totg_big_key_item_get_func
+totg_big_key_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 5
+bl generic_big_key_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global et_big_key_item_get_func
+et_big_key_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 6
+bl generic_big_key_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global wt_big_key_item_get_func
+wt_big_key_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 7
+bl generic_big_key_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
+.global drc_dungeon_map_item_get_func
+drc_dungeon_map_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 3
+bl generic_dungeon_map_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global fw_dungeon_map_item_get_func
+fw_dungeon_map_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 4
+bl generic_dungeon_map_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global totg_dungeon_map_item_get_func
+totg_dungeon_map_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 5
+bl generic_dungeon_map_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global ff_dungeon_map_item_get_func
+ff_dungeon_map_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 2
+bl generic_dungeon_map_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global et_dungeon_map_item_get_func
+et_dungeon_map_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 6
+bl generic_dungeon_map_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global wt_dungeon_map_item_get_func
+wt_dungeon_map_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 7
+bl generic_dungeon_map_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
+.global drc_compass_item_get_func
+drc_compass_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 3
+bl generic_compass_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global fw_compass_item_get_func
+fw_compass_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 4
+bl generic_compass_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global totg_compass_item_get_func
+totg_compass_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 5
+bl generic_compass_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global ff_compass_item_get_func
+ff_compass_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 2
+bl generic_compass_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global et_compass_item_get_func
+et_compass_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 6
+bl generic_compass_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global wt_compass_item_get_func
+wt_compass_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r3, 7
+bl generic_compass_item_get_func
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 .close

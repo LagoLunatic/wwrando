@@ -142,6 +142,7 @@ class Randomizer:
     tweaks.remove_title_and_ending_videos(self)
     tweaks.modify_title_screen_logo(self)
     tweaks.update_game_name_icon_and_banners(self)
+    tweaks.allow_dungeon_items_to_appear_anywhere(self)
   
   def verify_supported_version(self, clean_iso_path):
     if not os.path.isfile(clean_iso_path):
@@ -216,6 +217,14 @@ class Randomizer:
       item_id = int(item_id, 16)
       arc_name_pointer = int(arc_name_pointer, 16)
       self.arc_name_pointers[item_id] = arc_name_pointer
+    
+    self.icon_name_pointer = {}
+    with open(os.path.join(DATA_PATH, "item_resource_icon_name_pointers.txt"), "r") as f:
+      matches = re.findall(r"^([0-9a-f]{2}) ([0-9a-f]{8}) ", f.read(), re.IGNORECASE | re.MULTILINE)
+    for item_id, icon_name_pointer in matches:
+      item_id = int(item_id, 16)
+      icon_name_pointer = int(icon_name_pointer, 16)
+      self.icon_name_pointer[item_id] = icon_name_pointer
     
     self.custom_symbols = {}
     with open(os.path.join(ASM_PATH, "custom_symbols.txt"), "r") as f:

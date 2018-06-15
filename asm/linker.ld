@@ -22,10 +22,15 @@ item_func_max_arrow_up2__Fv = 0x800c4cf0;
 item_func_camera__Fv = 0x800c3324;
 item_func_camera2__Fv = 0x800c33f0;
 item_func_pirates_omamori__Fv = 0x800c3c94;
+item_func_small_key__Fv = 0x800c31b0;
+item_func_boss_key__Fv = 0x800c3fc8;
+item_func_map__Fv = 0x800c3f68;
+item_func_compass__Fv = 0x800c3f98;
 
 onEventBit__11dSv_event_cFUs = 0x8005cb04;
 isEventBit__11dSv_event_cFUs = 0x8005cb34;
 dComIfGs_isEventBit__FUs = 0x800f0c8c;
+onDungeonItem__12dSv_memBit_cFi = 0x8005c7a4;
 isCollect__20dSv_player_collect_cFiUc = 0x8005ae10;
 onCollect__20dSv_player_collect_cFiUc = 0x8005ace0;
 dComIfGs_isStageBossEnemy__Fi = 0x800539a8;
