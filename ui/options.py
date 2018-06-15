@@ -17,6 +17,8 @@ OPTIONS = OrderedDict([
   ("progression_mail", "This controls whether mail can contain progress items.\nIf this is not checked, mail will only contain optional items you don't need to beat the game."),
   ("progression_misc", "Miscellaneous locations that don't fit into any of the above categories.\nIf this is not checked, they will only contain optional items you don't need to beat the game."),
   
+  ("keylunacy", "Allows dungeon keys (as well as maps and compasses) to appear anywhere in the game, not just in the dungeon they're for."),
+  
   ("randomize_dungeon_entrances", "Shuffles around which dungeon entrances take you into which dungeons. (No effect on Forsaken Fortress or Ganon's Tower.)"),
   ("randomize_charts", "Randomizes which sectors are drawn on each Triforce/Treasure Chart."),
   ("randomize_starting_island", "Randomizes which island you start the game on."),

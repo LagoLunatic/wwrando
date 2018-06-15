@@ -205,6 +205,13 @@
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
+        <widget class="QCheckBox" name="keylunacy">
+         <property name="text">
+          <string>Key-lunacy</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="randomize_dungeon_entrances">
          <property name="text">
           <string>Randomize Dungeon Entrances</string>

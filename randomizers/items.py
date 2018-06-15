@@ -8,7 +8,8 @@ import tweaks
 def randomize_items(self):
   print("Randomizing items...")
   
-  randomize_dungeon_items(self)
+  if not self.options.get("keylunacy"):
+    randomize_dungeon_items(self)
   
   randomize_progression_items(self)
   
@@ -129,11 +130,14 @@ def randomize_progression_items(self):
       
       continue # Redo this loop iteration with the dungeon item locations no longer being considered 'remaining'.
     
-    # Don't randomly place dungeon items, it was already predetermined where they should be placed.
-    possible_items = [
-      item_name for item_name in self.logic.unplaced_progress_items
-      if not self.logic.is_dungeon_item(item_name)
-    ]
+    possible_items = self.logic.unplaced_progress_items
+    
+    if not self.options.get("keylunacy"):
+      # Don't randomly place dungeon items, it was already predetermined where they should be placed.
+      possible_items = [
+        item_name for item_name in self.logic.unplaced_progress_items
+        if not self.logic.is_dungeon_item(item_name)
+      ]
     
     # Filter out items that are not valid in any of the locations we might use.
     possible_items = self.logic.filter_items_by_any_valid_location(possible_items, accessible_undone_locations)
