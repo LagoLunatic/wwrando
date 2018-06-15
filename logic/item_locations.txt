@@ -401,8 +401,8 @@ Windfall Island - Sinking Ships - 20 Shots or Less Prize:
 #    - rels/d_a_npc_people.rel@5BDF
 Windfall Island - Pompie and Vera:
   Need:
-    # Need to snap a photo of Lenzo and Minenco in Lenzo's house at night.
-    # Need Wind's Requiem to activate the Windmill
+    # Need to snap a photo of Lenzo and Minenco in Lenzo's house.
+    # Need Wind's Requiem to activate the Windmill.
     # Need Picto Box because Lenzo will not unlock his upper door until you talk to him after obtaining it
     Can Play Wind's Requiem 
     & Picto Box
