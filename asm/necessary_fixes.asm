@@ -441,16 +441,12 @@
   .int dComIfGs_isEventBit__FUs
 .org 0x7B14 ; Relocation for line 0x3C6C
   .int dComIfGs_isEventBit__FUs
-.org 0x7B6C ; Relocation for line 0x3E58
-  .int dComIfGs_isEventBit__FUs
 .org 0x7D6C ; Relocation for line 0x4AFC
   .int dComIfGs_isEventBit__FUs
 ; And change argument r3 passed to isEventBit to be the event bit we set (6920), as opposed to the item ID that it originally was for checkGetItem.
 .org 0x3BB0
   li r3, 0x6920
 .org 0x3C68
-  li r3, 0x6920
-.org 0x3E54
   li r3, 0x6920
 .org 0x4AF8
   li r3, 0x6920
