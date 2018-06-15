@@ -127,6 +127,34 @@
 
 
 
+; The heart container item get function (item_func_utuwa_heart) usually handles setting the flag for having taken the current dungeon's boss item.
+; But if the player got a heart container somewhere in a dungeon other than from the boss, this could cause the boss's actual item to disappear.
+; We modify the code to remove the calls to set the flag.
+.open "sys/main.dol"
+.org 0x800C2FAC
+  nop
+.org 0x800C2FC4
+  nop
+.close
+
+
+
+
+; Normally when the player takes a boss item drop, it would not set the flag for having taken the current dungeon's boss item, since in vanilla that was handled by the heart container's item get function.
+; That could allow the player to get the item over and over again since the item never disappears.
+; So we modify createItemForBoss to pass an item flag to createItem, so that the item properly keeps track of whether it has been taken.
+; We use item flag 1F for all boss items, since that flag is not used by any items in any of the dungeons.
+; (Note that since we're just setting an item flag, the special flag for the dungeon's boss item being taken is never set. But I don't believe that should cause any issues.)
+.open "sys/main.dol"
+.org 0x80026A94
+  li r5, 0x1F
+.org 0x80026AB4
+  li r5, 0x1F
+.close
+
+
+
+
 ; This makes the warps out of boss rooms always skip the cutscene usually shown the first time you beat the boss and warp out.
 .open "files/rels/d_a_warpf.rel" ; Warp out of boss object
 .org 0xC3C
