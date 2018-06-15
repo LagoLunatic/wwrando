@@ -32,6 +32,7 @@ class Randomizer:
     self.randomized_output_folder = randomized_output_folder
     self.options = options
     self.seed = seed
+    self.dry_run = False
     
     self.integer_seed = int(hashlib.md5(self.seed.encode('utf-8')).hexdigest(), 16)
     self.rng = Random()
@@ -85,14 +86,15 @@ class Randomizer:
     options_completed = 0
     yield("Modifying game code...", options_completed)
     
-    self.apply_necessary_tweaks()
-    
-    if self.options.get("swift_sail"):
-      tweaks.make_sail_behave_like_swift_sail(self)
-    if self.options.get("instant_text_boxes"):
-      tweaks.make_all_text_instant(self)
-    if self.options.get("reveal_full_sea_chart"):
-      tweaks.apply_patch(self, "reveal_sea_chart")
+    if not self.dry_run:
+      self.apply_necessary_tweaks()
+      
+      if self.options.get("swift_sail"):
+        tweaks.make_sail_behave_like_swift_sail(self)
+      if self.options.get("instant_text_boxes"):
+        tweaks.make_all_text_instant(self)
+      if self.options.get("reveal_full_sea_chart"):
+        tweaks.apply_patch(self, "reveal_sea_chart")
     
     options_completed += 1
     yield("Randomizing...", options_completed)
@@ -111,12 +113,14 @@ class Randomizer:
     options_completed += 2
     yield("Saving items...", options_completed)
     
-    items.write_changed_items(self)
+    if not self.dry_run:
+      items.write_changed_items(self)
     
     options_completed += 7
     yield("Saving randomized ISO...", options_completed)
     
-    self.save_randomized_iso()
+    if not self.dry_run:
+      self.save_randomized_iso()
     
     options_completed += 9
     yield("Writing logs...", options_completed)
