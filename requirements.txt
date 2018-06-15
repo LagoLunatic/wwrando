@@ -1,0 +1,3 @@
+PySide==1.2.4
+PyYAML==3.12
+Pillow==5.0.0
