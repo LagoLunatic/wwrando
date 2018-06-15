@@ -54,7 +54,7 @@ def randomize_dungeon_items(self):
   
   # Randomize small keys.
   small_keys_to_place = [
-    item_name for item_name in self.logic.unplaced_progress_items
+    item_name for item_name in (self.logic.unplaced_progress_items + self.logic.unplaced_nonprogress_items)
     if item_name.endswith(" Small Key")
   ]
   previously_accessible_undone_locations = []
@@ -69,6 +69,9 @@ def randomize_dungeon_items(self):
       if not "Tingle Statue Chest" in self.logic.item_locations[loc]["Types"]
     ]
     possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
+    
+    if not possible_locations:
+      raise Exception("No valid locations left to place dungeon items!")
     
     location_name = self.rng.choice(possible_locations)
     self.logic.set_prerandomization_dungeon_item_location(location_name, item_name)
@@ -95,6 +98,9 @@ def randomize_dungeon_items(self):
       if not "Tingle Statue Chest" in self.logic.item_locations[loc]["Types"]
     ]
     possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
+    
+    if not possible_locations:
+      raise Exception("No valid locations left to place dungeon items!")
     
     location_name = self.rng.choice(possible_locations)
     self.logic.set_prerandomization_dungeon_item_location(location_name, item_name)
