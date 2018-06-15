@@ -147,8 +147,6 @@ def make_all_text_instant(self):
       "",
       msg.string, 0, re.IGNORECASE
     )
-    
-    msg.save_changes()
 
 def fix_deku_leaf_model(self):
   # The Deku Leaf is a unique object not used for other items. It's easy to change what item it gives you, but the visual model cannot be changed.
@@ -338,32 +336,26 @@ def make_items_progressive(self):
   sword_id = self.item_name_to_id["Progressive Sword"]
   sword_msg = self.bmg.messages_by_id[101 + sword_id]
   sword_msg.string = "\{1A 05 00 00 01}You got a \{1A 06 FF 00 00 01}sword upgrade\{1A 06 FF 00 00 00}!"
-  sword_msg.save_changes()
   
   bow_id = self.item_name_to_id["Progressive Bow"]
   bow_msg = self.bmg.messages_by_id[101 + bow_id]
   bow_msg.string = "\{1A 05 00 00 01}You got a \{1A 06 FF 00 00 01}bow upgrade\{1A 06 FF 00 00 00}!"
-  bow_msg.save_changes()
   
   wallet_id = self.item_name_to_id["Progressive Wallet"]
   wallet_msg = self.bmg.messages_by_id[101 + wallet_id]
   wallet_msg.string = "\{1A 05 00 00 01}You can now carry more \{1A 06 FF 00 00 01}Rupees\{1A 06 FF 00 00 00}!"
-  wallet_msg.save_changes()
   
   bomb_bag_id = self.item_name_to_id["Progressive Bomb Bag"]
   bomb_bag_msg = self.bmg.messages_by_id[101 + bomb_bag_id]
   bomb_bag_msg.string = "\{1A 05 00 00 01}You can now carry more \{1A 06 FF 00 00 01}bombs\{1A 06 FF 00 00 00}!"
-  bomb_bag_msg.save_changes()
   
   quiver_id = self.item_name_to_id["Progressive Quiver"]
   quiver_msg = self.bmg.messages_by_id[101 + quiver_id]
   quiver_msg.string = "\{1A 05 00 00 01}You can now carry more \{1A 06 FF 00 00 01}arrows\{1A 06 FF 00 00 00}!"
-  quiver_msg.save_changes()
   
   picto_box_id = self.item_name_to_id["Progressive Picto Box"]
   picto_box_msg = self.bmg.messages_by_id[101 + picto_box_id]
   picto_box_msg.string = "\{1A 05 00 00 01}You got a \{1A 06 FF 00 00 01}Picto Box upgrade\{1A 06 FF 00 00 00}!"
-  picto_box_msg.save_changes()
 
 def make_sail_behave_like_swift_sail(self):
   # Causes the wind direction to always change to face the direction KoRL is facing as long as the sail is out.

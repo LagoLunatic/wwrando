@@ -62,6 +62,10 @@ class BMG:
   @messages_by_id.setter
   def messages_by_id(self, value):
     self.inf1.messages_by_id = value
+  
+  @property
+  def add_new_message(self):
+    return self.inf1.add_new_message
 
 class BMGSection:
   def __init__(self, bmg_data, section_offset, bmg):
@@ -77,6 +81,9 @@ class BMGSection:
       self.read_inf1()
   
   def save_changes(self):
+    if self.magic == "INF1":
+      self.save_inf1()
+    
     # Pad the size of this section to the next 0x20 bytes.
     align_data_to_nearest(self.data, 0x20)
     
@@ -91,33 +98,126 @@ class BMGSection:
     num_messages = read_u16(self.data, 8)
     message_length = read_u16(self.data, 0x0A)
     for message_index in range(num_messages):
-      message = Message(self.data, 0x10+message_index*message_length, self.bmg)
+      message = Message(self.data, self.bmg)
+      message.read(0x10+message_index*message_length)
       self.messages.append(message)
       self.messages_by_id[message.message_id] = message
   
+  def save_inf1(self):
+    num_messages = len(self.messages)
+    write_u16(self.data, 8, num_messages)
+    
+    message_length = read_u16(self.data, 0x0A)
+    next_message_offset = 0x10
+    next_string_offset = 9
+    self.data.truncate(next_message_offset)
+    self.data.seek(next_message_offset)
+    self.bmg.dat1.data.truncate(next_string_offset)
+    self.bmg.dat1.data.seek(next_string_offset)
+    for message in self.messages:
+      message.offset = next_message_offset
+      message.string_offset = next_string_offset
+      message.save_changes()
+      
+      next_message_offset += message_length
+      next_string_offset += message.encoded_string_length
+  
+  def add_new_message(self, message_id):
+    message = Message(self.data, self.bmg)
+    message.message_id = message_id
+    
+    self.messages.append(message)
+    self.messages_by_id[message.message_id] = message
+    
+    return message
+  
 class Message:
-  def __init__(self, data, offset, bmg):
+  def __init__(self, data, bmg):
     self.data = data
-    self.offset = offset
     self.bmg = bmg
+    
+    self.string_offset = None
+    self.message_id = None
+    self.item_price = 0
+    self.next_message_id = 0
+    
+    self.unknown_1 = 0x60
+    
+    self.text_box_type = 0
+    self.initial_draw_type = 0
+    self.text_box_position = 3
+    self.display_item_id = 0xFF
+    
+    self.unknown_2 = 0
+    
+    self.initial_sound = 0
+    self.initial_camera_behavior = 0
+    self.initial_speaker_anim = 0
+    
+    self.unknown_3 = 0
+    
+    self.num_lines_per_box = 4
+    
+    self.unknown_4 = 0
+  
+  def read(self, offset):
+    self.offset = offset
+    
+    data = self.data
     
     self.string_offset = read_u32(data, offset)
     self.message_id = read_u16(data, offset+4)
     self.item_price = read_u16(data, offset+6)
     self.next_message_id = read_u16(data, offset+8)
+    self.unknown_1 = read_u16(data, offset+0x0A)
     
     self.text_box_type = read_u8(data, offset+0x0C)
     self.initial_draw_type = read_u8(data, offset+0x0D)
     self.text_box_position = read_u8(data, offset+0x0E)
     self.display_item_id = read_u8(data, offset+0x0F)
     
+    self.unknown_2 = read_u8(data, offset+0x10)
+    self.initial_sound = read_u8(data, offset+0x11)
+    self.initial_camera_behavior = read_u8(data, offset+0x12)
+    self.initial_speaker_anim = read_u8(data, offset+0x13)
+    
+    self.unknown_3 = read_u8(data, offset+0x14)
+    self.num_lines_per_box = read_u16(data, offset+0x15)
+    self.unknown_4 = read_u8(data, offset+0x17)
+    
     self.string = None # Will be set after all messages are read.
+  
+  def save_changes(self):
+    data = self.data
+    
+    write_u32(data, self.offset, self.string_offset)
+    write_u16(data, self.offset+4, self.message_id)
+    write_u16(data, self.offset+6, self.item_price)
+    write_u16(data, self.offset+8, self.next_message_id)
+    write_u16(data, self.offset+0x0A, self.unknown_1)
+    
+    write_u8(data, self.offset+0x0C, self.text_box_type)
+    write_u8(data, self.offset+0x0D, self.initial_draw_type)
+    write_u8(data, self.offset+0x0E, self.text_box_position)
+    write_u8(data, self.offset+0x0F, self.display_item_id)
+    
+    write_u8(data, self.offset+0x10, self.unknown_2)
+    write_u8(data, self.offset+0x11, self.initial_sound)
+    write_u8(data, self.offset+0x12, self.initial_camera_behavior)
+    write_u8(data, self.offset+0x13, self.initial_speaker_anim)
+    
+    write_u8(data, self.offset+0x14, self.unknown_3)
+    write_u16(data, self.offset+0x15, self.num_lines_per_box)
+    write_u8(data, self.offset+0x17, self.unknown_4)
+    
+    self.write_string()
   
   def read_string(self):
     string_pool_data = self.bmg.dat1.data
     
     self.string = ""
-    byte_offset = 8 + self.string_offset
+    initial_byte_offset = 8 + self.string_offset
+    byte_offset = initial_byte_offset
     
     byte = read_u8(string_pool_data, byte_offset)
     byte_offset += 1
@@ -141,22 +241,7 @@ class Message:
       byte = read_u8(string_pool_data, byte_offset)
       byte_offset += 1
     
-    self.original_string_length = byte_offset
-  
-  def save_changes(self):
-    data = self.data
-    
-    write_u32(data, self.offset, self.string_offset)
-    write_u16(data, self.offset+4, self.message_id)
-    write_u16(data, self.offset+6, self.item_price)
-    write_u16(data, self.offset+8, self.next_message_id)
-    
-    write_u8(data, self.offset+0x0C, self.text_box_type)
-    write_u8(data, self.offset+0x0D, self.initial_draw_type)
-    write_u8(data, self.offset+0x0E, self.text_box_position)
-    write_u8(data, self.offset+0x0F, self.display_item_id)
-    
-    self.write_string()
+    self.encoded_string_length = byte_offset - initial_byte_offset
   
   def write_string(self):
     data = self.data
@@ -191,8 +276,7 @@ class Message:
       index_in_str += 1
     bytes_to_write.append(0)
     
-    if len(bytes_to_write) > self.original_string_length:
-      raise Exception("Length of string was increased")
+    self.encoded_string_length = len(bytes_to_write)
     
     string_pool_data = self.bmg.dat1.data
     str_start_offset = 8 + self.string_offset
