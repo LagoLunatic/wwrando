@@ -10,9 +10,9 @@ try:
   ASM_PATH = os.path.join(_MEIPASS, "asm")
   SEEDGEN_PATH = os.path.join(_MEIPASS, "seedgen")
 except ImportError:
-  RANDO_ROOT_PATH = "."
-  ASSETS_PATH = "assets"
-  DATA_PATH = "data"
-  LOGIC_PATH = "logic"
-  ASM_PATH = "asm"
-  SEEDGEN_PATH = "seedgen"
+  RANDO_ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
+  ASSETS_PATH = os.path.join(RANDO_ROOT_PATH, "assets")
+  DATA_PATH = os.path.join(RANDO_ROOT_PATH, "data")
+  LOGIC_PATH = os.path.join(RANDO_ROOT_PATH, "logic")
+  ASM_PATH = os.path.join(RANDO_ROOT_PATH, "asm")
+  SEEDGEN_PATH = os.path.join(RANDO_ROOT_PATH, "seedgen")
