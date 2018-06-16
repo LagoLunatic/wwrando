@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Thu Jun 14 23:51:20 2018
+# Created: Fri Jun 15 18:48:30 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -186,7 +186,7 @@ class Ui_MainWindow(object):
         self.progression_gifts.setText(QtGui.QApplication.translate("MainWindow", "Free Gifts", None, QtGui.QApplication.UnicodeUTF8))
         self.progression_mail.setText(QtGui.QApplication.translate("MainWindow", "Mail", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_3.setTitle(QtGui.QApplication.translate("MainWindow", "Additional Randomization Options", None, QtGui.QApplication.UnicodeUTF8))
-        self.keylunacy.setText(QtGui.QApplication.translate("MainWindow", "Key-lunacy", None, QtGui.QApplication.UnicodeUTF8))
+        self.keylunacy.setText(QtGui.QApplication.translate("MainWindow", "Key-Lunacy", None, QtGui.QApplication.UnicodeUTF8))
         self.randomize_dungeon_entrances.setText(QtGui.QApplication.translate("MainWindow", "Randomize Dungeon Entrances", None, QtGui.QApplication.UnicodeUTF8))
         self.randomize_charts.setText(QtGui.QApplication.translate("MainWindow", "Randomize Charts", None, QtGui.QApplication.UnicodeUTF8))
         self.randomize_starting_island.setText(QtGui.QApplication.translate("MainWindow", "Randomize Starting Island", None, QtGui.QApplication.UnicodeUTF8))

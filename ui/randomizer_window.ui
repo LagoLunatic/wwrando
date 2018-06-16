@@ -207,7 +207,7 @@
        <item>
         <widget class="QCheckBox" name="keylunacy">
          <property name="text">
-          <string>Key-lunacy</string>
+          <string>Key-Lunacy</string>
          </property>
         </widget>
        </item>
