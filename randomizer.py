@@ -148,6 +148,7 @@ class Randomizer:
     tweaks.modify_title_screen_logo(self)
     tweaks.update_game_name_icon_and_banners(self)
     tweaks.allow_dungeon_items_to_appear_anywhere(self)
+    tweaks.remove_ballad_of_gales_warp_in_cutscene(self)
   
   def verify_supported_version(self, clean_iso_path):
     if not os.path.isfile(clean_iso_path):

@@ -679,3 +679,11 @@ def allow_dungeon_items_to_appear_anywhere(self):
     write_bytes(dol_data, field_item_resources_offset+0x11, data5)
     data6 = read_bytes(dol_data, field_item_resources_offset_to_copy_from+0x18, 4)
     write_bytes(dol_data, field_item_resources_offset+0x18, data6)
+
+def remove_ballad_of_gales_warp_in_cutscene(self):
+  for island_index in range(1, 49+1):
+    dzx = self.get_arc("files/res/Stage/sea/Room%d.arc" % island_index).dzx_files[0]
+    for spawn in dzx.entries_by_type("PLYR"):
+      if spawn.spawn_type == 144: # Spawn type is warping in on a cyclone
+        spawn.spawn_type = 32 # Change to spawn type of instantly spawning on KoRL instead
+        spawn.save_changes()
