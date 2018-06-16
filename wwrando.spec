@@ -2,6 +2,8 @@
 
 block_cipher = None
 
+with open("./version.txt") as f:
+  randomizer_version = f.read().strip()
 
 a = Analysis(['wwrando.py'],
              pathex=[],
@@ -12,6 +14,7 @@ a = Analysis(['wwrando.py'],
                ('data/*.txt', 'data'),
                ('logic/*.txt', 'logic'),
                ('seedgen/*.txt', 'seedgen'),
+               ('version.txt', '.'),
              ],
              hiddenimports=[],
              hookspath=[],
@@ -27,7 +30,7 @@ exe = EXE(pyz,
           a.binaries,
           a.zipfiles,
           a.datas,
-          name='Wind Waker Randomizer 0.6.0',
+          name='Wind Waker Randomizer ' + randomizer_version,
           debug=False,
           strip=False,
           upx=True,

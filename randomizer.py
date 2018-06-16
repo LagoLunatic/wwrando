@@ -15,14 +15,15 @@ from wwlib.rel import REL
 from wwlib.gcm import GCM
 import tweaks
 from logic.logic import Logic
-from paths import DATA_PATH, ASM_PATH
+from paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH
 
 from randomizers import items
 from randomizers import charts
 from randomizers import starting_island
 from randomizers import dungeon_entrances
 
-VERSION = "0.6.0-BETA"
+with open(os.path.join(RANDO_ROOT_PATH, "version.txt"), "r") as f:
+  VERSION = f.read().strip()
 
 class TooFewProgressionLocationsError(Exception):
   pass
