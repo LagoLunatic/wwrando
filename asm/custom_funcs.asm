@@ -159,6 +159,23 @@ lis r4, 0xC000
 stw r4, 4 (r3)
 
 
+li r3, 3 ; DRC stage ID
+li r4, 5 ; Seen the boss intro bit index
+bl generic_on_dungeon_bit
+li r3, 4 ; FW stage ID
+li r4, 5 ; Seen the boss intro bit index
+bl generic_on_dungeon_bit
+li r3, 5 ; TotG stage ID
+li r4, 5 ; Seen the boss intro bit index
+bl generic_on_dungeon_bit
+li r3, 6 ; ET stage ID
+li r4, 5 ; Seen the boss intro bit index
+bl generic_on_dungeon_bit
+li r3, 7 ; WT stage ID
+li r4, 5 ; Seen the boss intro bit index
+bl generic_on_dungeon_bit
+
+
 ; Start the player with 30 bombs and arrows. (But not the ability to actually use them.)
 ; This change is so we can remove the code that sets your current bombs/arrows to 30 when you first get the bombs/bow.
 ; That code would be bad if the player got a bomb bag/quiver upgrade beforehand, as then that code would reduce the max.
