@@ -464,7 +464,7 @@ def add_chest_in_place_queen_fairy_cutscene(self):
   mother_island_chest.chest_type = 2
   mother_island_chest.opened_flag = 0x1C
   mother_island_chest.x_pos = -180031
-  mother_island_chest.y_pos = 740
+  mother_island_chest.y_pos = 723
   mother_island_chest.z_pos = -199995
   mother_island_chest.room_num = 9
   mother_island_chest.y_rot = 0x1000
