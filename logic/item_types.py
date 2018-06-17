@@ -34,6 +34,7 @@ PROGRESS_ITEMS = [
   "Command Melody",
   "Earth God's Lyric",
   "Wind God's Aria",
+  "Song of Passing",
   
   "Boat's Sail",
   
@@ -56,8 +57,6 @@ NONPROGRESS_ITEMS = [
   "Telescope",
   "Magic Armor",
   "Hero's Charm",
-  
-  "Song of Passing",
 
   "Complimentary ID",
   "Fill-Up Coupon",
