@@ -183,17 +183,6 @@ class Randomizer:
           raise Exception("Duplicate item name: " + item_name)
         self.item_name_to_id[item_name] = item_id
     
-    # Get function names for debug purposes.
-    self.function_names = {}
-    framework_map_contents = self.gcm.read_file_data("files/maps/framework.map")
-    framework_map_contents.seek(0)
-    framework_map_contents = framework_map_contents.read().decode("ascii")
-    matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})  \d (\S+)", framework_map_contents, re.IGNORECASE | re.MULTILINE)
-    for match in matches:
-      address, name = match
-      address = int(address, 16)
-      self.function_names[address] = name
-    
     # Get stage and island names for debug purposes.
     self.stage_names = {}
     with open(os.path.join(DATA_PATH, "stage_names.txt"), "r") as f:
