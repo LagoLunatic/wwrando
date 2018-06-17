@@ -117,6 +117,9 @@ class Randomizer:
     if not self.dry_run:
       items.write_changed_items(self)
     
+    if not self.dry_run:
+      self.apply_necessary_post_randomization_tweaks()
+    
     options_completed += 7
     yield("Saving randomized ISO...", options_completed)
     
@@ -150,6 +153,9 @@ class Randomizer:
     tweaks.allow_dungeon_items_to_appear_anywhere(self)
     #tweaks.remove_ballad_of_gales_warp_in_cutscene(self)
     tweaks.fix_shop_item_y_offsets(self)
+  
+  def apply_necessary_post_randomization_tweaks(self):
+    tweaks.update_shop_item_descriptions(self)
   
   def verify_supported_version(self, clean_iso_path):
     if not os.path.isfile(clean_iso_path):
