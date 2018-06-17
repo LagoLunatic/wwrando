@@ -20,7 +20,7 @@ In the bug report be sure to upload your spoiler log (or at least copy paste the
 ### Credits
 
 The randomizer was created by LagoLunatic, with help from:
-MelonSpeedruns (graphic design)
+MelonSpeedruns (game design, graphic design)
 Hypatia (textures)
 
 ### Running from source
