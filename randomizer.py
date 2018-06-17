@@ -39,10 +39,16 @@ class Randomizer:
     self.rng = Random()
     self.rng.seed(self.integer_seed)
     
+    self.arcs_by_path = {}
+    self.raw_files_by_path = {}
+    
     self.verify_supported_version(clean_iso_path)
     
     self.gcm = GCM(clean_iso_path)
     self.gcm.read_entire_disc()
+    
+    self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").chart_lists[0]
+    self.bmg = self.get_arc("files/res/Msg/bmgres.arc").bmg_files[0]
     
     self.read_text_file_lists()
     
@@ -76,12 +82,6 @@ class Randomizer:
       error_message += "Progress locations with current options: %d\n\n" % num_progress_locations
       error_message += "You need to check more of the progress location options in order to give the randomizer enough space to place all the items."
       raise TooFewProgressionLocationsError(error_message)
-    
-    self.arcs_by_path = {}
-    self.raw_files_by_path = {}
-    
-    self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").chart_lists[0]
-    self.bmg = self.get_arc("files/res/Msg/bmgres.arc").bmg_files[0]
   
   def randomize(self):
     options_completed = 0

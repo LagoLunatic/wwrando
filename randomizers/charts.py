@@ -35,3 +35,5 @@ def randomize_charts(self):
       if scob.is_salvage() and scob.salvage_type == 0:
         scob.salvage_chart_index_plus_1 = chart.owned_chart_index_plus_1
         scob.save_changes()
+  
+  self.logic.update_chart_macros()

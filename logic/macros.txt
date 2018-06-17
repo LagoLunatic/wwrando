@@ -189,5 +189,57 @@ Can Destroy Cannons:
   | Boomerang
   # Two hits from the boomerang also destroys cannons.
 
+# The below macros are used when charts are not randomized.
+# When charts are randomized, these macros are shuffled around by the randomizer logic.
+Chart for Island 1: Treasure Chart 25
+Chart for Island 2: Treasure Chart 7
+Chart for Island 3: Treasure Chart 24
+Chart for Island 4: Triforce Chart 2
+Chart for Island 5: Treasure Chart 11
+Chart for Island 6: Triforce Chart 7
+Chart for Island 7: Treasure Chart 13
+Chart for Island 8: Treasure Chart 41
+Chart for Island 9: Treasure Chart 29
+Chart for Island 10: Treasure Chart 22
+Chart for Island 11: Treasure Chart 18
+Chart for Island 12: Treasure Chart 30
+Chart for Island 13: Treasure Chart 39
+Chart for Island 14: Treasure Chart 19
+Chart for Island 15: Treasure Chart 8
+Chart for Island 16: Treasure Chart 2
+Chart for Island 17: Treasure Chart 10
+Chart for Island 18: Treasure Chart 26
+Chart for Island 19: Treasure Chart 3
+Chart for Island 20: Treasure Chart 37
+Chart for Island 21: Treasure Chart 27
+Chart for Island 22: Treasure Chart 38
+Chart for Island 23: Triforce Chart 1
+Chart for Island 24: Treasure Chart 21
+Chart for Island 25: Treasure Chart 6
+Chart for Island 26: Treasure Chart 14
+Chart for Island 27: Treasure Chart 34
+Chart for Island 28: Treasure Chart 5
+Chart for Island 29: Treasure Chart 28
+Chart for Island 30: Treasure Chart 35
+Chart for Island 31: Triforce Chart 3
+Chart for Island 32: Triforce Chart 6
+Chart for Island 33: Treasure Chart 1
+Chart for Island 34: Treasure Chart 20
+Chart for Island 35: Treasure Chart 36
+Chart for Island 36: Treasure Chart 23
+Chart for Island 37: Treasure Chart 12
+Chart for Island 38: Treasure Chart 16
+Chart for Island 39: Treasure Chart 4
+Chart for Island 40: Treasure Chart 17
+Chart for Island 41: Treasure Chart 31
+Chart for Island 42: Triforce Chart 5
+Chart for Island 43: Treasure Chart 9
+Chart for Island 44: Triforce Chart 4
+Chart for Island 45: Treasure Chart 40
+Chart for Island 46: Triforce Chart 8
+Chart for Island 47: Treasure Chart 15
+Chart for Island 48: Treasure Chart 32
+Chart for Island 49: Treasure Chart 33
+
 TODO:
   Impossible

@@ -111,6 +111,7 @@ class Logic:
         self.rock_spire_shop_ship_locations.append(location_name)
     
     self.update_dungeon_entrance_macros()
+    self.update_chart_macros()
     
     for item_name in self.rando.starting_items:
       self.add_owned_item(item_name)
@@ -431,6 +432,13 @@ class Logic:
       dungeon_access_macro_name = "Can Access " + dungeon_name
       self.set_macro(dungeon_access_macro_name, "Impossible")
   
+  def update_chart_macros(self):
+    # Update all the "Chart for Island" macros to take randomized charts into account.
+    for island_number in range(1, 49+1):
+      chart_macro_name = "Chart for Island %d" % island_number
+      chart_item_name = self.rando.chart_list.find_chart_for_island_number(island_number).item_name
+      self.set_macro(chart_macro_name, chart_item_name)
+  
   def clean_item_name(self, item_name):
     # Remove parentheses from any item names that may have them. (Formerly Master Swords, though that's not an issue anymore.)
     return item_name.replace("(", "").replace(")", "")
@@ -484,8 +492,6 @@ class Logic:
     elif req_name in self.macros:
       logical_expression = self.macros[req_name]
       return self.check_logical_expression_req(logical_expression)
-    elif req_name.startswith("Chart for Island "):
-      return self.check_chart_req(req_name)
     elif req_name == "Nothing":
       return True
     elif req_name == "Impossible":
@@ -549,33 +555,16 @@ class Logic:
     requirement_expression = self.item_locations[other_location_name]["Need"]
     return self.check_logical_expression_req(requirement_expression)
   
-  def check_chart_req(self, req_name):
-    match = re.search(r"^Chart for Island (\d+)$", req_name)
-    island_number = int(match.group(1))
-    assert 1 <= island_number <= 49
-    
-    chart = self.rando.chart_list.find_chart_for_island_number(island_number)
-    chart_name = chart.item_name
-    assert chart_name in self.all_cleaned_item_names
-    
-    if chart_name not in self.currently_owned_items:
-      return False
-    if "Triforce Chart" in chart_name:
-      # Must have a wallet upgrade to get Triforce Charts deciphered by Tingle.
-      return self.check_requirement_met("Any Wallet Upgrade")
-    
-    return True
-  
   def chart_name_for_location(self, location_name):
     reqs = self.item_locations[location_name]["Need"]
     chart_req = next(req for req in reqs if req.startswith("Chart for Island "))
     
-    match = re.search(r"^Chart for Island (\d+)$", chart_req)
-    island_number = int(match.group(1))
-    assert 1 <= island_number <= 49
+    reqs = self.macros[chart_req]
+    assert len(reqs) == 1
+    chart_name = reqs[0]
+    assert chart_name in self.all_cleaned_item_names
     
-    chart = self.rando.chart_list.find_chart_for_island_number(island_number)
-    return chart.item_name
+    return chart_name
 
 class YamlOrderedDictLoader(yaml.SafeLoader):
   pass
