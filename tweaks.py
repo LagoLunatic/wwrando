@@ -635,13 +635,13 @@ def allow_dungeon_items_to_appear_anywhere(self):
     
     # Add item get messages for the items.
     if base_item_name == "Small Key":
-      description_format_string = "\\{1A 05 00 00 01}You got a \\{1A 06 FF 00 00 01}%s small key\\{1A 06 FF 00 00 00}!\\{1A 06 FF 00 00 01}\\{1A 05 00 00 02}\n\\{1A 06 FF 00 00 00}\\{1A 07 00 00 07 00 0A}Use it to open locked doors.\nYou can use it only in this dungeon."
+      description_format_string = "\\{1A 05 00 00 01}You got a \\{1A 06 FF 00 00 01}%s small key\\{1A 06 FF 00 00 00}!"
     elif base_item_name == "Big Key":
-      description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Big Key\\{1A 06 FF 00 00 00}!\\{1A 05 00 00 02}\n\\{1A 07 00 00 07 00 0A}Use it to gain entrance to the room\nwhere the dungeon's boss lurks!\n\nPress \\{1A 05 00 00 12}\\{1A 05 00 00 16} to see for yourself\non your \\{1A 06 FF 00 00 01}map\\{1A 06 FF 00 00 00}."
+      description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Big Key\\{1A 06 FF 00 00 00}!"
     elif base_item_name == "Dungeon Map":
-      description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Dungeon Map\\{1A 06 FF 00 00 00}!\\{1A 05 00 00 02}\n\\{1A 07 00 00 07 00 0A}Press \\{1A 05 00 00 12}\\{1A 05 00 00 16} to view it.\n\n\n\\{1A 06 FF 00 00 02}Green areas\\{1A 06 FF 00 00 00} are ones you've visited.\nThe \\{1A 06 FF 00 00 01}flashing area\\{1A 06 FF 00 00 00} is your current\nlocation. Tilt \\{1A 05 00 00 1C}\\{1A 05 00 00 16}\\{1A 05 00 00 17} to view other\nfloors."
+      description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Dungeon Map\\{1A 06 FF 00 00 00}!"
     elif base_item_name == "Compass":
-      description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Compass\\{1A 06 FF 00 00 00}!\\{1A 05 00 00 02}\n\\{1A 07 00 00 07 00 0A}Now you can see where things are\nhidden in the dungeon. Press \\{1A 05 00 00 12}\\{1A 05 00 00 16} to\nview your \\{1A 06 FF 00 00 01}map\\{1A 06 FF 00 00 00} and see for yourself!"
+      description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Compass\\{1A 06 FF 00 00 00}!"
     
     msg = self.bmg.add_new_message(101 + item_id)
     msg.string = description_format_string % dungeon_name
