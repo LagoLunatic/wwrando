@@ -687,3 +687,15 @@ def remove_ballad_of_gales_warp_in_cutscene(self):
       if spawn.spawn_type == 144: # Spawn type is warping in on a cyclone
         spawn.spawn_type = 32 # Change to spawn type of instantly spawning on KoRL instead
         spawn.save_changes()
+
+def fix_shop_item_y_offsets(self):
+  dol_data = self.get_raw_file("sys/main.dol")
+  shop_item_display_data_list_start = address_to_offset(0x8034FD10)
+  
+  for item_id in range(0, 0xFE+1):
+    display_data_offset = shop_item_display_data_list_start + item_id*0x20
+    y_offset = read_float(dol_data, display_data_offset+0x10)
+    
+    if y_offset == 0:
+      new_y_offset = 20.0
+      write_float(dol_data, display_data_offset+0x10, new_y_offset)
