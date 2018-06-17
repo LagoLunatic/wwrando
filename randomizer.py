@@ -29,11 +29,11 @@ class TooFewProgressionLocationsError(Exception):
   pass
 
 class Randomizer:
-  def __init__(self, seed, clean_iso_path, randomized_output_folder, options):
+  def __init__(self, seed, clean_iso_path, randomized_output_folder, options, dry_run=False):
     self.randomized_output_folder = randomized_output_folder
     self.options = options
     self.seed = seed
-    self.dry_run = False
+    self.dry_run = dry_run
     
     self.integer_seed = int(hashlib.md5(self.seed.encode('utf-8')).hexdigest(), 16)
     self.rng = Random()
@@ -42,13 +42,14 @@ class Randomizer:
     self.arcs_by_path = {}
     self.raw_files_by_path = {}
     
-    self.verify_supported_version(clean_iso_path)
-    
-    self.gcm = GCM(clean_iso_path)
-    self.gcm.read_entire_disc()
-    
-    self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").chart_lists[0]
-    self.bmg = self.get_arc("files/res/Msg/bmgres.arc").bmg_files[0]
+    if not self.dry_run:
+      self.verify_supported_version(clean_iso_path)
+      
+      self.gcm = GCM(clean_iso_path)
+      self.gcm.read_entire_disc()
+      
+      self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").chart_lists[0]
+      self.bmg = self.get_arc("files/res/Msg/bmgres.arc").bmg_files[0]
     
     self.read_text_file_lists()
     
@@ -483,10 +484,18 @@ class Randomizer:
     
     # Write treasure charts.
     spoiler_log += "Charts:\n"
+    chart_name_to_island_number = {}
+    for island_number in range(1, 49+1):
+      chart_name = self.logic.macros["Chart for Island %d" % island_number][0]
+      chart_name_to_island_number[chart_name] = island_number
     for chart_number in range(1, 49+1):
-      chart = self.chart_list.find_chart_by_chart_number(chart_number)
-      island_name = self.island_number_to_name[chart.island_number]
-      spoiler_log += "  %-18s %s\n" % (chart.item_name+":", island_name)
+      if chart_number <= 8:
+        chart_name = "Triforce Chart %d" % chart_number
+      else:
+        chart_name = "Treasure Chart %d" % (chart_number-8)
+      island_number = chart_name_to_island_number[chart_name]
+      island_name = self.island_number_to_name[island_number]
+      spoiler_log += "  %-18s %s\n" % (chart_name+":", island_name)
     
     spoiler_log_output_path = os.path.join(self.randomized_output_folder, "WW Random %s - Spoiler Log.txt" % self.seed)
     with open(spoiler_log_output_path, "w") as f:

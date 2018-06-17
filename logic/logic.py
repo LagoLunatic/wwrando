@@ -110,9 +110,6 @@ class Logic:
       if location_name.startswith("Rock Spire Isle - Beedle's Special Shop Ship - "):
         self.rock_spire_shop_ship_locations.append(location_name)
     
-    self.update_dungeon_entrance_macros()
-    self.update_chart_macros()
-    
     for item_name in self.rando.starting_items:
       self.add_owned_item(item_name)
   
