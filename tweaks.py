@@ -644,7 +644,7 @@ def allow_dungeon_items_to_appear_anywhere(self):
       description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Compass\\{1A 06 FF 00 00 00}!"
     
     msg = self.bmg.add_new_message(101 + item_id)
-    msg.string = description_format_string % dungeon_name
+    msg.string = word_wrap_string(description_format_string % dungeon_name)
     msg.text_box_type = 9 # Item get message box
     msg.initial_draw_type = 2 # Slow initial message speed
     msg.display_item_id = item_id
@@ -679,6 +679,53 @@ def allow_dungeon_items_to_appear_anywhere(self):
     write_bytes(dol_data, field_item_resources_offset+0x11, data5)
     data6 = read_bytes(dol_data, field_item_resources_offset_to_copy_from+0x18, 4)
     write_bytes(dol_data, field_item_resources_offset+0x18, data6)
+
+def word_wrap_string(string, max_line_length=35):
+  index_in_str = 0
+  wordwrapped_str = ""
+  current_word = ""
+  length_of_curr_line = 0
+  while index_in_str < len(string):
+    char = string[index_in_str]
+    
+    if char == "\\":
+      wordwrapped_str += current_word
+      length_of_curr_line += len(current_word)
+      current_word = ""
+      
+      assert string[index_in_str+1] == "{"
+      substr = string[index_in_str:]
+      control_code_str_len = substr.index("}") + 1
+      substr = substr[:control_code_str_len]
+      wordwrapped_str += substr
+      index_in_str += control_code_str_len
+    elif char == "\n":
+      wordwrapped_str += current_word
+      wordwrapped_str += char
+      length_of_curr_line = 0
+      current_word = ""
+      index_in_str += 1
+    elif char == " ":
+      wordwrapped_str += current_word
+      wordwrapped_str += char
+      length_of_curr_line += len(current_word) + len(char)
+      current_word = ""
+      index_in_str += 1
+    else:
+      current_word += char
+      index_in_str += 1
+      
+      if length_of_curr_line + len(current_word) > max_line_length:
+        wordwrapped_str += "\n"
+        length_of_curr_line = 0
+        
+        if len(current_word) > max_line_length:
+          wordwrapped_str += current_word + "\n"
+          current_word = ""
+  
+  wordwrapped_str += current_word
+  
+  return wordwrapped_str
 
 def remove_ballad_of_gales_warp_in_cutscene(self):
   for island_index in range(1, 49+1):
