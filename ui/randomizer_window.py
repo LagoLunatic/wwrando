@@ -280,6 +280,7 @@ class WWRandomizerWindow(QMainWindow):
     self.about_dialog.setTextFormat(Qt.TextFormat.RichText)
     self.about_dialog.setWindowTitle("Wind Waker Randomizer")
     self.about_dialog.setText(text)
+    self.about_dialog.setWindowIcon(self.windowIcon())
     self.about_dialog.show()
   
   def keyPressEvent(self, event):
