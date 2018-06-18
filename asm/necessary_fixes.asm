@@ -143,13 +143,13 @@
 ; Normally when the player takes a boss item drop, it would not set the flag for having taken the current dungeon's boss item, since in vanilla that was handled by the heart container's item get function.
 ; That could allow the player to get the item over and over again since the item never disappears.
 ; So we modify createItemForBoss to pass an item flag to createItem, so that the item properly keeps track of whether it has been taken.
-; We use item flag 1F for all boss items, since that flag is not used by any items in any of the dungeons.
+; We use item flag 15 for all boss items, since that flag is not used by any items in any of the dungeons.
 ; (Note that since we're just setting an item flag, the special flag for the dungeon's boss item being taken is never set. But I don't believe that should cause any issues.)
 .open "sys/main.dol"
 .org 0x80026A94
-  li r5, 0x1F
+  li r5, 0x15
 .org 0x80026AB4
-  li r5, 0x1F
+  li r5, 0x15
 .close
 
 
