@@ -19,6 +19,8 @@
 31 Bombs
 32 Hero's Clothes
 33 Skull Hammer
+35 Fire and Ice Arrows
+36 Light Arrow
 39 Master Sword (Powerless)
 3A Master Sword (Half Power)
 3C Mirror Shield
