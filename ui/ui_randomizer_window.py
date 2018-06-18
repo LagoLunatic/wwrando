@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Fri Jun 15 18:48:30 2018
+# Created: Sun Jun 17 20:17:54 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 561)
+        MainWindow.resize(800, 615)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtGui.QVBoxLayout(self.centralwidget)
@@ -103,37 +103,37 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.groupBox)
         self.groupBox_3 = QtGui.QGroupBox(self.centralwidget)
         self.groupBox_3.setObjectName("groupBox_3")
-        self.horizontalLayout_3 = QtGui.QHBoxLayout(self.groupBox_3)
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.gridLayout_3 = QtGui.QGridLayout(self.groupBox_3)
+        self.gridLayout_3.setObjectName("gridLayout_3")
         self.keylunacy = QtGui.QCheckBox(self.groupBox_3)
         self.keylunacy.setObjectName("keylunacy")
-        self.horizontalLayout_3.addWidget(self.keylunacy)
+        self.gridLayout_3.addWidget(self.keylunacy, 0, 0, 1, 1)
         self.randomize_dungeon_entrances = QtGui.QCheckBox(self.groupBox_3)
         self.randomize_dungeon_entrances.setObjectName("randomize_dungeon_entrances")
-        self.horizontalLayout_3.addWidget(self.randomize_dungeon_entrances)
+        self.gridLayout_3.addWidget(self.randomize_dungeon_entrances, 0, 1, 1, 1)
         self.randomize_charts = QtGui.QCheckBox(self.groupBox_3)
         self.randomize_charts.setObjectName("randomize_charts")
-        self.horizontalLayout_3.addWidget(self.randomize_charts)
+        self.gridLayout_3.addWidget(self.randomize_charts, 1, 0, 1, 1)
         self.randomize_starting_island = QtGui.QCheckBox(self.groupBox_3)
         self.randomize_starting_island.setObjectName("randomize_starting_island")
-        self.horizontalLayout_3.addWidget(self.randomize_starting_island)
+        self.gridLayout_3.addWidget(self.randomize_starting_island, 1, 1, 1, 1)
         self.verticalLayout.addWidget(self.groupBox_3)
         self.groupBox_2 = QtGui.QGroupBox(self.centralwidget)
         self.groupBox_2.setObjectName("groupBox_2")
-        self.horizontalLayout_2 = QtGui.QHBoxLayout(self.groupBox_2)
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.gridLayout_4 = QtGui.QGridLayout(self.groupBox_2)
+        self.gridLayout_4.setObjectName("gridLayout_4")
         self.swift_sail = QtGui.QCheckBox(self.groupBox_2)
         self.swift_sail.setChecked(True)
         self.swift_sail.setObjectName("swift_sail")
-        self.horizontalLayout_2.addWidget(self.swift_sail)
+        self.gridLayout_4.addWidget(self.swift_sail, 0, 0, 1, 1)
         self.instant_text_boxes = QtGui.QCheckBox(self.groupBox_2)
         self.instant_text_boxes.setChecked(True)
         self.instant_text_boxes.setObjectName("instant_text_boxes")
-        self.horizontalLayout_2.addWidget(self.instant_text_boxes)
+        self.gridLayout_4.addWidget(self.instant_text_boxes, 0, 1, 1, 1)
         self.reveal_full_sea_chart = QtGui.QCheckBox(self.groupBox_2)
         self.reveal_full_sea_chart.setChecked(True)
         self.reveal_full_sea_chart.setObjectName("reveal_full_sea_chart")
-        self.horizontalLayout_2.addWidget(self.reveal_full_sea_chart)
+        self.gridLayout_4.addWidget(self.reveal_full_sea_chart, 1, 0, 1, 1)
         self.verticalLayout.addWidget(self.groupBox_2)
         self.option_description = QtGui.QLabel(self.centralwidget)
         self.option_description.setMinimumSize(QtCore.QSize(0, 32))

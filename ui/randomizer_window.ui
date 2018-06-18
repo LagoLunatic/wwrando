@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>561</height>
+    <height>615</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -203,29 +203,29 @@
       <property name="title">
        <string>Additional Randomization Options</string>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
         <widget class="QCheckBox" name="keylunacy">
          <property name="text">
           <string>Key-Lunacy</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="0" column="1">
         <widget class="QCheckBox" name="randomize_dungeon_entrances">
          <property name="text">
           <string>Randomize Dungeon Entrances</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="1" column="0">
         <widget class="QCheckBox" name="randomize_charts">
          <property name="text">
           <string>Randomize Charts</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="1" column="1">
         <widget class="QCheckBox" name="randomize_starting_island">
          <property name="text">
           <string>Randomize Starting Island</string>
@@ -240,8 +240,8 @@
       <property name="title">
        <string>Convenience Tweaks</string>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
         <widget class="QCheckBox" name="swift_sail">
          <property name="text">
           <string>Swift Sail</string>
@@ -251,7 +251,7 @@
          </property>
         </widget>
        </item>
-       <item>
+       <item row="0" column="1">
         <widget class="QCheckBox" name="instant_text_boxes">
          <property name="text">
           <string>Instant Text Boxes</string>
@@ -261,7 +261,7 @@
          </property>
         </widget>
        </item>
-       <item>
+       <item row="1" column="0">
         <widget class="QCheckBox" name="reveal_full_sea_chart">
          <property name="text">
           <string>Reveal Full Sea Chart</string>
