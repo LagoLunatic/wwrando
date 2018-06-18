@@ -204,6 +204,231 @@ blr
 
 
 
+.global convert_progressive_item_id
+convert_progressive_item_id:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+cmpwi r3, 0x38
+beq convert_progressive_sword_id
+cmpwi r3, 0x39
+beq convert_progressive_sword_id
+cmpwi r3, 0x3A
+beq convert_progressive_sword_id
+cmpwi r3, 0x3D
+beq convert_progressive_sword_id
+cmpwi r3, 0x3E
+beq convert_progressive_sword_id
+
+cmpwi r3, 0x27
+beq convert_progressive_bow_id
+cmpwi r3, 0x35
+beq convert_progressive_bow_id
+cmpwi r3, 0x36
+beq convert_progressive_bow_id
+
+cmpwi r3, 0xAB
+beq convert_progressive_wallet_id
+cmpwi r3, 0xAC
+beq convert_progressive_wallet_id
+
+cmpwi r3, 0xAD
+beq convert_progressive_bomb_bag_id
+cmpwi r3, 0xAE
+beq convert_progressive_bomb_bag_id
+
+cmpwi r3, 0xAF
+beq convert_progressive_quiver_id
+cmpwi r3, 0xB0
+beq convert_progressive_quiver_id
+
+cmpwi r3, 0x23
+beq convert_progressive_picto_box_id
+cmpwi r3, 0x26
+beq convert_progressive_picto_box_id
+
+b convert_progressive_item_id_func_end
+
+
+convert_progressive_sword_id:
+lis r3, 0x803C4CBC@ha
+addi r3, r3, 0x803C4CBC@l
+lbz r4, 0 (r3) ; Bitfield of swords you own
+cmpwi r4, 0
+beq convert_progressive_sword_id_to_normal_sword
+cmpwi r4, 1
+beq convert_progressive_sword_id_to_powerless_master_sword
+cmpwi r4, 3
+beq convert_progressive_sword_id_to_half_power_master_sword
+cmpwi r4, 7
+beq convert_progressive_sword_id_to_full_power_master_sword
+li r3, 0x38 ; Invalid sword state; this shouldn't happen so just return the base sword ID
+b convert_progressive_item_id_func_end
+
+convert_progressive_sword_id_to_normal_sword:
+li r3, 0x38
+b convert_progressive_item_id_func_end
+convert_progressive_sword_id_to_powerless_master_sword:
+li r3, 0x39
+b convert_progressive_item_id_func_end
+convert_progressive_sword_id_to_half_power_master_sword:
+li r3, 0x3A
+b convert_progressive_item_id_func_end
+convert_progressive_sword_id_to_full_power_master_sword:
+li r3, 0x3E
+b convert_progressive_item_id_func_end
+
+
+convert_progressive_bow_id:
+lis r3, 0x803C4C65@ha
+addi r3, r3, 0x803C4C65@l
+lbz r4, 0 (r3) ; Bitfield of arrow types you own
+cmpwi r4, 0
+beq convert_progressive_bow_id_to_heros_bow
+cmpwi r4, 1
+beq convert_progressive_bow_id_to_fire_and_ice_arrows
+cmpwi r4, 3
+beq convert_progressive_bow_id_to_light_arrows
+li r3, 0x27 ; Invalid bow state; this shouldn't happen so just return the base bow ID
+b convert_progressive_item_id_func_end
+
+convert_progressive_bow_id_to_heros_bow:
+li r3, 0x27
+b convert_progressive_item_id_func_end
+convert_progressive_bow_id_to_fire_and_ice_arrows:
+li r3, 0x35
+b convert_progressive_item_id_func_end
+convert_progressive_bow_id_to_light_arrows:
+li r3, 0x36
+b convert_progressive_item_id_func_end
+
+
+convert_progressive_wallet_id:
+lis r3, 0x803C4C1A@ha
+addi r3, r3, 0x803C4C1A@l
+lbz r4, 0 (r3) ; Which wallet you have
+cmpwi r4, 0
+beq convert_progressive_wallet_id_to_1000_rupee_wallet
+cmpwi r4, 1
+beq convert_progressive_wallet_id_to_5000_rupee_wallet
+li r3, 0xAB ; Invalid wallet state; this shouldn't happen so just return the base wallet ID
+b convert_progressive_item_id_func_end
+
+convert_progressive_wallet_id_to_1000_rupee_wallet:
+li r3, 0xAB
+b convert_progressive_item_id_func_end
+convert_progressive_wallet_id_to_5000_rupee_wallet:
+li r3, 0xAC
+b convert_progressive_item_id_func_end
+
+
+convert_progressive_bomb_bag_id:
+lis r3, 0x803C4C72@ha
+addi r3, r3, 0x803C4C72@l
+lbz r4, 6 (r3) ; Max number of bombs the player can currently hold
+cmpwi r4, 30
+beq convert_progressive_bomb_bag_id_to_60_bomb_bomb_bag
+cmpwi r4, 60
+beq convert_progressive_bomb_bag_id_to_99_bomb_bomb_bag
+li r3, 0xAD ; Invalid bomb bag state; this shouldn't happen so just return the base bomb bag ID
+b convert_progressive_item_id_func_end
+
+convert_progressive_bomb_bag_id_to_60_bomb_bomb_bag:
+li r3, 0xAD
+b convert_progressive_item_id_func_end
+convert_progressive_bomb_bag_id_to_99_bomb_bomb_bag:
+li r3, 0xAE
+b convert_progressive_item_id_func_end
+
+
+convert_progressive_quiver_id:
+lis r3, 0x803C4C71@ha
+addi r3, r3, 0x803C4C71@l
+lbz r4, 6 (r3) ; Max number of arrows the player can currently hold
+cmpwi r4, 30
+beq convert_progressive_quiver_id_to_60_arrow_quiver
+cmpwi r4, 60
+beq convert_progressive_quiver_id_to_99_arrow_quiver
+li r3, 0xAF ; Invalid bomb bag state; this shouldn't happen so just return the base bomb bag ID
+b convert_progressive_item_id_func_end
+
+convert_progressive_quiver_id_to_60_arrow_quiver:
+li r3, 0xAF
+b convert_progressive_item_id_func_end
+convert_progressive_quiver_id_to_99_arrow_quiver:
+li r3, 0xB0
+b convert_progressive_item_id_func_end
+
+
+convert_progressive_picto_box_id:
+lis r3, 0x803C4C61@ha
+addi r3, r3, 0x803C4C61@l
+lbz r4, 0 (r3) ; Bitfield of picto boxes you own
+cmpwi r4, 0
+beq convert_progressive_picto_box_id_to_normal_picto_box
+cmpwi r4, 1
+beq convert_progressive_picto_box_id_to_deluxe_picto_box
+li r3, 0x23 ; Invalid bomb bag state; this shouldn't happen so just return the base bomb bag ID
+b convert_progressive_item_id_func_end
+
+convert_progressive_picto_box_id_to_normal_picto_box:
+li r3, 0x23
+b convert_progressive_item_id_func_end
+convert_progressive_picto_box_id_to_deluxe_picto_box:
+li r3, 0x26
+b convert_progressive_item_id_func_end
+
+
+convert_progressive_item_id_func_end:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
+.global convert_progressive_item_id_for_createDemoItem
+convert_progressive_item_id_for_createDemoItem:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+mr r3, r26 ; createDemoItem keeps the item ID in r26
+bl convert_progressive_item_id ; Get the correct item ID
+mr r26, r3 ; Put it back where createDemoItem expects it, in r26
+
+li r3, 259 ; And then simply replace the line of code in createDemoItem that we overwrote to call this function
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
+.global convert_progressive_item_id_for_daItem_create
+convert_progressive_item_id_for_daItem_create:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lbz r3, 0xB3 (r31) ; Read this field item's item ID from its params (params are at 0xB0, the item ID is has the mask 0x000000FF)
+bl convert_progressive_item_id ; Get the correct item ID
+stb r3, 0xB3 (r31) ; Store the corrected item ID back into the field item's params
+
+; Then we also return the item ID in r3 so the next line in daItem_create can use it.
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 .global progressive_sword_item_func
 progressive_sword_item_func:
 ; Function start stuff

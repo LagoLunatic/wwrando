@@ -330,32 +330,6 @@ def make_items_progressive(self):
   # This way other items can use the magic meter before the player gets deku leaf.
   write_u32(dol_data, address_to_offset(0x800C375C), 0x60000000) # Don't set max magic meter
   write_u32(dol_data, address_to_offset(0x800C3768), 0x60000000) # Don't set current magic meter
-  
-  
-  # Also update the item get descriptions of progressive items to just generically say you got *a* upgrade, without saying which.
-  sword_id = self.item_name_to_id["Progressive Sword"]
-  sword_msg = self.bmg.messages_by_id[101 + sword_id]
-  sword_msg.string = "\\{1A 05 00 00 01}You got a \\{1A 06 FF 00 00 01}sword upgrade\\{1A 06 FF 00 00 00}!"
-  
-  bow_id = self.item_name_to_id["Progressive Bow"]
-  bow_msg = self.bmg.messages_by_id[101 + bow_id]
-  bow_msg.string = "\\{1A 05 00 00 01}You got a \\{1A 06 FF 00 00 01}bow upgrade\\{1A 06 FF 00 00 00}!"
-  
-  wallet_id = self.item_name_to_id["Progressive Wallet"]
-  wallet_msg = self.bmg.messages_by_id[101 + wallet_id]
-  wallet_msg.string = "\\{1A 05 00 00 01}You can now carry more \\{1A 06 FF 00 00 01}Rupees\\{1A 06 FF 00 00 00}!"
-  
-  bomb_bag_id = self.item_name_to_id["Progressive Bomb Bag"]
-  bomb_bag_msg = self.bmg.messages_by_id[101 + bomb_bag_id]
-  bomb_bag_msg.string = "\\{1A 05 00 00 01}You can now carry more \\{1A 06 FF 00 00 01}bombs\\{1A 06 FF 00 00 00}!"
-  
-  quiver_id = self.item_name_to_id["Progressive Quiver"]
-  quiver_msg = self.bmg.messages_by_id[101 + quiver_id]
-  quiver_msg.string = "\\{1A 05 00 00 01}You can now carry more \\{1A 06 FF 00 00 01}arrows\\{1A 06 FF 00 00 00}!"
-  
-  picto_box_id = self.item_name_to_id["Progressive Picto Box"]
-  picto_box_msg = self.bmg.messages_by_id[101 + picto_box_id]
-  picto_box_msg.string = "\\{1A 05 00 00 01}You got a \\{1A 06 FF 00 00 01}Picto Box upgrade\\{1A 06 FF 00 00 00}!"
 
 def make_sail_behave_like_swift_sail(self):
   # Causes the wind direction to always change to face the direction KoRL is facing as long as the sail is out.

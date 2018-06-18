@@ -666,3 +666,18 @@
   ; Get rid of the line that plays the warping music, since it would continue playing after the warp has happened.
   nop
 .close
+
+
+
+
+; Swap out the item ID of progressive items for item get events as well as for field items so that their model and item get text change depending on what the next progressive tier of that item you should get is.
+.open "sys/main.dol"
+.org 0x80026A24 ; In createDemoItem (for item get events)
+  ; Convert progressive item ID before storing in params
+  bl convert_progressive_item_id_for_createDemoItem
+.org 0x800F5550 ; In daItem_create
+  ; Read params, convert progressive item ID, and store back
+  bl convert_progressive_item_id_for_daItem_create
+  ; We also replace the next line, which was originally "stb r0, 0x63A (r31)", but we need to use r3 instead of r0 because r0 was overwritten by the function return.
+  stb r3, 0x63A (r31)
+.close
