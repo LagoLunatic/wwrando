@@ -77,11 +77,11 @@ Magic Meter Upgrade:
 Ghost Ship Chart:
   the chart of fears
 Progressive Sword:
-  an upgrade for your offensive item
+  an upgrade for your blade
 Progressive Bow:
   an upgrade for your bow
 Progressive Wallet:
-  an upgrade for your rupee bag
+  an upgrade for your Rupee bag
 Progressive Picto Box:
   an upgrade for your camera
 Empty Bottle:
