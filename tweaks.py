@@ -775,3 +775,32 @@ def update_shop_item_descriptions(self):
   msg.string = "\\{1A 06 FF 00 00 01}%s  %d Rupees\n\\{1A 06 FF 00 00 00}The price may be high, but it'll pay\noff handsomely in the end!" % (item_name, cost)
   msg = self.bmg.messages_by_id[12111]
   msg.string = "This \\{1A 06 FF 00 00 01}%s \\{1A 06 FF 00 00 00}is just \\{1A 06 FF 00 00 01}%d Rupees!\\{1A 06 FF 00 00 00}\nBuy it! Buy it! Buy buy buy!\n\\{1A 05 00 00 08}I'll buy it\nNo thanks" % (item_name, cost)
+
+def update_savage_labyrinth_hint_tablet(self):
+  # Update the tablet on the first floor of savage labyrinth to give hints as to the items inside the labyrinth.
+  
+  floor_30_item_name = self.logic.done_item_locations["Outset Island - Savage Labyrinth - Floor 30"]
+  floor_50_item_name = self.logic.done_item_locations["Outset Island - Savage Labyrinth - Floor 50"]
+  if floor_30_item_name in self.logic.all_progress_items and floor_50_item_name in self.logic.all_progress_items:
+    floor_30_item_hint = self.progress_item_hints[floor_30_item_name]
+    floor_50_item_hint = self.progress_item_hints[floor_50_item_name]
+    hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_30_item_hint
+    hint += " and "
+    hint += "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_50_item_hint
+    hint += " await"
+  elif floor_30_item_name in self.logic.all_progress_items:
+    floor_30_item_hint = self.progress_item_hints[floor_30_item_name]
+    hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_30_item_hint
+    hint += " awaits"
+  elif floor_50_item_name in self.logic.all_progress_items:
+    floor_50_item_hint = self.progress_item_hints[floor_50_item_name]
+    hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_50_item_hint
+    hint += " awaits"
+  else:
+    hint = "challenge"
+  msg = self.bmg.messages_by_id[837]
+  msg.string = "\\{1A 07 FF 00 01 00 96}\\{1A 06 FF 00 00 01}The Savage Labyrinth\n\\{1A 07 FF 00 01 00 64}\n\n\n"
+  msg.string += word_wrap_string(
+    "\\{1A 06 FF 00 00 00}Deep in the never-ending darkness, the way to %s." % hint,
+    max_line_length=43
+  )

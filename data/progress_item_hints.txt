@@ -1,0 +1,88 @@
+Tingle Tuner:
+  an electronical device
+Wind Waker:
+  the wand of the wind conductor
+Spoils Bag:
+  a storage for collectibles
+Grappling Hook:
+  an item to swing across platforms
+Power Bracelets:
+  the strength to lift heavy rocks
+Iron Boots:
+  a very heavy item
+Bait Bag:
+  a storage for food
+Boomerang:
+  an item that always comes back to you
+Hookshot:
+  an item that reels
+Delivery Bag:
+  a storage for letters
+Bombs:
+  an explosive item
+Skull Hammer:
+  the hammer of the dead
+Deku Leaf:
+  a magic leaf
+Hero's Shield:
+  a basic defensive item
+Mirror Shield:
+  a defensive item that reflects light
+Triforce Shard 1:
+  a piece of the power of the gods
+Triforce Shard 2:
+  a piece of the power of the gods
+Triforce Shard 3:
+  a piece of the power of the gods
+Triforce Shard 4:
+  a piece of the power of the gods
+Triforce Shard 5:
+  a piece of the power of the gods
+Triforce Shard 6:
+  a piece of the power of the gods
+Triforce Shard 7:
+  a piece of the power of the gods
+Triforce Shard 8:
+  a piece of the power of the gods
+Nayru's Pearl:
+  a blue jewel
+Din's Pearl:
+  a red jewel
+Farore's Pearl:
+  a green jewel
+Wind's Requiem:
+  the song of wind
+Ballad of Gales:
+  the song of gales
+Command Melody:
+  the song of command
+Earth God's Lyric:
+  the song of earth's god
+Wind God's Aria:
+  the song of wind's god
+Song of Passing:
+  the song of time
+Boat's Sail:
+  the wind follower
+Note to Mom:
+  the writings of a letter sorter
+Maggie's Letter:
+  the writings of a woman
+Moblin's Letter:
+  the writings of a creature
+Cabana Deed:
+  a pass for a private residence
+Magic Meter Upgrade:
+  an upgrade for your magic
+Ghost Ship Chart:
+  the chart of fears
+Progressive Sword:
+  an upgrade for your offensive item
+Progressive Bow:
+  an upgrade for your bow
+Progressive Wallet:
+  an upgrade for your rupee bag
+Progressive Picto Box:
+  an upgrade for your camera
+Empty Bottle:
+  a glass container

@@ -7,6 +7,7 @@ import re
 from random import Random
 from collections import OrderedDict
 import hashlib
+import yaml
 
 from fs_helpers import *
 from wwlib.yaz0_decomp import Yaz0Decompressor
@@ -157,6 +158,7 @@ class Randomizer:
   
   def apply_necessary_post_randomization_tweaks(self):
     tweaks.update_shop_item_descriptions(self)
+    tweaks.update_savage_labyrinth_hint_tablet(self)
   
   def verify_supported_version(self, clean_iso_path):
     if not os.path.isfile(clean_iso_path):
@@ -234,6 +236,9 @@ class Randomizer:
       matches = re.findall(r"^([0-9a-f]{8}) (\S+)", f.read(), re.IGNORECASE | re.MULTILINE)
     for symbol_address, symbol_name in matches:
       self.custom_symbols[symbol_name] = int(symbol_address, 16)
+    
+    with open(os.path.join(DATA_PATH, "progress_item_hints.txt"), "r") as f:
+      self.progress_item_hints = yaml.load(f)
   
   def get_arc(self, arc_path):
     arc_path = arc_path.replace("\\", "/")
