@@ -22,8 +22,8 @@ bl item_func_tact_song2__Fv ; Ballad of Gales
 bl item_func_pirates_omamori__Fv ; Pirate's Charm
 
 
-lis r3, 0x803C
-addi r3, r3, 0x522C
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
 li r4, 0x3510 ; HAS_SEEN_INTRO
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x2A80 ; HAS_HEROS_CLOTHES
@@ -93,8 +93,8 @@ bl onEventBit__11dSv_event_cFUs
 li r4, 0x4002 ; Saw cutscene before Ganondorf fight
 bl onEventBit__11dSv_event_cFUs
 
-lis r3, 0x803C
-addi r3, r3, 0x5D60
+lis r3, 0x803C5D60@ha
+addi r3, r3, 0x803C5D60@l
 li r4, 0x0310 ; Saw event where Grandma gives you the Hero's Clothes
 bl onEventBit__11dSv_event_cFUs
 
@@ -211,9 +211,8 @@ stwu sp, -0x10 (sp)
 mflr r0
 stw r0, 0x14 (sp)
 
-
-lis r3, 0x803C
-addi r3, r3, 0x4CBC
+lis r3, 0x803C4CBC@ha
+addi r3, r3, 0x803C4CBC@l
 lbz r4, 0 (r3) ; Bitfield of swords you own
 cmpwi r4, 0
 beq get_normal_sword
@@ -259,8 +258,8 @@ mflr r0
 stw r0, 0x14 (sp)
 
 
-lis r3, 0x803C
-addi r3, r3, 0x4C65
+lis r3, 0x803C4C65@ha
+addi r3, r3, 0x803C4C65@l
 lbz r4, 0 (r3) ; Bitfield of arrow types you own
 cmpwi r4, 0
 beq get_heros_bow
@@ -295,8 +294,8 @@ blr
 .global progressive_wallet_item_func
 progressive_wallet_item_func:
 
-lis r3, 0x803C
-addi r3, r3, 0x4C1A
+lis r3, 0x803C4C1A@ha
+addi r3, r3, 0x803C4C1A@l
 lbz r4, 0 (r3) ; Which wallet you have
 cmpwi r4, 0
 beq get_1000_rupee_wallet
@@ -322,8 +321,8 @@ blr
 .global progressive_bomb_bag_item_func
 progressive_bomb_bag_item_func:
 
-lis r3, 0x803C
-addi r3, r3, 0x4C72
+lis r3, 0x803C4C72@ha
+addi r3, r3, 0x803C4C72@l
 lbz r4, 6 (r3) ; Max number of bombs the player can currently hold
 cmpwi r4, 30
 beq get_60_bomb_bomb_bag
@@ -351,8 +350,8 @@ blr
 .global progressive_quiver_item_func
 progressive_quiver_item_func:
 
-lis r3, 0x803C
-addi r3, r3, 0x4C71
+lis r3, 0x803C4C71@ha
+addi r3, r3, 0x803C4C71@l
 lbz r4, 6 (r3) ; Max number of arrows the player can currently hold
 cmpwi r4, 30
 beq get_60_arrow_quiver
@@ -385,8 +384,8 @@ mflr r0
 stw r0, 0x14 (sp)
 
 
-lis r3, 0x803C
-addi r3, r3, 0x4C61
+lis r3, 0x803C4C61@ha
+addi r3, r3, 0x803C4C61@l
 lbz r4, 0 (r3) ; Bitfield of picto boxes you own
 cmpwi r4, 0
 beq get_normal_picto_box
