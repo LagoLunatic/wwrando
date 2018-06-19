@@ -218,6 +218,7 @@ class Randomizer:
   def apply_necessary_post_randomization_tweaks(self):
     tweaks.update_shop_item_descriptions(self)
     tweaks.update_auction_item_names(self)
+    tweaks.update_sinking_ships_item_names(self)
     tweaks.update_savage_labyrinth_hint_tablet(self)
     tweaks.update_fishmen_hints(self)
   

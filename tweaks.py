@@ -777,6 +777,27 @@ def update_auction_item_names(self):
   msg = self.bmg.messages_by_id[7443]
   msg.string = "\\{1A 06 FF 00 00 01}%s" % item_name
 
+def update_sinking_ships_item_names(self):
+  item_name = self.logic.done_item_locations["Windfall Island - Sinking Ships - First Prize"]
+  msg = self.bmg.messages_by_id[7520]
+  msg.string = "\\{1A 05 01 00 8E}Hoorayyy! Yayyy! Yayyy!\nOh, thank you, Mr. Sailor!\n\n\n"
+  msg.string += word_wrap_string(
+    "Please take this \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} as a sign of our gratitude. You are soooooo GREAT!" % item_name,
+    max_line_length=43
+  )
+  
+  item_name = self.logic.done_item_locations["Windfall Island - Sinking Ships - Second Prize"]
+  msg = self.bmg.messages_by_id[7521]
+  msg.string = "\\{1A 05 01 00 8E}Hoorayyy! Yayyy! Yayyy!\nOh, thank you so much, Mr. Sailor!\n\n\n"
+  msg.string += word_wrap_string(
+    "This is our thanks to you! It's been passed down on our island for many years, so don't tell the island elder, OK? Here...\\{1A 06 FF 00 00 01}\\{1A 05 00 00 39} \\{1A 06 FF 00 00 00}Please accept this \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}!" % item_name,
+    max_line_length=43
+  )
+  
+  # The high score one doesn't say the item name in text anywhere, so no need to update it.
+  #item_name = self.logic.done_item_locations["Windfall Island - Sinking Ships - 20 Shots or Less Prize"]
+  #msg = self.bmg.messages_by_id[7523]
+
 def update_savage_labyrinth_hint_tablet(self):
   # Update the tablet on the first floor of savage labyrinth to give hints as to the items inside the labyrinth.
   
