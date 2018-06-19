@@ -21,10 +21,14 @@ class EventList:
     self.string_list_total_size = read_u32(data, 0x34)
     
     self.events = []
+    self.events_by_name = {}
     for event_index in range(0, self.num_events):
       offset = self.event_list_offset + event_index * Event.DATA_SIZE
       event = Event(self.file_entry, offset)
       self.events.append(event)
+      if event.name in self.events_by_name:
+        raise Exception("Duplicate event name: %s" % event.name)
+      self.events_by_name[event.name] = event
     
     self.actors = []
     for actor_index in range(0, self.num_actors):
@@ -112,12 +116,15 @@ class EventList:
     property = self.properties[property_index]
     
     if property.data_type == 1:
-      pass # TODO
+      raise Exception("Saving property data type 1 not implemented")
     elif property.data_type == 3:
       offset = self.integer_list_offset + property.data_index * 4
       write_u32(data, offset, new_value)
     elif property.data_type == 4:
-      pass # TODO
+      string_pointer = self.string_list_offset + property.data_index
+      write_str(self.file_entry.data, string_pointer, new_value, property.data_size)
+    else:
+      raise Exception("Saving property data type %d not implemented" % property.data_type)
 
 class Event:
   DATA_SIZE = 0xB0
