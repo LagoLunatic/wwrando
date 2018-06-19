@@ -760,6 +760,23 @@ def update_shop_item_descriptions(self):
   msg = self.bmg.messages_by_id[12111]
   msg.string = "This \\{1A 06 FF 00 00 01}%s \\{1A 06 FF 00 00 00}is just \\{1A 06 FF 00 00 01}%d Rupees!\\{1A 06 FF 00 00 00}\nBuy it! Buy it! Buy buy buy!\n\\{1A 05 00 00 08}I'll buy it\nNo thanks" % (item_name, cost)
 
+def update_auction_item_names(self):
+  item_name = self.logic.done_item_locations["Windfall Island - 40 Rupee Auction"]
+  msg = self.bmg.messages_by_id[7440]
+  msg.string = "\\{1A 06 FF 00 00 01}%s" % item_name
+  
+  item_name = self.logic.done_item_locations["Windfall Island - 5 Rupee Auction"]
+  msg = self.bmg.messages_by_id[7441]
+  msg.string = "\\{1A 06 FF 00 00 01}%s" % item_name
+  
+  item_name = self.logic.done_item_locations["Windfall Island - 60 Rupee Auction"]
+  msg = self.bmg.messages_by_id[7442]
+  msg.string = "\\{1A 06 FF 00 00 01}%s" % item_name
+  
+  item_name = self.logic.done_item_locations["Windfall Island - 80 Rupee Auction"]
+  msg = self.bmg.messages_by_id[7443]
+  msg.string = "\\{1A 06 FF 00 00 01}%s" % item_name
+
 def update_savage_labyrinth_hint_tablet(self):
   # Update the tablet on the first floor of savage labyrinth to give hints as to the items inside the labyrinth.
   
