@@ -749,6 +749,8 @@ Forbidden Woods - Past Seeds Hanging by Vines:
     & Grappling Hook
     & FW Small Key x1
     & Can Defeat Door Flowers
+    & Can Destroy Seeds Hanging by Vines
+    # Note: Destroying the seeds hanging by vines is not strictly necessary, but it's hard to float across consistently without destroying them.
   Original item: Joy Pendant
   Types: Dungeon
   Paths:

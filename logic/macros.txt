@@ -16,6 +16,8 @@ Can Defeat Door Flowers:
   Boomerang | Hero's Bow | Bombs | Hookshot
 Can Hit Diamond Switches at Range:
   Boomerang | Hero's Bow | Hookshot
+Can Destroy Seeds Hanging by Vines:
+  Boomerang | Hero's Bow | Bombs | Hookshot
 Can Buy Bait:
   Nothing
 Can Buy Hyoi Pears:
