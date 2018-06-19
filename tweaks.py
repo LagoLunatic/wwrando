@@ -704,6 +704,13 @@ def word_wrap_string(string, max_line_length=35):
   
   return wordwrapped_str
 
+def pad_string_to_next_4_lines(string):
+  lines = string.split("\n")
+  padding_lines_needed = (4 - len(lines) % 4) % 4
+  for i in range(padding_lines_needed):
+    lines.append("")
+  return "\n".join(lines) + "\n"
+
 def remove_ballad_of_gales_warp_in_cutscene(self):
   for island_index in range(1, 49+1):
     dzx = self.get_arc("files/res/Stage/sea/Room%d.arc" % island_index).dzx_files[0]
@@ -789,3 +796,56 @@ def update_savage_labyrinth_hint_tablet(self):
     "\\{1A 06 FF 00 00 00}Deep in the never-ending darkness, the way to %s." % hint,
     max_line_length=43
   )
+
+def update_fishmen_hints(self):
+  hints = []
+  unique_items_given_hint_for = []
+  possible_item_locations = list(self.logic.done_item_locations.keys())
+  self.rng.shuffle(possible_item_locations)
+  for location_name in possible_item_locations:
+    item_name = self.logic.done_item_locations[location_name]
+    if item_name not in self.logic.all_progress_items:
+      continue
+    if self.logic.is_dungeon_item(item_name):
+      continue
+    if item_name in unique_items_given_hint_for:
+      # Don't give hints for 2 instances of the same item (e.g. empty bottle, progressive bow, etc).
+      continue
+    if len(hints) >= 3:
+      # 3 hints max per seed.
+      break
+    
+    zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
+    if zone_name in self.dungeon_island_locations and location_name != "Tower of the Gods - Sunken Treasure":
+      # If the location is in a dungeon, use the hint for whatever island the dungeon is located on.
+      island_name = self.dungeon_island_locations[zone_name]
+      island_hint_name = self.island_name_hints[island_name]
+    if zone_name in self.island_name_hints:
+      island_hint_name = self.island_name_hints[zone_name]
+    elif zone_name in self.logic.DUNGEON_NAMES.values():
+      continue
+    else:
+      continue
+    
+    item_hint_name = self.progress_item_hints[item_name]
+    
+    hint_lines = []
+    hint_lines.append(
+      "I've heard from my sources that \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} is located in \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}." % (item_hint_name, island_hint_name)
+    )
+    hint_lines.append("Could be worth a try checking that place out. If you know where it is, of course.")
+    hint = ""
+    for hint_line in hint_lines:
+      hint_line = word_wrap_string(hint_line)
+      hint_line = pad_string_to_next_4_lines(hint_line)
+      hint += hint_line
+    hints.append(hint)
+    
+    unique_items_given_hint_for.append(item_name)
+  
+  for fishman_island_number in range(1, 49+1):
+    hint = self.rng.choice(hints)
+    
+    msg_id = 13026 + fishman_island_number
+    msg = self.bmg.messages_by_id[msg_id]
+    msg.string = hint

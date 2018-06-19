@@ -166,6 +166,7 @@ class Randomizer:
   def apply_necessary_post_randomization_tweaks(self):
     tweaks.update_shop_item_descriptions(self)
     tweaks.update_savage_labyrinth_hint_tablet(self)
+    tweaks.update_fishmen_hints(self)
   
   def verify_supported_version(self, clean_iso_path):
     if not os.path.isfile(clean_iso_path):
