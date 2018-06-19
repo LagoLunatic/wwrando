@@ -147,6 +147,9 @@ def make_all_text_instant(self):
       "",
       msg.string, 0, re.IGNORECASE
     )
+  
+  # Also change the B button to act as a hold-to-skip button during dialogue.
+  apply_patch(self, "b_button_skips_text")
 
 def fix_deku_leaf_model(self):
   # The Deku Leaf is a unique object not used for other items. It's easy to change what item it gives you, but the visual model cannot be changed.

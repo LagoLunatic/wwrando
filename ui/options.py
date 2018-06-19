@@ -25,7 +25,7 @@ OPTIONS = OrderedDict([
   
   ("swift_sail", "Sailing speed is doubled and the direction of the wind is always at your back as long as the sail is out."),
   
-  ("instant_text_boxes", "Text appears instantly."),
+  ("instant_text_boxes", "Text appears instantly.\nAlso, the B button is changed to instantly skip through text as long as you hold it down."),
   
   ("reveal_full_sea_chart", "Start the game with the sea chart fully drawn out."),
 ])
