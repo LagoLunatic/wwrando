@@ -419,7 +419,48 @@ lbz r3, 0xB3 (r31) ; Read this field item's item ID from its params (params are 
 bl convert_progressive_item_id ; Get the correct item ID
 stb r3, 0xB3 (r31) ; Store the corrected item ID back into the field item's params
 
-; Then we also return the item ID in r3 so the next line in daItem_create can use it.
+; Then we return the item ID in r0 so that the next few lines in daItem_create can use it.
+mr r0, r3
+
+lwz r3, 0x14 (sp)
+mtlr r3
+addi sp, sp, 0x10
+blr
+
+
+
+
+.global convert_progressive_item_id_for_dProcGetItem_init_1
+convert_progressive_item_id_for_dProcGetItem_init_1:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lwz r3, 0x30C (r28) ; Read the item ID property for this event action
+bl convert_progressive_item_id ; Get the correct item ID
+
+; Then we return the item ID in r0 so that the next few lines in dProcGetItem_init can use it.
+mr r0, r3
+
+lwz r3, 0x14 (sp)
+mtlr r3
+addi sp, sp, 0x10
+blr
+
+
+
+
+.global convert_progressive_item_id_for_dProcGetItem_init_2
+convert_progressive_item_id_for_dProcGetItem_init_2:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lbz r3, 0x52AC (r3) ; Read the item ID from 803C9EB4
+bl convert_progressive_item_id ; Get the correct item ID
+
+; Then we return the item ID in r27 so that the next few lines in dProcGetItem_init can use it.
+mr r27, r3
 
 lwz r0, 0x14 (sp)
 mtlr r0

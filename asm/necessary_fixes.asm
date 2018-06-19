@@ -678,6 +678,9 @@
 .org 0x800F5550 ; In daItem_create
   ; Read params, convert progressive item ID, and store back
   bl convert_progressive_item_id_for_daItem_create
-  ; We also replace the next line, which was originally "stb r0, 0x63A (r31)", but we need to use r3 instead of r0 because r0 was overwritten by the function return.
-  stb r3, 0x63A (r31)
+.org 0x8012E7B8 ; In dProcGetItem_init__9daPy_lk_cFv
+  ; Read item ID property for this event action and convert progressive item ID
+  bl convert_progressive_item_id_for_dProcGetItem_init_1
+.org 0x8012E7DC ; In dProcGetItem_init__9daPy_lk_cFv
+  bl convert_progressive_item_id_for_dProcGetItem_init_2
 .close
