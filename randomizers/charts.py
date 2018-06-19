@@ -35,5 +35,7 @@ def randomize_charts(self):
       if scob.is_salvage() and scob.salvage_type == 0:
         scob.salvage_chart_index_plus_1 = chart.owned_chart_index_plus_1
         scob.save_changes()
+    
+    self.island_number_to_chart_name[chart_to_copy_from.island_number] = chart.item_name
   
   self.logic.update_chart_macros()

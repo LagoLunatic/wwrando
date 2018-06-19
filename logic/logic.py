@@ -110,6 +110,10 @@ class Logic:
       if location_name.startswith("Rock Spire Isle - Beedle's Special Shop Ship - "):
         self.rock_spire_shop_ship_locations.append(location_name)
     
+    # These are needed when calculating progression spheres if dungeon entrance rando/chart rando are on.
+    self.update_dungeon_entrance_macros()
+    self.update_chart_macros()
+    
     for item_name in self.rando.starting_items:
       self.add_owned_item(item_name)
   
@@ -433,7 +437,7 @@ class Logic:
     # Update all the "Chart for Island" macros to take randomized charts into account.
     for island_number in range(1, 49+1):
       chart_macro_name = "Chart for Island %d" % island_number
-      chart_item_name = self.rando.chart_list.find_chart_for_island_number(island_number).item_name
+      chart_item_name = self.rando.island_number_to_chart_name[island_number]
       self.set_macro(chart_macro_name, chart_item_name)
   
   def clean_item_name(self, item_name):
