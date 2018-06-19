@@ -159,7 +159,7 @@ def fix_deku_leaf_model(self):
   deku_leaf_actors = [actor for actor in dzx.entries_by_type("ACTR") if actor.name == "itemDek"]
   for actor in deku_leaf_actors:
     actor.name = "item"
-    actor.params = 0x01FF0000 # Unknown params. TODO?
+    actor.params = 0x01FF0000 # Misc params, one of which makes the item not fade out over time
     actor.item_id = 0x34 # Deku Leaf
     actor.item_flag = 2 # This is the same item pickup flag that itemDek originally had in its params.
     actor.set_flag = 0xFF # Unknown what this is, but might need to be FF for the player to pick up the item sometimes?
