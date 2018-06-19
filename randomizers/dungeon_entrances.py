@@ -1,11 +1,11 @@
 
 DUNGEON_ENTRANCES = [
-  # Stage name, room index, SCLS entry index, spawn ID when exiting, entrance name for macro
-  ("Adanmae", 0, 2, 2, "Dungeon Entrance On Dragon Roost Island"),
-  ("sea", 41, 6, 6, "Dungeon Entrance In Forest Haven Sector"),
-  ("sea", 26, 0, 2, "Dungeon Entrance In Tower of the Gods Sector"),
-  ("Edaichi", 0, 0, 1, "Dungeon Entrance On Headstone Island"),
-  ("Ekaze", 0, 0, 1, "Dungeon Entrance On Gale Isle"),
+  # Stage name, room index, SCLS entry index, spawn ID when exiting, entrance name for macro, island name entrance is on
+  ("Adanmae", 0, 2, 2, "Dungeon Entrance On Dragon Roost Island", "Dragon Roost Island"),
+  ("sea", 41, 6, 6, "Dungeon Entrance In Forest Haven Sector", "Forest Haven"),
+  ("sea", 26, 0, 2, "Dungeon Entrance In Tower of the Gods Sector", "Tower of the Gods"),
+  ("Edaichi", 0, 0, 1, "Dungeon Entrance On Headstone Island", "Headstone Island"),
+  ("Ekaze", 0, 0, 1, "Dungeon Entrance On Gale Isle", "Gale Isle"),
 ]
 DUNGEON_EXITS = [
   # Stage name, room index, SCLS entry index, spawn ID when entering, dungeon name for macro
@@ -31,7 +31,7 @@ def randomize_dungeon_entrances(self):
     should_limit_first_dungeon_possibilities = False
   
   remaining_exits = DUNGEON_EXITS.copy()
-  for entrance_stage_name, entrance_room_index, entrance_scls_index, entrance_spawn_id, entrance_name in DUNGEON_ENTRANCES:
+  for entrance_stage_name, entrance_room_index, entrance_scls_index, entrance_spawn_id, entrance_name, island_name in DUNGEON_ENTRANCES:
     if should_limit_first_dungeon_possibilities and entrance_name == "Dungeon Entrance On Dragon Roost Island":
       possible_remaining_exits = []
       for exit_tuple in remaining_exits:
@@ -64,5 +64,6 @@ def randomize_dungeon_entrances(self):
     exit_scls.save_changes()
     
     self.dungeon_entrances[entrance_name] = dungeon_name
+    self.dungeon_island_locations[dungeon_name] = island_name
   
   self.logic.update_dungeon_entrance_macros()

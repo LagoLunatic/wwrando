@@ -71,6 +71,13 @@ class Randomizer:
       ("Dungeon Entrance On Headstone Island", "Earth Temple"),
       ("Dungeon Entrance On Gale Isle", "Wind Temple"),
     ])
+    self.dungeon_island_locations = OrderedDict([
+      ("Dragon Roost Cavern", "Dragon Roost Island"),
+      ("Forbidden Woods", "Forest Haven"),
+      ("Tower of the Gods", "Tower of the Gods"),
+      ("Earth Temple", "Headstone Island"),
+      ("Wind Temple", "Gale Isle"),
+    ])
     # Default starting island (Outset) if the starting island randomizer is not on.
     self.starting_island_index = 44
     
