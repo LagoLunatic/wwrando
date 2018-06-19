@@ -755,18 +755,26 @@ def update_savage_labyrinth_hint_tablet(self):
   
   floor_30_item_name = self.logic.done_item_locations["Outset Island - Savage Labyrinth - Floor 30"]
   floor_50_item_name = self.logic.done_item_locations["Outset Island - Savage Labyrinth - Floor 50"]
-  if floor_30_item_name in self.logic.all_progress_items and floor_50_item_name in self.logic.all_progress_items:
+  should_give_floor_30_hint = (
+    floor_30_item_name in self.logic.all_progress_items
+    and not self.logic.is_dungeon_item(floor_30_item_name)
+  )
+  should_give_floor_50_hint = (
+    floor_50_item_name in self.logic.all_progress_items
+    and not self.logic.is_dungeon_item(floor_50_item_name)
+  )
+  if should_give_floor_30_hint and should_give_floor_50_hint:
     floor_30_item_hint = self.progress_item_hints[floor_30_item_name]
     floor_50_item_hint = self.progress_item_hints[floor_50_item_name]
     hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_30_item_hint
     hint += " and "
     hint += "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_50_item_hint
     hint += " await"
-  elif floor_30_item_name in self.logic.all_progress_items:
+  elif should_give_floor_30_hint:
     floor_30_item_hint = self.progress_item_hints[floor_30_item_name]
     hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_30_item_hint
     hint += " awaits"
-  elif floor_50_item_name in self.logic.all_progress_items:
+  elif should_give_floor_50_hint:
     floor_50_item_hint = self.progress_item_hints[floor_50_item_name]
     hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_50_item_hint
     hint += " awaits"
