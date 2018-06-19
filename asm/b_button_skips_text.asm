@@ -12,4 +12,7 @@
 .org 0x80213858 ; In dMsg_finishProc__FP13sub_msg_class
   ; Same as above
   lbz r0, 0x31 (r3)
+.org 0x8021211C ; In dMsg_selectProc__FP13sub_msg_class
+  ; Same as above
+  lbz r0, 0x31 (r3)
 .close
