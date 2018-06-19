@@ -657,7 +657,7 @@ def allow_dungeon_items_to_appear_anywhere(self):
     data6 = read_bytes(dol_data, field_item_resources_offset_to_copy_from+0x18, 4)
     write_bytes(dol_data, field_item_resources_offset+0x18, data6)
 
-def word_wrap_string(string, max_line_length=35):
+def word_wrap_string(string, max_line_length=34):
   index_in_str = 0
   wordwrapped_str = ""
   current_word = ""
