@@ -928,3 +928,10 @@ def shorten_zephos_event(self):
     action.save_changes()
   wind_shrine_event.ending_flags = [action.flag_id_to_set for action in final_actions]
   wind_shrine_event.save_changes()
+
+def update_korl_dialogue(self):
+  msg = self.bmg.messages_by_id[3443]
+  msg.string = "\\{1A 05 00 00 00}, the sea is all yours.\n"
+  msg.string += "Make sure you explore every corner\n"
+  msg.string += "in search of items to help you. Remember\n"
+  msg.string += "that your quest is to defeat Ganondorf."
