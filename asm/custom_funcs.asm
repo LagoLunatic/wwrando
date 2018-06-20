@@ -494,6 +494,25 @@ blr
 
 
 
+; Acts as a replacement to getSelectItemNo, but should only be called when the shopkeeper is checking if the item get animation should play or not, in order to have that properly show for progressive items past the first tier.
+; If this was used all the time as a replacement for getSelectItemNo it would cause the shop to be buggy since it uses the item ID to know what slot it's on.
+.global custom_getSelectItemNo_progressive
+custom_getSelectItemNo_progressive:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+bl getSelectItemNo__11ShopItems_cFv
+bl convert_progressive_item_id
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 .global progressive_sword_item_func
 progressive_sword_item_func:
 ; Function start stuff

@@ -695,3 +695,16 @@
   ; Then we go up a bit to the start of the function, and replace the function call to _savegpr_28 with a call to our custom function, getting around the need to add a new relocation.
   .int convert_progressive_item_id_for_shop_item
 .close
+
+
+
+
+; Fix a big where buying a progressive item from the shop would not show the item get animation if it's the tier 2+ item.
+.open "files/rels/d_a_npc_bs1.rel"
+.org 0x783C ; Relocation for line 0x1D00
+  ; For the Bait Bag slot.
+  .int custom_getSelectItemNo_progressive
+.org 0x792C ; Relocation for line 0x1F3C
+  ; For the 3 Rock Spire Shop Ship slots.
+  .int custom_getSelectItemNo_progressive
+.close
