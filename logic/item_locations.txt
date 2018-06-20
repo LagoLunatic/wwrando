@@ -485,7 +485,7 @@ Dragon Roost Island - Long Passage Chest:
   Paths:
     - sea/Room13.arc/Chest001
 Dragon Roost Island - Rito Aerie - Baito:
-  Need: Nothing # Need to pull down a block for Baito and sort 25 letters twice
+  Need: Nothing # Need to pull down a block for Baito and sort 25 letters three times
   Original item: Note to Mom
   Types: Minigame
   Paths:
