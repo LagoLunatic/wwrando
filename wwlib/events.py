@@ -138,13 +138,45 @@ class Event:
     self.event_index = read_u32(data, offset+0x20)
     self.unknown1 = read_u32(data, offset+0x24)
     self.priority = read_u32(data, offset+0x28)
+    
     self.actor_indexes = []
     for i in range(0x14):
       actor_index = read_u32(data, offset+0x2C+i*4)
       self.actor_indexes.append(actor_index)
     self.num_actors = read_u32(data, offset+0x7C)
     
+    self.starting_flags = []
+    for i in range(2):
+      flag_id = read_u32(data, offset+0x80+i*4)
+      self.starting_flags.append(flag_id)
+    
+    self.ending_flags = []
+    for i in range(3):
+      flag_id = read_u32(data, offset+0x88+i*4)
+      self.ending_flags.append(flag_id)
+    
     self.actors = [] # This will be populated by the event list after it reads the actors.
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_str(data, self.offset, self.name, 0x20)
+    write_u32(data, self.offset+0x20, self.event_index)
+    write_u32(data, self.offset+0x24, self.unknown1)
+    write_u32(data, self.offset+0x28, self.priority)
+    
+    for i in range(0x14):
+      actor_index = self.actor_indexes[i]
+      write_u32(data, self.offset+0x2C+i*4, actor_index)
+    write_u32(data, self.offset+0x7C, self.num_actors)
+    
+    for i in range(2):
+      flag_id = self.starting_flags[i]
+      write_u32(data, self.offset+0x80+i*4, flag_id)
+    
+    for i in range(3):
+      flag_id = self.ending_flags[i]
+      write_u32(data, self.offset+0x88+i*4, flag_id)
 
 class Actor:
   DATA_SIZE = 0x50
@@ -184,6 +216,12 @@ class Action:
     self.name = read_str(data, offset, 0x20)
     self.duplicate_id = read_u32(data, offset+0x20)
     self.action_index = read_u32(data, offset+0x24)
+    
+    self.starting_flags = []
+    for i in range(3):
+      flag_id = read_u32(data, offset+0x28+i*4)
+      self.starting_flags.append(flag_id)
+    
     self.flag_id_to_set = read_u32(data, offset+0x34)
     self.property_index = read_u32(data, offset+0x38)
     self.next_action_index = read_u32(data, offset+0x3C)
@@ -196,6 +234,11 @@ class Action:
     write_str(data, self.offset, self.name, 0x20)
     write_u32(data, self.offset+0x20, self.duplicate_id)
     write_u32(data, self.offset+0x24, self.action_index)
+    
+    for i in range(3):
+      flag_id = self.starting_flags[i]
+      write_u32(data, self.offset+0x28+i*4, flag_id)
+    
     write_u32(data, self.offset+0x34, self.flag_id_to_set)
     write_u32(data, self.offset+0x38, self.property_index)
     write_u32(data, self.offset+0x3C, self.next_action_index)
