@@ -362,6 +362,10 @@ def make_sail_behave_like_swift_sail(self):
   write_float(ship_data, 0xDBE8, 55.0*2) # Sailing speed
   write_float(ship_data, 0xDBC0, 80.0*2) # Initial speed
   
+  # Update the pause menu name for the sail.
+  msg = self.bmg.messages_by_id[463]
+  msg.string = "Swift Sail"
+  
   new_sail_tex_image_path = os.path.join(ASSETS_PATH, "swift sail texture.png")
   new_sail_icon_image_path = os.path.join(ASSETS_PATH, "swift sail icon.png")
   new_sail_itemget_tex_image_path = os.path.join(ASSETS_PATH, "swift sail item get texture.png")
