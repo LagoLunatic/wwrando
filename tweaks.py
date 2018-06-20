@@ -844,6 +844,7 @@ def update_savage_labyrinth_hint_tablet(self):
     hint += " awaits"
   else:
     hint = "challenge"
+    hint += " awaits"
   msg = self.bmg.messages_by_id[837]
   msg.string = "\\{1A 07 FF 00 01 00 96}\\{1A 06 FF 00 00 01}The Savage Labyrinth\n\\{1A 07 FF 00 01 00 64}\n\n\n"
   msg.string += word_wrap_string(
