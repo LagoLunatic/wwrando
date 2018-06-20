@@ -470,6 +470,30 @@ blr
 
 
 
+.global convert_progressive_item_id_for_shop_item
+convert_progressive_item_id_for_shop_item:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+; Replace the call to savegpr we overwrote to call this custom function
+bl _savegpr_28
+mr r30, r3 ; Preserve the shop item entity pointer
+
+lbz r3, 0xB3 (r30)
+bl convert_progressive_item_id ; Get the correct item ID
+stb r3, 0x63A (r30) ; Store the item ID to shop item entity+0x63A
+
+mr r3, r30 ; Put the shop item entity pointer back into r3, because that's where the function that called this one expects it to be
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 .global progressive_sword_item_func
 progressive_sword_item_func:
 ; Function start stuff

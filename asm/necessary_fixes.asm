@@ -684,3 +684,14 @@
 .org 0x8012E7DC ; In dProcGetItem_init__9daPy_lk_cFv
   bl convert_progressive_item_id_for_dProcGetItem_init_2
 .close
+.open "files/rels/d_a_shop_item.rel"
+.org 0x9C0
+  ; This is where the shop item would originally read its item ID from its params & 0x000000FF and store them to shop item entity+0x63A.
+  ; We need to call a custom function to make the item look progressive, but because this is in a relocatable object file, we can't easily add a new function call to the main executable where there was no function call originally.
+  ; So instead we first remove this original code.
+  nop
+  nop
+.org 0x1698 ; Relocation for line 0x8B8
+  ; Then we go up a bit to the start of the function, and replace the function call to _savegpr_28 with a call to our custom function, getting around the need to add a new relocation.
+  .int convert_progressive_item_id_for_shop_item
+.close
