@@ -214,6 +214,7 @@ class Randomizer:
     tweaks.allow_dungeon_items_to_appear_anywhere(self)
     #tweaks.remove_ballad_of_gales_warp_in_cutscene(self)
     tweaks.fix_shop_item_y_offsets(self)
+    tweaks.shorten_zephos_event(self)
   
   def apply_necessary_post_randomization_tweaks(self):
     tweaks.update_shop_item_descriptions(self)

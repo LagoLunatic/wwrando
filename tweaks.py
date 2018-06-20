@@ -904,3 +904,23 @@ def update_fishmen_hints(self):
     msg_id = 13026 + fishman_island_number
     msg = self.bmg.messages_by_id[msg_id]
     msg.string = hint
+
+def shorten_zephos_event(self):
+  # Make the Zephos event end when the player gets the item from the shrine, before Zephos actually appears.
+  
+  event_list = self.get_arc("files/res/Stage/sea/Stage.arc").event_list_files[0]
+  wind_shrine_event = event_list.events_by_name["TACT_HT"]
+  zephos = next(actor for actor in wind_shrine_event.actors if actor.name == "Hr")
+  link = next(actor for actor in wind_shrine_event.actors if actor.name == "Link")
+  camera = next(actor for actor in wind_shrine_event.actors if actor.name == "CAMERA")
+  
+  final_actions = [
+    zephos.actions[6],
+    link.actions[6],
+    camera.actions[4],
+  ]
+  for action in final_actions:
+    action.next_action_index = 0xFFFFFFFF
+    action.save_changes()
+  wind_shrine_event.ending_flags = [action.flag_id_to_set for action in final_actions]
+  wind_shrine_event.save_changes()
