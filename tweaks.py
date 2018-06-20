@@ -12,6 +12,9 @@ ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
 ORIGINAL_DOL_SIZE = 0x3A52C0
 
 # These are from main.dol. Hardcoded since it's easier than reading them from the dol.
+TEXT0_SECTION_OFFSET = 0x100
+TEXT0_SECTION_ADDRESS = 0x80003100
+TEXT0_SECTION_SIZE = 0x2520
 TEXT1_SECTION_OFFSET = 0x2620
 TEXT1_SECTION_ADDRESS = 0x800056E0
 TEXT1_SECTION_SIZE = 0x332FA0
@@ -24,8 +27,10 @@ DATA5_SECTION_SIZE = 0x313E0
 
 def address_to_offset(address):
   # Takes an address in one of the sections of main.dol and converts it to an offset within main.dol.
-  # (Currently only supports the .text1 and .data5 sections.)
-  if TEXT1_SECTION_ADDRESS <= address < TEXT1_SECTION_ADDRESS+TEXT1_SECTION_SIZE:
+  # (Currently only supports the .text0, .text1, .data4, and .data5 sections.)
+  if TEXT0_SECTION_ADDRESS <= address < TEXT0_SECTION_ADDRESS+TEXT0_SECTION_SIZE:
+    offset = address - TEXT0_SECTION_ADDRESS + TEXT0_SECTION_OFFSET
+  elif TEXT1_SECTION_ADDRESS <= address < TEXT1_SECTION_ADDRESS+TEXT1_SECTION_SIZE:
     offset = address - TEXT1_SECTION_ADDRESS + TEXT1_SECTION_OFFSET
   elif DATA4_SECTION_ADDRESS <= address < DATA4_SECTION_ADDRESS+DATA4_SECTION_SIZE:
     offset = address - DATA4_SECTION_ADDRESS + DATA4_SECTION_OFFSET
@@ -90,6 +95,17 @@ def add_custom_functions_to_free_space(self, new_bytes):
   high_halfword, low_halfword = split_pointer_into_high_and_low_half_for_hardcoding(new_end_pointer_for_default_thread)
   write_u32(dol_data, address_to_offset(0x8030794C), 0x3C600000 | high_halfword)
   write_u32(dol_data, address_to_offset(0x80307950), 0x38030000 | low_halfword)
+  write_u32(dol_data, address_to_offset(0x80301854), 0x3C600000 | high_halfword)
+  write_u32(dol_data, address_to_offset(0x80301858), 0x38630000 | low_halfword)
+  high_halfword = (new_end_pointer_for_default_thread & 0xFFFF0000) >> 16
+  low_halfword = new_end_pointer_for_default_thread & 0xFFFF
+  write_u32(dol_data, address_to_offset(0x80003278), 0x3C200000 | high_halfword)
+  write_u32(dol_data, address_to_offset(0x8000327C), 0x60210000 | low_halfword)
+  
+  # Original thread start pointer: 803FCFA8 (must be updated)
+  # Original stack end pointer (r1): 8040CFA8 (must be updated)
+  # Original rtoc pointer (r2): 803FFD00 (must NOT be updated)
+  # Original read-write small data area pointer (r13): 803FE0E0 (must NOT be updated)
 
 def set_new_game_starting_spawn_id(self, spawn_id):
   dol_data = self.get_raw_file("sys/main.dol")
