@@ -1291,6 +1291,7 @@ Earth Temple - Chest in Third Crypt:
     & Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
+    & Skull Hammer
     & ET Small Key x3
     # Power Bracelets necessary again to move the large mirror under the light.
     # Note: You don't necessarily need 3 small keys if you already had Mirror Shield going into the Earth Temple.
@@ -1308,6 +1309,7 @@ Earth Temple - Many Mirrors Room Right Chest:
     & Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
+    & Skull Hammer
     & ET Small Key x3
   Original item: Purple Rupee
   Types: Dungeon
@@ -1320,6 +1322,7 @@ Earth Temple - Many Mirrors Room Left Chest:
     & Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
+    & Skull Hammer
     & ET Small Key x3
   Original item: Joy Pendant
   Types: Dungeon
@@ -1332,6 +1335,7 @@ Earth Temple - Stalfos Crypt Room:
     & Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
+    & Skull Hammer
     & ET Small Key x3
   Original item: Treasure Chart 12
   Types: Dungeon
@@ -1344,6 +1348,7 @@ Earth Temple - Big Key Chest:
     & Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
+    & Skull Hammer
     & ET Small Key x3
     & Can Defeat Blue Bubbles
   Original item: Big Key
@@ -1362,6 +1367,7 @@ Earth Temple - Jalhalla Heart Container:
     & Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
+    & Skull Hammer
     & ET Small Key x3
     & ET Big Key
   Original item: Heart Container
