@@ -343,7 +343,8 @@ class ACTR(ChunkEntry):
     
     "bridge_rpat_index": 0x00FF0000,
     
-    "pot_item_id": 0x0000003F,
+    "pot_item_id":   0x0000003F,
+    "pot_item_flag": 0x007F0000,
   }
   
   ITEM_NAMES = [
