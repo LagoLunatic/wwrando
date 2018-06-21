@@ -190,12 +190,12 @@ def randomize_progression_items(self):
     else:
       possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
       
-      # We weight it so newly accessible locations are 10x more likely to be chosen.
+      # We weight it so newly accessible locations are more likely to be chosen.
       # This way there is still a good chance it will not choose a new location.
       possible_locations_with_weighting = []
       for location_name in possible_locations:
         if location_name not in previously_accessible_undone_locations:
-          weight = 10
+          weight = 5
         else:
           weight = 1
         possible_locations_with_weighting += [location_name]*weight
