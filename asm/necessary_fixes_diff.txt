@@ -152,3 +152,5 @@ files/rels/d_a_obj_toripost.rel:
 files/rels/d_a_shop_item.rel:
   2496: [96, 0, 0, 0, 96, 0, 0, 0]
   5784: [128, 63, 212, 176]
+files/rels/d_a_npc_tt.rel:
+  3176: [56, 0, 0, 1]

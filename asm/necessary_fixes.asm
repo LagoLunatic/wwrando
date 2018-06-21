@@ -723,3 +723,12 @@
   ; Remove that check.
   nop
 .close
+
+
+
+
+; Change Tott to only dance once to teach you the Song of Passing, instead of twice.
+.open "files/rels/d_a_npc_tt.rel"
+.org 0xC68
+  li r0, 1 ; Number of full dance repetitions to do
+.close
