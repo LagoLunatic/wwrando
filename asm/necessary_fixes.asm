@@ -732,3 +732,14 @@
 .org 0xC68
   li r0, 1 ; Number of full dance repetitions to do
 .close
+
+
+
+
+; Removes a couple lines of code that initialize the arc name pointers for the field models of Fire & Ice and Light arrow.
+; These lines of code would overwrite any changes we made to those pointers and cause the game to crash.
+.open "sys/main.dol"
+.org 0x800C1EF8
+  nop
+  nop
+.close
