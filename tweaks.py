@@ -18,6 +18,10 @@ TEXT0_SECTION_SIZE = 0x2520
 TEXT1_SECTION_OFFSET = 0x2620
 TEXT1_SECTION_ADDRESS = 0x800056E0
 TEXT1_SECTION_SIZE = 0x332FA0
+TEXT2_SECTION_OFFSET = ORIGINAL_DOL_SIZE
+TEXT2_SECTION_ADDRESS = ORIGINAL_FREE_SPACE_RAM_ADDRESS
+TEXT2_SECTION_SIZE = None
+
 DATA4_SECTION_OFFSET = 0x335840
 DATA4_SECTION_ADDRESS = 0x80338840
 DATA4_SECTION_SIZE = 0x38D40
@@ -27,7 +31,7 @@ DATA5_SECTION_SIZE = 0x313E0
 
 def address_to_offset(address):
   # Takes an address in one of the sections of main.dol and converts it to an offset within main.dol.
-  # (Currently only supports the .text0, .text1, .data4, and .data5 sections.)
+  # (Currently only supports the .text0, .text1, .text2, .data4, and .data5 sections.)
   if TEXT0_SECTION_ADDRESS <= address < TEXT0_SECTION_ADDRESS+TEXT0_SECTION_SIZE:
     offset = address - TEXT0_SECTION_ADDRESS + TEXT0_SECTION_OFFSET
   elif TEXT1_SECTION_ADDRESS <= address < TEXT1_SECTION_ADDRESS+TEXT1_SECTION_SIZE:
@@ -36,6 +40,10 @@ def address_to_offset(address):
     offset = address - DATA4_SECTION_ADDRESS + DATA4_SECTION_OFFSET
   elif DATA5_SECTION_ADDRESS <= address < DATA5_SECTION_ADDRESS+DATA5_SECTION_SIZE:
     offset = address - DATA5_SECTION_ADDRESS + DATA5_SECTION_OFFSET
+  elif TEXT2_SECTION_ADDRESS <= address:
+    # Newly added .text2 section.
+    # We can't add error checking for the end of the section because it varies depending on the length of the patch.
+    offset = address - TEXT2_SECTION_ADDRESS + TEXT2_SECTION_OFFSET
   else:
     raise Exception("Unknown address: %08X" % address)
   return offset
