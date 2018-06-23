@@ -195,11 +195,39 @@ stb r4, 0 (r3) ; Max magic meter
 stb r4, 1 (r3) ; Current magic meter
 
 
+; Give the player the number of Triforce Shards they want to start with.
+lis r5, num_triforce_shards_to_start_with@ha
+addi r5, r5, num_triforce_shards_to_start_with@l
+lbz r5, 0 (r5) ; Load number of Triforce Shards to start with
+lis r3, 0x803C4CC6@ha ; Bitfield of Triforce Shards the player owns
+addi r3, r3, 0x803C4CC6@l
+; Convert the number of shards to a bitfield with that many bits set.
+; e.g. For 5 shards, ((1 << 5) - 1) results in 0x1F (binary 00011111).
+li r0, 1
+slw r4, r0, r5
+subi r4, r4, 1
+stb r4, 0 (r3) ; Store the bitfield of shards back
+; If the number of starting shards is 8, also set the event flag for seeing the Triforce refuse together.
+cmpwi r5, 8
+blt after_starting_triforce_shards
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x3D04 ; Saw the Triforce refuse
+bl onEventBit__11dSv_event_cFUs
+after_starting_triforce_shards:
+
+
 ; Function end stuff
 lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
 blr
+
+
+.global num_triforce_shards_to_start_with
+num_triforce_shards_to_start_with:
+.byte 0 ; By default start with no Triforce Shards
+.align 2 ; Align to the next 4 bytes
 
 
 
