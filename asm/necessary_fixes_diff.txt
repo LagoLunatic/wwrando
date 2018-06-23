@@ -155,3 +155,5 @@ files/rels/d_a_shop_item.rel:
   5784: [128, 63, 212, 240]
 files/rels/d_a_npc_tt.rel:
   3176: [56, 0, 0, 1]
+files/rels/d_a_st.rel:
+  23232: [72, 0, 0, 60]

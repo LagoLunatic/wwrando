@@ -743,3 +743,14 @@
   nop
   nop
 .close
+
+
+
+
+; Change Stalfos to be immune to Light Arrows.
+; This is because if you cut the Stalfos in half and then kill the upper body with Light Arrows, the lower body will never die, which can softlock the player in the room.
+.open "files/rels/d_a_st.rel"
+.org 0x5AC0
+  ; Make this branch unconditional so the code to die to Light Arrows is never run.
+  b 0x5AFC
+.close
