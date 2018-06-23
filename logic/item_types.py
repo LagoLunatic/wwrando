@@ -96,15 +96,15 @@ CONSUMABLE_ITEMS = \
    1 * ["Green Rupee"] + \
    2 * ["Blue Rupee"] + \
    4 * ["Yellow Rupee"] + \
-   8 * ["Red Rupee"] + \
-  11 * ["Purple Rupee"] + \
-  17 * ["Orange Rupee"] + \
-  27 * ["Silver Rupee"] + \
+   9 * ["Red Rupee"] + \
+  12 * ["Purple Rupee"] + \
+  18 * ["Orange Rupee"] + \
+  30 * ["Silver Rupee"] + \
   \
-   8 * ["Joy Pendant"] + \
-   8 * ["Skull Necklace"] + \
+   9 * ["Joy Pendant"] + \
+   9 * ["Skull Necklace"] + \
    1 * ["Boko Baba Seed"] + \
-   8 * ["Golden Feather"] + \
+   9 * ["Golden Feather"] + \
    3 * ["Knight's Crest"] + \
    1 * ["Red Chu Jelly"] + \
    1 * ["Green Chu Jelly"] + \
