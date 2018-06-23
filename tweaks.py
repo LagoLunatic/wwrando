@@ -943,3 +943,9 @@ def update_korl_dialogue(self):
   msg.string += "Make sure you explore every corner\n"
   msg.string += "in search of items to help you. Remember\n"
   msg.string += "that your quest is to defeat Ganondorf."
+
+def set_num_starting_triforce_shards(self):
+  num_starting_triforce_shards = int(self.options.get("num_starting_triforce_shards", 0))
+  num_shards_address = self.custom_symbols["num_triforce_shards_to_start_with"]
+  dol_data = self.get_raw_file("sys/main.dol")
+  write_u8(dol_data, address_to_offset(num_shards_address), num_starting_triforce_shards)

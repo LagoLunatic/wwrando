@@ -28,4 +28,6 @@ OPTIONS = OrderedDict([
   ("instant_text_boxes", "Text appears instantly.\nAlso, the B button is changed to instantly skip through text as long as you hold it down."),
   
   ("reveal_full_sea_chart", "Start the game with the sea chart fully drawn out."),
+  
+  ("num_starting_triforce_shards", "Change the number of Triforce Shards you start the game with.\nThe higher you set this, the fewer you will need to find placed randomly."),
 ])

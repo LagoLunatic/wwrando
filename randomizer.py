@@ -63,6 +63,11 @@ class Randomizer:
       "Hero's Shield",
       "Boat's Sail",
     ]
+    # Add starting Triforce Shards.
+    num_starting_triforce_shards = int(self.options.get("num_starting_triforce_shards", 0))
+    for i in range(num_starting_triforce_shards):
+      self.starting_items.append("Triforce Shard %d" % (i+1))
+    
     # Default dungeon entrances to be used if dungeon entrance randomizer is not on.
     self.dungeon_entrances = OrderedDict([
       ("Dungeon Entrance On Dragon Roost Island", "Dragon Roost Cavern"),
@@ -78,8 +83,10 @@ class Randomizer:
       ("Earth Temple", "Headstone Island"),
       ("Wind Temple", "Gale Isle"),
     ])
+    
     # Default starting island (Outset) if the starting island randomizer is not on.
     self.starting_island_index = 44
+    
     # Default charts for each island.
     self.island_number_to_chart_name = OrderedDict([
       (1, "Treasure Chart 25"),
@@ -216,6 +223,7 @@ class Randomizer:
     tweaks.fix_shop_item_y_offsets(self)
     tweaks.shorten_zephos_event(self)
     tweaks.update_korl_dialogue(self)
+    tweaks.set_num_starting_triforce_shards(self)
   
   def apply_necessary_post_randomization_tweaks(self):
     tweaks.update_shop_item_descriptions(self)
