@@ -2,6 +2,7 @@
 import yaml
 import re
 from collections import OrderedDict
+import copy
 
 import os
 
@@ -75,11 +76,13 @@ class Logic:
     self.unplaced_nonprogress_items = self.all_nonprogress_items.copy()
     self.unplaced_consumable_items = self.all_consumable_items.copy()
     
+    self.progress_item_groups = copy.deepcopy(self.PROGRESS_ITEM_GROUPS)
+    
     # Replace progress items that are part of a group with the group name instead.
-    for group_name, item_names in self.PROGRESS_ITEM_GROUPS.items():
+    for group_name, item_names in self.progress_item_groups.items():
       for item_name in item_names:
         self.unplaced_progress_items.remove(item_name)
-    self.unplaced_progress_items += self.PROGRESS_ITEM_GROUPS.keys()
+    self.unplaced_progress_items += self.progress_item_groups.keys()
     
     self.currently_owned_items = []
     
@@ -116,6 +119,16 @@ class Logic:
     
     for item_name in self.rando.starting_items:
       self.add_owned_item(item_name)
+    
+    for group_name, group_item_names in self.progress_item_groups.items():
+      items_to_remove_from_group = [
+        item_name for item_name in group_item_names
+        if item_name in self.rando.starting_items
+      ]
+      for item_name in items_to_remove_from_group:
+        self.progress_item_groups[group_name].remove(item_name)
+      if len(self.progress_item_groups[group_name]) == 0:
+        self.unplaced_progress_items.remove(group_name)
   
   def set_location_to_item(self, location_name, item_name):
     #print("Setting %s to %s" % (location_name, item_name))
@@ -129,7 +142,7 @@ class Logic:
     self.add_owned_item(item_name)
   
   def set_multiple_locations_to_group(self, available_locations, group_name):
-    items_in_group = self.PROGRESS_ITEM_GROUPS[group_name]
+    items_in_group = self.progress_item_groups[group_name]
     
     if len(available_locations) < len(items_in_group):
       raise Exception("Not enough locations to place all items in group %s" % group_name)
@@ -149,9 +162,9 @@ class Logic:
   def get_num_progression_items(self):
     num_progress_items = 0
     for item_name in self.unplaced_progress_items:
-      if item_name in self.PROGRESS_ITEM_GROUPS:
+      if item_name in self.progress_item_groups:
         group_name = item_name
-        for item_name in self.PROGRESS_ITEM_GROUPS[group_name]:
+        for item_name in self.progress_item_groups[group_name]:
           num_progress_items += 1
       else:
         num_progress_items += 1
@@ -223,17 +236,17 @@ class Logic:
       self.unplaced_consumable_items.append(item_name)
   
   def add_owned_item_or_item_group(self, item_name):
-    if item_name in self.PROGRESS_ITEM_GROUPS:
+    if item_name in self.progress_item_groups:
       group_name = item_name
-      for item_name in self.PROGRESS_ITEM_GROUPS[group_name]:
+      for item_name in self.progress_item_groups[group_name]:
         self.currently_owned_items.append(item_name)
     else:
       self.add_owned_item(item_name)
   
   def remove_owned_item_or_item_group(self, item_name):
-    if item_name in self.PROGRESS_ITEM_GROUPS:
+    if item_name in self.progress_item_groups:
       group_name = item_name
-      for item_name in self.PROGRESS_ITEM_GROUPS[group_name]:
+      for item_name in self.progress_item_groups[group_name]:
         self.currently_owned_items.remove(item_name)
     else:
       self.remove_owned_item(item_name)
@@ -363,9 +376,9 @@ class Logic:
     # Filters out items that cannot be in any of the given possible locations.
     valid_items = []
     for item_name in items:
-      if item_name in self.PROGRESS_ITEM_GROUPS:
+      if item_name in self.progress_item_groups:
         group_name = item_name
-        items_in_group = self.PROGRESS_ITEM_GROUPS[group_name]
+        items_in_group = self.progress_item_groups[group_name]
         if len(items_in_group) > len(locations):
           # Not enough locations to place all items in this group.
           continue

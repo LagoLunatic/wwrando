@@ -162,7 +162,7 @@ def randomize_progression_items(self):
     # If we wind up placing a useful item it can be a single item or a group.
     # But if we place an item that is not yet useful, we need to exclude groups.
     # This is so that a group doesn't wind up taking every single possible remaining location while not opening up new ones.
-    possible_items_when_not_placing_useful = [name for name in possible_items if name not in self.logic.PROGRESS_ITEM_GROUPS]
+    possible_items_when_not_placing_useful = [name for name in possible_items if name not in self.logic.progress_item_groups]
     # Only exception is when there's exclusively groups left to place. Then we allow groups even if they're not useful.
     if len(possible_items_when_not_placing_useful) == 0 and len(possible_items) > 0:
       possible_items_when_not_placing_useful = possible_items
@@ -179,7 +179,7 @@ def randomize_progression_items(self):
     else:
       item_name = self.rng.choice(possible_items_when_not_placing_useful)
     
-    if item_name in self.logic.PROGRESS_ITEM_GROUPS:
+    if item_name in self.logic.progress_item_groups:
       # If we're placing an entire item group, we use different logic for deciding the location.
       # We do not weight towards newly accessible locations.
       # And we have to select multiple different locations, one for each item in the group.
