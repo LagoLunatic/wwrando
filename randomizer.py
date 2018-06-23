@@ -437,8 +437,14 @@ class Randomizer:
     header += "Seed: %s\n" % self.seed
     
     header += "Options selected:\n  "
-    true_options = [name for name in self.options if self.options[name]]
-    header += ", ".join(true_options)
+    non_disabled_options = [name for name in self.options if self.options[name] != False]
+    option_strings = []
+    for option_name in non_disabled_options:
+      if isinstance(self.options[option_name], bool):
+        option_strings.append(option_name)
+      else:
+        option_strings.append("%s: %s" % (option_name, self.options[option_name]))
+    header += ", ".join(option_strings)
     header += "\n\n\n"
     
     return header

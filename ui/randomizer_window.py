@@ -34,7 +34,13 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.output_folder_browse_button.clicked.connect(self.browse_for_output_folder)
     
     for option_name in OPTIONS:
-      getattr(self.ui, option_name).clicked.connect(self.update_settings)
+      widget = getattr(self.ui, option_name)
+      if isinstance(widget, QAbstractButton):
+        widget.clicked.connect(self.update_settings)
+      elif isinstance(widget, QComboBox):
+        widget.currentIndexChanged.connect(self.update_settings)
+      else:
+        raise Exception("Option widget is invalid: %s" % option_name)
     
     self.ui.generate_seed_button.clicked.connect(self.generate_seed)
     
@@ -44,6 +50,9 @@ class WWRandomizerWindow(QMainWindow):
     
     for option_name in OPTIONS:
       getattr(self.ui, option_name).installEventFilter(self)
+      label_for_option = getattr(self.ui, "label_for_" + option_name, None)
+      if label_for_option:
+        label_for_option.installEventFilter(self)
     self.set_option_description(None)
     
     self.update_settings()
@@ -117,7 +126,7 @@ class WWRandomizerWindow(QMainWindow):
     
     options = OrderedDict()
     for option_name in OPTIONS:
-      options[option_name] = getattr(self.ui, option_name).isChecked()
+      options[option_name] = self.get_option_value(option_name)
     
     max_progress_val = 20
     self.progress_dialog = RandomizerProgressDialog("Randomizing", "Initializing...", max_progress_val)
@@ -169,17 +178,17 @@ class WWRandomizerWindow(QMainWindow):
   def preserve_default_settings(self):
     self.default_settings = OrderedDict()
     for option_name in OPTIONS:
-      self.default_settings[option_name] = getattr(self.ui, option_name).isChecked()
+      self.default_settings[option_name] = self.get_option_value(option_name)
   
   def reset_settings_to_default(self):
     any_setting_changed = False
     for option_name in OPTIONS:
       if option_name in self.default_settings:
         default_value = self.default_settings[option_name]
-        current_value = getattr(self.ui, option_name).isChecked()
+        current_value = self.get_option_value(option_name)
         if default_value != current_value:
           any_setting_changed = True
-        getattr(self.ui, option_name).setChecked(default_value)
+        self.set_option_value(option_name, default_value)
     
     self.update_settings()
     
@@ -208,7 +217,7 @@ class WWRandomizerWindow(QMainWindow):
     
     for option_name in OPTIONS:
       if option_name in self.settings:
-        getattr(self.ui, option_name).setChecked(self.settings[option_name])
+        self.set_option_value(option_name, self.settings[option_name])
   
   def save_settings(self):
     with open(self.settings_path, "w") as f:
@@ -220,7 +229,7 @@ class WWRandomizerWindow(QMainWindow):
     self.settings["seed"] = self.ui.seed.text()
     
     for option_name in OPTIONS:
-      self.settings[option_name] = getattr(self.ui, option_name).isChecked()
+      self.settings[option_name] = self.get_option_value(option_name)
     
     self.save_settings()
   
@@ -251,6 +260,10 @@ class WWRandomizerWindow(QMainWindow):
   def eventFilter(self, target, event):
     if event.type() == QEvent.Enter:
       option_name = target.objectName()
+      
+      if option_name.startswith("label_for_"):
+        option_name = option_name[len("label_for_"):]
+      
       if option_name in OPTIONS:
         self.set_option_description(OPTIONS[option_name])
       else:
@@ -261,6 +274,35 @@ class WWRandomizerWindow(QMainWindow):
       return True
     
     return QMainWindow.eventFilter(self, target, event)
+  
+  def get_option_value(self, option_name):
+    widget = getattr(self.ui, option_name)
+    if isinstance(widget, QAbstractButton):
+      return widget.isChecked()
+    elif isinstance(widget, QComboBox):
+      return widget.itemText(widget.currentIndex())
+    else:
+      print("Option widget is invalid: %s" % option_name)
+  
+  def set_option_value(self, option_name, new_value):
+    widget = getattr(self.ui, option_name)
+    if isinstance(widget, QAbstractButton):
+      widget.setChecked(new_value)
+    elif isinstance(widget, QComboBox):
+      index_of_value = None
+      for i in range(widget.count()):
+        text = widget.itemText(i)
+        if text == new_value:
+          index_of_value = i
+          break
+      
+      if index_of_value is None:
+        print("Cannot find value %s in combobox %s" % (new_value, option_name))
+        index_of_value = 0
+      
+      widget.setCurrentIndex(index_of_value)
+    else:
+      print("Option widget is invalid: %s" % option_name)
   
   def set_option_description(self, new_description):
     if new_description is None:
