@@ -1711,8 +1711,7 @@ The Great Sea - Withered Trees:
   Paths:
     - rels/d_a_obj_ftree.rel@0237
     - rels/d_a_obj_ftree.rel@03F3
-
-Ghost Ship - Chest:
+The Great Sea - Ghost Ship:
   Need: Ghost Ship Chart & Can Play Ballad of Gales
   Original item: Triforce Chart 4
   Types: Other Chest
