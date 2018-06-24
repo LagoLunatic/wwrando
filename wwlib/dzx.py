@@ -47,6 +47,18 @@ class DZx: # DZR or DZS, same format
     
     return entity
   
+  def remove_entity(self, entity, chunk_type, layer=None):
+    chunk_to_remove_entity_from = None
+    for chunk in self.chunks:
+      if chunk_type == chunk.chunk_type and layer == chunk.layer:
+        chunk_to_remove_entity_from = chunk
+        break
+    
+    if chunk_to_remove_entity_from is None:
+      raise Exception("Could not find chunk of type %s on layer %s" % (chunk_type, layer))
+    
+    chunk_to_remove_entity_from.entries.remove(entity)
+  
   def save_changes(self):
     data = self.file_entry.data
     data.truncate(0)
