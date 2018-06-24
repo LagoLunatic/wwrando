@@ -134,7 +134,6 @@ def change_ship_starting_island(self, starting_island_room_index):
   ship_actor.x_pos = island_ship_spawn_0.x_pos
   ship_actor.y_pos = island_ship_spawn_0.y_pos
   ship_actor.z_pos = island_ship_spawn_0.z_pos
-  ship_actor.x_rot = 0
   ship_actor.y_rot = island_ship_spawn_0.y_rot
   ship_actor.save_changes()
 
@@ -422,9 +421,9 @@ def add_ganons_tower_warp_to_ff2(self):
   layer_1_warp.x_pos = layer_2_warp.x_pos
   layer_1_warp.y_pos = layer_2_warp.y_pos
   layer_1_warp.z_pos = layer_2_warp.z_pos
-  layer_1_warp.x_rot = layer_2_warp.x_rot
+  layer_1_warp.auxilary_param = layer_2_warp.auxilary_param
   layer_1_warp.y_rot = layer_2_warp.y_rot
-  layer_1_warp.set_flag = layer_2_warp.set_flag
+  layer_1_warp.auxilary_param_2 = layer_2_warp.auxilary_param_2
   layer_1_warp.enemy_number = layer_2_warp.enemy_number
   
   dzx.save_changes()

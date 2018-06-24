@@ -379,9 +379,9 @@ class ACTR(ChunkEntry):
     self.x_pos = 0
     self.y_pos = 0
     self.z_pos = 0
-    self.x_rot = 0
+    self.auxilary_param = 0
     self.y_rot = 0
-    self.set_flag = 0
+    self.auxilary_param_2 = 0
     self.enemy_number = 0xFFFF
   
   def read(self, offset):
@@ -395,10 +395,12 @@ class ACTR(ChunkEntry):
     self.x_pos = read_float(data, offset + 0x0C)
     self.y_pos = read_float(data, offset + 0x10)
     self.z_pos = read_float(data, offset + 0x14)
-    self.x_rot = read_u16(data, offset + 0x18)
+    
+    self.auxilary_param = read_u16(data, offset + 0x18)
+    
     self.y_rot = read_u16(data, offset + 0x1A)
     
-    self.set_flag = read_u16(data, offset + 0x1C)
+    self.auxilary_param_2 = read_u16(data, offset + 0x1C)
     self.enemy_number = read_u16(data, offset + 0x1E)
   
   def save_changes(self):
@@ -411,10 +413,12 @@ class ACTR(ChunkEntry):
     write_float(data, self.offset+0x0C, self.x_pos)
     write_float(data, self.offset+0x10, self.y_pos)
     write_float(data, self.offset+0x14, self.z_pos)
-    write_u16(data, self.offset+0x18, self.x_rot)
+    
+    write_u16(data, self.offset+0x18, self.auxilary_param)
+    
     write_u16(data, self.offset+0x1A, self.y_rot)
     
-    write_u16(data, self.offset+0x1C, self.set_flag)
+    write_u16(data, self.offset+0x1C, self.auxilary_param_2)
     write_u16(data, self.offset+0x1E, self.enemy_number)
   
   def is_item(self):
