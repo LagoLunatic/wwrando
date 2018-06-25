@@ -580,16 +580,16 @@ Dragon Roost Cavern - Under Rope Bridge:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest009
-Dragon Roost Cavern - Tingle Statue Chest:
-  Need:
-    Can Access Dragon Roost Cavern
-    & DRC Small Key x4
-    & Grappling Hook
-    & Tingle Tuner Bombs
-  Original item: Dragon Tingle Statue
-  Types: Tingle Statue Chest, Dungeon
-  Paths:
-    - M_NewD2/Stage.arc/Chest00C
+#Dragon Roost Cavern - Tingle Statue Chest:
+#  Need:
+#    Can Access Dragon Roost Cavern
+#    & DRC Small Key x4
+#    & Grappling Hook
+#    & Tingle Tuner Bombs
+#  Original item: Dragon Tingle Statue
+#  Types: Tingle Statue Chest, Dungeon
+#  Paths:
+#    - M_NewD2/Stage.arc/Chest00C
 Dragon Roost Cavern - Big Key Chest:
   Need:
     Can Access Dragon Roost Cavern
@@ -766,17 +766,17 @@ Forbidden Woods - Chest Across Red Hanging Flower:
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest00D
-Forbidden Woods - Tingle Statue Chest:
-  Need:
-    Can Access Forbidden Woods
-    & Deku Leaf
-    & Grappling Hook
-    & Boomerang
-    & Tingle Tuner Bombs
-  Original item: Forbidden Tingle Statue
-  Types: Tingle Statue Chest, Dungeon
-  Paths:
-    - kindan/Stage.arc/Chest00E
+#Forbidden Woods - Tingle Statue Chest:
+#  Need:
+#    Can Access Forbidden Woods
+#    & Deku Leaf
+#    & Grappling Hook
+#    & Boomerang
+#    & Tingle Tuner Bombs
+#  Original item: Forbidden Tingle Statue
+#  Types: Tingle Statue Chest, Dungeon
+#  Paths:
+#    - kindan/Stage.arc/Chest00E
 Forbidden Woods - Chest in Locked Tree Trunk:
   Need:
     Can Access Forbidden Woods
@@ -876,17 +876,17 @@ Tower of the Gods - Shoot Eye Above Compass Chest:
   Types: Dungeon
   Paths:
     - Siren/Stage.arc/Chest006
-Tower of the Gods - Tingle Statue Chest:
-  Need:
-    Can Access Tower of the Gods
-    & Bombs
-    & TotG Small Key x1
-    & Can Defeat Yellow ChuChus
-    & Tingle Tuner Bombs
-  Original item: Goddess Tingle Statue
-  Types: Tingle Statue Chest, Dungeon
-  Paths:
-    - Siren/Stage.arc/Chest00A
+#Tower of the Gods - Tingle Statue Chest:
+#  Need:
+#    Can Access Tower of the Gods
+#    & Bombs
+#    & TotG Small Key x1
+#    & Can Defeat Yellow ChuChus
+#    & Tingle Tuner Bombs
+#  Original item: Goddess Tingle Statue
+#  Types: Tingle Statue Chest, Dungeon
+#  Paths:
+#    - Siren/Stage.arc/Chest00A
 Tower of the Gods - Stone Tablet:
   Need:
     Can Access Tower of the Gods
@@ -1244,17 +1244,17 @@ Earth Temple - Chest Behind Destructible Walls:
   Types: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest00A
-Earth Temple - Tingle Statue Chest:
-  Need:
-    Can Access Earth Temple
-    & Can Play Command Melody
-    & Mirror Shield
-    & Deku Leaf
-    & Tingle Tuner Bombs
-  Original item: Earth Tingle Statue
-  Types: Tingle Statue Chest, Dungeon
-  Paths:
-    - M_Dai/Stage.arc/Chest00D
+#Earth Temple - Tingle Statue Chest:
+#  Need:
+#    Can Access Earth Temple
+#    & Can Play Command Melody
+#    & Mirror Shield
+#    & Deku Leaf
+#    & Tingle Tuner Bombs
+#  Original item: Earth Tingle Statue
+#  Types: Tingle Statue Chest, Dungeon
+#  Paths:
+#    - M_Dai/Stage.arc/Chest00D
 Earth Temple - End of Foggy Room With Floormasters:
   Need:
     Can Access Earth Temple
@@ -1396,17 +1396,17 @@ Wind Temple - Chest Between Two Dirt Patches:
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest005
-Wind Temple - Tingle Statue Chest:
-  Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Deku Leaf
-    & Tingle Tuner Bombs
-  Original item: Wind Tingle Statue
-  Types: Tingle Statue Chest, Dungeon
-  Paths:
-    - kaze/Stage.arc/Chest00C
+#Wind Temple - Tingle Statue Chest:
+#  Need:
+#    Can Access Wind Temple
+#    & Can Play Command Melody
+#    & Iron Boots
+#    & Deku Leaf
+#    & Tingle Tuner Bombs
+#  Original item: Wind Tingle Statue
+#  Types: Tingle Statue Chest, Dungeon
+#  Paths:
+#    - kaze/Stage.arc/Chest00C
 Wind Temple - Chest in Left Alcove:
   Need:
     Can Access Wind Temple

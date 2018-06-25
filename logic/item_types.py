@@ -57,18 +57,19 @@ NONPROGRESS_ITEMS = [
   "Telescope",
   "Magic Armor",
   "Hero's Charm",
-
+  
   "Complimentary ID",
   "Fill-Up Coupon",
-
-  "Dragon Tingle Statue",
-  "Forbidden Tingle Statue",
-  "Goddess Tingle Statue",
-  "Earth Tingle Statue",
-  "Wind Tingle Statue",
-
+  
+  # Tingle statues don't randomize properly, they don't count as owned if you find them in a random place.
+  #"Dragon Tingle Statue",
+  #"Forbidden Tingle Statue",
+  #"Goddess Tingle Statue",
+  #"Earth Tingle Statue",
+  #"Wind Tingle Statue",
+  
   "Hurricane Spin",
-
+  
   "Progressive Bomb Bag",
   "Progressive Bomb Bag",
   "Progressive Quiver",
