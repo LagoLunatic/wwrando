@@ -877,6 +877,9 @@ def update_fishmen_hints(self):
     if item_name in unique_items_given_hint_for:
       # Don't give hints for 2 instances of the same item (e.g. empty bottle, progressive bow, etc).
       continue
+    if item_name not in self.progress_item_hints:
+      # Charts and dungeon items don't have hints
+      continue
     if len(hints) >= 3:
       # 3 hints max per seed.
       break
