@@ -389,6 +389,7 @@ class Randomizer:
     
     logic = Logic(self)
     previously_accessible_locations = []
+    game_beatable = False
     while logic.unplaced_progress_items:
       progress_items_in_this_sphere = OrderedDict()
       
@@ -427,9 +428,16 @@ class Randomizer:
         if item_name in logic.all_progress_items:
           progress_items_in_this_sphere[location_name] = item_name
       
+      if not game_beatable:
+        game_beatable = logic.check_requirement_met("Can Reach and Defeat Ganondorf")
+        if game_beatable:
+          progress_items_in_this_sphere["Ganon's Tower - Rooftop"] = "Defeat Ganondorf"
+      
       progression_spheres.append(progress_items_in_this_sphere)
       
       for location_name, item_name in progress_items_in_this_sphere.items():
+        if item_name == "Defeat Ganondorf":
+          continue
         logic.add_owned_item(item_name)
       for group_name, item_names in logic.progress_item_groups.items():
         entire_group_is_owned = all(item_name in logic.currently_owned_items for item_name in item_names)
@@ -437,6 +445,13 @@ class Randomizer:
           logic.unplaced_progress_items.remove(group_name)
       
       previously_accessible_locations = accessible_locations
+    
+    if not game_beatable:
+      # If the game wasn't already beatable on a previous progression sphere we add one final one just for this.
+      final_progression_sphere = OrderedDict([
+        ("Ganon's Tower - Rooftop", "Defeat Ganondorf"),
+      ])
+      progression_spheres.append(final_progression_sphere)
     
     return progression_spheres
   
@@ -538,7 +553,10 @@ class Randomizer:
         
         for (location_name, specific_location_name) in locations_in_zone:
           if location_name in progression_sphere:
-            item_name = self.logic.done_item_locations[location_name]
+            if location_name == "Ganon's Tower - Rooftop":
+              item_name = "Defeat Ganondorf"
+            else:
+              item_name = self.logic.done_item_locations[location_name]
             spoiler_log += format_string % (specific_location_name + ":", item_name)
       
     spoiler_log += "\n\n\n"
