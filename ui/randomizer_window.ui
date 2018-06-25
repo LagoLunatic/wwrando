@@ -446,6 +446,41 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>clean_iso_path</tabstop>
+  <tabstop>clean_iso_path_browse_button</tabstop>
+  <tabstop>output_folder</tabstop>
+  <tabstop>output_folder_browse_button</tabstop>
+  <tabstop>seed</tabstop>
+  <tabstop>generate_seed_button</tabstop>
+  <tabstop>progression_dungeons</tabstop>
+  <tabstop>progression_secret_caves</tabstop>
+  <tabstop>progression_sidequests</tabstop>
+  <tabstop>progression_minigames</tabstop>
+  <tabstop>progression_platforms_rafts</tabstop>
+  <tabstop>progression_submarines</tabstop>
+  <tabstop>progression_eye_reef_chests</tabstop>
+  <tabstop>progression_big_octos_gunboats</tabstop>
+  <tabstop>progression_triforce_charts</tabstop>
+  <tabstop>progression_treasure_charts</tabstop>
+  <tabstop>progression_gifts</tabstop>
+  <tabstop>progression_mail</tabstop>
+  <tabstop>progression_expensive_purchases</tabstop>
+  <tabstop>progression_misc</tabstop>
+  <tabstop>keylunacy</tabstop>
+  <tabstop>randomize_dungeon_entrances</tabstop>
+  <tabstop>randomize_charts</tabstop>
+  <tabstop>randomize_starting_island</tabstop>
+  <tabstop>swift_sail</tabstop>
+  <tabstop>instant_text_boxes</tabstop>
+  <tabstop>reveal_full_sea_chart</tabstop>
+  <tabstop>num_starting_triforce_shards</tabstop>
+  <tabstop>add_shortcut_warps_between_dungeons</tabstop>
+  <tabstop>permalink</tabstop>
+  <tabstop>about_button</tabstop>
+  <tabstop>reset_settings_to_default</tabstop>
+  <tabstop>randomize_button</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

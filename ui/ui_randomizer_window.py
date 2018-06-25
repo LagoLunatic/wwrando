@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Mon Jun 25 16:50:53 2018
+# Created: Mon Jun 25 16:54:11 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -201,6 +201,38 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        MainWindow.setTabOrder(self.clean_iso_path, self.clean_iso_path_browse_button)
+        MainWindow.setTabOrder(self.clean_iso_path_browse_button, self.output_folder)
+        MainWindow.setTabOrder(self.output_folder, self.output_folder_browse_button)
+        MainWindow.setTabOrder(self.output_folder_browse_button, self.seed)
+        MainWindow.setTabOrder(self.seed, self.generate_seed_button)
+        MainWindow.setTabOrder(self.generate_seed_button, self.progression_dungeons)
+        MainWindow.setTabOrder(self.progression_dungeons, self.progression_secret_caves)
+        MainWindow.setTabOrder(self.progression_secret_caves, self.progression_sidequests)
+        MainWindow.setTabOrder(self.progression_sidequests, self.progression_minigames)
+        MainWindow.setTabOrder(self.progression_minigames, self.progression_platforms_rafts)
+        MainWindow.setTabOrder(self.progression_platforms_rafts, self.progression_submarines)
+        MainWindow.setTabOrder(self.progression_submarines, self.progression_eye_reef_chests)
+        MainWindow.setTabOrder(self.progression_eye_reef_chests, self.progression_big_octos_gunboats)
+        MainWindow.setTabOrder(self.progression_big_octos_gunboats, self.progression_triforce_charts)
+        MainWindow.setTabOrder(self.progression_triforce_charts, self.progression_treasure_charts)
+        MainWindow.setTabOrder(self.progression_treasure_charts, self.progression_gifts)
+        MainWindow.setTabOrder(self.progression_gifts, self.progression_mail)
+        MainWindow.setTabOrder(self.progression_mail, self.progression_expensive_purchases)
+        MainWindow.setTabOrder(self.progression_expensive_purchases, self.progression_misc)
+        MainWindow.setTabOrder(self.progression_misc, self.keylunacy)
+        MainWindow.setTabOrder(self.keylunacy, self.randomize_dungeon_entrances)
+        MainWindow.setTabOrder(self.randomize_dungeon_entrances, self.randomize_charts)
+        MainWindow.setTabOrder(self.randomize_charts, self.randomize_starting_island)
+        MainWindow.setTabOrder(self.randomize_starting_island, self.swift_sail)
+        MainWindow.setTabOrder(self.swift_sail, self.instant_text_boxes)
+        MainWindow.setTabOrder(self.instant_text_boxes, self.reveal_full_sea_chart)
+        MainWindow.setTabOrder(self.reveal_full_sea_chart, self.num_starting_triforce_shards)
+        MainWindow.setTabOrder(self.num_starting_triforce_shards, self.add_shortcut_warps_between_dungeons)
+        MainWindow.setTabOrder(self.add_shortcut_warps_between_dungeons, self.permalink)
+        MainWindow.setTabOrder(self.permalink, self.about_button)
+        MainWindow.setTabOrder(self.about_button, self.reset_settings_to_default)
+        MainWindow.setTabOrder(self.reset_settings_to_default, self.randomize_button)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Wind Waker Randomizer", None, QtGui.QApplication.UnicodeUTF8))
