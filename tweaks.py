@@ -755,7 +755,9 @@ def fix_shop_item_y_offsets(self):
     display_data_offset = shop_item_display_data_list_start + item_id*0x20
     y_offset = read_float(dol_data, display_data_offset+0x10)
     
-    if y_offset == 0:
+    if y_offset == 0 and item_id not in [0x10, 0x11, 0x12]:
+      # If the item didn't originally have a Y offset we need to give it one so it's not sunken into the pedestal.
+      # Only exception are for items 10 11 and 12 - arrow refill pickups. Those have no Y offset but look fine already.
       new_y_offset = 20.0
       write_float(dol_data, display_data_offset+0x10, new_y_offset)
 
