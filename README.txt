@@ -3,7 +3,7 @@
 
 This is a randomizer for The Legend of Zelda: The Wind Waker (North American Gamecube version).
 It randomizes all the items in the game so that each playthrough is unique and you never know where a particular item will be.
-It also makes the game completely open world from the start, and removes most cutscenes from the game.
+It also makes the game completely open world from the start, removes most cutscenes from the game, and increases sailing speed and text speed.
 
 Download it here: https://github.com/LagoLunatic/wwrando/releases/latest
 
@@ -26,7 +26,7 @@ The randomizer was created by LagoLunatic, with help from:
 MelonSpeedruns (game design, graphic design)
 Hypatia (textures)
 
-### Running from source
+### Running the randomizer from source
 
 If you want to run the latest development/beta version of the randomizer from source, follow these instructions:
 * Clone this repository in git by running this in a command prompt: git clone https://github.com/LagoLunatic/wwrando.git
