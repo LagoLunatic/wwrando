@@ -94,6 +94,7 @@ class DZx: # DZR or DZS, same format
         
         # Assign offsets for RTBL sub entry adjacent rooms.
         for rtbl_entry in chunk.entries:
+          rtbl_entry.sub_entry.adjacent_rooms_list_offset = offset
           for adjacent_room in rtbl_entry.sub_entry.adjacent_rooms:
             adjacent_room.offset = offset
             offset += adjacent_room.DATA_SIZE
@@ -447,6 +448,22 @@ class PLYR(ChunkEntry):
   
   def __init__(self, file_entry):
     self.file_entry = file_entry
+    
+    self.name = "Link"
+    self.event_index = 0xFF
+    self.unknown1 = 0xFF
+    self.spawn_type = 0
+    self.room_num = 0
+    
+    self.x_pos = 0
+    self.y_pos = 0
+    self.z_pos = 0
+    self.unknown2 = 0
+    self.y_rot = 0
+    
+    self.unknown3 = 0xFF
+    self.spawn_id = 0
+    self.unknown4 = 0xFFFF
   
   def read(self, offset):
     self.offset = offset
@@ -494,6 +511,12 @@ class SCLS(ChunkEntry):
   
   def __init__(self, file_entry):
     self.file_entry = file_entry
+    
+    self.dest_stage_name = ""
+    self.spawn_id = 0
+    self.room_index = 0
+    self.fade_type = 0
+    self.padding = 0xFF
   
   def read(self, offset):
     self.offset = offset
@@ -621,11 +644,11 @@ class RTBL_SubEntry:
     self.does_time_pass = read_u8(data, offset+2)
     self.unknown = read_u8(data, offset+3)
     
-    adjacent_rooms_list_offset = read_u32(data, offset+4)
+    self.adjacent_rooms_list_offset = read_u32(data, offset+4)
     self.adjacent_rooms = []
     for i in range(num_rooms):
       adjacent_room = RTBL_AdjacentRoom(self.file_entry)
-      adjacent_room.read(adjacent_rooms_list_offset + i)
+      adjacent_room.read(self.adjacent_rooms_list_offset + i)
       self.adjacent_rooms.append(adjacent_room)
   
   def save_changes(self):
@@ -637,8 +660,7 @@ class RTBL_SubEntry:
     write_u8(data, self.offset+2, self.does_time_pass)
     write_u8(data, self.offset+3, self.unknown)
     
-    adjacent_rooms_list_offset = self.adjacent_rooms[0].offset
-    write_u32(data, self.offset+4, adjacent_rooms_list_offset)
+    write_u32(data, self.offset+4, self.adjacent_rooms_list_offset)
     
     for adjacent_room in self.adjacent_rooms:
       adjacent_room.save_changes()
@@ -845,3 +867,9 @@ class LGHT(DummyEntry):
 
 class LGTV(DummyEntry):
   DATA_SIZE = 0x1C
+
+class MECO(DummyEntry):
+  DATA_SIZE = 0x2
+
+class MEMA(DummyEntry):
+  DATA_SIZE = 0x4
