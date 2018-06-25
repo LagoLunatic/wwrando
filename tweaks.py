@@ -976,7 +976,8 @@ def add_pirate_ship_to_windfall(self):
   
   # Remove Niko to get rid of his events.
   ship_dzx = self.get_arc("files/res/Stage/Asoko/Room0.arc").dzx_files[0]
-  ship_layer_2_actors = ship_dzx.entries_by_type_and_layer("ACTR", 2)
-  niko = next(x for x in ship_layer_2_actors if x.name == "P2b")
-  ship_dzx.remove_entity(niko, "ACTR", layer=2)
-  ship_dzx.save_changes()
+  for layer_num in [2, 3]:
+    ship_actors_on_this_layer = ship_dzx.entries_by_type_and_layer("ACTR", layer_num)
+    niko = next(x for x in ship_actors_on_this_layer if x.name == "P2b")
+    ship_dzx.remove_entity(niko, "ACTR", layer=layer_num)
+    ship_dzx.save_changes()
