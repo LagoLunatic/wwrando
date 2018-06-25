@@ -360,6 +360,12 @@ class ACTR(ChunkEntry):
     "pot_item_flag": 0x007F0000,
     
     "pirate_ship_door_type": 0x0000FF00,
+    
+    "warp_pot_type":            0x0000000F,
+    "warp_pot_event_reg_index": 0x000000F0,
+    "warp_pot_dest_1":          0x0000FF00,
+    "warp_pot_dest_2":          0x00FF0000,
+    "warp_pot_dest_3":          0xFF000000,
   }
   
   ITEM_NAMES = [

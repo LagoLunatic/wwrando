@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>637</height>
+    <height>646</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -241,6 +241,16 @@
        <string>Convenience Tweaks</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="reveal_full_sea_chart">
+         <property name="text">
+          <string>Reveal Full Sea Chart</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0">
         <widget class="QCheckBox" name="swift_sail">
          <property name="text">
@@ -255,16 +265,6 @@
         <widget class="QCheckBox" name="instant_text_boxes">
          <property name="text">
           <string>Instant Text Boxes</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QCheckBox" name="reveal_full_sea_chart">
-         <property name="text">
-          <string>Reveal Full Sea Chart</string>
          </property>
          <property name="checked">
           <bool>true</bool>
@@ -345,6 +345,13 @@
           <widget class="QWidget" name="widget" native="true"/>
          </item>
         </layout>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="add_shortcut_warps_between_dungeons">
+         <property name="text">
+          <string>Add Shortcut Warps Between Dungeons</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

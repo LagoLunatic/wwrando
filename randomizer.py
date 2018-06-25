@@ -164,6 +164,8 @@ class Randomizer:
         tweaks.make_all_text_instant(self)
       if self.options.get("reveal_full_sea_chart"):
         tweaks.apply_patch(self, "reveal_sea_chart")
+      if self.options.get("add_shortcut_warps_between_dungeons"):
+        tweaks.add_inter_dungeon_warp_pots(self)
     
     options_completed += 1
     yield("Randomizing...", options_completed)

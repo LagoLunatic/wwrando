@@ -30,4 +30,6 @@ OPTIONS = OrderedDict([
   ("reveal_full_sea_chart", "Start the game with the sea chart fully drawn out."),
   
   ("num_starting_triforce_shards", "Change the number of Triforce Shards you start the game with.<br>The higher you set this, the fewer you will need to find placed randomly."),
+  
+  ("add_shortcut_warps_between_dungeons", "Adds new warp pots that act as shortcuts connecting dungeons to each other directly."),
 ])

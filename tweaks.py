@@ -3,6 +3,7 @@ import re
 import yaml
 import os
 from io import BytesIO
+from collections import namedtuple
 
 from fs_helpers import *
 from wwlib import texture_utils
@@ -981,3 +982,76 @@ def add_pirate_ship_to_windfall(self):
     niko = next(x for x in ship_actors_on_this_layer if x.name == "P2b")
     ship_dzx.remove_entity(niko, "ACTR", layer=layer_num)
     ship_dzx.save_changes()
+
+WarpPotData = namedtuple("WarpPotData", 'stage_name room_num x y z y_rot event_reg_index')
+INTER_DUNGEON_WARP_DATA = [
+  [
+    WarpPotData("M_NewD2", 2, 2178, 0, 488, 0x8000, 2), # DRC
+    WarpPotData("kindan", 1, 986, 3956.43, 9588, 0xB929, 2), # FW
+    WarpPotData("Siren", 6, 277, 229.42, -6669, 0xC000, 2), # TotG
+  ],
+  [
+    WarpPotData("ma2room", 2, 1556, 728.46, -7091, 0xEAA6, 5), # FF
+    WarpPotData("M_Dai", 3, -358, 0, -778, 0x4000, 5), # ET
+    WarpPotData("kaze", 3, -4333, 1100, 48, 0x4000, 5), # WT
+  ],
+]
+
+def add_inter_dungeon_warp_pots(self):
+  for warp_pot_datas_in_this_cycle in INTER_DUNGEON_WARP_DATA:
+    for warp_pot_index, warp_pot_data in enumerate(warp_pot_datas_in_this_cycle):
+      room_arc_path = "files/res/Stage/%s/Room%d.arc" % (warp_pot_data.stage_name, warp_pot_data.room_num)
+      stage_arc_path = "files/res/Stage/%s/Stage.arc" % warp_pot_data.stage_name
+      room_dzx = self.get_arc(room_arc_path).dzx_files[0]
+      stage_dzx = self.get_arc(stage_arc_path).dzx_files[0]
+      
+      # Add new player spawn locations.
+      if warp_pot_data.stage_name in ["M_Dai", "kaze"]:
+        # Earth and Wind temple spawns must be in the stage instead of the room or the game will crash. Not sure why.
+        dzx_for_spawn = stage_dzx
+      else:
+        dzx_for_spawn = room_dzx
+      spawn = dzx_for_spawn.add_entity("PLYR", layer=None)
+      spawn.spawn_type = 112 # Flying out of a warp pot
+      spawn.room_num = warp_pot_data.room_num
+      spawn.x_pos = warp_pot_data.x
+      spawn.y_pos = warp_pot_data.y
+      spawn.z_pos = warp_pot_data.z
+      spawn.y_rot = warp_pot_data.y_rot
+      spawn.spawn_id = 69
+      
+      # Ensure there wasn't already a spawn using the ID we chose, just to be safe.
+      spawns = dzx_for_spawn.entries_by_type("PLYR")
+      spawn_type_69 = [x for x in spawns if x.spawn_id == 69]
+      assert len(spawn_type_69) == 1
+      
+      # Add new exits.
+      for other_warp_pot_data in warp_pot_datas_in_this_cycle:
+        scls_exit = room_dzx.add_entity("SCLS", layer=None)
+        scls_exit.dest_stage_name = other_warp_pot_data.stage_name
+        scls_exit.spawn_id = 69
+        scls_exit.room_index = other_warp_pot_data.room_num
+        scls_exit.fade_type = 4 # Warp pot fade out
+      
+      all_scls_exits = room_dzx.entries_by_type_and_layer("SCLS", None)
+      scls_exit_index_1 = len(all_scls_exits)-3
+      scls_exit_index_2 = len(all_scls_exits)-2
+      scls_exit_index_3 = len(all_scls_exits)-1
+      
+      # Add the warp pots themselves.
+      warp_pot = room_dzx.add_entity("ACTR", layer=None)
+      warp_pot.name = "Warpts%d" % (warp_pot_index+1) # Warpts1 Warpts2 or Warpts3
+      warp_pot.warp_pot_type = warp_pot_index + 2 # 2 3 or 4
+      warp_pot.warp_pot_event_reg_index = warp_pot_data.event_reg_index
+      warp_pot.warp_pot_dest_1 = scls_exit_index_1
+      warp_pot.warp_pot_dest_2 = scls_exit_index_2
+      warp_pot.warp_pot_dest_3 = scls_exit_index_3
+      warp_pot.x_pos = warp_pot_data.x
+      warp_pot.y_pos = warp_pot_data.y
+      warp_pot.z_pos = warp_pot_data.z
+      warp_pot.y_rot = warp_pot_data.y_rot
+      warp_pot.auxilary_param = 0xFFFF
+      warp_pot.auxilary_param_2 = 0xFFFF
+      
+      room_dzx.save_changes()
+      stage_dzx.save_changes()

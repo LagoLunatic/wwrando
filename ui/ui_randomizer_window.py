@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Fri Jun 22 22:54:41 2018
+# Created: Mon Jun 25 12:10:45 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 637)
+        MainWindow.resize(800, 646)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtGui.QVBoxLayout(self.centralwidget)
@@ -122,6 +122,10 @@ class Ui_MainWindow(object):
         self.groupBox_2.setObjectName("groupBox_2")
         self.gridLayout_4 = QtGui.QGridLayout(self.groupBox_2)
         self.gridLayout_4.setObjectName("gridLayout_4")
+        self.reveal_full_sea_chart = QtGui.QCheckBox(self.groupBox_2)
+        self.reveal_full_sea_chart.setChecked(True)
+        self.reveal_full_sea_chart.setObjectName("reveal_full_sea_chart")
+        self.gridLayout_4.addWidget(self.reveal_full_sea_chart, 1, 0, 1, 1)
         self.swift_sail = QtGui.QCheckBox(self.groupBox_2)
         self.swift_sail.setChecked(True)
         self.swift_sail.setObjectName("swift_sail")
@@ -130,10 +134,6 @@ class Ui_MainWindow(object):
         self.instant_text_boxes.setChecked(True)
         self.instant_text_boxes.setObjectName("instant_text_boxes")
         self.gridLayout_4.addWidget(self.instant_text_boxes, 0, 1, 1, 1)
-        self.reveal_full_sea_chart = QtGui.QCheckBox(self.groupBox_2)
-        self.reveal_full_sea_chart.setChecked(True)
-        self.reveal_full_sea_chart.setObjectName("reveal_full_sea_chart")
-        self.gridLayout_4.addWidget(self.reveal_full_sea_chart, 1, 0, 1, 1)
         self.horizontalLayout_2 = QtGui.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.label_for_num_starting_triforce_shards = QtGui.QLabel(self.groupBox_2)
@@ -161,6 +161,9 @@ class Ui_MainWindow(object):
         self.widget.setObjectName("widget")
         self.horizontalLayout_2.addWidget(self.widget)
         self.gridLayout_4.addLayout(self.horizontalLayout_2, 1, 1, 1, 1)
+        self.add_shortcut_warps_between_dungeons = QtGui.QCheckBox(self.groupBox_2)
+        self.add_shortcut_warps_between_dungeons.setObjectName("add_shortcut_warps_between_dungeons")
+        self.gridLayout_4.addWidget(self.add_shortcut_warps_between_dungeons, 2, 0, 1, 1)
         self.verticalLayout.addWidget(self.groupBox_2)
         self.option_description = QtGui.QLabel(self.centralwidget)
         self.option_description.setMinimumSize(QtCore.QSize(0, 32))
@@ -219,9 +222,9 @@ class Ui_MainWindow(object):
         self.randomize_charts.setText(QtGui.QApplication.translate("MainWindow", "Randomize Charts", None, QtGui.QApplication.UnicodeUTF8))
         self.randomize_starting_island.setText(QtGui.QApplication.translate("MainWindow", "Randomize Starting Island", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_2.setTitle(QtGui.QApplication.translate("MainWindow", "Convenience Tweaks", None, QtGui.QApplication.UnicodeUTF8))
+        self.reveal_full_sea_chart.setText(QtGui.QApplication.translate("MainWindow", "Reveal Full Sea Chart", None, QtGui.QApplication.UnicodeUTF8))
         self.swift_sail.setText(QtGui.QApplication.translate("MainWindow", "Swift Sail", None, QtGui.QApplication.UnicodeUTF8))
         self.instant_text_boxes.setText(QtGui.QApplication.translate("MainWindow", "Instant Text Boxes", None, QtGui.QApplication.UnicodeUTF8))
-        self.reveal_full_sea_chart.setText(QtGui.QApplication.translate("MainWindow", "Reveal Full Sea Chart", None, QtGui.QApplication.UnicodeUTF8))
         self.label_for_num_starting_triforce_shards.setText(QtGui.QApplication.translate("MainWindow", "Triforce Shards to Start With:", None, QtGui.QApplication.UnicodeUTF8))
         self.num_starting_triforce_shards.setItemText(0, QtGui.QApplication.translate("MainWindow", "0", None, QtGui.QApplication.UnicodeUTF8))
         self.num_starting_triforce_shards.setItemText(1, QtGui.QApplication.translate("MainWindow", "1", None, QtGui.QApplication.UnicodeUTF8))
@@ -232,6 +235,7 @@ class Ui_MainWindow(object):
         self.num_starting_triforce_shards.setItemText(6, QtGui.QApplication.translate("MainWindow", "6", None, QtGui.QApplication.UnicodeUTF8))
         self.num_starting_triforce_shards.setItemText(7, QtGui.QApplication.translate("MainWindow", "7", None, QtGui.QApplication.UnicodeUTF8))
         self.num_starting_triforce_shards.setItemText(8, QtGui.QApplication.translate("MainWindow", "8", None, QtGui.QApplication.UnicodeUTF8))
+        self.add_shortcut_warps_between_dungeons.setText(QtGui.QApplication.translate("MainWindow", "Add Shortcut Warps Between Dungeons", None, QtGui.QApplication.UnicodeUTF8))
         self.about_button.setText(QtGui.QApplication.translate("MainWindow", "About", None, QtGui.QApplication.UnicodeUTF8))
         self.reset_settings_to_default.setText(QtGui.QApplication.translate("MainWindow", "Reset All Settings to Default", None, QtGui.QApplication.UnicodeUTF8))
         self.randomize_button.setText(QtGui.QApplication.translate("MainWindow", "Randomize", None, QtGui.QApplication.UnicodeUTF8))
