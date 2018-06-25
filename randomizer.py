@@ -199,6 +199,8 @@ class Randomizer:
     
     self.write_spoiler_log()
     self.write_non_spoiler_log()
+    
+    yield("Done", -1)
   
   def apply_necessary_tweaks(self):
     tweaks.apply_patch(self, "custom_funcs")
