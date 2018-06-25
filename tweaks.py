@@ -951,3 +951,32 @@ def set_num_starting_triforce_shards(self):
   num_shards_address = self.custom_symbols["num_triforce_shards_to_start_with"]
   dol_data = self.get_raw_file("sys/main.dol")
   write_u8(dol_data, address_to_offset(num_shards_address), num_starting_triforce_shards)
+
+def add_pirate_ship_to_windfall(self):
+  windfall_dzx = self.get_arc("files/res/Stage/sea/Room11.arc").dzx_files[0]
+  
+  windfall_layer_2_actors = windfall_dzx.entries_by_type_and_layer("ACTR", 2)
+  layer_2_pirate_ship = next(x for x in windfall_layer_2_actors if x.name == "Pirates")
+  
+  default_layer_pirate_ship = windfall_dzx.add_entity("ACTR", layer=None)
+  default_layer_pirate_ship.name = layer_2_pirate_ship.name
+  default_layer_pirate_ship.params = layer_2_pirate_ship.params
+  default_layer_pirate_ship.x_pos = layer_2_pirate_ship.x_pos
+  default_layer_pirate_ship.y_pos = layer_2_pirate_ship.y_pos
+  default_layer_pirate_ship.z_pos = layer_2_pirate_ship.z_pos
+  default_layer_pirate_ship.auxilary_param = layer_2_pirate_ship.auxilary_param
+  default_layer_pirate_ship.y_rot = layer_2_pirate_ship.y_rot
+  default_layer_pirate_ship.auxilary_param_2 = layer_2_pirate_ship.auxilary_param_2
+  default_layer_pirate_ship.enemy_number = layer_2_pirate_ship.enemy_number
+  
+  # Change the door to not require a password.
+  default_layer_pirate_ship.pirate_ship_door_type = 0
+  
+  windfall_dzx.save_changes()
+  
+  # Remove Niko to get rid of his events.
+  ship_dzx = self.get_arc("files/res/Stage/Asoko/Room0.arc").dzx_files[0]
+  ship_layer_2_actors = ship_dzx.entries_by_type_and_layer("ACTR", 2)
+  niko = next(x for x in ship_layer_2_actors if x.name == "P2b")
+  ship_dzx.remove_entity(niko, "ACTR", layer=2)
+  ship_dzx.save_changes()

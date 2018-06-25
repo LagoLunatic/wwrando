@@ -52,6 +52,8 @@ li r4, 0x1801 ; WATCHED_DEKU_TREE_CUTSCENE
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x0A08 ; TALKED_TO_KORL_AFTER_LEAVING_FH
 bl onEventBit__11dSv_event_cFUs
+li r4, 0x0808 ; Needed so that exiting the pirate ship takes you to Windfall instead of the tutorial
+bl onEventBit__11dSv_event_cFUs
 li r4, 0x1F02 ; TALKED_TO_KORL_AFTER_GETTING_BOMBS
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x2F20 ; Talked to KoRL after getting Nayru's Pearl

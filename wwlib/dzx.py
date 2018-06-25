@@ -358,6 +358,8 @@ class ACTR(ChunkEntry):
     
     "pot_item_id":   0x0000003F,
     "pot_item_flag": 0x007F0000,
+    
+    "pirate_ship_door_type": 0x0000FF00,
   }
   
   ITEM_NAMES = [

@@ -107,13 +107,7 @@ Outset Island - Savage Labyrinth - Floor 50:
 #  Need: 
 #  Original item: Spoils Bag
 #  Paths:
-#    - Asoko/Stage.arc/Chest000
-#Pirate Ship - Second Visit:
-#  Need: 
-#  Original item: Bombs
-#  Paths:
-#    - Asoko/Stage.arc/Chest001
-#    - Asoko/Stage.arc/Chest002
+#    - Asoko/Stage.arc/Layer0/Chest000
 
 
 Windfall Island - Jail - Tingle - First Gift:
@@ -311,6 +305,13 @@ Windfall Island - Tott:
   Types: Free Gift
   Paths:
     - sea/Stage.arc/Event0E3:TACT_TT11/Actor001/Action003
+Windfall Island - Pirate Ship:
+  Need: Nothing
+  Original item: Bombs
+  Types: Other Chest
+  Paths:
+    - Asoko/Stage.arc/Layer2/Chest000
+    - Asoko/Stage.arc/Layer3/Chest000
 Windfall Island - 40 Rupee Auction:
   Need: Nothing
   Original item: Joy Pendant
