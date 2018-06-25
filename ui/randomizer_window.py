@@ -11,6 +11,8 @@ import os
 import yaml
 import traceback
 import string
+import struct
+import base64
 
 from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError
 from paths import ASSETS_PATH, SEEDGEN_PATH
@@ -32,6 +34,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.seed.editingFinished.connect(self.update_settings)
     self.ui.clean_iso_path_browse_button.clicked.connect(self.browse_for_clean_iso)
     self.ui.output_folder_browse_button.clicked.connect(self.browse_for_output_folder)
+    self.ui.permalink.editingFinished.connect(self.permalink_modified)
     
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
@@ -90,7 +93,7 @@ class WWRandomizerWindow(QMainWindow):
     
     self.settings["seed"] = seed
     self.ui.seed.setText(seed)
-    self.save_settings()
+    self.update_settings()
   
   def sanitize_seed(self, seed):
     seed = str(seed)
@@ -122,7 +125,7 @@ class WWRandomizerWindow(QMainWindow):
     
     self.settings["seed"] = seed
     self.ui.seed.setText(seed)
-    self.save_settings()
+    self.update_settings()
     
     options = OrderedDict()
     for option_name in OPTIONS:
@@ -232,6 +235,121 @@ class WWRandomizerWindow(QMainWindow):
       self.settings[option_name] = self.get_option_value(option_name)
     
     self.save_settings()
+    
+    permalink = self.encode_permalink()
+  
+  def permalink_modified(self):
+    permalink = self.ui.permalink.text()
+    try:
+      self.decode_permalink(permalink)
+    except Exception as e:
+      stack_trace = traceback.format_exc()
+      error_message = "Failed to parse permalink:\n" + str(e) + "\n\n" + stack_trace
+      print(error_message)
+      QMessageBox.critical(
+        self, "Invalid permalink",
+        "The permalink you pasted is invalid."
+      )
+    
+    self.encode_permalink()
+  
+  def encode_permalink(self):
+    seed = self.settings["seed"]
+    seed = self.sanitize_seed(seed)
+    if not seed:
+      self.ui.permalink.setText("")
+      return
+    
+    permalink = b""
+    permalink += VERSION.encode("ascii")
+    permalink += b"\0"
+    permalink += seed.encode("ascii")
+    permalink += b"\0"
+    
+    option_bytes = []
+    current_byte = 0
+    current_bit_index = 0
+    for option_name in OPTIONS:
+      value = self.settings[option_name]
+      
+      widget = getattr(self.ui, option_name)
+      if isinstance(widget, QAbstractButton):
+        if current_bit_index >= 8:
+          option_bytes.append(current_byte)
+          current_bit_index = 0
+          current_byte = 0
+        
+        current_byte |= (int(value) << current_bit_index)
+        current_bit_index += 1
+      elif isinstance(widget, QComboBox):
+        if current_bit_index > 0:
+          # End the current bitfield byte.
+          option_bytes.append(current_byte)
+          current_bit_index = 0
+          current_byte = 0
+        
+        value = int(value)
+        assert 0 <= value <= 255
+        option_bytes.append(value)
+    
+    if current_bit_index > 0:
+      # End the current bitfield byte.
+      option_bytes.append(current_byte)
+    
+    for byte in option_bytes:
+      permalink += struct.pack(">B", byte)
+    base64_encoded_permalink = base64.b64encode(permalink).decode("ascii")
+    self.ui.permalink.setText(base64_encoded_permalink)
+  
+  def decode_permalink(self, base64_encoded_permalink):
+    base64_encoded_permalink = base64_encoded_permalink.strip()
+    if not base64_encoded_permalink:
+      # Empty
+      return
+    
+    permalink = base64.b64decode(base64_encoded_permalink)
+    given_version_num, seed, options_bytes = permalink.split(b"\0", 2)
+    given_version_num = given_version_num.decode("ascii")
+    seed = seed.decode("ascii")
+    if given_version_num != VERSION:
+      QMessageBox.critical(
+        self, "Invalid permalink",
+        "The permalink you pasted is for version %s of the randomizer, it cannot be used with the version you are currently using (%s)." % (given_version_num, VERSION)
+      )
+      return
+    
+    self.ui.seed.setText(seed)
+    
+    option_bytes = struct.unpack(">" + "B"*len(options_bytes), options_bytes)
+    
+    current_byte_index = 0
+    current_bit_index = 0
+    for option_name in OPTIONS:
+      if current_bit_index >= 8:
+        current_byte_index += 1
+        current_bit_index = 0
+      
+      widget = getattr(self.ui, option_name)
+      if isinstance(widget, QAbstractButton):
+        current_byte = option_bytes[current_byte_index]
+        current_bit = ((current_byte >> current_bit_index) & 1)
+        current_bit_index += 1
+        
+        boolean_value = bool(current_bit)
+        self.set_option_value(option_name, boolean_value)
+      elif isinstance(widget, QComboBox):
+        if current_bit_index > 0:
+          # End the current bitfield byte.
+          current_byte_index += 1
+          current_bit_index = 0
+        current_byte = option_bytes[current_byte_index]
+        
+        integer_value = str(current_byte)
+        self.set_option_value(option_name, integer_value)
+        current_byte_index += 1
+        current_bit_index = 0
+    
+    self.update_settings()
   
   def browse_for_clean_iso(self):
     if self.settings["clean_iso_path"] and os.path.isfile(self.settings["clean_iso_path"]):
