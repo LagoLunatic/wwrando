@@ -450,11 +450,13 @@ class Randomizer:
       previously_accessible_locations = accessible_locations
     
     if not game_beatable:
-      # If the game wasn't already beatable on a previous progression sphere we add one final one just for this.
-      final_progression_sphere = OrderedDict([
-        ("Ganon's Tower - Rooftop", "Defeat Ganondorf"),
-      ])
-      progression_spheres.append(final_progression_sphere)
+      # If the game wasn't already beatable on a previous progression sphere but it is now we add one final one just for this.
+      game_beatable = logic.check_requirement_met("Can Reach and Defeat Ganondorf")
+      if game_beatable:
+        final_progression_sphere = OrderedDict([
+          ("Ganon's Tower - Rooftop", "Defeat Ganondorf"),
+        ])
+        progression_spheres.append(final_progression_sphere)
     
     return progression_spheres
   
