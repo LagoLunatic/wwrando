@@ -34,7 +34,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.seed.editingFinished.connect(self.update_settings)
     self.ui.clean_iso_path_browse_button.clicked.connect(self.browse_for_clean_iso)
     self.ui.output_folder_browse_button.clicked.connect(self.browse_for_output_folder)
-    self.ui.permalink.editingFinished.connect(self.permalink_modified)
+    self.ui.permalink.textEdited.connect(self.permalink_modified)
     
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
