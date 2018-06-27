@@ -219,7 +219,7 @@ class Randomizer:
     tweaks.add_ganons_tower_warp_to_ff2(self)
     tweaks.add_chest_in_place_medli_grappling_hook_gift(self)
     tweaks.add_chest_in_place_queen_fairy_cutscene(self)
-    tweaks.add_cube_to_earth_temple_first_room(self)
+    #tweaks.add_cube_to_earth_temple_first_room(self)
     tweaks.add_more_magic_jars_to_dungeons(self)
     tweaks.remove_title_and_ending_videos(self)
     tweaks.modify_title_screen_logo(self)
