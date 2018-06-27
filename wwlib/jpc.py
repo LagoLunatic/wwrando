@@ -25,7 +25,9 @@ class JPC:
         raise Exception("Duplicate particle ID: %04X" % particle.particle_id)
       self.particles_by_id[particle.particle_id] = particle
       
-      offset += particle.size
+      offset += 0x20 # Particle header
+      for section in particle.sections:
+        offset += section.size
     
     self.textures = []
     self.textures_by_filename = {}
@@ -46,6 +48,8 @@ class JPC:
         particle.tdb1.texture_filenames.append(texture.filename)
   
   def save_changes(self):
+    self.num_particles = len(self.particles)
+    self.num_textures = len(self.textures)
     write_str(self.data, 0, self.magic, 8)
     write_u16(self.data, 8, self.num_particles)
     write_u16(self.data, 0xA, self.num_textures)
@@ -77,36 +81,36 @@ class JPC:
 
 class Particle:
   def __init__(self, jpc_data, particle_offset):
-    size = read_u32(jpc_data, particle_offset+0x10)
-    jpc_data.seek(particle_offset)
-    self.data = BytesIO(jpc_data.read(size))
-    
-    self.magic = read_str(self.data, 0, 8)
+    self.magic = read_str(jpc_data, particle_offset, 8)
     assert self.magic == "JEFFjpa1"
     
-    self.unknown_1 = read_u32(self.data, 8)
-    self.num_sections = read_u32(self.data, 0xC)
-    self.size = read_u32(self.data, 0x10)
+    self.unknown_1 = read_u32(jpc_data, particle_offset+8)
+    self.num_sections = read_u32(jpc_data, particle_offset+0xC)
+    self.size = read_u32(jpc_data, particle_offset+0x10) # Not accurate in some rare cases
     
-    self.unknown_2 = read_u8(self.data, 0x14)
-    self.unknown_3 = read_u8(self.data, 0x15)
-    self.unknown_4 = read_u8(self.data, 0x16)
-    self.unknown_5 = read_u8(self.data, 0x17)
+    self.unknown_2 = read_u8(jpc_data, particle_offset+0x14)
+    self.unknown_3 = read_u8(jpc_data, particle_offset+0x15)
+    self.unknown_4 = read_u8(jpc_data, particle_offset+0x16)
+    self.unknown_5 = read_u8(jpc_data, particle_offset+0x17)
     
-    self.particle_id = read_u16(self.data, 0x18)
+    self.particle_id = read_u16(jpc_data, particle_offset+0x18)
     
-    self.unknown_6 = read_bytes(self.data, 0x1A, 6)
+    self.unknown_6 = read_bytes(jpc_data, particle_offset+0x1A, 6)
     
     self.sections = []
-    section_offset = 0x20
+    section_offset = particle_offset + 0x20
     for section_index in range(0, self.num_sections):
-      section = ParticleSection(self.data, section_offset)
+      section = ParticleSection(jpc_data, section_offset)
       self.sections.append(section)
       
       if section.magic == "TDB1":
         self.tdb1 = section
       
       section_offset += section.size
+    
+    true_size = (section_offset - particle_offset)
+    jpc_data.seek(particle_offset)
+    self.data = BytesIO(jpc_data.read(true_size))
   
   def save_changes(self):
     # Cut off the section list since we're replacing this data entirely.
@@ -120,7 +124,9 @@ class Particle:
       section_data = section.data.read()
       self.data.write(section_data)
     
-    self.size = data_len(self.data)
+    # We don't recalculate this size field, since this is inaccurate anyway. It's probably not even used.
+    #self.size = data_len(self.data)
+    
     write_str(self.data, 0, self.magic, 8)
     write_u32(self.data, 0x10, self.size)
 
@@ -133,20 +139,18 @@ class ParticleSection:
     self.data = BytesIO(jpc_data.read(self.size))
     
     if self.magic == "TEX1":
-      self.filename = read_str(self.data, 0xC, 0x14)
+      # This string is 0x14 bytes long, but sometimes there are random garbage bytes after the null byte.
+      self.filename = read_str_until_null_character(self.data, 0xC)
       
       bti_data = BytesIO(read_bytes(self.data, 0x20, self.size - 0x20))
       self.bti = BTI(bti_data)
     elif self.magic == "TDB1":
       # Texture ID database (list of texture IDs in this JPC file used by this particle)
-      assert self.size == 0x20
       
+      num_texture_ids = ((self.size - 0xC) // 2)
       self.texture_ids = []
-      for texture_id_index in range(0, 0xA):
+      for texture_id_index in range(0, num_texture_ids):
         texture_id = read_u16(self.data, 0xC + texture_id_index*2)
-        if texture_id == 0 and texture_id_index > 0:
-          # Texture ID 0 is valid in the first slot, but after that it's just null bytes used for padding, so don't count those.
-          break
         self.texture_ids.append(texture_id)
       
       self.texture_filenames = [] # Leave this list empty for now, it will be populated after the texture list is read.
@@ -154,12 +158,10 @@ class ParticleSection:
   def save_changes(self):
     if self.magic == "TDB1":
       # Save the texture IDs (which were updated by the JPC's save_changes function).
-      for texture_id_index in range(0, 0xA):
-        if texture_id_index < len(self.texture_ids):
-          texture_id = self.texture_ids[texture_id_index]
-        else:
-          texture_id = 0
+      for texture_id_index, texture_id in enumerate(self.texture_ids):
         write_u16(self.data, 0xC + texture_id_index*2, texture_id)
+    
+    align_data_to_nearest(self.data, 0x20)
     
     self.size = data_len(self.data)
     write_str(self.data, 0, self.magic, 4)
