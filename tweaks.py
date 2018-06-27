@@ -1077,3 +1077,18 @@ def add_inter_dungeon_warp_pots(self):
           texture = drc_jpc.textures_by_filename[texture_filename]
           copied_texture = copy.deepcopy(texture)
           dest_jpc.add_texture(copied_texture)
+
+def remove_makar_kidnapping_event(self):
+  dzx = self.get_arc("files/res/Stage/kaze/Room3.arc").dzx_files[0]
+  actors = dzx.entries_by_type_and_layer("ACTR", None)
+  
+  # Remove the AND switch actor that makes the Floormasters appear after unlocking the door.
+  and_switch_actor = next(x for x in actors if x.name == "AND_SW2")
+  dzx.remove_entity(and_switch_actor, "ACTR", layer=None)
+  
+  # Remove the prerequisite switch index from the Wizzrobe so it's just always there.
+  wizzrobe = next(x for x in actors if x.name == "wiz_r")
+  wizzrobe.wizzrobe_prereq_switch_index = 0xFF
+  wizzrobe.save_changes()
+  
+  dzx.save_changes()

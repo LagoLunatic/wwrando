@@ -370,6 +370,8 @@ class ACTR(ChunkEntry):
     "warp_pot_dest_1":          0x0000FF00,
     "warp_pot_dest_2":          0x00FF0000,
     "warp_pot_dest_3":          0xFF000000,
+    
+    "wizzrobe_prereq_switch_index": 0x00FF0000,
   }
   
   ITEM_NAMES = [

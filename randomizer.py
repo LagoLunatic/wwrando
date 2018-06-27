@@ -231,6 +231,7 @@ class Randomizer:
     tweaks.update_korl_dialogue(self)
     tweaks.set_num_starting_triforce_shards(self)
     tweaks.add_pirate_ship_to_windfall(self)
+    tweaks.remove_makar_kidnapping_event(self)
   
   def apply_necessary_post_randomization_tweaks(self):
     tweaks.update_shop_item_descriptions(self)
