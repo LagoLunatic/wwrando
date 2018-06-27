@@ -14,6 +14,7 @@ from wwlib.yaz0_decomp import Yaz0Decompressor
 from wwlib.rarc import RARC
 from wwlib.rel import REL
 from wwlib.gcm import GCM
+from wwlib.jpc import JPC
 import tweaks
 from logic.logic import Logic
 from paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH
@@ -41,6 +42,7 @@ class Randomizer:
     self.rng.seed(self.integer_seed)
     
     self.arcs_by_path = {}
+    self.jpcs_by_path = {}
     self.raw_files_by_path = {}
     
     if not self.dry_run:
@@ -326,13 +328,21 @@ class Randomizer:
     if arc_path in self.arcs_by_path:
       return self.arcs_by_path[arc_path]
     else:
-      if arc_path in self.raw_files_by_path:
-        raise Exception("File opened as both an arc and a raw file: " + file_path)
-      
       data = self.gcm.read_file_data(arc_path)
       arc = RARC(data)
       self.arcs_by_path[arc_path] = arc
       return arc
+  
+  def get_jpc(self, jpc_path):
+    jpc_path = jpc_path.replace("\\", "/")
+    
+    if jpc_path in self.jpcs_by_path:
+      return self.jpcs_by_path[jpc_path]
+    else:
+      data = self.gcm.read_file_data(jpc_path)
+      jpc = JPC(data)
+      self.jpcs_by_path[jpc_path] = jpc
+      return jpc
   
   def get_raw_file(self, file_path):
     file_path = file_path.replace("\\", "/")
@@ -340,9 +350,6 @@ class Randomizer:
     if file_path in self.raw_files_by_path:
       return self.raw_files_by_path[file_path]
     else:
-      if file_path in self.arcs_by_path:
-        raise Exception("File opened as both an arc and a raw file: " + file_path)
-      
       if file_path.startswith("files/rels/"):
         rel_name = os.path.basename(file_path)
         rels_arc = self.get_arc("files/RELS.arc")
@@ -383,6 +390,9 @@ class Randomizer:
     for arc_path, arc in self.arcs_by_path.items():
       arc.save_changes()
       changed_files[arc_path] = arc.data
+    for jpc_path, jpc in self.jpcs_by_path.items():
+      jpc.save_changes()
+      changed_files[jpc_path] = jpc.data
     
     output_file_path = os.path.join(self.randomized_output_folder, "WW Random %s.iso" % self.seed)
     self.gcm.export_iso_with_changed_files(output_file_path, changed_files)

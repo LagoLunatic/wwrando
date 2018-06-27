@@ -47,6 +47,14 @@ class JPC:
         texture = self.textures[texture_id]
         particle.tdb1.texture_filenames.append(texture.filename)
   
+  def add_particle(self, particle):
+    self.particles.append(particle)
+    self.particles_by_id[particle.particle_id] = particle
+  
+  def add_texture(self, texture):
+    self.textures.append(texture)
+    self.textures_by_filename[texture.filename] = texture
+  
   def save_changes(self):
     self.num_particles = len(self.particles)
     self.num_textures = len(self.textures)
