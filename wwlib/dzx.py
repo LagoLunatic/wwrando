@@ -75,6 +75,10 @@ class DZx: # DZR or DZS, same format
       offset += 0xC
     
     for chunk in self.chunks:
+      # Pad the start of each chunk to the nearest 4 bytes.
+      align_data_to_nearest(data, 4)
+      offset = data_len(data)
+      
       first_entry_offset = offset
       write_u32(data, chunk.offset+8, first_entry_offset)
       
