@@ -4,6 +4,7 @@ import yaml
 import os
 from io import BytesIO
 from collections import namedtuple
+import copy
 
 from fs_helpers import *
 from wwlib import texture_utils
@@ -1057,3 +1058,22 @@ def add_inter_dungeon_warp_pots(self):
       
       room_dzx.save_changes()
       stage_dzx.save_changes()
+  
+  # We also need to copy the particles used by the warp pots into the FF and TotG particle banks.
+  # Without this the warp pots would have no particles, and the game would crash on real hardware.
+  drc_jpc = self.get_jpc("files/res/Particle/Pscene035.jpc")
+  totg_jpc = self.get_jpc("files/res/Particle/Pscene050.jpc")
+  ff_jpc = self.get_jpc("files/res/Particle/Pscene043.jpc")
+  
+  for particle_id in [0x8161, 0x8162, 0x8165, 0x8166]:
+    particle = drc_jpc.particles_by_id[particle_id]
+    
+    for dest_jpc in [totg_jpc, ff_jpc]:
+      copied_particle = copy.deepcopy(particle)
+      dest_jpc.add_particle(copied_particle)
+      
+      for texture_filename in copied_particle.tdb1.texture_filenames:
+        if texture_filename not in dest_jpc.textures_by_filename:
+          texture = drc_jpc.textures_by_filename[texture_filename]
+          copied_texture = copy.deepcopy(texture)
+          dest_jpc.add_texture(copied_texture)
