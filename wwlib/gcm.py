@@ -85,7 +85,7 @@ class GCM:
     
     file_entry = self.files_by_path[file_path]
     if file_entry.file_size > MAX_DATA_SIZE_TO_READ_AT_ONCE:
-      raise Exception("Tried to a very read large file all at once")
+      raise Exception("Tried to read a very large file all at once")
     with open(self.iso_path, "rb") as iso_file:
       data = read_bytes(iso_file, file_entry.file_data_offset, file_entry.file_size)
     data = BytesIO(data)
