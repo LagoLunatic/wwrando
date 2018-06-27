@@ -1158,6 +1158,41 @@ blr
 
 
 
+.global reset_medli_position_to_start_of_dungeon
+reset_medli_position_to_start_of_dungeon:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lis r8, 0xC5E179B6@ha ; Medli's starting X pos, -7215.21
+addi r8, r8, 0xC5E179B6@l
+stw r8, 0 (r5)
+lis r8, 0xC3480000@ha ; Medli's starting Y pos, -200
+addi r8, r8, 0xC3480000@l
+stw r8, 4 (r5)
+lis r8, 0x45A4564F@ha ; Medli's starting Z pos, 5258.79
+addi r8, r8, 0x45A4564F@l
+stw r8, 8 (r5)
+
+li r8, 0x7FFF ; Medli's starting rotation (0x8000)
+addi r8, r8, 1 ; (Can't put 0x8000 in a single li instruction so we need to add 1 afterwards)
+sth r8, 0xC (r5)
+mr r6, r8 ; Argument r6 to setRestartOption needs to be the rotation
+
+li r8, 0 ; Medli's starting room index
+stb r8, 0xE (r5)
+mr r7, r8 ; Argument r7 to setRestartOption needs to be the room index
+
+bl setRestartOption__13dSv_restart_cFScP4cXyzsSc ; Replace the function call we overwrote to call this custom function
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 .global generic_on_dungeon_bit
 generic_on_dungeon_bit:
 stwu sp, -0x10 (sp)

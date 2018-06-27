@@ -764,3 +764,13 @@
 .org 0xD740 ; Relocation for line 0x7D4
   .int reset_makar_position_to_start_of_dungeon
 .close
+
+
+
+
+; When the player enters Earth Temple, reset Medli's position to the starting room.
+; This is to prevent an issue where the player can't get past the first room without Medli unless they have Deku Leaf.
+.open "files/rels/d_a_npc_md.rel" ; Medli
+.org 0x19D34 ; Relocation for line 0xDB4
+  .int reset_medli_position_to_start_of_dungeon
+.close
