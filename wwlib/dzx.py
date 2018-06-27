@@ -563,12 +563,17 @@ class STAG(ChunkEntry):
     self.is_dungeon = is_dungeon_and_stage_id & 1
     self.stage_id = is_dungeon_and_stage_id >> 1
     
-    self.loaded_particle_bank = read_u16(data, offset+0xA)
+    loaded_particle_bank_and_unknown = read_u16(data, offset+0xA)
+    self.unknown_2            = ((loaded_particle_bank_and_unknown & 0x0003))
+    self.unknown_3            = ((loaded_particle_bank_and_unknown & 0x0004) >> 2)
+    self.loaded_particle_bank = ((loaded_particle_bank_and_unknown & 0x07F8) >> 3)
+    self.unknown_4            = ((loaded_particle_bank_and_unknown & 0xF800) >> 0xB)
+    
     self.property_index = read_u16(data, offset+0xC)
-    self.unknown_2 = read_u8(data, offset+0xE)
-    self.unknown_3 = read_u8(data, offset+0xF)
-    self.unknown_4 = read_u8(data, offset+0x10)
-    self.unknown_5 = read_u8(data, offset+0x11)
+    self.unknown_5 = read_u8(data, offset+0xE)
+    self.unknown_6 = read_u8(data, offset+0xF)
+    self.unknown_7 = read_u8(data, offset+0x10)
+    self.unknown_8 = read_u8(data, offset+0x11)
     self.draw_range = read_u16(data, offset+0x12)
   
   def save_changes(self):
@@ -581,12 +586,18 @@ class STAG(ChunkEntry):
     is_dungeon_and_stage_id = (self.stage_id << 1) | (self.is_dungeon & 1)
     write_u16(data, self.offset+8, is_dungeon_and_stage_id)
     
-    write_u16(data, self.offset+0xA, self.loaded_particle_bank)
+    loaded_particle_bank_and_unknown = 0
+    loaded_particle_bank_and_unknown |= ((self.unknown_2                  ) & 0x0003)
+    loaded_particle_bank_and_unknown |= ((self.unknown_3            <<   2) & 0x0004)
+    loaded_particle_bank_and_unknown |= ((self.loaded_particle_bank <<   3) & 0x07F8)
+    loaded_particle_bank_and_unknown |= ((self.unknown_4            << 0xB) & 0xF800)
+    write_u16(data, self.offset+0xA, loaded_particle_bank_and_unknown)
+    
     write_u16(data, self.offset+0xC, self.property_index)
-    write_u8(data, self.offset+0xE, self.unknown_2)
-    write_u8(data, self.offset+0xF, self.unknown_3)
-    write_u8(data, self.offset+0x10, self.unknown_4)
-    write_u8(data, self.offset+0x11, self.unknown_5)
+    write_u8(data, self.offset+0xE, self.unknown_5)
+    write_u8(data, self.offset+0xF, self.unknown_6)
+    write_u8(data, self.offset+0x10, self.unknown_7)
+    write_u8(data, self.offset+0x11, self.unknown_8)
     write_u16(data, self.offset+0x12, self.draw_range)
 
 class SHIP(ChunkEntry):
