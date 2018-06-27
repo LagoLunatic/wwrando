@@ -45,3 +45,4 @@ setEquipBottleItemEmpty__17dSv_player_item_cFv = 0x80059408;
 fopAcM_orderOtherEventId__FP10fopAc_ac_csUcUsUsUs = 0x80025ea4;
 _savegpr_28 = 0x80328F3C;
 getSelectItemNo__11ShopItems_cFv = 0x80060058;
+setRestartOption__13dSv_restart_cFScP4cXyzsSc = 0x8005d584;

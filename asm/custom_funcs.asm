@@ -1124,6 +1124,40 @@ blr
 
 
 
+.global reset_makar_position_to_start_of_dungeon
+reset_makar_position_to_start_of_dungeon:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lis r8, 0xC5643065@ha ; Makar's starting X pos, -3651.02
+addi r8, r8, 0xC5643065@l
+stw r8, 0 (r5)
+lis r8, 0x44C2B54F@ha ; Makar's starting Y pos, 1557.67
+addi r8, r8, 0x44C2B54F@l
+stw r8, 4 (r5)
+lis r8, 0x464ECCA7@ha ; Makar's starting Z pos, 13235.2
+addi r8, r8, 0x464ECCA7@l
+stw r8, 8 (r5)
+
+li r8, -0x6B60 ; Makar's starting rotation (0x94A0)
+sth r8, 0xC (r5)
+mr r6, r8 ; Argument r6 to setRestartOption needs to be the rotation
+
+li r8, 0xF ; Makar's starting room index
+stb r8, 0xE (r5)
+mr r7, r8 ; Argument r7 to setRestartOption needs to be the room index
+
+bl setRestartOption__13dSv_restart_cFScP4cXyzsSc ; Replace the function call we overwrote to call this custom function
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 .global generic_on_dungeon_bit
 generic_on_dungeon_bit:
 stwu sp, -0x10 (sp)

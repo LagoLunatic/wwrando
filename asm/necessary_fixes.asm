@@ -754,3 +754,13 @@
   ; Make this branch unconditional so the code to die to Light Arrows is never run.
   b 0x5AFC
 .close
+
+
+
+
+; When the player enters Wind Temple, reset Makar's position to the starting room.
+; This is to prevent possible softlocks where Makar can teleport to later rooms in the dungeon for seemingly no reason.
+.open "files/rels/d_a_npc_cb1.rel" ; Makar
+.org 0xD740 ; Relocation for line 0x7D4
+  .int reset_makar_position_to_start_of_dungeon
+.close
