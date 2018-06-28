@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Mon Jun 25 16:54:11 2018
+# Created: Thu Jun 28 15:43:01 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 677)
+        MainWindow.resize(800, 700)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtGui.QVBoxLayout(self.centralwidget)
@@ -180,6 +180,10 @@ class Ui_MainWindow(object):
         self.permalink.setObjectName("permalink")
         self.horizontalLayout_4.addWidget(self.permalink)
         self.verticalLayout.addLayout(self.horizontalLayout_4)
+        self.update_checker_label = QtGui.QLabel(self.centralwidget)
+        self.update_checker_label.setOpenExternalLinks(True)
+        self.update_checker_label.setObjectName("update_checker_label")
+        self.verticalLayout.addWidget(self.update_checker_label)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.about_button = QtGui.QPushButton(self.centralwidget)
@@ -278,6 +282,7 @@ class Ui_MainWindow(object):
         self.num_starting_triforce_shards.setItemText(8, QtGui.QApplication.translate("MainWindow", "8", None, QtGui.QApplication.UnicodeUTF8))
         self.add_shortcut_warps_between_dungeons.setText(QtGui.QApplication.translate("MainWindow", "Add Shortcut Warps Between Dungeons", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("MainWindow", "Permalink (copy paste to share your settings):", None, QtGui.QApplication.UnicodeUTF8))
+        self.update_checker_label.setText(QtGui.QApplication.translate("MainWindow", "Checking for updates to the randomizer...", None, QtGui.QApplication.UnicodeUTF8))
         self.about_button.setText(QtGui.QApplication.translate("MainWindow", "About", None, QtGui.QApplication.UnicodeUTF8))
         self.reset_settings_to_default.setText(QtGui.QApplication.translate("MainWindow", "Reset All Settings to Default", None, QtGui.QApplication.UnicodeUTF8))
         self.randomize_button.setText(QtGui.QApplication.translate("MainWindow", "Randomize", None, QtGui.QApplication.UnicodeUTF8))

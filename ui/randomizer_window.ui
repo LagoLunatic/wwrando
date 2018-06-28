@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>677</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -385,6 +385,16 @@
        <widget class="QLineEdit" name="permalink"/>
       </item>
      </layout>
+    </item>
+    <item>
+     <widget class="QLabel" name="update_checker_label">
+      <property name="text">
+       <string>Checking for updates to the randomizer...</string>
+      </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
+      </property>
+     </widget>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">

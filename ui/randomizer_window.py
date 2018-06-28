@@ -4,6 +4,7 @@ from PySide.QtCore import *
 
 from ui.ui_randomizer_window import Ui_MainWindow
 from ui.options import OPTIONS
+from ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
 
 import random
 from collections import OrderedDict
@@ -66,6 +67,10 @@ class WWRandomizerWindow(QMainWindow):
     self.setWindowIcon(QIcon(icon_path))
     
     self.show()
+    
+    self.update_checker_thread = UpdateCheckerThread()
+    self.update_checker_thread.finished_checking_for_updates.connect(self.show_update_check_results)
+    self.update_checker_thread.start()
   
   def generate_seed(self):
     random.seed(None)
@@ -177,6 +182,16 @@ class WWRandomizerWindow(QMainWindow):
       self, "Randomization Failed",
       error_message
     )
+  
+  def show_update_check_results(self, new_version):
+    if new_version is None:
+      self.ui.update_checker_label.setText("No new updates to the randomizer are available.")
+    elif new_version == "error":
+      self.ui.update_checker_label.setText("There was an error checking for updates.")
+    else:
+      new_text = "<b>Version %s of the randomizer is available!</b>" % new_version
+      new_text += " <a href=\"%s\">Click here</a> to go to the download page." % LATEST_RELEASE_DOWNLOAD_PAGE_URL
+      self.ui.update_checker_label.setText(new_text)
   
   def preserve_default_settings(self):
     self.default_settings = OrderedDict()
@@ -486,6 +501,13 @@ class RandomizerThread(QThread):
       return
     
     self.randomization_complete.emit()
+
+class UpdateCheckerThread(QThread):
+  finished_checking_for_updates = Signal(str)
+  
+  def run(self):
+    new_version = check_for_updates()
+    self.finished_checking_for_updates.emit(new_version)
 
 # Allow yaml to load and dump OrderedDicts.
 yaml.SafeLoader.add_constructor(
