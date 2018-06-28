@@ -744,8 +744,8 @@ def remove_ballad_of_gales_warp_in_cutscene(self):
   for island_index in range(1, 49+1):
     dzx = self.get_arc("files/res/Stage/sea/Room%d.arc" % island_index).dzx_files[0]
     for spawn in dzx.entries_by_type("PLYR"):
-      if spawn.spawn_type == 144: # Spawn type is warping in on a cyclone
-        spawn.spawn_type = 32 # Change to spawn type of instantly spawning on KoRL instead
+      if spawn.spawn_type == 9: # Spawn type is warping in on a cyclone
+        spawn.spawn_type = 2 # Change to spawn type of instantly spawning on KoRL instead
         spawn.save_changes()
 
 def fix_shop_item_y_offsets(self):
@@ -1015,7 +1015,7 @@ def add_inter_dungeon_warp_pots(self):
       else:
         dzx_for_spawn = room_dzx
       spawn = dzx_for_spawn.add_entity("PLYR", layer=None)
-      spawn.spawn_type = 112 # Flying out of a warp pot
+      spawn.spawn_type = 7 # Flying out of a warp pot
       spawn.room_num = warp_pot_data.room_num
       spawn.x_pos = warp_pot_data.x
       spawn.y_pos = warp_pot_data.y
@@ -1025,8 +1025,8 @@ def add_inter_dungeon_warp_pots(self):
       
       # Ensure there wasn't already a spawn using the ID we chose, just to be safe.
       spawns = dzx_for_spawn.entries_by_type("PLYR")
-      spawn_type_69 = [x for x in spawns if x.spawn_id == 69]
-      assert len(spawn_type_69) == 1
+      spawn_id_69s = [x for x in spawns if x.spawn_id == 69]
+      assert len(spawn_id_69s) == 1
       
       # Add new exits.
       for other_warp_pot_data in warp_pot_datas_in_this_cycle:

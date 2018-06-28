@@ -460,14 +460,22 @@ class ACTR(ChunkEntry):
 class PLYR(ChunkEntry):
   DATA_SIZE = 0x20
   
+  PARAMS = {
+    "room_num":        0x0000003F,
+    "unknown_param_1": 0x00000040,
+    "unknown_param_2": 0x00000080,
+    "unknown_param_3": 0x00000F00,
+    "spawn_type":      0x0000F000,
+    "unknown_param_4": 0x00FF0000,
+    "event_index":     0xFF000000,
+  }
+  
   def __init__(self, file_entry):
     self.file_entry = file_entry
     
     self.name = "Link"
-    self.event_index = 0xFF
-    self.unknown1 = 0xFF
-    self.spawn_type = 0
-    self.room_num = 0
+    
+    self.params = 0xFFFF0000
     
     self.x_pos = 0
     self.y_pos = 0
@@ -485,10 +493,7 @@ class PLYR(ChunkEntry):
     
     self.name = read_str(data, offset, 8)
     
-    self.event_index = read_u8(data, offset + 8)
-    self.unknown1 = read_u8(data, offset + 9)
-    self.spawn_type = read_u8(data, offset + 0x0A)
-    self.room_num = read_u8(data, offset + 0x0B)
+    self.params = read_u32(data, offset + 8)
     
     self.x_pos = read_float(data, offset + 0x0C)
     self.y_pos = read_float(data, offset + 0x10)
@@ -505,10 +510,7 @@ class PLYR(ChunkEntry):
     
     write_str(data, self.offset, self.name, 8)
     
-    write_u8(data, self.offset+0x08, self.event_index)
-    write_u8(data, self.offset+0x09, self.unknown1)
-    write_u8(data, self.offset+0x0A, self.spawn_type)
-    write_u8(data, self.offset+0x0B, self.room_num)
+    write_u32(data, self.offset+0x08, self.params)
     
     write_float(data, self.offset+0x0C, self.x_pos)
     write_float(data, self.offset+0x10, self.y_pos)
