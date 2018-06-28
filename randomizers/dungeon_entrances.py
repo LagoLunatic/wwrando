@@ -61,6 +61,14 @@ def randomize_dungeon_entrances(self):
     entrance_scls.spawn_id = dungeon_exit.spawn_id
     entrance_scls.save_changes()
     
+    # Update the DRI spawn to not have spawn ID 5.
+    # If the DRI entrance was connected to the TotG dungeon, then exiting TotG while riding KoRL would crash the game.
+    entrance_spawns = entrance_dzx.entries_by_type("PLYR")
+    entrance_spawn = next(spawn for spawn in entrance_spawns if spawn.spawn_id == dungeon_entrance.spawn_id)
+    if entrance_spawn.spawn_type == 5:
+      entrance_spawn.spawn_type = 1
+      entrance_spawn.save_changes()
+    
     # Update the entrance you're put at when leaving the dungeon.
     exit_dzx_path = "files/res/Stage/%s/Room%d.arc" % (dungeon_exit.stage_name, dungeon_exit.room_num)
     exit_dzx = self.get_arc(exit_dzx_path).dzx_files[0]
