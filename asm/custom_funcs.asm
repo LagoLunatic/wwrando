@@ -1130,6 +1130,14 @@ stwu sp, -0x10 (sp)
 mflr r0
 stw r0, 0x14 (sp)
 
+lis r8, 0x803C9D44@ha ; Most recent spawn ID the player spawned from
+addi r8, r8, 0x803C9D44@l
+lha r8, 0 (r8)
+; Check if the player's last spawn ID was coming out of the mini-boss room.
+cmpwi r8, 20
+; If it is, skip resetting the position since the player did not actually leave and re-enter the dungeon.
+beq after_resetting_makar_position
+
 lis r8, 0xC5643065@ha ; Makar's starting X pos, -3651.02
 addi r8, r8, 0xC5643065@l
 stw r8, 0 (r5)
@@ -1148,6 +1156,8 @@ li r8, 0xF ; Makar's starting room index
 stb r8, 0xE (r5)
 mr r7, r8 ; Argument r7 to setRestartOption needs to be the room index
 
+after_resetting_makar_position:
+
 bl setRestartOption__13dSv_restart_cFScP4cXyzsSc ; Replace the function call we overwrote to call this custom function
 
 lwz r0, 0x14 (sp)
@@ -1163,6 +1173,14 @@ reset_medli_position_to_start_of_dungeon:
 stwu sp, -0x10 (sp)
 mflr r0
 stw r0, 0x14 (sp)
+
+lis r8, 0x803C9D44@ha ; Most recent spawn ID the player spawned from
+addi r8, r8, 0x803C9D44@l
+lha r8, 0 (r8)
+; Check if the player's last spawn ID was coming out of the mini-boss room.
+cmpwi r8, 9
+; If it is, skip resetting the position since the player did not actually leave and re-enter the dungeon.
+beq after_resetting_medli_position
 
 lis r8, 0xC5E179B6@ha ; Medli's starting X pos, -7215.21
 addi r8, r8, 0xC5E179B6@l
@@ -1182,6 +1200,8 @@ mr r6, r8 ; Argument r6 to setRestartOption needs to be the rotation
 li r8, 0 ; Medli's starting room index
 stb r8, 0xE (r5)
 mr r7, r8 ; Argument r7 to setRestartOption needs to be the room index
+
+after_resetting_medli_position:
 
 bl setRestartOption__13dSv_restart_cFScP4cXyzsSc ; Replace the function call we overwrote to call this custom function
 
