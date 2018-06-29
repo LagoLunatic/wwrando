@@ -15,7 +15,7 @@ If you seem to be stuck and can't find anywhere to progress, you should first co
 
 If you've consulted the spoiler log and you're still stuck, it's possible you've encountered a bug in the randomizer.
 Please report bugs like that here: https://github.com/LagoLunatic/wwrando/issues
-In the bug report be sure to upload your spoiler log (or at least copy paste the part at the top with the version number, seed, and options).
+In the bug report be sure to include the permalink for the seed you encountered the bug on.
 
 If you're going to play on emulator, you should always use the latest development version of Dolphin which can be found at the top of this page: https://dolphin-emu.org/download/
 Do not use old or unofficial versions of Dolphin, as they may be unable to boot up the randomized ISO.
