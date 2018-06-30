@@ -328,7 +328,7 @@
 ; Withered trees
 .open "files/rels/d_a_obj_ftree.rel" ; Withered Trees
 .org 0x60E8 ; Relocation for line 0x25C
-  .int custom_createItem
+  .int create_item_for_withered_trees
 .org 0x6190 ; Relocation for line 0x418
   .int custom_createItem
 ; Also change the code that reads the entity ID from subentity+4 to instead read from entity+3C.

@@ -848,6 +848,54 @@ blr
 
 
 
+; When creating the item for the withered trees, offset the position it spawns at to be right in front of the player.
+; Normally it would spawn at the top and then shoot out with momentum until it's in front of the player.
+; But because of the way custom_createItem works, adding momentum is impossible.
+; So instead just change the position to be in front of the player (but still up in the tree, so it falls down with gravity).
+.global create_item_for_withered_trees
+create_item_for_withered_trees:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lis r10, withered_tree_item_spawn_offset@ha
+addi r10, r10, withered_tree_item_spawn_offset@l
+
+; Offset X pos
+lfs f0, 0 (r3)
+lfs f4, 0 (r10) ; Read the X offset
+fadds f0,f4,f0
+stfs f0, 0 (r3)
+
+; Offset Y pos
+lfs f0, 4 (r3)
+lfs f4, 4 (r10) ; Read the Y offset
+fadds f0,f4,f0
+stfs f0, 4 (r3)
+
+; Offset Z pos
+lfs f0, 8 (r3)
+lfs f4, 8 (r10) ; Read the Z offset
+fadds f0,f4,f0
+stfs f0, 8 (r3)
+
+bl custom_createItem
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global withered_tree_item_spawn_offset
+withered_tree_item_spawn_offset:
+.float -245.0 ; X offset
+.float 0.0 ; Y offset
+.float -135.0 ; Z offset
+
+
+
+
 ; Custom function that checks if the warp down to Hyrule should be unlocked.
 ; Requirements: Must have Full Power Master Sword equipped, and must have all 8 pieces of the Triforce.
 .global check_hyrule_warp_unlocked
