@@ -1181,10 +1181,10 @@ stw r0, 0x14 (sp)
 lis r8, 0x803C9D44@ha ; Most recent spawn ID the player spawned from
 addi r8, r8, 0x803C9D44@l
 lha r8, 0 (r8)
-; Check if the player's last spawn ID was coming out of the mini-boss room.
-cmpwi r8, 20
-; If it is, skip resetting the position since the player did not actually leave and re-enter the dungeon.
-beq after_resetting_makar_position
+; Check if the player's last spawn ID was the one at the very start of the dungeon.
+cmpwi r8, 15
+; If not, skip resetting the position since the player did not actually leave and re-enter the dungeon.
+bne after_resetting_makar_position
 
 lis r8, 0xC5643065@ha ; Makar's starting X pos, -3651.02
 addi r8, r8, 0xC5643065@l
@@ -1225,10 +1225,10 @@ stw r0, 0x14 (sp)
 lis r8, 0x803C9D44@ha ; Most recent spawn ID the player spawned from
 addi r8, r8, 0x803C9D44@l
 lha r8, 0 (r8)
-; Check if the player's last spawn ID was coming out of the mini-boss room.
-cmpwi r8, 9
-; If it is, skip resetting the position since the player did not actually leave and re-enter the dungeon.
-beq after_resetting_medli_position
+; Check if the player's last spawn ID was the one at the very start of the dungeon.
+cmpwi r8, 0
+; If not, skip resetting the position since the player did not actually leave and re-enter the dungeon.
+bne after_resetting_medli_position
 
 lis r8, 0xC5E179B6@ha ; Medli's starting X pos, -7215.21
 addi r8, r8, 0xC5E179B6@l
