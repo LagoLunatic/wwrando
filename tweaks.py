@@ -690,42 +690,42 @@ def word_wrap_string(string, max_line_length=34):
   index_in_str = 0
   wordwrapped_str = ""
   current_word = ""
+  current_word_length = 0
   length_of_curr_line = 0
   while index_in_str < len(string):
     char = string[index_in_str]
     
     if char == "\\":
-      wordwrapped_str += current_word
-      length_of_curr_line += len(current_word)
-      current_word = ""
-      
       assert string[index_in_str+1] == "{"
       substr = string[index_in_str:]
       control_code_str_len = substr.index("}") + 1
       substr = substr[:control_code_str_len]
-      wordwrapped_str += substr
+      current_word += substr
       index_in_str += control_code_str_len
     elif char == "\n":
       wordwrapped_str += current_word
       wordwrapped_str += char
       length_of_curr_line = 0
       current_word = ""
+      current_word_length = 0
       index_in_str += 1
     elif char == " ":
       wordwrapped_str += current_word
       wordwrapped_str += char
-      length_of_curr_line += len(current_word) + len(char)
+      length_of_curr_line += current_word_length + len(char)
       current_word = ""
+      current_word_length = 0
       index_in_str += 1
     else:
       current_word += char
+      current_word_length += 1
       index_in_str += 1
       
-      if length_of_curr_line + len(current_word) > max_line_length:
+      if length_of_curr_line + current_word_length > max_line_length:
         wordwrapped_str += "\n"
         length_of_curr_line = 0
         
-        if len(current_word) > max_line_length:
+        if current_word_length > max_line_length:
           wordwrapped_str += current_word + "\n"
           current_word = ""
   
