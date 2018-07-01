@@ -195,7 +195,7 @@ def randomize_progression_items(self):
       possible_locations_with_weighting = []
       for location_name in possible_locations:
         if location_name not in previously_accessible_undone_locations:
-          weight = 5
+          weight = 2
         else:
           weight = 1
         possible_locations_with_weighting += [location_name]*weight
