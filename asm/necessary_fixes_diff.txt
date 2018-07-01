@@ -159,3 +159,5 @@ files/rels/d_a_npc_tt.rel:
   3176: [56, 0, 0, 1]
 files/rels/d_a_st.rel:
   23232: [72, 0, 0, 60]
+files/rels/d_a_npc_ba1.rel:
+  5852: [56, 0, 7, 245]

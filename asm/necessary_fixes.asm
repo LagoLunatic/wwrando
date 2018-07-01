@@ -774,3 +774,15 @@
 .org 0x19D34 ; Relocation for line 0xDB4
   .int reset_medli_position_to_start_of_dungeon
 .close
+
+
+
+
+; If the player heals grandma but doesn't have an empty bottle for her to put soup in because they swapped their equipped item out too fast, grandma will crash the game because she tries to say a message that doesn't exist in the game's script.
+; Change grandma to say the same message regardless of whether you have an empty bottle or not.
+.open "files/rels/d_a_npc_ba1.rel" ; Grandma
+.org 0x16DC
+  ; This line originally hardcoded message ID 2041, which would be the message grandma says when you heal her without an empty bottle.
+  ; Change it to 2037, which is the normal message ID when you do have an empty bottle.
+  li r0, 2037
+.close
