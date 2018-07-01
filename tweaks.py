@@ -22,7 +22,7 @@ TEXT1_SECTION_ADDRESS = 0x800056E0
 TEXT1_SECTION_SIZE = 0x332FA0
 TEXT2_SECTION_OFFSET = ORIGINAL_DOL_SIZE
 TEXT2_SECTION_ADDRESS = ORIGINAL_FREE_SPACE_RAM_ADDRESS
-TEXT2_SECTION_SIZE = None
+TEXT2_SECTION_SIZE = -1
 
 DATA4_SECTION_OFFSET = 0x335840
 DATA4_SECTION_ADDRESS = 0x80338840
@@ -42,9 +42,8 @@ def address_to_offset(address):
     offset = address - DATA4_SECTION_ADDRESS + DATA4_SECTION_OFFSET
   elif DATA5_SECTION_ADDRESS <= address < DATA5_SECTION_ADDRESS+DATA5_SECTION_SIZE:
     offset = address - DATA5_SECTION_ADDRESS + DATA5_SECTION_OFFSET
-  elif TEXT2_SECTION_ADDRESS <= address:
+  elif TEXT2_SECTION_ADDRESS <= address <= TEXT2_SECTION_ADDRESS+TEXT2_SECTION_SIZE:
     # Newly added .text2 section.
-    # We can't add error checking for the end of the section because it varies depending on the length of the patch.
     offset = address - TEXT2_SECTION_ADDRESS + TEXT2_SECTION_OFFSET
   else:
     raise Exception("Unknown address: %08X" % address)
@@ -90,6 +89,10 @@ def add_custom_functions_to_free_space(self, new_bytes):
   write_u32(dol_data, 0x08, ORIGINAL_DOL_SIZE) # Write file offset of new Text2 section (which will be the original end of the file, where we put the patch)
   write_u32(dol_data, 0x50, ORIGINAL_FREE_SPACE_RAM_ADDRESS) # Write loading address of the new Text2 section
   write_u32(dol_data, 0x98, patch_length) # Write length of the new Text2 section
+  
+  # Update the constant for how large the .text section is so that addresses in this section can be converted properly by address_to_offset.
+  global TEXT2_SECTION_SIZE
+  TEXT2_SECTION_SIZE = patch_length
   
   # Next we need to change a hardcoded pointer to where free space begins. Otherwise the game will overwrite the custom code.
   padded_patch_length = ((patch_length + 3) & ~3) # Pad length of patch to next 4 just in case
