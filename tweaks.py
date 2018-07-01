@@ -1095,3 +1095,14 @@ def remove_makar_kidnapping_event(self):
   wizzrobe.save_changes()
   
   dzx.save_changes()
+
+def increase_player_movement_speeds(self):
+  dol_data = self.get_raw_file("sys/main.dol")
+  
+  # Double crawling speed
+  write_float(dol_data, address_to_offset(0x8035DB94), 3.0*2)
+  
+  # Change rolling so that it scales from 20.0 to 26.0 speed depending on the player's speed when they roll.
+  # (In vanilla, it scaled from 0.5 to 26.0 instead.)
+  write_float(dol_data, address_to_offset(0x8035D3D0), 6.0/17.0) # Rolling speed multipler on walking speed
+  write_float(dol_data, address_to_offset(0x8035D3D4), 20.0) # Rolling base speed
