@@ -135,14 +135,13 @@ Can Farm Knight's Crests:
   Grappling Hook & Spoils Bag
   & (
     (Fire Arrows & Iron Boots)
-    | TODO
+    | Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    | Can Access Other Location "Earth Temple - Big Key Chest"
   )
   # There are respawning Darknuts in:
-  # * The inner cave of Ice Ring Isle
-  # * Floor 27 (and below) of Savage Labyrinth
+  # * The inner cave of Ice Ring Isle.
+  # * Floor 27 (and below) of Savage Labyrinth. (We use the Floor 30 requirements here since they're the same as Floor 27.)
   # * The big key room of Earth Temple
-  # TODO: what do you need to reach the savage labyrinth ones?
-  # TODO: the one in the big key room of earth temple is respawning.
 Can Farm Joy Pendants:
   Grappling Hook & Spoils Bag
   # Dropped by Bokoblins, which are everywhere.
