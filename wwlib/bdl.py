@@ -20,10 +20,12 @@ class BDL:
     self.num_chunks = read_u32(data, 0x0C)
     
     self.chunks = []
+    self.chunk_by_type = {}
     offset = 0x20
     for chunk_index in range(self.num_chunks):
       chunk = BDLChunk(data, offset)
       self.chunks.append(chunk)
+      self.chunk_by_type[chunk.magic] = chunk
       
       if chunk.magic == "TEX1":
         self.tex1 = chunk
