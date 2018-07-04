@@ -9,7 +9,11 @@ Download it here: https://github.com/LagoLunatic/wwrando/releases/latest
 
 ### Information
 
-Every playthrough should be completable, and you don't need to use any glitches or tricks to beat it.
+The randomizer guarantees that every playthrough will be completable, and that you don't need to use any glitches or tricks to beat it.
+
+All items are randomized, but because Wind Waker is such a large game, a single run of it would take a very long time if you had to check every single location. Therefore the randomizer has options to limit where progress items can appear based on the type of the location.
+For example, you can limit progress items to appearing in dungeons and secret caves only, or secret caves sidequests and mail, or any other combination you want.
+Location types that you don't select will only have unimportant items that you don't need to beat the game - like rupees, heart pieces, quiver upgrades, etc. So you can skip checking them entirely, unless you want some of those optional items.
 
 If you seem to be stuck and can't find anywhere to progress, you should first consult the spoiler log. The spoiler log is generated at the same time as the randomized ISO, and is put in the same folder. It contains information on everything that was randomized in this seed, and lists the order you can get progress items in as well.
 
@@ -22,7 +26,7 @@ Do not use old or unofficial versions of Dolphin, as they may be unable to boot 
 
 ### Credits
 
-The randomizer was created by LagoLunatic, with help from:
+The randomizer was created and programmed by LagoLunatic, with help from:
 MelonSpeedruns (game design, graphic design)
 Hypatia (textures)
 
