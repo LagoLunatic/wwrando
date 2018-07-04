@@ -379,9 +379,9 @@
 ; We replace where he calls dComIfGs_checkGetItem__FUc with a custom function that checks the appropriate treasure chest open flag.
 .open "files/rels/d_a_fganon.rel" ; Phantom Ganon
 ; This is a rel, so overwrite the relocation addresses instead of the actual code.
-.org 0xDB4C
+.org 0xDB4C ; Relocation for line 0x4D28
   .int check_ganons_tower_chest_opened
-.org 0xDB54
+.org 0xDB54 ; Relocation for line 0x4D4C
   .int check_ganons_tower_chest_opened
 .close
 
