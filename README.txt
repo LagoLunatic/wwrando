@@ -34,6 +34,8 @@ https://discord.gg/r2963mt
 The randomizer was created and programmed by LagoLunatic, with help from:
 MelonSpeedruns (game design, graphic design)
 Hypatia (textures)
+SageOfMirrors (file format documentation)
+LordNed (file format documentation)
 
 ### Running the randomizer from source
 
