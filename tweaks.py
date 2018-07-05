@@ -1104,5 +1104,5 @@ def increase_player_movement_speeds(self):
   
   # Change rolling so that it scales from 20.0 to 26.0 speed depending on the player's speed when they roll.
   # (In vanilla, it scaled from 0.5 to 26.0 instead.)
-  #write_float(dol_data, address_to_offset(0x8035D3D0), 6.0/17.0) # Rolling speed multipler on walking speed
-  #write_float(dol_data, address_to_offset(0x8035D3D4), 20.0) # Rolling base speed
+  write_float(dol_data, address_to_offset(0x8035D3D0), 6.0/17.0) # Rolling speed multipler on walking speed
+  write_float(dol_data, address_to_offset(0x8035D3D4), 20.0) # Rolling base speed
