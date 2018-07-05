@@ -36,6 +36,7 @@ MelonSpeedruns (game design, graphic design)
 Hypatia (textures)
 SageOfMirrors (file format documentation)
 LordNed (file format documentation)
+CryZe (event flag documentation)
 
 ### Running the randomizer from source
 
