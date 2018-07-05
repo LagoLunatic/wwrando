@@ -24,6 +24,11 @@ In the bug report be sure to include the permalink for the seed you encountered 
 If you're going to play on emulator, you should always use the latest development version of Dolphin which can be found at the top of this page: https://dolphin-emu.org/download/
 Do not use old or unofficial versions of Dolphin, as they may be unable to boot up the randomized ISO.
 
+### Discord Server
+
+If you have any questions or are looking for people to play/race with, why not join the official Wind Waker Randomizer Discord server?
+https://discord.gg/r2963mt
+
 ### Credits
 
 The randomizer was created and programmed by LagoLunatic, with help from:
