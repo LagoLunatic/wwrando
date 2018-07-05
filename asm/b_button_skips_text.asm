@@ -18,4 +18,10 @@
 .org 0x80213718 ; In dMsg_closewaitProc__FP13sub_msg_class
   ; Same as above
   lbz r0, 0x31 (r3)
+.org 0x801E6BF0 ; In dMesg_closewaitProc__FP14sub_mesg_class
+  ; Same as above
+  lbz r0, 0x31 (r3)
+.org 0x801E6A0C ; In dMesg_outwaitProc__FP14sub_mesg_class
+  ; Same as above
+  lbz r0, 0x31 (r3)
 .close
