@@ -9,11 +9,16 @@ from ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_UR
 import random
 from collections import OrderedDict
 import os
-import yaml
 import traceback
 import string
 import struct
 import base64
+
+import yaml
+try:
+  from yaml import CDumper as Dumper
+except ImportError:
+  from yaml import Dumper
 
 from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError
 from paths import ASSETS_PATH, SEEDGEN_PATH
@@ -239,7 +244,7 @@ class WWRandomizerWindow(QMainWindow):
   
   def save_settings(self):
     with open(self.settings_path, "w") as f:
-      yaml.dump(self.settings, f, default_flow_style=False, Dumper=yaml.CDumper)
+      yaml.dump(self.settings, f, default_flow_style=False, Dumper=yaml.Dumper)
   
   def update_settings(self):
     self.settings["clean_iso_path"] = self.ui.clean_iso_path.text()
@@ -514,7 +519,7 @@ yaml.SafeLoader.add_constructor(
   yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
   lambda loader, node: OrderedDict(loader.construct_pairs(node))
 )
-yaml.CDumper.add_representer(
+yaml.Dumper.add_representer(
   OrderedDict,
   lambda dumper, data: dumper.represent_dict(data.items())
 )
