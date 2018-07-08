@@ -1697,7 +1697,7 @@ The Great Sea - Island Trading Reward:
   Need: Rescued Aryll & Delivery Bag
   # You need at least 560 rupees to get the final item, but you don't need a wallet upgrade since the most you need at one time is 200 rupees.
   Original item: Piece of Heart
-  Types: Sidequest
+  Types: Sidequest, Expensive Purchase
   Paths:
     - rels/d_a_npc_roten.rel@533B
 The Great Sea - Withered Trees:
