@@ -145,7 +145,7 @@ try:
             if on_custom_symbols:
               if not line:
                 break
-              match = re.search(r" +0x([0-9a-f]{8}) +(\S+)", line)
+              match = re.search(r" +0x(?:00000000)?([0-9a-f]{8}) +(\S+)", line)
               symbol_address = match.group(1)
               symbol_name = match.group(2)
               custom_symbols[symbol_name] = symbol_address
