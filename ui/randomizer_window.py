@@ -184,7 +184,7 @@ class WWRandomizerWindow(QMainWindow):
     )
   
   def show_update_check_results(self, new_version):
-    if new_version is None:
+    if not new_version:
       self.ui.update_checker_label.setText("No new updates to the randomizer are available.")
     elif new_version == "error":
       self.ui.update_checker_label.setText("There was an error checking for updates.")
