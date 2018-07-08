@@ -786,3 +786,15 @@
   ; Change it to 2037, which is the normal message ID when you do have an empty bottle.
   li r0, 2037
 .close
+
+
+
+
+; Change the NPC version of Makar that spawns when you kill Kalle Demos to not initiate the event where he talks to you and thanks you for saving him.
+; In addition to being unnecessary, that cutscene has an extremely small chance of softlocking the game even in vanilla.
+.open "files/rels/d_a_npc_cb1.rel" ; Makar
+.org 0x80B8
+  ; This line originally called isStageBossEnemy to see if he's being spawned during Kalle Demos's death or afterwards.
+  ; Change it to always be true, which tricks Makar into thinking he's being spawned after Kalle Demos's death in both instances.
+  li r3, 1
+.close

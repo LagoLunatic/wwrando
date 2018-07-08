@@ -60,6 +60,7 @@ files/rels/d_a_npc_md.rel:
 files/rels/d_a_npc_cb1.rel:
   1600: [72, 0, 0, 24]
   55104: [128, 63, 218, 160]
+  32952: [56, 96, 0, 1]
 files/rels/d_a_obj_doguu.rel:
   9852: [72, 0, 0, 36]
 files/rels/d_a_npc_bs1.rel:
