@@ -839,11 +839,11 @@ def update_savage_labyrinth_hint_tablet(self):
   floor_50_item_name = self.logic.done_item_locations["Outset Island - Savage Labyrinth - Floor 50"]
   should_give_floor_30_hint = (
     floor_30_item_name in self.logic.all_progress_items
-    and not self.logic.is_dungeon_item(floor_30_item_name)
+    and floor_30_item_name in self.progress_item_hints
   )
   should_give_floor_50_hint = (
     floor_50_item_name in self.logic.all_progress_items
-    and not self.logic.is_dungeon_item(floor_50_item_name)
+    and floor_50_item_name in self.progress_item_hints
   )
   if should_give_floor_30_hint and should_give_floor_50_hint:
     floor_30_item_hint = self.progress_item_hints[floor_30_item_name]
