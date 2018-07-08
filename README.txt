@@ -42,6 +42,6 @@ CryZe (event flag documentation)
 
 If you want to run the latest development/beta version of the randomizer from source, follow these instructions:
 * Clone this repository in git by running this in a command prompt: git clone https://github.com/LagoLunatic/wwrando.git
-* Download and install Python 3.4.4 from here: https://www.python.org/downloads/release/python-344/
+* Download and install Python 3.4.4 32-bit from here: https://www.python.org/downloads/release/python-344/ ("Windows x86 MSI installer" is the one you want)
 * Open the wwrando folder in a command prompt and install dependencies by running: pip install -r requirements.txt
 * Then run the randomizer with: python wwrando.py
