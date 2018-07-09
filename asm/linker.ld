@@ -31,6 +31,7 @@ onEventBit__11dSv_event_cFUs = 0x8005cb04;
 isEventBit__11dSv_event_cFUs = 0x8005cb34;
 dComIfGs_isEventBit__FUs = 0x800f0c8c;
 onDungeonItem__12dSv_memBit_cFi = 0x8005c7a4;
+onSymbol__20dSv_player_collect_cFUc = 0x8005b104;
 isCollect__20dSv_player_collect_cFiUc = 0x8005ae10;
 onCollect__20dSv_player_collect_cFiUc = 0x8005ace0;
 dComIfGs_isStageBossEnemy__Fi = 0x800539a8;

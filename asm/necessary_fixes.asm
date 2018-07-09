@@ -798,3 +798,16 @@
   ; Change it to always be true, which tricks Makar into thinking he's being spawned after Kalle Demos's death in both instances.
   li r3, 1
 .close
+
+
+
+
+; Modify the item get funcs for the 3 pearls to call custom functions that automatically place the pearls as soon as you get them.
+.open "sys/main.dol"
+.org 0x800C43F4 ; In item_func_pearl1__Fv
+  bl give_pearl_and_raise_totg_if_necessary
+.org 0x800C4424 ; In item_func_pearl2__Fv
+  bl give_pearl_and_raise_totg_if_necessary
+.org 0x800C4454 ; In item_func_pearl3__Fv
+  bl give_pearl_and_raise_totg_if_necessary
+.close

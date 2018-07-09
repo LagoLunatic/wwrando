@@ -1265,6 +1265,65 @@ blr
 
 
 
+; Custom function that gives a goddess pearl and also places it in the statue's hands automatically, and raises TotG if the player has all 3 pearls.
+.global give_pearl_and_raise_totg_if_necessary
+give_pearl_and_raise_totg_if_necessary:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+stw r31, 0xC (sp)
+mr r31, r4 ; Preserve argument r4, which has the pearl index to give
+
+bl onSymbol__20dSv_player_collect_cFUc ; Replace the call we overwrote to jump here, which gives the player a specific pearl
+
+lis r3, 0x803C522C@ha ; Event flag bitfield, will be needed several times
+addi r3, r3, 0x803C522C@l
+
+; Check the pearl index to know which event flag to set for the pearl being placed
+cmpwi r31, 0
+beq place_nayrus_pearl
+cmpwi r31, 1
+beq place_dins_pearl
+cmpwi r31, 2
+beq place_farores_pearl
+b check_should_raise_totg
+
+place_nayrus_pearl:
+li r4, 0x1410 ; Placed Nayru's Pearl
+bl onEventBit__11dSv_event_cFUs
+b check_should_raise_totg
+
+place_dins_pearl:
+li r4, 0x1480 ; Placed Din's Pearl
+bl onEventBit__11dSv_event_cFUs
+b check_should_raise_totg
+
+place_farores_pearl:
+li r4, 0x1440 ; Placed Farore's Pearl
+bl onEventBit__11dSv_event_cFUs
+
+check_should_raise_totg:
+lis r5, 0x803C4CC7@ha ; Bitfield of the player's currently owned pearls
+addi r5, r5, 0x803C4CC7@l
+lbz r4, 0 (r5)
+cmpwi r4, 7
+bne after_raising_totg ; Only raise TotG if the player owns all 3 pearls
+
+li r4, 0x1E40 ; TOWER_OF_THE_GODS_RAISED
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x2E80 ; PEARL_TOWER_CUTSCENE
+bl onEventBit__11dSv_event_cFUs
+after_raising_totg:
+
+lwz r31, 0xC (sp)
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 .global generic_on_dungeon_bit
 generic_on_dungeon_bit:
 stwu sp, -0x10 (sp)
