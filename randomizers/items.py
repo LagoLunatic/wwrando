@@ -190,6 +190,16 @@ def randomize_progression_items(self):
     else:
       possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
       
+      # Try to prevent chains of charts that lead to sunken treasures with more charts in them.
+      # If the only locations we have available are sunken treasures we don't have much choice though, so still allow it then.
+      if item_name.startswith("Treasure Chart") or item_name.startswith("Triforce Chart"):
+        possible_locations_without_sunken_treasures = [
+          loc for loc in possible_locations
+          if not "Sunken Treasure" in self.logic.item_locations[loc]["Types"]
+        ]
+        if possible_locations_without_sunken_treasures:
+          possible_locations = possible_locations_without_sunken_treasures
+      
       # We weight it so newly accessible locations are more likely to be chosen.
       # This way there is still a good chance it will not choose a new location.
       possible_locations_with_weighting = []
