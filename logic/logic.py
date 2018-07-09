@@ -366,7 +366,7 @@ class Logic:
             return False
     
     # Our code to fix Zunari's Magic Armor item gift relies on the items Zunari gives all having different IDs.
-    # There for we don't allow the other two items Zunari gives to be placed in the Magic Armor slot.
+    # Therefore we don't allow the other two items Zunari gives to be placed in the Magic Armor slot.
     if location_name == "Windfall Island - Zunari - Stock Exotic Flower in Zunari's Shop" and item_name in ["Town Flower", "Boat's Sail"]:
       return False
     
