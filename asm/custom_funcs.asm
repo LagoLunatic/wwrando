@@ -1199,10 +1199,12 @@ stw r8, 8 (r5)
 li r8, -0x6B60 ; Makar's starting rotation (0x94A0)
 sth r8, 0xC (r5)
 mr r6, r8 ; Argument r6 to setRestartOption needs to be the rotation
+mr r28, r8 ; Also modify the local variable rotation in Makar's code (for when he calls set__19dSv_player_priest)
 
 li r8, 0xF ; Makar's starting room index
 stb r8, 0xE (r5)
 mr r7, r8 ; Argument r7 to setRestartOption needs to be the room index
+mr r29, r8 ; Also modify the local variable room index in Makar's code (for when he calls set__19dSv_player_priest)
 
 after_resetting_makar_position:
 
@@ -1244,10 +1246,12 @@ li r8, 0x7FFF ; Medli's starting rotation (0x8000)
 addi r8, r8, 1 ; (Can't put 0x8000 in a single li instruction so we need to add 1 afterwards)
 sth r8, 0xC (r5)
 mr r6, r8 ; Argument r6 to setRestartOption needs to be the rotation
+mr r31, r8 ; Also modify the local variable rotation in Medli's code (for when she calls set__19dSv_player_priest)
 
 li r8, 0 ; Medli's starting room index
 stb r8, 0xE (r5)
 mr r7, r8 ; Argument r7 to setRestartOption needs to be the room index
+mr r30, r8 ; Also modify the local variable room index in Medli's code (for when she calls set__19dSv_player_priest)
 
 after_resetting_medli_position:
 
