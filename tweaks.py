@@ -856,11 +856,11 @@ def update_savage_labyrinth_hint_tablet(self):
     floor_30_item_hint = self.progress_item_hints[floor_30_item_name]
     hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_30_item_hint
     hint += " and "
-    hint += "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % "challenge"
+    hint += "challenge"
     hint += " await"
   elif should_give_floor_50_hint:
     floor_50_item_hint = self.progress_item_hints[floor_50_item_name]
-    hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % "challenge"
+    hint = "challenge"
     hint += " and "
     hint += "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_50_item_hint
     hint += " await"
