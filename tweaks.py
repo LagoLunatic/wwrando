@@ -837,28 +837,51 @@ def update_savage_labyrinth_hint_tablet(self):
   
   floor_30_item_name = self.logic.done_item_locations["Outset Island - Savage Labyrinth - Floor 30"]
   floor_50_item_name = self.logic.done_item_locations["Outset Island - Savage Labyrinth - Floor 50"]
-  should_give_floor_30_hint = (
-    floor_30_item_name in self.logic.all_progress_items
-    and floor_30_item_name in self.progress_item_hints
-  )
-  should_give_floor_50_hint = (
-    floor_50_item_name in self.logic.all_progress_items
-    and floor_50_item_name in self.progress_item_hints
-  )
-  if should_give_floor_30_hint and should_give_floor_50_hint:
+  
+  floor_30_is_progress = (floor_30_item_name in self.logic.all_progress_items)
+  floor_50_is_progress = (floor_50_item_name in self.logic.all_progress_items)
+  
+  if self.options.get("progression_triforce_charts"):
+    if floor_30_item_name.startswith("Triforce Chart"):
+      floor_30_item_name = "Triforce Chart"
+    if floor_50_item_name.startswith("Triforce Chart"):
+      floor_50_item_name = "Triforce Chart"
+  
+  if self.options.get("progression_treasure_charts"):
+    if floor_30_item_name.startswith("Treasure Chart"):
+      floor_30_item_name = "Treasure Chart"
+    if floor_50_item_name.startswith("Treasure Chart"):
+      floor_50_item_name = "Treasure Chart"
+  
+  if self.options.get("progression_dungeons"):
+    if floor_30_item_name.endswith("Small Key"):
+      floor_30_item_name = "Small Key"
+    if floor_30_item_name.startswith("Big Key"):
+      floor_30_item_name = "Big Key"
+    if floor_50_item_name.endswith("Small Key"):
+      floor_50_item_name = "Small Key"
+    if floor_50_item_name.startswith("Big Key"):
+      floor_50_item_name = "Big Key"
+  
+  if floor_30_is_progress and not floor_30_item_name in self.progress_item_hints:
+    raise Exception("Could not find progress item hint for item: %s" % floor_30_item_name)
+  if floor_50_is_progress and not floor_50_item_name in self.progress_item_hints:
+    raise Exception("Could not find progress item hint for item: %s" % floor_50_item_name)
+  
+  if floor_30_is_progress and floor_50_is_progress:
     floor_30_item_hint = self.progress_item_hints[floor_30_item_name]
     floor_50_item_hint = self.progress_item_hints[floor_50_item_name]
     hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_30_item_hint
     hint += " and "
     hint += "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_50_item_hint
     hint += " await"
-  elif should_give_floor_30_hint:
+  elif floor_30_is_progress:
     floor_30_item_hint = self.progress_item_hints[floor_30_item_name]
     hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_30_item_hint
     hint += " and "
     hint += "challenge"
     hint += " await"
-  elif should_give_floor_50_hint:
+  elif floor_50_is_progress:
     floor_50_item_hint = self.progress_item_hints[floor_50_item_name]
     hint = "challenge"
     hint += " and "

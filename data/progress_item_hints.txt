@@ -86,3 +86,11 @@ Progressive Picto Box:
   an upgrade for your camera
 Empty Bottle:
   a glass container
+Small Key:
+  a key
+Big Key:
+  an ominous key
+Treasure Chart:
+  a blue map
+Triforce Chart:
+  a purple map
