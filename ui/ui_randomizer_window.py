@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Thu Jun 28 15:43:01 2018
+# Created: Wed Jul 11 13:55:52 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -83,7 +83,6 @@ class Ui_MainWindow(object):
         self.progression_secret_caves.setObjectName("progression_secret_caves")
         self.gridLayout_2.addWidget(self.progression_secret_caves, 0, 1, 1, 1)
         self.progression_big_octos_gunboats = QtGui.QCheckBox(self.groupBox)
-        self.progression_big_octos_gunboats.setChecked(True)
         self.progression_big_octos_gunboats.setObjectName("progression_big_octos_gunboats")
         self.gridLayout_2.addWidget(self.progression_big_octos_gunboats, 3, 1, 1, 1)
         self.progression_eye_reef_chests = QtGui.QCheckBox(self.groupBox)
