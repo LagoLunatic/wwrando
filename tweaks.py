@@ -456,8 +456,6 @@ def add_chest_in_place_medli_grappling_hook_gift(self):
   chest_in_jail.room_num = 9
   chest_in_jail.y_rot = 0xCC16
   chest_in_jail.item_id = self.item_name_to_id["Grappling Hook"]
-  chest_in_jail.flag_id = 0xFF
-  chest_in_jail.padding = 0xFFFF
   
   dzx.save_changes()
 
@@ -481,8 +479,6 @@ def add_chest_in_place_queen_fairy_cutscene(self):
   mother_island_chest.room_num = 9
   mother_island_chest.y_rot = 0x1000
   mother_island_chest.item_id = self.item_name_to_id["Progressive Bow"]
-  mother_island_chest.flag_id = 0xFF
-  mother_island_chest.padding = 0xFFFF
   
   dzx.save_changes()
 

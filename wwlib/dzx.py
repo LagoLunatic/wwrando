@@ -222,6 +222,17 @@ class TRES(ChunkEntry):
   
   def __init__(self, file_entry):
     self.file_entry = file_entry
+    
+    self.name = ""
+    self.params = 0
+    self.x_pos = 0
+    self.y_pos = 0
+    self.z_pos = 0
+    self.room_num = 0
+    self.y_rot = 0
+    self.item_id = 0
+    self.flag_id = 0xFF
+    self.padding = 0xFFFF
   
   def read(self, offset):
     self.offset = offset
@@ -286,6 +297,20 @@ class SCOB(ChunkEntry):
   
   def __init__(self, file_entry):
     self.file_entry = file_entry
+    
+    self.name = ""
+    self.params = 0
+    self.x_pos = 0
+    self.y_pos = 0
+    self.z_pos = 0
+    self.auxilary_param = 0
+    self.y_rot = 0
+    self.unknown_1 = 0
+    self.unknown_2 = 0xFFFF
+    self.scale_x = 10
+    self.scale_y = 10
+    self.scale_z = 10
+    self.padding = 0xFF
   
   def read(self, offset):
     self.offset = offset
