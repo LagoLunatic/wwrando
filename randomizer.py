@@ -31,10 +31,11 @@ class TooFewProgressionLocationsError(Exception):
   pass
 
 class Randomizer:
-  def __init__(self, seed, clean_iso_path, randomized_output_folder, options, dry_run=False):
+  def __init__(self, seed, clean_iso_path, randomized_output_folder, options, permalink=None, dry_run=False):
     self.randomized_output_folder = randomized_output_folder
     self.options = options
     self.seed = seed
+    self.permalink = permalink
     self.dry_run = dry_run
     
     self.integer_seed = int(hashlib.md5(self.seed.encode('utf-8')).hexdigest(), 16)
@@ -477,6 +478,10 @@ class Randomizer:
     header = ""
     
     header += "Wind Waker Randomizer Version %s\n" % VERSION
+    
+    if self.permalink:
+      header += "Permalink: %s\n" % self.permalink
+    
     header += "Seed: %s\n" % self.seed
     
     header += "Options selected:\n  "

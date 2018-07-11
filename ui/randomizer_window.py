@@ -141,11 +141,13 @@ class WWRandomizerWindow(QMainWindow):
     for option_name in OPTIONS:
       options[option_name] = self.get_option_value(option_name)
     
+    permalink = self.ui.permalink.text()
+    
     max_progress_val = 20
     self.progress_dialog = RandomizerProgressDialog("Randomizing", "Initializing...", max_progress_val)
     
     try:
-      rando = Randomizer(seed, clean_iso_path, output_folder, options)
+      rando = Randomizer(seed, clean_iso_path, output_folder, options, permalink=permalink)
     except TooFewProgressionLocationsError as e:
       error_message = str(e)
       self.randomization_failed(error_message)
