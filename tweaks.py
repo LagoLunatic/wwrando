@@ -374,6 +374,9 @@ def make_sail_behave_like_swift_sail(self):
   write_float(ship_data, 0xDBE8, 55.0*2) # Sailing speed
   write_float(ship_data, 0xDBC0, 80.0*2) # Initial speed
   
+  # Also increase deceleration when the player is stopping or is knocked out of the ship.
+  apply_patch(self, "swift_sail")
+  
   # Update the pause menu name for the sail.
   msg = self.bmg.messages_by_id[463]
   msg.string = "Swift Sail"
