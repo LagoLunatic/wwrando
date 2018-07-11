@@ -1133,3 +1133,12 @@ def increase_player_movement_speeds(self):
   # (In vanilla, it scaled from 0.5 to 26.0 instead.)
   write_float(dol_data, address_to_offset(0x8035D3D0), 6.0/17.0) # Rolling speed multiplier on walking speed
   write_float(dol_data, address_to_offset(0x8035D3D4), 20.0) # Rolling base speed
+
+def add_chart_number_to_item_get_messages(self):
+  for item_id, item_name in self.item_names.items():
+    if item_name.startswith("Treasure Chart "):
+      msg = self.bmg.messages_by_id[101 + item_id]
+      msg.string = msg.string.replace("a \\{1A 06 FF 00 00 01}Treasure Chart", "\\{1A 06 FF 00 00 01}%s" % item_name)
+    elif item_name.startswith("Triforce Chart ") and not "deciphered" in item_name:
+      msg = self.bmg.messages_by_id[101 + item_id]
+      msg.string = msg.string.replace("a \\{1A 06 FF 00 00 01}Triforce Chart", "\\{1A 06 FF 00 00 01}%s" % item_name)

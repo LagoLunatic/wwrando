@@ -233,6 +233,7 @@ class Randomizer:
     tweaks.add_pirate_ship_to_windfall(self)
     tweaks.remove_makar_kidnapping_event(self)
     tweaks.increase_player_movement_speeds(self)
+    tweaks.add_chart_number_to_item_get_messages(self)
   
   def apply_necessary_post_randomization_tweaks(self):
     tweaks.update_shop_item_descriptions(self)
