@@ -322,8 +322,17 @@
 ; So we add a new custom function to create an item and load the model, and replace the relevant calls so they call the new function.
 ; Buried item
 .open "sys/main.dol"
-.org 0x80056C0C
+.org 0x80056C0C ; In dig_main__13daTagKbItem_cFv
+  ; Replace fastCreateItem call
   bl custom_createItem
+  ; Then remove the code that sets bit 0x4000 of the bitfield at item_entity+0x1C4.
+  ; This bit just seems to offset the item or something, but custom_createItem's item action does this anyway.
+  ; Furthermore, it's not possible to set that bit until after the item has been fully loaded in, which doesn't happen until later with custom_createItem unlike fastCreateItem.
+  nop
+  nop
+  nop
+  nop
+  nop
 .close
 ; Withered trees
 .open "files/rels/d_a_obj_ftree.rel" ; Withered Trees

@@ -825,6 +825,12 @@ stwu sp, -0x10 (sp)
 mflr r0
 stw r0, 0x14 (sp)
 
+; If the item ID is FF, no item will be spawned.
+; In order to avoid crashes we need to return a null pointer.
+; Also don't bother even trying to spawn the item - it wouldn't do anything.
+cmpwi r4, 0xFF
+beq custom_createItem_invalid_item_id
+
 ; Create the item by calling createItem, which will load the item's model if necessary.
 mr r9, r5
 mr r5, r8
@@ -839,7 +845,12 @@ bl fopAcM_createItem__FP4cXyziiiiP5csXyziP4cXyz
 ; But createItem only returns the entity ID.
 ; However, the entity pointer is still conveniently leftover in r5, so we just return that.
 mr r3, r5
+b custom_createItem_func_end
 
+custom_createItem_invalid_item_id:
+li r3, 0
+
+custom_createItem_func_end:
 lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
