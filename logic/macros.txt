@@ -84,7 +84,8 @@ Can Access Wind Temple:
 
 Can Get Past Forsaken Fortress Gate:
   Bombs
-  # (It's also possible to blow up the door without bombs by using the mounted cannons, but this is not required by the logic.)
+  # Note: It's also possible to blow up the door without bombs by using the mounted cannons, but this is not required by the logic.
+  # Note: It's also possible to get past the gate by going all the way down to Ganon's Tower, and then activating the warp up to Forsaken Fortress. But this is not currently required by the logic.
 Can Get Inside Forsaken Fortress:
   Can Get Past Forsaken Fortress Gate & Skull Hammer
   # Even though you can kill Phantom Ganon without the Skull Hammer, that only lets you access the one chest he spawns.
