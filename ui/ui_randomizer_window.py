@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Wed Jul 11 13:55:52 2018
+# Created: Thu Jul 12 13:53:35 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -246,7 +246,7 @@ class Ui_MainWindow(object):
         self.output_folder_browse_button.setText(QtGui.QApplication.translate("MainWindow", "Browse", None, QtGui.QApplication.UnicodeUTF8))
         self.generate_seed_button.setText(QtGui.QApplication.translate("MainWindow", "New seed", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox.setTitle(QtGui.QApplication.translate("MainWindow", "Where Should Progress Items Appear?", None, QtGui.QApplication.UnicodeUTF8))
-        self.progression_misc.setText(QtGui.QApplication.translate("MainWindow", "Everywhere Else", None, QtGui.QApplication.UnicodeUTF8))
+        self.progression_misc.setText(QtGui.QApplication.translate("MainWindow", "Miscellaneous", None, QtGui.QApplication.UnicodeUTF8))
         self.progression_sidequests.setText(QtGui.QApplication.translate("MainWindow", "Sidequests", None, QtGui.QApplication.UnicodeUTF8))
         self.progression_treasure_charts.setText(QtGui.QApplication.translate("MainWindow", "Sunken Treasure (From Treasure Charts)", None, QtGui.QApplication.UnicodeUTF8))
         self.progression_platforms_rafts.setText(QtGui.QApplication.translate("MainWindow", "Lookout Platforms and Rafts", None, QtGui.QApplication.UnicodeUTF8))
