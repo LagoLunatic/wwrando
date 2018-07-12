@@ -38,6 +38,15 @@ SageOfMirrors (file format documentation)
 LordNed (file format documentation)
 CryZe (event flag documentation)
 
+### Running the randomizer on Mac
+
+There are currently no official Mac builds of the randomizer, but you should be able to run the Windows builds on Mac with Wine.
+
+You can install Wine and run the randomizer by running these commands:
+brew cask install xquartz
+brew install wine
+sudo wine "Wind Waker Randomizer.exe"
+
 ### Running the randomizer from source
 
 If you want to run the latest development/beta version of the randomizer from source, follow these instructions:
