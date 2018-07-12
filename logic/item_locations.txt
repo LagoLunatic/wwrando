@@ -651,6 +651,7 @@ Forest Haven - On Tree Branch:
   Need:
     Can Access Forest Haven
     & Grappling Hook
+  # Note: You can access this without Grappling Hook if you take the lower platform exit out of Forest Haven, fly to the pillar outside, then use the whirlwind to gain height and fly back to Forest Haven taking the middle platform exit. But this requires using glitches (either precise ledge grabbing, leaf pumping, or simply abusing the respawn mechanic to get on the FH ledge without actually reaching it) so it's not in the logic.
   Original item: Deku Leaf
   Types: Misc
   Paths:
@@ -667,6 +668,7 @@ Forest Haven - Small Island Chest:
     Can Access Forest Haven
     & Grappling Hook
     & Can Fly With Deku Leaf Outdoors
+  # Note: You don't need Grappling Hook because you can take the lower platform exit out of Forest Haven, fly to the pillar outside, then fly east to this small island (Noob Skip). You can just barely make it without double magic meter as long as your magic meter is full. But this is not currently in the logic.
   Original item: Treasure Chart 3
   Types: Other Chest
   Paths:
@@ -1373,6 +1375,7 @@ Earth Temple - Jalhalla Heart Container:
     & Skull Hammer
     & ET Small Key x3
     & ET Big Key
+  # Note: Light Arrows instead of Mirror Shield work to materialize Jalhalla. (But you still need Mirror Shield just to reach him.)
   Original item: Heart Container
   Types: Dungeon
   Paths:

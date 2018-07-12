@@ -60,6 +60,7 @@ Can Access Forest Haven:
   Grappling Hook | Can Fly With Deku Leaf Outdoors
 Can Access Dungeon Entrance In Forest Haven Sector:
   Can Access Forest Haven & Grappling Hook & Can Fly With Deku Leaf Outdoors
+  # Note: You don't need Grappling Hook because you can take the lower platform exit out of Forest Haven (Noob Skip), but this is not currently in the logic.
 Can Access Dungeon Entrance In Tower of the Gods Sector:
   Din's Pearl
   & Farore's Pearl
@@ -108,6 +109,7 @@ Can Complete Memory Forbidden Woods and Kalle Demos:
   Deku Leaf & Boomerang
 Can Complete Memory Earth Temple and Jalhalla:
   Mirror Shield & Power Bracelets
+  # Note: Light Arrows instead of Mirror Shield work to materialize Jalhalla. (But you still need Mirror Shield just to reach him.)
 Can Complete Memory Wind Temple and Molgera:
   Iron Boots & Deku Leaf & Hookshot
   # Iron boots are not strictly necessary to get across the gaps - just Deku Leaf and Hookshot work, but it's more difficult, and requires damage boosting off spikes. TODO: Consider taking this into account for higher difficulty levels.
