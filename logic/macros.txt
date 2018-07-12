@@ -108,8 +108,10 @@ Can Complete Memory Dragon Roost Cavern and Gohma:
 Can Complete Memory Forbidden Woods and Kalle Demos:
   Deku Leaf & Boomerang
 Can Complete Memory Earth Temple and Jalhalla:
-  Mirror Shield & Power Bracelets
-  # Note: Light Arrows instead of Mirror Shield work to materialize Jalhalla. (But you still need Mirror Shield just to reach him.)
+  (Mirror Shield | Light Arrows)
+  & Power Bracelets
+  # Mirror Shield is not needed in the hallway leading up to Jalhalla because you can lure the Purple Chuchus into the light.
+  # It's not needed for Jalhalla because Light Arrows work in their place.
 Can Complete Memory Wind Temple and Molgera:
   Iron Boots & Deku Leaf & Hookshot
   # Iron boots are not strictly necessary to get across the gaps - just Deku Leaf and Hookshot work, but it's more difficult, and requires damage boosting off spikes. TODO: Consider taking this into account for higher difficulty levels.
@@ -127,6 +129,9 @@ Can Reach and Defeat Ganondorf:
   Can Reach and Defeat Puppet Ganon
   & Grappling Hook
   & Hookshot
+  & Hero's Shield
+  # You need a shield to reflect Zelda's light arrows, but it doesn't need to be Mirror Shield.
+  # It doesn't matter if you have the bow or not, Zelda will still get it.
 
 Rescued Aryll:
   Nothing # We set the event bit for having rescued Aryll by default.
