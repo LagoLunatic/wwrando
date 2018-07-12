@@ -173,6 +173,7 @@ Can Defeat Peahats:
   | Deku Leaf
   | Skull Hammer
   | Hero's Bow
+  | Bombs
 Can Defeat Armos:
   Nothing
   # Hero's Bow makes killing these more convenient.
