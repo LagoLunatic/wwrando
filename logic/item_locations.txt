@@ -1571,7 +1571,7 @@ Mailbox - Letter from Hoskit's Girlfriend:
   Need: Spoils Bag & Can Farm Golden Feathers & Song of Passing
   # Need to wait for time to pass.
   Original item: Piece of Heart (Alternate Message)
-  Types: Mail
+  Types: Mail, Sidequest
   Paths:
     - rels/d_a_obj_toripost.rel@25DC
 Mailbox - Letter from Baito's Mother:
