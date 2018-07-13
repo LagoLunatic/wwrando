@@ -820,3 +820,22 @@
 .org 0x800C4454 ; In item_func_pearl3__Fv
   bl give_pearl_and_raise_totg_if_necessary
 .close
+
+
+
+
+; Remove some dialogue the Killer Bees have hinting at where the Picto Box is after you've talked to Lenzo without it.
+; Not only is this hint inaccurate in the randomizer, but this dialogue overrides the hide and seek event until you own Picto Box, which would result in a softlock if hide and seek was randomized to give Picto Box for example.
+; To do this we simply override the four checks on event flag 1208 (for having talked to Lenzo without the Picto Box).
+.open "files/rels/d_a_npc_mk.rel" ; Ivan
+.org 0x2C2C ; In visitTalkInit__10daNpc_Mk_cFv
+  b 0x2C7C
+.org 0x2D0C ; In visitSetEvent__10daNpc_Mk_cFv
+  b 0x2D48
+.close
+.open "files/rels/d_a_npc_uk.rel" ; The other Killer Bees besides Ivan
+.org 0x29B4 ; In visitTalkInit__10daNpc_Uk_cFv
+  b 0x2A38
+.org 0x2AC8 ; In visitSetEvent__10daNpc_Uk_cFv
+  b 0x2B04
+.close

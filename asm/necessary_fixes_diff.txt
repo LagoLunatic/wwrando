@@ -166,3 +166,9 @@ files/rels/d_a_st.rel:
   23232: [72, 0, 0, 60]
 files/rels/d_a_npc_ba1.rel:
   5852: [56, 0, 7, 245]
+files/rels/d_a_npc_mk.rel:
+  11308: [72, 0, 0, 80]
+  11532: [72, 0, 0, 60]
+files/rels/d_a_npc_uk.rel:
+  10676: [72, 0, 0, 132]
+  10952: [72, 0, 0, 60]
