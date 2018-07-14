@@ -10,6 +10,7 @@ class GCM:
   def __init__(self, iso_path):
     self.iso_path = iso_path
     self.files_by_path = {}
+    self.files_by_path_lowercase = {}
   
   def read_entire_disc(self):
     self.iso_file = open(self.iso_path, "rb")
@@ -22,6 +23,9 @@ class GCM:
     finally:
       self.iso_file.close()
       self.iso_file = None
+    
+    for file_path, file_entry in self.files_by_path.items():
+      self.files_by_path_lowercase[file_path.lower()] = file_entry
   
   def read_filesystem(self):
     self.file_entries = []
@@ -80,10 +84,11 @@ class GCM:
     self.files_by_path["sys/fst.bin"] = SystemFile(self.fst_offset, self.fst_size)
   
   def read_file_data(self, file_path):
-    if file_path not in self.files_by_path:
+    file_path = file_path.lower()
+    if file_path not in self.files_by_path_lowercase:
       raise Exception("Could not find file: " + file_path)
     
-    file_entry = self.files_by_path[file_path]
+    file_entry = self.files_by_path_lowercase[file_path]
     if file_entry.file_size > MAX_DATA_SIZE_TO_READ_AT_ONCE:
       raise Exception("Tried to read a very large file all at once")
     with open(self.iso_path, "rb") as iso_file:
