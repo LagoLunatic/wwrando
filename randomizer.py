@@ -642,3 +642,7 @@ class Randomizer:
     error_log_output_path = os.path.join(self.randomized_output_folder, "WW Random %s - Error Log.txt" % self.seed)
     with open(error_log_output_path, "w") as f:
       f.write(error_log_str)
+  
+  def disassemble_all_code(self):
+    from asm.disassemble import disassemble_all_code
+    disassemble_all_code(self)
