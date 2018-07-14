@@ -375,6 +375,9 @@ class Randomizer:
       return data
   
   def replace_raw_file(self, file_path, new_data):
+    if file_path not in self.gcm.files_by_path:
+      raise Exception("Cannot replace file that doesn't exist: " + file_path)
+    
     self.raw_files_by_path[file_path] = new_data
   
   def save_randomized_iso(self):
