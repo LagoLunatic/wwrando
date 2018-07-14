@@ -3,7 +3,7 @@ from PySide.QtGui import *
 from PySide.QtCore import *
 
 from ui.ui_randomizer_window import Ui_MainWindow
-from ui.options import OPTIONS
+from ui.options import OPTIONS, NON_PERMALINK_OPTIONS
 from ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
 
 import random
@@ -13,6 +13,7 @@ import traceback
 import string
 import struct
 import base64
+import glob
 
 import yaml
 try:
@@ -30,6 +31,8 @@ class WWRandomizerWindow(QMainWindow):
     super(WWRandomizerWindow, self).__init__()
     self.ui = Ui_MainWindow()
     self.ui.setupUi(self)
+    
+    self.initialize_custom_player_model_list()
     
     self.preserve_default_settings()
     
@@ -292,6 +295,9 @@ class WWRandomizerWindow(QMainWindow):
     current_byte = 0
     current_bit_index = 0
     for option_name in OPTIONS:
+      if option_name in NON_PERMALINK_OPTIONS:
+        continue
+      
       value = self.settings[option_name]
       
       widget = getattr(self.ui, option_name)
@@ -347,6 +353,9 @@ class WWRandomizerWindow(QMainWindow):
     current_byte_index = 0
     current_bit_index = 0
     for option_name in OPTIONS:
+      if option_name in NON_PERMALINK_OPTIONS:
+        continue
+      
       if current_bit_index >= 8:
         current_byte_index += 1
         current_bit_index = 0
@@ -451,6 +460,20 @@ class WWRandomizerWindow(QMainWindow):
     else:
       self.ui.option_description.setText(new_description)
       self.ui.option_description.setStyleSheet("")
+  
+  def initialize_custom_player_model_list(self):
+    self.ui.custom_player_model.addItem("Link")
+    
+    custom_model_paths = glob.glob("./models/*/")
+    for folder_path in custom_model_paths:
+      folder_path_no_slash = os.path.normpath(folder_path)
+      folder_name = os.path.basename(folder_path_no_slash)
+      self.ui.custom_player_model.addItem(folder_name)
+    
+    if custom_model_paths:
+      self.ui.custom_player_model.addItem("Random")
+    else:
+      self.ui.custom_player_model.setEnabled(False)
   
   def open_about(self):
     text = """Wind Waker Randomizer Version %s<br><br>

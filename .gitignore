@@ -3,3 +3,4 @@ __pycache__
 settings.txt
 /build
 /dist
+/models

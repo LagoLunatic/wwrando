@@ -5,9 +5,12 @@ import os
 from io import BytesIO
 from collections import namedtuple
 import copy
+import glob
+from random import Random
 
 from fs_helpers import *
 from wwlib import texture_utils
+from wwlib.rarc import RARC
 from paths import ASSETS_PATH, ASM_PATH
 
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
@@ -1180,3 +1183,42 @@ def add_chart_number_to_item_get_messages(self):
     elif item_name.startswith("Triforce Chart ") and not "deciphered" in item_name:
       msg = self.bmg.messages_by_id[101 + item_id]
       msg.string = msg.string.replace("a \\{1A 06 FF 00 00 01}Triforce Chart", "\\{1A 06 FF 00 00 01}%s" % item_name)
+
+def replace_link_model(self):
+  custom_model_name = self.options.get("custom_player_model", "Link")
+  print(custom_model_name)
+  if custom_model_name == "Link":
+    return
+  
+  if custom_model_name == "Random":
+    custom_model_paths = glob.glob("./models/*/")
+    if not custom_model_paths:
+      raise Exception("No custom models to randomly choose from in the /models folder.")
+    
+    custom_model_paths.append(None) # Dummy entry to represent not changing Link's model
+    
+    temp_rng = Random()
+    temp_rng.seed(self.integer_seed)
+    
+    custom_model_path = temp_rng.choice(custom_model_paths)
+    
+    if custom_model_path == None:
+      return
+  else:
+    custom_model_path = "./models/%s/" % custom_model_name
+  
+  link_arc = self.get_arc("files/res/Object/Link.arc")
+  
+  file_paths = glob.glob(custom_model_path + "*.*")
+  for file_path in file_paths:
+    file_name = os.path.basename(file_path)
+    file_entry = link_arc.get_file_entry(file_name)
+    
+    if file_entry is None:
+      folder_path_no_slash = os.path.normpath(custom_model_path)
+      folder_name = os.path.basename(folder_path_no_slash)
+      raise Exception("Invalid file in custom player model folder \"%s\": \"%s\"" % (folder_name, file_name))
+    
+    with open(file_path, "rb") as f:
+      new_data = BytesIO(f.read())
+    file_entry.data = new_data

@@ -32,4 +32,10 @@ OPTIONS = OrderedDict([
   ("num_starting_triforce_shards", "Change the number of Triforce Shards you start the game with.<br>The higher you set this, the fewer you will need to find placed randomly."),
   
   ("add_shortcut_warps_between_dungeons", "Adds new warp pots that act as shortcuts connecting dungeons to each other directly.\nEach pot must be unlocked before it can be used, so you cannot use them to access dungeons you wouldn't already have access to."),
+  
+  ("custom_player_model", "Replaces Link's model with a custom player model.\nThese are loaded from the /models folder."),
 ])
+
+NON_PERMALINK_OPTIONS = [
+  "custom_player_model",
+]
