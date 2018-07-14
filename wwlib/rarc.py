@@ -80,6 +80,9 @@ class RARC:
   
   def extract_all_files_to_disk_flat(self, output_directory):
     # Does not preserve directory structure.
+    if not os.path.isdir(output_directory):
+      os.mkdir(output_directory)
+    
     for file_entry in self.file_entries:
       if file_entry.is_dir:
         continue
