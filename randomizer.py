@@ -240,6 +240,7 @@ class Randomizer:
     tweaks.update_shop_item_descriptions(self)
     tweaks.update_auction_item_names(self)
     tweaks.update_sinking_ships_item_names(self)
+    tweaks.update_item_names_in_letter_advertising_rock_spire_shop(self)
     tweaks.update_savage_labyrinth_hint_tablet(self)
     tweaks.update_fishmen_hints(self)
   

@@ -735,6 +735,13 @@ def word_wrap_string(string, max_line_length=34):
   
   return wordwrapped_str
 
+def get_indefinite_article(string):
+  first_letter = string.strip()[0].lower()
+  if first_letter in ["a", "e", "i", "o", "u"]:
+    return "an"
+  else:
+    return "a"
+
 def pad_string_to_next_4_lines(string):
   lines = string.split("\n")
   padding_lines_needed = (4 - len(lines) % 4) % 4
@@ -830,6 +837,38 @@ def update_sinking_ships_item_names(self):
   # The high score one doesn't say the item name in text anywhere, so no need to update it.
   #item_name = self.logic.done_item_locations["Windfall Island - Sinking Ships - 20 Shots or Less Prize"]
   #msg = self.bmg.messages_by_id[7523]
+
+def update_item_names_in_letter_advertising_rock_spire_shop(self):
+  item_name_1 = self.logic.done_item_locations["Rock Spire Isle - Beedle's Special Shop Ship - 500 Rupee Item"]
+  item_name_2 = self.logic.done_item_locations["Rock Spire Isle - Beedle's Special Shop Ship - 950 Rupee Item"]
+  item_name_3 = self.logic.done_item_locations["Rock Spire Isle - Beedle's Special Shop Ship - 900 Rupee Item"]
+  msg = self.bmg.messages_by_id[3325]
+  
+  lines = msg.string.split("\n")
+  unchanged_string_before = "\n".join(lines[0:8]) + "\n"
+  unchanged_string_after = "\n".join(lines[12:])
+  
+  hint_string = "Do you have need of %s \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}, %s \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}, or %s \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}? We have them at special bargain prices." % (
+    get_indefinite_article(item_name_1), item_name_1,
+    get_indefinite_article(item_name_2), item_name_2,
+    get_indefinite_article(item_name_3), item_name_3,
+  )
+  
+  # Letters have 2 spaces at the start of each line, so word wrap to 41 chars instead of 43, then add 2 spaces to each line.
+  hint_string = word_wrap_string(hint_string, max_line_length=41)
+  hint_string = pad_string_to_next_4_lines(hint_string)
+  hint_lines = hint_string.split("\n")
+  leading_spaces_hint_lines = []
+  for hint_line in hint_lines:
+    if hint_line == "":
+      leading_spaces_hint_lines.append(hint_line)
+    else:
+      leading_spaces_hint_lines.append("  " + hint_line)
+  hint_string = "\n".join(leading_spaces_hint_lines)
+  
+  msg.string = unchanged_string_before
+  msg.string += hint_string
+  msg.string += unchanged_string_after
 
 def update_savage_labyrinth_hint_tablet(self):
   # Update the tablet on the first floor of savage labyrinth to give hints as to the items inside the labyrinth.
