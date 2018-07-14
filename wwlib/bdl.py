@@ -85,11 +85,15 @@ class BDLChunk:
     self.string_data_offset = read_u16(self.data, self.string_section_offset+6)
     self.string_unknown_3 = read_bytes(self.data, self.string_section_offset+8, self.string_data_offset-8)
     
+    self.texture_names = []
     self.textures_by_name = OrderedDict()
     offset_in_string_list = self.string_data_offset
     for texture in self.textures:
       filename = read_str_until_null_character(self.data, self.string_section_offset + offset_in_string_list)
-      self.textures_by_name[filename] = texture
+      self.texture_names.append(filename)
+      if filename not in self.textures_by_name:
+        self.textures_by_name[filename] = []
+      self.textures_by_name[filename].append(texture)
       
       offset_in_string_list += len(filename) + 1
   
@@ -131,6 +135,7 @@ class BDLChunk:
     write_bytes(self.data, self.string_section_offset+8, self.string_unknown_3)
     
     offset_in_string_list = self.string_data_offset
-    for filename, texture in self.textures_by_name.items():
+    for i, texture in enumerate(self.textures):
+      filename = self.texture_names[i]
       write_str_with_null_byte(self.data, self.string_section_offset+offset_in_string_list, filename)
       offset_in_string_list += len(filename) + 1

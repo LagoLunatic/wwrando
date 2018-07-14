@@ -403,7 +403,7 @@ def make_sail_behave_like_swift_sail(self):
   # Modify the sail's item get texture.
   sail_itemget_arc = self.get_arc("files/res/Object/Vho.arc")
   sail_itemget_model = sail_itemget_arc.get_file("vho.bdl")
-  sail_itemget_tex_image = sail_itemget_model.tex1.textures_by_name["Vho"]
+  sail_itemget_tex_image = sail_itemget_model.tex1.textures_by_name["Vho"][0]
   # Originally it used image format 0xE, which is lossy DXT1 compression.
   # But implementing this while having the texture actually look good is too difficult, so instead switch this to image format 9 and palette format 1 (C8 with a 255 color RGB565 palette).
   sail_itemget_tex_image.image_format = 9
@@ -548,12 +548,12 @@ def modify_title_screen_logo(self):
   title_image.save_changes()
   
   subtitle_model = tlogoe_arc.get_file("subtitle_start_anim_e.bdl")
-  subtitle_image = subtitle_model.tex1.textures_by_name["logo_sub_e"]
+  subtitle_image = subtitle_model.tex1.textures_by_name["logo_sub_e"][0]
   subtitle_image.replace_image(new_subtitle_image_path)
   subtitle_model.save_changes()
   
   subtitle_glare_model = tlogoe_arc.get_file("subtitle_kirari_e.bdl")
-  subtitle_glare_image = subtitle_glare_model.tex1.textures_by_name["logo_sub_e"]
+  subtitle_glare_image = subtitle_glare_model.tex1.textures_by_name["logo_sub_e"][0]
   subtitle_glare_image.replace_image(new_subtitle_image_path)
   subtitle_glare_model.save_changes()
   
