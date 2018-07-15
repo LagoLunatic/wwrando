@@ -267,7 +267,7 @@ class WWRandomizerWindow(QMainWindow):
     
     self.save_settings()
     
-    permalink = self.encode_permalink()
+    self.encode_permalink()
   
   def permalink_modified(self):
     permalink = self.ui.permalink.text()
