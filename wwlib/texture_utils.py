@@ -71,16 +71,16 @@ def convert_rgb565_to_color(rgb565):
   r = ((rgb565 >> 11) & 0x1F)
   g = ((rgb565 >> 5) & 0x3F)
   b = ((rgb565 >> 0) & 0x1F)
-  r = r*255//0x1F
-  g = g*255//0x3F
-  b = b*255//0x1F
+  r = r << 3
+  g = g << 2
+  b = b << 3
   return (r, g, b, 255)
 
 def convert_color_to_rgb565(color):
   r, g, b, a = get_rgba(color)
-  r = r*0x1F//255
-  g = g*0x3F//255
-  b = b*0x1F//255
+  r = r >> 3
+  g = g >> 2
+  b = b >> 3
   rgb565 = 0x0000
   rgb565 |= ((r & 0x1F) << 11)
   rgb565 |= ((g & 0x3F) << 5)
@@ -98,36 +98,36 @@ def convert_rgb5a3_to_color(rgb5a3):
     r = ((rgb5a3 >> 8) & 0xF)
     g = ((rgb5a3 >> 4) & 0xF)
     b = ((rgb5a3 >> 0) & 0xF)
-    a = a*255//7
-    r = r*255//0xF
-    g = g*255//0xF
-    b = b*255//0xF
+    a = a << 5
+    r = r << 4
+    g = g << 4
+    b = b << 4
   else:
     a = 255
     r = ((rgb5a3 >> 10) & 0x1F)
     g = ((rgb5a3 >> 5) & 0x1F)
     b = ((rgb5a3 >> 0) & 0x1F)
-    r = r*255//0x1F
-    g = g*255//0x1F
-    b = b*255//0x1F
+    r = r << 3
+    g = g << 3
+    b = b << 3
   return (r, g, b, a)
 
 def convert_color_to_rgb5a3(color):
   r, g, b, a = get_rgba(color)
   if a != 255:
-    a = a*0x7//255
-    r = r*0xF//255
-    g = g*0xF//255
-    b = b*0xF//255
+    a = a >> 5
+    r = r >> 4
+    g = g >> 4
+    b = b >> 4
     rgb5a3 = 0x0000
     rgb5a3 |= ((a & 0x7) << 12)
     rgb5a3 |= ((r & 0xF) << 8)
     rgb5a3 |= ((g & 0xF) << 4)
     rgb5a3 |= ((b & 0xF) << 0)
   else:
-    r = r*0x1F//255
-    g = g*0x1F//255
-    b = b*0x1F//255
+    r = r >> 3
+    g = g >> 3
+    b = b >> 3
     rgb5a3 = 0x8000
     rgb5a3 |= ((r & 0x1F) << 10)
     rgb5a3 |= ((g & 0x1F) << 5)
