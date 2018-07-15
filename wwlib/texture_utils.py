@@ -588,6 +588,8 @@ def encode_image(image, image_format, palette_format):
 def encode_image_to_block(image_format, pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
   if image_format == 5:
     return encode_image_to_rgb5a3_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
+  elif image_format == 8:
+    return encode_image_to_c4_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == 9:
     return encode_image_to_c8_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == 0xE:
@@ -604,6 +606,27 @@ def encode_image_to_rgb5a3_block(pixels, colors, block_x, block_y, block_width, 
       rgb5a3 = convert_color_to_rgb5a3(color)
       write_u16(new_data, offset, rgb5a3)
       offset += 2
+  
+  new_data.seek(0)
+  return new_data.read()
+
+def encode_image_to_c4_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
+  new_data = BytesIO()
+  offset = 0
+  
+  for y in range(block_y, block_y+block_height):
+    for x in range(block_x, block_x+block_width, 2):
+      color_1 = pixels[x,y]
+      color_1_index = colors.index(color_1)
+      assert 0 <= color_1_index <= 0xF
+      color_2 = pixels[x,y]
+      color_2_index = colors.index(color_2)
+      assert 0 <= color_2_index <= 0xF
+      
+      byte = ((color_1_index & 0xF) << 4) | (color_2_index & 0xF)
+      
+      write_u8(new_data, offset, byte)
+      offset += 1
   
   new_data.seek(0)
   return new_data.read()
