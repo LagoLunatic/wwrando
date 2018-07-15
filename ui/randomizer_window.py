@@ -33,6 +33,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.setupUi(self)
     
     self.initialize_custom_player_model_list()
+    self.set_tunic_color([90, 178, 74])
     
     self.preserve_default_settings()
     
@@ -53,6 +54,8 @@ class WWRandomizerWindow(QMainWindow):
         widget.currentIndexChanged.connect(self.update_settings)
       else:
         raise Exception("Option widget is invalid: %s" % option_name)
+    
+    self.ui.custom_tunic_color.clicked.connect(self.open_custom_tunic_color_chooser)
     
     self.ui.generate_seed_button.clicked.connect(self.generate_seed)
     
@@ -426,16 +429,18 @@ class WWRandomizerWindow(QMainWindow):
   
   def get_option_value(self, option_name):
     widget = getattr(self.ui, option_name)
-    if isinstance(widget, QAbstractButton):
+    if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
       return widget.isChecked()
     elif isinstance(widget, QComboBox):
       return widget.itemText(widget.currentIndex())
+    elif isinstance(widget, QPushButton) and option_name == "custom_tunic_color":
+      return self.tunic_color
     else:
       print("Option widget is invalid: %s" % option_name)
   
   def set_option_value(self, option_name, new_value):
     widget = getattr(self.ui, option_name)
-    if isinstance(widget, QAbstractButton):
+    if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
       widget.setChecked(new_value)
     elif isinstance(widget, QComboBox):
       index_of_value = None
@@ -450,6 +455,8 @@ class WWRandomizerWindow(QMainWindow):
         index_of_value = 0
       
       widget.setCurrentIndex(index_of_value)
+    elif isinstance(widget, QPushButton):
+      self.set_tunic_color(new_value)
     else:
       print("Option widget is invalid: %s" % option_name)
   
@@ -474,6 +481,22 @@ class WWRandomizerWindow(QMainWindow):
       self.ui.custom_player_model.addItem("Random")
     else:
       self.ui.custom_player_model.setEnabled(False)
+  
+  def set_tunic_color(self, color):
+    self.ui.custom_tunic_color.setStyleSheet("background-color: rgb(%d, %d, %d)" % tuple(color))
+    self.tunic_color = color
+  
+  def open_custom_tunic_color_chooser(self):
+    r, g, b = self.tunic_color
+    initial_color = QColor(r, g, b, 255)
+    color = QColorDialog.getColor(initial_color, self, "Select tunic color")
+    if not color.isValid():
+      return
+    r = color.red()
+    g = color.green()
+    b = color.blue()
+    self.set_tunic_color([r, g, b])
+    self.update_settings()
   
   def open_about(self):
     text = """Wind Waker Randomizer Version %s<br><br>

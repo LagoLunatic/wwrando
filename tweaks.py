@@ -1223,3 +1223,29 @@ def replace_link_model(self):
     with open(file_path, "rb") as f:
       new_data = BytesIO(f.read())
     file_entry.data = new_data
+
+def change_player_clothes_color(self):
+  custom_color = self.options.get("custom_tunic_color", None)
+  if custom_color is None:
+    return
+  custom_color = tuple(custom_color)
+  
+  base_color_to_replace = (90, 178, 74)
+  if custom_color == base_color_to_replace:
+    return
+  
+  link_arc = self.get_arc("files/res/Object/Link.arc")
+  link_main_model = BDL(link_arc.get_file_entry("cl.bdl"))
+  link_main_textures = link_main_model.tex1.textures_by_name["linktexS3TC"]
+  for texture in link_main_textures:
+    image = texture.render()
+    
+    texture.image_format = 9
+    texture.palette_format = 1
+    texture.replace_image(image)
+    image = texture.render()
+    
+    image = texture_utils.replace_color_range(image, base_color_to_replace, custom_color)
+    texture.replace_image(image)
+    image = texture.render()
+  link_main_model.save_changes()

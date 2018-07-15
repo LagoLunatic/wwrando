@@ -34,8 +34,10 @@ OPTIONS = OrderedDict([
   ("add_shortcut_warps_between_dungeons", "Adds new warp pots that act as shortcuts connecting dungeons to each other directly.\nEach pot must be unlocked before it can be used, so you cannot use them to access dungeons you wouldn't already have access to."),
   
   ("custom_player_model", "Replaces Link's model with a custom player model.\nThese are loaded from the /models folder."),
+  ("custom_tunic_color", "Allows you to specify the color of Link's tunic."),
 ])
 
 NON_PERMALINK_OPTIONS = [
   "custom_player_model",
+  "custom_tunic_color",
 ]

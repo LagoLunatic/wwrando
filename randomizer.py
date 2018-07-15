@@ -237,6 +237,7 @@ class Randomizer:
     tweaks.add_chart_number_to_item_get_messages(self)
     
     tweaks.replace_link_model(self)
+    tweaks.change_player_clothes_color(self)
   
   def apply_necessary_post_randomization_tweaks(self):
     tweaks.update_shop_item_descriptions(self)
