@@ -52,8 +52,8 @@ class Randomizer:
       self.gcm = GCM(clean_iso_path)
       self.gcm.read_entire_disc()
       
-      self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").chart_lists[0]
-      self.bmg = self.get_arc("files/res/Msg/bmgres.arc").bmg_files[0]
+      self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").get_file("cmapdat.bin")
+      self.bmg = self.get_arc("files/res/Msg/bmgres.arc").get_file("zel_00.bmg")
     
     self.read_text_file_lists()
     

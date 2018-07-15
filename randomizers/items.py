@@ -300,13 +300,16 @@ def change_hardcoded_item(self, path, offset, item_id):
   write_u8(data, offset, item_id)
 
 def change_chest_item(self, arc_path, chest_index, layer, item_id):
-  dzx = self.get_arc(arc_path).dzx_files[0]
+  if arc_path.endswith("Stage.arc"):
+    dzx = self.get_arc(arc_path).get_file("stage.dzs")
+  else:
+    dzx = self.get_arc(arc_path).get_file("room.dzr")
   chest = dzx.entries_by_type_and_layer("TRES", layer)[chest_index]
   chest.item_id = item_id
   chest.save_changes()
 
 def change_event_item(self, arc_path, event_index, actor_index, action_index, item_id):
-  event_list = self.get_arc(arc_path).event_list_files[0]
+  event_list = self.get_arc(arc_path).get_file("event_list.dat")
   action = event_list.events[event_index].actors[actor_index].actions[action_index]
   
   if 0x6D <= item_id <= 0x72: # Song
@@ -318,7 +321,10 @@ def change_event_item(self, arc_path, event_index, actor_index, action_index, it
   action.save_changes()
 
 def change_scob_item(self, arc_path, scob_index, layer, item_id):
-  dzx = self.get_arc(arc_path).dzx_files[0]
+  if arc_path.endswith("Stage.arc"):
+    dzx = self.get_arc(arc_path).get_file("stage.dzs")
+  else:
+    dzx = self.get_arc(arc_path).get_file("room.dzr")
   scob = dzx.entries_by_type_and_layer("SCOB", layer)[scob_index]
   if scob.is_salvage():
     scob.salvage_item_id = item_id
@@ -330,7 +336,10 @@ def change_scob_item(self, arc_path, scob_index, layer, item_id):
     raise Exception("%s/SCOB%03X is an unknown type of SCOB" % (arc_path, scob_index))
 
 def change_actor_item(self, arc_path, actor_index, layer, item_id):
-  dzx = self.get_arc(arc_path).dzx_files[0]
+  if arc_path.endswith("Stage.arc"):
+    dzx = self.get_arc(arc_path).get_file("stage.dzs")
+  else:
+    dzx = self.get_arc(arc_path).get_file("room.dzr")
   actr = dzx.entries_by_type_and_layer("ACTR", layer)[actor_index]
   if actr.is_item():
     actr.item_id = item_id

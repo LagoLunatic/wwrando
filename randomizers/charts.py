@@ -30,7 +30,7 @@ def randomize_charts(self):
     chart.save_changes()
     
     # Then update the salvage object on the sea so it knows what chart corresponds to it now.
-    dzx = self.get_arc("files/res/Stage/sea/Room%d.arc" % chart.island_number).dzx_files[0]
+    dzx = self.get_arc("files/res/Stage/sea/Room%d.arc" % chart.island_number).get_file("room.dzr")
     for scob in dzx.entries_by_type("SCOB"):
       if scob.is_salvage() and scob.salvage_type == 0:
         scob.salvage_chart_index_plus_1 = chart.owned_chart_index_plus_1
