@@ -12,6 +12,7 @@ from fs_helpers import *
 from wwlib import texture_utils
 from wwlib.rarc import RARC
 from wwlib.bdl import BDL
+from wwlib.bti import BTIFile
 from paths import ASSETS_PATH, ASM_PATH
 
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
@@ -1230,25 +1231,35 @@ def change_player_clothes_color(self):
     return
   custom_color = tuple(custom_color)
   
-  base_color_to_replace = (90, 178, 74)
-  if custom_color == base_color_to_replace:
-    return
-  
   link_arc = self.get_arc("files/res/Object/Link.arc")
-  link_main_model = BDL(link_arc.get_file_entry("cl.bdl"))
-  link_main_textures = link_main_model.tex1.textures_by_name["linktexS3TC"]
-  for texture in link_main_textures:
-    image = texture.render()
+  if self.options.get("player_in_casual_clothes"):
+    base_color_to_replace = (74, 117, 172)
+    if custom_color == base_color_to_replace:
+      return
     
-    texture.image_format = 9
-    texture.palette_format = 1
-    texture.replace_image(image)
+    texture = BTIFile(link_arc.get_file_entry("linktexbci4.bti"))
     image = texture.render()
     
     image = texture_utils.replace_color_range(image, base_color_to_replace, custom_color)
+    
     texture.replace_image(image)
-    image = texture.render()
-  link_main_model.save_changes()
+    texture.save_changes()
+  else:
+    base_color_to_replace = (90, 178, 74)
+    if custom_color == base_color_to_replace:
+      return
+    
+    link_main_model = BDL(link_arc.get_file_entry("cl.bdl"))
+    link_main_textures = link_main_model.tex1.textures_by_name["linktexS3TC"]
+    first_texture = link_main_textures[0]
+    image = first_texture.render()
+    image = texture_utils.replace_color_range(image, base_color_to_replace, custom_color)
+    
+    for texture in link_main_textures:
+      texture.image_format = 9
+      texture.palette_format = 1
+      texture.replace_image(image)
+    link_main_model.save_changes()
 
 def change_starting_clothes(self):
   should_start_with_heros_clothes_address = self.custom_symbols["should_start_with_heros_clothes"]
