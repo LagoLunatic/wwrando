@@ -709,7 +709,7 @@ def replace_color_range(image, base_color, replacement_color):
       h = int(h*360)
       s = int(s*100)
       v = int(v*100)
-      hue_diff = (base_h - h + 180) % 360 - 180
+      hue_diff = abs((base_h - h + 180) % 360 - 180)
       if hue_diff <= 36:
         new_h = h + h_change
         new_s = s + s_change
