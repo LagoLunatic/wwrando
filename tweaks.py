@@ -12,6 +12,7 @@ from fs_helpers import *
 from wwlib import texture_utils
 from wwlib.rarc import RARC
 from paths import ASSETS_PATH, ASM_PATH
+import customizer
 
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
 ORIGINAL_DOL_SIZE = 0x3A52C0
@@ -1211,6 +1212,9 @@ def replace_link_model(self):
   
   file_paths = glob.glob(custom_model_path + "*.*")
   for file_path in file_paths:
+    if file_path.endswith(".txt"):
+      continue
+    
     file_name = os.path.basename(file_path)
     file_entry = link_arc.get_file_entry(file_name)
     
@@ -1224,39 +1228,80 @@ def replace_link_model(self):
     file_entry.data = new_data
 
 def change_player_clothes_color(self):
-  custom_color = self.options.get("custom_tunic_color", None)
-  if custom_color is None:
-    return
-  custom_color = tuple(custom_color)
+  custom_model_name = self.options.get("custom_player_model", "Link")
+  custom_model_metadata = customizer.get_model_metadata(custom_model_name)
   
   link_arc = self.get_arc("files/res/Object/Link.arc")
   if self.options.get("player_in_casual_clothes"):
-    base_color_to_replace = (74, 117, 172)
-    if custom_color == base_color_to_replace:
-      return
-    
     texture = link_arc.get_file("linktexbci4.bti")
     image = texture.render()
     
-    image = texture_utils.replace_color_range(image, base_color_to_replace, custom_color)
+    replaced_any = False
+    for custom_color_basename in ["shirt", "pants", "hair"]:
+      custom_color = self.options.get("player_%s_color" % custom_color_basename, None)
+      if custom_color is None:
+        continue
+      
+      custom_color = tuple(custom_color)
+      base_color = custom_model_metadata["casual_%s_color" % custom_color_basename]
+      if custom_color == base_color:
+        continue
+      
+      image = texture_utils.replace_color_range(image, base_color, custom_color)
+      replaced_any = True
+    
+    if not replaced_any:
+      return
     
     texture.replace_image(image)
     texture.save_changes()
-  else:
-    base_color_to_replace = (90, 178, 74)
-    if custom_color == base_color_to_replace:
-      return
     
+    custom_hair_color = self.options.get("player_hair_color", None)
+    if custom_hair_color:
+      custom_hair_color = tuple(custom_hair_color)
+      
+      link_hair_model = link_arc.get_file("katsura.bdl")
+      link_hair_textures = link_hair_model.tex1.textures_by_name["katsuraS3TC"]
+      first_texture = link_hair_textures[0]
+      image = first_texture.render()
+      
+      image.paste(custom_hair_color, [0, 0, 8, 8])
+      
+      for texture in link_hair_textures:
+        if texture.image_format == 0xE:
+          texture.image_format = 9
+          texture.palette_format = 1
+        texture.replace_image(image)
+      link_hair_model.save_changes()
+  else:
     link_main_model = link_arc.get_file("cl.bdl")
     link_main_textures = link_main_model.tex1.textures_by_name["linktexS3TC"]
     first_texture = link_main_textures[0]
     image = first_texture.render()
-    image = texture_utils.replace_color_range(image, base_color_to_replace, custom_color)
+    
+    replaced_any = False
+    for custom_color_basename in ["shirt", "pants", "hair"]:
+      custom_color = self.options.get("player_%s_color" % custom_color_basename, None)
+      if custom_color is None:
+        continue
+      
+      custom_color = tuple(custom_color)
+      base_color = custom_model_metadata["hero_%s_color" % custom_color_basename]
+      if custom_color == base_color:
+        continue
+      
+      image = texture_utils.replace_color_range(image, base_color, custom_color)
+      replaced_any = True
+    
+    if not replaced_any:
+      return
     
     for texture in link_main_textures:
-      texture.image_format = 9
-      texture.palette_format = 1
+      if texture.image_format == 0xE:
+        texture.image_format = 9
+        texture.palette_format = 1
       texture.replace_image(image)
+    
     link_main_model.save_changes()
 
 def change_starting_clothes(self):

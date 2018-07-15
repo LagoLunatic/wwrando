@@ -34,12 +34,22 @@ OPTIONS = OrderedDict([
   ("add_shortcut_warps_between_dungeons", "Adds new warp pots that act as shortcuts connecting dungeons to each other directly.\nEach pot must be unlocked before it can be used, so you cannot use them to access dungeons you wouldn't already have access to."),
   
   ("custom_player_model", "Replaces Link's model with a custom player model.\nThese are loaded from the /models folder."),
-  ("custom_tunic_color", "Allows you to specify the color of Link's tunic."),
   ("player_in_casual_clothes", "Enable this if you want to wear your casual clothes instead of the Hero's Clothes."),
+  ("player_shirt_color", "Allows you to specify the color of the player's shirt."),
+  ("player_pants_color", "Allows you to specify the color of the player's pants."),
+  ("player_hair_color", "Allows you to specify the color of the player's hair."),
 ])
 
 NON_PERMALINK_OPTIONS = [
   "custom_player_model",
-  "custom_tunic_color",
   "player_in_casual_clothes",
+  "player_shirt_color",
+  "player_pants_color",
+  "player_hair_color",
+]
+
+COLOR_SELECTOR_OPTIONS = [
+  "player_shirt_color",
+  "player_pants_color",
+  "player_hair_color",
 ]
