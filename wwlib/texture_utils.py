@@ -3,6 +3,10 @@ from PIL import Image
 from io import BytesIO
 import colorsys
 
+from colormath import color_objects
+from colormath import color_conversions
+from colormath.color_diff import delta_e_cie2000
+
 from fs_helpers import *
 
 BLOCK_WIDTHS = {
@@ -705,14 +709,14 @@ def encode_image_to_cmpr_block(pixels, colors, block_x, block_y, block_width, bl
   return new_data.read()
 
 def replace_color_range(image, base_color, replacement_color):
-  r, g, b = base_color
-  base_h, base_s, base_v = colorsys.rgb_to_hsv(r/255, g/255, b/255)
+  base_r, base_g, base_b = base_color
+  base_h, base_s, base_v = colorsys.rgb_to_hsv(base_r/255, base_g/255, base_b/255)
   base_h = int(base_h*360)
   base_s = int(base_s*100)
   base_v = int(base_v*100)
   
-  r, g, b = replacement_color
-  replacement_h, replacement_s, replacement_v = colorsys.rgb_to_hsv(r/255, g/255, b/255)
+  replacement_r, replacement_g, replacement_b = replacement_color
+  replacement_h, replacement_s, replacement_v = colorsys.rgb_to_hsv(replacement_r/255, replacement_g/255, replacement_b/255)
   replacement_h = int(replacement_h*360)
   replacement_s = int(replacement_s*100)
   replacement_v = int(replacement_v*100)
@@ -721,19 +725,32 @@ def replace_color_range(image, base_color, replacement_color):
   s_change = replacement_s - base_s
   v_change = replacement_v - base_v
   
-  r, g, b = replacement_color
-  replacement_color = (r, g, b, 255)
+  color_replacements_mappings = {}
   
   pixels = image.load()
   for x in range(image.width):
     for y in range(image.height):
+      if pixels[x, y] in color_replacements_mappings:
+        replacement_pixel = color_replacements_mappings[pixels[x, y]]
+        if replacement_pixel is None:
+          continue
+        else:
+          pixels[x, y] = replacement_pixel
+          continue
+      
       r, g, b, a = pixels[x, y]
       h, s, v = colorsys.rgb_to_hsv(r/255, g/255, b/255)
       h = int(h*360)
       s = int(s*100)
       v = int(v*100)
-      hue_diff = abs((base_h - h + 180) % 360 - 180)
-      if hue_diff <= 36:
+      
+      color1_rgb = color_objects.sRGBColor(r/255, g/255, b/255)
+      color2_rgb = color_objects.sRGBColor(base_r/255, base_g/255, base_b/255)
+      color1_lab = color_conversions.convert_color(color1_rgb, color_objects.LabColor)
+      color2_lab = color_conversions.convert_color(color2_rgb, color_objects.LabColor)
+      color_diff = delta_e_cie2000(color1_lab, color2_lab)
+      
+      if color_diff <= 15:
         new_h = h + h_change
         new_s = s + s_change
         new_v = v + v_change
@@ -744,6 +761,9 @@ def replace_color_range(image, base_color, replacement_color):
         r = int(r*255)
         g = int(g*255)
         b = int(b*255)
-        pixels[x, y] = (r, g, b, 255)
+        color_replacements_mappings[pixels[x, y]] = (r, g, b, a)
+        pixels[x, y] = (r, g, b, a)
+      else:
+        color_replacements_mappings[pixels[x, y]] = None
   
   return image
