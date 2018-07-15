@@ -11,6 +11,7 @@ from random import Random
 from fs_helpers import *
 from wwlib import texture_utils
 from wwlib.rarc import RARC
+from wwlib.bdl import BDL
 from paths import ASSETS_PATH, ASM_PATH
 
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
@@ -391,13 +392,13 @@ def make_sail_behave_like_swift_sail(self):
   # Modify the sail's texture while sailing.
   ship_arc = self.get_arc("files/res/Object/Ship.arc")
   sail_image = ship_arc.get_file("new_ho1.bti")
-  sail_image.replace_image(new_sail_tex_image_path)
+  sail_image.replace_image_from_path(new_sail_tex_image_path)
   sail_image.save_changes()
   
   # Modify the sail's item icon.
   itemicon_arc = self.get_arc("files/res/Msg/itemicon.arc")
   sail_icon_image = itemicon_arc.get_file("sail_00.bti")
-  sail_icon_image.replace_image(new_sail_icon_image_path)
+  sail_icon_image.replace_image_from_path(new_sail_icon_image_path)
   sail_icon_image.save_changes()
   
   # Modify the sail's item get texture.
@@ -408,7 +409,7 @@ def make_sail_behave_like_swift_sail(self):
   # But implementing this while having the texture actually look good is too difficult, so instead switch this to image format 9 and palette format 1 (C8 with a 255 color RGB565 palette).
   sail_itemget_tex_image.image_format = 9
   sail_itemget_tex_image.palette_format = 1
-  sail_itemget_tex_image.replace_image(new_sail_itemget_tex_image_path)
+  sail_itemget_tex_image.replace_image_from_path(new_sail_itemget_tex_image_path)
   sail_itemget_model.save_changes()
 
 def add_ganons_tower_warp_to_ff2(self):
@@ -544,17 +545,17 @@ def modify_title_screen_logo(self):
   tlogoe_arc = self.get_arc("files/res/Object/TlogoE.arc")
   
   title_image = tlogoe_arc.get_file("logo_zelda_main.bti")
-  title_image.replace_image(new_title_image_path)
+  title_image.replace_image_from_path(new_title_image_path)
   title_image.save_changes()
   
   subtitle_model = tlogoe_arc.get_file("subtitle_start_anim_e.bdl")
   subtitle_image = subtitle_model.tex1.textures_by_name["logo_sub_e"][0]
-  subtitle_image.replace_image(new_subtitle_image_path)
+  subtitle_image.replace_image_from_path(new_subtitle_image_path)
   subtitle_model.save_changes()
   
   subtitle_glare_model = tlogoe_arc.get_file("subtitle_kirari_e.bdl")
   subtitle_glare_image = subtitle_glare_model.tex1.textures_by_name["logo_sub_e"][0]
-  subtitle_glare_image.replace_image(new_subtitle_image_path)
+  subtitle_glare_image.replace_image_from_path(new_subtitle_image_path)
   subtitle_glare_model.save_changes()
   
   # Move where the subtitle is drawn downwards a bit so the word "the" doesn't get covered up by the main logo.
@@ -584,7 +585,7 @@ def update_game_name_icon_and_banners(self):
   new_image_file_path = os.path.join(ASSETS_PATH, "banner.png")
   image_format = 5
   palette_format = 2
-  image_data, _, _ = texture_utils.encode_image(new_image_file_path, image_format, palette_format)
+  image_data, _, _ = texture_utils.encode_image_from_path(new_image_file_path, image_format, palette_format)
   image_data.seek(0)
   write_bytes(banner_data, 0x20, image_data.read())
   
@@ -592,12 +593,12 @@ def update_game_name_icon_and_banners(self):
   
   memory_card_icon_file_path = os.path.join(ASSETS_PATH, "memory card icon.png")
   memory_card_icon = cardicon_arc.get_file("ipl_icon1.bti")
-  memory_card_icon.replace_image(memory_card_icon_file_path)
+  memory_card_icon.replace_image_from_path(memory_card_icon_file_path)
   memory_card_icon.save_changes()
   
   memory_card_banner_file_path = os.path.join(ASSETS_PATH, "memory card banner.png")
   memory_card_banner = cardicon_arc.get_file("ipl_banner.bti")
-  memory_card_banner.replace_image(memory_card_banner_file_path)
+  memory_card_banner.replace_image_from_path(memory_card_banner_file_path)
   memory_card_banner.save_changes()
 
 def allow_dungeon_items_to_appear_anywhere(self):

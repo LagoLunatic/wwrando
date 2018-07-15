@@ -203,7 +203,7 @@ def get_best_cmpr_key_colors(all_colors):
   color_0 = (min_r, min_g, min_b)
   color_1 = (max_r, max_g, max_b)
   return (color_0, color_1)
-  
+
 # Picks a color from a palette that is visually the closest to the given color.
 # Based off Aseprite's code: https://github.com/aseprite/aseprite/blob/cc7bde6cd1d9ab74c31ccfa1bf41a000150a1fb2/src/doc/palette.cpp#L226-L272
 def get_nearest_color(color, palette):
@@ -545,8 +545,11 @@ def decode_cmpr_block(image_format, image_data, offset, block_data_size, colors)
 
 
 
-def encode_image(new_image_file_path, image_format, palette_format):
+def encode_image_from_path(new_image_file_path, image_format, palette_format):
   image = Image.open(new_image_file_path).convert("RGBA")
+  return encode_image(image, image_format, palette_format)
+
+def encode_image(image, image_format, palette_format):
   image_width, image_height = image.size
   
   colors = generate_new_palettes_from_image(image, image_format)
