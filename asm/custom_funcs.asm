@@ -26,8 +26,6 @@ lis r3, 0x803C522C@ha
 addi r3, r3, 0x803C522C@l
 li r4, 0x3510 ; HAS_SEEN_INTRO
 bl onEventBit__11dSv_event_cFUs
-li r4, 0x2A80 ; HAS_HEROS_CLOTHES
-bl onEventBit__11dSv_event_cFUs
 li r4, 0x0520 ; GOSSIP_STONE_AT_FF1 (Causes Aryll and the pirates to disappear from Outset)
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x2E01 ; WATCHED_MEETING_KORL_CUTSCENE (Necessary for Windfall music to play when warping there)
@@ -219,6 +217,16 @@ bl onEventBit__11dSv_event_cFUs
 after_starting_triforce_shards:
 
 
+lis r5, should_start_with_heros_clothes@ha
+addi r5, r5, should_start_with_heros_clothes@l
+lbz r5, 0 (r5) ; Load bool of whether player should start with Hero's clothes
+cmpwi r5, 1
+bne after_starting_heros_clothes
+li r4, 0x2A80 ; HAS_HEROS_CLOTHES
+bl onEventBit__11dSv_event_cFUs
+after_starting_heros_clothes:
+
+
 ; Function end stuff
 lwz r0, 0x14 (sp)
 mtlr r0
@@ -229,6 +237,9 @@ blr
 .global num_triforce_shards_to_start_with
 num_triforce_shards_to_start_with:
 .byte 0 ; By default start with no Triforce Shards
+.global should_start_with_heros_clothes
+should_start_with_heros_clothes:
+.byte 1 ; By default start with the Hero's Clothes
 .align 2 ; Align to the next 4 bytes
 
 

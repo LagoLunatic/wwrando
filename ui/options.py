@@ -35,9 +35,11 @@ OPTIONS = OrderedDict([
   
   ("custom_player_model", "Replaces Link's model with a custom player model.\nThese are loaded from the /models folder."),
   ("custom_tunic_color", "Allows you to specify the color of Link's tunic."),
+  ("player_in_casual_clothes", "Enable this if you want to wear your casual clothes instead of the Hero's Clothes."),
 ])
 
 NON_PERMALINK_OPTIONS = [
   "custom_player_model",
   "custom_tunic_color",
+  "player_in_casual_clothes",
 ]

@@ -1249,3 +1249,11 @@ def change_player_clothes_color(self):
     texture.replace_image(image)
     image = texture.render()
   link_main_model.save_changes()
+
+def change_starting_clothes(self):
+  should_start_with_heros_clothes_address = self.custom_symbols["should_start_with_heros_clothes"]
+  dol_data = self.get_raw_file("sys/main.dol")
+  if self.options.get("player_in_casual_clothes"):
+    write_u8(dol_data, address_to_offset(should_start_with_heros_clothes_address), 0)
+  else:
+    write_u8(dol_data, address_to_offset(should_start_with_heros_clothes_address), 1)

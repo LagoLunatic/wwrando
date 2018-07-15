@@ -238,6 +238,7 @@ class Randomizer:
     
     tweaks.replace_link_model(self)
     tweaks.change_player_clothes_color(self)
+    tweaks.change_starting_clothes(self)
   
   def apply_necessary_post_randomization_tweaks(self):
     tweaks.update_shop_item_descriptions(self)

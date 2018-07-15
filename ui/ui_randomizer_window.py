@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Sat Jul 14 19:49:22 2018
+# Created: Sun Jul 15 01:22:45 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -177,16 +177,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.gridLayout_5 = QtGui.QGridLayout()
         self.gridLayout_5.setObjectName("gridLayout_5")
-        self.horizontalLayout_5 = QtGui.QHBoxLayout()
-        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.label_for_custom_tunic_color = QtGui.QLabel(self.tab_2)
-        self.label_for_custom_tunic_color.setObjectName("label_for_custom_tunic_color")
-        self.horizontalLayout_5.addWidget(self.label_for_custom_tunic_color)
-        self.custom_tunic_color = QtGui.QPushButton(self.tab_2)
-        self.custom_tunic_color.setText("")
-        self.custom_tunic_color.setObjectName("custom_tunic_color")
-        self.horizontalLayout_5.addWidget(self.custom_tunic_color)
-        self.gridLayout_5.addLayout(self.horizontalLayout_5, 0, 1, 1, 1)
         self.horizontalLayout_3 = QtGui.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.label_for_custom_player_model = QtGui.QLabel(self.tab_2)
@@ -199,6 +189,19 @@ class Ui_MainWindow(object):
         self.widget_2.setObjectName("widget_2")
         self.horizontalLayout_3.addWidget(self.widget_2)
         self.gridLayout_5.addLayout(self.horizontalLayout_3, 0, 0, 1, 1)
+        self.horizontalLayout_5 = QtGui.QHBoxLayout()
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
+        self.label_for_custom_tunic_color = QtGui.QLabel(self.tab_2)
+        self.label_for_custom_tunic_color.setObjectName("label_for_custom_tunic_color")
+        self.horizontalLayout_5.addWidget(self.label_for_custom_tunic_color)
+        self.custom_tunic_color = QtGui.QPushButton(self.tab_2)
+        self.custom_tunic_color.setText("")
+        self.custom_tunic_color.setObjectName("custom_tunic_color")
+        self.horizontalLayout_5.addWidget(self.custom_tunic_color)
+        self.gridLayout_5.addLayout(self.horizontalLayout_5, 0, 1, 1, 1)
+        self.player_in_casual_clothes = QtGui.QCheckBox(self.tab_2)
+        self.player_in_casual_clothes.setObjectName("player_in_casual_clothes")
+        self.gridLayout_5.addWidget(self.player_in_casual_clothes, 1, 0, 1, 1)
         self.verticalLayout_3.addLayout(self.gridLayout_5)
         spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout_3.addItem(spacerItem)
@@ -322,8 +325,9 @@ class Ui_MainWindow(object):
         self.num_starting_triforce_shards.setItemText(7, QtGui.QApplication.translate("MainWindow", "7", None, QtGui.QApplication.UnicodeUTF8))
         self.num_starting_triforce_shards.setItemText(8, QtGui.QApplication.translate("MainWindow", "8", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("MainWindow", "Randomizer Settings", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_for_custom_tunic_color.setText(QtGui.QApplication.translate("MainWindow", "Link\'s Tunic Color:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_for_custom_player_model.setText(QtGui.QApplication.translate("MainWindow", "Custom Player Model:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_for_custom_tunic_color.setText(QtGui.QApplication.translate("MainWindow", "Link\'s Tunic Color:", None, QtGui.QApplication.UnicodeUTF8))
+        self.player_in_casual_clothes.setText(QtGui.QApplication.translate("MainWindow", "Casual Clothes", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("MainWindow", "Cosmetic", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("MainWindow", "Permalink (copy paste to share your settings):", None, QtGui.QApplication.UnicodeUTF8))
         self.update_checker_label.setText(QtGui.QApplication.translate("MainWindow", "Checking for updates to the randomizer...", None, QtGui.QApplication.UnicodeUTF8))

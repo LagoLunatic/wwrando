@@ -372,6 +372,23 @@
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLabel" name="label_for_custom_player_model">
+              <property name="text">
+               <string>Custom Player Model:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="custom_player_model"/>
+            </item>
+            <item>
+             <widget class="QWidget" name="widget_2" native="true"/>
+            </item>
+           </layout>
+          </item>
           <item row="0" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
@@ -390,22 +407,12 @@
             </item>
            </layout>
           </item>
-          <item row="0" column="0">
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
-            <item>
-             <widget class="QLabel" name="label_for_custom_player_model">
-              <property name="text">
-               <string>Custom Player Model:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="custom_player_model"/>
-            </item>
-            <item>
-             <widget class="QWidget" name="widget_2" native="true"/>
-            </item>
-           </layout>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="player_in_casual_clothes">
+            <property name="text">
+             <string>Casual Clothes</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
