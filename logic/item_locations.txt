@@ -383,13 +383,13 @@ Windfall Island - Sinking Ships - Second Prize:
 #  Original item: Purple Rupee
 #  Paths:
 #    - rels/d_a_npc_kg1.rel@2C2A
-Windfall Island - Sinking Ships - 20 Shots or Less Prize:
+Windfall Island - Sinking Ships - Under 20 Shots Prize:
   Need: Nothing
   Original item: Treasure Chart 23
   Types: Minigame
   Paths:
     - rels/d_a_npc_kg1.rel@2C2C
-#Windfall Island - Sinking Ships - 20 Shots or Less Prize 2+:
+#Windfall Island - Sinking Ships - Under 20 Shots Prize 2+:
 #  Need: Nothing
 #  Original item: Orange Rupee
 #  Paths:
