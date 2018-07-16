@@ -592,6 +592,8 @@ def encode_image(image, image_format, palette_format):
 def encode_image_to_block(image_format, pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
   if image_format == 5:
     return encode_image_to_rgb5a3_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
+  elif image_format == 6:
+    return encode_image_to_rgba32_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == 8:
     return encode_image_to_c4_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == 9:
@@ -610,6 +612,21 @@ def encode_image_to_rgb5a3_block(pixels, colors, block_x, block_y, block_width, 
       rgb5a3 = convert_color_to_rgb5a3(color)
       write_u16(new_data, offset, rgb5a3)
       offset += 2
+  
+  new_data.seek(0)
+  return new_data.read()
+
+def encode_image_to_rgba32_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
+  new_data = BytesIO()
+  for i in range(16):
+    x = block_x + (i % block_width)
+    y = block_y + (i // block_width)
+    color = pixels[x, y]
+    r, g, b, a = color
+    write_u8(new_data, (i*2), a)
+    write_u8(new_data, (i*2)+1, r)
+    write_u8(new_data, (i*2)+32, g)
+    write_u8(new_data, (i*2)+33, b)
   
   new_data.seek(0)
   return new_data.read()
