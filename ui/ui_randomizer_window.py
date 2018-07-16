@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Sun Jul 15 13:06:03 2018
+# Created: Mon Jul 16 02:05:09 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -185,9 +185,6 @@ class Ui_MainWindow(object):
         self.custom_player_model = QtGui.QComboBox(self.tab_2)
         self.custom_player_model.setObjectName("custom_player_model")
         self.horizontalLayout_3.addWidget(self.custom_player_model)
-        self.widget_2 = QtGui.QWidget(self.tab_2)
-        self.widget_2.setObjectName("widget_2")
-        self.horizontalLayout_3.addWidget(self.widget_2)
         self.gridLayout_5.addLayout(self.horizontalLayout_3, 0, 0, 1, 1)
         self.player_in_casual_clothes = QtGui.QCheckBox(self.tab_2)
         self.player_in_casual_clothes.setObjectName("player_in_casual_clothes")
@@ -345,7 +342,7 @@ class Ui_MainWindow(object):
         self.num_starting_triforce_shards.setItemText(7, QtGui.QApplication.translate("MainWindow", "7", None, QtGui.QApplication.UnicodeUTF8))
         self.num_starting_triforce_shards.setItemText(8, QtGui.QApplication.translate("MainWindow", "8", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("MainWindow", "Randomizer Settings", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_for_custom_player_model.setText(QtGui.QApplication.translate("MainWindow", "Custom Player Model:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_for_custom_player_model.setText(QtGui.QApplication.translate("MainWindow", "Player Model", None, QtGui.QApplication.UnicodeUTF8))
         self.player_in_casual_clothes.setText(QtGui.QApplication.translate("MainWindow", "Casual Clothes", None, QtGui.QApplication.UnicodeUTF8))
         self.label_for_player_shirt_color.setText(QtGui.QApplication.translate("MainWindow", "Player Shirt Color", None, QtGui.QApplication.UnicodeUTF8))
         self.label_for_player_pants_color.setText(QtGui.QApplication.translate("MainWindow", "Player Pants Color", None, QtGui.QApplication.UnicodeUTF8))

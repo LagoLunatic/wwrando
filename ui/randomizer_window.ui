@@ -377,15 +377,12 @@
             <item>
              <widget class="QLabel" name="label_for_custom_player_model">
               <property name="text">
-               <string>Custom Player Model:</string>
+               <string>Player Model</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QComboBox" name="custom_player_model"/>
-            </item>
-            <item>
-             <widget class="QWidget" name="widget_2" native="true"/>
             </item>
            </layout>
           </item>
