@@ -1191,9 +1191,13 @@ def replace_link_model(self):
     return
   
   if custom_model_name == "Random":
-    custom_model_paths = glob.glob("./models/*/")
+    custom_model_paths = glob.glob("./models/*/Link.arc")
     if not custom_model_paths:
       raise Exception("No custom models to randomly choose from in the /models folder.")
+    
+    custom_model_paths = [
+      os.path.dirname(link_arc_path) + "/" for link_arc_path in custom_model_paths
+    ]
     
     custom_model_paths.append(None) # Dummy entry to represent not changing Link's model
     
@@ -1207,24 +1211,13 @@ def replace_link_model(self):
   else:
     custom_model_path = "./models/%s/" % custom_model_name
   
-  link_arc = self.get_arc("files/res/Object/Link.arc")
+  custom_link_arc_path = custom_model_path + "Link.arc"
+  if not os.path.isfile(custom_link_arc_path):
+    raise Exception("Custom model is missing Link.arc: %s" % custom_model_path)
   
-  file_paths = glob.glob(custom_model_path + "*.*")
-  for file_path in file_paths:
-    if file_path.endswith(".txt") or file_path.endswith(".png"):
-      continue
-    
-    file_name = os.path.basename(file_path)
-    file_entry = link_arc.get_file_entry(file_name)
-    
-    if file_entry is None:
-      folder_path_no_slash = os.path.normpath(custom_model_path)
-      folder_name = os.path.basename(folder_path_no_slash)
-      raise Exception("Invalid file in custom player model folder \"%s\": \"%s\"" % (folder_name, file_name))
-    
-    with open(file_path, "rb") as f:
-      new_data = BytesIO(f.read())
-    file_entry.data = new_data
+  with open(custom_link_arc_path, "rb") as f:
+    custom_link_arc_data = BytesIO(f.read())
+  self.replace_arc("files/res/Object/Link.arc", custom_link_arc_data)
 
 def change_player_clothes_color(self):
   custom_model_name = self.options.get("custom_player_model", "Link")

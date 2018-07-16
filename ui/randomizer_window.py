@@ -474,10 +474,9 @@ class WWRandomizerWindow(QMainWindow):
   def initialize_custom_player_model_list(self):
     self.ui.custom_player_model.addItem("Link")
     
-    custom_model_paths = glob.glob("./models/*/")
-    for folder_path in custom_model_paths:
-      folder_path_no_slash = os.path.normpath(folder_path)
-      folder_name = os.path.basename(folder_path_no_slash)
+    custom_model_paths = glob.glob("./models/*/Link.arc")
+    for link_arc_path in custom_model_paths:
+      folder_name = os.path.basename(os.path.dirname(link_arc_path))
       self.ui.custom_player_model.addItem(folder_name)
     
     if custom_model_paths:
