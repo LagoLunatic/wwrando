@@ -34,6 +34,9 @@ DATA4_SECTION_SIZE = 0x38D40
 DATA5_SECTION_OFFSET = 0x36E580
 DATA5_SECTION_ADDRESS = 0x80371580
 DATA5_SECTION_SIZE = 0x313E0
+DATA7_SECTION_OFFSET = 0x3A00A0
+DATA7_SECTION_ADDRESS = 0x803F7D00
+DATA7_SECTION_SIZE = 0x5220
 
 def address_to_offset(address):
   # Takes an address in one of the sections of main.dol and converts it to an offset within main.dol.
@@ -46,6 +49,8 @@ def address_to_offset(address):
     offset = address - DATA4_SECTION_ADDRESS + DATA4_SECTION_OFFSET
   elif DATA5_SECTION_ADDRESS <= address < DATA5_SECTION_ADDRESS+DATA5_SECTION_SIZE:
     offset = address - DATA5_SECTION_ADDRESS + DATA5_SECTION_OFFSET
+  elif DATA7_SECTION_ADDRESS <= address < DATA7_SECTION_ADDRESS+DATA7_SECTION_SIZE:
+    offset = address - DATA7_SECTION_ADDRESS + DATA7_SECTION_OFFSET
   elif TEXT2_SECTION_ADDRESS <= address <= TEXT2_SECTION_ADDRESS+TEXT2_SECTION_SIZE:
     # Newly added .text2 section.
     offset = address - TEXT2_SECTION_ADDRESS + TEXT2_SECTION_OFFSET
