@@ -47,6 +47,9 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.output_folder_browse_button.clicked.connect(self.browse_for_output_folder)
     self.ui.permalink.textEdited.connect(self.permalink_modified)
     
+    self.ui.custom_player_model.currentIndexChanged.connect(self.player_model_changed)
+    self.ui.player_in_casual_clothes.clicked.connect(self.player_model_changed)
+    
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
       if isinstance(widget, QAbstractButton):
@@ -490,6 +493,26 @@ class WWRandomizerWindow(QMainWindow):
     default_shirt_color = customizer.get_model_metadata("Link")["hero_pants_color"]
     self.set_color("player_pants_color", default_shirt_color)
     default_shirt_color = customizer.get_model_metadata("Link")["hero_hair_color"]
+    self.set_color("player_hair_color", default_shirt_color)
+  
+  def player_model_changed(self):
+    custom_model_name = self.get_option_value("custom_player_model")
+    is_casual = self.get_option_value("player_in_casual_clothes")
+    if is_casual:
+      prefix = "casual"
+    else:
+      prefix = "hero"
+    
+    metadata = customizer.get_model_metadata(custom_model_name)
+    
+    if metadata is None:
+      metadata = customizer.get_model_metadata("Link")
+    
+    default_shirt_color = metadata["%s_shirt_color" % prefix]
+    self.set_color("player_shirt_color", default_shirt_color)
+    default_shirt_color = metadata["%s_pants_color" % prefix]
+    self.set_color("player_pants_color", default_shirt_color)
+    default_shirt_color = metadata["%s_hair_color" % prefix]
     self.set_color("player_hair_color", default_shirt_color)
   
   def set_color(self, option_name, color):
