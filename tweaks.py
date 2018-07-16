@@ -1187,7 +1187,6 @@ def add_chart_number_to_item_get_messages(self):
 
 def replace_link_model(self):
   custom_model_name = self.options.get("custom_player_model", "Link")
-  print(custom_model_name)
   if custom_model_name == "Link":
     return
   
@@ -1212,7 +1211,7 @@ def replace_link_model(self):
   
   file_paths = glob.glob(custom_model_path + "*.*")
   for file_path in file_paths:
-    if file_path.endswith(".txt"):
+    if file_path.endswith(".txt") or file_path.endswith(".png"):
       continue
     
     file_name = os.path.basename(file_path)
@@ -1232,6 +1231,8 @@ def change_player_clothes_color(self):
   custom_model_metadata = customizer.get_model_metadata(custom_model_name)
   
   link_arc = self.get_arc("files/res/Object/Link.arc")
+  link_main_model = link_arc.get_file("cl.bdl")
+  link_model_changed = False
   if self.options.get("player_in_casual_clothes"):
     texture = link_arc.get_file("linktexbci4.bti")
     image = texture.render()
@@ -1247,7 +1248,9 @@ def change_player_clothes_color(self):
       if custom_color == base_color:
         continue
       
-      image = texture_utils.replace_color_range(image, base_color, custom_color)
+      mask_path = custom_model_metadata["casual_%s_mask" % custom_color_basename]
+      
+      image = texture_utils.color_exchange(image, base_color, custom_color, mask_path=mask_path)
       replaced_any = True
     
     if not replaced_any:
@@ -1274,7 +1277,6 @@ def change_player_clothes_color(self):
         texture.replace_image(image)
       link_hair_model.save_changes()
   else:
-    link_main_model = link_arc.get_file("cl.bdl")
     link_main_textures = link_main_model.tex1.textures_by_name["linktexS3TC"]
     first_texture = link_main_textures[0]
     image = first_texture.render()
@@ -1290,7 +1292,9 @@ def change_player_clothes_color(self):
       if custom_color == base_color:
         continue
       
-      image = texture_utils.replace_color_range(image, base_color, custom_color)
+      mask_path = custom_model_metadata["hero_%s_mask" % custom_color_basename]
+      
+      image = texture_utils.color_exchange(image, base_color, custom_color, mask_path=mask_path)
       replaced_any = True
     
     if not replaced_any:
@@ -1302,6 +1306,31 @@ def change_player_clothes_color(self):
         texture.palette_format = 1
       texture.replace_image(image)
     
+    link_model_changed = True
+  
+  custom_hair_color = self.options.get("player_hair_color", None)
+  has_colored_eyebrows = custom_model_metadata.get("has_colored_eyebrows", False)
+  if custom_hair_color and has_colored_eyebrows:
+    custom_hair_color = tuple(custom_hair_color)
+    
+    if self.options.get("player_in_casual_clothes"):
+      prefix = "casual"
+    else:
+      prefix = "hero"
+    base_hair_color = custom_model_metadata["%s_%s_color" % (prefix, custom_color_basename)]
+    
+    for i in range(1, 6+1):
+      textures = link_main_model.tex1.textures_by_name["mayuh.%d" % i]
+      image = textures[0].render()
+      image = texture_utils.color_exchange(image, base_color, custom_color)
+      for texture in textures:
+        texture.image_format = 6
+        texture.palette_format = 0
+        texture.replace_image(image)
+    
+    link_model_changed = True
+  
+  if link_model_changed:
     link_main_model.save_changes()
 
 def change_starting_clothes(self):
