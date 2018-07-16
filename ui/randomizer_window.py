@@ -480,7 +480,8 @@ class WWRandomizerWindow(QMainWindow):
       self.ui.custom_player_model.addItem(folder_name)
     
     if custom_model_paths:
-      self.ui.custom_player_model.addItem("Random")
+      #self.ui.custom_player_model.addItem("Random")
+      pass
     else:
       self.ui.custom_player_model.setEnabled(False)
     
