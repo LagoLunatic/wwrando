@@ -586,7 +586,9 @@ def encode_image(image, image_format, palette_format):
   return (new_image_data, new_palette_data, colors)
 
 def encode_image_to_block(image_format, pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
-  if image_format == 5:
+  if image_format == 4:
+    return encode_image_to_rgb563_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
+  elif image_format == 5:
     return encode_image_to_rgb5a3_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == 6:
     return encode_image_to_rgba32_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
@@ -598,6 +600,19 @@ def encode_image_to_block(image_format, pixels, colors, block_x, block_y, block_
     return encode_image_to_cmpr_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
   else:
     raise Exception("Unknown image format: %X" % image_format)
+
+def encode_image_to_rgb563_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
+  new_data = BytesIO()
+  offset = 0
+  for y in range(block_y, block_y+block_height):
+    for x in range(block_x, block_x+block_width):
+      color = pixels[x,y]
+      rgb565 = convert_color_to_rgb565(color)
+      write_u16(new_data, offset, rgb565)
+      offset += 2
+  
+  new_data.seek(0)
+  return new_data.read()
 
 def encode_image_to_rgb5a3_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
   new_data = BytesIO()
