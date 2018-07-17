@@ -341,7 +341,7 @@ Windfall Island - 80 Rupee Auction:
 #  Original item: Boat's Sail
 #  Paths:
 #    - rels/d_a_npc_rsh1.rel@30FB
-#Windfall Island - Zunari - Island Trading Starter: # Doesn't randomize correctly, he just keeps giving you this item repeatedly
+#Windfall Island - Zunari - Goron Trading Starter: # Doesn't randomize correctly, he just keeps giving you this item repeatedly
 #  Need: Rescued Aryll & Delivery Bag
 #  Original item: Town Flower
 #  Paths:
@@ -1698,7 +1698,7 @@ The Great Sea - Cyclos:
   Types: Misc
   Paths:
     - sea/Stage.arc/Event0E0:TACT1_RT/Actor001/Action003
-The Great Sea - Island Trading Reward:
+The Great Sea - Goron Trading Reward:
   Need: Rescued Aryll & Delivery Bag
   # You need at least 560 rupees to get the final item, but you don't need a wallet upgrade since the most you need at one time is 200 rupees.
   Original item: Piece of Heart
