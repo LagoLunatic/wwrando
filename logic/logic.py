@@ -301,11 +301,23 @@ class Logic:
         continue
       if "Dungeon" in types and not self.rando.options.get("progression_dungeons"):
         continue
-      if "Secret Cave" in types and not self.rando.options.get("progression_secret_caves"):
+      if "Great Fairy" in types and not self.rando.options.get("progression_great_fairies"):
         continue
-      if "Sidequest" in types and not self.rando.options.get("progression_sidequests"):
+      if "Puzzle Secret Cave" in types and not self.rando.options.get("progression_puzzle_secret_caves"):
+        continue
+      if "Combat Secret Cave" in types and not self.rando.options.get("progression_combat_secret_caves"):
+        continue
+      if "Short Sidequest" in types and not self.rando.options.get("progression_short_sidequests"):
+        continue
+      if "Long Sidequest" in types and not self.rando.options.get("progression_long_sidequests"):
+        continue
+      if "Spoils Trading" in types and not self.rando.options.get("progression_spoils_trading"):
         continue
       if "Minigame" in types and not self.rando.options.get("progression_minigames"):
+        continue
+      if "Free Gift" in types and not self.rando.options.get("progression_free_gifts"):
+        continue
+      if "Mail" in types and not self.rando.options.get("progression_mail"):
         continue
       if ("Platform" in types or "Raft" in types) and not self.rando.options.get("progression_platforms_rafts"):
         continue
@@ -316,10 +328,6 @@ class Logic:
       if ("Big Octo" in types or "Gunboat" in types) and not self.rando.options.get("progression_big_octos_gunboats"):
         continue
       if "Expensive Purchase" in types and not self.rando.options.get("progression_expensive_purchases"):
-        continue
-      if "Free Gift" in types and not self.rando.options.get("progression_gifts"):
-        continue
-      if "Mail" in types and not self.rando.options.get("progression_mail"):
         continue
       if ("Other Chest" in types or "Misc" in types) and not self.rando.options.get("progression_misc"):
         continue

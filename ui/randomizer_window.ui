@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>752</height>
+    <height>806</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -86,7 +86,7 @@
            <string>Where Should Progress Items Appear?</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
-           <item row="6" column="1">
+           <item row="9" column="1">
             <widget class="QCheckBox" name="progression_misc">
              <property name="text">
               <string>Miscellaneous</string>
@@ -96,38 +96,34 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QCheckBox" name="progression_sidequests">
-             <property name="text">
-              <string>Sidequests</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <widget class="QCheckBox" name="progression_treasure_charts">
-             <property name="text">
-              <string>Sunken Treasure (From Treasure Charts)</string>
-             </property>
-            </widget>
-           </item>
            <item row="2" column="0">
+            <widget class="QCheckBox" name="progression_short_sidequests">
+             <property name="text">
+              <string>Short Sidequests</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
             <widget class="QCheckBox" name="progression_platforms_rafts">
              <property name="text">
               <string>Lookout Platforms and Rafts</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="0">
-            <widget class="QCheckBox" name="progression_triforce_charts">
+           <item row="6" column="1">
+            <widget class="QCheckBox" name="progression_big_octos_gunboats">
              <property name="text">
-              <string>Sunken Treasure (From Triforce Charts)</string>
+              <string>Big Octos and Gunboats</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QCheckBox" name="progression_minigames">
+           <item row="5" column="1">
+            <widget class="QCheckBox" name="progression_submarines">
              <property name="text">
-              <string>Minigames</string>
+              <string>Submarines</string>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
              </property>
             </widget>
            </item>
@@ -141,41 +137,7 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="1">
-            <widget class="QCheckBox" name="progression_submarines">
-             <property name="text">
-              <string>Submarines</string>
-             </property>
-             <property name="checked">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QCheckBox" name="progression_secret_caves">
-             <property name="text">
-              <string>Secret Caves</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QCheckBox" name="progression_big_octos_gunboats">
-             <property name="text">
-              <string>Big Octos and Gunboats</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QCheckBox" name="progression_eye_reef_chests">
-             <property name="text">
-              <string>Eye Reef Chests</string>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="0">
+           <item row="9" column="0">
             <widget class="QCheckBox" name="progression_expensive_purchases">
              <property name="text">
               <string>Expensive Purchases</string>
@@ -185,8 +147,77 @@
              </property>
             </widget>
            </item>
-           <item row="5" column="0">
-            <widget class="QCheckBox" name="progression_gifts">
+           <item row="6" column="0">
+            <widget class="QCheckBox" name="progression_eye_reef_chests">
+             <property name="text">
+              <string>Eye Reef Chests</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QCheckBox" name="progression_spoils_trading">
+             <property name="text">
+              <string>Spoils Trading</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QCheckBox" name="progression_minigames">
+             <property name="text">
+              <string>Minigames</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QCheckBox" name="progression_long_sidequests">
+             <property name="text">
+              <string>Long Sidequests</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QCheckBox" name="progression_puzzle_secret_caves">
+             <property name="text">
+              <string>Puzzle Secret Caves</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QCheckBox" name="progression_great_fairies">
+             <property name="text">
+              <string>Great Fairies</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QCheckBox" name="progression_combat_secret_caves">
+             <property name="text">
+              <string>Combat Secret Caves</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QCheckBox" name="progression_triforce_charts">
+             <property name="text">
+              <string>Sunken Treasure (From Triforce Charts)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1">
+            <widget class="QCheckBox" name="progression_treasure_charts">
+             <property name="text">
+              <string>Sunken Treasure (From Treasure Charts)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QCheckBox" name="progression_free_gifts">
              <property name="text">
               <string>Free Gifts</string>
              </property>
@@ -195,7 +226,7 @@
              </property>
             </widget>
            </item>
-           <item row="5" column="1">
+           <item row="4" column="1">
             <widget class="QCheckBox" name="progression_mail">
              <property name="text">
               <string>Mail</string>
@@ -574,17 +605,21 @@
   <tabstop>seed</tabstop>
   <tabstop>generate_seed_button</tabstop>
   <tabstop>progression_dungeons</tabstop>
-  <tabstop>progression_secret_caves</tabstop>
-  <tabstop>progression_sidequests</tabstop>
+  <tabstop>progression_great_fairies</tabstop>
+  <tabstop>progression_puzzle_secret_caves</tabstop>
+  <tabstop>progression_combat_secret_caves</tabstop>
+  <tabstop>progression_short_sidequests</tabstop>
+  <tabstop>progression_long_sidequests</tabstop>
+  <tabstop>progression_spoils_trading</tabstop>
   <tabstop>progression_minigames</tabstop>
+  <tabstop>progression_free_gifts</tabstop>
+  <tabstop>progression_mail</tabstop>
   <tabstop>progression_platforms_rafts</tabstop>
   <tabstop>progression_submarines</tabstop>
   <tabstop>progression_eye_reef_chests</tabstop>
   <tabstop>progression_big_octos_gunboats</tabstop>
   <tabstop>progression_triforce_charts</tabstop>
   <tabstop>progression_treasure_charts</tabstop>
-  <tabstop>progression_gifts</tabstop>
-  <tabstop>progression_mail</tabstop>
   <tabstop>progression_expensive_purchases</tabstop>
   <tabstop>progression_misc</tabstop>
   <tabstop>keylunacy</tabstop>
