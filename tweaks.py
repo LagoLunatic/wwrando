@@ -1201,3 +1201,9 @@ def double_grapple_animation_speed(self):
 
   # Increase the speed of the grappling hook's animation when it wraps around a target (changes the animation frame counter from +1 to +6 each frame)
   write_u32(dol_data, address_to_offset(0x800EECA8), 0x38A30006) # addi r5,r3,6
+
+def double_first_person_camera_zoom_speed(self):
+  dol_data = self.get_raw_file("sys/main.dol")
+
+  # Half the number of frames zooming into first person takes (from 10 to 5)
+  write_u32(dol_data, address_to_offset(0x80170B20), 0x3BA00005) # li r29,5

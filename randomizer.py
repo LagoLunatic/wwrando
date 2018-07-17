@@ -236,6 +236,7 @@ class Randomizer:
     tweaks.increase_player_movement_speeds(self)
     tweaks.add_chart_number_to_item_get_messages(self)
     tweaks.double_grapple_animation_speed(self)
+    tweaks.double_first_person_camera_zoom_speed(self)
   
   def apply_necessary_post_randomization_tweaks(self):
     tweaks.update_shop_item_descriptions(self)
