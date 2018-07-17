@@ -839,3 +839,12 @@
 .org 0x2AC8 ; In visitSetEvent__10daNpc_Uk_cFv
   b 0x2B04
 .close
+
+
+
+
+; Fix a crash when you look at the broken shards of Helmaroc King's mask with the hookshot.
+.open "sys/main.dol"
+.org 0x800F13A8 ; In daHookshot_rockLineCallback
+  b hookshot_sight_failsafe_check
+.close

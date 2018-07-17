@@ -1398,6 +1398,27 @@ ship_idle_deceleration:
 
 
 
+; Part of the code for the hookshot's sight expects entities you look at to have a pointer in a specific place.
+; The broken shards of Helmaroc King's mask don't have that pointer so looking at them with hookshot crashes.
+.global hookshot_sight_failsafe_check
+hookshot_sight_failsafe_check:
+
+cmplwi r30, 0
+beq hookshot_sight_failsafe
+b hookshot_sight_return
+
+; If r30 is null skip to the code that hides the hookshot sight.
+hookshot_sight_failsafe:
+b 0x800F13C0
+
+; Otherwise we replace the line of code at 800F13A8 we replaced to jump here, then jump back.
+hookshot_sight_return:
+lwz r0, 0x01C4 (r30)
+b 0x800F13AC
+
+
+
+
 .global generic_on_dungeon_bit
 generic_on_dungeon_bit:
 stwu sp, -0x10 (sp)
