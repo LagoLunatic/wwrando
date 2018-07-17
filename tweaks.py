@@ -12,7 +12,7 @@ from paths import ASSETS_PATH, ASM_PATH
 
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
 ORIGINAL_DOL_SIZE = 0x3A52C0
-
+0x8035DB94
 # These are from main.dol. Hardcoded since it's easier than reading them from the dol.
 TEXT0_SECTION_OFFSET = 0x100
 TEXT0_SECTION_ADDRESS = 0x80003100
@@ -31,6 +31,10 @@ DATA5_SECTION_OFFSET = 0x36E580
 DATA5_SECTION_ADDRESS = 0x80371580
 DATA5_SECTION_SIZE = 0x313E0
 
+DATA8_SECTION_OFFSET = 0x3A00A0
+DATA8_SECTION_ADDRESS = 0x803F7D00
+DATA8_SECTION_SIZE = 0x5220
+
 def address_to_offset(address):
   # Takes an address in one of the sections of main.dol and converts it to an offset within main.dol.
   # (Currently only supports the .text0, .text1, .text2, .data4, and .data5 sections.)
@@ -45,6 +49,8 @@ def address_to_offset(address):
   elif TEXT2_SECTION_ADDRESS <= address <= TEXT2_SECTION_ADDRESS+TEXT2_SECTION_SIZE:
     # Newly added .text2 section.
     offset = address - TEXT2_SECTION_ADDRESS + TEXT2_SECTION_OFFSET
+  elif DATA8_SECTION_ADDRESS <= address < DATA8_SECTION_ADDRESS+DATA8_SECTION_SIZE:
+    offset = address - DATA8_SECTION_ADDRESS + DATA8_SECTION_OFFSET
   else:
     raise Exception("Unknown address: %08X" % address)
   return offset
@@ -1180,3 +1186,18 @@ def add_chart_number_to_item_get_messages(self):
     elif item_name.startswith("Triforce Chart ") and not "deciphered" in item_name:
       msg = self.bmg.messages_by_id[101 + item_id]
       msg.string = msg.string.replace("a \\{1A 06 FF 00 00 01}Triforce Chart", "\\{1A 06 FF 00 00 01}%s" % item_name)
+
+def double_grapple_animation_speed(self):
+  dol_data = self.get_raw_file("sys/main.dol")
+
+  # Double the velocity the grappling hook is thrown out (from 20.0 to 40.0)
+  write_float(dol_data, address_to_offset(0x803F9D28), 40.0) # Grappling hook velocity
+
+  # Half the number of frames grappling hook extends outward in 1st person (from 40 to 20 frames)
+  write_u32(dol_data, address_to_offset(0x800EDB74), 0x38030014) # addi r0,r3,20
+
+  # Half the number of frames grappling hook extends outward in 3rd person (from 20 to 10)
+  write_u32(dol_data, address_to_offset(0x800EDEA4), 0x3803000A) # addi r0,r3,10
+
+  # Increase the speed of the grappling hook's animation when it wraps around a target (changes the animation frame counter from +1 to +6 each frame)
+  write_u32(dol_data, address_to_offset(0x800EECA8), 0x38A30006) # addi r5,r3,6
