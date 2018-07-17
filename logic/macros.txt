@@ -150,9 +150,11 @@ Can Farm Knight's Crests:
   # * The inner cave of Ice Ring Isle.
   # * Floor 27 (and below) of Savage Labyrinth. (We use the Floor 30 requirements here since they're the same as Floor 27.)
   # * The big key room of Earth Temple
-Can Farm Joy Pendants:
-  Grappling Hook & Spoils Bag
+Can Obtain Joy Pendants:
+  Spoils Bag
   # Dropped by Bokoblins, which are everywhere.
+Can Farm Joy Pendants:
+  Can Obtain Joy Pendants & Grappling Hook
 Can Farm Skull Necklaces:
   Grappling Hook & Spoils Bag
   # Dropped by Moblins. The Moblins in submarines don't require any items to access.

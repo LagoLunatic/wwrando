@@ -163,7 +163,8 @@ Windfall Island - Mrs. Marie - Catch Killer Bees:
 #    - rels/d_a_tag_mk.rel@0637
 #    - sea/Stage.arc/Event093:MK_PENDANT/Actor001/Action005
 Windfall Island - Mrs. Marie - Give 1 Joy Pendant:
-  Need: Spoils Bag & Can Farm Joy Pendants
+  Need: Spoils Bag & Can Obtain Joy Pendants
+  # Since it's just 1 Joy Pendant for this one, don't require Grappling Hook to farm spoils like the others.
   Original item: Red Rupee
   Types: Spoils Trading
   Paths:
