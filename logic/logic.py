@@ -459,7 +459,13 @@ class Logic:
     for island_number in range(1, 49+1):
       chart_macro_name = "Chart for Island %d" % island_number
       chart_item_name = self.rando.island_number_to_chart_name[island_number]
-      self.set_macro(chart_macro_name, chart_item_name)
+      
+      if "Triforce Chart" in chart_item_name:
+        req_string = "%s & Any Wallet Upgrade" % chart_item_name
+      else:
+        req_string = chart_item_name
+      
+      self.set_macro(chart_macro_name, req_string)
   
   def clean_item_name(self, item_name):
     # Remove parentheses from any item names that may have them. (Formerly Master Swords, though that's not an issue anymore.)
@@ -582,7 +588,6 @@ class Logic:
     chart_req = next(req for req in reqs if req.startswith("Chart for Island "))
     
     reqs = self.macros[chart_req]
-    assert len(reqs) == 1
     chart_name = reqs[0]
     assert chart_name in self.all_cleaned_item_names
     
