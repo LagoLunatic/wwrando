@@ -36,7 +36,7 @@ OPTIONS = OrderedDict([
   ),
   (
     "progression_free_gifts",
-    "This controls whether gifts freely given by NPCs can be progress items (Tott, Cyclos, Salvage Corp, imprisoned Tingle).<br><u>If this is not checked, they will still be randomized</u>, but will only be optional items you don't need to beat the game."
+    "This controls whether gifts freely given by NPCs can be progress items (Tott, Salvage Corp, imprisoned Tingle).<br><u>If this is not checked, they will still be randomized</u>, but will only be optional items you don't need to beat the game."
   ),
   (
     "progression_mail",
@@ -72,7 +72,7 @@ OPTIONS = OrderedDict([
   ),
   (
     "progression_misc",
-    "Miscellaneous locations that don't fit into any of the above categories (outdoors chests, pig, wind shrine, etc).<br><u>If this is not checked, they will still be randomized</u>, but will only contain optional items you don't need to beat the game."
+    "Miscellaneous locations that don't fit into any of the above categories (outdoors chests, pig, wind shrine, Cyclos etc).<br><u>If this is not checked, they will still be randomized</u>, but will only contain optional items you don't need to beat the game."
   ),
   
   
