@@ -47,8 +47,8 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.output_folder_browse_button.clicked.connect(self.browse_for_output_folder)
     self.ui.permalink.textEdited.connect(self.permalink_modified)
     
-    self.ui.custom_player_model.currentIndexChanged.connect(self.player_model_changed)
-    self.ui.player_in_casual_clothes.clicked.connect(self.player_model_changed)
+    self.ui.custom_player_model.currentIndexChanged.connect(self.reset_color_selectors_to_model_default_colors)
+    self.ui.player_in_casual_clothes.clicked.connect(self.reset_color_selectors_to_model_default_colors)
     
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
@@ -271,6 +271,8 @@ class WWRandomizerWindow(QMainWindow):
     self.settings["clean_iso_path"] = self.ui.clean_iso_path.text()
     self.settings["output_folder"] = self.ui.output_folder.text()
     self.settings["seed"] = self.ui.seed.text()
+    
+    self.disable_invalid_cosmetic_options()
     
     for option_name in OPTIONS:
       self.settings[option_name] = self.get_option_value(option_name)
@@ -502,7 +504,7 @@ class WWRandomizerWindow(QMainWindow):
     default_shirt_color = customizer.get_model_metadata("Link")["hero_hair_color"]
     self.set_color("player_hair_color", default_shirt_color)
   
-  def player_model_changed(self):
+  def reset_color_selectors_to_model_default_colors(self):
     custom_model_name = self.get_option_value("custom_player_model")
     is_casual = self.get_option_value("player_in_casual_clothes")
     if is_casual:
@@ -513,7 +515,7 @@ class WWRandomizerWindow(QMainWindow):
     metadata = customizer.get_model_metadata(custom_model_name)
     
     if metadata is None:
-      metadata = customizer.get_model_metadata("Link")
+      return
     
     default_shirt_color = metadata["%s_shirt_color" % prefix]
     self.set_color("player_shirt_color", default_shirt_color)
@@ -522,9 +524,30 @@ class WWRandomizerWindow(QMainWindow):
     default_shirt_color = metadata["%s_hair_color" % prefix]
     self.set_color("player_hair_color", default_shirt_color)
   
+  def disable_invalid_cosmetic_options(self):
+    custom_model_name = self.get_option_value("custom_player_model")
+    metadata = customizer.get_model_metadata(custom_model_name)
+    
+    if metadata is None:
+      self.ui.player_in_casual_clothes.setEnabled(False)
+      self.set_option_value("player_in_casual_clothes", False)
+      for option_name in COLOR_SELECTOR_OPTIONS:
+        button = getattr(self.ui, option_name)
+        button.setEnabled(False)
+        self.set_color(option_name, None)
+    else:
+      self.ui.player_in_casual_clothes.setEnabled(True)
+      for option_name in COLOR_SELECTOR_OPTIONS:
+        button = getattr(self.ui, option_name)
+        button.setEnabled(True)
+      self.reset_color_selectors_to_model_default_colors()
+  
   def set_color(self, option_name, color):
     color_button = getattr(self.ui, option_name)
-    color_button.setStyleSheet("background-color: rgb(%d, %d, %d)" % tuple(color))
+    if color is None:
+      color_button.setStyleSheet("")
+    else:
+      color_button.setStyleSheet("background-color: rgb(%d, %d, %d)" % tuple(color))
     self.custom_colors[option_name] = color
   
   def open_custom_color_chooser(self):
