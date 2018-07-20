@@ -253,9 +253,9 @@ class Randomizer:
       raise Exception("Clean WW ISO does not exist: %s" % clean_iso_path)
     
     with open(clean_iso_path, "rb") as f:
-      game_id = read_str(f, 0, 6)
+      game_id = try_read_str(f, 0, 6)
     if game_id != "GZLE01":
-      if game_id.startswith("GZL"):
+      if game_id and game_id.startswith("GZL"):
         raise Exception("Invalid version of Wind Waker. Only the USA version is supported by this randomizer.")
       else:
         raise Exception("Invalid game given as the clean ISO. You must specify a Wind Waker ISO (USA version).")

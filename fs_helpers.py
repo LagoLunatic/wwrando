@@ -43,6 +43,8 @@ def try_read_str(data, offset, length):
     return read_str(data, offset, length)
   except UnicodeDecodeError:
     return None
+  except InvalidOffsetError:
+    return None
 
 def read_str_until_null_character(data, offset):
   data_length = data.seek(0, 2)
