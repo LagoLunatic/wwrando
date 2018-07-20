@@ -540,7 +540,6 @@ class WWRandomizerWindow(QMainWindow):
       for option_name in COLOR_SELECTOR_OPTIONS:
         button = getattr(self.ui, option_name)
         button.setEnabled(True)
-      self.reset_color_selectors_to_model_default_colors()
   
   def set_color(self, option_name, color):
     color_button = getattr(self.ui, option_name)
