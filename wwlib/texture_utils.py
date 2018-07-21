@@ -5,6 +5,9 @@ import colorsys
 
 from fs_helpers import *
 
+class TooManyColorsError(Exception):
+  pass
+
 BLOCK_WIDTHS = {
     0: 8,
     1: 8,
@@ -297,7 +300,7 @@ def generate_new_palettes_from_image(image, image_format):
         new_colors.append(color)
   
   if len(new_colors) > MAX_COLORS_FOR_IMAGE_FORMAT[image_format]:
-    raise Exception(
+    raise TooManyColorsError(
       "Maximum number of colors supported by image format %d is %d, but replacement image has %d colors" % (
         image_format, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], len(new_colors)
       )
@@ -310,7 +313,7 @@ def encode_palette(colors, palette_format, image_format):
     return BytesIO()
   
   if len(colors) > MAX_COLORS_FOR_IMAGE_FORMAT[image_format]:
-    raise Exception(
+    raise TooManyColorsError(
       "Maximum number of colors supported by image format %d is %d, but replacement image has %d colors" % (
         image_format, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], len(colors)
       )
@@ -740,6 +743,9 @@ def color_exchange(image, base_color, replacement_color, mask_path=None):
   if mask_path:
     mask_image = Image.open(mask_path).convert("RGBA")
     mask_pixels = mask_image.load()
+    
+    if image.size != mask_image.size:
+      raise Exception("Mask image is not the same size as the texture.")
   
   base_r, base_g, base_b = base_color
   base_h, base_s, base_v = colorsys.rgb_to_hsv(base_r/255, base_g/255, base_b/255)
