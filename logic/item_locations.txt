@@ -1075,7 +1075,7 @@ Forsaken Fortress - Helmaroc King Heart Container:
   Need:
     Can Get Inside Forsaken Fortress
     & Skull Hammer
-    & Deku Leaf
+    & (Deku Leaf | Hookshot)
     & Can Reach and Defeat Phantom Ganon
     # The reason you need to be able to defeat Phantom Ganon is because his fight triggers even if you skip him and try to go straight to Helmaroc King.
     # There's a cannon that makes sidling across a gap difficult, but you don't need bombs because you can just kill the searchlight operator Bokoblin instead to get rid of the cannon simultaneously.
