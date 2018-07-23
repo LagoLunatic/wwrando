@@ -937,7 +937,7 @@ Tower of the Gods - Second Chest Guarded by Armos Knights:
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
     & Wind Waker
-    & Grappling Hook
+    & (Grappling Hook | Deku Leaf)
     & Command Melody
     & Hero's Bow
     & Wind's Requiem
@@ -953,7 +953,7 @@ Tower of the Gods - Floating Platforms Room:
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
     & Wind Waker
-    & Grappling Hook
+    & (Grappling Hook | Deku Leaf)
     & Command Melody
     & Hero's Bow
   Original item: Small Key
@@ -967,7 +967,7 @@ Tower of the Gods - Top of Floating Platforms Room:
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
     & Wind Waker
-    & Grappling Hook
+    & (Grappling Hook | Deku Leaf)
     & Command Melody
     & Hero's Bow
   Original item: Joy Pendant
@@ -980,7 +980,7 @@ Tower of the Gods - Big Key Chest:
     & Bombs
     & Can Defeat Yellow ChuChus
     & Wind Waker
-    & Grappling Hook
+    & (Grappling Hook | Deku Leaf)
     & Command Melody
     & Hero's Bow
     & TotG Small Key x2
@@ -1005,7 +1005,7 @@ Tower of the Gods - Gohdan Heart Container:
     & Bombs
     & Can Defeat Yellow ChuChus
     & Wind Waker
-    & Grappling Hook
+    & (Grappling Hook | Deku Leaf)
     & Command Melody
     & Hero's Bow
     & TotG Small Key x2
