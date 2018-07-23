@@ -235,8 +235,11 @@ class Randomizer:
     tweaks.remove_makar_kidnapping_event(self)
     tweaks.increase_player_movement_speeds(self)
     tweaks.add_chart_number_to_item_get_messages(self)
-    tweaks.double_grapple_animation_speed(self)
-    tweaks.double_first_person_camera_zoom_speed(self)
+    tweaks.increase_grapple_animation_speed(self)
+    tweaks.increase_first_person_camera_zoom_speed(self)
+    tweaks.increase_npc_camera_zoom_speed(self)
+    tweaks.increase_block_moving_animation(self)
+    tweaks.increase_misc_animations(self)
   
   def apply_necessary_post_randomization_tweaks(self):
     tweaks.update_shop_item_descriptions(self)
