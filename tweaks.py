@@ -1223,6 +1223,13 @@ def replace_link_model(self):
   with open(custom_link_arc_path, "rb") as f:
     custom_link_arc_data = BytesIO(f.read())
   self.replace_arc("files/res/Object/Link.arc", custom_link_arc_data)
+  
+  mirror_shield_reflection_image_path = custom_model_path + "shmref.bti"
+  if os.path.isfile(mirror_shield_reflection_image_path):
+    with open(mirror_shield_reflection_image_path, "rb") as f:
+      reflection_image_data = BytesIO(f.read())
+    always_arc = self.get_arc("files/res/Object/Always.arc")
+    always_arc.get_file_entry("shmref.bti").data = reflection_image_data
 
 def change_player_clothes_color(self):
   custom_model_name = self.options.get("custom_player_model", "Link")
