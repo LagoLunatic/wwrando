@@ -424,61 +424,10 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <item>
-             <widget class="QLabel" name="label_for_player_shirt_color">
-              <property name="text">
-               <string>Player Shirt Color</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="player_shirt_color">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
-            <item>
-             <widget class="QLabel" name="label_for_player_pants_color">
-              <property name="text">
-               <string>Player Pants Color</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="player_pants_color">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="2" column="0">
-           <layout class="QHBoxLayout" name="horizontalLayout_12">
-            <item>
-             <widget class="QLabel" name="label_for_player_hair_color">
-              <property name="text">
-               <string>Player Hair Color</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="player_hair_color">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
          </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="custom_colors_layout"/>
         </item>
         <item>
          <spacer name="verticalSpacer">

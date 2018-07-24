@@ -3,7 +3,7 @@ from PySide.QtGui import *
 from PySide.QtCore import *
 
 from ui.ui_randomizer_window import Ui_MainWindow
-from ui.options import OPTIONS, NON_PERMALINK_OPTIONS, COLOR_SELECTOR_OPTIONS
+from ui.options import OPTIONS, NON_PERMALINK_OPTIONS
 from ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
 
 import random
@@ -33,7 +33,8 @@ class WWRandomizerWindow(QMainWindow):
     self.ui = Ui_MainWindow()
     self.ui.setupUi(self)
     
-    self.custom_colors = {}
+    self.custom_color_selector_buttons = OrderedDict()
+    self.custom_colors = OrderedDict()
     self.initialize_custom_player_model_list()
     
     self.preserve_default_settings()
@@ -47,8 +48,8 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.output_folder_browse_button.clicked.connect(self.browse_for_output_folder)
     self.ui.permalink.textEdited.connect(self.permalink_modified)
     
-    self.ui.custom_player_model.currentIndexChanged.connect(self.reset_color_selectors_to_model_default_colors)
-    self.ui.player_in_casual_clothes.clicked.connect(self.reset_color_selectors_to_model_default_colors)
+    self.ui.custom_player_model.currentIndexChanged.connect(self.custom_model_changed)
+    self.ui.player_in_casual_clothes.clicked.connect(self.custom_model_changed)
     
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
@@ -58,10 +59,6 @@ class WWRandomizerWindow(QMainWindow):
         widget.currentIndexChanged.connect(self.update_settings)
       else:
         raise Exception("Option widget is invalid: %s" % option_name)
-    
-    for option_name in COLOR_SELECTOR_OPTIONS:
-      button = getattr(self.ui, option_name)
-      button.clicked.connect(self.open_custom_color_chooser)
     
     self.ui.generate_seed_button.clicked.connect(self.generate_seed)
     
@@ -152,6 +149,7 @@ class WWRandomizerWindow(QMainWindow):
     options = OrderedDict()
     for option_name in OPTIONS:
       options[option_name] = self.get_option_value(option_name)
+    options["custom_colors"] = self.custom_colors
     
     permalink = self.ui.permalink.text()
     
@@ -262,6 +260,15 @@ class WWRandomizerWindow(QMainWindow):
     for option_name in OPTIONS:
       if option_name in self.settings:
         self.set_option_value(option_name, self.settings[option_name])
+    
+    self.custom_model_changed()
+    custom_colors_from_settings = self.settings["custom_colors"]
+    for custom_color_name in self.custom_colors:
+      if custom_color_name in custom_colors_from_settings:
+        self.custom_colors[custom_color_name] = custom_colors_from_settings[custom_color_name]
+    for custom_color_name, color in self.custom_colors.items():
+      option_name = "custom_color_" + custom_color_name
+      self.set_color(option_name, color)
   
   def save_settings(self):
     with open(self.settings_path, "w") as f:
@@ -276,6 +283,7 @@ class WWRandomizerWindow(QMainWindow):
     
     for option_name in OPTIONS:
       self.settings[option_name] = self.get_option_value(option_name)
+    self.settings["custom_colors"] = self.custom_colors
     
     self.save_settings()
     
@@ -448,8 +456,6 @@ class WWRandomizerWindow(QMainWindow):
       return widget.isChecked()
     elif isinstance(widget, QComboBox):
       return widget.itemText(widget.currentIndex())
-    elif isinstance(widget, QPushButton) and option_name in COLOR_SELECTOR_OPTIONS:
-      return self.custom_colors[option_name]
     else:
       print("Option widget is invalid: %s" % option_name)
   
@@ -470,8 +476,6 @@ class WWRandomizerWindow(QMainWindow):
         index_of_value = 0
       
       widget.setCurrentIndex(index_of_value)
-    elif isinstance(widget, QPushButton) and option_name in COLOR_SELECTOR_OPTIONS:
-      self.set_color(option_name, new_value)
     else:
       print("Option widget is invalid: %s" % option_name)
   
@@ -496,13 +500,49 @@ class WWRandomizerWindow(QMainWindow):
       pass
     else:
       self.ui.custom_player_model.setEnabled(False)
+  
+  def custom_model_changed(self):
+    self.disable_invalid_cosmetic_options()
     
-    default_shirt_color = customizer.get_model_metadata("Link")["hero_shirt_color"]
-    self.set_color("player_shirt_color", default_shirt_color)
-    default_shirt_color = customizer.get_model_metadata("Link")["hero_pants_color"]
-    self.set_color("player_pants_color", default_shirt_color)
-    default_shirt_color = customizer.get_model_metadata("Link")["hero_hair_color"]
-    self.set_color("player_hair_color", default_shirt_color)
+    while self.ui.custom_colors_layout.count():
+      item = self.ui.custom_colors_layout.takeAt(0)
+      hlayout = item.layout()
+      while hlayout.count():
+        item = hlayout.takeAt(0)
+        widget = item.widget()
+        widget.deleteLater()
+    self.custom_color_selector_buttons = OrderedDict()
+    
+    custom_model_name = self.get_option_value("custom_player_model")
+    metadata = customizer.get_model_metadata(custom_model_name)
+    if metadata is None:
+      return
+    
+    is_casual = self.get_option_value("player_in_casual_clothes")
+    if is_casual:
+      prefix = "casual"
+    else:
+      prefix = "hero"
+    
+    custom_colors = metadata.get(prefix + "_custom_colors", {})
+    
+    for custom_color_name, default_color in custom_colors.items():
+      option_name = "custom_color_" + custom_color_name
+      hlayout = QHBoxLayout()
+      label_for_color_selector = QLabel(self.ui.tab_2)
+      label_for_color_selector.setText("Player %s Color" % custom_color_name)
+      hlayout.addWidget(label_for_color_selector)
+      color_selector_button = QPushButton(self.ui.tab_2)
+      color_selector_button.setText("")
+      color_selector_button.setObjectName(option_name)
+      hlayout.addWidget(color_selector_button)
+      
+      self.custom_color_selector_buttons[option_name] = color_selector_button
+      color_selector_button.clicked.connect(self.open_custom_color_chooser)
+      
+      self.ui.custom_colors_layout.addLayout(hlayout)
+      
+      self.set_color(option_name, default_color)
   
   def reset_color_selectors_to_model_default_colors(self):
     custom_model_name = self.get_option_value("custom_player_model")
@@ -513,16 +553,14 @@ class WWRandomizerWindow(QMainWindow):
       prefix = "hero"
     
     metadata = customizer.get_model_metadata(custom_model_name)
-    
     if metadata is None:
       return
     
-    default_shirt_color = metadata["%s_shirt_color" % prefix]
-    self.set_color("player_shirt_color", default_shirt_color)
-    default_shirt_color = metadata["%s_pants_color" % prefix]
-    self.set_color("player_pants_color", default_shirt_color)
-    default_shirt_color = metadata["%s_hair_color" % prefix]
-    self.set_color("player_hair_color", default_shirt_color)
+    custom_colors = metadata.get(prefix + "_custom_colors", {})
+    
+    for custom_color_name, default_color in custom_colors.items():
+      option_name = "custom_color_" + custom_color_name
+      self.set_color(option_name, default_color)
   
   def disable_invalid_cosmetic_options(self):
     custom_model_name = self.get_option_value("custom_player_model")
@@ -531,28 +569,35 @@ class WWRandomizerWindow(QMainWindow):
     if metadata is None:
       self.ui.player_in_casual_clothes.setEnabled(False)
       self.set_option_value("player_in_casual_clothes", False)
-      for option_name in COLOR_SELECTOR_OPTIONS:
-        button = getattr(self.ui, option_name)
-        button.setEnabled(False)
-        self.set_color(option_name, None)
     else:
-      self.ui.player_in_casual_clothes.setEnabled(True)
-      for option_name in COLOR_SELECTOR_OPTIONS:
-        button = getattr(self.ui, option_name)
-        button.setEnabled(True)
+      disable_casual_clothes = metadata.get("disable_casual_clothes", False)
+      if disable_casual_clothes:
+        self.ui.player_in_casual_clothes.setEnabled(False)
+        self.ui.player_in_casual_clothes.setChecked(False)
+      else:
+        self.ui.player_in_casual_clothes.setEnabled(True)
   
   def set_color(self, option_name, color):
-    color_button = getattr(self.ui, option_name)
+    if not (isinstance(color, list) and len(color) == 3):
+      color = [255, 255, 255]
+    
+    assert option_name.startswith("custom_color_")
+    color_name = option_name[len("custom_color_"):]
+    self.custom_colors[color_name] = color
+    
+    color_button = self.custom_color_selector_buttons[option_name]
     if color is None:
       color_button.setStyleSheet("")
     else:
       color_button.setStyleSheet("background-color: rgb(%d, %d, %d)" % tuple(color))
-    self.custom_colors[option_name] = color
   
   def open_custom_color_chooser(self):
     option_name = self.sender().objectName()
     
-    r, g, b = self.custom_colors[option_name]
+    assert option_name.startswith("custom_color_")
+    color_name = option_name[len("custom_color_"):]
+    
+    r, g, b = self.custom_colors[color_name]
     initial_color = QColor(r, g, b, 255)
     color = QColorDialog.getColor(initial_color, self, "Select color")
     if not color.isValid():

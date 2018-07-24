@@ -18,6 +18,7 @@ from wwlib.jpc import JPC
 import tweaks
 from logic.logic import Logic
 from paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH
+import customizer
 
 from randomizers import items
 from randomizers import charts
@@ -236,9 +237,9 @@ class Randomizer:
     tweaks.increase_player_movement_speeds(self)
     tweaks.add_chart_number_to_item_get_messages(self)
     
-    tweaks.replace_link_model(self)
-    tweaks.change_player_clothes_color(self)
     tweaks.change_starting_clothes(self)
+    customizer.replace_link_model(self)
+    customizer.change_player_clothes_color(self)
   
   def apply_necessary_post_randomization_tweaks(self):
     tweaks.update_shop_item_descriptions(self)

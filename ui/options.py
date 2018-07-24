@@ -122,29 +122,11 @@ OPTIONS = OrderedDict([
     "player_in_casual_clothes",
     "Enable this if you want to wear your casual clothes instead of the Hero's Clothes."
   ),
-  (
-    "player_shirt_color",
-    "Allows you to specify the color of the player's shirt."
-  ),
-  (
-    "player_pants_color",
-    "Allows you to specify the color of the player's pants."
-  ),
-  (
-    "player_hair_color",
-    "Allows you to specify the color of the player's hair."
-  ),
 ])
 
 NON_PERMALINK_OPTIONS = [
   "custom_player_model",
   "player_in_casual_clothes",
-  "player_shirt_color",
-  "player_pants_color",
-  "player_hair_color",
-]
-
-COLOR_SELECTOR_OPTIONS = [
   "player_shirt_color",
   "player_pants_color",
   "player_hair_color",
