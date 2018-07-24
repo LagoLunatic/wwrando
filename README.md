@@ -1,13 +1,16 @@
 
 ### About
 
-This is a randomizer for The Legend of Zelda: The Wind Waker (North American Gamecube version).  
+This is a randomizer for The Legend of Zelda: The Wind Waker.  
 It randomizes all the items in the game so that each playthrough is unique and you never know where a particular item will be.  
 It also makes the game completely open world from the start, removes most cutscenes from the game, and increases sailing speed and text speed.
 
 Download it here: https://github.com/LagoLunatic/wwrando/releases/latest
 
 ### Information
+
+The randomizer only supports the North American Gamecube version of Wind Waker. (MD5: d8e4d45af2032a081a0f446384e9261b)
+The European and Japanese versions of Wind Waker won't work, and neither will Wind Waker HD.
 
 The randomizer guarantees that every playthrough will be completable, and that you don't need to use any glitches or tricks to beat it.
 
