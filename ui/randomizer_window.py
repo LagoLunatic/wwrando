@@ -262,13 +262,14 @@ class WWRandomizerWindow(QMainWindow):
         self.set_option_value(option_name, self.settings[option_name])
     
     self.custom_model_changed()
-    custom_colors_from_settings = self.settings["custom_colors"]
-    for custom_color_name in self.custom_colors:
-      if custom_color_name in custom_colors_from_settings:
-        self.custom_colors[custom_color_name] = custom_colors_from_settings[custom_color_name]
-    for custom_color_name, color in self.custom_colors.items():
-      option_name = "custom_color_" + custom_color_name
-      self.set_color(option_name, color)
+    if "custom_colors" in self.settings:
+      custom_colors_from_settings = self.settings["custom_colors"]
+      for custom_color_name in self.custom_colors:
+        if custom_color_name in custom_colors_from_settings:
+          self.custom_colors[custom_color_name] = custom_colors_from_settings[custom_color_name]
+      for custom_color_name, color in self.custom_colors.items():
+        option_name = "custom_color_" + custom_color_name
+        self.set_color(option_name, color)
   
   def save_settings(self):
     with open(self.settings_path, "w") as f:
