@@ -1595,8 +1595,8 @@ Mailbox - Letter from Baito:
   Paths:
     - rels/d_a_obj_toripost.rel@25E8
 Mailbox - Letter from Komali's Father:
-  Need: Farore's Pearl & Song of Passing
-  # Need to wait for time to pass.
+  Need: Farore's Pearl
+  # Do not need to wait for time to pass.
   Original item: Piece of Heart
   Types: Mail
   Paths:
