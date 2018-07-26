@@ -79,6 +79,8 @@ class BTI:
       new_image, self.image_format, self.palette_format
     )
     self.num_colors = len(colors)
+    self.width = new_image.width
+    self.height = new_image.height
 
 class BTIFile(BTI): # For standalone .bti files (as opposed to textures embedded in .bdl models)
   def __init__(self, file_entry):
