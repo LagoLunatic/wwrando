@@ -136,6 +136,7 @@ def change_player_clothes_color(self):
     if custom_color is None:
       continue
     custom_color = tuple(custom_color)
+    base_color = tuple(base_color)
     if custom_color == base_color:
       continue
     
