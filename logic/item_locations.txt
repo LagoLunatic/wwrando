@@ -925,7 +925,7 @@ Tower of the Gods - First Chest Guarded by Armos Knights:
     & Bombs
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
-    & Bombs
+    & Hero's Bow
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
