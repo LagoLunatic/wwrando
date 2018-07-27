@@ -902,11 +902,11 @@ def update_savage_labyrinth_hint_tablet(self):
   if self.options.get("progression_dungeons"):
     if floor_30_item_name.endswith("Small Key"):
       floor_30_item_name = "Small Key"
-    if floor_30_item_name.startswith("Big Key"):
+    if floor_30_item_name.endswith("Big Key"):
       floor_30_item_name = "Big Key"
     if floor_50_item_name.endswith("Small Key"):
       floor_50_item_name = "Small Key"
-    if floor_50_item_name.startswith("Big Key"):
+    if floor_50_item_name.endswith("Big Key"):
       floor_50_item_name = "Big Key"
   
   if floor_30_is_progress and not floor_30_item_name in self.progress_item_hints:
