@@ -806,7 +806,7 @@ Forbidden Woods - Double Mothula Room:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
-    & Can Defeat Door Flowers
+  # This room is locked by 2 door flowers, but you can bring a nut down from the floor above and destroy them both with it.
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
