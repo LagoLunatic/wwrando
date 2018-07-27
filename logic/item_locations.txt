@@ -522,6 +522,16 @@ Dragon Roost Cavern - Boarded Up Chest:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest006
+Dragon Roost Cavern - Chest Across Lava Pit:
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x2
+    & (Grappling Hook | Deku Leaf)
+  # Note: It's also possible to throw a burning stick across the pit, then stand at the very very edge of the cliff and hookshot the chest to get across. But this is pretty precise, so this is not required. (Maybe for a higher difficulty level in the future it can be.)
+  Original item: Treasure Chart 11
+  Types: Dungeon
+  Paths:
+    - M_NewD2/Stage.arc/Chest00A
 Dragon Roost Cavern - Compass Chest:
   Need:
     Can Access Dragon Roost Cavern
@@ -600,16 +610,6 @@ Dragon Roost Cavern - Big Key Chest:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest000
-Dragon Roost Cavern - Chest Across Lava Pit:
-  Need:
-    Can Access Dragon Roost Cavern
-    & DRC Small Key x2
-    & (Grappling Hook | Deku Leaf)
-  # Note: It's also possible to throw a burning stick across the pit, then stand at the very very edge of the cliff and hookshot the chest to get across. But this is pretty precise, so this is not required. (Maybe for a higher difficulty level in the future it can be.)
-  Original item: Treasure Chart 11
-  Types: Dungeon
-  Paths:
-    - M_NewD2/Stage.arc/Chest00A
 Dragon Roost Cavern - Boss Stairs Right Chest:
   Need:
     Can Access Dragon Roost Cavern
@@ -892,6 +892,17 @@ Tower of the Gods - Shoot Eye Above Compass Chest:
 #  Types: Tingle Statue Chest, Dungeon
 #  Paths:
 #    - Siren/Stage.arc/Chest00A
+Tower of the Gods - First Chest Guarded by Armos Knights:
+  Need:
+    Can Access Tower of the Gods
+    & Bombs
+    & TotG Small Key x1
+    & Can Defeat Yellow ChuChus
+    & Hero's Bow
+  Original item: Joy Pendant
+  Types: Dungeon
+  Paths:
+    - Siren/Stage.arc/Chest004
 Tower of the Gods - Stone Tablet:
   Need:
     Can Access Tower of the Gods
@@ -919,17 +930,6 @@ Tower of the Gods - Darknut Mini-Boss Room:
   Types: Dungeon
   Paths:
     - SirenMB/Stage.arc/Chest000
-Tower of the Gods - First Chest Guarded by Armos Knights:
-  Need:
-    Can Access Tower of the Gods
-    & Bombs
-    & TotG Small Key x1
-    & Can Defeat Yellow ChuChus
-    & Hero's Bow
-  Original item: Joy Pendant
-  Types: Dungeon
-  Paths:
-    - Siren/Stage.arc/Chest004
 Tower of the Gods - Second Chest Guarded by Armos Knights:
   Need:
     Can Access Tower of the Gods
@@ -1173,6 +1173,16 @@ Earth Temple - Map Chest:
   Types: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest000
+Earth Temple - Chest Behind Destructible Walls:
+  Need:
+    Can Access Earth Temple
+    & Can Play Command Melody
+    & Skull Hammer
+    & Mirror Shield
+  Original item: Joy Pendant
+  Types: Dungeon
+  Paths:
+    - M_Dai/Stage.arc/Chest00A
 #Earth Temple - Behind Curtain Next to Map Chest:
 #  Need:
 #    Can Access Earth Temple
@@ -1239,16 +1249,6 @@ Earth Temple - Stalfos Mini-Boss Room:
   Types: Dungeon
   Paths:
     - M_DaiMB/Stage.arc/Chest000
-Earth Temple - Chest Behind Destructible Walls:
-  Need:
-    Can Access Earth Temple
-    & Can Play Command Melody
-    & Skull Hammer
-    & Mirror Shield
-  Original item: Joy Pendant
-  Types: Dungeon
-  Paths:
-    - M_Dai/Stage.arc/Chest00A
 #Earth Temple - Tingle Statue Chest:
 #  Need:
 #    Can Access Earth Temple
