@@ -759,7 +759,6 @@ def color_exchange(image, base_color, replacement_color, mask_path=None):
   replacement_s = int(replacement_s*100)
   replacement_v = int(replacement_v*100)
   
-  h_change = replacement_h - base_h
   s_change = replacement_s - base_s
   v_change = replacement_v - base_v
   
@@ -775,7 +774,7 @@ def color_exchange(image, base_color, replacement_color, mask_path=None):
       s = int(s*100)
       v = int(v*100)
       
-      new_h = h + h_change
+      new_h = replacement_h
       new_s = s + s_change
       new_v = v + v_change
       new_h = new_h % 360
