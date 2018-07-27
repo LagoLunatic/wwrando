@@ -13,6 +13,7 @@ VANILLA_LINK_METADATA = {
   "hero_custom_colors": OrderedDict([
     ("Hair",  [255, 238, 16]),
     ("Shirt", [90, 178, 74]),
+    ("Undershirt", [172, 226, 65]),
     ("Pants", [255, 255, 255]),
   ]),
   "casual_custom_colors": OrderedDict([
@@ -23,6 +24,7 @@ VANILLA_LINK_METADATA = {
   "hero_color_mask_paths": OrderedDict([
     ("Hair", os.path.join(ASSETS_PATH,  "link_hero_hair_mask.png")),
     ("Shirt", os.path.join(ASSETS_PATH, "link_hero_shirt_mask.png")),
+    ("Undershirt", os.path.join(ASSETS_PATH, "link_hero_undershirt_mask.png")),
     ("Pants", os.path.join(ASSETS_PATH, "link_hero_pants_mask.png")),
   ]),
   "casual_color_mask_paths": OrderedDict([
