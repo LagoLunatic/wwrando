@@ -692,6 +692,15 @@ Forbidden Woods - Inside Hollow Tree's Mouth:
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest001
+Forbidden Woods - Climb to Top Using Boko Baba Bulbs:
+  Need:
+    Can Access Forbidden Woods
+    & Deku Leaf
+    & Can Defeat Door Flowers
+  Original item: Treasure Chart 1
+  Types: Dungeon
+  Paths:
+    - kindan/Stage.arc/Chest000
 Forbidden Woods - Hole in Tree:
   Need:
     Can Access Forbidden Woods
@@ -811,15 +820,6 @@ Forbidden Woods - Double Mothula Room:
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest00A
-Forbidden Woods - Climb to Top Using Boko Baba Bulbs:
-  Need:
-    Can Access Forbidden Woods
-    & Deku Leaf
-    & Can Defeat Door Flowers
-  Original item: Treasure Chart 1
-  Types: Dungeon
-  Paths:
-    - kindan/Stage.arc/Chest000
 Forbidden Woods - Kalle Demos Heart Container:
   Need:
     Can Access Forbidden Woods
