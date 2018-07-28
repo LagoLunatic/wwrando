@@ -633,6 +633,29 @@ class STAG(ChunkEntry):
     write_u8(data, self.offset+0x11, self.unknown_8)
     write_u16(data, self.offset+0x12, self.draw_range)
 
+class FILI(ChunkEntry):
+  DATA_SIZE = 8
+  
+  PARAMS = {
+    "wind_type": 0x000C0000,
+  }
+  
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+  
+  def read(self, offset):
+    self.offset = offset
+    data = self.file_entry.data
+    
+    self.params = read_u32(data, offset)
+    self.skybox_y_origin = read_float(data, offset+0x04)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_u32(data, self.offset, self.params)
+    write_float(data, self.offset+0x04, self.skybox_y_origin)
+
 class SHIP(ChunkEntry):
   DATA_SIZE = 0x10
   
@@ -868,9 +891,6 @@ class DummyEntry(ChunkEntry):
     data = self.file_entry.data
     
     write_bytes(data, self.offset, self.raw_data_bytes)
-
-class FILI(DummyEntry):
-  DATA_SIZE = 8
 
 class FLOR(DummyEntry):
   DATA_SIZE = 0x14
