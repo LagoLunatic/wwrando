@@ -848,17 +848,3 @@
 .org 0x800F13A8 ; In daHookshot_rockLineCallback
   b hookshot_sight_failsafe_check
 .close
-
-
-
-
-; Remove some special code for Blue Chu Jelly when picked up and when spawned.
-; When you pick it up, instead of setting an item pickup flag like every other item, it would set the switch of the same index as its item pickup flag value, in the stage info for stage ID 0xE.
-; This would cause randomized Blue Chu Jelly to not properly disappear after you take it, since it only checks that switch when you pick it up, not when it spawns.
-; Also, because it always uses the stage info for stage ID 0xE, it would be shared across all stages, while item pick flags are supposed to be only for the current stage.
-.open "sys/main.dol"
-.org 0x800F6C9C ; When being picked up, make it set the item pickup flag (in itemGetExecute__8daItem_cFv)
-  b 0x800F6CB4
-.org 0x800F5598 ; When spawning, make it check the item pickup flag (in _daItem_create__8daItem_cFv)
-  nop
-.close

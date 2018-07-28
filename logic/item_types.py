@@ -109,10 +109,10 @@ CONSUMABLE_ITEMS = \
    3 * ["Knight's Crest"] + \
    1 * ["Red Chu Jelly"] + \
    1 * ["Green Chu Jelly"] + \
-   1 * ["Blue Chu Jelly"] + \
   \
    1 * ["All-Purpose Bait"] + \
    4 * ["Hyoi Pear"]
+# (Note: Blue Chu Jelly is not included as it is specially coded and would cause issues if randomly placed as a field item.)
 
 DUNGEON_PROGRESS_ITEMS = \
   ["DRC Big Key"] *1 + ["DRC Small Key"] *4 + \
