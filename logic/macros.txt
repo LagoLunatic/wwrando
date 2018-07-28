@@ -113,8 +113,8 @@ Can Complete Memory Earth Temple and Jalhalla:
   # Mirror Shield is not needed in the hallway leading up to Jalhalla because you can lure the Purple Chuchus into the light.
   # It's not needed for Jalhalla because Light Arrows work in their place.
 Can Complete Memory Wind Temple and Molgera:
-  Iron Boots & Deku Leaf & Hookshot
-  # Iron boots are not strictly necessary to get across the gaps - just Deku Leaf and Hookshot work, but it's more difficult, and requires damage boosting off spikes. TODO: Consider taking this into account for higher difficulty levels.
+  Deku Leaf & Hookshot
+  # You're intended to use iron boots here, but you can simply fly across the gap with deku leaf instead. No damage boosting off spikes or leaf pumping required.
 Can Reach Ganon's Tower Maze:
   Can Access Ganon's Tower
   & Can Complete Memory Dragon Roost Cavern and Gohma
