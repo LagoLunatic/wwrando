@@ -3,4 +3,5 @@ __pycache__
 settings.txt
 /build
 /dist
-/models
+/models/*
+!/models/About Custom Models.txt
