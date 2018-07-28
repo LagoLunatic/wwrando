@@ -1495,7 +1495,6 @@ Wind Temple - Chest at Top of Hub Room:
     & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
-    & Hookshot
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
@@ -1506,7 +1505,6 @@ Wind Temple - Chest Behind Seven Armos:
     & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
-    & Hookshot
     & Can Defeat Armos
   Original item: Small Key
   Types: Dungeon
@@ -1518,7 +1516,6 @@ Wind Temple - Big Key Chest:
     & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
-    & Hookshot
     & Can Play Wind God's Aria
   Original item: Big Key
   Types: Dungeon
