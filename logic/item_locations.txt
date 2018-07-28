@@ -2531,7 +2531,8 @@ Crescent Moon Island - Sunken Treasure:
     - sea/Room5.arc/ScalableObject008
     - sea/Room5.arc/ScalableObject009
 Seven-Star Isles - Sunken Treasure:
-  Need: Grappling Hook & Chart for Island 6
+  Need: Grappling Hook & Chart for Island 6 & Bombs
+  # Bombs are not necessary, but it's tricky to salvage this treasure with two stationary gunboats shooting at you, so being able to destroy them makes this much easier.
   Original item: Triforce Shard 7
   Types: Sunken Treasure
   Paths:
@@ -2748,6 +2749,7 @@ Needle Rock Isle - Sunken Treasure:
     - sea/Room29.arc/ScalableObject009
 Islet of Steel - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 30
+  # Note: There are several gunboats here near the treasure, but they rarely seem to actually hit you and get in your way. So bombs are not currently a requirement here.
   Original item: Silver Rupee
   Types: Sunken Treasure
   Paths:
@@ -2757,6 +2759,7 @@ Islet of Steel - Sunken Treasure:
     - sea/Room30.arc/ScalableObject00A
 Stone Watcher Island - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 31
+  # Note: There are some gunboats here guarding the treasure, but they never seem to actually hit you when you're trying to salvage it. So bombs are not currently a requirement here.
   Original item: Triforce Shard 3
   Types: Sunken Treasure
   Paths:
@@ -2765,7 +2768,8 @@ Stone Watcher Island - Sunken Treasure:
     - sea/Room31.arc/ScalableObject008
     - sea/Room31.arc/ScalableObject009
 Southern Triangle Island - Sunken Treasure:
-  Need: Grappling Hook & Chart for Island 32
+  Need: Grappling Hook & Chart for Island 32 & Can Defeat Seahats
+  # Killing the seahats isn't necessary, but makes it much easier.
   Original item: Triforce Shard 6
   Types: Sunken Treasure
   Paths:

@@ -183,6 +183,11 @@ Can Defeat Peahats:
   | Skull Hammer
   | Hero's Bow
   | Bombs
+Can Defeat Seahats:
+  Boomerang
+  | Hero's Bow
+  | Hookshot
+  | Bombs
 Can Defeat Armos:
   Nothing
   # Hero's Bow makes killing these more convenient.
