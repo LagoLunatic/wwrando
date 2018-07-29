@@ -859,3 +859,18 @@
 .org 0xB1E0
   li r6, -1 ; No layer override
 .close
+
+
+
+
+; If you try to challenge Orca when you have no sword equipped, the game will crash.
+; This is because he tries to create the counter in the lower left corner of the screen for how many hits you've gotten, but that counter needs a sword icon, and the sword icon texture is not loaded in when you have no sword equipped.
+; So change it so he doesn't create a counter at all when you have no sword.
+.open "files/rels/d_a_npc_ji1.rel" ; Orca
+.org 0xC914
+  cmpwi r0, 0x38 ; Hero's Sword
+  beq 0xC938 ; Use Hero's Sword icon for the counter (icon 1)
+  cmpwi r0, 0xFF ; No sword
+  beq 0xC96C ; Skip past the code to create the counter entirely
+  b 0xC948 ; Use Master Sword icon for the counter (icon 2)
+.close
