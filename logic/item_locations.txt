@@ -815,7 +815,8 @@ Forbidden Woods - Double Mothula Room:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
-  # This room is locked by 2 door flowers, but you can bring a nut down from the floor above and destroy them both with it.
+    & (Can Defeat Door Flowers | Grappling Hook)
+  # This room is locked by 2 door flowers, but if you have grappling hook you can reach a nut on the floor above and bring it down to destroy them both with it.
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
@@ -824,7 +825,7 @@ Forbidden Woods - Kalle Demos Heart Container:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
-    & Can Defeat Door Flowers
+    & (Can Defeat Door Flowers | Grappling Hook)
     & FW Big Key
     & Boomerang
   Original item: Heart Container
