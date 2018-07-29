@@ -92,7 +92,8 @@ class Logic:
       if cleaned_item_name not in self.all_cleaned_item_names:
         self.all_cleaned_item_names.append(cleaned_item_name)
     
-    self.load_and_parse_item_locations()
+    self.item_locations = Logic.load_and_parse_item_locations()
+    self.load_and_parse_macros()
     
     self.locations_by_zone_name = OrderedDict()
     for location_name in self.item_locations:
@@ -172,11 +173,20 @@ class Logic:
     return num_progress_items
   
   def get_num_progression_locations(self):
-    progress_locations = self.filter_locations_for_progression(self.item_locations.keys(), filter_sunken_treasure=True)
+    return Logic.get_num_progression_locations_static(self.item_locations, self.rando.options)
+  
+  @staticmethod
+  def get_num_progression_locations_static(item_locations, options):
+    progress_locations = Logic.filter_locations_for_progression_static(
+      item_locations.keys(),
+      item_locations,
+      options,
+      filter_sunken_treasure=True
+    )
     num_progress_locations = len(progress_locations)
-    if self.rando.options.get("progression_triforce_charts"):
+    if options.get("progression_triforce_charts"):
       num_progress_locations += 8
-    if self.rando.options.get("progression_treasure_charts"):
+    if options.get("progression_treasure_charts"):
       num_progress_locations += 41
     
     return num_progress_locations
@@ -292,44 +302,53 @@ class Logic:
     return None
   
   def filter_locations_for_progression(self, locations_to_filter, filter_sunken_treasure=False):
+    return Logic.filter_locations_for_progression_static(
+      locations_to_filter,
+      self.item_locations,
+      self.rando.options,
+      filter_sunken_treasure=filter_sunken_treasure
+    )
+  
+  @staticmethod
+  def filter_locations_for_progression_static(locations_to_filter, item_locations, options, filter_sunken_treasure=False):
     filtered_locations = []
     for location_name in locations_to_filter:
-      types = self.item_locations[location_name]["Types"]
+      types = item_locations[location_name]["Types"]
       if "No progression" in types:
         continue
       if "Tingle Statue Chest" in types:
         continue
-      if "Dungeon" in types and not self.rando.options.get("progression_dungeons"):
+      if "Dungeon" in types and not options.get("progression_dungeons"):
         continue
-      if "Great Fairy" in types and not self.rando.options.get("progression_great_fairies"):
+      if "Great Fairy" in types and not options.get("progression_great_fairies"):
         continue
-      if "Puzzle Secret Cave" in types and not self.rando.options.get("progression_puzzle_secret_caves"):
+      if "Puzzle Secret Cave" in types and not options.get("progression_puzzle_secret_caves"):
         continue
-      if "Combat Secret Cave" in types and not self.rando.options.get("progression_combat_secret_caves"):
+      if "Combat Secret Cave" in types and not options.get("progression_combat_secret_caves"):
         continue
-      if "Short Sidequest" in types and not self.rando.options.get("progression_short_sidequests"):
+      if "Short Sidequest" in types and not options.get("progression_short_sidequests"):
         continue
-      if "Long Sidequest" in types and not self.rando.options.get("progression_long_sidequests"):
+      if "Long Sidequest" in types and not options.get("progression_long_sidequests"):
         continue
-      if "Spoils Trading" in types and not self.rando.options.get("progression_spoils_trading"):
+      if "Spoils Trading" in types and not options.get("progression_spoils_trading"):
         continue
-      if "Minigame" in types and not self.rando.options.get("progression_minigames"):
+      if "Minigame" in types and not options.get("progression_minigames"):
         continue
-      if "Free Gift" in types and not self.rando.options.get("progression_free_gifts"):
+      if "Free Gift" in types and not options.get("progression_free_gifts"):
         continue
-      if "Mail" in types and not self.rando.options.get("progression_mail"):
+      if "Mail" in types and not options.get("progression_mail"):
         continue
-      if ("Platform" in types or "Raft" in types) and not self.rando.options.get("progression_platforms_rafts"):
+      if ("Platform" in types or "Raft" in types) and not options.get("progression_platforms_rafts"):
         continue
-      if "Submarine" in types and not self.rando.options.get("progression_submarines"):
+      if "Submarine" in types and not options.get("progression_submarines"):
         continue
-      if "Eye Reef Chest" in types and not self.rando.options.get("progression_eye_reef_chests"):
+      if "Eye Reef Chest" in types and not options.get("progression_eye_reef_chests"):
         continue
-      if ("Big Octo" in types or "Gunboat" in types) and not self.rando.options.get("progression_big_octos_gunboats"):
+      if ("Big Octo" in types or "Gunboat" in types) and not options.get("progression_big_octos_gunboats"):
         continue
-      if "Expensive Purchase" in types and not self.rando.options.get("progression_expensive_purchases"):
+      if "Expensive Purchase" in types and not options.get("progression_expensive_purchases"):
         continue
-      if ("Other Chest" in types or "Misc" in types) and not self.rando.options.get("progression_misc"):
+      if ("Other Chest" in types or "Misc" in types) and not options.get("progression_misc"):
         continue
       if "Sunken Treasure" in types and filter_sunken_treasure:
         continue
@@ -415,22 +434,27 @@ class Logic:
         valid_items.append(item_name)
     return valid_items
   
-  def load_and_parse_item_locations(self):
+  @staticmethod
+  def load_and_parse_item_locations():
     with open(os.path.join(LOGIC_PATH, "item_locations.txt")) as f:
-      self.item_locations = yaml.load(f, YamlOrderedDictLoader)
-    for location_name in self.item_locations:
-      req_string = self.item_locations[location_name]["Need"]
+      item_locations = yaml.load(f, YamlOrderedDictLoader)
+    
+    for location_name in item_locations:
+      req_string = item_locations[location_name]["Need"]
       if req_string is None:
         # TODO, blank reqs should be an error. Temporarily we will just consider them to be impossible.
-        self.item_locations[location_name]["Need"] = self.parse_logic_expression("TODO")
+        item_locations[location_name]["Need"] = Logic.parse_logic_expression("TODO")
       else:
-        self.item_locations[location_name]["Need"] = self.parse_logic_expression(req_string)
+        item_locations[location_name]["Need"] = Logic.parse_logic_expression(req_string)
       
-      types_string = self.item_locations[location_name]["Types"]
+      types_string = item_locations[location_name]["Types"]
       types = types_string.split(",")
       types = [type.strip() for type in types]
-      self.item_locations[location_name]["Types"] = types
+      item_locations[location_name]["Types"] = types
     
+    return item_locations
+    
+  def load_and_parse_macros(self):
     with open(os.path.join(LOGIC_PATH, "macros.txt")) as f:
       macro_strings = yaml.safe_load(f)
     self.macros = {}
@@ -438,7 +462,7 @@ class Logic:
       self.set_macro(macro_name, req_string)
   
   def set_macro(self, macro_name, req_string):
-    self.macros[macro_name] = self.parse_logic_expression(req_string)
+    self.macros[macro_name] = Logic.parse_logic_expression(req_string)
   
   def update_dungeon_entrance_macros(self):
     # Update all the dungeon access macros to take randomized entrances into account.
@@ -482,7 +506,8 @@ class Logic:
   def is_dungeon_item(self, item_name):
     return (item_name in DUNGEON_PROGRESS_ITEMS or item_name in DUNGEON_NONPROGRESS_ITEMS)
   
-  def parse_logic_expression(self, string):
+  @staticmethod
+  def parse_logic_expression(string):
     tokens = [str.strip() for str in re.split("([&|()])", string)]
     tokens = [token for token in tokens if token != ""]
     

@@ -24,6 +24,7 @@ except ImportError:
 from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError
 from paths import ASSETS_PATH, SEEDGEN_PATH
 import customizer
+from logic.logic import Logic
 
 class WWRandomizerWindow(QMainWindow):
   VALID_SEED_CHARACTERS = "-_'%%.%s%s" % (string.ascii_letters, string.digits)
@@ -38,6 +39,8 @@ class WWRandomizerWindow(QMainWindow):
     self.initialize_custom_player_model_list()
     
     self.preserve_default_settings()
+    
+    self.cached_item_locations = Logic.load_and_parse_item_locations()
     
     self.load_settings()
     
@@ -289,6 +292,17 @@ class WWRandomizerWindow(QMainWindow):
     self.save_settings()
     
     self.encode_permalink()
+    
+    self.update_total_progress_locations()
+  
+  def update_total_progress_locations(self):
+    options = OrderedDict()
+    for option_name in OPTIONS:
+      options[option_name] = self.get_option_value(option_name)
+    num_progress_locations = Logic.get_num_progression_locations_static(self.cached_item_locations, options)
+    
+    text = "Where Should Progress Items Appear? (Selected: %d Possible Progression Locations)" % num_progress_locations
+    self.ui.groupBox.setTitle(text)
   
   def permalink_modified(self):
     permalink = self.ui.permalink.text()
