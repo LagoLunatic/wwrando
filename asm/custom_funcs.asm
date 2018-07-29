@@ -152,10 +152,11 @@ addi r4, r4, 0x0040
 stw r4, 4 (r3)
 
 ; Set a switch (1E) for having seen the cutscene before the Puppet Ganon fight.
+; Also set a switch (12) for having seen the cutscene after the Puppet Ganon fight.
 ; Also set a switch (1F) for having seen the cutscene before the Ganondorf fight.
 lis r3, 0x803C50A8@ha ; Ganon's Tower stage info.
 addi r3, r3, 0x803C50A8@l
-lis r4, 0xC000
+lis r4, 0xC004
 stw r4, 4 (r3)
 
 

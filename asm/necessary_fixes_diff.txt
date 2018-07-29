@@ -173,3 +173,5 @@ files/rels/d_a_npc_mk.rel:
 files/rels/d_a_npc_uk.rel:
   10676: [72, 0, 0, 132]
   10952: [72, 0, 0, 60]
+files/rels/d_a_bgn.rel:
+  45536: [56, 192, 255, 255]

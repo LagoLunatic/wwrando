@@ -848,3 +848,14 @@
 .org 0x800F13A8 ; In daHookshot_rockLineCallback
   b hookshot_sight_failsafe_check
 .close
+
+
+
+
+; After you kill Puppet Ganon, he would normally respawn you in his room but override the layer to be layer 9 for the cutscene there.
+; We set the switch for having already seen that cutscene in the new game initialization code, but then the rope you need to climb doesn't appear because the layer is wrong.
+; We remove the layer override from Puppet Ganon's call to setNextStage.
+.open "files/rels/d_a_bgn.rel" ; Puppet Ganon
+.org 0xB1E0
+  li r6, -1 ; No layer override
+.close
