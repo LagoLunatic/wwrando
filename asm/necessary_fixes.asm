@@ -874,3 +874,15 @@
   beq 0xC96C ; Skip past the code to create the counter entirely
   b 0xC948 ; Use Master Sword icon for the counter (icon 2)
 .close
+
+
+
+
+; If a Moblin sees you when you have no sword equipped, it will catch you and bring you to the jail cell in FF1.
+; Skip all the sword checks and pretend the player does have a sword so that this doesn't happen.
+.open "files/rels/d_a_mo2.rel" ; Moblin
+.org 0xBF2C ; Start of sword checks in daMo2_Create__FP10fopAc_ac_c
+  b 0xBF8C ; Skip all 4 sword checks
+.org 0xAD70 ; Start of sword checks in daMo2_Execute__FP9mo2_class
+  b 0xADD0 ; Skip all 4 sword checks
+.close
