@@ -58,7 +58,9 @@ NONPROGRESS_ITEMS = [
   "Magic Armor",
   "Hero's Charm",
   
-  "Complimentary ID",
+  # Complimentary ID is not placed in the randomizer to avoid the player getting an overly full delivery bag.
+  # If you got a progress item for your delivery bag when the bag was already full, the new item would simply never enter your inventory.
+  #"Complimentary ID",
   "Fill-Up Coupon",
   
   # Tingle statues don't randomize properly, they don't count as owned if you find them in a random place.
