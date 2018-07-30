@@ -103,33 +103,50 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, main_symbols, rel_map
         replacement_offsets[rounded_down_location] = (section_offset_to_relocate_against + relocation_data_entry.symbol_address)
       #print()
   
+  rel_map_lines = rel_map_data.splitlines()
+  found_memory_map = False
+  next_section_index = 0
+  section_name_to_section_index = {}
+  for line in rel_map_lines:
+    if line.strip() == "Memory map:":
+      found_memory_map = True
+    if found_memory_map:
+      section_match = re.search(r"^ +\.(text|ctors|dtors|rodata|data|bss)  [0-9a-f]{8} ([0-9a-f]{8}) [0-9a-f]{8}$", line)
+      if section_match:
+        section_name = section_match.group(1)
+        section_size = int(section_match.group(2), 16)
+        if section_size > 0:
+          section_name_to_section_index[section_name] = next_section_index
+          next_section_index += 1
+  if not found_memory_map:
+    raise Exception("Failed to find memory map")
+  
   rel_symbol_names = {}
   all_valid_sections = []
   for section in rel.sections:
     if section.length != 0:
       all_valid_sections.append(section)
-  current_section_index = 0
+  current_section_name = None
+  current_section_index = None
   current_section_offset = None
-  found_any_symbols_in_this_section = False
-  for line in rel_map_data.splitlines():
-    section_header_match = re.search(r"^.(text|ctors|dtors|rodata|data|bss) section layout$", line)
+  for line in rel_map_lines:
+    section_header_match = re.search(r"^\.(text|ctors|dtors|rodata|data|bss) section layout$", line)
     if section_header_match:
-      section_type = section_header_match.group(1)
-      #print("Found section header of type: %s" % section_type)
-      found_any_symbols_in_this_section = False
-      if current_section_index >= len(all_valid_sections):
-        if section_type == "bss":
-          # .bss is uninitialized
-          break
-        else:
-          raise Exception("Not enough sections in rel %s" % rel_path)
-      else:
+      current_section_name = section_header_match.group(1)
+      if current_section_name in section_name_to_section_index:
+        current_section_index = section_name_to_section_index[current_section_name]
+        #print(current_section_name, current_section_index, all_valid_sections)
         current_section_offset = all_valid_sections[current_section_index].offset
+        if current_section_offset == 0 and current_section_name == "bss":
+          current_section_index = None
+          current_section_offset = None
+      else:
+        current_section_index = None
+        current_section_offset = None
     symbol_entry_match = re.search(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})  \d (\S+)", line, re.IGNORECASE)
     if current_section_offset is not None and symbol_entry_match:
-      if not found_any_symbols_in_this_section:
-        found_any_symbols_in_this_section = True
-        current_section_index += 1
+      if current_section_offset == 0:
+        raise Exception("Found symbol in section with offset 0")
       symbol_offset = symbol_entry_match.group(1)
       symbol_offset = int(symbol_offset, 16)
       symbol_offset += current_section_offset
