@@ -5,13 +5,13 @@ import os
 from io import BytesIO
 from collections import namedtuple
 import copy
-import glob
 from random import Random
 
 from fs_helpers import *
 from wwlib import texture_utils
 from wwlib.rarc import RARC
 from paths import ASSETS_PATH, ASM_PATH
+import customizer
 
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
 ORIGINAL_DOL_SIZE = 0x3A52C0
@@ -1190,9 +1190,12 @@ def add_chart_number_to_item_get_messages(self):
       msg.string = msg.string.replace("a \\{1A 06 FF 00 00 01}Triforce Chart", "\\{1A 06 FF 00 00 01}%s" % item_name)
 
 def change_starting_clothes(self):
+  custom_model_metadata = customizer.get_model_metadata(self.custom_model_name)
+  disable_casual_clothes = custom_model_metadata.get("disable_casual_clothes", False)
+  
   should_start_with_heros_clothes_address = self.custom_symbols["should_start_with_heros_clothes"]
   dol_data = self.get_raw_file("sys/main.dol")
-  if self.options.get("player_in_casual_clothes"):
+  if self.options.get("player_in_casual_clothes") and not disable_casual_clothes:
     write_u8(dol_data, address_to_offset(should_start_with_heros_clothes_address), 0)
   else:
     write_u8(dol_data, address_to_offset(should_start_with_heros_clothes_address), 1)

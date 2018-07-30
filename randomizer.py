@@ -143,6 +143,8 @@ class Randomizer:
       (49, "Treasure Chart 33"),
     ])
     
+    self.custom_model_name = "Link"
+    
     self.logic = Logic(self)
     
     num_progress_locations = self.logic.get_num_progression_locations()
@@ -237,8 +239,8 @@ class Randomizer:
     tweaks.increase_player_movement_speeds(self)
     tweaks.add_chart_number_to_item_get_messages(self)
     
-    tweaks.change_starting_clothes(self)
     customizer.replace_link_model(self)
+    tweaks.change_starting_clothes(self)
     customizer.change_player_clothes_color(self)
   
   def apply_necessary_post_randomization_tweaks(self):

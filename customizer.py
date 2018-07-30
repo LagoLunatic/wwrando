@@ -4,6 +4,7 @@ import re
 import yaml
 from collections import OrderedDict
 from io import BytesIO
+import glob
 
 from fs_helpers import *
 from wwlib import texture_utils
@@ -37,10 +38,12 @@ VANILLA_LINK_METADATA = {
 def get_model_metadata(custom_model_name):
   if custom_model_name == "Link":
     return VANILLA_LINK_METADATA
+  elif custom_model_name == "Random":
+    return {}
   else:
     metadata_path = "./models/%s/metadata.txt" % custom_model_name
     if not os.path.isfile(metadata_path):
-      return None
+      return {}
     
     with open(metadata_path) as f:
       metadata = yaml.load(f, YamlOrderedDictLoader)
@@ -69,31 +72,40 @@ def get_model_metadata(custom_model_name):
     
     return metadata
 
+def get_all_custom_model_names():
+  custom_model_names = []
+  custom_model_paths = glob.glob("./models/*/Link.arc")
+  for link_arc_path in custom_model_paths:
+    folder_name = os.path.basename(os.path.dirname(link_arc_path))
+    if folder_name in ["Link", "Random"]:
+      continue
+    custom_model_names.append(folder_name)
+  return custom_model_names
+
 def replace_link_model(self):
   custom_model_name = self.options.get("custom_player_model", "Link")
   if custom_model_name == "Link":
     return
   
   if custom_model_name == "Random":
-    custom_model_paths = glob.glob("./models/*/Link.arc")
-    if not custom_model_paths:
+    custom_model_names = get_all_custom_model_names()
+    if not custom_model_names:
       raise Exception("No custom models to randomly choose from in the /models folder.")
     
-    custom_model_paths = [
-      os.path.dirname(link_arc_path) + "/" for link_arc_path in custom_model_paths
-    ]
+    custom_model_names.append(None) # Dummy entry to represent not changing Link's model
     
-    custom_model_paths.append(None) # Dummy entry to represent not changing Link's model
+    temp_rng = self.get_new_rng()
+    custom_model_name = temp_rng.choice(custom_model_names)
+    print(custom_model_names)
+    print(custom_model_name)
     
-    temp_rng = Random()
-    temp_rng.seed(self.integer_seed)
-    
-    custom_model_path = temp_rng.choice(custom_model_paths)
-    
-    if custom_model_path == None:
+    if custom_model_name == None:
       return
-  else:
-    custom_model_path = "./models/%s/" % custom_model_name
+  
+  # Remember what custom model was chosen so other code can access the metadata for the proper model.
+  self.custom_model_name = custom_model_name
+  
+  custom_model_path = "./models/%s/" % custom_model_name
   
   custom_link_arc_path = custom_model_path + "Link.arc"
   if not os.path.isfile(custom_link_arc_path):
@@ -112,13 +124,13 @@ def replace_link_model(self):
     always_arc.get_file_entry("shmref.bti").data = reflection_image_data
 
 def change_player_clothes_color(self):
-  custom_model_name = self.options.get("custom_player_model", "Link")
-  custom_model_metadata = get_model_metadata(custom_model_name)
+  custom_model_metadata = get_model_metadata(self.custom_model_name)
+  disable_casual_clothes = custom_model_metadata.get("disable_casual_clothes", False)
   
   link_arc = self.get_arc("files/res/Object/Link.arc")
   link_main_model = link_arc.get_file("cl.bdl")
   
-  if self.options.get("player_in_casual_clothes"):
+  if self.options.get("player_in_casual_clothes") and not disable_casual_clothes:
     is_casual = True
     prefix = "casual"
     link_main_textures = [link_arc.get_file("linktexbci4.bti")]

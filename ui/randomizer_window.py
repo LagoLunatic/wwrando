@@ -13,7 +13,6 @@ import traceback
 import string
 import struct
 import base64
-import glob
 
 import yaml
 try:
@@ -505,14 +504,12 @@ class WWRandomizerWindow(QMainWindow):
   def initialize_custom_player_model_list(self):
     self.ui.custom_player_model.addItem("Link")
     
-    custom_model_paths = glob.glob("./models/*/Link.arc")
-    for link_arc_path in custom_model_paths:
-      folder_name = os.path.basename(os.path.dirname(link_arc_path))
-      self.ui.custom_player_model.addItem(folder_name)
+    custom_model_names = customizer.get_all_custom_model_names()
+    for custom_model_name in custom_model_names:
+      self.ui.custom_player_model.addItem(custom_model_name)
     
-    if custom_model_paths:
-      #self.ui.custom_player_model.addItem("Random")
-      pass
+    if custom_model_names:
+      self.ui.custom_player_model.addItem("Random")
     else:
       self.ui.custom_player_model.setEnabled(False)
   
