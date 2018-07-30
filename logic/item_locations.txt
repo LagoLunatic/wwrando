@@ -424,10 +424,13 @@ Windfall Island - Minenco:
   Types: Short Sidequest
   Paths:
     - rels/d_a_npc_people.rel@C553
-Windfall Island - Linda:
+Windfall Island - Linda and Anton:
   Need: Deluxe Picto Box & Song of Passing
+  # You must become Lenzo's assistant, then wait one day, then agree to help Linda.
+  # Then take a photo of Linda with the Deluxe Picto Box and show it to Anton. (You can do this before the parts with Lenzo and Linda if you want.)
+  # Then wait an additional two days, and Linda and Anton will be in the cafe.
   Original item: Piece of Heart
-  Types: Short Sidequest
+  Types: Long Sidequest
   Paths:
     - rels/d_a_npc_people.rel@C557
 
