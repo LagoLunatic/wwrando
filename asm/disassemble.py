@@ -49,8 +49,14 @@ def disassemble_all_code(self):
     if is_rel:
       rel_map_data = self.gcm.read_file_data("files/maps/" + basename + ".map")
       rel_map_data.seek(0)
-      rel_map_data = rel_map_data.read().decode("ascii")
+      rel_map_data = rel_map_data.read()
       
+      # Copy the map file to the output directory
+      rel_map_path = os.path.join(out_dir, basename + ".map")
+      with open(rel_map_path, "wb") as f:
+        f.write(rel_map_data)
+      
+      rel_map_data = rel_map_data.decode("ascii")
       add_relocations_and_symbols_to_rel(asm_path, bin_path, main_symbols, rel_map_data)
     else:
       add_symbols_to_main(asm_path, main_symbols)
