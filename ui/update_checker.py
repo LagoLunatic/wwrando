@@ -18,10 +18,17 @@ def check_for_updates():
       if latest_version_name[0] == "v":
         latest_version_name = latest_version_name[1:]
       
-      if LooseVersion(latest_version_name) > LooseVersion(VERSION):
-        return latest_version_name
+      if "-BETA" in VERSION:
+        version_without_beta = VERSION.split("-BETA")[0]
+        if LooseVersion(latest_version_name) >= LooseVersion(version_without_beta):
+          return latest_version_name
+        else:
+          return None
       else:
-        return None
+        if LooseVersion(latest_version_name) > LooseVersion(VERSION):
+          return latest_version_name
+        else:
+          return None
   except Exception as e:
     stack_trace = traceback.format_exc()
     error_message = "Error when checking for updates:\n" + str(e) + "\n\n" + stack_trace
