@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Tue Jul 24 16:46:53 2018
+# Created: Mon Jul 30 11:38:36 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -182,6 +182,10 @@ class Ui_MainWindow(object):
         self.widget.setObjectName("widget")
         self.horizontalLayout_2.addWidget(self.widget)
         self.gridLayout_4.addLayout(self.horizontalLayout_2, 1, 1, 1, 1)
+        self.generate_spoiler_log = QtGui.QCheckBox(self.groupBox_2)
+        self.generate_spoiler_log.setChecked(True)
+        self.generate_spoiler_log.setObjectName("generate_spoiler_log")
+        self.gridLayout_4.addWidget(self.generate_spoiler_log, 2, 1, 1, 1)
         self.verticalLayout_2.addWidget(self.groupBox_2)
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtGui.QWidget()
@@ -335,6 +339,7 @@ class Ui_MainWindow(object):
         self.num_starting_triforce_shards.setItemText(6, QtGui.QApplication.translate("MainWindow", "6", None, QtGui.QApplication.UnicodeUTF8))
         self.num_starting_triforce_shards.setItemText(7, QtGui.QApplication.translate("MainWindow", "7", None, QtGui.QApplication.UnicodeUTF8))
         self.num_starting_triforce_shards.setItemText(8, QtGui.QApplication.translate("MainWindow", "8", None, QtGui.QApplication.UnicodeUTF8))
+        self.generate_spoiler_log.setText(QtGui.QApplication.translate("MainWindow", "Generate Spoiler Log", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("MainWindow", "Randomizer Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.label_for_custom_player_model.setText(QtGui.QApplication.translate("MainWindow", "Player Model", None, QtGui.QApplication.UnicodeUTF8))
         self.player_in_casual_clothes.setText(QtGui.QApplication.translate("MainWindow", "Casual Clothes", None, QtGui.QApplication.UnicodeUTF8))

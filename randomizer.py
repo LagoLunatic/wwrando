@@ -40,8 +40,7 @@ class Randomizer:
     self.dry_run = dry_run
     
     self.integer_seed = int(hashlib.md5(self.seed.encode('utf-8')).hexdigest(), 16)
-    self.rng = Random()
-    self.rng.seed(self.integer_seed)
+    self.rng = self.get_new_rng()
     
     self.arcs_by_path = {}
     self.jpcs_by_path = {}
@@ -203,7 +202,8 @@ class Randomizer:
     options_completed += 9
     yield("Writing logs...", options_completed)
     
-    self.write_spoiler_log()
+    if self.options.get("generate_spoiler_log"):
+      self.write_spoiler_log()
     self.write_non_spoiler_log()
     
     yield("Done", -1)
@@ -416,6 +416,14 @@ class Randomizer:
     
     output_file_path = os.path.join(self.randomized_output_folder, "WW Random %s.iso" % self.seed)
     self.gcm.export_iso_with_changed_files(output_file_path, changed_files)
+  
+  def get_new_rng(self):
+    rng = Random()
+    rng.seed(self.integer_seed)
+    if not self.options.get("generate_spoiler_log"):
+      for i in range(1, 100):
+        rng.getrandbits(i)
+    return rng
   
   def calculate_playthrough_progression_spheres(self):
     progression_spheres = []

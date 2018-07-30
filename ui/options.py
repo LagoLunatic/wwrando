@@ -113,6 +113,10 @@ OPTIONS = OrderedDict([
     "add_shortcut_warps_between_dungeons",
     "Adds new warp pots that act as shortcuts connecting dungeons to each other directly. (DRC, FW, TotG, and separately FF, ET, WT.)\nEach pot must be unlocked before it can be used, so you cannot use them to access dungeons you wouldn't already have access to."
   ),
+  (
+    "generate_spoiler_log",
+    "Generate a text file that lists the location of every single item for this seed.\nNote that whether this is checked or not affects where items are placed in this seed."
+  ),
   
   (
     "custom_player_model",
