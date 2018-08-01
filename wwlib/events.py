@@ -1,29 +1,33 @@
 
 from fs_helpers import *
 from io import BytesIO
+from collections import OrderedDict
 
 class EventList:
   def __init__(self, file_entry):
     self.file_entry = file_entry
     data = self.file_entry.data
     
-    self.event_list_offset = read_u32(data, 0x00)
-    self.num_events = read_u32(data, 0x04)
-    self.actor_list_offset = read_u32(data, 0x08)
-    self.num_actors = read_u32(data, 0x0C)
-    self.action_list_offset = read_u32(data, 0x10)
-    self.num_actions = read_u32(data, 0x14)
-    self.property_list_offset = read_u32(data, 0x18)
-    self.num_properties = read_u32(data, 0x1C)
+    event_list_offset = read_u32(data, 0x00)
+    num_events = read_u32(data, 0x04)
+    actor_list_offset = read_u32(data, 0x08)
+    num_actors = read_u32(data, 0x0C)
+    action_list_offset = read_u32(data, 0x10)
+    num_actions = read_u32(data, 0x14)
+    property_list_offset = read_u32(data, 0x18)
+    num_properties = read_u32(data, 0x1C)
+    self.float_list_offset = read_u32(data, 0x20)
+    num_floats = read_u32(data, 0x24)
     self.integer_list_offset = read_u32(data, 0x28)
-    self.num_integers = read_u32(data, 0x2C)
+    num_integers = read_u32(data, 0x2C)
     self.string_list_offset = read_u32(data, 0x30)
-    self.string_list_total_size = read_u32(data, 0x34)
+    string_list_total_size = read_u32(data, 0x34)
+    self.header_padding = read_bytes(data, 0x38, 8)
     
     self.events = []
     self.events_by_name = {}
-    for event_index in range(0, self.num_events):
-      offset = self.event_list_offset + event_index * Event.DATA_SIZE
+    for event_index in range(0, num_events):
+      offset = event_list_offset + event_index * Event.DATA_SIZE
       event = Event(self.file_entry, offset)
       self.events.append(event)
       if event.name in self.events_by_name:
@@ -31,14 +35,14 @@ class EventList:
       self.events_by_name[event.name] = event
     
     self.actors = []
-    for actor_index in range(0, self.num_actors):
-      offset = self.actor_list_offset + actor_index * Actor.DATA_SIZE
+    for actor_index in range(0, num_actors):
+      offset = actor_list_offset + actor_index * Actor.DATA_SIZE
       actor = Actor(self.file_entry, offset)
       self.actors.append(actor)
     
     self.actions = []
-    for action_index in range(0, self.num_actions):
-      offset = self.action_list_offset + action_index * Action.DATA_SIZE
+    for action_index in range(0, num_actions):
+      offset = action_list_offset + action_index * Action.DATA_SIZE
       action = Action(self.file_entry, offset)
       self.actions.append(action)
     
@@ -61,8 +65,8 @@ class EventList:
         actor.actions.append(action)
     
     self.properties = []
-    for property_index in range(0, self.num_properties):
-      offset = self.property_list_offset + property_index * Property.DATA_SIZE
+    for property_index in range(0, num_properties):
+      offset = property_list_offset + property_index * Property.DATA_SIZE
       property = Property(self.file_entry, offset)
       self.properties.append(property)
     
@@ -77,26 +81,130 @@ class EventList:
         property = self.properties[property.next_property_index]
         action.properties.append(property)
     
+    self.floats = []
+    for float_index in range(0, num_floats):
+      offset = self.float_list_offset + float_index * 4
+      float = read_float(data, offset)
+      self.floats.append(float)
+    
     self.integers = []
-    for integer_index in range(0, self.num_integers):
+    for integer_index in range(0, num_integers):
       offset = self.integer_list_offset + integer_index * 4
       integer = read_u32(data, offset)
       self.integers.append(integer)
+    
+    self.strings_by_offset = OrderedDict()
+    offset = self.string_list_offset
+    while offset < self.string_list_offset+string_list_total_size:
+      string = read_str_until_null_character(data, offset)
+      self.strings_by_offset[offset-self.string_list_offset] = string
+      string_length_with_null = len(string)+1
+      offset += string_length_with_null
+      
+      # These strings are padded with null bytes to the next 8 bytes in length, so we skip the padding bytes.
+      if string_length_with_null % 8 != 0:
+        padding_bytes_to_skip = (8 - (string_length_with_null % 8))
+        
+        # To be safe ensure that the bytes we skip are actually all null bytes.
+        for i in range(padding_bytes_to_skip):
+          padding_byte = read_u8(data, offset+i)
+          assert padding_byte == 0
+        
+        offset += padding_bytes_to_skip
   
   def save_changes(self):
     data = self.file_entry.data
     
-    write_u32(data, 0x10, self.action_list_offset)
-    write_u32(data, 0x14, self.num_actions)
-    write_u32(data, 0x18, self.property_list_offset)
-    write_u32(data, 0x1C, self.num_properties)
-    write_u32(data, 0x28, self.integer_list_offset)
-    write_u32(data, 0x2C, self.num_integers)
+    # Cut off all the data after the header first since we're completely replacing this data.
+    data.truncate(0x40)
+    data.seek(0x40)
     
-    offset = self.integer_list_offset
+    offset = 0x40
+    
+    event_list_offset = offset
+    num_events = len(self.events)
+    for event in self.events:
+      event.offset = offset
+      event.save_changes()
+      offset += Event.DATA_SIZE
+    
+    actor_list_offset = offset
+    num_actors = len(self.actors)
+    for actor in self.actors:
+      actor.offset = offset
+      actor.save_changes()
+      offset += Actor.DATA_SIZE
+    
+    action_list_offset = offset
+    num_actions = len(self.actions)
+    for action in self.actions:
+      action.offset = offset
+      action.save_changes()
+      offset += Action.DATA_SIZE
+    
+    property_list_offset = offset
+    num_properties = len(self.properties)
+    for property in self.properties:
+      property.offset = offset
+      property.save_changes()
+      offset += Property.DATA_SIZE
+    
+    self.float_list_offset = offset
+    num_floats = len(self.floats)
+    for float in self.floats:
+      write_float(data, offset, float)
+      offset += 4
+    
+    self.integer_list_offset = offset
+    num_integers = len(self.integers)
     for integer in self.integers:
       write_u32(data, offset, integer)
       offset += 4
+    
+    self.string_list_offset = offset
+    orig_strings_by_offset = self.strings_by_offset
+    self.strings_by_offset = OrderedDict()
+    for orig_relative_string_offset, string in orig_strings_by_offset.items():
+      write_str_with_null_byte(data, offset, string)
+      new_relative_string_offset = offset-self.string_list_offset
+      self.strings_by_offset[new_relative_string_offset] = string
+      
+      string_length_with_null = len(string)+1
+      offset += string_length_with_null
+      
+      # These strings are padded to the next 8 bytes in length.
+      if string_length_with_null % 8 != 0:
+        padding_bytes_needed = (8 - (string_length_with_null % 8))
+        padding = b"\0"*padding_bytes_needed
+        write_bytes(data, offset, padding)
+        offset += padding_bytes_needed
+        string_length_with_padding = string_length_with_null + padding_bytes_needed
+      else:
+        string_length_with_padding = string_length_with_null
+      
+      # Also need to update the string offsets and string lengths in the properties that use them.
+      for property in self.properties:
+        if property.data_type == 4 and property.data_index == orig_relative_string_offset:
+          property.data_index = new_relative_string_offset
+          property.data_size = string_length_with_padding
+          property.save_changes()
+    string_list_total_size = offset - self.string_list_offset
+    
+    write_u32(data, 0x00, event_list_offset)
+    write_u32(data, 0x04, num_events)
+    write_u32(data, 0x08, actor_list_offset)
+    write_u32(data, 0x0C, num_actors)
+    write_u32(data, 0x10, action_list_offset)
+    write_u32(data, 0x14, num_actions)
+    write_u32(data, 0x18, property_list_offset)
+    write_u32(data, 0x1C, num_properties)
+    write_u32(data, 0x20, self.float_list_offset)
+    write_u32(data, 0x24, num_floats)
+    write_u32(data, 0x28, self.integer_list_offset)
+    write_u32(data, 0x2C, num_integers)
+    write_u32(data, 0x30, self.string_list_offset)
+    write_u32(data, 0x34, string_list_total_size)
+    write_bytes(data, 0x38, self.header_padding)
   
   def get_property_value(self, property_index):
     property = self.properties[property_index]
@@ -109,6 +217,8 @@ class EventList:
       string_pointer = self.string_list_offset + property.data_index
       string = read_str(self.file_entry.data, string_pointer, property.data_size)
       return string
+    else:
+      raise Exception("Reading property data type %d not implemented" % property.data_type)
   
   def set_property_value(self, property_index, new_value):
     data = self.file_entry.data
@@ -116,13 +226,13 @@ class EventList:
     property = self.properties[property_index]
     
     if property.data_type == 1:
-      raise Exception("Saving property data type 1 not implemented")
+      self.floats[property.data_index] = new_value
+      offset = self.float_list_offset + property.data_index * 4
+      write_float(data, offset, new_value)
     elif property.data_type == 3:
+      self.integers[property.data_index] = new_value
       offset = self.integer_list_offset + property.data_index * 4
       write_u32(data, offset, new_value)
-    elif property.data_type == 4:
-      string_pointer = self.string_list_offset + property.data_index
-      write_str(self.file_entry.data, string_pointer, new_value, property.data_size)
     else:
       raise Exception("Saving property data type %d not implemented" % property.data_type)
 
@@ -155,6 +265,10 @@ class Event:
       flag_id = read_u32(data, offset+0x88+i*4)
       self.ending_flags.append(flag_id)
     
+    self.play_jingle = bool(read_u8(data, offset+0x94))
+    
+    self.zero_initialized_runtime_data = read_bytes(data, offset+0x95, 0x1B)
+    
     self.actors = [] # This will be populated by the event list after it reads the actors.
   
   def save_changes(self):
@@ -177,6 +291,10 @@ class Event:
     for i in range(3):
       flag_id = self.ending_flags[i]
       write_u32(data, self.offset+0x88+i*4, flag_id)
+    
+    write_u8(data, self.offset+0x94, int(self.play_jingle))
+    
+    write_bytes(data, self.offset+0x95, self.zero_initialized_runtime_data)
 
 class Actor:
   DATA_SIZE = 0x50
@@ -193,6 +311,8 @@ class Actor:
     self.staff_type = read_u32(data, offset+0x2C)
     self.initial_action_index = read_u32(data, offset+0x30)
     
+    self.zero_initialized_runtime_data = read_bytes(data, offset+0x34, 0x1C)
+    
     self.actions = [] # This will be populated by the event list after it reads the actions.
   
   def save_changes(self):
@@ -204,6 +324,8 @@ class Actor:
     write_u32(data, self.offset+0x28, self.flag_id_to_set)
     write_u32(data, self.offset+0x2C, self.staff_type)
     write_u32(data, self.offset+0x30, self.initial_action_index)
+    
+    write_bytes(data, self.offset+0x34, self.zero_initialized_runtime_data)
 
 class Action:
   DATA_SIZE = 0x50
@@ -226,6 +348,8 @@ class Action:
     self.property_index = read_u32(data, offset+0x38)
     self.next_action_index = read_u32(data, offset+0x3C)
     
+    self.zero_initialized_runtime_data = read_bytes(data, offset+0x40, 0x10)
+    
     self.properties = [] # This will be populated by the event list after it reads the properties.
   
   def save_changes(self):
@@ -242,6 +366,8 @@ class Action:
     write_u32(data, self.offset+0x34, self.flag_id_to_set)
     write_u32(data, self.offset+0x38, self.property_index)
     write_u32(data, self.offset+0x3C, self.next_action_index)
+    
+    write_bytes(data, self.offset+0x40, self.zero_initialized_runtime_data)
 
 class Property:
   DATA_SIZE = 0x40
@@ -258,6 +384,8 @@ class Property:
     self.data_index = read_u32(data, offset+0x28)
     self.data_size = read_u32(data, offset+0x2C)
     self.next_property_index = read_u32(data, offset+0x30)
+    
+    self.zero_initialized_runtime_data = read_bytes(data, offset+0x34, 0xC)
   
   def save_changes(self):
     data = self.file_entry.data
@@ -268,3 +396,5 @@ class Property:
     write_u32(data, self.offset+0x28, self.data_index)
     write_u32(data, self.offset+0x2C, self.data_size)
     write_u32(data, self.offset+0x30, self.next_property_index)
+    
+    write_bytes(data, self.offset+0x34, self.zero_initialized_runtime_data)
