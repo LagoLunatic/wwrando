@@ -131,7 +131,4 @@ OPTIONS = OrderedDict([
 NON_PERMALINK_OPTIONS = [
   "custom_player_model",
   "player_in_casual_clothes",
-  "player_shirt_color",
-  "player_pants_color",
-  "player_hair_color",
 ]
