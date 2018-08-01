@@ -536,6 +536,7 @@ class WWRandomizerWindow(QMainWindow):
     else:
       prefix = "hero"
     
+    self.custom_colors = OrderedDict()
     custom_colors = metadata.get(prefix + "_custom_colors", {})
     
     for custom_color_name, default_color in custom_colors.items():
