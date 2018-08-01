@@ -206,10 +206,12 @@ def allow_all_items_to_be_field_items(self):
   # Here we copy the regular item get model to the field model so that any item can be a field item.
   # We also change the code run when you touch the item so that these items play out the full item get animation with text, instead of merely popping up above the player's head like a rupee.
   # And we change the Y offsets so the items don't appear lodged inside the floor, and can be picked up easily.
+  # Also change the code run by items during the wait state, which affects the physics when shot out of Gohdan's nose for example.
   
   item_resources_list_start = address_to_offset(0x803842B0)
   field_item_resources_list_start = address_to_offset(0x803866B0)
   itemGetExecute_switch_statement_entries_list_start = address_to_offset(0x8038CA6C)
+  mode_wait_switch_statement_entries_list_start = address_to_offset(0x8038CC7C)
   
   dol_data = self.get_raw_file("sys/main.dol")
   
@@ -285,6 +287,16 @@ def allow_all_items_to_be_field_items(self):
     original_y_offset = read_u8(dol_data, item_extra_data_entry_offset+1)
     if original_y_offset == 0:
       write_u8(dol_data, item_extra_data_entry_offset+1, 0x28) # Y offset of 0x28
+  
+  
+  for item_id in range(0x20, 0x44+1):
+    # Update the switch statement cases in function mode_wait for certain items that originally used the default case (0x800F8190 - leads to calling itemActionForRupee).
+    # This default case caused items to have the physics of rupees, which causes them to shoot out too far from Gohdan's nose.
+    # We switch it to case 0x800F8160 (itemActionForArrow), which is what heart containers and heart pieces use.
+    location_of_items_switch_statement_case = mode_wait_switch_statement_entries_list_start + item_id*4
+    write_u32(dol_data, location_of_items_switch_statement_case, 0x800F8160)
+  # Also change the switch case used by items with IDs 0x4C+ to go to 800F8160 as well.
+  write_u32(dol_data, address_to_offset(0x800F8138), 0x41810028) # bgt 0x800F8160
 
 def remove_shop_item_forced_uniqueness_bit(self):
   # Some shop items have a bit set that disallows you from buying the item if you already own one of that item.
