@@ -490,7 +490,7 @@ Dragon Roost Island - Fly Across Platforms Around Island:
   Paths:
     - sea/Room13.arc/Chest001
 Dragon Roost Island - Rito Aerie - Baito:
-  Need: Nothing # Need to pull down a block for Baito and sort 25 letters three times
+  Need: Nothing # Need to sort letters 4 times total. The minimum score each time is: 10, 20, 25, 25.
   Original item: Note to Mom
   Types: Minigame
   Paths:
