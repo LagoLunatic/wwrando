@@ -1197,3 +1197,21 @@ def change_starting_clothes(self):
     write_u8(dol_data, address_to_offset(should_start_with_heros_clothes_address), 0)
   else:
     write_u8(dol_data, address_to_offset(should_start_with_heros_clothes_address), 1)
+
+def shorten_auction_intro_event(self):
+  event_list = self.get_arc("files/res/Stage/Orichh/Stage.arc").get_file("event_list.dat")
+  wind_shrine_event = event_list.events_by_name["AUCTION_START"]
+  auction = next(actor for actor in wind_shrine_event.actors if actor.name == "Auction")
+  camera = next(actor for actor in wind_shrine_event.actors if actor.name == "CAMERA")
+  
+  pre_pan_delay = camera.actions[2]
+  pan_action = camera.actions[3]
+  post_pan_delay = camera.actions[4]
+  
+  # Remove the 30 frame delays before and after panning.
+  camera.actions.remove(pre_pan_delay)
+  camera.actions.remove(post_pan_delay)
+  
+  # The actual panning action cannot be skipped for some unknown reason. It would appear to work but the game would crash a little bit later.
+  # So instead we change the duration of the panning to be only 1 frame long so it appears to be skipped.
+  pan_action.get_prop("Timer").value = 1

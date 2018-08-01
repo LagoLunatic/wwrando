@@ -238,6 +238,7 @@ class Randomizer:
     tweaks.remove_makar_kidnapping_event(self)
     tweaks.increase_player_movement_speeds(self)
     tweaks.add_chart_number_to_item_get_messages(self)
+    tweaks.shorten_auction_intro_event(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)
