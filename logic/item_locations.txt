@@ -617,8 +617,9 @@ Dragon Roost Cavern - Boss Stairs Right Chest:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x4
-    & (Grappling Hook | Deku Leaf | Hookshot)
+    & (Grappling Hook | Deku Leaf | Hookshot | Ice Arrows)
     # Hookshot can reach the torches on the other side of the lava.
+    # Ice Arrows can create a platform in the lava.
   Original item: Knight's Crest
   Types: Dungeon
   Paths:
@@ -627,8 +628,9 @@ Dragon Roost Cavern - Boss Stairs Left Chest:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x4
-    & (Grappling Hook | Deku Leaf | Hookshot)
+    & (Grappling Hook | Deku Leaf | Hookshot | Ice Arrows)
     # Hookshot can reach the torches on the other side of the lava.
+    # Ice Arrows can create a platform in the lava.
   Original item: Yellow Rupee
   Types: Dungeon
   Paths:
