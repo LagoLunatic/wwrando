@@ -85,11 +85,11 @@ def randomize_dungeon_entrances(self):
     director = next(actor for actor in warp_out_event.actors if actor.name == "DIRECTOR")
     stage_change_action = next(action for action in director.actions if action.name == "NEXT")
     stage_name_prop = next(prop for prop in stage_change_action.properties if prop.name == "Stage")
-    event_list.set_property_value(stage_name_prop.property_index, dungeon_entrance.warp_out_stage_name)
+    stage_name_prop.value = dungeon_entrance.warp_out_stage_name
     room_num_prop = next(prop for prop in stage_change_action.properties if prop.name == "RoomNo")
-    event_list.set_property_value(room_num_prop.property_index, dungeon_entrance.warp_out_room_num)
+    room_num_prop.value = dungeon_entrance.warp_out_room_num
     spawn_id_prop = next(prop for prop in stage_change_action.properties if prop.name == "StartCode")
-    event_list.set_property_value(spawn_id_prop.property_index, dungeon_entrance.warp_out_spawn_id)
+    spawn_id_prop.value = dungeon_entrance.warp_out_spawn_id
     
     self.dungeon_entrances[dungeon_entrance.entrance_name] = dungeon_exit.dungeon_name
     self.dungeon_island_locations[dungeon_exit.dungeon_name] = dungeon_entrance.island_name

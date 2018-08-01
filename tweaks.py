@@ -1008,16 +1008,14 @@ def shorten_zephos_event(self):
   link = next(actor for actor in wind_shrine_event.actors if actor.name == "Link")
   camera = next(actor for actor in wind_shrine_event.actors if actor.name == "CAMERA")
   
-  final_actions = [
-    zephos.actions[6],
-    link.actions[6],
-    camera.actions[4],
+  zephos.actions = zephos.actions[0:7]
+  link.actions = link.actions[0:7]
+  camera.actions = camera.actions[0:5]
+  wind_shrine_event.ending_flags = [
+    zephos.actions[-1].flag_id_to_set,
+    link.actions[-1].flag_id_to_set,
+    camera.actions[-1].flag_id_to_set,
   ]
-  for action in final_actions:
-    action.next_action_index = 0xFFFFFFFF
-    action.save_changes()
-  wind_shrine_event.ending_flags = [action.flag_id_to_set for action in final_actions]
-  wind_shrine_event.save_changes()
 
 def update_korl_dialogue(self):
   msg = self.bmg.messages_by_id[3443]

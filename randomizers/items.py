@@ -314,11 +314,10 @@ def change_event_item(self, arc_path, event_index, actor_index, action_index, it
   
   if 0x6D <= item_id <= 0x72: # Song
     action.name = "059get_dance"
-    event_list.set_property_value(action.property_index, item_id-0x6D)
+    action.properties[0].value = [item_id-0x6D]
   else:
     action.name = "011get_item"
-    event_list.set_property_value(action.property_index, item_id)
-  action.save_changes()
+    action.properties[0].value = [item_id]
 
 def change_scob_item(self, arc_path, scob_index, layer, item_id):
   if arc_path.endswith("Stage.arc"):

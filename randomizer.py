@@ -410,6 +410,10 @@ class Randomizer:
       
       changed_files[file_path] = data
     for arc_path, arc in self.arcs_by_path.items():
+      for file_name, instantiated_file in arc.instantiated_object_files.items():
+        if file_name == "event_list.dat":
+          instantiated_file.save_changes()
+      
       arc.save_changes()
       changed_files[arc_path] = arc.data
     for jpc_path, jpc in self.jpcs_by_path.items():
