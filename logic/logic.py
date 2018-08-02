@@ -518,10 +518,16 @@ class Logic:
       elif token == ")":
         nested_tokens = []
         
+        nested_parentheses_level = 0
         while len(stack) != 0:
           exp = stack.pop()
           if exp == "(":
-            break
+            if nested_parentheses_level == 0:
+              break
+            else:
+              nested_parentheses_level -= 1
+          if exp == ")":
+            nested_parentheses_level += 1
           nested_tokens.append(exp)
         
         nested_tokens.reverse()
