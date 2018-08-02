@@ -296,7 +296,7 @@ Windfall Island - Maggie - Letter:
   Need: Rescued Aryll
   # Note: If you say no when she asks you to deliver her letter, she won't prompt you again - but that's temporary. Simply leave the room and re-enter and she will ask again.
   Original item: Maggie's Letter
-  Types: Short Sidequest
+  Types: Free Gift
   Paths:
     - rels/d_a_npc_kp1.rel@17D7
 Windfall Island - Maggie - Reward:
