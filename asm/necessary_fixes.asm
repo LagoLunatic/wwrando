@@ -886,3 +886,14 @@
 .org 0xAD70 ; Start of sword checks in daMo2_Execute__FP9mo2_class
   b 0xADD0 ; Skip all 4 sword checks
 .close
+
+
+
+
+; Make invisible walls that appear only when you have no sword never appear so swordless works better.
+.open "files/rels/d_a_obj_akabe.rel" ; Invisible wall
+.org 0x650 ; In chk_appear__Q210daObjAkabe5Act_cFv
+  ; This code is run for invisible walls that have their switch index set to FF - an invalid switch used to indicate that the player's sword should be checked instead.
+  ; We make chk_appear always return false.
+  li r3, 0
+.close
