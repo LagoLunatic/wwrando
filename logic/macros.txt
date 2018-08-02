@@ -201,7 +201,7 @@ Can Defeat Red ChuChus:
   | Bombs
   | Hero's Bow
 Can Defeat Green ChuChus:
-  Can Defeat Green ChuChus
+  Can Defeat Red ChuChus
 Can Defeat Yellow ChuChus:
   (Boomerang & Hero's Sword)
   | Hero's Bow
