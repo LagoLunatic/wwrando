@@ -310,7 +310,7 @@ Can Defeat Poes:
   | Skull Hammer
   # You don't need Mirror Shield because you can simply lure them into the light ray.
 Can Defeat Stalfos:
-  Hero's Sword:
+  Hero's Sword
   | Bombs
   | Skull Hammer
   # Some other items can damage the head once you break the body apart, but you still need sword/bombs/hammer to break it apart in the first place.
