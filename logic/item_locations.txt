@@ -43,7 +43,7 @@ Outset Island - Orca - Give 10 Knight's Crests:
 #  Paths:
 #    - rels/d_a_npc_ji1.rel@42BB
 Outset Island - Orca - Hit 500 Times:
-  Need: Nothing
+  Need: Hero's Sword
   Original item: Piece of Heart
   Types: No progression # This is just tedious to do
   Paths:
@@ -54,7 +54,10 @@ Outset Island - Orca - Hit 500 Times:
 #  Paths:
 #    - rels/d_a_npc_ji1.rel@42EF
 Outset Island - Great Fairy:
-  Need: Can Fly With Deku Leaf Outdoors & Can Move Boulders
+  Need:
+    Can Cut Down Outset Trees
+    & Can Fly With Deku Leaf Outdoors
+    & Can Move Boulders
   Original item: 5000 Rupee Wallet
   Types: Great Fairy
   Paths:
@@ -77,27 +80,56 @@ Outset Island - Dig up Black Soil:
     - sea/Room44.arc/ScalableObject03A
 Outset Island - Savage Labyrinth - Floor 30:
   Need:
-    (Can Fly With Deku Leaf Outdoors | Hookshot)
+    (
+      (Can Cut Down Outset Trees & Can Fly With Deku Leaf Outdoors)
+      | Hookshot
+    )
     & Power Bracelets
+    & Can Defeat Keese
+    & Can Defeat Miniblins
+    & Can Defeat Red ChuChus
+    & Can Defeat Magtails
+    & Can Defeat Fire Keese
     & Can Defeat Peahats
+    & Can Defeat Green ChuChus
+    & Can Defeat Boko Babas
+    & Can Defeat Mothulas
+    & Can Defeat Winged Mothulas
+    & Can Defeat Wizzrobes
     & Can Defeat Armos
     & Can Defeat Yellow ChuChus
+    & Can Defeat Red Bubbles
+    & Can Defeat Darknuts
     & Can Play Wind's Requiem
+  # The following floors don't have requirements listed because you can trick enemies into hitting each other, pick up one of their dropped weapons, and kill the enemies with the weapon:
+  # * Floor 4 (4x Green Bokoblins)
+  # * Floor 9 (4x Green Bokoblins, 2x Fire Keese)
+  # * Floor 10 (2x Moblins)
+  # * Floor 15 (4x Green Bokoblins)
+  # * Floor 18 (4x Blue Bokoblins, 4x Green ChuChus)
+  # * Floor 19 (2x Green Bokoblins, 3x Mothulas)
+  # * Floor 27 (2x Green Bokoblins, 1x Darknut)
   Original item: Triforce Chart 6
   Types: Combat Secret Cave
   Paths:
     - Cave09/Room20.arc/Chest000
 Outset Island - Savage Labyrinth - Floor 50:
   Need:
-    (Can Fly With Deku Leaf Outdoors | Hookshot)
-    & Power Bracelets
-    & Can Defeat Peahats
-    & Can Defeat Armos
-    & Can Defeat Yellow ChuChus
-    & Can Play Wind's Requiem
-    & Mirror Shield
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    & Mirror Shield & (Hero's Sword | Wind Waker)
+    & Can Defeat ReDeads
     & Can Defeat Blue Bubbles
+    & Can Defeat Dark ChuChus
+    & Can Defeat Poes
+    & Can Defeat Stalfos
     & Skull Hammer
+  # Wind Waker required in swordless because you can't aim the Mirror Shield without something in your left hand. (Many other items also allow you to do the same.)
+  # 2 of the 3 Wizzrobes on floor 48 never seem to come down to ground level, but it doesn't matter since you can throw the swords the Darknuts drop at them to kill them.
+  # The following floors don't have requirements listed because you can trick enemies into hitting each other, pick up one of their dropped weapons, and kill the enemies with the weapon:
+  # * Floor 37 (2x Moblins, 3x ReDeads)
+  # * Floor 39 (2x Moblins, 5x Poes)
+  # * Floor 45 (16x Bokoblins)
+  # * Floor 47 (3x Moblins, 2x Darknuts)
   Original item: Piece of Heart
   Types: Combat Secret Cave
   Paths:

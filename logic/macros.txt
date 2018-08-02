@@ -23,6 +23,8 @@ Can Buy Bait:
 Can Buy Hyoi Pears:
   Nothing
 
+Hero's Sword:
+  Progressive Sword x1
 Any Master Sword:
   Progressive Sword x2
 Full Power Master Sword:
@@ -137,19 +139,21 @@ Rescued Aryll:
   Nothing # We set the event bit for having rescued Aryll by default.
 Rescued Tingle:
   Nothing
+
 Can Get Fairies:
   Nothing # Northern Fairy Island can be entered without any items.
 Can Farm Knight's Crests:
   Grappling Hook & Spoils Bag
   & (
-    (Fire Arrows & Iron Boots)
-    | Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
-    | Can Access Other Location "Earth Temple - Big Key Chest"
+    (Can Access Other Location "Ice Ring Isle - Inner Cave - Chest" & Hero's Sword)
+    | (Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30" & Hero's Sword)
+    | (Can Access Other Location "Earth Temple - Big Key Chest" & Hero's Sword)
   )
   # There are respawning Darknuts in:
   # * The inner cave of Ice Ring Isle.
   # * Floor 27 (and below) of Savage Labyrinth. (We use the Floor 30 requirements here since they're the same as Floor 27.)
-  # * The big key room of Earth Temple
+  # * The big key room of Earth Temple.
+  # Note: The Ice Ring and Savage ones have Bokoblins in the same room as the Darknut, so in swordless you could trick the Darknut into attack a Bokoblin, steal its Machete, and use it to kill the Darknut. But this would be too tedious to do to farm a lot of Joy Pendants, so it's not in the logic.
 Can Obtain Joy Pendants:
   Spoils Bag
   # Dropped by Bokoblins, which are everywhere.
@@ -164,22 +168,74 @@ Can Farm Golden Feathers:
 Can Farm Lots of Rupees:
   Nothing
   # TODO: We might want to add some restrictions here until the player can access efficient farming spots?
-Can Defeat Wizzrobes at Range:
-  Hero's Bow
-  | Hookshot
-Can Defeat Yellow ChuChus:
-  Boomerang
+
+Can Defeat Green Bokoblins:
+  Hero's Sword
   | Hero's Bow
   | Bombs
-  | Deku Leaf
+  | Skull Hammer
+Can Defeat Blue Bokoblins:
+  Can Defeat Green Bokoblins
+Can Defeat Moblins:
+  Hero's Sword
+  | Hero's Bow
+  | Bombs
+  | Skull Hammer
+  # Moblins are tricky to kill with just Bombs because they run away from them when they reach low health. Easiest way is to use one bomb to knock the spear out of its hands, then use the spear to kill it.
+Can Defeat Darknuts:
+  Hero's Sword
+  | Light Arrows
+  # Skull Hammer also works, but is tricky to do without taking lots of damage, so it's not in the logic.
+  # The most consistent way with Skull Hammer is to run up to a Darknut, do a spin attack to hit its armor, roll away to dodge its attack, roll back in and do another spin attack, and repeat until the armor has been broken.
+Can Defeat Miniblins:
+  Hero's Sword
+  | Grappling Hook
+  | Boomerang
+  | Hero's Bow
+  | Bombs
+  | Skull Hammer
+  # Grappling Hook does no damage for the first few hits on each Miniblin. But once the Miniblin runs out of hearts and rupees to give you, the Grappling Hook starts doing damage and can kill it.
+Can Defeat Red ChuChus:
+  Hero's Sword
+  | Skull Hammer
+  | Bombs
+  | Hero's Bow
+Can Defeat Green ChuChus:
+  Can Defeat Green ChuChus
+Can Defeat Yellow ChuChus:
+  (Boomerang & Hero's Sword)
+  | Hero's Bow
+  | Bombs
+  | (Deku Leaf & Hero's Sword)
   | Skull Hammer
   # Note: Skull Hammer can stun them without taking damage if you hit the ground near them instead of hitting them directly.
   # Note: Grappling Hook does stun it just barely long enough for you to kill it with your sword.
   # But this is not immediately obvious and somewhat tricky to time, so maybe reserve that for a higher difficulty level.
+Can Defeat Dark ChuChus:
+  Nothing
+  # Simply lure them into the light rays and then pick them up and throw them. Neither Mirror Shield nor a weapon are necessary.
+Can Defeat Keese:
+  Hero's Sword
+  | Hookshot
+  | Grappling Hook
+  | Boomerang
+  | Hero's Bow
+  | Bombs
+  | Skull Hammer
+Can Defeat Fire Keese:
+  Can Defeat Keese
+Can Defeat Magtails:
+  Hero's Sword
+  | Skull Hammer
+  | Boomerang
+  | Hookshot
+  | Bombs
+  | Grappling Hook
+  | Hero's Bow
 Can Defeat Peahats:
   Boomerang
-  | Hookshot
-  | Deku Leaf
+  | (Hookshot & Hero's Sword)
+  | (Deku Leaf & Hero's Sword)
   | Skull Hammer
   | Hero's Bow
   | Bombs
@@ -188,23 +244,89 @@ Can Defeat Seahats:
   | Hero's Bow
   | Hookshot
   | Bombs
+Can Defeat Boko Babas:
+  Hero's Sword
+  | Boomerang
+  | Skull Hammer
+  | Hero's Bow
+  | Hookshot
+  | Bombs
+  | (Deku Leaf & Grappling Hook)
+Can Defeat Mothulas:
+  Hero's Sword
+  | Hero's Bow
+  | Bombs
+  | Skull Hammer
+Can Defeat Winged Mothulas:
+  Hero's Sword
+  | Hero's Bow
+  | Bombs
+  | Skull Hammer
+Can Defeat Wizzrobes:
+  Hero's Sword
+  | Hero's Bow
+  | Hookshot
+  | Bombs
+  | Skull Hammer
+Can Defeat Wizzrobes at Range:
+  Hero's Bow
+  | Hookshot
 Can Defeat Armos:
-  Nothing
-  # Hero's Bow makes killing these more convenient.
+  Hero's Sword
+  | Hero's Bow
+  | Bombs
+  | Skull Hammer
+  | Hookshot
+  # Hero's Bow makes killing these more convenient compared to just with sword/hammer.
+Can Defeat Armos Knights:
+  Bombs
+  | Light Arrows
 Can Defeat Big Octos:
   Hero's Bow
   | Bombs
   | Boomerang
   # Hookshot can technically damage Big Octos, but it only reaches at the end when your time limit is almost up.
-Can Defeat Blue Bubbles:
-  Deku Leaf
-  | Ice Arrows
-  | Hookshot
+Can Defeat Red Bubbles:
+  Hero's Sword
+  | Skull Hammer
+  | Hero's Bow
   | Bombs
+Can Defeat Blue Bubbles:
+  Ice Arrows
+  | Bombs
+  | (
+    (Deku Leaf | Hookshot)
+    & (Hero's Sword | Hero's Bow | Grappling Hook | Skull Hammer)
+  )
+Can Defeat ReDeads:
+  Hero's Sword
+  | Light Arrows
+  | Skull Hammer
+  | Bombs
+Can Defeat Poes:
+  Hero's Sword
+  | Hero's Bow
+  | Bombs
+  | Skull Hammer
+  # You don't need Mirror Shield because you can simply lure them into the light ray.
+Can Defeat Stalfos:
+  Hero's Sword:
+  | Bombs
+  | Skull Hammer
+  # Some other items can damage the head once you break the body apart, but you still need sword/bombs/hammer to break it apart in the first place.
+  # Light Arrows worked on Stalfos in vanilla but this is changed in the randomizer.
+
 Can Destroy Cannons:
   Bombs
   | Boomerang
   # Two hits from the boomerang also destroys cannons.
+Can Cut Down Outset Trees:
+  Hero's Sword
+  | Boomerang
+  | Skull Hammer
+  # Fire Arrows and Bombs don't work.
+  # Luring a ChuChu up the hill and having it jump on the trees doesn't work.
+  # Carrying the big pig to the trees and enraging it DOES work, it can cut the trees. But the pig has special code to not get enraged if you have no sword equipped, so the pig doesn't actually help in swordless mode. Also, this is too obscure and slow to make required anyway.
 
 # The below macros are used when charts are not randomized.
 # When charts are randomized, these macros are shuffled around by the randomizer logic.
