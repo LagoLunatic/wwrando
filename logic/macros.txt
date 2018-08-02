@@ -326,7 +326,7 @@ Can Cut Down Outset Trees:
   | Skull Hammer
   # Fire Arrows and Bombs don't work.
   # Luring a ChuChu up the hill and having it jump on the trees doesn't work.
-  # Carrying the big pig to the trees and enraging it DOES work, it can cut the trees. But the pig has special code to not get enraged if you have no sword equipped, so the pig doesn't actually help in swordless mode. Also, this is too obscure and slow to make required anyway.
+  # Carrying the big pig to the trees and enraging it DOES work, it can cut the trees. But this is not currently in the logic because it's obscure and slow to do.
 
 # The below macros are used when charts are not randomized.
 # When charts are randomized, these macros are shuffled around by the randomizer logic.

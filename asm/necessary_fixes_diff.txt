@@ -182,3 +182,6 @@ files/rels/d_a_mo2.rel:
   44400: [72, 0, 0, 96]
 files/rels/d_a_obj_akabe.rel:
   1616: [56, 96, 0, 0]
+files/rels/d_a_kb.rel:
+  5216: [72, 0, 0, 12]
+  15388: [96, 0, 0, 0]

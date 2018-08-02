@@ -897,3 +897,16 @@
   ; We make chk_appear always return false.
   li r3, 0
 .close
+
+
+
+
+; Allow pigs to be enraged when the player has no sword equipped.
+.open "files/rels/d_a_kb.rel" ; Pigs
+.org 0x1460 ; In pl_attack_hit_check__FP8kb_class
+  ; Make branch for having a sword unconditional
+  b 0x146C
+.org 0x3C1C ; In carry_move__FP8kb_class
+  ; Remove branch for if you have no sword
+  nop
+.close
