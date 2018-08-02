@@ -1147,7 +1147,7 @@ Ice Ring Isle - Cave - Chest:
 Ice Ring Isle - Inner Cave - Chest:
   Need: Fire Arrows & Iron Boots
   Original item: Orange Rupee
-  Types: Puzzle Secret Cave
+  Types: Puzzle Secret Cave, Combat Secret Cave
   Paths:
     - ITest62/Stage.arc/Chest000
 
