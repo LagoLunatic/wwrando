@@ -240,6 +240,7 @@ class Randomizer:
     tweaks.increase_npc_camera_zoom_speed(self)
     tweaks.increase_block_moving_animation(self)
     tweaks.increase_misc_animations(self)
+    tweaks.shorten_dungeon_cutscenes(self)
   
   def apply_necessary_post_randomization_tweaks(self):
     tweaks.update_shop_item_descriptions(self)

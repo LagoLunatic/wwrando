@@ -2,6 +2,7 @@
 import re
 import yaml
 import os
+import sys #for debugging...remove 
 from io import BytesIO
 from collections import namedtuple
 import copy
@@ -1266,3 +1267,68 @@ def increase_misc_animations(self):
    write_float(dol_data, address_to_offset(0x8035DB20), 1.4)
 
 
+def shorten_dungeon_cutscenes(self):
+  def modify_method(x):
+    if x >= 5 and x <= 100:
+        return x / 1.5
+    else:
+         return x
+
+  modify_event_property(self.get_arc("files/res/Stage/M_NewD2/Stage.arc").event_list_files[0], "Timer", modify_method)
+  modify_event_property(self.get_arc("files/res/Stage/M_Dra09/Stage.arc").event_list_files[0], "Timer", modify_method)
+  modify_event_property(self.get_arc("files/res/Stage/M_DragB/Stage.arc").event_list_files[0], "Timer", modify_method)
+  
+  modify_event_property(self.get_arc("files/res/Stage/kindan/Stage.arc").event_list_files[0], "Timer", modify_method)
+
+  modify_event_property(self.get_arc("files/res/Stage/Siren/Stage.arc").event_list_files[0], "Timer", modify_method)
+  modify_event_property(self.get_arc("files/res/Stage/SirenMB/Stage.arc").event_list_files[0], "Timer", modify_method)
+
+  modify_event_property(self.get_arc("files/res/Stage/M_Dai/Stage.arc").event_list_files[0], "Timer", modify_method)
+  #for event in event_list.events:
+  #    for actor in event.actors:
+  #        if actor is not None:             
+  #            for action in actor.actions:
+  #              for property in action.properties:
+  #                  if property.name == "Timer":
+  #                      index = property.property_index
+  #                      data_value = event_list.get_property_value(index)                                
+  #                      event_list.set_property_value(index, int(data_value / 2))
+  #                      print_flush(event.name)
+  #                      print_flush(event_list.integer_list_offset)
+  #                      print_flush("\t" + actor.name)
+  #                      print_flush("\t\t" + action.name)
+  #                      print_flush("\t\t\t" + property.name)
+  #                      print("\t\t\tproperty offset: " + str(property.offset))
+  #                      print("\t\t\tVALUE: " + str(data_value))
+  #                      print("\t\t\tdata size: " + str(property.data_size))
+  #                      print_flush("\t\t\tdata index: " + str(property.data_index))
+  #                      print_flush("\t\t\tproperty index: " + str(property.property_index))
+  #                      print_flush("\t\t\tnext property index: " + str(property.next_property_index))
+                    
+def modify_event_property(event_list, property_name, f):
+    for event in event_list.events:
+      for actor in event.actors:
+          if actor is not None:             
+              for action in actor.actions:
+                for property in action.properties:
+                    if property.name == property_name:
+                        index = property.property_index
+                        data_value = event_list.get_property_value(index)
+                        print("old value: " + str(data_value))
+                        data_value = f(data_value)
+                        print("new value: " + str(int(data_value)))
+                        event_list.set_property_value(index, int(data_value))
+                        #print_flush(event.name)
+                        #print_flush(event_list.integer_list_offset)
+                        #print_flush("\t" + actor.name)
+                        #print_flush("\t\t" + action.name)
+                        #print_flush("\t\t\t" + property.name)
+                        #print("\t\t\tproperty offset: " + str(property.offset))
+                        #print("\t\t\tVALUE: " + str(data_value))
+                        #print("\t\t\tdata size: " + str(property.data_size))
+                        #print_flush("\t\t\tdata index: " + str(property.data_index))
+                        #print_flush("\t\t\tproperty index: " + str(property.property_index))
+                        #print_flush("\t\t\tnext property index: " + str(property.next_property_index))
+def print_flush(str):
+    print(str)
+    sys.stdout.flush()
