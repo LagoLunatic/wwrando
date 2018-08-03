@@ -28,7 +28,8 @@ class EventList:
     self.events_by_name = {}
     for event_index in range(0, num_events):
       offset = event_list_offset + event_index * Event.DATA_SIZE
-      event = Event(self.file_entry, offset)
+      event = Event(self.file_entry)
+      event.read(offset)
       self.events.append(event)
       if event.name in self.events_by_name:
         raise Exception("Duplicate event name: %s" % event.name)
@@ -37,20 +38,22 @@ class EventList:
     all_actors = []
     for actor_index in range(0, num_actors):
       offset = actor_list_offset + actor_index * Actor.DATA_SIZE
-      actor = Actor(self.file_entry, offset)
+      actor = Actor(self.file_entry)
+      actor.read(offset)
       all_actors.append(actor)
     
     all_actions = []
     for action_index in range(0, num_actions):
       offset = action_list_offset + action_index * Action.DATA_SIZE
-      action = Action(self.file_entry, offset)
+      action = Action(self.file_entry)
+      action.read(offset)
       all_actions.append(action)
     
     # Populate each events's list of actors.
     for event in self.events:
       found_blank = False
       for actor_index in event.actor_indexes:
-        if actor_index == 0xFFFFFFFF:
+        if actor_index == -1:
           pass # Blank actor spot
           found_blank = True
         else:
@@ -64,7 +67,7 @@ class EventList:
       actor.initial_action = all_actions[actor.initial_action_index]
       actor.actions.append(actor.initial_action)
       action = actor.initial_action
-      while action.next_action_index != 0xFFFFFFFF:
+      while action.next_action_index != -1:
         next_action = all_actions[action.next_action_index]
         action.next_action = next_action
         actor.actions.append(next_action)
@@ -73,17 +76,18 @@ class EventList:
     all_properties = []
     for property_index in range(0, num_properties):
       offset = property_list_offset + property_index * Property.DATA_SIZE
-      property = Property(self.file_entry, offset)
+      property = Property(self.file_entry)
+      property.read(offset)
       all_properties.append(property)
     
     # Populate each action's list of properties.
     for action in all_actions:
-      if action.first_property_index == 0xFFFFFFFF:
+      if action.first_property_index == -1:
         continue
       first_property = all_properties[action.first_property_index]
       action.properties.append(first_property)
       property = first_property
-      while property.next_property_index != 0xFFFFFFFF:
+      while property.next_property_index != -1:
         next_property = all_properties[property.next_property_index]
         property.next_property = next_property
         action.properties.append(next_property)
@@ -98,7 +102,7 @@ class EventList:
     all_integers = []
     for integer_index in range(0, num_integers):
       offset = self.integer_list_offset + integer_index * 4
-      integer = read_u32(data, offset)
+      integer = read_s32(data, offset)
       all_integers.append(integer)
     
     all_strings_by_offset = OrderedDict()
@@ -171,7 +175,6 @@ class EventList:
       event.offset = offset
       event.event_index = i
       
-      event.save_changes()
       offset += Event.DATA_SIZE
       
       all_actors += event.actors
@@ -267,7 +270,7 @@ class EventList:
     self.integer_list_offset = offset
     num_integers = len(all_integers)
     for integer in all_integers:
-      write_u32(data, offset, integer)
+      write_s32(data, offset, integer)
       offset += 4
     
     self.string_list_offset = offset
@@ -318,34 +321,55 @@ class EventList:
     write_u32(data, 0x30, self.string_list_offset)
     write_u32(data, 0x34, string_list_total_size)
     write_bytes(data, 0x38, self.header_padding)
+  
+  def add_event(self, name):
+    event = Event(self.file_entry)
+    event.name = name
+    self.events.append(event)
+    self.events_by_name[name] = event
+    return event
 
 class Event:
   DATA_SIZE = 0xB0
   
-  def __init__(self, file_entry, offset):
+  def __init__(self, file_entry):
     self.file_entry = file_entry
+    
+    self.name = None
+    self.event_index = None
+    self.unknown1 = 0
+    self.priority = 0
+    self.actor_indexes = [-1]*0x14
+    self.num_actors = 0
+    self.starting_flags = [-1, -1]
+    self.ending_flags = [-1, -1, -1]
+    self.play_jingle = False
+    self.zero_initialized_runtime_data = b"\0"*0x1B
+    self.actors = []
+  
+  def read(self, offset):
     data = self.file_entry.data
     self.offset = offset
     
     self.name = read_str(data, offset, 0x20)
-    self.event_index = read_u32(data, offset+0x20)
+    self.event_index = read_s32(data, offset+0x20)
     self.unknown1 = read_u32(data, offset+0x24)
     self.priority = read_u32(data, offset+0x28)
     
     self.actor_indexes = []
     for i in range(0x14):
-      actor_index = read_u32(data, offset+0x2C+i*4)
+      actor_index = read_s32(data, offset+0x2C+i*4)
       self.actor_indexes.append(actor_index)
     self.num_actors = read_u32(data, offset+0x7C)
     
     self.starting_flags = []
     for i in range(2):
-      flag_id = read_u32(data, offset+0x80+i*4)
+      flag_id = read_s32(data, offset+0x80+i*4)
       self.starting_flags.append(flag_id)
     
     self.ending_flags = []
     for i in range(3):
-      flag_id = read_u32(data, offset+0x88+i*4)
+      flag_id = read_s32(data, offset+0x88+i*4)
       self.ending_flags.append(flag_id)
     
     self.play_jingle = bool(read_u8(data, offset+0x94))
@@ -358,45 +382,64 @@ class Event:
     data = self.file_entry.data
     
     write_str(data, self.offset, self.name, 0x20)
-    write_u32(data, self.offset+0x20, self.event_index)
+    write_s32(data, self.offset+0x20, self.event_index)
     write_u32(data, self.offset+0x24, self.unknown1)
     write_u32(data, self.offset+0x28, self.priority)
     
     for i in range(0x14):
       if i >= len(self.actors):
-        actor_index = 0xFFFFFFFF
+        actor_index = -1
       else:
         actor_index = self.actors[i].actor_index
       self.actor_indexes[i] = actor_index
-      write_u32(data, self.offset+0x2C+i*4, actor_index)
+      write_s32(data, self.offset+0x2C+i*4, actor_index)
+    self.num_actors = len(self.actors)
     write_u32(data, self.offset+0x7C, self.num_actors)
     
     for i in range(2):
       flag_id = self.starting_flags[i]
-      write_u32(data, self.offset+0x80+i*4, flag_id)
+      write_s32(data, self.offset+0x80+i*4, flag_id)
     
     for i in range(3):
       flag_id = self.ending_flags[i]
-      write_u32(data, self.offset+0x88+i*4, flag_id)
+      write_s32(data, self.offset+0x88+i*4, flag_id)
     
     write_u8(data, self.offset+0x94, int(self.play_jingle))
     
     write_bytes(data, self.offset+0x95, self.zero_initialized_runtime_data)
+  
+  def add_actor(self, name):
+    actor = Actor(self.file_entry)
+    actor.name = name
+    self.actors.append(actor)
+    return actor
 
 class Actor:
   DATA_SIZE = 0x50
   
-  def __init__(self, file_entry, offset):
+  def __init__(self, file_entry):
     self.file_entry = file_entry
+    
+    self.name = None
+    self.staff_identifier = 0
+    self.actor_index = None
+    self.flag_id_to_set = None
+    self.staff_type = 0 # TODO?
+    self.initial_action_index = None
+    self.zero_initialized_runtime_data = b"\0"*0x1C
+    self.actions = []
+    self.initial_action = None
+  
+  def read(self, offset):
     data = self.file_entry.data
     self.offset = offset
     
     self.name = read_str(data, offset, 0x20)
     self.staff_identifier = read_u32(data, offset+0x20)
-    self.actor_index = read_u32(data, offset+0x24)
-    self.flag_id_to_set = read_u32(data, offset+0x28)
+    self.actor_index = read_s32(data, offset+0x24)
+    self.flag_id_to_set = read_s32(data, offset+0x28)
     self.staff_type = read_u32(data, offset+0x2C)
-    self.initial_action_index = read_u32(data, offset+0x30)
+    self.initial_action_index = read_s32(data, offset+0x30)
     
     self.zero_initialized_runtime_data = read_bytes(data, offset+0x34, 0x1C)
     
@@ -407,37 +450,60 @@ class Actor:
   def save_changes(self):
     data = self.file_entry.data
     
+    if len(self.actions) == 0:
+      raise Exception("Cannot save actor with no actions!")
+    
     write_str(data, self.offset, self.name, 0x20)
     write_u32(data, self.offset+0x20, self.staff_identifier)
-    write_u32(data, self.offset+0x24, self.actor_index)
-    write_u32(data, self.offset+0x28, self.flag_id_to_set)
+    write_s32(data, self.offset+0x24, self.actor_index)
+    write_s32(data, self.offset+0x28, self.flag_id_to_set)
     write_u32(data, self.offset+0x2C, self.staff_type)
     
+    self.initial_action = self.actions[0]
     self.initial_action_index = self.initial_action.action_index
-    write_u32(data, self.offset+0x30, self.initial_action_index)
+    write_s32(data, self.offset+0x30, self.initial_action_index)
     
     write_bytes(data, self.offset+0x34, self.zero_initialized_runtime_data)
+  
+  def add_action(self, name):
+    action = Action(self.file_entry)
+    action.name = name
+    self.actions.append(action)
+    return action
 
 class Action:
   DATA_SIZE = 0x50
   
-  def __init__(self, file_entry, offset):
+  def __init__(self, file_entry):
     self.file_entry = file_entry
+    
+    self.name = None
+    self.duplicate_id = 0
+    self.action_index = None
+    self.starting_flags = [-1, -1, -1]
+    self.flag_id_to_set = None
+    self.first_property_index = None
+    self.next_action_index = None
+    self.zero_initialized_runtime_data = b"\0"*0x10
+    self.properties = []
+    self.next_action = None
+  
+  def read(self, offset):
     data = self.file_entry.data
     self.offset = offset
     
     self.name = read_str(data, offset, 0x20)
     self.duplicate_id = read_u32(data, offset+0x20)
-    self.action_index = read_u32(data, offset+0x24)
+    self.action_index = read_s32(data, offset+0x24)
     
     self.starting_flags = []
     for i in range(3):
-      flag_id = read_u32(data, offset+0x28+i*4)
+      flag_id = read_s32(data, offset+0x28+i*4)
       self.starting_flags.append(flag_id)
     
-    self.flag_id_to_set = read_u32(data, offset+0x34)
-    self.first_property_index = read_u32(data, offset+0x38)
-    self.next_action_index = read_u32(data, offset+0x3C)
+    self.flag_id_to_set = read_s32(data, offset+0x34)
+    self.first_property_index = read_s32(data, offset+0x38)
+    self.next_action_index = read_s32(data, offset+0x3C)
     
     self.zero_initialized_runtime_data = read_bytes(data, offset+0x40, 0x10)
     
@@ -450,46 +516,64 @@ class Action:
     
     write_str(data, self.offset, self.name, 0x20)
     write_u32(data, self.offset+0x20, self.duplicate_id)
-    write_u32(data, self.offset+0x24, self.action_index)
+    write_s32(data, self.offset+0x24, self.action_index)
     
     for i in range(3):
       flag_id = self.starting_flags[i]
-      write_u32(data, self.offset+0x28+i*4, flag_id)
+      write_s32(data, self.offset+0x28+i*4, flag_id)
     
-    write_u32(data, self.offset+0x34, self.flag_id_to_set)
+    write_s32(data, self.offset+0x34, self.flag_id_to_set)
     
     if len(self.properties) == 0:
-      self.first_property_index = 0xFFFFFFFF
+      self.first_property_index = -1
     else:
       self.first_property_index = self.properties[0].property_index
-    write_u32(data, self.offset+0x38, self.first_property_index)
+    write_s32(data, self.offset+0x38, self.first_property_index)
     
     if self.next_action is None:
-      self.next_action_index = 0xFFFFFFFF
+      self.next_action_index = -1
     else:
       self.next_action_index = self.next_action.action_index
-    write_u32(data, self.offset+0x3C, self.next_action_index)
+    write_s32(data, self.offset+0x3C, self.next_action_index)
     
     write_bytes(data, self.offset+0x40, self.zero_initialized_runtime_data)
   
   def get_prop(self, prop_name):
     return next(prop for prop in self.properties if prop.name == prop_name)
+  
+  def add_property(self, name):
+    prop = Property(self.file_entry)
+    prop.name = name
+    self.properties.append(prop)
+    return prop
 
 class Property:
   DATA_SIZE = 0x40
   
-  def __init__(self, file_entry, offset):
+  def __init__(self, file_entry):
     self.file_entry = file_entry
+    
+    self.name = None
+    self.property_index = None
+    self.data_type = None
+    self.data_index = None
+    self.data_size = None
+    self.next_property_index = None
+    self.zero_initialized_runtime_data = b"\0"*0xC
+    self.next_property = None
+    self.value = None
+  
+  def read(self, offset):
     data = self.file_entry.data
     self.offset = offset
     
     self.name = read_str(data, offset, 0x20)
     
-    self.property_index = read_u32(data, offset+0x20)
+    self.property_index = read_s32(data, offset+0x20)
     self.data_type = read_u32(data, offset+0x24)
     self.data_index = read_u32(data, offset+0x28)
     self.data_size = read_u32(data, offset+0x2C)
-    self.next_property_index = read_u32(data, offset+0x30)
+    self.next_property_index = read_s32(data, offset+0x30)
     
     self.zero_initialized_runtime_data = read_bytes(data, offset+0x34, 0xC)
     
@@ -501,15 +585,15 @@ class Property:
     data = self.file_entry.data
     
     write_str(data, self.offset, self.name, 0x20)
-    write_u32(data, self.offset+0x20, self.property_index)
+    write_s32(data, self.offset+0x20, self.property_index)
     write_u32(data, self.offset+0x24, self.data_type)
     write_u32(data, self.offset+0x28, self.data_index)
     write_u32(data, self.offset+0x2C, self.data_size)
     
     if self.next_property is None:
-      self.next_property_index = 0xFFFFFFFF
+      self.next_property_index = -1
     else:
       self.next_property_index = self.next_property.property_index
-    write_u32(data, self.offset+0x30, self.next_property_index)
+    write_s32(data, self.offset+0x30, self.next_property_index)
     
     write_bytes(data, self.offset+0x34, self.zero_initialized_runtime_data)
