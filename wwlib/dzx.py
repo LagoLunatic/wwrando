@@ -986,3 +986,15 @@ class MECO(DummyEntry):
 
 class MEMA(DummyEntry):
   DATA_SIZE = 0x4
+
+class PATH(DummyEntry):
+  DATA_SIZE = 0xC
+
+class PPNT(DummyEntry):
+  DATA_SIZE = 0x10
+
+class CAMR(DummyEntry):
+  DATA_SIZE = 0x14
+
+class AROB(DummyEntry):
+  DATA_SIZE = 0x14
