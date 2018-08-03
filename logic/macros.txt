@@ -153,7 +153,7 @@ Can Farm Knight's Crests:
   # * The inner cave of Ice Ring Isle.
   # * Floor 27 (and below) of Savage Labyrinth. (We use the Floor 30 requirements here since they're the same as Floor 27.)
   # * The big key room of Earth Temple.
-  # Note: The Ice Ring and Savage ones have Bokoblins in the same room as the Darknut, so in swordless you could trick the Darknut into attack a Bokoblin, steal its Machete, and use it to kill the Darknut. But this would be too tedious to do to farm a lot of Joy Pendants, so it's not in the logic.
+  # Note: The Ice Ring and Savage ones have Bokoblins in the same room as the Darknut, so in swordless you could trick the Darknut into attack a Bokoblin, steal its Machete, and use it to kill the Darknut. But this would be too tedious to do to farm a lot of Knight's Crests, so it's not in the logic.
 Can Obtain Joy Pendants:
   Spoils Bag
   # Dropped by Bokoblins, which are everywhere.
