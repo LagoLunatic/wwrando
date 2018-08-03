@@ -60,8 +60,13 @@ Can Access Dungeon Entrance On Dragon Roost Island:
   Nothing
 Can Access Forest Haven:
   Grappling Hook | Can Fly With Deku Leaf Outdoors
+  # Grappling over the waterfall is very difficult without killing the Boko Baba there - but only if you start grappling from the top. You can grapple from the bottom up to avoid that Boko Baba entirely, so there's no extra requirement here for swordless.
 Can Access Dungeon Entrance In Forest Haven Sector:
-  Can Access Forest Haven & Grappling Hook & Can Fly With Deku Leaf Outdoors
+  Can Access Forest Haven
+  & Grappling Hook
+  & Can Fly With Deku Leaf Outdoors
+  & (Can Cut Grass | Magic Meter Upgrade)
+  # You either need double magic or the ability to refill your magic by cutting grass to make it all the way across.
   # Note: You don't need Grappling Hook because you can take the lower platform exit out of Forest Haven (Noob Skip), but this is not currently in the logic.
 Can Access Dungeon Entrance In Tower of the Gods Sector:
   Din's Pearl
@@ -333,6 +338,11 @@ Can Cut Down Hanging DRC Platform:
   | Skull Hammer
   # Hookshot and Grappling Hook can also technically cut the ropes, but it's too precise to aim them.
   # Boomerang can't cut them at all.
+Can Cut Grass:
+  Hero's Sword
+  | Skull Hammer
+  | Boomerang
+  | Bombs
 
 # The below macros are used when charts are not randomized.
 # When charts are randomized, these macros are shuffled around by the randomizer logic.

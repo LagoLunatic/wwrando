@@ -743,7 +743,9 @@ Forbidden Woods - Map Chest:
   Paths:
     - kindan/Stage.arc/Chest002
 Forbidden Woods - Inside Hollow Tree's Mouth:
-  Need: Can Access Forbidden Woods
+  Need:
+    Can Access Forbidden Woods
+    & (Can Defeat Door Flowers | Can Defeat Boko Babas)
   Original item: Knight's Crest
   Types: Dungeon
   Paths:
@@ -761,6 +763,7 @@ Forbidden Woods - Hole in Tree:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
   Original item: Red Rupee
   Types: Dungeon
   Paths:
@@ -769,6 +772,7 @@ Forbidden Woods - Morth Pit:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
   Original item: Yellow Rupee
   Types: Dungeon
@@ -778,6 +782,7 @@ Forbidden Woods - Vine Maze Compass Chest:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
   Original item: Compass
   Types: Dungeon
@@ -787,6 +792,7 @@ Forbidden Woods - Vine Maze Chest:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
   Original item: Small Key
   Types: Dungeon
@@ -796,8 +802,11 @@ Forbidden Woods - Tall Room Before Mini-Boss:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
     & FW Small Key x1
+    & Can Defeat Peahats
+    # Killing the Peahats is not strictly necessary but grappling up is tricky while they're still alive since they knock you around.
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
@@ -806,8 +815,10 @@ Forbidden Woods - Mothula Mini-Boss Room:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
     & FW Small Key x1
+    & Can Defeat Winged Mothulas
   # Need to escape: Can Hit Diamond Switches at Range
   Original item: Boomerang
   Types: Dungeon
@@ -817,6 +828,7 @@ Forbidden Woods - Past Seeds Hanging by Vines:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
     & FW Small Key x1
     & Can Defeat Door Flowers
@@ -830,6 +842,7 @@ Forbidden Woods - Chest Across Red Hanging Flower:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
     & Boomerang
   Original item: Yellow Rupee
@@ -851,6 +864,7 @@ Forbidden Woods - Chest in Locked Tree Trunk:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
     & Boomerang
   Original item: Treasure Chart 15
@@ -861,6 +875,7 @@ Forbidden Woods - Big Key Chest:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
     & Boomerang
   Original item: Big Key
@@ -871,7 +886,9 @@ Forbidden Woods - Double Mothula Room:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & (Can Defeat Door Flowers | Grappling Hook)
+    & Can Defeat Mothulas
   # This room is locked by 2 door flowers, but if you have grappling hook you can reach a nut on the floor above and bring it down to destroy them both with it.
   Original item: Joy Pendant
   Types: Dungeon
@@ -881,9 +898,12 @@ Forbidden Woods - Kalle Demos Heart Container:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & (Can Defeat Door Flowers | Grappling Hook)
+    & Can Defeat Mothulas
     & FW Big Key
     & Boomerang
+    # No sword needed - Kalle Demos can be damaged with just boomerang.
   Original item: Heart Container
   Types: Dungeon
   Paths:
