@@ -195,8 +195,9 @@ Windfall Island - Mrs. Marie - Catch Killer Bees:
 #    - rels/d_a_tag_mk.rel@0637
 #    - sea/Stage.arc/Event093:MK_PENDANT/Actor001/Action005
 Windfall Island - Mrs. Marie - Give 1 Joy Pendant:
-  Need: Spoils Bag & Can Obtain Joy Pendants
+  Need: Spoils Bag
   # Since it's just 1 Joy Pendant for this one, don't require Grappling Hook to farm spoils like the others.
+  # You can get the one Joy Pendant from the tree on Windfall, or by killing Bokoblins until one drops it.
   Original item: Red Rupee
   Types: Spoils Trading
   Paths:
@@ -528,7 +529,14 @@ Dragon Roost Island - Rito Aerie - Baito:
   Paths:
     - Atorizk/Stage.arc/Event003:GETMOTHERLETTER/Actor000/Action000
 Dragon Roost Island - Secret Cave:
-  Need: Can Move Boulders
+  Need:
+    Can Move Boulders
+    & Can Defeat Keese
+    & Can Defeat Red ChuChus
+  # 4 Keese and 3 pots - it doesn't seem possible to kill all 4 without having 4 pots.
+  # 2 Mothulas and 5 pots - picking up and throwing the pots can be tricky with them charging at you, but each only takes one pot to kill, so you have 3 extra chances to mess up.
+  # 3 Red ChuChus and 2 pots - it's possible to hit multiple with one pot so this is doable, but it's too tricky.
+  # 3 Blue Bokoblins and 4 pots - you can get them to drop their sticks and then kill them with the stick.
   Original item: Purple Rupee
   Types: Combat Secret Cave
   Paths:
@@ -563,6 +571,7 @@ Dragon Roost Cavern - Chest Across Lava Pit:
     & DRC Small Key x2
     & (Grappling Hook | Deku Leaf)
   # Note: It's also possible to throw a burning stick across the pit, then stand at the very very edge of the cliff and hookshot the chest to get across. But this is pretty precise, so this is not required. (Maybe for a higher difficulty level in the future it can be.)
+  # Note: In swordless, you can throw a burning stick across the lava pit, then grapple across.
   Original item: Treasure Chart 11
   Types: Dungeon
   Paths:
@@ -622,6 +631,7 @@ Dragon Roost Cavern - Under Rope Bridge:
     Can Access Dragon Roost Cavern
     & DRC Small Key x4
     & (Grappling Hook | Can Fly With Deku Leaf Outdoors)
+  # The ropes holding up the bridge can be cut with a stick - note that it takes three spin attacks instead of one.
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
@@ -639,11 +649,16 @@ Dragon Roost Cavern - Under Rope Bridge:
 Dragon Roost Cavern - Big Key Chest:
   Need:
     Can Access Dragon Roost Cavern
-    & (DRC Small Key x4 | Deku Leaf | Ice Arrows)
+    & (
+      (DRC Small Key x4 & Can Cut Down Hanging DRC Platform)
+      | Deku Leaf
+      | Ice Arrows
+    )
     & Grappling Hook
   # You can sneak into the gap at the bottom of the second room of DRC to get this chest early.
   # In vanilla you couldn't because of an invisible wall, but the randomizer removes the wall.
   # Ice Arrows can be used to make platforms in order to get into the gap - it's somewhat tricky, but made easier by jump attacking if you have a sword.
+  # The Magtail you need to use to press a switch can be stunned with just Grappling Hook so it doesn't add more requirements.
   Original item: Big Key
   Types: Dungeon
   Paths:
@@ -681,6 +696,7 @@ Dragon Roost Cavern - Gohma Heart Container:
     & DRC Small Key x4
     & Grappling Hook
     & DRC Big Key
+  # Gohma can be killed with just the Grappling Hook since it damages her eye in the second phase.
   Original item: Heart Container
   Types: Dungeon
   Paths:

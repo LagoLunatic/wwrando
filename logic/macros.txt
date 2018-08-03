@@ -154,11 +154,10 @@ Can Farm Knight's Crests:
   # * Floor 27 (and below) of Savage Labyrinth. (We use the Floor 30 requirements here since they're the same as Floor 27.)
   # * The big key room of Earth Temple.
   # Note: The Ice Ring and Savage ones have Bokoblins in the same room as the Darknut, so in swordless you could trick the Darknut into attack a Bokoblin, steal its Machete, and use it to kill the Darknut. But this would be too tedious to do to farm a lot of Knight's Crests, so it's not in the logic.
-Can Obtain Joy Pendants:
-  Spoils Bag
-  # Dropped by Bokoblins, which are everywhere.
+  # TODO: shark island also has them respawning
 Can Farm Joy Pendants:
-  Can Obtain Joy Pendants & Grappling Hook
+  Spoils Bag & Grappling Hook
+  # Dropped by Bokoblins, which are everywhere.
 Can Farm Skull Necklaces:
   Grappling Hook & Spoils Bag
   # Dropped by Moblins. The Moblins in submarines don't require any items to access.
@@ -327,6 +326,13 @@ Can Cut Down Outset Trees:
   # Fire Arrows and Bombs don't work.
   # Luring a ChuChu up the hill and having it jump on the trees doesn't work.
   # Carrying the big pig to the trees and enraging it DOES work, it can cut the trees. But this is not currently in the logic because it's obscure and slow to do.
+Can Cut Down Hanging DRC Platform:
+  Hero's Sword
+  | Bombs
+  | Hero's Bow
+  | Skull Hammer
+  # Hookshot and Grappling Hook can also technically cut the ropes, but it's too precise to aim them.
+  # Boomerang can't cut them at all.
 
 # The below macros are used when charts are not randomized.
 # When charts are randomized, these macros are shuffled around by the randomizer logic.
