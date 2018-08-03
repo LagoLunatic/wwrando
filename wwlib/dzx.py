@@ -174,7 +174,7 @@ class Chunk:
   @property
   def fourcc(self):
     fourcc = self.chunk_type
-    if self.layer:
+    if self.layer is not None:
       assert 0 <= self.layer <= 11
       fourcc = fourcc[:3]
       fourcc += "%x" % self.layer
