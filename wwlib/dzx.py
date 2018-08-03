@@ -280,6 +280,8 @@ class SCOB(ChunkEntry):
     "salvage_item_id":            0x00000FF0,
     
     "buried_pig_item_id":         0x000000FF,
+    
+    "invisible_wall_switch_index": 0x000000FF,
   }
   
   SALVAGE_NAMES = [

@@ -1227,3 +1227,14 @@ def shorten_auction_intro_event(self):
   # The actual panning action cannot be skipped for some unknown reason. It would appear to work but the game would crash a little bit later.
   # So instead we change the duration of the panning to be only 1 frame long so it appears to be skipped.
   pan_action.get_prop("Timer").value = 1
+
+def disable_invisible_walls(self):
+  # Remove some invisible walls to allow sequence breaking.
+  # In vanilla switch index FF meant an invisible wall appears only when you have no sword.
+  # But we remove that in randomizer, so invisible walls with switch index FF act effectively completely disabled. So we use this to disable these invisible walls.
+  
+  # Remove an invisible wall in the second room of DRC.
+  dzx = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr")
+  invisible_wall = next(x for x in dzx.entries_by_type("SCOB") if x.name == "Akabe")
+  invisible_wall.invisible_wall_switch_index = 0xFF
+  invisible_wall.save_changes()
