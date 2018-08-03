@@ -465,10 +465,13 @@ class Actor:
     
     write_bytes(data, self.offset+0x34, self.zero_initialized_runtime_data)
   
-  def add_action(self, name):
+  def add_action(self, name, properties=[]):
     action = Action(self.file_entry)
     action.name = name
     self.actions.append(action)
+    for prop_name, prop_value in properties:
+      prop = action.add_property(prop_name)
+      prop.value = prop_value
     return action
 
 class Action:
