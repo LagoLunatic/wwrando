@@ -839,3 +839,74 @@
 .org 0x2AC8 ; In visitSetEvent__10daNpc_Uk_cFv
   b 0x2B04
 .close
+
+
+
+
+; Fix a crash when you look at the broken shards of Helmaroc King's mask with the hookshot.
+.open "sys/main.dol"
+.org 0x800F13A8 ; In daHookshot_rockLineCallback
+  b hookshot_sight_failsafe_check
+.close
+
+
+
+
+; After you kill Puppet Ganon, he would normally respawn you in his room but override the layer to be layer 9 for the cutscene there.
+; We set the switch for having already seen that cutscene in the new game initialization code, but then the rope you need to climb doesn't appear because the layer is wrong.
+; We remove the layer override from Puppet Ganon's call to setNextStage.
+.open "files/rels/d_a_bgn.rel" ; Puppet Ganon
+.org 0xB1E0
+  li r6, -1 ; No layer override
+.close
+
+
+
+
+; If you try to challenge Orca when you have no sword equipped, the game will crash.
+; This is because he tries to create the counter in the lower left corner of the screen for how many hits you've gotten, but that counter needs a sword icon, and the sword icon texture is not loaded in when you have no sword equipped.
+; So change it so he doesn't create a counter at all when you have no sword.
+.open "files/rels/d_a_npc_ji1.rel" ; Orca
+.org 0xC914
+  cmpwi r0, 0x38 ; Hero's Sword
+  beq 0xC938 ; Use Hero's Sword icon for the counter (icon 1)
+  cmpwi r0, 0xFF ; No sword
+  beq 0xC96C ; Skip past the code to create the counter entirely
+  b 0xC948 ; Use Master Sword icon for the counter (icon 2)
+.close
+
+
+
+
+; If a Moblin sees you when you have no sword equipped, it will catch you and bring you to the jail cell in FF1.
+; Skip all the sword checks and pretend the player does have a sword so that this doesn't happen.
+.open "files/rels/d_a_mo2.rel" ; Moblin
+.org 0xBF2C ; Start of sword checks in daMo2_Create__FP10fopAc_ac_c
+  b 0xBF8C ; Skip all 4 sword checks
+.org 0xAD70 ; Start of sword checks in daMo2_Execute__FP9mo2_class
+  b 0xADD0 ; Skip all 4 sword checks
+.close
+
+
+
+
+; Make invisible walls that appear only when you have no sword never appear so swordless works better.
+.open "files/rels/d_a_obj_akabe.rel" ; Invisible wall
+.org 0x650 ; In chk_appear__Q210daObjAkabe5Act_cFv
+  ; This code is run for invisible walls that have their switch index set to FF - an invalid switch used to indicate that the player's sword should be checked instead.
+  ; We make chk_appear always return false.
+  li r3, 0
+.close
+
+
+
+
+; Allow pigs to be enraged when the player has no sword equipped.
+.open "files/rels/d_a_kb.rel" ; Pigs
+.org 0x1460 ; In pl_attack_hit_check__FP8kb_class
+  ; Make branch for having a sword unconditional
+  b 0x146C
+.org 0x3C1C ; In carry_move__FP8kb_class
+  ; Remove branch for if you have no sword
+  nop
+.close

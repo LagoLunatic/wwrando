@@ -174,7 +174,7 @@ class Chunk:
   @property
   def fourcc(self):
     fourcc = self.chunk_type
-    if self.layer:
+    if self.layer is not None:
       assert 0 <= self.layer <= 11
       fourcc = fourcc[:3]
       fourcc += "%x" % self.layer
@@ -223,7 +223,7 @@ class TRES(ChunkEntry):
   def __init__(self, file_entry):
     self.file_entry = file_entry
     
-    self.name = ""
+    self.name = None
     self.params = 0
     self.x_pos = 0
     self.y_pos = 0
@@ -280,6 +280,8 @@ class SCOB(ChunkEntry):
     "salvage_item_id":            0x00000FF0,
     
     "buried_pig_item_id":         0x000000FF,
+    
+    "invisible_wall_switch_index": 0x000000FF,
   }
   
   SALVAGE_NAMES = [
@@ -298,7 +300,7 @@ class SCOB(ChunkEntry):
   def __init__(self, file_entry):
     self.file_entry = file_entry
     
-    self.name = ""
+    self.name = None
     self.params = 0
     self.x_pos = 0
     self.y_pos = 0
@@ -426,7 +428,7 @@ class ACTR(ChunkEntry):
   def __init__(self, file_entry):
     self.file_entry = file_entry
     
-    self.name = ""
+    self.name = None
     self.params = 0
     self.x_pos = 0
     self.y_pos = 0
@@ -553,7 +555,7 @@ class SCLS(ChunkEntry):
   def __init__(self, file_entry):
     self.file_entry = file_entry
     
-    self.dest_stage_name = ""
+    self.dest_stage_name = None
     self.spawn_id = 0
     self.room_index = 0
     self.fade_type = 0
@@ -632,6 +634,29 @@ class STAG(ChunkEntry):
     write_u8(data, self.offset+0x10, self.unknown_7)
     write_u8(data, self.offset+0x11, self.unknown_8)
     write_u16(data, self.offset+0x12, self.draw_range)
+
+class FILI(ChunkEntry):
+  DATA_SIZE = 8
+  
+  PARAMS = {
+    "wind_type": 0x000C0000,
+  }
+  
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+  
+  def read(self, offset):
+    self.offset = offset
+    data = self.file_entry.data
+    
+    self.params = read_u32(data, offset)
+    self.skybox_y_origin = read_float(data, offset+0x04)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_u32(data, self.offset, self.params)
+    write_float(data, self.offset+0x04, self.skybox_y_origin)
 
 class SHIP(ChunkEntry):
   DATA_SIZE = 0x10
@@ -811,7 +836,7 @@ class TGOB(ChunkEntry):
   def __init__(self, file_entry):
     self.file_entry = file_entry
     
-    self.name = ""
+    self.name = None
     self.params = 0
     self.x_pos = 0
     self.y_pos = 0
@@ -854,6 +879,48 @@ class TGOB(ChunkEntry):
     
     write_u16(data, self.offset+0x1E, self.padding)
 
+class EVNT(ChunkEntry):
+  DATA_SIZE = 0x18
+  
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+    
+    self.unknown_1 = 0xFF
+    self.name = None
+    self.unknown_2 = 0xFF
+    self.unknown_3 = 0xFF
+    self.unknown_4 = 0
+    self.event_seen_switch_index = 0xFF
+    self.room_index = 0xFF
+    self.padding = b"\xFF"*3
+  
+  def read(self, offset):
+    self.offset = offset
+    data = self.file_entry.data
+    
+    self.unknown_1 = read_u8(data, offset)
+    self.name = read_str(data, offset+1, 0xF)
+    self.unknown_2 = read_u8(data, offset+0x10)
+    self.unknown_3 = read_u8(data, offset+0x11)
+    self.unknown_4 = read_u8(data, offset+0x12)
+    self.event_seen_switch_index = read_u8(data, offset+0x13)
+    self.room_index = read_u8(data, offset+0x14)
+    
+    self.padding = read_bytes(data, offset+0x15, 3)
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_u8(data, self.offset, self.unknown_1)
+    write_str(data, self.offset+1, self.name, 0xF)
+    write_u8(data, self.offset+0x10, self.unknown_2)
+    write_u8(data, self.offset+0x11, self.unknown_3)
+    write_u8(data, self.offset+0x12, self.unknown_4)
+    write_u8(data, self.offset+0x13, self.event_seen_switch_index)
+    write_u8(data, self.offset+0x14, self.room_index)
+    
+    write_bytes(data, self.offset+0x15, self.padding)
+
 class DummyEntry(ChunkEntry):
   def __init__(self, file_entry):
     self.file_entry = file_entry
@@ -868,9 +935,6 @@ class DummyEntry(ChunkEntry):
     data = self.file_entry.data
     
     write_bytes(data, self.offset, self.raw_data_bytes)
-
-class FILI(DummyEntry):
-  DATA_SIZE = 8
 
 class FLOR(DummyEntry):
   DATA_SIZE = 0x14
@@ -889,9 +953,6 @@ class RCAM(DummyEntry):
 
 class RARO(DummyEntry):
   DATA_SIZE = 0x14
-
-class EVNT(DummyEntry):
-  DATA_SIZE = 0x18
 
 class TGDR(DummyEntry):
   DATA_SIZE = 0x24
@@ -925,3 +986,15 @@ class MECO(DummyEntry):
 
 class MEMA(DummyEntry):
   DATA_SIZE = 0x4
+
+class PATH(DummyEntry):
+  DATA_SIZE = 0xC
+
+class PPNT(DummyEntry):
+  DATA_SIZE = 0x10
+
+class CAMR(DummyEntry):
+  DATA_SIZE = 0x14
+
+class AROB(DummyEntry):
+  DATA_SIZE = 0x14

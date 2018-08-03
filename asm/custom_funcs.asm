@@ -26,8 +26,6 @@ lis r3, 0x803C522C@ha
 addi r3, r3, 0x803C522C@l
 li r4, 0x3510 ; HAS_SEEN_INTRO
 bl onEventBit__11dSv_event_cFUs
-li r4, 0x2A80 ; HAS_HEROS_CLOTHES
-bl onEventBit__11dSv_event_cFUs
 li r4, 0x0520 ; GOSSIP_STONE_AT_FF1 (Causes Aryll and the pirates to disappear from Outset)
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x2E01 ; WATCHED_MEETING_KORL_CUTSCENE (Necessary for Windfall music to play when warping there)
@@ -154,10 +152,11 @@ addi r4, r4, 0x0040
 stw r4, 4 (r3)
 
 ; Set a switch (1E) for having seen the cutscene before the Puppet Ganon fight.
+; Also set a switch (12) for having seen the cutscene after the Puppet Ganon fight.
 ; Also set a switch (1F) for having seen the cutscene before the Ganondorf fight.
 lis r3, 0x803C50A8@ha ; Ganon's Tower stage info.
 addi r3, r3, 0x803C50A8@l
-lis r4, 0xC000
+lis r4, 0xC004
 stw r4, 4 (r3)
 
 
@@ -219,6 +218,18 @@ bl onEventBit__11dSv_event_cFUs
 after_starting_triforce_shards:
 
 
+lis r5, should_start_with_heros_clothes@ha
+addi r5, r5, should_start_with_heros_clothes@l
+lbz r5, 0 (r5) ; Load bool of whether player should start with Hero's clothes
+cmpwi r5, 1
+bne after_starting_heros_clothes
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x2A80 ; HAS_HEROS_CLOTHES
+bl onEventBit__11dSv_event_cFUs
+after_starting_heros_clothes:
+
+
 ; Function end stuff
 lwz r0, 0x14 (sp)
 mtlr r0
@@ -229,6 +240,9 @@ blr
 .global num_triforce_shards_to_start_with
 num_triforce_shards_to_start_with:
 .byte 0 ; By default start with no Triforce Shards
+.global should_start_with_heros_clothes
+should_start_with_heros_clothes:
+.byte 1 ; By default start with the Hero's Clothes
 .align 2 ; Align to the next 4 bytes
 
 
@@ -1381,6 +1395,27 @@ blr
 ship_idle_deceleration:
 .float 2.0 ; Max deceleration, 1.0 in vanilla
 .float 0.1 ; Min deceleration, 0.05 in vanilla
+
+
+
+
+; Part of the code for the hookshot's sight expects entities you look at to have a pointer in a specific place.
+; The broken shards of Helmaroc King's mask don't have that pointer so looking at them with hookshot crashes.
+.global hookshot_sight_failsafe_check
+hookshot_sight_failsafe_check:
+
+cmplwi r30, 0
+beq hookshot_sight_failsafe
+b hookshot_sight_return
+
+; If r30 is null skip to the code that hides the hookshot sight.
+hookshot_sight_failsafe:
+b 0x800F13C0
+
+; Otherwise we replace the line of code at 800F13A8 we replaced to jump here, then jump back.
+hookshot_sight_return:
+lwz r0, 0x01C4 (r30)
+b 0x800F13AC
 
 
 

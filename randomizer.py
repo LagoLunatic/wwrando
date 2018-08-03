@@ -18,6 +18,7 @@ from wwlib.jpc import JPC
 import tweaks
 from logic.logic import Logic
 from paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH
+import customizer
 
 from randomizers import items
 from randomizers import charts
@@ -39,8 +40,7 @@ class Randomizer:
     self.dry_run = dry_run
     
     self.integer_seed = int(hashlib.md5(self.seed.encode('utf-8')).hexdigest(), 16)
-    self.rng = Random()
-    self.rng.seed(self.integer_seed)
+    self.rng = self.get_new_rng()
     
     self.arcs_by_path = {}
     self.jpcs_by_path = {}
@@ -52,8 +52,8 @@ class Randomizer:
       self.gcm = GCM(clean_iso_path)
       self.gcm.read_entire_disc()
       
-      self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").chart_lists[0]
-      self.bmg = self.get_arc("files/res/Msg/bmgres.arc").bmg_files[0]
+      self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").get_file("cmapdat.bin")
+      self.bmg = self.get_arc("files/res/Msg/bmgres.arc").get_file("zel_00.bmg")
     
     self.read_text_file_lists()
     
@@ -143,6 +143,8 @@ class Randomizer:
       (49, "Treasure Chart 33"),
     ])
     
+    self.custom_model_name = "Link"
+    
     self.logic = Logic(self)
     
     num_progress_locations = self.logic.get_num_progression_locations()
@@ -202,7 +204,8 @@ class Randomizer:
     options_completed += 9
     yield("Writing logs...", options_completed)
     
-    self.write_spoiler_log()
+    if self.options.get("generate_spoiler_log"):
+      self.write_spoiler_log()
     self.write_non_spoiler_log()
     
     yield("Done", -1)
@@ -241,6 +244,12 @@ class Randomizer:
     tweaks.increase_block_moving_animation(self)
     tweaks.increase_misc_animations(self)
     tweaks.shorten_dungeon_cutscenes(self)
+    tweaks.shorten_auction_intro_event(self)
+    tweaks.disable_invisible_walls(self)
+    
+    customizer.replace_link_model(self)
+    tweaks.change_starting_clothes(self)
+    customizer.change_player_clothes_color(self)
   
   def apply_necessary_post_randomization_tweaks(self):
     tweaks.update_shop_item_descriptions(self)
@@ -255,9 +264,9 @@ class Randomizer:
       raise Exception("Clean WW ISO does not exist: %s" % clean_iso_path)
     
     with open(clean_iso_path, "rb") as f:
-      game_id = read_str(f, 0, 6)
+      game_id = try_read_str(f, 0, 6)
     if game_id != "GZLE01":
-      if game_id.startswith("GZL"):
+      if game_id and game_id.startswith("GZL"):
         raise Exception("Invalid version of Wind Waker. Only the USA version is supported by this randomizer.")
       else:
         raise Exception("Invalid game given as the clean ISO. You must specify a Wind Waker ISO (USA version).")
@@ -380,6 +389,13 @@ class Randomizer:
       self.raw_files_by_path[file_path] = data
       return data
   
+  def replace_arc(self, arc_path, new_data):
+    if arc_path not in self.gcm.files_by_path:
+      raise Exception("Cannot replace RARC that doesn't exist: " + arc_path)
+    
+    arc = RARC(new_data)
+    self.arcs_by_path[arc_path] = arc
+  
   def replace_raw_file(self, file_path, new_data):
     if file_path not in self.gcm.files_by_path:
       raise Exception("Cannot replace file that doesn't exist: " + file_path)
@@ -402,6 +418,10 @@ class Randomizer:
       
       changed_files[file_path] = data
     for arc_path, arc in self.arcs_by_path.items():
+      for file_name, instantiated_file in arc.instantiated_object_files.items():
+        if file_name == "event_list.dat":
+          instantiated_file.save_changes()
+      
       arc.save_changes()
       changed_files[arc_path] = arc.data
     for jpc_path, jpc in self.jpcs_by_path.items():
@@ -410,6 +430,14 @@ class Randomizer:
     
     output_file_path = os.path.join(self.randomized_output_folder, "WW Random %s.iso" % self.seed)
     self.gcm.export_iso_with_changed_files(output_file_path, changed_files)
+  
+  def get_new_rng(self):
+    rng = Random()
+    rng.seed(self.integer_seed)
+    if not self.options.get("generate_spoiler_log"):
+      for i in range(1, 100):
+        rng.getrandbits(i)
+    return rng
   
   def calculate_playthrough_progression_spheres(self):
     progression_spheres = []

@@ -1,8 +1,12 @@
 
 from PIL import Image
 from io import BytesIO
+import colorsys
 
 from fs_helpers import *
+
+class TooManyColorsError(Exception):
+  pass
 
 BLOCK_WIDTHS = {
     0: 8,
@@ -73,9 +77,9 @@ def convert_rgb565_to_color(rgb565):
 
 def convert_color_to_rgb565(color):
   r, g, b, a = get_rgba(color)
-  r = r*0x1F//255
-  g = g*0x3F//255
-  b = b*0x1F//255
+  r = r >> 3
+  g = g >> 2
+  b = b >> 3
   rgb565 = 0x0000
   rgb565 |= ((r & 0x1F) << 11)
   rgb565 |= ((g & 0x3F) << 5)
@@ -110,19 +114,19 @@ def convert_rgb5a3_to_color(rgb5a3):
 def convert_color_to_rgb5a3(color):
   r, g, b, a = get_rgba(color)
   if a != 255:
-    a = a*0x7//255
-    r = r*0xF//255
-    g = g*0xF//255
-    b = b*0xF//255
+    a = a >> 5
+    r = r >> 4
+    g = g >> 4
+    b = b >> 4
     rgb5a3 = 0x0000
     rgb5a3 |= ((a & 0x7) << 12)
     rgb5a3 |= ((r & 0xF) << 8)
     rgb5a3 |= ((g & 0xF) << 4)
     rgb5a3 |= ((b & 0xF) << 0)
   else:
-    r = r*0x1F//255
-    g = g*0x1F//255
-    b = b*0x1F//255
+    r = r >> 3
+    g = g >> 3
+    b = b >> 3
     rgb5a3 = 0x8000
     rgb5a3 |= ((r & 0x1F) << 10)
     rgb5a3 |= ((g & 0x1F) << 5)
@@ -203,7 +207,7 @@ def get_best_cmpr_key_colors(all_colors):
   color_0 = (min_r, min_g, min_b)
   color_1 = (max_r, max_g, max_b)
   return (color_0, color_1)
-  
+
 # Picks a color from a palette that is visually the closest to the given color.
 # Based off Aseprite's code: https://github.com/aseprite/aseprite/blob/cc7bde6cd1d9ab74c31ccfa1bf41a000150a1fb2/src/doc/palette.cpp#L226-L272
 def get_nearest_color(color, palette):
@@ -296,7 +300,7 @@ def generate_new_palettes_from_image(image, image_format):
         new_colors.append(color)
   
   if len(new_colors) > MAX_COLORS_FOR_IMAGE_FORMAT[image_format]:
-    raise Exception(
+    raise TooManyColorsError(
       "Maximum number of colors supported by image format %d is %d, but replacement image has %d colors" % (
         image_format, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], len(new_colors)
       )
@@ -309,7 +313,7 @@ def encode_palette(colors, palette_format, image_format):
     return BytesIO()
   
   if len(colors) > MAX_COLORS_FOR_IMAGE_FORMAT[image_format]:
-    raise Exception(
+    raise TooManyColorsError(
       "Maximum number of colors supported by image format %d is %d, but replacement image has %d colors" % (
         image_format, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], len(colors)
       )
@@ -545,8 +549,11 @@ def decode_cmpr_block(image_format, image_data, offset, block_data_size, colors)
 
 
 
-def encode_image(new_image_file_path, image_format, palette_format):
+def encode_image_from_path(new_image_file_path, image_format, palette_format):
   image = Image.open(new_image_file_path).convert("RGBA")
+  return encode_image(image, image_format, palette_format)
+
+def encode_image(image, image_format, palette_format):
   image_width, image_height = image.size
   
   colors = generate_new_palettes_from_image(image, image_format)
@@ -582,14 +589,33 @@ def encode_image(new_image_file_path, image_format, palette_format):
   return (new_image_data, new_palette_data, colors)
 
 def encode_image_to_block(image_format, pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
-  if image_format == 5:
+  if image_format == 4:
+    return encode_image_to_rgb563_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
+  elif image_format == 5:
     return encode_image_to_rgb5a3_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
+  elif image_format == 6:
+    return encode_image_to_rgba32_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
+  elif image_format == 8:
+    return encode_image_to_c4_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == 9:
     return encode_image_to_c8_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == 0xE:
     return encode_image_to_cmpr_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
   else:
     raise Exception("Unknown image format: %X" % image_format)
+
+def encode_image_to_rgb563_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
+  new_data = BytesIO()
+  offset = 0
+  for y in range(block_y, block_y+block_height):
+    for x in range(block_x, block_x+block_width):
+      color = pixels[x,y]
+      rgb565 = convert_color_to_rgb565(color)
+      write_u16(new_data, offset, rgb565)
+      offset += 2
+  
+  new_data.seek(0)
+  return new_data.read()
 
 def encode_image_to_rgb5a3_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
   new_data = BytesIO()
@@ -600,6 +626,42 @@ def encode_image_to_rgb5a3_block(pixels, colors, block_x, block_y, block_width, 
       rgb5a3 = convert_color_to_rgb5a3(color)
       write_u16(new_data, offset, rgb5a3)
       offset += 2
+  
+  new_data.seek(0)
+  return new_data.read()
+
+def encode_image_to_rgba32_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
+  new_data = BytesIO()
+  for i in range(16):
+    x = block_x + (i % block_width)
+    y = block_y + (i // block_width)
+    color = pixels[x, y]
+    r, g, b, a = color
+    write_u8(new_data, (i*2), a)
+    write_u8(new_data, (i*2)+1, r)
+    write_u8(new_data, (i*2)+32, g)
+    write_u8(new_data, (i*2)+33, b)
+  
+  new_data.seek(0)
+  return new_data.read()
+
+def encode_image_to_c4_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
+  new_data = BytesIO()
+  offset = 0
+  
+  for y in range(block_y, block_y+block_height):
+    for x in range(block_x, block_x+block_width, 2):
+      color_1 = pixels[x,y]
+      color_1_index = colors.index(color_1)
+      assert 0 <= color_1_index <= 0xF
+      color_2 = pixels[x,y]
+      color_2_index = colors.index(color_2)
+      assert 0 <= color_2_index <= 0xF
+      
+      byte = ((color_1_index & 0xF) << 4) | (color_2_index & 0xF)
+      
+      write_u8(new_data, offset, byte)
+      offset += 1
   
   new_data.seek(0)
   return new_data.read()
@@ -676,3 +738,52 @@ def encode_image_to_cmpr_block(pixels, colors, block_x, block_y, block_width, bl
   
   new_data.seek(0)
   return new_data.read()
+
+def color_exchange(image, base_color, replacement_color, mask_path=None):
+  if mask_path:
+    mask_image = Image.open(mask_path).convert("RGBA")
+    mask_pixels = mask_image.load()
+    
+    if image.size != mask_image.size:
+      raise Exception("Mask image is not the same size as the texture.")
+  
+  base_r, base_g, base_b = base_color
+  base_h, base_s, base_v = colorsys.rgb_to_hsv(base_r/255, base_g/255, base_b/255)
+  base_h = int(base_h*360)
+  base_s = int(base_s*100)
+  base_v = int(base_v*100)
+  
+  replacement_r, replacement_g, replacement_b = replacement_color
+  replacement_h, replacement_s, replacement_v = colorsys.rgb_to_hsv(replacement_r/255, replacement_g/255, replacement_b/255)
+  replacement_h = int(replacement_h*360)
+  replacement_s = int(replacement_s*100)
+  replacement_v = int(replacement_v*100)
+  
+  s_change = replacement_s - base_s
+  v_change = replacement_v - base_v
+  
+  pixels = image.load()
+  for x in range(image.width):
+    for y in range(image.height):
+      if mask_path and mask_pixels[x, y] != (255, 0, 0, 255):
+        continue
+      
+      r, g, b, a = pixels[x, y]
+      h, s, v = colorsys.rgb_to_hsv(r/255, g/255, b/255)
+      h = int(h*360)
+      s = int(s*100)
+      v = int(v*100)
+      
+      new_h = replacement_h
+      new_s = s + s_change
+      new_v = v + v_change
+      new_h = new_h % 360
+      new_s = max(0, min(100, new_s))
+      new_v = max(0, min(100, new_v))
+      r, g, b = colorsys.hsv_to_rgb(new_h/360, new_s/100, new_v/100)
+      r = int(r*255)
+      g = int(g*255)
+      b = int(b*255)
+      pixels[x, y] = (r, g, b, a)
+  
+  return image

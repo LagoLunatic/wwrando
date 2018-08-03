@@ -6,10 +6,13 @@ import sys #for debugging...remove
 from io import BytesIO
 from collections import namedtuple
 import copy
+from random import Random
 
 from fs_helpers import *
 from wwlib import texture_utils
+from wwlib.rarc import RARC
 from paths import ASSETS_PATH, ASM_PATH
+import customizer
 
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
 ORIGINAL_DOL_SIZE = 0x3A52C0
@@ -31,6 +34,9 @@ DATA4_SECTION_SIZE = 0x38D40
 DATA5_SECTION_OFFSET = 0x36E580
 DATA5_SECTION_ADDRESS = 0x80371580
 DATA5_SECTION_SIZE = 0x313E0
+DATA7_SECTION_OFFSET = 0x3A00A0
+DATA7_SECTION_ADDRESS = 0x803F7D00
+DATA7_SECTION_SIZE = 0x5220
 
 DATA8_SECTION_OFFSET = 0x3A00A0
 DATA8_SECTION_ADDRESS = 0x803F7D00
@@ -47,6 +53,8 @@ def address_to_offset(address):
     offset = address - DATA4_SECTION_ADDRESS + DATA4_SECTION_OFFSET
   elif DATA5_SECTION_ADDRESS <= address < DATA5_SECTION_ADDRESS+DATA5_SECTION_SIZE:
     offset = address - DATA5_SECTION_ADDRESS + DATA5_SECTION_OFFSET
+  elif DATA7_SECTION_ADDRESS <= address < DATA7_SECTION_ADDRESS+DATA7_SECTION_SIZE:
+    offset = address - DATA7_SECTION_ADDRESS + DATA7_SECTION_OFFSET
   elif TEXT2_SECTION_ADDRESS <= address <= TEXT2_SECTION_ADDRESS+TEXT2_SECTION_SIZE:
     # Newly added .text2 section.
     offset = address - TEXT2_SECTION_ADDRESS + TEXT2_SECTION_OFFSET
@@ -136,11 +144,11 @@ def set_new_game_starting_room_index(self, room_index):
   write_u8(dol_data, address_to_offset(0x80058BA7), room_index)
 
 def change_ship_starting_island(self, starting_island_room_index):
-  island_dzx = self.get_arc("files/res/Stage/sea/Room%d.arc" % starting_island_room_index).dzx_files[0]
+  island_dzx = self.get_arc("files/res/Stage/sea/Room%d.arc" % starting_island_room_index).get_file("room.dzr")
   ship_spawns = island_dzx.entries_by_type("SHIP")
   island_ship_spawn_0 = next(x for x in ship_spawns if x.ship_id == 0)
   
-  sea_dzx = self.get_arc("files/res/Stage/sea/Stage.arc").dzx_files[0]
+  sea_dzx = self.get_arc("files/res/Stage/sea/Stage.arc").get_file("stage.dzs")
   sea_actors = sea_dzx.entries_by_type("ACTR")
   ship_actor = next(x for x in sea_actors if x.name == "Ship")
   ship_actor.x_pos = island_ship_spawn_0.x_pos
@@ -190,7 +198,7 @@ def fix_deku_leaf_model(self):
   # The Deku Leaf is a unique object not used for other items. It's easy to change what item it gives you, but the visual model cannot be changed.
   # So instead we replace the unique Deku Leaf actor ("itemDek") with a more general actor that can be for any field item ("item").
   
-  dzx = self.get_arc("files/res/Stage/Omori/Room0.arc").dzx_files[0]
+  dzx = self.get_arc("files/res/Stage/Omori/Room0.arc").get_file("room.dzr")
   deku_leaf_actors = [actor for actor in dzx.entries_by_type("ACTR") if actor.name == "itemDek"]
   for actor in deku_leaf_actors:
     actor.name = "item"
@@ -205,10 +213,12 @@ def allow_all_items_to_be_field_items(self):
   # Here we copy the regular item get model to the field model so that any item can be a field item.
   # We also change the code run when you touch the item so that these items play out the full item get animation with text, instead of merely popping up above the player's head like a rupee.
   # And we change the Y offsets so the items don't appear lodged inside the floor, and can be picked up easily.
+  # Also change the code run by items during the wait state, which affects the physics when shot out of Gohdan's nose for example.
   
   item_resources_list_start = address_to_offset(0x803842B0)
   field_item_resources_list_start = address_to_offset(0x803866B0)
   itemGetExecute_switch_statement_entries_list_start = address_to_offset(0x8038CA6C)
+  mode_wait_switch_statement_entries_list_start = address_to_offset(0x8038CC7C)
   
   dol_data = self.get_raw_file("sys/main.dol")
   
@@ -284,6 +294,16 @@ def allow_all_items_to_be_field_items(self):
     original_y_offset = read_u8(dol_data, item_extra_data_entry_offset+1)
     if original_y_offset == 0:
       write_u8(dol_data, item_extra_data_entry_offset+1, 0x28) # Y offset of 0x28
+  
+  
+  for item_id in range(0x20, 0x44+1):
+    # Update the switch statement cases in function mode_wait for certain items that originally used the default case (0x800F8190 - leads to calling itemActionForRupee).
+    # This default case caused items to have the physics of rupees, which causes them to shoot out too far from Gohdan's nose.
+    # We switch it to case 0x800F8160 (itemActionForArrow), which is what heart containers and heart pieces use.
+    location_of_items_switch_statement_case = mode_wait_switch_statement_entries_list_start + item_id*4
+    write_u32(dol_data, location_of_items_switch_statement_case, 0x800F8160)
+  # Also change the switch case used by items with IDs 0x4C+ to go to 800F8160 as well.
+  write_u32(dol_data, address_to_offset(0x800F8138), 0x41810028) # bgt 0x800F8160
 
 def remove_shop_item_forced_uniqueness_bit(self):
   # Some shop items have a bit set that disallows you from buying the item if you already own one of that item.
@@ -301,7 +321,7 @@ def remove_shop_item_forced_uniqueness_bit(self):
 
 def remove_forsaken_fortress_2_cutscenes(self):
   # Removes the rescuing-Aryll cutscene played by the spawn when you enter the Forsaken Fortress tower.
-  dzx = self.get_arc("files/res/Stage/M2tower/Room0.arc").dzx_files[0]
+  dzx = self.get_arc("files/res/Stage/M2tower/Room0.arc").get_file("room.dzr")
   spawn = next(spawn for spawn in dzx.entries_by_type("PLYR") if spawn.spawn_id == 16)
   spawn.event_index = 0xFF
   spawn.save_changes()
@@ -395,24 +415,24 @@ def make_sail_behave_like_swift_sail(self):
   # Modify the sail's texture while sailing.
   ship_arc = self.get_arc("files/res/Object/Ship.arc")
   sail_image = ship_arc.get_file("new_ho1.bti")
-  sail_image.replace_image(new_sail_tex_image_path)
+  sail_image.replace_image_from_path(new_sail_tex_image_path)
   sail_image.save_changes()
   
   # Modify the sail's item icon.
   itemicon_arc = self.get_arc("files/res/Msg/itemicon.arc")
   sail_icon_image = itemicon_arc.get_file("sail_00.bti")
-  sail_icon_image.replace_image(new_sail_icon_image_path)
+  sail_icon_image.replace_image_from_path(new_sail_icon_image_path)
   sail_icon_image.save_changes()
   
   # Modify the sail's item get texture.
   sail_itemget_arc = self.get_arc("files/res/Object/Vho.arc")
   sail_itemget_model = sail_itemget_arc.get_file("vho.bdl")
-  sail_itemget_tex_image = sail_itemget_model.tex1.textures_by_name["Vho"]
+  sail_itemget_tex_image = sail_itemget_model.tex1.textures_by_name["Vho"][0]
   # Originally it used image format 0xE, which is lossy DXT1 compression.
   # But implementing this while having the texture actually look good is too difficult, so instead switch this to image format 9 and palette format 1 (C8 with a 255 color RGB565 palette).
   sail_itemget_tex_image.image_format = 9
   sail_itemget_tex_image.palette_format = 1
-  sail_itemget_tex_image.replace_image(new_sail_itemget_tex_image_path)
+  sail_itemget_tex_image.replace_image_from_path(new_sail_itemget_tex_image_path)
   sail_itemget_model.save_changes()
 
 def add_ganons_tower_warp_to_ff2(self):
@@ -421,7 +441,7 @@ def add_ganons_tower_warp_to_ff2(self):
   # So we need to add the warp object to FF2 as well so the player can conveniently go between the sea and Ganon's Tower.
   # To do this we copy the warp entity from layer 2 onto layer 1.
   
-  dzx = self.get_arc("files/res/Stage/sea/Room1.arc").dzx_files[0]
+  dzx = self.get_arc("files/res/Stage/sea/Room1.arc").get_file("room.dzr")
   
   layer_1_actors = dzx.entries_by_type_and_layer("ACTR", 1)
   if any(x for x in layer_1_actors if x.name == "Warpmj"):
@@ -446,7 +466,7 @@ def add_ganons_tower_warp_to_ff2(self):
 def add_chest_in_place_medli_grappling_hook_gift(self):
   # Add a chest in place of Medli locked in the jail cell at the peak of Dragon Roost Cavern.
   
-  dzx = self.get_arc("files/res/Stage/M_Dra09/Stage.arc").dzx_files[0]
+  dzx = self.get_arc("files/res/Stage/M_Dra09/Stage.arc").get_file("stage.dzs")
   
   chests = dzx.entries_by_type("TRES")
   if any(x for x in chests if x.opened_flag == 0x11):
@@ -469,7 +489,7 @@ def add_chest_in_place_medli_grappling_hook_gift(self):
 def add_chest_in_place_queen_fairy_cutscene(self):
   # Add a chest in place of the Queen Fairy cutscene inside Mother Isle.
   
-  dzx = self.get_arc("files/res/Stage/sea/Room9.arc").dzx_files[0]
+  dzx = self.get_arc("files/res/Stage/sea/Room9.arc").get_file("room.dzr")
   
   chests = dzx.entries_by_type("TRES")
   if any(x for x in chests if x.opened_flag == 0x1C):
@@ -494,7 +514,7 @@ def add_cube_to_earth_temple_first_room(self):
   # This can softlock the player if they don't have Deku Leaf to get across the gap in that first room.
   # So we add a cube to that first room so the player can just climb up.
   
-  dzx = self.get_arc("files/res/Stage/M_Dai/Room0.arc").dzx_files[0]
+  dzx = self.get_arc("files/res/Stage/M_Dai/Room0.arc").get_file("room.dzr")
   
   cube = dzx.add_entity("ACTR", layer=None)
   cube.name = "Ecube"
@@ -510,7 +530,7 @@ def add_more_magic_jars_to_dungeons(self):
   # But since using Deku Leaf in DRC can be required by the randomizer, it can be annoying to not have any way to refill MP.
   # We change several skulls that originally dropped nothing when destroyed to drop magic jars instead.
   
-  drc_center_room = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").dzx_files[0]
+  drc_center_room = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr")
   actors = drc_center_room.entries_by_type("ACTR")
   skulls = [actor for actor in actors if actor.name == "Odokuro"]
   skulls[2].pot_item_id = self.item_name_to_id["Small Magic Jar (Pickup)"]
@@ -518,7 +538,7 @@ def add_more_magic_jars_to_dungeons(self):
   skulls[5].pot_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   skulls[5].save_changes()
   
-  drc_before_boss_room = self.get_arc("files/res/Stage/M_NewD2/Room10.arc").dzx_files[0]
+  drc_before_boss_room = self.get_arc("files/res/Stage/M_NewD2/Room10.arc").get_file("room.dzr")
   actors = drc_before_boss_room.entries_by_type("ACTR")
   skulls = [actor for actor in actors if actor.name == "Odokuro"]
   skulls[0].pot_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
@@ -526,7 +546,7 @@ def add_more_magic_jars_to_dungeons(self):
   skulls[9].pot_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   skulls[9].save_changes()
   
-  totg_before_miniboss_room = self.get_arc("files/res/Stage/Siren/Room14.arc").dzx_files[0]
+  totg_before_miniboss_room = self.get_arc("files/res/Stage/Siren/Room14.arc").get_file("room.dzr")
   actors = totg_before_miniboss_room.entries_by_type("ACTR")
   pots = [actor for actor in actors if actor.name == "kotubo"]
   pots[1].pot_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
@@ -548,17 +568,17 @@ def modify_title_screen_logo(self):
   tlogoe_arc = self.get_arc("files/res/Object/TlogoE.arc")
   
   title_image = tlogoe_arc.get_file("logo_zelda_main.bti")
-  title_image.replace_image(new_title_image_path)
+  title_image.replace_image_from_path(new_title_image_path)
   title_image.save_changes()
   
   subtitle_model = tlogoe_arc.get_file("subtitle_start_anim_e.bdl")
-  subtitle_image = subtitle_model.tex1.textures_by_name["logo_sub_e"]
-  subtitle_image.replace_image(new_subtitle_image_path)
+  subtitle_image = subtitle_model.tex1.textures_by_name["logo_sub_e"][0]
+  subtitle_image.replace_image_from_path(new_subtitle_image_path)
   subtitle_model.save_changes()
   
   subtitle_glare_model = tlogoe_arc.get_file("subtitle_kirari_e.bdl")
-  subtitle_glare_image = subtitle_glare_model.tex1.textures_by_name["logo_sub_e"]
-  subtitle_glare_image.replace_image(new_subtitle_image_path)
+  subtitle_glare_image = subtitle_glare_model.tex1.textures_by_name["logo_sub_e"][0]
+  subtitle_glare_image.replace_image_from_path(new_subtitle_image_path)
   subtitle_glare_model.save_changes()
   
   # Move where the subtitle is drawn downwards a bit so the word "the" doesn't get covered up by the main logo.
@@ -588,7 +608,7 @@ def update_game_name_icon_and_banners(self):
   new_image_file_path = os.path.join(ASSETS_PATH, "banner.png")
   image_format = 5
   palette_format = 2
-  image_data, _, _ = texture_utils.encode_image(new_image_file_path, image_format, palette_format)
+  image_data, _, _ = texture_utils.encode_image_from_path(new_image_file_path, image_format, palette_format)
   image_data.seek(0)
   write_bytes(banner_data, 0x20, image_data.read())
   
@@ -596,12 +616,12 @@ def update_game_name_icon_and_banners(self):
   
   memory_card_icon_file_path = os.path.join(ASSETS_PATH, "memory card icon.png")
   memory_card_icon = cardicon_arc.get_file("ipl_icon1.bti")
-  memory_card_icon.replace_image(memory_card_icon_file_path)
+  memory_card_icon.replace_image_from_path(memory_card_icon_file_path)
   memory_card_icon.save_changes()
   
   memory_card_banner_file_path = os.path.join(ASSETS_PATH, "memory card banner.png")
   memory_card_banner = cardicon_arc.get_file("ipl_banner.bti")
-  memory_card_banner.replace_image(memory_card_banner_file_path)
+  memory_card_banner.replace_image_from_path(memory_card_banner_file_path)
   memory_card_banner.save_changes()
 
 def allow_dungeon_items_to_appear_anywhere(self):
@@ -758,7 +778,7 @@ def pad_string_to_next_4_lines(string):
 
 def remove_ballad_of_gales_warp_in_cutscene(self):
   for island_index in range(1, 49+1):
-    dzx = self.get_arc("files/res/Stage/sea/Room%d.arc" % island_index).dzx_files[0]
+    dzx = self.get_arc("files/res/Stage/sea/Room%d.arc" % island_index).get_file("room.dzr")
     for spawn in dzx.entries_by_type("PLYR"):
       if spawn.spawn_type == 9: # Spawn type is warping in on a cyclone
         spawn.spawn_type = 2 # Change to spawn type of instantly spawning on KoRL instead
@@ -901,11 +921,11 @@ def update_savage_labyrinth_hint_tablet(self):
   if self.options.get("progression_dungeons"):
     if floor_30_item_name.endswith("Small Key"):
       floor_30_item_name = "Small Key"
-    if floor_30_item_name.startswith("Big Key"):
+    if floor_30_item_name.endswith("Big Key"):
       floor_30_item_name = "Big Key"
     if floor_50_item_name.endswith("Small Key"):
       floor_50_item_name = "Small Key"
-    if floor_50_item_name.startswith("Big Key"):
+    if floor_50_item_name.endswith("Big Key"):
       floor_50_item_name = "Big Key"
   
   if floor_30_is_progress and not floor_30_item_name in self.progress_item_hints:
@@ -1001,22 +1021,20 @@ def update_fishmen_hints(self):
 def shorten_zephos_event(self):
   # Make the Zephos event end when the player gets the item from the shrine, before Zephos actually appears.
   
-  event_list = self.get_arc("files/res/Stage/sea/Stage.arc").event_list_files[0]
+  event_list = self.get_arc("files/res/Stage/sea/Stage.arc").get_file("event_list.dat")
   wind_shrine_event = event_list.events_by_name["TACT_HT"]
   zephos = next(actor for actor in wind_shrine_event.actors if actor.name == "Hr")
   link = next(actor for actor in wind_shrine_event.actors if actor.name == "Link")
   camera = next(actor for actor in wind_shrine_event.actors if actor.name == "CAMERA")
   
-  final_actions = [
-    zephos.actions[6],
-    link.actions[6],
-    camera.actions[4],
+  zephos.actions = zephos.actions[0:7]
+  link.actions = link.actions[0:7]
+  camera.actions = camera.actions[0:5]
+  wind_shrine_event.ending_flags = [
+    zephos.actions[-1].flag_id_to_set,
+    link.actions[-1].flag_id_to_set,
+    camera.actions[-1].flag_id_to_set,
   ]
-  for action in final_actions:
-    action.next_action_index = 0xFFFFFFFF
-    action.save_changes()
-  wind_shrine_event.ending_flags = [action.flag_id_to_set for action in final_actions]
-  wind_shrine_event.save_changes()
 
 def update_korl_dialogue(self):
   msg = self.bmg.messages_by_id[3443]
@@ -1032,7 +1050,7 @@ def set_num_starting_triforce_shards(self):
   write_u8(dol_data, address_to_offset(num_shards_address), num_starting_triforce_shards)
 
 def add_pirate_ship_to_windfall(self):
-  windfall_dzx = self.get_arc("files/res/Stage/sea/Room11.arc").dzx_files[0]
+  windfall_dzx = self.get_arc("files/res/Stage/sea/Room11.arc").get_file("room.dzr")
   
   windfall_layer_2_actors = windfall_dzx.entries_by_type_and_layer("ACTR", 2)
   layer_2_pirate_ship = next(x for x in windfall_layer_2_actors if x.name == "Pirates")
@@ -1054,7 +1072,7 @@ def add_pirate_ship_to_windfall(self):
   windfall_dzx.save_changes()
   
   # Remove Niko to get rid of his events.
-  ship_dzx = self.get_arc("files/res/Stage/Asoko/Room0.arc").dzx_files[0]
+  ship_dzx = self.get_arc("files/res/Stage/Asoko/Room0.arc").get_file("room.dzr")
   for layer_num in [2, 3]:
     ship_actors_on_this_layer = ship_dzx.entries_by_type_and_layer("ACTR", layer_num)
     niko = next(x for x in ship_actors_on_this_layer if x.name == "P2b")
@@ -1080,8 +1098,8 @@ def add_inter_dungeon_warp_pots(self):
     for warp_pot_index, warp_pot_data in enumerate(warp_pot_datas_in_this_cycle):
       room_arc_path = "files/res/Stage/%s/Room%d.arc" % (warp_pot_data.stage_name, warp_pot_data.room_num)
       stage_arc_path = "files/res/Stage/%s/Stage.arc" % warp_pot_data.stage_name
-      room_dzx = self.get_arc(room_arc_path).dzx_files[0]
-      stage_dzx = self.get_arc(stage_arc_path).dzx_files[0]
+      room_dzx = self.get_arc(room_arc_path).get_file("room.dzr")
+      stage_dzx = self.get_arc(stage_arc_path).get_file("stage.dzs")
       
       # Add new player spawn locations.
       if warp_pot_data.stage_name in ["M_Dai", "kaze"]:
@@ -1154,7 +1172,7 @@ def add_inter_dungeon_warp_pots(self):
           dest_jpc.add_texture(copied_texture)
 
 def remove_makar_kidnapping_event(self):
-  dzx = self.get_arc("files/res/Stage/kaze/Room3.arc").dzx_files[0]
+  dzx = self.get_arc("files/res/Stage/kaze/Room3.arc").get_file("room.dzr")
   actors = dzx.entries_by_type_and_layer("ACTR", None)
   
   # Remove the AND switch actor that makes the Floormasters appear after unlocking the door.
@@ -1187,6 +1205,7 @@ def add_chart_number_to_item_get_messages(self):
     elif item_name.startswith("Triforce Chart ") and not "deciphered" in item_name:
       msg = self.bmg.messages_by_id[101 + item_id]
       msg.string = msg.string.replace("a \\{1A 06 FF 00 00 01}Triforce Chart", "\\{1A 06 FF 00 00 01}%s" % item_name)
+
 
 # Speeds up the grappling hook significantly to behave similarly to HD
 def increase_grapple_animation_speed(self):
@@ -1265,6 +1284,49 @@ def increase_misc_animations(self):
 
    #increase speed Links ends climbing a ladder/vine (0.9 -> 1.4)
    write_float(dol_data, address_to_offset(0x8035DB20), 1.4)
+
+
+
+
+def change_starting_clothes(self):
+  custom_model_metadata = customizer.get_model_metadata(self.custom_model_name)
+  disable_casual_clothes = custom_model_metadata.get("disable_casual_clothes", False)
+  
+  should_start_with_heros_clothes_address = self.custom_symbols["should_start_with_heros_clothes"]
+  dol_data = self.get_raw_file("sys/main.dol")
+  if self.options.get("player_in_casual_clothes") and not disable_casual_clothes:
+    write_u8(dol_data, address_to_offset(should_start_with_heros_clothes_address), 0)
+  else:
+    write_u8(dol_data, address_to_offset(should_start_with_heros_clothes_address), 1)
+
+def shorten_auction_intro_event(self):
+  event_list = self.get_arc("files/res/Stage/Orichh/Stage.arc").get_file("event_list.dat")
+  wind_shrine_event = event_list.events_by_name["AUCTION_START"]
+  auction = next(actor for actor in wind_shrine_event.actors if actor.name == "Auction")
+  camera = next(actor for actor in wind_shrine_event.actors if actor.name == "CAMERA")
+  
+  pre_pan_delay = camera.actions[2]
+  pan_action = camera.actions[3]
+  post_pan_delay = camera.actions[4]
+  
+  # Remove the 30 frame delays before and after panning.
+  camera.actions.remove(pre_pan_delay)
+  camera.actions.remove(post_pan_delay)
+  
+  # The actual panning action cannot be skipped for some unknown reason. It would appear to work but the game would crash a little bit later.
+  # So instead we change the duration of the panning to be only 1 frame long so it appears to be skipped.
+  pan_action.get_prop("Timer").value = 1
+
+def disable_invisible_walls(self):
+  # Remove some invisible walls to allow sequence breaking.
+  # In vanilla switch index FF meant an invisible wall appears only when you have no sword.
+  # But we remove that in randomizer, so invisible walls with switch index FF act effectively completely disabled. So we use this to disable these invisible walls.
+  
+  # Remove an invisible wall in the second room of DRC.
+  dzx = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr")
+  invisible_wall = next(x for x in dzx.entries_by_type("SCOB") if x.name == "Akabe")
+  invisible_wall.invisible_wall_switch_index = 0xFF
+  invisible_wall.save_changes()
 
 
 def shorten_dungeon_cutscenes(self):

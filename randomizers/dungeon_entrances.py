@@ -54,7 +54,7 @@ def randomize_dungeon_entrances(self):
     
     # Update the dungeon this entrance takes you into.
     entrance_dzx_path = "files/res/Stage/%s/Room%d.arc" % (dungeon_entrance.stage_name, dungeon_entrance.room_num)
-    entrance_dzx = self.get_arc(entrance_dzx_path).dzx_files[0]
+    entrance_dzx = self.get_arc(entrance_dzx_path).get_file("room.dzr")
     entrance_scls = entrance_dzx.entries_by_type("SCLS")[dungeon_entrance.scls_exit_index]
     entrance_scls.dest_stage_name = dungeon_exit.stage_name
     entrance_scls.room_index = dungeon_exit.room_num
@@ -71,7 +71,7 @@ def randomize_dungeon_entrances(self):
     
     # Update the entrance you're put at when leaving the dungeon.
     exit_dzx_path = "files/res/Stage/%s/Room%d.arc" % (dungeon_exit.stage_name, dungeon_exit.room_num)
-    exit_dzx = self.get_arc(exit_dzx_path).dzx_files[0]
+    exit_dzx = self.get_arc(exit_dzx_path).get_file("room.dzr")
     exit_scls = exit_dzx.entries_by_type("SCLS")[dungeon_exit.scls_exit_index]
     exit_scls.dest_stage_name = dungeon_entrance.stage_name
     exit_scls.room_index = dungeon_entrance.room_num
@@ -80,16 +80,16 @@ def randomize_dungeon_entrances(self):
     
     # Update the wind warp out event to take you to the correct island.
     boss_stage_arc_path = "files/res/Stage/%s/Stage.arc" % dungeon_exit.boss_stage_name
-    event_list = self.get_arc(boss_stage_arc_path).event_list_files[0]
+    event_list = self.get_arc(boss_stage_arc_path).get_file("event_list.dat")
     warp_out_event = event_list.events_by_name["WARP_WIND_AFTER"]
     director = next(actor for actor in warp_out_event.actors if actor.name == "DIRECTOR")
     stage_change_action = next(action for action in director.actions if action.name == "NEXT")
     stage_name_prop = next(prop for prop in stage_change_action.properties if prop.name == "Stage")
-    event_list.set_property_value(stage_name_prop.property_index, dungeon_entrance.warp_out_stage_name)
+    stage_name_prop.value = dungeon_entrance.warp_out_stage_name
     room_num_prop = next(prop for prop in stage_change_action.properties if prop.name == "RoomNo")
-    event_list.set_property_value(room_num_prop.property_index, dungeon_entrance.warp_out_room_num)
+    room_num_prop.value = dungeon_entrance.warp_out_room_num
     spawn_id_prop = next(prop for prop in stage_change_action.properties if prop.name == "StartCode")
-    event_list.set_property_value(spawn_id_prop.property_index, dungeon_entrance.warp_out_spawn_id)
+    spawn_id_prop.value = dungeon_entrance.warp_out_spawn_id
     
     self.dungeon_entrances[dungeon_entrance.entrance_name] = dungeon_exit.dungeon_name
     self.dungeon_island_locations[dungeon_exit.dungeon_name] = dungeon_entrance.island_name

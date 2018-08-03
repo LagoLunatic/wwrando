@@ -1,0 +1,7 @@
+
+This models folder is for custom player models. If you put player models here with the proper format and folder structure, and then launch the randomizer, they will appear in the "Player Model" dropdown in the randomizer, and you can play with the model you choose replacing Link.
+The randomizer itself does not come with any models, you must download them separately from here: https://github.com/Sage-of-Mirrors/Custom-Wind-Waker-Player-Models
+
+After you've downloaded some models, simply extract them into this models folder.
+If you did it correctly, the models folder should have several different folders in it, each with a different character name.
+Each of those folders should have a file called Link.arc in it, as well as several other files such as metadata.txt.

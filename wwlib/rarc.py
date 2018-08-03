@@ -39,12 +39,6 @@ class RARC:
       self.nodes.append(node)
     
     self.file_entries = []
-    self.dzx_files = []
-    self.event_list_files = []
-    self.bmg_files = []
-    self.bdl_files = []
-    self.bti_files = []
-    self.chart_lists = []
     for node in self.nodes:
       for file_index in range(node.first_file_index, node.first_file_index+node.num_files):
         file_entry_offset = file_entries_list_offset + file_index*0x14
@@ -52,31 +46,8 @@ class RARC:
         file_entry = FileEntry(data, file_entry_offset, self)
         self.file_entries.append(file_entry)
         node.files.append(file_entry)
-        
-        if file_entry.is_dir:
-          continue
-        
-        if file_entry.name.endswith(".dzs"):
-          dzx = DZx(file_entry)
-          self.dzx_files.append(dzx)
-        elif file_entry.name.endswith(".dzr"):
-          dzx = DZx(file_entry)
-          self.dzx_files.append(dzx)
-        elif file_entry.name == "event_list.dat":
-          event_list = EventList(file_entry)
-          self.event_list_files.append(event_list)
-        elif file_entry.name.endswith(".bmg"):
-          bmg = BMG(file_entry)
-          self.bmg_files.append(bmg)
-        elif file_entry.name.endswith(".bdl"):
-          bdl = BDL(file_entry)
-          self.bdl_files.append(bdl)
-        elif file_entry.name.endswith(".bti"):
-          bti = BTIFile(file_entry)
-          self.bti_files.append(bti)
-        elif file_entry.name == "cmapdat.bin":
-          chart_list = ChartList(file_entry)
-          self.chart_lists.append(chart_list)
+    
+    self.instantiated_object_files = {}
   
   def extract_all_files_to_disk_flat(self, output_directory):
     # Does not preserve directory structure.
@@ -166,12 +137,43 @@ class RARC:
     return None
   
   def get_file(self, file_name):
-    all_known_files = self.dzx_files + self.event_list_files + self.bmg_files + self.bdl_files + self.bti_files + self.chart_lists
+    if file_name in self.instantiated_object_files:
+      return self.instantiated_object_files[file_name]
     
-    for known_file in all_known_files:
-      if known_file.file_entry.name == file_name:
-        return known_file
-    raise Exception("Could not find file: %s" % file_name)
+    file_entry = self.get_file_entry(file_name)
+    if file_entry is None:
+      raise Exception("Could not find file: %s" % file_name)
+    
+    if file_name.endswith(".dzs"):
+      dzx = DZx(file_entry)
+      self.instantiated_object_files[file_name] = dzx
+      return dzx
+    elif file_name.endswith(".dzr"):
+      dzx = DZx(file_entry)
+      self.instantiated_object_files[file_name] = dzx
+      return dzx
+    elif file_name == "event_list.dat":
+      event_list = EventList(file_entry)
+      self.instantiated_object_files[file_name] = event_list
+      return event_list
+    elif file_name.endswith(".bmg"):
+      bmg = BMG(file_entry)
+      self.instantiated_object_files[file_name] = bmg
+      return bmg
+    elif file_name.endswith(".bdl"):
+      bdl = BDL(file_entry)
+      self.instantiated_object_files[file_name] = bdl
+      return bdl
+    elif file_name.endswith(".bti"):
+      bti = BTIFile(file_entry)
+      self.instantiated_object_files[file_name] = bti
+      return bti
+    elif file_name == "cmapdat.bin":
+      chart_list = ChartList(file_entry)
+      self.instantiated_object_files[file_name] = chart_list
+      return chart_list
+    else:
+      raise Exception("Unknown file type: %s" % file_name)
 
 class Node:
   def __init__(self, data, offset):

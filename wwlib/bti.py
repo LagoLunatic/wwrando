@@ -68,9 +68,19 @@ class BTI:
     )
     return image
   
-  def replace_image(self, new_image_file_path):
-    self.image_data, self.palette_data, colors = encode_image(new_image_file_path, self.image_format, self.palette_format)
+  def replace_image_from_path(self, new_image_file_path):
+    self.image_data, self.palette_data, colors = encode_image_from_path(
+      new_image_file_path, self.image_format, self.palette_format
+    )
     self.num_colors = len(colors)
+  
+  def replace_image(self, new_image):
+    self.image_data, self.palette_data, colors = encode_image(
+      new_image, self.image_format, self.palette_format
+    )
+    self.num_colors = len(colors)
+    self.width = new_image.width
+    self.height = new_image.height
 
 class BTIFile(BTI): # For standalone .bti files (as opposed to textures embedded in .bdl models)
   def __init__(self, file_entry):

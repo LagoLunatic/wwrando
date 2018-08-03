@@ -3,7 +3,7 @@ from PySide.QtGui import *
 from PySide.QtCore import *
 
 from ui.ui_randomizer_window import Ui_MainWindow
-from ui.options import OPTIONS
+from ui.options import OPTIONS, NON_PERMALINK_OPTIONS
 from ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
 
 import random
@@ -22,6 +22,8 @@ except ImportError:
 
 from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError
 from paths import ASSETS_PATH, SEEDGEN_PATH
+import customizer
+from logic.logic import Logic
 
 class WWRandomizerWindow(QMainWindow):
   VALID_SEED_CHARACTERS = "-_'%%.%s%s" % (string.ascii_letters, string.digits)
@@ -31,7 +33,13 @@ class WWRandomizerWindow(QMainWindow):
     self.ui = Ui_MainWindow()
     self.ui.setupUi(self)
     
+    self.custom_color_selector_buttons = OrderedDict()
+    self.custom_colors = OrderedDict()
+    self.initialize_custom_player_model_list()
+    
     self.preserve_default_settings()
+    
+    self.cached_item_locations = Logic.load_and_parse_item_locations()
     
     self.load_settings()
     
@@ -41,6 +49,9 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.clean_iso_path_browse_button.clicked.connect(self.browse_for_clean_iso)
     self.ui.output_folder_browse_button.clicked.connect(self.browse_for_output_folder)
     self.ui.permalink.textEdited.connect(self.permalink_modified)
+    
+    self.ui.custom_player_model.currentIndexChanged.connect(self.custom_model_changed)
+    self.ui.player_in_casual_clothes.clicked.connect(self.custom_model_changed)
     
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
@@ -140,6 +151,7 @@ class WWRandomizerWindow(QMainWindow):
     options = OrderedDict()
     for option_name in OPTIONS:
       options[option_name] = self.get_option_value(option_name)
+    options["custom_colors"] = self.custom_colors
     
     permalink = self.ui.permalink.text()
     
@@ -171,9 +183,16 @@ class WWRandomizerWindow(QMainWindow):
   def randomization_complete(self):
     self.progress_dialog.reset()
     
-    msg = "Randomization complete.\n\n"
-    msg += "If you get stuck, check the progression spoiler log in the output folder."
-    QMessageBox.information(self, "Done", msg)
+    text = """Randomization complete.<br><br>
+      If you get stuck, check the progression spoiler log in the output folder.<br><br>
+      If you try to load the game in Dolphin and get a black screen, you should update to the latest development build of Dolphin:<br><a href=\"https://en.dolphin-emu.org/download/\">https://en.dolphin-emu.org/download/</a>"""
+    
+    self.complete_dialog = QMessageBox()
+    self.complete_dialog.setTextFormat(Qt.TextFormat.RichText)
+    self.complete_dialog.setWindowTitle("Randomization complete")
+    self.complete_dialog.setText(text)
+    self.complete_dialog.setWindowIcon(self.windowIcon())
+    self.complete_dialog.show()
   
   def randomization_failed(self, error_message):
     self.progress_dialog.reset()
@@ -243,6 +262,16 @@ class WWRandomizerWindow(QMainWindow):
     for option_name in OPTIONS:
       if option_name in self.settings:
         self.set_option_value(option_name, self.settings[option_name])
+    
+    self.custom_model_changed()
+    if "custom_colors" in self.settings:
+      custom_colors_from_settings = self.settings["custom_colors"]
+      for custom_color_name in self.custom_colors:
+        if custom_color_name in custom_colors_from_settings:
+          self.custom_colors[custom_color_name] = custom_colors_from_settings[custom_color_name]
+      for custom_color_name, color in self.custom_colors.items():
+        option_name = "custom_color_" + custom_color_name
+        self.set_color(option_name, color)
   
   def save_settings(self):
     with open(self.settings_path, "w") as f:
@@ -253,12 +282,26 @@ class WWRandomizerWindow(QMainWindow):
     self.settings["output_folder"] = self.ui.output_folder.text()
     self.settings["seed"] = self.ui.seed.text()
     
+    self.disable_invalid_cosmetic_options()
+    
     for option_name in OPTIONS:
       self.settings[option_name] = self.get_option_value(option_name)
+    self.settings["custom_colors"] = self.custom_colors
     
     self.save_settings()
     
-    permalink = self.encode_permalink()
+    self.encode_permalink()
+    
+    self.update_total_progress_locations()
+  
+  def update_total_progress_locations(self):
+    options = OrderedDict()
+    for option_name in OPTIONS:
+      options[option_name] = self.get_option_value(option_name)
+    num_progress_locations = Logic.get_num_progression_locations_static(self.cached_item_locations, options)
+    
+    text = "Where Should Progress Items Appear? (Selected: %d Possible Progression Locations)" % num_progress_locations
+    self.ui.groupBox.setTitle(text)
   
   def permalink_modified(self):
     permalink = self.ui.permalink.text()
@@ -292,6 +335,9 @@ class WWRandomizerWindow(QMainWindow):
     current_byte = 0
     current_bit_index = 0
     for option_name in OPTIONS:
+      if option_name in NON_PERMALINK_OPTIONS:
+        continue
+      
       value = self.settings[option_name]
       
       widget = getattr(self.ui, option_name)
@@ -347,6 +393,9 @@ class WWRandomizerWindow(QMainWindow):
     current_byte_index = 0
     current_bit_index = 0
     for option_name in OPTIONS:
+      if option_name in NON_PERMALINK_OPTIONS:
+        continue
+      
       if current_bit_index >= 8:
         current_byte_index += 1
         current_bit_index = 0
@@ -417,7 +466,7 @@ class WWRandomizerWindow(QMainWindow):
   
   def get_option_value(self, option_name):
     widget = getattr(self.ui, option_name)
-    if isinstance(widget, QAbstractButton):
+    if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
       return widget.isChecked()
     elif isinstance(widget, QComboBox):
       return widget.itemText(widget.currentIndex())
@@ -426,7 +475,7 @@ class WWRandomizerWindow(QMainWindow):
   
   def set_option_value(self, option_name, new_value):
     widget = getattr(self.ui, option_name)
-    if isinstance(widget, QAbstractButton):
+    if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
       widget.setChecked(new_value)
     elif isinstance(widget, QComboBox):
       index_of_value = None
@@ -451,6 +500,126 @@ class WWRandomizerWindow(QMainWindow):
     else:
       self.ui.option_description.setText(new_description)
       self.ui.option_description.setStyleSheet("")
+  
+  def initialize_custom_player_model_list(self):
+    self.ui.custom_player_model.addItem("Link")
+    
+    custom_model_names = customizer.get_all_custom_model_names()
+    for custom_model_name in custom_model_names:
+      self.ui.custom_player_model.addItem(custom_model_name)
+    
+    if custom_model_names:
+      self.ui.custom_player_model.addItem("Random")
+    else:
+      self.ui.custom_player_model.setEnabled(False)
+  
+  def custom_model_changed(self):
+    self.disable_invalid_cosmetic_options()
+    
+    while self.ui.custom_colors_layout.count():
+      item = self.ui.custom_colors_layout.takeAt(0)
+      hlayout = item.layout()
+      while hlayout.count():
+        item = hlayout.takeAt(0)
+        widget = item.widget()
+        widget.deleteLater()
+    self.custom_color_selector_buttons = OrderedDict()
+    
+    custom_model_name = self.get_option_value("custom_player_model")
+    metadata = customizer.get_model_metadata(custom_model_name)
+    if metadata is None:
+      return
+    
+    is_casual = self.get_option_value("player_in_casual_clothes")
+    if is_casual:
+      prefix = "casual"
+    else:
+      prefix = "hero"
+    
+    self.custom_colors = OrderedDict()
+    custom_colors = metadata.get(prefix + "_custom_colors", {})
+    
+    for custom_color_name, default_color in custom_colors.items():
+      option_name = "custom_color_" + custom_color_name
+      hlayout = QHBoxLayout()
+      label_for_color_selector = QLabel(self.ui.tab_2)
+      label_for_color_selector.setText("Player %s Color" % custom_color_name)
+      hlayout.addWidget(label_for_color_selector)
+      color_selector_button = QPushButton(self.ui.tab_2)
+      color_selector_button.setText("")
+      color_selector_button.setObjectName(option_name)
+      hlayout.addWidget(color_selector_button)
+      
+      self.custom_color_selector_buttons[option_name] = color_selector_button
+      color_selector_button.clicked.connect(self.open_custom_color_chooser)
+      
+      self.ui.custom_colors_layout.addLayout(hlayout)
+      
+      self.set_color(option_name, default_color)
+  
+  def reset_color_selectors_to_model_default_colors(self):
+    custom_model_name = self.get_option_value("custom_player_model")
+    is_casual = self.get_option_value("player_in_casual_clothes")
+    if is_casual:
+      prefix = "casual"
+    else:
+      prefix = "hero"
+    
+    metadata = customizer.get_model_metadata(custom_model_name)
+    if metadata is None:
+      return
+    
+    custom_colors = metadata.get(prefix + "_custom_colors", {})
+    
+    for custom_color_name, default_color in custom_colors.items():
+      option_name = "custom_color_" + custom_color_name
+      self.set_color(option_name, default_color)
+  
+  def disable_invalid_cosmetic_options(self):
+    custom_model_name = self.get_option_value("custom_player_model")
+    metadata = customizer.get_model_metadata(custom_model_name)
+    
+    if metadata is None:
+      self.ui.player_in_casual_clothes.setEnabled(False)
+      self.set_option_value("player_in_casual_clothes", False)
+    else:
+      disable_casual_clothes = metadata.get("disable_casual_clothes", False)
+      if disable_casual_clothes:
+        self.ui.player_in_casual_clothes.setEnabled(False)
+        self.ui.player_in_casual_clothes.setChecked(False)
+      else:
+        self.ui.player_in_casual_clothes.setEnabled(True)
+  
+  def set_color(self, option_name, color):
+    if not (isinstance(color, list) and len(color) == 3):
+      color = [255, 255, 255]
+    
+    assert option_name.startswith("custom_color_")
+    color_name = option_name[len("custom_color_"):]
+    self.custom_colors[color_name] = color
+    
+    color_button = self.custom_color_selector_buttons[option_name]
+    if color is None:
+      color_button.setStyleSheet("")
+    else:
+      color_button.setStyleSheet("background-color: rgb(%d, %d, %d)" % tuple(color))
+  
+  def open_custom_color_chooser(self):
+    option_name = self.sender().objectName()
+    
+    assert option_name.startswith("custom_color_")
+    color_name = option_name[len("custom_color_"):]
+    
+    r, g, b = self.custom_colors[color_name]
+    initial_color = QColor(r, g, b, 255)
+    color = QColorDialog.getColor(initial_color, self, "Select color")
+    if not color.isValid():
+      return
+    r = color.red()
+    g = color.green()
+    b = color.blue()
+    self.set_color(option_name, [r, g, b])
+    self.update_settings()
   
   def open_about(self):
     text = """Wind Waker Randomizer Version %s<br><br>
