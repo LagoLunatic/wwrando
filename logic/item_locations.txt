@@ -549,7 +549,7 @@ Dragon Roost Cavern - First Room:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest005
-Dragon Roost Cavern - Map Chest:
+Dragon Roost Cavern - Alcove With Water Jugs:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x1
@@ -576,7 +576,7 @@ Dragon Roost Cavern - Chest Across Lava Pit:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest00A
-Dragon Roost Cavern - Compass Chest:
+Dragon Roost Cavern - Rat Room:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x2
@@ -584,7 +584,7 @@ Dragon Roost Cavern - Compass Chest:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest007
-Dragon Roost Cavern - Rat Room:
+Dragon Roost Cavern - Rat Room Boarded Up Chest:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x2
@@ -736,7 +736,7 @@ Forest Haven - Small Island Chest:
 #  Paths:
 #    - Ocrogh/Stage.arc/Event03F:Get_Blu_Btl/Actor002/Action001
 
-Forbidden Woods - Map Chest:
+Forbidden Woods - First Room:
   Need: Can Access Forbidden Woods
   Original item: Dungeon Map
   Types: Dungeon
@@ -778,7 +778,7 @@ Forbidden Woods - Morth Pit:
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest00C
-Forbidden Woods - Vine Maze Compass Chest:
+Forbidden Woods - Vine Maze Near Chest:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
@@ -788,7 +788,7 @@ Forbidden Woods - Vine Maze Compass Chest:
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest006
-Forbidden Woods - Vine Maze Chest:
+Forbidden Woods - Vine Maze Far Chest:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
@@ -919,7 +919,7 @@ Greatfish Isle - Hidden Chest:
     - sea/Room23.arc/Chest000
 
 
-Tower of the Gods - Map Chest:
+Tower of the Gods - Chest Behind Bombable Walls:
   Need:
     Can Access Tower of the Gods
     & Bombs
@@ -941,7 +941,7 @@ Tower of the Gods - Light Two Torches:
   Types: Dungeon
   Paths:
     - Siren/Stage.arc/Chest005
-Tower of the Gods - Compass Chest:
+Tower of the Gods - Skulls Room Chest:
   Need:
     Can Access Tower of the Gods
     & Bombs
@@ -949,7 +949,7 @@ Tower of the Gods - Compass Chest:
   Types: Dungeon
   Paths:
     - Siren/Stage.arc/Chest002
-Tower of the Gods - Shoot Eye Above Compass Chest:
+Tower of the Gods - Shoot Eye Above Skulls Room Chest:
   Need:
     Can Access Tower of the Gods
     & Bombs
@@ -1111,7 +1111,7 @@ Forsaken Fortress - Phantom Ganon:
   Types: Dungeon
   Paths:
     - sea/Room1.arc/Chest000
-Forsaken Fortress - Map Chest:
+Forsaken Fortress - Chest Outside Upper Jail Cell:
   Need:
     # Instead of using Deku Leaf to fly over to the chest, you could also use the Hookshot on the chest.
     Can Get Inside Forsaken Fortress
@@ -1130,7 +1130,7 @@ Forsaken Fortress - Jail Cell:
     - majroom/Stage.arc/Chest003
     - ma2room/Stage.arc/Chest003
     - ma3room/Stage.arc/Chest003
-Forsaken Fortress - Compass Chest:
+Forsaken Fortress - Chest Guarded By Bokoblin:
   Need: Can Get Inside Forsaken Fortress
   Original item: Compass
   Types: Dungeon
@@ -1249,7 +1249,7 @@ Headstone Island - Submarine:
 #  Original item: Earth God's Lyric
 #  Paths:
 #    - Edaichi/Stage.arc/Event043:MKNJD_D_LESSON/Actor003/Action006
-Earth Temple - Map Chest:
+Earth Temple - Transparent Chest In Warp Pot Room:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
@@ -1287,7 +1287,7 @@ Earth Temple - Transparent Chest in First Crypt:
   Types: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest001
-Earth Temple - Compass Chest:
+Earth Temple - Chest In Three Blocks Room:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
@@ -1507,7 +1507,7 @@ Wind Temple - Chest in Left Alcove:
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest004
-Wind Temple - Map Chest:
+Wind Temple - Chest In Many Cyclones Room:
   Need:
     Can Access Wind Temple
     & Can Play Command Melody
@@ -1517,7 +1517,7 @@ Wind Temple - Map Chest:
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest008
-Wind Temple - Compass Chest:
+Wind Temple - Chest In Middle Of Hub Room:
   Need:
     Can Access Wind Temple
     & Can Play Command Melody
@@ -1562,7 +1562,7 @@ Wind Temple - Wizzrobe Mini-Boss Room:
   Types: Dungeon
   Paths:
     - kazeMB/Stage.arc/Chest000
-Wind Temple - Chest in Makar's Cell:
+Wind Temple - Chest Behind Stone Head:
   Need:
     Can Access Wind Temple
     & Can Play Command Melody
