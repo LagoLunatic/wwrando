@@ -1122,22 +1122,6 @@ Forsaken Fortress - Map Chest:
     - majroom/Stage.arc/Chest000
     - ma2room/Stage.arc/Chest000
     - ma3room/Stage.arc/Chest000
-Forsaken Fortress - Chest on Bed:
-  Need: Can Get Inside Forsaken Fortress
-  Original item: Yellow Rupee
-  Types: Dungeon
-  Paths:
-    - majroom/Stage.arc/Chest001
-    - ma2room/Stage.arc/Chest001
-    - ma3room/Stage.arc/Chest001
-Forsaken Fortress - Compass Chest:
-  Need: Can Get Inside Forsaken Fortress
-  Original item: Compass
-  Types: Dungeon
-  Paths:
-    - majroom/Stage.arc/Chest002
-    - ma2room/Stage.arc/Chest002
-    - ma3room/Stage.arc/Chest002
 Forsaken Fortress - Jail Cell:
   Need: Can Get Inside Forsaken Fortress
   Original item: Piece of Heart
@@ -1146,6 +1130,22 @@ Forsaken Fortress - Jail Cell:
     - majroom/Stage.arc/Chest003
     - ma2room/Stage.arc/Chest003
     - ma3room/Stage.arc/Chest003
+Forsaken Fortress - Compass Chest:
+  Need: Can Get Inside Forsaken Fortress
+  Original item: Compass
+  Types: Dungeon
+  Paths:
+    - majroom/Stage.arc/Chest002
+    - ma2room/Stage.arc/Chest002
+    - ma3room/Stage.arc/Chest002
+Forsaken Fortress - Chest on Bed:
+  Need: Can Get Inside Forsaken Fortress
+  Original item: Yellow Rupee
+  Types: Dungeon
+  Paths:
+    - majroom/Stage.arc/Chest001
+    - ma2room/Stage.arc/Chest001
+    - ma3room/Stage.arc/Chest001
 #Forsaken Fortress - Dropped Sword:
 #  Need: 
 #  Original item: Recovered Hero's Sword
@@ -1158,6 +1158,7 @@ Forsaken Fortress - Helmaroc King Heart Container:
     & (Deku Leaf | Hookshot)
     & Can Reach and Defeat Phantom Ganon
     # The reason you need to be able to defeat Phantom Ganon is because his fight triggers even if you skip him and try to go straight to Helmaroc King.
+    # Helmaroc King himself doesn't require a sword or anything - just the hammer both breaks his mask and damages him
     # There's a cannon that makes sidling across a gap difficult, but you don't need bombs because you can just kill the searchlight operator Bokoblin instead to get rid of the cannon simultaneously.
     # Note: It is possible to get up there without Deku Leaf.
     # To do it, go to the southwest room, and jump on top of the wooden bedposts. Then jump diagonally onto the corner of the platform with the Bokoblin and the Skull Hammer pegs on it.
