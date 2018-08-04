@@ -295,6 +295,10 @@ Can Defeat Red Bubbles:
   | Skull Hammer
   | Hero's Bow
   | Bombs
+  | (
+    (Deku Leaf | Hookshot)
+    & Grappling Hook
+  )
 Can Defeat Blue Bubbles:
   Ice Arrows
   | Bombs
