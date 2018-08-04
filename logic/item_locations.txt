@@ -1181,7 +1181,9 @@ Mother and Child Isles - Inside Mother Isle:
     - sea/Room9.arc/Chest000
 
 Fire Mountain - Cave - Chest:
-  Need: Ice Arrows
+  Need:
+    Ice Arrows
+    & Can Defeat Magtails
   # Need to escape: Power Bracelets
   Original item: Power Bracelets
   Types: Puzzle Secret Cave
@@ -1221,6 +1223,7 @@ Ice Ring Isle - Cave - Chest:
     - MiniHyo/Stage.arc/Chest000
 Ice Ring Isle - Inner Cave - Chest:
   Need: Fire Arrows & Iron Boots
+    # There are a number of enemies you need to kill here, but you can trick enemies into attacking each other and steal a weapon so no items are required.
   Original item: Orange Rupee
   Types: Puzzle Secret Cave, Combat Secret Cave
   Paths:
@@ -1234,7 +1237,7 @@ Headstone Island - Top of the Island:
   Paths:
     - sea/Room45.arc/Actor013
 Headstone Island - Submarine:
-  Need: Nothing
+  Need: Can Defeat Bombchus
   Original item: Treasure Chart 14
   Types: Submarine
   Paths:
