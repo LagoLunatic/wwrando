@@ -1335,62 +1335,66 @@ def shorten_dungeon_cutscenes(self):
         return x / 1.5
     else:
          return x
+  #DRC
+  modify_event_property(self.get_arc("files/res/Stage/M_NewD2/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
+  modify_event_property(self.get_arc("files/res/Stage/M_Dra09/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
+  modify_event_property(self.get_arc("files/res/Stage/M_DragB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)  
+  #FW
+  modify_event_property(self.get_arc("files/res/Stage/kindan/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
+  modify_event_property(self.get_arc("files/res/Stage/kinBOSS/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
+  modify_event_property(self.get_arc("files/res/Stage/kinMB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
+  #TotGs
+  modify_event_property(self.get_arc("files/res/Stage/Siren/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
+  modify_event_property(self.get_arc("files/res/Stage/SirenB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
+  modify_event_property(self.get_arc("files/res/Stage/SirenMB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
+  #ET
+  modify_event_property(self.get_arc("files/res/Stage/M_Dai/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
+  modify_event_property(self.get_arc("files/res/Stage/M_DaiB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
+  modify_event_property(self.get_arc("files/res/Stage/M_DaiMB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
+  #WT
+  modify_event_property(self.get_arc("files/res/Stage/kaze/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
+  modify_event_property(self.get_arc("files/res/Stage/kazeB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
+  modify_event_property(self.get_arc("files/res/Stage/kazeMB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
 
-  modify_event_property(self.get_arc("files/res/Stage/M_NewD2/Stage.arc").event_list_files[0], "Timer", modify_method)
-  modify_event_property(self.get_arc("files/res/Stage/M_Dra09/Stage.arc").event_list_files[0], "Timer", modify_method)
-  modify_event_property(self.get_arc("files/res/Stage/M_DragB/Stage.arc").event_list_files[0], "Timer", modify_method)
-  
-  modify_event_property(self.get_arc("files/res/Stage/kindan/Stage.arc").event_list_files[0], "Timer", modify_method)
-
-  modify_event_property(self.get_arc("files/res/Stage/Siren/Stage.arc").event_list_files[0], "Timer", modify_method)
-  modify_event_property(self.get_arc("files/res/Stage/SirenMB/Stage.arc").event_list_files[0], "Timer", modify_method)
-
-  modify_event_property(self.get_arc("files/res/Stage/M_Dai/Stage.arc").event_list_files[0], "Timer", modify_method)
-  #for event in event_list.events:
-  #    for actor in event.actors:
-  #        if actor is not None:             
-  #            for action in actor.actions:
-  #              for property in action.properties:
-  #                  if property.name == "Timer":
-  #                      index = property.property_index
-  #                      data_value = event_list.get_property_value(index)                                
-  #                      event_list.set_property_value(index, int(data_value / 2))
-  #                      print_flush(event.name)
-  #                      print_flush(event_list.integer_list_offset)
-  #                      print_flush("\t" + actor.name)
-  #                      print_flush("\t\t" + action.name)
-  #                      print_flush("\t\t\t" + property.name)
-  #                      print("\t\t\tproperty offset: " + str(property.offset))
-  #                      print("\t\t\tVALUE: " + str(data_value))
-  #                      print("\t\t\tdata size: " + str(property.data_size))
-  #                      print_flush("\t\t\tdata index: " + str(property.data_index))
-  #                      print_flush("\t\t\tproperty index: " + str(property.property_index))
-  #                      print_flush("\t\t\tnext property index: " + str(property.next_property_index))
                     
 def modify_event_property(event_list, property_name, f):
     for event in event_list.events:
       for actor in event.actors:
-          if actor is not None:             
+          if actor is not None:
               for action in actor.actions:
-                for property in action.properties:
-                    if property.name == property_name:
-                        index = property.property_index
-                        data_value = event_list.get_property_value(index)
-                        print("old value: " + str(data_value))
-                        data_value = f(data_value)
-                        print("new value: " + str(int(data_value)))
-                        event_list.set_property_value(index, int(data_value))
-                        #print_flush(event.name)
-                        #print_flush(event_list.integer_list_offset)
-                        #print_flush("\t" + actor.name)
-                        #print_flush("\t\t" + action.name)
-                        #print_flush("\t\t\t" + property.name)
-                        #print("\t\t\tproperty offset: " + str(property.offset))
-                        #print("\t\t\tVALUE: " + str(data_value))
-                        #print("\t\t\tdata size: " + str(property.data_size))
-                        #print_flush("\t\t\tdata index: " + str(property.data_index))
-                        #print_flush("\t\t\tproperty index: " + str(property.property_index))
-                        #print_flush("\t\t\tnext property index: " + str(property.next_property_index))
+                  timer = action.get_prop("Timer")
+                  if(timer is not None):  
+                        timer.value = int(f(timer.value))
+                #timer = action.get_prop("Timer")
+                #if(action.name == "WAIT"): #action.name == "PAUSE" or 
+                #    timer.value = 1
+                #    #if(len(actor.actions) > 1):
+                #    #    actor.actions.remove(action)
+                #else:
+                    
+                #    if(timer is not None):  
+                        #timer.value = int(timer.value / 1.5)
+                        #if(action.name != "UNITRANS"):
+                        #    timer.value = int(timer.value / 1.5)
+                        #else:
+                        #    timer.value = int(1)
+                        #eye = action.get_prop("Eye")
+                        #print_flush(eye.value)
+                    #    fovy = action.get_prop("Fovy")
+
+                    #    if(fovy is not None):
+                    #        fovy.value = fovy.value / 2
+                    #        timer.value = int(timer.value / 1.5)
+                    #else:
+                        
+
+
+                #for property in action.properties:
+                #    if property.name == property_name:
+                #        data_value = property.value
+                #        property.value = int(f(data_value))
+
+
 def print_flush(str):
     print(str)
     sys.stdout.flush()
