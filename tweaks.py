@@ -1285,6 +1285,9 @@ def increase_misc_animations(self):
    #increase speed Links ends climbing a ladder/vine (0.9 -> 1.4)
    write_float(dol_data, address_to_offset(0x8035DB20), 1.4)
 
+   #increase the rotation speed on ropes (64.0 -> 100.0)
+   write_float(dol_data, address_to_offset(0x803FA2E8), 100.0)
+
 
 
 

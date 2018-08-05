@@ -1852,7 +1852,41 @@ mtlr r0
 addi sp, sp, 0x10
 blr
 
+.global turn_while_swinging_func
+turn_while_swinging_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
 
+lis r4,0x803A
+ori r4,r4,0x4DF0
+lha r3,0x26(r4)
+lfs f14,-23064(r2)
+lfs f15,0(r4)
+fmuls f14,f14,f15
+fctiwz f14,f14
+stfd f14,0x20(r4)
+lha r0,0x26(r4)
+cmpwi r0,0
+bne update_links_angle
+sth r0,0x26(r4)
+b turn_while_swinging_return
 
+update_links_angle:
+add r0,r3,r0
+sth r0,0x26(r4)
+lha r3,0x020e(r31)
+lha r0,0x26(r4)
+add r0,r3,r0
+sth r0,0x020e(r31)
+lha r0,0x020e(r31)
+sth r0,0x0206(r31)
+lfs f0,-23464(r2)
+
+turn_while_swinging_return:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
 
 .close

@@ -910,3 +910,9 @@
   ; Remove branch for if you have no sword
   nop
 .close
+
+; Turn while swinging on ropes.
+.open "sys/main.dol"
+.org 0x80145648
+  bl turn_while_swinging_func
+.close
