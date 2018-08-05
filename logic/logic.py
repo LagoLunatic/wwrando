@@ -292,6 +292,11 @@ class Logic:
       self.add_owned_item_or_item_group(item_name)
       
       for location_name in inaccessible_undone_item_locations:
+        if location_name in self.prerandomization_dungeon_item_locations:
+          # We don't care about unlocking a new location if that new location was predetermined to have a dungeon item in it.
+          # The dungeon item it unlocks might be useless, so we can't risk it.
+          continue
+        
         requirement_expression = self.item_locations[location_name]["Need"]
         if self.check_logical_expression_req(requirement_expression):
           self.remove_owned_item_or_item_group(item_name)

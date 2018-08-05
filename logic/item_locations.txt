@@ -549,7 +549,7 @@ Dragon Roost Cavern - First Room:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest005
-Dragon Roost Cavern - Map Chest:
+Dragon Roost Cavern - Alcove With Water Jugs:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x1
@@ -576,7 +576,7 @@ Dragon Roost Cavern - Chest Across Lava Pit:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest00A
-Dragon Roost Cavern - Compass Chest:
+Dragon Roost Cavern - Rat Room:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x2
@@ -584,7 +584,7 @@ Dragon Roost Cavern - Compass Chest:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest007
-Dragon Roost Cavern - Rat Room:
+Dragon Roost Cavern - Rat Room Boarded Up Chest:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x2
@@ -736,14 +736,16 @@ Forest Haven - Small Island Chest:
 #  Paths:
 #    - Ocrogh/Stage.arc/Event03F:Get_Blu_Btl/Actor002/Action001
 
-Forbidden Woods - Map Chest:
+Forbidden Woods - First Room:
   Need: Can Access Forbidden Woods
   Original item: Dungeon Map
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest002
 Forbidden Woods - Inside Hollow Tree's Mouth:
-  Need: Can Access Forbidden Woods
+  Need:
+    Can Access Forbidden Woods
+    & (Can Defeat Door Flowers | Can Defeat Boko Babas)
   Original item: Knight's Crest
   Types: Dungeon
   Paths:
@@ -761,6 +763,7 @@ Forbidden Woods - Hole in Tree:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
   Original item: Red Rupee
   Types: Dungeon
   Paths:
@@ -769,24 +772,27 @@ Forbidden Woods - Morth Pit:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
   Original item: Yellow Rupee
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest00C
-Forbidden Woods - Vine Maze Compass Chest:
+Forbidden Woods - Vine Maze Near Chest:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
   Original item: Compass
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest006
-Forbidden Woods - Vine Maze Chest:
+Forbidden Woods - Vine Maze Far Chest:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
   Original item: Small Key
   Types: Dungeon
@@ -796,8 +802,11 @@ Forbidden Woods - Tall Room Before Mini-Boss:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
     & FW Small Key x1
+    & Can Defeat Peahats
+    # Killing the Peahats is not strictly necessary but grappling up is tricky while they're still alive since they knock you around.
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
@@ -806,8 +815,10 @@ Forbidden Woods - Mothula Mini-Boss Room:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
     & FW Small Key x1
+    & Can Defeat Winged Mothulas
   # Need to escape: Can Hit Diamond Switches at Range
   Original item: Boomerang
   Types: Dungeon
@@ -817,6 +828,7 @@ Forbidden Woods - Past Seeds Hanging by Vines:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
     & FW Small Key x1
     & Can Defeat Door Flowers
@@ -830,6 +842,7 @@ Forbidden Woods - Chest Across Red Hanging Flower:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
     & Boomerang
   Original item: Yellow Rupee
@@ -851,6 +864,7 @@ Forbidden Woods - Chest in Locked Tree Trunk:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
     & Boomerang
   Original item: Treasure Chart 15
@@ -861,6 +875,7 @@ Forbidden Woods - Big Key Chest:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & Grappling Hook
     & Boomerang
   Original item: Big Key
@@ -871,7 +886,9 @@ Forbidden Woods - Double Mothula Room:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & (Can Defeat Door Flowers | Grappling Hook)
+    & Can Defeat Mothulas
   # This room is locked by 2 door flowers, but if you have grappling hook you can reach a nut on the floor above and bring it down to destroy them both with it.
   Original item: Joy Pendant
   Types: Dungeon
@@ -881,9 +898,12 @@ Forbidden Woods - Kalle Demos Heart Container:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
+    & Can Defeat Boko Babas
     & (Can Defeat Door Flowers | Grappling Hook)
+    & Can Defeat Mothulas
     & FW Big Key
     & Boomerang
+    # No sword needed - Kalle Demos can be damaged with just boomerang.
   Original item: Heart Container
   Types: Dungeon
   Paths:
@@ -899,7 +919,7 @@ Greatfish Isle - Hidden Chest:
     - sea/Room23.arc/Chest000
 
 
-Tower of the Gods - Map Chest:
+Tower of the Gods - Chest Behind Bombable Walls:
   Need:
     Can Access Tower of the Gods
     & Bombs
@@ -921,7 +941,7 @@ Tower of the Gods - Light Two Torches:
   Types: Dungeon
   Paths:
     - Siren/Stage.arc/Chest005
-Tower of the Gods - Compass Chest:
+Tower of the Gods - Skulls Room Chest:
   Need:
     Can Access Tower of the Gods
     & Bombs
@@ -929,7 +949,7 @@ Tower of the Gods - Compass Chest:
   Types: Dungeon
   Paths:
     - Siren/Stage.arc/Chest002
-Tower of the Gods - Shoot Eye Above Compass Chest:
+Tower of the Gods - Shoot Eye Above Skulls Room Chest:
   Need:
     Can Access Tower of the Gods
     & Bombs
@@ -980,6 +1000,7 @@ Tower of the Gods - Darknut Mini-Boss Room:
     & Wind Waker
     & (Grappling Hook | Deku Leaf)
     & (Command Melody | Hero's Bow)
+    & Can Defeat Darknuts
     # Note: If you already have the bow you can get the statue guy across the previous room without getting this item, which might appear to make this chest permanently missable, but in reality you can use the deactivated Armos from across the pit to keep the button pressed.
     # Note: Normally the only way to do this would be to use Command Melody on the statue guy, but if you already have the bow you can activate the moving platforms and use the deactivated Armos from across the pit to keep the button pressed instead.
     # Note: You can reach this without Grappling Hook if you have Deku Leaf instead. But if you run out of MP you can get trapped and not be able to escape since there are no MP refill jars on this side of the gap. So we modify one of the pots to drop an MP refill jar.
@@ -1067,8 +1088,10 @@ Tower of the Gods - Gohdan Heart Container:
     & Hero's Bow
     & TotG Small Key x2
     & Deku Leaf
+    & Can Defeat Armos
     & TotG Big Key
     & Bombs
+    # You can use hookshot to shoot all of Gohdan's eyes instead of the bow. But you still need the bow to get this far in the dungeon anyway, so that doesn't change the logic.
   Original item: Heart Container
   Types: Dungeon
   Paths:
@@ -1088,7 +1111,7 @@ Forsaken Fortress - Phantom Ganon:
   Types: Dungeon
   Paths:
     - sea/Room1.arc/Chest000
-Forsaken Fortress - Map Chest:
+Forsaken Fortress - Chest Outside Upper Jail Cell:
   Need:
     # Instead of using Deku Leaf to fly over to the chest, you could also use the Hookshot on the chest.
     Can Get Inside Forsaken Fortress
@@ -1099,22 +1122,6 @@ Forsaken Fortress - Map Chest:
     - majroom/Stage.arc/Chest000
     - ma2room/Stage.arc/Chest000
     - ma3room/Stage.arc/Chest000
-Forsaken Fortress - Chest on Bed:
-  Need: Can Get Inside Forsaken Fortress
-  Original item: Yellow Rupee
-  Types: Dungeon
-  Paths:
-    - majroom/Stage.arc/Chest001
-    - ma2room/Stage.arc/Chest001
-    - ma3room/Stage.arc/Chest001
-Forsaken Fortress - Compass Chest:
-  Need: Can Get Inside Forsaken Fortress
-  Original item: Compass
-  Types: Dungeon
-  Paths:
-    - majroom/Stage.arc/Chest002
-    - ma2room/Stage.arc/Chest002
-    - ma3room/Stage.arc/Chest002
 Forsaken Fortress - Jail Cell:
   Need: Can Get Inside Forsaken Fortress
   Original item: Piece of Heart
@@ -1123,6 +1130,22 @@ Forsaken Fortress - Jail Cell:
     - majroom/Stage.arc/Chest003
     - ma2room/Stage.arc/Chest003
     - ma3room/Stage.arc/Chest003
+Forsaken Fortress - Chest Guarded By Bokoblin:
+  Need: Can Get Inside Forsaken Fortress
+  Original item: Compass
+  Types: Dungeon
+  Paths:
+    - majroom/Stage.arc/Chest002
+    - ma2room/Stage.arc/Chest002
+    - ma3room/Stage.arc/Chest002
+Forsaken Fortress - Chest on Bed:
+  Need: Can Get Inside Forsaken Fortress
+  Original item: Yellow Rupee
+  Types: Dungeon
+  Paths:
+    - majroom/Stage.arc/Chest001
+    - ma2room/Stage.arc/Chest001
+    - ma3room/Stage.arc/Chest001
 #Forsaken Fortress - Dropped Sword:
 #  Need: 
 #  Original item: Recovered Hero's Sword
@@ -1135,6 +1158,7 @@ Forsaken Fortress - Helmaroc King Heart Container:
     & (Deku Leaf | Hookshot)
     & Can Reach and Defeat Phantom Ganon
     # The reason you need to be able to defeat Phantom Ganon is because his fight triggers even if you skip him and try to go straight to Helmaroc King.
+    # Helmaroc King himself doesn't require a sword or anything - just the hammer both breaks his mask and damages him
     # There's a cannon that makes sidling across a gap difficult, but you don't need bombs because you can just kill the searchlight operator Bokoblin instead to get rid of the cannon simultaneously.
     # Note: It is possible to get up there without Deku Leaf.
     # To do it, go to the southwest room, and jump on top of the wooden bedposts. Then jump diagonally onto the corner of the platform with the Bokoblin and the Skull Hammer pegs on it.
@@ -1157,7 +1181,9 @@ Mother and Child Isles - Inside Mother Isle:
     - sea/Room9.arc/Chest000
 
 Fire Mountain - Cave - Chest:
-  Need: Ice Arrows
+  Need:
+    Ice Arrows
+    & Can Defeat Magtails
   # Need to escape: Power Bracelets
   Original item: Power Bracelets
   Types: Puzzle Secret Cave
@@ -1197,6 +1223,7 @@ Ice Ring Isle - Cave - Chest:
     - MiniHyo/Stage.arc/Chest000
 Ice Ring Isle - Inner Cave - Chest:
   Need: Fire Arrows & Iron Boots
+    # There are a number of enemies you need to kill here, but you can trick enemies into attacking each other and steal a weapon so no items are required.
   Original item: Orange Rupee
   Types: Puzzle Secret Cave, Combat Secret Cave
   Paths:
@@ -1210,7 +1237,7 @@ Headstone Island - Top of the Island:
   Paths:
     - sea/Room45.arc/Actor013
 Headstone Island - Submarine:
-  Need: Nothing
+  Need: Can Defeat Bombchus
   Original item: Treasure Chart 14
   Types: Submarine
   Paths:
@@ -1222,7 +1249,7 @@ Headstone Island - Submarine:
 #  Original item: Earth God's Lyric
 #  Paths:
 #    - Edaichi/Stage.arc/Event043:MKNJD_D_LESSON/Actor003/Action006
-Earth Temple - Map Chest:
+Earth Temple - Transparent Chest In Warp Pot Room:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
@@ -1260,7 +1287,7 @@ Earth Temple - Transparent Chest in First Crypt:
   Types: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest001
-Earth Temple - Compass Chest:
+Earth Temple - Chest In Three Blocks Room:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
@@ -1480,7 +1507,7 @@ Wind Temple - Chest in Left Alcove:
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest004
-Wind Temple - Map Chest:
+Wind Temple - Chest In Many Cyclones Room:
   Need:
     Can Access Wind Temple
     & Can Play Command Melody
@@ -1490,7 +1517,7 @@ Wind Temple - Map Chest:
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest008
-Wind Temple - Compass Chest:
+Wind Temple - Chest In Middle Of Hub Room:
   Need:
     Can Access Wind Temple
     & Can Play Command Melody
@@ -1535,7 +1562,7 @@ Wind Temple - Wizzrobe Mini-Boss Room:
   Types: Dungeon
   Paths:
     - kazeMB/Stage.arc/Chest000
-Wind Temple - Chest in Makar's Cell:
+Wind Temple - Chest Behind Stone Head:
   Need:
     Can Access Wind Temple
     & Can Play Command Melody
