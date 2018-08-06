@@ -238,6 +238,10 @@ class Randomizer:
     tweaks.remove_makar_kidnapping_event(self)
     tweaks.increase_player_movement_speeds(self)
     tweaks.add_chart_number_to_item_get_messages(self)
+    tweaks.increase_grapple_animation_speed(self)
+    tweaks.increase_block_moving_animation(self)
+    tweaks.increase_misc_animations(self)
+    #tweaks.shorten_dungeon_cutscenes(self)
     tweaks.shorten_auction_intro_event(self)
     tweaks.disable_invisible_walls(self)
     

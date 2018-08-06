@@ -60,3 +60,4 @@
 803fe074 ff_compass_item_get_func
 803fe09c et_compass_item_get_func
 803fe0c4 wt_compass_item_get_func
+803fe0ec turn_while_swinging_func
