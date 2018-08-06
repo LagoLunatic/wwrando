@@ -777,7 +777,7 @@ Forbidden Woods - Morth Pit:
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest00C
-Forbidden Woods - Vine Maze Near Chest:
+Forbidden Woods - Vine Maze Left Chest:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
@@ -787,7 +787,7 @@ Forbidden Woods - Vine Maze Near Chest:
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest006
-Forbidden Woods - Vine Maze Far Chest:
+Forbidden Woods - Vine Maze Right Chest:
   Need:
     Can Access Forbidden Woods
     & Deku Leaf
