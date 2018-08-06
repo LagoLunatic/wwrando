@@ -1420,6 +1420,21 @@ b 0x800F13AC
 
 
 
+; Refills the player's magic meter when loading a save.
+.global fully_refill_magic_meter_on_load_save
+fully_refill_magic_meter_on_load_save:
+
+lis r3, 0x803C4C1B@ha
+addi r3, r3, 0x803C4C1B@l
+lbz r4, 0 (r3) ; Load max magic meter
+stb r4, 1 (r3) ; Store to current magic meter
+
+lwz r3, 0x428 (r22) ; Replace the line we overwrote to branch here
+b 0x80231B0C ; Return
+
+
+
+
 .global generic_on_dungeon_bit
 generic_on_dungeon_bit:
 stwu sp, -0x10 (sp)

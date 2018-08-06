@@ -910,3 +910,12 @@
   ; Remove branch for if you have no sword
   nop
 .close
+
+
+
+
+; Refill the player's magic meter to full when they load a save.
+.open "sys/main.dol"
+.org 0x80231B08 ; In FileSelectMainNormal__10dScnName_cFv right after calling card_to_memory__10dSv_info_cFPci
+  b fully_refill_magic_meter_on_load_save
+.close
