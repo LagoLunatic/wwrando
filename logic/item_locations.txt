@@ -116,14 +116,13 @@ Outset Island - Savage Labyrinth - Floor 30:
 Outset Island - Savage Labyrinth - Floor 50:
   Need:
     Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
-    & Mirror Shield & (Hero's Sword | Wind Waker)
+    & Can Aim Mirror Shield
     & Can Defeat ReDeads
     & Can Defeat Blue Bubbles
     & Can Defeat Dark ChuChus
     & Can Defeat Poes
     & Can Defeat Stalfos
     & Skull Hammer
-  # Wind Waker required in swordless because you can't aim the Mirror Shield without something in your left hand. (Many other items also allow you to do the same.)
   # 2 of the 3 Wizzrobes on floor 48 never seem to come down to ground level, but it doesn't matter since you can throw the swords the Darknuts drop at them to kill them.
   # The following floors don't have requirements listed because you can trick enemies into hitting each other, pick up one of their dropped weapons, and kill the enemies with the weapon:
   # * Floor 37 (2x Moblins, 3x ReDeads)
@@ -696,7 +695,7 @@ Dragon Roost Cavern - Gohma Heart Container:
     & DRC Small Key x4
     & Grappling Hook
     & DRC Big Key
-  # Gohma can be killed with just the Grappling Hook since it damages her eye in the second phase.
+    & Can Defeat Gohma
   Original item: Heart Container
   Types: Dungeon
   Paths:
@@ -902,8 +901,7 @@ Forbidden Woods - Kalle Demos Heart Container:
     & (Can Defeat Door Flowers | Grappling Hook)
     & Can Defeat Mothulas
     & FW Big Key
-    & Boomerang
-    # No sword needed - Kalle Demos can be damaged with just boomerang.
+    & Can Defeat Kalle Demos
   Original item: Heart Container
   Types: Dungeon
   Paths:
@@ -1090,8 +1088,7 @@ Tower of the Gods - Gohdan Heart Container:
     & Deku Leaf
     & Can Defeat Armos
     & TotG Big Key
-    & Bombs
-    # You can use hookshot to shoot all of Gohdan's eyes instead of the bow. But you still need the bow to get this far in the dungeon anyway, so that doesn't change the logic.
+    & Can Defeat Gohdan
   Original item: Heart Container
   Types: Dungeon
   Paths:
@@ -1157,8 +1154,8 @@ Forsaken Fortress - Helmaroc King Heart Container:
     & Skull Hammer
     & (Deku Leaf | Hookshot)
     & Can Reach and Defeat Phantom Ganon
+    & Can Defeat Helmaroc King
     # The reason you need to be able to defeat Phantom Ganon is because his fight triggers even if you skip him and try to go straight to Helmaroc King.
-    # Helmaroc King himself doesn't require a sword or anything - just the hammer both breaks his mask and damages him
     # There's a cannon that makes sidling across a gap difficult, but you don't need bombs because you can just kill the searchlight operator Bokoblin instead to get rid of the cannon simultaneously.
     # Note: It is possible to get up there without Deku Leaf.
     # To do it, go to the southwest room, and jump on top of the wooden bedposts. Then jump diagonally onto the corner of the platform with the Bokoblin and the Skull Hammer pegs on it.
@@ -1261,6 +1258,9 @@ Earth Temple - Chest Behind Destructible Walls:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
+    & Can Defeat Red ChuChus
+    & Can Defeat Green ChuChus
+    & Can Defeat Dark ChuChus
     & Skull Hammer
     & Mirror Shield
   Original item: Joy Pendant
@@ -1294,7 +1294,9 @@ Earth Temple - Chest In Three Blocks Room:
     & ET Small Key x2
     & Fire Arrows
     & Power Bracelets
+    & Can Defeat Floormasters
     # Power Bracelets necessary again to move the large black pushable box and unlock a door.
+    # You need to push blocks near the Floormaster to progress in this room, which basically requires killing it.
   Original item: Compass
   Types: Dungeon
   Paths:
@@ -1306,6 +1308,7 @@ Earth Temple - Chest Behind Statues:
     & ET Small Key x2
     & Fire Arrows
     & Power Bracelets
+    & Can Defeat Floormasters
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
@@ -1317,6 +1320,9 @@ Earth Temple - Casket in Second Crypt:
     & ET Small Key x2
     & Fire Arrows
     & Power Bracelets
+    & Can Defeat Floormasters
+    # The Poes don't require anything to kill and the Moblins can be tricked into hitting each other so you can steal their weapon.
+    # The ReDeads don't need to be killed to get the item in their room, but you do need to kill them to escape without save warping.
   Original item: Small Key
   Types: Dungeon
   Paths:
@@ -1328,7 +1334,9 @@ Earth Temple - Stalfos Mini-Boss Room:
     & ET Small Key x3
     & Fire Arrows
     & Power Bracelets
-  # Need to escape: Mirror Shield
+    & Can Defeat Floormasters
+    & Can Defeat Stalfos
+  # Need to escape: Can Aim Mirror Shield
   Original item: Mirror Shield
   Types: Dungeon
   Paths:
@@ -1348,7 +1356,7 @@ Earth Temple - End of Foggy Room With Floormasters:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
-    & Mirror Shield
+    & Can Aim Mirror Shield
     & Can Play Earth God's Lyric
   Original item: Small Key
   Types: Dungeon
@@ -1358,8 +1366,9 @@ Earth Temple - Kill All Floormasters in Foggy Room:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
-    & Mirror Shield
+    & Can Aim Mirror Shield
     & Can Play Earth God's Lyric
+    & Can Defeat Floormasters
   Original item: Treasure Chart 20
   Types: Dungeon
   Paths:
@@ -1368,7 +1377,7 @@ Earth Temple - Kill All Floormasters in Foggy Room:
 #  Need:
 #    Can Access Earth Temple
 #    & Can Play Command Melody
-#    & Mirror Shield
+#    & Can Aim Mirror Shield
 #    & Can Play Earth God's Lyric
 #    & Boomerang & TODO # Does boomerang work for items here other than rupees and spoils?
 #  Original item: Joy Pendant
@@ -1378,16 +1387,14 @@ Earth Temple - Chest in Third Crypt:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
-    & Mirror Shield
+    & Can Aim Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
     & Skull Hammer
     & ET Small Key x3
+    & Can Defeat Red Bubbles
     # Power Bracelets necessary again to move the large mirror under the light.
-    # Note: You don't necessarily need 3 small keys if you already had Mirror Shield going into the Earth Temple.
-    # But that's hard to code logic for, so assume the player needed 2 keys earlier in the dungeon, and now needs a third.
-    # Another note: The player can potentially softlock themself if they get a small key earlier in the dungeon and use it here instead of the vanilla location the player is supposed to use it, again only if the player had the Mirror Shield going in.
-    # But we can't prevent that, so just assume the player will use small keys the vanilla way.
+    # Note: Killing the Red Bubbles is not necessary, but reflecting light is quite annoying while they're still alive.
   Original item: Red Rupee
   Types: Dungeon
   Paths:
@@ -1396,11 +1403,12 @@ Earth Temple - Many Mirrors Room Right Chest:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
-    & Mirror Shield
+    & Can Aim Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
     & Skull Hammer
     & ET Small Key x3
+    & Can Defeat Red Bubbles
   Original item: Purple Rupee
   Types: Dungeon
   Paths:
@@ -1409,11 +1417,12 @@ Earth Temple - Many Mirrors Room Left Chest:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
-    & Mirror Shield
+    & Can Aim Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
     & Skull Hammer
     & ET Small Key x3
+    & Can Defeat Red Bubbles
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
@@ -1422,11 +1431,13 @@ Earth Temple - Stalfos Crypt Room:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
-    & Mirror Shield
+    & Can Aim Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
     & Skull Hammer
     & ET Small Key x3
+    & Can Defeat Red Bubbles
+    & Can Defeat Stalfos
   Original item: Treasure Chart 12
   Types: Dungeon
   Paths:
@@ -1435,12 +1446,14 @@ Earth Temple - Big Key Chest:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
-    & Mirror Shield
+    & Can Aim Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
     & Skull Hammer
     & ET Small Key x3
+    & Can Defeat Red Bubbles
     & Can Defeat Blue Bubbles
+    & Can Defeat Darknuts
   Original item: Big Key
   Types: Dungeon
   Paths:
@@ -1454,13 +1467,14 @@ Earth Temple - Jalhalla Heart Container:
   Need:
     Can Access Earth Temple
     & Can Play Command Melody
-    & Mirror Shield
+    & Can Aim Mirror Shield
     & Can Play Earth God's Lyric
     & Power Bracelets
     & Skull Hammer
     & ET Small Key x3
+    & Can Defeat Red Bubbles
     & ET Big Key
-  # Note: Light Arrows instead of Mirror Shield work to materialize Jalhalla. (But you still need Mirror Shield just to reach him.)
+    & Can Defeat Jalhalla
   Original item: Heart Container
   Types: Dungeon
   Paths:
@@ -1633,6 +1647,7 @@ Wind Temple - Molgera Heart Container:
     & WT Small Key x2
     & Can Play Wind God's Aria
     & WT Big Key
+    & Can Defeat Molgera
   Original item: Heart Container
   Types: Dungeon
   Paths:
@@ -1913,7 +1928,7 @@ Angular Isles - Cave:
     # Either Deku Leaf or Hookshot are needed both to get into the cave, and to reach the chest in the cave.
     # Mirror Shield is to shine light on the chest and make it not be transparent.
     (Can Fly With Deku Leaf Outdoors | Hookshot)
-    & Mirror Shield
+    & Can Aim Mirror Shield
   Original item: Silver Rupee
   Types: Puzzle Secret Cave
   Paths:

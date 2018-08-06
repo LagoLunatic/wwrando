@@ -10,6 +10,19 @@ Can Play Wind God's Aria:
   Wind Waker & Wind God's Aria
 Can Fly With Deku Leaf Outdoors:
   Deku Leaf & Can Play Wind's Requiem
+Can Aim Mirror Shield:
+  Mirror Shield
+  & (
+    Hero's Sword
+    | Wind Waker
+    | Grappling Hook
+    | Boomerang
+    | Deku Leaf
+    | Hero's Bow
+    | Hookshot
+  )
+  # You need to be holding an item in your hand in order to aim your shield around. Otherwise you can only aim it behind you at an angle or straight in front of you.
+  # (Empty Bottle also works, but you would need to use the contents first so not in the logic.)
 Can Move Boulders:
   Bombs | Power Bracelets
 Can Defeat Door Flowers:
@@ -318,17 +331,50 @@ Can Defeat ReDeads:
   | Skull Hammer
   | Bombs
 Can Defeat Poes:
+  Nothing
+  # You don't need Mirror Shield because you can simply lure them into the light ray.
+Can Defeat Jalhalla Poes:
   Hero's Sword
   | Hero's Bow
   | Bombs
   | Skull Hammer
-  # You don't need Mirror Shield because you can simply lure them into the light ray.
+  # Note: Grappling Hook stuns Poes, but doesn't damage them.
 Can Defeat Stalfos:
   Hero's Sword
   | Bombs
   | Skull Hammer
   # Some other items can damage the head once you break the body apart, but you still need sword/bombs/hammer to break it apart in the first place.
   # Light Arrows worked on Stalfos in vanilla but this is changed in the randomizer.
+Can Defeat Floormasters:
+  Hero's Sword
+  | Hero's Bow
+  | Bombs
+  | Skull Hammer
+
+Can Defeat Gohma:
+  Grappling Hook
+  # Gohma can be killed with just the Grappling Hook since it damages her eye in the second phase.
+Can Defeat Kalle Demos:
+  Boomerang
+  # No sword needed - Kalle Demos can be damaged with just boomerang.
+Can Defeat Gohdan:
+  (Hero's Bow | Hookshot)
+  & Bombs
+  # You can use hookshot to shoot all of Gohdan's eyes instead of the bow.
+Can Defeat Helmaroc King:
+  Skull Hammer
+  # Doesn't require a sword or anything - just the hammer both breaks his mask and damages him.
+Can Defeat Jalhalla:
+  (Can Aim Mirror Shield | Light Arrows)
+  & Power Bracelets
+  & Can Defeat Jalhalla Poes
+  # Light Arrows also work to materialize Jalhalla.
+Can Defeat Molgera:
+  Hookshot
+  & (
+    Hero's Sword
+    | TODO
+  )
 
 Can Destroy Cannons:
   Bombs
