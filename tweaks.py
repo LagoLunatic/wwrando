@@ -213,6 +213,7 @@ def allow_all_items_to_be_field_items(self):
   # Here we copy the regular item get model to the field model so that any item can be a field item.
   # We also change the code run when you touch the item so that these items play out the full item get animation with text, instead of merely popping up above the player's head like a rupee.
   # And we change the Y offsets so the items don't appear lodged inside the floor, and can be picked up easily.
+  # And also change the radius for items that had 0 radius so the player doesn't need to be right inside the item to pick it up.
   # Also change the code run by items during the wait state, which affects the physics when shot out of Gohdan's nose for example.
   
   item_resources_list_start = address_to_offset(0x803842B0)
@@ -288,12 +289,16 @@ def allow_all_items_to_be_field_items(self):
   
   # We also change the Y offset of the hitbox for any items that have 0 for the Y offset.
   # Without this change the item would be very difficult to pick up, the only way would be to stand on top of it and do a spin attack.
+  # And also change the radius of the hitbox for items that have 0 for the radius.
   extra_item_data_list_start = address_to_offset(0x803882B0)
   for item_id in range(0, 0xFF+1):
     item_extra_data_entry_offset = extra_item_data_list_start+4*item_id
     original_y_offset = read_u8(dol_data, item_extra_data_entry_offset+1)
     if original_y_offset == 0:
       write_u8(dol_data, item_extra_data_entry_offset+1, 0x28) # Y offset of 0x28
+    original_radius = read_u8(dol_data, item_extra_data_entry_offset+2)
+    if original_radius == 0:
+      write_u8(dol_data, item_extra_data_entry_offset+2, 0x28) # Radius of 0x28
   
   
   for item_id in range(0x20, 0x44+1):
