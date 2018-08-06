@@ -911,8 +911,8 @@
   nop
 .close
 
-; Turn while swinging on ropes.
-.open "sys/main.dol"
+; Turn while swinging on ropes. Borrows logic used for vanilla rope hang turning and injects some of the rotation logic into the rope swinging function
+.open "sys/main.dol" ;in procRopeSwing__9daPy_lk_cFv
 .org 0x80145648
   bl turn_while_swinging_func
 .close

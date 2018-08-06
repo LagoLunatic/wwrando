@@ -1859,31 +1859,28 @@ mflr r0
 stw r0, 0x14 (sp)
 
 lis r4,0x803A
-ori r4,r4,0x4DF0
-lha r3,0x26(r4)
-lfs f14,-23064(r2)
-lfs f15,0(r4)
-fmuls f14,f14,f15
-fctiwz f14,f14
+ori r4,r4,0x4DF0 
+lha r3,0x26(r4)		;keeps track of previous amount Link was rotated
+lfs f14,-23064(r2)	;load 0x803FA2E8, constant float that determines maximum amount of units that to rotate Link per frame (base is 64.0, but randomizer increases this)
+lfs f15,0(r4)		;this is the float used by vanilla turning logic to determine what percentage of the constant to turn Link. Value between -1 and 1. Based on how far left or right the control stick is.
+fmuls f14,f14,f15	;multiply rotation constant by control stick left/right percent
+fctiwz f14,f14		;need to convert to int for updating angle value
 stfd f14,0x20(r4)
 lha r0,0x26(r4)
-cmpwi r0,0
+cmpwi r0,0			;if the control stick was neutral, end the function now. We want to clear the previous total amount rotated back to 0 to prevent any lingering values
 bne update_links_angle
-sth r0,0x26(r4)
 b turn_while_swinging_return
 
-update_links_angle:
+update_links_angle:	;logic similar to 0x80145b04 (procRopeHangWait__9daPy_lk_cFv). Updates Links angle based on the value calculated previously.
 add r0,r3,r0
-sth r0,0x26(r4)
 lha r3,0x020e(r31)
-lha r0,0x26(r4)
-add r0,r3,r0
+sub r0,r3,r0
 sth r0,0x020e(r31)
 lha r0,0x020e(r31)
 sth r0,0x0206(r31)
-lfs f0,-23464(r2)
 
 turn_while_swinging_return:
+lfs f0,-23464(r2)	;original line of code overwritten by the bl
 lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10

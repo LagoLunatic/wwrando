@@ -1,5 +1,6 @@
 
 import struct
+import sys #used for print_flush debugging, remove when not used
 
 class InvalidOffsetError(Exception):
   pass
@@ -151,3 +152,8 @@ def align_data_to_nearest(data, size):
   padding_needed = next_offset - current_end
   data.seek(current_end)
   data.write(b"\0"*padding_needed)
+
+#console wasn't outputing anything for me unless I flush sys
+def print_flush(str):
+    print(str)
+    sys.stdout.flush()

@@ -1229,17 +1229,7 @@ def increase_grapple_animation_speed(self):
   # Increase the counter that determines how fast to end the wrap around animation. (From +1 each frame to +6 each frame)
   write_u32(dol_data, address_to_offset(0x800EECA8), 0x38A30006) # addi r5,r3,6
 
-def increase_first_person_camera_zoom_speed(self):
-  dol_data = self.get_raw_file("sys/main.dol")
 
-  # Half the number of frames zooming into first person takes (from 10 to 5)
-  write_u32(dol_data, address_to_offset(0x80170B20), 0x3BA00005) # li r29,5
-
-def increase_npc_camera_zoom_speed(self):
-  dol_data = self.get_raw_file("sys/main.dol")
-
-  # Half the number of frames camera takes to focus on an npc for a conversation (from 20 to 10)
-  write_u32(dol_data, address_to_offset(0x8016DA2C), 0x3800000A) # li r0,10
 
 # Speeds up the rate in which blocks move when pushed/pulled
 def increase_block_moving_animation(self):
@@ -1284,6 +1274,12 @@ def increase_misc_animations(self):
 
    #increase speed Links ends climbing a ladder/vine (0.9 -> 1.4)
    write_float(dol_data, address_to_offset(0x8035DB20), 1.4)
+
+   # Half the number of frames camera takes to focus on an npc for a conversation (from 20 to 10)
+   write_u32(dol_data, address_to_offset(0x8016DA2C), 0x3800000A) # li r0,10
+
+   # Half the number of frames zooming into first person takes (from 10 to 5)
+   write_u32(dol_data, address_to_offset(0x80170B20), 0x3BA00005) # li r29,5
 
    #increase the rotation speed on ropes (64.0 -> 100.0)
    write_float(dol_data, address_to_offset(0x803FA2E8), 100.0)
@@ -1332,6 +1328,7 @@ def disable_invisible_walls(self):
   invisible_wall.save_changes()
 
 
+#Omitted for now, needs more testing. Some slightly weird camera movement occasionaly.
 def shorten_dungeon_cutscenes(self):
   def modify_method(x):
     if x >= 5 and x <= 100:
@@ -1359,7 +1356,8 @@ def shorten_dungeon_cutscenes(self):
   modify_event_property(self.get_arc("files/res/Stage/kazeB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
   modify_event_property(self.get_arc("files/res/Stage/kazeMB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
 
-                    
+     
+#used for shorten dungeon cutscenes, currently unused
 def modify_event_property(event_list, property_name, f):
     for event in event_list.events:
       for actor in event.actors:
@@ -1368,36 +1366,3 @@ def modify_event_property(event_list, property_name, f):
                   timer = action.get_prop("Timer")
                   if(timer is not None):  
                         timer.value = int(f(timer.value))
-                #timer = action.get_prop("Timer")
-                #if(action.name == "WAIT"): #action.name == "PAUSE" or 
-                #    timer.value = 1
-                #    #if(len(actor.actions) > 1):
-                #    #    actor.actions.remove(action)
-                #else:
-                    
-                #    if(timer is not None):  
-                        #timer.value = int(timer.value / 1.5)
-                        #if(action.name != "UNITRANS"):
-                        #    timer.value = int(timer.value / 1.5)
-                        #else:
-                        #    timer.value = int(1)
-                        #eye = action.get_prop("Eye")
-                        #print_flush(eye.value)
-                    #    fovy = action.get_prop("Fovy")
-
-                    #    if(fovy is not None):
-                    #        fovy.value = fovy.value / 2
-                    #        timer.value = int(timer.value / 1.5)
-                    #else:
-                        
-
-
-                #for property in action.properties:
-                #    if property.name == property_name:
-                #        data_value = property.value
-                #        property.value = int(f(data_value))
-
-
-def print_flush(str):
-    print(str)
-    sys.stdout.flush()
