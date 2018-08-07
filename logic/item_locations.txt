@@ -1511,6 +1511,17 @@ Wind Temple - Chest Between Two Dirt Patches:
 #  Types: Tingle Statue Chest, Dungeon
 #  Paths:
 #    - kaze/Stage.arc/Chest00C
+Wind Temple - Chest Behind Stone Head:
+  Need:
+    Can Access Wind Temple
+    & Can Play Command Melody
+    & Iron Boots
+    & Deku Leaf
+    & Hookshot
+  Original item: Joy Pendant
+  Types: Dungeon
+  Paths:
+    - kaze/Stage.arc/Chest006
 Wind Temple - Chest in Left Alcove:
   Need:
     Can Access Wind Temple
@@ -1521,6 +1532,17 @@ Wind Temple - Chest in Left Alcove:
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest004
+Wind Temple - Big Key Chest:
+  Need:
+    Can Access Wind Temple
+    & Can Play Command Melody
+    & Iron Boots
+    & Deku Leaf
+    & Can Play Wind God's Aria
+  Original item: Big Key
+  Types: Dungeon
+  Paths:
+    - kaze/Stage.arc/Chest002
 Wind Temple - Chest In Many Cyclones Room:
   Need:
     Can Access Wind Temple
@@ -1576,17 +1598,6 @@ Wind Temple - Wizzrobe Mini-Boss Room:
   Types: Dungeon
   Paths:
     - kazeMB/Stage.arc/Chest000
-Wind Temple - Chest Behind Stone Head:
-  Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Deku Leaf
-    & Hookshot
-  Original item: Joy Pendant
-  Types: Dungeon
-  Paths:
-    - kaze/Stage.arc/Chest006
 Wind Temple - Chest at Top of Hub Room:
   Need:
     Can Access Wind Temple
@@ -1608,17 +1619,6 @@ Wind Temple - Chest Behind Seven Armos:
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest001
-Wind Temple - Big Key Chest:
-  Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Deku Leaf
-    & Can Play Wind God's Aria
-  Original item: Big Key
-  Types: Dungeon
-  Paths:
-    - kaze/Stage.arc/Chest002
 Wind Temple - Kill All Enemies in Tall Basement Room:
   Need:
     Can Access Wind Temple
