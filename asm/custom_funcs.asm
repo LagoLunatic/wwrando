@@ -1435,6 +1435,53 @@ b 0x80231B0C ; Return
 
 
 
+; Borrows logic used for vanilla rope hang turning and injects some of the rotation logic into the rope swinging function.
+; The main difference between the way the vanilla rope hanging function turns the player and this custom function is that the vanilla function uses a maximum rotational velocity per frame of 0x200, and a rotational acceleration of 0x40.
+; But 0x200 units of rotation per frame would be far too fast to control when the player is swinging, and they could clip through walls very easily.
+; So instead we just use the rotational acceleration as a constant rotational velocity instead, with no acceleration or deceleration.
+.global turn_while_swinging
+turn_while_swinging:
+
+lis r3, 0x803A4DF0@ha
+addi r3, r3, 0x803A4DF0@l
+lfs f0, 0 (r3) ; Control stick horizontal axis (from -1.0 to 1.0)
+lfs f1, -0x5A18 (r2) ; Load the float constant at 803FA2E8 for the base amount of rotational velocity to use (vanilla value is 0x40, this constant is originally used as rotational acceleration by the rope hanging function)
+fmuls f0, f1, f0 ; Get the current amount of rotational velocity to use this frame after adjusting for the control stick amount
+
+; Convert current rotational velocity to an integer.
+; (sp+0x68 was used earlier on in procRopeSwing__9daPy_lk_cFv for float conversion so we just reuse this same space.)
+fctiwz  f0, f0
+stfd f0, 0x68 (sp)
+lwz r0, 0x6C (sp)
+
+; Convert base rotational velocity to an integer.
+fctiwz  f1, f1
+stfd f1, 0x68 (sp)
+lwz r3, 0x6C (sp)
+
+; If the player isn't moving the control stick horizontally very much (less than 25%), don't turn the player at all.
+rlwinm r3, r3, 30, 2, 31 ; Divide the base rotational velocity by 4 to figure out what the threshold should be for 25% on the control stick.
+cmpw r0, r3
+bge turn_while_swinging_update_angle ; Control stick is >=25%
+neg r3, r3
+cmpw r0, r3
+ble turn_while_swinging_update_angle ; Control stick is <=-25%
+b turn_while_swinging_return
+
+turn_while_swinging_update_angle:
+; Subtract rotational velocity from the player's rotation. (Both player_entity+20E and +206 have the player's rotation.)
+lha r3, 0x020E (r31)
+sub r0, r3, r0
+sth r0, 0x020E (r31)
+sth r0, 0x0206 (r31)
+
+turn_while_swinging_return:
+lfs f0, -0x5BA8 (rtoc) ; Replace line we overwrote to branch here
+b 0x8014564C ; Return
+
+
+
+
 .global generic_on_dungeon_bit
 generic_on_dungeon_bit:
 stwu sp, -0x10 (sp)

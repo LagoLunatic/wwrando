@@ -919,3 +919,12 @@
 .org 0x80231B08 ; In FileSelectMainNormal__10dScnName_cFv right after calling card_to_memory__10dSv_info_cFPci
   b fully_refill_magic_meter_on_load_save
 .close
+
+
+
+
+; Allow turning while swinging on ropes.
+.open "sys/main.dol" ; In procRopeSwing__9daPy_lk_cFv
+.org 0x80145648
+  b turn_while_swinging
+.close 
