@@ -1647,8 +1647,7 @@ Wind Temple - Kill All Enemies in Tall Basement Room:
     & Can Defeat Stalfos
     & Can Defeat Wizzrobes
     & Can Defeat Blue Bokoblins
-    # Killing the morths is not in the logic here, because you can avoid having to kill those by killing the wizzrobe before it spawns the morths.
-    # Spawning the morths is the first thing the wizzrobe does, but because you need to have the hookshot anyway here, you can just immediately start hitting the wizzrobe with the hookshot as soon as you enter the room and never give it a chance to do anything. If you mess up you can exit and re-enter the room to have another shot.
+    & Can Defeat Morths
   Original item: Treasure Chart 5
   Types: Dungeon
   Paths:
@@ -1831,14 +1830,21 @@ The Great Sea - Withered Trees:
     & Empty Bottle
     & Can Play Ballad of Gales
     & Deku Leaf
-    # Deku Leaf is for the tree on Cliff Plateau Islands.
+    # Deku Leaf is for the tree on Cliff Plateau Isles.
   Original item: Piece of Heart
   Types: Long Sidequest
   Paths:
     - rels/d_a_obj_ftree.rel@0237
     - rels/d_a_obj_ftree.rel@03F3
 The Great Sea - Ghost Ship:
-  Need: Ghost Ship Chart & Can Play Ballad of Gales
+  Need:
+    Ghost Ship Chart
+    & Can Play Ballad of Gales
+    & Can Defeat Wizzrobes
+    & Can Defeat Poes
+    & Can Defeat ReDeads
+    & Can Defeat Stalfos
+    # You don't necessarily have to fight redeads and stalfos, but the wizzrobe can summon them if you're not quick enough.
   Original item: Triforce Chart 4
   Types: Other Chest
   Paths:
@@ -1965,10 +1971,12 @@ Boating Course - Raft:
     - sea/Room48.arc/Chest000
 Boating Course - Cave:
   Need:
-    # Getting inside the cave requires flying with Deku Leaf or Hookshotting the pole.
-    # Hitting the 3 diamond switches inside the cave needs a ranged weapon. The imps make it difficult though.
     (Can Fly With Deku Leaf Outdoors | Hookshot)
     & Can Hit Diamond Switches at Range
+    & Can Defeat Miniblins
+    # Getting inside the cave requires flying with Deku Leaf or Hookshotting the pole.
+    # Hitting the 3 diamond switches inside the cave needs a ranged weapon.
+    # Killing the miniblins is not necessary, but hitting the switches without being able to kill them would be extremely annoying.
   Original item: Submarine Chart
   Types: Combat Secret Cave
   Paths:
@@ -1978,6 +1986,10 @@ Stone Watcher Island - Cave:
   Need:
     Power Bracelets
     & Can Defeat Armos
+    & Can Defeat Moblins
+    & Can Defeat Wizzrobes
+    & Can Defeat Blue Bokoblins
+    & Can Defeat Darknuts
     & Can Play Wind's Requiem
   Original item: Triforce Chart 7
   Types: Combat Secret Cave
@@ -2004,15 +2016,30 @@ Islet of Steel - Interior:
   Types: Other Chest
   Paths:
     - ShipD/Stage.arc/Chest000
-Islet of Steel - Lookout Platform:
-  Need: Can Defeat Wizzrobes at Range
+Islet of Steel - Lookout Platform - Defeat the Enemies:
+  Need:
+    Can Defeat Pink Bokoblins
+    & Can Defeat Wizzrobes at Range
   Original item: Skull Necklace
   Types: Platform
   Paths:
     - sea/Room30.arc/Chest000
 
 Overlook Island - Cave:
-  Need: Hookshot
+  Need:
+    Hookshot
+    & Can Defeat Stalfos
+    & Can Defeat Wizzrobes
+    & Can Defeat Red ChuChus
+    & Can Defeat Green ChuChus
+    & Can Defeat Keese
+    & Can Defeat Fire Keese
+    & Can Defeat Morths
+    & Can Defeat Kargaroks
+    & Can Defeat Green Bokoblins
+    & Can Defeat Darknuts
+    # The Armos Knights require nothing since there are bomb flowers in their room.
+    # The chuchus, keese, morths, and kargaroks don't necessarily have to be fought, but may be summoned by the wizzrobes.
   Original item: Triforce Chart 8
   Types: Combat Secret Cave
   Paths:

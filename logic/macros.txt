@@ -120,6 +120,7 @@ Can Reach and Defeat Phantom Ganon:
 Can Access Hyrule:
   Full Power Master Sword
   & All 8 Triforce Shards
+  # TODO: Figure out how to handle swordless stuff in hyrule and ganon's tower, and do the logic for them.
 Can Access Ganon's Tower:
   Can Access Hyrule
   & (Hookshot | Deku Leaf)
@@ -194,6 +195,8 @@ Can Defeat Green Bokoblins:
   | Skull Hammer
 Can Defeat Blue Bokoblins:
   Can Defeat Green Bokoblins
+Can Defeat Pink Bokoblins:
+  Can Defeat Green Bokoblins
 Can Defeat Moblins:
   Hero's Sword
   | Hero's Bow
@@ -205,6 +208,7 @@ Can Defeat Darknuts:
   | Light Arrows
   # Skull Hammer also works, but is tricky to do without taking lots of damage, so it's not in the logic.
   # The most consistent way with Skull Hammer is to run up to a Darknut, do a spin attack to hit its armor, roll away to dodge its attack, roll back in and do another spin attack, and repeat until the armor has been broken.
+  # Another way is to circle around the Darknut counterclockwise without locking onto it and wait for it to attack. As soon as it attacks, use the hammer to attack its back and its armor will fall off in one hit.
 Can Defeat Miniblins:
   Hero's Sword
   | Grappling Hook
@@ -250,6 +254,12 @@ Can Defeat Magtails:
   | Bombs
   | Grappling Hook
   | Hero's Bow
+Can Defeat Kargaroks:
+  Hero's Sword
+  | Boomerang
+  | Hero's Bow
+  | Skull Hammer
+  | Bombs
 Can Defeat Bombchus:
   Hero's Sword
   | Grappling Hook
