@@ -351,6 +351,12 @@ Can Defeat Floormasters:
   | Hero's Bow
   | Bombs
   | Skull Hammer
+Can Defeat Morths:
+  Hero's Sword
+  | Boomerang
+  | Hero's Bow
+  | Hookshot
+  # Skull Hammer technically works but it's extremely annoying to hit them with. Same with bombs.
 
 Can Defeat Gohma:
   Grappling Hook
@@ -374,8 +380,13 @@ Can Defeat Molgera:
   Hookshot
   & (
     Hero's Sword
-    | TODO
+    | Hero's Bow
+    | Boomerang
+    | Grappling Hook
+    | Skull Hammer
+    | Bombs
   )
+  # Bombs are tricky since you have to repeatedly use hookshot to keep the tongue in place while you wait for the bomb, or you have to aim the hookshot at the bomb to set it off instantly.
 
 Can Destroy Cannons:
   Bombs
