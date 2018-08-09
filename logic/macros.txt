@@ -23,6 +23,7 @@ Can Aim Mirror Shield:
   )
   # You need to be holding an item in your hand in order to aim your shield around. Otherwise you can only aim it behind you at an angle or straight in front of you.
   # (Empty Bottle also works, but you would need to use the contents first so not in the logic.)
+  # (Picto Box also works, but is not included as it would be a weirder and less intuitive thing to have to use to aim the shield as you normally wouldn't need to use picto box to solve dungeon puzzles.)
 Can Move Boulders:
   Bombs | Power Bracelets
 Can Defeat Door Flowers:
@@ -254,7 +255,7 @@ Can Defeat Magtails:
   | Bombs
   | Grappling Hook
   | Hero's Bow
-Can Defeat Kargaroks:
+Can Defeat Kargarocs:
   Hero's Sword
   | Boomerang
   | Hero's Bow

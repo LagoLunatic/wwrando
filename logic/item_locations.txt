@@ -2035,11 +2035,11 @@ Overlook Island - Cave:
     & Can Defeat Keese
     & Can Defeat Fire Keese
     & Can Defeat Morths
-    & Can Defeat Kargaroks
+    & Can Defeat Kargarocs
     & Can Defeat Green Bokoblins
     & Can Defeat Darknuts
     # The Armos Knights require nothing since there are bomb flowers in their room.
-    # The chuchus, keese, morths, and kargaroks don't necessarily have to be fought, but may be summoned by the wizzrobes.
+    # The chuchus, keese, morths, and kargarocs don't necessarily have to be fought, but may be summoned by the wizzrobes.
   Original item: Triforce Chart 8
   Types: Combat Secret Cave
   Paths:
