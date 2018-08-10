@@ -958,3 +958,16 @@
 .org 0x8012E3A4 ; In setGetItemSound__9daPy_lk_cFUsi
   b 0x8012E3E8
 .close
+
+
+
+
+; Hide the blue main quest markers from the sea chart.
+.open "sys/main.dol"
+.org 0x801B14c4 ; checkMarkCheck1__12dMenu_Fmap_cFv
+  ; Make the function that handles early-game quest markers return instantly.
+  blr
+.org 0x801B1684 ; checkMarkCheck2__12dMenu_Fmap_cFv
+  ; Make the function that handles late-game quest markers return instantly.
+  blr
+.close
