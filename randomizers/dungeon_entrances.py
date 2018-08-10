@@ -52,46 +52,47 @@ def randomize_dungeon_entrances(self):
     dungeon_exit = self.rng.choice(possible_remaining_exits)
     remaining_exits.remove(dungeon_exit)
     
-    # Update the dungeon this entrance takes you into.
-    entrance_dzx_path = "files/res/Stage/%s/Room%d.arc" % (dungeon_entrance.stage_name, dungeon_entrance.room_num)
-    entrance_dzx = self.get_arc(entrance_dzx_path).get_file("room.dzr")
-    entrance_scls = entrance_dzx.entries_by_type("SCLS")[dungeon_entrance.scls_exit_index]
-    entrance_scls.dest_stage_name = dungeon_exit.stage_name
-    entrance_scls.room_index = dungeon_exit.room_num
-    entrance_scls.spawn_id = dungeon_exit.spawn_id
-    entrance_scls.save_changes()
-    
-    # Update the DRI spawn to not have spawn ID 5.
-    # If the DRI entrance was connected to the TotG dungeon, then exiting TotG while riding KoRL would crash the game.
-    entrance_spawns = entrance_dzx.entries_by_type("PLYR")
-    entrance_spawn = next(spawn for spawn in entrance_spawns if spawn.spawn_id == dungeon_entrance.spawn_id)
-    if entrance_spawn.spawn_type == 5:
-      entrance_spawn.spawn_type = 1
-      entrance_spawn.save_changes()
-    
-    # Update the entrance you're put at when leaving the dungeon.
-    exit_dzx_path = "files/res/Stage/%s/Room%d.arc" % (dungeon_exit.stage_name, dungeon_exit.room_num)
-    exit_dzx = self.get_arc(exit_dzx_path).get_file("room.dzr")
-    exit_scls = exit_dzx.entries_by_type("SCLS")[dungeon_exit.scls_exit_index]
-    exit_scls.dest_stage_name = dungeon_entrance.stage_name
-    exit_scls.room_index = dungeon_entrance.room_num
-    exit_scls.spawn_id = dungeon_entrance.spawn_id
-    exit_scls.save_changes()
-    
-    # Update the wind warp out event to take you to the correct island.
-    boss_stage_arc_path = "files/res/Stage/%s/Stage.arc" % dungeon_exit.boss_stage_name
-    event_list = self.get_arc(boss_stage_arc_path).get_file("event_list.dat")
-    warp_out_event = event_list.events_by_name["WARP_WIND_AFTER"]
-    director = next(actor for actor in warp_out_event.actors if actor.name == "DIRECTOR")
-    stage_change_action = next(action for action in director.actions if action.name == "NEXT")
-    stage_name_prop = next(prop for prop in stage_change_action.properties if prop.name == "Stage")
-    stage_name_prop.value = dungeon_entrance.warp_out_stage_name
-    room_num_prop = next(prop for prop in stage_change_action.properties if prop.name == "RoomNo")
-    room_num_prop.value = dungeon_entrance.warp_out_room_num
-    spawn_id_prop = next(prop for prop in stage_change_action.properties if prop.name == "StartCode")
-    spawn_id_prop.value = dungeon_entrance.warp_out_spawn_id
-    
     self.dungeon_entrances[dungeon_entrance.entrance_name] = dungeon_exit.dungeon_name
     self.dungeon_island_locations[dungeon_exit.dungeon_name] = dungeon_entrance.island_name
+    
+    if not self.dry_run:
+      # Update the dungeon this entrance takes you into.
+      entrance_dzx_path = "files/res/Stage/%s/Room%d.arc" % (dungeon_entrance.stage_name, dungeon_entrance.room_num)
+      entrance_dzx = self.get_arc(entrance_dzx_path).get_file("room.dzr")
+      entrance_scls = entrance_dzx.entries_by_type("SCLS")[dungeon_entrance.scls_exit_index]
+      entrance_scls.dest_stage_name = dungeon_exit.stage_name
+      entrance_scls.room_index = dungeon_exit.room_num
+      entrance_scls.spawn_id = dungeon_exit.spawn_id
+      entrance_scls.save_changes()
+      
+      # Update the DRI spawn to not have spawn ID 5.
+      # If the DRI entrance was connected to the TotG dungeon, then exiting TotG while riding KoRL would crash the game.
+      entrance_spawns = entrance_dzx.entries_by_type("PLYR")
+      entrance_spawn = next(spawn for spawn in entrance_spawns if spawn.spawn_id == dungeon_entrance.spawn_id)
+      if entrance_spawn.spawn_type == 5:
+        entrance_spawn.spawn_type = 1
+        entrance_spawn.save_changes()
+      
+      # Update the entrance you're put at when leaving the dungeon.
+      exit_dzx_path = "files/res/Stage/%s/Room%d.arc" % (dungeon_exit.stage_name, dungeon_exit.room_num)
+      exit_dzx = self.get_arc(exit_dzx_path).get_file("room.dzr")
+      exit_scls = exit_dzx.entries_by_type("SCLS")[dungeon_exit.scls_exit_index]
+      exit_scls.dest_stage_name = dungeon_entrance.stage_name
+      exit_scls.room_index = dungeon_entrance.room_num
+      exit_scls.spawn_id = dungeon_entrance.spawn_id
+      exit_scls.save_changes()
+      
+      # Update the wind warp out event to take you to the correct island.
+      boss_stage_arc_path = "files/res/Stage/%s/Stage.arc" % dungeon_exit.boss_stage_name
+      event_list = self.get_arc(boss_stage_arc_path).get_file("event_list.dat")
+      warp_out_event = event_list.events_by_name["WARP_WIND_AFTER"]
+      director = next(actor for actor in warp_out_event.actors if actor.name == "DIRECTOR")
+      stage_change_action = next(action for action in director.actions if action.name == "NEXT")
+      stage_name_prop = next(prop for prop in stage_change_action.properties if prop.name == "Stage")
+      stage_name_prop.value = dungeon_entrance.warp_out_stage_name
+      room_num_prop = next(prop for prop in stage_change_action.properties if prop.name == "RoomNo")
+      room_num_prop.value = dungeon_entrance.warp_out_room_num
+      spawn_id_prop = next(prop for prop in stage_change_action.properties if prop.name == "StartCode")
+      spawn_id_prop.value = dungeon_entrance.warp_out_spawn_id
   
   self.logic.update_dungeon_entrance_macros()

@@ -9,7 +9,9 @@ def randomize_starting_island(self):
   possible_starting_islands.remove(1)
   
   starting_island_room_index = self.rng.choice(possible_starting_islands)
-  tweaks.set_new_game_starting_room_index(self, starting_island_room_index)
-  tweaks.change_ship_starting_island(self, starting_island_room_index)
+  
+  if not self.dry_run:
+    tweaks.set_new_game_starting_room_index(self, starting_island_room_index)
+    tweaks.change_ship_starting_island(self, starting_island_room_index)
   
   self.starting_island_index = starting_island_room_index
