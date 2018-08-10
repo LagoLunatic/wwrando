@@ -61,3 +61,8 @@ If you want to run the latest development/beta version of the randomizer from so
 * Download and install Python 3.4.4 32-bit from here: https://www.python.org/downloads/release/python-344/ ("Windows x86 MSI installer" is the one you want)  
 * Open the wwrando folder in a command prompt and install dependencies by running: `pip install -r requirements.txt`  
 * Then run the randomizer with: `python wwrando.py`  
+
+In addition, follow this if you want to use PyInstaller to build a distributable version of the randomizer:  
+* Install one of PyInstaller's dependencies manually: `pip install pywin32-ctypes==0.1.2`  
+* Install PyInstaller: `pip install PyInstaller==3.3.1`  
+* Then to make a build in the `dist` directory: `build.bat`  
