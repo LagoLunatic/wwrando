@@ -927,4 +927,23 @@
 .open "sys/main.dol" ; In procRopeSwing__9daPy_lk_cFv
 .org 0x80145648
   b turn_while_swinging
-.close 
+.close
+
+
+
+
+; Change all treasure chests to open quickly.
+; Removes the build up music, uses the short opening event instead of the long dark room event, and use the short chest opening animation.
+; This change also fixes the bug where the player can duplicate items by using storage on the non-wooden chests.
+.open "files/rels/d_a_tbox.rel" ; Treasure chests
+.org 0x279C ; In actionOpenWait__8daTbox_cFv
+  b 0x2800
+.org 0x2870 ; In actionOpenWait__8daTbox_cFv
+  nop
+.org 0x3D2E ; File ID of the bck animation to use for chest type 1
+  .short 9 ; Was originally 8 (long chest opening anim)
+.org 0x3D3A ; File ID of the bck animation to use for chest type 2
+  .short 9 ; Was originally 8 (long chest opening anim)
+.org 0x3D46 ; File ID of the bck animation to use for chest type 3
+  .short 9 ; Was originally 8 (long chest opening anim)
+.close
