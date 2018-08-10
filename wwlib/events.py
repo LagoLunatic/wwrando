@@ -217,34 +217,35 @@ class EventList:
       
       offset += Property.DATA_SIZE
       
-      if property.value.__class__ in [float, int, tuple]:
-        property.value = [property.value]
+      property_value = property.value
+      if property_value.__class__ in [float, int, tuple]:
+        property_value = [property_value]
       
-      if isinstance(property.value, str):
+      if isinstance(property_value, str):
         property.data_type = 4
         # The string offset and length will be set when writing the string itself.
         property.data_index = None
         property.data_size = None
         
-        all_strings.append(property.value)
-      elif isinstance(property.value, list):
-        property.data_size = len(property.value)
-        if len(property.value) == 0:
+        all_strings.append(property_value)
+      elif isinstance(property_value, list):
+        property.data_size = len(property_value)
+        if len(property_value) == 0:
           # Default to int for empty properties
           first_val_class = int
         else:
-          first_val_class = property.value[0].__class__
+          first_val_class = property_value[0].__class__
         if first_val_class == float:
           property.data_type = 0
           property.data_index = len(all_floats)
           
-          for float_val in property.value:
+          for float_val in property_value:
             all_floats.append(float_val)
         elif first_val_class == tuple:
           property.data_type = 1
           property.data_index = len(all_floats)
           
-          for vector3 in property.value:
+          for vector3 in property_value:
             assert len(vector3) == 3
             x, y, z = vector3
             all_floats.append(x)
@@ -254,12 +255,12 @@ class EventList:
           property.data_type = 3
           property.data_index = len(all_integers)
           
-          for integer in property.value:
+          for integer in property_value:
             all_integers.append(integer)
         else:
-          raise Exception("Unknown type of property %s: %s" % (property.name, repr(property.value)))
+          raise Exception("Unknown type of property %s: %s" % (property.name, repr(property_value)))
       else:
-        raise Exception("Unknown type of property %s: %s" % (property.name, repr(property.value)))
+        raise Exception("Unknown type of property %s: %s" % (property.name, repr(property_value)))
     
     self.float_list_offset = offset
     num_floats = len(all_floats)
