@@ -274,6 +274,13 @@ Can Defeat Peahats:
   | Skull Hammer
   | Hero's Bow
   | Bombs
+Can Remove Peahat Armor:
+  Boomerang
+  | Hookshot
+  | Deku Leaf
+  | Skull Hammer
+  | Hero's Bow
+  | Bombs
 Can Defeat Seahats:
   Boomerang
   | Hero's Bow

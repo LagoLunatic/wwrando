@@ -2017,9 +2017,8 @@ Islet of Steel - Interior:
   Paths:
     - ShipD/Stage.arc/Chest000
 Islet of Steel - Lookout Platform - Defeat the Enemies:
-  Need:
-    Can Defeat Pink Bokoblins
-    & Can Defeat Wizzrobes at Range
+  Need: Can Defeat Wizzrobes at Range
+    # You don't need anything to kill the Pink Bokoblins because you can throw pots at them.
   Original item: Skull Necklace
   Types: Platform
   Paths:
@@ -2084,14 +2083,21 @@ Pawprint Isle - Wizzrobe Cave:
   Need:
     Hookshot
     & Can Defeat Wizzrobes at Range
+    & Can Defeat Fire Keese
+    & Can Defeat Magtails
+    & Can Defeat Red ChuChus
+    & Can Defeat Green ChuChus
     & Can Defeat Yellow ChuChus
-    & Can Defeat Peahats
+    & Can Defeat Red Bubbles
+    & Can Remove Peahat Armor
+    # For the last wave, you can get the Moblin to attack the Bokoblin, take the Bokoblin's stick, and use that to kill the Moblin, Bokoblin, Morths, Keese, Kargarocs, and Peahats with armor removed. (You can also use the stick to steal the Moblin's spear and use that.)
   Original item: Silver Rupee
   Types: Combat Secret Cave
   Paths:
     - Cave07/Stage.arc/Chest000
-Pawprint Isle - Lookout Platform:
+Pawprint Isle - Lookout Platform - Defeat the Enemies:
   Need: Nothing
+    # You don't need anything to kill these Pink Bokoblins because you can throw pots at them.
   Original item: Red Rupee
   Types: Platform
   Paths:
@@ -2109,8 +2115,9 @@ Thorned Fairy Island - Northeastern Lookout Platform - Destroy the Cannons:
   Types: Platform
   Paths:
     - sea/Room28.arc/Chest000
-Thorned Fairy Island - Southwestern Lookout Platform:
+Thorned Fairy Island - Southwestern Lookout Platform - Defeat the Enemies:
   Need: Can Fly With Deku Leaf Outdoors
+    # You can defeat the Pink Bokoblins here by throwing pots and barrels at them, and letting them kick each other. You might run out of pots and barrels to kill the last one with if you miss too much though, in which case you'd need to reload and try again.
   Original item: Boko Baba Seed
   Types: Platform
   Paths:
@@ -2122,8 +2129,9 @@ Eastern Fairy Island - Great Fairy:
   Types: Great Fairy
   Paths:
     - rels/d_a_bigelf.rel@21E7
-Eastern Fairy Island - Lookout Platform - Destroy the Cannons:
+Eastern Fairy Island - Lookout Platform - Defeat the Cannons and Enemies:
   Need: Can Destroy Cannons
+    # The Pink Bokoblins can be knocked off the edge by throwing pots at them. You don't have many shots at this before running out of pots, so it's best to do it while they're still asleep.
   Original item: Boko Baba Seed
   Types: Platform
   Paths:
@@ -2150,7 +2158,7 @@ Southern Fairy Island - Great Fairy:
     - rels/d_a_bigelf.rel@21F3
 Southern Fairy Island - Lookout Platform - Destroy the Northwest Cannons:
   Need:
-    Bombs
+    Can Destroy Cannons
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 40
   Types: Platform
@@ -2158,7 +2166,7 @@ Southern Fairy Island - Lookout Platform - Destroy the Northwest Cannons:
     - sea/Room39.arc/Chest000
 Southern Fairy Island - Lookout Platform - Destroy the Southeast Cannons:
   Need:
-    Bombs
+    Can Destroy Cannons
     & Can Fly With Deku Leaf Outdoors
   Original item: Skull Necklace
   Types: Platform
@@ -2173,6 +2181,7 @@ Northern Fairy Island - Great Fairy:
     - rels/d_a_bigelf.rel@21BB
 Northern Fairy Island - Submarine:
   Need: Nothing
+    # No need to kill the Moblins here.
   Original item: Treasure Chart 22
   Types: Submarine
   Paths:
