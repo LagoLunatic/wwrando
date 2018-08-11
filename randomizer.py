@@ -435,7 +435,11 @@ class Randomizer:
   
   def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False):
     all_filenames = list(self.gcm.files_by_path.keys())
-    all_filenames.sort()
+    
+    # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
+    try_int_convert = lambda string: int(string) if string.isdigit() else string
+    all_filenames.sort(key=lambda filename: [try_int_convert(c) for c in re.split("([0-9]+)", filename)])
+    
     all_stage_arc_paths = []
     all_room_arc_paths = []
     for filename in all_filenames:
