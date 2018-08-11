@@ -142,7 +142,7 @@ class RARC:
     
     file_entry = self.get_file_entry(file_name)
     if file_entry is None:
-      raise Exception("Could not find file: %s" % file_name)
+      return None
     
     if file_name.endswith(".dzs"):
       dzx = DZx(file_entry)
