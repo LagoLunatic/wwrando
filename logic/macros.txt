@@ -255,6 +255,14 @@ Can Defeat Magtails:
   | Bombs
   | Grappling Hook
   | Hero's Bow
+Can Stun Magtails:
+  Hero's Sword
+  | Skull Hammer
+  | Boomerang
+  | Hookshot
+  | Bombs
+  | Grappling Hook
+  | Hero's Bow
 Can Defeat Kargarocs:
   Hero's Sword
   | Boomerang

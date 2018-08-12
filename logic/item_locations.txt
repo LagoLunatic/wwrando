@@ -1830,8 +1830,7 @@ The Great Sea - Withered Trees:
     Can Access Forest Haven
     & Empty Bottle
     & Can Play Ballad of Gales
-    & Deku Leaf
-    # Deku Leaf is for the tree on Cliff Plateau Isles.
+    & Can Access Other Location "Cliff Plateau Isles - Highest Isle"
   Original item: Piece of Heart
   Types: Long Sidequest
   Paths:
@@ -2267,12 +2266,14 @@ Tingle Island - Big Octo:
 
 Diamond Steppe Island - Warp Maze Cave - First Chest:
   Need: Hookshot
+    # No need to kill the Floormasters.
   Original item: Joy Pendant
   Types: Puzzle Secret Cave
   Paths:
     - WarpD/Stage.arc/Chest001
 Diamond Steppe Island - Warp Maze Cave - Second Chest:
   Need: Hookshot
+    # No need to kill the Floormasters.
   Original item: Ghost Ship Chart
   Types: Puzzle Secret Cave
   Paths:
@@ -2285,19 +2286,23 @@ Diamond Steppe Island - Big Octo:
     - sea/Room36.arc/ScalableObject001
 
 Bomb Island - Cave:
-  Need: Can Move Boulders
+  Need:
+    Can Move Boulders
+    & Can Stun Magtails
   Original item: Piece of Heart
   Types: Puzzle Secret Cave
   Paths:
     - Cave01/Stage.arc/Chest000
-Bomb Island - Lookout Platform:
+Bomb Island - Lookout Platform - Defeat the Enemies:
   Need: Nothing
+    # The Pink Bokoblins can be knocked off the edge by throwing pots at them. You don't have many shots at this before running out of pots.
   Original item: Red Rupee
   Types: Platform
   Paths:
     - sea/Room34.arc/Chest000
 Bomb Island - Submarine:
   Need: Nothing
+    # You can throw pots and barrels at the Blue and Green Bokoblins to make them drop a weapon, then use it to kill them.
   Original item: Empty Bottle
   Types: Submarine
   Paths:
@@ -2305,6 +2310,7 @@ Bomb Island - Submarine:
 
 Rock Spire Isle - Cave:
   Need: Bombs
+    # The Keese in the cave can be killed with nothing but the stick in there.
   Original item: Treasure Chart 37
   Types: Combat Secret Cave
   Paths:
@@ -2367,24 +2373,29 @@ Rock Spire Isle - Gunboat:
 
 Shark Island - Cave:
   Need:
-    # Iron Boots and Skull Hammer are necessary to hit the two big buttons.
-    # The diamond switch does not require Boomerang or any ranged weapon - you can just hit it with your sword.
-    # You also need to kill a ton of enemies inside the cave, but no ranged weapons are required.
     Iron Boots
     & Skull Hammer
+    & Can Defeat Miniblins
+    # Iron Boots and Skull Hammer are necessary to hit the two big buttons.
+    # The diamond switch does not require Boomerang or any ranged weapon - you can just hit it with your sword or hammer.
+    # You also need to kill a ton of enemies inside the cave, but no ranged weapons are required.
+    # You need to have at least enough to defeat a couple Miniblins. After that some Green Bokoblins spawn, and you can get them to attack each other and drop a machete, then use that to kill the rest of the enemies in the cave.
   Original item: Silver Rupee
   Types: Combat Secret Cave
   Paths:
     - ITest63/Stage.arc/Chest000
 
 Cliff Plateau Isles - Cave:
-  Need: Nothing
+  Need: Can Defeat Boko Babas
+    # Technically you can kill the Boko Babas here by throwing a nut at one to stun it, then using the Grappling Hook to finish it off. But the timing is pretty precise and this is pretty obscure, so it's not in the logic.
   Original item: Joy Pendant
   Types: Puzzle Secret Cave
   Paths:
     - Cave03/Stage.arc/Chest000
 Cliff Plateau Isles - Highest Isle:
-  Need: Deku Leaf
+  Need:
+    Can Defeat Boko Babas
+    & Deku Leaf
   Original item: Treasure Chart 25
   Types: Puzzle Secret Cave
   Paths:
@@ -2403,7 +2414,8 @@ Crescent Moon Island - Chest:
   Paths:
     - sea/Room5.arc/Chest000
 Crescent Moon Island - Submarine:
-  Need: Nothing
+  Need: Can Defeat Miniblins
+    # You only need to defeat the very first Miniblin, then wait out the timer.
   Original item: Treasure Chart 9
   Types: Submarine
   Paths:
