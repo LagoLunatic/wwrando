@@ -648,6 +648,7 @@ Dragon Roost Cavern - Under Rope Bridge:
 Dragon Roost Cavern - Big Key Chest:
   Need:
     Can Access Dragon Roost Cavern
+    & DRC Small Key x1
     & (
       (DRC Small Key x4 & Can Cut Down Hanging DRC Platform)
       | Deku Leaf
