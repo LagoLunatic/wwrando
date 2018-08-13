@@ -23,7 +23,8 @@ class BDL:
     self.chunk_by_type = {}
     offset = 0x20
     for chunk_index in range(self.num_chunks):
-      chunk = BDLChunk(data, offset)
+      chunk = BDLChunk()
+      chunk.read(data, offset)
       self.chunks.append(chunk)
       self.chunk_by_type[chunk.magic] = chunk
       
@@ -45,9 +46,22 @@ class BDL:
       chunk.data.seek(0)
       chunk_data = chunk.data.read()
       data.write(chunk_data)
+    
+    self.length = data_len(data)
+    self.num_chunks = len(self.chunks)
+    
+    write_str(data, 0, self.magic, 4)
+    write_str(data, 4, self.model_type, 4)
+    write_u32(data, 8, self.length)
+    write_u32(data, 0xC, self.num_chunks)
 
 class BDLChunk:
-  def __init__(self, bdl_data, chunk_offset):
+  def __init__(self):
+    self.magic = None
+    self.size = None
+    self.data = None
+  
+  def read(self, bdl_data, chunk_offset):
     self.magic = read_str(bdl_data, chunk_offset, 4)
     self.size = read_u32(bdl_data, chunk_offset+4)
     
