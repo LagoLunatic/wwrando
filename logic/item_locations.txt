@@ -1798,7 +1798,7 @@ Mailbox - Letter from Tingle:
   Paths:
     - rels/d_a_obj_toripost.rel@25AC
 
-The Great Sea - Beedle's Shop Ship - Bait Bag:
+The Great Sea - Beedle's Shop Ship - 20 Rupee Item:
   Need: Nothing
   Original item: Bait Bag
   Types: Misc

@@ -797,7 +797,7 @@ def fix_shop_item_y_offsets(self):
       write_float(dol_data, display_data_offset+0x10, new_y_offset)
 
 def update_shop_item_descriptions(self):
-  item_name = self.logic.done_item_locations["The Great Sea - Beedle's Shop Ship - Bait Bag"]
+  item_name = self.logic.done_item_locations["The Great Sea - Beedle's Shop Ship - 20 Rupee Item"]
   cost = 20
   msg = self.bmg.messages_by_id[3906]
   msg.string = "\\{1A 06 FF 00 00 01}%s  %d Rupees\\{1A 06 FF 00 00 00}" % (item_name, cost)

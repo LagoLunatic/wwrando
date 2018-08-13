@@ -384,7 +384,7 @@ class Logic:
     
     # Beedle's shop does not work properly if the same item is in multiple slots of the same shop.
     # Ban the Bait Bag slot from having bait.
-    if location_name == "The Great Sea - Beedle's Shop Ship - Bait Bag" and item_name in ["All-Purpose Bait", "Hyoi Pear"]:
+    if location_name == "The Great Sea - Beedle's Shop Ship - 20 Rupee Item" and item_name in ["All-Purpose Bait", "Hyoi Pear"]:
       return False
     
     # Also ban the same item from appearing more than once in the rock spire shop ship.
