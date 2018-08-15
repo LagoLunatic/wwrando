@@ -668,16 +668,20 @@ def allow_dungeon_items_to_appear_anywhere(self):
     
     # Add item get messages for the items.
     if base_item_name == "Small Key":
-      description_format_string = "\\{1A 05 00 00 01}You got a \\{1A 06 FF 00 00 01}%s small key\\{1A 06 FF 00 00 00}!"
+      description_format_string = "\\{1A 05 00 00 01}You got %s \\{1A 06 FF 00 00 01}%s small key\\{1A 06 FF 00 00 00}!"
+      description = word_wrap_string(description_format_string % (get_indefinite_article(dungeon_name), dungeon_name))
     elif base_item_name == "Big Key":
       description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Big Key\\{1A 06 FF 00 00 00}!"
+      description = word_wrap_string(description_format_string % dungeon_name)
     elif base_item_name == "Dungeon Map":
       description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Dungeon Map\\{1A 06 FF 00 00 00}!"
+      description = word_wrap_string(description_format_string % dungeon_name)
     elif base_item_name == "Compass":
       description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Compass\\{1A 06 FF 00 00 00}!"
+      description = word_wrap_string(description_format_string % dungeon_name)
     
     msg = self.bmg.add_new_message(101 + item_id)
-    msg.string = word_wrap_string(description_format_string % dungeon_name)
+    msg.string = description
     msg.text_box_type = 9 # Item get message box
     msg.initial_draw_type = 2 # Slow initial message speed
     msg.display_item_id = item_id
