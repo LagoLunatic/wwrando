@@ -175,12 +175,16 @@ lis r4, 0x0004
 addi r4, r4, 0x0040
 stw r4, 4 (r3)
 
-; Set a switch (1E) for having seen the cutscene before the Puppet Ganon fight.
+; Set a switch (0D) for having seen the camera panning around when you first enter Ganon's Tower.
+; Also set a switch (1C) for having seen the camera panning around looking at the 4 lights in the room where you can drop down to the maze.
+; Also set a switch (1D) for having seen the camera panning around looking at the 4 boomerang switches in the room with the warp up to Forsaken Fortress.
+; Also set a switch (1E) for having seen the cutscene before the Puppet Ganon fight.
 ; Also set a switch (12) for having seen the cutscene after the Puppet Ganon fight.
 ; Also set a switch (1F) for having seen the cutscene before the Ganondorf fight.
 lis r3, 0x803C50A8@ha ; Ganon's Tower stage info.
 addi r3, r3, 0x803C50A8@l
-lis r4, 0xC004
+lis r4, 0xF004
+addi r4, r4, 0x2000
 stw r4, 4 (r3)
 
 
