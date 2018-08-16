@@ -62,6 +62,7 @@ class Randomizer:
       "Wind Waker",
       "Wind's Requiem",
       "Ballad of Gales",
+      "Song of Passing",
       "Progressive Sword",
       "Hero's Shield",
       "Boat's Sail",
