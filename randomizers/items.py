@@ -57,59 +57,53 @@ def randomize_dungeon_items(self):
     item_name for item_name in (self.logic.unplaced_progress_items + self.logic.unplaced_nonprogress_items)
     if item_name.endswith(" Small Key")
   ]
-  previously_accessible_undone_locations = []
   for item_name in small_keys_to_place:
-    accessible_undone_locations = self.logic.get_accessible_remaining_locations()
-    accessible_undone_locations = [
-      loc for loc in accessible_undone_locations
-      if loc not in self.logic.prerandomization_dungeon_item_locations
-    ]
-    accessible_undone_locations = [
-      loc for loc in accessible_undone_locations
-      if not "Tingle Statue Chest" in self.logic.item_locations[loc]["Types"]
-    ]
-    possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
-    
-    if not possible_locations:
-      raise Exception("No valid locations left to place dungeon items!")
-    
-    location_name = self.rng.choice(possible_locations)
-    self.logic.set_prerandomization_dungeon_item_location(location_name, item_name)
-    
+    place_dungeon_item(self, item_name)
     self.logic.add_owned_item(item_name) # Temporarily add small keys to the player's inventory while placing them.
-    
-    previously_accessible_undone_locations = accessible_undone_locations
   
-  # Randomize other dungeon items, big keys, dungeon maps, and compasses.
-  other_dungeon_items_to_place = [
+  # Randomize big keys.
+  big_keys_to_place = [
     item_name for item_name in (self.logic.unplaced_progress_items + self.logic.unplaced_nonprogress_items)
     if item_name.endswith(" Big Key")
-    or item_name.endswith(" Dungeon Map")
+  ]
+  for item_name in big_keys_to_place:
+    place_dungeon_item(self, item_name)
+    self.logic.add_owned_item(item_name) # Temporarily add big keys to the player's inventory while placing them.
+  
+  # Randomize dungeon maps and compasses.
+  other_dungeon_items_to_place = [
+    item_name for item_name in (self.logic.unplaced_progress_items + self.logic.unplaced_nonprogress_items)
+    if item_name.endswith(" Dungeon Map")
     or item_name.endswith(" Compass")
   ]
   for item_name in other_dungeon_items_to_place:
-    accessible_undone_locations = self.logic.get_accessible_remaining_locations()
-    accessible_undone_locations = [
-      loc for loc in accessible_undone_locations
-      if loc not in self.logic.prerandomization_dungeon_item_locations
-    ]
-    accessible_undone_locations = [
-      loc for loc in accessible_undone_locations
-      if not "Tingle Statue Chest" in self.logic.item_locations[loc]["Types"]
-    ]
-    possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
-    
-    if not possible_locations:
-      raise Exception("No valid locations left to place dungeon items!")
-    
-    location_name = self.rng.choice(possible_locations)
-    self.logic.set_prerandomization_dungeon_item_location(location_name, item_name)
+    place_dungeon_item(self, item_name)
   
   # Remove the items we temporarily added.
   for item_name in items_to_temporarily_add:
     self.logic.remove_owned_item_or_item_group(item_name)
   for item_name in small_keys_to_place:
     self.logic.remove_owned_item(item_name)
+  for item_name in big_keys_to_place:
+    self.logic.remove_owned_item(item_name)
+
+def place_dungeon_item(self, item_name):
+  accessible_undone_locations = self.logic.get_accessible_remaining_locations()
+  accessible_undone_locations = [
+    loc for loc in accessible_undone_locations
+    if loc not in self.logic.prerandomization_dungeon_item_locations
+  ]
+  accessible_undone_locations = [
+    loc for loc in accessible_undone_locations
+    if not "Tingle Statue Chest" in self.logic.item_locations[loc]["Types"]
+  ]
+  possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
+  
+  if not possible_locations:
+    raise Exception("No valid locations left to place dungeon items!")
+  
+  location_name = self.rng.choice(possible_locations)
+  self.logic.set_prerandomization_dungeon_item_location(location_name, item_name)
 
 def randomize_progression_items(self):
   accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
