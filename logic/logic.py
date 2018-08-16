@@ -114,9 +114,10 @@ class Logic:
       if location_name.startswith("Rock Spire Isle - Beedle's Special Shop Ship - "):
         self.rock_spire_shop_ship_locations.append(location_name)
     
-    # These are needed when calculating progression spheres if dungeon entrance rando/chart rando are on.
+    # Sync the logic macros with the randomizer.
     self.update_dungeon_entrance_macros()
     self.update_chart_macros()
+    self.update_rematch_bosses_macros()
     
     for item_name in self.rando.starting_items:
       self.add_owned_item(item_name)
@@ -495,6 +496,12 @@ class Logic:
         req_string = chart_item_name
       
       self.set_macro(chart_macro_name, req_string)
+  
+  def update_rematch_bosses_macros(self):
+    if self.rando.options.get("skip_rematch_bosses"):
+      self.set_macro("Can Unlock Ganon's Tower Four Boss Door", "Nothing")
+    else:
+      self.set_macro("Can Unlock Ganon's Tower Four Boss Door", "Can Complete All Memory Dungeons and Bosses")
   
   def clean_item_name(self, item_name):
     # Remove parentheses from any item names that may have them. (Formerly Master Swords, though that's not an issue anymore.)

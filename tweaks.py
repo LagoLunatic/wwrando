@@ -1247,3 +1247,11 @@ def disable_invisible_walls(self):
   invisible_wall = next(x for x in dzx.entries_by_type("SCOB") if x.name == "Akabe")
   invisible_wall.invisible_wall_switch_index = 0xFF
   invisible_wall.save_changes()
+
+def update_skip_rematch_bosses(self):
+  skip_rematch_bosses_address = self.custom_symbols["skip_rematch_bosses"]
+  dol_data = self.get_raw_file("sys/main.dol")
+  if self.options.get("skip_rematch_bosses"):
+    write_u8(dol_data, address_to_offset(skip_rematch_bosses_address), 1)
+  else:
+    write_u8(dol_data, address_to_offset(skip_rematch_bosses_address), 0)

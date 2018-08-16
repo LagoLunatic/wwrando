@@ -121,6 +121,10 @@ OPTIONS = OrderedDict([
     "sword_mode",
     "Placeholder"
   ),
+  (
+    "skip_rematch_bosses",
+    "Removes the door in Ganon's Tower that only unlocks when you defeat the rematch versions of Gohma, Kalle Demos, Jalhalla, and Molgera."
+  ),
   
   (
     "custom_player_model",

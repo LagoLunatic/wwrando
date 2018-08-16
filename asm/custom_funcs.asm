@@ -258,6 +258,24 @@ bl onEventBit__11dSv_event_cFUs
 after_starting_heros_clothes:
 
 
+lis r5, skip_rematch_bosses@ha
+addi r5, r5, skip_rematch_bosses@l
+lbz r5, 0 (r5) ; Load bool of whether rematch bosses should be skipped
+cmpwi r5, 1
+bne after_skipping_rematch_bosses
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x3904 ; Recollection Gohma defeated
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x3902 ; Recollection Kalle Demos defeated
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x3901 ; Recollection Jalhalla defeated
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x3A80 ; Recollection Molgera defeated
+bl onEventBit__11dSv_event_cFUs
+after_skipping_rematch_bosses:
+
+
 ; Function end stuff
 lwz r0, 0x14 (sp)
 mtlr r0
@@ -274,6 +292,9 @@ should_start_with_heros_clothes:
 .global sword_mode
 sword_mode:
 .byte 0 ; By default Start with Sword
+.global skip_rematch_bosses
+skip_rematch_bosses:
+.byte 1 ; By default skip them
 .align 2 ; Align to the next 4 bytes
 
 
