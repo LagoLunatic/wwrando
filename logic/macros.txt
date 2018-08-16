@@ -113,40 +113,57 @@ Can Get Inside Forsaken Fortress:
   # Even though you can kill Phantom Ganon without the Skull Hammer, that only lets you access the one chest he spawns.
   # You can't access the other chests/boss without Skull Hammer.
 Can Reach and Defeat Phantom Ganon:
+  Can Get Past Forsaken Fortress Gate
+  & Can Defeat Phantom Ganon
+Can Defeat Phantom Ganon:
+  Any Master Sword
   # You need any form of the Master Sword to damage Phantom Ganon.
   # Note that his energy balls can be reflected with either the Master Sword or an empty bottle, but you still need the Master Sword to deal damage.
-  Can Get Past Forsaken Fortress Gate
-  & Any Master Sword
+Can Defeat Phantom Ganon in Swordless:
+  TODO
+  # This macro is swapped out in place of the above one in swordless mode.
 
 Can Access Hyrule:
   Full Power Master Sword
   & All 8 Triforce Shards
-  # TODO: Figure out how to handle swordless stuff in hyrule and ganon's tower, and do the logic for them.
+Can Access Hyrule in Swordless:
+  All 8 Triforce Shards
+  # This macro is swapped out in place of the above one in swordless mode.
 Can Access Ganon's Tower:
   Can Access Hyrule
   & (Hookshot | Deku Leaf)
+
 Can Complete Memory Dragon Roost Cavern and Gohma:
-  Grappling Hook & Deku Leaf
+  Grappling Hook
+  & Deku Leaf
+  & Can Defeat Gohma
 Can Complete Memory Forbidden Woods and Kalle Demos:
-  Deku Leaf & Boomerang
+  Deku Leaf
+  & Can Defeat Kalle Demos
 Can Complete Memory Earth Temple and Jalhalla:
-  (Mirror Shield | Light Arrows)
-  & Power Bracelets
+  Can Defeat Jalhalla
   # Mirror Shield is not needed in the hallway leading up to Jalhalla because you can lure the Purple Chuchus into the light.
   # It's not needed for Jalhalla because Light Arrows work in their place.
 Can Complete Memory Wind Temple and Molgera:
-  Deku Leaf & Hookshot
+  Deku Leaf
+  & Can Defeat Molgera
   # You're intended to use iron boots here, but you can simply fly across the gap with deku leaf instead. No damage boosting off spikes or leaf pumping required.
-Can Reach Ganon's Tower Maze:
-  Can Access Ganon's Tower
-  & Can Complete Memory Dragon Roost Cavern and Gohma
+Can Complete All Memory Dungeons and Bosses:
+  Can Complete Memory Dragon Roost Cavern and Gohma
   & Can Complete Memory Forbidden Woods and Kalle Demos
   & Can Complete Memory Earth Temple and Jalhalla
   & Can Complete Memory Wind Temple and Molgera
+
+Can Unlock Ganon's Tower Four Boss Door:
+  # This macro is set to Nothing when the option to skip rematch bosses is enabled.
+  Can Complete All Memory Dungeons and Bosses
+Can Reach Ganon's Tower Maze:
+  Can Access Ganon's Tower
+  & Can Unlock Ganon's Tower Four Boss Door
 Can Reach and Defeat Puppet Ganon:
   Can Reach Ganon's Tower Maze
-  & Boomerang
   & Light Arrows
+  & Boomerang
 Can Reach and Defeat Ganondorf:
   Can Reach and Defeat Puppet Ganon
   & Grappling Hook
