@@ -117,6 +117,10 @@ OPTIONS = OrderedDict([
     "generate_spoiler_log",
     "Generate a text file that lists the location of every single item for this seed.\nNote that whether this is checked or not affects where items are placed in this seed."
   ),
+  (
+    "sword_mode",
+    "Placeholder"
+  ),
   
   (
     "custom_player_model",

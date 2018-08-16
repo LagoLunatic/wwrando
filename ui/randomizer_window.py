@@ -356,7 +356,7 @@ class WWRandomizerWindow(QMainWindow):
           current_bit_index = 0
           current_byte = 0
         
-        value = int(value)
+        value = widget.currentIndex()
         assert 0 <= value <= 255
         option_bytes.append(value)
     
@@ -415,8 +415,11 @@ class WWRandomizerWindow(QMainWindow):
           current_bit_index = 0
         current_byte = option_bytes[current_byte_index]
         
-        integer_value = str(current_byte)
-        self.set_option_value(option_name, integer_value)
+        index = current_byte
+        if index >= widget.count() or index < 0:
+          index = 0
+        value = widget.itemText(index)
+        self.set_option_value(option_name, value)
         current_byte_index += 1
         current_bit_index = 0
     

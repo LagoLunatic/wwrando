@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>860</width>
-    <height>716</height>
+    <height>702</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,7 +29,7 @@
          <x>0</x>
          <y>0</y>
          <width>838</width>
-         <height>564</height>
+         <height>550</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -263,33 +263,63 @@
                <string>Additional Randomization Options</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_3">
-               <item row="0" column="0">
-                <widget class="QCheckBox" name="keylunacy">
+               <item row="1" column="1">
+                <widget class="QCheckBox" name="randomize_starting_island">
                  <property name="text">
-                  <string>Key-Lunacy</string>
+                  <string>Randomize Starting Island</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QCheckBox" name="randomize_dungeon_entrances">
-                 <property name="text">
-                  <string>Randomize Dungeon Entrances</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="2">
+               <item row="1" column="0">
                 <widget class="QCheckBox" name="randomize_charts">
                  <property name="text">
                   <string>Randomize Charts</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QCheckBox" name="randomize_starting_island">
+               <item row="0" column="2">
+                <widget class="QCheckBox" name="randomize_dungeon_entrances">
                  <property name="text">
-                  <string>Randomize Starting Island</string>
+                  <string>Randomize Dungeon Entrances</string>
                  </property>
                 </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QCheckBox" name="keylunacy">
+                 <property name="text">
+                  <string>Key-Lunacy</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <layout class="QHBoxLayout" name="horizontalLayout_5">
+                 <item>
+                  <widget class="QLabel" name="label_for_sword_mode">
+                   <property name="text">
+                    <string>Sword Mode</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="sword_mode">
+                   <item>
+                    <property name="text">
+                     <string>Start with Sword</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Swordless Start</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Swordless</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
                </item>
               </layout>
              </widget>
