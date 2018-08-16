@@ -2423,15 +2423,19 @@ Crescent Moon Island - Submarine:
 
 Horseshoe Island - Play Golf:
   Need:
-    # Need Deku Leaf to play golf, and need to fly with Deku Leaf to reach the chest.
     Deku Leaf
-    & Can Fly With Deku Leaf Outdoors
+    & (Can Fly With Deku Leaf Outdoors | Hookshot)
+    # Need Deku Leaf to play golf, and then need a way to reach the chest.
   Original item: Treasure Chart 28
   Types: Other Chest
   Paths:
     - sea/Room43.arc/Chest000
 Horseshoe Island - Cave:
-  Need: Deku Leaf # Need Deku Leaf to play golf.
+  Need:
+    Deku Leaf
+    & Can Defeat Mothulas
+    & Can Defeat Winged Mothulas
+    # Need Deku Leaf to play golf.
   Original item: Treasure Chart 8
   Types: Combat Secret Cave
   Paths:
@@ -2463,14 +2467,22 @@ Flight Control Platform - Bird-Man Contest - First Prize:
 #  Paths:
 #    - rels/d_a_npc_bmcon1.rel@2B9F
 Flight Control Platform - Submarine:
-  Need: Can Defeat Wizzrobes at Range
+  Need:
+    Can Defeat Wizzrobes
+    & Can Defeat Red ChuChus
+    & Can Defeat Green ChuChus
+    & Can Defeat Miniblins
+    & Can Defeat Wizzrobes at Range
   Original item: Platform Chart
   Types: Submarine
   Paths:
     - Abship/Room6.arc/Chest000
 
 Star Island - Cave:
-  Need: Can Move Boulders
+  Need:
+    Can Move Boulders
+    & Can Defeat Magtails
+    # After the Magtails, the second wave are Blue Bokoblins, so you can trick them into attacking each other, steal a stick, and use that to kill the remaining enemies: Green Bokoblins and Moblins.
   Original item: Piece of Heart
   Types: Combat Secret Cave
   Paths:
@@ -2503,25 +2515,28 @@ Five-Star Isles - Raft:
     - sea/Room49.arc/Chest000
 Five-Star Isles - Submarine:
   Need: Nothing
+    # You need to defeat Green Bokoblins and Blue Bokoblins here, but you can throw pots at them and then steal their weapons.
   Original item: Piece of Heart
   Types: Submarine
   Paths:
     - Abship/Room0.arc/Chest000
 
-Seven-Star Isles - Northern Lookout Platform:
-  Need: Nothing
-  Original item: Golden Feather
-  Types: Platform
-  Paths:
-    - sea/Room6.arc/Chest000
 Seven-Star Isles - Center Lookout Platform:
-  Need: Nothing
+  Need: Can Defeat Wizzrobes
   Original item: Red Rupee
   Types: Platform
   Paths:
     - sea/Room6.arc/Chest001
+Seven-Star Isles - Northern Lookout Platform:
+  Need: Can Defeat Wizzrobes
+  Original item: Golden Feather
+  Types: Platform
+  Paths:
+    - sea/Room6.arc/Chest000
 Seven-Star Isles - Southern Lookout Platform:
-  Need: Can Defeat Wizzrobes at Range # The other two chests on these lookout platforms also appear when killing Wizzrobes, but those Wizzrobes can appear at melee distance so nothing is required to kill them.
+  Need:
+    Can Defeat Wizzrobes
+    & Can Defeat Wizzrobes at Range
   Original item: Treasure Chart 16
   Types: Platform
   Paths:
@@ -2543,8 +2558,9 @@ Cyclops Reef - Destroy the Cannons and Gunboats:
   Types: Eye Reef Chest
   Paths:
     - sea/Room24.arc/Chest000
-Cyclops Reef - Lookout Platform:
+Cyclops Reef - Lookout Platform - Defeat the Enemies:
   Need: Nothing
+    # There are Green Bokoblins and Pink Bokoblins here but you can throw pots/barrels at them and steal a weapon.
   Original item: Golden Feather
   Types: Platform
   Paths:
@@ -2630,6 +2646,7 @@ Six-Eye Reef - Lookout Platform - Destroy the Cannons:
     - sea/Room25.arc/Chest001
 Six-Eye Reef - Submarine:
   Need: Nothing
+    # There are Moblins here, but you can throws pots and barrels at one to get a weapon.
   Original item: Piece of Heart
   Types: Submarine
   Paths:
