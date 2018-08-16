@@ -365,9 +365,9 @@
 ; So we replace a couple places that check that event bit to instead call a custom function that returns whether the warp should be unlocked or not.
 .open "files/rels/d_a_warpdm20.rel" ; Hyrule warp object
 ; This is a rel, so overwrite the relocation addresses instead of the actual code.
-.org 0x2530
+.org 0x2530 ; Relocation for line 634
   .int check_hyrule_warp_unlocked
-.org 0x2650
+.org 0x2650 ; Relocation for line B50
   .int check_hyrule_warp_unlocked
 .close
 

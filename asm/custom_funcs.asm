@@ -13,7 +13,30 @@ stw r0, 0x14 (sp)
 bl init__10dSv_save_cFv ; To call this custom func we overwrote a call to init__10dSv_save_cFv, so call that now.
 
 
+lis r5, sword_mode@ha
+addi r5, r5, sword_mode@l
+lbz r5, 0 (r5)
+cmpwi r5, 0 ; Start with Sword
+beq start_with_sword
+cmpwi r5, 2 ; Swordless
+beq break_barrier_for_swordless
+b after_sword_mode_initialization
+
+start_with_sword:
 bl item_func_sword__Fv
+b after_sword_mode_initialization
+
+break_barrier_for_swordless:
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x2C02 ; BARRIER_DOWN
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x3B08 ; Another event flag set by the barrier. This one seems to have no effect, but set it anyway just to be safe.
+bl onEventBit__11dSv_event_cFUs
+
+after_sword_mode_initialization:
+
+
 bl item_func_shield__Fv
 bl item_func_normal_sail__Fv
 bl item_func_wind_tact__Fv ; Wind Waker
@@ -243,9 +266,9 @@ num_triforce_shards_to_start_with:
 .global should_start_with_heros_clothes
 should_start_with_heros_clothes:
 .byte 1 ; By default start with the Hero's Clothes
-.global is_swordless
-is_swordless:
-.byte 0 ; By default not swordless
+.global sword_mode
+sword_mode:
+.byte 0 ; By default Start with Sword
 .align 2 ; Align to the next 4 bytes
 
 
@@ -936,10 +959,10 @@ lis     r3,0x803C4C08@ha
 addi    r3,r3,0x803C4C08@l
 
 ; If in swordless mode, skip checking the master sword.
-lis r4, is_swordless@ha
-addi r4, r4, is_swordless@l
-lbz r4, 0 (r4) ; Load bool for whether the mode is swordless
-cmpwi r4, 1
+lis r4, sword_mode@ha
+addi r4, r4, sword_mode@l
+lbz r4, 0 (r4)
+cmpwi r4, 2 ; Swordless
 beq check_has_full_triforce_for_hyrule_warp_unlocked
 
 lbz     r0,0xE(r3)
