@@ -1120,7 +1120,7 @@ Forsaken Fortress - Chest Outside Upper Jail Cell:
     - majroom/Stage.arc/Chest000
     - ma2room/Stage.arc/Chest000
     - ma3room/Stage.arc/Chest000
-Forsaken Fortress - Jail Cell:
+Forsaken Fortress - Chest Inside Lower Jail Cell:
   Need: Can Get Inside Forsaken Fortress
   Original item: Piece of Heart
   Types: Dungeon
