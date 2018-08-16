@@ -243,6 +243,9 @@ num_triforce_shards_to_start_with:
 .global should_start_with_heros_clothes
 should_start_with_heros_clothes:
 .byte 1 ; By default start with the Hero's Clothes
+.global is_swordless
+is_swordless:
+.byte 0 ; By default not swordless
 .align 2 ; Align to the next 4 bytes
 
 
@@ -931,10 +934,19 @@ stw r0, 0x14 (sp)
 
 lis     r3,0x803C4C08@ha
 addi    r3,r3,0x803C4C08@l
+
+; If in swordless mode, skip checking the master sword.
+lis r4, is_swordless@ha
+addi r4, r4, is_swordless@l
+lbz r4, 0 (r4) ; Load bool for whether the mode is swordless
+cmpwi r4, 1
+beq check_has_full_triforce_for_hyrule_warp_unlocked
+
 lbz     r0,0xE(r3)
 cmplwi  r0,0x3E ; Check if currently equipped sword is Full Power Master Sword
 bne     hyrule_warp_not_unlocked
 
+check_has_full_triforce_for_hyrule_warp_unlocked:
 addi    r3,r3,180
 bl      getTriforceNum__20dSv_player_collect_cFv
 cmpwi   r3,8
