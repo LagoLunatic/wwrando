@@ -63,10 +63,11 @@ class Randomizer:
       "Wind's Requiem",
       "Ballad of Gales",
       "Song of Passing",
-      "Progressive Sword",
       "Hero's Shield",
       "Boat's Sail",
     ]
+    if self.options.get("sword_mode") == "Start with Sword":
+      self.starting_items.append("Progressive Sword")
     # Add starting Triforce Shards.
     num_starting_triforce_shards = int(self.options.get("num_starting_triforce_shards", 0))
     for i in range(num_starting_triforce_shards):
