@@ -202,17 +202,17 @@ Can Get Fairies:
 Can Farm Knight's Crests:
   Grappling Hook & Spoils Bag
   & (
-    (Can Access Other Location "Ice Ring Isle - Inner Cave - Chest" & Hero's Sword)
-    | (Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30" & Hero's Sword)
-    | (Can Access Other Location "Earth Temple - Big Key Chest" & Hero's Sword)
-    | (Can Access Other Location "Shark Island - Cave" & Hero's Sword)
+    (Can Access Other Location "Ice Ring Isle - Inner Cave - Chest")
+    | (Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30")
+    | (Can Access Other Location "Earth Temple - Big Key Chest" & Can Defeat Darknuts)
+    | (Can Access Other Location "Shark Island - Cave")
   )
   # There are respawning Darknuts in:
   # * The inner cave of Ice Ring Isle.
   # * Floor 27 (and below) of Savage Labyrinth. (We use the Floor 30 requirements here since they're the same as Floor 27.)
   # * The big key room of Earth Temple.
   # * Shark Island's cave.
-  # Note: The Ice Ring, Savage, and Shark Island ones have enemies with droppable weapons in the same room as the Darknut, so in swordless you could trick the Darknut into attacking the other enemies, steal their weapon, and use it to kill the Darknut. But this would be too tedious to do to farm a lot of Knight's Crests, so it's not in the logic.
+  # Note: The Ice Ring, Savage, and Shark Island ones have enemies with droppable weapons in the same room as the Darknut, so in swordless you can trick the Darknut into attacking the other enemies, steal their weapon, and use it to kill the Darknut.
 Can Farm Joy Pendants:
   Spoils Bag & Grappling Hook
   # Dropped by Bokoblins, which are everywhere.
