@@ -97,8 +97,9 @@ files/rels/d_a_warpdm20.rel:
   9808: [128, 63, 216, 232]
   1676: [72, 0, 0, 8]
 files/rels/d_a_fganon.rel:
-  56140: [128, 63, 217, 144]
   56148: [128, 63, 217, 144]
+files/rels/d_a_boko.rel:
+  25604: [128, 63, 221, 232]
 files/rels/d_a_npc_people.rel:
   50508: [105, 4]
   50512: [105, 8]

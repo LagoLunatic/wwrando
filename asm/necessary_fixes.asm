@@ -386,12 +386,17 @@
 
 ; Fix the Phantom Ganon from Ganon's Tower so he doesn't disappear from the maze when the player gets Light Arrows, but instead when they open the chest at the end of the maze which originally had Light Arrows.
 ; We replace where he calls dComIfGs_checkGetItem__FUc with a custom function that checks the appropriate treasure chest open flag.
+; We only make this change for Phanton Ganon 2 (in the maze) not Phantom Ganon 3 (when you kill him with Light Arrows).
 .open "files/rels/d_a_fganon.rel" ; Phantom Ganon
 ; This is a rel, so overwrite the relocation addresses instead of the actual code.
-.org 0xDB4C ; Relocation for line 0x4D28
+.org 0xDB54 ; Relocation for line 0x4D4C in standby__FP12fganon_class
   .int check_ganons_tower_chest_opened
-.org 0xDB54 ; Relocation for line 0x4D4C
-  .int check_ganons_tower_chest_opened
+.close
+; Then there's an issue where killing Phantom Ganon 3 first and using his sword to destroy the door makes the sword dropped by Phantom Ganon 2 also disappear, which is bad because then the player wouldn't know which way to go in the maze.
+.open "files/rels/d_a_boko.rel" ; Weapons lying on the ground
+.org 0x6404 ; Relocation for line 0x2A90 in execute__8daBoko_cFv
+  ; Instead of checking if the event flag for having destroyed the door with Phantom Ganon's sword is set, call a custom function.
+  .int check_phantom_ganons_sword_should_disappear
 .close
 
 

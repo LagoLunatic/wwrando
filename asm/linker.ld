@@ -49,3 +49,4 @@ _savegpr_28 = 0x80328F3C;
 getSelectItemNo__11ShopItems_cFv = 0x80060058;
 setRestartOption__13dSv_restart_cFScP4cXyzsSc = 0x8005d584;
 cLib_addCalc__FPfffff = 0x802528e4;
+strcmp = 0x8032db44;

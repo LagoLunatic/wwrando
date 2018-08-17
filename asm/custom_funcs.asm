@@ -1543,6 +1543,45 @@ b 0x8014564C ; Return
 
 
 
+; This function checks if Phantom Ganon's sword should disappear.
+; Normally, both Phantom Ganon 2's and Phantom Ganon 3's swords will disappear once you've used Phantom Ganon 3's sword to destroy the door to Puppet Ganon.
+; We change it so Phantom Ganon 2's sword remains so it can lead the player through the maze.
+.global check_phantom_ganons_sword_should_disappear
+check_phantom_ganons_sword_should_disappear:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+; First replace the event flag check we overwrote to call this custom function.
+bl isEventBit__11dSv_event_cFUs
+
+; If the player hasn't destroyed the door with Phantom Ganon's sword yet, we don't need to do anything different so just return.
+cmpwi r3, 0
+beq check_phantom_ganons_sword_should_disappear_end
+
+; If the player has destroyed the door, check if the current stage is the Phantom Ganon maze, where Phantom Ganon 2 is fought.
+lis r3, 0x803C9D3C@ha ; Current stage name
+addi r3, r3, 0x803C9D3C@l
+lis r4, phantom_ganon_maze_stage_name@ha
+addi r4, r4, phantom_ganon_maze_stage_name@l
+bl strcmp
+; If the stage is the maze, strcmp will return 0, so we return that to tell Phantom Ganon's sword that it should not disappear.
+; If the stage is anything else, strcmp will not return 0, so Phantom Ganon's sword should disappear.
+
+check_phantom_ganons_sword_should_disappear_end:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+.global phantom_ganon_maze_stage_name
+phantom_ganon_maze_stage_name:
+.string "GanonJ"
+.align 2 ; Align to the next 4 bytes
+
+
+
+
 .global generic_on_dungeon_bit
 generic_on_dungeon_bit:
 stwu sp, -0x10 (sp)
