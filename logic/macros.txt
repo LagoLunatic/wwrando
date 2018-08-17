@@ -474,6 +474,14 @@ Can Cut Grass:
   | Skull Hammer
   | Boomerang
   | Bombs
+Can Sword Fight with Orca:
+  Can Sword Fight with Orca Outside Swordless
+Can Sword Fight with Orca Outside Swordless:
+  Hero's Sword
+Can Sword Fight with Orca in Swordless:
+  Nothing
+  # This macro is swapped out in place of the above one in swordless mode.
+  # Swordless gives you a sword temporarily while in Orca's house, so you don't need to have found a sword item.
 
 # The below macros are used when charts are not randomized.
 # When charts are randomized, these macros are shuffled around by the randomizer logic.

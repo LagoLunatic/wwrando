@@ -26,7 +26,10 @@ Outset Island - Mesa the Grasscutter's House:
 #  Paths:
 #    - main.dol@358D3B
 Outset Island - Orca - Give 10 Knight's Crests:
-  Need: Spoils Bag & Can Farm Knight's Crests
+  Need:
+    Spoils Bag
+    & Can Farm Knight's Crests
+    & Can Sword Fight with Orca
   Original item: Hurricane Spin
   Types: Spoils Trading
   Paths:
@@ -43,7 +46,7 @@ Outset Island - Orca - Give 10 Knight's Crests:
 #  Paths:
 #    - rels/d_a_npc_ji1.rel@42BB
 Outset Island - Orca - Hit 500 Times:
-  Need: Hero's Sword
+  Need: Can Sword Fight with Orca
   Original item: Piece of Heart
   Types: No progression # This is just tedious to do
   Paths:
