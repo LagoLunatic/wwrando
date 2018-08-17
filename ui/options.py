@@ -119,7 +119,7 @@ OPTIONS = OrderedDict([
   ),
   (
     "sword_mode",
-    "Placeholder"
+    "Controls whether you start with the Hero's Sword, the Hero's Sword is randomized, or if there are no swords in the entire game."
   ),
   (
     "skip_rematch_bosses",
