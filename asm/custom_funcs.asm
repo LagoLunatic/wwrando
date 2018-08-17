@@ -1582,6 +1582,43 @@ phantom_ganon_maze_stage_name:
 
 
 
+.global give_temporary_sword_during_ganondorf_fight_in_swordless
+give_temporary_sword_during_ganondorf_fight_in_swordless:
+
+stb r0, 0x48 (r4) ; Replace the line we overwrote to jump here (which removed the bow from your inventory)
+
+lbz r0, 0xE (r4) ; Read the player's currently equipped sword ID
+cmpwi r0, 0xFF
+; If the player has any sword equipped, don't replace it with the Hero's Sword
+bne give_temporary_sword_during_ganondorf_fight_in_swordless_end
+
+li r0, 0x38
+stb r0, 0xE (r4) ; Set the player's currently equipped sword ID to the regular Hero's Sword
+
+give_temporary_sword_during_ganondorf_fight_in_swordless_end:
+b 0x80235F14 ; Return
+
+
+
+
+.global remove_temporary_sword_when_reloading_in_swordless
+remove_temporary_sword_when_reloading_in_swordless:
+
+lbz r0, 0xB4 (r29) ; Read the player's owned swords bitfield
+cmpwi r0, 0
+; If the player owns any sword, don't remove their equipped sword since it's not temporary
+bne remove_temporary_sword_when_reloading_in_swordless_end
+
+li r0, 0xFF
+stb r0, 0xE (r29) ; Set the player's currently equipped sword ID to no sword
+
+remove_temporary_sword_when_reloading_in_swordless_end:
+mr r3, r28 ; Replace the line we overwrote to jump here
+b 0x80236100 ; Return
+
+
+
+
 .global generic_on_dungeon_bit
 generic_on_dungeon_bit:
 stwu sp, -0x10 (sp)
