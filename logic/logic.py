@@ -56,6 +56,10 @@ class Logic:
         item_name for item_name in self.all_progress_items
         if item_name != "Progressive Sword"
       ]
+      self.all_nonprogress_items = [
+        item_name for item_name in self.all_nonprogress_items
+        if item_name != "Hurricane Spin"
+      ]
     
     if self.rando.options.get("progression_triforce_charts"):
       self.all_progress_items += self.triforce_chart_names
