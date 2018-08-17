@@ -286,49 +286,56 @@ def decode_palettes(palette_data, palette_format, num_colors, image_format):
   
   return colors
 
-def generate_new_palettes_from_image(image, image_format):
+def generate_new_palettes_from_image(image, image_format, palette_format):
   if image_format not in IMAGE_FORMATS_THAT_USE_PALETTES:
-    return []
+    return ([],{})
   
   pixels = image.load()
   width, height = image.size
-  new_colors = []
+  encoded_colors = []
+  colors_to_color_indexes = {}
   for y in range(height):
     for x in range(width):
       color = pixels[x,y]
-      if color not in new_colors:
-        new_colors.append(color)
+      encoded_color = encode_color(color, palette_format)
+      if encoded_color not in encoded_colors:
+        encoded_colors.append(encoded_color)
+      if color not in colors_to_color_indexes:
+        colors_to_color_indexes[color] = encoded_colors.index(encoded_color)
   
-  if len(new_colors) > MAX_COLORS_FOR_IMAGE_FORMAT[image_format]:
+  if len(encoded_colors) > MAX_COLORS_FOR_IMAGE_FORMAT[image_format]:
     raise TooManyColorsError(
       "Maximum number of colors supported by image format %d is %d, but replacement image has %d colors" % (
-        image_format, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], len(new_colors)
+        image_format, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], len(encoded_colors)
       )
     )
   
-  return new_colors
+  return (encoded_colors, colors_to_color_indexes)
 
-def encode_palette(colors, palette_format, image_format):
+def encode_color(color, palette_format):
+  if palette_format == 0:
+    raw_color = convert_color_to_ia8(color)
+  elif palette_format == 1:
+    raw_color = convert_color_to_rgb565(color)
+  elif palette_format == 2:
+    raw_color = convert_color_to_rgb5a3(color)
+  
+  return raw_color
+
+def encode_palette(encoded_colors, palette_format, image_format):
   if image_format not in IMAGE_FORMATS_THAT_USE_PALETTES:
     return BytesIO()
   
-  if len(colors) > MAX_COLORS_FOR_IMAGE_FORMAT[image_format]:
+  if len(encoded_colors) > MAX_COLORS_FOR_IMAGE_FORMAT[image_format]:
     raise TooManyColorsError(
       "Maximum number of colors supported by image format %d is %d, but replacement image has %d colors" % (
-        image_format, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], len(colors)
+        image_format, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], len(encoded_colors)
       )
     )
   
   offset = 0
   new_palette_data = BytesIO()
-  for color in colors:
-    if palette_format == 0:
-      raw_color = convert_color_to_ia8(color)
-    elif palette_format == 1:
-      raw_color = convert_color_to_rgb565(color)
-    elif palette_format == 2:
-      raw_color = convert_color_to_rgb5a3(color)
-    
+  for raw_color in encoded_colors:
     write_u16(new_palette_data, offset, raw_color)
     offset += 2
   
@@ -556,7 +563,7 @@ def encode_image_from_path(new_image_file_path, image_format, palette_format):
 def encode_image(image, image_format, palette_format):
   image_width, image_height = image.size
   
-  colors = generate_new_palettes_from_image(image, image_format)
+  encoded_colors, colors_to_color_indexes = generate_new_palettes_from_image(image, image_format, palette_format)
   
   block_width = BLOCK_WIDTHS[image_format]
   block_height = BLOCK_HEIGHTS[image_format]
@@ -570,7 +577,7 @@ def encode_image(image, image_format, palette_format):
   while block_y < image_height:
     block_data = encode_image_to_block(
       image_format,
-      pixels, colors,
+      pixels, colors_to_color_indexes,
       block_x, block_y, block_width, block_height, image_width, image_height
     )
     
@@ -584,27 +591,27 @@ def encode_image(image, image_format, palette_format):
       block_x = 0
       block_y += BLOCK_HEIGHTS[image_format]
   
-  new_palette_data = encode_palette(colors, palette_format, image_format)
+  new_palette_data = encode_palette(encoded_colors, palette_format, image_format)
   
-  return (new_image_data, new_palette_data, colors)
+  return (new_image_data, new_palette_data, encoded_colors)
 
-def encode_image_to_block(image_format, pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
+def encode_image_to_block(image_format, pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
   if image_format == 4:
-    return encode_image_to_rgb563_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
+    return encode_image_to_rgb563_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == 5:
-    return encode_image_to_rgb5a3_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
+    return encode_image_to_rgb5a3_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == 6:
-    return encode_image_to_rgba32_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
+    return encode_image_to_rgba32_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == 8:
-    return encode_image_to_c4_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
+    return encode_image_to_c4_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == 9:
-    return encode_image_to_c8_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
+    return encode_image_to_c8_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == 0xE:
-    return encode_image_to_cmpr_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height)
+    return encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   else:
     raise Exception("Unknown image format: %X" % image_format)
 
-def encode_image_to_rgb563_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
+def encode_image_to_rgb563_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
   new_data = BytesIO()
   offset = 0
   for y in range(block_y, block_y+block_height):
@@ -617,7 +624,7 @@ def encode_image_to_rgb563_block(pixels, colors, block_x, block_y, block_width, 
   new_data.seek(0)
   return new_data.read()
 
-def encode_image_to_rgb5a3_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
+def encode_image_to_rgb5a3_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
   new_data = BytesIO()
   offset = 0
   for y in range(block_y, block_y+block_height):
@@ -630,7 +637,7 @@ def encode_image_to_rgb5a3_block(pixels, colors, block_x, block_y, block_width, 
   new_data.seek(0)
   return new_data.read()
 
-def encode_image_to_rgba32_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
+def encode_image_to_rgba32_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
   new_data = BytesIO()
   for i in range(16):
     x = block_x + (i % block_width)
@@ -645,17 +652,17 @@ def encode_image_to_rgba32_block(pixels, colors, block_x, block_y, block_width, 
   new_data.seek(0)
   return new_data.read()
 
-def encode_image_to_c4_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
+def encode_image_to_c4_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
   new_data = BytesIO()
   offset = 0
   
   for y in range(block_y, block_y+block_height):
     for x in range(block_x, block_x+block_width, 2):
       color_1 = pixels[x,y]
-      color_1_index = colors.index(color_1)
+      color_1_index = colors_to_color_indexes[color_1]
       assert 0 <= color_1_index <= 0xF
       color_2 = pixels[x,y]
-      color_2_index = colors.index(color_2)
+      color_2_index = colors_to_color_indexes[color_2]
       assert 0 <= color_2_index <= 0xF
       
       byte = ((color_1_index & 0xF) << 4) | (color_2_index & 0xF)
@@ -666,7 +673,7 @@ def encode_image_to_c4_block(pixels, colors, block_x, block_y, block_width, bloc
   new_data.seek(0)
   return new_data.read()
 
-def encode_image_to_c8_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
+def encode_image_to_c8_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
   new_data = BytesIO()
   offset = 0
   for y in range(block_y, block_y+block_height):
@@ -676,14 +683,14 @@ def encode_image_to_c8_block(pixels, colors, block_x, block_y, block_width, bloc
         color_index = 0xFF
       else:
         color = pixels[x,y]
-        color_index = colors.index(color)
+        color_index = colors_to_color_indexes[color]
       write_u8(new_data, offset, color_index)
       offset += 1
   
   new_data.seek(0)
   return new_data.read()
 
-def encode_image_to_cmpr_block(pixels, colors, block_x, block_y, block_width, block_height, image_width, image_height):
+def encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
   new_data = BytesIO()
   subblock_offset = 0
   for subblock_index in range(4):
