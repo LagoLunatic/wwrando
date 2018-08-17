@@ -1248,10 +1248,22 @@ def disable_invisible_walls(self):
   invisible_wall.invisible_wall_switch_index = 0xFF
   invisible_wall.save_changes()
 
-def update_skip_rematch_bosses(self):
+def update_skip_rematch_bosses_game_variable(self):
   skip_rematch_bosses_address = self.custom_symbols["skip_rematch_bosses"]
   dol_data = self.get_raw_file("sys/main.dol")
   if self.options.get("skip_rematch_bosses"):
     write_u8(dol_data, address_to_offset(skip_rematch_bosses_address), 1)
   else:
     write_u8(dol_data, address_to_offset(skip_rematch_bosses_address), 0)
+
+def update_sword_mode_game_variable(self):
+  sword_mode_address = self.custom_symbols["sword_mode"]
+  dol_data = self.get_raw_file("sys/main.dol")
+  if self.options.get("sword_mode") == "Start with Sword":
+    write_u8(dol_data, address_to_offset(sword_mode_address), 0)
+  elif self.options.get("sword_mode") == "Swordless Start":
+    write_u8(dol_data, address_to_offset(sword_mode_address), 1)
+  elif self.options.get("sword_mode") == "Swordless":
+    write_u8(dol_data, address_to_offset(sword_mode_address), 2)
+  else:
+    raise Exception("Unknown sword mode: %s" % self.options.get("sword_mode"))
