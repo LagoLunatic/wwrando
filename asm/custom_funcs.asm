@@ -1704,8 +1704,24 @@ lis r3, 0x803C53A4@ha ; This value is the stage ID of the current stage
 addi r3, r3, 0x803C53A4@l
 lbz r4, 0 (r3)
 cmpw r4, r5 ; Check if we're currently in the right dungeon for this key
-beq generic_small_key_item_get_func_in_correct_dungeon
+bne generic_small_key_item_get_func_not_in_correct_dungeon
 
+; Next we need to check if the current stage has the "is dungeon" bit set in its StagInfo.
+; If it doesn't (like if we're in a boss room) then we still can't use the normal key function, since the key counter in the UI is disabled, and that's what adds to your actual number of keys when we use the normal key function.
+lis r3, 0x803C4C08@ha
+addi r3, r3, 0x803C4C08@l
+lwzu r12, 0x5150 (r3)
+lwz r12, 0xB0 (r12)
+mtctr r12
+bctrl
+lbz r0, 9 (r3) ; Read the stage ID+is dungeon bit
+rlwinm. r0, r0, 0, 31, 31
+beq generic_small_key_item_get_func_in_non_dungeon_room_of_correct_dungeon
+
+; If both the stage ID and the is dungeon bit are correct, we can call the normal small key function.
+b generic_small_key_item_get_func_in_correct_dungeon
+
+generic_small_key_item_get_func_not_in_correct_dungeon:
 ; Not in the correct dungeon for this small key.
 ; We need to bypass the normal small key adding method.
 ; Instead we add directly to the small key count for the correct dungeon's stage info.
@@ -1716,6 +1732,14 @@ add r3, r3, r4
 lbz r4, 0x20 (r3) ; Current number of keys for the correct dungeon
 addi r4, r4, 1
 stb r4, 0x20 (r3) ; Current number of keys for the correct dungeon
+b generic_small_key_item_get_func_end
+
+generic_small_key_item_get_func_in_non_dungeon_room_of_correct_dungeon:
+lis r3, 0x803C5380@ha ; Currently loaded stage info
+addi r3, r3, 0x803C5380@l
+lbz r4, 0x20 (r3) ; Current number of keys for the current dungeon
+addi r4, r4, 1
+stb r4, 0x20 (r3) ; Current number of keys for the current dungeon
 b generic_small_key_item_get_func_end
 
 generic_small_key_item_get_func_in_correct_dungeon:
