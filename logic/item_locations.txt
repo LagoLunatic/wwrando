@@ -1670,8 +1670,9 @@ Wind Temple - Kill All Enemies in Tall Basement Room:
     & WT Small Key x2
     & Can Defeat Stalfos
     & Can Defeat Wizzrobes
-    & Can Defeat Blue Bokoblins
     & Can Defeat Morths
+    # There's a Green Bokoblin and a Blue Bokoblin here, but you can use hookshot to make them fall off the platform to the ground - which will kill the one higher up, and for the lower one you can throw pots at it to steal its weapon.
+    # Technically you could then use the weapon stolen from a Bokoblin to defeat all the other enemies here, but the issue with that is that if you kill both the Bokoblins, then exit and re-enter the room, you could no longer do this because they don't respawn. Same with the Stalfos and their maces.
   Original item: Treasure Chart 5
   Types: Dungeon
   Paths:
@@ -2058,10 +2059,10 @@ Overlook Island - Cave:
     & Can Defeat Fire Keese
     & Can Defeat Morths
     & Can Defeat Kargarocs
-    & Can Defeat Green Bokoblins
     & Can Defeat Darknuts
     # The Armos Knights require nothing since there are bomb flowers in their room.
     # The chuchus, keese, morths, and kargarocs don't necessarily have to be fought, but may be summoned by the wizzrobes.
+    # One of the rooms has Green Bokoblins but you can trick them into attacking each other to steal a weapon.
   Original item: Triforce Chart 8
   Types: Combat Secret Cave
   Paths:
