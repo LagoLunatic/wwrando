@@ -969,10 +969,33 @@
 
 ; Hide the blue main quest markers from the sea chart.
 .open "sys/main.dol"
-.org 0x801B14c4 ; checkMarkCheck1__12dMenu_Fmap_cFv
+.org 0x801B14C4 ; checkMarkCheck1__12dMenu_Fmap_cFv
   ; Make the function that handles early-game quest markers return instantly.
   blr
 .org 0x801B1684 ; checkMarkCheck2__12dMenu_Fmap_cFv
   ; Make the function that handles late-game quest markers return instantly.
   blr
+.close
+
+
+
+
+; Fixes new game+ so that picto box related things aren't flagged as done already.
+; (Note: There are some more things the new game+ initialization function besides these ones that seem like they could potentially cause other issues, but I can't figure out exactly what they're doing, so I'm not removing them for now.)
+.open "sys/main.dol"
+.org 0x8005D78C ; reinit__10dSv_info_cFv
+  ; Don't set Lenzo's event register to 07, causing his assistant quest to be complete.
+  nop
+.org 0x8005D7A4 ; reinit__10dSv_info_cFv
+  ; Don't set the Windfall jail chest open flag, or you wouldn't be able to get the item inside it.
+  nop
+.org 0x8005D7FC ; reinit__10dSv_info_cFv
+  ; Don't put the deluxe picto box in the player's inventory.
+  nop
+.org 0x8005D81C ; reinit__10dSv_info_cFv
+  ; Don't set the bit for owning the regular picto box.
+  nop
+.org 0x8005D82C ; reinit__10dSv_info_cFv
+  ; Don't set the bit for owning the deluxe picto box.
+  nop
 .close
