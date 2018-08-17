@@ -116,14 +116,19 @@ Can Reach and Defeat Phantom Ganon:
   Can Get Past Forsaken Fortress Gate
   & Can Defeat Phantom Ganon
 Can Defeat Phantom Ganon:
+  Can Defeat Phantom Ganon Outside Swordless
+Can Defeat Phantom Ganon Outside Swordless:
   Any Master Sword
   # You need any form of the Master Sword to damage Phantom Ganon.
   # Note that his energy balls can be reflected with either the Master Sword or an empty bottle, but you still need the Master Sword to deal damage.
 Can Defeat Phantom Ganon in Swordless:
-  TODO
+  Skull Hammer
   # This macro is swapped out in place of the above one in swordless mode.
+  # Swordless switches Phantom Ganon's damage vulnerability to be for Skull Hammer instead of the Master Sword.
 
 Can Access Hyrule:
+  Can Access Hyrule Outside Swordless
+Can Access Hyrule Outside Swordless:
   Full Power Master Sword
   & All 8 Triforce Shards
 Can Access Hyrule in Swordless:
@@ -157,20 +162,35 @@ Can Complete All Memory Dungeons and Bosses:
 Can Unlock Ganon's Tower Four Boss Door:
   # This macro is set to Nothing when the option to skip rematch bosses is enabled.
   Can Complete All Memory Dungeons and Bosses
-Can Reach Ganon's Tower Maze:
+Can Reach Ganon's Tower Phantom Ganon Room:
   Can Access Ganon's Tower
   & Can Unlock Ganon's Tower Four Boss Door
 Can Reach and Defeat Puppet Ganon:
-  Can Reach Ganon's Tower Maze
+  Can Reach Ganon's Tower Phantom Ganon Room
   & Light Arrows
-  & Boomerang
+  & Can Defeat Moblins
+  & Can Defeat Darknuts
+  & Can Defeat Puppet Ganon
+Can Defeat Puppet Ganon:
+  Boomerang
+  # Boomerang isn't strictly necessary to defeat Puppet Ganon but makes things significantly easier, both to cut down Puppet Ganon's strings and to defeat the keese who drop refills.
 Can Reach and Defeat Ganondorf:
   Can Reach and Defeat Puppet Ganon
   & Grappling Hook
   & Hookshot
+  & Can Defeat Ganondorf
+Can Defeat Ganondorf:
+  Can Defeat Ganondorf Outside Swordless
+Can Defeat Ganondorf Outside Swordless:
+  Hero's Sword
   & Hero's Shield
+  # You need a sword to kill Ganondorf, but it doesn't need to be the Master Sword.
   # You need a shield to reflect Zelda's light arrows, but it doesn't need to be Mirror Shield.
   # It doesn't matter if you have the bow or not, Zelda will still get it.
+Can Defeat Ganondorf in Swordless:
+  Hero's Shield
+  # This macro is swapped out in place of the above one in swordless mode.
+  # Swordless gives you a sword temporarily during the Ganondorf fight, so you don't need to have found a sword item.
 
 Rescued Aryll:
   Nothing # We set the event bit for having rescued Aryll by default.

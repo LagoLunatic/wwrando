@@ -1683,7 +1683,9 @@ Wind Temple - Molgera Heart Container:
 #    - main.dol@358D36
 
 Ganon's Tower - Maze Chest:
-  Need: Can Reach Ganon's Tower Maze
+  Need:
+    Can Reach Ganon's Tower Phantom Ganon Room
+    & Can Defeat Phantom Ganon
   Original item: Light Arrow
   Types: Dungeon
   Paths:
