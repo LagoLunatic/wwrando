@@ -1603,13 +1603,11 @@ Wind Temple - Wizzrobe Mini-Boss Room:
     & Deku Leaf
     & Can Cut Grass
     & WT Small Key x2
-    & Can Defeat Wizzrobes
     & Can Defeat Darknuts
-    & Can Defeat Peahats
-    & Can Defeat Moblins
-    & Can Defeat Keese
+    & Can Remove Peahat Armor
+    # Besides Darknuts, there are Wizzrobes, Peahats, Moblins, Keese, and Kargarocs. But if you can defeat a Darknut you can steal its sword to defeat the other enemies.
+    # Unfortunately you can't do the same in reverse by stealing a Moblin's spear to kill a Darknut - the Moblin never spawns until the Darknut is defeated.
     # Killing the Wizzrobe doesn't require ranged weapons because he occasionally comes down to ground level.
-    # The Moblin isn't spawned until after the Darknut is killed, so unfortunately you can't use its spear to kill the Darknut.
   # Need to escape: Hookshot & Skull Hammer
   Original item: Hookshot
   Types: Dungeon
@@ -1991,11 +1989,10 @@ Stone Watcher Island - Cave:
   Need:
     Power Bracelets
     & Can Defeat Armos
-    & Can Defeat Moblins
     & Can Defeat Wizzrobes
-    & Can Defeat Blue Bokoblins
     & Can Defeat Darknuts
     & Can Play Wind's Requiem
+    # There are Moblins and Blue Bokoblins but they can be tricked into hitting each other to steal their weapons.
   Original item: Triforce Chart 7
   Types: Combat Secret Cave
   Paths:
