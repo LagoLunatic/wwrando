@@ -1665,10 +1665,6 @@ Wind Temple - Kill All Enemies in Tall Basement Room:
     & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
-    & (
-      Can Cut Grass
-      | (Hookshot & Can Defeat Blue Bubbles)
-    )
     & Hookshot
     & Can Defeat Blue Bubbles
     & WT Small Key x2
@@ -1691,10 +1687,6 @@ Wind Temple - Molgera Heart Container:
     & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
-    & (
-      Can Cut Grass
-      | (Hookshot & Can Defeat Blue Bubbles)
-    )
     & Hookshot
     & Can Defeat Blue Bubbles
     & WT Small Key x2
