@@ -118,6 +118,7 @@ class Logic:
     self.update_dungeon_entrance_macros()
     self.update_chart_macros()
     self.update_rematch_bosses_macros()
+    self.update_sword_mode_macros()
     
     for item_name in self.rando.starting_items:
       self.add_owned_item(item_name)
@@ -502,6 +503,16 @@ class Logic:
       self.set_macro("Can Unlock Ganon's Tower Four Boss Door", "Nothing")
     else:
       self.set_macro("Can Unlock Ganon's Tower Four Boss Door", "Can Complete All Memory Dungeons and Bosses")
+  
+  def update_sword_mode_macros(self):
+    if self.rando.options.get("sword_mode") == "Swordless":
+      self.set_macro("Can Defeat Phantom Ganon", "Can Defeat Phantom Ganon in Swordless")
+      self.set_macro("Can Access Hyrule", "Can Access Hyrule in Swordless")
+      self.set_macro("Can Defeat Ganondorf", "Can Defeat Ganondorf in Swordless")
+    else:
+      self.set_macro("Can Defeat Phantom Ganon", "Can Defeat Phantom Ganon Outside Swordless")
+      self.set_macro("Can Access Hyrule", "Can Access Hyrule Outside Swordless")
+      self.set_macro("Can Defeat Ganondorf", "Can Defeat Ganondorf Outside Swordless")
   
   def clean_item_name(self, item_name):
     # Remove parentheses from any item names that may have them. (Formerly Master Swords, though that's not an issue anymore.)
