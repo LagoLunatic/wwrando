@@ -51,6 +51,12 @@ class Logic:
     for i in range(1, 41+1):
       self.treasure_chart_names.append("Treasure Chart %d" % i)
     
+    if self.rando.options.get("sword_mode") == "Swordless":
+      self.all_progress_items = [
+        item_name for item_name in self.all_progress_items
+        if item_name != "Progressive Sword"
+      ]
+    
     if self.rando.options.get("progression_triforce_charts"):
       self.all_progress_items += self.triforce_chart_names
     else:
