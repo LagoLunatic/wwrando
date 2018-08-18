@@ -1261,7 +1261,7 @@ def update_sword_mode_game_variable(self):
   dol_data = self.get_raw_file("sys/main.dol")
   if self.options.get("sword_mode") == "Start with Sword":
     write_u8(dol_data, address_to_offset(sword_mode_address), 0)
-  elif self.options.get("sword_mode") == "Swordless Start":
+  elif self.options.get("sword_mode") == "Randomized Sword":
     write_u8(dol_data, address_to_offset(sword_mode_address), 1)
   elif self.options.get("sword_mode") == "Swordless":
     write_u8(dol_data, address_to_offset(sword_mode_address), 2)

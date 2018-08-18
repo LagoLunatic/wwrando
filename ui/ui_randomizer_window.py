@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'randomizer_window.ui'
 #
-# Created: Thu Aug 16 18:34:56 2018
+# Created: Sat Aug 18 11:56:51 2018
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -318,7 +318,7 @@ class Ui_MainWindow(object):
         self.keylunacy.setText(QtGui.QApplication.translate("MainWindow", "Key-Lunacy", None, QtGui.QApplication.UnicodeUTF8))
         self.label_for_sword_mode.setText(QtGui.QApplication.translate("MainWindow", "Sword Mode", None, QtGui.QApplication.UnicodeUTF8))
         self.sword_mode.setItemText(0, QtGui.QApplication.translate("MainWindow", "Start with Sword", None, QtGui.QApplication.UnicodeUTF8))
-        self.sword_mode.setItemText(1, QtGui.QApplication.translate("MainWindow", "Swordless Start", None, QtGui.QApplication.UnicodeUTF8))
+        self.sword_mode.setItemText(1, QtGui.QApplication.translate("MainWindow", "Randomized Sword", None, QtGui.QApplication.UnicodeUTF8))
         self.sword_mode.setItemText(2, QtGui.QApplication.translate("MainWindow", "Swordless", None, QtGui.QApplication.UnicodeUTF8))
         self.label_for_num_starting_triforce_shards.setText(QtGui.QApplication.translate("MainWindow", "Triforce Shards to Start With:", None, QtGui.QApplication.UnicodeUTF8))
         self.num_starting_triforce_shards.setItemText(0, QtGui.QApplication.translate("MainWindow", "0", None, QtGui.QApplication.UnicodeUTF8))
