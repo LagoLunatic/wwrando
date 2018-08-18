@@ -142,6 +142,13 @@ def randomize_progression_items(self):
     # Filter out items that are not valid in any of the locations we might use.
     possible_items = self.logic.filter_items_by_any_valid_location(possible_items, accessible_undone_locations)
     
+    # Remove duplicates from the list so items like swords and bows aren't so likely to show up early.
+    unique_possible_items = []
+    for item_name in possible_items:
+      if item_name not in unique_possible_items:
+        unique_possible_items.append(item_name)
+    possible_items = unique_possible_items
+    
     must_place_useful_item = False
     should_place_useful_item = True
     if len(accessible_undone_locations) == 1 and len(possible_items) > 1:
