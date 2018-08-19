@@ -34,6 +34,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.setupUi(self)
     
     self.custom_color_selector_buttons = OrderedDict()
+    self.custom_color_selector_hex_inputs = OrderedDict()
     self.custom_colors = OrderedDict()
     self.initialize_custom_player_model_list()
     
@@ -527,6 +528,7 @@ class WWRandomizerWindow(QMainWindow):
         widget = item.widget()
         widget.deleteLater()
     self.custom_color_selector_buttons = OrderedDict()
+    self.custom_color_selector_hex_inputs = OrderedDict()
     
     custom_model_name = self.get_option_value("custom_player_model")
     metadata = customizer.get_model_metadata(custom_model_name)
@@ -548,6 +550,11 @@ class WWRandomizerWindow(QMainWindow):
       label_for_color_selector = QLabel(self.ui.tab_2)
       label_for_color_selector.setText("Player %s Color" % custom_color_name)
       hlayout.addWidget(label_for_color_selector)
+      color_hex_code_input = QLineEdit(self.ui.tab_2)
+      color_hex_code_input.setText("")
+      color_hex_code_input.setObjectName(option_name + "_hex_code_input")
+      color_hex_code_input.setFixedWidth(52)
+      hlayout.addWidget(color_hex_code_input)
       color_selector_button = QPushButton(self.ui.tab_2)
       color_selector_button.setText("")
       color_selector_button.setObjectName(option_name)
@@ -555,6 +562,8 @@ class WWRandomizerWindow(QMainWindow):
       
       self.custom_color_selector_buttons[option_name] = color_selector_button
       color_selector_button.clicked.connect(self.open_custom_color_chooser)
+      self.custom_color_selector_hex_inputs[option_name] = color_hex_code_input
+      color_hex_code_input.editingFinished.connect(self.custom_color_hex_code_changed)
       
       self.ui.custom_colors_layout.addLayout(hlayout)
       
@@ -602,10 +611,13 @@ class WWRandomizerWindow(QMainWindow):
     self.custom_colors[color_name] = color
     
     color_button = self.custom_color_selector_buttons[option_name]
+    hex_input = self.custom_color_selector_hex_inputs[option_name]
     if color is None:
       color_button.setStyleSheet("")
+      hex_input.setText("")
     else:
       color_button.setStyleSheet("background-color: rgb(%d, %d, %d)" % tuple(color))
+      hex_input.setText("%02X%02X%02X" % tuple(color))
   
   def open_custom_color_chooser(self):
     option_name = self.sender().objectName()
@@ -621,6 +633,26 @@ class WWRandomizerWindow(QMainWindow):
     r = color.red()
     g = color.green()
     b = color.blue()
+    self.set_color(option_name, [r, g, b])
+    self.update_settings()
+  
+  def custom_color_hex_code_changed(self):
+    option_name = self.sender().objectName()
+    
+    assert option_name.endswith("_hex_code_input")
+    option_name = option_name[:len(option_name)-len("_hex_code_input")]
+    
+    assert option_name.startswith("custom_color_")
+    color_name = option_name[len("custom_color_"):]
+    
+    text = self.sender().text().strip().lstrip("#").upper()
+    if len(text) != 6 or any(c for c in text if c not in "0123456789ABCDEF"):
+      # If the hex code is invalid reset the text to the correct hex code for the current color.
+      self.set_color(option_name, self.custom_colors[color_name])
+      return
+    r = int(text[0:2], 16)
+    g = int(text[2:4], 16)
+    b = int(text[4:6], 16)
     self.set_color(option_name, [r, g, b])
     self.update_settings()
   
