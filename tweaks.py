@@ -981,6 +981,9 @@ def update_fishmen_hints(self):
     if item_name not in self.progress_item_hints:
       # Charts and dungeon items don't have hints
       continue
+    if item_name == "Bait Bag":
+      # Can't access fishmen hints until you already have the bait bag
+      continue
     if len(hints) >= 3:
       # 3 hints max per seed.
       break
