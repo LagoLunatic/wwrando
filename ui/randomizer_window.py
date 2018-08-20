@@ -235,6 +235,10 @@ class WWRandomizerWindow(QMainWindow):
           any_setting_changed = True
         self.set_option_value(option_name, default_value)
     
+    any_color_changed = self.reset_color_selectors_to_model_default_colors()
+    if any_color_changed:
+      any_setting_changed = True
+    
     self.update_settings()
     
     if not any_setting_changed:
@@ -584,9 +588,13 @@ class WWRandomizerWindow(QMainWindow):
     
     custom_colors = metadata.get(prefix + "_custom_colors", {})
     
+    any_color_changed = False
     for custom_color_name, default_color in custom_colors.items():
+      if self.custom_colors[custom_color_name] != default_color:
+        any_color_changed = True
       option_name = "custom_color_" + custom_color_name
       self.set_color(option_name, default_color)
+    return any_color_changed
   
   def disable_invalid_cosmetic_options(self):
     custom_model_name = self.get_option_value("custom_player_model")
