@@ -563,7 +563,8 @@ class WWRandomizerWindow(QMainWindow):
       self.custom_color_selector_buttons[option_name] = color_selector_button
       color_selector_button.clicked.connect(self.open_custom_color_chooser)
       self.custom_color_selector_hex_inputs[option_name] = color_hex_code_input
-      color_hex_code_input.editingFinished.connect(self.custom_color_hex_code_changed)
+      color_hex_code_input.textEdited.connect(self.custom_color_hex_code_changed)
+      color_hex_code_input.editingFinished.connect(self.custom_color_hex_code_finished_editing)
       
       self.ui.custom_colors_layout.addLayout(hlayout)
       
@@ -647,14 +648,19 @@ class WWRandomizerWindow(QMainWindow):
     
     text = self.sender().text().strip().lstrip("#").upper()
     if len(text) != 6 or any(c for c in text if c not in "0123456789ABCDEF"):
-      # If the hex code is invalid reset the text to the correct hex code for the current color.
-      self.set_color(option_name, self.custom_colors[color_name])
-      return
+      return False
     r = int(text[0:2], 16)
     g = int(text[2:4], 16)
     b = int(text[4:6], 16)
     self.set_color(option_name, [r, g, b])
     self.update_settings()
+    return True
+  
+  def custom_color_hex_code_finished_editing(self):
+    is_valid_color = self.custom_color_hex_code_changed()
+    if not is_valid_color:
+      # If the hex code is invalid reset the text to the correct hex code for the current color.
+      self.set_color(option_name, self.custom_colors[color_name])
   
   def open_about(self):
     text = """Wind Waker Randomizer Version %s<br><br>
