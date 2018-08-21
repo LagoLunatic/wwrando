@@ -166,8 +166,6 @@ def change_player_clothes_color(self):
         eyebrow_image = eyebrow_textures[0].render()
         eyebrow_image = texture_utils.color_exchange(eyebrow_image, base_color, custom_color)
         for eyebrow_texture in eyebrow_textures:
-          eyebrow_texture.image_format = 6
-          eyebrow_texture.palette_format = 0
           eyebrow_texture.replace_image(eyebrow_image)
     
     # Recolor the back hair for casual Link.
