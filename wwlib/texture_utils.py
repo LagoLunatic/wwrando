@@ -271,7 +271,7 @@ def get_nearest_color_fast(color, palette):
   
   r, g, b, a = get_rgba(color)
   
-  if a < 0xFF: # Transparent
+  if a < 16: # Transparent
     for indexed_color in palette:
       if len(indexed_color) == 4 and indexed_color[3] == 0:
         return indexed_color
@@ -736,7 +736,7 @@ def encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y
       y_in_subblock = i // 4
       color = pixels[subblock_x+x_in_subblock,subblock_y+y_in_subblock]
       r, g, b, a = get_rgba(color)
-      if a == 0:
+      if a < 16:
         needs_transparent_color = True
       else:
         all_colors_in_subblock.append(color)
