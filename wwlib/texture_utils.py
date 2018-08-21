@@ -655,7 +655,6 @@ def encode_image_to_block(image_format, pixels, colors_to_color_indexes, block_x
   elif image_format == 9:
     return encode_image_to_c8_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == 0xE:
-    raise Exception("CMPR encoding is not properly supported at this time")
     return encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   else:
     raise Exception("Unknown image format: %X" % image_format)
