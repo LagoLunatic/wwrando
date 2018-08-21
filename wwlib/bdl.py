@@ -118,17 +118,35 @@ class BDLChunk:
     next_available_data_offset = self.texture_header_list_offset + self.num_textures*0x20 # Right after the last header ends
     self.data.truncate(next_available_data_offset)
     self.data.seek(next_available_data_offset)
-    for texture in self.textures:
+    
+    image_data_offsets = {}
+    for i, texture in enumerate(self.textures):
+      filename = self.texture_names[i]
+      if filename in image_data_offsets:
+        texture.image_data_offset = image_data_offsets[filename] - texture.header_offset
+        continue
+      
       self.data.seek(next_available_data_offset)
       
       texture.image_data_offset = next_available_data_offset - texture.header_offset
+      image_data_offsets[filename] = next_available_data_offset
       texture.image_data.seek(0)
       self.data.write(texture.image_data.read())
       align_data_to_nearest(self.data, 0x20)
       next_available_data_offset = data_len(self.data)
+    
+    palette_data_offsets = {}
+    for i, texture in enumerate(self.textures):
+      filename = self.texture_names[i]
+      if filename in palette_data_offsets:
+        texture.palette_data_offset = palette_data_offsets[filename] - texture.header_offset
+        continue
+      
+      self.data.seek(next_available_data_offset)
       
       if texture.needs_palettes():
         texture.palette_data_offset = next_available_data_offset - texture.header_offset
+        palette_data_offsets[filename] = next_available_data_offset
         texture.palette_data.seek(0)
         self.data.write(texture.palette_data.read())
         align_data_to_nearest(self.data, 0x20)
@@ -137,7 +155,9 @@ class BDLChunk:
         # If the image doesn't use palettes its palette offset is just the same as the first texture's image offset.
         first_texture = self.textures[0]
         texture.palette_data_offset = first_texture.image_data_offset + first_texture.header_offset - texture.header_offset
-      
+        palette_data_offsets[filename] = first_texture.image_data_offset + first_texture.header_offset
+    
+    for texture in self.textures:
       texture.save_header_changes()
     
     self.string_section_offset = next_available_data_offset
