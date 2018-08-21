@@ -13,23 +13,27 @@ from paths import ASSETS_PATH
 VANILLA_LINK_METADATA = {
   "hero_custom_colors": OrderedDict([
     ("Hair",  [255, 238, 16]),
+    ("Skin", [0xF6, 0xDA, 0x9C]),
     ("Shirt", [90, 178, 74]),
     ("Undershirt", [172, 226, 65]),
     ("Pants", [255, 255, 255]),
   ]),
   "casual_custom_colors": OrderedDict([
     ("Hair",  [255, 238, 16]),
+    ("Skin", [0xF6, 0xDA, 0x9C]),
     ("Shirt", [74, 117, 172]),
     ("Pants", [255, 161, 0]),
   ]),
   "hero_color_mask_paths": OrderedDict([
     ("Hair", os.path.join(ASSETS_PATH,  "link_hero_hair_mask.png")),
+    ("Skin", os.path.join(ASSETS_PATH,  "link_hero_skin_mask.png")),
     ("Shirt", os.path.join(ASSETS_PATH, "link_hero_shirt_mask.png")),
     ("Undershirt", os.path.join(ASSETS_PATH, "link_hero_undershirt_mask.png")),
     ("Pants", os.path.join(ASSETS_PATH, "link_hero_pants_mask.png")),
   ]),
   "casual_color_mask_paths": OrderedDict([
     ("Hair", os.path.join(ASSETS_PATH,  "link_casual_hair_mask.png")),
+    ("Skin", os.path.join(ASSETS_PATH,  "link_casual_skin_mask.png")),
     ("Shirt", os.path.join(ASSETS_PATH, "link_casual_shirt_mask.png")),
     ("Pants", os.path.join(ASSETS_PATH, "link_casual_pants_mask.png")),
   ]),
@@ -180,6 +184,23 @@ def change_player_clothes_color(self):
       for link_hair_texture in link_hair_textures:
         link_hair_texture.replace_image(back_hair_image)
       link_hair_model.save_changes()
+    
+    # Recolor the mouth and hands.
+    if custom_color_basename == "Skin":
+      for i in range(1, 9+1):
+        mouth_textures = link_main_model.tex1.textures_by_name["mouthS3TC.%d" % i]
+        mouth_image = mouth_textures[0].render()
+        mouth_image = texture_utils.color_exchange(mouth_image, base_color, custom_color)
+        for mouth_texture in mouth_textures:
+          mouth_texture.replace_image(mouth_image)
+      
+      hands_model = link_arc.get_file("hands.bdl")
+      hands_textures = hands_model.tex1.textures_by_name["handsS3TC"]
+      hands_image = hands_textures[0].render()
+      hands_image = texture_utils.color_exchange(hands_image, base_color, custom_color)
+      for hands_texture in hands_textures:
+        hands_texture.replace_image(hands_image)
+      hands_model.save_changes()
   
   if not replaced_any:
     return
