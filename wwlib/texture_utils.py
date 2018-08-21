@@ -210,7 +210,7 @@ def get_best_cmpr_key_colors(all_colors):
 
 # Picks a color from a palette that is visually the closest to the given color.
 # Based off Aseprite's code: https://github.com/aseprite/aseprite/blob/cc7bde6cd1d9ab74c31ccfa1bf41a000150a1fb2/src/doc/palette.cpp#L226-L272
-def get_nearest_color(color, palette):
+def get_nearest_color_slow(color, palette):
   if color in palette:
     return color
   
@@ -265,6 +265,37 @@ def get_nearest_color(color, palette):
   
   return value
 
+def get_nearest_color_fast(color, palette):
+  if color in palette:
+    return color
+  
+  r, g, b, a = get_rgba(color)
+  
+  if a < 0xFF: # Transparent
+    for indexed_color in palette:
+      if len(indexed_color) == 4 and indexed_color[3] == 0:
+        return indexed_color
+  
+  min_dist = 0x7FFFFFFF
+  best_color = palette[0]
+  
+  for indexed_color in palette:
+    curr_dist = get_color_distance_fast(color, indexed_color)
+    
+    if curr_dist < min_dist:
+      if curr_dist == 0:
+        return indexed_color
+      
+      min_dist = curr_dist
+      best_color = indexed_color
+  
+  return best_color
+
+def get_color_distance_fast(color_1, color_2):
+  dist  = abs(color_1[0] - color_2[0])
+  dist += abs(color_1[1] - color_2[1])
+  dist += abs(color_1[2] - color_2[2])
+  return dist
 
 
 def decode_palettes(palette_data, palette_format, num_colors, image_format):
@@ -737,7 +768,7 @@ def encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y
       if color in colors:
         color_index = colors.index(color)
       else:
-        new_color = get_nearest_color(color, colors)
+        new_color = get_nearest_color_fast(color, colors)
         color_index = colors.index(new_color)
       color_indexes |= (color_index << ((15-i)*2))
     write_u32(new_data, subblock_offset+4, color_indexes)
