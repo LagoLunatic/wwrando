@@ -196,17 +196,34 @@ def get_interpolated_cmpr_colors(color_0_rgb565, color_1_rgb565):
   return colors
 
 def get_best_cmpr_key_colors(all_colors):
-  # Warning: This is a naive approach to selecting key colors that results in poor quality.
-  # A proper implementation would be complicated to implement.
-  min_r = min(all_colors, key=lambda c: c[0])[0]
-  max_r = max(all_colors, key=lambda c: c[0])[0]
-  min_g = min(all_colors, key=lambda c: c[1])[1]
-  max_g = max(all_colors, key=lambda c: c[1])[1]
-  min_b = min(all_colors, key=lambda c: c[2])[2]
-  max_b = max(all_colors, key=lambda c: c[2])[2]
-  color_0 = (min_r, min_g, min_b)
-  color_1 = (max_r, max_g, max_b)
-  return (color_0, color_1)
+  max_dist = -1
+  color_1 = None
+  color_2 = None
+  for i in range(len(all_colors)):
+    curr_color_1 = all_colors[i]
+    for j in range(i+1, len(all_colors)):
+      curr_color_2 = all_colors[j]
+      curr_dist = get_color_distance_fast(curr_color_1, curr_color_2)
+      if curr_dist > max_dist:
+        max_dist = curr_dist
+        color_1 = curr_color_1
+        color_2 = curr_color_2
+  
+  if max_dist == -1:
+    return ((0, 0, 0, 0xFF), (0xFF, 0xFF, 0xFF, 0xFF))
+  else:
+    r1, g1, b1, a1 = color_1
+    color_1 = (r1, g1, b1, 0xFF)
+    r2, g2, b2, a2 = color_2
+    color_2 = (r2, g2, b2, 0xFF)
+    
+    if (r1 >> 3) == (r2 >> 3) and (g1 >> 2) == (g2 >> 2) and (b1 >> 3) == (b2 >> 3):
+      if (r1 >> 3) == 0 and (g1 >> 2) == 0 and (b1 >> 3) == 0:
+        color_2 = (0xFF, 0xFF, 0xFF, 0xFF)
+      else:
+        color_2 = (0, 0, 0, 0xFF)
+    
+    return (color_1, color_2)
 
 # Picks a color from a palette that is visually the closest to the given color.
 # Based off Aseprite's code: https://github.com/aseprite/aseprite/blob/cc7bde6cd1d9ab74c31ccfa1bf41a000150a1fb2/src/doc/palette.cpp#L226-L272
