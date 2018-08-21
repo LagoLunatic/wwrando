@@ -745,12 +745,12 @@ def encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y
     color_0_rgb565 = convert_color_to_rgb565(color_0)
     color_1_rgb565 = convert_color_to_rgb565(color_1)
     
-    if needs_transparent_color and color0_rgb565 > color1_rgb565:
+    if needs_transparent_color and color_0_rgb565 > color_1_rgb565:
       color_0_rgb565, color_1_rgb565 = color_1_rgb565, color_0_rgb565
-      color_0, color_1 = color1, color0
+      color_0, color_1 = color_1, color_0
     elif color_0_rgb565 < color_1_rgb565:
       color_0_rgb565, color_1_rgb565 = color_1_rgb565, color_0_rgb565
-      color_0, color1 = color_1, color_0
+      color_0, color_1 = color_1, color_0
     
     colors = get_interpolated_cmpr_colors(color_0_rgb565, color_1_rgb565)
     colors[0] = color_0
