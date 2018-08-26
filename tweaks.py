@@ -17,48 +17,67 @@ ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
 ORIGINAL_DOL_SIZE = 0x3A52C0
 
 # These are from main.dol. Hardcoded since it's easier than reading them from the dol.
-TEXT0_SECTION_OFFSET = 0x100
-TEXT0_SECTION_ADDRESS = 0x80003100
-TEXT0_SECTION_SIZE = 0x2520
-TEXT1_SECTION_OFFSET = 0x2620
-TEXT1_SECTION_ADDRESS = 0x800056E0
-TEXT1_SECTION_SIZE = 0x332FA0
-TEXT2_SECTION_OFFSET = ORIGINAL_DOL_SIZE
-TEXT2_SECTION_ADDRESS = ORIGINAL_FREE_SPACE_RAM_ADDRESS
-TEXT2_SECTION_SIZE = -1
-
-DATA4_SECTION_OFFSET = 0x335840
-DATA4_SECTION_ADDRESS = 0x80338840
-DATA4_SECTION_SIZE = 0x38D40
-DATA5_SECTION_OFFSET = 0x36E580
-DATA5_SECTION_ADDRESS = 0x80371580
-DATA5_SECTION_SIZE = 0x313E0
-DATA6_SECTION_OFFSET = 0x39F960
-DATA6_SECTION_ADDRESS = 0x803F60E0
-DATA6_SECTION_SIZE = 0x740
-DATA7_SECTION_OFFSET = 0x3A00A0
-DATA7_SECTION_ADDRESS = 0x803F7D00
-DATA7_SECTION_SIZE = 0x5220
+DOL_SECTION_OFFSETS = [
+  # Text sections
+  0x0100,
+  0x2620,
+  ORIGINAL_DOL_SIZE, # Custom .text2 section
+  
+  # Data sections
+  0x3355C0,
+  0x335620,
+  0x335680,
+  0x335820,
+  0x335840,
+  0x36E580,
+  0x39F960,
+  0x3A00A0,
+]
+DOL_SECTION_ADDRESSES = [
+  # Text sections
+  0x80003100,
+  0x800056E0,
+  ORIGINAL_FREE_SPACE_RAM_ADDRESS, # Custom .text2 section
+  
+  # Data sections
+  0x80005620,
+  0x80005680,
+  0x80338680,
+  0x80338820,
+  0x80338840,
+  0x80371580,
+  0x803F60E0,
+  0x803F7D00,
+]
+DOL_SECTION_SIZES = [
+  # Text sections
+  0x002520,
+  0x332FA0,
+  -1, # Custom .text2 section. Placeholder since we don't know the size until the patch has been applied.
+  
+  # Data sections
+  0x00060,
+  0x00060,
+  0x001A0,
+  0x00020,
+  0x38D40,
+  0x313E0,
+  0x00740,
+  0x05220,
+]
 
 def address_to_offset(address):
   # Takes an address in one of the sections of main.dol and converts it to an offset within main.dol.
-  # (Currently only supports the .text0, .text1, .text2, .data4, and .data5 sections.)
-  if TEXT0_SECTION_ADDRESS <= address < TEXT0_SECTION_ADDRESS+TEXT0_SECTION_SIZE:
-    offset = address - TEXT0_SECTION_ADDRESS + TEXT0_SECTION_OFFSET
-  elif TEXT1_SECTION_ADDRESS <= address < TEXT1_SECTION_ADDRESS+TEXT1_SECTION_SIZE:
-    offset = address - TEXT1_SECTION_ADDRESS + TEXT1_SECTION_OFFSET
-  elif DATA4_SECTION_ADDRESS <= address < DATA4_SECTION_ADDRESS+DATA4_SECTION_SIZE:
-    offset = address - DATA4_SECTION_ADDRESS + DATA4_SECTION_OFFSET
-  elif DATA5_SECTION_ADDRESS <= address < DATA5_SECTION_ADDRESS+DATA5_SECTION_SIZE:
-    offset = address - DATA5_SECTION_ADDRESS + DATA5_SECTION_OFFSET
-  elif DATA7_SECTION_ADDRESS <= address < DATA7_SECTION_ADDRESS+DATA7_SECTION_SIZE:
-    offset = address - DATA7_SECTION_ADDRESS + DATA7_SECTION_OFFSET
-  elif TEXT2_SECTION_ADDRESS <= address <= TEXT2_SECTION_ADDRESS+TEXT2_SECTION_SIZE:
-    # Newly added .text2 section.
-    offset = address - TEXT2_SECTION_ADDRESS + TEXT2_SECTION_OFFSET
-  else:
-    raise Exception("Unknown address: %08X" % address)
-  return offset
+  for section_index in range(len(DOL_SECTION_OFFSETS)):
+    section_offset = DOL_SECTION_OFFSETS[section_index]
+    section_address = DOL_SECTION_ADDRESSES[section_index]
+    section_size = DOL_SECTION_SIZES[section_index]
+    
+    if section_address <= address < section_address+section_size:
+      offset = address - section_address + section_offset
+      return offset
+  
+  raise Exception("Unknown address: %08X" % address)
 
 def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
   high_halfword = (pointer & 0xFFFF0000) >> 16
@@ -101,9 +120,9 @@ def add_custom_functions_to_free_space(self, new_bytes):
   write_u32(dol_data, 0x50, ORIGINAL_FREE_SPACE_RAM_ADDRESS) # Write loading address of the new Text2 section
   write_u32(dol_data, 0x98, patch_length) # Write length of the new Text2 section
   
-  # Update the constant for how large the .text section is so that addresses in this section can be converted properly by address_to_offset.
-  global TEXT2_SECTION_SIZE
-  TEXT2_SECTION_SIZE = patch_length
+  # Update the constant for how large the .text2 section is so that addresses in this section can be converted properly by address_to_offset.
+  global DOL_SECTION_SIZES
+  DOL_SECTION_SIZES[2] = patch_length
   
   # Next we need to change a hardcoded pointer to where free space begins. Otherwise the game will overwrite the custom code.
   padded_patch_length = ((patch_length + 3) & ~3) # Pad length of patch to next 4 just in case
