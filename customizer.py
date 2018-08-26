@@ -49,8 +49,14 @@ def get_model_metadata(custom_model_name):
     if not os.path.isfile(metadata_path):
       return {}
     
-    with open(metadata_path) as f:
-      metadata = yaml.load(f, YamlOrderedDictLoader)
+    try:
+      with open(metadata_path) as f:
+        metadata = yaml.load(f, YamlOrderedDictLoader)
+    except Exception as e:
+      error_message = str(e)
+      return {
+        "error_message": error_message,
+      }
     
     hero_color_mask_paths = OrderedDict()
     casual_color_mask_paths = OrderedDict()
