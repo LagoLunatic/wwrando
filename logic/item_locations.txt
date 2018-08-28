@@ -519,7 +519,9 @@ Dragon Roost Island - Chest on Top of Boulder:
   Paths:
     - sea/Room13.arc/Chest000
 Dragon Roost Island - Fly Across Platforms Around Island:
-  Need: Can Fly With Deku Leaf Outdoors
+  Need:
+    Can Fly With Deku Leaf Outdoors
+    & (Can Cut Grass | Magic Meter Upgrade)
   Original item: Orange Rupee
   Types: Other Chest
   Paths:
