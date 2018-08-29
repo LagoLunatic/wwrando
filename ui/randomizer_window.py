@@ -608,7 +608,7 @@ class WWRandomizerWindow(QMainWindow):
     metadata = customizer.get_model_metadata(custom_model_name)
     
     if metadata is None:
-      self.ui.player_in_casual_clothes.setEnabled(False)
+      self.ui.player_in_casual_clothes.setEnabled(True)
       self.set_option_value("player_in_casual_clothes", False)
     else:
       disable_casual_clothes = metadata.get("disable_casual_clothes", False)
