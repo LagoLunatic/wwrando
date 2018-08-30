@@ -204,7 +204,7 @@ Can Farm Knight's Crests:
   & (
     (Can Access Other Location "Ice Ring Isle - Inner Cave - Chest")
     | (Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30")
-    | (Can Access Other Location "Earth Temple - Big Key Chest" & Can Defeat Darknuts)
+    | (Can Access Other Location "Earth Temple - Big Key Chest" & Can Defeat Darknuts Easily)
     | (Can Access Other Location "Shark Island - Cave")
   )
   # There are respawning Darknuts in:
@@ -244,9 +244,13 @@ Can Defeat Moblins:
 Can Defeat Darknuts:
   Hero's Sword
   | Light Arrows
-  # Skull Hammer also works, but is tricky to do without taking lots of damage, so it's not in the logic.
+  | Skull Hammer
+  # Removing their armor with Skull Hammer is tricky.
   # The most consistent way with Skull Hammer is to run up to a Darknut, do a spin attack to hit its armor, roll away to dodge its attack, roll back in and do another spin attack, and repeat until the armor has been broken.
   # Another way is to circle around the Darknut counterclockwise without locking onto it and wait for it to attack. As soon as it attacks, use the hammer to attack its back and its armor will fall off in one hit.
+Can Defeat Darknuts Easily:
+  Hero's Sword
+  | Light Arrows
 Can Defeat Miniblins:
   Hero's Sword
   | Grappling Hook
