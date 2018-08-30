@@ -417,7 +417,7 @@ Can Defeat Floormasters:
   Hero's Sword
   | Hero's Bow
   # Skull Hammer also works, but because of the wonky hitbox on floormasters there's a very high chance you'll miss and get taken back to the dungeon entrance, so it's not in the logic.
-  # Bombs also work, but it's very annoying to hit them with bombs since they throw bombs back. They also go back in the ground becing invulnerable if you get too far away.
+  # Bombs also work, but it's very annoying to hit them since they throw the bombs back at you. They also go back in the ground becoming invulnerable if you get too far away.
   # Hero's Bow would only be an issue if you run out of arrows when you need to kill a ton of Floormasters - aka the Earth Temple foggy Floormaster room. But thankfully that room has tons of skulls that drop arrow refills.
 Can Defeat Morths:
   Hero's Sword
