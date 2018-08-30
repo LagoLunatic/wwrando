@@ -1288,3 +1288,14 @@ def update_sword_mode_game_variable(self):
     write_u8(dol_data, address_to_offset(sword_mode_address), 2)
   else:
     raise Exception("Unknown sword mode: %s" % self.options.get("sword_mode"))
+
+def update_text_for_swordless(self):
+  msg = self.bmg.messages_by_id[1128]
+  msg.string = "\\{1A 05 00 00 00}, you may not have the\nMaster Sword, but do not be afraid!\n\n\n"
+  msg.string += "The hammer of the dead is all you\nneed to crush your foe...\n\n\n"
+  msg.string += "Even as his ball of fell magic bears down\non you, you can \\{1A 06 FF 00 00 01}knock it back\nwith an empty bottle\\{1A 06 FF 00 00 00}!\n\n"
+  msg.string += "...I am sure you will have a shot at victory!"
+  
+  msg = self.bmg.messages_by_id[1590]
+  msg.string = "\\{1A 05 00 00 00}! Do not run! Trust in the\n"
+  msg.string += "power of the Skull Hammer!"

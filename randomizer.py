@@ -177,6 +177,7 @@ class Randomizer:
       tweaks.update_sword_mode_game_variable(self)
       if self.options.get("sword_mode") == "Swordless":
         tweaks.apply_patch(self, "swordless")
+        tweaks.update_text_for_swordless(self)
     
     options_completed += 1
     yield("Randomizing...", options_completed)
