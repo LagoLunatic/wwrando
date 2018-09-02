@@ -28,6 +28,8 @@ from randomizers import dungeon_entrances
 with open(os.path.join(RANDO_ROOT_PATH, "version.txt"), "r") as f:
   VERSION = f.read().strip()
 
+VERSION_WITHOUT_COMMIT = VERSION
+
 # Try to add the git commit hash to the version number if running from source.
 try:
   from sys import _MEIPASS
