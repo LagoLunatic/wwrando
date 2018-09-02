@@ -28,6 +28,15 @@ from randomizers import dungeon_entrances
 with open(os.path.join(RANDO_ROOT_PATH, "version.txt"), "r") as f:
   VERSION = f.read().strip()
 
+# Try to add the git commit hash to the version number if running from source.
+try:
+  from sys import _MEIPASS
+except ImportError:
+  git_commit_hash_file = os.path.join(RANDO_ROOT_PATH, ".git", "ORIG_HEAD")
+  if os.path.isfile(git_commit_hash_file):
+    with open(git_commit_hash_file, "r") as f:
+      VERSION += "_" + f.read()[:7]
+
 class TooFewProgressionLocationsError(Exception):
   pass
 
