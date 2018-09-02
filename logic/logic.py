@@ -300,23 +300,55 @@ class Logic:
       if location_name not in accessible_undone_locations:
         inaccessible_undone_item_locations.append(location_name)
     
+    # Cache whether each item is useful in order to avoid an absurd number of duplicate recursive calls when checking if a predetermined dungeon item location has a useful item or not.
+    self.cached_items_are_useful = {}
+    
     for item_name in items_to_check:
-      self.add_owned_item_or_item_group(item_name)
-      
-      for location_name in inaccessible_undone_item_locations:
-        if location_name in self.prerandomization_dungeon_item_locations:
-          # We don't care about unlocking a new location if that new location was predetermined to have a dungeon item in it.
-          # The dungeon item it unlocks might be useless, so we can't risk it.
+      if self.check_item_is_useful(item_name, inaccessible_undone_item_locations):
+        self.cached_items_are_useful = None
+        return item_name
+    
+    self.cached_items_are_useful = None
+    
+    return None
+  
+  def check_item_is_useful(self, item_name, inaccessible_undone_item_locations):
+    # Checks whether a specific item unlocks any new locations or not.
+    # This function should only be called by get_first_useful_item or by itself for recursion purposes, not for use anywhere else.
+    
+    if item_name in self.cached_items_are_useful:
+      return self.cached_items_are_useful[item_name]
+    
+    self.add_owned_item_or_item_group(item_name)
+    
+    for location_name in inaccessible_undone_item_locations:
+      if location_name in self.prerandomization_dungeon_item_locations:
+        # If this location has a predetermined dungeon item in it, we need to recursively check if that dungeon item is useful.
+        unlocked_prerand_item = self.prerandomization_dungeon_item_locations[location_name]
+        # Need to exclude the current location from recursive checks to prevent infinite recursion.
+        temp_inaccessible_undone_item_locations = [
+          loc for loc in inaccessible_undone_item_locations
+          if not loc == location_name
+        ]
+        if not self.check_item_is_useful(unlocked_prerand_item, temp_inaccessible_undone_item_locations):
+          # If that dungeon item is not useful, don't consider the current item useful for unlocking it.
           continue
         
         requirement_expression = self.item_locations[location_name]["Need"]
         if self.check_logical_expression_req(requirement_expression):
           self.remove_owned_item_or_item_group(item_name)
-          return item_name
+          self.cached_items_are_useful[item_name] = True
+          return True
       
-      self.remove_owned_item_or_item_group(item_name)
+      requirement_expression = self.item_locations[location_name]["Need"]
+      if self.check_logical_expression_req(requirement_expression):
+        self.remove_owned_item_or_item_group(item_name)
+        self.cached_items_are_useful[item_name] = True
+        return True
     
-    return None
+    self.remove_owned_item_or_item_group(item_name)
+    self.cached_items_are_useful[item_name] = False
+    return False
   
   def filter_locations_for_progression(self, locations_to_filter, filter_sunken_treasure=False):
     return Logic.filter_locations_for_progression_static(
