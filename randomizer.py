@@ -184,6 +184,8 @@ class Randomizer:
         tweaks.apply_patch(self, "reveal_sea_chart")
       if self.options.get("add_shortcut_warps_between_dungeons"):
         tweaks.add_inter_dungeon_warp_pots(self)
+      if self.options.get("invert_camera_x_axis"):
+        tweaks.apply_patch(self, "invert_camera_x_axis")
       tweaks.update_skip_rematch_bosses_game_variable(self)
       tweaks.update_sword_mode_game_variable(self)
       if self.options.get("sword_mode") == "Swordless":

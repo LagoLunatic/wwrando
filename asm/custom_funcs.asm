@@ -1652,6 +1652,18 @@ b 0x80236088 ; Return
 
 
 
+; Read the C-stick's horizontal axis and negate the value in order to invert the camera's movement.
+.global invert_camera_horizontal_axis
+invert_camera_horizontal_axis:
+
+lfs f1, 0x10 (r3) ; Load the C-stick's horizontal axis for controlling the camera (same as the line we're replacing)
+fneg f1, f1 ; Negate the horizontal axis
+
+b 0x8016248C ; Return
+
+
+
+
 .global generic_on_dungeon_bit
 generic_on_dungeon_bit:
 stwu sp, -0x10 (sp)

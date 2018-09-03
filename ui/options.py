@@ -125,6 +125,10 @@ OPTIONS = OrderedDict([
     "skip_rematch_bosses",
     "Removes the door in Ganon's Tower that only unlocks when you defeat the rematch versions of Gohma, Kalle Demos, Jalhalla, and Molgera."
   ),
+  (
+    "invert_camera_x_axis",
+    "Inverts the horizontal axis of camera movement.",
+  ),
   
   (
     "custom_player_model",
@@ -139,4 +143,5 @@ OPTIONS = OrderedDict([
 NON_PERMALINK_OPTIONS = [
   "custom_player_model",
   "player_in_casual_clothes",
+  "invert_camera_x_axis",
 ]
