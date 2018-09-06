@@ -161,9 +161,10 @@ def randomize_progression_items(self):
       should_place_useful_item = False
     
     # If we wind up placing a useful item it can be a single item or a group.
-    # But if we place an item that is not yet useful, we need to exclude groups.
+    # But if we place an item that is not yet useful, we need to exclude groups that are not useful.
     # This is so that a group doesn't wind up taking every single possible remaining location while not opening up new ones.
-    possible_items_when_not_placing_useful = [name for name in possible_items if name not in self.logic.progress_item_groups]
+    not_useful_groups = [name for name in self.logic.progress_item_groups if self.logic.get_first_useful_item([name], for_progression=True) is None]
+    possible_items_when_not_placing_useful = [name for name in possible_items if name not in not_useful_groups]
     # Only exception is when there's exclusively groups left to place. Then we allow groups even if they're not useful.
     if len(possible_items_when_not_placing_useful) == 0 and len(possible_items) > 0:
       possible_items_when_not_placing_useful = possible_items
