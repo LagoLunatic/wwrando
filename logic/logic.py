@@ -312,6 +312,32 @@ class Logic:
     
     return None
   
+  def get_all_useless_items(self, items_to_check, for_progression=False):
+    # Searches through a given list of items and returns which of them do not open up even 1 new location.
+    
+    if len(items_to_check) == 0:
+      return []
+    
+    accessible_undone_locations = self.get_accessible_remaining_locations(for_progression=for_progression)
+    inaccessible_undone_item_locations = []
+    locations_to_check = self.remaining_item_locations
+    if for_progression:
+      locations_to_check = self.filter_locations_for_progression(locations_to_check)
+    for location_name in locations_to_check:
+      if location_name not in accessible_undone_locations:
+        inaccessible_undone_item_locations.append(location_name)
+    
+    self.cached_items_are_useful = {}
+    
+    useless_items = []
+    for item_name in items_to_check:
+      if not self.check_item_is_useful(item_name, inaccessible_undone_item_locations):
+        useless_items.append(item_name)
+    
+    self.cached_items_are_useful = None
+    
+    return useless_items
+  
   def check_item_is_useful(self, item_name, inaccessible_undone_item_locations):
     # Checks whether a specific item unlocks any new locations or not.
     # This function should only be called by get_first_useful_item or by itself for recursion purposes, not for use anywhere else.
