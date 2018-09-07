@@ -259,6 +259,12 @@ Can Defeat Miniblins:
   | Bombs
   | Skull Hammer
   # Grappling Hook does no damage for the first few hits on each Miniblin. But once the Miniblin runs out of hearts and rupees to give you, the Grappling Hook starts doing damage and can kill it.
+Can Defeat Miniblins Easily:
+  Hero's Sword
+  | Boomerang
+  | Hero's Bow
+  | Bombs
+  | Skull Hammer
 Can Defeat Red ChuChus:
   Hero's Sword
   | Skull Hammer

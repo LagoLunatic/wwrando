@@ -2002,7 +2002,7 @@ Boating Course - Cave:
   Need:
     (Can Fly With Deku Leaf Outdoors | Hookshot)
     & Can Hit Diamond Switches at Range
-    & Can Defeat Miniblins
+    & Can Defeat Miniblins Easily
     # Getting inside the cave requires flying with Deku Leaf or Hookshotting the pole.
     # Hitting the 3 diamond switches inside the cave needs a ranged weapon.
     # Killing the miniblins is not necessary, but hitting the switches without being able to kill them would be extremely annoying.
