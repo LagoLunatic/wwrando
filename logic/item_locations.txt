@@ -1005,7 +1005,7 @@ Tower of the Gods - Darknut Mini-Boss Room:
     & Can Defeat Yellow ChuChus
     & Wind Waker
     & (Grappling Hook | Deku Leaf)
-    & (Command Melody | Hero's Bow)
+    & (Can Play Command Melody | Hero's Bow)
     & Can Defeat Darknuts
     # Note: If you already have the bow you can get the statue guy across the previous room without getting this item, which might appear to make this chest permanently missable, but in reality you can use the deactivated Armos from across the pit to keep the button pressed.
     # Note: Normally the only way to do this would be to use Command Melody on the statue guy, but if you already have the bow you can activate the moving platforms and use the deactivated Armos from across the pit to keep the button pressed instead.
@@ -1022,9 +1022,9 @@ Tower of the Gods - Second Chest Guarded by Armos Knights:
     & Can Defeat Yellow ChuChus
     & Wind Waker
     & (Grappling Hook | Deku Leaf)
-    & Command Melody
+    & Can Play Command Melody
     & Hero's Bow
-    & Wind's Requiem
+    & Can Play Wind's Requiem
     # Bombs are needed to kill the Armos Knights, but killing them is not necessary for any reason, since the chest appears when you play Wind's Requiem, and the door is not locked.
   Original item: Treasure Chart 30
   Types: Dungeon
@@ -1038,7 +1038,7 @@ Tower of the Gods - Floating Platforms Room:
     & Can Defeat Yellow ChuChus
     & Wind Waker
     & (Grappling Hook | Deku Leaf)
-    & Command Melody
+    & Can Play Command Melody
     & Hero's Bow
   Original item: Small Key
   Types: Dungeon
@@ -1052,7 +1052,7 @@ Tower of the Gods - Top of Floating Platforms Room:
     & Can Defeat Yellow ChuChus
     & Wind Waker
     & (Grappling Hook | Deku Leaf)
-    & Command Melody
+    & Can Play Command Melody
     & Hero's Bow
   Original item: Joy Pendant
   Types: Dungeon
@@ -1065,7 +1065,7 @@ Tower of the Gods - Big Key Chest:
     & Can Defeat Yellow ChuChus
     & Wind Waker
     & (Grappling Hook | Deku Leaf)
-    & Command Melody
+    & Can Play Command Melody
     & Hero's Bow
     & TotG Small Key x2
     & Deku Leaf
@@ -1090,7 +1090,7 @@ Tower of the Gods - Gohdan Heart Container:
     & Can Defeat Yellow ChuChus
     & Wind Waker
     & (Grappling Hook | Deku Leaf)
-    & Command Melody
+    & Can Play Command Melody
     & Hero's Bow
     & TotG Small Key x2
     & Deku Leaf
