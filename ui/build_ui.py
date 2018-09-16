@@ -1,5 +1,5 @@
 
-from pysideuic import compileUi
+from pyside2uic import compileUi
 import glob
 import os
 

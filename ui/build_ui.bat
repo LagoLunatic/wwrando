@@ -1,2 +1,2 @@
 
-py -3 build_ui.py
+py -3.6 build_ui.py

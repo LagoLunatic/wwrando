@@ -1,6 +1,7 @@
 
-from PySide.QtGui import *
-from PySide.QtCore import *
+from PySide2.QtGui import *
+from PySide2.QtCore import *
+from PySide2.QtWidgets import *
 
 from ui.ui_randomizer_window import Ui_MainWindow
 from ui.options import OPTIONS, NON_PERMALINK_OPTIONS

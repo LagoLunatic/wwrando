@@ -1,6 +1,8 @@
-#!/usr/bin/python3.4
-from PySide.QtGui import *
-from PySide.QtCore import *
+#!/usr/bin/python3.6
+
+from PySide2.QtGui import *
+from PySide2.QtCore import *
+from PySide2.QtWidgets import *
 
 import sys
 
