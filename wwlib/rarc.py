@@ -240,6 +240,8 @@ class FileEntry:
     else:
       data_offset_or_node_index = self.data_offset
     
+    self.data_size = data_len(self.data)
+    
     write_u16(rarc_data, self.entry_offset+0x2, self.name_hash)
     write_u32(rarc_data, self.entry_offset+0x4, type_and_name_offset)
     write_u32(rarc_data, self.entry_offset+0x8, data_offset_or_node_index)
