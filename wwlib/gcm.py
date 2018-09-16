@@ -103,6 +103,7 @@ class GCM:
     try:
       self.export_system_data_to_iso()
       self.export_filesystem_to_iso()
+      self.align_output_iso_to_nearest(2048)
     except:
       self.output_iso.close()
       os.remove(output_file_path)
