@@ -223,6 +223,12 @@ li r4, 16 ; 16 is the normal starting size of the magic meter.
 stb r4, 0 (r3) ; Max magic meter
 stb r4, 1 (r3) ; Current magic meter
 
+; Make the game think the player has previously owned every type of spoil and bait so they don't get the item get animation the first time they pick each type up.
+lis r3, 0x803C4C9C@ha
+addi r3, r3, 0x803C4C9C@l
+li r4, 0xFF
+stb r4, 0 (r3) ; 803C4C9C, bitfield of what spoils bag items you've ever owned
+stb r4, 1 (r3) ; 803C4C9D, bitfield of what bait bag items you've ever owned
 
 ; Give the player the number of Triforce Shards they want to start with.
 lis r5, num_triforce_shards_to_start_with@ha
