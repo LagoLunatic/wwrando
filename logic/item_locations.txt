@@ -2639,11 +2639,12 @@ Four-Eye Reef - Destroy the Cannons and Gunboats:
   Paths:
     - sea/Room8.arc/Chest000
 
-Five-Eye Reef - Destroy the Cannons and Gunboats:
+Five-Eye Reef - Destroy the Cannons:
   Need:
     # The cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead.
+    # Unlike the other eye reefs, this one has only cannons and no gunboats.
     Can Reach and Defeat Phantom Ganon
-    & Bombs
+    & Can Destroy Cannons
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 41
   Types: Eye Reef Chest
