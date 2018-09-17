@@ -193,11 +193,13 @@ def make_all_text_instant(self):
     )
     
     # Get rid of wait+dismiss commands
-    msg.string = re.sub(
-      r"\\\{1A 07 00 00 04 [0-9a-f]{2} [0-9a-f]{2}\}",
-      "",
-      msg.string, 0, re.IGNORECASE
-    )
+    # Exclude message 7726, for Maggie's Father throwing rupees at you. He only spawns the rupees past a certain frame of his animation, so if you skipped past the text too quickly you wouldn't get any rupees.
+    if msg.message_id != 7726:
+      msg.string = re.sub(
+        r"\\\{1A 07 00 00 04 [0-9a-f]{2} [0-9a-f]{2}\}",
+        "",
+        msg.string, 0, re.IGNORECASE
+      )
     
     # Get rid of wait+dismiss (prompt) commands
     msg.string = re.sub(
