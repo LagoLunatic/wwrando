@@ -28,6 +28,7 @@ from logic.logic import Logic
 
 class WWRandomizerWindow(QMainWindow):
   VALID_SEED_CHARACTERS = "-_'%%.%s%s" % (string.ascii_letters, string.digits)
+  MAX_SEED_LENGTH = 42 # Limited by maximum length of game name in banner
   
   def __init__(self):
     super(WWRandomizerWindow, self).__init__()
@@ -122,6 +123,7 @@ class WWRandomizerWindow(QMainWindow):
     seed = str(seed)
     seed = seed.strip()
     seed = "".join(char for char in seed if char in self.VALID_SEED_CHARACTERS)
+    seed = seed[:self.MAX_SEED_LENGTH]
     return seed
   
   def randomize(self):
