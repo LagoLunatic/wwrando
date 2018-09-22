@@ -5,6 +5,12 @@ block_cipher = None
 with open("./version.txt") as f:
   randomizer_version = f.read().strip()
 
+import struct
+if (struct.calcsize("P") * 8) == 64:
+  randomizer_version += "_64bit"
+else:
+  randomizer_version += "_32bit"
+
 a = Analysis(['wwrando.py'],
              pathex=[],
              binaries=[],
