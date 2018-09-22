@@ -40,6 +40,32 @@ class Logic:
   def __init__(self, rando):
     self.rando = rando
     
+    
+    # Initialize location related attributes.
+    self.item_locations = Logic.load_and_parse_item_locations()
+    self.load_and_parse_macros()
+    
+    self.locations_by_zone_name = OrderedDict()
+    for location_name in self.item_locations:
+      zone_name, specific_location_name = self.split_location_name_by_zone(location_name)
+      if zone_name not in self.locations_by_zone_name:
+        self.locations_by_zone_name[zone_name] = []
+      self.locations_by_zone_name[zone_name].append(location_name)
+    
+    self.remaining_item_locations = list(self.item_locations.keys())
+    self.prerandomization_dungeon_item_locations = OrderedDict()
+    
+    self.done_item_locations = OrderedDict()
+    for location_name in self.item_locations:
+      self.done_item_locations[location_name] = None
+    
+    self.rock_spire_shop_ship_locations = []
+    for location_name, location in self.item_locations.items():
+      if location_name.startswith("Rock Spire Isle - Beedle's Special Shop Ship - "):
+        self.rock_spire_shop_ship_locations.append(location_name)
+    
+    
+    # Initialize item related attributes.
     self.all_progress_items = PROGRESS_ITEMS.copy()
     self.all_nonprogress_items = NONPROGRESS_ITEMS.copy()
     self.all_consumable_items = CONSUMABLE_ITEMS.copy()
@@ -102,37 +128,10 @@ class Logic:
       if cleaned_item_name not in self.all_cleaned_item_names:
         self.all_cleaned_item_names.append(cleaned_item_name)
     
-    self.item_locations = Logic.load_and_parse_item_locations()
-    self.load_and_parse_macros()
-    
-    self.locations_by_zone_name = OrderedDict()
-    for location_name in self.item_locations:
-      zone_name, specific_location_name = self.split_location_name_by_zone(location_name)
-      if zone_name not in self.locations_by_zone_name:
-        self.locations_by_zone_name[zone_name] = []
-      self.locations_by_zone_name[zone_name].append(location_name)
-    
-    self.remaining_item_locations = list(self.item_locations.keys())
-    self.prerandomization_dungeon_item_locations = OrderedDict()
-    
-    self.done_item_locations = OrderedDict()
-    for location_name in self.item_locations:
-      self.done_item_locations[location_name] = None
-    
-    self.rock_spire_shop_ship_locations = []
-    for location_name, location in self.item_locations.items():
-      if location_name.startswith("Rock Spire Isle - Beedle's Special Shop Ship - "):
-        self.rock_spire_shop_ship_locations.append(location_name)
-    
-    # Sync the logic macros with the randomizer.
-    self.update_dungeon_entrance_macros()
-    self.update_chart_macros()
-    self.update_rematch_bosses_macros()
-    self.update_sword_mode_macros()
-    
     for item_name in self.rando.starting_items:
       self.add_owned_item(item_name)
     
+    # Remove starting items from item groups.
     for group_name, group_item_names in self.progress_item_groups.items():
       items_to_remove_from_group = [
         item_name for item_name in group_item_names
@@ -142,6 +141,13 @@ class Logic:
         self.progress_item_groups[group_name].remove(item_name)
       if len(self.progress_item_groups[group_name]) == 0:
         self.unplaced_progress_items.remove(group_name)
+    
+    
+    # Sync the logic macros with the randomizer.
+    self.update_dungeon_entrance_macros()
+    self.update_chart_macros()
+    self.update_rematch_bosses_macros()
+    self.update_sword_mode_macros()
   
   def set_location_to_item(self, location_name, item_name):
     #print("Setting %s to %s" % (location_name, item_name))
