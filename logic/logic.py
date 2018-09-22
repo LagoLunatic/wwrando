@@ -64,6 +64,12 @@ class Logic:
       if location_name.startswith("Rock Spire Isle - Beedle's Special Shop Ship - "):
         self.rock_spire_shop_ship_locations.append(location_name)
     
+    # Sync the logic macros with the randomizer.
+    self.update_dungeon_entrance_macros()
+    self.update_chart_macros()
+    self.update_rematch_bosses_macros()
+    self.update_sword_mode_macros()
+    
     
     # Initialize item related attributes.
     self.all_progress_items = PROGRESS_ITEMS.copy()
@@ -108,6 +114,12 @@ class Logic:
       regular_item_name = dungeon_item_name.split(" ", 1)[1]
       self.rando.item_name_to_id[dungeon_item_name] = self.rando.item_name_to_id[regular_item_name]
     
+    self.all_cleaned_item_names = []
+    for item_name in (self.all_progress_items + self.all_nonprogress_items + self.all_consumable_items):
+      cleaned_item_name = self.clean_item_name(item_name)
+      if cleaned_item_name not in self.all_cleaned_item_names:
+        self.all_cleaned_item_names.append(cleaned_item_name)
+    
     self.unplaced_progress_items = self.all_progress_items.copy()
     self.unplaced_nonprogress_items = self.all_nonprogress_items.copy()
     self.unplaced_consumable_items = self.all_consumable_items.copy()
@@ -122,12 +134,6 @@ class Logic:
     
     self.currently_owned_items = []
     
-    self.all_cleaned_item_names = []
-    for item_name in (self.all_progress_items + self.all_nonprogress_items + self.all_consumable_items):
-      cleaned_item_name = self.clean_item_name(item_name)
-      if cleaned_item_name not in self.all_cleaned_item_names:
-        self.all_cleaned_item_names.append(cleaned_item_name)
-    
     for item_name in self.rando.starting_items:
       self.add_owned_item(item_name)
     
@@ -141,13 +147,6 @@ class Logic:
         self.progress_item_groups[group_name].remove(item_name)
       if len(self.progress_item_groups[group_name]) == 0:
         self.unplaced_progress_items.remove(group_name)
-    
-    
-    # Sync the logic macros with the randomizer.
-    self.update_dungeon_entrance_macros()
-    self.update_chart_macros()
-    self.update_rematch_bosses_macros()
-    self.update_sword_mode_macros()
   
   def set_location_to_item(self, location_name, item_name):
     #print("Setting %s to %s" % (location_name, item_name))
