@@ -130,9 +130,10 @@ class Logic:
     
     # Replace progress items that are part of a group with the group name instead.
     for group_name, item_names in self.progress_item_groups.items():
-      for item_name in item_names:
-        self.unplaced_progress_items.remove(item_name)
-    self.unplaced_progress_items += self.progress_item_groups.keys()
+      if all(item_name in self.unplaced_progress_items for item_name in item_names):
+        self.unplaced_progress_items.append(group_name)
+        for item_name in item_names:
+          self.unplaced_progress_items.remove(item_name)
     
     self.currently_owned_items = []
     
@@ -629,13 +630,9 @@ class Logic:
         continue
       all_progress_items_filtered.append(item_name)
     
-    all_grouped_items = []
-    for group_name, group_item_names in self.PROGRESS_ITEM_GROUPS.items():
-      all_grouped_items += group_item_names
     items_to_make_nonprogress = [
       item_name for item_name in self.all_progress_items
       if item_name not in all_progress_items_filtered
-      and item_name not in all_grouped_items # For now we can't make grouped items be nonprogress. TODO
     ]
     for item_name in items_to_make_nonprogress:
       print(item_name)
