@@ -120,6 +120,8 @@ class Logic:
       if cleaned_item_name not in self.all_cleaned_item_names:
         self.all_cleaned_item_names.append(cleaned_item_name)
     
+    self.make_useless_progress_items_nonprogress()
+    
     self.unplaced_progress_items = self.all_progress_items.copy()
     self.unplaced_nonprogress_items = self.all_nonprogress_items.copy()
     self.unplaced_consumable_items = self.all_consumable_items.copy()
@@ -593,6 +595,53 @@ class Logic:
     # Remove parentheses from any item names that may have them. (Formerly Master Swords, though that's not an issue anymore.)
     return item_name.replace("(", "").replace(")", "")
   
+  def make_useless_progress_items_nonprogress(self):
+    # Detect which progress items don't actually help access any locations with the user's current settings, and move those over to the nonprogress item list instead.
+    # This is so things like dungeons-only runs don't have a lot of useless items hogging the progress locations.
+    
+    filter_sunken_treasure = True
+    if self.rando.options.get("progression_triforce_charts") or self.rando.options.get("progression_treasure_charts"):
+      filter_sunken_treasure = False
+    progress_locations = Logic.filter_locations_for_progression_static(
+      self.item_locations.keys(),
+      self.item_locations,
+      self.rando.options,
+      filter_sunken_treasure=filter_sunken_treasure
+    )
+    
+    useful_items = []
+    for location_name in progress_locations:
+      requirement_expression = self.item_locations[location_name]["Need"]
+      useful_items += self.get_item_names_from_logical_expression_req(requirement_expression)
+    useful_items += self.get_item_names_by_req_name("Can Reach and Defeat Ganondorf")
+    
+    all_progress_items_filtered = []
+    for item_name in useful_items:
+      if item_name == "Progressive Sword" and self.rando.options.get("sword_mode") == "Swordless":
+        continue
+      if self.is_dungeon_item(item_name) and not self.rando.options.get("progression_dungeons"):
+        continue
+      if item_name not in self.all_progress_items:
+        if not (item_name.startswith("Triforce Chart ") or item_name.startswith("Treasure Chart")):
+          raise Exception("Item %s opens up progress locations but is not in the list of all progress items." % item_name)
+      if item_name in all_progress_items_filtered:
+        # Avoid duplicates
+        continue
+      all_progress_items_filtered.append(item_name)
+    
+    all_grouped_items = []
+    for group_name, group_item_names in self.PROGRESS_ITEM_GROUPS.items():
+      all_grouped_items += group_item_names
+    items_to_make_nonprogress = [
+      item_name for item_name in self.all_progress_items
+      if item_name not in all_progress_items_filtered
+      and item_name not in all_grouped_items # For now we can't make grouped items be nonprogress. TODO
+    ]
+    for item_name in items_to_make_nonprogress:
+      print(item_name)
+      self.all_progress_items.remove(item_name)
+      self.all_nonprogress_items.append(item_name)
+  
   def split_location_name_by_zone(self, location_name):
     if " - " in location_name:
       zone_name, specific_location_name = location_name.split(" - ", 1)
@@ -688,6 +737,60 @@ class Logic:
       return any(subexpression_results)
     else:
       return all(subexpression_results)
+  
+  def get_item_names_by_req_name(self, req_name):
+    item_names = []
+    if req_name.startswith("Progressive "):
+      match = re.search(r"^(Progressive .+) x(\d+)$", req_name)
+      item_name = match.group(1)
+      item_names.append(item_name)
+    elif " Small Key x" in req_name:
+      match = re.search(r"^(.+ Small Key) x(\d+)$", req_name)
+      small_key_name = match.group(1)
+      item_names.append(small_key_name)
+    elif req_name.startswith("Can Access Other Location \""):
+      match = re.search(r"^Can Access Other Location \"([^\"]+)\"$", req_name)
+      other_location_name = match.group(1)
+      requirement_expression = self.item_locations[other_location_name]["Need"]
+      item_names += self.get_item_names_from_logical_expression_req(requirement_expression)
+    elif req_name in self.all_cleaned_item_names:
+      item_names.append(req_name)
+    elif req_name in self.macros:
+      logical_expression = self.macros[req_name]
+      item_names += self.get_item_names_from_logical_expression_req(logical_expression)
+    elif req_name == "Nothing":
+      pass
+    elif req_name == "Impossible":
+      pass
+    else:
+      raise Exception("Unknown requirement name: " + req_name)
+    
+    return item_names
+  
+  def get_item_names_from_logical_expression_req(self, logical_expression):
+    item_names = []
+    tokens = logical_expression.copy()
+    tokens.reverse()
+    while tokens:
+      token = tokens.pop()
+      if token == "|":
+        pass
+      elif token == "&":
+        pass
+      elif token == "(":
+        nested_expression = tokens.pop()
+        if nested_expression == "(":
+          # Nested parentheses
+          nested_expression = ["("] + tokens.pop()
+        result = self.get_item_names_from_logical_expression_req(nested_expression)
+        item_names += result
+        assert tokens.pop() == ")"
+      else:
+        # Subexpression.
+        sub_item_names = self.get_item_names_by_req_name(token)
+        item_names += sub_item_names
+    
+    return item_names
   
   def check_progressive_item_req(self, req_name):
     match = re.search(r"^(Progressive .+) x(\d+)$", req_name)
