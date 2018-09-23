@@ -521,6 +521,7 @@ class WWRandomizerWindow(QMainWindow):
     
     if custom_model_names:
       self.ui.custom_player_model.addItem("Random")
+      self.ui.custom_player_model.addItem("Random (exclude Link)")
     else:
       self.ui.custom_player_model.setEnabled(False)
   

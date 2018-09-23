@@ -97,17 +97,16 @@ def replace_link_model(self):
   if custom_model_name == "Link":
     return
   
-  if custom_model_name == "Random":
+  if custom_model_name == "Random" or custom_model_name == "Random (exclude Link)":
     custom_model_names = get_all_custom_model_names()
     if not custom_model_names:
       raise Exception("No custom models to randomly choose from in the /models folder.")
     
-    custom_model_names.append(None) # Dummy entry to represent not changing Link's model
+    if custom_model_name == "Random":
+      custom_model_names.append(None) # Dummy entry to represent not changing Link's model
     
     temp_rng = self.get_new_rng()
     custom_model_name = temp_rng.choice(custom_model_names)
-    print(custom_model_names)
-    print(custom_model_name)
     
     if custom_model_name == None:
       return
