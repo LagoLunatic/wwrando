@@ -123,6 +123,9 @@ class BMGSection:
       next_string_offset += message.encoded_string_length
   
   def add_new_message(self, message_id):
+    if message_id in self.messages_by_id:
+      raise Exception("Tried to add a new message with ID %d, but a message with that ID already exists" % message_id)
+    
     message = Message(self.data, self.bmg)
     message.message_id = message_id
     
