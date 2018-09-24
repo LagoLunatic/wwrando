@@ -999,3 +999,12 @@
   ; Don't set the bit for owning the deluxe picto box.
   nop
 .close
+
+
+
+
+; Fix the wrong item get sound playing when you get a pearl.
+.open "sys/main.dol"
+.org 0x8012E3E8 ; In setGetItemSound__9daPy_lk_cFUsi
+  b check_play_pearl_item_get_music
+.close

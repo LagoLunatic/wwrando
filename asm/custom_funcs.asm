@@ -1670,6 +1670,30 @@ b 0x8016248C ; Return
 
 
 
+; Add a check right before playing the item get music to handle playing the special pearl item get music.
+; The vanilla game played the pearl music as part of the .stb cutscenes where you get the pearls, so the regular item get code had no reason to check for pearls originally.
+.global check_play_pearl_item_get_music
+check_play_pearl_item_get_music:
+
+lwz r3, -0x69D0 (r13) ; Replace the line we overwrote to jump here
+
+; Check if the item ID (in r0) matches any of the pearls.
+cmplwi r0, 0x69 ; Nayru's Pearl
+beq play_pearl_item_get_music
+cmplwi r0, 0x6A ; Din's Pearl
+beq play_pearl_item_get_music
+cmplwi r0, 0x6B ; Farore's Pearl
+beq play_pearl_item_get_music
+b 0x8012E3EC ; If not, return to the code that plays the normal item get music
+
+play_pearl_item_get_music:
+lis r4, 0x8000004F@ha ; BGM ID for the pearl item get music
+addi r4, r4, 0x8000004F@l
+b 0x8012E3F4 ; Jump to the code that plays the normal item get music
+
+
+
+
 .global generic_on_dungeon_bit
 generic_on_dungeon_bit:
 stwu sp, -0x10 (sp)
