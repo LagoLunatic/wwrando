@@ -150,8 +150,7 @@ class Message:
     self.initial_draw_type = 0
     self.text_box_position = 3
     self.display_item_id = 0xFF
-    
-    self.unknown_2 = 0
+    self.text_alignment = 0
     
     self.initial_sound = 0
     self.initial_camera_behavior = 0
@@ -179,7 +178,7 @@ class Message:
     self.text_box_position = read_u8(data, offset+0x0E)
     self.display_item_id = read_u8(data, offset+0x0F)
     
-    self.unknown_2 = read_u8(data, offset+0x10)
+    self.text_alignment = read_u8(data, offset+0x10)
     self.initial_sound = read_u8(data, offset+0x11)
     self.initial_camera_behavior = read_u8(data, offset+0x12)
     self.initial_speaker_anim = read_u8(data, offset+0x13)
@@ -204,7 +203,7 @@ class Message:
     write_u8(data, self.offset+0x0E, self.text_box_position)
     write_u8(data, self.offset+0x0F, self.display_item_id)
     
-    write_u8(data, self.offset+0x10, self.unknown_2)
+    write_u8(data, self.offset+0x10, self.text_alignment)
     write_u8(data, self.offset+0x11, self.initial_sound)
     write_u8(data, self.offset+0x12, self.initial_camera_behavior)
     write_u8(data, self.offset+0x13, self.initial_speaker_anim)
