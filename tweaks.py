@@ -1301,3 +1301,19 @@ def update_text_for_swordless(self):
   msg = self.bmg.messages_by_id[1590]
   msg.string = "\\{1A 05 00 00 00}! Do not run! Trust in the\n"
   msg.string += "power of the Skull Hammer!"
+
+def add_hint_signs(self):
+  # Add a hint sign to the second room of DRC with an arrow pointing to the passage to the Big Key Chest.
+  new_message_id = 847
+  msg = self.bmg.add_new_message(new_message_id)
+  msg.string = "\\{1A 05 00 00 15}" # Right arrow
+  msg.text_box_type = 2 # Wooden sign message box
+  msg.initial_draw_type = 1 # Instant initial message speed
+  msg.text_alignment = 3 # Centered text alignment
+  
+  dzx = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr")
+  bomb_flowers = [actor for actor in dzx.entries_by_type_and_layer("ACTR", None) if actor.name == "BFlower"]
+  bomb_flowers[1].name = "Kanban"
+  bomb_flowers[1].params = new_message_id
+  bomb_flowers[1].y_rot = 0x2000
+  bomb_flowers[1].save_changes()
