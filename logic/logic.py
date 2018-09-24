@@ -635,7 +635,7 @@ class Logic:
       if item_name not in all_progress_items_filtered
     ]
     for item_name in items_to_make_nonprogress:
-      print(item_name)
+      #print(item_name)
       self.all_progress_items.remove(item_name)
       self.all_nonprogress_items.append(item_name)
   
