@@ -1,0 +1,222 @@
+- # Blue Bokoblin
+  Name: Bk
+  Params: 0xFFFFFF00
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+- # Green Bokoblin
+  Name: Bk
+  Params: 0xFFFFFF03
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+- # Pink Bokoblin
+  Name: Bk
+  Params: 0xFFFFFF04
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+- # Green ChuChu
+  Name: c_green
+  Params: 0xFFFF0000
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+- # Red ChuChu
+  Name: c_red
+  Params: 0xFFFF0100
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+- # Yellow ChuChu
+  Name: c_kiiro
+  Params: 0xFFFF0400
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+#- # Blue ChuChu
+#  Name: c_blue
+#  Params: 0x
+#  Aux params: 0x
+#  Aux params 2: 0x
+#- # Dark ChuChu (Can't be randomized since there would be no light ray to petrify it)
+#  Name: c_black
+#  Params: 0xFFFF0300
+#  Aux params: 0x0000
+#  Aux params 2: 0x00FF
+- # Kargaroc
+  Name: Bb
+  Params: 0xFFFFFFFF # TODO?
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+- # Moblin
+  Name: mo2
+  Params: 0xFFFFFF00
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+- # Lantern Moblin
+  Name: mo2
+  Params: 0xFFFFFF01
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+- # Pea Hat
+  Name: p_hat
+  Params: 0xFFFFFFFF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+#- # Sea Hat
+#  Name: p_hat
+#  Params: 0xFFFFFF01
+#  Aux params: 0x0000
+#  Aux params 2: 0x0000
+- # Armos Knight
+  Name: amos
+  Params: 0xFFFFFF00
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+- # Armos
+  Name: amos2
+  Params: 0xFFFFFFFF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+- # Dexivine
+  Name: Sss
+  Params: 0x00FFFFFF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+- # Keese
+  Name: keeth
+  Params: 0xFFFF0101
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+- # Fire Keese
+  Name: Fkeeth
+  Params: 0xFFFF8101
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+- # Octorok (Freshwater)
+  Name: Oq
+  Params: 0xFFFFFFFF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+- # Octorok (Saltwater)
+  Name: Oqw
+  Params: 0xFFFFFF01
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+- # Wizzrobe. sorta works, but it may shoot its fireballs through walls and the fireballs may also be invisible.
+  Name: wiz_r
+  Params: 0x00FFFF01 # TODO: unknown!
+  Aux params: 0x0000
+  Aux params 2: 0x0003 # TODO: unknown!
+#- # Unused Wizzrobe?
+#  Name: wiz_s
+#  Params: 0x
+#- # Unused Wizzrobe?
+#  Name: wiz_m
+#  Params: 0x
+#- # Unused Wizzrobe?
+#  Name: wiz_o
+#  Params: 0x
+- # ReDead (not hunched over)
+  Name: Rdead1
+  Params: 0xFFFFFFFE
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+- # ReDead (hunched over)
+  Name: Rdead2
+  Params: 0xFFFFFFFF
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+- # Poe
+  Name: pow
+  Params: 0xFFFFFF01
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+#- # Morth
+#  Name: kuro_s
+#  Params: 0xFFFFFFFF # TODO
+#- # Morth 2?
+#  Name: kuro_t
+#  Params: 0x
+- # Miniblin
+  Name: Puti
+  Params: 0xFFFFFFFF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+- # Rat
+  Name: nezumi
+  Params: 0xFFFFFFFF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+- # Stalfos
+  Name: Stal
+  Params: 0xFFFFFFFF
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+- # Darknut (without shield)
+  Name: Tn
+  Params: 0xFFFFFF10
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+- # Darknut (with shield)
+  Name: Tn
+  Params: 0xFFFFFF14
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+-  # Boko Baba
+  Name: bbaba
+  Params: 0xFFFFFFFF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+- # Magtail
+  Name: magtail
+  Params: 0xFFFFFFFF # TODO
+  Aux params: 0x0000 # TODO
+  Aux params 2: 0x0000 # TODO
+  # magtail. sorta works, but may start out inside the floor and come up, or start out inside the floor and never come out.
+- # Blue? Bubble (no flames...)
+  Name: bable
+  Params: 0x01FFFF00 # TODO
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+- # Wingless Mothula
+  Name: gmos
+  Params: 0xFF010000
+  Aux params: 0x00FF
+  Aux params 2: 0x00FF
+- # Winged Mothula
+  Name: gmos
+  Params: 0xFF020000
+  Aux params: 0x00FF
+  Aux params 2: 0x00FF
+- # Molgera Child
+  Name: Bwds
+  Params: 0x00000023
+  Aux params: 0x0000 # TODO
+  Aux params 2: 0x0000 # TODO
+#- # Gyorg. Doesn't spawn on land.
+#  Name: GyCtrl
+#  Params: 0x
+#- 
+#  Name: GyCtrlB
+#  Params: 0x
+- # Blue Beamos
+  Name: Hmos1
+  Params: 0x00000002
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+- # Red Beamos
+  Name: Hmos2
+  Params: 0x1000FD02
+  Aux params: 0x0000
+  Aux params 2: 0x1FFF
+  # TODO: what do any of these beamos params even do? might affect drops, rotation, range?
+#- # ??? Beamos
+#  Name: Hmos3
+#  Params: 0x
+#  Aux params: 0x
+#  Aux params 2: 0x
+#- # Floormaster (unused?)
+#  Name: Fmaster
+#  Params: 0x
+#- # Floormaster 1?
+#  Name: Fmastr1
+#  Params: 0x
+#- # Floormaster 2?
+#  Name: Fmastr2
+#  Params: 0x

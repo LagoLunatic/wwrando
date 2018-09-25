@@ -31,6 +31,7 @@ from randomizers import charts
 from randomizers import starting_island
 from randomizers import entrances
 from randomizers import bgm
+from randomizers import enemies
 
 with open(os.path.join(RANDO_ROOT_PATH, "version.txt"), "r") as f:
   VERSION = f.read().strip()
@@ -360,6 +361,8 @@ class Randomizer:
     if self.options.get("randomize_bgm"):
       bgm.randomize_bgm(self)
     
+    #enemies.randomize_enemies(self)
+    
     items.randomize_items(self)
     
     options_completed += 2
@@ -542,6 +545,9 @@ class Randomizer:
     
     with open(os.path.join(DATA_PATH, "island_name_hints.txt"), "r") as f:
       self.island_name_hints = yaml.safe_load(f)
+    
+    with open(os.path.join(DATA_PATH, "enemy_params.txt"), "r") as f:
+      self.enemy_params = yaml.load(f)
   
   def get_arc(self, arc_path):
     arc_path = arc_path.replace("\\", "/")
