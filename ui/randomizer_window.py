@@ -730,6 +730,12 @@ class WWRandomizerWindow(QMainWindow):
   def keyPressEvent(self, event):
     if event.key() == Qt.Key_Escape:
       self.close()
+  
+  def closeEvent(self, event):
+    # Need to wait for the update checker before exiting, or the program will crash when closing.
+    self.update_checker_thread.quit()
+    self.update_checker_thread.wait()
+    event.accept()
 
 class RandomizerProgressDialog(QProgressDialog):
   def __init__(self, title, description, max_val):
