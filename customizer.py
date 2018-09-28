@@ -24,20 +24,14 @@ VANILLA_LINK_METADATA = {
     ("Shirt", [74, 117, 172]),
     ("Pants", [255, 161, 0]),
   ]),
-  "hero_color_mask_paths": OrderedDict([
-    ("Hair", os.path.join(ASSETS_PATH,  "link_hero_hair_mask.png")),
-    ("Skin", os.path.join(ASSETS_PATH,  "link_hero_skin_mask.png")),
-    ("Shirt", os.path.join(ASSETS_PATH, "link_hero_shirt_mask.png")),
-    ("Undershirt", os.path.join(ASSETS_PATH, "link_hero_undershirt_mask.png")),
-    ("Pants", os.path.join(ASSETS_PATH, "link_hero_pants_mask.png")),
-  ]),
-  "casual_color_mask_paths": OrderedDict([
-    ("Hair", os.path.join(ASSETS_PATH,  "link_casual_hair_mask.png")),
-    ("Skin", os.path.join(ASSETS_PATH,  "link_casual_skin_mask.png")),
-    ("Shirt", os.path.join(ASSETS_PATH, "link_casual_shirt_mask.png")),
-    ("Pants", os.path.join(ASSETS_PATH, "link_casual_pants_mask.png")),
-  ]),
+  "hero_color_mask_paths": OrderedDict(),
+  "casual_color_mask_paths": OrderedDict(),
 }
+
+for prefix in ["hero", "casual"]:
+  for color_name in VANILLA_LINK_METADATA["%s_custom_colors" % prefix]:
+    mask_path = os.path.join(ASSETS_PATH, "link_color_masks", "%s_%s.png" % (prefix, color_name))
+    VANILLA_LINK_METADATA["%s_color_mask_paths" % prefix][color_name] = mask_path
 
 def get_model_metadata(custom_model_name):
   if custom_model_name == "Link":
@@ -58,11 +52,13 @@ def get_model_metadata(custom_model_name):
         "error_message": error_message,
       }
     
-    hero_color_mask_paths = OrderedDict()
-    casual_color_mask_paths = OrderedDict()
+    metadata["hero_color_mask_paths"] = OrderedDict()
+    metadata["casual_color_mask_paths"] = OrderedDict()
     
     for key, value in metadata.items():
       if key in ["hero_custom_colors", "casual_custom_colors"]:
+        prefix = key.split("_")[0]
+        
         for custom_color_name, hex_color in value.items():
           hex_color = str(hex_color)
           match = re.search(r"^([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})$", hex_color, re.IGNORECASE)
@@ -70,15 +66,8 @@ def get_model_metadata(custom_model_name):
             r, g, b = int(match.group(1), 16), int(match.group(2), 16), int(match.group(3), 16)
             value[custom_color_name] = [r, g, b]
           
-          if key == "casual_custom_colors":
-            path = os.path.join("models", custom_model_name, "color_masks", "casual_%s.png" % custom_color_name)
-            casual_color_mask_paths[custom_color_name] = path
-          else:
-            path = os.path.join("models", custom_model_name, "color_masks", "hero_%s.png" % custom_color_name)
-            hero_color_mask_paths[custom_color_name] = path
-    
-    metadata["hero_color_mask_paths"] = hero_color_mask_paths
-    metadata["casual_color_mask_paths"] = casual_color_mask_paths
+          mask_path = os.path.join("models", custom_model_name, "color_masks", "%s_%s.png" % (prefix, custom_color_name))
+          metadata["%s_color_mask_paths" % prefix][custom_color_name] = mask_path
     
     return metadata
 
