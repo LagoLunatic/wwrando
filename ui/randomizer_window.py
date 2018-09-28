@@ -573,7 +573,7 @@ class WWRandomizerWindow(QMainWindow):
       color_hex_code_input.setFixedWidth(52)
       hlayout.addWidget(color_hex_code_input)
       color_selector_button = QPushButton(self.ui.tab_2)
-      color_selector_button.setText("")
+      color_selector_button.setText("Click to set color")
       color_selector_button.setObjectName(option_name)
       hlayout.addWidget(color_selector_button)
       
