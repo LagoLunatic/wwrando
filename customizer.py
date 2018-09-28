@@ -120,6 +120,17 @@ def replace_link_model(self):
       reflection_image_data = BytesIO(f.read())
     always_arc = self.get_arc("files/res/Object/Always.arc")
     always_arc.get_file_entry("shmref.bti").data = reflection_image_data
+  
+  # Replace voice sound effects.
+  jaiinit_aaf_path = custom_model_path + "sound/JaiInit.aaf"
+  voice_aw_path = custom_model_path + "sound/voice_0.aw"
+  if os.path.isfile(jaiinit_aaf_path) and os.path.isfile(voice_aw_path):
+    with open(jaiinit_aaf_path, "rb") as f:
+      jaiinit_aaf_data = BytesIO(f.read())
+    self.replace_raw_file("files/Audiores/JaiInit.aaf", jaiinit_aaf_data)
+    with open(voice_aw_path, "rb") as f:
+      voice_aw_data = BytesIO(f.read())
+    self.replace_raw_file("files/Audiores/Banks/voice_0.aw", voice_aw_data)
 
 def change_player_clothes_color(self):
   custom_model_metadata = get_model_metadata(self.custom_model_name)
