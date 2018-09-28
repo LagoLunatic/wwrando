@@ -3,8 +3,8 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Sun Sep 16 10:46:19 2018
-#      by: pyside2-uic  running on PySide2 5.11.1
+# Created: Fri Sep 28 15:08:47 2018
+#      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -237,11 +237,26 @@ class Ui_MainWindow(object):
         self.player_in_casual_clothes.setObjectName("player_in_casual_clothes")
         self.gridLayout_5.addWidget(self.player_in_casual_clothes, 0, 1, 1, 1)
         self.verticalLayout_3.addLayout(self.gridLayout_5)
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.custom_colors_layout = QtWidgets.QVBoxLayout()
         self.custom_colors_layout.setObjectName("custom_colors_layout")
-        self.verticalLayout_3.addLayout(self.custom_colors_layout)
+        self.verticalLayout_5.addLayout(self.custom_colors_layout)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_3.addItem(spacerItem)
+        self.verticalLayout_5.addItem(spacerItem)
+        self.horizontalLayout_6.addLayout(self.verticalLayout_5)
+        self.verticalLayout_6 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_6.setObjectName("verticalLayout_6")
+        self.custom_model_preview_label = QtWidgets.QLabel(self.tab_2)
+        self.custom_model_preview_label.setText("")
+        self.custom_model_preview_label.setObjectName("custom_model_preview_label")
+        self.verticalLayout_6.addWidget(self.custom_model_preview_label)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_6.addItem(spacerItem1)
+        self.horizontalLayout_6.addLayout(self.verticalLayout_6)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_6)
         self.tabWidget.addTab(self.tab_2, "")
         self.verticalLayout_4.addWidget(self.tabWidget)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents_3)
@@ -270,14 +285,14 @@ class Ui_MainWindow(object):
         self.about_button = QtWidgets.QPushButton(self.centralwidget)
         self.about_button.setObjectName("about_button")
         self.horizontalLayout.addWidget(self.about_button)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem1)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem2)
         self.reset_settings_to_default = QtWidgets.QPushButton(self.centralwidget)
         self.reset_settings_to_default.setMinimumSize(QtCore.QSize(180, 0))
         self.reset_settings_to_default.setObjectName("reset_settings_to_default")
         self.horizontalLayout.addWidget(self.reset_settings_to_default)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem2)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem3)
         self.randomize_button = QtWidgets.QPushButton(self.centralwidget)
         self.randomize_button.setObjectName("randomize_button")
         self.horizontalLayout.addWidget(self.randomize_button)

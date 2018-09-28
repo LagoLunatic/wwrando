@@ -5,6 +5,7 @@ import yaml
 from collections import OrderedDict
 from io import BytesIO
 import glob
+from PIL import Image
 
 from fs_helpers import *
 from wwlib import texture_utils
@@ -26,12 +27,18 @@ VANILLA_LINK_METADATA = {
   ]),
   "hero_color_mask_paths": OrderedDict(),
   "casual_color_mask_paths": OrderedDict(),
+  "preview_hero": os.path.join(ASSETS_PATH, "link_preview", "preview_hero.png"),
+  "preview_casual": os.path.join(ASSETS_PATH, "link_preview", "preview_casual.png"),
+  "preview_hero_color_mask_paths": OrderedDict(),
+  "preview_casual_color_mask_paths": OrderedDict(),
 }
 
 for prefix in ["hero", "casual"]:
   for color_name in VANILLA_LINK_METADATA["%s_custom_colors" % prefix]:
     mask_path = os.path.join(ASSETS_PATH, "link_color_masks", "%s_%s.png" % (prefix, color_name))
     VANILLA_LINK_METADATA["%s_color_mask_paths" % prefix][color_name] = mask_path
+    preview_mask_path = os.path.join(ASSETS_PATH, "link_preview", "preview_%s_%s.png" % (prefix, color_name))
+    VANILLA_LINK_METADATA["preview_%s_color_mask_paths" % prefix][color_name] = preview_mask_path
 
 def get_model_metadata(custom_model_name):
   if custom_model_name == "Link":
@@ -52,8 +59,13 @@ def get_model_metadata(custom_model_name):
         "error_message": error_message,
       }
     
+    metadata["preview_hero"] = os.path.join("models", custom_model_name, "preview", "preview_hero.png")
+    metadata["preview_casual"] = os.path.join("models", custom_model_name, "preview", "preview_casual.png")
+    
     metadata["hero_color_mask_paths"] = OrderedDict()
     metadata["casual_color_mask_paths"] = OrderedDict()
+    metadata["preview_hero_color_mask_paths"] = OrderedDict()
+    metadata["preview_casual_color_mask_paths"] = OrderedDict()
     
     for key, value in metadata.items():
       if key in ["hero_custom_colors", "casual_custom_colors"]:
@@ -68,6 +80,8 @@ def get_model_metadata(custom_model_name):
           
           mask_path = os.path.join("models", custom_model_name, "color_masks", "%s_%s.png" % (prefix, custom_color_name))
           metadata["%s_color_mask_paths" % prefix][custom_color_name] = mask_path
+          preview_mask_path = os.path.join("models", custom_model_name, "preview", "preview_%s_%s.png" % (prefix, custom_color_name))
+          metadata["preview_%s_color_mask_paths" % prefix][custom_color_name] = preview_mask_path
     
     return metadata
 
@@ -217,6 +231,36 @@ def change_player_clothes_color(self):
       texture.save_changes()
   
   link_main_model.save_changes()
+
+def get_model_preview_image(custom_model_name, prefix, selected_colors):
+  custom_model_metadata = get_model_metadata(custom_model_name)
+  
+  if "preview_hero" not in custom_model_metadata:
+    return None
+  
+  preview_image_path = custom_model_metadata["preview_%s" % prefix]
+  if not os.path.isfile(preview_image_path):
+    return None
+  
+  preview_image = Image.open(preview_image_path)
+  
+  custom_colors = custom_model_metadata.get(prefix + "_custom_colors", {})
+  for custom_color_basename, base_color in custom_colors.items():
+    custom_color = selected_colors.get(custom_color_basename, None)
+    if custom_color is None:
+      continue
+    custom_color = tuple(custom_color)
+    base_color = tuple(base_color)
+    if custom_color == base_color:
+      continue
+    
+    mask_path = custom_model_metadata["preview_" + prefix + "_color_mask_paths"][custom_color_basename]
+    if not os.path.isfile(mask_path):
+      return None
+    
+    preview_image = texture_utils.color_exchange(preview_image, base_color, custom_color, mask_path=mask_path)
+  
+  return preview_image
 
 
 class YamlOrderedDictLoader(yaml.SafeLoader):
