@@ -552,6 +552,19 @@ class WWRandomizerWindow(QMainWindow):
         error_message
       )
     
+    model_author = metadata.get("author", None)
+    model_comment = metadata.get("comment", None)
+    comment_lines = []
+    if model_author:
+      comment_lines.append("Model author: %s" % model_author)
+    if model_comment:
+      comment_lines.append("Model author comment: %s" % model_comment)
+    self.ui.custom_model_comment.setText("\n".join(comment_lines))
+    if len(comment_lines) <= 0:
+      self.ui.custom_model_comment.hide()
+    else:
+      self.ui.custom_model_comment.show()
+    
     is_casual = self.get_option_value("player_in_casual_clothes")
     if is_casual:
       prefix = "casual"

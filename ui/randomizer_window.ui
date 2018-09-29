@@ -514,6 +514,13 @@
              </layout>
             </item>
             <item>
+             <widget class="QLabel" name="custom_model_comment">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item>
              <layout class="QHBoxLayout" name="horizontalLayout_6">
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_5">
