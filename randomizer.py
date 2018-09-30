@@ -444,7 +444,7 @@ class Randomizer:
       changed_files[jpc_path] = jpc.data
     
     output_file_path = os.path.join(self.randomized_output_folder, "WW Random %s.iso" % self.seed)
-    self.gcm.export_iso_with_changed_files(output_file_path, changed_files)
+    self.gcm.export_disc_to_iso_with_changed_files(output_file_path, changed_files)
   
   def get_new_rng(self):
     rng = Random()

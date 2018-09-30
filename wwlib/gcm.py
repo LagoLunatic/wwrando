@@ -97,7 +97,20 @@ class GCM:
     
     return data
   
-  def export_iso_with_changed_files(self, output_file_path, changed_files):
+  def export_disc_to_folder_with_changed_files(self, output_folder_path, changed_files):
+    self.changed_files = changed_files
+    for file_path, file_entry in self.files_by_path.items():
+      full_file_path = os.path.join(output_folder_path, file_path)
+      dir_name = os.path.dirname(full_file_path)
+      if not os.path.isdir(dir_name):
+        os.makedirs(dir_name)
+      
+      file_data = self.get_changed_file_data(file_path)
+      with open(full_file_path, "wb") as f:
+        file_data.seek(0)
+        f.write(file_data.read())
+  
+  def export_disc_to_iso_with_changed_files(self, output_file_path, changed_files):
     self.output_iso = open(output_file_path, "wb")
     self.changed_files = changed_files
     try:
