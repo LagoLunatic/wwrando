@@ -43,12 +43,15 @@ class TooFewProgressionLocationsError(Exception):
   pass
 
 class Randomizer:
-  def __init__(self, seed, clean_iso_path, randomized_output_folder, options, permalink=None, dry_run=False):
+  def __init__(self, seed, clean_iso_path, randomized_output_folder, options, permalink=None, cmd_line_args=[]):
     self.randomized_output_folder = randomized_output_folder
     self.options = options
     self.seed = seed
     self.permalink = permalink
-    self.dry_run = dry_run
+    
+    self.dry_run = ("-dry" in cmd_line_args)
+    self.disassemble = ("-disassemble" in cmd_line_args)
+    self.export_disc_to_folder = ("-exportfolder" in cmd_line_args)
     
     self.integer_seed = int(hashlib.md5(self.seed.encode('utf-8')).hexdigest(), 16)
     self.rng = self.get_new_rng()
@@ -65,6 +68,9 @@ class Randomizer:
       
       self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").get_file("cmapdat.bin")
       self.bmg = self.get_arc("files/res/Msg/bmgres.arc").get_file("zel_00.bmg")
+      
+      if self.disassemble:
+        self.disassemble_all_code()
     
     self.read_text_file_lists()
     
@@ -443,8 +449,12 @@ class Randomizer:
       jpc.save_changes()
       changed_files[jpc_path] = jpc.data
     
-    output_file_path = os.path.join(self.randomized_output_folder, "WW Random %s.iso" % self.seed)
-    self.gcm.export_disc_to_iso_with_changed_files(output_file_path, changed_files)
+    if self.export_disc_to_folder:
+      output_folder_path = os.path.join(self.randomized_output_folder, "WW Random %s" % self.seed)
+      self.gcm.export_disc_to_folder_with_changed_files(output_folder_path, changed_files)
+    else:
+      output_file_path = os.path.join(self.randomized_output_folder, "WW Random %s.iso" % self.seed)
+      self.gcm.export_disc_to_iso_with_changed_files(output_file_path, changed_files)
   
   def get_new_rng(self):
     rng = Random()

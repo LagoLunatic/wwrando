@@ -20,6 +20,8 @@ except ImportError:
     # Versions of Windows before Windows 7 don't support SetCurrentProcessExplicitAppUserModelID, so just swallow the error.
     pass
 
+cmd_line_args = sys.argv[1:]
+
 qApp = QApplication(sys.argv)
-window = WWRandomizerWindow()
+window = WWRandomizerWindow(cmd_line_args=cmd_line_args)
 sys.exit(qApp.exec_())

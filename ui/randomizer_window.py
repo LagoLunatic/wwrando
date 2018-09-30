@@ -30,10 +30,12 @@ class WWRandomizerWindow(QMainWindow):
   VALID_SEED_CHARACTERS = "-_'%%.%s%s" % (string.ascii_letters, string.digits)
   MAX_SEED_LENGTH = 42 # Limited by maximum length of game name in banner
   
-  def __init__(self):
+  def __init__(self, cmd_line_args=[]):
     super(WWRandomizerWindow, self).__init__()
     self.ui = Ui_MainWindow()
     self.ui.setupUi(self)
+    
+    self.cmd_line_args = cmd_line_args
     
     self.custom_color_selector_buttons = OrderedDict()
     self.custom_color_selector_hex_inputs = OrderedDict()
@@ -163,7 +165,7 @@ class WWRandomizerWindow(QMainWindow):
     self.progress_dialog = RandomizerProgressDialog("Randomizing", "Initializing...", max_progress_val)
     
     try:
-      rando = Randomizer(seed, clean_iso_path, output_folder, options, permalink=permalink)
+      rando = Randomizer(seed, clean_iso_path, output_folder, options, permalink=permalink, cmd_line_args=self.cmd_line_args)
     except TooFewProgressionLocationsError as e:
       error_message = str(e)
       self.randomization_failed(error_message)
