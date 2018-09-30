@@ -307,8 +307,8 @@ class SCOB(ChunkEntry):
     self.z_pos = 0
     self.auxilary_param = 0
     self.y_rot = 0
-    self.unknown_1 = 0
-    self.unknown_2 = 0xFFFF
+    self.auxilary_param_2 = 0
+    self.enemy_number = 0xFFFF
     self.scale_x = 10
     self.scale_y = 10
     self.scale_z = 10
@@ -330,8 +330,8 @@ class SCOB(ChunkEntry):
     
     self.y_rot = read_u16(data, offset + 0x1A)
     
-    self.unknown_1 = read_u16(data, offset + 0x1C)
-    self.unknown_2 = read_u16(data, offset + 0x1E)
+    self.auxilary_param_2 = read_u16(data, offset + 0x1C)
+    self.enemy_number = read_u16(data, offset + 0x1E)
     
     self.scale_x = read_u8(data, offset + 0x20)
     self.scale_y = read_u8(data, offset + 0x21)
@@ -350,9 +350,8 @@ class SCOB(ChunkEntry):
     write_float(data, self.offset+0x14, self.z_pos)
     write_u16(data, self.offset+0x18, self.auxilary_param)
     write_u16(data, self.offset+0x1A, self.y_rot)
-    
-    write_u16(data, self.offset+0x1C, self.unknown_1)
-    write_u16(data, self.offset+0x1E, self.unknown_2)
+    write_u16(data, self.offset+0x1C, self.auxilary_param_2)
+    write_u16(data, self.offset+0x1E, self.enemy_number)
     
     write_u8(data, self.offset+0x20, self.scale_x)
     write_u8(data, self.offset+0x21, self.scale_y)
@@ -364,11 +363,11 @@ class SCOB(ChunkEntry):
   
   @property
   def salvage_duplicate_id(self):
-    return (self.unknown_1 & 0x0003)
+    return (self.auxilary_param_2 & 0x0003)
   
   @salvage_duplicate_id.setter
   def salvage_duplicate_id(self, value):
-    self.unknown_1 = (self.unknown_1 & (~0x0003)) | (value&0x0003)
+    self.auxilary_param_2 = (self.auxilary_param_2 & (~0x0003)) | (value&0x0003)
   
   def is_buried_pig_item(self):
     return self.name in self.BURIED_PIG_ITEM_NAMES
