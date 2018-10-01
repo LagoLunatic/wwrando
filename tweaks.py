@@ -194,7 +194,8 @@ def make_all_text_instant(self):
     
     # Get rid of wait+dismiss commands
     # Exclude message 7726, for Maggie's Father throwing rupees at you. He only spawns the rupees past a certain frame of his animation, so if you skipped past the text too quickly you wouldn't get any rupees.
-    if msg.message_id != 7726:
+    # Exclude message 2488, for Orca talking to you after you learn the Hurricane Spin. Without the wait+dismiss he would wind up repeating some of his lines once.
+    if msg.message_id != 7726 and msg.message_id != 2488:
       msg.string = re.sub(
         r"\\\{1A 07 00 00 04 [0-9a-f]{2} [0-9a-f]{2}\}",
         "",
