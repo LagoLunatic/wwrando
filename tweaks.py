@@ -1107,7 +1107,7 @@ def add_pirate_ship_to_windfall(self):
 WarpPotData = namedtuple("WarpPotData", 'stage_name room_num x y z y_rot event_reg_index')
 INTER_DUNGEON_WARP_DATA = [
   [
-    WarpPotData("M_NewD2", 2, 2178, 0, 488, 0x8000, 2), # DRC
+    WarpPotData("M_NewD2", 2, 2185, 0, 590, 0xA000, 2), # DRC
     WarpPotData("kindan", 1, 986, 3956.43, 9588, 0xB929, 2), # FW
     WarpPotData("Siren", 6, 277, 229.42, -6669, 0xC000, 2), # TotG
   ],

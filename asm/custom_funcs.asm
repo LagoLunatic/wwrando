@@ -151,13 +151,9 @@ stw r4, 8 (r3)
 lis r4, 0x0100
 stw r4, 0xC (r3)
 
-; If the player does the early part of Dragon Roost Cavern backwards, they can walk through a door while it's still blocked off by a boulder. This softlocks the game as Link will just walk into the boulder infinitely.
-; Set a switch (5) for having destroyed the boulder in front of the door so that doesn't happen.
+; Set a switch (21) for having seen the gossip stone event in DRC where KoRL tells you about giving bait to rats.
 lis r3, 0x803C4FF4@ha ; Dragon Roost Cavern stage info.
 addi r3, r3, 0x803C4FF4@l
-li r4, 0x0020
-stw r4, 4 (r3)
-; Also set a switch (21) for having seen the gossip stone event where KoRL tells you about giving bait to rats.
 li r4, 0x0002
 stw r4, 8 (r3)
 
