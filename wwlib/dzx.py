@@ -282,6 +282,9 @@ class SCOB(ChunkEntry):
     "buried_pig_item_id":         0x000000FF,
     
     "invisible_wall_switch_index": 0x000000FF,
+    
+    "event_trigger_seen_switch_index": 0x0000FF00,
+    "event_trigger_evnt_index": 0xFF000000,
   }
   
   SALVAGE_NAMES = [
