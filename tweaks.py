@@ -1313,3 +1313,59 @@ def add_hint_signs(self):
   bomb_flowers[1].params = new_message_id
   bomb_flowers[1].y_rot = 0x2000
   bomb_flowers[1].save_changes()
+
+def prevent_door_boulder_softlocks(self):
+  # DRC has a couple of doors that are blocked by boulders on one side.
+  # This is an issue if the player sequence breaks and goes backwards - when they open the door Link will be stuck walking into the boulder forever and the player will have no control.
+  # To avoid this, add an event trigger on the back side of those doors that causes the boulder to disappear when the player touches it.
+  # This allows us to keep the boulder when the player goes forward through the dungeon, but not backwards.
+  
+  # Add a new dummy event that doesn't do anything.
+  event_list = self.get_arc("files/res/Stage/M_NewD2/Stage.arc").get_file("event_list.dat")
+  dummy_event = event_list.add_event("dummy_event")
+  event_list.save_changes()
+  
+  # Add a new EVNT entry for the dummy event.
+  dzs = self.get_arc("files/res/Stage/M_NewD2/Stage.arc").get_file("stage.dzs")
+  dummy_evnt = dzs.add_entity("EVNT")
+  dummy_evnt.name = dummy_event.name
+  dzs.save_changes()
+  dummy_evnt_index = dzs.entries_by_type("EVNT").index(dummy_evnt)
+  
+  # Add a TagEv (event trigger region) on the other side of the first door blocked by a boulder.
+  boulder_destroyed_switch_index = 5
+  dzr = self.get_arc("files/res/Stage/M_NewD2/Room13.arc").get_file("room.dzr")
+  tag_ev = dzr.add_entity("SCOB", layer=None)
+  tag_ev.name = "TagEv"
+  tag_ev.params = 0x00FF00FF
+  tag_ev.event_trigger_seen_switch_index = boulder_destroyed_switch_index
+  tag_ev.event_trigger_evnt_index = dummy_evnt_index
+  tag_ev.x_pos = 2635
+  tag_ev.y_pos = 0
+  tag_ev.z_pos = 227
+  tag_ev.auxilary_param = 0
+  tag_ev.y_rot = 0xC000
+  tag_ev.auxilary_param_2 = 0xFFFF
+  tag_ev.scale_x = 32
+  tag_ev.scale_y = 16
+  tag_ev.scale_z = 16
+  dzr.save_changes()
+  
+  # Add a TagEv (event trigger region) on the other side of the second door blocked by a boulder.
+  boulder_destroyed_switch_index = 6
+  dzr = self.get_arc("files/res/Stage/M_NewD2/Room14.arc").get_file("room.dzr")
+  tag_ev = dzr.add_entity("SCOB", layer=None)
+  tag_ev.name = "TagEv"
+  tag_ev.params = 0x00FF00FF
+  tag_ev.event_trigger_seen_switch_index = boulder_destroyed_switch_index
+  tag_ev.event_trigger_evnt_index = dummy_evnt_index
+  tag_ev.x_pos = -4002
+  tag_ev.y_pos = 1950
+  tag_ev.z_pos = -2156
+  tag_ev.auxilary_param = 0
+  tag_ev.y_rot = 0xA000
+  tag_ev.auxilary_param_2 = 0xFFFF
+  tag_ev.scale_x = 32
+  tag_ev.scale_y = 16
+  tag_ev.scale_z = 16
+  dzr.save_changes()
