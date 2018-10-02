@@ -614,6 +614,15 @@ Dragon Roost Cavern - Dark Room:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest004
+#Dragon Roost Cavern - Tingle Chest in Hub Room:
+#  Need:
+#    Can Access Dragon Roost Cavern
+#    & DRC Small Key x4
+#    & Tingle Tuner Bombs
+#  Original item: Yellow Rupee
+#  Types: Tingle Chest, Dungeon
+#  Paths:
+#    - M_NewD2/Stage.arc/Chest00D
 Dragon Roost Cavern - Pot Room Chest:
   Need:
     Can Access Dragon Roost Cavern
@@ -649,7 +658,7 @@ Dragon Roost Cavern - Under Rope Bridge:
 #    & Grappling Hook
 #    & Tingle Tuner Bombs
 #  Original item: Dragon Tingle Statue
-#  Types: Tingle Statue Chest, Dungeon
+#  Types: Tingle Chest, Dungeon
 #  Paths:
 #    - M_NewD2/Stage.arc/Chest00C
 Dragon Roost Cavern - Big Key Chest:
@@ -692,11 +701,6 @@ Dragon Roost Cavern - Boss Stairs Left Chest:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest002
-#Dragon Roost Cavern - Unused?:
-#  Need: 
-#  Original item: Yellow Rupee
-#  Paths:
-#    - M_NewD2/Stage.arc/Chest00D
 Dragon Roost Cavern - Gohma Heart Container:
   Need:
     Can Access Dragon Roost Cavern
@@ -864,7 +868,7 @@ Forbidden Woods - Chest Across Red Hanging Flower:
 #    & Boomerang
 #    & Tingle Tuner Bombs
 #  Original item: Forbidden Tingle Statue
-#  Types: Tingle Statue Chest, Dungeon
+#  Types: Tingle Chest, Dungeon
 #  Paths:
 #    - kindan/Stage.arc/Chest00E
 Forbidden Woods - Chest in Locked Tree Trunk:
@@ -972,7 +976,7 @@ Tower of the Gods - Shoot Eye Above Skulls Room Chest:
 #    & Can Defeat Yellow ChuChus
 #    & Tingle Tuner Bombs
 #  Original item: Goddess Tingle Statue
-#  Types: Tingle Statue Chest, Dungeon
+#  Types: Tingle Chest, Dungeon
 #  Paths:
 #    - Siren/Stage.arc/Chest00A
 Tower of the Gods - First Chest Guarded by Armos Knights:
@@ -1357,7 +1361,7 @@ Earth Temple - Stalfos Mini-Boss Room:
 #    & Deku Leaf
 #    & Tingle Tuner Bombs
 #  Original item: Earth Tingle Statue
-#  Types: Tingle Statue Chest, Dungeon
+#  Types: Tingle Chest, Dungeon
 #  Paths:
 #    - M_Dai/Stage.arc/Chest00D
 Earth Temple - End of Foggy Room With Floormasters:
@@ -1516,7 +1520,7 @@ Wind Temple - Chest Between Two Dirt Patches:
 #    & Deku Leaf
 #    & Tingle Tuner Bombs
 #  Original item: Wind Tingle Statue
-#  Types: Tingle Statue Chest, Dungeon
+#  Types: Tingle Chest, Dungeon
 #  Paths:
 #    - kaze/Stage.arc/Chest00C
 Wind Temple - Chest Behind Stone Head:

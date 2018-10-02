@@ -399,9 +399,9 @@ class Logic:
       types = item_locations[location_name]["Types"]
       if "No progression" in types:
         continue
-      if "Tingle Statue Chest" in types:
-        continue
       if "Dungeon" in types and not options.get("progression_dungeons"):
+        continue
+      if "Tingle Chest" in types:
         continue
       if "Great Fairy" in types and not options.get("progression_great_fairies"):
         continue

@@ -98,7 +98,7 @@ def place_dungeon_item(self, item_name):
   ]
   accessible_undone_locations = [
     loc for loc in accessible_undone_locations
-    if not "Tingle Statue Chest" in self.logic.item_locations[loc]["Types"]
+    if not "Tingle Chest" in self.logic.item_locations[loc]["Types"]
   ]
   possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
   
