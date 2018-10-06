@@ -547,7 +547,7 @@ class WWRandomizerWindow(QMainWindow):
     if metadata is None:
       return
     if "error_message" in metadata:
-      error_message = "YAML syntax error when trying to read custom model metadata for model: %s\n\n%s" %(custom_model_name, metadata["error_message"])
+      error_message = "Syntax error when trying to read metadata.txt for custom model: %s\n\n%s" %(custom_model_name, metadata["error_message"])
       print(error_message)
       QMessageBox.critical(
         self, "Failed to load model metadata",

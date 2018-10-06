@@ -77,6 +77,11 @@ def get_model_metadata(custom_model_name):
           if match:
             r, g, b = int(match.group(1), 16), int(match.group(2), 16), int(match.group(3), 16)
             value[custom_color_name] = [r, g, b]
+          else:
+            error_message = "Custom color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (custom_color_name, hex_color)
+            return {
+              "error_message": error_message,
+            }
           
           mask_path = os.path.join("models", custom_model_name, "color_masks", "%s_%s.png" % (prefix, custom_color_name))
           metadata["%s_color_mask_paths" % prefix][custom_color_name] = mask_path
