@@ -1,7 +1,7 @@
 
 ; Make Tingle Chests respond to normal bombs as well as Tingle Bombs.
 .open "files/rels/d_a_agbsw0.rel"
-.org 0x1C94 ; In ExeSubT__10daAgbsw0_cFv
+.org 0x1CA4 ; In ExeSubT__10daAgbsw0_cFv
   ; Skip some checks to see if the Tingle Tuner GBA link is active.
   b 0x1CC0
 .org 0x1D0C ; In ExeSubT__10daAgbsw0_cFv
