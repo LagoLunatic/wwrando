@@ -2244,11 +2244,17 @@ Northern Fairy Island - Submarine:
 #  Original item: 250 Rupees, reward for finding 5 Tingle Statues
 #  Paths:
 #    - rels/d_a_npc_tc.rel@619F
-#Tingle Island - Reward for All Tingle Statues:
-#  Need: 
-#  Original item: 500 Rupees, reward for finding 5 Tingle Statues
-#  Paths:
-#    - rels/d_a_npc_tc.rel@6143
+Tingle Island - Reward for All Tingle Statues:
+  Need:
+    Dragon Tingle Statue
+    & Forbidden Tingle Statue
+    & Goddess Tingle Statue
+    & Earth Tingle Statue
+    & Wind Tingle Statue
+  Original item: 500 Rupees, reward for finding 5 Tingle Statues
+  Types: Misc
+  Paths:
+    - rels/d_a_npc_tc.rel@6143
 #Tingle Island - Triforce Chart 1 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 1 got deciphered
