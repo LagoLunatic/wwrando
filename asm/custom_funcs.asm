@@ -2149,4 +2149,154 @@ blr
 
 
 
+.global dragon_tingle_statue_item_get_func
+dragon_tingle_statue_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6A04 ; Unused event bit we use for Dragon Tingle Statue
+bl onEventBit__11dSv_event_cFUs
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global forbidden_tingle_statue_item_get_func
+forbidden_tingle_statue_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6A08 ; Unused event bit we use for Forbidden Tingle Statue
+bl onEventBit__11dSv_event_cFUs
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global goddess_tingle_statue_item_get_func
+goddess_tingle_statue_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6A10 ; Unused event bit we use for Goddess Tingle Statue
+bl onEventBit__11dSv_event_cFUs
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global earth_tingle_statue_item_get_func
+earth_tingle_statue_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6A20 ; Unused event bit we use for Earth Tingle Statue
+bl onEventBit__11dSv_event_cFUs
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global wind_tingle_statue_item_get_func
+wind_tingle_statue_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6A40 ; Unused event bit we use for Wind Tingle Statue
+bl onEventBit__11dSv_event_cFUs
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+; This function checks if you own a certain Tingle Statue.
+; It's designed to replace the original calls to dComIfGs_isStageTbox__Fii, so it takes the same arguments as that function.
+; Argument r3 - the stage ID of the stage info to check a chest in.
+; Argument r4 - the opened flag index of the chest to check.
+; This function, instead of checking if certain chests are open, checks if the unused event bits we use for certain Tingle Statues have been set.
+.global check_tingle_statue_owned
+check_tingle_statue_owned:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+cmpwi r4, 0xF ; The opened flag index (argument r4) for tingle statue chests should always be 0xF.
+bne check_tingle_statue_owned_invalid
+
+; The stage ID (argument r3) determines which dungeon it's checking.
+cmpwi r3, 3
+beq check_dragon_tingle_statue_owned
+cmpwi r3, 4
+beq check_forbidden_tingle_statue_owned
+cmpwi r3, 5
+beq check_goddess_tingle_statue_owned
+cmpwi r3, 6
+beq check_earth_tingle_statue_owned
+cmpwi r3, 7
+beq check_wind_tingle_statue_owned
+b check_tingle_statue_owned_invalid
+
+check_dragon_tingle_statue_owned:
+li r4, 0x6A04 ; Unused event bit
+b check_tingle_statue_owned_event_bit
+
+check_forbidden_tingle_statue_owned:
+li r4, 0x6A08 ; Unused event bit
+b check_tingle_statue_owned_event_bit
+
+check_goddess_tingle_statue_owned:
+li r4, 0x6A10 ; Unused event bit
+b check_tingle_statue_owned_event_bit
+
+check_earth_tingle_statue_owned:
+li r4, 0x6A20 ; Unused event bit
+b check_tingle_statue_owned_event_bit
+
+check_wind_tingle_statue_owned:
+li r4, 0x6A40 ; Unused event bit
+
+check_tingle_statue_owned_event_bit:
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+bl isEventBit__11dSv_event_cFUs
+b check_tingle_statue_owned_end
+
+check_tingle_statue_owned_invalid:
+; If the function call was somehow invalid, return false.
+li r3, 0
+
+check_tingle_statue_owned_end:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 .close

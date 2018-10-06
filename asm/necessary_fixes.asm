@@ -1008,3 +1008,61 @@
 .org 0x8012E3E8 ; In setGetItemSound__9daPy_lk_cFUsi
   b check_play_pearl_item_get_music
 .close
+
+
+
+
+; Recode how the statues and brothers on Tingle Island check if you own the Tingle Statues.
+; Originally they checked if you opened the dungeon chest that had the Tingle Statue in the vanilla game.
+; But that wouldn't work correctly when Tingle Statues are randomized.
+; The Tingle Statue item get functions are changed to set certain event bits, so we change the code here to check those same event bits.
+.open "files/rels/d_a_obj_vtil.rel" ; Physical Tingle Statues on Tingle Island
+.org 0x269C ; Relocation for line 0x820
+  .int check_tingle_statue_owned
+.close
+.open "files/rels/d_a_npc_tc.rel" ; Tingle and brothers
+.org 0x858C ;  Relocation for line 0x2F8
+  .int check_tingle_statue_owned
+.org 0x8594 ;  Relocation for line 0x308
+  .int check_tingle_statue_owned
+.org 0x859C ;  Relocation for line 0x318
+  .int check_tingle_statue_owned
+.org 0x85A4 ;  Relocation for line 0x328
+  .int check_tingle_statue_owned
+.org 0x85AC ;  Relocation for line 0x338
+  .int check_tingle_statue_owned
+.org 0x88AC ;  Relocation for line 0x1578
+  .int check_tingle_statue_owned
+.org 0x88B4 ;  Relocation for line 0x158C
+  .int check_tingle_statue_owned
+.org 0x88BC ;  Relocation for line 0x15A0
+  .int check_tingle_statue_owned
+.org 0x88C4 ;  Relocation for line 0x15B4
+  .int check_tingle_statue_owned
+.org 0x88CC ;  Relocation for line 0x15C8
+  .int check_tingle_statue_owned
+.org 0x8964 ;  Relocation for line 0x193C
+  .int check_tingle_statue_owned
+.org 0x896C ;  Relocation for line 0x1950
+  .int check_tingle_statue_owned
+.org 0x8974 ;  Relocation for line 0x1964
+  .int check_tingle_statue_owned
+.org 0x897C ;  Relocation for line 0x1978
+  .int check_tingle_statue_owned
+.org 0x8984 ;  Relocation for line 0x198C
+  .int check_tingle_statue_owned
+.org 0x934C ;  Relocation for line 0x58CC
+  .int check_tingle_statue_owned
+.org 0x935C ;  Relocation for line 0x58FC
+  .int check_tingle_statue_owned
+.org 0x936C ;  Relocation for line 0x592C
+  .int check_tingle_statue_owned
+.org 0x937C ;  Relocation for line 0x595C
+  .int check_tingle_statue_owned
+.org 0x938C ;  Relocation for line 0x598C
+  .int check_tingle_statue_owned
+.org 0x93B4 ;  Relocation for line 0x5A54
+  .int check_tingle_statue_owned
+.org 0x93F4 ;  Relocation for line 0x5C50
+  .int check_tingle_statue_owned
+.close

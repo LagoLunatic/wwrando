@@ -71,3 +71,9 @@
 803fe2c8 ff_compass_item_get_func
 803fe2f0 et_compass_item_get_func
 803fe318 wt_compass_item_get_func
+803fe340 dragon_tingle_statue_item_get_func
+803fe36c forbidden_tingle_statue_item_get_func
+803fe398 goddess_tingle_statue_item_get_func
+803fe3c4 earth_tingle_statue_item_get_func
+803fe3f0 wind_tingle_statue_item_get_func
+803fe41c check_tingle_statue_owned

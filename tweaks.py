@@ -1370,3 +1370,13 @@ def prevent_door_boulder_softlocks(self):
   tag_ev.scale_y = 16
   tag_ev.scale_z = 16
   dzr.save_changes()
+
+def update_tingle_statue_item_get_funcs(self):
+  dol_data = self.get_raw_file("sys/main.dol")
+  item_get_funcs_list = address_to_offset(0x803888C8)
+  
+  for tingle_statue_item_id in [0xA3, 0xA4, 0xA5, 0xA6, 0xA7]:
+    item_get_func_offset = item_get_funcs_list + tingle_statue_item_id*4
+    item_name = self.item_names[tingle_statue_item_id]
+    custom_symbol_name = item_name.lower().replace(" ", "_") + "_item_get_func"
+    write_u32(dol_data, item_get_func_offset, self.custom_symbols[custom_symbol_name])

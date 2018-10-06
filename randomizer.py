@@ -268,6 +268,7 @@ class Randomizer:
     tweaks.disable_invisible_walls(self)
     tweaks.add_hint_signs(self)
     tweaks.prevent_door_boulder_softlocks(self)
+    tweaks.update_tingle_statue_item_get_funcs(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)
