@@ -96,10 +96,11 @@ def place_dungeon_item(self, item_name):
     loc for loc in accessible_undone_locations
     if loc not in self.logic.prerandomization_dungeon_item_locations
   ]
-  accessible_undone_locations = [
-    loc for loc in accessible_undone_locations
-    if not "Tingle Chest" in self.logic.item_locations[loc]["Types"]
-  ]
+  if not self.options.get("progression_tingle_chests"):
+    accessible_undone_locations = [
+      loc for loc in accessible_undone_locations
+      if not "Tingle Chest" in self.logic.item_locations[loc]["Types"]
+    ]
   possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
   
   if not possible_locations:

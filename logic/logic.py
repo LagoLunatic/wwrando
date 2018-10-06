@@ -401,7 +401,7 @@ class Logic:
         continue
       if "Dungeon" in types and not options.get("progression_dungeons"):
         continue
-      if "Tingle Chest" in types:
+      if "Tingle Chest" in types and not options.get("progression_tingle_chests"):
         continue
       if "Great Fairy" in types and not options.get("progression_great_fairies"):
         continue

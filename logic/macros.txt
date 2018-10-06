@@ -68,7 +68,8 @@ All 8 Triforce Shards:
   & Triforce Shard 8
 
 Tingle Tuner Bombs:
-  Tingle Tuner & TODO
+  Bombs
+  # Note: If an option to require Tingle Tuner is added, this macro should have Bombs replaced with Tingle Tuner when that option is on.
 
 Can Access Dungeon Entrance On Dragon Roost Island:
   Nothing
