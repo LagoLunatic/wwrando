@@ -53,6 +53,10 @@ class Randomizer:
     self.disassemble = ("-disassemble" in cmd_line_args)
     self.export_disc_to_folder = ("-exportfolder" in cmd_line_args)
     self.no_logs = ("-nologs" in cmd_line_args)
+    self.bulk_test = ("-bulk" in cmd_line_args)
+    if self.bulk_test:
+      self.dry_run = True
+      self.no_logs = True
     
     self.integer_seed = int(hashlib.md5(self.seed.encode('utf-8')).hexdigest(), 16)
     self.rng = self.get_new_rng()
