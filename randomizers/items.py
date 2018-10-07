@@ -182,7 +182,22 @@ def randomize_progression_items(self):
         if must_place_useful_item:
           raise Exception("No useful progress items to place!")
         else:
-          item_name = self.rng.choice(possible_items_when_not_placing_useful)
+          # We'd like to be placing a useful item, but there are no useful items to place.
+          # Instead we choose an item that isn't useful yet by itself, but has a high usefulness fraction.
+          # In other words, which item has the smallest number of other items needed before it becomes useful?
+          # We'd prefer to place an item which is 1/2 of what you need to access a new location over one which is 1/5 for example.
+          
+          item_by_usefulness_fraction = self.logic.get_items_by_usefulness_fraction(possible_items_when_not_placing_useful)
+          
+          # We want to limit it to choosing items at the maximum usefulness fraction.
+          # Since the values we have are the denominator of the fraction, we actually call min() instead of max().
+          max_usefulness = min(item_by_usefulness_fraction.values())
+          items_at_max_usefulness = [
+            item_name for item_name, usefulness in item_by_usefulness_fraction.items()
+            if usefulness == max_usefulness
+          ]
+          
+          item_name = self.rng.choice(items_at_max_usefulness)
     else:
       item_name = self.rng.choice(possible_items_when_not_placing_useful)
     

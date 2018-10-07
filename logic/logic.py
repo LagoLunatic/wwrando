@@ -327,6 +327,55 @@ class Logic:
     
     return None
   
+  def get_items_by_usefulness_fraction(self, item_names_to_check):
+    # Takes a list of items and locations, and determines for each item what the lowest number of items including it the player needs before a new location is opened up, and returns that in a dict.
+    # For example, say there are 3 items A B and C, and 2 locations X and Y.
+    # Location X requires items A and B while location Y requires items A B and C.
+    # This function would return {A: 2, B: 2, C: 3} because A requires 1 other item (B) to help access anything, B also requires one other item (A) to help access anything, but C requires 2 other items (both A and B) before it becomes useful.
+    # In other words, items A and B have 1/2 usefulness, while item C has 1/3 usefulness.
+    
+    accessible_undone_locations = self.get_accessible_remaining_locations(for_progression=True)
+    inaccessible_undone_item_locations = []
+    locations_to_check = self.remaining_item_locations
+    locations_to_check = self.filter_locations_for_progression(locations_to_check)
+    for location_name in locations_to_check:
+      if location_name not in accessible_undone_locations:
+        if location_name in self.prerandomization_dungeon_item_locations:
+          # We just ignore items with predetermined dungeon items when calculating usefulness fractions.
+          # TODO: In the future, we might want to consider recursively checking if the item here is useful, and if so include this location.
+          continue
+        inaccessible_undone_item_locations.append(location_name)
+    
+    # Generate a list of what items are needed for each inaccessible location (+beating the game).
+    # Note: Performance could be improved somewhat by only calculating which items are needed for each location at the start of item randomization, instead of once per call to this function. But this seems unnecessary.
+    item_names_for_all_locations = []
+    for location_name in inaccessible_undone_item_locations:
+      requirement_expression = self.item_locations[location_name]["Need"]
+      item_names_for_loc = self.get_item_names_from_logical_expression_req(requirement_expression)
+      item_names_for_all_locations.append(item_names_for_loc)
+    item_names_to_beat_game = self.get_item_names_by_req_name("Can Reach and Defeat Ganondorf")
+    item_names_for_all_locations.append(item_names_to_beat_game)
+    
+    # Now calculate the best case scenario usefulness fraction for all items given.
+    item_by_usefulness_fraction = OrderedDict()
+    for item_name in item_names_to_check:
+      item_by_usefulness_fraction[item_name] = 9999
+    
+    for item_names_for_loc in item_names_for_all_locations:
+      item_names_for_loc_without_owned = item_names_for_loc.copy()
+      for item_name in self.currently_owned_items:
+        if item_name in item_names_for_loc_without_owned:
+          item_names_for_loc_without_owned.remove(item_name)
+      
+      for item_name in item_names_for_loc_without_owned:
+        if item_name not in item_by_usefulness_fraction:
+          continue
+        usefulness_fraction_for_item = len(item_names_for_loc_without_owned)
+        if usefulness_fraction_for_item < item_by_usefulness_fraction[item_name]:
+          item_by_usefulness_fraction[item_name] = usefulness_fraction_for_item
+    
+    return item_by_usefulness_fraction
+  
   def get_all_useless_items(self, items_to_check, for_progression=False):
     # Searches through a given list of items and returns which of them do not open up even 1 new location.
     
