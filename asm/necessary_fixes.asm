@@ -418,7 +418,7 @@
   .short 0x6910 ; Unused event bit
 ; Then change the function call to createItemForPresentDemo to call our own custom function instead.
 ; This custom function will both call createItemForPresentDemo and set one of the event bits specified above, by extracting the item ID and event bit separately from argument r4.
-.org 0xFB34 ;  Relocation for line 0x4BEC
+.org 0xFB34 ; Relocation for line 0x4BEC
   .int create_item_and_set_event_bit_for_townsperson
 ; We also need to change the calls to checkGetItem to instead call isEventBit.
 .org 0xF17C ; Relocation for line 0x8D8
@@ -1021,48 +1021,48 @@
   .int check_tingle_statue_owned
 .close
 .open "files/rels/d_a_npc_tc.rel" ; Tingle and brothers
-.org 0x858C ;  Relocation for line 0x2F8
+.org 0x858C ; Relocation for line 0x2F8
   .int check_tingle_statue_owned
-.org 0x8594 ;  Relocation for line 0x308
+.org 0x8594 ; Relocation for line 0x308
   .int check_tingle_statue_owned
-.org 0x859C ;  Relocation for line 0x318
+.org 0x859C ; Relocation for line 0x318
   .int check_tingle_statue_owned
-.org 0x85A4 ;  Relocation for line 0x328
+.org 0x85A4 ; Relocation for line 0x328
   .int check_tingle_statue_owned
-.org 0x85AC ;  Relocation for line 0x338
+.org 0x85AC ; Relocation for line 0x338
   .int check_tingle_statue_owned
-.org 0x88AC ;  Relocation for line 0x1578
+.org 0x88AC ; Relocation for line 0x1578
   .int check_tingle_statue_owned
-.org 0x88B4 ;  Relocation for line 0x158C
+.org 0x88B4 ; Relocation for line 0x158C
   .int check_tingle_statue_owned
-.org 0x88BC ;  Relocation for line 0x15A0
+.org 0x88BC ; Relocation for line 0x15A0
   .int check_tingle_statue_owned
-.org 0x88C4 ;  Relocation for line 0x15B4
+.org 0x88C4 ; Relocation for line 0x15B4
   .int check_tingle_statue_owned
-.org 0x88CC ;  Relocation for line 0x15C8
+.org 0x88CC ; Relocation for line 0x15C8
   .int check_tingle_statue_owned
-.org 0x8964 ;  Relocation for line 0x193C
+.org 0x8964 ; Relocation for line 0x193C
   .int check_tingle_statue_owned
-.org 0x896C ;  Relocation for line 0x1950
+.org 0x896C ; Relocation for line 0x1950
   .int check_tingle_statue_owned
-.org 0x8974 ;  Relocation for line 0x1964
+.org 0x8974 ; Relocation for line 0x1964
   .int check_tingle_statue_owned
-.org 0x897C ;  Relocation for line 0x1978
+.org 0x897C ; Relocation for line 0x1978
   .int check_tingle_statue_owned
-.org 0x8984 ;  Relocation for line 0x198C
+.org 0x8984 ; Relocation for line 0x198C
   .int check_tingle_statue_owned
-.org 0x934C ;  Relocation for line 0x58CC
+.org 0x934C ; Relocation for line 0x58CC
   .int check_tingle_statue_owned
-.org 0x935C ;  Relocation for line 0x58FC
+.org 0x935C ; Relocation for line 0x58FC
   .int check_tingle_statue_owned
-.org 0x936C ;  Relocation for line 0x592C
+.org 0x936C ; Relocation for line 0x592C
   .int check_tingle_statue_owned
-.org 0x937C ;  Relocation for line 0x595C
+.org 0x937C ; Relocation for line 0x595C
   .int check_tingle_statue_owned
-.org 0x938C ;  Relocation for line 0x598C
+.org 0x938C ; Relocation for line 0x598C
   .int check_tingle_statue_owned
-.org 0x93B4 ;  Relocation for line 0x5A54
+.org 0x93B4 ; Relocation for line 0x5A54
   .int check_tingle_statue_owned
-.org 0x93F4 ;  Relocation for line 0x5C50
+.org 0x93F4 ; Relocation for line 0x5C50
   .int check_tingle_statue_owned
 .close
