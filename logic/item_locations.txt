@@ -2218,32 +2218,32 @@ Northern Fairy Island - Submarine:
   Paths:
     - Abship/Room4.arc/Chest000
 
-#Tingle Island - Reward for 1 Tingle Statue:
+#Tingle Island - Ankle - Reward for 1 Tingle Statue:
 #  Need: 
 #  Original item: 50 Rupees, reward for finding 1 Tingle Statue
 #  Paths:
 #    - rels/d_a_npc_tc.rel@617F
-#Tingle Island - Reward for 2 Tingle Statues:
+#Tingle Island - Ankle - Reward for 2 Tingle Statues:
 #  Need: 
 #  Original item: 100 Rupees, reward for finding 2 Tingle Statues
 #  Paths:
 #    - rels/d_a_npc_tc.rel@6187
-#Tingle Island - Reward for 3 Tingle Statues:
+#Tingle Island - Ankle - Reward for 3 Tingle Statues:
 #  Need: 
 #  Original item: 150 Rupees, reward for finding 3 Tingle Statues
 #  Paths:
 #    - rels/d_a_npc_tc.rel@618F
-#Tingle Island - Reward for 4 Tingle Statues:
+#Tingle Island - Ankle - Reward for 4 Tingle Statues:
 #  Need: 
 #  Original item: 200 Rupees, reward for finding 4 Tingle Statues
 #  Paths:
 #    - rels/d_a_npc_tc.rel@6197
-#Tingle Island - Reward for 5 Tingle Statues:
+#Tingle Island - Ankle - Reward for 5 Tingle Statues:
 #  Need: 
 #  Original item: 250 Rupees, reward for finding 5 Tingle Statues
 #  Paths:
 #    - rels/d_a_npc_tc.rel@619F
-Tingle Island - Reward for All Tingle Statues:
+Tingle Island - Ankle - Reward for All Tingle Statues:
   Need:
     Dragon Tingle Statue
     & Forbidden Tingle Statue
@@ -2254,42 +2254,42 @@ Tingle Island - Reward for All Tingle Statues:
   Types: Misc
   Paths:
     - rels/d_a_npc_tc.rel@6143
-#Tingle Island - Triforce Chart 1 Deciphered:
+#Tingle Island - Tingle - Triforce Chart 1 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 1 got deciphered
 #  Paths:
 #    - rels/d_a_npc_tc.rel@61D7
-#Tingle Island - Triforce Chart 2 Deciphered:
+#Tingle Island - Tingle - Triforce Chart 2 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 2 got deciphered
 #  Paths:
 #    - rels/d_a_npc_tc.rel@61DF
-#Tingle Island - Triforce Chart 3 Deciphered:
+#Tingle Island - Tingle - Triforce Chart 3 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 3 got deciphered
 #  Paths:
 #    - rels/d_a_npc_tc.rel@61E7
-#Tingle Island - Triforce Chart 4 Deciphered:
+#Tingle Island - Tingle - Triforce Chart 4 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 4 got deciphered
 #  Paths:
 #    - rels/d_a_npc_tc.rel@61EF
-#Tingle Island - Triforce Chart 5 Deciphered:
+#Tingle Island - Tingle - Triforce Chart 5 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 5 got deciphered
 #  Paths:
 #    - rels/d_a_npc_tc.rel@61F7
-#Tingle Island - Triforce Chart 6 Deciphered:
+#Tingle Island - Tingle - Triforce Chart 6 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 6 got deciphered
 #  Paths:
 #    - rels/d_a_npc_tc.rel@61FF
-#Tingle Island - Triforce Chart 7 Deciphered:
+#Tingle Island - Tingle - Triforce Chart 7 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 7 got deciphered
 #  Paths:
 #    - rels/d_a_npc_tc.rel@6207
-#Tingle Island - Triforce Chart 8 Deciphered:
+#Tingle Island - Tingle - Triforce Chart 8 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 8 got deciphered
 #  Paths:
