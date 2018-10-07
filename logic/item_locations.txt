@@ -1358,7 +1358,6 @@ Earth Temple - Tingle Statue Chest:
     Can Access Earth Temple
     & Can Play Command Melody
     & Can Aim Mirror Shield
-    & Deku Leaf
     & Tingle Tuner Bombs
   Original item: Earth Tingle Statue
   Types: Tingle Chest, Dungeon
