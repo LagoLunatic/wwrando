@@ -355,7 +355,7 @@ class Logic:
   
   def check_item_is_useful(self, item_name, inaccessible_undone_item_locations):
     # Checks whether a specific item unlocks any new locations or not.
-    # This function should only be called by get_first_useful_item or by itself for recursion purposes, not for use anywhere else.
+    # This function should only be called by get_first_useful_item, get_all_useless_items, or by itself for recursion purposes.
     
     if item_name in self.cached_items_are_useful:
       return self.cached_items_are_useful[item_name]
@@ -747,11 +747,15 @@ class Logic:
     if req_name.startswith("Progressive "):
       match = re.search(r"^(Progressive .+) x(\d+)$", req_name)
       item_name = match.group(1)
-      item_names.append(item_name)
+      num_required = int(match.group(2))
+      for i in range(num_required):
+        item_names.append(item_name)
     elif " Small Key x" in req_name:
       match = re.search(r"^(.+ Small Key) x(\d+)$", req_name)
       small_key_name = match.group(1)
-      item_names.append(small_key_name)
+      num_keys_required = int(match.group(2))
+      for i in range(num_keys_required):
+        item_names.append(small_key_name)
     elif req_name.startswith("Can Access Other Location \""):
       match = re.search(r"^Can Access Other Location \"([^\"]+)\"$", req_name)
       other_location_name = match.group(1)
