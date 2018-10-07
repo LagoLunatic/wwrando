@@ -52,6 +52,7 @@ class Randomizer:
     self.dry_run = ("-dry" in cmd_line_args)
     self.disassemble = ("-disassemble" in cmd_line_args)
     self.export_disc_to_folder = ("-exportfolder" in cmd_line_args)
+    self.no_logs = ("-nologs" in cmd_line_args)
     
     self.integer_seed = int(hashlib.md5(self.seed.encode('utf-8')).hexdigest(), 16)
     self.rng = self.get_new_rng()
@@ -230,9 +231,10 @@ class Randomizer:
     options_completed += 9
     yield("Writing logs...", options_completed)
     
-    if self.options.get("generate_spoiler_log"):
-      self.write_spoiler_log()
-    self.write_non_spoiler_log()
+    if not self.no_logs:
+      if self.options.get("generate_spoiler_log"):
+        self.write_spoiler_log()
+      self.write_non_spoiler_log()
     
     yield("Done", -1)
   
