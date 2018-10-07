@@ -36,6 +36,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.setupUi(self)
     
     self.cmd_line_args = cmd_line_args
+    self.bulk_test = ("-bulk" in cmd_line_args)
     
     self.custom_color_selector_buttons = OrderedDict()
     self.custom_color_selector_hex_inputs = OrderedDict()
@@ -163,6 +164,26 @@ class WWRandomizerWindow(QMainWindow):
     
     max_progress_val = 20
     self.progress_dialog = RandomizerProgressDialog("Randomizing", "Initializing...", max_progress_val)
+    
+    if self.bulk_test:
+      failures_done = 0
+      total_done = 0
+      for i in range(100):
+        temp_seed = str(i)
+        try:
+          rando = Randomizer(temp_seed, clean_iso_path, output_folder, options, permalink=permalink, cmd_line_args=self.cmd_line_args)
+          randomizer_generator = rando.randomize()
+          while True:
+            next_option_description, options_finished = next(randomizer_generator)
+            if options_finished == -1:
+              break
+        except Exception as e:
+          stack_trace = traceback.format_exc()
+          error_message = "Error on seed " + temp_seed + ":\n" + str(e) + "\n\n" + stack_trace
+          print(error_message)
+          failures_done += 1
+        total_done += 1
+        print("%d/%d seeds failed" % (failures_done, total_done))
     
     try:
       rando = Randomizer(seed, clean_iso_path, output_folder, options, permalink=permalink, cmd_line_args=self.cmd_line_args)
