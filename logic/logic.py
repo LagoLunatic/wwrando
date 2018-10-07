@@ -35,6 +35,13 @@ class Logic:
       "Din's Pearl",
       "Farore's Pearl",
     ]),
+    ("Tingle Statues",  [
+      "Dragon Tingle Statue",
+      "Forbidden Tingle Statue",
+      "Goddess Tingle Statue",
+      "Earth Tingle Statue",
+      "Wind Tingle Statue",
+    ]),
   ])
   
   def __init__(self, rando):
