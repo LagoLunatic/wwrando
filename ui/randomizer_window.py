@@ -559,7 +559,8 @@ class WWRandomizerWindow(QMainWindow):
       while hlayout.count():
         item = hlayout.takeAt(0)
         widget = item.widget()
-        widget.deleteLater()
+        if widget:
+          widget.deleteLater()
     self.custom_color_selector_buttons = OrderedDict()
     self.custom_color_selector_hex_inputs = OrderedDict()
     
@@ -622,6 +623,13 @@ class WWRandomizerWindow(QMainWindow):
       self.ui.custom_colors_layout.addLayout(hlayout)
       
       self.set_color(option_name, default_color, update_preview=False)
+    
+    if len(custom_colors) == 0:
+      # Need to push the preview over to the right even when there are no colors to do it, so add a spacer.
+      hlayout = QHBoxLayout()
+      hspacer = QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum)
+      hlayout.addItem(hspacer)
+      self.ui.custom_colors_layout.addLayout(hlayout)
     
     self.update_model_preview()
   
