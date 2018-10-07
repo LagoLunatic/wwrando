@@ -235,10 +235,9 @@ class Randomizer:
     options_completed += 9
     yield("Writing logs...", options_completed)
     
-    if not self.no_logs:
-      if self.options.get("generate_spoiler_log"):
-        self.write_spoiler_log()
-      self.write_non_spoiler_log()
+    if self.options.get("generate_spoiler_log"):
+      self.write_spoiler_log()
+    self.write_non_spoiler_log()
     
     yield("Done", -1)
   
@@ -634,6 +633,9 @@ class Randomizer:
     return (zones, max_location_name_length)
   
   def write_non_spoiler_log(self):
+    if self.no_logs:
+      return
+    
     log_str = self.get_log_header()
     
     progress_locations, nonprogress_locations = self.logic.get_progress_and_non_progress_locations()
@@ -677,6 +679,9 @@ class Randomizer:
       f.write(log_str)
   
   def write_spoiler_log(self):
+    if self.no_logs:
+      return
+    
     spoiler_log = self.get_log_header()
     
     # Write progression spheres.
@@ -752,6 +757,9 @@ class Randomizer:
       f.write(spoiler_log)
   
   def write_error_log(self, error_message):
+    if self.no_logs:
+      return
+    
     error_log_str = self.get_log_header()
     
     error_log_str += error_message
