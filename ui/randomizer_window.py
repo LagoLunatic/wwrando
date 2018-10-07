@@ -737,7 +737,17 @@ class WWRandomizerWindow(QMainWindow):
     else:
       prefix = "hero"
     
-    preview_image = customizer.get_model_preview_image(custom_model_name, prefix, self.custom_colors)
+    try:
+      preview_image = customizer.get_model_preview_image(custom_model_name, prefix, self.custom_colors)
+    except Exception as e:
+      stack_trace = traceback.format_exc()
+      error_message = "Failed to load model preview image for model %s.\nError:\n" % (custom_model_name) + str(e) + "\n\n" + stack_trace
+      print(error_message)
+      QMessageBox.critical(
+        self, "Failed to load model preview",
+        error_message
+      )
+      return
     
     if preview_image is None:
       self.ui.custom_model_preview_label.hide()

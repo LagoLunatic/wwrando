@@ -6,6 +6,7 @@ from collections import OrderedDict
 from io import BytesIO
 import glob
 from PIL import Image
+from pathlib import Path
 
 from fs_helpers import *
 from wwlib import texture_utils
@@ -188,6 +189,8 @@ def change_player_clothes_color(self):
     
     mask_path = custom_model_metadata[prefix + "_color_mask_paths"][custom_color_basename]
     
+    check_valid_mask_path(mask_path)
+    
     link_main_image = texture_utils.color_exchange(link_main_image, base_color, custom_color, mask_path=mask_path)
     replaced_any = True
     
@@ -266,13 +269,19 @@ def get_model_preview_image(custom_model_name, prefix, selected_colors):
       continue
     
     mask_path = custom_model_metadata["preview_" + prefix + "_color_mask_paths"][custom_color_basename]
-    if not os.path.isfile(mask_path):
-      return None
+    check_valid_mask_path(mask_path)
     
     preview_image = texture_utils.color_exchange(preview_image, base_color, custom_color, mask_path=mask_path)
   
   return preview_image
 
+def check_valid_mask_path(mask_path):
+  if not os.path.isfile(mask_path):
+    raise Exception("Color mask not found: %s" % mask_path)
+  given_filename = os.path.basename(mask_path)
+  true_filename = os.path.basename(Path(mask_path).resolve())
+  if given_filename != true_filename:
+    raise Exception("Color mask path's actual capitalization differs from the capitalization given in metadata.txt.\nGiven: %s, actual: %s" % (given_filename, true_filename))
 
 class YamlOrderedDictLoader(yaml.SafeLoader):
   pass
