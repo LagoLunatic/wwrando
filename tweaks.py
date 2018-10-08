@@ -1387,7 +1387,7 @@ def make_tingle_statue_reward_rupee_rainbow_colored(self):
   item_resources_list_start = address_to_offset(0x803842B0)
   dol_data = self.get_raw_file("sys/main.dol")
   
-  item_id = self.item_name_to_id["500 Rupees, reward for finding 5 Tingle Statues"]
+  item_id = self.item_name_to_id["Rainbow Rupee"]
   rainbow_rupee_item_resource_offset = item_resources_list_start + item_id*0x24
   
   write_u8(dol_data, rainbow_rupee_item_resource_offset+0x14, 7)

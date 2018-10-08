@@ -182,7 +182,7 @@ B4 8035A340 100 Rupees, reward for finding 2 Tingle Statues
 B5 8035A340 150 Rupees, reward for finding 3 Tingle Statues
 B6 8035A340 200 Rupees, reward for finding 4 Tingle Statues
 B7 8035A340 250 Rupees, reward for finding 5 Tingle Statues
-B8 8035A340 500 Rupees, reward for finding 5 Tingle Statues
+B8 8035A340 Rainbow Rupee
 B9 8035A340 
 BA 8035A340 
 BB 8035A340 
