@@ -103,6 +103,14 @@ def place_dungeon_item(self, item_name):
     ]
   possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
   
+  if self.dungeons_only_start and item_name == "DRC Small Key":
+    # If we're in a dungeons-only-start, we have to ban small keys from appearing in the Big Key Chest.
+    # A key you need to progress appearing there can cause issues that dead-end the item placement logic when there are no locations outside DRC for the randomizer to give you other items at.
+    possible_locations = [
+      loc for loc in possible_locations
+      if not loc == "Dragon Roost Cavern - Big Key Chest"
+    ]
+  
   if not possible_locations:
     raise Exception("No valid locations left to place dungeon items!")
   
