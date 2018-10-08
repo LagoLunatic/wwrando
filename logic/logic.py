@@ -18,6 +18,7 @@ class Logic:
     ("ET",   "Earth Temple"),
     ("WT",   "Wind Temple"),
   ])
+  DUNGEON_NAME_TO_SHORT_DUNGEON_NAME = OrderedDict([v, k] for k, v in DUNGEON_NAMES.items())
   
   PROGRESS_ITEM_GROUPS = OrderedDict([
     ("Triforce Shards",  [
@@ -175,14 +176,18 @@ class Logic:
     if len(available_locations) < len(items_in_group):
       raise Exception("Not enough locations to place all items in group %s" % group_name)
     
-    for i, item_name in enumerate(items_in_group):
-      location_name = available_locations[i]
+    for item_name in items_in_group:
+      available_locations = self.filter_locations_valid_for_item(available_locations, item_name)
+      location_name = available_locations.pop()
       self.set_location_to_item(location_name, item_name)
     
     self.unplaced_progress_items.remove(group_name)
   
   def set_prerandomization_dungeon_item_location(self, location_name, item_name):
     # Temporarily keep track of where dungeon-specific items are placed before the main progression item randomization loop starts.
+    
+    #print("Setting prerand %s to %s" % (location_name, item_name))
+    
     assert self.is_dungeon_item(item_name)
     assert location_name in self.item_locations
     self.prerandomization_dungeon_item_locations[location_name] = item_name
@@ -505,15 +510,7 @@ class Logic:
     if self.is_dungeon_item(item_name) and not self.rando.options.get("keylunacy"):
       short_dungeon_name = item_name.split(" ")[0]
       dungeon_name = self.DUNGEON_NAMES[short_dungeon_name]
-      zone_name, specific_location_name = self.split_location_name_by_zone(location_name)
-      if dungeon_name != zone_name:
-        # Not a dungeon, or the wrong dungeon.
-        return False
-      if "Sunken Treasure" in self.item_locations[location_name]["Types"]:
-        # Sunken treasure wouldn't work because the stage ID would be the sea's, not the dungeon's.
-        return False
-      if location_name in ["Forsaken Fortress - Phantom Ganon", "Forsaken Fortress - Helmaroc King Heart Container"]:
-        # Same as above, these are outdoors so the stage ID would be the sea's, not the Forsaken Fortress's.
+      if not self.is_dungeon_location(location_name, dungeon_name_to_match=dungeon_name):
         return False
     
     # Beedle's shop does not work properly if the same item is in multiple slots of the same shop.
@@ -705,6 +702,22 @@ class Logic:
   
   def is_dungeon_item(self, item_name):
     return (item_name in DUNGEON_PROGRESS_ITEMS or item_name in DUNGEON_NONPROGRESS_ITEMS)
+  
+  def is_dungeon_location(self, location_name, dungeon_name_to_match=None):
+    zone_name, specific_location_name = self.split_location_name_by_zone(location_name)
+    if zone_name not in self.DUNGEON_NAME_TO_SHORT_DUNGEON_NAME:
+      # Not a dungeon.
+      return False
+    if dungeon_name_to_match and dungeon_name_to_match != zone_name:
+      # Wrong dungeon.
+      return False
+    if "Sunken Treasure" in self.item_locations[location_name]["Types"]:
+      # Outside the dungeon.
+      return False
+    if location_name in ["Forsaken Fortress - Phantom Ganon", "Forsaken Fortress - Helmaroc King Heart Container"]:
+      # Outside the dungeon.
+      return False
+    return True
   
   @staticmethod
   def parse_logic_expression(string):

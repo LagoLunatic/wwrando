@@ -26,22 +26,14 @@ DUNGEON_EXITS = [
 ]
 
 def randomize_dungeon_entrances(self):
-  # First we need to check how many locations the player can access at the start of the game (excluding dungeons since they're not randomized yet).
-  # If the player can't access any locations outside of dungeons, we need to limit the possibilities for what we allow the first dungeon (on DRI) to be.
-  # If that first dungeon is TotG, the player can't get any items because they need bombs.
-  # If that first dungeon is ET or WT, the player can't get any items because they need the command melody (and even with that they would only be able to access one single location).
-  # If that first dungeon is FW, the player can access a couple chests, but that's not enough to give the randomizer enough breathing space.
-  # So in that case we limit the first dungeon to only be DRC.
-  self.logic.temporarily_make_dungeon_entrance_macros_impossible()
-  accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
-  if len(accessible_undone_locations) == 0:
-    should_limit_first_dungeon_possibilities = True
-  else:
-    should_limit_first_dungeon_possibilities = False
-  
   remaining_exits = DUNGEON_EXITS.copy()
   for dungeon_entrance in DUNGEON_ENTRANCES:
-    if should_limit_first_dungeon_possibilities and dungeon_entrance.entrance_name == "Dungeon Entrance On Dragon Roost Island":
+    if self.dungeons_only_start and dungeon_entrance.entrance_name == "Dungeon Entrance On Dragon Roost Island":
+      # If we're in a dungeons-only-start, we have to force the first dungeon to be DRC.
+      # Any other dungeon would cause problems for the item placement logic:
+      # If the first dungeon is TotG, the player can't get any items because they need bombs.
+      # If the first dungeon is ET or WT, the player can't get any items because they need the command melody (and even with that they would only be able to access one single location).
+      # If the first dungeon is FW, the player can access a couple chests, but that's not enough to give the randomizer enough breathing space.
       possible_remaining_exits = []
       for dungeon_exit in remaining_exits:
         if dungeon_exit.dungeon_name in ["Dragon Roost Cavern"]:
