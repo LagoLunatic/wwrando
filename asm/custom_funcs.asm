@@ -2324,9 +2324,8 @@ fadds f1, f1, f0 ; Increase the keyframe value
 
 lfs f0, 8 (r5) ; Read the maximum keyframe value
 fcmpo cr0,f1,f0
-; If we're less than or equal to the max we don't need to reset the value
-cror eq,lt,eq
-beq store_rainbow_rupee_keyframe_value
+; If we're less than the max we don't need to reset the value
+blt store_rainbow_rupee_keyframe_value
 
 ; If we're greater than the max, reset the current keyframe to the minimum.
 ; The minimum is actually the maximum negated. This is to signify that we're playing the animation backwards.
@@ -2335,7 +2334,7 @@ lfs f1, 0xC (r5)
 store_rainbow_rupee_keyframe_value:
 stfs f1, 0 (r5) ; Store the new keyframe value back
 
-; Take the absolute value of the keyframe. So instead of going from -7 to +7, the value we pass as the actual keyframe goes from 7 to 0 to 7.
+; Take the absolute value of the keyframe. So instead of going from -6 to +6, the value we pass as the actual keyframe goes from 6 to 0 to 6.
 fabs f1, f1
 
 b 0x800F9410
@@ -2344,8 +2343,8 @@ b 0x800F9410
 rainbow_rupee_keyframe:
 .float 0.0 ; Current keyframe, acts as a global variable modified every frame
 .float 0.15 ; Amount to increment keyframe by every frame a rainbow rupee is being drawn
-.float 7.0 ; Max keyframe, when it should loop
-.float -7.0 ; Minimum keyframe
+.float 6.0 ; Max keyframe, when it should loop
+.float -6.0 ; Minimum keyframe
 
 
 
