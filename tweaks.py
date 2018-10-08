@@ -1380,3 +1380,14 @@ def update_tingle_statue_item_get_funcs(self):
     item_name = self.item_names[tingle_statue_item_id]
     custom_symbol_name = item_name.lower().replace(" ", "_") + "_item_get_func"
     write_u32(dol_data, item_get_func_offset, self.custom_symbols[custom_symbol_name])
+
+def make_tingle_statue_reward_rupee_rainbow_colored(self):
+  # Change the color index of the special 500 rupee to be 7 - this is a special value (originally unused) we use to indicate to our custom code that it's the special rupee, and so it should have its color animated.
+  
+  item_resources_list_start = address_to_offset(0x803842B0)
+  dol_data = self.get_raw_file("sys/main.dol")
+  
+  item_id = self.item_name_to_id["500 Rupees, reward for finding 5 Tingle Statues"]
+  rainbow_rupee_item_resource_offset = item_resources_list_start + item_id*0x24
+  
+  write_u8(dol_data, rainbow_rupee_item_resource_offset+0x14, 7)

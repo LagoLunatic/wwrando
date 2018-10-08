@@ -287,6 +287,7 @@ class Randomizer:
     tweaks.prevent_door_boulder_softlocks(self)
     tweaks.update_tingle_statue_item_get_funcs(self)
     tweaks.apply_patch(self, "tingle_chests_without_tuner")
+    tweaks.make_tingle_statue_reward_rupee_rainbow_colored(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)

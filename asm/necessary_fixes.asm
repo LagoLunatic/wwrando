@@ -1066,3 +1066,12 @@
 .org 0x93F4 ; Relocation for line 0x5C50
   .int check_tingle_statue_owned
 .close
+
+
+
+
+; Animate the 500 rupee to be a rainbow rupee that animates between the colors of all other rupees.
+.open "sys/main.dol"
+.org 0x800F93F4
+  b check_animate_rainbow_rupee_color
+.close

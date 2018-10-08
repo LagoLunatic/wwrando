@@ -77,3 +77,5 @@
 803fe3c4 earth_tingle_statue_item_get_func
 803fe3f0 wind_tingle_statue_item_get_func
 803fe41c check_tingle_statue_owned
+803fe4a4 check_animate_rainbow_rupee_color
+803fe4e8 rainbow_rupee_keyframe
