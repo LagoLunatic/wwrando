@@ -102,6 +102,7 @@ CONSUMABLE_ITEMS = \
   12 * ["Purple Rupee"] + \
   18 * ["Orange Rupee"] + \
   30 * ["Silver Rupee"] + \
+   1 * ["Rainbow Rupee"] + \
   \
    9 * ["Joy Pendant"] + \
    9 * ["Skull Necklace"] + \
