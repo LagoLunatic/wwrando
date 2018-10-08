@@ -10,7 +10,7 @@ from random import Random
 from fs_helpers import *
 from wwlib import texture_utils
 from wwlib.rarc import RARC
-from paths import ASSETS_PATH, ASM_PATH
+from paths import ASSETS_PATH, ASM_PATH, SEEDGEN_PATH
 import customizer
 
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
@@ -1391,3 +1391,27 @@ def make_tingle_statue_reward_rupee_rainbow_colored(self):
   rainbow_rupee_item_resource_offset = item_resources_list_start + item_id*0x24
   
   write_u8(dol_data, rainbow_rupee_item_resource_offset+0x14, 7)
+
+def show_seed_hash_on_name_entry_screen(self):
+  # Add some text to the name entry screen which has two random character names that vary based on the permalink (so the seed and settings both change it).
+  # This is so two players intending to play the same seed can verify if they really are on the same seed or not.
+  
+  if not self.permalink:
+    return
+  
+  integer_seed = self.convert_string_to_integer_md5(self.permalink)
+  temp_rng = Random()
+  temp_rng.seed(integer_seed)
+  
+  with open(os.path.join(SEEDGEN_PATH, "names.txt")) as f:
+    all_names = f.read().splitlines()
+  valid_names = [name for name in all_names if len(name) <= 5]
+  
+  name_1, name_2 = temp_rng.sample(valid_names, 2)
+  name_1 = name_1.capitalize()
+  name_2 = name_2.capitalize()
+  
+  # Since actually adding new text to the UI would be very difficult, instead hijack the "Name Entry" text, and put the seed hash after several linebreaks.
+  # (The three linebreaks we insert before "Name Entry" are so it's still in the correct spot after vertical centering happens.)
+  msg = self.bmg.messages_by_id[40]
+  msg.string = "\n\n\n" + msg.string + "\n\n" + "Seed hash:" + "\n" + name_1 + " " + name_2

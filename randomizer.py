@@ -58,7 +58,7 @@ class Randomizer:
       self.dry_run = True
       self.no_logs = True
     
-    self.integer_seed = int(hashlib.md5(self.seed.encode('utf-8')).hexdigest(), 16)
+    self.integer_seed = self.convert_string_to_integer_md5(self.seed)
     self.rng = self.get_new_rng()
     
     self.arcs_by_path = {}
@@ -288,6 +288,7 @@ class Randomizer:
     tweaks.update_tingle_statue_item_get_funcs(self)
     tweaks.apply_patch(self, "tingle_chests_without_tuner")
     tweaks.make_tingle_statue_reward_rupee_rainbow_colored(self)
+    tweaks.show_seed_hash_on_name_entry_screen(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)
@@ -476,6 +477,9 @@ class Randomizer:
     else:
       output_file_path = os.path.join(self.randomized_output_folder, "WW Random %s.iso" % self.seed)
       self.gcm.export_disc_to_iso_with_changed_files(output_file_path, changed_files)
+  
+  def convert_string_to_integer_md5(self, string):
+    return int(hashlib.md5(string.encode('utf-8')).hexdigest(), 16)
   
   def get_new_rng(self):
     rng = Random()
