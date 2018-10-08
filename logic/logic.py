@@ -714,9 +714,6 @@ class Logic:
     if "Sunken Treasure" in self.item_locations[location_name]["Types"]:
       # Outside the dungeon.
       return False
-    if location_name in ["Forsaken Fortress - Phantom Ganon", "Forsaken Fortress - Helmaroc King Heart Container"]:
-      # Outside the dungeon.
-      return False
     return True
   
   @staticmethod
