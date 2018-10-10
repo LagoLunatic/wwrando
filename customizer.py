@@ -144,6 +144,7 @@ def replace_link_model(self):
   # Replace voice sound effects.
   jaiinit_aaf_path = custom_model_path + "sound/JaiInit.aaf"
   voice_aw_path = custom_model_path + "sound/voice_0.aw"
+  ganont_aw_path = custom_model_path + "sound/GanonT_0.aw"
   if os.path.isfile(jaiinit_aaf_path) and os.path.isfile(voice_aw_path):
     with open(jaiinit_aaf_path, "rb") as f:
       jaiinit_aaf_data = BytesIO(f.read())
@@ -151,6 +152,10 @@ def replace_link_model(self):
     with open(voice_aw_path, "rb") as f:
       voice_aw_data = BytesIO(f.read())
     self.replace_raw_file("files/Audiores/Banks/voice_0.aw", voice_aw_data)
+    if os.path.isfile(ganont_aw_path):
+      with open(ganont_aw_path, "rb") as f:
+        ganont_aw_data = BytesIO(f.read())
+      self.replace_raw_file("files/Audiores/Banks/GanonT_0.aw", ganont_aw_data)
 
 def change_player_clothes_color(self):
   custom_model_metadata = get_model_metadata(self.custom_model_name)
