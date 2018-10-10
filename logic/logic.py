@@ -614,6 +614,17 @@ class Logic:
       dungeon_access_macro_name = "Can Access " + dungeon_name
       self.set_macro(dungeon_access_macro_name, "Impossible")
   
+  def temporarily_make_dungeon_entrance_macros_worst_case_scenario(self):
+    # Update all the dungeon access macros to be a combination of all the macros for accessing dungeons that can have their entrance randomized.
+    all_dungeon_entrance_access_macro_names = []
+    for entrance_name, dungeon_name in self.rando.dungeon_entrances.items():
+      dungeon_entrance_access_macro_name = "Can Access " + entrance_name
+      all_dungeon_entrance_access_macro_names.append(dungeon_entrance_access_macro_name)
+    can_access_all_dungeon_entrances = " & ".join(all_dungeon_entrance_access_macro_names)
+    for entrance_name, dungeon_name in self.rando.dungeon_entrances.items():
+      dungeon_access_macro_name = "Can Access " + dungeon_name
+      self.set_macro(dungeon_access_macro_name, can_access_all_dungeon_entrances)
+  
   def update_chart_macros(self):
     # Update all the "Chart for Island" macros to take randomized charts into account.
     for island_number in range(1, 49+1):
@@ -653,6 +664,10 @@ class Logic:
     # Detect which progress items don't actually help access any locations with the user's current settings, and move those over to the nonprogress item list instead.
     # This is so things like dungeons-only runs don't have a lot of useless items hogging the progress locations.
     
+    if self.rando.options.get("randomize_dungeon_entrances"):
+      # Since the randomizer hasn't decided which dungeon will be where yet, we have to assume the worst case scenario by considering that you need to be able to access all dungeon entrances in order to access each individual dungeon.
+      self.temporarily_make_dungeon_entrance_macros_worst_case_scenario()
+    
     filter_sunken_treasure = True
     if self.rando.options.get("progression_triforce_charts") or self.rando.options.get("progression_treasure_charts"):
       filter_sunken_treasure = False
@@ -691,6 +706,10 @@ class Logic:
       #print(item_name)
       self.all_progress_items.remove(item_name)
       self.all_nonprogress_items.append(item_name)
+    
+    if self.rando.options.get("randomize_dungeon_entrances"):
+      # Reset the dungeon access macros if we changed them earlier.
+      self.update_dungeon_entrance_macros()
   
   def split_location_name_by_zone(self, location_name):
     if " - " in location_name:
