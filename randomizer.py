@@ -697,6 +697,8 @@ class Randomizer:
   
   def write_spoiler_log(self):
     if self.no_logs:
+      # We still calculate progression spheres even if we're not going to write them anywhere to catch more errors in testing.
+      self.calculate_playthrough_progression_spheres()
       return
     
     spoiler_log = self.get_log_header()
