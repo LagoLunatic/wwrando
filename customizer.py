@@ -73,13 +73,22 @@ def get_model_metadata(custom_model_name):
         prefix = key.split("_")[0]
         
         for custom_color_name, hex_color in value.items():
-          hex_color = str(hex_color)
-          match = re.search(r"^([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})$", hex_color, re.IGNORECASE)
+          if isinstance(hex_color, int):
+            hex_color_string = "%06X" % hex_color
+          elif isinstance(hex_color, str):
+            hex_color_string = hex_color
+          else:
+            error_message = "Custom color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (custom_color_name, hex_color)
+            return {
+              "error_message": error_message,
+            }
+          
+          match = re.search(r"^([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})$", hex_color_string, re.IGNORECASE)
           if match:
             r, g, b = int(match.group(1), 16), int(match.group(2), 16), int(match.group(3), 16)
             value[custom_color_name] = [r, g, b]
           else:
-            error_message = "Custom color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (custom_color_name, hex_color)
+            error_message = "Custom color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (custom_color_name, hex_color_string)
             return {
               "error_message": error_message,
             }
