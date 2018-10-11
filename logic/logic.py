@@ -128,13 +128,18 @@ class Logic:
       if cleaned_item_name not in self.all_cleaned_item_names:
         self.all_cleaned_item_names.append(cleaned_item_name)
     
-    self.make_useless_progress_items_nonprogress()
-    
     self.unplaced_progress_items = self.all_progress_items.copy()
     self.unplaced_nonprogress_items = self.all_nonprogress_items.copy()
     self.unplaced_consumable_items = self.all_consumable_items.copy()
     
     self.progress_item_groups = copy.deepcopy(self.PROGRESS_ITEM_GROUPS)
+    
+    self.currently_owned_items = []
+    
+    for item_name in self.rando.starting_items:
+      self.add_owned_item(item_name)
+    
+    self.make_useless_progress_items_nonprogress()
     
     # Replace progress items that are part of a group with the group name instead.
     for group_name, item_names in self.progress_item_groups.items():
@@ -142,11 +147,6 @@ class Logic:
         self.unplaced_progress_items.append(group_name)
         for item_name in item_names:
           self.unplaced_progress_items.remove(item_name)
-    
-    self.currently_owned_items = []
-    
-    for item_name in self.rando.starting_items:
-      self.add_owned_item(item_name)
     
     # Remove starting items from item groups.
     for group_name, group_item_names in self.progress_item_groups.items():
@@ -157,7 +157,8 @@ class Logic:
       for item_name in items_to_remove_from_group:
         self.progress_item_groups[group_name].remove(item_name)
       if len(self.progress_item_groups[group_name]) == 0:
-        self.unplaced_progress_items.remove(group_name)
+        if group_name in self.unplaced_progress_items:
+          self.unplaced_progress_items.remove(group_name)
   
   def set_location_to_item(self, location_name, item_name):
     #print("Setting %s to %s" % (location_name, item_name))
@@ -701,11 +702,14 @@ class Logic:
     items_to_make_nonprogress = [
       item_name for item_name in self.all_progress_items
       if item_name not in all_progress_items_filtered
+      and item_name not in self.currently_owned_items
     ]
     for item_name in items_to_make_nonprogress:
       #print(item_name)
       self.all_progress_items.remove(item_name)
       self.all_nonprogress_items.append(item_name)
+      self.unplaced_progress_items.remove(item_name)
+      self.unplaced_nonprogress_items.append(item_name)
     
     if self.rando.options.get("randomize_dungeon_entrances"):
       # Reset the dungeon access macros if we changed them earlier.
@@ -854,6 +858,10 @@ class Logic:
     return item_names
   
   def get_item_names_from_logical_expression_req(self, logical_expression):
+    if self.check_logical_expression_req(logical_expression):
+      # If this expression is already satisfied, we don't want to include any other items in the OR statement.
+      return []
+    
     item_names = []
     tokens = logical_expression.copy()
     tokens.reverse()
