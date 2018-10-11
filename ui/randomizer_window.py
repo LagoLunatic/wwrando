@@ -14,6 +14,7 @@ import traceback
 import string
 import struct
 import base64
+import colorsys
 
 import yaml
 try:
@@ -688,8 +689,21 @@ class WWRandomizerWindow(QMainWindow):
       color_button.setStyleSheet("")
       hex_input.setText("")
     else:
-      color_button.setStyleSheet("background-color: rgb(%d, %d, %d)" % tuple(color))
       hex_input.setText("%02X%02X%02X" % tuple(color))
+      
+      r, g, b = color
+      
+      # Depending on the value of the background color of the button, we need to make the text color either black or white for contrast.
+      h, s, v = colorsys.rgb_to_hsv(r/255, g/255, b/255)
+      if v > 0.5:
+        text_color = (0, 0, 0)
+      else:
+        text_color = (255, 255, 255)
+      
+      color_button.setStyleSheet(
+        "background-color: rgb(%d, %d, %d);" % (r, g, b) + \
+        "color: rgb(%d, %d, %d);" % text_color,
+      )
     
     if update_preview:
       self.update_model_preview()
