@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Sat Oct  6 13:19:08 2018
+# Created: Fri Oct 12 21:11:04 2018
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -241,7 +241,9 @@ class Ui_MainWindow(object):
         self.gridLayout_5.addWidget(self.player_in_casual_clothes, 0, 1, 1, 1)
         self.verticalLayout_3.addLayout(self.gridLayout_5)
         self.custom_model_comment = QtWidgets.QLabel(self.tab_2)
+        self.custom_model_comment.setMaximumSize(QtCore.QSize(810, 16777215))
         self.custom_model_comment.setText("")
+        self.custom_model_comment.setWordWrap(True)
         self.custom_model_comment.setObjectName("custom_model_comment")
         self.verticalLayout_3.addWidget(self.custom_model_comment)
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()

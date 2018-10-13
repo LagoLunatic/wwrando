@@ -522,8 +522,17 @@
             </item>
             <item>
              <widget class="QLabel" name="custom_model_comment">
+              <property name="maximumSize">
+               <size>
+                <width>810</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="text">
                <string/>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
