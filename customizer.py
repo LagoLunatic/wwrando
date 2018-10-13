@@ -74,7 +74,7 @@ def get_model_metadata(custom_model_name):
         
         for custom_color_name, hex_color in value.items():
           if isinstance(hex_color, int):
-            hex_color_string = "%06X" % hex_color
+            hex_color_string = "%06d" % hex_color
           elif isinstance(hex_color, str):
             hex_color_string = hex_color
           else:
