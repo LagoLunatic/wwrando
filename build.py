@@ -12,7 +12,7 @@ if (struct.calcsize("P") * 8) == 64:
   base_zip_name = base_name_with_version
 else:
   base_name_with_version += "_32bit"
-  base_zip_name = base_name_with_version + "_(not_recommended)"
+  base_zip_name = base_name_with_version
 
 zip_name = base_zip_name.replace(" ", "_") + ".zip"
 
