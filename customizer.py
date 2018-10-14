@@ -6,7 +6,6 @@ from collections import OrderedDict
 from io import BytesIO
 import glob
 from PIL import Image
-from pathlib import Path
 
 from fs_helpers import *
 from wwlib import texture_utils
@@ -293,7 +292,11 @@ def check_valid_mask_path(mask_path):
   if not os.path.isfile(mask_path):
     raise Exception("Color mask not found: %s" % mask_path)
   given_filename = os.path.basename(mask_path)
-  true_filename = os.path.basename(Path(mask_path).resolve())
+  
+  mask_dir = os.path.dirname(mask_path)
+  files_in_mask_folder = os.listdir(mask_dir)
+  true_filename = next(filename for filename in files_in_mask_folder if filename.lower() == given_filename.lower())
+  
   if given_filename != true_filename:
     raise Exception("Color mask path's actual capitalization differs from the capitalization given in metadata.txt.\nGiven: %s, actual: %s" % (given_filename, true_filename))
 
