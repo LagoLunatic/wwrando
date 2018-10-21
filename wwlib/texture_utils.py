@@ -710,7 +710,7 @@ def encode_image_to_c4_block(pixels, colors_to_color_indexes, block_x, block_y, 
       color_1 = pixels[x,y]
       color_1_index = colors_to_color_indexes[color_1]
       assert 0 <= color_1_index <= 0xF
-      color_2 = pixels[x,y]
+      color_2 = pixels[x+1,y]
       color_2_index = colors_to_color_indexes[color_2]
       assert 0 <= color_2_index <= 0xF
       
