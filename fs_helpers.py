@@ -34,7 +34,7 @@ def read_str(data, offset, length):
   if offset+length > data_length:
     raise InvalidOffsetError("Offset %X, length %X is past the end of the data (length %X)." % (offset, length, data_length))
   data.seek(offset)
-  string = data.read(length).decode("ascii")
+  string = data.read(length).decode("shift_jis")
   string = string.rstrip("\0") # Remove trailing null bytes
   return string
 
@@ -50,15 +50,21 @@ def read_str_until_null_character(data, offset):
   data_length = data.seek(0, 2)
   if offset > data_length:
     raise InvalidOffsetError("Offset %X is past the end of the data (length %X)." % (offset, data_length))
-  str = ""
-  while offset < data_length:
-    data.seek(offset)
+  
+  temp_offset = offset
+  str_length = 0
+  while temp_offset < data_length:
+    data.seek(temp_offset)
     char = data.read(1)
     if char == b"\0":
       break
     else:
-      str += char.decode("ascii")
-    offset += 1
+      str_length += 1
+    temp_offset += 1
+  
+  data.seek(offset)
+  str = data.read(str_length).decode("shift_jis")
+  
   return str
 
 def write_str(data, offset, new_string, max_length):
@@ -68,7 +74,7 @@ def write_str(data, offset, new_string, max_length):
   
   padding_length = max_length - str_len
   null_padding = b"\x00"*padding_length
-  new_value = new_string.encode("ascii") + null_padding
+  new_value = new_string.encode("shift_jis") + null_padding
   
   data.seek(offset)
   data.write(new_value)
