@@ -675,12 +675,21 @@ def encode_image_to_i4_block(pixels, colors_to_color_indexes, block_x, block_y, 
   
   for y in range(block_y, block_y+block_height):
     for x in range(block_x, block_x+block_width, 2):
-      color_1 = pixels[x,y]
-      color_1_i4 = convert_color_to_i4(color_1)
-      assert 0 <= color_1_i4 <= 0xF
-      color_2 = pixels[x+1,y]
-      color_2_i4 = convert_color_to_i4(color_2)
-      assert 0 <= color_2_i4 <= 0xF
+      if x >= image_width or y >= image_height:
+        # This block bleeds past the edge of the image
+        color_1_i4 = 0xF
+      else:
+        color_1 = pixels[x,y]
+        color_1_i4 = convert_color_to_i4(color_1)
+        assert 0 <= color_1_i4 <= 0xF
+      
+      if x >= image_width or y >= image_height:
+        # This block bleeds past the edge of the image
+        color_2_i4 = 0xF
+      else:
+        color_2 = pixels[x+1,y]
+        color_2_i4 = convert_color_to_i4(color_2)
+        assert 0 <= color_2_i4 <= 0xF
       
       byte = ((color_1_i4 & 0xF) << 4) | (color_2_i4 & 0xF)
       
