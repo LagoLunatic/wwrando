@@ -165,6 +165,13 @@ def convert_i4_to_color(i4):
   
   return (r, g, b, a)
 
+def convert_color_to_i4(color):
+  r, g, b, a = get_rgba(color)
+  assert r == g == b
+  i4 = 0
+  i4 |= ((r >> 4) & 0xF)
+  return i4
+
 def convert_i8_to_color(i8):
   r = g = b = i8
   a = 255
@@ -645,7 +652,9 @@ def encode_image(image, image_format, palette_format):
   return (new_image_data, new_palette_data, encoded_colors)
 
 def encode_image_to_block(image_format, pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
-  if image_format == 4:
+  if image_format == 0:
+    return encode_image_to_i4_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
+  elif image_format == 4:
     return encode_image_to_rgb563_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == 5:
     return encode_image_to_rgb5a3_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
@@ -660,6 +669,27 @@ def encode_image_to_block(image_format, pixels, colors_to_color_indexes, block_x
   else:
     raise Exception("Unknown image format: %X" % image_format)
 
+def encode_image_to_i4_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
+  new_data = BytesIO()
+  offset = 0
+  
+  for y in range(block_y, block_y+block_height):
+    for x in range(block_x, block_x+block_width, 2):
+      color_1 = pixels[x,y]
+      color_1_i4 = convert_color_to_i4(color_1)
+      assert 0 <= color_1_i4 <= 0xF
+      color_2 = pixels[x+1,y]
+      color_2_i4 = convert_color_to_i4(color_2)
+      assert 0 <= color_2_i4 <= 0xF
+      
+      byte = ((color_1_i4 & 0xF) << 4) | (color_2_i4 & 0xF)
+      
+      write_u8(new_data, offset, byte)
+      offset += 1
+  
+  new_data.seek(0)
+  return new_data.read()
+  
 def encode_image_to_rgb563_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
   new_data = BytesIO()
   offset = 0
