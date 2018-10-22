@@ -11,6 +11,7 @@ class BMG:
     data = self.file_entry.data
     
     self.magic = read_str(data, 0, 8)
+    assert self.magic == "MESGbmg1"
     self.length = read_u32(data, 8)
     self.num_sections = read_u32(data, 0x0C)
     

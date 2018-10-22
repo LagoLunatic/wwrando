@@ -21,6 +21,8 @@ class RARC:
     
     data = self.data
     
+    self.magic = read_str(data, 0, 4)
+    assert self.magic == "RARC"
     self.size = read_u32(data, 4)
     self.file_data_list_offset = read_u32(data, 0xC) + 0x20
     self.file_data_total_size = read_u32(data, 0x10)

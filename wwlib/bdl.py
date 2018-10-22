@@ -15,6 +15,7 @@ class BDL:
     data = self.file_entry.data
     
     self.magic = read_str(data, 0, 4)
+    assert self.magic == "J3D2"
     self.model_type = read_str(data, 4, 4)
     self.length = read_u32(data, 8)
     self.num_chunks = read_u32(data, 0x0C)
