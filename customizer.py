@@ -31,6 +31,8 @@ VANILLA_LINK_METADATA = {
   "preview_casual": os.path.join(ASSETS_PATH, "link_preview", "preview_casual.png"),
   "preview_hero_color_mask_paths": OrderedDict(),
   "preview_casual_color_mask_paths": OrderedDict(),
+  "hands_hero_color_mask_path": os.path.join(ASSETS_PATH, "link_color_masks", "hands_hero.png"),
+  "hands_casual_color_mask_path": os.path.join(ASSETS_PATH, "link_color_masks", "hands_casual.png"),
 }
 
 for prefix in ["hero", "casual"]:
@@ -61,6 +63,8 @@ def get_model_metadata(custom_model_name):
     
     metadata["preview_hero"] = os.path.join("models", custom_model_name, "preview", "preview_hero.png")
     metadata["preview_casual"] = os.path.join("models", custom_model_name, "preview", "preview_casual.png")
+    metadata["hands_hero_color_mask_path"] = os.path.join("models", custom_model_name, "color_masks", "hands_hero.png")
+    metadata["hands_casual_color_mask_path"] = os.path.join("models", custom_model_name, "color_masks", "hands_casual.png")
     
     metadata["hero_color_mask_paths"] = OrderedDict()
     metadata["casual_color_mask_paths"] = OrderedDict()
@@ -243,7 +247,13 @@ def change_player_clothes_color(self):
       hands_model = link_arc.get_file("hands.bdl")
       hands_textures = hands_model.tex1.textures_by_name["handsS3TC"]
       hands_image = hands_textures[0].render()
-      hands_image = texture_utils.color_exchange(hands_image, base_color, custom_color)
+      
+      hands_mask_path = custom_model_metadata["hands_" + prefix + "_color_mask_path"]
+      if os.path.isfile(hands_mask_path):
+        hands_image = texture_utils.color_exchange(hands_image, base_color, custom_color, mask_path=hands_mask_path)
+      else:
+        hands_image = texture_utils.color_exchange(hands_image, base_color, custom_color)
+      
       for hands_texture in hands_textures:
         hands_texture.replace_image(hands_image)
       hands_model.save_changes()
