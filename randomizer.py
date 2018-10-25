@@ -289,6 +289,7 @@ class Randomizer:
     tweaks.apply_patch(self, "tingle_chests_without_tuner")
     tweaks.make_tingle_statue_reward_rupee_rainbow_colored(self)
     tweaks.show_seed_hash_on_name_entry_screen(self)
+    tweaks.fix_ghost_ship_chest_crash(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)

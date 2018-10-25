@@ -1415,3 +1415,20 @@ def show_seed_hash_on_name_entry_screen(self):
   # (The three linebreaks we insert before "Name Entry" are so it's still in the correct spot after vertical centering happens.)
   msg = self.bmg.messages_by_id[40]
   msg.string = "\n\n\n" + msg.string + "\n\n" + "Seed hash:" + "\n" + name_1 + " " + name_2
+
+def fix_ghost_ship_chest_crash(self):
+  # There's a vanilla crash that happens if you jump attack on top of the chest in the Ghost Ship.
+  # The cause of the crash is that there are unused rooms in the Ghost Ship stage with unused chests at the same position as the used chest.
+  # When Link lands on top of the overlapping chests the game thinks Link is in one of the unused rooms.
+  # The ky_tag0 object in the Ghost Ship checks a zone bit every frame, but checking a zone bit crashes if the current room is not loaded in because the zone was never initialized.
+  # So we simply move the other two unused chests away from the real one so they're far out of bounds.
+  # (Actually deleting them would mess up the entity indexes in the logic files, so it's simpler to move them.)
+  
+  dzs = self.get_arc("files/res/Stage/PShip/Stage.arc").get_file("stage.dzs")
+  chests = dzs.entries_by_type("TRES")
+  for chest in chests:
+    if chest.room_num == 2:
+      # The chest for room 2 is the one that is actually used, so don't move this one.
+      continue
+    chest.x_pos += 2000.0
+    chest.save_changes()
