@@ -1666,25 +1666,43 @@ b 0x8016248C ; Return
 
 
 
-; Add a check right before playing the item get music to handle playing the special pearl item get music.
+; Add a check right before playing the item get music to handle playing special item get music (pearls and songs).
 ; The vanilla game played the pearl music as part of the .stb cutscenes where you get the pearls, so the regular item get code had no reason to check for pearls originally.
-.global check_play_pearl_item_get_music
-check_play_pearl_item_get_music:
+; In the vanilla game Link only gets songs via 059get_dance actions, so that action would play the song get music, but the 011get_item action had no reason to check for songs.
+.global check_play_special_item_get_music
+check_play_special_item_get_music:
 
 lwz r3, -0x69D0 (r13) ; Replace the line we overwrote to jump here
 
-; Check if the item ID (in r0) matches any of the pearls.
+; Check if the item ID (in r0) matches any of the items with special music.
 cmplwi r0, 0x69 ; Nayru's Pearl
 beq play_pearl_item_get_music
 cmplwi r0, 0x6A ; Din's Pearl
 beq play_pearl_item_get_music
 cmplwi r0, 0x6B ; Farore's Pearl
 beq play_pearl_item_get_music
+cmplwi r0, 0x6D ; Wind's Requiem
+beq play_song_get_music
+cmplwi r0, 0x6E ; Ballad of Gales
+beq play_song_get_music
+cmplwi r0, 0x6F ; Command Melody
+beq play_song_get_music
+cmplwi r0, 0x70 ; Earth God's Lyric
+beq play_song_get_music
+cmplwi r0, 0x71 ; Wind God's Aria
+beq play_song_get_music
+cmplwi r0, 0x72 ; Song of Passing
+beq play_song_get_music
 b 0x8012E3EC ; If not, return to the code that plays the normal item get music
 
 play_pearl_item_get_music:
 lis r4, 0x8000004F@ha ; BGM ID for the pearl item get music
 addi r4, r4, 0x8000004F@l
+b 0x8012E3F4 ; Jump to the code that plays the normal item get music
+
+play_song_get_music:
+lis r4, 0x80000027@ha ; BGM ID for the song get music
+addi r4, r4, 0x80000027@l
 b 0x8012E3F4 ; Jump to the code that plays the normal item get music
 
 

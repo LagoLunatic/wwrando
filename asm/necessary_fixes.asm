@@ -1003,10 +1003,10 @@
 
 
 
-; Fix the wrong item get sound playing when you get a pearl.
+; Fix the wrong item get music playing when you get certain items.
 .open "sys/main.dol"
 .org 0x8012E3E8 ; In setGetItemSound__9daPy_lk_cFUsi
-  b check_play_pearl_item_get_music
+  b check_play_special_item_get_music
 .close
 
 
