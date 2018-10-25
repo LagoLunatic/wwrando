@@ -3,6 +3,11 @@
 #  Original item: Telescope
 #  Paths:
 #    - sea/Stage.arc/Event085:get_telescope/Actor002/Action001
+#Outset Island - Bring a Pig to Rose:
+#  Need: 
+#  Original item: Red Rupee
+#  Paths:
+#    - sea/Stage.arc/Event0B1:Get_Rupee/Actor002/Action000
 Outset Island - Underneath Link's House:
   Need: Nothing
   Original item: Orange Rupee
@@ -396,6 +401,27 @@ Windfall Island - Zunari - Stock Exotic Flower in Zunari's Shop:
     - rels/d_a_npc_rsh1.rel@3117
     - rels/d_a_npc_rsh1.rel@338F
     - CustomSymbol:zunari_magic_armor_slot_item_id
+#Windfall Island - Kane - Place Shop Guru Statue on Gate: # Too obscure to randomize
+#  Need: Rescued Aryll & Delivery Bag
+#  Original item: Purple Rupee
+#  Paths:
+#    - rels/d_a_npc_people.rel@C21B
+#Windfall Island - Kane - Place Postman Statue on Gate: # Too obscure to randomize
+#  Need: Rescued Aryll & Delivery Bag
+#  Original item: Purple Rupee
+#  Paths:
+#    - rels/d_a_npc_people.rel@C21F
+#Windfall Island - Kane - Place Six Flags on Gate: # Too obscure to randomize
+#  # Pinwheel counts as a flag
+#  Need: Rescued Aryll & Delivery Bag
+#  Original item: Red Rupee
+#  Paths:
+#    - rels/d_a_npc_people.rel@C223
+#Windfall Island - Kane - Place Six Idols on Gate: # Too obscure to randomize
+#  Need: Rescued Aryll & Delivery Bag
+#  Original item: Red Rupee
+#  Paths:
+#    - rels/d_a_npc_people.rel@C227
 Windfall Island - Mila:
   Need: Rescued Aryll
   Original item: Empty Bottle
@@ -436,6 +462,11 @@ Windfall Island - Sinking Ships - Under 20 Shots Prize:
 #  Types: Minigame
 #  Paths:
 #    - rels/d_a_npc_people.rel@5BDF
+#Windfall Island - Dampa's Piggy Sitting Minigame (Unused):
+#  Need: 
+#  Original item: Red Rupee
+#  Paths:
+#    - rels/d_a_npc_people.rel@5BC3
 Windfall Island - Pompie and Vera:
   Need:
     # Need to snap a photo of Lenzo and Minenco in Lenzo's house.
@@ -1901,6 +1932,11 @@ The Great Sea - Ghost Ship:
 #  Original item: Purple Rupee
 #  Paths:
 #    - rels/d_a_npc_ah.rel@1773
+#The Great Sea - Fishman (Unused):
+#  Need: 
+#  Original item: Silver Rupee
+#  Paths:
+#    - sea/Stage.arc/Event0D2:SO_GET_RUPEE/Actor002/Action000
 
 #Nintendo Gallery - Carlov 1 (Unused):
 #  Need: 
@@ -2694,27 +2730,6 @@ Six-Eye Reef - Submarine:
   Types: Submarine
   Paths:
     - Abship/Room1.arc/Chest000
-
-#unknown - unknown npc 1:
-#  Need: 
-#  Original item: Red Rupee
-#  Paths:
-#    - rels/d_a_npc_people.rel@5BC3
-#unknown - unknown npc 2:
-#  Need: 
-#  Original item: Purple Rupee
-#  Paths:
-#    - rels/d_a_npc_people.rel@5BDF
-#unknown - The Great Sea - unknown event 2:
-#  Need: 
-#  Original item: Red Rupee
-#  Paths:
-#    - sea/Stage.arc/Event0B1:Get_Rupee/Actor002/Action000
-#unknown - The Great Sea - unknown event 3:
-#  Need: 
-#  Original item: Silver Rupee
-#  Paths:
-#    - sea/Stage.arc/Event0D2:SO_GET_RUPEE/Actor002/Action000
 
 Forsaken Fortress - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 1
