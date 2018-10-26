@@ -546,7 +546,11 @@ def decode_c4_block(image_format, image_data, offset, block_data_size, colors):
     byte = read_u8(image_data, offset+byte_index)
     for nibble_index in range(2):
       color_index = (byte >> (1-nibble_index)*4) & 0xF
-      color = colors[color_index]
+      if color_index >= len(colors):
+        # This block bleeds past the edge of the image
+        color = None
+      else:
+        color = colors[color_index]
       
       pixel_color_data.append(color)
   
@@ -557,7 +561,7 @@ def decode_c8_block(image_format, image_data, offset, block_data_size, colors):
   
   for i in range(block_data_size):
     color_index = read_u8(image_data, offset+i)
-    if color_index == 0xFF:
+    if color_index >= len(colors):
       # This block bleeds past the edge of the image
       color = None
     else:
@@ -572,7 +576,7 @@ def decode_c14x2_block(image_format, image_data, offset, block_data_size, colors
   
   for i in range(block_data_size//2):
     color_index = read_u16(image_data, offset+i*2) & 0x3FFF
-    if color_index == 0x3FFF:
+    if color_index >= len(colors):
       # This block bleeds past the edge of the image
       color = None
     else:
@@ -704,8 +708,13 @@ def encode_image_to_rgb563_block(pixels, colors_to_color_indexes, block_x, block
   offset = 0
   for y in range(block_y, block_y+block_height):
     for x in range(block_x, block_x+block_width):
-      color = pixels[x,y]
-      rgb565 = convert_color_to_rgb565(color)
+      if x >= image_width or y >= image_height:
+        # This block bleeds past the edge of the image
+        rgb565 = 0xFFFF
+      else:
+        color = pixels[x,y]
+        rgb565 = convert_color_to_rgb565(color)
+      
       write_u16(new_data, offset, rgb565)
       offset += 2
   
@@ -717,8 +726,13 @@ def encode_image_to_rgb5a3_block(pixels, colors_to_color_indexes, block_x, block
   offset = 0
   for y in range(block_y, block_y+block_height):
     for x in range(block_x, block_x+block_width):
-      color = pixels[x,y]
-      rgb5a3 = convert_color_to_rgb5a3(color)
+      if x >= image_width or y >= image_height:
+        # This block bleeds past the edge of the image
+        rgb5a3 = 0xFFFF
+      else:
+        color = pixels[x,y]
+        rgb5a3 = convert_color_to_rgb5a3(color)
+      
       write_u16(new_data, offset, rgb5a3)
       offset += 2
   
@@ -730,8 +744,13 @@ def encode_image_to_rgba32_block(pixels, colors_to_color_indexes, block_x, block
   for i in range(16):
     x = block_x + (i % block_width)
     y = block_y + (i // block_width)
-    color = pixels[x, y]
-    r, g, b, a = color
+    if x >= image_width or y >= image_height:
+      # This block bleeds past the edge of the image
+      r = g = b = a = 0xFF
+    else:
+      color = pixels[x, y]
+      r, g, b, a = color
+    
     write_u8(new_data, (i*2), a)
     write_u8(new_data, (i*2)+1, r)
     write_u8(new_data, (i*2)+32, g)
@@ -746,12 +765,21 @@ def encode_image_to_c4_block(pixels, colors_to_color_indexes, block_x, block_y, 
   
   for y in range(block_y, block_y+block_height):
     for x in range(block_x, block_x+block_width, 2):
-      color_1 = pixels[x,y]
-      color_1_index = colors_to_color_indexes[color_1]
-      assert 0 <= color_1_index <= 0xF
-      color_2 = pixels[x+1,y]
-      color_2_index = colors_to_color_indexes[color_2]
-      assert 0 <= color_2_index <= 0xF
+      if x >= image_width or y >= image_height:
+        # This block bleeds past the edge of the image
+        color_1_index = 0xF
+      else:
+        color_1 = pixels[x,y]
+        color_1_index = colors_to_color_indexes[color_1]
+        assert 0 <= color_1_index <= 0xF
+      
+      if x >= image_width or y >= image_height:
+        # This block bleeds past the edge of the image
+        color_2_index = 0xF
+      else:
+        color_2 = pixels[x+1,y]
+        color_2_index = colors_to_color_indexes[color_2]
+        assert 0 <= color_2_index <= 0xF
       
       byte = ((color_1_index & 0xF) << 4) | (color_2_index & 0xF)
       
@@ -790,7 +818,13 @@ def encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y
     for i in range(16):
       x_in_subblock = i % 4
       y_in_subblock = i // 4
-      color = pixels[subblock_x+x_in_subblock,subblock_y+y_in_subblock]
+      x = subblock_x+x_in_subblock
+      y = subblock_y+y_in_subblock
+      if x >= image_width or y >= image_height:
+        # This block bleeds past the edge of the image
+        continue
+      
+      color = pixels[x,y]
       r, g, b, a = get_rgba(color)
       if a < 16:
         needs_transparent_color = True
@@ -819,7 +853,13 @@ def encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y
     for i in range(16):
       x_in_subblock = i % 4
       y_in_subblock = i // 4
-      color = pixels[subblock_x+x_in_subblock,subblock_y+y_in_subblock]
+      x = subblock_x+x_in_subblock
+      y = subblock_y+y_in_subblock
+      if x >= image_width or y >= image_height:
+        # This block bleeds past the edge of the image
+        continue
+      
+      color = pixels[x,y]
       
       if color in colors:
         color_index = colors.index(color)
