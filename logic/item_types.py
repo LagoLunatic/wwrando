@@ -98,7 +98,7 @@ CONSUMABLE_ITEMS = \
    1 * ["Green Rupee"] + \
    2 * ["Blue Rupee"] + \
    4 * ["Yellow Rupee"] + \
-   9 * ["Red Rupee"] + \
+  10 * ["Red Rupee"] + \
   12 * ["Purple Rupee"] + \
   18 * ["Orange Rupee"] + \
   30 * ["Silver Rupee"] + \
