@@ -625,8 +625,8 @@ def update_game_name_icon_and_banners(self):
   write_str(dol_data, address_to_offset(0x80339690), new_memory_card_game_name, 21)
   
   new_image_file_path = os.path.join(ASSETS_PATH, "banner.png")
-  image_format = 5
-  palette_format = 2
+  image_format = texture_utils.ImageFormat.RGB5A3
+  palette_format = texture_utils.PaletteFormat.RGB5A3
   image_data, _, _ = texture_utils.encode_image_from_path(new_image_file_path, image_format, palette_format)
   image_data.seek(0)
   write_bytes(banner_data, 0x20, image_data.read())

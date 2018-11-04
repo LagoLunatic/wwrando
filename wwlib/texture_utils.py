@@ -2,58 +2,81 @@
 from PIL import Image
 from io import BytesIO
 import colorsys
+from enum import Enum
 
 from fs_helpers import *
 
 class TooManyColorsError(Exception):
   pass
 
+class ImageFormat(Enum):
+  I4     =   0
+  I8     =   1
+  IA4    =   2
+  IA8    =   3
+  RGB565 =   4
+  RGB5A3 =   5
+  RGBA32 =   6
+  C4     =   8
+  C8     =   9
+  C14X2  = 0xA
+  CMPR   = 0xE
+
+class PaletteFormat(Enum):
+  IA8    = 0
+  RGB565 = 1
+  RGB5A3 = 2
+
 BLOCK_WIDTHS = {
-    0: 8,
-    1: 8,
-    2: 8,
-    3: 4,
-    4: 4,
-    5: 4,
-    6: 4,
-    8: 8,
-    9: 8,
-  0xA: 4,
-  0xE: 8,
+  ImageFormat.I4    : 8,
+  ImageFormat.I8    : 8,
+  ImageFormat.IA4   : 8,
+  ImageFormat.IA8   : 4,
+  ImageFormat.RGB565: 4,
+  ImageFormat.RGB5A3: 4,
+  ImageFormat.RGBA32: 4,
+  ImageFormat.C4    : 8,
+  ImageFormat.C8    : 8,
+  ImageFormat.C14X2 : 4,
+  ImageFormat.CMPR  : 8,
 }
 BLOCK_HEIGHTS = {
-    0: 8,
-    1: 4,
-    2: 4,
-    3: 4,
-    4: 4,
-    5: 4,
-    6: 4,
-    8: 8,
-    9: 4,
-  0xA: 4,
-  0xE: 8,
+  ImageFormat.I4    : 8,
+  ImageFormat.I8    : 4,
+  ImageFormat.IA4   : 4,
+  ImageFormat.IA8   : 4,
+  ImageFormat.RGB565: 4,
+  ImageFormat.RGB5A3: 4,
+  ImageFormat.RGBA32: 4,
+  ImageFormat.C4    : 8,
+  ImageFormat.C8    : 4,
+  ImageFormat.C14X2 : 4,
+  ImageFormat.CMPR  : 8,
 }
 BLOCK_DATA_SIZES = {
-    0: 32,
-    1: 32,
-    2: 32,
-    3: 32,
-    4: 32,
-    5: 32,
-    6: 64,
-    8: 32,
-    9: 32,
-  0xA: 32,
-  0xE: 32,
+  ImageFormat.I4    : 32,
+  ImageFormat.I8    : 32,
+  ImageFormat.IA4   : 32,
+  ImageFormat.IA8   : 32,
+  ImageFormat.RGB565: 32,
+  ImageFormat.RGB5A3: 32,
+  ImageFormat.RGBA32: 64,
+  ImageFormat.C4    : 32,
+  ImageFormat.C8    : 32,
+  ImageFormat.C14X2 : 32,
+  ImageFormat.CMPR  : 32,
 }
 
-IMAGE_FORMATS_THAT_USE_PALETTES = [8, 9, 0xA]
+IMAGE_FORMATS_THAT_USE_PALETTES = [
+  ImageFormat.C4,
+  ImageFormat.C8,
+  ImageFormat.C14X2,
+]
 
 MAX_COLORS_FOR_IMAGE_FORMAT = {
-  0x8: 1<<4, # C4
-  0x9: 1<<8, # C8
-  0xA: 1<<14, # C14X2
+  ImageFormat.C4   : 1<<4, # C4
+  ImageFormat.C8   : 1<<8, # C8
+  ImageFormat.C14X2: 1<<14, # C14X2
 }
 
 
@@ -330,11 +353,11 @@ def decode_palettes(palette_data, palette_format, num_colors, image_format):
   offset = 0
   for i in range(num_colors):
     raw_color = read_u16(palette_data, offset)
-    if palette_format == 0:
+    if palette_format == PaletteFormat.IA8:
       color = convert_ia8_to_color(raw_color)
-    elif palette_format == 1:
+    elif palette_format == PaletteFormat.RGB565:
       color = convert_rgb565_to_color(raw_color)
-    elif palette_format == 2:
+    elif palette_format == PaletteFormat.RGB5A3:
       color = convert_rgb5a3_to_color(raw_color)
     colors.append(color)
     offset += 2
@@ -368,11 +391,11 @@ def generate_new_palettes_from_image(image, image_format, palette_format):
   return (encoded_colors, colors_to_color_indexes)
 
 def encode_color(color, palette_format):
-  if palette_format == 0:
+  if palette_format == PaletteFormat.IA8:
     raw_color = convert_color_to_ia8(color)
-  elif palette_format == 1:
+  elif palette_format == PaletteFormat.RGB565:
     raw_color = convert_color_to_rgb565(color)
-  elif palette_format == 2:
+  elif palette_format == PaletteFormat.RGB5A3:
     raw_color = convert_color_to_rgb5a3(color)
   
   return raw_color
@@ -432,27 +455,27 @@ def decode_image(image_data, palette_data, image_format, palette_format, num_col
   return image
 
 def decode_block(image_format, image_data, offset, block_data_size, colors):
-  if image_format == 0:
+  if image_format == ImageFormat.I4:
     return decode_i4_block(image_format, image_data, offset, block_data_size, colors)
-  elif image_format == 1:
+  elif image_format == ImageFormat.I8:
     return decode_i8_block(image_format, image_data, offset, block_data_size, colors)
-  elif image_format == 2:
+  elif image_format == ImageFormat.IA4:
     return decode_ia4_block(image_format, image_data, offset, block_data_size, colors)
-  elif image_format == 3:
+  elif image_format == ImageFormat.IA8:
     return decode_ia8_block(image_format, image_data, offset, block_data_size, colors)
-  elif image_format == 4:
+  elif image_format == ImageFormat.RGB565:
     return decode_rgb565_block(image_format, image_data, offset, block_data_size, colors)
-  elif image_format == 5:
+  elif image_format == ImageFormat.RGB5A3:
     return decode_rgb5a3_block(image_format, image_data, offset, block_data_size, colors)
-  elif image_format == 6:
+  elif image_format == ImageFormat.RGBA32:
     return decode_rgba32_block(image_format, image_data, offset, block_data_size, colors)
-  elif image_format == 8:
+  elif image_format == ImageFormat.C4:
     return decode_c4_block(image_format, image_data, offset, block_data_size, colors)
-  elif image_format == 9:
+  elif image_format == ImageFormat.C8:
     return decode_c8_block(image_format, image_data, offset, block_data_size, colors)
-  elif image_format == 0xA:
+  elif image_format == ImageFormat.C14X2:
     return decode_c14x2_block(image_format, image_data, offset, block_data_size, colors)
-  elif image_format == 0xE:
+  elif image_format == ImageFormat.CMPR:
     return decode_cmpr_block(image_format, image_data, offset, block_data_size, colors)
   else:
     raise Exception("Unknown image format: %X" % image_format)
@@ -656,19 +679,27 @@ def encode_image(image, image_format, palette_format):
   return (new_image_data, new_palette_data, encoded_colors)
 
 def encode_image_to_block(image_format, pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
-  if image_format == 0:
+  if image_format == ImageFormat.I4:
     return encode_image_to_i4_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
-  elif image_format == 4:
+  elif image_format == ImageFormat.I8:
+    raise Exception("Unimplemented image format: %s" % ImageFormat(image_format).name)
+  elif image_format == ImageFormat.IA4:
+    raise Exception("Unimplemented image format: %s" % ImageFormat(image_format).name)
+  elif image_format == ImageFormat.IA8:
+    raise Exception("Unimplemented image format: %s" % ImageFormat(image_format).name)
+  elif image_format == ImageFormat.RGB565:
     return encode_image_to_rgb563_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
-  elif image_format == 5:
+  elif image_format == ImageFormat.RGB5A3:
     return encode_image_to_rgb5a3_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
-  elif image_format == 6:
+  elif image_format == ImageFormat.RGBA32:
     return encode_image_to_rgba32_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
-  elif image_format == 8:
+  elif image_format == ImageFormat.C4:
     return encode_image_to_c4_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
-  elif image_format == 9:
+  elif image_format == ImageFormat.C8:
     return encode_image_to_c8_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
-  elif image_format == 0xE:
+  elif image_format == ImageFormat.C14X2:
+    raise Exception("Unimplemented image format: %s" % ImageFormat(image_format).name)
+  elif image_format == ImageFormat.CMPR:
     return encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   else:
     raise Exception("Unknown image format: %X" % image_format)
