@@ -415,12 +415,6 @@ class Event:
     self.actors.append(actor)
     return actor
 
-  def get_actor(self, actor_name):
-    for actor in self.actors:
-        if actor is not None:
-            if actor.name == actor_name:
-                return actor
-
 class Actor:
   DATA_SIZE = 0x50
   
@@ -480,9 +474,6 @@ class Actor:
       prop = action.add_property(prop_name)
       prop.value = prop_value
     return action
-
-  def get_action(self, action_name):
-    return next(action for action in self.actions if action.name == action_name)
 
 class Action:
   DATA_SIZE = 0x50
@@ -551,12 +542,8 @@ class Action:
     
     write_bytes(data, self.offset+0x40, self.zero_initialized_runtime_data)
   
-  def get_prop(self, prop_name):
-    for prop in self.properties:
-        if prop is not None:
-            if prop.name == prop_name:
-                return prop
-    #return next(prop for prop in self.properties if prop.name == prop_name)
+  def get_prop(self, prop_name):	  def get_prop(self, prop_name):
+    return next(prop for prop in self.properties if prop.name == prop_name)
    
   def add_property(self, name):
     prop = Property(self.file_entry)
