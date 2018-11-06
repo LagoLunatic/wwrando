@@ -1267,22 +1267,11 @@ def increase_block_moving_animation(self):
   
   block_data = self.get_raw_file("files/rels/d_a_obj_movebox.rel")
   
-  #these 12 bytes within the rel define animation key frames for each block type
-  block_key_frames = bytes(
-      [0x00, 0x04, 0x00, 0x04,
-       0x00, 0x14, 0x00, 0x04,
-       0x00, 0x04, 0x00, 0x14
-    ])
-
-  #find each block type within the rel and update the key frames(from 20 per push/pull cycle to 12)
-  current_byte_offset = 0
-  while current_byte_offset < data_len(block_data) - 12:
-      current_data = read_bytes(block_data, current_byte_offset, 12)
-      if(current_data == block_key_frames):
-          write_u16(block_data, current_byte_offset + 4, 0x000C)
-          write_u16(block_data, current_byte_offset + 10, 0x000C)
-
-      current_byte_offset = current_byte_offset + 4
+  offset = 0x54B0 # M_attr__Q212daObjMovebox5Act_c. List of various data for each type of block.
+  for i in range(13): # 13 types of blocks total.
+    write_u16(block_data, offset + 4, 12) # Reduce number frames for pushing to last from 20 to 12
+    write_u16(block_data, offset + 0xA, 12) # Reduce number frames for pulling to last from 20 to 12
+    offset += 0x9C
 
 def increase_misc_animations(self):
   dol_data = self.get_raw_file("sys/main.dol")
