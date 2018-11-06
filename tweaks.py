@@ -15,7 +15,7 @@ import customizer
 
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
 ORIGINAL_DOL_SIZE = 0x3A52C0
-0x8035DB94
+
 # These are from main.dol. Hardcoded since it's easier than reading them from the dol.
 DOL_SECTION_OFFSETS = [
   # Text sections
@@ -65,10 +65,6 @@ DOL_SECTION_SIZES = [
   0x00740,
   0x05220,
 ]
-
-DATA8_SECTION_OFFSET = 0x3A00A0
-DATA8_SECTION_ADDRESS = 0x803F7D00
-DATA8_SECTION_SIZE = 0x5220
 
 def address_to_offset(address):
   # Takes an address in one of the sections of main.dol and converts it to an offset within main.dol.
