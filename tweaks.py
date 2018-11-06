@@ -1232,6 +1232,88 @@ def add_chart_number_to_item_get_messages(self):
       msg = self.bmg.messages_by_id[101 + item_id]
       msg.string = msg.string.replace("a \\{1A 06 FF 00 00 01}Triforce Chart", "\\{1A 06 FF 00 00 01}%s" % item_name)
 
+
+# Speeds up the grappling hook significantly to behave similarly to HD
+def increase_grapple_animation_speed(self):
+  dol_data = self.get_raw_file("sys/main.dol")
+
+  # Double the velocity the grappling hook is thrown out (from 20.0 to 40.0)
+  write_float(dol_data, address_to_offset(0x803F9D28), 40.0) # Grappling hook velocity
+
+  # Half the number of frames grappling hook extends outward in 1st person (from 40 to 20 frames)
+  write_u32(dol_data, address_to_offset(0x800EDB74), 0x38030014) # addi r0,r3,20
+
+  # Half the number of frames grappling hook extends outward in 3rd person (from 20 to 10)
+  write_u32(dol_data, address_to_offset(0x800EDEA4), 0x3803000A) # addi r0,r3,10
+
+  # Increase the speed in which the grappling hook falls onto it's target (from 10.0 to 20.0)
+  write_float(dol_data, address_to_offset(0x803F9C44), 20.0) 
+
+  # Increase grappling hook speed as it wraps around it's target (from 17.0 to 25.0)
+  write_float(dol_data, address_to_offset(0x803F9D60), 25.0) 
+
+  # Increase the counter that determines how fast to end the wrap around animation. (From +1 each frame to +6 each frame)
+  write_u32(dol_data, address_to_offset(0x800EECA8), 0x38A30006) # addi r5,r3,6
+
+
+
+# Speeds up the rate in which blocks move when pushed/pulled
+def increase_block_moving_animation(self):
+  dol_data = self.get_raw_file("sys/main.dol")
+
+  #increase Link's pulling animation from 1.0 to 1.4 (purely visual)
+  write_float(dol_data, address_to_offset(0x8035DBB0), 1.4)
+
+  #increase Link's pushing animation from 1.0 to 1.4 (purely visual)
+  write_float(dol_data, address_to_offset(0x8035DBB8), 1.4)
+
+  block_data = self.get_raw_file("files/rels/d_a_obj_movebox.rel")
+
+  #these 12 bytes within the rel define animation key frames for each block type
+  block_key_frames = bytes(
+      [0x00, 0x04, 0x00, 0x04,
+       0x00, 0x14, 0x00, 0x04,
+       0x00, 0x04, 0x00, 0x14
+    ])
+
+  #find each block type within the rel and update the key frames(from 20 per push/pull cycle to 12)
+  current_byte_offset = 0
+  while current_byte_offset < data_len(block_data) - 12:
+      current_data = read_bytes(block_data, current_byte_offset, 12)
+      if(current_data == block_key_frames):
+          write_u16(block_data, current_byte_offset + 4, 0x000C)
+          write_u16(block_data, current_byte_offset + 10, 0x000C)
+
+      current_byte_offset = current_byte_offset + 4
+
+def increase_misc_animations(self):
+   dol_data = self.get_raw_file("sys/main.dol")
+
+   #increase the animation speed that Link initiates a climb (0.8 -> 1.6)
+   write_float(dol_data, address_to_offset(0x8035D738), 1.6)
+
+   #increase speed Link climbs ladders/vines (1.2 -> 1.6)
+   write_float(dol_data, address_to_offset(0x8035DB38), 1.6)
+
+   #increase speed Link starts climbing a ladder/vine (1.0 -> 1.6)
+   write_float(dol_data, address_to_offset(0x8035DB18), 1.6)
+
+   #increase speed Links ends climbing a ladder/vine (0.9 -> 1.4)
+   write_float(dol_data, address_to_offset(0x8035DB20), 1.4)
+
+   # Half the number of frames camera takes to focus on an npc for a conversation (from 20 to 10)
+   write_u32(dol_data, address_to_offset(0x8016DA2C), 0x3800000A) # li r0,10
+
+   # Half the number of frames zooming into first person takes (from 10 to 5)
+   #Commented out, doesn't improve speed in which first person items can be used and can cause minor visual oddities
+   #write_u32(dol_data, address_to_offset(0x80170B20), 0x3BA00005) # li r29,5 
+
+   #increase the rotation speed on ropes (64.0 -> 100.0)
+   write_float(dol_data, address_to_offset(0x803FA2E8), 100.0)
+
+
+
+
 def change_starting_clothes(self):
   custom_model_metadata = customizer.get_model_metadata(self.custom_model_name)
   disable_casual_clothes = custom_model_metadata.get("disable_casual_clothes", False)

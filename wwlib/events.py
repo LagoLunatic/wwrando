@@ -544,7 +544,7 @@ class Action:
   
   def get_prop(self, prop_name):
     return next(prop for prop in self.properties if prop.name == prop_name)
-  
+   
   def add_property(self, name):
     prop = Property(self.file_entry)
     prop.name = name

@@ -2164,9 +2164,6 @@ mtlr r0
 addi sp, sp, 0x10
 blr
 
-
-
-
 .global dragon_tingle_statue_item_get_func
 dragon_tingle_statue_item_get_func:
 stwu sp, -0x10 (sp)
