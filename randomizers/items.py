@@ -38,7 +38,10 @@ def randomize_items(self):
   locations_to_place_consumables_at = self.logic.remaining_item_locations.copy()
   for location_name in locations_to_place_consumables_at:
     possible_items = self.logic.filter_items_valid_for_location(self.logic.unplaced_consumable_items, location_name)
-    item_name = self.rng.choice(possible_items)
+    if len(possible_items) == 0:
+      item_name = "Red Rupee"
+    else:
+      item_name = self.rng.choice(possible_items)
     self.logic.set_location_to_item(location_name, item_name)
 
 def randomize_dungeon_items(self):
@@ -46,8 +49,8 @@ def randomize_dungeon_items(self):
   
   # Temporarily add all progress items except for dungeon keys while we randomize them.
   items_to_temporarily_add = [
-    item_name for item_name in self.logic.unplaced_progress_items
-    if " Key" not in item_name
+    item_name for item_name in (self.logic.unplaced_progress_items + self.logic.unplaced_nonprogress_items)
+    if not self.logic.is_dungeon_item(item_name)
   ]
   for item_name in items_to_temporarily_add:
     self.logic.add_owned_item_or_item_group(item_name)
@@ -57,59 +60,65 @@ def randomize_dungeon_items(self):
     item_name for item_name in (self.logic.unplaced_progress_items + self.logic.unplaced_nonprogress_items)
     if item_name.endswith(" Small Key")
   ]
-  previously_accessible_undone_locations = []
+  assert len(small_keys_to_place) > 0
   for item_name in small_keys_to_place:
-    accessible_undone_locations = self.logic.get_accessible_remaining_locations()
-    accessible_undone_locations = [
-      loc for loc in accessible_undone_locations
-      if loc not in self.logic.prerandomization_dungeon_item_locations
-    ]
-    accessible_undone_locations = [
-      loc for loc in accessible_undone_locations
-      if not "Tingle Statue Chest" in self.logic.item_locations[loc]["Types"]
-    ]
-    possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
-    
-    if not possible_locations:
-      raise Exception("No valid locations left to place dungeon items!")
-    
-    location_name = self.rng.choice(possible_locations)
-    self.logic.set_prerandomization_dungeon_item_location(location_name, item_name)
-    
+    place_dungeon_item(self, item_name)
     self.logic.add_owned_item(item_name) # Temporarily add small keys to the player's inventory while placing them.
-    
-    previously_accessible_undone_locations = accessible_undone_locations
   
-  # Randomize other dungeon items, big keys, dungeon maps, and compasses.
-  other_dungeon_items_to_place = [
+  # Randomize big keys.
+  big_keys_to_place = [
     item_name for item_name in (self.logic.unplaced_progress_items + self.logic.unplaced_nonprogress_items)
     if item_name.endswith(" Big Key")
-    or item_name.endswith(" Dungeon Map")
+  ]
+  assert len(big_keys_to_place) > 0
+  for item_name in big_keys_to_place:
+    place_dungeon_item(self, item_name)
+    self.logic.add_owned_item(item_name) # Temporarily add big keys to the player's inventory while placing them.
+  
+  # Randomize dungeon maps and compasses.
+  other_dungeon_items_to_place = [
+    item_name for item_name in (self.logic.unplaced_progress_items + self.logic.unplaced_nonprogress_items)
+    if item_name.endswith(" Dungeon Map")
     or item_name.endswith(" Compass")
   ]
+  assert len(other_dungeon_items_to_place) > 0
   for item_name in other_dungeon_items_to_place:
-    accessible_undone_locations = self.logic.get_accessible_remaining_locations()
-    accessible_undone_locations = [
-      loc for loc in accessible_undone_locations
-      if loc not in self.logic.prerandomization_dungeon_item_locations
-    ]
-    accessible_undone_locations = [
-      loc for loc in accessible_undone_locations
-      if not "Tingle Statue Chest" in self.logic.item_locations[loc]["Types"]
-    ]
-    possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
-    
-    if not possible_locations:
-      raise Exception("No valid locations left to place dungeon items!")
-    
-    location_name = self.rng.choice(possible_locations)
-    self.logic.set_prerandomization_dungeon_item_location(location_name, item_name)
+    place_dungeon_item(self, item_name)
   
   # Remove the items we temporarily added.
   for item_name in items_to_temporarily_add:
     self.logic.remove_owned_item_or_item_group(item_name)
   for item_name in small_keys_to_place:
     self.logic.remove_owned_item(item_name)
+  for item_name in big_keys_to_place:
+    self.logic.remove_owned_item(item_name)
+
+def place_dungeon_item(self, item_name):
+  accessible_undone_locations = self.logic.get_accessible_remaining_locations()
+  accessible_undone_locations = [
+    loc for loc in accessible_undone_locations
+    if loc not in self.logic.prerandomization_dungeon_item_locations
+  ]
+  if not self.options.get("progression_tingle_chests"):
+    accessible_undone_locations = [
+      loc for loc in accessible_undone_locations
+      if not "Tingle Chest" in self.logic.item_locations[loc]["Types"]
+    ]
+  possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
+  
+  if self.dungeons_only_start and item_name == "DRC Small Key":
+    # If we're in a dungeons-only-start, we have to ban small keys from appearing in the path that sequence breaks the hanging platform.
+    # A key you need to progress appearing there can cause issues that dead-end the item placement logic when there are no locations outside DRC for the randomizer to give you other items at.
+    possible_locations = [
+      loc for loc in possible_locations
+      if not loc in ["Dragon Roost Cavern - Big Key Chest", "Dragon Roost Cavern - Tingle Statue Chest"]
+    ]
+  
+  if not possible_locations:
+    raise Exception("No valid locations left to place dungeon items!")
+  
+  location_name = self.rng.choice(possible_locations)
+  self.logic.set_prerandomization_dungeon_item_location(location_name, item_name)
 
 def randomize_progression_items(self):
   accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
@@ -148,6 +157,16 @@ def randomize_progression_items(self):
     # Filter out items that are not valid in any of the locations we might use.
     possible_items = self.logic.filter_items_by_any_valid_location(possible_items, accessible_undone_locations)
     
+    if len(possible_items) == 0:
+      raise Exception("No valid locations left for any of the unplaced progress items!")
+    
+    # Remove duplicates from the list so items like swords and bows aren't so likely to show up early.
+    unique_possible_items = []
+    for item_name in possible_items:
+      if item_name not in unique_possible_items:
+        unique_possible_items.append(item_name)
+    possible_items = unique_possible_items
+    
     must_place_useful_item = False
     should_place_useful_item = True
     if len(accessible_undone_locations) == 1 and len(possible_items) > 1:
@@ -160,9 +179,11 @@ def randomize_progression_items(self):
       should_place_useful_item = False
     
     # If we wind up placing a useful item it can be a single item or a group.
-    # But if we place an item that is not yet useful, we need to exclude groups.
+    # But if we place an item that is not yet useful, we need to exclude groups that are not useful.
     # This is so that a group doesn't wind up taking every single possible remaining location while not opening up new ones.
-    possible_items_when_not_placing_useful = [name for name in possible_items if name not in self.logic.progress_item_groups]
+    possible_groups = [name for name in possible_items if name in self.logic.progress_item_groups]
+    useless_groups = self.logic.get_all_useless_items(possible_groups, for_progression=True)
+    possible_items_when_not_placing_useful = [name for name in possible_items if name not in useless_groups]
     # Only exception is when there's exclusively groups left to place. Then we allow groups even if they're not useful.
     if len(possible_items_when_not_placing_useful) == 0 and len(possible_items) > 0:
       possible_items_when_not_placing_useful = possible_items
@@ -175,7 +196,22 @@ def randomize_progression_items(self):
         if must_place_useful_item:
           raise Exception("No useful progress items to place!")
         else:
-          item_name = self.rng.choice(possible_items_when_not_placing_useful)
+          # We'd like to be placing a useful item, but there are no useful items to place.
+          # Instead we choose an item that isn't useful yet by itself, but has a high usefulness fraction.
+          # In other words, which item has the smallest number of other items needed before it becomes useful?
+          # We'd prefer to place an item which is 1/2 of what you need to access a new location over one which is 1/5 for example.
+          
+          item_by_usefulness_fraction = self.logic.get_items_by_usefulness_fraction(possible_items_when_not_placing_useful)
+          
+          # We want to limit it to choosing items at the maximum usefulness fraction.
+          # Since the values we have are the denominator of the fraction, we actually call min() instead of max().
+          max_usefulness = min(item_by_usefulness_fraction.values())
+          items_at_max_usefulness = [
+            item_name for item_name, usefulness in item_by_usefulness_fraction.items()
+            if usefulness == max_usefulness
+          ]
+          
+          item_name = self.rng.choice(items_at_max_usefulness)
     else:
       item_name = self.rng.choice(possible_items_when_not_placing_useful)
     

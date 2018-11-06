@@ -43,6 +43,12 @@ PROGRESS_ITEMS = [
   "Moblin's Letter",
   "Cabana Deed",
   
+  "Dragon Tingle Statue",
+  "Forbidden Tingle Statue",
+  "Goddess Tingle Statue",
+  "Earth Tingle Statue",
+  "Wind Tingle Statue",
+  
   "Magic Meter Upgrade",
   
   "Ghost Ship Chart",
@@ -62,13 +68,6 @@ NONPROGRESS_ITEMS = [
   # If you got a progress item for your delivery bag when the bag was already full, the new item would simply never enter your inventory.
   #"Complimentary ID",
   "Fill-Up Coupon",
-  
-  # Tingle statues don't randomize properly, they don't count as owned if you find them in a random place.
-  #"Dragon Tingle Statue",
-  #"Forbidden Tingle Statue",
-  #"Goddess Tingle Statue",
-  #"Earth Tingle Statue",
-  #"Wind Tingle Statue",
   
   "Hurricane Spin",
   
@@ -99,10 +98,11 @@ CONSUMABLE_ITEMS = \
    1 * ["Green Rupee"] + \
    2 * ["Blue Rupee"] + \
    4 * ["Yellow Rupee"] + \
-   9 * ["Red Rupee"] + \
+  10 * ["Red Rupee"] + \
   12 * ["Purple Rupee"] + \
   18 * ["Orange Rupee"] + \
   30 * ["Silver Rupee"] + \
+   1 * ["Rainbow Rupee"] + \
   \
    9 * ["Joy Pendant"] + \
    9 * ["Skull Necklace"] + \

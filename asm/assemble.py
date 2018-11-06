@@ -10,6 +10,9 @@ import struct
 import yaml
 import traceback
 
+if not os.path.isfile(r"C:\devkitPro\devkitPPC\bin\powerpc-eabi-objdump.exe"):
+  raise Exception(r"Failed to assemble code: Could not find devkitPPC. devkitPPC should be installed to: C:\devkitPro\devkitPPC")
+
 # Allow yaml to dump OrderedDicts for the diffs.
 yaml.CDumper.add_representer(
   OrderedDict,

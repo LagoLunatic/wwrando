@@ -1,6 +1,8 @@
-#!/usr/bin/python3.4
-from PySide.QtGui import *
-from PySide.QtCore import *
+#!/usr/bin/python3.6
+
+from PySide2.QtGui import *
+from PySide2.QtCore import *
+from PySide2.QtWidgets import *
 
 import sys
 
@@ -18,6 +20,8 @@ except ImportError:
     # Versions of Windows before Windows 7 don't support SetCurrentProcessExplicitAppUserModelID, so just swallow the error.
     pass
 
+cmd_line_args = sys.argv[1:]
+
 qApp = QApplication(sys.argv)
-window = WWRandomizerWindow()
+window = WWRandomizerWindow(cmd_line_args=cmd_line_args)
 sys.exit(qApp.exec_())

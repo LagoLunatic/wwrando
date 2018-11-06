@@ -11,32 +11,61 @@ from random import Random
 from fs_helpers import *
 from wwlib import texture_utils
 from wwlib.rarc import RARC
-from paths import ASSETS_PATH, ASM_PATH
+from paths import ASSETS_PATH, ASM_PATH, SEEDGEN_PATH
 import customizer
 
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
 ORIGINAL_DOL_SIZE = 0x3A52C0
 0x8035DB94
 # These are from main.dol. Hardcoded since it's easier than reading them from the dol.
-TEXT0_SECTION_OFFSET = 0x100
-TEXT0_SECTION_ADDRESS = 0x80003100
-TEXT0_SECTION_SIZE = 0x2520
-TEXT1_SECTION_OFFSET = 0x2620
-TEXT1_SECTION_ADDRESS = 0x800056E0
-TEXT1_SECTION_SIZE = 0x332FA0
-TEXT2_SECTION_OFFSET = ORIGINAL_DOL_SIZE
-TEXT2_SECTION_ADDRESS = ORIGINAL_FREE_SPACE_RAM_ADDRESS
-TEXT2_SECTION_SIZE = -1
-
-DATA4_SECTION_OFFSET = 0x335840
-DATA4_SECTION_ADDRESS = 0x80338840
-DATA4_SECTION_SIZE = 0x38D40
-DATA5_SECTION_OFFSET = 0x36E580
-DATA5_SECTION_ADDRESS = 0x80371580
-DATA5_SECTION_SIZE = 0x313E0
-DATA7_SECTION_OFFSET = 0x3A00A0
-DATA7_SECTION_ADDRESS = 0x803F7D00
-DATA7_SECTION_SIZE = 0x5220
+DOL_SECTION_OFFSETS = [
+  # Text sections
+  0x0100,
+  0x2620,
+  ORIGINAL_DOL_SIZE, # Custom .text2 section
+  
+  # Data sections
+  0x3355C0,
+  0x335620,
+  0x335680,
+  0x335820,
+  0x335840,
+  0x36E580,
+  0x39F960,
+  0x3A00A0,
+]
+DOL_SECTION_ADDRESSES = [
+  # Text sections
+  0x80003100,
+  0x800056E0,
+  ORIGINAL_FREE_SPACE_RAM_ADDRESS, # Custom .text2 section
+  
+  # Data sections
+  0x80005620,
+  0x80005680,
+  0x80338680,
+  0x80338820,
+  0x80338840,
+  0x80371580,
+  0x803F60E0,
+  0x803F7D00,
+]
+DOL_SECTION_SIZES = [
+  # Text sections
+  0x002520,
+  0x332FA0,
+  -1, # Custom .text2 section. Placeholder since we don't know the size until the patch has been applied.
+  
+  # Data sections
+  0x00060,
+  0x00060,
+  0x001A0,
+  0x00020,
+  0x38D40,
+  0x313E0,
+  0x00740,
+  0x05220,
+]
 
 DATA8_SECTION_OFFSET = 0x3A00A0
 DATA8_SECTION_ADDRESS = 0x803F7D00
@@ -44,25 +73,16 @@ DATA8_SECTION_SIZE = 0x5220
 
 def address_to_offset(address):
   # Takes an address in one of the sections of main.dol and converts it to an offset within main.dol.
-  # (Currently only supports the .text0, .text1, .text2, .data4, and .data5 sections.)
-  if TEXT0_SECTION_ADDRESS <= address < TEXT0_SECTION_ADDRESS+TEXT0_SECTION_SIZE:
-    offset = address - TEXT0_SECTION_ADDRESS + TEXT0_SECTION_OFFSET
-  elif TEXT1_SECTION_ADDRESS <= address < TEXT1_SECTION_ADDRESS+TEXT1_SECTION_SIZE:
-    offset = address - TEXT1_SECTION_ADDRESS + TEXT1_SECTION_OFFSET
-  elif DATA4_SECTION_ADDRESS <= address < DATA4_SECTION_ADDRESS+DATA4_SECTION_SIZE:
-    offset = address - DATA4_SECTION_ADDRESS + DATA4_SECTION_OFFSET
-  elif DATA5_SECTION_ADDRESS <= address < DATA5_SECTION_ADDRESS+DATA5_SECTION_SIZE:
-    offset = address - DATA5_SECTION_ADDRESS + DATA5_SECTION_OFFSET
-  elif DATA7_SECTION_ADDRESS <= address < DATA7_SECTION_ADDRESS+DATA7_SECTION_SIZE:
-    offset = address - DATA7_SECTION_ADDRESS + DATA7_SECTION_OFFSET
-  elif TEXT2_SECTION_ADDRESS <= address <= TEXT2_SECTION_ADDRESS+TEXT2_SECTION_SIZE:
-    # Newly added .text2 section.
-    offset = address - TEXT2_SECTION_ADDRESS + TEXT2_SECTION_OFFSET
-  elif DATA8_SECTION_ADDRESS <= address < DATA8_SECTION_ADDRESS+DATA8_SECTION_SIZE:
-    offset = address - DATA8_SECTION_ADDRESS + DATA8_SECTION_OFFSET
-  else:
-    raise Exception("Unknown address: %08X" % address)
-  return offset
+  for section_index in range(len(DOL_SECTION_OFFSETS)):
+    section_offset = DOL_SECTION_OFFSETS[section_index]
+    section_address = DOL_SECTION_ADDRESSES[section_index]
+    section_size = DOL_SECTION_SIZES[section_index]
+    
+    if section_address <= address < section_address+section_size:
+      offset = address - section_address + section_offset
+      return offset
+  
+  raise Exception("Unknown address: %08X" % address)
 
 def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
   high_halfword = (pointer & 0xFFFF0000) >> 16
@@ -105,9 +125,9 @@ def add_custom_functions_to_free_space(self, new_bytes):
   write_u32(dol_data, 0x50, ORIGINAL_FREE_SPACE_RAM_ADDRESS) # Write loading address of the new Text2 section
   write_u32(dol_data, 0x98, patch_length) # Write length of the new Text2 section
   
-  # Update the constant for how large the .text section is so that addresses in this section can be converted properly by address_to_offset.
-  global TEXT2_SECTION_SIZE
-  TEXT2_SECTION_SIZE = patch_length
+  # Update the constant for how large the .text2 section is so that addresses in this section can be converted properly by address_to_offset.
+  global DOL_SECTION_SIZES
+  DOL_SECTION_SIZES[2] = patch_length
   
   # Next we need to change a hardcoded pointer to where free space begins. Otherwise the game will overwrite the custom code.
   padded_patch_length = ((patch_length + 3) & ~3) # Pad length of patch to next 4 just in case
@@ -178,11 +198,14 @@ def make_all_text_instant(self):
     )
     
     # Get rid of wait+dismiss commands
-    msg.string = re.sub(
-      r"\\\{1A 07 00 00 04 [0-9a-f]{2} [0-9a-f]{2}\}",
-      "",
-      msg.string, 0, re.IGNORECASE
-    )
+    # Exclude message 7726, for Maggie's Father throwing rupees at you. He only spawns the rupees past a certain frame of his animation, so if you skipped past the text too quickly you wouldn't get any rupees.
+    # Exclude message 2488, for Orca talking to you after you learn the Hurricane Spin. Without the wait+dismiss he would wind up repeating some of his lines once.
+    if msg.message_id != 7726 and msg.message_id != 2488:
+      msg.string = re.sub(
+        r"\\\{1A 07 00 00 04 [0-9a-f]{2} [0-9a-f]{2}\}",
+        "",
+        msg.string, 0, re.IGNORECASE
+      )
     
     # Get rid of wait+dismiss (prompt) commands
     msg.string = re.sub(
@@ -433,10 +456,6 @@ def make_sail_behave_like_swift_sail(self):
   sail_itemget_arc = self.get_arc("files/res/Object/Vho.arc")
   sail_itemget_model = sail_itemget_arc.get_file("vho.bdl")
   sail_itemget_tex_image = sail_itemget_model.tex1.textures_by_name["Vho"][0]
-  # Originally it used image format 0xE, which is lossy DXT1 compression.
-  # But implementing this while having the texture actually look good is too difficult, so instead switch this to image format 9 and palette format 1 (C8 with a 255 color RGB565 palette).
-  sail_itemget_tex_image.image_format = 9
-  sail_itemget_tex_image.palette_format = 1
   sail_itemget_tex_image.replace_image_from_path(new_sail_itemget_tex_image_path)
   sail_itemget_model.save_changes()
 
@@ -602,7 +621,7 @@ def update_game_name_icon_and_banners(self):
   banner_data = self.get_raw_file("files/opening.bnr")
   write_str(banner_data, 0x1860, new_game_name, 0x40)
   
-  new_game_id = "GZLR01"
+  new_game_id = "GZLE99"
   boot_data = self.get_raw_file("sys/boot.bin")
   write_str(boot_data, 0, new_game_id, 6)
   
@@ -611,8 +630,8 @@ def update_game_name_icon_and_banners(self):
   write_str(dol_data, address_to_offset(0x80339690), new_memory_card_game_name, 21)
   
   new_image_file_path = os.path.join(ASSETS_PATH, "banner.png")
-  image_format = 5
-  palette_format = 2
+  image_format = texture_utils.ImageFormat.RGB5A3
+  palette_format = texture_utils.PaletteFormat.RGB5A3
   image_data, _, _ = texture_utils.encode_image_from_path(new_image_file_path, image_format, palette_format)
   image_data.seek(0)
   write_bytes(banner_data, 0x20, image_data.read())
@@ -675,16 +694,20 @@ def allow_dungeon_items_to_appear_anywhere(self):
     
     # Add item get messages for the items.
     if base_item_name == "Small Key":
-      description_format_string = "\\{1A 05 00 00 01}You got a \\{1A 06 FF 00 00 01}%s small key\\{1A 06 FF 00 00 00}!"
+      description_format_string = "\\{1A 05 00 00 01}You got %s \\{1A 06 FF 00 00 01}%s small key\\{1A 06 FF 00 00 00}!"
+      description = word_wrap_string(description_format_string % (get_indefinite_article(dungeon_name), dungeon_name))
     elif base_item_name == "Big Key":
       description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Big Key\\{1A 06 FF 00 00 00}!"
+      description = word_wrap_string(description_format_string % dungeon_name)
     elif base_item_name == "Dungeon Map":
       description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Dungeon Map\\{1A 06 FF 00 00 00}!"
+      description = word_wrap_string(description_format_string % dungeon_name)
     elif base_item_name == "Compass":
       description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Compass\\{1A 06 FF 00 00 00}!"
+      description = word_wrap_string(description_format_string % dungeon_name)
     
     msg = self.bmg.add_new_message(101 + item_id)
-    msg.string = word_wrap_string(description_format_string % dungeon_name)
+    msg.string = description
     msg.text_box_type = 9 # Item get message box
     msg.initial_draw_type = 2 # Slow initial message speed
     msg.display_item_id = item_id
@@ -804,7 +827,7 @@ def fix_shop_item_y_offsets(self):
       write_float(dol_data, display_data_offset+0x10, new_y_offset)
 
 def update_shop_item_descriptions(self):
-  item_name = self.logic.done_item_locations["The Great Sea - Beedle's Shop Ship - Bait Bag"]
+  item_name = self.logic.done_item_locations["The Great Sea - Beedle's Shop Ship - 20 Rupee Item"]
   cost = 20
   msg = self.bmg.messages_by_id[3906]
   msg.string = "\\{1A 06 FF 00 00 01}%s  %d Rupees\\{1A 06 FF 00 00 00}" % (item_name, cost)
@@ -984,6 +1007,9 @@ def update_fishmen_hints(self):
     if item_name not in self.progress_item_hints:
       # Charts and dungeon items don't have hints
       continue
+    if item_name == "Bait Bag":
+      # Can't access fishmen hints until you already have the bait bag
+      continue
     if len(hints) >= 3:
       # 3 hints max per seed.
       break
@@ -1087,7 +1113,7 @@ def add_pirate_ship_to_windfall(self):
 WarpPotData = namedtuple("WarpPotData", 'stage_name room_num x y z y_rot event_reg_index')
 INTER_DUNGEON_WARP_DATA = [
   [
-    WarpPotData("M_NewD2", 2, 2178, 0, 488, 0x8000, 2), # DRC
+    WarpPotData("M_NewD2", 2, 2185, 0, 590, 0xA000, 2), # DRC
     WarpPotData("kindan", 1, 986, 3956.43, 9588, 0xB929, 2), # FW
     WarpPotData("Siren", 6, 277, 229.42, -6669, 0xC000, 2), # TotG
   ],
@@ -1306,20 +1332,16 @@ def change_starting_clothes(self):
 def shorten_auction_intro_event(self):
   event_list = self.get_arc("files/res/Stage/Orichh/Stage.arc").get_file("event_list.dat")
   wind_shrine_event = event_list.events_by_name["AUCTION_START"]
-  auction = next(actor for actor in wind_shrine_event.actors if actor.name == "Auction")
   camera = next(actor for actor in wind_shrine_event.actors if actor.name == "CAMERA")
   
   pre_pan_delay = camera.actions[2]
   pan_action = camera.actions[3]
   post_pan_delay = camera.actions[4]
   
-  # Remove the 30 frame delays before and after panning.
-  camera.actions.remove(pre_pan_delay)
+  # Remove the 200 frame long panning action and the 30 frame delay after panning.
+  # We don't remove the 30 frame delay before panning, because of the intro is completely removed or only a couple frames long, there is a race condition where the timer entity may not be finished being asynchronously created until the intro is over. If this happens the auction entity will have no reference to the timer entity, causing a crash later on.
+  camera.actions.remove(pan_action)
   camera.actions.remove(post_pan_delay)
-  
-  # The actual panning action cannot be skipped for some unknown reason. It would appear to work but the game would crash a little bit later.
-  # So instead we change the duration of the panning to be only 1 frame long so it appears to be skipped.
-  pan_action.get_prop("Timer").value = 1
 
 def disable_invisible_walls(self):
   # Remove some invisible walls to allow sequence breaking.
@@ -1332,42 +1354,167 @@ def disable_invisible_walls(self):
   invisible_wall.invisible_wall_switch_index = 0xFF
   invisible_wall.save_changes()
 
+def update_skip_rematch_bosses_game_variable(self):
+  skip_rematch_bosses_address = self.custom_symbols["skip_rematch_bosses"]
+  dol_data = self.get_raw_file("sys/main.dol")
+  if self.options.get("skip_rematch_bosses"):
+    write_u8(dol_data, address_to_offset(skip_rematch_bosses_address), 1)
+  else:
+    write_u8(dol_data, address_to_offset(skip_rematch_bosses_address), 0)
 
-#Omitted for now, needs more testing. Some slightly weird camera movement occasionaly.
-def shorten_dungeon_cutscenes(self):
-  def modify_method(x):
-    if x >= 5 and x <= 100:
-        return x / 1.5
-    else:
-         return x
-  #DRC
-  modify_event_property(self.get_arc("files/res/Stage/M_NewD2/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
-  modify_event_property(self.get_arc("files/res/Stage/M_Dra09/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
-  modify_event_property(self.get_arc("files/res/Stage/M_DragB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)  
-  #FW
-  modify_event_property(self.get_arc("files/res/Stage/kindan/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
-  modify_event_property(self.get_arc("files/res/Stage/kinBOSS/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
-  modify_event_property(self.get_arc("files/res/Stage/kinMB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
-  #TotGs
-  modify_event_property(self.get_arc("files/res/Stage/Siren/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
-  modify_event_property(self.get_arc("files/res/Stage/SirenB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
-  modify_event_property(self.get_arc("files/res/Stage/SirenMB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
-  #ET
-  modify_event_property(self.get_arc("files/res/Stage/M_Dai/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
-  modify_event_property(self.get_arc("files/res/Stage/M_DaiB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
-  modify_event_property(self.get_arc("files/res/Stage/M_DaiMB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
-  #WT
-  modify_event_property(self.get_arc("files/res/Stage/kaze/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
-  modify_event_property(self.get_arc("files/res/Stage/kazeB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
-  modify_event_property(self.get_arc("files/res/Stage/kazeMB/Stage.arc").get_file("event_list.dat"), "Timer", modify_method)
+def update_sword_mode_game_variable(self):
+  sword_mode_address = self.custom_symbols["sword_mode"]
+  dol_data = self.get_raw_file("sys/main.dol")
+  if self.options.get("sword_mode") == "Start with Sword":
+    write_u8(dol_data, address_to_offset(sword_mode_address), 0)
+  elif self.options.get("sword_mode") == "Randomized Sword":
+    write_u8(dol_data, address_to_offset(sword_mode_address), 1)
+  elif self.options.get("sword_mode") == "Swordless":
+    write_u8(dol_data, address_to_offset(sword_mode_address), 2)
+  else:
+    raise Exception("Unknown sword mode: %s" % self.options.get("sword_mode"))
 
-     
-#used for shorten dungeon cutscenes, currently unused
-def modify_event_property(event_list, property_name, f):
-    for event in event_list.events:
-      for actor in event.actors:
-          if actor is not None:
-              for action in actor.actions:
-                  timer = action.get_prop("Timer")
-                  if(timer is not None):  
-                        timer.value = int(f(timer.value))
+def update_text_for_swordless(self):
+  msg = self.bmg.messages_by_id[1128]
+  msg.string = "\\{1A 05 00 00 00}, you may not have the\nMaster Sword, but do not be afraid!\n\n\n"
+  msg.string += "The hammer of the dead is all you\nneed to crush your foe...\n\n\n"
+  msg.string += "Even as his ball of fell magic bears down\non you, you can \\{1A 06 FF 00 00 01}knock it back\nwith an empty bottle\\{1A 06 FF 00 00 00}!\n\n"
+  msg.string += "...I am sure you will have a shot at victory!"
+  
+  msg = self.bmg.messages_by_id[1590]
+  msg.string = "\\{1A 05 00 00 00}! Do not run! Trust in the\n"
+  msg.string += "power of the Skull Hammer!"
+
+def add_hint_signs(self):
+  # Add a hint sign to the second room of DRC with an arrow pointing to the passage to the Big Key Chest.
+  new_message_id = 847
+  msg = self.bmg.add_new_message(new_message_id)
+  msg.string = "\\{1A 05 00 00 15}" # Right arrow
+  msg.text_box_type = 2 # Wooden sign message box
+  msg.initial_draw_type = 1 # Instant initial message speed
+  msg.text_alignment = 3 # Centered text alignment
+  
+  dzx = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr")
+  bomb_flowers = [actor for actor in dzx.entries_by_type_and_layer("ACTR", None) if actor.name == "BFlower"]
+  bomb_flowers[1].name = "Kanban"
+  bomb_flowers[1].params = new_message_id
+  bomb_flowers[1].y_rot = 0x2000
+  bomb_flowers[1].save_changes()
+
+def prevent_door_boulder_softlocks(self):
+  # DRC has a couple of doors that are blocked by boulders on one side.
+  # This is an issue if the player sequence breaks and goes backwards - when they open the door Link will be stuck walking into the boulder forever and the player will have no control.
+  # To avoid this, add an event trigger on the back side of those doors that causes the boulder to disappear when the player touches it.
+  # This allows us to keep the boulder when the player goes forward through the dungeon, but not backwards.
+  
+  # Add a new dummy event that doesn't do anything.
+  event_list = self.get_arc("files/res/Stage/M_NewD2/Stage.arc").get_file("event_list.dat")
+  dummy_event = event_list.add_event("dummy_event")
+  event_list.save_changes()
+  
+  # Add a new EVNT entry for the dummy event.
+  dzs = self.get_arc("files/res/Stage/M_NewD2/Stage.arc").get_file("stage.dzs")
+  dummy_evnt = dzs.add_entity("EVNT")
+  dummy_evnt.name = dummy_event.name
+  dzs.save_changes()
+  dummy_evnt_index = dzs.entries_by_type("EVNT").index(dummy_evnt)
+  
+  # Add a TagEv (event trigger region) on the other side of the first door blocked by a boulder.
+  boulder_destroyed_switch_index = 5
+  dzr = self.get_arc("files/res/Stage/M_NewD2/Room13.arc").get_file("room.dzr")
+  tag_ev = dzr.add_entity("SCOB", layer=None)
+  tag_ev.name = "TagEv"
+  tag_ev.params = 0x00FF00FF
+  tag_ev.event_trigger_seen_switch_index = boulder_destroyed_switch_index
+  tag_ev.event_trigger_evnt_index = dummy_evnt_index
+  tag_ev.x_pos = 2635
+  tag_ev.y_pos = 0
+  tag_ev.z_pos = 227
+  tag_ev.auxilary_param = 0
+  tag_ev.y_rot = 0xC000
+  tag_ev.auxilary_param_2 = 0xFFFF
+  tag_ev.scale_x = 32
+  tag_ev.scale_y = 16
+  tag_ev.scale_z = 16
+  dzr.save_changes()
+  
+  # Add a TagEv (event trigger region) on the other side of the second door blocked by a boulder.
+  boulder_destroyed_switch_index = 6
+  dzr = self.get_arc("files/res/Stage/M_NewD2/Room14.arc").get_file("room.dzr")
+  tag_ev = dzr.add_entity("SCOB", layer=None)
+  tag_ev.name = "TagEv"
+  tag_ev.params = 0x00FF00FF
+  tag_ev.event_trigger_seen_switch_index = boulder_destroyed_switch_index
+  tag_ev.event_trigger_evnt_index = dummy_evnt_index
+  tag_ev.x_pos = -4002
+  tag_ev.y_pos = 1950
+  tag_ev.z_pos = -2156
+  tag_ev.auxilary_param = 0
+  tag_ev.y_rot = 0xA000
+  tag_ev.auxilary_param_2 = 0xFFFF
+  tag_ev.scale_x = 32
+  tag_ev.scale_y = 16
+  tag_ev.scale_z = 16
+  dzr.save_changes()
+
+def update_tingle_statue_item_get_funcs(self):
+  dol_data = self.get_raw_file("sys/main.dol")
+  item_get_funcs_list = address_to_offset(0x803888C8)
+  
+  for tingle_statue_item_id in [0xA3, 0xA4, 0xA5, 0xA6, 0xA7]:
+    item_get_func_offset = item_get_funcs_list + tingle_statue_item_id*4
+    item_name = self.item_names[tingle_statue_item_id]
+    custom_symbol_name = item_name.lower().replace(" ", "_") + "_item_get_func"
+    write_u32(dol_data, item_get_func_offset, self.custom_symbols[custom_symbol_name])
+
+def make_tingle_statue_reward_rupee_rainbow_colored(self):
+  # Change the color index of the special 500 rupee to be 7 - this is a special value (originally unused) we use to indicate to our custom code that it's the special rupee, and so it should have its color animated.
+  
+  item_resources_list_start = address_to_offset(0x803842B0)
+  dol_data = self.get_raw_file("sys/main.dol")
+  
+  item_id = self.item_name_to_id["Rainbow Rupee"]
+  rainbow_rupee_item_resource_offset = item_resources_list_start + item_id*0x24
+  
+  write_u8(dol_data, rainbow_rupee_item_resource_offset+0x14, 7)
+
+def show_seed_hash_on_name_entry_screen(self):
+  # Add some text to the name entry screen which has two random character names that vary based on the permalink (so the seed and settings both change it).
+  # This is so two players intending to play the same seed can verify if they really are on the same seed or not.
+  
+  if not self.permalink:
+    return
+  
+  integer_seed = self.convert_string_to_integer_md5(self.permalink)
+  temp_rng = Random()
+  temp_rng.seed(integer_seed)
+  
+  with open(os.path.join(SEEDGEN_PATH, "names.txt")) as f:
+    all_names = f.read().splitlines()
+  valid_names = [name for name in all_names if len(name) <= 5]
+  
+  name_1, name_2 = temp_rng.sample(valid_names, 2)
+  name_1 = name_1.capitalize()
+  name_2 = name_2.capitalize()
+  
+  # Since actually adding new text to the UI would be very difficult, instead hijack the "Name Entry" text, and put the seed hash after several linebreaks.
+  # (The three linebreaks we insert before "Name Entry" are so it's still in the correct spot after vertical centering happens.)
+  msg = self.bmg.messages_by_id[40]
+  msg.string = "\n\n\n" + msg.string + "\n\n" + "Seed hash:" + "\n" + name_1 + " " + name_2
+
+def fix_ghost_ship_chest_crash(self):
+  # There's a vanilla crash that happens if you jump attack on top of the chest in the Ghost Ship.
+  # The cause of the crash is that there are unused rooms in the Ghost Ship stage with unused chests at the same position as the used chest.
+  # When Link lands on top of the overlapping chests the game thinks Link is in one of the unused rooms.
+  # The ky_tag0 object in the Ghost Ship checks a zone bit every frame, but checking a zone bit crashes if the current room is not loaded in because the zone was never initialized.
+  # So we simply move the other two unused chests away from the real one so they're far out of bounds.
+  # (Actually deleting them would mess up the entity indexes in the logic files, so it's simpler to move them.)
+  
+  dzs = self.get_arc("files/res/Stage/PShip/Stage.arc").get_file("stage.dzs")
+  chests = dzs.entries_by_type("TRES")
+  for chest in chests:
+    if chest.room_num == 2:
+      # The chest for room 2 is the one that is actually used, so don't move this one.
+      continue
+    chest.x_pos += 2000.0
+    chest.save_changes()

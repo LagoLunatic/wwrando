@@ -1,3 +1,4 @@
+link
 zelda
 medli
 makar
@@ -101,3 +102,14 @@ tingle
 ankle
 knuckle
 davidJr
+lenzo
+anton
+linda
+fado
+kokiri
+hylian
+baito
+din
+farore
+nayru
+jabun

@@ -15,6 +15,7 @@ class BDL:
     data = self.file_entry.data
     
     self.magic = read_str(data, 0, 4)
+    assert self.magic == "J3D2"
     self.model_type = read_str(data, 4, 4)
     self.length = read_u32(data, 8)
     self.num_chunks = read_u32(data, 0x0C)
@@ -23,7 +24,8 @@ class BDL:
     self.chunk_by_type = {}
     offset = 0x20
     for chunk_index in range(self.num_chunks):
-      chunk = BDLChunk(data, offset)
+      chunk = BDLChunk()
+      chunk.read(data, offset)
       self.chunks.append(chunk)
       self.chunk_by_type[chunk.magic] = chunk
       
@@ -45,9 +47,22 @@ class BDL:
       chunk.data.seek(0)
       chunk_data = chunk.data.read()
       data.write(chunk_data)
+    
+    self.length = data_len(data)
+    self.num_chunks = len(self.chunks)
+    
+    write_str(data, 0, self.magic, 4)
+    write_str(data, 4, self.model_type, 4)
+    write_u32(data, 8, self.length)
+    write_u32(data, 0xC, self.num_chunks)
 
 class BDLChunk:
-  def __init__(self, bdl_data, chunk_offset):
+  def __init__(self):
+    self.magic = None
+    self.size = None
+    self.data = None
+  
+  def read(self, bdl_data, chunk_offset):
     self.magic = read_str(bdl_data, chunk_offset, 4)
     self.size = read_u32(bdl_data, chunk_offset+4)
     
@@ -104,17 +119,35 @@ class BDLChunk:
     next_available_data_offset = self.texture_header_list_offset + self.num_textures*0x20 # Right after the last header ends
     self.data.truncate(next_available_data_offset)
     self.data.seek(next_available_data_offset)
-    for texture in self.textures:
+    
+    image_data_offsets = {}
+    for i, texture in enumerate(self.textures):
+      filename = self.texture_names[i]
+      if filename in image_data_offsets:
+        texture.image_data_offset = image_data_offsets[filename] - texture.header_offset
+        continue
+      
       self.data.seek(next_available_data_offset)
       
       texture.image_data_offset = next_available_data_offset - texture.header_offset
+      image_data_offsets[filename] = next_available_data_offset
       texture.image_data.seek(0)
       self.data.write(texture.image_data.read())
       align_data_to_nearest(self.data, 0x20)
       next_available_data_offset = data_len(self.data)
+    
+    palette_data_offsets = {}
+    for i, texture in enumerate(self.textures):
+      filename = self.texture_names[i]
+      if filename in palette_data_offsets:
+        texture.palette_data_offset = palette_data_offsets[filename] - texture.header_offset
+        continue
+      
+      self.data.seek(next_available_data_offset)
       
       if texture.needs_palettes():
         texture.palette_data_offset = next_available_data_offset - texture.header_offset
+        palette_data_offsets[filename] = next_available_data_offset
         texture.palette_data.seek(0)
         self.data.write(texture.palette_data.read())
         align_data_to_nearest(self.data, 0x20)
@@ -123,7 +156,9 @@ class BDLChunk:
         # If the image doesn't use palettes its palette offset is just the same as the first texture's image offset.
         first_texture = self.textures[0]
         texture.palette_data_offset = first_texture.image_data_offset + first_texture.header_offset - texture.header_offset
-      
+        palette_data_offsets[filename] = first_texture.image_data_offset + first_texture.header_offset
+    
+    for texture in self.textures:
       texture.save_header_changes()
     
     self.string_section_offset = next_available_data_offset

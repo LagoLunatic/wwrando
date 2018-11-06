@@ -5,17 +5,40 @@ block_cipher = None
 with open("./version.txt") as f:
   randomizer_version = f.read().strip()
 
+import struct
+if (struct.calcsize("P") * 8) == 64:
+  randomizer_version += "_64bit"
+else:
+  randomizer_version += "_32bit"
+
+import os
+import glob
+def build_datas_recursive(paths):
+  datas = []
+  
+  for path in paths:
+    for filename in glob.iglob(path, recursive=True):
+      dest_dirname = os.path.dirname(filename)
+      if dest_dirname == "":
+        dest_dirname = "."
+      
+      data_entry = (filename, dest_dirname)
+      datas.append(data_entry)
+      print(data_entry)
+  
+  return datas
+
 a = Analysis(['wwrando.py'],
              pathex=[],
              binaries=[],
-             datas=[
-               ('asm/*.txt', 'asm'),
-               ('assets/*.*', 'assets'),
-               ('data/*.txt', 'data'),
-               ('logic/*.txt', 'logic'),
-               ('seedgen/*.txt', 'seedgen'),
-               ('version.txt', '.'),
-             ],
+             datas=build_datas_recursive([
+               'asm/*.txt',
+               'assets/**/*.*',
+               'data/*.txt',
+               'logic/*.txt',
+               'seedgen/*.txt',
+               'version.txt',
+             ]),
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],

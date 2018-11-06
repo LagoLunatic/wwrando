@@ -3,6 +3,11 @@
 #  Original item: Telescope
 #  Paths:
 #    - sea/Stage.arc/Event085:get_telescope/Actor002/Action001
+#Outset Island - Bring a Pig to Rose:
+#  Need: 
+#  Original item: Red Rupee
+#  Paths:
+#    - sea/Stage.arc/Event0B1:Get_Rupee/Actor002/Action000
 Outset Island - Underneath Link's House:
   Need: Nothing
   Original item: Orange Rupee
@@ -26,7 +31,10 @@ Outset Island - Mesa the Grasscutter's House:
 #  Paths:
 #    - main.dol@358D3B
 Outset Island - Orca - Give 10 Knight's Crests:
-  Need: Spoils Bag & Can Farm Knight's Crests
+  Need:
+    Spoils Bag
+    & Can Farm Knight's Crests
+    & Can Sword Fight with Orca
   Original item: Hurricane Spin
   Types: Spoils Trading
   Paths:
@@ -43,7 +51,7 @@ Outset Island - Orca - Give 10 Knight's Crests:
 #  Paths:
 #    - rels/d_a_npc_ji1.rel@42BB
 Outset Island - Orca - Hit 500 Times:
-  Need: Hero's Sword
+  Need: Can Sword Fight with Orca
   Original item: Piece of Heart
   Types: No progression # This is just tedious to do
   Paths:
@@ -235,7 +243,7 @@ Windfall Island - Lenzo's House - Left Chest:
     Can Play Wind's Requiem 
     & Picto Box
   Original item: Treasure Chart 29
-  Types: Other Chest
+  Types: Short Sidequest, Other Chest
   Paths:
     - Ocmera/Stage.arc/Chest000
 Windfall Island - Lenzo's House - Right Chest:
@@ -245,7 +253,7 @@ Windfall Island - Lenzo's House - Right Chest:
     Can Play Wind's Requiem 
     & Picto Box
   Original item: Purple Rupee
-  Types: Other Chest
+  Types: Short Sidequest, Other Chest
   Paths:
     - Ocmera/Stage.arc/Chest001
 Windfall Island - Lenzo's House - Become Lenzo's Assistant:
@@ -327,7 +335,7 @@ Windfall Island - Transparent Chest:
     & Fire Arrows
     & (Can Fly With Deku Leaf Outdoors | Hookshot)
   Original item: Piece of Heart
-  Types: Short Sidequest
+  Types: Short Sidequest, Other Chest
   Paths:
     - sea/Room11.arc/Layer1/Chest000
     - sea/Room11.arc/Layer3/Chest000
@@ -393,6 +401,27 @@ Windfall Island - Zunari - Stock Exotic Flower in Zunari's Shop:
     - rels/d_a_npc_rsh1.rel@3117
     - rels/d_a_npc_rsh1.rel@338F
     - CustomSymbol:zunari_magic_armor_slot_item_id
+#Windfall Island - Kane - Place Shop Guru Statue on Gate: # Too obscure to randomize
+#  Need: Rescued Aryll & Delivery Bag
+#  Original item: Purple Rupee
+#  Paths:
+#    - rels/d_a_npc_people.rel@C21B
+#Windfall Island - Kane - Place Postman Statue on Gate: # Too obscure to randomize
+#  Need: Rescued Aryll & Delivery Bag
+#  Original item: Purple Rupee
+#  Paths:
+#    - rels/d_a_npc_people.rel@C21F
+#Windfall Island - Kane - Place Six Flags on Gate: # Too obscure to randomize
+#  # Pinwheel counts as a flag
+#  Need: Rescued Aryll & Delivery Bag
+#  Original item: Red Rupee
+#  Paths:
+#    - rels/d_a_npc_people.rel@C223
+#Windfall Island - Kane - Place Six Idols on Gate: # Too obscure to randomize
+#  Need: Rescued Aryll & Delivery Bag
+#  Original item: Red Rupee
+#  Paths:
+#    - rels/d_a_npc_people.rel@C227
 Windfall Island - Mila:
   Need: Rescued Aryll
   Original item: Empty Bottle
@@ -433,6 +462,11 @@ Windfall Island - Sinking Ships - Under 20 Shots Prize:
 #  Types: Minigame
 #  Paths:
 #    - rels/d_a_npc_people.rel@5BDF
+#Windfall Island - Dampa's Piggy Sitting Minigame (Unused):
+#  Need: 
+#  Original item: Red Rupee
+#  Paths:
+#    - rels/d_a_npc_people.rel@5BC3
 Windfall Island - Pompie and Vera:
   Need:
     # Need to snap a photo of Lenzo and Minenco in Lenzo's house.
@@ -510,13 +544,17 @@ Dragon Roost Island - Chest on Top of Boulder:
   Need:
     Hero's Bow
     | (Bait Bag & Can Buy Hyoi Pears)
-    # Note: It's also possible to hit the bottommost bomb flower with the boomerang, but this is pretty precise so it's not included.
+    | Boomerang
+    | Bombs
+    # Bombs work by getting in the ship and shooting the cannon up at the bomb flowers.
   Original item: Silver Rupee
   Types: Other Chest
   Paths:
     - sea/Room13.arc/Chest000
 Dragon Roost Island - Fly Across Platforms Around Island:
-  Need: Can Fly With Deku Leaf Outdoors
+  Need:
+    Can Fly With Deku Leaf Outdoors
+    & (Can Cut Grass | Magic Meter Upgrade)
   Original item: Orange Rupee
   Types: Other Chest
   Paths:
@@ -607,6 +645,15 @@ Dragon Roost Cavern - Dark Room:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest004
+Dragon Roost Cavern - Tingle Chest in Hub Room:
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x4
+    & Tingle Tuner Bombs
+  Original item: Yellow Rupee
+  Types: Tingle Chest, Dungeon
+  Paths:
+    - M_NewD2/Stage.arc/Chest00D
 Dragon Roost Cavern - Pot Room Chest:
   Need:
     Can Access Dragon Roost Cavern
@@ -635,19 +682,25 @@ Dragon Roost Cavern - Under Rope Bridge:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest009
-#Dragon Roost Cavern - Tingle Statue Chest:
-#  Need:
-#    Can Access Dragon Roost Cavern
-#    & DRC Small Key x4
-#    & Grappling Hook
-#    & Tingle Tuner Bombs
-#  Original item: Dragon Tingle Statue
-#  Types: Tingle Statue Chest, Dungeon
-#  Paths:
-#    - M_NewD2/Stage.arc/Chest00C
+Dragon Roost Cavern - Tingle Statue Chest:
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x1
+    & (
+      (DRC Small Key x4 & Can Cut Down Hanging DRC Platform)
+      | Deku Leaf
+      | Ice Arrows
+    )
+    & Grappling Hook
+    & Tingle Tuner Bombs
+  Original item: Dragon Tingle Statue
+  Types: Tingle Chest, Dungeon
+  Paths:
+    - M_NewD2/Stage.arc/Chest00C
 Dragon Roost Cavern - Big Key Chest:
   Need:
     Can Access Dragon Roost Cavern
+    & DRC Small Key x1
     & (
       (DRC Small Key x4 & Can Cut Down Hanging DRC Platform)
       | Deku Leaf
@@ -684,11 +737,6 @@ Dragon Roost Cavern - Boss Stairs Left Chest:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest002
-#Dragon Roost Cavern - Unused?:
-#  Need: 
-#  Original item: Yellow Rupee
-#  Paths:
-#    - M_NewD2/Stage.arc/Chest00D
 Dragon Roost Cavern - Gohma Heart Container:
   Need:
     Can Access Dragon Roost Cavern
@@ -848,17 +896,17 @@ Forbidden Woods - Chest Across Red Hanging Flower:
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest00D
-#Forbidden Woods - Tingle Statue Chest:
-#  Need:
-#    Can Access Forbidden Woods
-#    & Deku Leaf
-#    & Grappling Hook
-#    & Boomerang
-#    & Tingle Tuner Bombs
-#  Original item: Forbidden Tingle Statue
-#  Types: Tingle Statue Chest, Dungeon
-#  Paths:
-#    - kindan/Stage.arc/Chest00E
+Forbidden Woods - Tingle Statue Chest:
+  Need:
+    Can Access Forbidden Woods
+    & Deku Leaf
+    & Grappling Hook
+    & Boomerang
+    & Tingle Tuner Bombs
+  Original item: Forbidden Tingle Statue
+  Types: Tingle Chest, Dungeon
+  Paths:
+    - kindan/Stage.arc/Chest00E
 Forbidden Woods - Chest in Locked Tree Trunk:
   Need:
     Can Access Forbidden Woods
@@ -956,17 +1004,17 @@ Tower of the Gods - Shoot Eye Above Skulls Room Chest:
   Types: Dungeon
   Paths:
     - Siren/Stage.arc/Chest006
-#Tower of the Gods - Tingle Statue Chest:
-#  Need:
-#    Can Access Tower of the Gods
-#    & Bombs
-#    & TotG Small Key x1
-#    & Can Defeat Yellow ChuChus
-#    & Tingle Tuner Bombs
-#  Original item: Goddess Tingle Statue
-#  Types: Tingle Statue Chest, Dungeon
-#  Paths:
-#    - Siren/Stage.arc/Chest00A
+Tower of the Gods - Tingle Statue Chest:
+  Need:
+    Can Access Tower of the Gods
+    & Bombs
+    & TotG Small Key x1
+    & Can Defeat Yellow ChuChus
+    & Tingle Tuner Bombs
+  Original item: Goddess Tingle Statue
+  Types: Tingle Chest, Dungeon
+  Paths:
+    - Siren/Stage.arc/Chest00A
 Tower of the Gods - First Chest Guarded by Armos Knights:
   Need:
     Can Access Tower of the Gods
@@ -997,7 +1045,7 @@ Tower of the Gods - Darknut Mini-Boss Room:
     & Can Defeat Yellow ChuChus
     & Wind Waker
     & (Grappling Hook | Deku Leaf)
-    & (Command Melody | Hero's Bow)
+    & (Can Play Command Melody | Hero's Bow)
     & Can Defeat Darknuts
     # Note: If you already have the bow you can get the statue guy across the previous room without getting this item, which might appear to make this chest permanently missable, but in reality you can use the deactivated Armos from across the pit to keep the button pressed.
     # Note: Normally the only way to do this would be to use Command Melody on the statue guy, but if you already have the bow you can activate the moving platforms and use the deactivated Armos from across the pit to keep the button pressed instead.
@@ -1014,9 +1062,9 @@ Tower of the Gods - Second Chest Guarded by Armos Knights:
     & Can Defeat Yellow ChuChus
     & Wind Waker
     & (Grappling Hook | Deku Leaf)
-    & Command Melody
+    & Can Play Command Melody
     & Hero's Bow
-    & Wind's Requiem
+    & Can Play Wind's Requiem
     # Bombs are needed to kill the Armos Knights, but killing them is not necessary for any reason, since the chest appears when you play Wind's Requiem, and the door is not locked.
   Original item: Treasure Chart 30
   Types: Dungeon
@@ -1030,7 +1078,7 @@ Tower of the Gods - Floating Platforms Room:
     & Can Defeat Yellow ChuChus
     & Wind Waker
     & (Grappling Hook | Deku Leaf)
-    & Command Melody
+    & Can Play Command Melody
     & Hero's Bow
   Original item: Small Key
   Types: Dungeon
@@ -1044,7 +1092,7 @@ Tower of the Gods - Top of Floating Platforms Room:
     & Can Defeat Yellow ChuChus
     & Wind Waker
     & (Grappling Hook | Deku Leaf)
-    & Command Melody
+    & Can Play Command Melody
     & Hero's Bow
   Original item: Joy Pendant
   Types: Dungeon
@@ -1057,7 +1105,7 @@ Tower of the Gods - Big Key Chest:
     & Can Defeat Yellow ChuChus
     & Wind Waker
     & (Grappling Hook | Deku Leaf)
-    & Command Melody
+    & Can Play Command Melody
     & Hero's Bow
     & TotG Small Key x2
     & Deku Leaf
@@ -1082,7 +1130,7 @@ Tower of the Gods - Gohdan Heart Container:
     & Can Defeat Yellow ChuChus
     & Wind Waker
     & (Grappling Hook | Deku Leaf)
-    & Command Melody
+    & Can Play Command Melody
     & Hero's Bow
     & TotG Small Key x2
     & Deku Leaf
@@ -1119,7 +1167,7 @@ Forsaken Fortress - Chest Outside Upper Jail Cell:
     - majroom/Stage.arc/Chest000
     - ma2room/Stage.arc/Chest000
     - ma3room/Stage.arc/Chest000
-Forsaken Fortress - Jail Cell:
+Forsaken Fortress - Chest Inside Lower Jail Cell:
   Need: Can Get Inside Forsaken Fortress
   Original item: Piece of Heart
   Types: Dungeon
@@ -1341,17 +1389,16 @@ Earth Temple - Stalfos Mini-Boss Room:
   Types: Dungeon
   Paths:
     - M_DaiMB/Stage.arc/Chest000
-#Earth Temple - Tingle Statue Chest:
-#  Need:
-#    Can Access Earth Temple
-#    & Can Play Command Melody
-#    & Mirror Shield
-#    & Deku Leaf
-#    & Tingle Tuner Bombs
-#  Original item: Earth Tingle Statue
-#  Types: Tingle Statue Chest, Dungeon
-#  Paths:
-#    - M_Dai/Stage.arc/Chest00D
+Earth Temple - Tingle Statue Chest:
+  Need:
+    Can Access Earth Temple
+    & Can Play Command Melody
+    & Can Aim Mirror Shield
+    & Tingle Tuner Bombs
+  Original item: Earth Tingle Statue
+  Types: Tingle Chest, Dungeon
+  Paths:
+    - M_Dai/Stage.arc/Chest00D
 Earth Temple - End of Foggy Room With Floormasters:
   Need:
     Can Access Earth Temple
@@ -1500,82 +1547,17 @@ Wind Temple - Chest Between Two Dirt Patches:
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest005
-#Wind Temple - Tingle Statue Chest:
-#  Need:
-#    Can Access Wind Temple
-#    & Can Play Command Melody
-#    & Iron Boots
-#    & Deku Leaf
-#    & Tingle Tuner Bombs
-#  Original item: Wind Tingle Statue
-#  Types: Tingle Statue Chest, Dungeon
-#  Paths:
-#    - kaze/Stage.arc/Chest00C
-Wind Temple - Chest in Left Alcove:
+Wind Temple - Tingle Statue Chest:
   Need:
     Can Access Wind Temple
     & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
-  Original item: Joy Pendant
-  Types: Dungeon
+    & Tingle Tuner Bombs
+  Original item: Wind Tingle Statue
+  Types: Tingle Chest, Dungeon
   Paths:
-    - kaze/Stage.arc/Chest004
-Wind Temple - Chest In Many Cyclones Room:
-  Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Deku Leaf
-  Original item: Dungeon Map
-  Types: Dungeon
-  Paths:
-    - kaze/Stage.arc/Chest008
-Wind Temple - Chest In Middle Of Hub Room:
-  Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Deku Leaf
-  Original item: Compass
-  Types: Dungeon
-  Paths:
-    - kaze/Stage.arc/Chest00A
-Wind Temple - Spike Wall Room - First Chest:
-  Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Deku Leaf
-  Original item: Small Key
-  Types: Dungeon
-  Paths:
-    - kaze/Stage.arc/Chest003
-Wind Temple - Spike Wall Room - Destroy All Cracked Floors:
-  Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Deku Leaf
-  Original item: Treasure Chart 35
-  Types: Dungeon
-  Paths:
-    - kaze/Stage.arc/Chest007
-Wind Temple - Wizzrobe Mini-Boss Room:
-  Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Deku Leaf
-    & WT Small Key x2
-    & Can Defeat Peahats
-    # Killing the Wizzrobe doesn't require ranged weapons because he occasionally comes down to ground level.
-    # But you also need to be able to defeat Peahats in case they were summoned.
-  # Need to escape: Hookshot & Skull Hammer
-  Original item: Hookshot
-  Types: Dungeon
-  Paths:
-    - kazeMB/Stage.arc/Chest000
+    - kaze/Stage.arc/Chest00C
 Wind Temple - Chest Behind Stone Head:
   Need:
     Can Access Wind Temple
@@ -1587,12 +1569,120 @@ Wind Temple - Chest Behind Stone Head:
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest006
+Wind Temple - Chest in Left Alcove:
+  Need:
+    Can Access Wind Temple
+    & Can Play Command Melody
+    & Iron Boots
+    & Deku Leaf
+  Original item: Joy Pendant
+  Types: Dungeon
+  Paths:
+    - kaze/Stage.arc/Chest004
+Wind Temple - Big Key Chest:
+  Need:
+    Can Access Wind Temple
+    & Can Play Command Melody
+    & Iron Boots
+    & Deku Leaf
+    & Can Play Wind God's Aria
+    & Can Defeat Darknuts
+  Original item: Big Key
+  Types: Dungeon
+  Paths:
+    - kaze/Stage.arc/Chest002
+Wind Temple - Chest In Many Cyclones Room:
+  Need:
+    Can Access Wind Temple
+    & Can Play Command Melody
+    & Iron Boots
+    & Deku Leaf
+    & (
+      (Can Cut Grass | Magic Meter Upgrade)
+      | (Hookshot & Can Defeat Blue Bubbles)
+    )
+    # There's 2 paths you can take:
+    # * The vanilla path requires you to refill your magic to reach the chest, so you need a way to cut grass or the magic meter upgrade.
+    # * The alternate path is to hookshot up the trees on the side path to reach the upper level of the hub room, then glide down to where the iron switch is and do the many cyclones room backwards. If you don't have the magic meter upgrade you still need to refill your magic - but there's conveniently a skull that always drops a large magic refill, so you can just barely make it.
+  Original item: Dungeon Map
+  Types: Dungeon
+  Paths:
+    - kaze/Stage.arc/Chest008
+Wind Temple - Chest In Middle Of Hub Room:
+  Need:
+    Can Access Wind Temple
+    & Can Play Command Melody
+    & Iron Boots
+    & Deku Leaf
+    & (
+      Can Cut Grass
+      | (Hookshot & Can Defeat Blue Bubbles)
+    )
+    # 2 paths: Through the many cyclones room (requires refilling magic) or glide down from the upper level of the hub room.
+  Original item: Compass
+  Types: Dungeon
+  Paths:
+    - kaze/Stage.arc/Chest00A
+Wind Temple - Spike Wall Room - First Chest:
+  Need:
+    Can Access Wind Temple
+    & Can Play Command Melody
+    & Iron Boots
+    & Deku Leaf
+    & (
+      Can Cut Grass
+      | (Hookshot & Can Defeat Blue Bubbles)
+    )
+  Original item: Small Key
+  Types: Dungeon
+  Paths:
+    - kaze/Stage.arc/Chest003
+Wind Temple - Spike Wall Room - Destroy All Cracked Floors:
+  Need:
+    Can Access Wind Temple
+    & Can Play Command Melody
+    & Iron Boots
+    & Deku Leaf
+    & (
+      Can Cut Grass
+      | (Hookshot & Can Defeat Blue Bubbles)
+    )
+    # You don't need to actually kill the enemies spawned in the process of destroying all the floors to get this chest.
+  Original item: Treasure Chart 35
+  Types: Dungeon
+  Paths:
+    - kaze/Stage.arc/Chest007
+Wind Temple - Wizzrobe Mini-Boss Room:
+  Need:
+    Can Access Wind Temple
+    & Can Play Command Melody
+    & Iron Boots
+    & Deku Leaf
+    & (
+      Can Cut Grass
+      | (Hookshot & Can Defeat Blue Bubbles)
+    )
+    & WT Small Key x2
+    & Can Defeat Darknuts
+    & Can Remove Peahat Armor
+    # Besides Darknuts, there are Wizzrobes, Peahats, Moblins, Keese, and Kargarocs. But if you can defeat a Darknut you can steal its sword to defeat the other enemies.
+    # Unfortunately you can't do the same in reverse by stealing a Moblin's spear to kill a Darknut - the Moblin never spawns until the Darknut is defeated.
+    # Killing the Wizzrobe doesn't require ranged weapons because he occasionally comes down to ground level.
+  # Need to escape: Hookshot & Skull Hammer
+  Original item: Hookshot
+  Types: Dungeon
+  Paths:
+    - kazeMB/Stage.arc/Chest000
 Wind Temple - Chest at Top of Hub Room:
   Need:
     Can Access Wind Temple
     & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
+    & (
+      Can Cut Grass
+      | (Hookshot & Can Defeat Blue Bubbles)
+    )
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
@@ -1603,22 +1693,15 @@ Wind Temple - Chest Behind Seven Armos:
     & Can Play Command Melody
     & Iron Boots
     & Deku Leaf
+    & (
+      Can Cut Grass
+      | (Hookshot & Can Defeat Blue Bubbles)
+    )
     & Can Defeat Armos
   Original item: Small Key
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest001
-Wind Temple - Big Key Chest:
-  Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Deku Leaf
-    & Can Play Wind God's Aria
-  Original item: Big Key
-  Types: Dungeon
-  Paths:
-    - kaze/Stage.arc/Chest002
 Wind Temple - Kill All Enemies in Tall Basement Room:
   Need:
     Can Access Wind Temple
@@ -1626,8 +1709,13 @@ Wind Temple - Kill All Enemies in Tall Basement Room:
     & Iron Boots
     & Deku Leaf
     & Hookshot
+    & Can Defeat Blue Bubbles
     & WT Small Key x2
-    # Note: You might only need 1 small key in some cases, but even then the player may have used the first small key elsewhere, so we require 2 here.
+    & Can Defeat Stalfos
+    & Can Defeat Wizzrobes
+    & Can Defeat Morths
+    # There's a Green Bokoblin and a Blue Bokoblin here, but you can use hookshot to make them fall off the platform to the ground - which will kill the one higher up, and for the lower one you can throw pots at it to steal its weapon.
+    # Technically you could then use the weapon stolen from a Bokoblin to defeat all the other enemies here, but the issue with that is that if you kill both the Bokoblins, then exit and re-enter the room, you could no longer do this because they don't respawn. Same with the Stalfos and their maces.
   Original item: Treasure Chart 5
   Types: Dungeon
   Paths:
@@ -1644,6 +1732,7 @@ Wind Temple - Molgera Heart Container:
     & Iron Boots
     & Deku Leaf
     & Hookshot
+    & Can Defeat Blue Bubbles
     & WT Small Key x2
     & Can Play Wind God's Aria
     & WT Big Key
@@ -1660,7 +1749,9 @@ Wind Temple - Molgera Heart Container:
 #    - main.dol@358D36
 
 Ganon's Tower - Maze Chest:
-  Need: Can Reach Ganon's Tower Maze
+  Need:
+    Can Reach Ganon's Tower Phantom Ganon Room
+    & Can Defeat Phantom Ganon
   Original item: Light Arrow
   Types: Dungeon
   Paths:
@@ -1775,7 +1866,7 @@ Mailbox - Letter from Tingle:
   Paths:
     - rels/d_a_obj_toripost.rel@25AC
 
-The Great Sea - Beedle's Shop Ship - Bait Bag:
+The Great Sea - Beedle's Shop Ship - 20 Rupee Item:
   Need: Nothing
   Original item: Bait Bag
   Types: Misc
@@ -1807,15 +1898,21 @@ The Great Sea - Withered Trees:
     Can Access Forest Haven
     & Empty Bottle
     & Can Play Ballad of Gales
-    & Deku Leaf
-    # Deku Leaf is for the tree on Cliff Plateau Islands.
+    & Can Access Other Location "Cliff Plateau Isles - Highest Isle"
   Original item: Piece of Heart
   Types: Long Sidequest
   Paths:
     - rels/d_a_obj_ftree.rel@0237
     - rels/d_a_obj_ftree.rel@03F3
 The Great Sea - Ghost Ship:
-  Need: Ghost Ship Chart & Can Play Ballad of Gales
+  Need:
+    Ghost Ship Chart
+    & Can Play Ballad of Gales
+    & Can Defeat Wizzrobes
+    & Can Defeat Poes
+    & Can Defeat ReDeads
+    & Can Defeat Stalfos
+    # You don't necessarily have to fight redeads and stalfos, but the wizzrobe can summon them if you're not quick enough.
   Original item: Triforce Chart 4
   Types: Other Chest
   Paths:
@@ -1835,6 +1932,11 @@ The Great Sea - Ghost Ship:
 #  Original item: Purple Rupee
 #  Paths:
 #    - rels/d_a_npc_ah.rel@1773
+#The Great Sea - Fishman (Unused):
+#  Need: 
+#  Original item: Silver Rupee
+#  Paths:
+#    - sea/Stage.arc/Event0D2:SO_GET_RUPEE/Actor002/Action000
 
 #Nintendo Gallery - Carlov 1 (Unused):
 #  Need: 
@@ -1942,12 +2044,14 @@ Boating Course - Raft:
     - sea/Room48.arc/Chest000
 Boating Course - Cave:
   Need:
-    # Getting inside the cave requires flying with Deku Leaf or Hookshotting the pole.
-    # Hitting the 3 diamond switches inside the cave needs a ranged weapon. The imps make it difficult though.
     (Can Fly With Deku Leaf Outdoors | Hookshot)
     & Can Hit Diamond Switches at Range
+    & Can Defeat Miniblins Easily
+    # Getting inside the cave requires flying with Deku Leaf or Hookshotting the pole.
+    # Hitting the 3 diamond switches inside the cave needs a ranged weapon.
+    # Killing the miniblins is not necessary, but hitting the switches without being able to kill them would be extremely annoying.
   Original item: Submarine Chart
-  Types: Combat Secret Cave
+  Types: Puzzle Secret Cave, Combat Secret Cave
   Paths:
     - SubD71/Stage.arc/Chest000
 
@@ -1955,7 +2059,10 @@ Stone Watcher Island - Cave:
   Need:
     Power Bracelets
     & Can Defeat Armos
+    & Can Defeat Wizzrobes
+    & Can Defeat Darknuts
     & Can Play Wind's Requiem
+    # There are Moblins and Blue Bokoblins but they can be tricked into hitting each other to steal their weapons.
   Original item: Triforce Chart 7
   Types: Combat Secret Cave
   Paths:
@@ -1981,15 +2088,29 @@ Islet of Steel - Interior:
   Types: Other Chest
   Paths:
     - ShipD/Stage.arc/Chest000
-Islet of Steel - Lookout Platform:
+Islet of Steel - Lookout Platform - Defeat the Enemies:
   Need: Can Defeat Wizzrobes at Range
+    # You don't need anything to kill the Pink Bokoblins because you can throw pots at them.
   Original item: Skull Necklace
   Types: Platform
   Paths:
     - sea/Room30.arc/Chest000
 
 Overlook Island - Cave:
-  Need: Hookshot
+  Need:
+    Hookshot
+    & Can Defeat Stalfos
+    & Can Defeat Wizzrobes
+    & Can Defeat Red ChuChus
+    & Can Defeat Green ChuChus
+    & Can Defeat Keese
+    & Can Defeat Fire Keese
+    & Can Defeat Morths
+    & Can Defeat Kargarocs
+    & Can Defeat Darknuts
+    # The Armos Knights require nothing since there are bomb flowers in their room.
+    # The chuchus, keese, morths, and kargarocs don't necessarily have to be fought, but may be summoned by the wizzrobes.
+    # One of the rooms has Green Bokoblins but you can trick them into attacking each other to steal a weapon.
   Original item: Triforce Chart 8
   Types: Combat Secret Cave
   Paths:
@@ -2034,14 +2155,21 @@ Pawprint Isle - Wizzrobe Cave:
   Need:
     Hookshot
     & Can Defeat Wizzrobes at Range
+    & Can Defeat Fire Keese
+    & Can Defeat Magtails
+    & Can Defeat Red ChuChus
+    & Can Defeat Green ChuChus
     & Can Defeat Yellow ChuChus
-    & Can Defeat Peahats
+    & Can Defeat Red Bubbles
+    & Can Remove Peahat Armor
+    # For the last wave, you can get the Moblin to attack the Bokoblin, take the Bokoblin's stick, and use that to kill the Moblin, Bokoblin, Morths, Keese, Kargarocs, and Peahats with armor removed. (You can also use the stick to steal the Moblin's spear and use that.)
   Original item: Silver Rupee
   Types: Combat Secret Cave
   Paths:
     - Cave07/Stage.arc/Chest000
-Pawprint Isle - Lookout Platform:
+Pawprint Isle - Lookout Platform - Defeat the Enemies:
   Need: Nothing
+    # You don't need anything to kill these Pink Bokoblins because you can throw pots at them.
   Original item: Red Rupee
   Types: Platform
   Paths:
@@ -2059,8 +2187,9 @@ Thorned Fairy Island - Northeastern Lookout Platform - Destroy the Cannons:
   Types: Platform
   Paths:
     - sea/Room28.arc/Chest000
-Thorned Fairy Island - Southwestern Lookout Platform:
+Thorned Fairy Island - Southwestern Lookout Platform - Defeat the Enemies:
   Need: Can Fly With Deku Leaf Outdoors
+    # You can defeat the Pink Bokoblins here by throwing pots and barrels at them, and letting them kick each other. You might run out of pots and barrels to kill the last one with if you miss too much though, in which case you'd need to reload and try again.
   Original item: Boko Baba Seed
   Types: Platform
   Paths:
@@ -2072,8 +2201,9 @@ Eastern Fairy Island - Great Fairy:
   Types: Great Fairy
   Paths:
     - rels/d_a_bigelf.rel@21E7
-Eastern Fairy Island - Lookout Platform - Destroy the Cannons:
+Eastern Fairy Island - Lookout Platform - Defeat the Cannons and Enemies:
   Need: Can Destroy Cannons
+    # The Pink Bokoblins can be knocked off the edge by throwing pots at them. You don't have many shots at this before running out of pots, so it's best to do it while they're still asleep.
   Original item: Boko Baba Seed
   Types: Platform
   Paths:
@@ -2100,7 +2230,7 @@ Southern Fairy Island - Great Fairy:
     - rels/d_a_bigelf.rel@21F3
 Southern Fairy Island - Lookout Platform - Destroy the Northwest Cannons:
   Need:
-    Bombs
+    Can Destroy Cannons
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 40
   Types: Platform
@@ -2108,7 +2238,7 @@ Southern Fairy Island - Lookout Platform - Destroy the Northwest Cannons:
     - sea/Room39.arc/Chest000
 Southern Fairy Island - Lookout Platform - Destroy the Southeast Cannons:
   Need:
-    Bombs
+    Can Destroy Cannons
     & Can Fly With Deku Leaf Outdoors
   Original item: Skull Necklace
   Types: Platform
@@ -2123,77 +2253,84 @@ Northern Fairy Island - Great Fairy:
     - rels/d_a_bigelf.rel@21BB
 Northern Fairy Island - Submarine:
   Need: Nothing
+    # No need to kill the Moblins here.
   Original item: Treasure Chart 22
   Types: Submarine
   Paths:
     - Abship/Room4.arc/Chest000
 
-#Tingle Island - Reward for 1 Tingle Statue:
+#Tingle Island - Ankle - Reward for 1 Tingle Statue:
 #  Need: 
 #  Original item: 50 Rupees, reward for finding 1 Tingle Statue
 #  Paths:
 #    - rels/d_a_npc_tc.rel@617F
-#Tingle Island - Reward for 2 Tingle Statues:
+#Tingle Island - Ankle - Reward for 2 Tingle Statues:
 #  Need: 
 #  Original item: 100 Rupees, reward for finding 2 Tingle Statues
 #  Paths:
 #    - rels/d_a_npc_tc.rel@6187
-#Tingle Island - Reward for 3 Tingle Statues:
+#Tingle Island - Ankle - Reward for 3 Tingle Statues:
 #  Need: 
 #  Original item: 150 Rupees, reward for finding 3 Tingle Statues
 #  Paths:
 #    - rels/d_a_npc_tc.rel@618F
-#Tingle Island - Reward for 4 Tingle Statues:
+#Tingle Island - Ankle - Reward for 4 Tingle Statues:
 #  Need: 
 #  Original item: 200 Rupees, reward for finding 4 Tingle Statues
 #  Paths:
 #    - rels/d_a_npc_tc.rel@6197
-#Tingle Island - Reward for 5 Tingle Statues:
+#Tingle Island - Ankle - Reward for 5 Tingle Statues:
 #  Need: 
 #  Original item: 250 Rupees, reward for finding 5 Tingle Statues
 #  Paths:
 #    - rels/d_a_npc_tc.rel@619F
-#Tingle Island - Reward for All Tingle Statues:
-#  Need: 
-#  Original item: 500 Rupees, reward for finding 5 Tingle Statues
-#  Paths:
-#    - rels/d_a_npc_tc.rel@6143
-#Tingle Island - Triforce Chart 1 Deciphered:
+Tingle Island - Ankle - Reward for All Tingle Statues:
+  Need:
+    Dragon Tingle Statue
+    & Forbidden Tingle Statue
+    & Goddess Tingle Statue
+    & Earth Tingle Statue
+    & Wind Tingle Statue
+  Original item: Rainbow Rupee
+  Types: Misc
+  Paths:
+    - rels/d_a_npc_tc.rel@6143
+#Tingle Island - Tingle - Triforce Chart 1 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 1 got deciphered
 #  Paths:
 #    - rels/d_a_npc_tc.rel@61D7
-#Tingle Island - Triforce Chart 2 Deciphered:
+#Tingle Island - Tingle - Triforce Chart 2 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 2 got deciphered
 #  Paths:
 #    - rels/d_a_npc_tc.rel@61DF
-#Tingle Island - Triforce Chart 3 Deciphered:
+#Tingle Island - Tingle - Triforce Chart 3 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 3 got deciphered
 #  Paths:
 #    - rels/d_a_npc_tc.rel@61E7
-#Tingle Island - Triforce Chart 4 Deciphered:
+#Tingle Island - Tingle - Triforce Chart 4 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 4 got deciphered
 #  Paths:
 #    - rels/d_a_npc_tc.rel@61EF
-#Tingle Island - Triforce Chart 5 Deciphered:
+#Tingle Island - Tingle - Triforce Chart 5 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 5 got deciphered
 #  Paths:
 #    - rels/d_a_npc_tc.rel@61F7
-#Tingle Island - Triforce Chart 6 Deciphered:
+#Tingle Island - Tingle - Triforce Chart 6 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 6 got deciphered
 #  Paths:
 #    - rels/d_a_npc_tc.rel@61FF
-#Tingle Island - Triforce Chart 7 Deciphered:
+#Tingle Island - Tingle - Triforce Chart 7 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 7 got deciphered
 #  Paths:
 #    - rels/d_a_npc_tc.rel@6207
-#Tingle Island - Triforce Chart 8 Deciphered:
+#Tingle Island - Tingle - Triforce Chart 8 Deciphered:
 #  Need: 
 #  Original item: Triforce Chart 8 got deciphered
 #  Paths:
@@ -2207,12 +2344,14 @@ Tingle Island - Big Octo:
 
 Diamond Steppe Island - Warp Maze Cave - First Chest:
   Need: Hookshot
+    # No need to kill the Floormasters.
   Original item: Joy Pendant
   Types: Puzzle Secret Cave
   Paths:
     - WarpD/Stage.arc/Chest001
 Diamond Steppe Island - Warp Maze Cave - Second Chest:
   Need: Hookshot
+    # No need to kill the Floormasters.
   Original item: Ghost Ship Chart
   Types: Puzzle Secret Cave
   Paths:
@@ -2225,19 +2364,23 @@ Diamond Steppe Island - Big Octo:
     - sea/Room36.arc/ScalableObject001
 
 Bomb Island - Cave:
-  Need: Can Move Boulders
+  Need:
+    Can Move Boulders
+    & Can Stun Magtails
   Original item: Piece of Heart
   Types: Puzzle Secret Cave
   Paths:
     - Cave01/Stage.arc/Chest000
-Bomb Island - Lookout Platform:
+Bomb Island - Lookout Platform - Defeat the Enemies:
   Need: Nothing
+    # The Pink Bokoblins can be knocked off the edge by throwing pots at them. You don't have many shots at this before running out of pots.
   Original item: Red Rupee
   Types: Platform
   Paths:
     - sea/Room34.arc/Chest000
 Bomb Island - Submarine:
   Need: Nothing
+    # You can throw pots and barrels at the Blue and Green Bokoblins to make them drop a weapon, then use it to kill them.
   Original item: Empty Bottle
   Types: Submarine
   Paths:
@@ -2245,6 +2388,7 @@ Bomb Island - Submarine:
 
 Rock Spire Isle - Cave:
   Need: Bombs
+    # The Keese in the cave can be killed with nothing but the stick in there.
   Original item: Treasure Chart 37
   Types: Combat Secret Cave
   Paths:
@@ -2307,24 +2451,29 @@ Rock Spire Isle - Gunboat:
 
 Shark Island - Cave:
   Need:
-    # Iron Boots and Skull Hammer are necessary to hit the two big buttons.
-    # The diamond switch does not require Boomerang or any ranged weapon - you can just hit it with your sword.
-    # You also need to kill a ton of enemies inside the cave, but no ranged weapons are required.
     Iron Boots
     & Skull Hammer
+    & Can Defeat Miniblins
+    # Iron Boots and Skull Hammer are necessary to hit the two big buttons.
+    # The diamond switch does not require Boomerang or any ranged weapon - you can just hit it with your sword or hammer.
+    # You also need to kill a ton of enemies inside the cave, but no ranged weapons are required.
+    # You need to have at least enough to defeat a couple Miniblins. After that some Green Bokoblins spawn, and you can get them to attack each other and drop a machete, then use that to kill the rest of the enemies in the cave.
   Original item: Silver Rupee
   Types: Combat Secret Cave
   Paths:
     - ITest63/Stage.arc/Chest000
 
 Cliff Plateau Isles - Cave:
-  Need: Nothing
+  Need: Can Defeat Boko Babas
+    # Technically you can kill the Boko Babas here by throwing a nut at one to stun it, then using the Grappling Hook to finish it off. But the timing is pretty precise and this is pretty obscure, so it's not in the logic.
   Original item: Joy Pendant
   Types: Puzzle Secret Cave
   Paths:
     - Cave03/Stage.arc/Chest000
 Cliff Plateau Isles - Highest Isle:
-  Need: Deku Leaf
+  Need:
+    Can Defeat Boko Babas
+    & Deku Leaf
   Original item: Treasure Chart 25
   Types: Puzzle Secret Cave
   Paths:
@@ -2343,7 +2492,8 @@ Crescent Moon Island - Chest:
   Paths:
     - sea/Room5.arc/Chest000
 Crescent Moon Island - Submarine:
-  Need: Nothing
+  Need: Can Defeat Miniblins
+    # You only need to defeat the very first Miniblin, then wait out the timer.
   Original item: Treasure Chart 9
   Types: Submarine
   Paths:
@@ -2351,15 +2501,19 @@ Crescent Moon Island - Submarine:
 
 Horseshoe Island - Play Golf:
   Need:
-    # Need Deku Leaf to play golf, and need to fly with Deku Leaf to reach the chest.
     Deku Leaf
-    & Can Fly With Deku Leaf Outdoors
+    & (Can Fly With Deku Leaf Outdoors | Hookshot)
+    # Need Deku Leaf to play golf, and then need a way to reach the chest.
   Original item: Treasure Chart 28
   Types: Other Chest
   Paths:
     - sea/Room43.arc/Chest000
 Horseshoe Island - Cave:
-  Need: Deku Leaf # Need Deku Leaf to play golf.
+  Need:
+    Deku Leaf
+    & Can Defeat Mothulas
+    & Can Defeat Winged Mothulas
+    # Need Deku Leaf to play golf.
   Original item: Treasure Chart 8
   Types: Combat Secret Cave
   Paths:
@@ -2391,14 +2545,22 @@ Flight Control Platform - Bird-Man Contest - First Prize:
 #  Paths:
 #    - rels/d_a_npc_bmcon1.rel@2B9F
 Flight Control Platform - Submarine:
-  Need: Can Defeat Wizzrobes at Range
+  Need:
+    Can Defeat Wizzrobes
+    & Can Defeat Red ChuChus
+    & Can Defeat Green ChuChus
+    & Can Defeat Miniblins
+    & Can Defeat Wizzrobes at Range
   Original item: Platform Chart
   Types: Submarine
   Paths:
     - Abship/Room6.arc/Chest000
 
 Star Island - Cave:
-  Need: Can Move Boulders
+  Need:
+    Can Move Boulders
+    & Can Defeat Magtails
+    # After the Magtails, the second wave are Blue Bokoblins, so you can trick them into attacking each other, steal a stick, and use that to kill the remaining enemies: Green Bokoblins and Moblins.
   Original item: Piece of Heart
   Types: Combat Secret Cave
   Paths:
@@ -2431,25 +2593,28 @@ Five-Star Isles - Raft:
     - sea/Room49.arc/Chest000
 Five-Star Isles - Submarine:
   Need: Nothing
+    # You need to defeat Green Bokoblins and Blue Bokoblins here, but you can throw pots at them and then steal their weapons.
   Original item: Piece of Heart
   Types: Submarine
   Paths:
     - Abship/Room0.arc/Chest000
 
-Seven-Star Isles - Northern Lookout Platform:
-  Need: Nothing
-  Original item: Golden Feather
-  Types: Platform
-  Paths:
-    - sea/Room6.arc/Chest000
 Seven-Star Isles - Center Lookout Platform:
-  Need: Nothing
+  Need: Can Defeat Wizzrobes
   Original item: Red Rupee
   Types: Platform
   Paths:
     - sea/Room6.arc/Chest001
+Seven-Star Isles - Northern Lookout Platform:
+  Need: Can Defeat Wizzrobes
+  Original item: Golden Feather
+  Types: Platform
+  Paths:
+    - sea/Room6.arc/Chest000
 Seven-Star Isles - Southern Lookout Platform:
-  Need: Can Defeat Wizzrobes at Range # The other two chests on these lookout platforms also appear when killing Wizzrobes, but those Wizzrobes can appear at melee distance so nothing is required to kill them.
+  Need:
+    Can Defeat Wizzrobes
+    & Can Defeat Wizzrobes at Range
   Original item: Treasure Chart 16
   Types: Platform
   Paths:
@@ -2471,8 +2636,9 @@ Cyclops Reef - Destroy the Cannons and Gunboats:
   Types: Eye Reef Chest
   Paths:
     - sea/Room24.arc/Chest000
-Cyclops Reef - Lookout Platform:
+Cyclops Reef - Lookout Platform - Defeat the Enemies:
   Need: Nothing
+    # There are Green Bokoblins and Pink Bokoblins here but you can throw pots/barrels at them and steal a weapon.
   Original item: Golden Feather
   Types: Platform
   Paths:
@@ -2523,11 +2689,12 @@ Four-Eye Reef - Destroy the Cannons and Gunboats:
   Paths:
     - sea/Room8.arc/Chest000
 
-Five-Eye Reef - Destroy the Cannons and Gunboats:
+Five-Eye Reef - Destroy the Cannons:
   Need:
     # The cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead.
+    # Unlike the other eye reefs, this one has only cannons and no gunboats.
     Can Reach and Defeat Phantom Ganon
-    & Bombs
+    & Can Destroy Cannons
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 41
   Types: Eye Reef Chest
@@ -2558,31 +2725,11 @@ Six-Eye Reef - Lookout Platform - Destroy the Cannons:
     - sea/Room25.arc/Chest001
 Six-Eye Reef - Submarine:
   Need: Nothing
+    # There are Moblins here, but you can throws pots and barrels at one to get a weapon.
   Original item: Piece of Heart
   Types: Submarine
   Paths:
     - Abship/Room1.arc/Chest000
-
-#unknown - unknown npc 1:
-#  Need: 
-#  Original item: Red Rupee
-#  Paths:
-#    - rels/d_a_npc_people.rel@5BC3
-#unknown - unknown npc 2:
-#  Need: 
-#  Original item: Purple Rupee
-#  Paths:
-#    - rels/d_a_npc_people.rel@5BDF
-#unknown - The Great Sea - unknown event 2:
-#  Need: 
-#  Original item: Red Rupee
-#  Paths:
-#    - sea/Stage.arc/Event0B1:Get_Rupee/Actor002/Action000
-#unknown - The Great Sea - unknown event 3:
-#  Need: 
-#  Original item: Silver Rupee
-#  Paths:
-#    - sea/Stage.arc/Event0D2:SO_GET_RUPEE/Actor002/Action000
 
 Forsaken Fortress - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 1

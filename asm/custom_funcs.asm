@@ -13,12 +13,36 @@ stw r0, 0x14 (sp)
 bl init__10dSv_save_cFv ; To call this custom func we overwrote a call to init__10dSv_save_cFv, so call that now.
 
 
+lis r5, sword_mode@ha
+addi r5, r5, sword_mode@l
+lbz r5, 0 (r5)
+cmpwi r5, 0 ; Start with Sword
+beq start_with_sword
+cmpwi r5, 2 ; Swordless
+beq break_barrier_for_swordless
+b after_sword_mode_initialization
+
+start_with_sword:
 bl item_func_sword__Fv
+b after_sword_mode_initialization
+
+break_barrier_for_swordless:
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x2C02 ; BARRIER_DOWN
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x3B08 ; Another event flag set by the barrier. This one seems to have no effect, but set it anyway just to be safe.
+bl onEventBit__11dSv_event_cFUs
+
+after_sword_mode_initialization:
+
+
 bl item_func_shield__Fv
 bl item_func_normal_sail__Fv
 bl item_func_wind_tact__Fv ; Wind Waker
 bl item_func_tact_song1__Fv ; Wind's Requiem
 bl item_func_tact_song2__Fv ; Ballad of Gales
+bl item_func_tact_song6__Fv ; Song of Passing
 bl item_func_pirates_omamori__Fv ; Pirate's Charm
 
 
@@ -127,13 +151,9 @@ stw r4, 8 (r3)
 lis r4, 0x0100
 stw r4, 0xC (r3)
 
-; If the player does the early part of Dragon Roost Cavern backwards, they can walk through a door while it's still blocked off by a boulder. This softlocks the game as Link will just walk into the boulder infinitely.
-; Set a switch (5) for having destroyed the boulder in front of the door so that doesn't happen.
+; Set a switch (21) for having seen the gossip stone event in DRC where KoRL tells you about giving bait to rats.
 lis r3, 0x803C4FF4@ha ; Dragon Roost Cavern stage info.
 addi r3, r3, 0x803C4FF4@l
-li r4, 0x0020
-stw r4, 4 (r3)
-; Also set a switch (21) for having seen the gossip stone event where KoRL tells you about giving bait to rats.
 li r4, 0x0002
 stw r4, 8 (r3)
 
@@ -151,12 +171,16 @@ lis r4, 0x0004
 addi r4, r4, 0x0040
 stw r4, 4 (r3)
 
-; Set a switch (1E) for having seen the cutscene before the Puppet Ganon fight.
+; Set a switch (0D) for having seen the camera panning around when you first enter Ganon's Tower.
+; Also set a switch (1C) for having seen the camera panning around looking at the 4 lights in the room where you can drop down to the maze.
+; Also set a switch (1D) for having seen the camera panning around looking at the 4 boomerang switches in the room with the warp up to Forsaken Fortress.
+; Also set a switch (1E) for having seen the cutscene before the Puppet Ganon fight.
 ; Also set a switch (12) for having seen the cutscene after the Puppet Ganon fight.
 ; Also set a switch (1F) for having seen the cutscene before the Ganondorf fight.
 lis r3, 0x803C50A8@ha ; Ganon's Tower stage info.
 addi r3, r3, 0x803C50A8@l
-lis r4, 0xC004
+lis r4, 0xF004
+addi r4, r4, 0x2000
 stw r4, 4 (r3)
 
 
@@ -195,6 +219,12 @@ li r4, 16 ; 16 is the normal starting size of the magic meter.
 stb r4, 0 (r3) ; Max magic meter
 stb r4, 1 (r3) ; Current magic meter
 
+; Make the game think the player has previously owned every type of spoil and bait so they don't get the item get animation the first time they pick each type up.
+lis r3, 0x803C4C9C@ha
+addi r3, r3, 0x803C4C9C@l
+li r4, 0xFF
+stb r4, 0 (r3) ; 803C4C9C, bitfield of what spoils bag items you've ever owned
+stb r4, 1 (r3) ; 803C4C9D, bitfield of what bait bag items you've ever owned
 
 ; Give the player the number of Triforce Shards they want to start with.
 lis r5, num_triforce_shards_to_start_with@ha
@@ -230,6 +260,24 @@ bl onEventBit__11dSv_event_cFUs
 after_starting_heros_clothes:
 
 
+lis r5, skip_rematch_bosses@ha
+addi r5, r5, skip_rematch_bosses@l
+lbz r5, 0 (r5) ; Load bool of whether rematch bosses should be skipped
+cmpwi r5, 1
+bne after_skipping_rematch_bosses
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x3904 ; Recollection Gohma defeated
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x3902 ; Recollection Kalle Demos defeated
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x3901 ; Recollection Jalhalla defeated
+bl onEventBit__11dSv_event_cFUs
+li r4, 0x3A80 ; Recollection Molgera defeated
+bl onEventBit__11dSv_event_cFUs
+after_skipping_rematch_bosses:
+
+
 ; Function end stuff
 lwz r0, 0x14 (sp)
 mtlr r0
@@ -243,6 +291,12 @@ num_triforce_shards_to_start_with:
 .global should_start_with_heros_clothes
 should_start_with_heros_clothes:
 .byte 1 ; By default start with the Hero's Clothes
+.global sword_mode
+sword_mode:
+.byte 0 ; By default Start with Sword
+.global skip_rematch_bosses
+skip_rematch_bosses:
+.byte 1 ; By default skip them
 .align 2 ; Align to the next 4 bytes
 
 
@@ -931,10 +985,19 @@ stw r0, 0x14 (sp)
 
 lis     r3,0x803C4C08@ha
 addi    r3,r3,0x803C4C08@l
+
+; If in swordless mode, skip checking the master sword.
+lis r4, sword_mode@ha
+addi r4, r4, sword_mode@l
+lbz r4, 0 (r4)
+cmpwi r4, 2 ; Swordless
+beq check_has_full_triforce_for_hyrule_warp_unlocked
+
 lbz     r0,0xE(r3)
 cmplwi  r0,0x3E ; Check if currently equipped sword is Full Power Master Sword
 bne     hyrule_warp_not_unlocked
 
+check_has_full_triforce_for_hyrule_warp_unlocked:
 addi    r3,r3,180
 bl      getTriforceNum__20dSv_player_collect_cFv
 cmpwi   r3,8
@@ -1420,6 +1483,231 @@ b 0x800F13AC
 
 
 
+; Refills the player's magic meter when loading a save.
+.global fully_refill_magic_meter_on_load_save
+fully_refill_magic_meter_on_load_save:
+
+lis r3, 0x803C4C1B@ha
+addi r3, r3, 0x803C4C1B@l
+lbz r4, 0 (r3) ; Load max magic meter
+stb r4, 1 (r3) ; Store to current magic meter
+
+lwz r3, 0x428 (r22) ; Replace the line we overwrote to branch here
+b 0x80231B0C ; Return
+
+
+
+
+; Borrows logic used for vanilla rope hang turning and injects some of the rotation logic into the rope swinging function.
+; The main difference between the way the vanilla rope hanging function turns the player and this custom function is that the vanilla function uses a maximum rotational velocity per frame of 0x200, and a rotational acceleration of 0x40.
+; But 0x200 units of rotation per frame would be far too fast to control when the player is swinging, and they could clip through walls very easily.
+; So instead we just use the rotational acceleration as a constant rotational velocity instead, with no acceleration or deceleration.
+.global turn_while_swinging
+turn_while_swinging:
+
+lis r3, 0x803A4DF0@ha
+addi r3, r3, 0x803A4DF0@l
+lfs f0, 0 (r3) ; Control stick horizontal axis (from -1.0 to 1.0)
+lfs f1, -0x5A18 (r2) ; Load the float constant at 803FA2E8 for the base amount of rotational velocity to use (vanilla value is 0x40, this constant is originally used as rotational acceleration by the rope hanging function)
+fmuls f0, f1, f0 ; Get the current amount of rotational velocity to use this frame after adjusting for the control stick amount
+
+; Convert current rotational velocity to an integer.
+; (sp+0x68 was used earlier on in procRopeSwing__9daPy_lk_cFv for float conversion so we just reuse this same space.)
+fctiwz  f0, f0
+stfd f0, 0x68 (sp)
+lwz r0, 0x6C (sp)
+
+; Convert base rotational velocity to an integer.
+fctiwz  f1, f1
+stfd f1, 0x68 (sp)
+lwz r3, 0x6C (sp)
+
+; If the player isn't moving the control stick horizontally very much (less than 25%), don't turn the player at all.
+rlwinm r3, r3, 30, 2, 31 ; Divide the base rotational velocity by 4 to figure out what the threshold should be for 25% on the control stick.
+cmpw r0, r3
+bge turn_while_swinging_update_angle ; Control stick is >=25%
+neg r3, r3
+cmpw r0, r3
+ble turn_while_swinging_update_angle ; Control stick is <=-25%
+b turn_while_swinging_return
+
+turn_while_swinging_update_angle:
+; Subtract rotational velocity from the player's rotation. (Both player_entity+20E and +206 have the player's rotation.)
+lha r3, 0x020E (r31)
+sub r0, r3, r0
+sth r0, 0x020E (r31)
+sth r0, 0x0206 (r31)
+
+turn_while_swinging_return:
+lfs f0, -0x5BA8 (rtoc) ; Replace line we overwrote to branch here
+b 0x8014564C ; Return
+
+
+
+
+; This function checks if Phantom Ganon's sword should disappear.
+; Normally, both Phantom Ganon 2's and Phantom Ganon 3's swords will disappear once you've used Phantom Ganon 3's sword to destroy the door to Puppet Ganon.
+; We change it so Phantom Ganon 2's sword remains so it can lead the player through the maze.
+.global check_phantom_ganons_sword_should_disappear
+check_phantom_ganons_sword_should_disappear:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+; First replace the event flag check we overwrote to call this custom function.
+bl isEventBit__11dSv_event_cFUs
+
+; If the player hasn't destroyed the door with Phantom Ganon's sword yet, we don't need to do anything different so just return.
+cmpwi r3, 0
+beq check_phantom_ganons_sword_should_disappear_end
+
+; If the player has destroyed the door, check if the current stage is the Phantom Ganon maze, where Phantom Ganon 2 is fought.
+lis r3, 0x803C9D3C@ha ; Current stage name
+addi r3, r3, 0x803C9D3C@l
+lis r4, phantom_ganon_maze_stage_name@ha
+addi r4, r4, phantom_ganon_maze_stage_name@l
+bl strcmp
+; If the stage is the maze, strcmp will return 0, so we return that to tell Phantom Ganon's sword that it should not disappear.
+; If the stage is anything else, strcmp will not return 0, so Phantom Ganon's sword should disappear.
+
+check_phantom_ganons_sword_should_disappear_end:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+.global phantom_ganon_maze_stage_name
+phantom_ganon_maze_stage_name:
+.string "GanonJ"
+.align 2 ; Align to the next 4 bytes
+
+
+
+
+.global give_temporary_sword_during_ganondorf_fight_in_swordless
+give_temporary_sword_during_ganondorf_fight_in_swordless:
+
+stb r0, 0x48 (r4) ; Replace the line we overwrote to jump here (which removed the bow from your inventory)
+
+lbz r0, 0xE (r4) ; Read the player's currently equipped sword ID
+cmpwi r0, 0xFF
+; If the player has any sword equipped, don't replace it with the Hero's Sword
+bne give_temporary_sword_during_ganondorf_fight_in_swordless_end
+
+li r0, 0x38
+stb r0, 0xE (r4) ; Set the player's currently equipped sword ID to the regular Hero's Sword
+
+give_temporary_sword_during_ganondorf_fight_in_swordless_end:
+b 0x80235F14 ; Return
+
+
+
+
+.global give_temporary_sword_in_orcas_house_in_swordless
+give_temporary_sword_in_orcas_house_in_swordless:
+
+lis r3, 0x803C9D3C@ha ; Current stage name
+addi r3, r3, 0x803C9D3C@l
+lis r4, 0x8036A948@ha ; Pointer to the string "Ojhous", the stage for Orca's house
+addi r4, r4, 0x8036A948@l
+bl strcmp
+cmpwi r3, 0
+; If the player did not just enter Orca's house, skip giving a temporary sword
+bne give_temporary_sword_in_orcas_house_in_swordless_end
+
+lis r3, 0x803C4C08@ha
+addi r3, r3, 0x803C4C08@l
+lbz r0, 0xE (r3) ; Read the player's currently equipped sword ID
+cmpwi r0, 0xFF
+; If the player has any sword equipped, don't replace it with the Hero's Sword
+bne give_temporary_sword_in_orcas_house_in_swordless_end
+
+li r0, 0x38
+stb r0, 0xE (r3) ; Set the player's currently equipped sword ID to the regular Hero's Sword
+
+; Then, in order to prevent this temporary sword from being removed by remove_temporary_sword_when_loading_stage_in_swordless, we need to return differently to skip that code.
+mr r29, r3 ; r29 needs to have 0x803C4C08 in it
+b 0x80236088
+
+give_temporary_sword_in_orcas_house_in_swordless_end:
+lis r3, 0x803C ; Replace the line we overwrote to branch here
+b 0x80236080 ; Return
+
+
+
+
+.global remove_temporary_sword_when_loading_stage_in_swordless
+remove_temporary_sword_when_loading_stage_in_swordless:
+
+lbz r0, 0xB4 (r29) ; Read the player's owned swords bitfield
+cmpwi r0, 0
+; If the player owns any sword, don't remove their equipped sword since it's not temporary
+bne remove_temporary_sword_when_loading_stage_in_swordless_end
+
+li r0, 0xFF
+stb r0, 0xE (r29) ; Set the player's currently equipped sword ID to no sword
+
+remove_temporary_sword_when_loading_stage_in_swordless_end:
+lbz r0, 0x48 (r29) ; Replace the line we overwrote to jump here
+b 0x80236088 ; Return
+
+
+
+
+; Read the C-stick's horizontal axis and negate the value in order to invert the camera's movement.
+.global invert_camera_horizontal_axis
+invert_camera_horizontal_axis:
+
+lfs f1, 0x10 (r3) ; Load the C-stick's horizontal axis for controlling the camera (same as the line we're replacing)
+fneg f1, f1 ; Negate the horizontal axis
+
+b 0x8016248C ; Return
+
+
+
+
+; Add a check right before playing the item get music to handle playing special item get music (pearls and songs).
+; The vanilla game played the pearl music as part of the .stb cutscenes where you get the pearls, so the regular item get code had no reason to check for pearls originally.
+; In the vanilla game Link only gets songs via 059get_dance actions, so that action would play the song get music, but the 011get_item action had no reason to check for songs.
+.global check_play_special_item_get_music
+check_play_special_item_get_music:
+
+lwz r3, -0x69D0 (r13) ; Replace the line we overwrote to jump here
+
+; Check if the item ID (in r0) matches any of the items with special music.
+cmplwi r0, 0x69 ; Nayru's Pearl
+beq play_pearl_item_get_music
+cmplwi r0, 0x6A ; Din's Pearl
+beq play_pearl_item_get_music
+cmplwi r0, 0x6B ; Farore's Pearl
+beq play_pearl_item_get_music
+cmplwi r0, 0x6D ; Wind's Requiem
+beq play_song_get_music
+cmplwi r0, 0x6E ; Ballad of Gales
+beq play_song_get_music
+cmplwi r0, 0x6F ; Command Melody
+beq play_song_get_music
+cmplwi r0, 0x70 ; Earth God's Lyric
+beq play_song_get_music
+cmplwi r0, 0x71 ; Wind God's Aria
+beq play_song_get_music
+cmplwi r0, 0x72 ; Song of Passing
+beq play_song_get_music
+b 0x8012E3EC ; If not, return to the code that plays the normal item get music
+
+play_pearl_item_get_music:
+lis r4, 0x8000004F@ha ; BGM ID for the pearl item get music
+addi r4, r4, 0x8000004F@l
+b 0x8012E3F4 ; Jump to the code that plays the normal item get music
+
+play_song_get_music:
+lis r4, 0x80000027@ha ; BGM ID for the song get music
+addi r4, r4, 0x80000027@l
+b 0x8012E3F4 ; Jump to the code that plays the normal item get music
+
+
+
+
 .global generic_on_dungeon_bit
 generic_on_dungeon_bit:
 stwu sp, -0x10 (sp)
@@ -1472,8 +1760,24 @@ lis r3, 0x803C53A4@ha ; This value is the stage ID of the current stage
 addi r3, r3, 0x803C53A4@l
 lbz r4, 0 (r3)
 cmpw r4, r5 ; Check if we're currently in the right dungeon for this key
-beq generic_small_key_item_get_func_in_correct_dungeon
+bne generic_small_key_item_get_func_not_in_correct_dungeon
 
+; Next we need to check if the current stage has the "is dungeon" bit set in its StagInfo.
+; If it doesn't (like if we're in a boss room) then we still can't use the normal key function, since the key counter in the UI is disabled, and that's what adds to your actual number of keys when we use the normal key function.
+lis r3, 0x803C4C08@ha
+addi r3, r3, 0x803C4C08@l
+lwzu r12, 0x5150 (r3)
+lwz r12, 0xB0 (r12)
+mtctr r12
+bctrl
+lbz r0, 9 (r3) ; Read the stage ID+is dungeon bit
+rlwinm. r0, r0, 0, 31, 31
+beq generic_small_key_item_get_func_in_non_dungeon_room_of_correct_dungeon
+
+; If both the stage ID and the is dungeon bit are correct, we can call the normal small key function.
+b generic_small_key_item_get_func_in_correct_dungeon
+
+generic_small_key_item_get_func_not_in_correct_dungeon:
 ; Not in the correct dungeon for this small key.
 ; We need to bypass the normal small key adding method.
 ; Instead we add directly to the small key count for the correct dungeon's stage info.
@@ -1484,6 +1788,14 @@ add r3, r3, r4
 lbz r4, 0x20 (r3) ; Current number of keys for the correct dungeon
 addi r4, r4, 1
 stb r4, 0x20 (r3) ; Current number of keys for the correct dungeon
+b generic_small_key_item_get_func_end
+
+generic_small_key_item_get_func_in_non_dungeon_room_of_correct_dungeon:
+lis r3, 0x803C5380@ha ; Currently loaded stage info
+addi r3, r3, 0x803C5380@l
+lbz r4, 0x20 (r3) ; Current number of keys for the current dungeon
+addi r4, r4, 1
+stb r4, 0x20 (r3) ; Current number of keys for the current dungeon
 b generic_small_key_item_get_func_end
 
 generic_small_key_item_get_func_in_correct_dungeon:
@@ -1885,5 +2197,205 @@ lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
 blr
+
+.global dragon_tingle_statue_item_get_func
+dragon_tingle_statue_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6A04 ; Unused event bit we use for Dragon Tingle Statue
+bl onEventBit__11dSv_event_cFUs
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global forbidden_tingle_statue_item_get_func
+forbidden_tingle_statue_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6A08 ; Unused event bit we use for Forbidden Tingle Statue
+bl onEventBit__11dSv_event_cFUs
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global goddess_tingle_statue_item_get_func
+goddess_tingle_statue_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6A10 ; Unused event bit we use for Goddess Tingle Statue
+bl onEventBit__11dSv_event_cFUs
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global earth_tingle_statue_item_get_func
+earth_tingle_statue_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6A20 ; Unused event bit we use for Earth Tingle Statue
+bl onEventBit__11dSv_event_cFUs
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global wind_tingle_statue_item_get_func
+wind_tingle_statue_item_get_func:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+li r4, 0x6A40 ; Unused event bit we use for Wind Tingle Statue
+bl onEventBit__11dSv_event_cFUs
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+; This function checks if you own a certain Tingle Statue.
+; It's designed to replace the original calls to dComIfGs_isStageTbox__Fii, so it takes the same arguments as that function.
+; Argument r3 - the stage ID of the stage info to check a chest in.
+; Argument r4 - the opened flag index of the chest to check.
+; This function, instead of checking if certain chests are open, checks if the unused event bits we use for certain Tingle Statues have been set.
+.global check_tingle_statue_owned
+check_tingle_statue_owned:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+cmpwi r4, 0xF ; The opened flag index (argument r4) for tingle statue chests should always be 0xF.
+bne check_tingle_statue_owned_invalid
+
+; The stage ID (argument r3) determines which dungeon it's checking.
+cmpwi r3, 3
+beq check_dragon_tingle_statue_owned
+cmpwi r3, 4
+beq check_forbidden_tingle_statue_owned
+cmpwi r3, 5
+beq check_goddess_tingle_statue_owned
+cmpwi r3, 6
+beq check_earth_tingle_statue_owned
+cmpwi r3, 7
+beq check_wind_tingle_statue_owned
+b check_tingle_statue_owned_invalid
+
+check_dragon_tingle_statue_owned:
+li r4, 0x6A04 ; Unused event bit
+b check_tingle_statue_owned_event_bit
+
+check_forbidden_tingle_statue_owned:
+li r4, 0x6A08 ; Unused event bit
+b check_tingle_statue_owned_event_bit
+
+check_goddess_tingle_statue_owned:
+li r4, 0x6A10 ; Unused event bit
+b check_tingle_statue_owned_event_bit
+
+check_earth_tingle_statue_owned:
+li r4, 0x6A20 ; Unused event bit
+b check_tingle_statue_owned_event_bit
+
+check_wind_tingle_statue_owned:
+li r4, 0x6A40 ; Unused event bit
+
+check_tingle_statue_owned_event_bit:
+lis r3, 0x803C522C@ha
+addi r3, r3, 0x803C522C@l
+bl isEventBit__11dSv_event_cFUs
+b check_tingle_statue_owned_end
+
+check_tingle_statue_owned_invalid:
+; If the function call was somehow invalid, return false.
+li r3, 0
+
+check_tingle_statue_owned_end:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
+; Manually animate rainbow rupees to cycle through all other rupee colors.
+; In order to avoid an abrupt change from silver to green when it loops, we make the animation play forward and then backwards before looping, so it's always a smooth transition.
+.global check_animate_rainbow_rupee_color
+check_animate_rainbow_rupee_color:
+
+; Check if the color for this rupee specified in the item resources is 7 (originally unused, we use it as a marker to separate the rainbow rupee from other color rupees).
+cmpwi r0, 7
+beq animate_rainbow_rupee_color
+
+; If it's not the rainbow rupee, replace the line of code we overwrote to jump here, and then return to the regular code for normal rupees.
+lfd f1, -0x5DF0 (rtoc)
+b 0x800F93F8
+
+animate_rainbow_rupee_color:
+
+; If it is the rainbow rupee, we need to increment the current keyframe (a float) by certain value every frame.
+; (Note: The way this is coded would increase it by this value multiplied by the number of rainbow rupees being drawn. This is fine since there's only one rainbow rupee but would cause issues if we placed multiple of them. Would need to find a different place to increment the keyframe in that case, somewhere only called once per frame.)
+lis r5, rainbow_rupee_keyframe@ha
+addi r5, r5, rainbow_rupee_keyframe@l
+lfs f1, 0 (r5) ; Read current keyframe
+lfs f0, 4 (r5) ; Read amount to add to keyframe per frame
+fadds f1, f1, f0 ; Increase the keyframe value
+
+lfs f0, 8 (r5) ; Read the maximum keyframe value
+fcmpo cr0,f1,f0
+; If we're less than the max we don't need to reset the value
+blt store_rainbow_rupee_keyframe_value
+
+; If we're greater than the max, reset the current keyframe to the minimum.
+; The minimum is actually the maximum negated. This is to signify that we're playing the animation backwards.
+lfs f1, 0xC (r5)
+
+store_rainbow_rupee_keyframe_value:
+stfs f1, 0 (r5) ; Store the new keyframe value back
+
+; Take the absolute value of the keyframe. So instead of going from -6 to +6, the value we pass as the actual keyframe goes from 6 to 0 to 6.
+fabs f1, f1
+
+b 0x800F9410
+
+.global rainbow_rupee_keyframe
+rainbow_rupee_keyframe:
+.float 0.0 ; Current keyframe, acts as a global variable modified every frame
+.float 0.15 ; Amount to increment keyframe by every frame a rainbow rupee is being drawn
+.float 6.0 ; Max keyframe, when it should loop
+.float -6.0 ; Minimum keyframe
+
+
+
 
 .close

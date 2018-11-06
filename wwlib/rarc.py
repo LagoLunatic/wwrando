@@ -21,6 +21,8 @@ class RARC:
     
     data = self.data
     
+    self.magic = read_str(data, 0, 4)
+    assert self.magic == "RARC"
     self.size = read_u32(data, 4)
     self.file_data_list_offset = read_u32(data, 0xC) + 0x20
     self.file_data_total_size = read_u32(data, 0x10)
@@ -142,7 +144,7 @@ class RARC:
     
     file_entry = self.get_file_entry(file_name)
     if file_entry is None:
-      raise Exception("Could not find file: %s" % file_name)
+      return None
     
     if file_name.endswith(".dzs"):
       dzx = DZx(file_entry)
@@ -239,6 +241,8 @@ class FileEntry:
       data_offset_or_node_index = self.node_index
     else:
       data_offset_or_node_index = self.data_offset
+    
+    self.data_size = data_len(self.data)
     
     write_u16(rarc_data, self.entry_offset+0x2, self.name_hash)
     write_u32(rarc_data, self.entry_offset+0x4, type_and_name_offset)

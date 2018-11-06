@@ -74,6 +74,10 @@ OPTIONS = OrderedDict([
     "progression_misc",
     "Miscellaneous locations that don't fit into any of the above categories (outdoors chests, pig, wind shrine, Cyclos etc).<br><u>If this is not checked, they will still be randomized</u>, but will only contain optional items you don't need to beat the game."
   ),
+  (
+    "progression_tingle_chests",
+    "Tingle Chests that are hidden in dungeons and must be bombed to make them appear. (2 in DRC, 1 each in FW, TotG, ET, and WT).<br><u>If this is not checked, they will still be randomized</u>, but will only contain optional items you don't need to beat the game."
+  ),
   
   
   (
@@ -115,7 +119,19 @@ OPTIONS = OrderedDict([
   ),
   (
     "generate_spoiler_log",
-    "Generate a text file that lists the location of every single item for this seed.\nNote that whether this is checked or not affects where items are placed in this seed."
+    "Generate a text file that lists the location of every single item for this seed. (This also changes where items are placed in this seed.)<br><u>Generating a spoiler log is highly recommended even if you don't intend to use it</u>, just in case you get completely stuck."
+  ),
+  (
+    "sword_mode",
+    "Controls whether you start with the Hero's Sword, the Hero's Sword is randomized, or if there are no swords in the entire game.\nSwordless and Randomized Sword are challenge modes, not recommended for your first run."
+  ),
+  (
+    "skip_rematch_bosses",
+    "Removes the door in Ganon's Tower that only unlocks when you defeat the rematch versions of Gohma, Kalle Demos, Jalhalla, and Molgera."
+  ),
+  (
+    "invert_camera_x_axis",
+    "Inverts the horizontal axis of camera movement.",
   ),
   
   (
@@ -129,6 +145,7 @@ OPTIONS = OrderedDict([
 ])
 
 NON_PERMALINK_OPTIONS = [
+  "invert_camera_x_axis",
   "custom_player_model",
   "player_in_casual_clothes",
 ]

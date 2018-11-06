@@ -1,11 +1,20 @@
 
 from zipfile import ZipFile
 
-from randomizer import VERSION
+from randomizer import VERSION_WITHOUT_COMMIT
 
 base_name = "Wind Waker Randomizer"
-base_name_with_version = base_name + " " + VERSION
-zip_name = base_name_with_version.replace(" ", "_") + ".zip"
+base_name_with_version = base_name + " " + VERSION_WITHOUT_COMMIT
+
+import struct
+if (struct.calcsize("P") * 8) == 64:
+  base_name_with_version += "_64bit"
+  base_zip_name = base_name_with_version
+else:
+  base_name_with_version += "_32bit"
+  base_zip_name = base_name_with_version
+
+zip_name = base_zip_name.replace(" ", "_") + ".zip"
 
 with ZipFile("./dist/" + zip_name, "w") as zip:
   zip.write("./dist/%s.exe" % base_name_with_version, arcname="%s.exe" % base_name)

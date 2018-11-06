@@ -5,6 +5,7 @@ import yaml
 from collections import OrderedDict
 from io import BytesIO
 import glob
+from PIL import Image
 
 from fs_helpers import *
 from wwlib import texture_utils
@@ -13,27 +14,33 @@ from paths import ASSETS_PATH
 VANILLA_LINK_METADATA = {
   "hero_custom_colors": OrderedDict([
     ("Hair",  [255, 238, 16]),
+    ("Skin", [0xF6, 0xDA, 0x9C]),
     ("Shirt", [90, 178, 74]),
     ("Undershirt", [172, 226, 65]),
     ("Pants", [255, 255, 255]),
   ]),
   "casual_custom_colors": OrderedDict([
     ("Hair",  [255, 238, 16]),
+    ("Skin", [0xF6, 0xDA, 0x9C]),
     ("Shirt", [74, 117, 172]),
     ("Pants", [255, 161, 0]),
   ]),
-  "hero_color_mask_paths": OrderedDict([
-    ("Hair", os.path.join(ASSETS_PATH,  "link_hero_hair_mask.png")),
-    ("Shirt", os.path.join(ASSETS_PATH, "link_hero_shirt_mask.png")),
-    ("Undershirt", os.path.join(ASSETS_PATH, "link_hero_undershirt_mask.png")),
-    ("Pants", os.path.join(ASSETS_PATH, "link_hero_pants_mask.png")),
-  ]),
-  "casual_color_mask_paths": OrderedDict([
-    ("Hair", os.path.join(ASSETS_PATH,  "link_casual_hair_mask.png")),
-    ("Shirt", os.path.join(ASSETS_PATH, "link_casual_shirt_mask.png")),
-    ("Pants", os.path.join(ASSETS_PATH, "link_casual_pants_mask.png")),
-  ]),
+  "hero_color_mask_paths": OrderedDict(),
+  "casual_color_mask_paths": OrderedDict(),
+  "preview_hero": os.path.join(ASSETS_PATH, "link_preview", "preview_hero.png"),
+  "preview_casual": os.path.join(ASSETS_PATH, "link_preview", "preview_casual.png"),
+  "preview_hero_color_mask_paths": OrderedDict(),
+  "preview_casual_color_mask_paths": OrderedDict(),
+  "hands_hero_color_mask_path": os.path.join(ASSETS_PATH, "link_color_masks", "hands_hero.png"),
+  "hands_casual_color_mask_path": os.path.join(ASSETS_PATH, "link_color_masks", "hands_casual.png"),
 }
+
+for prefix in ["hero", "casual"]:
+  for color_name in VANILLA_LINK_METADATA["%s_custom_colors" % prefix]:
+    mask_path = os.path.join(ASSETS_PATH, "link_color_masks", "%s_%s.png" % (prefix, color_name))
+    VANILLA_LINK_METADATA["%s_color_mask_paths" % prefix][color_name] = mask_path
+    preview_mask_path = os.path.join(ASSETS_PATH, "link_preview", "preview_%s_%s.png" % (prefix, color_name))
+    VANILLA_LINK_METADATA["preview_%s_color_mask_paths" % prefix][color_name] = preview_mask_path
 
 def get_model_metadata(custom_model_name):
   if custom_model_name == "Link":
@@ -45,30 +52,54 @@ def get_model_metadata(custom_model_name):
     if not os.path.isfile(metadata_path):
       return {}
     
-    with open(metadata_path) as f:
-      metadata = yaml.load(f, YamlOrderedDictLoader)
+    try:
+      with open(metadata_path) as f:
+        metadata = yaml.load(f, YamlOrderedDictLoader)
+    except Exception as e:
+      error_message = str(e)
+      return {
+        "error_message": error_message,
+      }
     
-    hero_color_mask_paths = OrderedDict()
-    casual_color_mask_paths = OrderedDict()
+    metadata["preview_hero"] = os.path.join("models", custom_model_name, "preview", "preview_hero.png")
+    metadata["preview_casual"] = os.path.join("models", custom_model_name, "preview", "preview_casual.png")
+    metadata["hands_hero_color_mask_path"] = os.path.join("models", custom_model_name, "color_masks", "hands_hero.png")
+    metadata["hands_casual_color_mask_path"] = os.path.join("models", custom_model_name, "color_masks", "hands_casual.png")
+    
+    metadata["hero_color_mask_paths"] = OrderedDict()
+    metadata["casual_color_mask_paths"] = OrderedDict()
+    metadata["preview_hero_color_mask_paths"] = OrderedDict()
+    metadata["preview_casual_color_mask_paths"] = OrderedDict()
     
     for key, value in metadata.items():
       if key in ["hero_custom_colors", "casual_custom_colors"]:
+        prefix = key.split("_")[0]
+        
         for custom_color_name, hex_color in value.items():
-          hex_color = str(hex_color)
-          match = re.search(r"^([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})$", hex_color, re.IGNORECASE)
+          if isinstance(hex_color, int):
+            hex_color_string = "%06d" % hex_color
+          elif isinstance(hex_color, str):
+            hex_color_string = hex_color
+          else:
+            error_message = "Custom color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (custom_color_name, hex_color)
+            return {
+              "error_message": error_message,
+            }
+          
+          match = re.search(r"^([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})$", hex_color_string, re.IGNORECASE)
           if match:
             r, g, b = int(match.group(1), 16), int(match.group(2), 16), int(match.group(3), 16)
             value[custom_color_name] = [r, g, b]
-          
-          if key == "casual_custom_colors":
-            path = os.path.join("models", custom_model_name, "color_masks", "casual_%s.png" % custom_color_name)
-            casual_color_mask_paths[custom_color_name] = path
           else:
-            path = os.path.join("models", custom_model_name, "color_masks", "hero_%s.png" % custom_color_name)
-            hero_color_mask_paths[custom_color_name] = path
-    
-    metadata["hero_color_mask_paths"] = hero_color_mask_paths
-    metadata["casual_color_mask_paths"] = casual_color_mask_paths
+            error_message = "Custom color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (custom_color_name, hex_color_string)
+            return {
+              "error_message": error_message,
+            }
+          
+          mask_path = os.path.join("models", custom_model_name, "color_masks", "%s_%s.png" % (prefix, custom_color_name))
+          metadata["%s_color_mask_paths" % prefix][custom_color_name] = mask_path
+          preview_mask_path = os.path.join("models", custom_model_name, "preview", "preview_%s_%s.png" % (prefix, custom_color_name))
+          metadata["preview_%s_color_mask_paths" % prefix][custom_color_name] = preview_mask_path
     
     return metadata
 
@@ -87,17 +118,16 @@ def replace_link_model(self):
   if custom_model_name == "Link":
     return
   
-  if custom_model_name == "Random":
+  if custom_model_name == "Random" or custom_model_name == "Random (exclude Link)":
     custom_model_names = get_all_custom_model_names()
     if not custom_model_names:
       raise Exception("No custom models to randomly choose from in the /models folder.")
     
-    custom_model_names.append(None) # Dummy entry to represent not changing Link's model
+    if custom_model_name == "Random":
+      custom_model_names.append(None) # Dummy entry to represent not changing Link's model
     
     temp_rng = self.get_new_rng()
     custom_model_name = temp_rng.choice(custom_model_names)
-    print(custom_model_names)
-    print(custom_model_name)
     
     if custom_model_name == None:
       return
@@ -122,6 +152,22 @@ def replace_link_model(self):
       reflection_image_data = BytesIO(f.read())
     always_arc = self.get_arc("files/res/Object/Always.arc")
     always_arc.get_file_entry("shmref.bti").data = reflection_image_data
+  
+  # Replace voice sound effects.
+  jaiinit_aaf_path = custom_model_path + "sound/JaiInit.aaf"
+  voice_aw_path = custom_model_path + "sound/voice_0.aw"
+  ganont_aw_path = custom_model_path + "sound/GanonT_0.aw"
+  if os.path.isfile(jaiinit_aaf_path) and os.path.isfile(voice_aw_path):
+    with open(jaiinit_aaf_path, "rb") as f:
+      jaiinit_aaf_data = BytesIO(f.read())
+    self.replace_raw_file("files/Audiores/JaiInit.aaf", jaiinit_aaf_data)
+    with open(voice_aw_path, "rb") as f:
+      voice_aw_data = BytesIO(f.read())
+    self.replace_raw_file("files/Audiores/Banks/voice_0.aw", voice_aw_data)
+    if os.path.isfile(ganont_aw_path):
+      with open(ganont_aw_path, "rb") as f:
+        ganont_aw_data = BytesIO(f.read())
+      self.replace_raw_file("files/Audiores/Banks/GanonT_0.aw", ganont_aw_data)
 
 def change_player_clothes_color(self):
   custom_model_metadata = get_model_metadata(self.custom_model_name)
@@ -145,6 +191,10 @@ def change_player_clothes_color(self):
   replaced_any = False
   custom_colors = custom_model_metadata.get(prefix + "_custom_colors", {})
   has_colored_eyebrows = custom_model_metadata.get("has_colored_eyebrows", False)
+  hands_color_name = custom_model_metadata.get(prefix + "_hands_color_name", "Skin")
+  mouth_color_name = custom_model_metadata.get(prefix + "_mouth_color_name", "Skin")
+  eyebrow_color_name = custom_model_metadata.get(prefix + "_eyebrow_color_name", "Hair")
+  casual_hair_color_name = custom_model_metadata.get("casual_hair_color_name", "Hair")
   for custom_color_basename, base_color in custom_colors.items():
     custom_color = self.options.get("custom_colors", {}).get(custom_color_basename, None)
     if custom_color is None:
@@ -156,22 +206,22 @@ def change_player_clothes_color(self):
     
     mask_path = custom_model_metadata[prefix + "_color_mask_paths"][custom_color_basename]
     
+    check_valid_mask_path(mask_path)
+    
     link_main_image = texture_utils.color_exchange(link_main_image, base_color, custom_color, mask_path=mask_path)
     replaced_any = True
     
     # Recolor the eyebrows.
-    if has_colored_eyebrows and custom_color_basename == "Hair":
+    if has_colored_eyebrows and custom_color_basename == eyebrow_color_name:
       for i in range(1, 6+1):
-        textures = link_main_model.tex1.textures_by_name["mayuh.%d" % i]
-        eyebrow_image = textures[0].render()
+        eyebrow_textures = link_main_model.tex1.textures_by_name["mayuh.%d" % i]
+        eyebrow_image = eyebrow_textures[0].render()
         eyebrow_image = texture_utils.color_exchange(eyebrow_image, base_color, custom_color)
-        for texture in textures:
-          texture.image_format = 6
-          texture.palette_format = 0
-          texture.replace_image(eyebrow_image)
+        for eyebrow_texture in eyebrow_textures:
+          eyebrow_texture.replace_image(eyebrow_image)
     
     # Recolor the back hair for casual Link.
-    if is_casual and custom_color_basename == "Hair":
+    if is_casual and custom_color_basename == casual_hair_color_name:
       link_hair_model = link_arc.get_file("katsura.bdl")
       link_hair_textures = link_hair_model.tex1.textures_by_name["katsuraS3TC"]
       first_texture = link_hair_textures[0]
@@ -179,34 +229,86 @@ def change_player_clothes_color(self):
       
       back_hair_image.paste(custom_color, [0, 0, 8, 8])
       
-      for texture in link_hair_textures:
-        if texture.image_format == 0xE:
-          texture.image_format = 9
-          texture.palette_format = 1
-        texture.replace_image(back_hair_image)
+      for link_hair_texture in link_hair_textures:
+        link_hair_texture.replace_image(back_hair_image)
       link_hair_model.save_changes()
+    
+    # Recolor the mouth.
+    if custom_color_basename == mouth_color_name:
+      for i in range(1, 9+1):
+        mouth_textures = link_main_model.tex1.textures_by_name["mouthS3TC.%d" % i]
+        mouth_image = mouth_textures[0].render()
+        mouth_image = texture_utils.color_exchange(mouth_image, base_color, custom_color)
+        for mouth_texture in mouth_textures:
+          mouth_texture.replace_image(mouth_image)
+    
+    # Recolor the hands.
+    if custom_color_basename == hands_color_name:
+      hands_model = link_arc.get_file("hands.bdl")
+      hands_textures = hands_model.tex1.textures_by_name["handsS3TC"]
+      hands_image = hands_textures[0].render()
+      
+      hands_mask_path = custom_model_metadata["hands_" + prefix + "_color_mask_path"]
+      if os.path.isfile(hands_mask_path):
+        hands_image = texture_utils.color_exchange(hands_image, base_color, custom_color, mask_path=hands_mask_path)
+      else:
+        hands_image = texture_utils.color_exchange(hands_image, base_color, custom_color)
+      
+      for hands_texture in hands_textures:
+        hands_texture.replace_image(hands_image)
+      hands_model.save_changes()
   
   if not replaced_any:
     return
   
   for texture in link_main_textures:
-    is_cmpr = (texture.image_format == 0xE)
-    try:
-      if is_cmpr:
-        texture.image_format = 9
-        texture.palette_format = 1
-      texture.replace_image(link_main_image)
-    except texture_utils.TooManyColorsError:
-      if is_cmpr:
-        texture.image_format = 4
-        texture.palette_format = 0
-      texture.replace_image(link_main_image)
+    texture.replace_image(link_main_image)
     
     if is_casual:
       texture.save_changes()
   
   link_main_model.save_changes()
 
+def get_model_preview_image(custom_model_name, prefix, selected_colors):
+  custom_model_metadata = get_model_metadata(custom_model_name)
+  
+  if "preview_hero" not in custom_model_metadata:
+    return None
+  
+  preview_image_path = custom_model_metadata["preview_%s" % prefix]
+  if not os.path.isfile(preview_image_path):
+    return None
+  
+  preview_image = Image.open(preview_image_path)
+  
+  custom_colors = custom_model_metadata.get(prefix + "_custom_colors", {})
+  for custom_color_basename, base_color in custom_colors.items():
+    custom_color = selected_colors.get(custom_color_basename, None)
+    if custom_color is None:
+      continue
+    custom_color = tuple(custom_color)
+    base_color = tuple(base_color)
+    if custom_color == base_color:
+      continue
+    
+    mask_path = custom_model_metadata["preview_" + prefix + "_color_mask_paths"][custom_color_basename]
+    check_valid_mask_path(mask_path)
+    
+    preview_image = texture_utils.color_exchange(preview_image, base_color, custom_color, mask_path=mask_path)
+  
+  return preview_image
+
+def check_valid_mask_path(mask_path):
+  if not os.path.isfile(mask_path):
+    raise Exception("Color mask not found: %s" % mask_path)
+  given_filename = os.path.basename(mask_path)
+  
+  mask_dir = os.path.dirname(mask_path)
+  files_in_mask_folder = os.listdir(mask_dir)
+  true_filename = next(filename for filename in files_in_mask_folder if filename.lower() == given_filename.lower())
+  
+  if given_filename != true_filename:
+    raise Exception("Color mask path's actual capitalization differs from the capitalization given in metadata.txt.\nGiven: %s, actual: %s" % (given_filename, true_filename))
 
 class YamlOrderedDictLoader(yaml.SafeLoader):
   pass

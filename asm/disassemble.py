@@ -9,6 +9,9 @@ from wwlib.yaz0_decomp import Yaz0Decompressor
 from wwlib.rel import REL
 
 def disassemble_all_code(self):
+  if not os.path.isfile(r"C:\devkitPro\devkitPPC\bin\powerpc-eabi-objdump.exe"):
+    raise Exception(r"Failed to disassemble code: Could not find devkitPPC. devkitPPC should be installed to: C:\devkitPro\devkitPPC")
+  
   rels_arc = self.get_arc("files/RELS.arc")
   out_dir = os.path.join(self.randomized_output_folder, "disassemble")
   if not os.path.isdir(out_dir):

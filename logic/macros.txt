@@ -23,6 +23,7 @@ Can Aim Mirror Shield:
   )
   # You need to be holding an item in your hand in order to aim your shield around. Otherwise you can only aim it behind you at an angle or straight in front of you.
   # (Empty Bottle also works, but you would need to use the contents first so not in the logic.)
+  # (Picto Box also works, but is not included as it would be a weirder and less intuitive thing to have to use to aim the shield as you normally wouldn't need to use picto box to solve dungeon puzzles.)
 Can Move Boulders:
   Bombs | Power Bracelets
 Can Defeat Door Flowers:
@@ -67,7 +68,8 @@ All 8 Triforce Shards:
   & Triforce Shard 8
 
 Tingle Tuner Bombs:
-  Tingle Tuner & TODO
+  Bombs
+  # Note: If an option to require Tingle Tuner is added, this macro should have Bombs replaced with Tingle Tuner when that option is on.
 
 Can Access Dungeon Entrance On Dragon Roost Island:
   Nothing
@@ -112,46 +114,84 @@ Can Get Inside Forsaken Fortress:
   # Even though you can kill Phantom Ganon without the Skull Hammer, that only lets you access the one chest he spawns.
   # You can't access the other chests/boss without Skull Hammer.
 Can Reach and Defeat Phantom Ganon:
+  Can Get Past Forsaken Fortress Gate
+  & Can Defeat Phantom Ganon
+Can Defeat Phantom Ganon:
+  Can Defeat Phantom Ganon Outside Swordless
+Can Defeat Phantom Ganon Outside Swordless:
+  Any Master Sword
   # You need any form of the Master Sword to damage Phantom Ganon.
   # Note that his energy balls can be reflected with either the Master Sword or an empty bottle, but you still need the Master Sword to deal damage.
-  Can Get Past Forsaken Fortress Gate
-  & Any Master Sword
+Can Defeat Phantom Ganon in Swordless:
+  Skull Hammer
+  # This macro is swapped out in place of the above one in swordless mode.
+  # Swordless switches Phantom Ganon's damage vulnerability to be for Skull Hammer instead of the Master Sword.
 
 Can Access Hyrule:
+  Can Access Hyrule Outside Swordless
+Can Access Hyrule Outside Swordless:
   Full Power Master Sword
   & All 8 Triforce Shards
+Can Access Hyrule in Swordless:
+  All 8 Triforce Shards
+  # This macro is swapped out in place of the above one in swordless mode.
 Can Access Ganon's Tower:
   Can Access Hyrule
   & (Hookshot | Deku Leaf)
+
 Can Complete Memory Dragon Roost Cavern and Gohma:
-  Grappling Hook & Deku Leaf
+  Grappling Hook
+  & Deku Leaf
+  & Can Defeat Gohma
 Can Complete Memory Forbidden Woods and Kalle Demos:
-  Deku Leaf & Boomerang
+  Deku Leaf
+  & Can Defeat Kalle Demos
 Can Complete Memory Earth Temple and Jalhalla:
-  (Mirror Shield | Light Arrows)
-  & Power Bracelets
+  Can Defeat Jalhalla
   # Mirror Shield is not needed in the hallway leading up to Jalhalla because you can lure the Purple Chuchus into the light.
   # It's not needed for Jalhalla because Light Arrows work in their place.
 Can Complete Memory Wind Temple and Molgera:
-  Deku Leaf & Hookshot
+  Deku Leaf
+  & Can Defeat Molgera
   # You're intended to use iron boots here, but you can simply fly across the gap with deku leaf instead. No damage boosting off spikes or leaf pumping required.
-Can Reach Ganon's Tower Maze:
-  Can Access Ganon's Tower
-  & Can Complete Memory Dragon Roost Cavern and Gohma
+Can Complete All Memory Dungeons and Bosses:
+  Can Complete Memory Dragon Roost Cavern and Gohma
   & Can Complete Memory Forbidden Woods and Kalle Demos
   & Can Complete Memory Earth Temple and Jalhalla
   & Can Complete Memory Wind Temple and Molgera
+
+Can Unlock Ganon's Tower Four Boss Door:
+  # This macro is set to Nothing when the option to skip rematch bosses is enabled.
+  Can Complete All Memory Dungeons and Bosses
+Can Reach Ganon's Tower Phantom Ganon Room:
+  Can Access Ganon's Tower
+  & Can Unlock Ganon's Tower Four Boss Door
 Can Reach and Defeat Puppet Ganon:
-  Can Reach Ganon's Tower Maze
-  & Boomerang
+  Can Reach Ganon's Tower Phantom Ganon Room
   & Light Arrows
+  & Can Defeat Moblins
+  & Can Defeat Darknuts
+  & Can Defeat Puppet Ganon
+Can Defeat Puppet Ganon:
+  Boomerang
+  # Boomerang isn't strictly necessary to defeat Puppet Ganon but makes things significantly easier, both to cut down Puppet Ganon's strings and to defeat the keese who drop refills.
 Can Reach and Defeat Ganondorf:
   Can Reach and Defeat Puppet Ganon
   & Grappling Hook
   & Hookshot
+  & Can Defeat Ganondorf
+Can Defeat Ganondorf:
+  Can Defeat Ganondorf Outside Swordless
+Can Defeat Ganondorf Outside Swordless:
+  Hero's Sword
   & Hero's Shield
+  # You need a sword to kill Ganondorf, but it doesn't need to be the Master Sword.
   # You need a shield to reflect Zelda's light arrows, but it doesn't need to be Mirror Shield.
   # It doesn't matter if you have the bow or not, Zelda will still get it.
+Can Defeat Ganondorf in Swordless:
+  Hero's Shield
+  # This macro is swapped out in place of the above one in swordless mode.
+  # Swordless gives you a sword temporarily during the Ganondorf fight, so you don't need to have found a sword item.
 
 Rescued Aryll:
   Nothing # We set the event bit for having rescued Aryll by default.
@@ -163,17 +203,17 @@ Can Get Fairies:
 Can Farm Knight's Crests:
   Grappling Hook & Spoils Bag
   & (
-    (Can Access Other Location "Ice Ring Isle - Inner Cave - Chest" & Hero's Sword)
-    | (Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30" & Hero's Sword)
-    | (Can Access Other Location "Earth Temple - Big Key Chest" & Hero's Sword)
-    | (Can Access Other Location "Shark Island - Cave" & Hero's Sword)
+    (Can Access Other Location "Ice Ring Isle - Inner Cave - Chest")
+    | (Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30")
+    | (Can Access Other Location "Earth Temple - Big Key Chest" & Can Defeat Darknuts Easily)
+    | (Can Access Other Location "Shark Island - Cave")
   )
   # There are respawning Darknuts in:
   # * The inner cave of Ice Ring Isle.
   # * Floor 27 (and below) of Savage Labyrinth. (We use the Floor 30 requirements here since they're the same as Floor 27.)
   # * The big key room of Earth Temple.
   # * Shark Island's cave.
-  # Note: The Ice Ring, Savage, and Shark Island ones have enemies with droppable weapons in the same room as the Darknut, so in swordless you could trick the Darknut into attacking the other enemies, steal their weapon, and use it to kill the Darknut. But this would be too tedious to do to farm a lot of Knight's Crests, so it's not in the logic.
+  # Note: The Ice Ring, Savage, and Shark Island ones have enemies with droppable weapons in the same room as the Darknut, so in swordless you can trick the Darknut into attacking the other enemies, steal their weapon, and use it to kill the Darknut.
 Can Farm Joy Pendants:
   Spoils Bag & Grappling Hook
   # Dropped by Bokoblins, which are everywhere.
@@ -194,6 +234,8 @@ Can Defeat Green Bokoblins:
   | Skull Hammer
 Can Defeat Blue Bokoblins:
   Can Defeat Green Bokoblins
+Can Defeat Pink Bokoblins:
+  Can Defeat Green Bokoblins
 Can Defeat Moblins:
   Hero's Sword
   | Hero's Bow
@@ -203,8 +245,13 @@ Can Defeat Moblins:
 Can Defeat Darknuts:
   Hero's Sword
   | Light Arrows
-  # Skull Hammer also works, but is tricky to do without taking lots of damage, so it's not in the logic.
+  | Skull Hammer
+  # Removing their armor with Skull Hammer is tricky.
   # The most consistent way with Skull Hammer is to run up to a Darknut, do a spin attack to hit its armor, roll away to dodge its attack, roll back in and do another spin attack, and repeat until the armor has been broken.
+  # Another way is to circle around the Darknut counterclockwise without locking onto it and wait for it to attack. As soon as it attacks, use the hammer to attack its back and its armor will fall off in one hit.
+Can Defeat Darknuts Easily:
+  Hero's Sword
+  | Light Arrows
 Can Defeat Miniblins:
   Hero's Sword
   | Grappling Hook
@@ -213,6 +260,12 @@ Can Defeat Miniblins:
   | Bombs
   | Skull Hammer
   # Grappling Hook does no damage for the first few hits on each Miniblin. But once the Miniblin runs out of hearts and rupees to give you, the Grappling Hook starts doing damage and can kill it.
+Can Defeat Miniblins Easily:
+  Hero's Sword
+  | Boomerang
+  | Hero's Bow
+  | Bombs
+  | Skull Hammer
 Can Defeat Red ChuChus:
   Hero's Sword
   | Skull Hammer
@@ -250,6 +303,20 @@ Can Defeat Magtails:
   | Bombs
   | Grappling Hook
   | Hero's Bow
+Can Stun Magtails:
+  Hero's Sword
+  | Skull Hammer
+  | Boomerang
+  | Hookshot
+  | Bombs
+  | Grappling Hook
+  | Hero's Bow
+Can Defeat Kargarocs:
+  Hero's Sword
+  | Boomerang
+  | Hero's Bow
+  | Skull Hammer
+  | Bombs
 Can Defeat Bombchus:
   Hero's Sword
   | Grappling Hook
@@ -260,6 +327,13 @@ Can Defeat Peahats:
   Boomerang
   | (Hookshot & Hero's Sword)
   | (Deku Leaf & Hero's Sword)
+  | Skull Hammer
+  | Hero's Bow
+  | Bombs
+Can Remove Peahat Armor:
+  Boomerang
+  | Hookshot
+  | Deku Leaf
   | Skull Hammer
   | Hero's Bow
   | Bombs
@@ -349,8 +423,15 @@ Can Defeat Stalfos:
 Can Defeat Floormasters:
   Hero's Sword
   | Hero's Bow
-  | Bombs
-  | Skull Hammer
+  # Skull Hammer also works, but because of the wonky hitbox on floormasters there's a very high chance you'll miss and get taken back to the dungeon entrance, so it's not in the logic.
+  # Bombs also work, but it's very annoying to hit them since they throw the bombs back at you. They also go back in the ground becoming invulnerable if you get too far away.
+  # Hero's Bow would only be an issue if you run out of arrows when you need to kill a ton of Floormasters - aka the Earth Temple foggy Floormaster room. But thankfully that room has tons of skulls that drop arrow refills.
+Can Defeat Morths:
+  Hero's Sword
+  | Boomerang
+  | Hero's Bow
+  | Hookshot
+  # Skull Hammer technically works but it's extremely annoying to hit them with. Same with bombs.
 
 Can Defeat Gohma:
   Grappling Hook
@@ -374,8 +455,13 @@ Can Defeat Molgera:
   Hookshot
   & (
     Hero's Sword
-    | TODO
+    | Hero's Bow
+    | Boomerang
+    | Grappling Hook
+    | Skull Hammer
+    | Bombs
   )
+  # Bombs are tricky since you have to repeatedly use hookshot to keep the tongue in place while you wait for the bomb, or you have to aim the hookshot at the bomb to set it off instantly.
 
 Can Destroy Cannons:
   Bombs
@@ -400,6 +486,14 @@ Can Cut Grass:
   | Skull Hammer
   | Boomerang
   | Bombs
+Can Sword Fight with Orca:
+  Can Sword Fight with Orca Outside Swordless
+Can Sword Fight with Orca Outside Swordless:
+  Hero's Sword
+Can Sword Fight with Orca in Swordless:
+  Nothing
+  # This macro is swapped out in place of the above one in swordless mode.
+  # Swordless gives you a sword temporarily while in Orca's house, so you don't need to have found a sword item.
 
 # The below macros are used when charts are not randomized.
 # When charts are randomized, these macros are shuffled around by the randomizer logic.
