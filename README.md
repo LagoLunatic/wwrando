@@ -43,11 +43,21 @@ CryZe (event flag documentation)
 
 ### Running the randomizer from source
 
-If you want to run the latest development/beta version of the randomizer from source, follow these instructions:  
-* Clone this repository in git by running this in a command prompt: `git clone https://github.com/LagoLunatic/wwrando.git`  
-* Download and install Python 3.6.6 from here: https://www.python.org/downloads/release/python-366/ ("Windows x86-64 executable installer" is the one you want if you're on Windows)  
-* Open the wwrando folder in a command prompt and install dependencies by running: `py -3.6 -m pip install -r requirements.txt`  
-* Then run the randomizer with: `py -3.6 wwrando.py`  
+If you want to run the latest development/beta version of the randomizer from source, follow the instructions below.
+
+Clone this repository by installing git and running this in a command prompt:  
+`git clone https://github.com/LagoLunatic/wwrando.git`  
+
+Download and install Python 3.6.6 from here: https://www.python.org/downloads/release/python-366/  
+"Windows x86-64 executable installer" is the one you want if you're on Windows, "macOS 64-bit installer" if you're on Mac.  
+
+Open the wwrando folder in a command prompt and install dependencies by running:  
+`py -3.6 -m pip install -r requirements.txt` (on Windows)  
+`python3 -m pip install -r requirements.txt` (on Mac)  
+
+Then run the randomizer with:  
+`py -3.6 wwrando.py` (on Windows)  
+`python3 wwrando.py` (on Mac)  
 
 In addition, follow this if you want to use PyInstaller to build a distributable version of the randomizer:  
 * Install one of PyInstaller's dependencies manually: `py -3.6 -m pip install pywin32-ctypes==0.2.0`  
