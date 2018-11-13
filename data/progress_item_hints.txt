@@ -94,3 +94,13 @@ Treasure Chart:
   a blue map
 Triforce Chart:
   a purple map
+Dragon Tingle Statue:
+  a statue of a fairy
+Forbidden Tingle Statue:
+  a statue of a fairy
+Goddess Tingle Statue:
+  a statue of a fairy
+Earth Tingle Statue:
+  a statue of a fairy
+Wind Tingle Statue:
+  a statue of a fairy
