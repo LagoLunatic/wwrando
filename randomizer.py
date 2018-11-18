@@ -38,6 +38,8 @@ except ImportError:
   if os.path.isfile(git_commit_hash_file):
     with open(git_commit_hash_file, "r") as f:
       VERSION += "_" + f.read()[:7]
+  else:
+    VERSION += "_NOGIT"
 
 class TooFewProgressionLocationsError(Exception):
   pass
