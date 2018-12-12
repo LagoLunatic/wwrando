@@ -127,6 +127,8 @@ def randomize_progression_items(self):
   
   # Place progress items.
   previously_accessible_undone_locations = []
+  location_weights = {}
+  current_weight = 1
   while self.logic.unplaced_progress_items:
     accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
     
@@ -144,6 +146,13 @@ def randomize_progression_items(self):
         self.logic.set_location_to_item(dungeon_item_location_name, dungeon_item_name)
       
       continue # Redo this loop iteration with the dungeon item locations no longer being considered 'remaining'.
+
+    for location in accessible_undone_locations:
+      if location not in location_weights:
+        location_weights[location] = int(current_weight)
+      elif location_weights[location] > 1:
+        location_weights[location] -= 1;
+    current_weight += 1
     
     possible_items = self.logic.unplaced_progress_items
     
@@ -240,10 +249,7 @@ def randomize_progression_items(self):
       # This way there is still a good chance it will not choose a new location.
       possible_locations_with_weighting = []
       for location_name in possible_locations:
-        if location_name not in previously_accessible_undone_locations:
-          weight = 2
-        else:
-          weight = 1
+        weight = location_weights[location_name]
         possible_locations_with_weighting += [location_name]*weight
       
       location_name = self.rng.choice(possible_locations_with_weighting)
