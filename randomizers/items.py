@@ -149,7 +149,7 @@ def randomize_progression_items(self):
 
     for location in accessible_undone_locations:
       if location not in location_weights:
-        location_weights[location] = int(current_weight)
+        location_weights[location] = current_weight
       elif location_weights[location] > 1:
         location_weights[location] -= 1;
     current_weight += 1
