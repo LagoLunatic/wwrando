@@ -126,7 +126,6 @@ def randomize_progression_items(self):
     raise Exception("No progress locations are accessible at the very start of the game!")
   
   # Place progress items.
-  previously_accessible_undone_locations = []
   location_weights = {}
   current_weight = 1
   while self.logic.unplaced_progress_items:
@@ -254,8 +253,6 @@ def randomize_progression_items(self):
       
       location_name = self.rng.choice(possible_locations_with_weighting)
       self.logic.set_location_to_item(location_name, item_name)
-    
-    previously_accessible_undone_locations = accessible_undone_locations
   
   # Make sure locations that should have dungeon items in them have them properly placed, even if the above logic missed them for some reason.
   for location_name in self.logic.prerandomization_dungeon_item_locations:
