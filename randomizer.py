@@ -23,7 +23,7 @@ import customizer
 from randomizers import items
 from randomizers import charts
 from randomizers import starting_island
-from randomizers import dungeon_entrances
+from randomizers import entrances
 
 with open(os.path.join(RANDO_ROOT_PATH, "version.txt"), "r") as f:
   VERSION = f.read().strip()
@@ -227,7 +227,7 @@ class Randomizer:
       starting_island.randomize_starting_island(self)
     
     if self.options.get("randomize_dungeon_entrances"):
-      dungeon_entrances.randomize_dungeon_entrances(self)
+      entrances.randomize_dungeon_entrances(self)
     
     items.randomize_items(self)
     
