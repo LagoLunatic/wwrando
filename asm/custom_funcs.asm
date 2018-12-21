@@ -1708,6 +1708,105 @@ b 0x8012E3F4 ; Jump to the code that plays the normal item get music
 
 
 
+; Check the ID of the upcoming text command to see if it's a custom one, and runs custom code for it if so.
+.global check_run_new_text_commands
+check_run_new_text_commands:
+clrlwi. r6,r0,24
+bne check_run_new_text_commands_check_failed
+
+lbz r6,3(r3)
+cmplwi r6,0
+bne check_run_new_text_commands_check_failed
+
+lbz r6,4(r3)
+cmplwi r6, 0x4B ; Lowest key counter text command ID
+blt check_run_new_text_commands_check_failed
+cmplwi r6, 0x4F ; Highest key counter text command ID
+bgt check_run_new_text_commands_check_failed
+
+mr r3,r31
+mr r4, r6
+bl exec_curr_num_keys_text_command
+b 0x80034D34 ; Return (to after a text command has been successfully executed)
+
+
+check_run_new_text_commands_check_failed:
+clrlwi r0,r0,24 ; Replace the line we overwrote to jump here
+b 0x80033E78 ; Return (to back inside the code to check what text command should be run)
+
+
+
+
+; Updates the current message string with the number of keys for a certain dungeon.
+.global exec_curr_num_keys_text_command
+exec_curr_num_keys_text_command:
+stwu sp, -0x50 (sp)
+mflr r0
+stw r0, 0x54 (sp)
+stw r31, 0xC (sp)
+mr r31, r3
+
+; Convert the text command ID to the dungeon stage ID.
+; The text command ID ranges from 0x4B-0x4F, for DRC, FW, TotG, ET, and WT.
+; The the dungeon stage IDs for those same 5 dungeons range from 3-7.
+; So just subtract 0x48 to get the right stage ID.
+addi r4, r4, -0x48
+
+
+lis r3, 0x803C53A4@ha ; This value is the stage ID of the current stage
+addi r3, r3, 0x803C53A4@l
+lbz r5, 0 (r3)
+cmpw r5, r4 ; Check if we're currently in the right dungeon for this key
+beq exec_curr_num_keys_text_command_in_correct_dungeon
+
+exec_curr_num_keys_text_command_not_in_correct_dungeon:
+; Read the current number of small keys from that dungeon's stage info.
+lis r3, 0x803C4F88@ha ; List of all stage info
+addi r3, r3, 0x803C4F88@l
+mulli r4, r4, 0x24 ; Use stage ID of the dungeon as the index, each entry in the list is 0x24 bytes long
+add r3, r3, r4
+lbz r4, 0x20 (r3) ; Current number of keys for the correct dungeon
+b exec_curr_num_keys_text_command_after_reading_num_keys
+
+exec_curr_num_keys_text_command_in_correct_dungeon:
+; Read the current number of small keys from the currently loaded dungeon info.
+lis r3, 0x803C5380@ha ; Currently loaded stage info
+addi r3, r3, 0x803C5380@l
+lbz r4, 0x20 (r3) ; Current number of keys for the current dungeon
+
+
+exec_curr_num_keys_text_command_after_reading_num_keys:
+; Convert int to string
+addi r3, r1, 0x1C
+li r5, 0
+bl fopMsgM_int_to_char__FPcib
+
+; Concatenate to one of the main strings
+lwz r3, 0x60(r31)
+addi r4, r1, 0x1C
+bl strcat
+
+; Concatenate to one of the main strings
+lwz r3, 0x68(r31)
+addi r4, r1, 0x1C
+bl strcat
+
+; Increase the offset within the encoded message string to be past the end of this text command
+lwz r4, 0x118(r31)
+addi r4, r4, 5 ; Note that technically, this command length value should be dynamically read from [cmd+1]. But because it's always 5 for the custom commands it doesn't matter and it can be hardcoded instead.
+stw r4, 0x118(r31)
+
+; Note: There are some other things that the vanilla text commands did that are currently not implemented for these custom ones. Such as what appears to be keeping track of the current line length, possibly for word wrapping or text alignment purposes (which aren't necessary for the Key Bag).
+
+lwz r31, 0xC (sp)
+lwz r0, 0x54 (sp)
+mtlr r0
+addi sp, sp, 0x50
+blr
+
+
+
+
 .global generic_on_dungeon_bit
 generic_on_dungeon_bit:
 stwu sp, -0x10 (sp)
@@ -1770,8 +1869,8 @@ lwzu r12, 0x5150 (r3)
 lwz r12, 0xB0 (r12)
 mtctr r12
 bctrl
-lbz r0, 9 (r3) ; Read the stage ID+is dungeon bit
-rlwinm. r0, r0, 0, 31, 31
+lbz r0, 9 (r3) ; Read the byte containing the stage ID+is dungeon bit
+rlwinm. r0, r0, 0, 31, 31 ; Extract the is dungeon bit
 beq generic_small_key_item_get_func_in_non_dungeon_room_of_correct_dungeon
 
 ; If both the stage ID and the is dungeon bit are correct, we can call the normal small key function.

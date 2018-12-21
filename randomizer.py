@@ -295,6 +295,7 @@ class Randomizer:
     tweaks.make_tingle_statue_reward_rupee_rainbow_colored(self)
     tweaks.show_seed_hash_on_name_entry_screen(self)
     tweaks.fix_ghost_ship_chest_crash(self)
+    tweaks.implement_key_bag(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)

@@ -1075,3 +1075,12 @@
 .org 0x800F93F4
   b check_animate_rainbow_rupee_color
 .close
+
+
+
+
+; Checks if the upcoming message text to parse has a custom text command.
+.open "sys/main.dol"
+.org 0x80033E74
+  b check_run_new_text_commands
+.close
