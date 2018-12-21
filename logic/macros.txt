@@ -105,6 +105,99 @@ Can Access Earth Temple:
 Can Access Wind Temple:
   Can Access Dungeon Entrance On Gale Isle
 
+Can Access Secret Cave Entrance on Outset Island:
+  (Can Cut Down Outset Trees & Can Fly With Deku Leaf Outdoors)
+  | Hookshot
+Can Access Secret Cave Entrance on Dragon Roost Island:
+  Can Move Boulders
+Can Access Secret Cave Entrance on Fire Mountain:
+  Ice Arrows
+Can Access Secret Cave Entrance on Ice Ring Isle:
+  Fire Arrows
+Can Access Secret Cave Entrance on Private Oasis:
+  Delivery Bag & Cabana Deed
+  & Grappling Hook
+Can Access Secret Cave Entrance on Needle Rock Isle:
+  Fire Arrows
+Can Access Secret Cave Entrance on Angular Isles:
+  # Either Deku Leaf or Hookshot are needed to get into the cave.
+  Can Fly With Deku Leaf Outdoors | Hookshot
+Can Access Secret Cave Entrance on Boating Course:
+  # Getting inside the cave requires flying with Deku Leaf or Hookshotting the pole.
+  Can Fly With Deku Leaf Outdoors | Hookshot
+Can Access Secret Cave Entrance on Stone Watcher Island:
+  Power Bracelets
+Can Access Secret Cave Entrance on Overlook Island:
+  Hookshot
+Can Access Secret Cave Entrance on Bird's Peak Rock:
+  # Need to hit the switches with a seagull.
+  Bait Bag & Can Buy Hyoi Pears
+Can Access Secret Cave Entrance on Pawprint Isle:
+  Nothing
+Can Access Secret Cave Entrance on Pawprint Isle Side Isle:
+  Hookshot
+Can Access Secret Cave Entrance on Diamond Steppe Island:
+  Hookshot
+Can Access Secret Cave Entrance on Bomb Island:
+  Can Move Boulders
+Can Access Secret Cave Entrance on Rock Spire Isle:
+  Bombs
+Can Access Secret Cave Entrance on Shark Island:
+  # Iron Boots and Skull Hammer are necessary to hit the two big buttons.
+  # The diamond switch does not require Boomerang or any ranged weapon - you can just hit it with your sword or hammer.
+  Iron Boots
+  & Skull Hammer
+Can Access Secret Cave Entrance on Cliff Plateau Isles:
+  Nothing
+Can Access Secret Cave Entrance on Horseshoe Island:
+  # Need Deku Leaf to play golf.
+  Deku Leaf
+Can Access Secret Cave Entrance on Star Island:
+  Can Move Boulders
+
+# The below macros are used when secret cave entrances are not randomized.
+# When secret cave entrances are randomized, these macros are shuffled around by the randomizer logic.
+Can Access Savage Labyrinth:
+  Can Access Secret Cave Entrance on Outset Island
+Can Access Dragon Roost Island Secret Cave:
+  Can Access Secret Cave Entrance on Dragon Roost Island
+Can Access Fire Mountain Secret Cave:
+  Can Access Secret Cave Entrance on Fire Mountain
+Can Access Ice Ring Isle Secret Cave:
+  Can Access Secret Cave Entrance on Ice Ring Isle
+Can Access Cabana Labyrinth:
+  Can Access Secret Cave Entrance on Private Oasis
+Can Access Needle Rock Isle Secret Cave:
+  Can Access Secret Cave Entrance on Needle Rock Isle
+Can Access Angular Isles Secret Cave:
+  Can Access Secret Cave Entrance on Angular Isles
+Can Access Boating Course Secret Cave:
+  Can Access Secret Cave Entrance on Boating Course
+Can Access Stone Watcher Island Secret Cave:
+  Can Access Secret Cave Entrance on Stone Watcher Island
+Can Access Overlook Island Secret Cave:
+  Can Access Secret Cave Entrance on Overlook Island
+Can Access Bird's Peak Rock Secret Cave:
+  Can Access Secret Cave Entrance on Bird's Peak Rock
+Can Access Pawprint Isle Chuchu Cave:
+  Can Access Secret Cave Entrance on Pawprint Isle
+Can Access Pawprint Isle Wizzrobe Cave:
+  Can Access Secret Cave Entrance on Pawprint Isle Side Isle
+Can Access Diamond Steppe Island Warp Maze Cave:
+  Can Access Secret Cave Entrance on Diamond Steppe Island
+Can Access Bomb Island Secret Cave:
+  Can Access Secret Cave Entrance on Bomb Island
+Can Access Rock Spire Isle Secret Cave:
+  Can Access Secret Cave Entrance on Rock Spire Isle
+Can Access Shark Island Secret Cave:
+  Can Access Secret Cave Entrance on Shark Island
+Can Access Cliff Plateau Isles Secret Cave:
+  Can Access Secret Cave Entrance on Cliff Plateau Isles
+Can Access Horseshoe Island Secret Cave:
+  Can Access Secret Cave Entrance on Horseshoe Island
+Can Access Star Island Secret Cave:
+  Can Access Secret Cave Entrance on Star Island
+
 Can Get Past Forsaken Fortress Gate:
   Bombs
   # Note: It's also possible to blow up the door without bombs by using the mounted cannons, but this is not required by the logic.

@@ -88,10 +88,7 @@ Outset Island - Dig up Black Soil:
     - sea/Room44.arc/ScalableObject03A
 Outset Island - Savage Labyrinth - Floor 30:
   Need:
-    (
-      (Can Cut Down Outset Trees & Can Fly With Deku Leaf Outdoors)
-      | Hookshot
-    )
+    Can Access Savage Labyrinth
     & Power Bracelets
     & Can Defeat Keese
     & Can Defeat Miniblins
@@ -567,7 +564,7 @@ Dragon Roost Island - Rito Aerie - Baito:
     - Atorizk/Stage.arc/Event003:GETMOTHERLETTER/Actor000/Action000
 Dragon Roost Island - Secret Cave:
   Need:
-    Can Move Boulders
+    Can Access Dragon Roost Island Secret Cave
     & Can Defeat Keese
     & Can Defeat Red ChuChus
   # 4 Keese and 3 pots - it doesn't seem possible to kill all 4 without having 4 pots.
@@ -1227,7 +1224,7 @@ Mother and Child Isles - Inside Mother Isle:
 
 Fire Mountain - Cave - Chest:
   Need:
-    Ice Arrows
+    Can Access Fire Mountain Secret Cave
     & Can Defeat Magtails
   # Need to escape: Power Bracelets
   Original item: Power Bracelets
@@ -1260,14 +1257,17 @@ Ice Ring Isle - Frozen Chest:
   Paths:
     - sea/Room40.arc/Chest000
 Ice Ring Isle - Cave - Chest:
-  Need: Fire Arrows
+  Need: Can Access Ice Ring Isle Secret Cave
   # Need to escape: Iron Boots
   Original item: Iron Boots
   Types: Puzzle Secret Cave
   Paths:
     - MiniHyo/Stage.arc/Chest000
 Ice Ring Isle - Inner Cave - Chest:
-  Need: Fire Arrows & Iron Boots
+  Need:
+    Can Access Ice Ring Isle Secret Cave
+    & Iron Boots
+    & Fire Arrows
     # There are a number of enemies you need to kill here, but you can trick enemies into attacking each other and steal a weapon so no items are required.
   Original item: Orange Rupee
   Types: Puzzle Secret Cave, Combat Secret Cave
@@ -1957,8 +1957,7 @@ Private Oasis - Chest at Top of Waterfall:
     - sea/Room33.arc/Chest000
 Private Oasis - Cabana Labyrinth - First Chest:
   Need:
-    Delivery Bag & Cabana Deed
-    & Grappling Hook
+    Can Access Cabana Labyrinth
     & Skull Hammer
   Original item: Orange Rupee
   Types: Puzzle Secret Cave
@@ -1966,8 +1965,7 @@ Private Oasis - Cabana Labyrinth - First Chest:
     - TF_04/Stage.arc/Chest001
 Private Oasis - Cabana Labyrinth - Second Chest:
   Need:
-    Delivery Bag & Cabana Deed
-    & Grappling Hook
+    Can Access Cabana Labyrinth
     & Skull Hammer
     & Can Play Wind's Requiem
   Original item: Triforce Chart 2
@@ -2007,7 +2005,9 @@ Needle Rock Isle - Chest:
   Paths:
     - sea/Room29.arc/Chest000
 Needle Rock Isle - Cave:
-  Need: Fire Arrows
+  Need:
+    Can Access Needle Rock Isle Secret Cave
+    & Fire Arrows
   Original item: Orange Rupee
   Types: Puzzle Secret Cave
   Paths:
@@ -2027,10 +2027,11 @@ Angular Isles - Peak:
     - sea/Room47.arc/Chest000
 Angular Isles - Cave:
   Need:
-    # Either Deku Leaf or Hookshot are needed both to get into the cave, and to reach the chest in the cave.
     # Mirror Shield is to shine light on the chest and make it not be transparent.
-    (Can Fly With Deku Leaf Outdoors | Hookshot)
+    # Either Deku Leaf or Hookshot are needed to reach the chest in the cave.
+    Can Access Angular Isles Secret Cave
     & Can Aim Mirror Shield
+    & (Deku Leaf | Hookshot)
   Original item: Silver Rupee
   Types: Puzzle Secret Cave
   Paths:
@@ -2044,10 +2045,9 @@ Boating Course - Raft:
     - sea/Room48.arc/Chest000
 Boating Course - Cave:
   Need:
-    (Can Fly With Deku Leaf Outdoors | Hookshot)
+    Can Access Boating Course Secret Cave
     & Can Hit Diamond Switches at Range
     & Can Defeat Miniblins Easily
-    # Getting inside the cave requires flying with Deku Leaf or Hookshotting the pole.
     # Hitting the 3 diamond switches inside the cave needs a ranged weapon.
     # Killing the miniblins is not necessary, but hitting the switches without being able to kill them would be extremely annoying.
   Original item: Submarine Chart
@@ -2057,7 +2057,7 @@ Boating Course - Cave:
 
 Stone Watcher Island - Cave:
   Need:
-    Power Bracelets
+    Can Access Stone Watcher Island Secret Cave
     & Can Defeat Armos
     & Can Defeat Wizzrobes
     & Can Defeat Darknuts
@@ -2098,7 +2098,7 @@ Islet of Steel - Lookout Platform - Defeat the Enemies:
 
 Overlook Island - Cave:
   Need:
-    Hookshot
+    Can Access Overlook Island Secret Cave
     & Can Defeat Stalfos
     & Can Defeat Wizzrobes
     & Can Defeat Red ChuChus
@@ -2118,9 +2118,8 @@ Overlook Island - Cave:
 
 Bird's Peak Rock - Cave:
   Need:
-    # Need to hit the switches with a seagull.
-    # Also need to play the Wind's Requiem to get the chest to appear.
-    Bait Bag & Can Buy Hyoi Pears
+    # Need to play the Wind's Requiem to get the chest to appear.
+    Can Access Bird's Peak Rock Secret Cave
     & Can Play Wind's Requiem
   Original item: Triforce Chart 3
   Types: Puzzle Secret Cave
@@ -2128,32 +2127,38 @@ Bird's Peak Rock - Cave:
     - TF_03/Stage.arc/Chest000
 
 Pawprint Isle - Chuchu Cave - Chest:
-  Need: Nothing
+  Need: Can Access Pawprint Isle Chuchu Cave
   Original item: Piece of Heart
   Types: Puzzle Secret Cave
   Paths:
     - TyuTyu/Stage.arc/Chest003
 Pawprint Isle - Chuchu Cave - Behind First Boulder:
-  Need: Can Move Boulders
+  Need:
+    Can Access Pawprint Isle Chuchu Cave
+    & Can Move Boulders
   Original item: Purple Rupee
   Types: Puzzle Secret Cave
   Paths:
     - TyuTyu/Stage.arc/Chest001
 Pawprint Isle - Chuchu Cave - Behind Second Boulder:
-  Need: Can Move Boulders
+  Need:
+    Can Access Pawprint Isle Chuchu Cave
+    & Can Move Boulders
   Original item: Joy Pendant
   Types: Puzzle Secret Cave
   Paths:
     - TyuTyu/Stage.arc/Chest002
 Pawprint Isle - Chuchu Cave - Scale the Wall:
-  Need: Grappling Hook
+  Need:
+    Can Access Pawprint Isle Chuchu Cave
+    & Grappling Hook
   Original item: Red Rupee
   Types: Puzzle Secret Cave
   Paths:
     - TyuTyu/Stage.arc/Chest000
 Pawprint Isle - Wizzrobe Cave:
   Need:
-    Hookshot
+    Can Access Pawprint Isle Wizzrobe Cave
     & Can Defeat Wizzrobes at Range
     & Can Defeat Fire Keese
     & Can Defeat Magtails
@@ -2343,14 +2348,14 @@ Tingle Island - Big Octo:
     - sea/Room17.arc/ScalableObject001
 
 Diamond Steppe Island - Warp Maze Cave - First Chest:
-  Need: Hookshot
+  Need: Can Access Diamond Steppe Island Warp Maze Cave
     # No need to kill the Floormasters.
   Original item: Joy Pendant
   Types: Puzzle Secret Cave
   Paths:
     - WarpD/Stage.arc/Chest001
 Diamond Steppe Island - Warp Maze Cave - Second Chest:
-  Need: Hookshot
+  Need: Can Access Diamond Steppe Island Warp Maze Cave
     # No need to kill the Floormasters.
   Original item: Ghost Ship Chart
   Types: Puzzle Secret Cave
@@ -2365,7 +2370,7 @@ Diamond Steppe Island - Big Octo:
 
 Bomb Island - Cave:
   Need:
-    Can Move Boulders
+    Can Access Bomb Island Secret Cave
     & Can Stun Magtails
   Original item: Piece of Heart
   Types: Puzzle Secret Cave
@@ -2387,7 +2392,7 @@ Bomb Island - Submarine:
     - Abship/Room2.arc/Chest000
 
 Rock Spire Isle - Cave:
-  Need: Bombs
+  Need: Can Access Rock Spire Isle Secret Cave
     # The Keese in the cave can be killed with nothing but the stick in there.
   Original item: Treasure Chart 37
   Types: Combat Secret Cave
@@ -2451,12 +2456,9 @@ Rock Spire Isle - Gunboat:
 
 Shark Island - Cave:
   Need:
-    Iron Boots
-    & Skull Hammer
+    Can Access Shark Island Secret Cave
     & Can Defeat Miniblins
-    # Iron Boots and Skull Hammer are necessary to hit the two big buttons.
-    # The diamond switch does not require Boomerang or any ranged weapon - you can just hit it with your sword or hammer.
-    # You also need to kill a ton of enemies inside the cave, but no ranged weapons are required.
+    # You need to kill a ton of enemies inside the cave, but no ranged weapons are required.
     # You need to have at least enough to defeat a couple Miniblins. After that some Green Bokoblins spawn, and you can get them to attack each other and drop a machete, then use that to kill the rest of the enemies in the cave.
   Original item: Silver Rupee
   Types: Combat Secret Cave
@@ -2464,7 +2466,9 @@ Shark Island - Cave:
     - ITest63/Stage.arc/Chest000
 
 Cliff Plateau Isles - Cave:
-  Need: Can Defeat Boko Babas
+  Need:
+    Can Access Cliff Plateau Isles Secret Cave
+    & Can Defeat Boko Babas
     # Technically you can kill the Boko Babas here by throwing a nut at one to stun it, then using the Grappling Hook to finish it off. But the timing is pretty precise and this is pretty obscure, so it's not in the logic.
   Original item: Joy Pendant
   Types: Puzzle Secret Cave
@@ -2472,7 +2476,8 @@ Cliff Plateau Isles - Cave:
     - Cave03/Stage.arc/Chest000
 Cliff Plateau Isles - Highest Isle:
   Need:
-    Can Defeat Boko Babas
+    Can Access Cliff Plateau Isles Secret Cave
+    & Can Defeat Boko Babas
     & Deku Leaf
   Original item: Treasure Chart 25
   Types: Puzzle Secret Cave
@@ -2510,10 +2515,9 @@ Horseshoe Island - Play Golf:
     - sea/Room43.arc/Chest000
 Horseshoe Island - Cave:
   Need:
-    Deku Leaf
+    Can Access Horseshoe Island Secret Cave
     & Can Defeat Mothulas
     & Can Defeat Winged Mothulas
-    # Need Deku Leaf to play golf.
   Original item: Treasure Chart 8
   Types: Combat Secret Cave
   Paths:
@@ -2558,7 +2562,7 @@ Flight Control Platform - Submarine:
 
 Star Island - Cave:
   Need:
-    Can Move Boulders
+    Can Access Star Island Secret Cave
     & Can Defeat Magtails
     # After the Magtails, the second wave are Blue Bokoblins, so you can trick them into attacking each other, steal a stick, and use that to kill the remaining enemies: Green Bokoblins and Moblins.
   Original item: Piece of Heart
