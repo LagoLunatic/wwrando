@@ -142,10 +142,15 @@ OPTIONS = OrderedDict([
     "player_in_casual_clothes",
     "Enable this if you want to wear your casual clothes instead of the Hero's Clothes."
   ),
+  (
+    "disable_custom_player_voice",
+    "If the chosen custom model comes with custom voice files, you can check this option to turn them off and simply use Link's normal voice instead."
+  ),
 ])
 
 NON_PERMALINK_OPTIONS = [
   "invert_camera_x_axis",
   "custom_player_model",
   "player_in_casual_clothes",
+  "disable_custom_player_voice",
 ]

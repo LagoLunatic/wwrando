@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Fri Oct 12 21:11:04 2018
+# Created: Thu Dec 20 22:21:12 2018
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -236,9 +236,15 @@ class Ui_MainWindow(object):
         self.custom_player_model.setObjectName("custom_player_model")
         self.horizontalLayout_3.addWidget(self.custom_player_model)
         self.gridLayout_5.addLayout(self.horizontalLayout_3, 0, 0, 1, 1)
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.player_in_casual_clothes = QtWidgets.QCheckBox(self.tab_2)
         self.player_in_casual_clothes.setObjectName("player_in_casual_clothes")
-        self.gridLayout_5.addWidget(self.player_in_casual_clothes, 0, 1, 1, 1)
+        self.horizontalLayout_7.addWidget(self.player_in_casual_clothes)
+        self.disable_custom_player_voice = QtWidgets.QCheckBox(self.tab_2)
+        self.disable_custom_player_voice.setObjectName("disable_custom_player_voice")
+        self.horizontalLayout_7.addWidget(self.disable_custom_player_voice)
+        self.gridLayout_5.addLayout(self.horizontalLayout_7, 0, 1, 1, 1)
         self.verticalLayout_3.addLayout(self.gridLayout_5)
         self.custom_model_comment = QtWidgets.QLabel(self.tab_2)
         self.custom_model_comment.setMaximumSize(QtCore.QSize(810, 16777215))
@@ -370,6 +376,7 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtWidgets.QApplication.translate("MainWindow", "Randomizer Settings", None, -1))
         self.label_for_custom_player_model.setText(QtWidgets.QApplication.translate("MainWindow", "Player Model", None, -1))
         self.player_in_casual_clothes.setText(QtWidgets.QApplication.translate("MainWindow", "Casual Clothes", None, -1))
+        self.disable_custom_player_voice.setText(QtWidgets.QApplication.translate("MainWindow", "Disable Custom Voice", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtWidgets.QApplication.translate("MainWindow", "Cosmetic", None, -1))
         self.label_4.setText(QtWidgets.QApplication.translate("MainWindow", "Permalink (copy paste to share your settings):", None, -1))
         self.update_checker_label.setText(QtWidgets.QApplication.translate("MainWindow", "Checking for updates to the randomizer...", None, -1))

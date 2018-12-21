@@ -512,11 +512,22 @@
                </layout>
               </item>
               <item row="0" column="1">
-               <widget class="QCheckBox" name="player_in_casual_clothes">
-                <property name="text">
-                 <string>Casual Clothes</string>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <item>
+                 <widget class="QCheckBox" name="player_in_casual_clothes">
+                  <property name="text">
+                   <string>Casual Clothes</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="disable_custom_player_voice">
+                  <property name="text">
+                   <string>Disable Custom Voice</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
              </layout>
             </item>
