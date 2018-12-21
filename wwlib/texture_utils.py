@@ -381,8 +381,8 @@ def generate_new_palettes_from_image(image, image_format, palette_format):
   
   if len(encoded_colors) > MAX_COLORS_FOR_IMAGE_FORMAT[image_format]:
     raise TooManyColorsError(
-      "Maximum number of colors supported by image format %d is %d, but replacement image has %d colors" % (
-        image_format, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], len(encoded_colors)
+      "Maximum number of colors supported by image format %s is %d, but replacement image has %d colors" % (
+        image_format.name, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], len(encoded_colors)
       )
     )
   
@@ -404,8 +404,8 @@ def encode_palette(encoded_colors, palette_format, image_format):
   
   if len(encoded_colors) > MAX_COLORS_FOR_IMAGE_FORMAT[image_format]:
     raise TooManyColorsError(
-      "Maximum number of colors supported by image format %d is %d, but replacement image has %d colors" % (
-        image_format, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], len(encoded_colors)
+      "Maximum number of colors supported by image format %s is %d, but replacement image has %d colors" % (
+        image_format.name, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], len(encoded_colors)
       )
     )
   
@@ -476,7 +476,7 @@ def decode_block(image_format, image_data, offset, block_data_size, colors):
   elif image_format == ImageFormat.CMPR:
     return decode_cmpr_block(image_format, image_data, offset, block_data_size, colors)
   else:
-    raise Exception("Unknown image format: %X" % image_format)
+    raise Exception("Unknown image format: %s" % image_format.name)
 
 def decode_i4_block(image_format, image_data, offset, block_data_size, colors):
   pixel_color_data = []
@@ -700,7 +700,7 @@ def encode_image_to_block(image_format, pixels, colors_to_color_indexes, block_x
   elif image_format == ImageFormat.CMPR:
     return encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   else:
-    raise Exception("Unknown image format: %X" % image_format)
+    raise Exception("Unknown image format: %s" % ImageFormat(image_format).name)
 
 def encode_image_to_i4_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
   new_data = BytesIO()
