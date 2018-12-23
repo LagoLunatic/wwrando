@@ -88,14 +88,30 @@ def get_rgba(color):
     r, g, b = color
     a = 0xFF
   return (r, g, b, a)
- 
+
+def swizzle_3_bit_to_8_bit(v):
+  # 00000123 -> 12312312
+  return (v << 5) | (v << 2) | (v >> 1)
+
+def swizzle_4_bit_to_8_bit(v):
+  # 00001234 -> 12341234
+  return (v << 4) | (v >> 0)
+
+def swizzle_5_bit_to_8_bit(v):
+  # 00012345 -> 12345123
+  return (v << 3) | (v >> 2)
+
+def swizzle_6_bit_to_8_bit(v):
+  # 00123456 -> 12345612
+  return (v << 2) | (v >> 4)
+
 def convert_rgb565_to_color(rgb565):
   r = ((rgb565 >> 11) & 0x1F)
   g = ((rgb565 >> 5) & 0x3F)
   b = ((rgb565 >> 0) & 0x1F)
-  r = r*255//0x1F
-  g = g*255//0x3F
-  b = b*255//0x1F
+  r = swizzle_5_bit_to_8_bit(r)
+  g = swizzle_6_bit_to_8_bit(g)
+  b = swizzle_5_bit_to_8_bit(b)
   return (r, g, b, 255)
 
 def convert_color_to_rgb565(color):
@@ -120,18 +136,18 @@ def convert_rgb5a3_to_color(rgb5a3):
     r = ((rgb5a3 >> 8) & 0xF)
     g = ((rgb5a3 >> 4) & 0xF)
     b = ((rgb5a3 >> 0) & 0xF)
-    a = a*255//7
-    r = r*255//0xF
-    g = g*255//0xF
-    b = b*255//0xF
+    a = swizzle_3_bit_to_8_bit(a)
+    r = swizzle_4_bit_to_8_bit(r)
+    g = swizzle_4_bit_to_8_bit(g)
+    b = swizzle_4_bit_to_8_bit(b)
   else:
     a = 255
     r = ((rgb5a3 >> 10) & 0x1F)
     g = ((rgb5a3 >> 5) & 0x1F)
     b = ((rgb5a3 >> 0) & 0x1F)
-    r = r*255//0x1F
-    g = g*255//0x1F
-    b = b*255//0x1F
+    r = swizzle_5_bit_to_8_bit(r)
+    g = swizzle_5_bit_to_8_bit(g)
+    b = swizzle_5_bit_to_8_bit(b)
   return (r, g, b, a)
 
 def convert_color_to_rgb5a3(color):
