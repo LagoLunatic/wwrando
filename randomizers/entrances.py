@@ -73,11 +73,9 @@ SECRET_CAVE_EXITS = [
 DUNGEON_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS = [
   "Dungeon Entrance On Dragon Roost Island",
 ]
-PUZZLE_SECRET_CAVE_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS = [
+SECRET_CAVE_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS = [
   "Secret Cave Entrance on Pawprint Isle",
   "Secret Cave Entrance on Cliff Plateau Isles",
-]
-COMBAT_SECRET_CAVE_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS = [
 ]
 
 DUNGEON_EXIT_NAMES_WITH_NO_REQUIREMENTS = [
@@ -125,10 +123,8 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
     entrance_names_with_no_requirements = []
     if self.options.get("progression_dungeons"):
       entrance_names_with_no_requirements += DUNGEON_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS
-    if self.options.get("progression_puzzle_secret_caves"):
-      entrance_names_with_no_requirements += PUZZLE_SECRET_CAVE_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS
-    if self.options.get("progression_combat_secret_caves"):
-      entrance_names_with_no_requirements += COMBAT_SECRET_CAVE_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS
+    if self.options.get("progression_puzzle_secret_caves") or self.options.get("progression_combat_secret_caves"):
+      entrance_names_with_no_requirements += SECRET_CAVE_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS
     
     exit_names_with_no_requirements = []
     if self.options.get("progression_dungeons"):
