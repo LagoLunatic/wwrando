@@ -4,6 +4,7 @@ import yaml
 import os
 from io import BytesIO
 from collections import namedtuple
+from collections import OrderedDict
 import copy
 from random import Random
 
@@ -1520,3 +1521,42 @@ def implement_key_bag(self):
   key_bag_icon_image_path = os.path.join(ASSETS_PATH, "key bag.png")
   pirate_charm_icon.replace_image_from_path(key_bag_icon_image_path)
   pirate_charm_icon.save_changes()
+
+DUNGEON_NAME_TO_SEA_CHART_QUEST_MARKER_INDEX = OrderedDict([
+  ("Dragon Roost Cavern", 7),
+  ("Forbidden Woods", 5),
+  ("Tower of the Gods", 3), # Originally Southern Triangle Island
+  ("Forsaken Fortress", 2), # Originally Eastern Triangle Island
+  ("Earth Temple", 0),
+  ("Wind Temple", 1),
+])
+# Note: 4 is Northern Triangle Island and 6 is Greatfish Isle, these are not used by the randomizer.
+
+def show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=[]):
+  # Uses the blue quest markers on the sea chart to highlight certain dungeons.
+  # This is done by toggling visibility on them and moving some Triangle Island ones around to repurpose them as dungeon ones.
+  
+  sea_chart_ui = self.get_arc("files/res/Msg/fmapres.arc").get_file_entry("f_map.blo")
+  sea_chart_ui.decompress_data_if_necessary()
+  first_quest_marker_pic1_offset = 0x43B0
+  
+  for dungeon_name in dungeon_names:
+    quest_marker_index = DUNGEON_NAME_TO_SEA_CHART_QUEST_MARKER_INDEX[dungeon_name]
+    
+    offset = first_quest_marker_pic1_offset + quest_marker_index*0x40
+    
+    # Make the quest marker icon be visible.
+    write_u8(sea_chart_ui.data, offset+9, 1)
+    
+    if quest_marker_index == 2: # Originally Eastern Triangle Island
+      # Reposition it to be over Forsaken Fortress
+      sector_x = 0
+      sector_y = 0
+      write_s16(sea_chart_ui.data, offset+0x10, sector_x*0x37-0xFA)
+      write_s16(sea_chart_ui.data, offset+0x12, sector_y*0x38-0xBC)
+    if quest_marker_index == 3: # Originally Southern Triangle Island
+      # Reposition it to be over Tower of the Gods
+      sector_x = 4
+      sector_y = 3
+      write_s16(sea_chart_ui.data, offset+0x10, sector_x*0x37-0xFA)
+      write_s16(sea_chart_ui.data, offset+0x12, sector_y*0x38-0xBC)
