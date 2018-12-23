@@ -8,6 +8,7 @@ import os
 
 from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUNGEON_PROGRESS_ITEMS, DUNGEON_NONPROGRESS_ITEMS
 from paths import LOGIC_PATH
+from randomizers import entrances
 
 class Logic:
   DUNGEON_NAMES = OrderedDict([
@@ -73,7 +74,7 @@ class Logic:
         self.rock_spire_shop_ship_locations.append(location_name)
     
     # Sync the logic macros with the randomizer.
-    self.update_dungeon_entrance_macros()
+    self.update_entrance_connection_macros()
     self.update_chart_macros()
     self.update_rematch_bosses_macros()
     self.update_sword_mode_macros()
@@ -601,30 +602,62 @@ class Logic:
   def set_macro(self, macro_name, req_string):
     self.macros[macro_name] = Logic.parse_logic_expression(req_string)
   
-  def update_dungeon_entrance_macros(self):
-    # Update all the dungeon access macros to take randomized entrances into account.
-    for entrance_name, dungeon_name in self.rando.dungeon_entrances.items():
-      dungeon_access_macro_name = "Can Access " + dungeon_name
-      dungeon_entrance_access_macro_name = "Can Access " + entrance_name
-      self.set_macro(dungeon_access_macro_name, dungeon_entrance_access_macro_name)
+  def update_entrance_connection_macros(self):
+    # Update all the macros to take randomized entrances into account.
+    for entrance_name, zone_name in self.rando.entrance_connections.items():
+      zone_access_macro_name = "Can Access " + zone_name
+      entrance_access_macro_name = "Can Access " + entrance_name
+      self.set_macro(zone_access_macro_name, entrance_access_macro_name)
   
   def temporarily_make_dungeon_entrance_macros_impossible(self):
     # Update all the dungeon access macros to be considered "Impossible".
-    # Useful when the dungeon entrance randomizer is selecting which dungeons should be allowed where.
-    for entrance_name, dungeon_name in self.rando.dungeon_entrances.items():
-      dungeon_access_macro_name = "Can Access " + dungeon_name
+    # Useful when the item randomizer is deciding how to place keys in DRC.
+    for zone_exit in entrances.DUNGEON_EXITS:
+      dungeon_access_macro_name = "Can Access " + zone_exit.zone_name
       self.set_macro(dungeon_access_macro_name, "Impossible")
   
-  def temporarily_make_dungeon_entrance_macros_worst_case_scenario(self):
-    # Update all the dungeon access macros to be a combination of all the macros for accessing dungeons that can have their entrance randomized.
-    all_dungeon_entrance_access_macro_names = []
-    for entrance_name, dungeon_name in self.rando.dungeon_entrances.items():
-      dungeon_entrance_access_macro_name = "Can Access " + entrance_name
-      all_dungeon_entrance_access_macro_names.append(dungeon_entrance_access_macro_name)
-    can_access_all_dungeon_entrances = " & ".join(all_dungeon_entrance_access_macro_names)
-    for entrance_name, dungeon_name in self.rando.dungeon_entrances.items():
-      dungeon_access_macro_name = "Can Access " + dungeon_name
-      self.set_macro(dungeon_access_macro_name, can_access_all_dungeon_entrances)
+  def temporarily_make_entrance_macros_impossible(self):
+    # Update all the dungeon/secret cave access macros to be considered "Impossible".
+    # Useful when the entrance randomizer is selecting which dungeons/secret caves should be allowed where.
+    for entrance_name, zone_name in self.rando.entrance_connections.items():
+      zone_access_macro_name = "Can Access " + zone_name
+      self.set_macro(zone_access_macro_name, "Impossible")
+  
+  def temporarily_make_entrance_macros_worst_case_scenario(self):
+    # Update all the dungeon/secret cave access macros to be a combination of all the macros for accessing dungeons/secret caves that can have their entrance randomized.
+    
+    return self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_caves=True)
+    
+    if self.rando.options.get("randomize_entrances") == "Dungeons":
+      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_caves=False)
+    elif self.rando.options.get("randomize_entrances") == "Secret Caves":
+      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=False, include_caves=True)
+    elif self.rando.options.get("randomize_entrances") == "Dungeons & Secret Caves (Separately)":
+      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_caves=False)
+      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=False, include_caves=True)
+    elif self.rando.options.get("randomize_entrances") == "Dungeons & Secret Caves (Together)":
+      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_caves=True)
+    else:
+      raise Exception("Invalid entrance randomizer option: %s" % self.rando.options.get("randomize_entrances"))
+  
+  def temporarily_make_one_set_of_entrance_macros_worst_case_scenario(self, include_dungeons=False, include_caves=False):
+    relevant_entrances = []
+    zones = []
+    if include_dungeons:
+      relevant_entrances += entrances.DUNGEON_ENTRANCES
+      zones += entrances.DUNGEON_EXITS
+    if include_caves:
+      relevant_entrances += entrances.SECRET_CAVE_ENTRANCES
+      zones += entrances.SECRET_CAVE_EXITS
+    
+    all_entrance_access_macro_names = []
+    for entrance in relevant_entrances:
+      entrance_access_macro_name = "Can Access " + entrance.entrance_name
+      all_entrance_access_macro_names.append(entrance_access_macro_name)
+    can_access_all_entrances = " & ".join(all_entrance_access_macro_names)
+    for zone in zones:
+      zone_access_macro_name = "Can Access " + zone.zone_name
+      self.set_macro(zone_access_macro_name, can_access_all_entrances)
   
   def update_chart_macros(self):
     # Update all the "Chart for Island" macros to take randomized charts into account.
@@ -665,9 +698,9 @@ class Logic:
     # Detect which progress items don't actually help access any locations with the user's current settings, and move those over to the nonprogress item list instead.
     # This is so things like dungeons-only runs don't have a lot of useless items hogging the progress locations.
     
-    if self.rando.options.get("randomize_dungeon_entrances"):
-      # Since the randomizer hasn't decided which dungeon will be where yet, we have to assume the worst case scenario by considering that you need to be able to access all dungeon entrances in order to access each individual dungeon.
-      self.temporarily_make_dungeon_entrance_macros_worst_case_scenario()
+    if self.rando.options.get("randomize_entrances") not in ["Disabled", None]:
+      # Since the randomizer hasn't decided which dungeon/secret cave will be where yet, we have to assume the worst case scenario by considering that you need to be able to access all dungeon/secret cave entrances in order to access each individual one.
+      self.temporarily_make_entrance_macros_worst_case_scenario()
     
     filter_sunken_treasure = True
     if self.rando.options.get("progression_triforce_charts") or self.rando.options.get("progression_treasure_charts"):
@@ -711,9 +744,9 @@ class Logic:
       self.unplaced_progress_items.remove(item_name)
       self.unplaced_nonprogress_items.append(item_name)
     
-    if self.rando.options.get("randomize_dungeon_entrances"):
-      # Reset the dungeon access macros if we changed them earlier.
-      self.update_dungeon_entrance_macros()
+    if self.rando.options.get("randomize_entrances") not in ["Disabled", None]:
+      # Reset the dungeon/secret cave access macros if we changed them earlier.
+      self.update_entrance_connection_macros()
   
   def split_location_name_by_zone(self, location_name):
     if " - " in location_name:

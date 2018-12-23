@@ -85,8 +85,8 @@ OPTIONS = OrderedDict([
     "Allows dungeon keys (as well as maps and compasses) to appear anywhere in the game, not just in the dungeon they're for."
   ),
   (
-    "randomize_dungeon_entrances",
-    "Shuffles around which dungeon entrances take you into which dungeons. (No effect on Forsaken Fortress or Ganon's Tower.)"
+    "randomize_entrances",
+    "Shuffles around which dungeon entrances/secret cave entrances take you into which dungeons/secret caves.\n(No effect on Forsaken Fortress or Ganon's Tower.)"
   ),
   (
     "randomize_charts",

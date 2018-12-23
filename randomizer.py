@@ -97,13 +97,34 @@ class Randomizer:
     for i in range(num_starting_triforce_shards):
       self.starting_items.append("Triforce Shard %d" % (i+1))
     
-    # Default dungeon entrances to be used if dungeon entrance randomizer is not on.
-    self.dungeon_entrances = OrderedDict([
+    # Default entrances connections to be used if the entrance randomizer is not on.
+    self.entrance_connections = OrderedDict([
       ("Dungeon Entrance On Dragon Roost Island", "Dragon Roost Cavern"),
       ("Dungeon Entrance In Forest Haven Sector", "Forbidden Woods"),
       ("Dungeon Entrance In Tower of the Gods Sector", "Tower of the Gods"),
       ("Dungeon Entrance On Headstone Island", "Earth Temple"),
       ("Dungeon Entrance On Gale Isle", "Wind Temple"),
+      
+      ("Secret Cave Entrance on Outset Island", "Savage Labyrinth"),
+      ("Secret Cave Entrance on Dragon Roost Island", "Dragon Roost Island Secret Cave"),
+      ("Secret Cave Entrance on Fire Mountain", "Fire Mountain Secret Cave"),
+      ("Secret Cave Entrance on Ice Ring Isle", "Ice Ring Isle Secret Cave"),
+      ("Secret Cave Entrance on Private Oasis", "Cabana Labyrinth"),
+      ("Secret Cave Entrance on Needle Rock Isle", "Needle Rock Isle Secret Cave"),
+      ("Secret Cave Entrance on Angular Isles", "Angular Isles Secret Cave"),
+      ("Secret Cave Entrance on Boating Course", "Boating Course Secret Cave"),
+      ("Secret Cave Entrance on Stone Watcher Island", "Stone Watcher Island Secret Cave"),
+      ("Secret Cave Entrance on Overlook Island", "Overlook Island Secret Cave"),
+      ("Secret Cave Entrance on Bird's Peak Rock", "Bird's Peak Rock Secret Cave"),
+      ("Secret Cave Entrance on Pawprint Isle", "Pawprint Isle Chuchu Cave"),
+      ("Secret Cave Entrance on Pawprint Isle Side Isle", "Pawprint Isle Wizzrobe Cave"),
+      ("Secret Cave Entrance on Diamond Steppe Island", "Diamond Steppe Island Warp Maze Cave"),
+      ("Secret Cave Entrance on Bomb Island", "Bomb Island Secret Cave"),
+      ("Secret Cave Entrance on Rock Spire Isle", "Rock Spire Isle Secret Cave"),
+      ("Secret Cave Entrance on Shark Island", "Shark Island Secret Cave"),
+      ("Secret Cave Entrance on Cliff Plateau Isles", "Cliff Plateau Isles Secret Cave"),
+      ("Secret Cave Entrance on Horseshoe Island", "Horseshoe Island Secret Cave"),
+      ("Secret Cave Entrance on Star Island", "Star Island Secret Cave"),
     ])
     self.dungeon_island_locations = OrderedDict([
       ("Dragon Roost Cavern", "Dragon Roost Island"),
@@ -185,14 +206,25 @@ class Randomizer:
     # We need to determine if the user's selected options result in a dungeons-only-start.
     # Dungeons-only-start meaning that the only locations accessible at the start of the run are dungeon locations.
     # e.g. If the user selects Dungeons, Expensive Purchases, and Sunken Treasures, the dungeon locations are the only ones the player can check first.
-    # We need to distinguish this situation because it can cause issues for the randomizer's item placement logic.
+    # We need to distinguish this situation because it can cause issues for the randomizer's item placement logic (specifically when placing keys in DRC).
     self.logic.temporarily_make_dungeon_entrance_macros_impossible()
     accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
     if len(accessible_undone_locations) == 0:
       self.dungeons_only_start = True
     else:
       self.dungeons_only_start = False
-    self.logic.update_dungeon_entrance_macros() # Reset the dungeon entrance macros.
+    self.logic.update_entrance_connection_macros() # Reset the dungeon entrance macros.
+    
+    # Also determine if these options result in a dungeons-and-caves-only-start.
+    # Dungeons-and-caves-only-start means the only locations accessible at the start of the run are dungeon or secret cave locations.
+    # This situation can also cause issues for the item placement logic (specifically when placing the first item of the run).
+    self.logic.temporarily_make_entrance_macros_impossible()
+    accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
+    if len(accessible_undone_locations) == 0:
+      self.dungeons_and_caves_only_start = True
+    else:
+      self.dungeons_and_caves_only_start = False
+    self.logic.update_entrance_connection_macros() # Reset the entrance macros.
   
   def randomize(self):
     options_completed = 0
@@ -226,8 +258,8 @@ class Randomizer:
     if self.options.get("randomize_starting_island"):
       starting_island.randomize_starting_island(self)
     
-    if self.options.get("randomize_dungeon_entrances"):
-      entrances.randomize_dungeon_entrances(self)
+    if self.options.get("randomize_entrances") not in ["Disabled", None]:
+      entrances.randomize_entrances(self)
     
     items.randomize_items(self)
     
@@ -756,10 +788,10 @@ class Randomizer:
     
     spoiler_log += "\n\n\n"
     
-    # Write dungeon entrances.
-    spoiler_log += "Dungeon entrances:\n"
-    for entrance_name, dungeon_name in self.dungeon_entrances.items():
-      spoiler_log += "  %-45s %s\n" % (entrance_name+":", dungeon_name)
+    # Write dungeon/secret cave entrances.
+    spoiler_log += "Entrances:\n"
+    for entrance_name, dungeon_or_cave_name in self.entrance_connections.items():
+      spoiler_log += "  %-48s %s\n" % (entrance_name+":", dungeon_or_cave_name)
     
     spoiler_log += "\n\n\n"
     

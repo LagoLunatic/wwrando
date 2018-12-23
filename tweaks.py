@@ -1012,6 +1012,7 @@ def update_fishmen_hints(self):
     zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
     if zone_name in self.dungeon_island_locations and location_name != "Tower of the Gods - Sunken Treasure":
       # If the location is in a dungeon, use the hint for whatever island the dungeon is located on.
+      # TODO: If secret cave entrances are randomized, the same should be done for secret caves.
       island_name = self.dungeon_island_locations[zone_name]
       island_hint_name = self.island_name_hints[island_name]
     if zone_name in self.island_name_hints:
