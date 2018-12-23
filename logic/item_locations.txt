@@ -240,7 +240,7 @@ Windfall Island - Lenzo's House - Left Chest:
     Can Play Wind's Requiem 
     & Picto Box
   Original item: Treasure Chart 29
-  Types: Short Sidequest, Other Chest
+  Types: Short Sidequest
   Paths:
     - Ocmera/Stage.arc/Chest000
 Windfall Island - Lenzo's House - Right Chest:
@@ -250,7 +250,7 @@ Windfall Island - Lenzo's House - Right Chest:
     Can Play Wind's Requiem 
     & Picto Box
   Original item: Purple Rupee
-  Types: Short Sidequest, Other Chest
+  Types: Short Sidequest
   Paths:
     - Ocmera/Stage.arc/Chest001
 Windfall Island - Lenzo's House - Become Lenzo's Assistant:
