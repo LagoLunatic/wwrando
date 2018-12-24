@@ -1535,8 +1535,7 @@ DUNGEON_NAME_TO_SEA_CHART_QUEST_MARKER_INDEX = OrderedDict([
 def show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=[]):
   # Uses the blue quest markers on the sea chart to highlight certain dungeons.
   # This is done by toggling visibility on them and moving some Triangle Island ones around to repurpose them as dungeon ones.
-  
-  # TODO: When entrance randomizer is on, this will need to be updated to point to the island the entrance linked to the corresponding dungeon is on, instead of that dungeon's vanilla entrance. This includes secret cave entrances.
+  # When the dungeon entrance rando is on, different entrances can lead into dungeons, so the positions of the markers are updated to point to the appropriate island in that case (including secret cave entrances).
   
   sea_chart_ui = self.get_arc("files/res/Msg/fmapres.arc").get_file_entry("f_map.blo")
   sea_chart_ui.decompress_data_if_necessary()
@@ -1550,18 +1549,16 @@ def show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=[]):
     # Make the quest marker icon be visible.
     write_u8(sea_chart_ui.data, offset+9, 1)
     
-    if quest_marker_index == 2: # Originally Eastern Triangle Island
-      # Reposition it to be over Forsaken Fortress
-      sector_x = 0
-      sector_y = 0
-      write_s16(sea_chart_ui.data, offset+0x10, sector_x*0x37-0xFA)
-      write_s16(sea_chart_ui.data, offset+0x12, sector_y*0x38-0xBC)
-    if quest_marker_index == 3: # Originally Southern Triangle Island
-      # Reposition it to be over Tower of the Gods
-      sector_x = 4
-      sector_y = 3
-      write_s16(sea_chart_ui.data, offset+0x10, sector_x*0x37-0xFA)
-      write_s16(sea_chart_ui.data, offset+0x12, sector_y*0x38-0xBC)
+    if dungeon_name == "Forsaken Fortress":
+      island_name = "Forsaken Fortress"
+    else:
+      island_name = self.dungeon_island_locations[dungeon_name]
+    island_number = self.island_name_to_number[island_name]
+    sector_x = (island_number-1) % 7
+    sector_y = (island_number-1) // 7
+    
+    write_s16(sea_chart_ui.data, offset+0x10, sector_x*0x37-0xFA)
+    write_s16(sea_chart_ui.data, offset+0x12, sector_y*0x38-0xBC)
 
 def disable_ice_ring_isle_and_fire_mountain_effects_indoors(self):
   # Ice Ring Isle and Fire Mountain both have an entity inside of them that kills the player if the timer is inactive or reaches 0.

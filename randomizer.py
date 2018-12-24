@@ -385,6 +385,7 @@ class Randomizer:
         self.stage_names[stage_folder.strip()] = stage_name.strip()
     self.island_names = {}
     self.island_number_to_name = {}
+    self.island_name_to_number = {}
     with open(os.path.join(DATA_PATH, "island_names.txt"), "r") as f:
       while True:
         room_arc_name = f.readline()
@@ -394,6 +395,7 @@ class Randomizer:
         self.island_names[room_arc_name.strip()] = island_name
         island_number = int(re.search(r"Room(\d+)", room_arc_name).group(1))
         self.island_number_to_name[island_number] = island_name
+        self.island_name_to_number[island_name] = island_number
     
     self.item_ids_without_a_field_model = []
     with open(os.path.join(DATA_PATH, "items_without_field_models.txt"), "r") as f:
