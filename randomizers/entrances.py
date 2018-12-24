@@ -38,36 +38,36 @@ SECRET_CAVE_ENTRANCES = [
 
 ZoneExit = namedtuple(
   "ZoneExit",
-  "stage_name room_num scls_exit_index spawn_id zone_name boss_stage_name"
+  "stage_name room_num scls_exit_index spawn_id zone_name unique_name boss_stage_name"
 )
 DUNGEON_EXITS = [
-  ZoneExit("M_NewD2", 0, 0, 0, "Dragon Roost Cavern", "M_DragB"),
-  ZoneExit("kindan", 0, 0, 0, "Forbidden Woods", "kinBOSS"),
-  ZoneExit("Siren", 0, 1, 0, "Tower of the Gods", "SirenB"),
-  ZoneExit("M_Dai", 0, 0, 0, "Earth Temple", "M_DaiB"),
-  ZoneExit("kaze", 15, 0, 15, "Wind Temple", "kazeB"),
+  ZoneExit("M_NewD2", 0, 0, 0, "Dragon Roost Cavern", "Dragon Roost Cavern", "M_DragB"),
+  ZoneExit("kindan", 0, 0, 0, "Forbidden Woods", "Forbidden Woods", "kinBOSS"),
+  ZoneExit("Siren", 0, 1, 0, "Tower of the Gods", "Tower of the Gods", "SirenB"),
+  ZoneExit("M_Dai", 0, 0, 0, "Earth Temple", "Earth Temple", "M_DaiB"),
+  ZoneExit("kaze", 15, 0, 15, "Wind Temple", "Wind Temple", "kazeB"),
 ]
 SECRET_CAVE_EXITS = [
-  ZoneExit("Cave09", 0, 1, 0, "Savage Labyrinth", None),
-  ZoneExit("TF_06", 0, 0, 0, "Dragon Roost Island Secret Cave", None),
-  ZoneExit("MiniKaz", 0, 0, 0, "Fire Mountain Secret Cave", None),
-  ZoneExit("MiniHyo", 0, 0, 0, "Ice Ring Isle Secret Cave", None),
-  ZoneExit("TF_04", 0, 0, 0, "Cabana Labyrinth", None),
-  ZoneExit("SubD42", 0, 0, 0, "Needle Rock Isle Secret Cave", None),
-  ZoneExit("SubD43", 0, 0, 0, "Angular Isles Secret Cave", None),
-  ZoneExit("SubD71", 0, 0, 0, "Boating Course Secret Cave", None),
-  ZoneExit("TF_01", 0, 0, 0, "Stone Watcher Island Secret Cave", None),
-  ZoneExit("TF_02", 0, 0, 0, "Overlook Island Secret Cave", None),
-  ZoneExit("TF_03", 0, 0, 0, "Bird's Peak Rock Secret Cave", None),
-  ZoneExit("TyuTyu", 0, 0, 0, "Pawprint Isle Chuchu Cave", None),
-  ZoneExit("Cave07", 0, 0, 0, "Pawprint Isle Wizzrobe Cave", None),
-  ZoneExit("WarpD", 0, 0, 0, "Diamond Steppe Island Warp Maze Cave", None),
-  ZoneExit("Cave01", 0, 0, 0, "Bomb Island Secret Cave", None),
-  ZoneExit("Cave04", 0, 0, 0, "Rock Spire Isle Secret Cave", None),
-  ZoneExit("ITest63", 0, 0, 0, "Shark Island Secret Cave", None),
-  ZoneExit("Cave03", 0, 0, 0, "Cliff Plateau Isles Secret Cave", None),
-  ZoneExit("Cave05", 0, 0, 0, "Horseshoe Island Secret Cave", None),
-  ZoneExit("Cave02", 0, 0, 0, "Star Island Secret Cave", None),
+  ZoneExit("Cave09", 0, 1, 0, "Outset Island", "Savage Labyrinth", None),
+  ZoneExit("TF_06", 0, 0, 0, "Dragon Roost Island", "Dragon Roost Island Secret Cave", None),
+  ZoneExit("MiniKaz", 0, 0, 0, "Fire Mountain", "Fire Mountain Secret Cave", None),
+  ZoneExit("MiniHyo", 0, 0, 0, "Ice Ring Isle", "Ice Ring Isle Secret Cave", None),
+  ZoneExit("TF_04", 0, 0, 0, "Private Oasis", "Cabana Labyrinth", None),
+  ZoneExit("SubD42", 0, 0, 0, "Needle Rock Isle", "Needle Rock Isle Secret Cave", None),
+  ZoneExit("SubD43", 0, 0, 0, "Angular Isles", "Angular Isles Secret Cave", None),
+  ZoneExit("SubD71", 0, 0, 0, "Boating Course", "Boating Course Secret Cave", None),
+  ZoneExit("TF_01", 0, 0, 0, "Stone Watcher Island", "Stone Watcher Island Secret Cave", None),
+  ZoneExit("TF_02", 0, 0, 0, "Overlook Island", "Overlook Island Secret Cave", None),
+  ZoneExit("TF_03", 0, 0, 0, "Bird's Peak Rock", "Bird's Peak Rock Secret Cave", None),
+  ZoneExit("TyuTyu", 0, 0, 0, "Pawprint Isle", "Pawprint Isle Chuchu Cave", None),
+  ZoneExit("Cave07", 0, 0, 0, "Pawprint Isle", "Pawprint Isle Wizzrobe Cave", None),
+  ZoneExit("WarpD", 0, 0, 0, "Diamond Steppe Island", "Diamond Steppe Island Warp Maze Cave", None),
+  ZoneExit("Cave01", 0, 0, 0, "Bomb Island", "Bomb Island Secret Cave", None),
+  ZoneExit("Cave04", 0, 0, 0, "Rock Spire Isle", "Rock Spire Isle Secret Cave", None),
+  ZoneExit("ITest63", 0, 0, 0, "Shark Island", "Shark Island Secret Cave", None),
+  ZoneExit("Cave03", 0, 0, 0, "Cliff Plateau Isles", "Cliff Plateau Isles Secret Cave", None),
+  ZoneExit("Cave05", 0, 0, 0, "Horseshoe Island", "Horseshoe Island Secret Cave", None),
+  ZoneExit("Cave02", 0, 0, 0, "Star Island", "Star Island Secret Cave", None),
 ]
 
 DUNGEON_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS = [
@@ -146,16 +146,15 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
   
   for zone_entrance in relevant_entrances:
     if self.dungeons_and_caves_only_start and zone_entrance == safety_entrance:
-      possible_remaining_exits = [e for e in remaining_exits if e.zone_name in exit_names_with_no_requirements]
+      possible_remaining_exits = [e for e in remaining_exits if e.unique_name in exit_names_with_no_requirements]
     else:
       possible_remaining_exits = remaining_exits
     
     zone_exit = self.rng.choice(possible_remaining_exits)
     remaining_exits.remove(zone_exit)
     
-    self.entrance_connections[zone_entrance.entrance_name] = zone_exit.zone_name
-    if zone_exit in DUNGEON_EXITS:
-      self.dungeon_island_locations[zone_exit.zone_name] = zone_entrance.island_name
+    self.entrance_connections[zone_entrance.entrance_name] = zone_exit.unique_name
+    self.dungeon_and_cave_island_locations[zone_exit.zone_name] = zone_entrance.island_name
     
     if not self.dry_run:
       # Update the stage this entrance takes you into.

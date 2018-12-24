@@ -1011,12 +1011,14 @@ def update_fishmen_hints(self):
       break
     
     zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
-    if zone_name in self.dungeon_island_locations and location_name != "Tower of the Gods - Sunken Treasure":
-      # If the location is in a dungeon, use the hint for whatever island the dungeon is located on.
-      # TODO: If secret cave entrances are randomized, the same should be done for secret caves.
-      island_name = self.dungeon_island_locations[zone_name]
+    is_dungeon = "Dungeon" in self.logic.item_locations[location_name]["Types"]
+    is_puzzle_cave = "Puzzle Secret Cave" in self.logic.item_locations[location_name]["Types"]
+    is_combat_cave = "Combat Secret Cave" in self.logic.item_locations[location_name]["Types"]
+    if zone_name in self.dungeon_and_cave_island_locations and (is_dungeon or is_puzzle_cave or is_combat_cave):
+      # If the location is in a dungeon or cave, use the hint for whatever island the dungeon/cave is located on.
+      island_name = self.dungeon_and_cave_island_locations[zone_name]
       island_hint_name = self.island_name_hints[island_name]
-    if zone_name in self.island_name_hints:
+    elif zone_name in self.island_name_hints:
       island_hint_name = self.island_name_hints[zone_name]
     elif zone_name in self.logic.DUNGEON_NAMES.values():
       continue
@@ -1552,7 +1554,7 @@ def show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=[]):
     if dungeon_name == "Forsaken Fortress":
       island_name = "Forsaken Fortress"
     else:
-      island_name = self.dungeon_island_locations[dungeon_name]
+      island_name = self.dungeon_and_cave_island_locations[dungeon_name]
     island_number = self.island_name_to_number[island_name]
     sector_x = (island_number-1) % 7
     sector_y = (island_number-1) // 7

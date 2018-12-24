@@ -126,12 +126,33 @@ class Randomizer:
       ("Secret Cave Entrance on Horseshoe Island", "Horseshoe Island Secret Cave"),
       ("Secret Cave Entrance on Star Island", "Star Island Secret Cave"),
     ])
-    self.dungeon_island_locations = OrderedDict([
+    self.dungeon_and_cave_island_locations = OrderedDict([
       ("Dragon Roost Cavern", "Dragon Roost Island"),
       ("Forbidden Woods", "Forest Haven"),
       ("Tower of the Gods", "Tower of the Gods"),
       ("Earth Temple", "Headstone Island"),
       ("Wind Temple", "Gale Isle"),
+      
+      ("Secret Cave Entrance on Outset Island", "Outset Island"),
+      ("Secret Cave Entrance on Dragon Roost Island", "Dragon Roost Island"),
+      ("Secret Cave Entrance on Fire Mountain", "Fire Mountain"),
+      ("Secret Cave Entrance on Ice Ring Isle", "Ice Ring Isle"),
+      ("Secret Cave Entrance on Private Oasis", "Private Oasis"),
+      ("Secret Cave Entrance on Needle Rock Isle", "Needle Rock Isle"),
+      ("Secret Cave Entrance on Angular Isles", "Angular Isles"),
+      ("Secret Cave Entrance on Boating Course", "Boating Course"),
+      ("Secret Cave Entrance on Stone Watcher Island", "Stone Watcher Island"),
+      ("Secret Cave Entrance on Overlook Island", "Overlook Island"),
+      ("Secret Cave Entrance on Bird's Peak Rock", "Bird's Peak Rock"),
+      ("Secret Cave Entrance on Pawprint Isle", "Pawprint Isle"),
+      ("Secret Cave Entrance on Pawprint Isle Side Isle", "Pawprint Isle"),
+      ("Secret Cave Entrance on Diamond Steppe Island", "Diamond Steppe Island"),
+      ("Secret Cave Entrance on Bomb Island", "Bomb Island"),
+      ("Secret Cave Entrance on Rock Spire Isle", "Rock Spire Isle"),
+      ("Secret Cave Entrance on Shark Island", "Shark Island"),
+      ("Secret Cave Entrance on Cliff Plateau Isles", "Cliff Plateau Isles"),
+      ("Secret Cave Entrance on Horseshoe Island", "Horseshoe Island"),
+      ("Secret Cave Entrance on Star Island", "Star Island"),
     ])
     
     # Default starting island (Outset) if the starting island randomizer is not on.

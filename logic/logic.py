@@ -612,7 +612,7 @@ class Logic:
     # Update all the dungeon access macros to be considered "Impossible".
     # Useful when the item randomizer is deciding how to place keys in DRC.
     for zone_exit in entrances.DUNGEON_EXITS:
-      dungeon_access_macro_name = "Can Access " + zone_exit.zone_name
+      dungeon_access_macro_name = "Can Access " + zone_exit.unique_name
       self.set_macro(dungeon_access_macro_name, "Impossible")
   
   def temporarily_make_entrance_macros_impossible(self):
@@ -655,7 +655,7 @@ class Logic:
       all_entrance_access_macro_names.append(entrance_access_macro_name)
     can_access_all_entrances = " & ".join(all_entrance_access_macro_names)
     for zone in zones:
-      zone_access_macro_name = "Can Access " + zone.zone_name
+      zone_access_macro_name = "Can Access " + zone.unique_name
       self.set_macro(zone_access_macro_name, can_access_all_entrances)
   
   def update_chart_macros(self):
