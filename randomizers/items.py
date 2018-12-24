@@ -153,7 +153,7 @@ def randomize_progression_items(self):
         location_weights[location] -= 1;
     current_weight += 1
     
-    possible_items = self.logic.unplaced_progress_items
+    possible_items = self.logic.unplaced_progress_items.copy()
     
     if not self.options.get("keylunacy"):
       # Don't randomly place dungeon items, it was already predetermined where they should be placed.
