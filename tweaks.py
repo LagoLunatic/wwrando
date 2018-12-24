@@ -1562,3 +1562,23 @@ def show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=[]):
       sector_y = 3
       write_s16(sea_chart_ui.data, offset+0x10, sector_x*0x37-0xFA)
       write_s16(sea_chart_ui.data, offset+0x12, sector_y*0x38-0xBC)
+
+def disable_ice_ring_isle_and_fire_mountain_effects_indoors(self):
+  # Ice Ring Isle and Fire Mountain both have an entity inside of them that kills the player if the timer is inactive or reaches 0.
+  # This is an issue in secret cave entrance rando since entering these from any entrance that doesn't start the timer would cause the player to die instantly.
+  # To avoid this, the entity is removed from inside both of these caves.
+  # That same entity is also responsible for setting the event flags to permanently deactivate Ice Ring Isle and Fire Mountain when the chest inside is opened, so removing it is also useful to prevent sequence breaking (e.g. enter Ice Ring cave from wrong entrance, open chest, now go to Ice Ring Isle and you don't need fire arrows to reach that entrance).
+  
+  # Remove the entity from Ice Ring Isle.
+  iri_dzx = self.get_arc("files/res/Stage/MiniHyo/Room0.arc").get_file("room.dzr")
+  actors = iri_dzx.entries_by_type_and_layer("ACTR", None)
+  kill_trigger = next(x for x in actors if x.name == "VolTag")
+  iri_dzx.remove_entity(kill_trigger, "ACTR", layer=None)
+  iri_dzx.save_changes()
+  
+  # Remove the entity from Fire Mountain.
+  fm_dzx = self.get_arc("files/res/Stage/MiniKaz/Room0.arc").get_file("room.dzr")
+  actors = fm_dzx.entries_by_type_and_layer("ACTR", None)
+  kill_trigger = next(x for x in actors if x.name == "VolTag")
+  fm_dzx.remove_entity(kill_trigger, "ACTR", layer=None)
+  fm_dzx.save_changes()

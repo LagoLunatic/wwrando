@@ -252,6 +252,8 @@ class Randomizer:
       if self.options.get("sword_mode") == "Swordless":
         tweaks.apply_patch(self, "swordless")
         tweaks.update_text_for_swordless(self)
+      if self.options.get("randomize_entrances") not in ["Disabled", None, "Dungeons"]:
+        tweaks.disable_ice_ring_isle_and_fire_mountain_effects_indoors(self)
     
     options_completed += 1
     yield("Randomizing...", options_completed)
