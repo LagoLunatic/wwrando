@@ -316,6 +316,7 @@ class WWRandomizerWindow(QMainWindow):
     self.settings["output_folder"] = self.ui.output_folder.text()
     self.settings["seed"] = self.ui.seed.text()
     
+    self.ensure_valid_combination_of_options()
     self.disable_invalid_cosmetic_options()
     
     for option_name in OPTIONS:
@@ -659,6 +660,23 @@ class WWRandomizerWindow(QMainWindow):
       self.update_model_preview()
     
     return any_color_changed
+  
+  def ensure_valid_combination_of_options(self):
+    should_enable_options = {}
+    for option_name in OPTIONS:
+      should_enable_options[option_name] = True
+    
+    if not self.get_option_value("progression_dungeons"):
+      # Race mode places required items on dungeon bosses.
+      should_enable_options["race_mode"] = False
+    
+    for option_name in OPTIONS:
+      widget = getattr(self.ui, option_name)
+      if should_enable_options[option_name]:
+        widget.setEnabled(True)
+      else:
+        widget.setEnabled(False)
+        widget.setChecked(False)
   
   def disable_invalid_cosmetic_options(self):
     custom_model_name = self.get_option_value("custom_player_model")
