@@ -8,6 +8,9 @@ import tweaks
 def randomize_items(self):
   print("Randomizing items...")
   
+  if self.options.get("race_mode"):
+    randomize_boss_rewards(self)
+  
   if not self.options.get("keylunacy"):
     randomize_dungeon_items(self)
   
@@ -43,6 +46,87 @@ def randomize_items(self):
     else:
       item_name = self.rng.choice(possible_items)
     self.logic.set_location_to_item(location_name, item_name)
+
+def randomize_boss_rewards(self):
+  if not self.options.get("progression_dungeons"):
+    raise Exception("Cannot randomize boss rewards when progress items are not allowed in dungeons.")
+  
+  boss_reward_items = []
+  total_num_rewards = 4
+  
+  unplaced_progress_items_degrouped = []
+  for item_name in self.logic.unplaced_progress_items:
+    if item_name in self.logic.progress_item_groups:
+      unplaced_progress_items_degrouped += self.logic.progress_item_groups[item_name]
+    else:
+      unplaced_progress_items_degrouped.append(item_name)
+  
+  # Try to make all the rewards be Triforce Shards.
+  # May not be possible if the player chose to start with too many shards.
+  num_additional_rewards_needed = total_num_rewards
+  triforce_shards = [
+    item_name for item_name in unplaced_progress_items_degrouped
+    if item_name.startswith("Triforce Shard ")
+  ]
+  self.rng.shuffle(triforce_shards)
+  boss_reward_items += triforce_shards[0:num_additional_rewards_needed]
+  
+  # If we still need more rewards, use sword upgrades.
+  # May still not fill up all 4 slots if the player starts with 8 shards and a sword.
+  num_additional_rewards_needed = total_num_rewards - len(boss_reward_items)
+  if num_additional_rewards_needed > 0:
+    sword_upgrades = [
+      item_name for item_name in unplaced_progress_items_degrouped
+      if item_name == "Progressive Sword"
+    ]
+    self.rng.shuffle(sword_upgrades)
+    boss_reward_items += sword_upgrades[0:num_additional_rewards_needed]
+  
+  # Use a bow upgrade to fill in the remaining reward slot if necessary.
+  num_additional_rewards_needed = total_num_rewards - len(boss_reward_items)
+  if num_additional_rewards_needed > 0:
+    bow_upgrades = [
+      item_name for item_name in unplaced_progress_items_degrouped
+      if item_name == "Progressive Bow"
+    ]
+    self.rng.shuffle(bow_upgrades)
+    boss_reward_items += bow_upgrades[0:num_additional_rewards_needed]
+  
+  if len(boss_reward_items) != total_num_rewards:
+    raise Exception("Number of boss reward items is incorrect: " + ", ".join(boss_reward_items))
+  
+  self.rng.shuffle(boss_reward_items)
+  
+  # Remove any Triforce Shards we're about to use from the progress item group.
+  for group_name, group_item_names in self.logic.progress_item_groups.items():
+    items_to_remove_from_group = [
+      item_name for item_name in group_item_names
+      if item_name in boss_reward_items
+    ]
+    for item_name in items_to_remove_from_group:
+      self.logic.progress_item_groups[group_name].remove(item_name)
+    if len(self.logic.progress_item_groups[group_name]) == 0:
+      if group_name in self.logic.unplaced_progress_items:
+        self.logic.unplaced_progress_items.remove(group_name)
+  
+  possible_boss_locations = [
+    loc for loc in self.logic.remaining_item_locations
+    if self.logic.item_locations[loc]["Original item"] == "Heart Container"
+  ]
+  
+  if len(possible_boss_locations) != 6:
+    raise Exception("Number of boss item locations is incorrect: " + ", ".join(possible_boss_locations))
+  
+  self.rng.shuffle(possible_boss_locations)
+  required_boss_locations = possible_boss_locations[0:4]
+  
+  # Decide what reward item to place in each boss location.
+  for location_name in required_boss_locations:
+    item_name = boss_reward_items.pop()
+    self.logic.set_prerandomization_item_location(location_name, item_name)
+    
+    dungeon_name, _ = self.logic.split_location_name_by_zone(location_name)
+    self.race_mode_required_dungeons.append(dungeon_name)
 
 def randomize_dungeon_items(self):
   # Places dungeon-specific items first so all the dungeon locations don't get used up by other items.

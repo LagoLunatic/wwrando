@@ -1536,6 +1536,8 @@ def show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=[]):
   # Uses the blue quest markers on the sea chart to highlight certain dungeons.
   # This is done by toggling visibility on them and moving some Triangle Island ones around to repurpose them as dungeon ones.
   
+  # TODO: When entrance randomizer is on, this will need to be updated to point to the island the entrance linked to the corresponding dungeon is on, instead of that dungeon's vanilla entrance. This includes secret cave entrances.
+  
   sea_chart_ui = self.get_arc("files/res/Msg/fmapres.arc").get_file_entry("f_map.blo")
   sea_chart_ui.decompress_data_if_necessary()
   first_quest_marker_pic1_offset = 0x43B0

@@ -133,6 +133,10 @@ OPTIONS = OrderedDict([
     "invert_camera_x_axis",
     "Inverts the horizontal axis of camera movement.",
   ),
+  (
+    "race_mode",
+    "In Race Mode, 4 randomly selected dungeon bosses will drop required items (Triforce Shards, Sword Upgrades, or Bow Upgrades).\nYou can see which dungeons are required by opening the sea chart and checking which ones have blue quest markers over them.",
+  ),
   
   (
     "custom_player_model",

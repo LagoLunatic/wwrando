@@ -190,6 +190,10 @@ class Randomizer:
       (49, "Treasure Chart 33"),
     ])
     
+    # This list will hold the randomly selected dungeons that are required in race mode.
+    # If race mode is not on, this list will remain empty.
+    self.race_mode_required_dungeons = []
+    
     self.custom_model_name = "Link"
     
     self.logic = Logic(self)
@@ -340,6 +344,7 @@ class Randomizer:
     tweaks.update_item_names_in_letter_advertising_rock_spire_shop(self)
     tweaks.update_savage_labyrinth_hint_tablet(self)
     tweaks.update_fishmen_hints(self)
+    tweaks.show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=self.race_mode_required_dungeons)
   
   def verify_supported_version(self, clean_iso_path):
     if not os.path.isfile(clean_iso_path):
