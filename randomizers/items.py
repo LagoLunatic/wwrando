@@ -79,18 +79,23 @@ def randomize_boss_rewards(self):
       item_name for item_name in unplaced_progress_items_degrouped
       if item_name == "Progressive Sword"
     ]
-    self.rng.shuffle(sword_upgrades)
     boss_reward_items += sword_upgrades[0:num_additional_rewards_needed]
   
-  # Use a bow upgrade to fill in the remaining reward slot if necessary.
+  # If we still need more rewards, use bow upgrades.
+  # May still not fill up all 4 slots if the player starts with 8 shards and is in swordless mode.
   num_additional_rewards_needed = total_num_rewards - len(boss_reward_items)
   if num_additional_rewards_needed > 0:
     bow_upgrades = [
       item_name for item_name in unplaced_progress_items_degrouped
       if item_name == "Progressive Bow"
     ]
-    self.rng.shuffle(bow_upgrades)
     boss_reward_items += bow_upgrades[0:num_additional_rewards_needed]
+  
+  # If we STILL need more rewards, use the grappling hook.
+  num_additional_rewards_needed = total_num_rewards - len(boss_reward_items)
+  if num_additional_rewards_needed > 0:
+    assert "Grappling Hook" in unplaced_progress_items_degrouped
+    boss_reward_items.append("Grappling Hook")
   
   if len(boss_reward_items) != total_num_rewards:
     raise Exception("Number of boss reward items is incorrect: " + ", ".join(boss_reward_items))
