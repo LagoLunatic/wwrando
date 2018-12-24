@@ -91,16 +91,17 @@ def randomize_boss_rewards(self):
     ]
     boss_reward_items += bow_upgrades[0:num_additional_rewards_needed]
   
-  # If we STILL need more rewards, use the grappling hook.
+  self.rng.shuffle(boss_reward_items)
+  
+  # If we STILL need more rewards, use the hookshot.
   num_additional_rewards_needed = total_num_rewards - len(boss_reward_items)
   if num_additional_rewards_needed > 0:
-    assert "Grappling Hook" in unplaced_progress_items_degrouped
-    boss_reward_items.append("Grappling Hook")
+    assert "Hookshot" in unplaced_progress_items_degrouped
+    # Need to make sure hookshot is at the start of the list since it's more picky about which bosses can drop it.
+    boss_reward_items.insert(0, "Hookshot")
   
   if len(boss_reward_items) != total_num_rewards:
     raise Exception("Number of boss reward items is incorrect: " + ", ".join(boss_reward_items))
-  
-  self.rng.shuffle(boss_reward_items)
   
   # Remove any Triforce Shards we're about to use from the progress item group.
   for group_name, group_item_names in self.logic.progress_item_groups.items():
@@ -122,12 +123,17 @@ def randomize_boss_rewards(self):
   if len(possible_boss_locations) != 6:
     raise Exception("Number of boss item locations is incorrect: " + ", ".join(possible_boss_locations))
   
-  self.rng.shuffle(possible_boss_locations)
-  required_boss_locations = possible_boss_locations[0:4]
-  
   # Decide what reward item to place in each boss location.
-  for location_name in required_boss_locations:
-    item_name = boss_reward_items.pop()
+  for item_name in boss_reward_items:
+    possible_boss_locations_for_this_item = possible_boss_locations.copy()
+    if item_name == "Hookshot":
+      possible_boss_locations_for_this_item = [
+        loc for loc in possible_boss_locations_for_this_item
+        if loc not in ["Wind Temple - Molgera Heart Container"]
+      ]
+    
+    location_name = self.rng.choice(possible_boss_locations_for_this_item)
+    possible_boss_locations.remove(location_name)
     self.logic.set_prerandomization_item_location(location_name, item_name)
     
     dungeon_name, _ = self.logic.split_location_name_by_zone(location_name)
