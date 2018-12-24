@@ -625,8 +625,6 @@ class Logic:
   def temporarily_make_entrance_macros_worst_case_scenario(self):
     # Update all the dungeon/secret cave access macros to be a combination of all the macros for accessing dungeons/secret caves that can have their entrance randomized.
     
-    return self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_caves=True)
-    
     if self.rando.options.get("randomize_entrances") == "Dungeons":
       self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_caves=False)
     elif self.rando.options.get("randomize_entrances") == "Secret Caves":
