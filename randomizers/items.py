@@ -97,7 +97,7 @@ def place_dungeon_item(self, item_name):
   accessible_undone_locations = self.logic.get_accessible_remaining_locations()
   accessible_undone_locations = [
     loc for loc in accessible_undone_locations
-    if loc not in self.logic.prerandomization_dungeon_item_locations
+    if loc not in self.logic.prerandomization_item_locations
   ]
   if not self.options.get("progression_tingle_chests"):
     accessible_undone_locations = [
@@ -118,7 +118,7 @@ def place_dungeon_item(self, item_name):
     raise Exception("No valid locations left to place dungeon items!")
   
   location_name = self.rng.choice(possible_locations)
-  self.logic.set_prerandomization_dungeon_item_location(location_name, item_name)
+  self.logic.set_prerandomization_item_location(location_name, item_name)
 
 def randomize_progression_items(self):
   accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
@@ -134,17 +134,17 @@ def randomize_progression_items(self):
     if not accessible_undone_locations:
       raise Exception("No locations left to place progress items!")
     
-    # If the player gained access to any dungeon item locations, we need to give them those items.
-    newly_accessible_dungeon_item_locations = [
+    # If the player gained access to any predetermined item locations, we need to give them those items.
+    newly_accessible_predetermined_item_locations = [
       loc for loc in accessible_undone_locations
-      if loc in self.logic.prerandomization_dungeon_item_locations
+      if loc in self.logic.prerandomization_item_locations
     ]
-    if newly_accessible_dungeon_item_locations:
-      for dungeon_item_location_name in newly_accessible_dungeon_item_locations:
-        dungeon_item_name = self.logic.prerandomization_dungeon_item_locations[dungeon_item_location_name]
-        self.logic.set_location_to_item(dungeon_item_location_name, dungeon_item_name)
+    if newly_accessible_predetermined_item_locations:
+      for predetermined_item_location_name in newly_accessible_predetermined_item_locations:
+        predetermined_item_name = self.logic.prerandomization_item_locations[predetermined_item_location_name]
+        self.logic.set_location_to_item(predetermined_item_location_name, predetermined_item_name)
       
-      continue # Redo this loop iteration with the dungeon item locations no longer being considered 'remaining'.
+      continue # Redo this loop iteration with the predetermined item locations no longer being considered 'remaining'.
 
     for location in accessible_undone_locations:
       if location not in location_weights:
@@ -155,12 +155,16 @@ def randomize_progression_items(self):
     
     possible_items = self.logic.unplaced_progress_items.copy()
     
-    if not self.options.get("keylunacy"):
-      # Don't randomly place dungeon items, it was already predetermined where they should be placed.
-      possible_items = [
-        item_name for item_name in self.logic.unplaced_progress_items
-        if not self.logic.is_dungeon_item(item_name)
-      ]
+    # Don't randomly place items that already had their location predetermined.
+    unfound_prerand_locs = [
+      loc for loc in self.logic.prerandomization_item_locations
+      if loc in self.logic.remaining_item_locations
+    ]
+    for location_name in unfound_prerand_locs:
+      prerand_item = self.logic.prerandomization_item_locations[location_name]
+      if prerand_item not in self.logic.all_progress_items:
+        continue
+      possible_items.remove(prerand_item)
     
     # Filter out items that are not valid in any of the locations we might use.
     possible_items = self.logic.filter_items_by_any_valid_location(possible_items, accessible_undone_locations)
@@ -254,10 +258,10 @@ def randomize_progression_items(self):
       location_name = self.rng.choice(possible_locations_with_weighting)
       self.logic.set_location_to_item(location_name, item_name)
   
-  # Make sure locations that should have dungeon items in them have them properly placed, even if the above logic missed them for some reason.
-  for location_name in self.logic.prerandomization_dungeon_item_locations:
+  # Make sure locations that should have predetermined items in them have them properly placed, even if the above logic missed them for some reason.
+  for location_name in self.logic.prerandomization_item_locations:
     if location_name in self.logic.remaining_item_locations:
-      dungeon_item_name = self.logic.prerandomization_dungeon_item_locations[location_name]
+      dungeon_item_name = self.logic.prerandomization_item_locations[location_name]
       self.logic.set_location_to_item(location_name, dungeon_item_name)
   
   game_beatable = self.logic.check_requirement_met("Can Reach and Defeat Ganondorf")

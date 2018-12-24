@@ -62,7 +62,7 @@ class Logic:
       self.locations_by_zone_name[zone_name].append(location_name)
     
     self.remaining_item_locations = list(self.item_locations.keys())
-    self.prerandomization_dungeon_item_locations = OrderedDict()
+    self.prerandomization_item_locations = OrderedDict()
     
     self.done_item_locations = OrderedDict()
     for location_name in self.item_locations:
@@ -185,14 +185,13 @@ class Logic:
     
     self.unplaced_progress_items.remove(group_name)
   
-  def set_prerandomization_dungeon_item_location(self, location_name, item_name):
-    # Temporarily keep track of where dungeon-specific items are placed before the main progression item randomization loop starts.
+  def set_prerandomization_item_location(self, location_name, item_name):
+    # Temporarily keep track of where certain items are placed before the main progression item randomization loop starts.
     
     #print("Setting prerand %s to %s" % (location_name, item_name))
     
-    assert self.is_dungeon_item(item_name)
     assert location_name in self.item_locations
-    self.prerandomization_dungeon_item_locations[location_name] = item_name
+    self.prerandomization_item_locations[location_name] = item_name
   
   def get_num_progression_items(self):
     num_progress_items = 0
@@ -347,8 +346,8 @@ class Logic:
     locations_to_check = self.filter_locations_for_progression(locations_to_check)
     for location_name in locations_to_check:
       if location_name not in accessible_undone_locations:
-        if location_name in self.prerandomization_dungeon_item_locations:
-          # We just ignore items with predetermined dungeon items when calculating usefulness fractions.
+        if location_name in self.prerandomization_item_locations:
+          # We just ignore items with predetermined items when calculating usefulness fractions.
           # TODO: In the future, we might want to consider recursively checking if the item here is useful, and if so include this location.
           continue
         inaccessible_undone_item_locations.append(location_name)
@@ -419,16 +418,16 @@ class Logic:
     self.add_owned_item_or_item_group(item_name)
     
     for location_name in inaccessible_undone_item_locations:
-      if location_name in self.prerandomization_dungeon_item_locations:
-        # If this location has a predetermined dungeon item in it, we need to recursively check if that dungeon item is useful.
-        unlocked_prerand_item = self.prerandomization_dungeon_item_locations[location_name]
+      if location_name in self.prerandomization_item_locations:
+        # If this location has a predetermined item in it, we need to recursively check if that item is useful.
+        unlocked_prerand_item = self.prerandomization_item_locations[location_name]
         # Need to exclude the current location from recursive checks to prevent infinite recursion.
         temp_inaccessible_undone_item_locations = [
           loc for loc in inaccessible_undone_item_locations
           if not loc == location_name
         ]
         if not self.check_item_is_useful(unlocked_prerand_item, temp_inaccessible_undone_item_locations):
-          # If that dungeon item is not useful, don't consider the current item useful for unlocking it.
+          # If that item is not useful, don't consider the current item useful for unlocking it.
           continue
         
         requirement_expression = self.item_locations[location_name]["Need"]
