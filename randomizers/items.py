@@ -103,7 +103,7 @@ def randomize_boss_rewards(self):
   if len(boss_reward_items) != total_num_rewards:
     raise Exception("Number of boss reward items is incorrect: " + ", ".join(boss_reward_items))
   
-  # Remove any Triforce Shards we're about to use from the progress item group.
+  # Remove any Triforce Shards we're about to use from the progress item group, and add them as ungrouped progress items instead.
   for group_name, group_item_names in self.logic.progress_item_groups.items():
     items_to_remove_from_group = [
       item_name for item_name in group_item_names
@@ -111,6 +111,10 @@ def randomize_boss_rewards(self):
     ]
     for item_name in items_to_remove_from_group:
       self.logic.progress_item_groups[group_name].remove(item_name)
+    if group_name in self.logic.unplaced_progress_items:
+      for item_name in items_to_remove_from_group:
+        self.logic.unplaced_progress_items.append(item_name)
+    
     if len(self.logic.progress_item_groups[group_name]) == 0:
       if group_name in self.logic.unplaced_progress_items:
         self.logic.unplaced_progress_items.remove(group_name)
