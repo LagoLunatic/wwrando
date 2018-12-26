@@ -136,7 +136,12 @@ def randomize_boss_rewards(self):
         if loc not in ["Wind Temple - Molgera Heart Container"]
       ]
     
-    location_name = self.rng.choice(possible_boss_locations_for_this_item)
+    if self.dungeons_only_start and "Dragon Roost Cavern - Gohma Heart Container" in possible_boss_locations_for_this_item:
+      location_name = "Dragon Roost Cavern - Gohma Heart Container"
+    elif self.dungeons_only_start and "Forbidden Woods - Kalle Demos Heart Container" in possible_boss_locations_for_this_item:
+      location_name = "Forbidden Woods - Kalle Demos Heart Container"
+    else:
+      location_name = self.rng.choice(possible_boss_locations_for_this_item)
     possible_boss_locations.remove(location_name)
     self.logic.set_prerandomization_item_location(location_name, item_name)
     
