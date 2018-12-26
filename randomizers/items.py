@@ -330,13 +330,13 @@ def randomize_progression_items(self):
       item_name = self.rng.choice(possible_items_when_not_placing_useful)
     
     if self.options.get("race_mode"):
-        locations_filtered = []
-        for location_name in accessible_undone_locations:
-          zone_name, _ = self.logic.split_location_name_by_zone(location_name)
-          if not self.logic.is_dungeon_location(location_name) or zone_name in self.race_mode_required_dungeons:
-            locations_filtered += [location_name]
-        if locations_filtered:
-          accessible_undone_locations = locations_filtered
+      locations_filtered = []
+      for location_name in accessible_undone_locations:
+        zone_name, _ = self.logic.split_location_name_by_zone(location_name)
+        if not self.logic.is_dungeon_location(location_name) or zone_name in self.race_mode_required_dungeons:
+          locations_filtered += [location_name]
+      if locations_filtered:
+        accessible_undone_locations = locations_filtered
     
     if item_name in self.logic.progress_item_groups:
       # If we're placing an entire item group, we use different logic for deciding the location.
