@@ -177,6 +177,19 @@ def randomize_dungeon_items(self):
   for item_name in items_to_temporarily_add:
     self.logic.add_owned_item_or_item_group(item_name)
   
+  if self.dungeons_only_start:
+    # Choose a random location out of the 6 easiest locations to access in DRC.
+    # This location will not have the big key, dungeon map, or compass on this seed. (But can still have small keys/non-dungeon items.)
+    # This is to prevent a rare error in dungeons-only-start.
+    self.drc_failsafe_location = self.rng.choice([
+      "Dragon Roost Cavern - First Room",
+      "Dragon Roost Cavern - Alcove With Water Jugs",
+      "Dragon Roost Cavern - Boarded Up Chest",
+      "Dragon Roost Cavern - Rat Room",
+      "Dragon Roost Cavern - Rat Room Boarded Up Chest",
+      "Dragon Roost Cavern - Bird's Nest",
+    ])
+  
   # Randomize small keys.
   small_keys_to_place = [
     item_name for item_name in (self.logic.unplaced_progress_items + self.logic.unplaced_nonprogress_items)
@@ -234,6 +247,14 @@ def place_dungeon_item(self, item_name):
     possible_locations = [
       loc for loc in possible_locations
       if not loc in ["Dragon Roost Cavern - Big Key Chest", "Dragon Roost Cavern - Tingle Statue Chest"]
+    ]
+  if self.dungeons_only_start and item_name in ["DRC Big Key", "DRC Dungeon Map", "DRC Compass"]:
+    # If we're in a dungeons-only start, we have to ban dungeon items except small keys from appearing in all 6 of the 6 easiest locations to access in DRC.
+    # If we don't do this, there is a small chance that those 6 locations will be filled with 3 small keys, the dungeon map, and the compass. The 4th small key will be in the path that sequence breaks the hanging platform, but there will be no open spots to put any non-dungeon items like grappling hook.
+    # To prevent this specific problem, one location (chosen randomly) is not allowed to have these items at all in dungeons-only-start. It can still have small keys and non-dungeon items.
+    possible_locations = [
+      loc for loc in possible_locations
+      if loc != self.drc_failsafe_location
     ]
   
   if not possible_locations:
