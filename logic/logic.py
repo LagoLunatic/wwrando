@@ -346,6 +346,9 @@ class Logic:
     locations_to_check = self.filter_locations_for_progression(locations_to_check)
     for location_name in locations_to_check:
       if location_name not in accessible_undone_locations:
+        if location_name in self.rando.race_mode_banned_locations:
+          # Don't consider locations inside unchosen dungeons in race mode when calculating usefulness.
+          continue
         if location_name in self.prerandomization_item_locations:
           # We just ignore items with predetermined items when calculating usefulness fractions.
           # TODO: In the future, we might want to consider recursively checking if the item here is useful, and if so include this location.
@@ -418,6 +421,10 @@ class Logic:
     self.add_owned_item_or_item_group(item_name)
     
     for location_name in inaccessible_undone_item_locations:
+      if location_name in self.rando.race_mode_banned_locations:
+        # Don't consider locations inside unchosen dungeons in race mode when calculating usefulness.
+        continue
+      
       if location_name in self.prerandomization_item_locations:
         # If this location has a predetermined item in it, we need to recursively check if that item is useful.
         unlocked_prerand_item = self.prerandomization_item_locations[location_name]
