@@ -341,6 +341,8 @@ def randomize_progression_items(self):
         num_locs_needed = 1
       if len(locations_filtered) >= num_locs_needed:
         accessible_undone_locations = locations_filtered
+      else:
+        raise Exception("Failed to prevent progress items from appearing in unchosen dungeons for race mode.")
     
     if item_name in self.logic.progress_item_groups:
       # If we're placing an entire item group, we use different logic for deciding the location.
