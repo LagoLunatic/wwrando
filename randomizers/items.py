@@ -319,7 +319,7 @@ def randomize_progression_items(self):
     # But if we place an item that is not yet useful, we need to exclude groups that are not useful.
     # This is so that a group doesn't wind up taking every single possible remaining location while not opening up new ones.
     possible_groups = [name for name in possible_items if name in self.logic.progress_item_groups]
-    useless_groups = self.logic.get_all_useless_items(possible_groups, for_progression=True)
+    useless_groups = self.logic.get_all_useless_items(possible_groups)
     possible_items_when_not_placing_useful = [name for name in possible_items if name not in useless_groups]
     # Only exception is when there's exclusively groups left to place. Then we allow groups even if they're not useful.
     if len(possible_items_when_not_placing_useful) == 0 and len(possible_items) > 0:
@@ -328,7 +328,7 @@ def randomize_progression_items(self):
     if must_place_useful_item or should_place_useful_item:
       shuffled_list = possible_items.copy()
       self.rng.shuffle(shuffled_list)
-      item_name = self.logic.get_first_useful_item(shuffled_list, for_progression=True)
+      item_name = self.logic.get_first_useful_item(shuffled_list)
       if item_name is None:
         if must_place_useful_item:
           raise Exception("No useful progress items to place!")
