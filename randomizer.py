@@ -214,6 +214,9 @@ class Randomizer:
     # This list will hold the randomly selected dungeons that are required in race mode.
     # If race mode is not on, this list will remain empty.
     self.race_mode_required_dungeons = []
+    # This list will hold all item location names that should not have any items in them in race mode.
+    # If race mode is not on, this list will remain empty.
+    self.race_mode_banned_locations = []
     
     self.custom_model_name = "Link"
     

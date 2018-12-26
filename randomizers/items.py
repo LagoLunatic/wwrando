@@ -142,6 +142,24 @@ def randomize_boss_rewards(self):
     
     dungeon_name, _ = self.logic.split_location_name_by_zone(location_name)
     self.race_mode_required_dungeons.append(dungeon_name)
+  
+  banned_dungeons = []
+  for boss_location_name in possible_boss_locations:
+    dungeon_name, _ = self.logic.split_location_name_by_zone(boss_location_name)
+    banned_dungeons.append(dungeon_name)
+  
+  for location_name in self.logic.item_locations:
+    zone_name, _ = self.logic.split_location_name_by_zone(location_name)
+    if self.logic.is_dungeon_location(location_name) and zone_name in banned_dungeons:
+      self.race_mode_banned_locations.append(location_name)
+    elif location_name == "Mailbox - Letter from Orca" and "Forbidden Woods" in banned_dungeons:
+      self.race_mode_banned_locations.append(location_name)
+    elif location_name == "Mailbox - Letter from Baito" and "Earth Temple" in banned_dungeons:
+      self.race_mode_banned_locations.append(location_name)
+    elif location_name == "Mailbox - Letter from Aryll" and "Forsaken Fortress" in banned_dungeons:
+      self.race_mode_banned_locations.append(location_name)
+    elif location_name == "Mailbox - Letter from Tingle" and "Forsaken Fortress" in banned_dungeons:
+      self.race_mode_banned_locations.append(location_name)
 
 def randomize_dungeon_items(self):
   # Places dungeon-specific items first so all the dungeon locations don't get used up by other items.
@@ -330,11 +348,10 @@ def randomize_progression_items(self):
       item_name = self.rng.choice(possible_items_when_not_placing_useful)
     
     if self.options.get("race_mode"):
-      locations_filtered = []
-      for location_name in accessible_undone_locations:
-        zone_name, _ = self.logic.split_location_name_by_zone(location_name)
-        if not self.logic.is_dungeon_location(location_name) or zone_name in self.race_mode_required_dungeons:
-          locations_filtered += [location_name]
+      locations_filtered = [
+        loc for loc in accessible_undone_locations
+        if loc not in self.race_mode_banned_locations
+      ]
       if item_name in self.logic.progress_item_groups:
         num_locs_needed = len(self.logic.progress_item_groups[item_name])
       else:
