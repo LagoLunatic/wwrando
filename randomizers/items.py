@@ -335,7 +335,11 @@ def randomize_progression_items(self):
         zone_name, _ = self.logic.split_location_name_by_zone(location_name)
         if not self.logic.is_dungeon_location(location_name) or zone_name in self.race_mode_required_dungeons:
           locations_filtered += [location_name]
-      if locations_filtered:
+      if item_name in self.logic.progress_item_groups:
+        num_locs_needed = len(self.logic.progress_item_groups[item_name])
+      else:
+        num_locs_needed = 1
+      if len(locations_filtered) >= num_locs_needed:
         accessible_undone_locations = locations_filtered
     
     if item_name in self.logic.progress_item_groups:
