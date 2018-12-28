@@ -1269,30 +1269,41 @@ stw r0, 0x14 (sp)
 lis r8, 0x803C9D44@ha ; Most recent spawn ID the player spawned from
 addi r8, r8, 0x803C9D44@l
 lha r8, 0 (r8)
-; Check if the player's last spawn ID was the one at the very start of the dungeon.
-cmpwi r8, 15
-; If not, skip resetting the position since the player did not actually leave and re-enter the dungeon.
-bne after_resetting_makar_position
 
-lis r8, 0xC5643065@ha ; Makar's starting X pos, -3651.02
-addi r8, r8, 0xC5643065@l
+; Search through the list of places Makar can spawn from to see which one corresponds to the player's last spawn ID, if any.
+lis r9, makar_possible_wt_spawn_positions@ha
+addi r9, r9, makar_possible_wt_spawn_positions@l
+li r0, 5 ; 5 possible spawn points
+mtctr r0
+makar_spawn_point_search_loop_start:
+lbz r0, 0 (r9) ; Spawn ID
+cmpw r0, r8
+beq reset_makar_found_matching_spawn_point ; Found the array element corresponding to this spawn ID
+addi r9, r9, 0x10 ; Increase pointer to point to next element
+bdnz makar_spawn_point_search_loop_start ; Loop
+
+; The player came from a spawn that doesn't correspond to any of the elements in the array, don't change Makar's position.
+b after_resetting_makar_position
+
+
+reset_makar_found_matching_spawn_point:
+lwz r8, 4 (r9) ; X pos
 stw r8, 0 (r5)
-lis r8, 0x44C2B54F@ha ; Makar's starting Y pos, 1557.67
-addi r8, r8, 0x44C2B54F@l
+lwz r8, 8 (r9) ; Y pos
 stw r8, 4 (r5)
-lis r8, 0x464ECCA7@ha ; Makar's starting Z pos, 13235.2
-addi r8, r8, 0x464ECCA7@l
+lwz r8, 0xC (r9) ; Z pos
 stw r8, 8 (r5)
 
-li r8, -0x6B60 ; Makar's starting rotation (0x94A0)
+lha r8, 2 (r9) ; Rotation
 sth r8, 0xC (r5)
 mr r6, r8 ; Argument r6 to setRestartOption needs to be the rotation
 mr r28, r8 ; Also modify the local variable rotation in Makar's code (for when he calls set__19dSv_player_priest)
 
-li r8, 0xF ; Makar's starting room index
+lbz r8, 1 (r9) ; Room index
 stb r8, 0xE (r5)
 mr r7, r8 ; Argument r7 to setRestartOption needs to be the room index
 mr r29, r8 ; Also modify the local variable room index in Makar's code (for when he calls set__19dSv_player_priest)
+
 
 after_resetting_makar_position:
 
@@ -1302,6 +1313,29 @@ lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
 blr
+
+makar_possible_wt_spawn_positions:
+; Spawn ID, room index, rotation, X pos, Y pos, Z pos
+; WT entrance
+.byte 15, 0xF
+.short 0x94A0
+.float -3651.02, 1557.67, 13235.2
+; First WT warp pot
+.byte 22, 0
+.short 0x4000
+.float -4196.33, 754.518, 7448.5
+; Second WT warp pot
+.byte 23, 2
+.short 0xB000
+.float 668.107, 1550, 2298.75
+; Third WT warp pot
+.byte 24, 12
+.short 0xC000
+.float 14203.1, -5062.49, 8948.05
+; Inter-dungeon warp pot in WT
+.byte 69, 3
+.short 0x4000
+.float -4146.65, 1100, 47.88
 
 
 
@@ -1315,31 +1349,41 @@ stw r0, 0x14 (sp)
 lis r8, 0x803C9D44@ha ; Most recent spawn ID the player spawned from
 addi r8, r8, 0x803C9D44@l
 lha r8, 0 (r8)
-; Check if the player's last spawn ID was the one at the very start of the dungeon.
-cmpwi r8, 0
-; If not, skip resetting the position since the player did not actually leave and re-enter the dungeon.
-bne after_resetting_medli_position
 
-lis r8, 0xC5E179B6@ha ; Medli's starting X pos, -7215.21
-addi r8, r8, 0xC5E179B6@l
+; Search through the list of places Medli can spawn from to see which one corresponds to the player's last spawn ID, if any.
+lis r9, medli_possible_et_spawn_positions@ha
+addi r9, r9, medli_possible_et_spawn_positions@l
+li r0, 5 ; 5 possible spawn points
+mtctr r0
+medli_spawn_point_search_loop_start:
+lbz r0, 0 (r9) ; Spawn ID
+cmpw r0, r8
+beq reset_medli_found_matching_spawn_point ; Found the array element corresponding to this spawn ID
+addi r9, r9, 0x10 ; Increase pointer to point to next element
+bdnz medli_spawn_point_search_loop_start ; Loop
+
+; The player came from a spawn that doesn't correspond to any of the elements in the array, don't change Medli's position.
+b after_resetting_medli_position
+
+
+reset_medli_found_matching_spawn_point:
+lwz r8, 4 (r9) ; X pos
 stw r8, 0 (r5)
-lis r8, 0xC3480000@ha ; Medli's starting Y pos, -200
-addi r8, r8, 0xC3480000@l
+lwz r8, 8 (r9) ; Y pos
 stw r8, 4 (r5)
-lis r8, 0x45A4564F@ha ; Medli's starting Z pos, 5258.79
-addi r8, r8, 0x45A4564F@l
+lwz r8, 0xC (r9) ; Z pos
 stw r8, 8 (r5)
 
-li r8, 0x7FFF ; Medli's starting rotation (0x8000)
-addi r8, r8, 1 ; (Can't put 0x8000 in a single li instruction so we need to add 1 afterwards)
+lha r8, 2 (r9) ; Rotation
 sth r8, 0xC (r5)
 mr r6, r8 ; Argument r6 to setRestartOption needs to be the rotation
 mr r31, r8 ; Also modify the local variable rotation in Medli's code (for when she calls set__19dSv_player_priest)
 
-li r8, 0 ; Medli's starting room index
+lbz r8, 1 (r9) ; Room index
 stb r8, 0xE (r5)
 mr r7, r8 ; Argument r7 to setRestartOption needs to be the room index
 mr r30, r8 ; Also modify the local variable room index in Medli's code (for when she calls set__19dSv_player_priest)
+
 
 after_resetting_medli_position:
 
@@ -1349,6 +1393,29 @@ lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
 blr
+
+medli_possible_et_spawn_positions:
+; Spawn ID, room index, rotation, X pos, Y pos, Z pos
+; ET entrance
+.byte 0, 0
+.short 0x8000
+.float -7215.21, -200, 5258.79
+; First ET warp pot
+.byte 22, 2
+.short 0xE000
+.float -2013.11, 200, -1262.97
+; Second ET warp pot
+.byte 23, 6
+.short 0x8000
+.float 4750, 350, -2251.06
+; Third ET warp pot
+.byte 24, 15
+.short 0xE000
+.float -2371.38, -2000, 8471.54
+; Inter-dungeon warp pot in ET
+.byte 69, 3
+.short 0x4000
+.float -256.939, 0, -778
 
 
 

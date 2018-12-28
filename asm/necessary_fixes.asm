@@ -772,21 +772,27 @@
 
 
 
-; When the player enters Wind Temple, reset Makar's position to the starting room.
+; When the player enters Wind Temple, reset Makar's position to the starting room, or to near the warp pot the player exited.
 ; This is to prevent possible softlocks where Makar can teleport to later rooms in the dungeon for seemingly no reason.
 .open "files/rels/d_a_npc_cb1.rel" ; Makar
 .org 0xD740 ; Relocation for line 0x7D4
   .int reset_makar_position_to_start_of_dungeon
+.org 0x7B4 ; This line originally stopped Makar from spawning if the partner ID number (803C4DC3) was not set to 1.
+  ; Remove the line so that Makar spawns in, even after taking an inter-dungeon warp pot.
+  nop
 .close
 
 
 
 
-; When the player enters Earth Temple, reset Medli's position to the starting room.
+; When the player enters Earth Temple, reset Medli's position to the starting room, or to near the warp pot the player exited.
 ; This is to prevent an issue where the player can't get past the first room without Medli unless they have Deku Leaf.
 .open "files/rels/d_a_npc_md.rel" ; Medli
 .org 0x19D34 ; Relocation for line 0xDB4
   .int reset_medli_position_to_start_of_dungeon
+.org 0xD94 ; This line originally stopped Medli from spawning if the partner ID number (803C4DC3) was not set to 2.
+  ; Remove the line so that Medli spawns in, even after taking an inter-dungeon warp pot.
+  nop
 .close
 
 
