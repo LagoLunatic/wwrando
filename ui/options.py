@@ -135,7 +135,7 @@ OPTIONS = OrderedDict([
   ),
   (
     "race_mode",
-    "In Race Mode, 4 randomly selected dungeon bosses will drop required items (Triforce Shards, Sword Upgrades, Bow Upgrades, or the Hookshot).\nYou can see which dungeons are required by opening the sea chart and checking which ones have blue quest markers over them.",
+    "In Race Mode, 4 random dungeon bosses will drop required items (e.g. Triforce Shards). Nothing in the other 2 dungeons will ever be required.\nYou can see which dungeons are required by opening the sea chart and checking which ones have blue quest markers over them.",
   ),
   
   (
