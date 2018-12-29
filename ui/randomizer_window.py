@@ -591,6 +591,13 @@ class WWRandomizerWindow(QMainWindow):
     else:
       self.ui.custom_model_comment.show()
     
+    # Allow customizing the text of the Casual Clothes checkbox.
+    casual_clothes_option_text = str(metadata.get("casual_clothes_option_text", "Casual Clothes"))
+    if len(casual_clothes_option_text) > 28:
+      # 28 character maximum length.
+      casual_clothes_option_text = casual_clothes_option_text[:28]
+    self.ui.player_in_casual_clothes.setText(casual_clothes_option_text)
+    
     is_casual = self.get_option_value("player_in_casual_clothes")
     if is_casual:
       prefix = "casual"
