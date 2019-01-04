@@ -93,7 +93,7 @@ def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
 
 def apply_patch(self, patch_name):
   with open(os.path.join(ASM_PATH, patch_name + "_diff.txt")) as f:
-    diffs = yaml.load(f)
+    diffs = yaml.safe_load(f)
   
   for file_path, diffs_for_file in diffs.items():
     data = self.get_raw_file(file_path)

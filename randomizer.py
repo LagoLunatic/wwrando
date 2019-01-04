@@ -452,10 +452,10 @@ class Randomizer:
       self.custom_symbols[symbol_name] = int(symbol_address, 16)
     
     with open(os.path.join(DATA_PATH, "progress_item_hints.txt"), "r") as f:
-      self.progress_item_hints = yaml.load(f)
+      self.progress_item_hints = yaml.safe_load(f)
     
     with open(os.path.join(DATA_PATH, "island_name_hints.txt"), "r") as f:
-      self.island_name_hints = yaml.load(f)
+      self.island_name_hints = yaml.safe_load(f)
   
   def get_arc(self, arc_path):
     arc_path = arc_path.replace("\\", "/")
