@@ -16,7 +16,7 @@ OPTIONS = OrderedDict([
   ),
   (
     "progression_combat_secret_caves",
-    "This controls whether combat-focused secret caves can contain progress items.<br><u>If this is not checked, they will still be randomized</u>, but will only contain optional items you don't need to beat the game."
+    "This controls whether combat-focused secret caves (besides Savage Labyrinth) can contain progress items.<br><u>If this is not checked, they will still be randomized</u>, but will only contain optional items you don't need to beat the game."
   ),
   (
     "progression_short_sidequests",
