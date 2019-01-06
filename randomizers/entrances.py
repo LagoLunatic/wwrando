@@ -123,7 +123,9 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
     entrance_names_with_no_requirements = []
     if self.options.get("progression_dungeons"):
       entrance_names_with_no_requirements += DUNGEON_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS
-    if self.options.get("progression_puzzle_secret_caves") or self.options.get("progression_combat_secret_caves"):
+    if self.options.get("progression_puzzle_secret_caves") \
+        or self.options.get("progression_combat_secret_caves") \
+        or self.options.get("progression_savage_labyrinth"):
       entrance_names_with_no_requirements += SECRET_CAVE_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS
     
     exit_names_with_no_requirements = []
@@ -133,6 +135,7 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
       exit_names_with_no_requirements += PUZZLE_SECRET_CAVE_EXIT_NAMES_WITH_NO_REQUIREMENTS
     if self.options.get("progression_combat_secret_caves"):
       exit_names_with_no_requirements += COMBAT_SECRET_CAVE_EXIT_NAMES_WITH_NO_REQUIREMENTS
+    # No need to check progression_savage_labyrinth, since neither of the items inside Savage have no requirements.
     
     possible_safety_entrances = [
       e for e in relevant_entrances

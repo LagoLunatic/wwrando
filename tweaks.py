@@ -1014,7 +1014,8 @@ def update_fishmen_hints(self):
     is_dungeon = "Dungeon" in self.logic.item_locations[location_name]["Types"]
     is_puzzle_cave = "Puzzle Secret Cave" in self.logic.item_locations[location_name]["Types"]
     is_combat_cave = "Combat Secret Cave" in self.logic.item_locations[location_name]["Types"]
-    if zone_name in self.dungeon_and_cave_island_locations and (is_dungeon or is_puzzle_cave or is_combat_cave):
+    is_savage = "Savage Labyrinth" in self.logic.item_locations[location_name]["Types"]
+    if zone_name in self.dungeon_and_cave_island_locations and (is_dungeon or is_puzzle_cave or is_combat_cave or is_savage):
       # If the location is in a dungeon or cave, use the hint for whatever island the dungeon/cave is located on.
       island_name = self.dungeon_and_cave_island_locations[zone_name]
       island_hint_name = self.island_name_hints[island_name]

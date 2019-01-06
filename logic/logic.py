@@ -476,6 +476,8 @@ class Logic:
         continue
       if "Combat Secret Cave" in types and not options.get("progression_combat_secret_caves"):
         continue
+      if "Savage Labyrinth" in types and not options.get("progression_savage_labyrinth"):
+        continue
       if "Short Sidequest" in types and not options.get("progression_short_sidequests"):
         continue
       if "Long Sidequest" in types and not options.get("progression_long_sidequests"):
@@ -483,6 +485,8 @@ class Logic:
       if "Spoils Trading" in types and not options.get("progression_spoils_trading"):
         continue
       if "Minigame" in types and not options.get("progression_minigames"):
+        continue
+      if "Sinking Ships" in types and not options.get("progression_sinking_ships"):
         continue
       if "Free Gift" in types and not options.get("progression_free_gifts"):
         continue

@@ -115,7 +115,7 @@ Outset Island - Savage Labyrinth - Floor 30:
   # * Floor 19 (2x Green Bokoblins, 3x Mothulas)
   # * Floor 27 (2x Green Bokoblins, 1x Darknut)
   Original item: Triforce Chart 6
-  Types: Combat Secret Cave
+  Types: Savage Labyrinth
   Paths:
     - Cave09/Room20.arc/Chest000
 Outset Island - Savage Labyrinth - Floor 50:
@@ -135,7 +135,7 @@ Outset Island - Savage Labyrinth - Floor 50:
   # * Floor 45 (16x Bokoblins)
   # * Floor 47 (3x Moblins, 2x Darknuts)
   Original item: Piece of Heart
-  Types: Combat Secret Cave
+  Types: Savage Labyrinth
   Paths:
     - Cave10/Room20.arc/Chest000
 
@@ -428,13 +428,13 @@ Windfall Island - Mila:
 Windfall Island - Sinking Ships - First Prize:
   Need: Nothing
   Original item: Piece of Heart
-  Types: Minigame
+  Types: Sinking Ships
   Paths:
     - rels/d_a_npc_kg1.rel@2C28
 Windfall Island - Sinking Ships - Second Prize:
   Need: Nothing
   Original item: Treasure Chart 7
-  Types: Minigame
+  Types: Sinking Ships
   Paths:
     - rels/d_a_npc_kg1.rel@2C29
 #Windfall Island - Sinking Ships - Prize 3+:
@@ -445,7 +445,7 @@ Windfall Island - Sinking Ships - Second Prize:
 Windfall Island - Sinking Ships - Under 20 Shots Prize:
   Need: Nothing
   Original item: Treasure Chart 23
-  Types: Minigame
+  Types: Sinking Ships
   Paths:
     - rels/d_a_npc_kg1.rel@2C2C
 #Windfall Island - Sinking Ships - Under 20 Shots Prize 2+:
