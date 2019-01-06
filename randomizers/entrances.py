@@ -116,7 +116,16 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
     relevant_entrances += SECRET_CAVE_ENTRANCES
     remaining_exits += SECRET_CAVE_EXITS
   
+  doing_progress_entrances_for_dungeons_and_caves_only_start = False
   if self.dungeons_and_caves_only_start:
+    if include_dungeons and self.options.get("progression_dungeons"):
+      doing_progress_entrances_for_dungeons_and_caves_only_start = True
+    if include_caves and (self.options.get("progression_puzzle_secret_caves") \
+        or self.options.get("progression_combat_secret_caves") \
+        or self.options.get("progression_savage_labyrinth")):
+      doing_progress_entrances_for_dungeons_and_caves_only_start = True
+  
+  if doing_progress_entrances_for_dungeons_and_caves_only_start:
     # If the player can't access any locations at the start besides dungeon/cave entrances, we choose an entrance with no requirements that will be the first place the player goes.
     # We will make this entrance lead to a dungeon/cave with no requirements so the player can actually get an item at the start.
     
@@ -148,7 +157,7 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
     relevant_entrances.insert(0, safety_entrance)
   
   for zone_entrance in relevant_entrances:
-    if self.dungeons_and_caves_only_start and zone_entrance == safety_entrance:
+    if doing_progress_entrances_for_dungeons_and_caves_only_start and zone_entrance == safety_entrance:
       possible_remaining_exits = [e for e in remaining_exits if e.unique_name in exit_names_with_no_requirements]
     else:
       possible_remaining_exits = remaining_exits
