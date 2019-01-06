@@ -152,10 +152,31 @@ lis r4, 0x0100
 stw r4, 0xC (r3)
 
 ; Set a switch (21) for having seen the gossip stone event in DRC where KoRL tells you about giving bait to rats.
+; Also set a switch (09) for having seen the event where the camera pans up to Valoo when you go outside.
+; Also set a switch (46) for having seen the event where the camera pans around when you first enter DRC.
 lis r3, 0x803C4FF4@ha ; Dragon Roost Cavern stage info.
 addi r3, r3, 0x803C4FF4@l
+li r4, 0x0200
+stw r4, 4 (r3)
 li r4, 0x0002
 stw r4, 8 (r3)
+li r4, 0x0040
+stw r4, 0xC (r3)
+
+; Set a switch (36) for having seen the event where the camera pans around the first room when you first enter FW.
+lis r3, 0x803C5018@ha ; Forbidden Woods stage info.
+addi r3, r3, 0x803C5018@l
+lis r4, 0x0040
+stw r4, 8 (r3)
+
+; Set a switch (2D) for having seen the event where the camera pans around when you go outside at the top of TotG.
+; Also set a switch (63) for having seen the event where the camera pans around the first room when you first enter TotG.
+lis r3, 0x803C503C@ha ; Tower of the Gods stage info.
+addi r3, r3, 0x803C503C@l
+li r4, 0x2000
+stw r4, 8 (r3)
+li r4, 0x0008
+stw r4, 0x10 (r3)
 
 ; Set a switch (2A) for having seen the gossip stone event where KoRL tells you Medli shows up on the compass.
 lis r3, 0x803C5060@ha ; Earth Temple stage info.
