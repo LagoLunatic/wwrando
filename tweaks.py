@@ -1512,11 +1512,11 @@ def implement_key_bag(self):
   self.bmg.messages_by_id[403].string = "Key Bag"
   str = "A handy bag for holding your keys!\n"
   str += "Here's how many you've got with you:\n"
-  str += "DRC keys: \\{1A 05 00 00 4B}    "
-  str += "FW keys: \\{1A 05 00 00 4C}    "
-  str += "TotG keys: \\{1A 05 00 00 4D}\n"
-  str += "ET keys: \\{1A 05 00 00 4E}      "
-  str += "WT keys: \\{1A 05 00 00 4F}"
+  str += "DRC: \\{1A 05 00 00 4B}    "
+  str += "FW: \\{1A 05 00 00 4C}    "
+  str += "TotG: \\{1A 05 00 00 4D}\n"
+  str += "ET: \\{1A 05 00 00 4E}      "
+  str += "WT: \\{1A 05 00 00 4F}"
   self.bmg.messages_by_id[603].string = str
   
   itemicons_arc = self.get_arc("files/res/Msg/itemicon.arc")

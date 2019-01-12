@@ -1832,6 +1832,7 @@ stwu sp, -0x50 (sp)
 mflr r0
 stw r0, 0x54 (sp)
 stw r31, 0xC (sp)
+stw r30, 8 (sp)
 mr r31, r3
 
 ; Convert the text command ID to the dungeon stage ID.
@@ -1854,6 +1855,7 @@ addi r3, r3, 0x803C4F88@l
 mulli r4, r4, 0x24 ; Use stage ID of the dungeon as the index, each entry in the list is 0x24 bytes long
 add r3, r3, r4
 lbz r4, 0x20 (r3) ; Current number of keys for the correct dungeon
+mr r30, r3 ; Remember the correct stage info pointer for later when we check the big key
 b exec_curr_num_keys_text_command_after_reading_num_keys
 
 exec_curr_num_keys_text_command_in_correct_dungeon:
@@ -1861,22 +1863,46 @@ exec_curr_num_keys_text_command_in_correct_dungeon:
 lis r3, 0x803C5380@ha ; Currently loaded stage info
 addi r3, r3, 0x803C5380@l
 lbz r4, 0x20 (r3) ; Current number of keys for the current dungeon
+mr r30, r3 ; Remember the correct stage info pointer for later when we check the big key
 
 
 exec_curr_num_keys_text_command_after_reading_num_keys:
 ; Convert int to string
-addi r3, r1, 0x1C
+addi r3, sp, 0x1C
 li r5, 0
 bl fopMsgM_int_to_char__FPcib
 
+; Check whether the player has the big key or not.
+lbz r4, 0x21 (r30) ; Bitfield of dungeon-specific flags in the appropriate stage info
+rlwinm. r4, r4, 0, 29, 29 ; Extract the has big key bit
+beq exec_curr_num_keys_text_command_does_not_have_big_key
+
+exec_curr_num_keys_text_command_has_big_key:
+; Append the " +Big" text
+addi r3, sp, 0x1C
+lis r4, key_text_command_has_big_key_text@ha
+addi r4, r4, key_text_command_has_big_key_text@l
+bl strcat
+b exec_curr_num_keys_text_command_after_appending_big_key_text
+
+exec_curr_num_keys_text_command_does_not_have_big_key:
+; Append some whitespace so that the text stays in the same spot regardless of whether you have the big key or not
+addi r3, sp, 0x1C
+lis r4, key_text_command_does_not_have_big_key_text@ha
+addi r4, r4, key_text_command_does_not_have_big_key_text@l
+bl strcat
+
+exec_curr_num_keys_text_command_after_appending_big_key_text:
+
+
 ; Concatenate to one of the main strings
 lwz r3, 0x60(r31)
-addi r4, r1, 0x1C
+addi r4, sp, 0x1C
 bl strcat
 
 ; Concatenate to one of the main strings
 lwz r3, 0x68(r31)
-addi r4, r1, 0x1C
+addi r4, sp, 0x1C
 bl strcat
 
 ; Increase the offset within the encoded message string to be past the end of this text command
@@ -1886,11 +1912,17 @@ stw r4, 0x118(r31)
 
 ; Note: There are some other things that the vanilla text commands did that are currently not implemented for these custom ones. Such as what appears to be keeping track of the current line length, possibly for word wrapping or text alignment purposes (which aren't necessary for the Key Bag).
 
+lwz r30, 8 (sp)
 lwz r31, 0xC (sp)
 lwz r0, 0x54 (sp)
 mtlr r0
 addi sp, sp, 0x50
 blr
+
+key_text_command_has_big_key_text:
+.string " +Big"
+key_text_command_does_not_have_big_key_text:
+.string "     "
 
 
 
