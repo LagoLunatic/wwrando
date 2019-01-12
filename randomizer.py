@@ -34,7 +34,7 @@ VERSION_WITHOUT_COMMIT = VERSION
 try:
   from sys import _MEIPASS
 except ImportError:
-  git_commit_hash_file = os.path.join(RANDO_ROOT_PATH, ".git", "ORIG_HEAD")
+  git_commit_hash_file = os.path.join(RANDO_ROOT_PATH, ".git", "HEAD")
   if os.path.isfile(git_commit_hash_file):
     with open(git_commit_hash_file, "r") as f:
       VERSION += "_" + f.read()[:7]
