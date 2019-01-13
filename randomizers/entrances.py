@@ -195,6 +195,18 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
       exit_scls.spawn_id = zone_entrance.spawn_id
       exit_scls.save_changes()
       
+      if zone_exit in SECRET_CAVE_EXITS:
+        # Update the sector coordinates in the 2DMA chunk so that save-and-quitting in a secret cave puts you on the correct island.
+        exit_dzs_path = "files/res/Stage/%s/Stage.arc" % zone_exit.stage_name
+        exit_dzs = self.get_arc(exit_dzs_path).get_file("stage.dzs")
+        _2dma = exit_dzs.entries_by_type("2DMA")[0]
+        island_number = self.island_name_to_number[zone_entrance.island_name]
+        sector_x = (island_number-1) % 7
+        sector_y = (island_number-1) // 7
+        _2dma.sector_x = sector_x-3
+        _2dma.sector_y = sector_y-3
+        _2dma.save_changes()
+      
       if zone_exit.boss_stage_name is not None:
         # Update the wind warp out event to take you to the correct island.
         boss_stage_arc_path = "files/res/Stage/%s/Stage.arc" % zone_exit.boss_stage_name

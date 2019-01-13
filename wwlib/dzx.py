@@ -923,6 +923,30 @@ class EVNT(ChunkEntry):
     
     write_bytes(data, self.offset+0x15, self.padding)
 
+class _2DMA(ChunkEntry):
+  DATA_SIZE = 0x38
+  
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+  
+  def read(self, offset):
+    self.offset = offset
+    data = self.file_entry.data
+    
+    sector_coordinates = read_u8(data, offset+0x36)
+    self.sector_x =  sector_coordinates & 0x0F
+    self.sector_y = (sector_coordinates & 0xF0) >> 4
+    if self.sector_x >= 8: # Negative
+      self.sector_x = 16 - self.sector_x
+    if self.sector_y >= 8: # Negative
+      self.sector_y = 16 - self.sector_y
+  
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    sector_coordinates = (self.sector_x & 0xF) | ((self.sector_y & 0xF) << 4)
+    write_u8(data, self.offset+0x36, sector_coordinates)
+
 class DummyEntry(ChunkEntry):
   def __init__(self, file_entry):
     self.file_entry = file_entry
@@ -940,9 +964,6 @@ class DummyEntry(ChunkEntry):
 
 class FLOR(DummyEntry):
   DATA_SIZE = 0x14
-
-class _2DMA(DummyEntry):
-  DATA_SIZE = 0x38
 
 class LBNK(DummyEntry):
   DATA_SIZE = 0x1
