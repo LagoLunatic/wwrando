@@ -207,6 +207,24 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
         _2dma.sector_y = sector_y-3
         _2dma.save_changes()
       
+      if zone_exit.unique_name == "Ice Ring Isle Secret Cave":
+        # Also update the inner cave of Ice Ring Isle to take you out to the correct entrance as well.
+        inner_cave_dzx_path = "files/res/Stage/ITest62/Room0.arc"
+        inner_cave_dzx = self.get_arc(inner_cave_dzx_path).get_file("room.dzr")
+        inner_cave_exit_scls = inner_cave_dzx.entries_by_type("SCLS")[0]
+        inner_cave_exit_scls.dest_stage_name = zone_entrance.stage_name
+        inner_cave_exit_scls.room_index = zone_entrance.room_num
+        inner_cave_exit_scls.spawn_id = zone_entrance.spawn_id
+        inner_cave_exit_scls.save_changes()
+        
+        # Also update the sector coordinates in the 2DMA chunk of the inner cave of Ice Ring Isle so save-and-quitting works properly there.
+        inner_cave_dzs_path = "files/res/Stage/ITest62/Stage.arc"
+        inner_cave_dzs = self.get_arc(inner_cave_dzs_path).get_file("stage.dzs")
+        inner_cave_2dma = inner_cave_dzs.entries_by_type("2DMA")[0]
+        inner_cave_2dma.sector_x = sector_x-3
+        inner_cave_2dma.sector_y = sector_y-3
+        inner_cave_2dma.save_changes()
+      
       if zone_exit.boss_stage_name is not None:
         # Update the wind warp out event to take you to the correct island.
         boss_stage_arc_path = "files/res/Stage/%s/Stage.arc" % zone_exit.boss_stage_name
