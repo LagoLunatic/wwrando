@@ -641,6 +641,18 @@ class WWRandomizerWindow(QMainWindow):
       self.ui.custom_colors_layout.addLayout(hlayout)
     
     self.update_model_preview()
+    
+    # Hide the custom voice disable option for models that don't have custom voice files.
+    if custom_model_name == "Random" or custom_model_name == "Random (exclude Link)":
+      self.ui.disable_custom_player_voice.show()
+    else:
+      custom_model_path = "./models/%s/" % custom_model_name
+      jaiinit_aaf_path = custom_model_path + "sound/JaiInit.aaf"
+      voice_aw_path = custom_model_path + "sound/voice_0.aw"
+      if os.path.isfile(jaiinit_aaf_path) and os.path.isfile(voice_aw_path):
+        self.ui.disable_custom_player_voice.show()
+      else:
+        self.ui.disable_custom_player_voice.hide()
   
   def reset_color_selectors_to_model_default_colors(self):
     custom_model_name = self.get_option_value("custom_player_model")
