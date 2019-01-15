@@ -933,6 +933,24 @@ class _2DMA(ChunkEntry):
     self.offset = offset
     data = self.file_entry.data
     
+    self.full_map_image_scale_x = read_float(data, offset)
+    self.full_map_image_scale_y = read_float(data, offset+4)
+    self.full_map_space_scale_x = read_float(data, offset+8)
+    self.full_map_space_scale_y = read_float(data, offset+0xC)
+    self.full_map_x_coord = read_float(data, offset+0x10)
+    self.full_map_y_coord = read_float(data, offset+0x14)
+    
+    self.zoomed_map_x_scrolling_1 = read_float(data, offset+0x18)
+    self.zoomed_map_y_scrolling_1 = read_float(data, offset+0x1C)
+    self.zoomed_map_x_scrolling_2 = read_float(data, offset+0x20)
+    self.zoomed_map_y_scrolling_2 = read_float(data, offset+0x24)
+    self.zoomed_map_x_coord = read_float(data, offset+0x28)
+    self.zoomed_map_y_coord = read_float(data, offset+0x2C)
+    self.zoomed_map_scale = read_float(data, offset+0x30)
+    
+    self.unknown_1 = read_u8(data, offset+0x34)
+    self.unknown_2 = read_u8(data, offset+0x35)
+    
     sector_coordinates = read_u8(data, offset+0x36)
     self.sector_x =  sector_coordinates & 0x0F
     self.sector_y = (sector_coordinates & 0xF0) >> 4
@@ -940,12 +958,34 @@ class _2DMA(ChunkEntry):
       self.sector_x = 16 - self.sector_x
     if self.sector_y >= 8: # Negative
       self.sector_y = 16 - self.sector_y
+    
+    self.padding = read_u8(data, offset+0x37)
   
   def save_changes(self):
     data = self.file_entry.data
     
+    write_float(data, self.offset+0x00, self.full_map_image_scale_x)
+    write_float(data, self.offset+0x04, self.full_map_image_scale_y)
+    write_float(data, self.offset+0x08, self.full_map_space_scale_x)
+    write_float(data, self.offset+0x0C, self.full_map_space_scale_y)
+    write_float(data, self.offset+0x10, self.full_map_x_coord)
+    write_float(data, self.offset+0x14, self.full_map_y_coord)
+    
+    write_float(data, self.offset+0x18, self.zoomed_map_x_scrolling_1)
+    write_float(data, self.offset+0x1C, self.zoomed_map_y_scrolling_1)
+    write_float(data, self.offset+0x20, self.zoomed_map_x_scrolling_2)
+    write_float(data, self.offset+0x24, self.zoomed_map_y_scrolling_2)
+    write_float(data, self.offset+0x28, self.zoomed_map_x_coord)
+    write_float(data, self.offset+0x2C, self.zoomed_map_y_coord)
+    write_float(data, self.offset+0x30, self.zoomed_map_scale)
+    
+    write_u8(data, self.offset+0x34, self.unknown_1)
+    write_u8(data, self.offset+0x35, self.unknown_2)
+    
     sector_coordinates = (self.sector_x & 0xF) | ((self.sector_y & 0xF) << 4)
     write_u8(data, self.offset+0x36, sector_coordinates)
+    
+    write_u8(data, self.offset+0x37, self.padding)
 
 class DummyEntry(ChunkEntry):
   def __init__(self, file_entry):
