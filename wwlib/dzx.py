@@ -217,7 +217,7 @@ class TRES(ChunkEntry):
     "chest_type":              0x00F00000,
     "appear_condition_switch": 0x000FF000,
     "opened_flag":             0x00000F80,
-    "appear_condition_type":   0x0000007F,
+    "behavior_type":           0x0000007F,
   }
   
   def __init__(self, file_entry):
