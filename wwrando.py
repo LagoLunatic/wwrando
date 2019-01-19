@@ -6,7 +6,7 @@ from PySide2.QtWidgets import *
 
 import sys
 
-from ui.randomizer_window import WWRandomizerWindow
+from wwr_ui.randomizer_window import WWRandomizerWindow
 
 try:
   from sys import _MEIPASS

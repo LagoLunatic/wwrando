@@ -3,9 +3,9 @@ from PySide2.QtGui import *
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 
-from ui.ui_randomizer_window import Ui_MainWindow
-from ui.options import OPTIONS, NON_PERMALINK_OPTIONS
-from ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
+from wwr_ui.ui_randomizer_window import Ui_MainWindow
+from wwr_ui.options import OPTIONS, NON_PERMALINK_OPTIONS
+from wwr_ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
 
 import random
 from collections import OrderedDict
