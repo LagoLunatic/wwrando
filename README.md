@@ -24,8 +24,7 @@ If you've consulted the spoiler log and you're still stuck, it's possible you've
 Please report bugs like that here: https://github.com/LagoLunatic/wwrando/issues  
 In the bug report be sure to include the permalink for the seed you encountered the bug on.
 
-If you're going to play on emulator, you should always use the latest development version of Dolphin which can be found at the top of this page: https://dolphin-emu.org/download/  
-The minimum version of Dolphin that works with the randomizer is 5.0-4740 (released July 20th, 2017). If you try to run the randomizer on anything older than that you will just see a black screen when you boot it up.
+If you're going to play on emulator, you should use the latest development version of Dolphin which can be found at the top of this page: https://dolphin-emu.org/download/  
 
 ### Discord Server
 

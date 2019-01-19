@@ -212,8 +212,7 @@ class WWRandomizerWindow(QMainWindow):
     self.progress_dialog.reset()
     
     text = """Randomization complete.<br><br>
-      If you get stuck, check the progression spoiler log in the output folder.<br><br>
-      <b>If you try to load the game in Dolphin and get a black screen, you should update to the latest development build of Dolphin:<br><a href=\"https://en.dolphin-emu.org/download/\">https://en.dolphin-emu.org/download/</a></b>"""
+      If you get stuck, check the progression spoiler log in the output folder."""
     
     self.complete_dialog = QMessageBox()
     self.complete_dialog.setTextFormat(Qt.TextFormat.RichText)
