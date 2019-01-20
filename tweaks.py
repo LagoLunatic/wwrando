@@ -1032,7 +1032,14 @@ def update_fishmen_hints(self):
     hint_lines.append(
       "I've heard from my sources that \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} is located in \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}." % (item_hint_name, island_hint_name)
     )
+    # Add a two-second wait command (delay) to prevent the player from skipping over the hint accidentally.
+    hint_lines[-1] += "\\{1A 07 00 00 07 00 3C}"
+    
     hint_lines.append("Could be worth a try checking that place out. If you know where it is, of course.")
+    if self.options.get("instant_text_boxes"):
+      # If instant text mode is on, we need to reset the text speed to instant after the wait command messed it up.
+      hint_lines[-1] = "\\{1A 05 00 00 01}" + hint_lines[-1]
+    
     hint = ""
     for hint_line in hint_lines:
       hint_line = word_wrap_string(hint_line)
