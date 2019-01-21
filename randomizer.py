@@ -358,6 +358,7 @@ class Randomizer:
     tweaks.show_seed_hash_on_name_entry_screen(self)
     tweaks.fix_ghost_ship_chest_crash(self)
     tweaks.implement_key_bag(self)
+    tweaks.prevent_fire_mountain_lava_softlock(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)

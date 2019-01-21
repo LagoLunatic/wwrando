@@ -1589,3 +1589,14 @@ def disable_ice_ring_isle_and_fire_mountain_effects_indoors(self):
   kill_trigger = next(x for x in actors if x.name == "VolTag")
   fm_dzx.remove_entity(kill_trigger, "ACTR", layer=None)
   fm_dzx.save_changes()
+
+def prevent_fire_mountain_lava_softlock(self):
+  # Sometimes when spawning from spawn ID 0 outside fire mountain, the player will get stuck in an infinite loop of taking damage from lava.
+  # I'm not sure exactly why this is, since the boiling water doesn't act like lava when you swim in it or ride the boat in it, but it sometimes does when spawning in the boat inside the boiling water.
+  # But moving the spawn's position to just outside the boiling water seems to prevent this from happening.
+  
+  fire_mountain_dzr = self.get_arc("files/res/Stage/sea/Room20.arc").get_file("room.dzr")
+  spawn = next(spawn for spawn in fire_mountain_dzr.entries_by_type("PLYR") if spawn.spawn_id == 0)
+  spawn.x_pos += 1000
+  spawn.z_pos -= 1000
+  spawn.save_changes()
