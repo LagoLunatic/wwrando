@@ -178,7 +178,7 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
       entrance_scls.spawn_id = zone_exit.spawn_id
       entrance_scls.save_changes()
       
-      # Update the DRI spawn to not have spawn ID 5.
+      # Update the DRI spawn to not have spawn type 5.
       # If the DRI entrance was connected to the TotG dungeon, then exiting TotG while riding KoRL would crash the game.
       entrance_spawns = entrance_dzx.entries_by_type("PLYR")
       entrance_spawn = next(spawn for spawn in entrance_spawns if spawn.spawn_id == zone_entrance.spawn_id)
