@@ -94,6 +94,7 @@ def print_all_used_item_pickup_flags(self):
   used_item_flags_by_stage_id = OrderedDict(sorted(
     used_item_flags_by_stage_id.items(), key=lambda x: x[0]
   ))
+  print()
   print("Item flags:")
   for stage_id, item_flags in used_item_flags_by_stage_id.items():
     print("Stage id: %02X" % stage_id)
@@ -108,8 +109,6 @@ def print_all_used_chest_open_flags(self):
   for dzs, stage_arc_path, rooms in each_stage_with_rooms(self):
     stage_info = dzs.entries_by_type("STAG")[0]
     stage_id = stage_info.stage_id
-    if stage_id == 9:
-      print(stage_arc_path)
     if stage_id not in used_chest_flags_by_stage_id:
       used_chest_flags_by_stage_id[stage_id] = []
     
@@ -140,6 +139,8 @@ def print_all_used_chest_open_flags(self):
       print("  %02X (Item: %s) in %s" % (chest_flag, item_name, arc_path_short))
 
 def print_all_event_flags_used_by_stb_cutscenes(self):
+  print()
+  print("Event flags:")
   for dzs, stage_arc_path in each_stage(self):
     event_list = self.get_arc(stage_arc_path).get_file("event_list.dat")
     for event in event_list.events:
@@ -149,7 +150,6 @@ def print_all_event_flags_used_by_stb_cutscenes(self):
         play = next(x for x in package.actions if x.name == "PLAY")
         prop = play.get_prop("EventFlag")
         if prop:
-          print(stage_arc_path)
-          print(event.name)
-          print("%04X" % prop.value)
-          print()
+          print("Event name: %s" % event.name)
+          print("  Event flag: %04X" % prop.value)
+          print("  File path: " + stage_arc_path)
