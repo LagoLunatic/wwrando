@@ -582,14 +582,14 @@ class Randomizer:
       
       if stage_match:
         stage_name = stage_match.group(1)
-        if self.stage_names[stage_name] == "Unused":
+        if self.stage_names[stage_name] in ["Unused", "Broken"]:
           # Don't iterate through unused stages. Not only would they be useless, but some unused stages have slightly different stage formats that the rando can't read.
           continue
         all_stage_arc_paths.append(filename)
       
       if room_match:
         stage_name = room_match.group(1)
-        if self.stage_names[stage_name] == "Unused":
+        if self.stage_names[stage_name] in ["Unused", "Broken"]:
           # Don't iterate through unused stages. Not only would they be useless, but some unused stages have slightly different stage formats that the rando can't read.
           continue
         all_room_arc_paths.append(filename)
