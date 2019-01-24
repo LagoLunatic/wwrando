@@ -1588,3 +1588,81 @@ def prevent_fire_mountain_lava_softlock(self):
   spawn.x_pos += 1000
   spawn.z_pos -= 1000
   spawn.save_changes()
+
+def add_chest_in_place_of_jabun_cutscene(self):
+  # Add a chest on a raft to Jabun's cave to replace the cutscene item you would normally get there.
+  
+  jabun_dzr = self.get_arc("files/res/Stage/Pjavdou/Room0.arc").get_file("room.dzr")
+  
+  raft = jabun_dzr.add_entity("ACTR", layer=None)
+  raft.name = "Ikada"
+  raft.y_rot = 0x8000
+  
+  jabun_chest = jabun_dzr.add_entity("TRES", layer=None)
+  jabun_chest.name = "takara3"
+  jabun_chest.params = 0xFF000000
+  jabun_chest.chest_type = 2
+  jabun_chest.appear_condition_switch = 0xFF
+  jabun_chest.opened_flag = 6
+  jabun_chest.behavior_type = 5 # Necessary for the chest to bob up and down with the raft it's on
+  jabun_chest.x_pos = 0
+  jabun_chest.y_pos = 300
+  jabun_chest.z_pos = -200
+  jabun_chest.room_num = 0
+  jabun_chest.y_rot = 0x8000
+  jabun_chest.item_id = self.item_name_to_id["Nayru's Pearl"]
+  
+  jabun_dzr.save_changes()
+  
+  
+  # Also move the big stone door and whirlpool blocking Jabun's cave entrance from layer 5 to the default layer.
+  # This is so they appear during the day too, not just at night.
+  outset_dzr = self.get_arc("files/res/Stage/sea/Room44.arc").get_file("room.dzr")
+  
+  layer_5_actors = outset_dzr.entries_by_type_and_layer("ACTR", 5)
+  layer_5_door = next(x for x in layer_5_actors if x.name == "Ajav")
+  layer_5_whirlpool = next(x for x in layer_5_actors if x.name == "Auzu")
+  
+  layer_none_door = outset_dzr.add_entity("ACTR", layer=None)
+  layer_none_door.name = layer_5_door.name
+  layer_none_door.params = layer_5_door.params
+  layer_none_door.x_pos = layer_5_door.x_pos
+  layer_none_door.y_pos = layer_5_door.y_pos
+  layer_none_door.z_pos = layer_5_door.z_pos
+  layer_none_door.auxilary_param = layer_5_door.auxilary_param
+  layer_none_door.y_rot = layer_5_door.y_rot
+  layer_none_door.auxilary_param_2 = layer_5_door.auxilary_param_2
+  layer_none_door.enemy_number = layer_5_door.enemy_number
+  
+  layer_none_whirlpool = outset_dzr.add_entity("ACTR", layer=None)
+  layer_none_whirlpool.name = layer_5_whirlpool.name
+  layer_none_whirlpool.params = layer_5_whirlpool.params
+  layer_none_whirlpool.x_pos = layer_5_whirlpool.x_pos
+  layer_none_whirlpool.y_pos = layer_5_whirlpool.y_pos
+  layer_none_whirlpool.z_pos = layer_5_whirlpool.z_pos
+  layer_none_whirlpool.auxilary_param = layer_5_whirlpool.auxilary_param
+  layer_none_whirlpool.y_rot = layer_5_whirlpool.y_rot
+  layer_none_whirlpool.auxilary_param_2 = layer_5_whirlpool.auxilary_param_2
+  layer_none_whirlpool.enemy_number = layer_5_whirlpool.enemy_number
+  
+  outset_dzr.remove_entity(layer_5_door, "ACTR", layer=5)
+  outset_dzr.remove_entity(layer_5_whirlpool, "ACTR", layer=5)
+  
+  outset_dzr.save_changes()
+  
+  
+  # Also modify the event that happens when you destroy the big stone door so that KoRL doesn't automatically enter the cave.
+  event_list = self.get_arc("files/res/Stage/sea/Stage.arc").get_file("event_list.dat")
+  unlock_cave_event = event_list.events_by_name["ajav_uzu"]
+  director = next(actor for actor in unlock_cave_event.actors if actor.name == "DIRECTOR")
+  camera = next(actor for actor in unlock_cave_event.actors if actor.name == "CAMERA")
+  ship = next(actor for actor in unlock_cave_event.actors if actor.name == "Ship")
+  
+  director.actions = director.actions[0:1]
+  camera.actions = camera.actions[0:2]
+  ship.actions = ship.actions[0:2]
+  unlock_cave_event.ending_flags = [
+    director.actions[-1].flag_id_to_set,
+    camera.actions[-1].flag_id_to_set,
+    -1
+  ]

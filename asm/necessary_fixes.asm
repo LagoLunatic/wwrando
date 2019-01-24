@@ -1090,3 +1090,16 @@
 .org 0x80033E74
   b check_run_new_text_commands
 .close
+
+
+
+
+; Make the stone door and whirlpool blocking Jabun's cave appear even when the Endless Night event bit is not set.
+.open "files/rels/d_a_obj_ajav.rel" ; Big stone door blocking the entrance to Jabun's cave
+.org 0x1568 ; Branch taken if Endless Night event bit is not set
+  nop ; Remove it
+.close
+.open "files/rels/d_a_obj_auzu.rel" ; Whirlpool outside Jabun's cave
+.org 0x580 ; In is_exist__Q29daObjAuzu5Act_cCFv
+  b 0x5B0 ; Skip over the Endless Night event bit check and just always return true
+.close

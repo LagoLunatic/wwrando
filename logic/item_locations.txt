@@ -75,11 +75,13 @@ Outset Island - Great Fairy:
 #  Original item: Elixir Soup
 #  Paths:
 #    - LinkRM/Stage.arc/Event003:Ba1_Get_Itm/Actor002/Action001
-#Outset Island - Jabun:
-#  Need: 
-#  Original item: Nayru's Pearl
-#  Paths:
-#    - main.dol@358D39
+Outset Island - Jabun's Cave:
+  Need: Bombs
+  Original item: Nayru's Pearl
+  Types: Other Chest
+  Paths:
+    - main.dol@358D39
+    - Pjavdou/Room0.arc/Chest000
 Outset Island - Dig up Black Soil:
   Need: Bait Bag & Can Buy Bait & Power Bracelets
   Original item: Piece of Heart

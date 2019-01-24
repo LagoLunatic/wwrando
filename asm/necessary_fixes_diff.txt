@@ -232,3 +232,7 @@ files/rels/d_a_npc_tc.rel:
   37772: [128, 63, 230, 116]
   37812: [128, 63, 230, 116]
   37876: [128, 63, 230, 116]
+files/rels/d_a_obj_ajav.rel:
+  5480: [96, 0, 0, 0]
+files/rels/d_a_obj_auzu.rel:
+  1408: [72, 0, 0, 48]
