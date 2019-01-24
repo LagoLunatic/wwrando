@@ -543,7 +543,7 @@ class Action:
     write_bytes(data, self.offset+0x40, self.zero_initialized_runtime_data)
   
   def get_prop(self, prop_name):
-    return next(prop for prop in self.properties if prop.name == prop_name)
+    return next((prop for prop in self.properties if prop.name == prop_name), None)
    
   def add_property(self, name):
     prop = Property(self.file_entry)
