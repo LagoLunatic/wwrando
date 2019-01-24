@@ -463,10 +463,6 @@ def add_ganons_tower_warp_to_ff2(self):
   
   dzx = self.get_arc("files/res/Stage/sea/Room1.arc").get_file("room.dzr")
   
-  layer_1_actors = dzx.entries_by_type_and_layer("ACTR", 1)
-  if any(x for x in layer_1_actors if x.name == "Warpmj"):
-    return # This tweak was already applied, don't double up the warp
-  
   layer_2_actors = dzx.entries_by_type_and_layer("ACTR", 2)
   layer_2_warp = next(x for x in layer_2_actors if x.name == "Warpmj")
   
@@ -488,10 +484,6 @@ def add_chest_in_place_medli_grappling_hook_gift(self):
   
   dzx = self.get_arc("files/res/Stage/M_Dra09/Stage.arc").get_file("stage.dzs")
   
-  chests = dzx.entries_by_type("TRES")
-  if any(x for x in chests if x.opened_flag == 0x11):
-    return # This tweak was already applied, don't double up the chest
-  
   chest_in_jail = dzx.add_entity("TRES", layer=None)
   chest_in_jail.name = "takara3"
   chest_in_jail.params = 0xFF000000 # Unknown param, probably unused
@@ -510,10 +502,6 @@ def add_chest_in_place_queen_fairy_cutscene(self):
   # Add a chest in place of the Queen Fairy cutscene inside Mother Isle.
   
   dzx = self.get_arc("files/res/Stage/sea/Room9.arc").get_file("room.dzr")
-  
-  chests = dzx.entries_by_type("TRES")
-  if any(x for x in chests if x.opened_flag == 0x1C):
-    return # This tweak was already applied, don't double up the chest
   
   mother_island_chest = dzx.add_entity("TRES", layer=None)
   mother_island_chest.name = "takara3"
