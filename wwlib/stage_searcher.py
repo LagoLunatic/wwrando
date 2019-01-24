@@ -138,3 +138,18 @@ def print_all_used_chest_open_flags(self):
     for chest_flag, item_name, arc_path in chest_flags:
       arc_path_short = arc_path[len("files/res/Stage/"):-len(".arc")]
       print("  %02X (Item: %s) in %s" % (chest_flag, item_name, arc_path_short))
+
+def print_all_event_flags_used_by_stb_cutscenes(self):
+  for dzs, stage_arc_path in each_stage(self):
+    event_list = self.get_arc(stage_arc_path).get_file("event_list.dat")
+    for event in event_list.events:
+      package = [x for x in event.actors if x.name == "PACKAGE"]
+      if package:
+        package = package[0]
+        play = next(x for x in package.actions if x.name == "PLAY")
+        prop = play.get_prop("EventFlag")
+        if prop:
+          print(stage_arc_path)
+          print(event.name)
+          print("%04X" % prop.value)
+          print()
