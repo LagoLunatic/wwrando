@@ -60,6 +60,7 @@ class Randomizer:
     if self.bulk_test:
       self.dry_run = True
       self.no_logs = True
+    self.print_used_flags = ("-printflags" in cmd_line_args)
     
     self.integer_seed = self.convert_string_to_integer_md5(self.seed)
     self.rng = self.get_new_rng()
@@ -67,6 +68,8 @@ class Randomizer:
     self.arcs_by_path = {}
     self.jpcs_by_path = {}
     self.raw_files_by_path = {}
+    
+    self.read_text_file_lists()
     
     if not self.dry_run:
       self.verify_supported_version(clean_iso_path)
@@ -79,8 +82,10 @@ class Randomizer:
       
       if self.disassemble:
         self.disassemble_all_code()
-    
-    self.read_text_file_lists()
+      if self.print_used_flags:
+        stage_searcher.print_all_used_item_pickup_flags(self)
+        stage_searcher.print_all_used_chest_open_flags(self)
+        stage_searcher.print_all_event_flags_used_by_stb_cutscenes(self)
     
     # Starting items. This list is read by the Logic when initializing your currently owned items list.
     self.starting_items = [
