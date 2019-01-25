@@ -1598,6 +1598,11 @@ def add_chest_in_place_of_jabun_cutscene(self):
   raft.name = "Ikada"
   raft.y_rot = 0x8000
   
+  # Turn wind on inside the cave so that the flag on the raft blows in the wind.
+  # Otherwise it clips inside the flagpole and looks bad.
+  room_props = jabun_dzr.entries_by_type("FILI")[0]
+  room_props.wind_type = 0 # Weakest wind (0.3 strength)
+  
   jabun_chest = jabun_dzr.add_entity("TRES", layer=None)
   jabun_chest.name = "takara3"
   jabun_chest.params = 0xFF000000
