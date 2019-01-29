@@ -45,7 +45,13 @@ class GCM:
     i = directory_file_entry.file_index + 1
     while i < directory_file_entry.next_fst_index:
       file_entry = self.file_entries[i]
+      
+      # Set parent/children relationships
+      file_entry.parent = directory_file_entry
+      directory_file_entry.children.append(file_entry)
+      
       if file_entry.is_dir:
+        assert directory_file_entry.file_index == file_entry.parent_fst_index
         subdir_path = dir_path + "/" + file_entry.name
         self.read_directory(file_entry, subdir_path)
         i = file_entry.next_fst_index
@@ -269,9 +275,11 @@ class FileEntry:
     if self.is_dir:
       self.parent_fst_index = file_data_offset_or_parent_fst_index
       self.next_fst_index = file_size_or_next_fst_index
+      self.children = []
     else:
       self.file_data_offset = file_data_offset_or_parent_fst_index
       self.file_size = file_size_or_next_fst_index
+    self.parent = None
     
     if file_index == 0:
       self.name = "" # Root
