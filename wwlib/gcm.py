@@ -178,19 +178,40 @@ class GCM:
     self.pad_output_iso_by(0x20)
     self.align_output_iso_to_nearest(0x100)
     
-    # This just writes the original FST to the ISO.
-    # This will be updated with proper offsets as each file itself is written to the ISO.
+    
+    # Write the FST and FNT to the ISO.
+    # File offsets and file sizes are left at 0, they will be filled in as the actual file data is written to the ISO.
     self.fst_offset = self.output_iso.tell()
-    fst_data = self.get_changed_file_data("sys/fst.bin")
-    self.fst_size = data_len(fst_data)
-    fst_data.seek(0)
-    self.output_iso.write(fst_data.read())
     write_u32(self.output_iso, 0x424, self.fst_offset)
+    self.fnt_offset = self.fst_offset + len(self.file_entries)*0xC
+    
+    file_entry_offset = self.fst_offset
+    next_name_offset = self.fnt_offset
+    for file_index, file_entry in enumerate(self.file_entries):
+      file_entry.name_offset = next_name_offset - self.fnt_offset
+      
+      is_dir_and_name_offset = 0
+      if file_entry.is_dir:
+        is_dir_and_name_offset |= 0x01000000
+      is_dir_and_name_offset |= (file_entry.name_offset & 0x00FFFFFF)
+      write_u32(self.output_iso, file_entry_offset, is_dir_and_name_offset)
+      
+      if file_entry.is_dir:
+        write_u32(self.output_iso, file_entry_offset+4, file_entry.parent_fst_index)
+        write_u32(self.output_iso, file_entry_offset+8, file_entry.next_fst_index)
+      
+      file_entry_offset += 0xC
+      
+      if file_index != 0: # Root doesn't have a name
+        write_str_with_null_byte(self.output_iso, next_name_offset, file_entry.name)
+        next_name_offset += len(file_entry.name)+1
+    
+    self.fst_size = self.output_iso.tell() - self.fst_offset
+    write_u32(self.output_iso, 0x428, self.fst_size)
     self.output_iso.seek(self.fst_offset + self.fst_size)
   
   def export_filesystem_to_iso(self):
     # Updates file offsets and sizes in the FST, and writes the files to the ISO.
-    # Note that adding/removing/renaming files is not supported.
     
     file_data_start_offset = self.fst_offset + self.fst_size
     self.output_iso.seek(file_data_start_offset)
@@ -239,15 +260,17 @@ class FileEntry:
     self.file_index = file_index
     
     is_dir_and_name_offset = read_u32(iso_file, file_entry_offset)
-    self.file_data_offset = read_u32(iso_file, file_entry_offset+4)
+    file_data_offset_or_parent_fst_index = read_u32(iso_file, file_entry_offset+4)
     file_size_or_next_fst_index = read_u32(iso_file, file_entry_offset+8)
     
     self.is_dir = ((is_dir_and_name_offset & 0xFF000000) != 0)
     self.name_offset = (is_dir_and_name_offset & 0x00FFFFFF)
     self.name = ""
     if self.is_dir:
+      self.parent_fst_index = file_data_offset_or_parent_fst_index
       self.next_fst_index = file_size_or_next_fst_index
     else:
+      self.file_data_offset = file_data_offset_or_parent_fst_index
       self.file_size = file_size_or_next_fst_index
     
     if file_index == 0:
