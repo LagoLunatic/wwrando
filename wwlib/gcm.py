@@ -11,6 +11,8 @@ class GCM:
     self.iso_path = iso_path
     self.files_by_path = {}
     self.files_by_path_lowercase = {}
+    self.dirs_by_path = {}
+    self.dirs_by_path_lowercase = {}
   
   def read_entire_disc(self):
     self.iso_file = open(self.iso_path, "rb")
@@ -26,6 +28,8 @@ class GCM:
     
     for file_path, file_entry in self.files_by_path.items():
       self.files_by_path_lowercase[file_path.lower()] = file_entry
+    for dir_path, file_entry in self.dirs_by_path.items():
+      self.dirs_by_path_lowercase[dir_path.lower()] = file_entry
   
   def read_filesystem(self):
     self.file_entries = []
@@ -53,6 +57,7 @@ class GCM:
       if file_entry.is_dir:
         assert directory_file_entry.file_index == file_entry.parent_fst_index
         subdir_path = dir_path + "/" + file_entry.name
+        self.dirs_by_path[subdir_path] = file_entry
         self.read_directory(file_entry, subdir_path)
         i = file_entry.next_fst_index
       else:
@@ -102,6 +107,14 @@ class GCM:
     data = BytesIO(data)
     
     return data
+  
+  def get_dir_file_entry(self, dir_path):
+    dir_path = dir_path.lower()
+    if dir_path not in self.dirs_by_path_lowercase:
+      raise Exception("Could not find directory: " + dir_path)
+    
+    file_entry = self.dirs_by_path_lowercase[dir_path]
+    return file_entry
   
   def export_disc_to_folder_with_changed_files(self, output_folder_path, changed_files):
     self.changed_files = changed_files
