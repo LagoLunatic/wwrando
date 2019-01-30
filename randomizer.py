@@ -42,7 +42,12 @@ except ImportError:
   else:
     VERSION += "_NOGIT"
 
+CLEAN_WIND_WAKER_ISO_MD5 = 0xd8e4d45af2032a081a0f446384e9261b
+
 class TooFewProgressionLocationsError(Exception):
+  pass
+
+class InvalidCleanISOError(Exception):
   pass
 
 class Randomizer:
@@ -72,12 +77,24 @@ class Randomizer:
     self.read_text_file_lists()
     
     if not self.dry_run:
+      if not os.path.isfile(clean_iso_path):
+        raise InvalidCleanISOError("Clean WW ISO does not exist: %s" % clean_iso_path)
+      
       self.verify_supported_version(clean_iso_path)
       
       self.gcm = GCM(clean_iso_path)
       self.gcm.read_entire_disc()
       
-      self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").get_file("cmapdat.bin")
+      try:
+        self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").get_file("cmapdat.bin")
+      except InvalidOffsetError:
+        # An invalid offset error when reading fmapres.arc seems to happen when the user has a corrupted clean ISO.
+        # The reason for this is unknown, but when this happens check the ISO's MD5 and if it's wrong say so in an error message.
+        self.verify_correct_clean_iso_md5(clean_iso_path)
+        
+        # But if the ISO's MD5 is correct just raise the normal offset error.
+        raise
+      
       self.bmg = self.get_arc("files/res/Msg/bmgres.arc").get_file("zel_00.bmg")
       
       if self.disassemble:
@@ -380,16 +397,27 @@ class Randomizer:
     tweaks.show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=self.race_mode_required_dungeons)
   
   def verify_supported_version(self, clean_iso_path):
-    if not os.path.isfile(clean_iso_path):
-      raise Exception("Clean WW ISO does not exist: %s" % clean_iso_path)
-    
     with open(clean_iso_path, "rb") as f:
       game_id = try_read_str(f, 0, 6)
     if game_id != "GZLE01":
       if game_id and game_id.startswith("GZL"):
-        raise Exception("Invalid version of Wind Waker. Only the USA version is supported by this randomizer.")
+        raise InvalidCleanISOError("Invalid version of Wind Waker. Only the USA version is supported by this randomizer.")
       else:
-        raise Exception("Invalid game given as the clean ISO. You must specify a Wind Waker ISO (USA version).")
+        raise InvalidCleanISOError("Invalid game given as the clean ISO. You must specify a Wind Waker ISO (USA version).")
+  
+  def verify_correct_clean_iso_md5(self, clean_iso_path):
+    md5 = hashlib.md5()
+    
+    with open(clean_iso_path, "rb") as f:
+      while True:
+        chunk = f.read(1024*1024)
+        if not chunk:
+          break
+        md5.update(chunk)
+    
+    integer_md5 = int(md5.hexdigest(), 16)
+    if integer_md5 != CLEAN_WIND_WAKER_ISO_MD5:
+      raise InvalidCleanISOError("Invalid clean Wind Waker ISO. Your ISO may be corrupted.\n\nCorrect ISO MD5 hash: %x\nYour ISO's MD5 hash: %x" % (CLEAN_WIND_WAKER_ISO_MD5, integer_md5))
   
   def read_text_file_lists(self):
     # Get item names.
