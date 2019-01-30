@@ -525,6 +525,12 @@ class Randomizer:
     
     self.raw_files_by_path[file_path] = new_data
   
+  def add_new_raw_file(self, file_path, new_data):
+    if file_path.lower() in self.gcm.files_by_path_lowercase:
+      raise Exception("Cannot add a new file that has the same path and name as an existing one: " + file_path)
+    
+    self.raw_files_by_path[file_path] = new_data
+  
   def save_randomized_iso(self):
     self.bmg.save_changes()
     

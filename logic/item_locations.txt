@@ -91,7 +91,6 @@ Outset Island - Dig up Black Soil:
 Outset Island - Savage Labyrinth - Floor 30:
   Need:
     Can Access Savage Labyrinth
-    & Power Bracelets
     & Can Defeat Keese
     & Can Defeat Miniblins
     & Can Defeat Red ChuChus

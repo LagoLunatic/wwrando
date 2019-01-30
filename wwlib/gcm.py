@@ -11,6 +11,8 @@ class GCM:
     self.iso_path = iso_path
     self.files_by_path = {}
     self.files_by_path_lowercase = {}
+    self.dirs_by_path = {}
+    self.dirs_by_path_lowercase = {}
   
   def read_entire_disc(self):
     self.iso_file = open(self.iso_path, "rb")
@@ -26,14 +28,17 @@ class GCM:
     
     for file_path, file_entry in self.files_by_path.items():
       self.files_by_path_lowercase[file_path.lower()] = file_entry
+    for dir_path, file_entry in self.dirs_by_path.items():
+      self.dirs_by_path_lowercase[dir_path.lower()] = file_entry
   
   def read_filesystem(self):
     self.file_entries = []
     num_file_entries = read_u32(self.iso_file, self.fst_offset + 8)
     self.fnt_offset = self.fst_offset + num_file_entries*0xC
-    for i in range(num_file_entries):
-      file_entry_offset = self.fst_offset + i * 0xC
-      file_entry = FileEntry(i, self.iso_file, file_entry_offset, self.fnt_offset)
+    for file_index in range(num_file_entries):
+      file_entry_offset = self.fst_offset + file_index * 0xC
+      file_entry = FileEntry()
+      file_entry.read(file_index, self.iso_file, file_entry_offset, self.fnt_offset)
       self.file_entries.append(file_entry)
     
     root_file_entry = self.file_entries[0]
@@ -41,11 +46,18 @@ class GCM:
   
   def read_directory(self, directory_file_entry, dir_path):
     assert directory_file_entry.is_dir
+    self.dirs_by_path[dir_path] = directory_file_entry
     
     i = directory_file_entry.file_index + 1
     while i < directory_file_entry.next_fst_index:
       file_entry = self.file_entries[i]
+      
+      # Set parent/children relationships
+      file_entry.parent = directory_file_entry
+      directory_file_entry.children.append(file_entry)
+      
       if file_entry.is_dir:
+        assert directory_file_entry.file_index == file_entry.parent_fst_index
         subdir_path = dir_path + "/" + file_entry.name
         self.read_directory(file_entry, subdir_path)
         i = file_entry.next_fst_index
@@ -97,6 +109,14 @@ class GCM:
     
     return data
   
+  def get_dir_file_entry(self, dir_path):
+    dir_path = dir_path.lower()
+    if dir_path not in self.dirs_by_path_lowercase:
+      raise Exception("Could not find directory: " + dir_path)
+    
+    file_entry = self.dirs_by_path_lowercase[dir_path]
+    return file_entry
+  
   def export_disc_to_folder_with_changed_files(self, output_folder_path, changed_files):
     self.changed_files = changed_files
     for file_path, file_entry in self.files_by_path.items():
@@ -111,8 +131,17 @@ class GCM:
         f.write(file_data.read())
   
   def export_disc_to_iso_with_changed_files(self, output_file_path, changed_files):
-    self.output_iso = open(output_file_path, "wb")
     self.changed_files = changed_files
+    
+    # Check the changed_files dict for files that didn't originally exist, and add them.
+    for file_path in self.changed_files:
+      if file_path.lower() in self.files_by_path_lowercase:
+        # Existing file
+        continue
+      
+      self.add_new_file(file_path)
+    
+    self.output_iso = open(output_file_path, "wb")
     try:
       self.export_system_data_to_iso()
       self.export_filesystem_to_iso()
@@ -131,6 +160,20 @@ class GCM:
       return self.changed_files[file_path]
     else:
       return self.read_file_data(file_path)
+  
+  def add_new_file(self, file_path):
+    assert file_path.lower() not in self.files_by_path_lowercase
+    
+    dirname = os.path.dirname(file_path)
+    basename = os.path.basename(file_path)
+    
+    new_file = FileEntry()
+    new_file.name = basename
+    new_file.file_path = file_path
+    
+    parent_dir = self.get_dir_file_entry(dirname)
+    parent_dir.children.append(new_file)
+    new_file.parent = parent_dir
   
   def pad_output_iso_by(self, amount):
     self.output_iso.write(b"\0"*amount)
@@ -178,19 +221,60 @@ class GCM:
     self.pad_output_iso_by(0x20)
     self.align_output_iso_to_nearest(0x100)
     
-    # This just writes the original FST to the ISO.
-    # This will be updated with proper offsets as each file itself is written to the ISO.
+    
+    # Write the FST and FNT to the ISO.
+    # File offsets and file sizes are left at 0, they will be filled in as the actual file data is written to the ISO.
+    self.recalculate_file_entry_indexes()
     self.fst_offset = self.output_iso.tell()
-    fst_data = self.get_changed_file_data("sys/fst.bin")
-    self.fst_size = data_len(fst_data)
-    fst_data.seek(0)
-    self.output_iso.write(fst_data.read())
     write_u32(self.output_iso, 0x424, self.fst_offset)
+    self.fnt_offset = self.fst_offset + len(self.file_entries)*0xC
+    
+    file_entry_offset = self.fst_offset
+    next_name_offset = self.fnt_offset
+    for file_index, file_entry in enumerate(self.file_entries):
+      file_entry.name_offset = next_name_offset - self.fnt_offset
+      
+      is_dir_and_name_offset = 0
+      if file_entry.is_dir:
+        is_dir_and_name_offset |= 0x01000000
+      is_dir_and_name_offset |= (file_entry.name_offset & 0x00FFFFFF)
+      write_u32(self.output_iso, file_entry_offset, is_dir_and_name_offset)
+      
+      if file_entry.is_dir:
+        write_u32(self.output_iso, file_entry_offset+4, file_entry.parent_fst_index)
+        write_u32(self.output_iso, file_entry_offset+8, file_entry.next_fst_index)
+      
+      file_entry_offset += 0xC
+      
+      if file_index != 0: # Root doesn't have a name
+        write_str_with_null_byte(self.output_iso, next_name_offset, file_entry.name)
+        next_name_offset += len(file_entry.name)+1
+    
+    self.fst_size = self.output_iso.tell() - self.fst_offset
+    write_u32(self.output_iso, 0x428, self.fst_size)
+    write_u32(self.output_iso, 0x42C, self.fst_size) # Seems to be a duplicate size field that must also be updated
     self.output_iso.seek(self.fst_offset + self.fst_size)
+  
+  def recalculate_file_entry_indexes(self):
+    root = self.file_entries[0]
+    assert root.file_index == 0
+    self.file_entries = []
+    self.recalculate_file_entry_indexes_recursive(root)
+  
+  def recalculate_file_entry_indexes_recursive(self, curr_file_entry):
+    curr_file_entry.file_index = len(self.file_entries)
+    self.file_entries.append(curr_file_entry)
+    if curr_file_entry.is_dir:
+      if curr_file_entry.file_index != 0: # Root has no parent
+        curr_file_entry.parent_fst_index = curr_file_entry.parent.file_index
+      
+      for child_file_entry in curr_file_entry.children:
+        self.recalculate_file_entry_indexes_recursive(child_file_entry)
+      
+      curr_file_entry.next_fst_index = len(self.file_entries)
   
   def export_filesystem_to_iso(self):
     # Updates file offsets and sizes in the FST, and writes the files to the ISO.
-    # Note that adding/removing/renaming files is not supported.
     
     file_data_start_offset = self.fst_offset + self.fst_size
     self.output_iso.seek(file_data_start_offset)
@@ -235,20 +319,29 @@ class GCM:
       self.align_output_iso_to_nearest(4)
 
 class FileEntry:
-  def __init__(self, file_index, iso_file, file_entry_offset, fnt_offset):
+  def __init__(self):
+    self.file_index = None
+    
+    self.is_dir = False
+  
+  def read(self, file_index, iso_file, file_entry_offset, fnt_offset):
     self.file_index = file_index
     
     is_dir_and_name_offset = read_u32(iso_file, file_entry_offset)
-    self.file_data_offset = read_u32(iso_file, file_entry_offset+4)
+    file_data_offset_or_parent_fst_index = read_u32(iso_file, file_entry_offset+4)
     file_size_or_next_fst_index = read_u32(iso_file, file_entry_offset+8)
     
     self.is_dir = ((is_dir_and_name_offset & 0xFF000000) != 0)
     self.name_offset = (is_dir_and_name_offset & 0x00FFFFFF)
     self.name = ""
     if self.is_dir:
+      self.parent_fst_index = file_data_offset_or_parent_fst_index
       self.next_fst_index = file_size_or_next_fst_index
+      self.children = []
     else:
+      self.file_data_offset = file_data_offset_or_parent_fst_index
       self.file_size = file_size_or_next_fst_index
+    self.parent = None
     
     if file_index == 0:
       self.name = "" # Root
