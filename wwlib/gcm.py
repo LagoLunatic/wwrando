@@ -200,6 +200,7 @@ class GCM:
     
     # Write the FST and FNT to the ISO.
     # File offsets and file sizes are left at 0, they will be filled in as the actual file data is written to the ISO.
+    self.recalculate_file_entry_indexes()
     self.fst_offset = self.output_iso.tell()
     write_u32(self.output_iso, 0x424, self.fst_offset)
     self.fnt_offset = self.fst_offset + len(self.file_entries)*0xC
@@ -228,6 +229,24 @@ class GCM:
     self.fst_size = self.output_iso.tell() - self.fst_offset
     write_u32(self.output_iso, 0x428, self.fst_size)
     self.output_iso.seek(self.fst_offset + self.fst_size)
+  
+  def recalculate_file_entry_indexes(self):
+    root = self.file_entries[0]
+    assert root.file_index == 0
+    self.file_entries = []
+    self.recalculate_file_entry_indexes_recursive(root)
+  
+  def recalculate_file_entry_indexes_recursive(self, curr_file_entry):
+    curr_file_entry.file_index = len(self.file_entries)
+    self.file_entries.append(curr_file_entry)
+    if curr_file_entry.is_dir:
+      if curr_file_entry.file_index != 0: # Root has no parent
+        curr_file_entry.parent_fst_index = curr_file_entry.parent.file_index
+      
+      for child_file_entry in curr_file_entry.children:
+        self.recalculate_file_entry_indexes_recursive(child_file_entry)
+      
+      curr_file_entry.next_fst_index = len(self.file_entries)
   
   def export_filesystem_to_iso(self):
     # Updates file offsets and sizes in the FST, and writes the files to the ISO.
