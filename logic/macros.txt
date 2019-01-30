@@ -106,8 +106,10 @@ Can Access Wind Temple:
   Can Access Dungeon Entrance On Gale Isle
 
 Can Access Secret Cave Entrance on Outset Island:
-  ((Can Cut Down Outset Trees & Can Fly With Deku Leaf Outdoors)
-  | Hookshot)
+  (
+    (Can Cut Down Outset Trees & Can Fly With Deku Leaf Outdoors)
+    | Hookshot
+  )
   & Power Bracelets
 Can Access Secret Cave Entrance on Dragon Roost Island:
   Can Move Boulders
