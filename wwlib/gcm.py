@@ -45,6 +45,7 @@ class GCM:
   
   def read_directory(self, directory_file_entry, dir_path):
     assert directory_file_entry.is_dir
+    self.dirs_by_path[dir_path] = directory_file_entry
     
     i = directory_file_entry.file_index + 1
     while i < directory_file_entry.next_fst_index:
@@ -57,7 +58,6 @@ class GCM:
       if file_entry.is_dir:
         assert directory_file_entry.file_index == file_entry.parent_fst_index
         subdir_path = dir_path + "/" + file_entry.name
-        self.dirs_by_path[subdir_path] = file_entry
         self.read_directory(file_entry, subdir_path)
         i = file_entry.next_fst_index
       else:
