@@ -125,6 +125,19 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
         or self.options.get("progression_savage_labyrinth")):
       doing_progress_entrances_for_dungeons_and_caves_only_start = True
   
+  if self.options.get("race_mode"):
+    # Move entrances that are on islands with multiple entrances to the start of the list.
+    # This is because we need to prevent these islands from having multiple dungeons on them in Race Mode, and this can fail if they're not at the start of the list because it's possible for the only possibility left to be to put multiple dungeons on one island.
+    entrances_not_on_unique_islands = []
+    for zone_entrance in relevant_entrances:
+      for other_zone_entrance in relevant_entrances:
+        if other_zone_entrance.island_name == zone_entrance.island_name and other_zone_entrance != zone_entrance:
+          entrances_not_on_unique_islands.append(zone_entrance)
+          break
+    for zone_entrance in entrances_not_on_unique_islands:
+      relevant_entrances.remove(zone_entrance)
+    relevant_entrances = entrances_not_on_unique_islands + relevant_entrances
+  
   if doing_progress_entrances_for_dungeons_and_caves_only_start:
     # If the player can't access any locations at the start besides dungeon/cave entrances, we choose an entrance with no requirements that will be the first place the player goes.
     # We will make this entrance lead to a dungeon/cave with no requirements so the player can actually get an item at the start.
@@ -156,17 +169,30 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
     relevant_entrances.remove(safety_entrance)
     relevant_entrances.insert(0, safety_entrance)
   
+  done_entrances_to_exits = {}
   for zone_entrance in relevant_entrances:
     if doing_progress_entrances_for_dungeons_and_caves_only_start and zone_entrance == safety_entrance:
       possible_remaining_exits = [e for e in remaining_exits if e.unique_name in exit_names_with_no_requirements]
     else:
       possible_remaining_exits = remaining_exits
     
+    if self.options.get("race_mode"):
+      # Prevent two entrances on the same island both leading into dungeons (DRC and Pawprint each have two entrances).
+      # This is because Race Mode's dungeon markers only tell you what island required dungeons are on, not which of the two entrances it's in. So if a required dungeon and a non-required dungeon were on the same island there would be no way to tell which is required.
+      done_entrances_on_same_island_leading_to_a_dungeon = [
+        entr for entr in done_entrances_to_exits
+        if entr.island_name == zone_entrance.island_name
+        and done_entrances_to_exits[entr] in DUNGEON_EXITS
+      ]
+      if done_entrances_on_same_island_leading_to_a_dungeon:
+        possible_remaining_exits = [x for x in possible_remaining_exits if x not in DUNGEON_EXITS]
+    
     zone_exit = self.rng.choice(possible_remaining_exits)
     remaining_exits.remove(zone_exit)
     
     self.entrance_connections[zone_entrance.entrance_name] = zone_exit.unique_name
     self.dungeon_and_cave_island_locations[zone_exit.zone_name] = zone_entrance.island_name
+    done_entrances_to_exits[zone_entrance] = zone_exit
     
     if not self.dry_run:
       # Update the stage this entrance takes you into.
