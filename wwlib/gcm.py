@@ -35,9 +35,10 @@ class GCM:
     self.file_entries = []
     num_file_entries = read_u32(self.iso_file, self.fst_offset + 8)
     self.fnt_offset = self.fst_offset + num_file_entries*0xC
-    for i in range(num_file_entries):
-      file_entry_offset = self.fst_offset + i * 0xC
-      file_entry = FileEntry(i, self.iso_file, file_entry_offset, self.fnt_offset)
+    for file_index in range(num_file_entries):
+      file_entry_offset = self.fst_offset + file_index * 0xC
+      file_entry = FileEntry()
+      file_entry.read(file_index, self.iso_file, file_entry_offset, self.fnt_offset)
       self.file_entries.append(file_entry)
     
     root_file_entry = self.file_entries[0]
@@ -130,8 +131,17 @@ class GCM:
         f.write(file_data.read())
   
   def export_disc_to_iso_with_changed_files(self, output_file_path, changed_files):
-    self.output_iso = open(output_file_path, "wb")
     self.changed_files = changed_files
+    
+    # Check the changed_files dict for files that didn't originally exist, and add them.
+    for file_path in self.changed_files:
+      if file_path.lower() in self.files_by_path_lowercase:
+        # Existing file
+        continue
+      
+      self.add_new_file(file_path)
+    
+    self.output_iso = open(output_file_path, "wb")
     try:
       self.export_system_data_to_iso()
       self.export_filesystem_to_iso()
@@ -150,6 +160,20 @@ class GCM:
       return self.changed_files[file_path]
     else:
       return self.read_file_data(file_path)
+  
+  def add_new_file(self, file_path):
+    assert file_path.lower() not in self.files_by_path_lowercase
+    
+    dirname = os.path.dirname(file_path)
+    basename = os.path.basename(file_path)
+    
+    new_file = FileEntry()
+    new_file.name = basename
+    new_file.file_path = file_path
+    
+    parent_dir = self.get_dir_file_entry(dirname)
+    parent_dir.children.append(new_file)
+    new_file.parent = parent_dir
   
   def pad_output_iso_by(self, amount):
     self.output_iso.write(b"\0"*amount)
@@ -228,6 +252,7 @@ class GCM:
     
     self.fst_size = self.output_iso.tell() - self.fst_offset
     write_u32(self.output_iso, 0x428, self.fst_size)
+    write_u32(self.output_iso, 0x42C, self.fst_size) # Seems to be a duplicate size field that must also be updated
     self.output_iso.seek(self.fst_offset + self.fst_size)
   
   def recalculate_file_entry_indexes(self):
@@ -294,7 +319,12 @@ class GCM:
       self.align_output_iso_to_nearest(4)
 
 class FileEntry:
-  def __init__(self, file_index, iso_file, file_entry_offset, fnt_offset):
+  def __init__(self):
+    self.file_index = None
+    
+    self.is_dir = False
+  
+  def read(self, file_index, iso_file, file_entry_offset, fnt_offset):
     self.file_index = file_index
     
     is_dir_and_name_offset = read_u32(iso_file, file_entry_offset)
