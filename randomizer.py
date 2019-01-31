@@ -35,12 +35,21 @@ VERSION_WITHOUT_COMMIT = VERSION
 try:
   from sys import _MEIPASS
 except ImportError:
-  git_commit_hash_file = os.path.join(RANDO_ROOT_PATH, ".git", "ORIG_HEAD")
-  if os.path.isfile(git_commit_hash_file):
-    with open(git_commit_hash_file, "r") as f:
-      VERSION += "_" + f.read()[:7]
-  else:
-    VERSION += "_NOGIT"
+  version_suffix = "_NOGIT"
+  
+  git_commit_head_file = os.path.join(RANDO_ROOT_PATH, ".git", "HEAD")
+  if os.path.isfile(git_commit_head_file):
+    with open(git_commit_head_file, "r") as f:
+      head_file_contents = f.read()
+    if head_file_contents.startswith("ref: "):
+      relative_path_to_hash_file = head_file_contents[len("ref: "):].strip()
+      path_to_hash_file = os.path.join(RANDO_ROOT_PATH, ".git", relative_path_to_hash_file)
+      if os.path.isfile(path_to_hash_file):
+        with open(path_to_hash_file, "r") as f:
+          hash_file_contents = f.read()
+        version_suffix = "_" + hash_file_contents[:7]
+  
+  VERSION += version_suffix
 
 CLEAN_WIND_WAKER_ISO_MD5 = 0xd8e4d45af2032a081a0f446384e9261b
 
