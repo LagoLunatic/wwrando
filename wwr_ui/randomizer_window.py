@@ -22,7 +22,7 @@ try:
 except ImportError:
   from yaml import Dumper
 
-from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError
+from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError, InvalidCleanISOError
 from paths import ASSETS_PATH, SEEDGEN_PATH
 import customizer
 from logic.logic import Logic
@@ -139,7 +139,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.output_folder.setText(output_folder)
     
     if not os.path.isfile(clean_iso_path):
-      QMessageBox.warning(self, "Clean ISO path not specified", "Must specify path to clean your Wind Waker ISO (USA).")
+      QMessageBox.warning(self, "Clean ISO path not specified", "Must specify path to your clean Wind Waker ISO (USA).")
       return
     if not os.path.isdir(output_folder):
       QMessageBox.warning(self, "No output folder specified", "Must specify a valid output folder for the randomized files.")
@@ -188,7 +188,7 @@ class WWRandomizerWindow(QMainWindow):
     
     try:
       rando = Randomizer(seed, clean_iso_path, output_folder, options, permalink=permalink, cmd_line_args=self.cmd_line_args)
-    except TooFewProgressionLocationsError as e:
+    except (TooFewProgressionLocationsError, InvalidCleanISOError) as e:
       error_message = str(e)
       self.randomization_failed(error_message)
       return

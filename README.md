@@ -44,7 +44,8 @@ CryZe (event flag documentation)
 
 If you want to run the latest development/beta version of the randomizer from source, follow the instructions below.
 
-Clone this repository by installing git and running this in a command prompt:  
+Download and install git from here: https://git-scm.com/downloads  
+Then clone this repository with git by running this in a command prompt:  
 `git clone https://github.com/LagoLunatic/wwrando.git`  
 
 Download and install Python 3.6.6 from here: https://www.python.org/downloads/release/python-366/  
