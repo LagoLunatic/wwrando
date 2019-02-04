@@ -1735,6 +1735,14 @@ def add_chest_in_place_of_master_sword(self):
   ms_chest.y_rot = 0x0000
   ms_chest.item_id = self.item_name_to_id["Progressive Sword"]
   
+  
+  # Normally if the player saves and reloads or dies and respawns in this fight, they'll be put right back into it.
+  # But that would be bad in swordless mode since the player might not have anything to kill the Darknuts with and be stuck forever.
+  # So the spawn is moved back away from the fight's trigger area so that the player isn't forced back into the fight immediately.
+  spawn = next(spawn for spawn in ms_chamber_dzr.entries_by_type("PLYR") if spawn.spawn_id == 10)
+  spawn.y_pos = -2949.39
+  spawn.z_pos = -4240.7
+  
   ms_chamber_dzr.save_changes()
   
   
@@ -1766,5 +1774,4 @@ def add_chest_in_place_of_master_sword(self):
   link.actions[5].starting_flags[0] = -1 # Remove condition to start based on a removed camera action
   link.actions = link.actions[5:6+1] + link.actions[11:]
   
-  # TODO: This battle traps you in until you beat the darknuts. This would be bad for swordless since you might not have anything to kill them. Try to move the spawn so that it's not inside the trigger to start the fight.
   # TODO: The darknuts respawn if you re-enter the room, they should stay permanently dead.
