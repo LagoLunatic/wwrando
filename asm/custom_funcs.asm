@@ -86,7 +86,7 @@ li r4, 0x2D04 ; MASTER_SWORD_CUTSCENE
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x3802 ; COLORS_IN_HYRULE
 bl onEventBit__11dSv_event_cFUs
-li r4, 0x2D01 ; Saw cutscene before Helmaroc King where Aryll is rescued
+li r4, 0x2D01 ; ANIMATION_SET_2 (Saw cutscene before Helmaroc King where Aryll is rescued)
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x2D02 ; TETRA_TO_ZELDA_CUTSCENE
 bl onEventBit__11dSv_event_cFUs
