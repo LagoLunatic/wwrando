@@ -1775,3 +1775,10 @@ def add_chest_in_place_of_master_sword(self):
   link.actions = link.actions[5:6+1] + link.actions[11:]
   
   # TODO: The darknuts respawn if you re-enter the room, they should stay permanently dead.
+
+def update_beedle_spoil_selling_text(self):
+  # Update Beedle's dialogue when you try to sell something to him so he mentions he doesn't want Blue Chu Jelly.
+  msg = self.bmg.messages_by_id[3957]
+  lines = msg.string.split("\n")
+  lines[2] = "And no Blue Chu Jelly, either!"
+  msg.string = "\n".join(lines)

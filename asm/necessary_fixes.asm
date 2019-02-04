@@ -1103,3 +1103,12 @@
 .org 0x580 ; In is_exist__Q29daObjAuzu5Act_cCFv
   b 0x5B0 ; Skip over the Endless Night event bit check and just always return true
 .close
+
+
+
+
+; Don't allow Beedle to buy Blue Chu Jelly, as selling that can make getting the Blue Potion from Doc Bandam impossible.
+.open "files/rels/d_a_npc_bs1.rel" ; Beedle
+.org 0x214C
+  b 0x21DC ; Make Beedle not consider Blue Chu Jelly to be a spoil
+.close
