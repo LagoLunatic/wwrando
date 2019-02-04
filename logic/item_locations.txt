@@ -1141,11 +1141,15 @@ Tower of the Gods - Gohdan Heart Container:
     - rels/d_a_bst.rel@9D43
     - SirenB/Room0.arc/Actor003
 
-#Hyrule - Master Sword Chamber:
-#  Need: 
-#  Original item: Master Sword (Powerless)
-#  Paths:
-#    - main.dol@358D34
+Hyrule - Master Sword Chamber:
+  Need:
+    Can Access Hyrule
+    & Can Defeat Darknuts
+  Original item: Master Sword (Powerless)
+  Types: Dungeon
+  Paths:
+    - main.dol@358D34
+    - kenroom/Room0.arc/Chest000
 
 
 Forsaken Fortress - Phantom Ganon:
