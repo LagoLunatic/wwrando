@@ -151,6 +151,12 @@ stw r4, 8 (r3)
 lis r4, 0x0100
 stw r4, 0xC (r3)
 
+; Set a switch (0x50) for having seen the event where the camera pans around the Flight Control Platform.
+lis r3, 0x803C4F88@ha ; Sea stage info.
+addi r3, r3, 0x803C4F88@l
+lis r4, 0x0001
+stw r4, 0xC (r3)
+
 ; Set a switch (21) for having seen the gossip stone event in DRC where KoRL tells you about giving bait to rats.
 ; Also set a switch (09) for having seen the event where the camera pans up to Valoo when you go outside.
 ; Also set a switch (46) for having seen the event where the camera pans around when you first enter DRC.
