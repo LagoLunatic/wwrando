@@ -1677,10 +1677,12 @@ def add_chest_in_place_of_master_sword(self):
   
   ms_chamber_dzr = self.get_arc("files/res/Stage/kenroom/Room0.arc").get_file("room.dzr")
   
+  # Remove the Master Sword entities.
   ms_actors = [x for x in ms_chamber_dzr.entries_by_type_and_layer("ACTR", None) if x.name in ["VmsMS", "VmsDZ"]]
   for actor in ms_actors:
     ms_chamber_dzr.remove_entity(actor, "ACTR", layer=None)
   
+  # Copy the entities necessary for the Mighty Darknuts fight from layer 5 to the default layer.
   layer_5_actors = ms_chamber_dzr.entries_by_type_and_layer("ACTR", 5)
   layer_5_actors_to_copy = [x for x in layer_5_actors if x.name in ["Tn", "ALLdie", "Yswdr00"]]
   
@@ -1695,10 +1697,6 @@ def add_chest_in_place_of_master_sword(self):
     new_actor.y_rot = orig_actor.y_rot
     new_actor.auxilary_param_2 = orig_actor.auxilary_param_2
     new_actor.enemy_number = orig_actor.enemy_number
-  
-  # Remove all actors on layers 5 so they don't cause issues.
-  for orig_actor in layer_5_actors:
-    ms_chamber_dzr.remove_entity(orig_actor, "ACTR", layer=5)
   
   layer_5_scobs = ms_chamber_dzr.entries_by_type_and_layer("SCOB", 5)
   orig_tag_ev = next(x for x in layer_5_scobs if x.name == "TagEv")
@@ -1716,6 +1714,9 @@ def add_chest_in_place_of_master_sword(self):
   new_tag_ev.scale_y = orig_tag_ev.scale_y
   new_tag_ev.scale_z = orig_tag_ev.scale_z
   
+  # Remove the entities on layer 5 that are no longer necessary.
+  for orig_actor in layer_5_actors:
+    ms_chamber_dzr.remove_entity(orig_actor, "ACTR", layer=5)
   ms_chamber_dzr.remove_entity(orig_tag_ev, "SCOB", layer=5)
   
   
@@ -1759,7 +1760,7 @@ def add_chest_in_place_of_master_sword(self):
   # Remove Zelda.
   battle_start_event.actors.remove(zelda)
   
-  # Remove the beginning section of the event.
+  # Cut out the unnecessary sections of the event.
   camera.actions = camera.actions[7:]
   timekeeper.actions = timekeeper.actions[8:]
   link.actions[5].starting_flags[0] = -1 # Remove condition to start based on a removed camera action
