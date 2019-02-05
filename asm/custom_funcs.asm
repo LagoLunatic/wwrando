@@ -1003,39 +1003,27 @@ withered_tree_item_spawn_offset:
 
 
 ; Custom function that checks if the warp down to Hyrule should be unlocked.
-; Requirements: Must have Full Power Master Sword equipped, and must have all 8 pieces of the Triforce.
+; Requirements: Must have all 8 pieces of the Triforce.
 .global check_hyrule_warp_unlocked
 check_hyrule_warp_unlocked:
 stwu sp, -0x10 (sp)
 mflr r0
 stw r0, 0x14 (sp)
 
-lis     r3,0x803C4C08@ha
-addi    r3,r3,0x803C4C08@l
+lis r3, 0x803C4C08@ha
+addi r3, r3, 0x803C4C08@l
 
-; If in swordless mode, skip checking the master sword.
-lis r4, sword_mode@ha
-addi r4, r4, sword_mode@l
-lbz r4, 0 (r4)
-cmpwi r4, 2 ; Swordless
-beq check_has_full_triforce_for_hyrule_warp_unlocked
-
-lbz     r0,0xE(r3)
-cmplwi  r0,0x3E ; Check if currently equipped sword is Full Power Master Sword
-bne     hyrule_warp_not_unlocked
-
-check_has_full_triforce_for_hyrule_warp_unlocked:
-addi    r3,r3,180
-bl      getTriforceNum__20dSv_player_collect_cFv
-cmpwi   r3,8
-bge     hyrule_warp_unlocked
+addi r3, r3, 180
+bl getTriforceNum__20dSv_player_collect_cFv
+cmpwi r3, 8
+bge hyrule_warp_unlocked
 
 hyrule_warp_not_unlocked:
-li r3,0
+li r3, 0
 b hyrule_warp_end
 
 hyrule_warp_unlocked:
-li r3,1
+li r3, 1
 
 hyrule_warp_end:
 lwz r0, 0x14 (sp)

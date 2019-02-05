@@ -224,15 +224,17 @@ Can Defeat Phantom Ganon in Swordless:
   # Swordless switches Phantom Ganon's damage vulnerability to be for Skull Hammer instead of the Master Sword.
 
 Can Access Hyrule:
-  Can Access Hyrule Outside Swordless
-Can Access Hyrule Outside Swordless:
-  Full Power Master Sword
-  & All 8 Triforce Shards
-Can Access Hyrule in Swordless:
   All 8 Triforce Shards
+Can Get Past Hyrule Barrier:
+  Can Get Past Hyrule Barrier Outside Swordless
+Can Get Past Hyrule Barrier Outside Swordless:
+  Can Access Hyrule
+  & Full Power Master Sword
+Can Get Past Hyrule Barrier in Swordless:
+  Can Access Hyrule
   # This macro is swapped out in place of the above one in swordless mode.
 Can Access Ganon's Tower:
-  Can Access Hyrule
+  Can Get Past Hyrule Barrier
   & (Hookshot | Deku Leaf)
 
 Can Complete Memory Dragon Roost Cavern and Gohma:

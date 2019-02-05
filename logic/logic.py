@@ -688,12 +688,12 @@ class Logic:
     if self.rando.options.get("sword_mode") == "Swordless":
       self.set_macro("Can Sword Fight with Orca", "Can Sword Fight with Orca in Swordless")
       self.set_macro("Can Defeat Phantom Ganon", "Can Defeat Phantom Ganon in Swordless")
-      self.set_macro("Can Access Hyrule", "Can Access Hyrule in Swordless")
+      self.set_macro("Can Get Past Hyrule Barrier", "Can Get Past Hyrule Barrier in Swordless")
       self.set_macro("Can Defeat Ganondorf", "Can Defeat Ganondorf in Swordless")
     else:
       self.set_macro("Can Sword Fight with Orca", "Can Sword Fight with Orca Outside Swordless")
       self.set_macro("Can Defeat Phantom Ganon", "Can Defeat Phantom Ganon Outside Swordless")
-      self.set_macro("Can Access Hyrule", "Can Access Hyrule Outside Swordless")
+      self.set_macro("Can Get Past Hyrule Barrier", "Can Get Past Hyrule Barrier Outside Swordless")
       self.set_macro("Can Defeat Ganondorf", "Can Defeat Ganondorf Outside Swordless")
   
   def clean_item_name(self, item_name):
