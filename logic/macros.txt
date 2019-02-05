@@ -425,7 +425,7 @@ Can Defeat Yellow ChuChus:
 Can Defeat Blue ChuChus:
   Can Defeat Yellow ChuChus
 Can Get Blue Chu Jelly from Blue ChuChus:
-  Can Defeat Yellow ChuChus
+  Can Defeat Blue ChuChus
   | Grappling Hook
 Can Defeat Dark ChuChus:
   Nothing
