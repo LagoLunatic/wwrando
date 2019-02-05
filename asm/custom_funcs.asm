@@ -2592,4 +2592,54 @@ rainbow_rupee_keyframe:
 
 
 
+; Handle giving the two randomized items when Doc Bandam makes Green/Blue Potions for the first time.
+.global doc_bandam_check_new_potion_and_give_free_item
+doc_bandam_check_new_potion_and_give_free_item:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lwz r0, 0x7C4 (r28) ; Read the current message ID Doc Bandam is on (r28 has the Doc Bandam entity)
+cmpwi r0, 7620 ; This message ID means the potion is one he already made before
+beq doc_bandam_give_item
+
+; If we're on a newly made potion we need to change the item ID in r4 to be the randomized item
+cmpwi r4, 0x52 ; Green Potion item ID
+beq doc_bandam_set_randomized_green_potion_item_id
+cmpwi r4, 0x53 ; Blue Potion item ID
+beq doc_bandam_set_randomized_blue_potion_item_id
+; If it's not either of those something unexpected happened, so just give whatever item ID it was originally supposed to give
+b doc_bandam_give_item
+
+doc_bandam_set_randomized_green_potion_item_id:
+lis r4, doc_bandam_green_potion_slot_item_id@ha
+addi r4, r4, doc_bandam_green_potion_slot_item_id@l
+lbz r4, 0 (r4) ; Load what item ID is in the this slot. This value is updated by the randomizer when it randomizes that item.
+b doc_bandam_give_item
+
+doc_bandam_set_randomized_blue_potion_item_id:
+lis r4, doc_bandam_blue_potion_slot_item_id@ha
+addi r4, r4, doc_bandam_blue_potion_slot_item_id@l
+lbz r4, 0 (r4) ; Load what item ID is in the this slot. This value is updated by the randomizer when it randomizes that item.
+
+doc_bandam_give_item:
+bl fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+.global doc_bandam_green_potion_slot_item_id
+doc_bandam_green_potion_slot_item_id:
+.byte 0x52 ; Default item ID is Green Potion. This value is updated by the randomizer when this item is randomized.
+.global doc_bandam_blue_potion_slot_item_id
+doc_bandam_blue_potion_slot_item_id:
+.byte 0x53 ; Default item ID is Blue Potion. This value is updated by the randomizer when this item is randomized.
+.align 2 ; Align to the next 4 bytes
+
+
+
+
 .close

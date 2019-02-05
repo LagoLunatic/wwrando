@@ -81,3 +81,6 @@
 803fe684 check_tingle_statue_owned
 803fe70c check_animate_rainbow_rupee_color
 803fe74c rainbow_rupee_keyframe
+803fe75c doc_bandam_check_new_potion_and_give_free_item
+803fe7b8 doc_bandam_green_potion_slot_item_id
+803fe7b9 doc_bandam_blue_potion_slot_item_id

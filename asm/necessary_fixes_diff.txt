@@ -237,3 +237,6 @@ files/rels/d_a_obj_ajav.rel:
   5480: [96, 0, 0, 0]
 files/rels/d_a_obj_auzu.rel:
   1408: [72, 0, 0, 48]
+files/rels/d_a_npc_ds1.rel:
+  31524: [128, 63, 231, 92]
+  5456: [96, 0, 0, 0]

@@ -319,6 +319,50 @@ Can Farm Skull Necklaces:
 Can Farm Golden Feathers:
   Grappling Hook & Spoils Bag
   # Dropped by Helmarocs and Peahats. Helmarocs are on platforms so you don't need anything to reach them.
+Can Farm Green Chu Jelly:
+  Can Defeat Green ChuChus
+  # Green ChuChus are accessible without any items on Outset at night.
+Can Obtain 15 Blue Chu Jelly:
+  # There are 23 Blue ChuChus in the game, which each drop their jelly only once.
+  # 14/23 need no items to reach (not counting the items needed to defeat/steal from them).
+  # The remaining 9/23 do need items to reach.
+  # So all you need to get 15 is any 1 out of the 9 requirements.
+  Can Get Blue Chu Jelly from Blue ChuChus
+  & (
+    Can Move Boulders
+    | Hookshot
+    | Bombs
+    | Grappling Hook
+    | Hookshot
+    | (Can Access Secret Cave Entrance on Shark Island & Can Fly With Deku Leaf Outdoors)
+    | Can Access Other Location "Cliff Plateau Isles - Highest Isle"
+    | Deku Leaf
+    | Can Access Secret Cave Entrance on Boating Course
+  )
+  # Full list of Blue ChuChus:
+  # * Star Island, under a boulder
+  # * Northern Fairy Island (no requirements)
+  # * Crescent Moon Island (no requirements)
+  # * Crescent Moon Island, second one (no requirements)
+  # * Overlook Island, requires Hookshot
+  # * Mother and Child Isles (no requirements)
+  # * Spectacle Island (no requirements)
+  # * Pawprint Isle, on top of the larger of two stone ChuChu statues. Getting on top of it is easiest with a sword by jump attacking, but can also be done with a back hop even if you don't have a sword (no requirements)
+  # * Western Fairy Island (no requirements)
+  # * Rock Spire Isle, requires Bombs
+  # * Tingle Island (no requirements)
+  # * Eastern Fairy Island (no requirements)
+  # * Thorned Fairy Island (no requirements)
+  # * Needle Rock Isle (no requirements)
+  # * Stone Watcher Island (no requirements)
+  # * Bird's Peak Rock, up on top of the cave entrance, need Grappling Hook to get up there
+  # * Diamond Steppe Island, requires Hookshot
+  # * Shark Island, must hit the four switches, then glide into the updraft that appears with the Deku Leaf, then back to the highest part of Shark Island.
+  # * Southern Fairy Island (no requirements)
+  # * Cliff Plateau Isles, on the highest isle
+  # * Horseshoe Island, next to the second golf hole, requires Deku Leaf
+  # * Angular Isles (no requirements)
+  # * Boating Course, on the rock next to the entrance to the secret cave
 Can Farm Lots of Rupees:
   Nothing
   # TODO: We might want to add some restrictions here until the player can access efficient farming spots?
@@ -378,6 +422,11 @@ Can Defeat Yellow ChuChus:
   # Note: Skull Hammer can stun them without taking damage if you hit the ground near them instead of hitting them directly.
   # Note: Grappling Hook does stun it just barely long enough for you to kill it with your sword.
   # But this is not immediately obvious and somewhat tricky to time, so maybe reserve that for a higher difficulty level.
+Can Defeat Blue ChuChus:
+  Can Defeat Yellow ChuChus
+Can Get Blue Chu Jelly from Blue ChuChus:
+  Can Defeat Yellow ChuChus
+  | Grappling Hook
 Can Defeat Dark ChuChus:
   Nothing
   # Simply lure them into the light rays and then pick them up and throw them. Neither Mirror Shield nor a weapon are necessary.

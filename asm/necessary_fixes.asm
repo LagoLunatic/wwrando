@@ -1112,3 +1112,14 @@
 .org 0x214C
   b 0x21DC ; Make Beedle not consider Blue Chu Jelly to be a spoil
 .close
+
+
+
+
+; Allow randomizing the first Green/Blue Potions Doc Bandam makes when you give him 15 jelly separately from the subsequent ones when you give him 5 jelly.
+.open "files/rels/d_a_npc_ds1.rel"
+.org 0x7B24 ; Relocation for line 0x2940, originally called fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz
+  .int doc_bandam_check_new_potion_and_give_free_item
+.org 0x1550 ; When Doc Bandam just made a new potion, this is where it checks if you have an empty bottle
+  nop ; Remove the branch here that skips giving the item in this case so the player can't miss this item.
+.close

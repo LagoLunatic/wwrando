@@ -180,6 +180,18 @@ Windfall Island - Jail - Maze Chest:
 #  Original item: Blue Potion
 #  Paths:
 #    - rels/d_a_npc_ds1.rel@28DF
+Windfall Island - Chu Jelly Juice Shop - Give 15 Green Chu Jelly:
+  Need: Can Farm Green Chu Jelly
+  Original item: Green Potion
+  Types: Spoils Trading
+  Paths:
+    - CustomSymbol:doc_bandam_green_potion_slot_item_id
+Windfall Island - Chu Jelly Juice Shop - Give 15 Blue Chu Jelly:
+  Need: Can Obtain 15 Blue Chu Jelly
+  Original item: Blue Potion
+  Types: Spoils Trading
+  Paths:
+    - CustomSymbol:doc_bandam_blue_potion_slot_item_id
 Windfall Island - Ivan - Catch Killer Bees:
   Need: Nothing
   Original item: Piece of Heart
