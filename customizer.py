@@ -219,6 +219,8 @@ def change_player_clothes_color(self):
         eyebrow_image = eyebrow_textures[0].render()
         eyebrow_image = texture_utils.color_exchange(eyebrow_image, base_color, custom_color)
         for eyebrow_texture in eyebrow_textures:
+          if eyebrow_texture.is_greyscale():
+            raise Exception("Eyebrows use a greyscale image format, but metadata.txt specified the model should have colored eyebrows.")
           eyebrow_texture.replace_image(eyebrow_image)
     
     # Recolor the back hair for casual Link.

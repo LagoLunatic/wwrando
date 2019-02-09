@@ -97,6 +97,12 @@ class BTI:
   def needs_palettes(self):
     return self.image_format in IMAGE_FORMATS_THAT_USE_PALETTES
   
+  def is_greyscale(self):
+    if self.needs_palettes():
+      return self.palette_format in GREYSCALE_PALETTE_FORMATS
+    else:
+      return self.image_format in GREYSCALE_IMAGE_FORMATS
+  
   def render(self):
     image = decode_image(
       self.image_data, self.palette_data,
