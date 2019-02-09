@@ -165,6 +165,8 @@ def randomize_boss_rewards(self):
       self.race_mode_banned_locations.append(location_name)
     elif location_name == "Mailbox - Letter from Tingle" and "Forsaken Fortress" in banned_dungeons:
       self.race_mode_banned_locations.append(location_name)
+    elif "Eye Reef Chest" in self.logic.item_locations[location_name]["Types"] and "Forsaken Fortress" in banned_dungeons:
+      self.race_mode_banned_locations.append(location_name)
 
 def randomize_dungeon_items(self):
   # Places dungeon-specific items first so all the dungeon locations don't get used up by other items.
