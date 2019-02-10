@@ -267,6 +267,11 @@ def allow_all_items_to_be_field_items(self):
     
     arc_name_pointer = self.arc_name_pointers[item_id_to_copy_from]
     
+    if item_id == 0xAA:
+      # Hurricane Spin, switch it to using the custom scroll model instead of the sword model.
+      arc_name_pointer = self.custom_symbols["hurricane_spin_item_resource_arc_name"]
+      item_resources_offset_to_fix = item_resources_list_start + item_id*0x24
+    
     write_u32(dol_data, field_item_resources_offset, arc_name_pointer)
     if item_resources_offset_to_fix:
       write_u32(dol_data, item_resources_offset_to_fix, arc_name_pointer)
@@ -279,9 +284,9 @@ def allow_all_items_to_be_field_items(self):
       write_bytes(dol_data, item_resources_offset_to_fix+8, data1)
       write_bytes(dol_data, item_resources_offset_to_fix+0x1C, data2)
   
-  # Also nop out the 6 lines of code that initialize the arc filename pointer for the 6 songs.
-  # These lines would overwrite the change we made from the Pirate's Charm model to the Wind Waker model for songs.
-  for address in [0x800C1970, 0x800C1978, 0x800C1980, 0x800C1988, 0x800C1990, 0x800C1998]:
+  # Also nop out the 7 lines of code that initialize the arc filename pointer for the 6 songs and the Hurricane Spin.
+  # These lines would overwrite the changes we made to their arc names.
+  for address in [0x800C1970, 0x800C1978, 0x800C1980, 0x800C1988, 0x800C1990, 0x800C1998, 0x800C1BA8]:
     write_u32(dol_data, address_to_offset(address), 0x60000000) # nop
   
   
@@ -328,6 +333,13 @@ def allow_all_items_to_be_field_items(self):
     write_u32(dol_data, location_of_items_switch_statement_case, 0x800F8160)
   # Also change the switch case used by items with IDs 0x4C+ to go to 800F8160 as well.
   write_u32(dol_data, address_to_offset(0x800F8138), 0x41810028) # bgt 0x800F8160
+  
+  
+  # Also add the Vscroll.arc containing the Hurricane Spin's custom model to the GCM's filesystem.
+  vscroll_arc_path = os.path.join(ASSETS_PATH, "Vscroll.arc")
+  with open(vscroll_arc_path, "rb") as f:
+    data = BytesIO(f.read())
+  self.add_new_raw_file("files/res/Object/Vscroll.arc", data)
 
 def remove_shop_item_forced_uniqueness_bit(self):
   # Some shop items have a bit set that disallows you from buying the item if you already own one of that item.

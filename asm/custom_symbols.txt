@@ -84,3 +84,4 @@
 803fe73c doc_bandam_check_new_potion_and_give_free_item
 803fe798 doc_bandam_green_potion_slot_item_id
 803fe799 doc_bandam_blue_potion_slot_item_id
+803fe79c hurricane_spin_item_resource_arc_name

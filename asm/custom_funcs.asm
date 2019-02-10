@@ -2630,4 +2630,12 @@ doc_bandam_blue_potion_slot_item_id:
 
 
 
+.global hurricane_spin_item_resource_arc_name
+hurricane_spin_item_resource_arc_name:
+.string "Vscroll"
+.align 2 ; Align to the next 4 bytes
+
+
+
+
 .close
