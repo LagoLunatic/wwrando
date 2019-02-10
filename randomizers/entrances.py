@@ -221,6 +221,18 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
       exit_scls.spawn_id = zone_entrance.spawn_id
       exit_scls.save_changes()
       
+      # Also update the extra exits when leaving Savage Labyrinth to put you on the correct entrance when leaving.
+      if zone_exit.unique_name == "Savage Labyrinth":
+        for stage_and_room_name in ["Cave10/Room0", "Cave10/Room20", "Cave11/Room0"]:
+          savage_dzr_path = "files/res/Stage/%s.arc" % stage_and_room_name
+          savage_dzr = self.get_arc(savage_dzr_path).get_file("room.dzr")
+          exit_sclses = [x for x in savage_dzr.entries_by_type("SCLS") if x.dest_stage_name == "sea"]
+          for exit_scls in exit_sclses:
+            exit_scls.dest_stage_name = zone_entrance.stage_name
+            exit_scls.room_index = zone_entrance.room_num
+            exit_scls.spawn_id = zone_entrance.spawn_id
+            exit_scls.save_changes()
+      
       if zone_exit in SECRET_CAVE_EXITS:
         # Update the sector coordinates in the 2DMA chunk so that save-and-quitting in a secret cave puts you on the correct island.
         exit_dzs_path = "files/res/Stage/%s/Stage.arc" % zone_exit.stage_name
