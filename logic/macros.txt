@@ -322,7 +322,7 @@ Can Farm Golden Feathers:
   Grappling Hook & Spoils Bag
   # Dropped by Helmarocs and Peahats. Helmarocs are on platforms so you don't need anything to reach them.
 Can Farm Green Chu Jelly:
-  Can Defeat Green ChuChus
+  Can Defeat Green ChuChus & Spoils Bag
   # Green ChuChus are accessible without any items on Outset at night.
 Can Obtain 15 Blue Chu Jelly:
   # There are 23 Blue ChuChus in the game, which each drop their jelly only once.
@@ -341,6 +341,7 @@ Can Obtain 15 Blue Chu Jelly:
     | Deku Leaf
     | Can Access Secret Cave Entrance on Boating Course
   )
+  & Spoils Bag
   # Full list of Blue ChuChus:
   # * Star Island, under a boulder
   # * Northern Fairy Island (no requirements)
