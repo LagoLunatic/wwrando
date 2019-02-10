@@ -498,7 +498,6 @@ def add_chest_in_place_medli_grappling_hook_gift(self):
   
   chest_in_jail = dzx.add_entity("TRES", layer=None)
   chest_in_jail.name = "takara3"
-  chest_in_jail.params = 0xFF000000 # Unknown param, probably unused
   chest_in_jail.chest_type = 2
   chest_in_jail.opened_flag = 0x11
   chest_in_jail.x_pos = -1620.81
@@ -517,7 +516,6 @@ def add_chest_in_place_queen_fairy_cutscene(self):
   
   mother_island_chest = dzx.add_entity("TRES", layer=None)
   mother_island_chest.name = "takara3"
-  mother_island_chest.params = 0xFF000000 # Unknown param, probably unused
   mother_island_chest.chest_type = 2
   mother_island_chest.opened_flag = 0x1C
   mother_island_chest.x_pos = -180031

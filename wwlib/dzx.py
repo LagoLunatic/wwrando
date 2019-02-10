@@ -224,7 +224,7 @@ class TRES(ChunkEntry):
     self.file_entry = file_entry
     
     self.name = None
-    self.params = 0
+    self.params = 0xFF000000
     self.x_pos = 0
     self.y_pos = 0
     self.z_pos = 0
@@ -284,7 +284,7 @@ class SCOB(ChunkEntry):
     "invisible_wall_switch_index": 0x000000FF,
     
     "event_trigger_seen_switch_index": 0x0000FF00,
-    "event_trigger_evnt_index": 0xFF000000,
+    "event_trigger_evnt_index":        0xFF000000,
   }
   
   SALVAGE_NAMES = [
@@ -401,6 +401,8 @@ class ACTR(ChunkEntry):
     "warp_pot_dest_3":          0xFF000000,
     
     "wizzrobe_prereq_switch_index": 0x00FF0000,
+    
+    "cannon_appear_condition_switch": 0x0000FF00,
   }
   
   ITEM_NAMES = [

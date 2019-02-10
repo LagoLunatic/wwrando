@@ -73,6 +73,17 @@ IMAGE_FORMATS_THAT_USE_PALETTES = [
   ImageFormat.C14X2,
 ]
 
+GREYSCALE_IMAGE_FORMATS = [
+  ImageFormat.I4,
+  ImageFormat.I8,
+  ImageFormat.IA4,
+  ImageFormat.IA8,
+]
+
+GREYSCALE_PALETTE_FORMATS = [
+  PaletteFormat.IA8,
+]
+
 MAX_COLORS_FOR_IMAGE_FORMAT = {
   ImageFormat.C4   : 1<<4, # C4
   ImageFormat.C8   : 1<<8, # C8

@@ -19,7 +19,7 @@ A_nami
 A_R00
   Unused
 A_umikz
-  Unused
+  Sea During Pirate Ship Ride To Forsaken Fortress
 Cave01
   Bomb Island Cave
 Cave02
