@@ -394,7 +394,6 @@ class Randomizer:
     tweaks.show_seed_hash_on_name_entry_screen(self)
     tweaks.fix_ghost_ship_chest_crash(self)
     tweaks.implement_key_bag(self)
-    tweaks.prevent_fire_mountain_lava_softlock(self)
     tweaks.add_chest_in_place_of_jabun_cutscene(self)
     tweaks.add_chest_in_place_of_master_sword(self)
     tweaks.update_beedle_spoil_selling_text(self)
@@ -411,6 +410,7 @@ class Randomizer:
     tweaks.update_savage_labyrinth_hint_tablet(self)
     tweaks.update_fishmen_hints(self)
     tweaks.show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=self.race_mode_required_dungeons)
+    tweaks.prevent_fire_mountain_lava_softlock(self)
   
   def verify_supported_version(self, clean_iso_path):
     with open(clean_iso_path, "rb") as f:

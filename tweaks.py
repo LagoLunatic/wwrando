@@ -1590,14 +1590,19 @@ def disable_ice_ring_isle_and_fire_mountain_effects_indoors(self):
 
 def prevent_fire_mountain_lava_softlock(self):
   # Sometimes when spawning from spawn ID 0 outside fire mountain, the player will get stuck in an infinite loop of taking damage from lava.
-  # I'm not sure exactly why this is, since the boiling water doesn't act like lava when you swim in it or ride the boat in it, but it sometimes does when spawning in the boat inside the boiling water.
-  # But moving the spawn's position to just outside the boiling water seems to prevent this from happening.
+  # The reason for this is that when the player enters the sea stage, the ship is spawned in at its new game starting position (either Outset or a randomized starting island) and the player is put on the ship.
+  # Then after a frame or two the ship is teleported to its proper spawn position near the island the player is supposed to be on, along with the player.
+  # The game's collision detection system draws a huge line between where the player was a frame ago (starting island) and where the player is right now (whatever the correct island is, such as Fire Mountain).
+  # If that collision line happens to pass through the Fire Mountain volcano, the player will be considered to be standing on the volcano for one frame.
+  # Because the volcano's collision is set to have the lava attribute, this results in the player taking lava damage.
+  # In order to avoid this, the Y coordinate of the ship's position when starting a new game is simply moved down to be extremely far below the ocean surface. This is so that any collision line in between it and any of the various other ship spawns will not hit anything at all.
+  # This does not result in the ship actually visibly spawning far below the sea when you start a new game, because the sea actor is smart enough to instantly teleport the ship on top whenever it falls below the surface.
   
-  fire_mountain_dzr = self.get_arc("files/res/Stage/sea/Room20.arc").get_file("room.dzr")
-  spawn = next(spawn for spawn in fire_mountain_dzr.entries_by_type("PLYR") if spawn.spawn_id == 0)
-  spawn.x_pos += 1000
-  spawn.z_pos -= 1000
-  spawn.save_changes()
+  sea_dzs = self.get_arc("files/res/Stage/sea/Stage.arc").get_file("stage.dzs")
+  sea_actors = sea_dzs.entries_by_type("ACTR")
+  ship_actor = next(x for x in sea_actors if x.name == "Ship")
+  ship_actor.y_pos = -500000
+  ship_actor.save_changes()
 
 def add_chest_in_place_of_jabun_cutscene(self):
   # Add a chest on a raft to Jabun's cave to replace the cutscene item you would normally get there.
