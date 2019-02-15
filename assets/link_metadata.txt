@@ -1,0 +1,17 @@
+hero_custom_colors:
+  Hair: FFEE10
+  Skin: F6DA9C
+  Shirt: 5AB24A
+  Undershirt: ACE241
+  Pants: FFFFFF
+  Boots: 944908
+  Belt: 633008
+  Belt Buckle: F7EF10
+casual_custom_colors:
+  Hair: FFEE10
+  Skin: F6DA9C
+  Shirt: 4A75AC
+  Shirt Emblem: FFFFD5
+  Armbands: 62696A
+  Pants: FFA100
+  Shoes: 62696A

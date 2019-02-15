@@ -8,47 +8,23 @@ import glob
 from PIL import Image
 
 from fs_helpers import *
+from wwlib.texture_utils import *
 from wwlib import texture_utils
 from paths import ASSETS_PATH
 
-VANILLA_LINK_METADATA = {
-  "hero_custom_colors": OrderedDict([
-    ("Hair",  [255, 238, 16]),
-    ("Skin", [0xF6, 0xDA, 0x9C]),
-    ("Shirt", [90, 178, 74]),
-    ("Undershirt", [172, 226, 65]),
-    ("Pants", [255, 255, 255]),
-  ]),
-  "casual_custom_colors": OrderedDict([
-    ("Hair",  [255, 238, 16]),
-    ("Skin", [0xF6, 0xDA, 0x9C]),
-    ("Shirt", [74, 117, 172]),
-    ("Pants", [255, 161, 0]),
-  ]),
-  "hero_color_mask_paths": OrderedDict(),
-  "casual_color_mask_paths": OrderedDict(),
-  "preview_hero": os.path.join(ASSETS_PATH, "link_preview", "preview_hero.png"),
-  "preview_casual": os.path.join(ASSETS_PATH, "link_preview", "preview_casual.png"),
-  "preview_hero_color_mask_paths": OrderedDict(),
-  "preview_casual_color_mask_paths": OrderedDict(),
-  "hands_hero_color_mask_path": os.path.join(ASSETS_PATH, "link_color_masks", "hands_hero.png"),
-  "hands_casual_color_mask_path": os.path.join(ASSETS_PATH, "link_color_masks", "hands_casual.png"),
-}
-
-for prefix in ["hero", "casual"]:
-  for color_name in VANILLA_LINK_METADATA["%s_custom_colors" % prefix]:
-    mask_path = os.path.join(ASSETS_PATH, "link_color_masks", "%s_%s.png" % (prefix, color_name))
-    VANILLA_LINK_METADATA["%s_color_mask_paths" % prefix][color_name] = mask_path
-    preview_mask_path = os.path.join(ASSETS_PATH, "link_preview", "preview_%s_%s.png" % (prefix, color_name))
-    VANILLA_LINK_METADATA["preview_%s_color_mask_paths" % prefix][color_name] = preview_mask_path
-
 def get_model_metadata(custom_model_name):
-  if custom_model_name == "Link":
-    return VANILLA_LINK_METADATA
-  elif custom_model_name == "Random":
+  if custom_model_name == "Random":
     return {}
   else:
-    metadata_path = "./models/%s/metadata.txt" % custom_model_name
+    if custom_model_name == "Link":
+      metadata_path = os.path.join(ASSETS_PATH, "link_metadata.txt")
+      color_masks_path = os.path.join(ASSETS_PATH, "link_color_masks")
+      previews_path = os.path.join(ASSETS_PATH, "link_preview")
+    else:
+      metadata_path = "./models/%s/metadata.txt" % custom_model_name
+      color_masks_path = os.path.join("models", custom_model_name, "color_masks")
+      previews_path = os.path.join("models", custom_model_name, "preview")
+    
     if not os.path.isfile(metadata_path):
       return {}
     
@@ -61,10 +37,10 @@ def get_model_metadata(custom_model_name):
         "error_message": error_message,
       }
     
-    metadata["preview_hero"] = os.path.join("models", custom_model_name, "preview", "preview_hero.png")
-    metadata["preview_casual"] = os.path.join("models", custom_model_name, "preview", "preview_casual.png")
-    metadata["hands_hero_color_mask_path"] = os.path.join("models", custom_model_name, "color_masks", "hands_hero.png")
-    metadata["hands_casual_color_mask_path"] = os.path.join("models", custom_model_name, "color_masks", "hands_casual.png")
+    metadata["preview_hero"] = os.path.join(previews_path, "preview_hero.png")
+    metadata["preview_casual"] = os.path.join(previews_path, "preview_casual.png")
+    metadata["hands_hero_color_mask_path"] = os.path.join(color_masks_path, "hands_hero.png")
+    metadata["hands_casual_color_mask_path"] = os.path.join(color_masks_path, "hands_casual.png")
     
     metadata["hero_color_mask_paths"] = OrderedDict()
     metadata["casual_color_mask_paths"] = OrderedDict()
@@ -96,9 +72,9 @@ def get_model_metadata(custom_model_name):
               "error_message": error_message,
             }
           
-          mask_path = os.path.join("models", custom_model_name, "color_masks", "%s_%s.png" % (prefix, custom_color_name))
+          mask_path = os.path.join(color_masks_path, "%s_%s.png" % (prefix, custom_color_name))
           metadata["%s_color_mask_paths" % prefix][custom_color_name] = mask_path
-          preview_mask_path = os.path.join("models", custom_model_name, "preview", "preview_%s_%s.png" % (prefix, custom_color_name))
+          preview_mask_path = os.path.join(previews_path, "preview_%s_%s.png" % (prefix, custom_color_name))
           metadata["preview_%s_color_mask_paths" % prefix][custom_color_name] = preview_mask_path
     
     return metadata
