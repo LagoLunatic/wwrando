@@ -762,13 +762,7 @@ class WWRandomizerWindow(QMainWindow):
     self.update_settings()
   
   def custom_color_hex_code_changed(self):
-    option_name = self.sender().objectName()
-    
-    assert option_name.endswith("_hex_code_input")
-    option_name = option_name[:len(option_name)-len("_hex_code_input")]
-    
-    assert option_name.startswith("custom_color_")
-    color_name = option_name[len("custom_color_"):]
+    option_name, color_name = self.get_option_name_and_color_name_from_sender_object_name()
     
     text = self.sender().text().strip().lstrip("#").upper()
     if len(text) != 6 or any(c for c in text if c not in "0123456789ABCDEF"):
@@ -784,7 +778,19 @@ class WWRandomizerWindow(QMainWindow):
     is_valid_color = self.custom_color_hex_code_changed()
     if not is_valid_color:
       # If the hex code is invalid reset the text to the correct hex code for the current color.
+      option_name, color_name = self.get_option_name_and_color_name_from_sender_object_name()
       self.set_color(option_name, self.custom_colors[color_name])
+  
+  def get_option_name_and_color_name_from_sender_object_name(self):
+    object_name = self.sender().objectName()
+    
+    assert object_name.endswith("_hex_code_input")
+    option_name = object_name[:len(object_name)-len("_hex_code_input")]
+    
+    assert option_name.startswith("custom_color_")
+    color_name = option_name[len("custom_color_"):]
+    
+    return (option_name, color_name)
   
   def update_model_preview(self):
     custom_model_name = self.get_option_value("custom_player_model")
