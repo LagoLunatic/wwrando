@@ -1123,3 +1123,14 @@
 .org 0x1550 ; When Doc Bandam just made a new potion, this is where it checks if you have an empty bottle
   nop ; Remove the branch here that skips giving the item in this case so the player can't miss this item.
 .close
+
+
+
+
+; Make Komali disappear from his room from the start, instead of waiting until after you own Din's Pearl.
+; This is so there aren't two Komali's in the game at the same time.
+.open "files/rels/d_a_npc_co1.rel" ; Young Komali
+.org 0x498 ; Where he would normally check if you own Din's Pearl to know if he should disappear yet or not
+  li r31, 0 ; Set the return value to false
+  b 0x4E8 ; Change the conditional branch to unconditional
+.close

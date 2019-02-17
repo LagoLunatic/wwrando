@@ -240,3 +240,5 @@ files/rels/d_a_obj_auzu.rel:
 files/rels/d_a_npc_ds1.rel:
   31524: [128, 63, 231, 68]
   5456: [96, 0, 0, 0]
+files/rels/d_a_npc_co1.rel:
+  1176: [59, 224, 0, 0, 72, 0, 0, 76]
