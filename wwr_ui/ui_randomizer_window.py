@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Sun Jan  6 16:02:15 2019
+# Created: Sun Feb 17 18:20:57 2019
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 850, 632))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 829, 631))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
@@ -211,6 +211,9 @@ class Ui_MainWindow(object):
         self.randomize_charts = QtWidgets.QCheckBox(self.groupBox_3)
         self.randomize_charts.setObjectName("randomize_charts")
         self.gridLayout_3.addWidget(self.randomize_charts, 2, 0, 1, 1)
+        self.randomize_bgm = QtWidgets.QCheckBox(self.groupBox_3)
+        self.randomize_bgm.setObjectName("randomize_bgm")
+        self.gridLayout_3.addWidget(self.randomize_bgm, 2, 2, 1, 1)
         self.verticalLayout_2.addWidget(self.groupBox_3)
         self.groupBox_2 = QtWidgets.QGroupBox(self.tab)
         self.groupBox_2.setObjectName("groupBox_2")
@@ -396,6 +399,7 @@ class Ui_MainWindow(object):
         self.randomize_entrances.setItemText(4, QtWidgets.QApplication.translate("MainWindow", "Dungeons & Secret Caves (Together)", None, -1))
         self.randomize_starting_island.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Starting Island", None, -1))
         self.randomize_charts.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Charts", None, -1))
+        self.randomize_bgm.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Background Music", None, -1))
         self.groupBox_2.setTitle(QtWidgets.QApplication.translate("MainWindow", "Convenience Tweaks", None, -1))
         self.instant_text_boxes.setText(QtWidgets.QApplication.translate("MainWindow", "Instant Text Boxes", None, -1))
         self.generate_spoiler_log.setText(QtWidgets.QApplication.translate("MainWindow", "Generate Spoiler Log", None, -1))

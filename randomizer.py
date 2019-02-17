@@ -25,6 +25,7 @@ from randomizers import items
 from randomizers import charts
 from randomizers import starting_island
 from randomizers import entrances
+from randomizers import bgm
 
 with open(os.path.join(RANDO_ROOT_PATH, "version.txt"), "r") as f:
   VERSION = f.read().strip()
@@ -326,6 +327,9 @@ class Randomizer:
     
     if self.options.get("randomize_entrances") not in ["Disabled", None]:
       entrances.randomize_entrances(self)
+    
+    if self.options.get("randomize_bgm"):
+      bgm.randomize_bgm(self)
     
     items.randomize_items(self)
     

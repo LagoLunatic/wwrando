@@ -28,8 +28,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>850</width>
-         <height>632</height>
+         <width>829</width>
+         <height>631</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -466,6 +466,13 @@
                 <widget class="QCheckBox" name="randomize_charts">
                  <property name="text">
                   <string>Randomize Charts</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2">
+                <widget class="QCheckBox" name="randomize_bgm">
+                 <property name="text">
+                  <string>Randomize Background Music</string>
                  </property>
                 </widget>
                </item>
