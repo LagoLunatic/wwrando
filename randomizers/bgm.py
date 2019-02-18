@@ -6,6 +6,20 @@ SILENT_BGM_IDS = [
   0x0000,
 ]
 
+EXTRA_BGM_INFOS = [
+  0x00441B00, # Grandma's theme
+  0x00330000, # Unused Tetra theme
+  #0x00190105, # Miniboss theme (sounds wrong)
+  #0x001A0605, # Miniboss theme (sounds wrong)
+  0x00030101, # Gohma phase 1
+  0x00100101, # Gohma phase 2
+  0x0041020A, # Phantom Ganon (at Forsaken Fortress, with intro)
+  0x0047180A, # Phantom Ganon (in Ganon's Tower, no intro)
+  0x01150704, # Helmaroc chase up the tower
+  0x004C0809, # Molgera
+  0x004D2000, # Ganondorf fight
+]
+
 def randomize_bgm(self):
   dol_data = self.get_raw_file("sys/main.dol")
   stage_bgm_info_list_start = 0x8039C30C
@@ -30,6 +44,8 @@ def randomize_bgm(self):
       # Don't include the exact same BGM info more than once
       continue
     valid_bgm_infos.append(bgm_info)
+  
+  valid_bgm_infos += EXTRA_BGM_INFOS
   
   for spot_index in range(1, 0x78+1):
     bgm_info = self.rng.choice(valid_bgm_infos)
