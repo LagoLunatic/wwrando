@@ -142,7 +142,7 @@ lis r4, 0xC000
 stw r4, 8 (r3)
 
 ; Set a switch bit (19) for the event on Greatfish Isle so that the endless night never starts.
-lis r3, 0x803C4F88@ha
+lis r3, 0x803C4F88@ha ; Sea stage info.
 addi r3, r3, 0x803C4F88@l
 lis r4, 0x0200
 stw r4, 4 (r3)
@@ -150,13 +150,8 @@ stw r4, 4 (r3)
 lis r4, 0x8000
 stw r4, 8 (r3)
 ; Also set a switch bit (58) for having seen the short event when you enter Forsaken Fortress 2 for the first time.
-lis r4, 0x0100
-stw r4, 0xC (r3)
-
-; Set a switch (0x50) for having seen the event where the camera pans around the Flight Control Platform.
-lis r3, 0x803C4F88@ha ; Sea stage info.
-addi r3, r3, 0x803C4F88@l
-lis r4, 0x0001
+; Also set a switch (0x50) for having seen the event where the camera pans around the Flight Control Platform.
+lis r4, 0x0101
 stw r4, 0xC (r3)
 
 ; Set a switch (21) for having seen the gossip stone event in DRC where KoRL tells you about giving bait to rats.
