@@ -2585,8 +2585,10 @@ mflr r0
 stw r0, 0x14 (sp)
 
 lwz r0, 0x7C4 (r28) ; Read the current message ID Doc Bandam is on (r28 has the Doc Bandam entity)
-cmpwi r0, 7620 ; This message ID means the potion is one he already made before
-beq doc_bandam_give_item
+cmpwi r0, 7627 ; This message ID means he just made a brand new potion for the first time
+; Any other message ID means he's either giving you or selling you a type he already made before.
+; So do not give a randomized item in those cases.
+bne doc_bandam_give_item
 
 ; If we're on a newly made potion we need to change the item ID in r4 to be the randomized item
 cmpwi r4, 0x52 ; Green Potion item ID
