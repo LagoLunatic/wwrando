@@ -1134,3 +1134,12 @@
   li r31, 0 ; Set the return value to false
   b 0x4E8 ; Change the conditional branch to unconditional
 .close
+
+
+
+
+; Make cannons die in 1 hit from the boomerang instead of 2.
+.open "files/rels/d_a_obj_canon.rel" ; Wall-mounted cannon
+.org 0x7D0
+  addi r0,r3,-2 ; Would normally subtract 1 HP, subtract 2 HP instead
+.close
