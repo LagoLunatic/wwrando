@@ -91,7 +91,6 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, main_symbols, rel_map
       #print("Type: %X" % relocation_data_entry.relocation_type)
       curr_section = rel.sections[relocation_data_entry.curr_section_num]
       curr_section_offset = curr_section.offset
-      #print(rel_name)
       replacement_location = curr_section_offset+relocation_data_entry.relocation_offset
       rounded_down_location = replacement_location & (~3) # round down to nearest 4
       #print("location of replacement: %04X" % replacement_location)
@@ -102,7 +101,8 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, main_symbols, rel_map
       else:
         section_to_relocate_against = rel.sections[relocation_data_entry.section_num_to_relocate_against]
         section_offset_to_relocate_against = section_to_relocate_against.offset
-        #print("address: %04X" % (section_offset_to_relocate_against + relocation_data_entry.symbol_address))
+        #print("address: %04X (%X + %X)" % (section_offset_to_relocate_against + relocation_data_entry.symbol_address, section_offset_to_relocate_against, relocation_data_entry.symbol_address))
+        #print("section #%X; section offset %X" % (relocation_data_entry.section_num_to_relocate_against, section_offset_to_relocate_against))
         #replacements[rounded_down_location] = section_offset_to_relocate_against + relocation_data_entry.symbol_address
         replacements[rounded_down_location] = "%X (%X + %X)" % (
           section_offset_to_relocate_against + relocation_data_entry.symbol_address,
@@ -137,7 +137,7 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, main_symbols, rel_map
       all_valid_sections.append(section)
   current_section_name = None
   current_section_index = None
-  current_section_offset = None
+  current_section = None
   for line in rel_map_lines:
     section_header_match = re.search(r"^\.(text|ctors|dtors|rodata|data|bss) section layout$", line)
     if section_header_match:
@@ -145,15 +145,13 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, main_symbols, rel_map
       if current_section_name in section_name_to_section_index:
         current_section_index = section_name_to_section_index[current_section_name]
         #print(current_section_name, current_section_index, all_valid_sections)
-        current_section_offset = all_valid_sections[current_section_index].offset
-        if current_section_offset == 0 and current_section_name == "bss":
-          current_section_index = None
-          current_section_offset = None
+        current_section = all_valid_sections[current_section_index]
       else:
         current_section_index = None
-        current_section_offset = None
+        current_section = None
     symbol_entry_match = re.search(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})  \d (\S+)", line, re.IGNORECASE)
-    if current_section_offset is not None and symbol_entry_match:
+    if current_section is not None and symbol_entry_match:
+      current_section_offset = current_section.offset
       if current_section_offset == 0:
         raise Exception("Found symbol in section with offset 0")
       symbol_offset = symbol_entry_match.group(1)
@@ -175,7 +173,10 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, main_symbols, rel_map
       for offset in range(word_offset, word_offset+4):
         if offset in rel_symbol_names:
           symbol_name = rel_symbol_names[offset]
-          out_str += "; SYMBOL: %X    %s\n" % (offset, symbol_name)
+          out_str += "; SYMBOL: %X    %s" % (offset, symbol_name)
+          if rel.bss_section_index and offset >= rel.fix_size:
+            out_str += "    [BSS symbol, value initialized at runtime]"
+          out_str += "\n"
     
     out_str += line
     
@@ -190,6 +191,8 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, main_symbols, rel_map
           if relocated_offset in rel_symbol_names:
             symbol_name = rel_symbol_names[relocated_offset]
             out_str += "      " + symbol_name
+            if rel.bss_section_index and relocated_offset >= rel.fix_size:
+              out_str += "    [BSS]"
       else:
         branch_match = re.search(r"\s(bl|b|beq|bne|blt|bgt|ble|bge)\s+0x([0-9a-f]+)", line, re.IGNORECASE)
         if branch_match:
@@ -197,6 +200,8 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, main_symbols, rel_map
           if branch_offset in rel_symbol_names:
             symbol_name = rel_symbol_names[branch_offset]
             out_str += "      ; " + symbol_name
+            if rel.bss_section_index and branch_offset >= rel.fix_size:
+              out_str += "    [BSS]"
     
     out_str += "\n"
     

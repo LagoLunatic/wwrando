@@ -57,6 +57,18 @@ class REL:
           self.relocation_entries_for_module[module_num].append(relocation_data_entry)
         
         offset += 8
+    
+    # Space after this fix_size offset can be reused for other purposes.
+    # Such as using the space that originally had the relocations list for .bss static variables instead.
+    self.fix_size = read_u32(data, 0x48)
+    self.fix_size = (self.fix_size + 0x1F) & ~(0x1F) # Round up to nearest 0x20
+    
+    self.bss_section_index = None # The byte at offset 0x33 in the REL is reserved for this value at runtime.
+    for section_index, section in enumerate(self.sections):
+      if section.is_bss:
+        self.bss_section_index = section_index
+        section.offset = self.fix_size
+        break
 
 class Section:
   def __init__(self, data, info_offset):
@@ -67,6 +79,11 @@ class Section:
     else:
       self.is_executable = False
     self.length = read_u32(data, info_offset+4)
+    
+    if mult_vals == 0 and self.length != 0:
+      self.is_bss = True
+    else:
+      self.is_bss = False
 
 class RelocationDataEntry:
   def __init__(self, data, offset, prev_relocation_offset, curr_section_num):
