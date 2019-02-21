@@ -2621,21 +2621,22 @@ Five-Star Isles - Submarine:
     - Abship/Room0.arc/Chest000
 
 Seven-Star Isles - Center Lookout Platform:
-  Need: Can Defeat Wizzrobes
+  Need: Nothing
+    # You need to kill a wizzrobe here but you can throw pots/barrels at it.
   Original item: Red Rupee
   Types: Platform
   Paths:
     - sea/Room6.arc/Chest001
 Seven-Star Isles - Northern Lookout Platform:
-  Need: Can Defeat Wizzrobes
+  Need: Nothing
+    # You need to kill a wizzrobe here but you can throw pots/barrels at it.
   Original item: Golden Feather
   Types: Platform
   Paths:
     - sea/Room6.arc/Chest000
 Seven-Star Isles - Southern Lookout Platform:
-  Need:
-    Can Defeat Wizzrobes
-    & Can Defeat Wizzrobes at Range
+  Need: Can Defeat Wizzrobes at Range
+    # Unlike the wizzrobes you need to kill for the center and northern lookout platforms, one of the ones for the southern platform never comes close to you.
   Original item: Treasure Chart 16
   Types: Platform
   Paths:
