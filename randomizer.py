@@ -401,6 +401,7 @@ class Randomizer:
     tweaks.add_chest_in_place_of_jabun_cutscene(self)
     tweaks.add_chest_in_place_of_master_sword(self)
     tweaks.update_beedle_spoil_selling_text(self)
+    tweaks.fix_totg_warp_out_spawn_pos(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)

@@ -1797,3 +1797,12 @@ def update_beedle_spoil_selling_text(self):
   lines = msg.string.split("\n")
   lines[2] = "And no Blue Chu Jelly, either!"
   msg.string = "\n".join(lines)
+
+def fix_totg_warp_out_spawn_pos(self):
+  # Normally the spawn point used when the player teleports out after beating the dungeon boss would put the player right on top of the Hyrule warp, which takes the player there immediately if it's active.
+  # Move the spawn forward a bit to avoid to avoid this.
+  
+  dzr = self.get_arc("files/res/Stage/sea/Room26.arc").get_file("room.dzr")
+  spawn = next(x for x in dzr.entries_by_type("PLYR") if x.spawn_id == 1)
+  spawn.z_pos += 1000.0
+  spawn.save_changes()
