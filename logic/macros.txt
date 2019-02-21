@@ -313,7 +313,7 @@ Can Farm Knight's Crests:
   # * Shark Island's cave.
   # Note: The Ice Ring, Savage, and Shark Island ones have enemies with droppable weapons in the same room as the Darknut, so in swordless you can trick the Darknut into attacking the other enemies, steal their weapon, and use it to kill the Darknut.
 Can Farm Joy Pendants:
-  Spoils Bag & Grappling Hook
+  Grappling Hook & Spoils Bag
   # Dropped by Bokoblins, which are everywhere.
 Can Farm Skull Necklaces:
   Grappling Hook & Spoils Bag
@@ -322,7 +322,7 @@ Can Farm Golden Feathers:
   Grappling Hook & Spoils Bag
   # Dropped by Helmarocs and Peahats. Helmarocs are on platforms so you don't need anything to reach them.
 Can Farm Green Chu Jelly:
-  Can Defeat Green ChuChus & Spoils Bag
+  Can Defeat Green ChuChus & Grappling Hook & Spoils Bag
   # Green ChuChus are accessible without any items on Outset at night.
 Can Obtain 15 Blue Chu Jelly:
   # There are 23 Blue ChuChus in the game, which each drop their jelly only once.
