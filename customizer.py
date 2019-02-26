@@ -44,6 +44,8 @@ def get_model_metadata(custom_model_name):
     
     metadata["hero_color_mask_paths"] = OrderedDict()
     metadata["casual_color_mask_paths"] = OrderedDict()
+    metadata["hands_hero_color_mask_paths"] = OrderedDict()
+    metadata["hands_casual_color_mask_paths"] = OrderedDict()
     metadata["preview_hero_color_mask_paths"] = OrderedDict()
     metadata["preview_casual_color_mask_paths"] = OrderedDict()
     
@@ -74,6 +76,8 @@ def get_model_metadata(custom_model_name):
           
           mask_path = os.path.join(color_masks_path, "%s_%s.png" % (prefix, custom_color_name))
           metadata["%s_color_mask_paths" % prefix][custom_color_name] = mask_path
+          hands_mask_path = os.path.join(color_masks_path, "hands_%s_%s.png" % (prefix, custom_color_name))
+          metadata["hands_%s_color_mask_paths" % prefix][custom_color_name] = hands_mask_path
           preview_mask_path = os.path.join(previews_path, "preview_%s_%s.png" % (prefix, custom_color_name))
           metadata["preview_%s_color_mask_paths" % prefix][custom_color_name] = preview_mask_path
     
@@ -165,7 +169,12 @@ def change_player_clothes_color(self):
   first_texture = link_main_textures[0]
   link_main_image = first_texture.render()
   
+  hands_model = link_arc.get_file("hands.bdl")
+  hands_textures = hands_model.tex1.textures_by_name["handsS3TC"]
+  hands_image = hands_textures[0].render()
+  
   replaced_any = False
+  replaced_any_hands = False
   custom_colors = custom_model_metadata.get(prefix + "_custom_colors", {})
   has_colored_eyebrows = custom_model_metadata.get("has_colored_eyebrows", False)
   hands_color_name = custom_model_metadata.get(prefix + "_hands_color_name", "Skin")
@@ -222,20 +231,13 @@ def change_player_clothes_color(self):
           mouth_texture.replace_image(mouth_image)
     
     # Recolor the hands.
-    if custom_color_basename == hands_color_name:
-      hands_model = link_arc.get_file("hands.bdl")
-      hands_textures = hands_model.tex1.textures_by_name["handsS3TC"]
-      hands_image = hands_textures[0].render()
-      
-      hands_mask_path = custom_model_metadata["hands_" + prefix + "_color_mask_path"]
-      if os.path.isfile(hands_mask_path):
-        hands_image = texture_utils.color_exchange(hands_image, base_color, custom_color, mask_path=hands_mask_path)
-      else:
-        hands_image = texture_utils.color_exchange(hands_image, base_color, custom_color)
-      
-      for hands_texture in hands_textures:
-        hands_texture.replace_image(hands_image)
-      hands_model.save_changes()
+    hands_mask_path = custom_model_metadata["hands_" + prefix + "_color_mask_paths"][custom_color_basename]
+    if os.path.isfile(hands_mask_path):
+      hands_image = texture_utils.color_exchange(hands_image, base_color, custom_color, mask_path=hands_mask_path)
+      replaced_any_hands = True
+    elif custom_color_basename == hands_color_name:
+      hands_image = texture_utils.color_exchange(hands_image, base_color, custom_color)
+      replaced_any_hands = True
   
   if not replaced_any:
     return
@@ -250,6 +252,11 @@ def change_player_clothes_color(self):
     
     if is_casual:
       texture.save_changes()
+  
+  if replaced_any_hands:
+    for hands_texture in hands_textures:
+      hands_texture.replace_image(hands_image)
+    hands_model.save_changes()
   
   link_main_model.save_changes()
 
