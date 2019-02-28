@@ -85,3 +85,4 @@
 803fe790 doc_bandam_green_potion_slot_item_id
 803fe791 doc_bandam_blue_potion_slot_item_id
 803fe794 hurricane_spin_item_resource_arc_name
+803fe79c deluxe_picto_box_item_func_fix_equipped_picto_box

@@ -2637,4 +2637,36 @@ hurricane_spin_item_resource_arc_name:
 
 
 
+; In vanilla, the Deluxe Picto Box item get func doesn't update the Picto Box equipped on the X/Y/Z button.
+; This causes it to not work correctly until the equipped item is fixed (by reloading the area or manually re-equipping it).s
+; This custom code adds a check to fix it automatically into the item get func.
+.global deluxe_picto_box_item_func_fix_equipped_picto_box
+deluxe_picto_box_item_func_fix_equipped_picto_box:
+stb r0, 0x44 (r3) ; Replace the line of code we overwrote to jump heree
+
+li r4, 0 ; The offset for which button to check next (0/1/2 for X/Y/Z)
+li r0, 3 ; How many times to loop (3 buttons)
+mtctr r0
+
+deluxe_picto_box_item_func_fix_equipped_picto_box_loop_start:
+add r5, r3, r4 ; Add the current button offset for this loop to the pointer
+lbz r0, 0x5BD3 (r5) ; Read the item ID on the current button
+; (Note: r3 starts with 803C4C08 in it, so offset 5BD3 is used to get the list of items on the X/Y/Z buttons, at 803CA7DB.)
+cmplwi r0, 0x23 ; Normal Picto Box ID
+; If this button doesn't have the normal Picto Box equipped, continue the loop
+bne deluxe_picto_box_item_func_fix_equipped_picto_box_continue_loop
+
+; If this button does have the normal Picto Box equipped, replace it with the Deluxe Picto box
+li r0, 0x26 ; Deluxe Picto Box ID
+stb r0, 0x5BD3 (r5)
+
+deluxe_picto_box_item_func_fix_equipped_picto_box_continue_loop:
+addi r4, r4, 1
+bdnz deluxe_picto_box_item_func_fix_equipped_picto_box_loop_start
+
+b 0x800C3424 ; Return
+
+
+
+
 .close

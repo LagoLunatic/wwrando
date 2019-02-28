@@ -1143,3 +1143,12 @@
 .org 0x7D0
   addi r0,r3,-2 ; Would normally subtract 1 HP, subtract 2 HP instead
 .close
+
+
+
+
+; Auto-equip the Deluxe Picto Box when obtaining it.
+.open "sys/main.dol"
+.org 0x800C3420
+  b deluxe_picto_box_item_func_fix_equipped_picto_box
+.close
