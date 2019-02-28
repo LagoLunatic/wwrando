@@ -2650,9 +2650,8 @@ Seven-Star Isles - Big Octo:
 
 Cyclops Reef - Destroy the Cannons and Gunboats:
   Need:
-    # The cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead.
-    Can Reach and Defeat Phantom Ganon
-    & Bombs
+    # In vanilla the cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead, but that requirement is removed in the randomizer.
+    Bombs
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 21
   Types: Eye Reef Chest
@@ -2668,9 +2667,8 @@ Cyclops Reef - Lookout Platform - Defeat the Enemies:
 
 Two-Eye Reef - Destroy the Cannons and Gunboats:
   Need:
-    # The cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead.
-    Can Reach and Defeat Phantom Ganon
-    & Bombs
+    # In vanilla the cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead, but that requirement is removed in the randomizer.
+    Bombs
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 13
   Types: Eye Reef Chest
@@ -2691,9 +2689,8 @@ Two-Eye Reef - Big Octo Great Fairy:
 
 Three-Eye Reef - Destroy the Cannons and Gunboats:
   Need:
-    # The cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead.
-    Can Reach and Defeat Phantom Ganon
-    & Bombs
+    # In vanilla the cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead, but that requirement is removed in the randomizer.
+    Bombs
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 32
   Types: Eye Reef Chest
@@ -2702,9 +2699,8 @@ Three-Eye Reef - Destroy the Cannons and Gunboats:
 
 Four-Eye Reef - Destroy the Cannons and Gunboats:
   Need:
-    # The cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead.
-    Can Reach and Defeat Phantom Ganon
-    & Bombs
+    # In vanilla the cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead, but that requirement is removed in the randomizer.
+    Bombs
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 19
   Types: Eye Reef Chest
@@ -2713,10 +2709,9 @@ Four-Eye Reef - Destroy the Cannons and Gunboats:
 
 Five-Eye Reef - Destroy the Cannons:
   Need:
-    # The cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead.
+    # In vanilla the cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead, but that requirement is removed in the randomizer.
     # Unlike the other eye reefs, this one has only cannons and no gunboats.
-    Can Reach and Defeat Phantom Ganon
-    & Can Destroy Cannons
+    Can Destroy Cannons
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 41
   Types: Eye Reef Chest
@@ -2731,9 +2726,8 @@ Five-Eye Reef - Lookout Platform:
 
 Six-Eye Reef - Destroy the Cannons and Gunboats:
   Need:
-    # The cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead.
-    Can Reach and Defeat Phantom Ganon
-    & Bombs
+    # In vanilla the cannons and gunboats at the eye reefs don't appear until Phantom Ganon is dead, but that requirement is removed in the randomizer.
+    Bombs
     & Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 26
   Types: Eye Reef Chest
@@ -2818,7 +2812,8 @@ Overlook Island - Sunken Treasure:
     - sea/Room7.arc/ScalableObject008
     - sea/Room7.arc/ScalableObject009
 Four-Eye Reef - Sunken Treasure:
-  Need: Grappling Hook & Chart for Island 8
+  Need: Grappling Hook & Chart for Island 8 & Bombs
+  # The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
   Original item: Great Fairy Chart
   Types: Sunken Treasure
   Paths:
@@ -2944,7 +2939,8 @@ Star Belt Archipelago - Sunken Treasure:
     - sea/Room21.arc/ScalableObject00B
     - sea/Room21.arc/ScalableObject00C
 Three-Eye Reef - Sunken Treasure:
-  Need: Grappling Hook & Chart for Island 22
+  Need: Grappling Hook & Chart for Island 22 & Bombs
+  # The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
   Original item: Piece of Heart
   Types: Sunken Treasure
   Paths:
@@ -2962,7 +2958,8 @@ Greatfish Isle - Sunken Treasure:
     - sea/Room23.arc/ScalableObject007
     - sea/Room23.arc/ScalableObject008
 Cyclops Reef - Sunken Treasure:
-  Need: Grappling Hook & Chart for Island 24
+  Need: Grappling Hook & Chart for Island 24 & Bombs
+  # The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
   Original item: Light Ring Chart
   Types: Sunken Treasure
   Paths:
@@ -2971,7 +2968,8 @@ Cyclops Reef - Sunken Treasure:
     - sea/Room24.arc/ScalableObject00E
     - sea/Room24.arc/ScalableObject00F
 Six-Eye Reef - Sunken Treasure:
-  Need: Grappling Hook & Chart for Island 25
+  Need: Grappling Hook & Chart for Island 25 & Bombs
+  # The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
   Original item: Silver Rupee
   Types: Sunken Treasure
   Paths:
@@ -3082,7 +3080,8 @@ Diamond Steppe Island - Sunken Treasure:
     - sea/Room36.arc/ScalableObject00B
     - sea/Room36.arc/ScalableObject00C
 Five-Eye Reef - Sunken Treasure:
-  Need: Grappling Hook & Chart for Island 37
+  Need: Grappling Hook & Chart for Island 37 & Can Destroy Cannons
+  # The cannons can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
   Original item: Silver Rupee
   Types: Sunken Treasure
   Paths:
@@ -3163,7 +3162,8 @@ Headstone Island - Sunken Treasure:
     - sea/Room45.arc/ScalableObject028
     - sea/Room45.arc/ScalableObject029
 Two-Eye Reef - Sunken Treasure:
-  Need: Grappling Hook & Chart for Island 46
+  Need: Grappling Hook & Chart for Island 46 & Bombs
+  # The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
   Original item: Triforce Shard 8
   Types: Sunken Treasure
   Paths:

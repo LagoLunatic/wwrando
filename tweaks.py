@@ -1806,3 +1806,20 @@ def fix_totg_warp_out_spawn_pos(self):
   spawn = next(x for x in dzr.entries_by_type("PLYR") if x.spawn_id == 1)
   spawn.z_pos += 1000.0
   spawn.save_changes()
+
+def remove_phantom_ganon_requirement_from_eye_reefs(self):
+  # Go through all the eye reef cannons that don't appear until you defeat Phantom Ganon and remove that switch requirement.
+  
+  for island_number in [24, 46, 22, 8, 37, 25]:
+    eye_reef_dzr = self.get_arc("files/res/Stage/sea/Room%d.arc" % island_number).get_file("room.dzr")
+    actors = eye_reef_dzr.entries_by_type("ACTR")
+    cannons = [x for x in actors if x.name == "Ocanon"]
+    for cannon in cannons:
+      if cannon.cannon_appear_condition_switch == 0x2A: # Switch 2A is Phantom Ganon being dead.
+        cannon.cannon_appear_condition_switch = 0xFF
+        cannon.save_changes()
+    gunboats = [x for x in actors if x.name == "Oship"]
+    for gunboat in gunboats:
+      if (gunboat.auxilary_param & 0xFF) == 0x2A: # Switch 2A is Phantom Ganon being dead.
+        gunboat.auxilary_param = (gunboat.auxilary_param & 0xFF00) | 0xFF
+        gunboat.save_changes()
