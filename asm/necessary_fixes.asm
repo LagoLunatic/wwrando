@@ -1149,6 +1149,6 @@
 
 ; Auto-equip the Deluxe Picto Box when obtaining it.
 .open "sys/main.dol"
-.org 0x800C3420
+.org 0x800C3420 ; In item_func_camera2__Fv (Deluxe Picto Box item get func)
   b deluxe_picto_box_item_func_fix_equipped_picto_box
 .close
