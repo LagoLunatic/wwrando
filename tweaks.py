@@ -543,11 +543,12 @@ def add_cube_to_earth_temple_first_room(self):
   
   dzx.save_changes()
 
-def add_more_magic_jars_to_dungeons(self):
+def add_more_magic_jars(self):
+  # Add more magic jar drops to locations where it can be very inconvenient to not have them.
+  
   # Dragon Roost Cavern doesn't have any magic jars in it since you normally wouldn't have Deku Leaf for it.
   # But since using Deku Leaf in DRC can be required by the randomizer, it can be annoying to not have any way to refill MP.
   # We change several skulls that originally dropped nothing when destroyed to drop magic jars instead.
-  
   drc_center_room = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr")
   actors = drc_center_room.entries_by_type("ACTR")
   skulls = [actor for actor in actors if actor.name == "Odokuro"]
@@ -555,7 +556,6 @@ def add_more_magic_jars_to_dungeons(self):
   skulls[2].save_changes()
   skulls[5].pot_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   skulls[5].save_changes()
-  
   drc_before_boss_room = self.get_arc("files/res/Stage/M_NewD2/Room10.arc").get_file("room.dzr")
   actors = drc_before_boss_room.entries_by_type("ACTR")
   skulls = [actor for actor in actors if actor.name == "Odokuro"]
@@ -564,6 +564,28 @@ def add_more_magic_jars_to_dungeons(self):
   skulls[9].pot_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   skulls[9].save_changes()
   
+  # The grass on the small elevated islands around DRI have a lot of grass that can drop magic, but it's not guaranteed.
+  # Add a new piece of grass to each of the 2 small islands that are guaranteed to drop magic.
+  dri = self.get_arc("files/res/Stage/sea/Room13.arc").get_file("room.dzr")
+  grass1 = dri.add_entity("ACTR", layer=None)
+  grass1.name = "kusax1"
+  grass1.grass_type = 0
+  grass1.grass_subtype = 0
+  grass1.grass_item_drop_type = 0x38 # 62.50% chance of small magic, 37.50% chance of large magic
+  grass1.x_pos = 209694
+  grass1.y_pos = 1900
+  grass1.z_pos = -202463
+  grass2 = dri.add_entity("ACTR", layer=None)
+  grass2.name = "kusax1"
+  grass2.grass_type = 0
+  grass2.grass_subtype = 0
+  grass2.grass_item_drop_type = 0x38 # 62.50% chance of small magic, 37.50% chance of large magic
+  grass2.x_pos = 209333
+  grass2.y_pos = 1300
+  grass2.z_pos = -210145
+  dri.save_changes()
+  
+  # Make one of the pots next to the entrance to the TotG miniboss always drop large magic.
   totg_before_miniboss_room = self.get_arc("files/res/Stage/Siren/Room14.arc").get_file("room.dzr")
   actors = totg_before_miniboss_room.entries_by_type("ACTR")
   pots = [actor for actor in actors if actor.name == "kotubo"]

@@ -403,6 +403,10 @@ class ACTR(ChunkEntry):
     "wizzrobe_prereq_switch_index": 0x00FF0000,
     
     "cannon_appear_condition_switch": 0x0000FF00,
+    
+    "grass_type":           0x00000030,
+    "grass_subtype":        0x0000000F,
+    "grass_item_drop_type": 0x00000FC0,
   }
   
   ITEM_NAMES = [
