@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd "$(dirname "$0")"
+
+
+python3 -m PyInstaller wwrando.spec
+python3 buildmac.py
+
+exit
+
+
