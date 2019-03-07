@@ -1,5 +1,6 @@
 
 from zipfile import ZipFile
+import os
 
 from randomizer import VERSION_WITHOUT_COMMIT
 
@@ -16,7 +17,11 @@ else:
 
 zip_name = base_zip_name.replace(" ", "_") + ".zip"
 
+exe_path = "./dist/%s.exe" % base_name_with_version
+if not os.path.isfile(exe_path):
+  raise Exception("Executable not found: %s" % exe_path)
+
 with ZipFile("./dist/" + zip_name, "w") as zip:
-  zip.write("./dist/%s.exe" % base_name_with_version, arcname="%s.exe" % base_name)
+  zip.write(exe_path, arcname="%s.exe" % base_name)
   zip.write("README.md", arcname="README.txt")
   zip.write("./models/About Custom Models.txt", arcname="./models/About Custom Models.txt")
