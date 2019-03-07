@@ -247,11 +247,11 @@ Pjavdou
 Pnezumi
   Windfall Town Jail
 PShip
-  Ghost Ship (Part 1)
+  Ghost Ship
 PShip2
-  Ghost Ship (Part 2)
+  Unused
 PShip3
-  Ghost Ship (Part 3)
+  Unused
 sea
   The Great Sea
 sea_E
