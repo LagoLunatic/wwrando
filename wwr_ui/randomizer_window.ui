@@ -28,8 +28,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>829</width>
-         <height>631</height>
+         <width>850</width>
+         <height>632</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -230,9 +230,9 @@
                 </widget>
                </item>
                <item row="4" column="1">
-                <widget class="QCheckBox" name="progression_sinking_ships">
+                <widget class="QCheckBox" name="progression_battlesquid">
                  <property name="text">
-                  <string>Sinking Ships Minigame</string>
+                  <string>Battlesquid Minigame</string>
                  </property>
                 </widget>
                </item>

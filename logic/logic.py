@@ -486,7 +486,7 @@ class Logic:
         continue
       if "Minigame" in types and not options.get("progression_minigames"):
         continue
-      if "Sinking Ships" in types and not options.get("progression_sinking_ships"):
+      if "Battlesquid" in types and not options.get("progression_battlesquid"):
         continue
       if "Free Gift" in types and not options.get("progression_free_gifts"):
         continue

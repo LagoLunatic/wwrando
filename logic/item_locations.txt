@@ -438,30 +438,30 @@ Windfall Island - Mila:
   Types: Short Sidequest
   Paths:
     - sea/Stage.arc/Event084:get_empty_btl/Actor002/Action001
-Windfall Island - Sinking Ships - First Prize:
+Windfall Island - Battlesquid - First Prize:
   Need: Nothing
   Original item: Piece of Heart
-  Types: Sinking Ships
+  Types: Battlesquid
   Paths:
     - rels/d_a_npc_kg1.rel@2C28
-Windfall Island - Sinking Ships - Second Prize:
+Windfall Island - Battlesquid - Second Prize:
   Need: Nothing
   Original item: Treasure Chart 7
-  Types: Sinking Ships
+  Types: Battlesquid
   Paths:
     - rels/d_a_npc_kg1.rel@2C29
-#Windfall Island - Sinking Ships - Prize 3+:
+#Windfall Island - Battlesquid - Prize 3+:
 #  Need: Nothing
 #  Original item: Purple Rupee
 #  Paths:
 #    - rels/d_a_npc_kg1.rel@2C2A
-Windfall Island - Sinking Ships - Under 20 Shots Prize:
+Windfall Island - Battlesquid - Under 20 Shots Prize:
   Need: Nothing
   Original item: Treasure Chart 23
-  Types: Sinking Ships
+  Types: Battlesquid
   Paths:
     - rels/d_a_npc_kg1.rel@2C2C
-#Windfall Island - Sinking Ships - Under 20 Shots Prize 2+:
+#Windfall Island - Battlesquid - Under 20 Shots Prize 2+:
 #  Need: Nothing
 #  Original item: Orange Rupee
 #  Paths:
@@ -1996,19 +1996,19 @@ Private Oasis - Big Octo:
   Paths:
     - sea/Room33.arc/ScalableObject015
 
-Spectacle Island - Target Shooting - First Prize:
+Spectacle Island - Barrel Shooting - First Prize:
   Need: Nothing
   Original item: Piece of Heart
   Types: Minigame
   Paths:
     - rels/d_a_npc_kg2.rel@20FF
-Spectacle Island - Target Shooting - Second Prize:
+Spectacle Island - Barrel Shooting - Second Prize:
   Need: Nothing
   Original item: Treasure Chart 17
   Types: Minigame
   Paths:
     - rels/d_a_npc_kg2.rel@2107
-#Spectacle Island - Target Shooting - Prize 3+:
+#Spectacle Island - Barrel Shooting - Prize 3+:
 #  Need: 
 #  Original item: Orange Rupee
 #  Paths:

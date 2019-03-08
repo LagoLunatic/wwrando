@@ -888,8 +888,8 @@ def update_auction_item_names(self):
   msg = self.bmg.messages_by_id[7443]
   msg.string = "\\{1A 06 FF 00 00 01}%s" % item_name
 
-def update_sinking_ships_item_names(self):
-  item_name = self.logic.done_item_locations["Windfall Island - Sinking Ships - First Prize"]
+def update_battlesquid_item_names(self):
+  item_name = self.logic.done_item_locations["Windfall Island - Battlesquid - First Prize"]
   msg = self.bmg.messages_by_id[7520]
   msg.string = "\\{1A 05 01 00 8E}Hoorayyy! Yayyy! Yayyy!\nOh, thank you, Mr. Sailor!\n\n\n"
   msg.string += word_wrap_string(
@@ -897,7 +897,7 @@ def update_sinking_ships_item_names(self):
     max_line_length=43
   )
   
-  item_name = self.logic.done_item_locations["Windfall Island - Sinking Ships - Second Prize"]
+  item_name = self.logic.done_item_locations["Windfall Island - Battlesquid - Second Prize"]
   msg = self.bmg.messages_by_id[7521]
   msg.string = "\\{1A 05 01 00 8E}Hoorayyy! Yayyy! Yayyy!\nOh, thank you so much, Mr. Sailor!\n\n\n"
   msg.string += word_wrap_string(
@@ -906,7 +906,7 @@ def update_sinking_ships_item_names(self):
   )
   
   # The high score one doesn't say the item name in text anywhere, so no need to update it.
-  #item_name = self.logic.done_item_locations["Windfall Island - Sinking Ships - 20 Shots or Less Prize"]
+  #item_name = self.logic.done_item_locations["Windfall Island - Battlesquid - 20 Shots or Less Prize"]
   #msg = self.bmg.messages_by_id[7523]
 
 def update_item_names_in_letter_advertising_rock_spire_shop(self):

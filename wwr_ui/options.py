@@ -79,8 +79,8 @@ OPTIONS = OrderedDict([
     "Tingle Chests that are hidden in dungeons and must be bombed to make them appear. (2 in DRC, 1 each in FW, TotG, ET, and WT).<br><u>If this is not checked, they will still be randomized</u>, but will only contain optional items you don't need to beat the game."
   ),
   (
-    "progression_sinking_ships",
-    "This controls whether the sinking ships minigame can reward progress items.<br><u>If this is not checked, it will still be randomized</u>, but will only reward optional items you don't need to beat the game."
+    "progression_battlesquid",
+    "This controls whether the Windfall battleship minigame can reward progress items.<br><u>If this is not checked, it will still be randomized</u>, but will only reward optional items you don't need to beat the game."
   ),
   (
     "progression_savage_labyrinth",

@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Sun Feb 17 18:20:57 2019
+# Created: Fri Mar  8 13:50:38 2019
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 829, 631))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 850, 632))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
@@ -115,9 +115,9 @@ class Ui_MainWindow(object):
         self.progression_big_octos_gunboats = QtWidgets.QCheckBox(self.groupBox)
         self.progression_big_octos_gunboats.setObjectName("progression_big_octos_gunboats")
         self.gridLayout_2.addWidget(self.progression_big_octos_gunboats, 5, 2, 1, 1)
-        self.progression_sinking_ships = QtWidgets.QCheckBox(self.groupBox)
-        self.progression_sinking_ships.setObjectName("progression_sinking_ships")
-        self.gridLayout_2.addWidget(self.progression_sinking_ships, 4, 1, 1, 1)
+        self.progression_battlesquid = QtWidgets.QCheckBox(self.groupBox)
+        self.progression_battlesquid.setObjectName("progression_battlesquid")
+        self.gridLayout_2.addWidget(self.progression_battlesquid, 4, 1, 1, 1)
         self.progression_expensive_purchases = QtWidgets.QCheckBox(self.groupBox)
         self.progression_expensive_purchases.setChecked(True)
         self.progression_expensive_purchases.setObjectName("progression_expensive_purchases")
@@ -367,7 +367,7 @@ class Ui_MainWindow(object):
         self.progression_free_gifts.setText(QtWidgets.QApplication.translate("MainWindow", "Free Gifts", None, -1))
         self.progression_eye_reef_chests.setText(QtWidgets.QApplication.translate("MainWindow", "Eye Reef Chests", None, -1))
         self.progression_big_octos_gunboats.setText(QtWidgets.QApplication.translate("MainWindow", "Big Octos and Gunboats", None, -1))
-        self.progression_sinking_ships.setText(QtWidgets.QApplication.translate("MainWindow", "Sinking Ships Minigame", None, -1))
+        self.progression_battlesquid.setText(QtWidgets.QApplication.translate("MainWindow", "Battlesquid Minigame", None, -1))
         self.progression_expensive_purchases.setText(QtWidgets.QApplication.translate("MainWindow", "Expensive Purchases", None, -1))
         self.progression_savage_labyrinth.setText(QtWidgets.QApplication.translate("MainWindow", "Savage Labyrinth", None, -1))
         self.progression_combat_secret_caves.setText(QtWidgets.QApplication.translate("MainWindow", "Combat Secret Caves", None, -1))
