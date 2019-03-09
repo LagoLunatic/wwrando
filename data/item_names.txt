@@ -82,7 +82,7 @@
 51 - Red Potion
 52 - Green Potion
 53 - Blue Potion
-54 - 
+54 - Elixir Soup (1/2)
 55 - Elixir Soup
 56 - Bottled Water
 57 - Fairy in Bottle
