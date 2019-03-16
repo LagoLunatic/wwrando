@@ -261,7 +261,7 @@ def get_main_symbols(self):
   framework_map_contents = self.gcm.read_file_data("files/maps/framework.map")
   framework_map_contents.seek(0)
   framework_map_contents = framework_map_contents.read().decode("ascii")
-  matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})  \d (\S+)", framework_map_contents, re.IGNORECASE | re.MULTILINE)
+  matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?:  \d)? (\S+)", framework_map_contents, re.IGNORECASE | re.MULTILINE)
   for match in matches:
     address, name = match
     address = int(address, 16)
