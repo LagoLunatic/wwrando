@@ -3,10 +3,12 @@ from subprocess import call
 import tempfile
 import os
 import re
+from io import BytesIO
 
 from fs_helpers import *
 from wwlib.yaz0_decomp import Yaz0Decompressor
 from wwlib.rel import REL
+from paths import ASM_PATH
 
 def disassemble_all_code(self):
   if not os.path.isfile(r"C:\devkitPro\devkitPPC\bin\powerpc-eabi-objdump.exe"):
@@ -50,7 +52,12 @@ def disassemble_all_code(self):
     disassemble_file(bin_path, asm_path)
     
     if is_rel:
-      rel_map_data = self.gcm.read_file_data("files/maps/" + basename + ".map")
+      demangled_map_path = os.path.join(ASM_PATH, "maps-out", basename + ".map.out")
+      if os.path.isfile(demangled_map_path):
+        with open(demangled_map_path, "rb") as f:
+          rel_map_data = BytesIO(f.read())
+      else:
+        rel_map_data = self.gcm.read_file_data("files/maps/" + basename + ".map")
       rel_map_data.seek(0)
       rel_map_data = rel_map_data.read()
       
@@ -149,7 +156,7 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, main_symbols, rel_map
       else:
         current_section_index = None
         current_section = None
-    symbol_entry_match = re.search(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})  \d (\S+)", line, re.IGNORECASE)
+    symbol_entry_match = re.search(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?:  \d)? (.+?) \t", line, re.IGNORECASE)
     if current_section is not None and symbol_entry_match:
       current_section_offset = current_section.offset
       if current_section_offset == 0:
@@ -223,7 +230,7 @@ def add_symbols_to_main(asm_path, main_symbols):
         address = convert_offset_to_address(offset)
         if address in main_symbols:
           symbol_name = main_symbols[address]
-          out_str += "; FUNCSTART: %08X    %s\n" % (address, symbol_name)
+          out_str += "; SYMBOL: %08X    %s\n" % (address, symbol_name)
       
       match = re.search(r"\s(bl|b|beq|bne|blt|bgt|ble|bge)\s+0x([0-9a-f]+)", line, re.IGNORECASE)
       #print(match)
@@ -258,10 +265,15 @@ def get_list_of_all_rels(self):
 
 def get_main_symbols(self):
   main_symbols = {}
-  framework_map_contents = self.gcm.read_file_data("files/maps/framework.map")
+  demangled_map_path = os.path.join(ASM_PATH, "maps-out", "framework.map.out")
+  if os.path.isfile(demangled_map_path):
+    with open(demangled_map_path, "rb") as f:
+      framework_map_contents = BytesIO(f.read())
+  else:
+    framework_map_contents = self.gcm.read_file_data("files/maps/framework.map")
   framework_map_contents.seek(0)
   framework_map_contents = framework_map_contents.read().decode("ascii")
-  matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?:  \d)? (\S+)", framework_map_contents, re.IGNORECASE | re.MULTILINE)
+  matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?:  \d)? (.+?) \t", framework_map_contents, re.IGNORECASE | re.MULTILINE)
   for match in matches:
     address, name = match
     address = int(address, 16)

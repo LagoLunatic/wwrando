@@ -5,3 +5,4 @@ settings.txt
 /dist
 /models/*
 !/models/About Custom Models.txt
+/asm/maps-out
