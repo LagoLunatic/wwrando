@@ -8,6 +8,10 @@ import sys
 
 from wwr_ui.randomizer_window import WWRandomizerWindow
 
+# Allow keyboard interrupts on the command line to instantly close the program.
+import signal
+signal.signal(signal.SIGINT, signal.SIG_DFL)
+
 try:
   from sys import _MEIPASS
 except ImportError:
