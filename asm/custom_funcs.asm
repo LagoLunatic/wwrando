@@ -43,12 +43,10 @@ bl item_func_tact_song2__Fv ; Ballad of Gales
 bl item_func_tact_song6__Fv ; Song of Passing
 bl item_func_pirates_omamori__Fv ; Pirate's Charm
 
-.global wip
-wip:
 lis r3, n_starting_gear@ha
 addi r3, r3, n_starting_gear@l
 lwz r4, 0(r3)
-slwi r4, r4, 2 					; Convert number of words to offset in bytes
+slwi r4, r4, 2 ; Convert number of words to offset in bytes
 
 lis r3, starting_gear@ha
 addi r3, r3, starting_gear@l
