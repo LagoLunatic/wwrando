@@ -1,4 +1,3 @@
-
 import glob
 import re
 from subprocess import call
@@ -9,8 +8,22 @@ from collections import OrderedDict
 import struct
 import yaml
 import traceback
+from sys import platform
 
-if not os.path.isfile(r"C:\devkitPro\devkitPPC\bin\powerpc-eabi-objdump.exe"):
+if platform == "win32":
+    devkitbasepath = r"C:\devkitPro\devkitPPC\bin"
+else:
+    if not "DEVKITPPC" in os.environ:
+        raise Exception(r"devkitPPC. Path to devkit ppc should be in the DEVKITPPC env var")
+    devkitbasepath = os.environ.get("DEVKITPPC") + "/bin"
+
+def get_bin(name):
+    suff = ".exe"
+    if not platform == "win32":
+        return os.path.join(devkitbasepath, name)
+    return os.path.join(devkitbasepath, name + ".exe")
+
+if not get_bin("powerpc-eabi-objdump"):
   raise Exception(r"Failed to assemble code: Could not find devkitPPC. devkitPPC should be installed to: C:\devkitPro\devkitPPC")
 
 # Allow yaml to dump OrderedDicts for the diffs.
@@ -111,7 +124,7 @@ try:
         
         o_name = os.path.join(temp_dir, "tmp_" + basename + "_%08X.o" % org_offset)
         command = [
-          r"C:\devkitPro\devkitPPC\bin\powerpc-eabi-as.exe", "-mregnames", "-m750cl",
+          get_bin("powerpc-eabi-as"), "-mregnames", "-m750cl",
           temp_asm_name, "-o", o_name
         ]
         print(" ".join(command))
@@ -123,7 +136,7 @@ try:
         bin_name = os.path.join(temp_dir, "tmp_" + basename + "_%08X.bin" % org_offset)
         map_name = os.path.join(temp_dir, "tmp_" + basename + ".map")
         command = [
-          r"C:\devkitPro\devkitPPC\bin\powerpc-eabi-ld.exe",
+          get_bin("powerpc-eabi-ld"),
           "-Ttext", "%X" % org_offset,
           "-T", temp_linker_name,
           "--oformat", "binary",
