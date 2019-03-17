@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Fri Mar 15 11:56:56 2019
+# Created: Sun Mar 17 16:50:14 2019
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -250,24 +250,26 @@ class Ui_MainWindow(object):
         self.tab_3 = QtWidgets.QWidget()
         self.tab_3.setObjectName("tab_3")
         self.randomized_gear = QtWidgets.QListView(self.tab_3)
-        self.randomized_gear.setGeometry(QtCore.QRect(30, 70, 171, 591))
+        self.randomized_gear.setGeometry(QtCore.QRect(30, 70, 241, 591))
+        self.randomized_gear.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.randomized_gear.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
         self.randomized_gear.setObjectName("randomized_gear")
         self.starting_gear = QtWidgets.QListView(self.tab_3)
-        self.starting_gear.setGeometry(QtCore.QRect(280, 70, 171, 591))
+        self.starting_gear.setGeometry(QtCore.QRect(350, 70, 241, 591))
+        self.starting_gear.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.starting_gear.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
         self.starting_gear.setObjectName("starting_gear")
         self.add_gear = QtWidgets.QPushButton(self.tab_3)
-        self.add_gear.setGeometry(QtCore.QRect(210, 280, 61, 61))
+        self.add_gear.setGeometry(QtCore.QRect(280, 280, 61, 61))
         self.add_gear.setObjectName("add_gear")
         self.remove_gear = QtWidgets.QPushButton(self.tab_3)
-        self.remove_gear.setGeometry(QtCore.QRect(210, 370, 61, 61))
+        self.remove_gear.setGeometry(QtCore.QRect(280, 370, 61, 61))
         self.remove_gear.setObjectName("remove_gear")
         self.label_for_randomized_gear = QtWidgets.QLabel(self.tab_3)
-        self.label_for_randomized_gear.setGeometry(QtCore.QRect(30, 40, 151, 19))
+        self.label_for_randomized_gear.setGeometry(QtCore.QRect(40, 40, 151, 19))
         self.label_for_randomized_gear.setObjectName("label_for_randomized_gear")
         self.label_for_starting_gear = QtWidgets.QLabel(self.tab_3)
-        self.label_for_starting_gear.setGeometry(QtCore.QRect(280, 40, 121, 19))
+        self.label_for_starting_gear.setGeometry(QtCore.QRect(360, 40, 121, 19))
         self.label_for_starting_gear.setObjectName("label_for_starting_gear")
         self.tabWidget.addTab(self.tab_3, "")
         self.tab_2 = QtWidgets.QWidget()
