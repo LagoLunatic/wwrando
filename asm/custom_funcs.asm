@@ -1,4 +1,3 @@
-
 .open "sys/main.dol"
 .org 0x803FCFA8
 
@@ -11,7 +10,6 @@ stw r0, 0x14 (sp)
 
 
 bl init__10dSv_save_cFv ; To call this custom func we overwrote a call to init__10dSv_save_cFv, so call that now.
-
 
 lis r5, sword_mode@ha
 addi r5, r5, sword_mode@l
@@ -45,6 +43,31 @@ bl item_func_tact_song2__Fv ; Ballad of Gales
 bl item_func_tact_song6__Fv ; Song of Passing
 bl item_func_pirates_omamori__Fv ; Pirate's Charm
 
+.global wip
+wip:
+lis r3, n_starting_gear@ha
+addi r3, r3, n_starting_gear@l
+lwz r4, 0(r3)
+slwi r4, r4, 2 					; Convert number of words to offset in bytes
+
+lis r3, starting_gear@ha
+addi r3, r3, starting_gear@l
+stw r4, 8(sp)
+
+begin_get_item_loop:
+lwz r4, 8(sp)
+cmpwi r4, 0
+addi r4, r4, -4
+beq end_get_item_loop
+
+lis r3, starting_gear@ha
+addi r3, r3, starting_gear@l
+lwzx r5, r4, r3
+stw r4, 8(sp)
+mtctr r5
+bctrl
+b begin_get_item_loop
+end_get_item_loop:
 
 lis r3, 0x803C522C@ha
 addi r3, r3, 0x803C522C@l
@@ -325,8 +348,15 @@ sword_mode:
 .global skip_rematch_bosses
 skip_rematch_bosses:
 .byte 1 ; By default skip them
-.align 2 ; Align to the next 4 bytes
+.global n_starting_gear
+n_starting_gear:
+.space 4
+.global starting_gear
+.align 2
+starting_gear:
+.space 128 						; Allow space for up to 32 additional items
 
+.align 2 ; Align to the next 4 bytes
 
 
 

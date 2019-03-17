@@ -1387,6 +1387,27 @@ def update_sword_mode_game_variable(self):
   else:
     raise Exception("Unknown sword mode: %s" % self.options.get("sword_mode"))
 
+def update_starting_gear(self):
+  item_get_funcs_list = address_to_offset(0x803888C8)
+  starting_gear = self.options.get("starting_gear")
+  n_starting_gear = len(starting_gear)
+  starting_gear_number_address = self.custom_symbols["n_starting_gear"]
+  starting_gear_array_address = self.custom_symbols["starting_gear"]
+  dol_data = self.get_raw_file("sys/main.dol")
+  write_u32(dol_data, address_to_offset(starting_gear_number_address), n_starting_gear)
+  for i in range(n_starting_gear):
+    if starting_gear[i].startswith("Progressive "):
+      prog_func_symbol_name = starting_gear[i].lower().replace(" ", "_") + "_item_func"
+      if not prog_func_symbol_name in self.custom_symbols:
+        prog_func_symbol_name = starting_gear[i].lower().replace(" ", "_") + "_func"
+      addr = self.custom_symbols[prog_func_symbol_name]
+    else:
+      off = item_get_funcs_list + self.item_name_to_id[starting_gear[i]] * 4
+      addr = read_u32(dol_data, off)
+    write_u32(dol_data,
+              address_to_offset(starting_gear_array_address + i * 4),
+              addr)
+
 def update_text_for_swordless(self):
   msg = self.bmg.messages_by_id[1128]
   msg.string = "\\{1A 05 00 00 00}, you may not have the\nMaster Sword, but do not be afraid!\n\n\n"

@@ -1,4 +1,3 @@
-
 from PySide2.QtGui import *
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
@@ -6,6 +5,7 @@ from PySide2.QtWidgets import *
 from wwr_ui.ui_randomizer_window import Ui_MainWindow
 from wwr_ui.options import OPTIONS, NON_PERMALINK_OPTIONS
 from wwr_ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
+from wwr_ui.inventory import INVENTORY_ITEMS
 
 import random
 from collections import OrderedDict
@@ -66,6 +66,8 @@ class WWRandomizerWindow(QMainWindow):
         widget.clicked.connect(self.update_settings)
       elif isinstance(widget, QComboBox):
         widget.currentIndexChanged.connect(self.update_settings)
+      elif isinstance(widget, QListView):
+        pass;
       else:
         raise Exception("Option widget is invalid: %s" % option_name)
     
@@ -129,7 +131,26 @@ class WWRandomizerWindow(QMainWindow):
     seed = "".join(char for char in seed if char in self.VALID_SEED_CHARACTERS)
     seed = seed[:self.MAX_SEED_LENGTH]
     return seed
-  
+
+  def move_selected_rows(self, source, dest):
+    selection = source.selectionModel().selectedIndexes()
+    # Remove starting from the last so the previous indices remain valid
+    selection.sort(reverse = True, key = lambda x: x.row())
+    for item in selection:
+      value = item.data()
+      source.model().removeRow(item.row())
+      dest.model().insertRow(dest.model().rowCount())
+      newrow = dest.model().index(dest.model().rowCount() - 1, 0)
+      dest.model().setData(newrow, value);
+
+  def add_to_starting_gear(self):
+    self.move_selected_rows(self.ui.randomized_gear, self.ui.starting_gear)
+    self.update_settings()
+
+  def remove_from_starting_gear(self):
+    self.move_selected_rows(self.ui.starting_gear, self.ui.randomized_gear)
+    self.update_settings()
+
   def randomize(self):
     clean_iso_path = self.settings["clean_iso_path"].strip()
     output_folder = self.settings["output_folder"].strip()
@@ -289,7 +310,16 @@ class WWRandomizerWindow(QMainWindow):
       self.ui.output_folder.setText(self.settings["output_folder"])
     if "seed" in self.settings:
       self.ui.seed.setText(self.settings["seed"])
-    
+
+    self.ui.add_gear.clicked.connect(self.add_to_starting_gear)
+    self.randomized_gear_model = QStringListModel()
+    self.randomized_gear_model.setStringList(INVENTORY_ITEMS.copy())
+    self.ui.randomized_gear.setModel(self.randomized_gear_model)
+
+    self.ui.remove_gear.clicked.connect(self.remove_from_starting_gear)
+    self.starting_gear_model = QStringListModel()
+    self.ui.starting_gear.setModel(self.starting_gear_model)
+
     for option_name in OPTIONS:
       if option_name in self.settings:
         self.set_option_value(option_name, self.settings[option_name])
@@ -507,6 +537,10 @@ class WWRandomizerWindow(QMainWindow):
       return widget.isChecked()
     elif isinstance(widget, QComboBox):
       return widget.itemText(widget.currentIndex())
+    elif isinstance(widget, QListView):
+      if widget.model() == None:
+        return []
+      return [widget.model().data(widget.model().index(i)) for i in range(widget.model().rowCount())]
     else:
       print("Option widget is invalid: %s" % option_name)
   
@@ -527,6 +561,9 @@ class WWRandomizerWindow(QMainWindow):
         index_of_value = 0
       
       widget.setCurrentIndex(index_of_value)
+    elif isinstance(widget, QListView):
+      if (widget.model() != None):
+        widget.model().setStringList(new_value)
     else:
       print("Option widget is invalid: %s" % option_name)
   
@@ -836,7 +873,7 @@ class WWRandomizerWindow(QMainWindow):
     self.about_dialog.setText(text)
     self.about_dialog.setWindowIcon(self.windowIcon())
     self.about_dialog.show()
-  
+
   def keyPressEvent(self, event):
     if event.key() == Qt.Key_Escape:
       self.close()

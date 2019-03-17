@@ -162,6 +162,14 @@ OPTIONS = OrderedDict([
     "disable_custom_player_voice",
     "If the chosen custom model comes with custom voice files, you can check this option to turn them off and simply use Link's normal voice instead."
   ),
+  (
+    "randomized_gear",
+    "Inventory items that will be randomized."
+  ),
+  (
+    "starting_gear",
+    "Items that will be in Link's inventory at the start of a new game."
+  ),
 ])
 
 NON_PERMALINK_OPTIONS = [
