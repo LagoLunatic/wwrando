@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Mon Mar 18 14:52:14 2019
+# Created: Mon Mar 18 15:21:43 2019
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -29,6 +29,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.tabWidget = QtWidgets.QTabWidget(self.scrollAreaWidgetContents_3)
+        self.tabWidget.setEnabled(True)
         self.tabWidget.setObjectName("tabWidget")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
@@ -248,6 +249,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.groupBox_2)
         self.tabWidget.addTab(self.tab, "")
         self.tab_3 = QtWidgets.QWidget()
+        self.tab_3.setEnabled(True)
         self.tab_3.setObjectName("tab_3")
         self.randomized_gear = QtWidgets.QListView(self.tab_3)
         self.randomized_gear.setGeometry(QtCore.QRect(20, 60, 256, 411))
@@ -362,7 +364,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

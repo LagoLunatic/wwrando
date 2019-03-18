@@ -722,7 +722,9 @@ class WWRandomizerWindow(QMainWindow):
     if not self.get_option_value("progression_dungeons"):
       # Race mode places required items on dungeon bosses.
       should_enable_options["race_mode"] = False
-    
+
+    self.ui.tabWidget.setTabEnabled(1, not self.get_option_value("race_mode"));
+
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
       if should_enable_options[option_name]:
