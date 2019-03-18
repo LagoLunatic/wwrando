@@ -729,6 +729,15 @@ class WWRandomizerWindow(QMainWindow):
 
     self.ui.tabWidget.setTabEnabled(1, not self.get_option_value("race_mode"));
 
+    if self.get_option_value("sword_mode") == "Swordless":
+      starting_gear = self.get_option_value("starting_gear")
+      randomized_gear = self.get_option_value("randomized_gear")
+      if "Hurricane Spin" in starting_gear:
+        starting_gear.remove("Hurricane Spin")
+        randomized_gear += ["Hurricane Spin"]
+        self.set_option_value("starting_gear", starting_gear)
+        self.set_option_value("randomized_gear", randomized_gear)
+
     compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
     all_gear = self.get_option_value("starting_gear") + self.get_option_value("randomized_gear");
 
