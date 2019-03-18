@@ -16,6 +16,7 @@ REGULAR_ITEMS = [
   "Mirror Shield",
   "Hurricane Spin",
 ]
+REGULAR_ITEMS.sort()
 
 PROGRESSIVE_ITEMS = \
     ["Progressive Bow"]       * 3 + \
@@ -23,6 +24,7 @@ PROGRESSIVE_ITEMS = \
     ["Progressive Bomb Bag"]  * 2 + \
     ["Progressive Wallet"]    * 2 + \
     ["Progressive Picto Box"] * 2
+PROGRESSIVE_ITEMS.sort()
 
 INVENTORY_ITEMS = REGULAR_ITEMS + PROGRESSIVE_ITEMS
 # Not sure how the Progressive Bomb Bag and Quiver play with their

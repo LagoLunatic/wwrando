@@ -418,11 +418,12 @@ class WWRandomizerWindow(QMainWindow):
         for i in range(len(REGULAR_ITEMS)):
           bit = REGULAR_ITEMS[i] in value
           bitswriter.write(bit, 1)
-        for i in range(len(set(PROGRESSIVE_ITEMS))):
+        unique_progressive_items = list(set(PROGRESSIVE_ITEMS))
+        unique_progressive_items.sort()
+        for item in unique_progressive_items:
           # No Progressive Sword and there's no more than
           # 3 of any other Progressive item so two bits per item
-          amount = value.count(PROGRESSIVE_ITEMS[i])
-          bitswriter.write(amount, 2)
+          bitswriter.write(value.count(item), 2)
 
     bitswriter.flush()
     
@@ -477,7 +478,9 @@ class WWRandomizerWindow(QMainWindow):
             self.ui.randomized_gear.selectionModel().select(self.randomized_gear_model.index(i), QItemSelectionModel.Select)
         self.move_selected_rows(self.ui.randomized_gear, self.ui.starting_gear)
         # Progressive items are all after regular items
-        for item in set(PROGRESSIVE_ITEMS):
+        unique_progressive_items = list(set(PROGRESSIVE_ITEMS))
+        unique_progressive_items.sort()
+        for item in unique_progressive_items:
           amount = bitsreader.read(2)
           randamount = PROGRESSIVE_ITEMS.count(item) - amount
           for i in range(amount):
