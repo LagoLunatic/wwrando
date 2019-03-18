@@ -49,6 +49,14 @@ class WWRandomizerWindow(QMainWindow):
     
     self.cached_item_locations = Logic.load_and_parse_item_locations()
     
+    self.ui.add_gear.clicked.connect(self.add_to_starting_gear)
+    self.randomized_gear_model = QStringListModel()
+    self.randomized_gear_model.setStringList(INVENTORY_ITEMS.copy())
+    self.ui.randomized_gear.setModel(self.randomized_gear_model)
+    self.ui.remove_gear.clicked.connect(self.remove_from_starting_gear)
+    self.starting_gear_model = QStringListModel()
+    self.ui.starting_gear.setModel(self.starting_gear_model)
+    
     self.load_settings()
     
     self.ui.clean_iso_path.editingFinished.connect(self.update_settings)
@@ -314,16 +322,7 @@ class WWRandomizerWindow(QMainWindow):
       self.ui.output_folder.setText(self.settings["output_folder"])
     if "seed" in self.settings:
       self.ui.seed.setText(self.settings["seed"])
-
-    self.ui.add_gear.clicked.connect(self.add_to_starting_gear)
-    self.randomized_gear_model = QStringListModel()
-    self.randomized_gear_model.setStringList(INVENTORY_ITEMS.copy())
-    self.ui.randomized_gear.setModel(self.randomized_gear_model)
-
-    self.ui.remove_gear.clicked.connect(self.remove_from_starting_gear)
-    self.starting_gear_model = QStringListModel()
-    self.ui.starting_gear.setModel(self.starting_gear_model)
-
+    
     for option_name in OPTIONS:
       if option_name in self.settings:
         self.set_option_value(option_name, self.settings[option_name])
