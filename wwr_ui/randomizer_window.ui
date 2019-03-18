@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>995</width>
-    <height>877</height>
+    <width>872</width>
+    <height>784</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,8 +28,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>977</width>
-         <height>726</height>
+         <width>974</width>
+         <height>697</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -293,10 +293,10 @@
                <string>Additional Randomization Options</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_3">
-               <item row="2" column="1">
-                <widget class="QCheckBox" name="randomize_starting_island">
+               <item row="1" column="0">
+                <widget class="QCheckBox" name="race_mode">
                  <property name="text">
-                  <string>Randomize Starting Island</string>
+                  <string>Race Mode</string>
                  </property>
                 </widget>
                </item>
@@ -304,43 +304,6 @@
                 <widget class="QCheckBox" name="keylunacy">
                  <property name="text">
                   <string>Key-Lunacy</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0">
-                <layout class="QHBoxLayout" name="horizontalLayout_5">
-                 <item>
-                  <widget class="QLabel" name="label_for_sword_mode">
-                   <property name="text">
-                    <string>Sword Mode</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QComboBox" name="sword_mode">
-                   <item>
-                    <property name="text">
-                     <string>Start with Sword</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Randomized Sword</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Swordless</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item row="1" column="0">
-                <widget class="QCheckBox" name="race_mode">
-                 <property name="text">
-                  <string>Race Mode</string>
                  </property>
                 </widget>
                </item>
@@ -419,12 +382,35 @@
                  </item>
                 </layout>
                </item>
-               <item row="2" column="2">
-                <widget class="QCheckBox" name="randomize_bgm">
-                 <property name="text">
-                  <string>Randomize Background Music</string>
-                 </property>
-                </widget>
+               <item row="0" column="0">
+                <layout class="QHBoxLayout" name="horizontalLayout_5">
+                 <item>
+                  <widget class="QLabel" name="label_for_sword_mode">
+                   <property name="text">
+                    <string>Sword Mode</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="sword_mode">
+                   <item>
+                    <property name="text">
+                     <string>Start with Sword</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Randomized Sword</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Swordless</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
                </item>
                <item row="1" column="1" colspan="2">
                 <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -469,10 +455,24 @@
                  </item>
                 </layout>
                </item>
+               <item row="2" column="1">
+                <widget class="QCheckBox" name="randomize_starting_island">
+                 <property name="text">
+                  <string>Randomize Starting Island</string>
+                 </property>
+                </widget>
+               </item>
                <item row="2" column="0">
                 <widget class="QCheckBox" name="randomize_charts">
                  <property name="text">
                   <string>Randomize Charts</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2">
+                <widget class="QCheckBox" name="randomize_bgm">
+                 <property name="text">
+                  <string>Randomize Background Music</string>
                  </property>
                 </widget>
                </item>
@@ -556,47 +556,35 @@
           </widget>
           <widget class="QWidget" name="tab_3">
            <attribute name="title">
-            <string>Starting Gear</string>
+            <string>Inventory</string>
            </attribute>
            <widget class="QListView" name="randomized_gear">
             <property name="geometry">
              <rect>
-              <x>30</x>
-              <y>70</y>
-              <width>241</width>
-              <height>591</height>
+              <x>20</x>
+              <y>60</y>
+              <width>256</width>
+              <height>411</height>
              </rect>
-            </property>
-            <property name="editTriggers">
-             <set>QAbstractItemView::NoEditTriggers</set>
-            </property>
-            <property name="selectionMode">
-             <enum>QAbstractItemView::MultiSelection</enum>
             </property>
            </widget>
            <widget class="QListView" name="starting_gear">
             <property name="geometry">
              <rect>
-              <x>350</x>
-              <y>70</y>
-              <width>241</width>
-              <height>591</height>
+              <x>380</x>
+              <y>60</y>
+              <width>256</width>
+              <height>411</height>
              </rect>
-            </property>
-            <property name="editTriggers">
-             <set>QAbstractItemView::NoEditTriggers</set>
-            </property>
-            <property name="selectionMode">
-             <enum>QAbstractItemView::MultiSelection</enum>
             </property>
            </widget>
            <widget class="QPushButton" name="add_gear">
             <property name="geometry">
              <rect>
-              <x>280</x>
-              <y>280</y>
-              <width>61</width>
-              <height>61</height>
+              <x>290</x>
+              <y>180</y>
+              <width>81</width>
+              <height>81</height>
              </rect>
             </property>
             <property name="text">
@@ -606,10 +594,10 @@
            <widget class="QPushButton" name="remove_gear">
             <property name="geometry">
              <rect>
-              <x>280</x>
-              <y>370</y>
-              <width>61</width>
-              <height>61</height>
+              <x>290</x>
+              <y>270</y>
+              <width>81</width>
+              <height>81</height>
              </rect>
             </property>
             <property name="text">
@@ -620,8 +608,8 @@
             <property name="geometry">
              <rect>
               <x>40</x>
-              <y>40</y>
-              <width>151</width>
+              <y>30</y>
+              <width>161</width>
               <height>19</height>
              </rect>
             </property>
@@ -632,9 +620,9 @@
            <widget class="QLabel" name="label_for_starting_gear">
             <property name="geometry">
              <rect>
-              <x>360</x>
-              <y>40</y>
-              <width>121</width>
+              <x>400</x>
+              <y>30</y>
+              <width>161</width>
               <height>19</height>
              </rect>
             </property>
