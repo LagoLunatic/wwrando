@@ -1388,25 +1388,34 @@ def update_sword_mode_game_variable(self):
     raise Exception("Unknown sword mode: %s" % self.options.get("sword_mode"))
 
 def update_starting_gear(self):
-  item_get_funcs_list = address_to_offset(0x803888C8)
   starting_gear = self.options.get("starting_gear")
-  n_starting_gear = len(starting_gear)
-  starting_gear_number_address = self.custom_symbols["n_starting_gear"]
   starting_gear_array_address = self.custom_symbols["starting_gear"]
   dol_data = self.get_raw_file("sys/main.dol")
-  write_u32(dol_data, address_to_offset(starting_gear_number_address), n_starting_gear)
-  for i in range(n_starting_gear):
+  normal_items = 0
+  for i in range(len(starting_gear)):
     if starting_gear[i].startswith("Progressive "):
-      prog_func_symbol_name = starting_gear[i].lower().replace(" ", "_") + "_item_func"
-      if not prog_func_symbol_name in self.custom_symbols:
-        prog_func_symbol_name = starting_gear[i].lower().replace(" ", "_") + "_func"
-      addr = self.custom_symbols[prog_func_symbol_name]
+      # The idea here is that convert_progressive_item_id will convert any
+      # base item ID into the appropriate upgraded item ID
+      if starting_gear[i] == "Progressive Sword":
+        itemid = 0x38 # Hero's Sword
+      elif starting_gear[i] == "Progressive Bow":
+        itemid = 0x27 # Hero's Bow
+      elif starting_gear[i] == "Progressive Wallet":
+        itemid = 0xAB # 1000 Rupee Wallet
+      elif starting_gear[i] == "Progressive Bomb Bag":
+        itemid = 0xAD # 60 Bomb Bomb Bag
+      elif starting_gear[i] == "Progressive Quiver":
+        itemid = 0xAF # 60 Arrow Quiver
+      elif starting_gear[i] == "Progressive Picto Box":
+        itemid = 0x23 # Picto Box
     else:
-      off = item_get_funcs_list + self.item_name_to_id[starting_gear[i]] * 4
-      addr = read_u32(dol_data, off)
-    write_u32(dol_data,
-              address_to_offset(starting_gear_array_address + i * 4),
-              addr)
+      itemid = self.item_name_to_id[starting_gear[i]]
+    write_u8(dol_data,
+             address_to_offset(starting_gear_array_address + i),
+             itemid)
+  write_u8(dol_data,
+           address_to_offset(starting_gear_array_address + len(starting_gear)),
+           0xFF)
 
 def update_text_for_swordless(self):
   msg = self.bmg.messages_by_id[1128]
