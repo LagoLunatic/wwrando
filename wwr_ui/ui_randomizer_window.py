@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Mon Mar 18 15:27:32 2019
+# Created: Mon Mar 18 14:16:00 2019
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 974, 697))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 850, 632))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
@@ -254,12 +254,12 @@ class Ui_MainWindow(object):
         self.randomized_gear = QtWidgets.QListView(self.tab_3)
         self.randomized_gear.setGeometry(QtCore.QRect(20, 60, 256, 411))
         self.randomized_gear.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.randomized_gear.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
+        self.randomized_gear.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
         self.randomized_gear.setObjectName("randomized_gear")
         self.starting_gear = QtWidgets.QListView(self.tab_3)
         self.starting_gear.setGeometry(QtCore.QRect(380, 60, 256, 411))
         self.starting_gear.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.starting_gear.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
+        self.starting_gear.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
         self.starting_gear.setObjectName("starting_gear")
         self.add_gear = QtWidgets.QPushButton(self.tab_3)
         self.add_gear.setGeometry(QtCore.QRect(290, 180, 81, 81))

@@ -27,5 +27,3 @@ PROGRESSIVE_ITEMS = \
 PROGRESSIVE_ITEMS.sort()
 
 INVENTORY_ITEMS = REGULAR_ITEMS + PROGRESSIVE_ITEMS
-# Not sure how the Progressive Bomb Bag and Quiver play with their
-# respective items themselves so to be safe they aren't supported yet.
