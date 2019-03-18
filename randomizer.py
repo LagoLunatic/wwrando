@@ -81,6 +81,9 @@ class Randomizer:
       self.no_logs = True
     self.print_used_flags = ("-printflags" in cmd_line_args)
     
+    if self.options.get("race_mode"):
+      self.options["starting_gear"] = []
+    
     self.integer_seed = self.convert_string_to_integer_md5(self.seed)
     self.rng = self.get_new_rng()
     
@@ -127,7 +130,7 @@ class Randomizer:
       "Hero's Shield",
       "Boat's Sail",
     ]
-    self.starting_items += self.options.get("starting_gear")
+    self.starting_items += self.options.get("starting_gear", [])
 
     if self.options.get("sword_mode") == "Start with Sword":
       self.starting_items.append("Progressive Sword")
