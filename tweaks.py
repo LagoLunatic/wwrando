@@ -1393,26 +1393,10 @@ def update_starting_gear(self):
   dol_data = self.get_raw_file("sys/main.dol")
   normal_items = 0
   for i in range(len(starting_gear)):
-    if starting_gear[i].startswith("Progressive "):
-      # The idea here is that convert_progressive_item_id will convert any
-      # base item ID into the appropriate upgraded item ID
-      if starting_gear[i] == "Progressive Sword":
-        itemid = 0x38 # Hero's Sword
-      elif starting_gear[i] == "Progressive Bow":
-        itemid = 0x27 # Hero's Bow
-      elif starting_gear[i] == "Progressive Wallet":
-        itemid = 0xAB # 1000 Rupee Wallet
-      elif starting_gear[i] == "Progressive Bomb Bag":
-        itemid = 0xAD # 60 Bomb Bomb Bag
-      elif starting_gear[i] == "Progressive Quiver":
-        itemid = 0xAF # 60 Arrow Quiver
-      elif starting_gear[i] == "Progressive Picto Box":
-        itemid = 0x23 # Picto Box
-    else:
-      itemid = self.item_name_to_id[starting_gear[i]]
+    item_id = self.item_name_to_id[starting_gear[i]]
     write_u8(dol_data,
              address_to_offset(starting_gear_array_address + i),
-             itemid)
+             item_id)
   write_u8(dol_data,
            address_to_offset(starting_gear_array_address + len(starting_gear)),
            0xFF)
