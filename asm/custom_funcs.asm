@@ -348,10 +348,10 @@ sword_mode:
 .global skip_rematch_bosses
 skip_rematch_bosses:
 .byte 1 ; By default skip them
-	
+
 .global starting_gear
 starting_gear:
-.space 32 						; Allow space for up to 31 additional items
+.space 32 ; Allow space for up to 31 additional items
 
 .align 2 ; Align to the next 4 bytes
 
@@ -503,7 +503,7 @@ cmpwi r4, 30
 beq convert_progressive_quiver_id_to_60_arrow_quiver
 cmpwi r4, 60
 beq convert_progressive_quiver_id_to_99_arrow_quiver
-li r3, 0xAF ; Invalid quiver state; this shouldn't happen so just return the base bomb bag ID
+li r3, 0xAF ; Invalid quiver state; this shouldn't happen so just return the base quiver ID
 b convert_progressive_item_id_func_end
 
 convert_progressive_quiver_id_to_60_arrow_quiver:
