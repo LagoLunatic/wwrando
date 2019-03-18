@@ -9,7 +9,9 @@ from wwr_ui.inventory import INVENTORY_ITEMS, REGULAR_ITEMS, PROGRESSIVE_ITEMS
 from wwr_ui.packedbits import PackedBitsReader, PackedBitsWriter
 
 import random
+import collections
 from collections import OrderedDict
+
 import os
 import traceback
 import string
@@ -57,7 +59,6 @@ class WWRandomizerWindow(QMainWindow):
     
     self.cached_item_locations = Logic.load_and_parse_item_locations()
     
-    
     self.load_settings()
     
     self.ui.clean_iso_path.editingFinished.connect(self.update_settings)
@@ -93,7 +94,7 @@ class WWRandomizerWindow(QMainWindow):
       if label_for_option:
         label_for_option.installEventFilter(self)
     self.set_option_description(None)
-    
+
     self.update_settings()
     
     self.setWindowTitle("Wind Waker Randomizer %s" % VERSION)
@@ -727,6 +728,13 @@ class WWRandomizerWindow(QMainWindow):
       should_enable_options["race_mode"] = False
 
     self.ui.tabWidget.setTabEnabled(1, not self.get_option_value("race_mode"));
+
+    compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
+    all_gear = self.get_option_value("starting_gear") + self.get_option_value("randomized_gear");
+
+    if not compare(all_gear, INVENTORY_ITEMS):
+      for opt in ["randomized_gear", "starting_gear"]:
+        self.set_option_value(opt, self.default_settings[opt])
 
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
