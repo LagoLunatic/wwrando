@@ -45,10 +45,6 @@ class WWRandomizerWindow(QMainWindow):
     self.custom_colors = OrderedDict()
     self.initialize_custom_player_model_list()
     
-    self.preserve_default_settings()
-    
-    self.cached_item_locations = Logic.load_and_parse_item_locations()
-    
     self.ui.add_gear.clicked.connect(self.add_to_starting_gear)
     self.randomized_gear_model = QStringListModel()
     self.randomized_gear_model.setStringList(INVENTORY_ITEMS.copy())
@@ -56,6 +52,11 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.remove_gear.clicked.connect(self.remove_from_starting_gear)
     self.starting_gear_model = QStringListModel()
     self.ui.starting_gear.setModel(self.starting_gear_model)
+
+    self.preserve_default_settings()
+    
+    self.cached_item_locations = Logic.load_and_parse_item_locations()
+    
     
     self.load_settings()
     
