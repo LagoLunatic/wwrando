@@ -28,7 +28,7 @@ item_func_small_key__Fv = 0x800c31b0;
 item_func_boss_key__Fv = 0x800c3fc8;
 item_func_map__Fv = 0x800c3f68;
 item_func_compass__Fv = 0x800c3f98;
-
+execItemGet__FUc = 0x800c2dfc;
 
 onEventBit__11dSv_event_cFUs = 0x8005cb04;
 isEventBit__11dSv_event_cFUs = 0x8005cb34;
