@@ -573,6 +573,12 @@
               <height>411</height>
              </rect>
             </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::MultiSelection</enum>
+            </property>
            </widget>
            <widget class="QListView" name="starting_gear">
             <property name="geometry">
@@ -582,6 +588,12 @@
               <width>256</width>
               <height>411</height>
              </rect>
+            </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::MultiSelection</enum>
             </property>
            </widget>
            <widget class="QPushButton" name="add_gear">

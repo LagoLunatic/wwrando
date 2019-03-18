@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Mon Mar 18 15:21:43 2019
+# Created: Mon Mar 18 15:27:32 2019
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -253,9 +253,13 @@ class Ui_MainWindow(object):
         self.tab_3.setObjectName("tab_3")
         self.randomized_gear = QtWidgets.QListView(self.tab_3)
         self.randomized_gear.setGeometry(QtCore.QRect(20, 60, 256, 411))
+        self.randomized_gear.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.randomized_gear.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
         self.randomized_gear.setObjectName("randomized_gear")
         self.starting_gear = QtWidgets.QListView(self.tab_3)
         self.starting_gear.setGeometry(QtCore.QRect(380, 60, 256, 411))
+        self.starting_gear.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.starting_gear.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
         self.starting_gear.setObjectName("starting_gear")
         self.add_gear = QtWidgets.QPushButton(self.tab_3)
         self.add_gear.setGeometry(QtCore.QRect(290, 180, 81, 81))
