@@ -317,8 +317,7 @@ class Randomizer:
         tweaks.update_text_for_swordless(self)
       if self.options.get("randomize_entrances") not in ["Disabled", None, "Dungeons"]:
         tweaks.disable_ice_ring_isle_and_fire_mountain_effects_indoors(self)
-      if self.options.get("starting_gear"):
-        tweaks.update_starting_gear(self)
+      tweaks.update_starting_gear(self)
     
     options_completed += 1
     yield("Randomizing...", options_completed)

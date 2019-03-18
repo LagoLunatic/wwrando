@@ -351,7 +351,8 @@ skip_rematch_bosses:
 
 .global starting_gear
 starting_gear:
-.space 32 ; Allow space for up to 31 additional items
+.space 31, 0xFF ; Allow space for up to 31 additional items
+.byte 0xFF
 
 .align 2 ; Align to the next 4 bytes
 
