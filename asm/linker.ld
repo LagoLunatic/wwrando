@@ -1,6 +1,7 @@
 
 init__10dSv_save_cFv = 0x8005d860;
 
+execItemGet__FUc = 0x800c2dfc;
 item_func_sword__Fv = 0x800c3ad4;
 item_func_shield__Fv = 0x800c3b94;
 item_func_normal_sail__Fv = 0x800c458c;
@@ -12,7 +13,6 @@ item_func_master_sword__Fv = 0x800c3b14;
 item_func_lv3_sword__Fv = 0x800c3b54;
 item_func_master_sword_ex__Fv = 0x800c3c54;
 item_func_bow__Fv = 0x800c3434;
-
 item_func_magic_arrow__Fv = 0x800c377c;
 item_func_light_arrow__Fv = 0x800c3928;
 item_func_max_rupee_up1__Fv = 0x800c4c80;
@@ -28,7 +28,6 @@ item_func_small_key__Fv = 0x800c31b0;
 item_func_boss_key__Fv = 0x800c3fc8;
 item_func_map__Fv = 0x800c3f68;
 item_func_compass__Fv = 0x800c3f98;
-execItemGet__FUc = 0x800c2dfc;
 
 onEventBit__11dSv_event_cFUs = 0x8005cb04;
 isEventBit__11dSv_event_cFUs = 0x8005cb34;
@@ -38,19 +37,21 @@ onSymbol__20dSv_player_collect_cFUc = 0x8005b104;
 isCollect__20dSv_player_collect_cFiUc = 0x8005ae10;
 onCollect__20dSv_player_collect_cFiUc = 0x8005ace0;
 dComIfGs_isStageBossEnemy__Fi = 0x800539a8;
+getTriforceNum__20dSv_player_collect_cFv = 0x8005b230;
+dComIfGs_isStageTbox__Fii = 0x80053918;
+
 fopAcM_createItem__FP4cXyziiiiP5csXyziP4cXyz = 0x80026adc;
 fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz = 0x80026118;
+fopAcM_orderOtherEventId__FP10fopAc_ac_csUcUsUsUs = 0x80025ea4;
 SoldOutItem__11ShopItems_cFi = 0x8005ff10;
-getTriforceNum__20dSv_player_collect_cFv = 0x8005b230;
+getSelectItemNo__11ShopItems_cFv = 0x80060058;
 setShipSailState__11JAIZelBasicFl = 0x802a965c;
 dKyw_tact_wind_set__Fss = 0x8008a7d0;
-dComIfGs_isStageTbox__Fii = 0x80053918;
 setEquipBottleItemEmpty__17dSv_player_item_cFv = 0x80059408;
-fopAcM_orderOtherEventId__FP10fopAc_ac_csUcUsUsUs = 0x80025ea4;
 _savegpr_28 = 0x80328F3C;
-getSelectItemNo__11ShopItems_cFv = 0x80060058;
 setRestartOption__13dSv_restart_cFScP4cXyzsSc = 0x8005d584;
 cLib_addCalc__FPfffff = 0x802528e4;
+
 fopMsgM_int_to_char__FPcib = 0x800350b8;
 strcmp = 0x8032db44;
 strcat = 0x8032dc6c;

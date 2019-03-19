@@ -1,3 +1,4 @@
+
 .open "sys/main.dol"
 .org 0x803FCFA8
 
@@ -10,6 +11,7 @@ stw r0, 0x14 (sp)
 
 
 bl init__10dSv_save_cFv ; To call this custom func we overwrote a call to init__10dSv_save_cFv, so call that now.
+
 
 lis r5, sword_mode@ha
 addi r5, r5, sword_mode@l
@@ -34,7 +36,6 @@ bl onEventBit__11dSv_event_cFUs
 
 after_sword_mode_initialization:
 
-
 bl item_func_shield__Fv
 bl item_func_normal_sail__Fv
 bl item_func_wind_tact__Fv ; Wind Waker
@@ -42,6 +43,28 @@ bl item_func_tact_song1__Fv ; Wind's Requiem
 bl item_func_tact_song2__Fv ; Ballad of Gales
 bl item_func_tact_song6__Fv ; Song of Passing
 bl item_func_pirates_omamori__Fv ; Pirate's Charm
+
+; Start the player with 30 bombs and arrows. (But not the ability to actually use them.)
+; This change is so we can remove the code that sets your current bombs/arrows to 30 when you first get the bombs/bow.
+; That code would be bad if the player got a bomb bag/quiver upgrade beforehand, as then that code would reduce the max.
+lis r3, 0x803C4C71@ha
+addi r3, r3, 0x803C4C71@l
+li r4, 30
+stb r4, 0 (r3) ; Current arrows
+stb r4, 1 (r3) ; Current bombs
+stb r4, 6 (r3) ; Max arrows
+stb r4, 7 (r3) ; Max bombs
+
+; Start the player with a magic meter so items that use it work correctly.
+lis r3, 0x803C4C1B@ha
+addi r3, r3, 0x803C4C1B@l
+li r4, 16 ; 16 is the normal starting size of the magic meter.
+stb r4, 0 (r3) ; Max magic meter
+stb r4, 1 (r3) ; Current magic meter
+
+; Give user-selected custom starting items
+bl init_starting_gear
+
 
 lis r3, 0x803C522C@ha
 addi r3, r3, 0x803C522C@l
@@ -226,24 +249,6 @@ li r4, 5 ; Seen the boss intro bit index
 bl generic_on_dungeon_bit
 
 
-; Start the player with 30 bombs and arrows. (But not the ability to actually use them.)
-; This change is so we can remove the code that sets your current bombs/arrows to 30 when you first get the bombs/bow.
-; That code would be bad if the player got a bomb bag/quiver upgrade beforehand, as then that code would reduce the max.
-lis r3, 0x803C
-addi r3, r3, 0x4C71
-li r4, 30
-stb r4, 0 (r3) ; Current arrows
-stb r4, 1 (r3) ; Current bombs
-stb r4, 6 (r3) ; Max arrows
-stb r4, 7 (r3) ; Max bombs
-
-; Start the player with a magic meter so items that use it work correctly.
-lis r3, 0x803C
-addi r3, r3, 0x4C1B
-li r4, 16 ; 16 is the normal starting size of the magic meter.
-stb r4, 0 (r3) ; Max magic meter
-stb r4, 1 (r3) ; Current magic meter
-
 ; Make the game think the player has previously owned every type of spoil and bait so they don't get the item get animation the first time they pick each type up.
 lis r3, 0x803C4C9C@ha
 addi r3, r3, 0x803C4C9C@l
@@ -302,39 +307,41 @@ li r4, 0x3A80 ; Recollection Molgera defeated
 bl onEventBit__11dSv_event_cFUs
 after_skipping_rematch_bosses:
 
-;; Progressive bag/quiver functions require the initial
-;; bag sizes to have been set
-bl init_starting_gear
-
 ; Function end stuff
 lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
 blr
 
-init_starting_gear:
-stwu sp, -16(sp)
-stw r31, 12(sp)
-lis r31, starting_gear@ha
-lbz r3, starting_gear@l(r31)
-cmplwi r3, 255
-beq- end_starting_gear_init
-mflr r0
-la r31, starting_gear@l(r31)
-stw r0, 20(sp)
 
-init_gear_begin_loop:
+; This function reads from an array of user-selected starting item IDs and adds them to your inventory.
+.global init_starting_gear
+init_starting_gear:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+stw r31, 0xC (sp)
+
+lis r31, starting_gear@ha
+addi r31, r31, starting_gear@l
+lbz r3, 0 (r31)
+b init_starting_gear_check_continue_loop
+
+init_starting_gear_begin_loop:
 bl convert_progressive_item_id
 bl execItemGet__FUc
 lbzu r3, 1(r31)
+init_starting_gear_check_continue_loop:
 cmplwi r3, 255
-bne+ init_gear_begin_loop
-lwz r0, 20(sp)
+bne+ init_starting_gear_begin_loop
+
+end_init_starting_gear:
+lwz r31, 0xC (sp)
+lwz r0, 0x14 (sp)
 mtlr r0
-end_starting_gear_init:
-lwz r31, 12(sp)
-addi sp, sp, 16
+addi sp, sp, 0x10
 blr
+
 
 .global num_triforce_shards_to_start_with
 num_triforce_shards_to_start_with:
@@ -355,6 +362,7 @@ starting_gear:
 .byte 0xFF
 
 .align 2 ; Align to the next 4 bytes
+
 
 
 
@@ -533,11 +541,15 @@ convert_progressive_picto_box_id_to_deluxe_picto_box:
 li r3, 0x26
 b convert_progressive_item_id_func_end
 
+
 convert_progressive_item_id_func_end:
 lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
 blr
+
+
+
 
 .global convert_progressive_item_id_for_createDemoItem
 convert_progressive_item_id_for_createDemoItem:
