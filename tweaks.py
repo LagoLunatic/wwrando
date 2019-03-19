@@ -1387,6 +1387,20 @@ def update_sword_mode_game_variable(self):
   else:
     raise Exception("Unknown sword mode: %s" % self.options.get("sword_mode"))
 
+def update_starting_gear(self):
+  starting_gear = self.options.get("starting_gear")
+  starting_gear_array_address = self.custom_symbols["starting_gear"]
+  dol_data = self.get_raw_file("sys/main.dol")
+  normal_items = 0
+  for i in range(len(starting_gear)):
+    item_id = self.item_name_to_id[starting_gear[i]]
+    write_u8(dol_data,
+             address_to_offset(starting_gear_array_address + i),
+             item_id)
+  write_u8(dol_data,
+           address_to_offset(starting_gear_array_address + len(starting_gear)),
+           0xFF)
+
 def update_text_for_swordless(self):
   msg = self.bmg.messages_by_id[1128]
   msg.string = "\\{1A 05 00 00 00}, you may not have the\nMaster Sword, but do not be afraid!\n\n\n"

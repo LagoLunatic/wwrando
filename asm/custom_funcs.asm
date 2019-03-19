@@ -1,4 +1,3 @@
-
 .open "sys/main.dol"
 .org 0x803FCFA8
 
@@ -11,7 +10,6 @@ stw r0, 0x14 (sp)
 
 
 bl init__10dSv_save_cFv ; To call this custom func we overwrote a call to init__10dSv_save_cFv, so call that now.
-
 
 lis r5, sword_mode@ha
 addi r5, r5, sword_mode@l
@@ -44,7 +42,6 @@ bl item_func_tact_song1__Fv ; Wind's Requiem
 bl item_func_tact_song2__Fv ; Ballad of Gales
 bl item_func_tact_song6__Fv ; Song of Passing
 bl item_func_pirates_omamori__Fv ; Pirate's Charm
-
 
 lis r3, 0x803C522C@ha
 addi r3, r3, 0x803C522C@l
@@ -305,6 +302,9 @@ li r4, 0x3A80 ; Recollection Molgera defeated
 bl onEventBit__11dSv_event_cFUs
 after_skipping_rematch_bosses:
 
+;; Progressive bag/quiver functions require the initial
+;; bag sizes to have been set
+bl init_starting_gear
 
 ; Function end stuff
 lwz r0, 0x14 (sp)
@@ -312,6 +312,29 @@ mtlr r0
 addi sp, sp, 0x10
 blr
 
+init_starting_gear:
+stwu sp, -16(sp)
+stw r31, 12(sp)
+lis r31, starting_gear@ha
+lbz r3, starting_gear@l(r31)
+cmplwi r3, 255
+beq- end_starting_gear_init
+mflr r0
+la r31, starting_gear@l(r31)
+stw r0, 20(sp)
+
+init_gear_begin_loop:
+bl convert_progressive_item_id
+bl execItemGet__FUc
+lbzu r3, 1(r31)
+cmplwi r3, 255
+bne+ init_gear_begin_loop
+lwz r0, 20(sp)
+mtlr r0
+end_starting_gear_init:
+lwz r31, 12(sp)
+addi sp, sp, 16
+blr
 
 .global num_triforce_shards_to_start_with
 num_triforce_shards_to_start_with:
@@ -325,8 +348,13 @@ sword_mode:
 .global skip_rematch_bosses
 skip_rematch_bosses:
 .byte 1 ; By default skip them
-.align 2 ; Align to the next 4 bytes
 
+.global starting_gear
+starting_gear:
+.space 31, 0xFF ; Allow space for up to 31 additional items
+.byte 0xFF
+
+.align 2 ; Align to the next 4 bytes
 
 
 
@@ -476,7 +504,7 @@ cmpwi r4, 30
 beq convert_progressive_quiver_id_to_60_arrow_quiver
 cmpwi r4, 60
 beq convert_progressive_quiver_id_to_99_arrow_quiver
-li r3, 0xAF ; Invalid bomb bag state; this shouldn't happen so just return the base bomb bag ID
+li r3, 0xAF ; Invalid quiver state; this shouldn't happen so just return the base quiver ID
 b convert_progressive_item_id_func_end
 
 convert_progressive_quiver_id_to_60_arrow_quiver:
@@ -505,15 +533,11 @@ convert_progressive_picto_box_id_to_deluxe_picto_box:
 li r3, 0x26
 b convert_progressive_item_id_func_end
 
-
 convert_progressive_item_id_func_end:
 lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
 blr
-
-
-
 
 .global convert_progressive_item_id_for_createDemoItem
 convert_progressive_item_id_for_createDemoItem:

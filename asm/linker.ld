@@ -12,6 +12,7 @@ item_func_master_sword__Fv = 0x800c3b14;
 item_func_lv3_sword__Fv = 0x800c3b54;
 item_func_master_sword_ex__Fv = 0x800c3c54;
 item_func_bow__Fv = 0x800c3434;
+
 item_func_magic_arrow__Fv = 0x800c377c;
 item_func_light_arrow__Fv = 0x800c3928;
 item_func_max_rupee_up1__Fv = 0x800c4c80;
@@ -27,6 +28,7 @@ item_func_small_key__Fv = 0x800c31b0;
 item_func_boss_key__Fv = 0x800c3fc8;
 item_func_map__Fv = 0x800c3f68;
 item_func_compass__Fv = 0x800c3f98;
+execItemGet__FUc = 0x800c2dfc;
 
 onEventBit__11dSv_event_cFUs = 0x8005cb04;
 isEventBit__11dSv_event_cFUs = 0x8005cb34;
