@@ -50,7 +50,11 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.add_gear.clicked.connect(self.add_to_starting_gear)
     self.randomized_gear_model = QStringListModel()
     self.randomized_gear_model.setStringList(INVENTORY_ITEMS.copy())
-    self.ui.randomized_gear.setModel(self.randomized_gear_model)
+
+    self.filtered_rgear = ModelFilterOut()
+    self.filtered_rgear.setSourceModel(self.randomized_gear_model)
+
+    self.ui.randomized_gear.setModel(self.filtered_rgear)
     self.ui.remove_gear.clicked.connect(self.remove_from_starting_gear)
     self.starting_gear_model = QStringListModel()
     self.ui.starting_gear.setModel(self.starting_gear_model)
@@ -542,7 +546,10 @@ class WWRandomizerWindow(QMainWindow):
     elif isinstance(widget, QListView):
       if widget.model() == None:
         return []
-      return [widget.model().data(widget.model().index(i)) for i in range(widget.model().rowCount())]
+      model = widget.model();
+      if isinstance(model, ModelFilterOut):
+        model = model.sourceModel()
+      return [model.data(model.index(i)) for i in range(model.rowCount())]
     else:
       print("Option widget is invalid: %s" % option_name)
   
@@ -565,7 +572,10 @@ class WWRandomizerWindow(QMainWindow):
       widget.setCurrentIndex(index_of_value)
     elif isinstance(widget, QListView):
       if widget.model() != None:
-        widget.model().setStringList(new_value)
+        model = widget.model()
+        if isinstance(model, QSortFilterProxyModel):
+          model = model.sourceModel()
+        model.setStringList(new_value)
     else:
       print("Option widget is invalid: %s" % option_name)
   
@@ -730,6 +740,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.tabWidget.setTabEnabled(1, not self.get_option_value("race_mode"));
 
     if self.get_option_value("sword_mode") == "Swordless":
+      self.filtered_rgear.setFilterStrings(["Hurricane Spin"])
       starting_gear = self.get_option_value("starting_gear")
       randomized_gear = self.get_option_value("randomized_gear")
       if "Hurricane Spin" in starting_gear:
@@ -737,6 +748,8 @@ class WWRandomizerWindow(QMainWindow):
         randomized_gear += ["Hurricane Spin"]
         self.set_option_value("starting_gear", starting_gear)
         self.set_option_value("randomized_gear", randomized_gear)
+    else:
+      self.filtered_rgear.setFilterStrings([])
 
     compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
     all_gear = self.get_option_value("starting_gear") + self.get_option_value("randomized_gear");
@@ -903,6 +916,19 @@ class WWRandomizerWindow(QMainWindow):
     self.update_checker_thread.quit()
     self.update_checker_thread.wait()
     event.accept()
+
+class ModelFilterOut(QSortFilterProxyModel):
+  def __init__(self):
+    super(ModelFilterOut, self).__init__()
+    self.filter_strings = []
+
+  def setFilterStrings(self, fstr):
+    self.filter_strings = fstr
+    self.invalidateFilter()
+
+  def filterAcceptsRow(self, sourceRow, sourceParent):
+    index0 = self.sourceModel().index(sourceRow, 0, sourceParent)
+    return not self.sourceModel().data(index0) in self.filter_strings
 
 class RandomizerProgressDialog(QProgressDialog):
   def __init__(self, title, description, max_val):
