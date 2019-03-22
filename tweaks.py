@@ -1011,7 +1011,7 @@ def update_randomly_chosen_hints(self):
   unique_items_given_hint_for = []
   possible_item_locations = list(self.logic.done_item_locations.keys())
   self.rng.shuffle(possible_item_locations)
-  num_fishman_hints = 3
+  num_fishman_hints = 15
   num_hints_needed = num_fishman_hints + 1
   while True:
     location_name = possible_item_locations.pop()
