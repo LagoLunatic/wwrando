@@ -2,7 +2,7 @@
 import re
 from collections import OrderedDict
 
-def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_name_to_limit_to=None):
+def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_name_to_limit_to=None, exclude_unused=True):
   all_filenames = list(self.gcm.files_by_path.keys())
   
   # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
@@ -22,7 +22,7 @@ def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_n
     
     if stage_match:
       stage_name = stage_match.group(1)
-      if self.stage_names[stage_name] in ["Unused", "Broken"]:
+      if self.stage_names[stage_name] == "Broken" or (exclude_unused and self.stage_names[stage_name] == "Unused"):
         # Don't iterate through unused stages. Not only would they be useless, but some unused stages have slightly different stage formats that the rando can't read.
         continue
       if stage_name_to_limit_to and stage_name_to_limit_to != stage_name:
@@ -31,7 +31,7 @@ def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_n
     
     if room_match:
       stage_name = room_match.group(1)
-      if self.stage_names[stage_name] in ["Unused", "Broken"]:
+      if self.stage_names[stage_name] == "Broken" or (exclude_unused and self.stage_names[stage_name] == "Unused"):
         # Don't iterate through unused stages. Not only would they be useless, but some unused stages have slightly different stage formats that the rando can't read.
         continue
       if stage_name_to_limit_to and stage_name_to_limit_to != stage_name:
@@ -303,3 +303,27 @@ def print_actor_info(self):
         unknown,
         rel_filename
       ))
+
+def print_all_entity_params(self):
+  with open("All Entity Params.txt", "w") as f:
+    for dzx, arc_path in each_stage_and_room(self, exclude_unused=False):
+      for chunk_type in ["ACTR", "SCOB", "TRES"]:
+        for layer in [None] + list(range(11+1)):
+          for i, entity in enumerate(dzx.entries_by_type_and_layer(chunk_type, layer)):
+            params = entity.params
+            if chunk_type == "TRES":
+              auxparams1 = entity.room_num
+              auxparams2 = (entity.item_id << 8) | entity.flag_id
+            else:
+              auxparams1 = entity.auxilary_param
+              auxparams2 = entity.auxilary_param_2
+            
+            arc_path_short = arc_path[len("files/res/Stage/"):-len(".arc")]
+            location_identifier = arc_path_short
+            location_identifier += " %s/" % chunk_type
+            if layer is not None:
+              location_identifier += "Layer%X/" % layer
+            location_identifier += "%03X" % i
+            out_str = "% 7s %08X %04X %04X in %s" % (entity.name, params, auxparams1, auxparams2, location_identifier)
+            #print(out_str)
+            f.write(out_str + "\n")
