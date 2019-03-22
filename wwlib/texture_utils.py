@@ -216,9 +216,8 @@ def convert_i4_to_color(i4):
 
 def convert_color_to_i4(color):
   r, g, b, a = get_rgba(color)
-  assert r == g == b == a
-  i4 = 0
-  i4 |= ((r >> 4) & 0xF)
+  assert r == g == b
+  i4 = ((a >> 4) & 0xF)
   return i4
 
 def convert_i8_to_color(i8):
