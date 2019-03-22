@@ -1006,12 +1006,16 @@ def update_savage_labyrinth_hint_tablet(self):
     max_line_length=43
   )
 
-def update_fishmen_hints(self):
+def update_randomly_chosen_hints(self):
   hints = []
   unique_items_given_hint_for = []
   possible_item_locations = list(self.logic.done_item_locations.keys())
   self.rng.shuffle(possible_item_locations)
-  for location_name in possible_item_locations:
+  num_fishman_hints = 3
+  num_hints_needed = num_fishman_hints + 1
+  while True:
+    location_name = possible_item_locations.pop()
+    
     item_name = self.logic.done_item_locations[location_name]
     if item_name not in self.logic.all_progress_items:
       continue
@@ -1026,8 +1030,7 @@ def update_fishmen_hints(self):
     if item_name == "Bait Bag":
       # Can't access fishmen hints until you already have the bait bag
       continue
-    if len(hints) >= 3:
-      # 3 hints max per seed.
+    if len(hints) >= num_hints_needed:
       break
     
     zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
@@ -1048,6 +1051,17 @@ def update_fishmen_hints(self):
     
     item_hint_name = self.progress_item_hints[item_name]
     
+    hints.append((item_hint_name, island_hint_name))
+    
+    unique_items_given_hint_for.append(item_name)
+  
+  update_fishmen_hints(self, hints[0:num_fishman_hints])
+  update_big_octo_great_fairy_item_name_hint(self, hints[num_fishman_hints])
+
+def update_fishmen_hints(self, hints):
+  for fishman_island_number in range(1, 49+1):
+    item_hint_name, island_hint_name = self.rng.choice(hints)
+    
     hint_lines = []
     hint_lines.append(
       "I've heard from my sources that \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} is located in \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}." % (item_hint_name, island_hint_name)
@@ -1065,16 +1079,25 @@ def update_fishmen_hints(self):
       hint_line = word_wrap_string(hint_line)
       hint_line = pad_string_to_next_4_lines(hint_line)
       hint += hint_line
-    hints.append(hint)
-    
-    unique_items_given_hint_for.append(item_name)
-  
-  for fishman_island_number in range(1, 49+1):
-    hint = self.rng.choice(hints)
     
     msg_id = 13026 + fishman_island_number
     msg = self.bmg.messages_by_id[msg_id]
     msg.string = hint
+
+def update_big_octo_great_fairy_item_name_hint(self, hint):
+  item_hint_name, island_hint_name = hint
+  self.bmg.messages_by_id[12015].string = word_wrap_string(
+    "\\{1A 06 FF 00 00 05}In \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05}, you will find an item." % island_hint_name,
+    max_line_length=43
+  )
+  self.bmg.messages_by_id[12016].string = word_wrap_string(
+    "\\{1A 06 FF 00 00 05}...\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05} which may help you on your quest." % item_hint_name.capitalize(),
+    max_line_length=43
+  )
+  self.bmg.messages_by_id[12017].string = word_wrap_string(
+    "\\{1A 06 FF 00 00 05}When you find you have need of such an item, you must journey to that place.",
+    max_line_length=43
+  )
 
 def shorten_zephos_event(self):
   # Make the Zephos event end when the player gets the item from the shrine, before Zephos actually appears.

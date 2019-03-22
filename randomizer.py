@@ -420,7 +420,7 @@ class Randomizer:
     tweaks.update_battlesquid_item_names(self)
     tweaks.update_item_names_in_letter_advertising_rock_spire_shop(self)
     tweaks.update_savage_labyrinth_hint_tablet(self)
-    tweaks.update_fishmen_hints(self)
+    tweaks.update_randomly_chosen_hints(self)
     tweaks.show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=self.race_mode_required_dungeons)
     tweaks.prevent_fire_mountain_lava_softlock(self)
   
