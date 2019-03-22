@@ -163,10 +163,12 @@ class WWRandomizerWindow(QMainWindow):
 
   def add_to_starting_gear(self):
     self.move_selected_rows(self.ui.randomized_gear, self.ui.starting_gear)
+    self.ui.starting_gear.model().sort(0)
     self.update_settings()
 
   def remove_from_starting_gear(self):
     self.move_selected_rows(self.ui.starting_gear, self.ui.randomized_gear)
+    self.ui.randomized_gear.model().sourceModel().sort(0)
     self.update_settings()
 
   def randomize(self):
@@ -576,6 +578,7 @@ class WWRandomizerWindow(QMainWindow):
         if isinstance(model, QSortFilterProxyModel):
           model = model.sourceModel()
         model.setStringList(new_value)
+        model.sort(0)
     else:
       print("Option widget is invalid: %s" % option_name)
   
