@@ -11,19 +11,19 @@ import traceback
 from sys import platform
 
 if platform == "win32":
-    devkitbasepath = r"C:\devkitPro\devkitPPC\bin"
+  devkitbasepath = r"C:\devkitPro\devkitPPC\bin"
 else:
-    if not "DEVKITPPC" in os.environ:
-        raise Exception(r"devkitPPC. Path to devkit ppc should be in the DEVKITPPC env var")
-    devkitbasepath = os.environ.get("DEVKITPPC") + "/bin"
+  if not "DEVKITPPC" in os.environ:
+    raise Exception(r"Could not find devkitPPC. Path to devkitPPC should be in the DEVKITPPC env var")
+  devkitbasepath = os.environ.get("DEVKITPPC") + "/bin"
 
 def get_bin(name):
-    suff = ".exe"
-    if not platform == "win32":
-        return os.path.join(devkitbasepath, name)
-    return os.path.join(devkitbasepath, name + ".exe")
+  suff = ".exe"
+  if not platform == "win32":
+    return os.path.join(devkitbasepath, name)
+  return os.path.join(devkitbasepath, name + ".exe")
 
-if not get_bin("powerpc-eabi-objdump"):
+if not os.path.isfile(get_bin("powerpc-eabi-as")):
   raise Exception(r"Failed to assemble code: Could not find devkitPPC. devkitPPC should be installed to: C:\devkitPro\devkitPPC")
 
 # Allow yaml to dump OrderedDicts for the diffs.
