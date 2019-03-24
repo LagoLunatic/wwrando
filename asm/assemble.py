@@ -91,7 +91,7 @@ try:
         
         org_symbol = org_symbol_match.group(1)
         code_chunks[most_recent_file_path][org_symbol] = ""
-        most_recent_org_offset = org_offset
+        most_recent_org_offset = org_symbol
         continue
       elif branch_match:
         # Replace branches to specific addresses with labels, and define the address of those labels in the linker script.
