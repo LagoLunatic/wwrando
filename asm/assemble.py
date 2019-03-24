@@ -67,6 +67,7 @@ try:
       
       open_file_match = re.match(r"\.open\s+\"([^\"]+)\"$", line, re.IGNORECASE)
       org_match = re.match(r"\.org\s+0x([0-9a-f]+)$", line, re.IGNORECASE)
+      org_symbol_match = re.match(r"\.org\s+([\._a-z][\._a-z0-9]+)$", line, re.IGNORECASE)
       branch_match = re.match(r"(?:b|beq|bne|blt|bgt|ble|bge)\s+0x([0-9a-f]+)(?:$|\s)", line, re.IGNORECASE)
       if open_file_match:
         relative_file_path = open_file_match.group(1)
@@ -82,6 +83,14 @@ try:
         
         org_offset = int(org_match.group(1), 16)
         code_chunks[most_recent_file_path][org_offset] = ""
+        most_recent_org_offset = org_offset
+        continue
+      elif org_symbol_match:
+        if not most_recent_file_path:
+          raise Exception("Found .org directive when no file was open")
+        
+        org_symbol = org_symbol_match.group(1)
+        code_chunks[most_recent_file_path][org_symbol] = ""
         most_recent_org_offset = org_offset
         continue
       elif branch_match:
@@ -111,13 +120,21 @@ try:
     if most_recent_file_path or most_recent_org_offset:
       raise Exception("File %s was not closed before the end of the file" % most_recent_file_path)
     
-    temp_linker_name = os.path.join(temp_dir, "tmp_linker.ld")
-    with open(temp_linker_name, "w") as f:
-      f.write(temp_linker_script)
-    
     diffs = OrderedDict()
     for file_path, code_chunks_for_file in code_chunks.items():
-      for org_offset, temp_asm in code_chunks_for_file.items():
+      for org_offset_or_symbol, temp_asm in code_chunks_for_file.items():
+        if isinstance(org_offset_or_symbol, int):
+          org_offset = org_offset_or_symbol
+        else:
+          org_symbol = org_offset_or_symbol
+          if org_symbol not in custom_symbols:
+            raise Exception(".org specified an invalid custom symbol: %s" % org_symbol)
+          org_offset = int(custom_symbols[org_symbol], 16)
+        
+        temp_linker_name = os.path.join(temp_dir, "tmp_linker.ld")
+        with open(temp_linker_name, "w") as f:
+          f.write(temp_linker_script)
+        
         temp_asm_name = os.path.join(temp_dir, "tmp_" + basename + "_%08X.asm" % org_offset)
         with open(temp_asm_name, "w") as f:
           f.write(temp_asm)
@@ -165,6 +182,7 @@ try:
               symbol_address = match.group(1)
               symbol_name = match.group(2)
               custom_symbols[symbol_name] = symbol_address
+              temp_linker_script += "%s = 0x%s;\n" % (symbol_name, symbol_address)
         
         # Keep track of changed bytes.
         if file_path not in diffs:
