@@ -65,7 +65,7 @@ class InvalidCleanISOError(Exception):
   pass
 
 class Randomizer:
-  def __init__(self, seed, clean_iso_path, randomized_output_folder, options, permalink=None, cmd_line_args=[]):
+  def __init__(self, seed, clean_iso_path, randomized_output_folder, options, permalink=None, cmd_line_args=OrderedDict()):
     self.randomized_output_folder = randomized_output_folder
     self.options = options
     self.seed = seed
@@ -80,6 +80,13 @@ class Randomizer:
       self.dry_run = True
       self.no_logs = True
     self.print_used_flags = ("-printflags" in cmd_line_args)
+    
+    self.test_room_args = None
+    if "-test" in cmd_line_args:
+      args = cmd_line_args["-test"]
+      if args is not None:
+        stage, room, spawn = args.split(",")
+        self.test_room_args = {"stage": stage, "room": int(room), "spawn": int(spawn)}
     
     if self.options.get("race_mode"):
       self.options["starting_gear"] = []
@@ -321,6 +328,9 @@ class Randomizer:
       if self.options.get("randomize_entrances") not in ["Disabled", None, "Dungeons"]:
         tweaks.disable_ice_ring_isle_and_fire_mountain_effects_indoors(self)
       tweaks.update_starting_gear(self)
+      
+      if self.test_room_args is not None:
+        tweaks.test_room(self)
     
     options_completed += 1
     yield("Randomizing...", options_completed)

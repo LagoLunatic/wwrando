@@ -34,7 +34,7 @@ class WWRandomizerWindow(QMainWindow):
   VALID_SEED_CHARACTERS = "-_'%%.%s%s" % (string.ascii_letters, string.digits)
   MAX_SEED_LENGTH = 42 # Limited by maximum length of game name in banner
   
-  def __init__(self, cmd_line_args=[]):
+  def __init__(self, cmd_line_args=OrderedDict()):
     super(WWRandomizerWindow, self).__init__()
     self.ui = Ui_MainWindow()
     self.ui.setupUi(self)

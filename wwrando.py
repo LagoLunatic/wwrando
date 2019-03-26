@@ -5,6 +5,7 @@ from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 
 import sys
+from collections import OrderedDict
 
 from wwr_ui.randomizer_window import WWRandomizerWindow
 
@@ -24,7 +25,13 @@ except ImportError:
     # Versions of Windows before Windows 7 don't support SetCurrentProcessExplicitAppUserModelID, so just swallow the error.
     pass
 
-cmd_line_args = sys.argv[1:]
+cmd_line_args = OrderedDict()
+for arg in sys.argv[1:]:
+  arg_parts = arg.split("=", 1)
+  if len(arg_parts) == 1:
+    cmd_line_args[arg_parts[0]] = None
+  else:
+    cmd_line_args[arg_parts[0]] = arg_parts[1]
 
 qApp = QApplication(sys.argv)
 window = WWRandomizerWindow(cmd_line_args=cmd_line_args)

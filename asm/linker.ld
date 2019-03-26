@@ -51,6 +51,11 @@ setEquipBottleItemEmpty__17dSv_player_item_cFv = 0x80059408;
 _savegpr_28 = 0x80328F3C;
 setRestartOption__13dSv_restart_cFScP4cXyzsSc = 0x8005d584;
 cLib_addCalc__FPfffff = 0x802528e4;
+fopAcIt_Judge__FPFPvPv_PvPv = 0x80023fb4;
+card_to_memory__10dSv_info_cFPci = 0x8005ea24;
+restore__15mDoMemCd_Ctrl_cFv = 0x80018fd8;
+dComIfG_changeOpeningScene__FP11scene_classs = 0x800531a8;
+init__10dSv_info_cFv = 0x8005d604;
 
 fopMsgM_int_to_char__FPcib = 0x800350b8;
 strcmp = 0x8032db44;

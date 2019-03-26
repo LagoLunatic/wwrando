@@ -1889,3 +1889,16 @@ def remove_phantom_ganon_requirement_from_eye_reefs(self):
       if (gunboat.auxilary_param & 0xFF) == 0x2A: # Switch 2A is Phantom Ganon being dead.
         gunboat.auxilary_param = (gunboat.auxilary_param & 0xFF00) | 0xFF
         gunboat.save_changes()
+
+def test_room(self):
+  apply_patch(self, "test_room")
+  
+  dol_data = self.get_raw_file("sys/main.dol")
+  
+  stage_name_ptr = self.custom_symbols["test_room_stage_name"]
+  room_index_ptr = self.custom_symbols["test_room_room_index"]
+  spawn_id_ptr = self.custom_symbols["test_room_spawn_id"]
+  
+  write_str(dol_data, address_to_offset(stage_name_ptr), self.test_room_args["stage"], 8)
+  write_u8(dol_data, address_to_offset(room_index_ptr), self.test_room_args["room"])
+  write_u8(dol_data, address_to_offset(spawn_id_ptr), self.test_room_args["spawn"])
