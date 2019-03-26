@@ -1012,8 +1012,15 @@ def update_randomly_chosen_hints(self):
   possible_item_locations = list(self.logic.done_item_locations.keys())
   self.rng.shuffle(possible_item_locations)
   num_fishman_hints = 15
-  num_hints_needed = num_fishman_hints + 1
+  desired_num_hints = 1 + num_fishman_hints
+  min_num_hints_needed = 1 + 1
   while True:
+    if not possible_item_locations:
+      if len(hints) >= min_num_hints_needed:
+        break
+      else:
+        raise Exception("Not enough valid items to give hints for")
+    
     location_name = possible_item_locations.pop()
     
     item_name = self.logic.done_item_locations[location_name]
@@ -1030,7 +1037,7 @@ def update_randomly_chosen_hints(self):
     if item_name == "Bait Bag":
       # Can't access fishmen hints until you already have the bait bag
       continue
-    if len(hints) >= num_hints_needed:
+    if len(hints) >= desired_num_hints:
       break
     
     zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
@@ -1055,8 +1062,8 @@ def update_randomly_chosen_hints(self):
     
     unique_items_given_hint_for.append(item_name)
   
-  update_fishmen_hints(self, hints[0:num_fishman_hints])
-  update_big_octo_great_fairy_item_name_hint(self, hints[num_fishman_hints])
+  update_big_octo_great_fairy_item_name_hint(self, hints[0])
+  update_fishmen_hints(self, hints[1:])
 
 def update_fishmen_hints(self, hints):
   for fishman_island_number in range(1, 49+1):
