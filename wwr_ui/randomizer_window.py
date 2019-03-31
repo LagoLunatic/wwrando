@@ -741,8 +741,6 @@ class WWRandomizerWindow(QMainWindow):
       # Race mode places required items on dungeon bosses.
       should_enable_options["race_mode"] = False
 
-    
-
     sword_mode = self.get_option_value("sword_mode")
     if sword_mode == "Swordless":
       items_to_filter_out += ["Hurricane Spin"]
