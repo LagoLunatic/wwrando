@@ -732,6 +732,7 @@ class WWRandomizerWindow(QMainWindow):
     return any_color_changed
   
   def ensure_valid_combination_of_options(self):
+    items_to_filter_out = []
     should_enable_options = {}
     for option_name in OPTIONS:
       should_enable_options[option_name] = True
@@ -740,19 +741,37 @@ class WWRandomizerWindow(QMainWindow):
       # Race mode places required items on dungeon bosses.
       should_enable_options["race_mode"] = False
 
-    self.ui.tabWidget.setTabEnabled(1, not self.get_option_value("race_mode"));
+    num_possible_rewards = 0
+    
+    num_possible_rewards += 8 - int(self.get_option_value("num_starting_triforce_shards"))
 
-    if self.get_option_value("sword_mode") == "Swordless":
-      self.filtered_rgear.setFilterStrings(["Hurricane Spin"])
-      starting_gear = self.get_option_value("starting_gear")
-      randomized_gear = self.get_option_value("randomized_gear")
-      if "Hurricane Spin" in starting_gear:
-        starting_gear.remove("Hurricane Spin")
-        randomized_gear += ["Hurricane Spin"]
-        self.set_option_value("starting_gear", starting_gear)
-        self.set_option_value("randomized_gear", randomized_gear)
-    else:
-      self.filtered_rgear.setFilterStrings([])
+    sword_mode = self.get_option_value("sword_mode")
+    if sword_mode == "Start with Sword":
+      num_possible_rewards += 3
+    elif sword_mode == "Randomized Sword":
+      num_possible_rewards += 4
+    elif sword_mode == "Swordless":
+      items_to_filter_out += ["Hurricane Spin"]
+
+    if num_possible_rewards < 4:
+      items_to_filter_out += 3 * ["Progressive Bow"]
+      num_possible_rewards += 3
+    
+    if num_possible_rewards < 4:
+      items_to_filter_out += ["Hookshot"]
+
+    self.filtered_rgear.setFilterStrings(items_to_filter_out)
+
+    starting_gear = self.get_option_value("starting_gear")
+    randomized_gear = self.get_option_value("randomized_gear")
+
+    for item in items_to_filter_out:
+      if item in starting_gear:
+        starting_gear.remove(item)
+        randomized_gear += [item]
+
+    self.set_option_value("starting_gear", starting_gear)
+    self.set_option_value("randomized_gear", randomized_gear)
 
     compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
     all_gear = self.get_option_value("starting_gear") + self.get_option_value("randomized_gear");
