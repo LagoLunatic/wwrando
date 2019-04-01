@@ -87,10 +87,7 @@ class Randomizer:
       if args is not None:
         stage, room, spawn = args.split(",")
         self.test_room_args = {"stage": stage, "room": int(room), "spawn": int(spawn)}
-    
-    if self.options.get("race_mode"):
-      self.options["starting_gear"] = []
-    
+
     self.integer_seed = self.convert_string_to_integer_md5(self.seed)
     self.rng = self.get_new_rng()
     
