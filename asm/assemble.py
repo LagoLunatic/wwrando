@@ -141,8 +141,11 @@ try:
         
         o_name = os.path.join(temp_dir, "tmp_" + basename + "_%08X.o" % org_offset)
         command = [
-          get_bin("powerpc-eabi-as"), "-mregnames", "-m750cl",
-          temp_asm_name, "-o", o_name
+          get_bin("powerpc-eabi-as"),
+          "-mregnames",
+          "-m750cl",
+          temp_asm_name,
+          "-o", o_name
         ]
         print(" ".join(command))
         print()
