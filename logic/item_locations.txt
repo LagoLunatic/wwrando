@@ -397,12 +397,6 @@ Windfall Island - 80 Rupee Auction:
 #  Original item: Town Flower
 #  Paths:
 #    - rels/d_a_npc_rsh1.rel@30DF
-Windfall Island - Sam - Decorate the Town:
-  Need: Rescued Aryll & Delivery Bag
-  Original item: Piece of Heart
-  Types: Long Sidequest
-  Paths:
-    - rels/d_a_npc_people.rel@C54B
 Windfall Island - Zunari - Stock Exotic Flower in Zunari's Shop:
   Need: Rescued Aryll & Delivery Bag
   Original item: Magic Armor
@@ -411,6 +405,12 @@ Windfall Island - Zunari - Stock Exotic Flower in Zunari's Shop:
     - rels/d_a_npc_rsh1.rel@3117
     - rels/d_a_npc_rsh1.rel@338F
     - CustomSymbol:zunari_magic_armor_slot_item_id
+Windfall Island - Sam - Decorate the Town:
+  Need: Rescued Aryll & Delivery Bag
+  Original item: Piece of Heart
+  Types: Long Sidequest
+  Paths:
+    - rels/d_a_npc_people.rel@C54B
 #Windfall Island - Kane - Place Shop Guru Statue on Gate: # Too obscure to randomize
 #  Need: Rescued Aryll & Delivery Bag
 #  Original item: Purple Rupee
