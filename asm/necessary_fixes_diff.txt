@@ -248,3 +248,7 @@ files/rels/d_a_obj_canon.rel:
   2000: [56, 3, 255, 254]
 files/rels/d_a_obj_eayogn.rel:
   1036: [56, 96, 0, 0, 78, 128, 0, 32]
+files/rels/d_a_obj_firewall.rel:
+  4672: [56, 128, 0, 5, 56, 160, 0, 0]
+  11860: [128, 5, 222, 152]
+  4688: [65, 130, 0, 116]

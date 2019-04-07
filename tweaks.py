@@ -1779,26 +1779,9 @@ def add_chest_in_place_of_master_sword(self):
     new_actor.auxilary_param_2 = orig_actor.auxilary_param_2
     new_actor.enemy_number = orig_actor.enemy_number
   
-  layer_5_scobs = ms_chamber_dzr.entries_by_type_and_layer("SCOB", 5)
-  orig_tag_ev = next(x for x in layer_5_scobs if x.name == "TagEv")
-  
-  new_tag_ev = ms_chamber_dzr.add_entity("SCOB", layer=None)
-  new_tag_ev.name = orig_tag_ev.name
-  new_tag_ev.params = orig_tag_ev.params
-  new_tag_ev.x_pos = orig_tag_ev.x_pos
-  new_tag_ev.y_pos = orig_tag_ev.y_pos
-  new_tag_ev.z_pos = orig_tag_ev.z_pos
-  new_tag_ev.auxilary_param = orig_tag_ev.auxilary_param
-  new_tag_ev.y_rot = orig_tag_ev.y_rot
-  new_tag_ev.auxilary_param_2 = orig_tag_ev.auxilary_param_2
-  new_tag_ev.scale_x = orig_tag_ev.scale_x
-  new_tag_ev.scale_y = orig_tag_ev.scale_y
-  new_tag_ev.scale_z = orig_tag_ev.scale_z
-  
   # Remove the entities on layer 5 that are no longer necessary.
   for orig_actor in layer_5_actors:
     ms_chamber_dzr.remove_entity(orig_actor, "ACTR", layer=5)
-  ms_chamber_dzr.remove_entity(orig_tag_ev, "SCOB", layer=5)
   
   
   # Add the chest.
@@ -1825,37 +1808,6 @@ def add_chest_in_place_of_master_sword(self):
   spawn.z_pos = -4240.7
   
   ms_chamber_dzr.save_changes()
-  
-  
-  # Modify the intro event to shorten it.
-  event_list = self.get_arc("files/res/Stage/kenroom/Stage.arc").get_file("event_list.dat")
-  battle_start_event = event_list.events_by_name["btl_of_swroom"]
-  camera = next(actor for actor in battle_start_event.actors if actor.name == "CAMERA")
-  link = next(actor for actor in battle_start_event.actors if actor.name == "Link")
-  message = next(actor for actor in battle_start_event.actors if actor.name == "MESSAGE")
-  flame_wall = next(actor for actor in battle_start_event.actors if actor.name == "Yswdr00")
-  timekeeper = next(actor for actor in battle_start_event.actors if actor.name == "TIMEKEEPER")
-  zelda = next(actor for actor in battle_start_event.actors if actor.name == "p_zelda")
-  
-  # Remove the message actor that creates text boxes of Ganondorf speaking to Link.
-  battle_start_event.actors.remove(message)
-  
-  # Change the conditions for other actions to start to not depend on the now-removed message actor.
-  camera.actions[7].starting_flags[0] = -1
-  link.actions[12].starting_flags[0] = -1
-  flame_wall.actions[1].starting_flags[0] = 120 # Starts right before Link jumps in surprise
-  timekeeper.actions[8].starting_flags[0] = -1
-  
-  # Remove Zelda.
-  battle_start_event.actors.remove(zelda)
-  
-  # Cut out the unnecessary sections of the event.
-  camera.actions = camera.actions[7:]
-  timekeeper.actions = timekeeper.actions[8:]
-  link.actions[5].starting_flags[0] = -1 # Remove condition to start based on a removed camera action
-  link.actions = link.actions[5:6+1] + link.actions[11:]
-  
-  # TODO: The darknuts respawn if you re-enter the room, they should stay permanently dead.
 
 def update_beedle_spoil_selling_text(self):
   # Update Beedle's dialogue when you try to sell something to him so he mentions he doesn't want Blue Chu Jelly.

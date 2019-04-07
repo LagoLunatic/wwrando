@@ -1175,3 +1175,20 @@
   ; Remove the conditional branch for if your current bow is not the Hero's Bow and just always show the hint.
   nop
 .close
+
+
+
+
+; Prevent Mighty Darknuts from respawning after you've beaten them once and the chest appears.
+.open "files/rels/d_a_obj_firewall.rel" ; Fire wall that handles spawning the Mighty Darknuts
+.org 0x1240
+  ; Normally this code would check event bit 3520 (MIGHTY_DARKNUTS_SPAWNED) to decide if it should play the long version of the intro event or the short one after you've seen the long one once.
+  ; We change it to check switch 5 (set when the Mighty Darknuts die) to decide if it should play the short version of the intro event, or if it shouldn't play any event at all once you've defeated the Darknuts.
+  li r4, 5
+  li r5, 0
+.org 0x2E54 ; Relocation for line 0x1248
+  .int isSwitch__10dSv_info_cFii
+.org 0x1250
+  beq 0x12C4 ; If the Darknuts are defeated, destroy this firewall object so it doesn't play any intro event.
+  ; Otherwise continue on with the normal code to initialize the short intro event.
+.close
