@@ -106,6 +106,9 @@ class WWRandomizerWindow(QMainWindow):
     icon_path = os.path.join(ASSETS_PATH, "icon.ico")
     self.setWindowIcon(QIcon(icon_path))
     
+    # Hide unfinished options from the GUI (still accessible via settings.txt).
+    self.ui.randomize_bgm.hide()
+    
     self.show()
     
     self.update_checker_thread = UpdateCheckerThread()
