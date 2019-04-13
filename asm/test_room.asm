@@ -59,13 +59,32 @@
   bl init__10dSv_info_cFv
   dvdWaitDraw_after_save_init:
   
+  
+  ; Add the items the player wants to use in this test to their inventory.
+  stw r30, 8 (sp) ; Preserve original r30 value
+  
+  lis r30, test_room_starting_items_list@ha
+  addi r30, r30, test_room_starting_items_list@l
+  lbz r3, 0 (r30)
+  b init_starting_items_check_continue_loop
+
+  init_starting_items_begin_loop:
+  bl execItemGet__FUc
+  lbzu r3, 1(r30)
+  init_starting_items_check_continue_loop:
+  cmplwi r3, 255
+  bne+ init_starting_items_begin_loop
+  
+  lwz r30, 8 (sp) ; Restore original r30 value
+  
+  
   ; Change the game state to ingame after the boot up logos are done being shown
   mr r3, r31
   li r4, 7
   bl dComIfG_changeOpeningScene__FP11scene_classs
   
   ; Finally jump to the end part of the function.
-  ; This is needed since we created so much free space with that loop that there's a hundred lines of now-unused code left here.
+  ; This is needed since we created so much free space with that loop that there's a bunch of custom data and unused vanilla code here.
   b 0x8022D174
   
   ; And in the remaining free space, we put the stage name to load into.
@@ -74,6 +93,11 @@
   .global test_room_stage_name
   test_room_stage_name:
   .space 8, 0x00
+  
+  .global test_room_starting_items_list
+  test_room_starting_items_list:
+  .space 256, 0xFF ; Allow space for up to 256 additional items
+  .byte 0xFF ; End marker
 
 .org 0x800531D4
   ; Update the hardcoded pointer to the stage name

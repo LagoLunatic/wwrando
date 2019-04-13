@@ -88,7 +88,8 @@
 803fe80d doc_bandam_blue_potion_slot_item_id
 803fe810 hurricane_spin_item_resource_arc_name
 803fe818 deluxe_picto_box_item_func_fix_equipped_picto_box
-8022d00c test_room_stage_name
+8022d034 test_room_stage_name
+8022d03c test_room_starting_items_list
 800531e3 test_room_spawn_id
 800531e7 test_room_room_index
 800531eb test_room_override_layer_num
