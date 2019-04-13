@@ -27,6 +27,17 @@
   cmpwi r0, 0
   bne 0x8022D174
   
+  
+  ; Now we want to load the save file, but the issue is that this code gets runs 28 times or so, and we only want it run once.
+  ; So we check the max HP in the loaded save file. If it's 0, the save file has not been initialized, so run the custom code.
+  ; If it's not 0, this code has already run, so just skip to the end of the function.
+  lis r3, 0x803C4C08@ha
+  addi r3, r3, 0x803C4C08@l
+  lha r4, 0 (r3) ; Read max HP
+  cmpwi r4, 0
+  bne 0x8022D174
+  
+  
   ; Load the save data into memory
   lis r3, 0x803B39A0@ha
   addi r3, r3, 0x803B39A0@l
