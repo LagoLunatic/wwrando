@@ -1001,8 +1001,16 @@ def update_randomly_chosen_hints(self):
     if not possible_item_locations:
       if len(hints) >= min_num_hints_needed:
         break
+      elif len(hints) >= 1:
+        # Succeeded at making at least 1 hint but not enough to reach the minimum.
+        # So duplicate the hint(s) we DID make to fill up the missing slots.
+        unique_hints = hints.copy()
+        while len(hints) < min_num_hints_needed:
+          hints += unique_hints
+        hints = hints[:min_num_hints_needed]
+        break
       else:
-        raise Exception("Not enough valid items to give hints for")
+        raise Exception("No valid items to give hints for")
     
     location_name = possible_item_locations.pop()
     
