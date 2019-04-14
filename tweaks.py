@@ -952,27 +952,8 @@ def update_savage_labyrinth_hint_tablet(self):
   floor_30_is_progress = (floor_30_item_name in self.logic.all_progress_items)
   floor_50_is_progress = (floor_50_item_name in self.logic.all_progress_items)
   
-  if self.options.get("progression_triforce_charts"):
-    if floor_30_item_name.startswith("Triforce Chart"):
-      floor_30_item_name = "Triforce Chart"
-    if floor_50_item_name.startswith("Triforce Chart"):
-      floor_50_item_name = "Triforce Chart"
-  
-  if self.options.get("progression_treasure_charts"):
-    if floor_30_item_name.startswith("Treasure Chart"):
-      floor_30_item_name = "Treasure Chart"
-    if floor_50_item_name.startswith("Treasure Chart"):
-      floor_50_item_name = "Treasure Chart"
-  
-  if self.options.get("progression_dungeons"):
-    if floor_30_item_name.endswith("Small Key"):
-      floor_30_item_name = "Small Key"
-    if floor_30_item_name.endswith("Big Key"):
-      floor_30_item_name = "Big Key"
-    if floor_50_item_name.endswith("Small Key"):
-      floor_50_item_name = "Small Key"
-    if floor_50_item_name.endswith("Big Key"):
-      floor_50_item_name = "Big Key"
+  floor_30_item_name = get_hint_item_name(floor_30_item_name)
+  floor_50_item_name = get_hint_item_name(floor_50_item_name)
   
   if floor_30_is_progress and not floor_30_item_name in self.progress_item_hints:
     raise Exception("Could not find progress item hint for item: %s" % floor_30_item_name)
@@ -1028,13 +1009,12 @@ def update_randomly_chosen_hints(self):
     item_name = self.logic.done_item_locations[location_name]
     if item_name not in self.logic.all_progress_items:
       continue
-    if self.logic.is_dungeon_item(item_name):
+    if self.logic.is_dungeon_item(item_name) and not self.options.get("keylunacy"):
       continue
+    
+    item_name = get_hint_item_name(item_name)
     if item_name in unique_items_given_hint_for:
       # Don't give hints for 2 instances of the same item (e.g. empty bottle, progressive bow, etc).
-      continue
-    if item_name not in self.progress_item_hints:
-      # Charts and dungeon items don't have hints
       continue
     if item_name == "Bait Bag":
       # Can't access fishmen hints until you already have the bait bag
@@ -1066,6 +1046,17 @@ def update_randomly_chosen_hints(self):
   
   update_big_octo_great_fairy_item_name_hint(self, hints[0])
   update_fishmen_hints(self, hints[1:])
+
+def get_hint_item_name(item_name):
+  if item_name.startswith("Triforce Chart"):
+    return "Triforce Chart"
+  if item_name.startswith("Treasure Chart"):
+    return "Treasure Chart"
+  if item_name.endswith("Small Key"):
+    return "Small Key"
+  if item_name.endswith("Big Key"):
+    return "Big Key"
+  return item_name
 
 def update_fishmen_hints(self, hints):
   for fishman_island_number in range(1, 49+1):
