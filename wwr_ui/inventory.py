@@ -30,7 +30,8 @@ PROGRESSIVE_ITEMS = \
     ["Progressive Quiver"]    * 2 + \
     ["Progressive Bomb Bag"]  * 2 + \
     ["Progressive Wallet"]    * 2 + \
-    ["Progressive Picto Box"] * 2
+    ["Progressive Picto Box"] * 2 + \
+    ["Progressive Sword"]     * 3
 PROGRESSIVE_ITEMS.sort()
 
 INVENTORY_ITEMS = REGULAR_ITEMS + PROGRESSIVE_ITEMS

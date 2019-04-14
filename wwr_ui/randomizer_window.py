@@ -747,16 +747,19 @@ class WWRandomizerWindow(QMainWindow):
     sword_mode = self.get_option_value("sword_mode")
     if sword_mode == "Swordless":
       items_to_filter_out += ["Hurricane Spin"]
+    if sword_mode == "Swordless" or sword_mode == "Randomized Sword":
+      items_to_filter_out += 3 * ["Progressive Sword"]
     
     if self.get_option_value("race_mode"):
       num_possible_rewards = 8 - int(self.get_option_value("num_starting_triforce_shards"))
-      
+      potential_boss_rewards = []
+
       if sword_mode == "Start with Sword":
-        num_possible_rewards += 3
+        potential_boss_rewards += 3 * ["Progressive Sword"]
       elif sword_mode == "Randomized Sword":
         num_possible_rewards += 4
 
-      potential_boss_rewards = 3 * ["Progressive Bow"] + ["Hookshot"]
+      potential_boss_rewards += 3 * ["Progressive Bow"] + ["Hookshot"]
       while num_possible_rewards < 4:
         cur_reward = potential_boss_rewards.pop(0)
         items_to_filter_out += [cur_reward]
