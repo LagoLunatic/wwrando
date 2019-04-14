@@ -30,7 +30,8 @@ REGULAR_ITEMS = [
   "Moblin's Letter",
   "Cabana Deed",
   "Ghost Ship Chart",
-] + ["Empty Bottle"] * 4
+  "Empty Bottle",
+]
 REGULAR_ITEMS.sort()
 
 PROGRESSIVE_ITEMS = \
