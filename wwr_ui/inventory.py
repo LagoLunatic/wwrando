@@ -22,6 +22,10 @@ REGULAR_ITEMS = [
   "Command Melody",
   "Earth God's Lyric",
   "Wind God's Aria",
+  "Spoils Bag",
+  "Bait Bag",
+  "Delivery Bag",
+  "Ghost Ship Chart",
 ] + ["Empty Bottle"] * 4
 REGULAR_ITEMS.sort()
 
