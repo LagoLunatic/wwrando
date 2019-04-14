@@ -358,7 +358,7 @@ skip_rematch_bosses:
 
 .global starting_gear
 starting_gear:
-.space 31, 0xFF ; Allocate space for up to 31 additional items (when changing this also update the constant in tweaks.py)
+.space 45, 0xFF ; Allocate space for up to 45 additional items (when changing this also update the constant in tweaks.py)
 .byte 0xFF
 
 .align 2 ; Align to the next 4 bytes
