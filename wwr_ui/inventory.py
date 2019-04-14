@@ -1,10 +1,11 @@
-# Can't use logic's PROGRESS_ITEMS because we don't want all items
-# to be accessible early and remove too much fun
+# Can't use logic's PROGRESS_ITEMS because there's some items
+# that we can't start with
 # And also because progressive items require special handling
 REGULAR_ITEMS = [
   "Telescope",
   "Magic Armor",
   "Hero's Charm",
+  "Tingle Tuner",
   "Grappling Hook",
   "Power Bracelets",
   "Iron Boots",
@@ -15,7 +16,17 @@ REGULAR_ITEMS = [
   "Deku Leaf",
   "Mirror Shield",
   "Hurricane Spin",
-]
+  "Din's Pearl",
+  "Farore's Pearl",
+  "Nayru's Pearl",
+  "Command Melody",
+  "Earth God's Lyric",
+  "Wind God's Aria",
+  "Spoils Bag",
+  "Bait Bag",
+  "Delivery Bag",
+  "Ghost Ship Chart",
+] + ["Empty Bottle"] * 4
 REGULAR_ITEMS.sort()
 
 PROGRESSIVE_ITEMS = \
@@ -23,7 +34,8 @@ PROGRESSIVE_ITEMS = \
     ["Progressive Quiver"]    * 2 + \
     ["Progressive Bomb Bag"]  * 2 + \
     ["Progressive Wallet"]    * 2 + \
-    ["Progressive Picto Box"] * 2
+    ["Progressive Picto Box"] * 2 + \
+    ["Progressive Sword"]     * 3
 PROGRESSIVE_ITEMS.sort()
 
 INVENTORY_ITEMS = REGULAR_ITEMS + PROGRESSIVE_ITEMS
