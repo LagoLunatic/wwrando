@@ -1,5 +1,5 @@
-# Can't use logic's PROGRESS_ITEMS because we don't want all items
-# to be accessible early and remove too much fun
+# Can't use logic's PROGRESS_ITEMS because there's some items
+# that we can't start with
 # And also because progressive items require special handling
 REGULAR_ITEMS = [
   "Telescope",
