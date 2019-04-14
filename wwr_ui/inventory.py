@@ -5,6 +5,7 @@ REGULAR_ITEMS = [
   "Telescope",
   "Magic Armor",
   "Hero's Charm",
+  "Tingle Tuner",
   "Grappling Hook",
   "Power Bracelets",
   "Iron Boots",
@@ -15,7 +16,13 @@ REGULAR_ITEMS = [
   "Deku Leaf",
   "Mirror Shield",
   "Hurricane Spin",
-]
+  "Din's Pearl",
+  "Farore's Pearl",
+  "Nayru's Pearl",
+  "Command Melody",
+  "Earth God's Lyric",
+  "Wind God's Aria",
+] + ["Empty Bottle"] * 4
 REGULAR_ITEMS.sort()
 
 PROGRESSIVE_ITEMS = \
