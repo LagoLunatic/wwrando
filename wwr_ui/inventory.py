@@ -25,6 +25,10 @@ REGULAR_ITEMS = [
   "Spoils Bag",
   "Bait Bag",
   "Delivery Bag",
+  "Note to Mom",
+  "Maggie's Letter",
+  "Moblin's Letter",
+  "Cabana Deed",
   "Ghost Ship Chart",
 ] + ["Empty Bottle"] * 4
 REGULAR_ITEMS.sort()

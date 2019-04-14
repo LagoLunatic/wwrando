@@ -67,7 +67,7 @@ DOL_SECTION_SIZES = [
   0x05220,
 ]
 
-MAXIMUM_ADDITIONAL_STARTING_ITEMS = 45
+MAXIMUM_ADDITIONAL_STARTING_ITEMS = 47
 
 def address_to_offset(address):
   # Takes an address in one of the sections of main.dol and converts it to an offset within main.dol.
