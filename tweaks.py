@@ -67,6 +67,8 @@ DOL_SECTION_SIZES = [
   0x05220,
 ]
 
+MAXIMUM_ADDITIONAL_STARTING_ITEMS = 31
+
 def address_to_offset(address):
   # Takes an address in one of the sections of main.dol and converts it to an offset within main.dol.
   for section_index in range(len(DOL_SECTION_OFFSETS)):
@@ -1419,6 +1421,8 @@ def update_sword_mode_game_variable(self):
 
 def update_starting_gear(self):
   starting_gear = self.options.get("starting_gear")
+  if len(starting_gear) > MAXIMUM_ADDITIONAL_STARTING_ITEMS:
+    raise Exception("Tried to start with more starting items than the maximum number that was allocated")
   starting_gear_array_address = self.custom_symbols["starting_gear"]
   dol_data = self.get_raw_file("sys/main.dol")
   normal_items = 0
