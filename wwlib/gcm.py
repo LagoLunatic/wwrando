@@ -170,6 +170,9 @@ class GCM:
     new_file = FileEntry()
     new_file.name = basename
     new_file.file_path = file_path
+    new_file.file_data_offset = None
+    new_file.file_size = None
+    new_file.vanilla_file_data_offset = (1<<32) # Order new files to be written after vanilla files in the ISO
     
     parent_dir = self.get_dir_file_entry(dirname)
     parent_dir.children.append(new_file)
@@ -280,10 +283,15 @@ class GCM:
     self.output_iso.seek(file_data_start_offset)
     self.align_output_iso_to_nearest(4)
     
-    for file_entry in self.file_entries:
-      if file_entry.is_dir:
-        continue
-      
+    # Instead of writing the file data in the order of file entries, write them in the order they were written in the vanilla ISO.
+    # This increases the speed the game loads file for some unknown reason.
+    file_entries_by_data_order = [
+      file_entry for file_entry in self.file_entries
+      if not file_entry.is_dir
+    ]
+    file_entries_by_data_order.sort(key=lambda fe: fe.vanilla_file_data_offset)
+    
+    for file_entry in file_entries_by_data_order:
       current_file_start_offset = self.output_iso.tell()
       
       if file_entry.file_path in self.changed_files:
@@ -307,11 +315,13 @@ class GCM:
           offset_in_file += size_to_read
       
       file_entry_offset = self.fst_offset + file_entry.file_index*0xC
+      file_entry.file_data_offset = current_file_start_offset
       write_u32(self.output_iso, file_entry_offset+4, current_file_start_offset)
       if file_entry.file_path in self.changed_files:
         file_size = data_len(self.changed_files[file_entry.file_path])
       else:
         file_size = file_entry.file_size
+      file_entry.file_size = file_size
       write_u32(self.output_iso, file_entry_offset+8, file_size)
       
       self.output_iso.seek(current_file_start_offset + file_size)
@@ -340,6 +350,7 @@ class FileEntry:
       self.children = []
     else:
       self.file_data_offset = file_data_offset_or_parent_fst_index
+      self.vanilla_file_data_offset = file_data_offset_or_parent_fst_index
       self.file_size = file_size_or_next_fst_index
     self.parent = None
     
