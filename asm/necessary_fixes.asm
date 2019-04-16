@@ -1192,3 +1192,12 @@
   beq 0x12C4 ; If the Darknuts are defeated, destroy this firewall object so it doesn't play any intro event.
   ; Otherwise continue on with the normal code to initialize the short intro event.
 .close
+
+
+
+
+; Don't spawn enemies in Hyrule Castle after defeating the Mighty Darknuts in the Master Sword chamber.
+.open "sys/main.dol"
+.org 0x80052698 ; In getLayerNo
+  nop ; Remove line that would take a branch if event bit 2C01 (MIGHTY_DARKNUTS_DEFEATED) is set.
+.close
