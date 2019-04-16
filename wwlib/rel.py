@@ -1,6 +1,6 @@
 
 from fs_helpers import *
-from wwlib.yaz0_decomp import Yaz0Decompressor
+from wwlib.yaz0 import Yaz0
 
 from io import BytesIO
 
@@ -11,7 +11,7 @@ class REL:
       self.data = BytesIO(file.read())
     
     if try_read_str(self.data, 0, 4) == "Yaz0":
-      self.data = Yaz0Decompressor.decompress(self.data)
+      self.data = Yaz0.decompress(self.data)
     
     data = self.data
     

@@ -4,7 +4,8 @@ from io import BytesIO
 
 from fs_helpers import *
 
-class Yaz0Decompressor:
+class Yaz0:
+  @staticmethod
   def decompress(comp_data):
     if try_read_str(comp_data, 0, 4) != "Yaz0":
       print("File is not compressed.")

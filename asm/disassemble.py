@@ -6,7 +6,7 @@ import re
 from io import BytesIO
 
 from fs_helpers import *
-from wwlib.yaz0_decomp import Yaz0Decompressor
+from wwlib.yaz0 import Yaz0
 from wwlib.rel import REL
 from paths import ASM_PATH
 
@@ -35,7 +35,7 @@ def disassemble_all_code(self):
     else:
       data = self.gcm.read_file_data(file_path)
       if try_read_str(data, 0, 4) == "Yaz0":
-        data = Yaz0Decompressor.decompress(data)
+        data = Yaz0.decompress(data)
     
     basename, file_ext = os.path.splitext(basename_with_ext)
     

@@ -10,7 +10,7 @@ import hashlib
 import yaml
 
 from fs_helpers import *
-from wwlib.yaz0_decomp import Yaz0Decompressor
+from wwlib.yaz0 import Yaz0
 from wwlib.rarc import RARC
 from wwlib.rel import REL
 from wwlib.gcm import GCM
@@ -569,7 +569,7 @@ class Randomizer:
         data = self.gcm.read_file_data(file_path)
       
       if try_read_str(data, 0, 4) == "Yaz0":
-        data = Yaz0Decompressor.decompress(data)
+        data = Yaz0.decompress(data)
       
       self.raw_files_by_path[file_path] = data
       return data
