@@ -2707,6 +2707,59 @@ bdnz deluxe_picto_box_item_func_fix_equipped_picto_box_loop_start
 b 0x800C3424 ; Return
 
 
+seed_backup:
+.byte 0x00, 0x00, 0x62, 0x06, 0x00, 0x00, 0x39, 0xaf, 0x00, 0x00, 0x3d, 0x44
 
+.global restore_seed
+restore_seed:
+lis r9, seed_backup@ha
+lis r10, rng_seed@ha
+
+la r8, seed_backup@l(r9)
+lwz r6, 0(r8)
+lwz r7, 4(r8)
+lwz r8, 8(r8)
+
+la r9, rng_seed@l(r10)
+stw r6, 0(r9)
+stw r7, 4(r9)
+stw r8, 8(r9)
+cmpwi r5, 2
+b 0x800c1ff0
+
+.global save_seed
+save_seed:
+lis r9, rng_seed@ha
+lis r10, seed_backup@ha
+
+la r8, rng_seed@l(r9)
+lwz r6, 0(r8)
+lwz r7, 4(r8)
+lwz r8, 8(r8)
+
+la r9, seed_backup@l(r10)
+stw r6, 0(r9)
+stw r7, 4(r9)
+stw r8, 8(r9)
+b sinking_ships_attack_hook_no_update
+
+.global sinking_ships_attack_hook
+sinking_ships_attack_hook:
+lbz r5, 0x7C(r3)				
+cmpwi r5, 0
+bne sinking_ships_attack_hook_no_update
+; if there are no ship left after attacking
+b save_seed
+
+; Basically just the original code
+sinking_ships_attack_hook_no_update:
+lbz r4, 0x7D(r3)
+addi r0, r4, -1
+stb r0, 0x7D(r3)
+lbz r4, 0x7E(r3)
+addi r0, r4, 1
+stb r0, 0x7E(r3)
+mr r3, r7
+blr
 
 .close

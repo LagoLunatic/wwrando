@@ -27,9 +27,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
-         <width>850</width>
-         <height>632</height>
+         <y>-78</y>
+         <width>974</width>
+         <height>697</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -549,6 +549,13 @@
                  </property>
                  <property name="checked">
                   <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QCheckBox" name="simplify_battlesquid">
+                 <property name="text">
+                  <string>Simplify Battlesquid Minigame</string>
                  </property>
                 </widget>
                </item>

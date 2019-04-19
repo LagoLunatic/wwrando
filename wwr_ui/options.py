@@ -170,6 +170,10 @@ OPTIONS = OrderedDict([
     "starting_gear",
     "Items that will be in Link's inventory at the start of a new game."
   ),
+  (
+    "simplify_battlesquid",
+    "The Battlesquid minigame will place boats in the same positions until you win."
+  ),
 ])
 
 NON_PERMALINK_OPTIONS = [

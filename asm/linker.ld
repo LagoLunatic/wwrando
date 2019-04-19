@@ -64,3 +64,4 @@ init__10dSv_info_cFv = 0x8005d604;
 fopMsgM_int_to_char__FPcib = 0x800350b8;
 strcmp = 0x8032db44;
 strcat = 0x8032dc6c;
+rng_seed = 0x803f7338;

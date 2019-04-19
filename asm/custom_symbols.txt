@@ -88,6 +88,9 @@
 803fe81d doc_bandam_blue_potion_slot_item_id
 803fe820 hurricane_spin_item_resource_arc_name
 803fe828 deluxe_picto_box_item_func_fix_equipped_picto_box
+803fe868 restore_seed
+803fe898 save_seed
+803fe8c4 sinking_ships_attack_hook
 8022d034 test_room_stage_name
 8022d03c test_room_starting_items_list
 800531e3 test_room_spawn_id
