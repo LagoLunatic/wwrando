@@ -937,6 +937,8 @@ class Logic:
     negative_boolean_match = re.search(r"^Option \"([^\"]+)\" Disabled$", req_name)
     positive_dropdown_match = re.search(r"^Option \"([^\"]+)\" Is \"([^\"]+)\"$", req_name)
     negative_dropdown_match = re.search(r"^Option \"([^\"]+)\" Is Not \"([^\"]+)\"$", req_name)
+    positive_list_match = re.search(r"^Option \"([^\"]+)\" Contains \"([^\"]+)\"$", req_name)
+    negative_list_match = re.search(r"^Option \"([^\"]+)\" Does Not Contain \"([^\"]+)\"$", req_name)
     if positive_boolean_match:
       option_name = positive_boolean_match.group(1)
       return not not self.rando.options.get(option_name)
@@ -951,6 +953,14 @@ class Logic:
       option_name = negative_dropdown_match.group(1)
       value = negative_dropdown_match.group(2)
       return self.rando.options.get(option_name) != value
+    elif positive_list_match:
+      option_name = positive_list_match.group(1)
+      value = positive_list_match.group(2)
+      return value in self.rando.options.get(option_name, [])
+    elif negative_list_match:
+      option_name = negative_list_match.group(1)
+      value = negative_list_match.group(2)
+      return value not in self.rando.options.get(option_name, [])
     else:
       raise Exception("Invalid option check requirement: %s" % req_name)
   
