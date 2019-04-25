@@ -213,26 +213,17 @@ Can Reach and Defeat Phantom Ganon:
   Can Get Past Forsaken Fortress Gate
   & Can Defeat Phantom Ganon
 Can Defeat Phantom Ganon:
-  Can Defeat Phantom Ganon Outside Swordless
-Can Defeat Phantom Ganon Outside Swordless:
-  Any Master Sword
   # You need any form of the Master Sword to damage Phantom Ganon.
   # Note that his energy balls can be reflected with either the Master Sword or an empty bottle, but you still need the Master Sword to deal damage.
-Can Defeat Phantom Ganon in Swordless:
-  Skull Hammer
-  # This macro is swapped out in place of the above one in swordless mode.
+  (Outside Swordless Mode & Any Master Sword)
+  | (In Swordless Mode & Skull Hammer)
   # Swordless switches Phantom Ganon's damage vulnerability to be for Skull Hammer instead of the Master Sword.
 
 Can Access Hyrule:
   All 8 Triforce Shards
 Can Get Past Hyrule Barrier:
-  Can Get Past Hyrule Barrier Outside Swordless
-Can Get Past Hyrule Barrier Outside Swordless:
   Can Access Hyrule
-  & Full Power Master Sword
-Can Get Past Hyrule Barrier in Swordless:
-  Can Access Hyrule
-  # This macro is swapped out in place of the above one in swordless mode.
+  & (Full Power Master Sword | In Swordless Mode)
 Can Access Ganon's Tower:
   Can Get Past Hyrule Barrier
   & (Hookshot | Deku Leaf)
@@ -259,8 +250,8 @@ Can Complete All Memory Dungeons and Bosses:
   & Can Complete Memory Wind Temple and Molgera
 
 Can Unlock Ganon's Tower Four Boss Door:
-  # This macro is set to Nothing when the option to skip rematch bosses is enabled.
   Can Complete All Memory Dungeons and Bosses
+  | Rematch Bosses Skipped
 Can Reach Ganon's Tower Phantom Ganon Room:
   Can Access Ganon's Tower
   & Can Unlock Ganon's Tower Four Boss Door
@@ -279,16 +270,11 @@ Can Reach and Defeat Ganondorf:
   & Hookshot
   & Can Defeat Ganondorf
 Can Defeat Ganondorf:
-  Can Defeat Ganondorf Outside Swordless
-Can Defeat Ganondorf Outside Swordless:
-  Hero's Sword
-  & Hero's Shield
   # You need a sword to kill Ganondorf, but it doesn't need to be the Master Sword.
   # You need a shield to reflect Zelda's light arrows, but it doesn't need to be Mirror Shield.
   # It doesn't matter if you have the bow or not, Zelda will still get it.
-Can Defeat Ganondorf in Swordless:
-  Hero's Shield
-  # This macro is swapped out in place of the above one in swordless mode.
+  (Hero's Sword | In Swordless Mode)
+  & Hero's Shield
   # Swordless gives you a sword temporarily during the Ganondorf fight, so you don't need to have found a sword item.
 
 Rescued Aryll:
@@ -635,12 +621,8 @@ Can Cut Grass:
   | Boomerang
   | Bombs
 Can Sword Fight with Orca:
-  Can Sword Fight with Orca Outside Swordless
-Can Sword Fight with Orca Outside Swordless:
   Hero's Sword
-Can Sword Fight with Orca in Swordless:
-  Nothing
-  # This macro is swapped out in place of the above one in swordless mode.
+  | In Swordless Mode
   # Swordless gives you a sword temporarily while in Orca's house, so you don't need to have found a sword item.
 
 # The below macros are used when charts are not randomized.
@@ -694,6 +676,14 @@ Chart for Island 46: Triforce Chart 8 & Any Wallet Upgrade
 Chart for Island 47: Treasure Chart 15
 Chart for Island 48: Treasure Chart 32
 Chart for Island 49: Treasure Chart 33
+
+# Macros to wrap option checks and make them look better.
+Rematch Bosses Skipped:
+  Option "skip_rematch_bosses" Enabled
+In Swordless Mode:
+  Option "sword_mode" Is "Swordless"
+Outside Swordless Mode:
+  Option "sword_mode" Is Not "Swordless"
 
 TODO:
   Impossible
