@@ -12,6 +12,8 @@ from wwlib.texture_utils import *
 from wwlib import texture_utils
 from paths import ASSETS_PATH
 
+MAX_ALLOWED_LINK_ARC_FILE_SIZE_IN_MEGABYTES = 1.45
+
 def get_model_metadata(custom_model_name):
   if custom_model_name == "Random":
     return {}
@@ -123,6 +125,9 @@ def replace_link_model(self):
   
   with open(custom_link_arc_path, "rb") as f:
     custom_link_arc_data = BytesIO(f.read())
+  custom_link_arc_size_in_mb = data_len(custom_link_arc_data) / (1024 * 1024)
+  if custom_link_arc_size_in_mb > MAX_ALLOWED_LINK_ARC_FILE_SIZE_IN_MEGABYTES+0.005:
+    raise Exception("The chosen custom player model's filesize is too large and may cause crashes or other issues in game.\nMax size: %.2fMB\nSelected model size: %.2fMB" % (MAX_ALLOWED_LINK_ARC_FILE_SIZE_IN_MEGABYTES, custom_link_arc_size_in_mb))
   self.replace_arc("files/res/Object/Link.arc", custom_link_arc_data)
   
   # The texture shown on the wall when reflecting light with the mirror shield is separate from Link.arc.
