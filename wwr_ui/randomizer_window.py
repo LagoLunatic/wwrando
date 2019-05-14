@@ -109,8 +109,8 @@ class WWRandomizerWindow(QMainWindow):
     # Hide unfinished options from the GUI (still accessible via settings.txt).
     self.ui.randomize_bgm.hide()
     
-    self.show()
-    
+    self.show()    
+
     self.update_checker_thread = UpdateCheckerThread()
     self.update_checker_thread.finished_checking_for_updates.connect(self.show_update_check_results)
     self.update_checker_thread.start()
@@ -174,6 +174,34 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.randomized_gear.model().sourceModel().sort(0)
     self.update_settings()
 
+  def compare_option_to_default(self, option_name, val):
+    default_option = self.default_settings[option_name]
+    if isinstance(default_option, list):
+      return val in default_option
+    else:
+      return val == default_option
+
+  def compare_colors_to_default(self):
+    custom_model_name = self.get_option_value("custom_player_model")
+    metadata = customizer.get_model_metadata(custom_model_name)
+
+    is_casual = self.get_option_value("player_in_casual_clothes")
+    if is_casual:
+      prefix = "casual"
+    else:
+      prefix = "hero"
+    default_colors = OrderedDict()
+    default_colors = metadata.get(prefix + "_custom_colors", {})
+    
+    colors = self.custom_colors
+
+    new_colors = OrderedDict()
+    for index in colors:
+      if colors[index] != default_colors[index]:
+        new_colors[index] = colors[index]
+    return new_colors
+
+
   def randomize(self):
     clean_iso_path = self.settings["clean_iso_path"].strip()
     output_folder = self.settings["output_folder"].strip()
@@ -200,10 +228,30 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.seed.setText(seed)
     self.update_settings()
     
+    important_options = [ # Options to track in spoiler log regardless of if they're default or not
+    "sword_mode",
+    "num_starting_triforce_shards",
+    ]
+
     options = OrderedDict()
     for option_name in OPTIONS:
-      options[option_name] = self.get_option_value(option_name)
-    options["custom_colors"] = self.custom_colors
+      widget = getattr(self.ui, option_name)
+      option_value = self.get_option_value(option_name)
+      if isinstance(widget, QAbstractButton) or option_name in important_options:
+        options[option_name] = option_value
+      elif isinstance(option_value, list):
+        new_items = []
+        for item in option_value:
+          if not self.compare_option_to_default(option_name, item):
+            new_items.append(item)
+        if not len(new_items) == 0: # If no items are not default
+          options[option_name] = new_items
+      else:
+        if not self.compare_option_to_default(option_name, option_value):
+          options[option_name] = option_value
+
+
+    options["custom_colors"] = self.compare_colors_to_default()
     
     permalink = self.ui.permalink.text()
     
