@@ -194,7 +194,30 @@ class WWRandomizerWindow(QMainWindow):
         new_colors[index] = colors[index]
     return new_colors
 
+  def get_options(self):
+    options = OrderedDict()
+    for option_name in OPTIONS:
+      widget = getattr(self.ui, option_name)
+      option_value = self.get_option_value(option_name)
+      default = self.default_settings[option_name]
+      if option_name not in options_blacklist:
+        options[option_name] = option_value
+      elif isinstance(option_value, list):
+        new_items = []
+        for item in option_value:
+          if item not in default:
+            new_items.append(item)
+        if len(new_items) != 0: # If no items are not default
+          options[option_name] = new_items
+      else:
+        if option_value != default:
+          options[option_name] = option_value
 
+    new_colors = self.compare_colors_to_default()
+    if new_colors != OrderedDict():
+      options["custom_colors"] = new_colors
+
+    return options
 
   def randomize(self):
     clean_iso_path = self.settings["clean_iso_path"].strip()
@@ -228,27 +251,7 @@ class WWRandomizerWindow(QMainWindow):
     "custom_colors",
     ]
 
-    options = OrderedDict()
-    for option_name in OPTIONS:
-      widget = getattr(self.ui, option_name)
-      option_value = self.get_option_value(option_name)
-      default = self.default_settings[option_name]
-      if option_name not in options_blacklist:
-        options[option_name] = option_value
-      elif isinstance(option_value, list):
-        new_items = []
-        for item in option_value:
-          if item not in default:
-            new_items.append(item)
-        if len(new_items) != 0: # If no items are not default
-          options[option_name] = new_items
-      else:
-        if option_value != default:
-          options[option_name] = option_value
-
-    new_colors = self.compare_colors_to_default()
-    if new_colors != OrderedDict():
-    	options["custom_colors"] = new_colors
+    options = self.get_options()
     
     permalink = self.ui.permalink.text()
     
@@ -418,9 +421,7 @@ class WWRandomizerWindow(QMainWindow):
     self.update_total_progress_locations()
   
   def update_total_progress_locations(self):
-    options = OrderedDict()
-    for option_name in OPTIONS:
-      options[option_name] = self.get_option_value(option_name)
+    options = self.get_options()
     num_progress_locations = Logic.get_num_progression_locations_static(self.cached_item_locations, options)
     
     text = "Where Should Progress Items Appear? (Selected: %d Possible Progression Locations)" % num_progress_locations
