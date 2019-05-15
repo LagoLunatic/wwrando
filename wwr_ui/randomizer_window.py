@@ -174,13 +174,6 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.randomized_gear.model().sourceModel().sort(0)
     self.update_settings()
 
-  def compare_option_to_default(self, option_name, val):
-    default_option = self.default_settings[option_name]
-    if isinstance(default_option, list):
-      return val in default_option
-    else:
-      return val == default_option
-
   def compare_colors_to_default(self):
     custom_model_name = self.get_option_value("custom_player_model")
     metadata = customizer.get_model_metadata(custom_model_name)
@@ -200,6 +193,7 @@ class WWRandomizerWindow(QMainWindow):
       if colors[index] != default_colors[index]:
         new_colors[index] = colors[index]
     return new_colors
+
 
 
   def randomize(self):
@@ -228,30 +222,32 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.seed.setText(seed)
     self.update_settings()
     
-    important_options = [ # Options to track in spoiler log regardless of if they're default or not
-    "sword_mode",
-    "num_starting_triforce_shards",
+    options_blacklist = [ # Options filter out if they're default
+    "randomized_gear",
+    "custom_colors"
     ]
 
     options = OrderedDict()
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
       option_value = self.get_option_value(option_name)
-      if isinstance(widget, QAbstractButton) or option_name in important_options:
+      default = self.default_settings(option_name)
+      if option_name not in options_blacklist:
         options[option_name] = option_value
       elif isinstance(option_value, list):
         new_items = []
         for item in option_value:
-          if not self.compare_option_to_default(option_name, item):
+          if item not in default:
             new_items.append(item)
-        if not len(new_items) == 0: # If no items are not default
+        if len(new_items) != 0: # If no items are not default
           options[option_name] = new_items
       else:
-        if not self.compare_option_to_default(option_name, option_value):
+        if option_value != default:
           options[option_name] = option_value
 
-
-    options["custom_colors"] = self.compare_colors_to_default()
+    new_colors = self.compare_colors_to_default()
+    if new_colors != OrderedDict():
+    	options["custom_colors"] = new_colors
     
     permalink = self.ui.permalink.text()
     
