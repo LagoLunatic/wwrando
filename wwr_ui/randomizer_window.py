@@ -224,14 +224,15 @@ class WWRandomizerWindow(QMainWindow):
     
     options_blacklist = [ # Options filter out if they're default
     "randomized_gear",
-    "custom_colors"
+    "starting_gear",
+    "custom_colors",
     ]
 
     options = OrderedDict()
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
       option_value = self.get_option_value(option_name)
-      default = self.default_settings(option_name)
+      default = self.default_settings[option_name]
       if option_name not in options_blacklist:
         options[option_name] = option_value
       elif isinstance(option_value, list):
