@@ -195,6 +195,12 @@ class WWRandomizerWindow(QMainWindow):
     return new_colors
 
   def get_options(self):
+    options_blacklist = [ # Options to filter out if they're default
+    "randomized_gear",
+    "starting_gear",
+    "custom_colors",
+    ]
+
     options = OrderedDict()
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
@@ -245,12 +251,6 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.seed.setText(seed)
     self.update_settings()
     
-    options_blacklist = [ # Options filter out if they're default
-    "randomized_gear",
-    "starting_gear",
-    "custom_colors",
-    ]
-
     options = self.get_options()
     
     permalink = self.ui.permalink.text()
