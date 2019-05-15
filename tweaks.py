@@ -1420,6 +1420,8 @@ def update_sword_mode_game_variable(self):
 
 def update_starting_gear(self):
   starting_gear = self.options.get("starting_gear")
+  if starting_gear == None: # If the player has no starting gear and the starting gear prtion of the options was never created,
+    return # Skip the rest of this function entirely to dodge errors
   if len(starting_gear) > MAXIMUM_ADDITIONAL_STARTING_ITEMS:
     raise Exception("Tried to start with more starting items than the maximum number that was allocated")
   starting_gear_array_address = self.custom_symbols["starting_gear"]
