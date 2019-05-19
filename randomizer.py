@@ -20,6 +20,7 @@ from logic.logic import Logic
 from paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH
 import customizer
 from wwlib import stage_searcher
+import seed_key
 
 from randomizers import items
 from randomizers import charts
@@ -88,11 +89,9 @@ class Randomizer:
         stage, room, spawn = args.split(",")
         self.test_room_args = {"stage": stage, "room": int(room), "spawn": int(spawn)}
 
-    self.read_seed_key()
-
     seed_string = self.seed
     if not self.options.get("generate_spoiler_log"):
-      seed_string += self.seed_key
+      seed_string += seed_key.SEED_KEY
 
     self.integer_seed = self.convert_string_to_integer_md5(seed_string)
     self.rng = self.get_new_rng()
@@ -436,10 +435,6 @@ class Randomizer:
     tweaks.update_randomly_chosen_hints(self)
     tweaks.show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=self.race_mode_required_dungeons)
     tweaks.prevent_fire_mountain_lava_softlock(self)
-  
-  def read_seed_key(self):
-    with open(os.path.join(DATA_PATH, "seed_key.txt"), "r") as f:
-      self.seed_key = f.readline()
   
   def verify_supported_version(self, clean_iso_path):
     with open(clean_iso_path, "rb") as f:
