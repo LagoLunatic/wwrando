@@ -197,7 +197,6 @@ class WWRandomizerWindow(QMainWindow):
   def get_options(self):
     options_blacklist = [ # Options to filter out if they're default
     "randomized_gear",
-    "starting_gear",
     "custom_colors",
     ]
 
@@ -207,6 +206,9 @@ class WWRandomizerWindow(QMainWindow):
       option_value = self.get_option_value(option_name)
       default = self.default_settings[option_name]
       if option_name not in options_blacklist:
+        if isinstance(option_value, list):
+          if not option_value: # lists have implicit booleanness, which is false is if the list is empty
+            continue
         options[option_name] = option_value
       elif isinstance(option_value, list):
         new_items = []
