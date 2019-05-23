@@ -202,7 +202,6 @@ class WWRandomizerWindow(QMainWindow):
 
     options = OrderedDict()
     for option_name in OPTIONS:
-      widget = getattr(self.ui, option_name)
       option_value = self.get_option_value(option_name)
       default = self.default_settings[option_name]
       if option_name not in options_blacklist:
