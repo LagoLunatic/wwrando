@@ -277,6 +277,18 @@ li r4, 0x3D04 ; Saw the Triforce refuse
 bl onEventBit__11dSv_event_cFUs
 after_starting_triforce_shards:
 
+lis r5, starting_health@ha
+addi r5, r5, starting_health@l
+lhz r5, 0 (r5) ; Load specified starting health
+lis r3, 0x803C4C08@ha
+addi r3, r3, 0x803C4C08@l ; Load the max health address
+sth r5, 0 (r3) ; Write starting max health
+; Remove heart piece extra health so that you don't start with non-full hearts
+li r4, 2 ; Load constant 2 to register 4
+srw r5, r5, r4 ; Shift health amount bits by right by r4 (2) bits
+slw r5, r5, r4 ; Shift health amount bits back left
+; This rounds it down to the next divisor of 4
+sth r5, 0x2 (r3) ; Write health to active health
 
 lis r5, should_start_with_heros_clothes@ha
 addi r5, r5, should_start_with_heros_clothes@l
@@ -346,6 +358,9 @@ blr
 .global num_triforce_shards_to_start_with
 num_triforce_shards_to_start_with:
 .byte 0 ; By default start with no Triforce Shards
+.global starting_health
+starting_health:
+.short 12 ; By default start with 12 health
 .global should_start_with_heros_clothes
 should_start_with_heros_clothes:
 .byte 1 ; By default start with the Hero's Clothes
@@ -355,7 +370,6 @@ sword_mode:
 .global skip_rematch_bosses
 skip_rematch_bosses:
 .byte 1 ; By default skip them
-
 .global starting_gear
 starting_gear:
 .space 47, 0xFF ; Allocate space for up to 47 additional items (when changing this also update the constant in tweaks.py)

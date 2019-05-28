@@ -138,6 +138,15 @@ class Randomizer:
 
     if self.options.get("sword_mode") == "Start with Sword":
       self.starting_items.append("Progressive Sword")
+
+    starting_pohs = self.options.get("starting_pohs")
+    for i in range(starting_pohs):
+      self.starting_items.append("Piece of Heart")
+
+    starting_hcs = self.options.get("starting_hcs")
+    for i in range(starting_hcs):
+      self.starting_items.append("Heart Container")
+
     # Add starting Triforce Shards.
     num_starting_triforce_shards = int(self.options.get("num_starting_triforce_shards", 0))
     for i in range(num_starting_triforce_shards):
@@ -394,6 +403,7 @@ class Randomizer:
     tweaks.shorten_zephos_event(self)
     tweaks.update_korl_dialogue(self)
     tweaks.set_num_starting_triforce_shards(self)
+    tweaks.set_starting_health(self)
     tweaks.add_pirate_ship_to_windfall(self)
     tweaks.remove_makar_kidnapping_event(self)
     tweaks.increase_player_movement_speeds(self)

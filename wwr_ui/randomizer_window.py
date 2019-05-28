@@ -63,6 +63,9 @@ class WWRandomizerWindow(QMainWindow):
     
     self.cached_item_locations = Logic.load_and_parse_item_locations()
     
+    self.ui.starting_pohs.valueChanged.connect(self.update_health_label)
+    self.ui.starting_hcs.valueChanged.connect(self.update_health_label)
+
     self.load_settings()
     
     self.ui.clean_iso_path.editingFinished.connect(self.update_settings)
@@ -74,7 +77,7 @@ class WWRandomizerWindow(QMainWindow):
     
     self.ui.custom_player_model.currentIndexChanged.connect(self.custom_model_changed)
     self.ui.player_in_casual_clothes.clicked.connect(self.custom_model_changed)
-    
+
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
       if isinstance(widget, QAbstractButton):
@@ -83,6 +86,8 @@ class WWRandomizerWindow(QMainWindow):
         widget.currentIndexChanged.connect(self.update_settings)
       elif isinstance(widget, QListView):
         pass
+      elif isinstance(widget, QSpinBox):
+        widget.valueChanged.connect(self.update_settings)
       else:
         raise Exception("Option widget is invalid: %s" % option_name)
     
@@ -114,7 +119,7 @@ class WWRandomizerWindow(QMainWindow):
     self.update_checker_thread = UpdateCheckerThread()
     self.update_checker_thread.finished_checking_for_updates.connect(self.show_update_check_results)
     self.update_checker_thread.start()
-  
+
   def generate_seed(self):
     random.seed(None)
     
@@ -173,6 +178,24 @@ class WWRandomizerWindow(QMainWindow):
     self.move_selected_rows(self.ui.starting_gear, self.ui.randomized_gear)
     self.ui.randomized_gear.model().sourceModel().sort(0)
     self.update_settings()
+
+  def update_health_label(self):
+    pohs = self.ui.starting_pohs.value()
+    hcs = self.ui.starting_hcs.value() * 4
+
+    health = hcs + pohs + 12
+    hearts = health // 4
+    pieces = health % 4
+
+    text = "Current Starting Health: %d hearts" % (health // 4)
+
+    if pieces != 0:
+      if pieces == 1: # grammar check
+        text += " and 1 piece" 
+      else:
+        text += " and %d pieces" % pieces
+
+    self.ui.current_health.setText(text)
 
   def randomize(self):
     clean_iso_path = self.settings["clean_iso_path"].strip()
@@ -423,6 +446,10 @@ class WWRandomizerWindow(QMainWindow):
         value = widget.currentIndex()
         assert 0 <= value <= 255
         bitswriter.write(value, 8)
+      elif isinstance(widget, QSpinBox):
+        value = widget.value()
+        assert 0 <= value <= 255
+        bitswriter.write(value, 8)
       elif widget == self.ui.starting_gear:
         # randomized_gear is a complement of starting_gear
         for i in range(len(REGULAR_ITEMS)):
@@ -478,6 +505,11 @@ class WWRandomizerWindow(QMainWindow):
           index = 0
         value = widget.itemText(index)
         self.set_option_value(option_name, value)
+      elif isinstance(widget, QSpinBox):
+        index = bitsreader.read(8)
+        if index > widget.maximum() or index < widget.minimum():
+          index = 0
+        self.set_option_value(option_name, index)
       elif widget == self.ui.starting_gear:
         # Reset model with only the regular items
         self.randomized_gear_model.setStringList(REGULAR_ITEMS.copy())
@@ -548,6 +580,8 @@ class WWRandomizerWindow(QMainWindow):
       return widget.isChecked()
     elif isinstance(widget, QComboBox):
       return widget.itemText(widget.currentIndex())
+    elif isinstance(widget, QSpinBox):
+      return widget.value()
     elif isinstance(widget, QListView):
       if widget.model() == None:
         return []
@@ -575,6 +609,12 @@ class WWRandomizerWindow(QMainWindow):
         index_of_value = 0
       
       widget.setCurrentIndex(index_of_value)
+    elif isinstance(widget, QSpinBox):
+      if new_value < widget.minimum() or new_value > widget.maximum():
+        print("Value %s out of range for spinbox %s" % (new_value, option_name))
+        new_value = 0
+
+      widget.setValue(new_value)
     elif isinstance(widget, QListView):
       if widget.model() != None:
         model = widget.model()

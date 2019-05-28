@@ -3,8 +3,8 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Mon Mar 18 14:56:02 2019
-#      by: pyside2-uic  running on PySide2 5.11.2
+# Created: Tue May 28 02:40:42 2019
+#      by: pyside2-uic  running on PySide2 5.12.0
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -23,7 +23,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 850, 632))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 854, 650))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
@@ -343,6 +343,29 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6.addLayout(self.verticalLayout_6)
         self.verticalLayout_3.addLayout(self.horizontalLayout_6)
         self.tabWidget.addTab(self.tab_2, "")
+        self.tab_4 = QtWidgets.QWidget()
+        self.tab_4.setObjectName("tab_4")
+        self.starting_pohs = QtWidgets.QSpinBox(self.tab_4)
+        self.starting_pohs.setGeometry(QtCore.QRect(200, 100, 91, 21))
+        self.starting_pohs.setMaximum(44)
+        self.starting_pohs.setProperty("value", 0)
+        self.starting_pohs.setDisplayIntegerBase(10)
+        self.starting_pohs.setObjectName("starting_pohs")
+        self.label_5 = QtWidgets.QLabel(self.tab_4)
+        self.label_5.setGeometry(QtCore.QRect(200, 80, 71, 16))
+        self.label_5.setObjectName("label_5")
+        self.current_health = QtWidgets.QLabel(self.tab_4)
+        self.current_health.setGeometry(QtCore.QRect(30, 40, 251, 21))
+        self.current_health.setObjectName("current_health")
+        self.label_6 = QtWidgets.QLabel(self.tab_4)
+        self.label_6.setGeometry(QtCore.QRect(30, 80, 101, 16))
+        self.label_6.setObjectName("label_6")
+        self.starting_hcs = QtWidgets.QSpinBox(self.tab_4)
+        self.starting_hcs.setGeometry(QtCore.QRect(30, 100, 91, 21))
+        self.starting_hcs.setMaximum(6)
+        self.starting_hcs.setDisplayIntegerBase(10)
+        self.starting_hcs.setObjectName("starting_hcs")
+        self.tabWidget.addTab(self.tab_4, "")
         self.verticalLayout_4.addWidget(self.tabWidget)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents_3)
         self.verticalLayout.addWidget(self.scrollArea)
@@ -385,7 +408,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -462,6 +485,10 @@ class Ui_MainWindow(object):
         self.player_in_casual_clothes.setText(QtWidgets.QApplication.translate("MainWindow", "Casual Clothes", None, -1))
         self.disable_custom_player_voice.setText(QtWidgets.QApplication.translate("MainWindow", "Disable Custom Voice", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtWidgets.QApplication.translate("MainWindow", "Cosmetic", None, -1))
+        self.label_5.setText(QtWidgets.QApplication.translate("MainWindow", "Heart Pieces", None, -1))
+        self.current_health.setText(QtWidgets.QApplication.translate("MainWindow", "Current Starting Health: 3 hearts", None, -1))
+        self.label_6.setText(QtWidgets.QApplication.translate("MainWindow", "Heart Containers", None, -1))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), QtWidgets.QApplication.translate("MainWindow", "Page", None, -1))
         self.label_4.setText(QtWidgets.QApplication.translate("MainWindow", "Permalink (copy paste to share your settings):", None, -1))
         self.update_checker_label.setText(QtWidgets.QApplication.translate("MainWindow", "Checking for updates to the randomizer...", None, -1))
         self.about_button.setText(QtWidgets.QApplication.translate("MainWindow", "About", None, -1))
