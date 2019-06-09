@@ -145,7 +145,11 @@ class Randomizer:
 
     starting_pohs = self.options.get("starting_pohs")
     for i in range(starting_pohs):
-    	self.starting_items.append("Piece of Heart")
+      self.starting_items.append("Piece of Heart")
+
+    starting_hcs = self.options.get("starting_hcs")
+    for i in range(starting_hcs):
+      self.starting_items.append("Heart Container")
     
     # Default entrances connections to be used if the entrance randomizer is not on.
     self.entrance_connections = OrderedDict([
