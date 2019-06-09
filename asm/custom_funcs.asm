@@ -277,16 +277,6 @@ li r4, 0x3D04 ; Saw the Triforce refuse
 bl onEventBit__11dSv_event_cFUs
 after_starting_triforce_shards:
 
-lis r5, starting_health@ha
-addi r5, r5, starting_health@l
-lhz r5, 0 (r5) ; Load specified starting health
-lis r3, 0x803C4C08@ha
-addi r3, r3, 0x803C4C08@l ; Load the max health address
-sth r5, 0 (r3) ; Write starting max health
-; Remove heart piece extra health so that you don't start with non-full hearts
-rlwinm r5,r5,0,0,29 ; This rounds it down to the next divisor of 4
-sth r5, 0x2 (r3) ; Write health to active health
-
 lis r5, should_start_with_heros_clothes@ha
 addi r5, r5, should_start_with_heros_clothes@l
 lbz r5, 0 (r5) ; Load bool of whether player should start with Hero's clothes
@@ -355,9 +345,6 @@ blr
 .global num_triforce_shards_to_start_with
 num_triforce_shards_to_start_with:
 .byte 0 ; By default start with no Triforce Shards
-.global starting_health
-starting_health:
-.short 12 ; By default start with 12 health
 .global should_start_with_heros_clothes
 should_start_with_heros_clothes:
 .byte 1 ; By default start with the Hero's Clothes
@@ -1048,7 +1035,14 @@ withered_tree_item_spawn_offset:
 .float -135.0 ; Z offset
 
 
-
+; Func for rounding down active health to 4 so that you don't start a new file with 11 and a quarter hearts
+.global set_active_starting_health
+set_active_starting_health:
+; Health is loaded in r0 from original init__10dSv_save_cFv func
+; Base address to write health to is still stored in r3 as well from the same func
+rlwinm r0,r0,0,0,29
+sth r0, 0x0002 (r3)
+b 0x800589b4
 
 ; Custom function that checks if the warp down to Hyrule should be unlocked.
 ; Requirements: Must have all 8 pieces of the Triforce.

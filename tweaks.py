@@ -1145,10 +1145,8 @@ def set_starting_health(self):
 
   starting_health = base_health + heart_containers + heart_pieces
 
-  starting_health_address = self.custom_symbols["starting_health"]
-
   dol_data = self.get_raw_file("sys/main.dol")
-  write_u16(dol_data, address_to_offset(starting_health_address), starting_health)
+  write_u16(dol_data, address_to_offset(0x800589AA), starting_health) # Overwrite constant of starting health
 
 def add_pirate_ship_to_windfall(self):
   windfall_dzx = self.get_arc("files/res/Stage/sea/Room11.arc").get_file("room.dzr")
