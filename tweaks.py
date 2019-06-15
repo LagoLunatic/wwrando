@@ -82,6 +82,20 @@ def address_to_offset(address):
   
   raise Exception("Unknown address: %08X" % address)
 
+def offset_to_address(offset):
+  # Takes an offset in main.dol and converts it to a RAM address, assuming it is part of main.dol that gets loaded into RAM.
+  for section_index in range(len(DOL_SECTION_OFFSETS)):
+    section_offset = DOL_SECTION_OFFSETS[section_index]
+    section_address = DOL_SECTION_ADDRESSES[section_index]
+    section_size = DOL_SECTION_SIZES[section_index]
+    
+    if section_offset <= offset < section_offset+section_size:
+      address = offset - section_offset + section_address
+      return address
+  
+  # Return None when the offset is not inside of any section.
+  return None
+
 def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
   high_halfword = (pointer & 0xFFFF0000) >> 16
   low_halfword = pointer & 0xFFFF

@@ -9,6 +9,7 @@ from fs_helpers import *
 from wwlib.yaz0 import Yaz0
 from wwlib.rel import REL
 from paths import ASM_PATH
+from tweaks import offset_to_address
 
 def disassemble_all_code(self):
   if not os.path.isfile(r"C:\devkitPro\devkitPPC\bin\powerpc-eabi-objdump.exe"):
@@ -223,22 +224,27 @@ def add_symbols_to_main(asm_path, main_symbols):
     for line in f:
       line = line.rstrip("\r\n")
       
-      match = re.search(r"^\s+([0-9a-f]+):\s", line, re.IGNORECASE)
+      match = re.search(r"^\s+([0-9a-f]+)(:\s.+)$", line, re.IGNORECASE)
       #print(match)
       if match:
         offset = int(match.group(1), 16)
-        address = convert_offset_to_address(offset)
-        if address in main_symbols:
-          symbol_name = main_symbols[address]
-          out_str += "; SYMBOL: %08X    %s\n" % (address, symbol_name)
+        address = offset_to_address(offset)
+        if address is not None:
+          if address in main_symbols:
+            symbol_name = main_symbols[address]
+            out_str += "; SYMBOL: %08X    %s\n" % (address, symbol_name)
+          
+          # Convert the displayed main.dol offset to an address in RAM.
+          line_after_offset = match.group(2)
+          line = "%08X%s" % (address, line_after_offset)
       
       match = re.search(r"\s(bl|b|beq|bne|blt|bgt|ble|bge)\s+0x([0-9a-f]+)", line, re.IGNORECASE)
       #print(match)
       out_str += line
       if match:
         offset = int(match.group(2), 16)
-        address = convert_offset_to_address(offset)
-        if address in main_symbols:
+        address = offset_to_address(offset)
+        if address is not None and address in main_symbols:
           symbol_name = main_symbols[address]
           #print(symbol_name)
           out_str += "      ; %08X    %s" % (address, symbol_name)
@@ -279,6 +285,3 @@ def get_main_symbols(self):
     address = int(address, 16)
     main_symbols[address] = name
   return main_symbols
-
-def convert_offset_to_address(offset):
-  return offset - 0x2620 + 0x800056E0
