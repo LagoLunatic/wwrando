@@ -1027,6 +1027,9 @@ def update_randomly_chosen_hints(self):
         raise Exception("No valid items to give hints for")
     
     location_name = possible_item_locations.pop()
+    if location_name in self.race_mode_required_locations:
+      # You already know which boss locations have a required item and which don't in race mode by looking at the sea chart.
+      continue
     
     item_name = self.logic.done_item_locations[location_name]
     if item_name not in self.logic.all_progress_items:

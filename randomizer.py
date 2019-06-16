@@ -257,7 +257,10 @@ class Randomizer:
       (49, "Treasure Chart 33"),
     ])
     
-    # This list will hold the randomly selected dungeons that are required in race mode.
+    # This list will hold the randomly selected dungeon boss locations that are required in race mode.
+    # If race mode is not on, this list will remain empty.
+    self.race_mode_required_locations = []
+    # This list will hold the dungeon names of the race mode required locations.
     # If race mode is not on, this list will remain empty.
     self.race_mode_required_dungeons = []
     # This list will hold all item location names that should not have any items in them in race mode.
