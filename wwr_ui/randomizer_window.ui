@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>872</width>
-    <height>784</height>
+    <height>670</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,21 +28,12 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>850</width>
-         <height>632</height>
+         <width>854</width>
+         <height>536</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
+        <property name="margin">
          <number>0</number>
         </property>
         <item>
@@ -549,6 +540,13 @@
                  </property>
                  <property name="checked">
                   <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QCheckBox" name="disable_tingle_chests_with_tingle_bombs">
+                 <property name="text">
+                  <string>Tingle Chests Require Non-Tingle Bombs</string>
                  </property>
                 </widget>
                </item>

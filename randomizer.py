@@ -328,6 +328,8 @@ class Randomizer:
       if self.options.get("randomize_entrances") not in ["Disabled", None, "Dungeons"]:
         tweaks.disable_ice_ring_isle_and_fire_mountain_effects_indoors(self)
       tweaks.update_starting_gear(self)
+      if self.options.get("disable_tingle_chests_with_tingle_bombs"):
+        tweaks.apply_patch(self, "disable_tingle_bombs_on_tingle_chests")
       
       if self.test_room_args is not None:
         tweaks.test_room(self)
