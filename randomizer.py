@@ -20,7 +20,7 @@ from logic.logic import Logic
 from paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH
 import customizer
 from wwlib import stage_searcher
-import seed_key
+from keys import seed_key
 
 from randomizers import items
 from randomizers import charts
