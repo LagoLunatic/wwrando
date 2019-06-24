@@ -290,7 +290,7 @@ def get_model_preview_image(custom_model_name, prefix, selected_colors):
     mask_path = custom_model_metadata["preview_" + prefix + "_color_mask_paths"][custom_color_basename]
     check_valid_mask_path(mask_path)
     
-    preview_image = texture_utils.color_exchange(preview_image, base_color, custom_color, mask_path=mask_path)
+    preview_image = texture_utils.color_exchange(preview_image, base_color, custom_color, mask_path=mask_path, validate_mask_colors=False)
   
   return preview_image
 
