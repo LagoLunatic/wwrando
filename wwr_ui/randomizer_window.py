@@ -26,7 +26,7 @@ except ImportError:
   from yaml import Dumper
 
 from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError, InvalidCleanISOError
-from paths import ASSETS_PATH, SEEDGEN_PATH
+from paths import ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE
 import customizer
 from logic.logic import Logic
 
@@ -109,11 +109,14 @@ class WWRandomizerWindow(QMainWindow):
     # Hide unfinished options from the GUI (still accessible via settings.txt).
     self.ui.randomize_bgm.hide()
     
-    self.show()    
-
-    self.update_checker_thread = UpdateCheckerThread()
-    self.update_checker_thread.finished_checking_for_updates.connect(self.show_update_check_results)
-    self.update_checker_thread.start()
+    self.show()
+    
+    if not IS_RUNNING_FROM_SOURCE:
+      self.update_checker_thread = UpdateCheckerThread()
+      self.update_checker_thread.finished_checking_for_updates.connect(self.show_update_check_results)
+      self.update_checker_thread.start()
+    else:
+      self.ui.update_checker_label.setText("(Running from source, skipping release update check.)")
   
   def generate_seed(self):
     random.seed(None)
@@ -988,9 +991,10 @@ class WWRandomizerWindow(QMainWindow):
       self.close()
   
   def closeEvent(self, event):
-    # Need to wait for the update checker before exiting, or the program will crash when closing.
-    self.update_checker_thread.quit()
-    self.update_checker_thread.wait()
+    if not IS_RUNNING_FROM_SOURCE:
+      # Need to wait for the update checker before exiting, or the program will crash when closing.
+      self.update_checker_thread.quit()
+      self.update_checker_thread.wait()
     event.accept()
 
 class ModelFilterOut(QSortFilterProxyModel):

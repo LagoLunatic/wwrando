@@ -144,6 +144,7 @@ def randomize_boss_rewards(self):
       location_name = self.rng.choice(possible_boss_locations_for_this_item)
     possible_boss_locations.remove(location_name)
     self.logic.set_prerandomization_item_location(location_name, item_name)
+    self.race_mode_required_locations.append(location_name)
     
     dungeon_name, _ = self.logic.split_location_name_by_zone(location_name)
     self.race_mode_required_dungeons.append(dungeon_name)

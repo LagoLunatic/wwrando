@@ -20,6 +20,7 @@ from logic.logic import Logic
 from paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH
 import customizer
 from wwlib import stage_searcher
+from keys import seed_key
 
 from randomizers import items
 from randomizers import charts
@@ -88,7 +89,11 @@ class Randomizer:
         stage, room, spawn = args.split(",")
         self.test_room_args = {"stage": stage, "room": int(room), "spawn": int(spawn)}
 
-    self.integer_seed = self.convert_string_to_integer_md5(self.seed)
+    seed_string = self.seed
+    if not self.options.get("generate_spoiler_log"):
+      seed_string += seed_key.SEED_KEY
+
+    self.integer_seed = self.convert_string_to_integer_md5(seed_string)
     self.rng = self.get_new_rng()
     
     self.arcs_by_path = {}
@@ -257,7 +262,10 @@ class Randomizer:
       (49, "Treasure Chart 33"),
     ])
     
-    # This list will hold the randomly selected dungeons that are required in race mode.
+    # This list will hold the randomly selected dungeon boss locations that are required in race mode.
+    # If race mode is not on, this list will remain empty.
+    self.race_mode_required_locations = []
+    # This list will hold the dungeon names of the race mode required locations.
     # If race mode is not on, this list will remain empty.
     self.race_mode_required_dungeons = []
     # This list will hold all item location names that should not have any items in them in race mode.
@@ -325,6 +333,8 @@ class Randomizer:
       if self.options.get("randomize_entrances") not in ["Disabled", None, "Dungeons"]:
         tweaks.disable_ice_ring_isle_and_fire_mountain_effects_indoors(self)
       tweaks.update_starting_gear(self)
+      if self.options.get("disable_tingle_chests_with_tingle_bombs"):
+        tweaks.apply_patch(self, "disable_tingle_bombs_on_tingle_chests")
       
       if self.test_room_args is not None:
         tweaks.test_room(self)

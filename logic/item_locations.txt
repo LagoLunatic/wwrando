@@ -107,6 +107,8 @@ Outset Island - Savage Labyrinth - Floor 30:
     & Can Defeat Red Bubbles
     & Can Defeat Darknuts
     & Can Play Wind's Requiem
+    & (Grappling Hook | Hero's Sword | Skull Hammer)
+  # The last condition for having grappling hook or a melee weapon is to avoid cases where your only weapon for damaging most enemies is bow or bombs and you run out of arrows or bombs. Grappling hook can be used to steal ammo from enemies.
   # The following floors don't have requirements listed because you can trick enemies into hitting each other, pick up one of their dropped weapons, and kill the enemies with the weapon:
   # * Floor 4 (4x Green Bokoblins)
   # * Floor 9 (4x Green Bokoblins, 2x Fire Keese)
