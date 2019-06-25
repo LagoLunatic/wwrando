@@ -1084,8 +1084,12 @@ def get_hint_item_name(item_name):
   return item_name
 
 def update_fishmen_hints(self, hints):
-  for fishman_island_number in range(1, 49+1):
-    item_hint_name, island_hint_name = self.rng.choice(hints)
+  islands = list(range(1, 49+1))
+  for fishman_hint_number in range(len(islands)):
+    item_hint_name, island_hint_name = hints[fishman_hint_number % 15]
+    
+    fishman_island_number = self.rng.choice(islands)
+    islands.remove(fishman_island_number)
     
     hint_lines = []
     hint_lines.append(
