@@ -1,8 +1,9 @@
 #!/usr/bin/python3.6
 
-from PySide2.QtGui import *
-from PySide2.QtCore import *
-from PySide2.QtWidgets import *
+try:
+  from PySide2.QtWidgets import QApplication
+except ImportError:
+  from PyQt5.QtWidgets import QApplication
 
 import sys
 from collections import OrderedDict

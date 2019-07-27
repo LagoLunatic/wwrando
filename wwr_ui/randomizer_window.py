@@ -1,8 +1,11 @@
-from PySide2.QtGui import *
-from PySide2.QtCore import *
-from PySide2.QtWidgets import *
+try:
+  from PySide2 import QtCore, QtGui, QtWidgets
+  from PySide2.QtCore import Qt, Signal
+  from wwr_ui import uic
+except ImportError:
+  from PyQt5 import QtCore, QtGui, QtWidgets, uic
+  from PyQt5.QtCore import Qt, pyqtSignal as Signal
 
-from wwr_ui import uic
 Ui_MainWindow, Ui_MainWindowClass = uic.loadUiType('wwr_ui/randomizer_window.ui')
 from wwr_ui.options import OPTIONS, NON_PERMALINK_OPTIONS
 from wwr_ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
@@ -36,7 +39,7 @@ class WWRandomizerWindow(Ui_MainWindowClass):
   MAX_SEED_LENGTH = 42 # Limited by maximum length of game name in banner
   
   def __init__(self, cmd_line_args=OrderedDict()):
-    super(WWRandomizerWindow, self).__init__()
+    super().__init__()
     self.ui = Ui_MainWindow()
     self.ui.setupUi(self)
     
@@ -49,7 +52,7 @@ class WWRandomizerWindow(Ui_MainWindowClass):
     self.initialize_custom_player_model_list()
     
     self.ui.add_gear.clicked.connect(self.add_to_starting_gear)
-    self.randomized_gear_model = QStringListModel()
+    self.randomized_gear_model = QtCore.QStringListModel()
     self.randomized_gear_model.setStringList(INVENTORY_ITEMS.copy())
 
     self.filtered_rgear = ModelFilterOut()
@@ -57,7 +60,7 @@ class WWRandomizerWindow(Ui_MainWindowClass):
 
     self.ui.randomized_gear.setModel(self.filtered_rgear)
     self.ui.remove_gear.clicked.connect(self.remove_from_starting_gear)
-    self.starting_gear_model = QStringListModel()
+    self.starting_gear_model = QtCore.QStringListModel()
     self.ui.starting_gear.setModel(self.starting_gear_model)
 
     self.preserve_default_settings()
@@ -78,11 +81,11 @@ class WWRandomizerWindow(Ui_MainWindowClass):
     
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
-      if isinstance(widget, QAbstractButton):
+      if isinstance(widget, QtWidgets.QAbstractButton):
         widget.clicked.connect(self.update_settings)
-      elif isinstance(widget, QComboBox):
+      elif isinstance(widget, QtWidgets.QComboBox):
         widget.currentIndexChanged.connect(self.update_settings)
-      elif isinstance(widget, QListView):
+      elif isinstance(widget, QtWidgets.QListView):
         pass
       else:
         raise Exception("Option widget is invalid: %s" % option_name)
@@ -105,7 +108,7 @@ class WWRandomizerWindow(Ui_MainWindowClass):
     self.setWindowTitle("Wind Waker Randomizer %s" % VERSION)
     
     icon_path = os.path.join(ASSETS_PATH, "icon.ico")
-    self.setWindowIcon(QIcon(icon_path))
+    self.setWindowIcon(QtGui.QIcon(icon_path))
     
     # Hide unfinished options from the GUI (still accessible via settings.txt).
     self.ui.randomize_bgm.hide()
@@ -187,10 +190,10 @@ class WWRandomizerWindow(Ui_MainWindowClass):
     self.ui.output_folder.setText(output_folder)
     
     if not os.path.isfile(clean_iso_path):
-      QMessageBox.warning(self, "Clean ISO path not specified", "Must specify path to your clean Wind Waker ISO (USA).")
+      QtWidgets.QMessageBox.warning(self, "Clean ISO path not specified", "Must specify path to your clean Wind Waker ISO (USA).")
       return
     if not os.path.isdir(output_folder):
-      QMessageBox.warning(self, "No output folder specified", "Must specify a valid output folder for the randomized files.")
+      QtWidgets.QMessageBox.warning(self, "No output folder specified", "Must specify a valid output folder for the randomized files.")
       return
     
     seed = self.settings["seed"]
@@ -262,7 +265,7 @@ class WWRandomizerWindow(Ui_MainWindowClass):
     text = """Randomization complete.<br><br>
       If you get stuck, check the progression spoiler log in the output folder."""
     
-    self.complete_dialog = QMessageBox()
+    self.complete_dialog = QtWidgets.QMessageBox()
     self.complete_dialog.setTextFormat(Qt.TextFormat.RichText)
     self.complete_dialog.setWindowTitle("Randomization complete")
     self.complete_dialog.setText(text)
@@ -279,7 +282,7 @@ class WWRandomizerWindow(Ui_MainWindowClass):
       pass
     
     print(error_message)
-    QMessageBox.critical(
+    QtWidgets.QMessageBox.critical(
       self, "Randomization Failed",
       error_message
     )
@@ -316,7 +319,7 @@ class WWRandomizerWindow(Ui_MainWindowClass):
     self.update_settings()
     
     if not any_setting_changed:
-      QMessageBox.information(self,
+      QtWidgets.QMessageBox.information(self,
         "Settings already default",
         "You already have all the default randomization settings."
       )
@@ -393,7 +396,7 @@ class WWRandomizerWindow(Ui_MainWindowClass):
       stack_trace = traceback.format_exc()
       error_message = "Failed to parse permalink:\n" + str(e) + "\n\n" + stack_trace
       print(error_message)
-      QMessageBox.critical(
+      QtWidgets.QMessageBox.critical(
         self, "Invalid permalink",
         "The permalink you pasted is invalid."
       )
@@ -421,9 +424,9 @@ class WWRandomizerWindow(Ui_MainWindowClass):
       value = self.settings[option_name]
       
       widget = getattr(self.ui, option_name)
-      if isinstance(widget, QAbstractButton):
+      if isinstance(widget, QtWidgets.QAbstractButton):
         bitswriter.write(int(value), 1)
-      elif isinstance(widget, QComboBox):
+      elif isinstance(widget, QtWidgets.QComboBox):
         value = widget.currentIndex()
         assert 0 <= value <= 255
         bitswriter.write(value, 8)
@@ -457,7 +460,7 @@ class WWRandomizerWindow(Ui_MainWindowClass):
     given_version_num = given_version_num.decode("ascii")
     seed = seed.decode("ascii")
     if given_version_num != VERSION:
-      QMessageBox.critical(
+      QtWidgets.QMessageBox.critical(
         self, "Invalid permalink",
         "The permalink you pasted is for version %s of the randomizer, it cannot be used with the version you are currently using (%s)." % (given_version_num, VERSION)
       )
@@ -473,10 +476,10 @@ class WWRandomizerWindow(Ui_MainWindowClass):
         continue
       
       widget = getattr(self.ui, option_name)
-      if isinstance(widget, QAbstractButton):
+      if isinstance(widget, QtWidgets.QAbstractButton):
         boolean_value = bitsreader.read(1)
         self.set_option_value(option_name, boolean_value)
-      elif isinstance(widget, QComboBox):
+      elif isinstance(widget, QtWidgets.QComboBox):
         index = bitsreader.read(8)
         if index >= widget.count() or index < 0:
           index = 0
@@ -489,7 +492,7 @@ class WWRandomizerWindow(Ui_MainWindowClass):
         for i in range(len(REGULAR_ITEMS)):
           starting = bitsreader.read(1)
           if starting == 1:
-            self.ui.randomized_gear.selectionModel().select(self.randomized_gear_model.index(i), QItemSelectionModel.Select)
+            self.ui.randomized_gear.selectionModel().select(self.randomized_gear_model.index(i), QtCore.QItemSelectionModel.Select)
         self.move_selected_rows(self.ui.randomized_gear, self.ui.starting_gear)
         # Progressive items are all after regular items
         unique_progressive_items = list(set(PROGRESSIVE_ITEMS))
@@ -510,7 +513,7 @@ class WWRandomizerWindow(Ui_MainWindowClass):
     else:
       default_dir = None
     
-    clean_iso_path, selected_filter = QFileDialog.getOpenFileName(self, "Select clean Wind Waker ISO", default_dir, "GC ISO Files (*.iso *.gcm)")
+    clean_iso_path, selected_filter = QtWidgets.QFileDialog.getOpenFileName(self, "Select clean Wind Waker ISO", default_dir, "GC ISO Files (*.iso *.gcm)")
     if not clean_iso_path:
       return
     self.ui.clean_iso_path.setText(clean_iso_path)
@@ -522,14 +525,14 @@ class WWRandomizerWindow(Ui_MainWindowClass):
     else:
       default_dir = None
     
-    output_folder_path = QFileDialog.getExistingDirectory(self, "Select output folder", default_dir)
+    output_folder_path = QtWidgets.QFileDialog.getExistingDirectory(self, "Select output folder", default_dir)
     if not output_folder_path:
       return
     self.ui.output_folder.setText(output_folder_path)
     self.update_settings()
   
   def eventFilter(self, target, event):
-    if event.type() == QEvent.Enter:
+    if event.type() == QtCore.QEvent.Enter:
       option_name = target.objectName()
       
       if option_name.startswith("label_for_"):
@@ -540,33 +543,33 @@ class WWRandomizerWindow(Ui_MainWindowClass):
       else:
         self.set_option_description(None)
       return True
-    elif event.type() == QEvent.Leave:
+    elif event.type() == QtCore.QEvent.Leave:
       self.set_option_description(None)
       return True
     
-    return QMainWindow.eventFilter(self, target, event)
+    return QtWidgets.QMainWindow.eventFilter(self, target, event)
   
   def get_option_value(self, option_name):
     widget = getattr(self.ui, option_name)
-    if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
+    if isinstance(widget, QtWidgets.QCheckBox) or isinstance(widget, QtWidgets.QRadioButton):
       return widget.isChecked()
-    elif isinstance(widget, QComboBox):
+    elif isinstance(widget, QtWidgets.QComboBox):
       return widget.itemText(widget.currentIndex())
-    elif isinstance(widget, QListView):
+    elif isinstance(widget, QtWidgets.QListView):
       if widget.model() == None:
         return []
       model = widget.model();
       if isinstance(model, ModelFilterOut):
         model = model.sourceModel()
-      return [model.data(model.index(i)) for i in range(model.rowCount())]
+      return [model.data(model.index(i), Qt.DisplayRole) for i in range(model.rowCount())]
     else:
       print("Option widget is invalid: %s" % option_name)
   
   def set_option_value(self, option_name, new_value):
     widget = getattr(self.ui, option_name)
-    if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
+    if isinstance(widget, QtWidgets.QCheckBox) or isinstance(widget, QtWidgets.QRadioButton):
       widget.setChecked(new_value)
-    elif isinstance(widget, QComboBox):
+    elif isinstance(widget, QtWidgets.QComboBox):
       index_of_value = None
       for i in range(widget.count()):
         text = widget.itemText(i)
@@ -579,10 +582,10 @@ class WWRandomizerWindow(Ui_MainWindowClass):
         index_of_value = 0
       
       widget.setCurrentIndex(index_of_value)
-    elif isinstance(widget, QListView):
+    elif isinstance(widget, QtWidgets.QListView):
       if widget.model() != None:
         model = widget.model()
-        if isinstance(model, QSortFilterProxyModel):
+        if isinstance(model, QtCore.QSortFilterProxyModel):
           model = model.sourceModel()
         model.setStringList(new_value)
         model.sort(0)
@@ -631,7 +634,7 @@ class WWRandomizerWindow(Ui_MainWindowClass):
     if "error_message" in metadata:
       error_message = "Syntax error when trying to read metadata.txt for custom model: %s\n\n%s" %(custom_model_name, metadata["error_message"])
       print(error_message)
-      QMessageBox.critical(
+      QtWidgets.QMessageBox.critical(
         self, "Failed to load model metadata",
         error_message
       )
@@ -667,16 +670,16 @@ class WWRandomizerWindow(Ui_MainWindowClass):
     
     for custom_color_name, default_color in custom_colors.items():
       option_name = "custom_color_" + custom_color_name
-      hlayout = QHBoxLayout()
-      label_for_color_selector = QLabel(self.ui.tab_2)
+      hlayout = QtWidgets.QHBoxLayout()
+      label_for_color_selector = QtWidgets.QLabel(self.ui.tab_2)
       label_for_color_selector.setText("Player %s Color" % custom_color_name)
       hlayout.addWidget(label_for_color_selector)
-      color_hex_code_input = QLineEdit(self.ui.tab_2)
+      color_hex_code_input = QtWidgets.QLineEdit(self.ui.tab_2)
       color_hex_code_input.setText("")
       color_hex_code_input.setObjectName(option_name + "_hex_code_input")
       color_hex_code_input.setFixedWidth(52)
       hlayout.addWidget(color_hex_code_input)
-      color_selector_button = QPushButton(self.ui.tab_2)
+      color_selector_button = QtWidgets.QPushButton(self.ui.tab_2)
       color_selector_button.setText("Click to set color")
       color_selector_button.setObjectName(option_name)
       hlayout.addWidget(color_selector_button)
@@ -693,8 +696,8 @@ class WWRandomizerWindow(Ui_MainWindowClass):
     
     if len(custom_colors) == 0:
       # Need to push the preview over to the right even when there are no colors to do it, so add a spacer.
-      hlayout = QHBoxLayout()
-      hspacer = QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum)
+      hlayout = QtWidgets.QHBoxLayout()
+      hspacer = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
       hlayout.addItem(hspacer)
       self.ui.custom_colors_layout.addLayout(hlayout)
     
@@ -854,8 +857,8 @@ class WWRandomizerWindow(Ui_MainWindowClass):
     color_name = option_name[len("custom_color_"):]
     
     r, g, b = self.custom_colors[color_name]
-    initial_color = QColor(r, g, b, 255)
-    color = QColorDialog.getColor(initial_color, self, "Select color")
+    initial_color = QtGui.QColor(r, g, b, 255)
+    color = QtWidgets.QColorDialog.getColor(initial_color, self, "Select color")
     if not color.isValid():
       return
     r = color.red()
@@ -910,7 +913,7 @@ class WWRandomizerWindow(Ui_MainWindowClass):
       stack_trace = traceback.format_exc()
       error_message = "Failed to load model preview image for model %s.\nError:\n" % (custom_model_name) + str(e) + "\n\n" + stack_trace
       print(error_message)
-      QMessageBox.critical(
+      QtWidgets.QMessageBox.critical(
         self, "Failed to load model preview",
         error_message
       )
@@ -923,8 +926,8 @@ class WWRandomizerWindow(Ui_MainWindowClass):
     self.ui.custom_model_preview_label.show()
     
     data = preview_image.tobytes('raw', 'BGRA')
-    qimage = QImage(data, preview_image.size[0], preview_image.size[1], QImage.Format_ARGB32)
-    scaled_pixmap = QPixmap.fromImage(qimage).scaled(225, 350, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+    qimage = QtGui.QImage(data, *preview_image.size, QtGui.QImage.Format_ARGB32)
+    scaled_pixmap = QtGui.QPixmap.fromImage(qimage).scaled(225, 350, Qt.KeepAspectRatio, Qt.SmoothTransformation)
     self.ui.custom_model_preview_label.setPixmap(scaled_pixmap)
   
   def open_about(self):
@@ -933,7 +936,7 @@ class WWRandomizerWindow(Ui_MainWindowClass):
       Report issues here:<br><a href=\"https://github.com/LagoLunatic/wwrando/issues\">https://github.com/LagoLunatic/wwrando/issues</a><br><br>
       Source code:<br><a href=\"https://github.com/LagoLunatic/wwrando\">https://github.com/LagoLunatic/wwrando</a>""" % VERSION
     
-    self.about_dialog = QMessageBox()
+    self.about_dialog = QtWidgets.QMessageBox()
     self.about_dialog.setTextFormat(Qt.TextFormat.RichText)
     self.about_dialog.setWindowTitle("Wind Waker Randomizer")
     self.about_dialog.setText(text)
@@ -951,9 +954,9 @@ class WWRandomizerWindow(Ui_MainWindowClass):
       self.update_checker_thread.wait()
     event.accept()
 
-class ModelFilterOut(QSortFilterProxyModel):
+class ModelFilterOut(QtCore.QSortFilterProxyModel):
   def __init__(self):
-    super(ModelFilterOut, self).__init__()
+    super().__init__()
     self.filter_strings = []
 
   def setFilterStrings(self, fstr):
@@ -962,18 +965,18 @@ class ModelFilterOut(QSortFilterProxyModel):
 
   def filterAcceptsRow(self, sourceRow, sourceParent):
     index0 = self.sourceModel().index(sourceRow, 0, sourceParent)
-    data = self.sourceModel().data(index0)
+    data = self.sourceModel().data(index0, Qt.DisplayRole)
     num_occurrences = self.filter_strings.count(data)
     for i in range(sourceRow):
       cur_index = self.sourceModel().index(i, 0, sourceParent)
-      cur_data = self.sourceModel().data(cur_index)
+      cur_data = self.sourceModel().data(cur_index, Qt.DisplayRole)
       if cur_data == data:
         num_occurrences -= 1
     return num_occurrences <= 0
 
-class RandomizerProgressDialog(QProgressDialog):
+class RandomizerProgressDialog(QtWidgets.QProgressDialog):
   def __init__(self, title, description, max_val):
-    QProgressDialog.__init__(self)
+    super().__init__()
     self.setWindowTitle(title)
     self.setLabelText(description)
     self.setMaximum(max_val)
@@ -984,13 +987,13 @@ class RandomizerProgressDialog(QProgressDialog):
     self.setCancelButton(None)
     self.show()
 
-class RandomizerThread(QThread):
+class RandomizerThread(QtCore.QThread):
   update_progress = Signal(str, int)
   randomization_complete = Signal()
   randomization_failed = Signal(str)
   
   def __init__(self, randomizer):
-    QThread.__init__(self)
+    super().__init__()
     
     self.randomizer = randomizer
   
@@ -1011,7 +1014,7 @@ class RandomizerThread(QThread):
     
     self.randomization_complete.emit()
 
-class UpdateCheckerThread(QThread):
+class UpdateCheckerThread(QtCore.QThread):
   finished_checking_for_updates = Signal(str)
   
   def run(self):
