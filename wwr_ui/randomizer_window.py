@@ -2,7 +2,8 @@ from PySide2.QtGui import *
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 
-from wwr_ui.ui_randomizer_window import Ui_MainWindow
+from wwr_ui import uic
+Ui_MainWindow, Ui_MainWindowClass = uic.loadUiType('wwr_ui/randomizer_window.ui')
 from wwr_ui.options import OPTIONS, NON_PERMALINK_OPTIONS
 from wwr_ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
 from wwr_ui.inventory import INVENTORY_ITEMS, REGULAR_ITEMS, PROGRESSIVE_ITEMS
@@ -30,7 +31,7 @@ from paths import ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE
 import customizer
 from logic.logic import Logic
 
-class WWRandomizerWindow(QMainWindow):
+class WWRandomizerWindow(Ui_MainWindowClass):
   VALID_SEED_CHARACTERS = "-_'%%.%s%s" % (string.ascii_letters, string.digits)
   MAX_SEED_LENGTH = 42 # Limited by maximum length of game name in banner
   
