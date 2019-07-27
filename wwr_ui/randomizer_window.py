@@ -6,7 +6,6 @@ except ImportError:
   from PyQt5 import QtCore, QtGui, QtWidgets, uic
   from PyQt5.QtCore import Qt, pyqtSignal as Signal
 
-Ui_MainWindow, Ui_MainWindowClass = uic.loadUiType('wwr_ui/randomizer_window.ui')
 from wwr_ui.options import OPTIONS, NON_PERMALINK_OPTIONS
 from wwr_ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
 from wwr_ui.inventory import INVENTORY_ITEMS, REGULAR_ITEMS, PROGRESSIVE_ITEMS
@@ -30,9 +29,11 @@ except ImportError:
   from yaml import Dumper
 
 from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError, InvalidCleanISOError
-from paths import ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE
+from paths import ASSETS_PATH, SEEDGEN_PATH, UI_PATH, IS_RUNNING_FROM_SOURCE
 import customizer
 from logic.logic import Logic
+
+Ui_MainWindow, Ui_MainWindowClass = uic.loadUiType(os.path.join(UI_PATH, "randomizer_window.ui"))
 
 class WWRandomizerWindow(Ui_MainWindowClass):
   VALID_SEED_CHARACTERS = "-_'%%.%s%s" % (string.ascii_letters, string.digits)
