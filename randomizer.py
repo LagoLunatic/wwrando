@@ -731,13 +731,29 @@ class Randomizer:
     header += "Seed: %s\n" % self.seed
     
     header += "Options selected:\n  "
-    non_disabled_options = [name for name in self.options if self.options[name] != False]
+    non_disabled_options = [
+      name for name in self.options
+      if self.options[name] not in [False, [], {}, OrderedDict()]
+      and name != "randomized_gear" # Just takes up space
+    ]
     option_strings = []
     for option_name in non_disabled_options:
       if isinstance(self.options[option_name], bool):
         option_strings.append(option_name)
       else:
-        option_strings.append("%s: %s" % (option_name, self.options[option_name]))
+        if option_name == "custom_colors":
+          # Only show non-default colors.
+          default_colors = customizer.get_default_colors(self)
+          value = OrderedDict()
+          for custom_color_name, custom_color_value in self.options[option_name].items():
+            if custom_color_value != default_colors[custom_color_name]:
+              value[custom_color_name] = custom_color_value
+          if value == OrderedDict():
+            # No colors changed from default, don't show it at all.
+            continue
+        else:
+          value = self.options[option_name]
+        option_strings.append("%s: %s" % (option_name, value))
     header += ", ".join(option_strings)
     header += "\n\n\n"
     
