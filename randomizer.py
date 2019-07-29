@@ -20,7 +20,11 @@ from logic.logic import Logic
 from paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH
 import customizer
 from wwlib import stage_searcher
-from keys import seed_key
+
+try:
+  from keys.seed_key import SEED_KEY
+except ImportError:
+  SEED_KEY = ""
 
 from randomizers import items
 from randomizers import charts
@@ -91,7 +95,7 @@ class Randomizer:
 
     seed_string = self.seed
     if not self.options.get("generate_spoiler_log"):
-      seed_string += seed_key.SEED_KEY
+      seed_string += SEED_KEY
 
     self.integer_seed = self.convert_string_to_integer_md5(seed_string)
     self.rng = self.get_new_rng()
