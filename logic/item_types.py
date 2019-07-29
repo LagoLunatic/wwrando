@@ -75,7 +75,7 @@ NONPROGRESS_ITEMS = [
   "Progressive Bomb Bag",
   "Progressive Quiver",
   "Progressive Quiver",
-
+  
   "Submarine Chart",
   "Beedle's Chart",
   "Platform Chart",

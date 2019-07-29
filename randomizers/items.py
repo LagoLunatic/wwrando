@@ -289,7 +289,7 @@ def randomize_progression_items(self):
         self.logic.set_location_to_item(predetermined_item_location_name, predetermined_item_name)
       
       continue # Redo this loop iteration with the predetermined item locations no longer being considered 'remaining'.
-
+    
     for location in accessible_undone_locations:
       if location not in location_weights:
         location_weights[location] = current_weight

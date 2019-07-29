@@ -92,11 +92,11 @@ class Randomizer:
       if args is not None:
         stage, room, spawn = args.split(",")
         self.test_room_args = {"stage": stage, "room": int(room), "spawn": int(spawn)}
-
+    
     seed_string = self.seed
     if not self.options.get("generate_spoiler_log"):
       seed_string += SEED_KEY
-
+    
     self.integer_seed = self.convert_string_to_integer_md5(seed_string)
     self.rng = self.get_new_rng()
     
@@ -144,7 +144,7 @@ class Randomizer:
       "Boat's Sail",
     ]
     self.starting_items += self.options.get("starting_gear", [])
-
+    
     if self.options.get("sword_mode") == "Start with Sword":
       self.starting_items.append("Progressive Sword")
     # Add starting Triforce Shards.
