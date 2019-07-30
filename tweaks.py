@@ -1051,23 +1051,24 @@ def update_randomly_chosen_hints(self):
     is_savage = "Savage Labyrinth" in self.logic.item_locations[location_name]["Types"]
     if zone_name in self.dungeon_and_cave_island_locations and (is_dungeon or is_puzzle_cave or is_combat_cave or is_savage):
       # If the location is in a dungeon or cave, use the hint for whatever island the dungeon/cave is located on.
-      zone_name = self.dungeon_and_cave_island_locations[zone_name]
-      island_hint_name = self.island_name_hints[zone_name]
+      island_name = self.dungeon_and_cave_island_locations[zone_name]
+      island_hint_name = self.island_name_hints[island_name]
     elif zone_name in self.island_name_hints:
-      island_hint_name = self.island_name_hints[zone_name]
+      island_name = zone_name
+      island_hint_name = self.island_name_hints[island_name]
     elif zone_name in self.logic.DUNGEON_NAMES.values():
       continue
     else:
       continue
     
-    if (item_name, zone_name) in unique_items_given_hint_for: # Don't give hint for same type of item in same zone
+    if (item_name, island_name) in unique_items_given_hint_for: # Don't give hint for same type of item in same zone
       continue
-
+    
     item_hint_name = self.progress_item_hints[item_name]
     
     hints.append((item_hint_name, island_hint_name))
     
-    unique_items_given_hint_for.append((item_name, zone_name))
+    unique_items_given_hint_for.append((item_name, island_name))
     
   update_big_octo_great_fairy_item_name_hint(self, hints[0])
   update_fishmen_hints(self, hints[1:])
@@ -1085,9 +1086,8 @@ def get_hint_item_name(item_name):
 
 def update_fishmen_hints(self, hints):
   islands = list(range(1, 49+1))
-  num_hints = len(hints)
   for fishman_hint_number in range(len(islands)):
-    item_hint_name, island_hint_name = hints[fishman_hint_number % num_hints]
+    item_hint_name, island_hint_name = hints[fishman_hint_number % len(hints)]
     
     fishman_island_number = self.rng.choice(islands)
     islands.remove(fishman_island_number)
