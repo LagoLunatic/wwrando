@@ -1038,9 +1038,6 @@ def update_randomly_chosen_hints(self):
       continue
     
     item_name = get_hint_item_name(item_name)
-    if item_name in unique_items_given_hint_for:
-      # Don't give hints for 2 instances of the same item (e.g. empty bottle, progressive bow, etc).
-      continue
     if item_name == "Bait Bag":
       # Can't access fishmen hints until you already have the bait bag
       continue
@@ -1054,8 +1051,8 @@ def update_randomly_chosen_hints(self):
     is_savage = "Savage Labyrinth" in self.logic.item_locations[location_name]["Types"]
     if zone_name in self.dungeon_and_cave_island_locations and (is_dungeon or is_puzzle_cave or is_combat_cave or is_savage):
       # If the location is in a dungeon or cave, use the hint for whatever island the dungeon/cave is located on.
-      island_name = self.dungeon_and_cave_island_locations[zone_name]
-      island_hint_name = self.island_name_hints[island_name]
+      zone_name = self.dungeon_and_cave_island_locations[zone_name]
+      island_hint_name = self.island_name_hints[zone_name]
     elif zone_name in self.island_name_hints:
       island_hint_name = self.island_name_hints[zone_name]
     elif zone_name in self.logic.DUNGEON_NAMES.values():
@@ -1063,12 +1060,15 @@ def update_randomly_chosen_hints(self):
     else:
       continue
     
+    if (item_name, zone_name) in unique_items_given_hint_for: # Don't give hint for same type of item in same zone
+      continue
+
     item_hint_name = self.progress_item_hints[item_name]
     
     hints.append((item_hint_name, island_hint_name))
     
-    unique_items_given_hint_for.append(item_name)
-  
+    unique_items_given_hint_for.append((item_name, zone_name))
+    
   update_big_octo_great_fairy_item_name_hint(self, hints[0])
   update_fishmen_hints(self, hints[1:])
 
@@ -1084,8 +1084,13 @@ def get_hint_item_name(item_name):
   return item_name
 
 def update_fishmen_hints(self, hints):
-  for fishman_island_number in range(1, 49+1):
-    item_hint_name, island_hint_name = self.rng.choice(hints)
+  islands = list(range(1, 49+1))
+  num_hints = len(hints)
+  for fishman_hint_number in range(len(islands)):
+    item_hint_name, island_hint_name = hints[fishman_hint_number % num_hints]
+    
+    fishman_island_number = self.rng.choice(islands)
+    islands.remove(fishman_island_number)
     
     hint_lines = []
     hint_lines.append(
