@@ -238,16 +238,23 @@ def add_symbols_to_main(asm_path, main_symbols):
           line_after_offset = match.group(2)
           line = "%08X%s" % (address, line_after_offset)
       
-      match = re.search(r"\s(bl|b|beq|bne|blt|bgt|ble|bge)\s+0x([0-9a-f]+)", line, re.IGNORECASE)
+      match = re.search(r"^(.+ \t(?:bl|b|beq|bne|blt|bgt|ble|bge)\s+0x)([0-9a-f]+)$", line, re.IGNORECASE)
       #print(match)
-      out_str += line
       if match:
+        line_before_offset = match.group(1)
         offset = int(match.group(2), 16)
         address = offset_to_address(offset)
-        if address is not None and address in main_symbols:
-          symbol_name = main_symbols[address]
-          #print(symbol_name)
-          out_str += "      ; %08X    %s" % (address, symbol_name)
+        if address is not None:
+          line = "%s%08X" % (line_before_offset, address)
+          out_str += line
+          if address in main_symbols:
+            symbol_name = main_symbols[address]
+            #print(symbol_name)
+            out_str += "      ; %08X    %s" % (address, symbol_name)
+        else:
+          out_str += line
+      else:
+        out_str += line
       out_str += "\n"
       if line.endswith("blr"):
         out_str += "\n" # Separate functions
