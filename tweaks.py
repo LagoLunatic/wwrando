@@ -14,6 +14,11 @@ from wwlib.rarc import RARC
 from paths import ASSETS_PATH, ASM_PATH, SEEDGEN_PATH
 import customizer
 
+try:
+  from keys.seed_key import SEED_KEY
+except ImportError:
+  SEED_KEY = ""
+
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
 ORIGINAL_DOL_SIZE = 0x3A52C0
 
@@ -1567,7 +1572,11 @@ def show_seed_hash_on_name_entry_screen(self):
   if not self.permalink:
     return
   
-  integer_seed = self.convert_string_to_integer_md5(self.permalink)
+  if self.options.get("generate_spoiler_log"):
+    integer_seed = self.convert_string_to_integer_md5(self.permalink)
+  else:
+    # When no spoiler log is generated, the seed key also affects randomization, not just the data in the permalink.
+    integer_seed = self.convert_string_to_integer_md5(self.permalink + SEED_KEY)
   temp_rng = Random()
   temp_rng.seed(integer_seed)
   
