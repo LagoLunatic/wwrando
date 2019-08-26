@@ -58,7 +58,8 @@ stb r4, 7 (r3) ; Max bombs
 ; Start the player with a magic meter so items that use it work correctly.
 lis r3, 0x803C4C1B@ha
 addi r3, r3, 0x803C4C1B@l
-li r4, 16 ; 16 is the normal starting size of the magic meter.
+lis r4, starting_magic@ha 
+addi r4, r4, starting_magic@l; 16 is the normal starting size of the magic meter.
 stb r4, 0 (r3) ; Max magic meter
 stb r4, 1 (r3) ; Current magic meter
 
@@ -354,6 +355,9 @@ sword_mode:
 .global skip_rematch_bosses
 skip_rematch_bosses:
 .byte 1 ; By default skip them
+.global starting_magic
+starting_magic:
+.byte 16 ; By default start with 16 units of magic (small magic meter)
 .global starting_gear
 starting_gear:
 .space 47, 0xFF ; Allocate space for up to 47 additional items (when changing this also update the constant in tweaks.py)

@@ -3,6 +3,9 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
+# Created: Sun Aug 25 21:55:32 2019
+#      by: pyside2-uic  running on PySide2 5.11.2
+#
 # WARNING! All changes made in this file will be lost!
 
 from PySide2 import QtCore, QtGui, QtWidgets
@@ -365,6 +368,9 @@ class Ui_MainWindow(object):
         self.starting_hcs.setMaximum(6)
         self.starting_hcs.setDisplayIntegerBase(10)
         self.starting_hcs.setObjectName("starting_hcs")
+        self.start_double_magic = QtWidgets.QCheckBox(self.tab_4)
+        self.start_double_magic.setGeometry(QtCore.QRect(30, 160, 91, 17))
+        self.start_double_magic.setObjectName("start_double_magic")
         self.tabWidget.addTab(self.tab_4, "")
         self.verticalLayout_4.addWidget(self.tabWidget)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents_3)
@@ -489,6 +495,7 @@ class Ui_MainWindow(object):
         self.label_5.setText(QtWidgets.QApplication.translate("MainWindow", "Heart Pieces", None, -1))
         self.current_health.setText(QtWidgets.QApplication.translate("MainWindow", "Current Starting Health: 3 hearts", None, -1))
         self.label_6.setText(QtWidgets.QApplication.translate("MainWindow", "Heart Containers", None, -1))
+        self.start_double_magic.setText(QtWidgets.QApplication.translate("MainWindow", "Double Magic", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), QtWidgets.QApplication.translate("MainWindow", "Page", None, -1))
         self.label_4.setText(QtWidgets.QApplication.translate("MainWindow", "Permalink (copy paste to share your settings):", None, -1))
         self.update_checker_label.setText(QtWidgets.QApplication.translate("MainWindow", "Checking for updates to the randomizer...", None, -1))
