@@ -59,7 +59,8 @@ stb r4, 7 (r3) ; Max bombs
 lis r3, 0x803C4C1B@ha
 addi r3, r3, 0x803C4C1B@l
 lis r4, starting_magic@ha 
-addi r4, r4, starting_magic@l; 16 is the normal starting size of the magic meter.
+addi r4, r4, starting_magic@l
+lbz r4, 0 (r4) ; Load starting magic address into r4, then load byte at address into r4
 stb r4, 0 (r3) ; Max magic meter
 stb r4, 1 (r3) ; Current magic meter
 
