@@ -290,7 +290,7 @@ def get_model_preview_image(custom_model_name, prefix, selected_colors):
     mask_path = custom_model_metadata["preview_" + prefix + "_color_mask_paths"][custom_color_basename]
     check_valid_mask_path(mask_path)
     
-    preview_image = texture_utils.color_exchange(preview_image, base_color, custom_color, mask_path=mask_path)
+    preview_image = texture_utils.color_exchange(preview_image, base_color, custom_color, mask_path=mask_path, validate_mask_colors=False)
   
   return preview_image
 
@@ -305,6 +305,19 @@ def check_valid_mask_path(mask_path):
   
   if given_filename != true_filename:
     raise Exception("Color mask path's actual capitalization differs from the capitalization given in metadata.txt.\nGiven: %s, actual: %s" % (given_filename, true_filename))
+
+def get_default_colors(self):
+  custom_model_metadata = get_model_metadata(self.custom_model_name)
+  disable_casual_clothes = custom_model_metadata.get("disable_casual_clothes", False)
+  
+  if self.options.get("player_in_casual_clothes") and not disable_casual_clothes:
+    prefix = "casual"
+  else:
+    prefix = "hero"
+  
+  custom_colors = custom_model_metadata.get(prefix + "_custom_colors", {})
+  
+  return custom_colors
 
 class YamlOrderedDictLoader(yaml.SafeLoader):
   pass

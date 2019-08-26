@@ -21,6 +21,11 @@ from paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH
 import customizer
 from wwlib import stage_searcher
 
+try:
+  from keys.seed_key import SEED_KEY
+except ImportError:
+  SEED_KEY = ""
+
 from randomizers import items
 from randomizers import charts
 from randomizers import starting_island
@@ -87,8 +92,12 @@ class Randomizer:
       if args is not None:
         stage, room, spawn = args.split(",")
         self.test_room_args = {"stage": stage, "room": int(room), "spawn": int(spawn)}
-
-    self.integer_seed = self.convert_string_to_integer_md5(self.seed)
+    
+    seed_string = self.seed
+    if not self.options.get("generate_spoiler_log"):
+      seed_string += SEED_KEY
+    
+    self.integer_seed = self.convert_string_to_integer_md5(seed_string)
     self.rng = self.get_new_rng()
     
     self.arcs_by_path = {}
@@ -135,7 +144,7 @@ class Randomizer:
       "Boat's Sail",
     ]
     self.starting_items += self.options.get("starting_gear", [])
-
+    
     if self.options.get("sword_mode") == "Start with Sword":
       self.starting_items.append("Progressive Sword")
     # Add starting Triforce Shards.
@@ -265,7 +274,10 @@ class Randomizer:
       (49, "Treasure Chart 33"),
     ])
     
-    # This list will hold the randomly selected dungeons that are required in race mode.
+    # This list will hold the randomly selected dungeon boss locations that are required in race mode.
+    # If race mode is not on, this list will remain empty.
+    self.race_mode_required_locations = []
+    # This list will hold the dungeon names of the race mode required locations.
     # If race mode is not on, this list will remain empty.
     self.race_mode_required_dungeons = []
     # This list will hold all item location names that should not have any items in them in race mode.
@@ -333,6 +345,8 @@ class Randomizer:
       if self.options.get("randomize_entrances") not in ["Disabled", None, "Dungeons"]:
         tweaks.disable_ice_ring_isle_and_fire_mountain_effects_indoors(self)
       tweaks.update_starting_gear(self)
+      if self.options.get("disable_tingle_chests_with_tingle_bombs"):
+        tweaks.apply_patch(self, "disable_tingle_bombs_on_tingle_chests")
       
       if self.test_room_args is not None:
         tweaks.test_room(self)
@@ -730,13 +744,29 @@ class Randomizer:
     header += "Seed: %s\n" % self.seed
     
     header += "Options selected:\n  "
-    non_disabled_options = [name for name in self.options if self.options[name] != False]
+    non_disabled_options = [
+      name for name in self.options
+      if self.options[name] not in [False, [], {}, OrderedDict()]
+      and name != "randomized_gear" # Just takes up space
+    ]
     option_strings = []
     for option_name in non_disabled_options:
       if isinstance(self.options[option_name], bool):
         option_strings.append(option_name)
       else:
-        option_strings.append("%s: %s" % (option_name, self.options[option_name]))
+        if option_name == "custom_colors":
+          # Only show non-default colors.
+          default_colors = customizer.get_default_colors(self)
+          value = OrderedDict()
+          for custom_color_name, custom_color_value in self.options[option_name].items():
+            if custom_color_value != default_colors[custom_color_name]:
+              value[custom_color_name] = custom_color_value
+          if value == OrderedDict():
+            # No colors changed from default, don't show it at all.
+            continue
+        else:
+          value = self.options[option_name]
+        option_strings.append("%s: %s" % (option_name, value))
     header += ", ".join(option_strings)
     header += "\n\n\n"
     

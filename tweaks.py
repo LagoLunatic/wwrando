@@ -14,6 +14,11 @@ from wwlib.rarc import RARC
 from paths import ASSETS_PATH, ASM_PATH, SEEDGEN_PATH
 import customizer
 
+try:
+  from keys.seed_key import SEED_KEY
+except ImportError:
+  SEED_KEY = ""
+
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
 ORIGINAL_DOL_SIZE = 0x3A52C0
 
@@ -81,6 +86,20 @@ def address_to_offset(address):
       return offset
   
   raise Exception("Unknown address: %08X" % address)
+
+def offset_to_address(offset):
+  # Takes an offset in main.dol and converts it to a RAM address, assuming it is part of main.dol that gets loaded into RAM.
+  for section_index in range(len(DOL_SECTION_OFFSETS)):
+    section_offset = DOL_SECTION_OFFSETS[section_index]
+    section_address = DOL_SECTION_ADDRESSES[section_index]
+    section_size = DOL_SECTION_SIZES[section_index]
+    
+    if section_offset <= offset < section_offset+section_size:
+      address = offset - section_offset + section_address
+      return address
+  
+  # Return None when the offset is not inside of any section.
+  return None
 
 def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
   high_halfword = (pointer & 0xFFFF0000) >> 16
@@ -1013,6 +1032,9 @@ def update_randomly_chosen_hints(self):
         raise Exception("No valid items to give hints for")
     
     location_name = possible_item_locations.pop()
+    if location_name in self.race_mode_required_locations:
+      # You already know which boss locations have a required item and which don't in race mode by looking at the sea chart.
+      continue
     
     item_name = self.logic.done_item_locations[location_name]
     if item_name not in self.logic.all_progress_items:
@@ -1021,9 +1043,6 @@ def update_randomly_chosen_hints(self):
       continue
     
     item_name = get_hint_item_name(item_name)
-    if item_name in unique_items_given_hint_for:
-      # Don't give hints for 2 instances of the same item (e.g. empty bottle, progressive bow, etc).
-      continue
     if item_name == "Bait Bag":
       # Can't access fishmen hints until you already have the bait bag
       continue
@@ -1040,18 +1059,22 @@ def update_randomly_chosen_hints(self):
       island_name = self.dungeon_and_cave_island_locations[zone_name]
       island_hint_name = self.island_name_hints[island_name]
     elif zone_name in self.island_name_hints:
-      island_hint_name = self.island_name_hints[zone_name]
+      island_name = zone_name
+      island_hint_name = self.island_name_hints[island_name]
     elif zone_name in self.logic.DUNGEON_NAMES.values():
       continue
     else:
+      continue
+    
+    if (item_name, island_name) in unique_items_given_hint_for: # Don't give hint for same type of item in same zone
       continue
     
     item_hint_name = self.progress_item_hints[item_name]
     
     hints.append((item_hint_name, island_hint_name))
     
-    unique_items_given_hint_for.append(item_name)
-  
+    unique_items_given_hint_for.append((item_name, island_name))
+    
   update_big_octo_great_fairy_item_name_hint(self, hints[0])
   update_fishmen_hints(self, hints[1:])
 
@@ -1067,8 +1090,12 @@ def get_hint_item_name(item_name):
   return item_name
 
 def update_fishmen_hints(self, hints):
-  for fishman_island_number in range(1, 49+1):
-    item_hint_name, island_hint_name = self.rng.choice(hints)
+  islands = list(range(1, 49+1))
+  for fishman_hint_number in range(len(islands)):
+    item_hint_name, island_hint_name = hints[fishman_hint_number % len(hints)]
+    
+    fishman_island_number = self.rng.choice(islands)
+    islands.remove(fishman_island_number)
     
     hint_lines = []
     hint_lines.append(
@@ -1555,7 +1582,11 @@ def show_seed_hash_on_name_entry_screen(self):
   if not self.permalink:
     return
   
-  integer_seed = self.convert_string_to_integer_md5(self.permalink)
+  if self.options.get("generate_spoiler_log"):
+    integer_seed = self.convert_string_to_integer_md5(self.permalink)
+  else:
+    # When no spoiler log is generated, the seed key also affects randomization, not just the data in the permalink.
+    integer_seed = self.convert_string_to_integer_md5(self.permalink + SEED_KEY)
   temp_rng = Random()
   temp_rng.seed(integer_seed)
   

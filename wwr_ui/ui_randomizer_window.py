@@ -3,9 +3,6 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Tue May 28 02:40:42 2019
-#      by: pyside2-uic  running on PySide2 5.12.0
-#
 # WARNING! All changes made in this file will be lost!
 
 from PySide2 import QtCore, QtGui, QtWidgets
@@ -13,7 +10,7 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(872, 784)
+        MainWindow.resize(872, 670)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -23,7 +20,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 854, 650))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 854, 536))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
@@ -246,6 +243,9 @@ class Ui_MainWindow(object):
         self.skip_rematch_bosses.setChecked(True)
         self.skip_rematch_bosses.setObjectName("skip_rematch_bosses")
         self.gridLayout_4.addWidget(self.skip_rematch_bosses, 1, 0, 1, 1)
+        self.disable_tingle_chests_with_tingle_bombs = QtWidgets.QCheckBox(self.groupBox_2)
+        self.disable_tingle_chests_with_tingle_bombs.setObjectName("disable_tingle_chests_with_tingle_bombs")
+        self.gridLayout_4.addWidget(self.disable_tingle_chests_with_tingle_bombs, 2, 1, 1, 1)
         self.verticalLayout_2.addWidget(self.groupBox_2)
         self.tabWidget.addTab(self.tab, "")
         self.tab_3 = QtWidgets.QWidget()
@@ -475,6 +475,7 @@ class Ui_MainWindow(object):
         self.add_shortcut_warps_between_dungeons.setText(QtWidgets.QApplication.translate("MainWindow", "Add Shortcut Warps Between Dungeons", None, -1))
         self.reveal_full_sea_chart.setText(QtWidgets.QApplication.translate("MainWindow", "Reveal Full Sea Chart", None, -1))
         self.skip_rematch_bosses.setText(QtWidgets.QApplication.translate("MainWindow", "Skip Boss Rematches", None, -1))
+        self.disable_tingle_chests_with_tingle_bombs.setText(QtWidgets.QApplication.translate("MainWindow", "Tingle Chests Require Non-Tingle Bombs", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtWidgets.QApplication.translate("MainWindow", "Randomizer Settings", None, -1))
         self.label_for_randomized_gear.setText(QtWidgets.QApplication.translate("MainWindow", "Randomized Gear", None, -1))
         self.remove_gear.setText(QtWidgets.QApplication.translate("MainWindow", "<-", None, -1))

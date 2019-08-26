@@ -26,7 +26,7 @@ except ImportError:
   from yaml import Dumper
 
 from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError, InvalidCleanISOError
-from paths import ASSETS_PATH, SEEDGEN_PATH
+from paths import ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE
 import customizer
 from logic.logic import Logic
 
@@ -50,15 +50,15 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.add_gear.clicked.connect(self.add_to_starting_gear)
     self.randomized_gear_model = QStringListModel()
     self.randomized_gear_model.setStringList(INVENTORY_ITEMS.copy())
-
+    
     self.filtered_rgear = ModelFilterOut()
     self.filtered_rgear.setSourceModel(self.randomized_gear_model)
-
+    
     self.ui.randomized_gear.setModel(self.filtered_rgear)
     self.ui.remove_gear.clicked.connect(self.remove_from_starting_gear)
     self.starting_gear_model = QStringListModel()
     self.ui.starting_gear.setModel(self.starting_gear_model)
-
+    
     self.preserve_default_settings()
     
     self.cached_item_locations = Logic.load_and_parse_item_locations()
@@ -103,7 +103,7 @@ class WWRandomizerWindow(QMainWindow):
       if label_for_option:
         label_for_option.installEventFilter(self)
     self.set_option_description(None)
-
+    
     self.update_settings()
     
     self.setWindowTitle("Wind Waker Randomizer %s" % VERSION)
@@ -116,10 +116,14 @@ class WWRandomizerWindow(QMainWindow):
     
     self.show()
     
-    self.update_checker_thread = UpdateCheckerThread()
-    self.update_checker_thread.finished_checking_for_updates.connect(self.show_update_check_results)
-    self.update_checker_thread.start()
 
+    if not IS_RUNNING_FROM_SOURCE:
+      self.update_checker_thread = UpdateCheckerThread()
+      self.update_checker_thread.finished_checking_for_updates.connect(self.show_update_check_results)
+      self.update_checker_thread.start()
+    else:
+      self.ui.update_checker_label.setText("(Running from source, skipping release update check.)")
+  
   def generate_seed(self):
     random.seed(None)
     
@@ -154,7 +158,7 @@ class WWRandomizerWindow(QMainWindow):
     seed = "".join(char for char in seed if char in self.VALID_SEED_CHARACTERS)
     seed = seed[:self.MAX_SEED_LENGTH]
     return seed
-
+  
   def append_row(self, model, value):
     model.insertRow(model.rowCount())
     newrow = model.index(model.rowCount() - 1, 0)
@@ -168,12 +172,12 @@ class WWRandomizerWindow(QMainWindow):
       value = item.data()
       source.model().removeRow(item.row())
       self.append_row(dest.model(), value)
-
+  
   def add_to_starting_gear(self):
     self.move_selected_rows(self.ui.randomized_gear, self.ui.starting_gear)
     self.ui.starting_gear.model().sort(0)
     self.update_settings()
-
+  
   def remove_from_starting_gear(self):
     self.move_selected_rows(self.ui.starting_gear, self.ui.randomized_gear)
     self.ui.randomized_gear.model().sourceModel().sort(0)
@@ -431,7 +435,7 @@ class WWRandomizerWindow(QMainWindow):
     permalink += b"\0"
     permalink += seed.encode("ascii")
     permalink += b"\0"
-
+    
     bitswriter = PackedBitsWriter()
     for option_name in OPTIONS:
       if option_name in NON_PERMALINK_OPTIONS:
@@ -461,7 +465,7 @@ class WWRandomizerWindow(QMainWindow):
           # No Progressive Sword and there's no more than
           # 3 of any other Progressive item so two bits per item
           bitswriter.write(value.count(item), 2)
-
+    
     bitswriter.flush()
     
     for byte in bitswriter.bytes:
@@ -489,7 +493,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.seed.setText(seed)
     
     option_bytes = struct.unpack(">" + "B"*len(options_bytes), options_bytes)
-
+    
     bitsreader = PackedBitsReader(option_bytes)
     for option_name in OPTIONS:
       if option_name in NON_PERMALINK_OPTIONS:
@@ -529,7 +533,7 @@ class WWRandomizerWindow(QMainWindow):
             self.append_row(self.starting_gear_model, item)
           for i in range(randamount):
             self.append_row(self.randomized_gear_model, item)
-
+    
     self.update_settings()
   
   def browse_for_clean_iso(self):
@@ -783,7 +787,7 @@ class WWRandomizerWindow(QMainWindow):
     if not self.get_option_value("progression_dungeons"):
       # Race mode places required items on dungeon bosses.
       should_enable_options["race_mode"] = False
-
+    
     sword_mode = self.get_option_value("sword_mode")
     if sword_mode == "Swordless":
       items_to_filter_out += ["Hurricane Spin"]
@@ -793,40 +797,40 @@ class WWRandomizerWindow(QMainWindow):
     if self.get_option_value("race_mode"):
       num_possible_rewards = 8 - int(self.get_option_value("num_starting_triforce_shards"))
       potential_boss_rewards = []
-
+      
       if sword_mode == "Start with Sword":
         potential_boss_rewards += 3 * ["Progressive Sword"]
       elif sword_mode == "Randomized Sword":
         num_possible_rewards += 4
-
+      
       potential_boss_rewards += 3 * ["Progressive Bow"] + ["Hookshot"]
       while num_possible_rewards < 4:
         cur_reward = potential_boss_rewards.pop(0)
         items_to_filter_out += [cur_reward]
         num_possible_rewards += 1
-
+    
     self.filtered_rgear.setFilterStrings(items_to_filter_out)
-
+    
     starting_gear = self.get_option_value("starting_gear")
     randomized_gear = self.get_option_value("randomized_gear")
-
+    
     for item in items_to_filter_out:
       if item in randomized_gear:
         randomized_gear.remove(item)
       elif item in starting_gear:
         starting_gear.remove(item)
     randomized_gear += items_to_filter_out
-
+    
     self.set_option_value("starting_gear", starting_gear)
     self.set_option_value("randomized_gear", randomized_gear)
-
+    
     compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
     all_gear = self.get_option_value("starting_gear") + self.get_option_value("randomized_gear");
-
+    
     if not compare(all_gear, INVENTORY_ITEMS):
       for opt in ["randomized_gear", "starting_gear"]:
         self.set_option_value(opt, self.default_settings[opt])
-
+    
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
       if should_enable_options[option_name]:
@@ -975,26 +979,27 @@ class WWRandomizerWindow(QMainWindow):
     self.about_dialog.setText(text)
     self.about_dialog.setWindowIcon(self.windowIcon())
     self.about_dialog.show()
-
+  
   def keyPressEvent(self, event):
     if event.key() == Qt.Key_Escape:
       self.close()
   
   def closeEvent(self, event):
-    # Need to wait for the update checker before exiting, or the program will crash when closing.
-    self.update_checker_thread.quit()
-    self.update_checker_thread.wait()
+    if not IS_RUNNING_FROM_SOURCE:
+      # Need to wait for the update checker before exiting, or the program will crash when closing.
+      self.update_checker_thread.quit()
+      self.update_checker_thread.wait()
     event.accept()
 
 class ModelFilterOut(QSortFilterProxyModel):
   def __init__(self):
     super(ModelFilterOut, self).__init__()
     self.filter_strings = []
-
+  
   def setFilterStrings(self, fstr):
     self.filter_strings = fstr
     self.invalidateFilter()
-
+  
   def filterAcceptsRow(self, sourceRow, sourceParent):
     index0 = self.sourceModel().index(sourceRow, 0, sourceParent)
     data = self.sourceModel().data(index0)

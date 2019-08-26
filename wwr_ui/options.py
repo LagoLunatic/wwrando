@@ -149,6 +149,10 @@ OPTIONS = OrderedDict([
     "randomize_bgm",
     "Shuffles around all the background music in the game to play at random locations.",
   ),
+  (
+    "disable_tingle_chests_with_tingle_bombs",
+    "This prevents the Tingle Tuner's bombs from revealing Tingle Chests, meaning the only way to access these chests is to find the normal bombs item.",
+  ),
   
   (
     "custom_player_model",
