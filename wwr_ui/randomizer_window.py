@@ -188,16 +188,14 @@ class WWRandomizerWindow(QMainWindow):
     hcs = self.ui.starting_hcs.value() * 4
 
     health = hcs + pohs + 12
-    hearts = health // 4
-    pieces = health % 4
 
-    text = "Current Starting Health: %d hearts" % (health // 4)
+    text = "Current Starting Health: %d hearts" % (health // 4) # full hearts
 
     if pieces != 0:
       if pieces == 1: # grammar check
         text += " and 1 piece" 
       else:
-        text += " and %d pieces" % pieces
+        text += " and %d pieces" % (health % 4) # pieces
 
     self.ui.current_health.setText(text)
 
