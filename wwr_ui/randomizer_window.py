@@ -188,6 +188,7 @@ class WWRandomizerWindow(QMainWindow):
     hcs = self.ui.starting_hcs.value() * 4
 
     health = hcs + pohs + 12
+    pieces = health % 4
 
     text = "Current Starting Health: %d hearts" % (health // 4) # full hearts
 
@@ -195,7 +196,7 @@ class WWRandomizerWindow(QMainWindow):
       if pieces == 1: # grammar check
         text += " and 1 piece" 
       else:
-        text += " and %d pieces" % (health % 4) # pieces
+        text += " and %d pieces" % pieces
 
     self.ui.current_health.setText(text)
 
@@ -449,9 +450,10 @@ class WWRandomizerWindow(QMainWindow):
         assert 0 <= value <= 255
         bitswriter.write(value, 8)
       elif isinstance(widget, QSpinBox):
-        value = widget.value()
-        assert 0 <= value <= 255
-        bitswriter.write(value, 8)
+        box_length = (widget.maximum() - widget.minimum() + 1).bit_length()
+        value = widget.value() - widget.minimum()
+        assert 0 <= value < (2 ** box_length)
+        bitswriter.write(value, box_length)
       elif widget == self.ui.starting_gear:
         # randomized_gear is a complement of starting_gear
         for i in range(len(REGULAR_ITEMS)):
@@ -508,10 +510,11 @@ class WWRandomizerWindow(QMainWindow):
         value = widget.itemText(index)
         self.set_option_value(option_name, value)
       elif isinstance(widget, QSpinBox):
-        index = bitsreader.read(8)
-        if index > widget.maximum() or index < widget.minimum():
-          index = 0
-        self.set_option_value(option_name, index)
+        box_length = (widget.maximum() - widget.minimum() + 1).bit_length() # make sure to account for the 0 item in the range
+        value = bitsreader.read(box_length) + widget.minimum()
+        if value > widget.maximum() or value < widget.minimum():
+          value = self.default_settings[option_name]
+        self.set_option_value(option_name, value)
       elif widget == self.ui.starting_gear:
         # Reset model with only the regular items
         self.randomized_gear_model.setStringList(REGULAR_ITEMS.copy())
@@ -614,7 +617,7 @@ class WWRandomizerWindow(QMainWindow):
     elif isinstance(widget, QSpinBox):
       if new_value < widget.minimum() or new_value > widget.maximum():
         print("Value %s out of range for spinbox %s" % (new_value, option_name))
-        new_value = 0
+        new_value = self.default_settings[option_name] # reset to default in case 0 is not default or in normal range
 
       widget.setValue(new_value)
     elif isinstance(widget, QListView):
