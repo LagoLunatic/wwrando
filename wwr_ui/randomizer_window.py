@@ -450,7 +450,7 @@ class WWRandomizerWindow(QMainWindow):
         assert 0 <= value <= 255
         bitswriter.write(value, 8)
       elif isinstance(widget, QSpinBox):
-        box_length = (widget.maximum() - widget.minimum() + 1).bit_length()
+        box_length = (widget.maximum() - widget.minimum()).bit_length()
         value = widget.value() - widget.minimum()
         assert 0 <= value < (2 ** box_length)
         bitswriter.write(value, box_length)
@@ -510,7 +510,7 @@ class WWRandomizerWindow(QMainWindow):
         value = widget.itemText(index)
         self.set_option_value(option_name, value)
       elif isinstance(widget, QSpinBox):
-        box_length = (widget.maximum() - widget.minimum() + 1).bit_length() # make sure to account for the 0 item in the range
+        box_length = (widget.maximum() - widget.minimum()).bit_length()
         value = bitsreader.read(box_length) + widget.minimum()
         if value > widget.maximum() or value < widget.minimum():
           value = self.default_settings[option_name]
