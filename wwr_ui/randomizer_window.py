@@ -65,7 +65,7 @@ class WWRandomizerWindow(QMainWindow):
     
     self.ui.starting_pohs.valueChanged.connect(self.update_health_label)
     self.ui.starting_hcs.valueChanged.connect(self.update_health_label)
-
+    
     self.load_settings()
     
     self.ui.clean_iso_path.editingFinished.connect(self.update_settings)
@@ -77,7 +77,7 @@ class WWRandomizerWindow(QMainWindow):
     
     self.ui.custom_player_model.currentIndexChanged.connect(self.custom_model_changed)
     self.ui.player_in_casual_clothes.clicked.connect(self.custom_model_changed)
-
+    
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
       if isinstance(widget, QAbstractButton):
@@ -116,7 +116,6 @@ class WWRandomizerWindow(QMainWindow):
     
     self.show()
     
-
     if not IS_RUNNING_FROM_SOURCE:
       self.update_checker_thread = UpdateCheckerThread()
       self.update_checker_thread.finished_checking_for_updates.connect(self.show_update_check_results)
@@ -182,24 +181,24 @@ class WWRandomizerWindow(QMainWindow):
     self.move_selected_rows(self.ui.starting_gear, self.ui.randomized_gear)
     self.ui.randomized_gear.model().sourceModel().sort(0)
     self.update_settings()
-
+  
   def update_health_label(self):
     pohs = self.ui.starting_pohs.value()
     hcs = self.ui.starting_hcs.value() * 4
-
+    
     health = hcs + pohs + 12
     pieces = health % 4
-
+    
     text = "Current Starting Health: %d hearts" % (health // 4) # full hearts
-
+    
     if pieces != 0:
       if pieces == 1: # grammar check
         text += " and 1 piece" 
       else:
         text += " and %d pieces" % pieces
-
+    
     self.ui.current_health.setText(text)
-
+  
   def randomize(self):
     clean_iso_path = self.settings["clean_iso_path"].strip()
     output_folder = self.settings["output_folder"].strip()
