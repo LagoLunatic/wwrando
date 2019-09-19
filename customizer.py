@@ -95,7 +95,7 @@ def get_all_custom_model_names():
     custom_model_names.append(folder_name)
   return custom_model_names
 
-def replace_link_model(self):
+def decide_on_link_model(self):
   custom_model_name = self.options.get("custom_player_model", "Link")
   if custom_model_name == "Link":
     return
@@ -114,10 +114,11 @@ def replace_link_model(self):
     if custom_model_name == None:
       return
   
-  # Remember what custom model was chosen so other code can access the metadata for the proper model.
+  # Remember what custom model was chosen so code in various places can access the metadata for the proper model.
   self.custom_model_name = custom_model_name
-  
-  custom_model_path = "./models/%s/" % custom_model_name
+
+def replace_link_model(self):
+  custom_model_path = "./models/%s/" % self.custom_model_name
   
   custom_link_arc_path = custom_model_path + "Link.arc"
   if not os.path.isfile(custom_link_arc_path):

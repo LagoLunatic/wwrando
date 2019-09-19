@@ -316,6 +316,8 @@ class Randomizer:
     options_completed = 0
     yield("Modifying game code...", options_completed)
     
+    customizer.decide_on_link_model(self)
+    
     if not self.dry_run:
       self.apply_necessary_tweaks()
       
