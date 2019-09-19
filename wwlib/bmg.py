@@ -233,9 +233,9 @@ class Message:
         self.string += "\\{%02X %02X" % (byte, control_code_size)
         
         for i in range(control_code_size-2):
-          contrl_code_data_byte = read_u8(string_pool_data, byte_offset)
+          control_code_data_byte = read_u8(string_pool_data, byte_offset)
           byte_offset += 1
-          self.string += " %02X" % contrl_code_data_byte
+          self.string += " %02X" % control_code_data_byte
         self.string += "}"
       else:
         # Normal character.
