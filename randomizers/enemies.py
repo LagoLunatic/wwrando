@@ -1,6 +1,8 @@
 
 import copy
 
+from wwlib import stage_searcher
+
 ENEMIES_TO_RANDOMIZE_FROM = [
   "Bk",
   "c_blue",
@@ -46,8 +48,8 @@ ENEMIES_TO_RANDOMIZE_FROM = [
 ]
 
 def randomize_enemies(self):
-  for dzr, room_arc_path in self.each_stage_and_room():
-    actors = dzr.entries_by_type("ACTR")
+  for dzx, room_arc_path in stage_searcher.each_stage_and_room(self):
+    actors = dzx.entries_by_type("ACTR")
     enemies = [actor for actor in actors if actor.name in ENEMIES_TO_RANDOMIZE_FROM]
     actor_names_in_this_room = []
     for enemy in enemies:
@@ -88,8 +90,8 @@ def randomize_enemies(self):
 
 def print_all_enemy_params(self):
   print("% 7s  % 8s  % 4s  % 4s  %s" % ("name", "params", "aux1", "aux2", "path"))
-  for dzs, stage_arc_path in self.each_stage_and_room():
-    actors = dzs.entries_by_type("ACTR")
+  for dzx, stage_arc_path in stage_searcher.each_stage_and_room(self):
+    actors = dzx.entries_by_type("ACTR")
     enemies = [actor for actor in actors if actor.name in ENEMIES_TO_RANDOMIZE_FROM]
     for enemy in enemies:
       print("% 7s  %08X  %04X  %04X  %s" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2, stage_arc_path))
