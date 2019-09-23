@@ -118,6 +118,9 @@ def decide_on_link_model(self):
   self.custom_model_name = custom_model_name
 
 def replace_link_model(self):
+  if self.custom_model_name == "Link":
+    return
+  
   custom_model_path = "./models/%s/" % self.custom_model_name
   
   custom_link_arc_path = custom_model_path + "Link.arc"
