@@ -546,8 +546,8 @@ class Randomizer:
     with open(os.path.join(DATA_PATH, "island_name_hints.txt"), "r") as f:
       self.island_name_hints = yaml.safe_load(f)
     
-    with open(os.path.join(DATA_PATH, "enemy_params.txt"), "r") as f:
-      self.enemy_params = yaml.safe_load(f)
+    with open(os.path.join(DATA_PATH, "enemy_types.txt"), "r") as f:
+      self.enemy_types = yaml.safe_load(f)
   
   def get_arc(self, arc_path):
     arc_path = arc_path.replace("\\", "/")

@@ -1,0 +1,335 @@
+-
+  Pretty name: Blue Bokoblin
+  Actor name: Bk
+  Params: 0xFFFFFF00
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Blue Bokoblins
+-
+  Pretty name: Green Bokoblin
+  Actor name: Bk
+  Params: 0xFFFFFF03
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Green Bokoblins
+-
+  Pretty name: Pink Bokoblin
+  Actor name: Bk
+  Params: 0xFFFFFF04
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Pink Bokoblins
+-
+  Pretty name: Green ChuChu
+  Actor name: c_green
+  Params: 0xFFFF0000
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Green ChuChus
+-
+  Pretty name: Red ChuChu
+  Actor name: c_red
+  Params: 0xFFFF0100
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Red ChuChus
+-
+  Pretty name: Yellow ChuChu
+  Actor name: c_kiiro
+  Params: 0xFFFF0400
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Yellow ChuChus
+#-
+#  Pretty name: Blue ChuChu
+#  Actor name: c_blue
+#  Params: 0x
+#  Aux params: 0x
+#  Aux params 2: 0x
+#  Logic macro: Can Defeat Blue ChuChus
+#-
+#  Pretty name: Dark ChuChu # (Can't be randomized since there would be no light ray to petrify it)
+#  Actor name: c_black
+#  Params: 0xFFFF0300
+#  Aux params: 0x0000
+#  Aux params 2: 0x00FF
+#  Logic macro: Can Defeat Dark ChuChus
+-
+  Pretty name: Kargaroc
+  Actor name: Bb
+  Params: 0xFFFFFFFF # TODO?
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Kargarocs
+-
+  Pretty name: Moblin
+  Actor name: mo2
+  Params: 0xFFFFFF00
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Moblins
+-
+  Pretty name: Lantern Moblin
+  Actor name: mo2
+  Params: 0xFFFFFF01
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Moblins
+-
+  Pretty name: Peahat
+  Actor name: p_hat
+  Params: 0xFFFFFFFF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+  Logic macro: Can Defeat Peahats
+#-
+#  Pretty name: Seahat
+#  Actor name: p_hat
+#  Params: 0xFFFFFF01
+#  Aux params: 0x0000
+#  Aux params 2: 0x0000
+#  Logic macro: Can Defeat Seahats
+-
+  Pretty name: Armos Knight
+  Actor name: amos
+  Params: 0xFFFFFF00
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+  Logic macro: Can Defeat Armos Knights
+-
+  Pretty name: Armos
+  Actor name: amos2
+  Params: 0xFFFFFFFF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+  Logic macro: Can Defeat Armos
+-
+  Pretty name: Dexivine
+  Actor name: Sss
+  Params: 0x00FFFFFF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+  Logic macro: TODO
+-
+  Pretty name: Keese
+  Actor name: keeth
+  Params: 0xFFFF0101
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Keese
+-
+  Pretty name: Fire Keese
+  Actor name: Fkeeth
+  Params: 0xFFFF8101
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Fire Keese
+-
+  Pretty name: Octorok (Freshwater)
+  Actor name: Oq
+  Params: 0xFFFFFFFF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+  Logic macro: TODO
+-
+  Pretty name: Octorok (Saltwater)
+  Actor name: Oqw
+  Params: 0xFFFFFF01
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+  Logic macro: TODO
+#-
+#  Pretty name: Wizzrobe # sorta works, but it may shoot its fireballs through walls and the fireballs may also be invisible. also it can crash if it fails to spawn an enemy, maybe if there's not enough RAM?
+#  Actor name: wiz_r
+#  Params: 0x00FFFF01 # TODO: unknown!
+#  Aux params: 0x0000
+#  Aux params 2: 0x0003 # TODO: unknown!
+#  Logic macro: Can Defeat Wizzrobes at Range & TODO # using the "at Range" macro until it's know what makes the wizzrobes stay away from the player so that can be disabled. also, need to handle the enemies they spawn in logic somehow. like making them only spawn enemies that were randomly placed together with the wizzrobe so it doesn't affect logic?
+#-
+#  Pretty name: Unused Wizzrobe?
+#  Actor name: wiz_s
+#  Params: 0x
+#  Aux params: 0x
+#  Aux params 2: 0x
+#  Logic macro: TODO
+#-
+#  Pretty name: Unused Wizzrobe?
+#  Actor name: wiz_m
+#  Params: 0x
+#  Aux params: 0x
+#  Aux params 2: 0x
+#  Logic macro: TODO
+#-
+#  Pretty name: Unused Wizzrobe?
+#  Actor name: wiz_o
+#  Params: 0x
+#  Aux params: 0x
+#  Aux params 2: 0x
+#  Logic macro: TODO
+-
+  Pretty name: ReDead (not hunched over)
+  Actor name: Rdead1
+  Params: 0xFFFFFFFE
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat ReDeads
+-
+  Pretty name: ReDead (hunched over)
+  Actor name: Rdead2
+  Params: 0xFFFFFFFF
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat ReDeads
+#-
+#  Pretty name: Poe # (Can't be randomized since there would be no light ray to materialize it)
+#  Actor name: pow
+#  Params: 0xFFFFFF01
+#  Aux params: 0x0000
+#  Aux params 2: 0x0000
+#  Logic macro: Can Defeat Poes
+#-
+#  Pretty name: Morth
+#  Actor name: kuro_s
+#  Params: 0xFFFFFFFF # TODO
+#  Aux params: 0x
+#  Aux params 2: 0x
+#  Logic macro: Can Defeat Morths
+#-
+#  Pretty name: Morth 2?
+#  Actor name: kuro_t
+#  Params: 0x
+#  Aux params: 0x
+#  Aux params 2: 0x
+#  Logic macro: Can Defeat Morths
+-
+  Pretty name: Miniblin
+  Actor name: Puti
+  Params: 0xFFFFFFFF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+  Logic macro: Can Defeat Miniblins
+-
+  Pretty name: Rat # TODO: find what makes bombchus
+  Actor name: nezumi
+  Params: 0xFFFFFFFF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+  Logic macro: TODO
+-
+  Pretty name: Stalfos
+  Actor name: Stal
+  Params: 0xFFFFFFFF
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Stalfos
+-
+  Pretty name: Darknut (without shield)
+  Actor name: Tn
+  Params: 0xFFFFFF10
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Darknuts
+-
+  Pretty name: Darknut (with shield)
+  Actor name: Tn
+  Params: 0xFFFFFF14
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Darknuts
+-  # Boko Baba
+  Actor name: bbaba
+  Params: 0xFFFFFFFF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+  Logic macro: Can Defeat Boko Babas
+-
+  Pretty name: Magtail # sorta works, but may start out inside the floor and come up, or start out inside the floor and never come out.
+  Actor name: magtail
+  Params: 0xFFFFFFFF # TODO
+  Aux params: 0x0000 # TODO
+  Aux params 2: 0x0000 # TODO
+  Logic macro: Can Defeat Magtails
+-
+  Pretty name: Blue? Bubble # (no flames...)
+  Actor name: bable
+  Params: 0x01FFFF00 # TODO
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+  Logic macro: TODO # either Can Defeat Red Bubbles or Can Defeat Blue Bubbles
+-
+  Pretty name: Wingless Mothula
+  Actor name: gmos
+  Params: 0xFF010000
+  Aux params: 0x00FF
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Mothulas
+-
+  Pretty name: Winged Mothula
+  Actor name: gmos
+  Params: 0xFF020000
+  Aux params: 0x00FF
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Winged Mothulas
+-
+  Pretty name: Molgera Child
+  Actor name: Bwds
+  Params: 0x00000023
+  Aux params: 0x0000 # TODO
+  Aux params 2: 0x0000 # TODO
+  Logic macro: TODO
+#-
+#  Pretty name: Gyorg # Doesn't spawn on land.
+#  Actor name: GyCtrl
+#  Params: 0x
+#  Aux params: 0x
+#  Aux params 2: 0x
+#  Logic macro: TODO
+#- 
+#  Actor name: GyCtrlB
+#  Params: 0x
+#  Aux params: 0x
+#  Aux params 2: 0x
+#  Logic macro: TODO
+-
+  Pretty name: Blue Beamos
+  Actor name: Hmos1
+  Params: 0x00000002
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+  Logic macro: TODO
+-
+  Pretty name: Red Beamos
+  Actor name: Hmos2
+  Params: 0x1000FD02
+  Aux params: 0x0000
+  Aux params 2: 0x1FFF
+  Logic macro: TODO
+  # TODO: what do any of these beamos params even do? might affect drops, rotation, range?
+#-
+#  Pretty name: ??? Beamos
+#  Actor name: Hmos3
+#  Params: 0x
+#  Aux params: 0x
+#  Aux params 2: 0x
+#  Logic macro: TODO
+#-
+#  Pretty name: Floormaster # (unused?)
+#  Actor name: Fmaster
+#  Params: 0x
+#  Aux params: 0x
+#  Aux params 2: 0x
+#  Logic macro: Can Defeat Floormasters
+#-
+#  Pretty name: Floormaster 1?
+#  Actor name: Fmastr1
+#  Params: 0x
+#  Aux params: 0x
+#  Aux params 2: 0x
+#  Logic macro: Can Defeat Floormasters
+#-
+#  Pretty name: Floormaster 2?
+#  Actor name: Fmastr2
+#  Params: 0x
+#  Aux params: 0x
+#  Aux params 2: 0x
+#  Logic macro: Can Defeat Floormasters
