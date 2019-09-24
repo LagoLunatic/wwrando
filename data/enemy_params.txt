@@ -98,11 +98,11 @@
   Params: 0xFFFFFF01
   Aux params: 0x0000
   Aux params 2: 0x0000
-- # Wizzrobe. sorta works, but it may shoot its fireballs through walls and the fireballs may also be invisible.
-  Name: wiz_r
-  Params: 0x00FFFF01 # TODO: unknown!
-  Aux params: 0x0000
-  Aux params 2: 0x0003 # TODO: unknown!
+#- # Wizzrobe. sorta works, but it may shoot its fireballs through walls and the fireballs may also be invisible. also it can crash if it fails to spawn an enemy, maybe if there's not enough RAM?
+#  Name: wiz_r
+#  Params: 0x00FFFF01 # TODO: unknown!
+#  Aux params: 0x0000
+#  Aux params 2: 0x0003 # TODO: unknown!
 #- # Unused Wizzrobe?
 #  Name: wiz_s
 #  Params: 0x
