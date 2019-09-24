@@ -361,9 +361,9 @@ class Randomizer:
     if self.options.get("randomize_bgm"):
       bgm.randomize_bgm(self)
     
-    enemies.randomize_enemies(self)
-    
     items.randomize_items(self)
+    
+    enemies.randomize_enemies(self)
     
     options_completed += 2
     yield("Saving items...", options_completed)
