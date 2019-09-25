@@ -407,6 +407,19 @@ class ACTR(ChunkEntry):
     "grass_type":           0x00000030,
     "grass_subtype":        0x0000000F,
     "grass_item_drop_type": 0x00000FC0,
+    
+    "bokoblin_type":     0x0000000F,
+    "bokoblin_is_green": 0x00000020,
+    
+    "moblin_type": 0x000000FF,
+    
+    "peahat_type": 0x000000FF,
+    
+    "darknut_behavior_type": 0x0000000F,
+    
+    "mothula_type": 0x00FF0000,
+    
+    "bubble_type": 0x000000FF,
   }
   
   ITEM_NAMES = [

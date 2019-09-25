@@ -93,7 +93,6 @@ def print_all_enemy_locations(self):
       actors = dzx.entries_by_type_and_layer("ACTR", layer)
       enemies = [actor for actor in actors if actor.name in all_enemy_actor_names]
       
-      actor_names_in_this_room = []
       for enemy in enemies:
         if stage_folder != prev_stage_folder or (stage_folder == "sea" and arc_name != prev_arc_name):
           if stage_folder == "sea" and arc_name != "Stage.arc":
@@ -106,7 +105,7 @@ def print_all_enemy_locations(self):
           prev_stage_folder = stage_folder
           prev_arc_name = arc_name
         
-        enemy_data = next(data for data in self.enemy_types if data["Actor name"] == enemy.name)
+        enemy_data = get_enemy_data_for_actor(self, enemy)
         
         enemy_pretty_name = enemy_data["Pretty name"]
         
@@ -125,3 +124,68 @@ def print_all_enemy_locations(self):
   
   with open("enemy_locations.txt", "w") as f:
     f.write(output_str)
+
+def get_enemy_data_for_actor(self, enemy):
+  # This function determines the specific subspecies of enemy by looking at the enemy's actor name and parameters.
+  enemy_datas_for_actor_name = [
+    enemy_data
+    for enemy_data in self.enemy_types
+    if enemy_data["Actor name"] == enemy.name
+  ]
+  
+  if len(enemy_datas_for_actor_name) == 0:
+    raise Exception("Not a known enemy type: " + enemy.name)
+  elif len(enemy_datas_for_actor_name) == 1:
+    return enemy_datas_for_actor_name[0]
+  
+  enemy_datas_by_pretty_name = {}
+  for enemy_data in enemy_datas_for_actor_name:
+    pretty_name = enemy_data["Pretty name"]
+    enemy_datas_by_pretty_name[pretty_name] = enemy_data
+  
+  if enemy.name == "Bk":
+    if enemy.bokoblin_type == 0xB:
+      return enemy_datas_by_pretty_name["Pink Bokoblin"]
+    elif enemy.bokoblin_is_green != 0:
+      return enemy_datas_by_pretty_name["Green Bokoblin"]
+    else:
+      return enemy_datas_by_pretty_name["Blue Bokoblin"]
+  elif enemy.name == "mo2":
+    if enemy.moblin_type == 0:
+      return enemy_datas_by_pretty_name["Moblin"]
+    elif enemy.moblin_type == 1:
+      return enemy_datas_by_pretty_name["Lantern Moblin"]
+    elif enemy.moblin_type in [0xF, 0xFF]:
+      return enemy_datas_by_pretty_name["Blue Moblin"]
+  elif enemy.name == "p_hat":
+    if enemy.peahat_type in [0xFF, 0]:
+      return enemy_datas_by_pretty_name["Peahat"]
+    elif enemy.peahat_type == 1:
+      return enemy_datas_by_pretty_name["Seahat"]
+  elif enemy.name == "Tn":
+    if enemy.darknut_behavior_type == 0:
+      return enemy_datas_by_pretty_name["Darknut"]
+    elif enemy.darknut_behavior_type == 4:
+      return enemy_datas_by_pretty_name["Shield Darknut"]
+    elif enemy.darknut_behavior_type == 0xD:
+      return enemy_datas_by_pretty_name["Mini-Boss Darknut"]
+    elif enemy.darknut_behavior_type == 0xE:
+      return enemy_datas_by_pretty_name["Mighty Darknut"]
+    elif enemy.darknut_behavior_type == 0xF:
+      return enemy_datas_by_pretty_name["Frozen Darknut"]
+  elif enemy.name == "bable":
+    if enemy.bubble_type in [0, 2, 0xFF]:
+      return enemy_datas_by_pretty_name["Red Bubble"]
+    elif enemy.bubble_type in [1, 3]:
+      return enemy_datas_by_pretty_name["Blue Bubble"]
+    elif enemy.bubble_type == 0x80:
+      return enemy_datas_by_pretty_name["Inanimate Bubble"]
+  elif enemy.name == "gmos":
+    if enemy.mothula_type == 0:
+      return enemy_datas_by_pretty_name["Mini-Boss Winged Mothula"]
+    elif enemy.mothula_type == 1:
+      return enemy_datas_by_pretty_name["Wingless Mothula"]
+    elif enemy.mothula_type == 2:
+      return enemy_datas_by_pretty_name["Winged Mothula"]
+  
+  raise Exception("Unknown enemy subspecies: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2))
