@@ -98,6 +98,15 @@
   Allow randomizing from: True
   Allow randomizing to: True
 -
+  Pretty name: Blue Moblin
+  Actor name: mo2
+  Params: 0xFFFFFF0F
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Moblins
+  Allow randomizing from: True
+  Allow randomizing to: True
+-
   Pretty name: Peahat
   Actor name: p_hat
   Params: 0xFFFFFFFF
@@ -281,7 +290,7 @@
   Allow randomizing from: True
   Allow randomizing to: True
 -
-  Pretty name: Darknut (without shield)
+  Pretty name: Darknut
   Actor name: Tn
   Params: 0xFFFFFF10
   Aux params: 0x001F
@@ -290,7 +299,7 @@
   Allow randomizing from: True
   Allow randomizing to: True
 -
-  Pretty name: Darknut (with shield)
+  Pretty name: Shield Darknut
   Actor name: Tn
   Params: 0xFFFFFF14
   Aux params: 0x001F
@@ -298,6 +307,33 @@
   Logic macro: Can Defeat Darknuts
   Allow randomizing from: True
   Allow randomizing to: True
+-
+  Pretty name: Mini-Boss Darknut
+  Actor name: Tn
+  Params: 0xFFFFFF1D
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Darknuts
+  Allow randomizing from: True
+  Allow randomizing to: False
+-
+  Pretty name: Mighty Darknut
+  Actor name: Tn
+  Params: 0xFFFFFF1E
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Darknuts
+  Allow randomizing from: True
+  Allow randomizing to: True
+-
+  Pretty name: Frozen Darknut
+  Actor name: Tn
+  Params: 0xFFFFFF1F
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Darknuts
+  Allow randomizing from: True
+  Allow randomizing to: False
 -
   Pretty name: Boko Baba
   Actor name: bbaba
@@ -317,14 +353,41 @@
   Allow randomizing from: True
   Allow randomizing to: True
 -
-  Pretty name: Blue? Bubble # (no flames...)
+  Pretty name: Red Bubble
   Actor name: bable
-  Params: 0x01FFFF00 # TODO
+  Params: 0x01FFFF02
   Aux params: 0x0000
   Aux params 2: 0x00FF
-  Logic macro: TODO # either Can Defeat Red Bubbles or Can Defeat Blue Bubbles
+  Logic macro: Can Defeat Red Bubbles
   Allow randomizing from: True
   Allow randomizing to: True
+-
+  Pretty name: Blue Bubble
+  Actor name: bable
+  Params: 0x01FFFF03
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Blue Bubbles
+  Allow randomizing from: True
+  Allow randomizing to: True
+-
+  Pretty name: Inanimate Bubble
+  Actor name: bable
+  Params: 0xFFFFFF80
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+  Logic macro: Nothing
+  Allow randomizing from: False
+  Allow randomizing to: False
+-
+  Pretty name: Mini-Boss Winged Mothula
+  Actor name: gmos
+  Params: 0xFF000000
+  Aux params: 0x00FF
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Mothulas
+  Allow randomizing from: True
+  Allow randomizing to: False
 -
   Pretty name: Wingless Mothula
   Actor name: gmos
