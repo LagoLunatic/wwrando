@@ -108,6 +108,21 @@ def print_all_enemy_locations(self):
         prev_stage_folder = stage_folder
         prev_arc_name = arc_name
       
+      # Start a new enemy group.
+      # An enemy group is a list of enemies together in the same spot that must be killed together to progress. This is so the logic can be done for each group of enemies instead of each individual enemy, giving more room for enemy randomization variet.
+      # This function simply creates one group for every layer that has enemies for each room, and sets the original vanilla logic requirements for the group to the combination of all the unique enemy species that were in that room.
+      # This way is not necessarily correct in 100% of cases, you could have a room with some enemies you need to kill but some you don't, or a room where you need to kill enemies from both the default layer and a conditional layer to progress. Or you could have rooms where you don't need to kill any of the enemies to progress at all.
+      # Therefore the groups and logic will need to be manually adjusted after the fact, this function just creates the base to work off of.
+      logic_macros_for_this_layer = [
+        get_enemy_data_for_actor(self, enemy)["Logic macro"]
+        for enemy in enemies
+      ]
+      logic_macros_for_this_layer = list(set(logic_macros_for_this_layer)) # Remove duplicates
+      output_str += "-\n"
+      output_str += "  Original requirements:\n"
+      output_str += "    " + "\n    & ".join(logic_macros_for_this_layer) + "\n"
+      output_str += "  Enemies:\n"
+      
       # Then write each of the individual enemies in the group.
       for enemy in enemies:
         enemy_data = get_enemy_data_for_actor(self, enemy)
@@ -122,10 +137,9 @@ def print_all_enemy_locations(self):
         actor_index = actors.index(enemy)
         enemy_loc_path = relative_arc_path + layer_name + "/Actor%03X" % actor_index
         
-        output_str += "-\n"
-        output_str += "  Original enemy: " + enemy_pretty_name + "\n"
-        output_str += "  Need: " + logic_macro + "\n"
-        output_str += "  Path: " + enemy_loc_path + "\n"
+        output_str += "    -\n"
+        output_str += "      Original enemy: " + enemy_pretty_name + "\n"
+        output_str += "      Path: " + enemy_loc_path + "\n"
   
   with open("enemy_locations.txt", "w") as f:
     f.write(output_str)
