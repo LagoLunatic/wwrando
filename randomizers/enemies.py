@@ -74,3 +74,54 @@ def print_all_enemy_params(self):
     enemies = [actor for actor in actors if actor.name in all_enemy_actor_names]
     for enemy in enemies:
       print("% 7s  %08X  %04X  %04X  %s" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2, arc_path))
+
+def print_all_enemy_locations(self):
+  all_enemy_actor_names = [
+    data["Actor name"] for data in self.enemy_types
+  ]
+  all_enemy_actor_names = list(set(all_enemy_actor_names)) # Remove duplicates
+  
+  output_str = ""
+  prev_stage_folder = None
+  prev_arc_name = None
+  for dzx, arc_path in stage_searcher.each_stage_and_room(self):
+    for layer in ([None] + list(range(11+1))):
+      relative_arc_path = os.path.relpath(arc_path, "files/res/Stage")
+      stage_folder, arc_name = os.path.split(relative_arc_path)
+      relative_arc_path = stage_folder + "/" + arc_name
+      
+      actors = dzx.entries_by_type_and_layer("ACTR", layer)
+      enemies = [actor for actor in actors if actor.name in all_enemy_actor_names]
+      
+      actor_names_in_this_room = []
+      for enemy in enemies:
+        if stage_folder != prev_stage_folder or (stage_folder == "sea" and arc_name != prev_arc_name):
+          if stage_folder == "sea" and arc_name != "Stage.arc":
+            stage_name = self.island_names[arc_name]
+          else:
+            stage_name = self.stage_names[stage_folder]
+          output_str += "\n"
+          output_str += "\n"
+          output_str += "# " + stage_name + "\n"
+          prev_stage_folder = stage_folder
+          prev_arc_name = arc_name
+        
+        enemy_data = next(data for data in self.enemy_types if data["Actor name"] == enemy.name)
+        
+        enemy_pretty_name = enemy_data["Pretty name"]
+        
+        logic_macro = enemy_data["Logic macro"]
+        
+        layer_name = ""
+        if layer != None:
+          layer_name = "/Layer%X" % layer
+        actor_index = actors.index(enemy)
+        enemy_loc_path = relative_arc_path + layer_name + "/Actor%03X" % actor_index
+        
+        output_str += "-\n"
+        output_str += "  Original enemy: " + enemy_pretty_name + "\n"
+        output_str += "  Need: " + logic_macro + "\n"
+        output_str += "  Path: " + enemy_loc_path + "\n"
+  
+  with open("enemy_locations.txt", "w") as f:
+    f.write(output_str)
