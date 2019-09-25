@@ -1,64 +1,35 @@
 
+import os
 import copy
 
 from wwlib import stage_searcher
 
-ENEMIES_TO_RANDOMIZE_FROM = [
-  "Bk",
-  "c_blue",
-  "c_green",
-  "c_kiiro",
-  "c_red",
-  "c_black",
-  "Bb",
-  "mo2",
-  "Tn",
-  "bbaba",
-  "p_hat",
-  "Puti",
-  "amos",
-  "amos2",
-  "nezumi",
-  "Hmos1",
-  "Hmos2",
-  "Sss",
-  "Stal",
-  "Fmaster",
-  "Fmastr1",
-  "Fmastr2",
-  "magtail",
-  "keeth",
-  "Fkeeth",
-  "Oq",
-  "Oqw",
-  "wiz_r",
-  "wiz_s",
-  "wiz_m",
-  "wiz_o",
-  "Rdead1",
-  "Rdead2",
-  "sea_hat",
-  "pow",
-  "bable",
-  "gmos",
-  "kuro_s",
-  "kuro_t",
-  "GyCtrl",
-  "GyCtrlB",
-]
-
 def randomize_enemies(self):
+  enemy_actor_names_to_randomize_from = [
+    data["Actor name"] for data in self.enemy_types
+    if data["Allow randomizing from"]
+  ]
+  enemy_actor_names_to_randomize_from = list(set(enemy_actor_names_to_randomize_from)) # Remove duplicates
+  
+  enemies_to_randomize_to = [
+    data for data in self.enemy_types
+    if data["Allow randomizing to"]
+  ]
+  
   for dzx, arc_path in stage_searcher.each_stage_and_room(self):
     actors = dzx.entries_by_type("ACTR")
-    enemies = [actor for actor in actors if actor.name in ENEMIES_TO_RANDOMIZE_FROM]
+    enemies = [actor for actor in actors if actor.name in enemy_actor_names_to_randomize_from]
     
     actor_names_in_this_room = []
     for enemy in enemies:
       if len(actor_names_in_this_room) >= 8:
-        filtered_enemy_types_data = [data for data in self.enemy_types if data["Actor name"] in actor_names_in_this_room]
+        filtered_enemy_types_data = [
+          data for data in enemies_to_randomize_to
+          if data["Actor name"] in actor_names_in_this_room
+        ]
         new_enemy_data = self.rng.choice(filtered_enemy_types_data)
       else:
-        new_enemy_data = self.rng.choice(self.enemy_types)
+        new_enemy_data = self.rng.choice(enemies_to_randomize_to)
       
       if "sea/Room13" in arc_path:
         print("Putting a %s (param:%08X) in %s" % (new_enemy_data["Actor name"], new_enemy_data["Params"], arc_path))
@@ -92,9 +63,14 @@ def randomize_enemies(self):
           dest_jpc.add_texture(copied_texture)
 
 def print_all_enemy_params(self):
+  all_enemy_actor_names = [
+    data["Actor name"] for data in self.enemy_types
+  ]
+  all_enemy_actor_names = list(set(all_enemy_actor_names)) # Remove duplicates
+  
   print("% 7s  % 8s  % 4s  % 4s  %s" % ("name", "params", "aux1", "aux2", "path"))
   for dzx, arc_path in stage_searcher.each_stage_and_room(self):
     actors = dzx.entries_by_type("ACTR")
-    enemies = [actor for actor in actors if actor.name in ENEMIES_TO_RANDOMIZE_FROM]
+    enemies = [actor for actor in actors if actor.name in all_enemy_actor_names]
     for enemy in enemies:
       print("% 7s  %08X  %04X  %04X  %s" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2, arc_path))
