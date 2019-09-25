@@ -93,18 +93,23 @@ def print_all_enemy_locations(self):
       actors = dzx.entries_by_type_and_layer("ACTR", layer)
       enemies = [actor for actor in actors if actor.name in all_enemy_actor_names]
       
+      if not enemies:
+        continue
+      
+      # Add a comment before the start of each stage (or island) with its name.
+      if stage_folder != prev_stage_folder or (stage_folder == "sea" and arc_name != prev_arc_name):
+        if stage_folder == "sea" and arc_name != "Stage.arc":
+          stage_name = self.island_names[arc_name]
+        else:
+          stage_name = self.stage_names[stage_folder]
+        output_str += "\n"
+        output_str += "\n"
+        output_str += "# " + stage_name + "\n"
+        prev_stage_folder = stage_folder
+        prev_arc_name = arc_name
+      
+      # Then write each of the individual enemies in the group.
       for enemy in enemies:
-        if stage_folder != prev_stage_folder or (stage_folder == "sea" and arc_name != prev_arc_name):
-          if stage_folder == "sea" and arc_name != "Stage.arc":
-            stage_name = self.island_names[arc_name]
-          else:
-            stage_name = self.stage_names[stage_folder]
-          output_str += "\n"
-          output_str += "\n"
-          output_str += "# " + stage_name + "\n"
-          prev_stage_folder = stage_folder
-          prev_arc_name = arc_name
-        
         enemy_data = get_enemy_data_for_actor(self, enemy)
         
         enemy_pretty_name = enemy_data["Pretty name"]
