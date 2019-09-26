@@ -90,7 +90,11 @@ def print_all_enemy_locations(self):
       relative_arc_path = stage_folder + "/" + arc_name
       
       actors = dzx.entries_by_type_and_layer("ACTR", layer)
-      enemies = [actor for actor in actors if actor.name in all_enemy_actor_names]
+      enemies = [
+        actor for actor in actors
+        if actor.name in all_enemy_actor_names
+        and get_enemy_data_for_actor(self, actor)["Allow randomizing from"] # Don't list unrandomizable enemies
+      ]
       
       if not enemies:
         continue
