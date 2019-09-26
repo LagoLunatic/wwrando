@@ -184,6 +184,11 @@ def get_enemy_data_for_actor(self, enemy):
       return enemy_datas_by_pretty_name["Peahat"]
     elif enemy.peahat_type == 1:
       return enemy_datas_by_pretty_name["Seahat"]
+  elif enemy.name == "nezumi":
+    if enemy.rat_type in [0, 0xFF]:
+      return enemy_datas_by_pretty_name["Rat"]
+    elif enemy.rat_type == 1:
+      return enemy_datas_by_pretty_name["Bombchu"]
   elif enemy.name == "Tn":
     if enemy.darknut_behavior_type == 0:
       return enemy_datas_by_pretty_name["Darknut"]

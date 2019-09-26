@@ -148,9 +148,9 @@
   Params: 0x00FFFFFF
   Aux params: 0x0000
   Aux params 2: 0x0000
-  Logic macro: TODO
+  Logic macro: Can Defeat Dexivines
   Allow randomizing from: True
-  Allow randomizing to: True
+  Allow randomizing to: True # TODO don't allow in rooms where you need to kill everything
 -
   Pretty name: Keese
   Actor name: keeth
@@ -170,7 +170,7 @@
   Allow randomizing from: True
   Allow randomizing to: True
 -
-  Pretty name: Octorok (Freshwater)
+  Pretty name: Freshwater Octorok
   Actor name: Oq
   Params: 0xFFFFFFFF
   Aux params: 0x0000
@@ -179,7 +179,7 @@
   Allow randomizing from: True
   Allow randomizing to: True
 -
-  Pretty name: Octorok (Saltwater)
+  Pretty name: Saltwater Octorok
   Actor name: Oqw
   Params: 0xFFFFFF01
   Aux params: 0x0000
@@ -218,7 +218,7 @@
 #  Aux params 2: 0x
 #  Logic macro: TODO
 -
-  Pretty name: ReDead (not hunched over)
+  Pretty name: ReDead
   Actor name: Rdead1
   Params: 0xFFFFFFFE
   Aux params: 0x0000
@@ -227,7 +227,7 @@
   Allow randomizing from: True
   Allow randomizing to: True
 -
-  Pretty name: ReDead (hunched over)
+  Pretty name: Sitting ReDead
   Actor name: Rdead2
   Params: 0xFFFFFFFF
   Aux params: 0x0000
@@ -245,23 +245,23 @@
   Allow randomizing from: False
   Allow randomizing to: False # (Can't be randomized since there would be no light ray to materialize it)
 -
-  Pretty name: Morth
+  Pretty name: Chasing Morth
   Actor name: kuro_s
-  #Params: 0xFFFFFFFF # TODO
-  #Aux params: 0x
-  #Aux params 2: 0x
+  Params: 0xFFFF0500
+  Aux params: 0x0000
+  Aux params 2: 0x0000
   Logic macro: Can Defeat Morths
-  Allow randomizing from: False # TODO
-  Allow randomizing to: False
+  Allow randomizing from: True
+  Allow randomizing to: True
 -
-  Pretty name: Morth 2?
+  Pretty name: Morth
   Actor name: kuro_t
-  #Params: 0x
-  #Aux params: 0x
-  #Aux params 2: 0x
+  Params: 0xFFFF0501
+  Aux params: 0x0000
+  Aux params 2: 0x0000
   Logic macro: Can Defeat Morths
-  Allow randomizing from: False # TODO
-  Allow randomizing to: False
+  Allow randomizing from: True
+  Allow randomizing to: True
 -
   Pretty name: Miniblin
   Actor name: Puti
@@ -272,12 +272,21 @@
   Allow randomizing from: True
   Allow randomizing to: True
 -
-  Pretty name: Rat # TODO: find what makes bombchus
+  Pretty name: Rat
   Actor name: nezumi
-  Params: 0xFFFFFFFF
+  Params: 0xFFFF00FF
   Aux params: 0x0000
   Aux params 2: 0x0000
-  Logic macro: TODO
+  Logic macro: Can Defeat Rats
+  Allow randomizing from: True
+  Allow randomizing to: True
+-
+  Pretty name: Bombchu
+  Actor name: nezumi
+  Params: 0xFFFF01FF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+  Logic macro: Can Defeat Bombchus
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -413,8 +422,8 @@
   Aux params: 0x0000 # TODO
   Aux params 2: 0x0000 # TODO
   Logic macro: TODO
-  Allow randomizing from: True
-  Allow randomizing to: True
+  Allow randomizing from: False
+  Allow randomizing to: False # Doesn't seem to appear...?
 -
   Pretty name: Gyorg
   Actor name: GyCtrl
@@ -439,7 +448,7 @@
   Params: 0x00000002
   Aux params: 0x0000
   Aux params 2: 0x0000
-  Logic macro: TODO
+  Logic macro: TODO # note: this doesn't count as an enemy for the purposes of fopAcM_myRoomSearchEnemy, so the game won't softlock if this is put in savage even if it's unbeatable for example.
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -448,42 +457,42 @@
   Params: 0x1000FD02 # TODO: what do any of these beamos params even do? might affect drops, rotation, range?
   Aux params: 0x0000
   Aux params 2: 0x1FFF
-  Logic macro: TODO
+  Logic macro: TODO # note: this doesn't count as an enemy for the purposes of fopAcM_myRoomSearchEnemy, so the game won't softlock if this is put in savage even if it's unbeatable for example.
   Allow randomizing from: True
   Allow randomizing to: True
 -
-  Pretty name: ??? Beamos
+  Pretty name: Laser Forcefield
   Actor name: Hmos3
-  #Params: 0x
-  #Aux params: 0x
-  #Aux params 2: 0x
-  Logic macro: TODO
+  Params: 0x2000FF0F
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+  Logic macro: TODO # note: this doesn't count as an enemy for the purposes of fopAcM_myRoomSearchEnemy, so the game won't softlock if this is put in savage even if it's unbeatable for example.
   Allow randomizing from: False
   Allow randomizing to: False
+#-
+#  Pretty name: Floormaster Hole
+#  Actor name: Fmaster
+#  #Params: 0x
+#  #Aux params: 0x
+#  #Aux params 2: 0x
+#  Logic macro: Can Defeat Floormasters
+#  Allow randomizing from: False
+#  Allow randomizing to: False
 -
-  Pretty name: Floormaster # (unused?)
-  Actor name: Fmaster
-  #Params: 0x
-  #Aux params: 0x
-  #Aux params 2: 0x
-  Logic macro: Can Defeat Floormasters
-  Allow randomizing from: True
-  Allow randomizing to: False
--
-  Pretty name: Floormaster 1?
+  Pretty name: Path-Following Floormaster
   Actor name: Fmastr1
-  #Params: 0x
-  #Aux params: 0x
-  #Aux params 2: 0x
+  Params: 0xFFFF01FF
+  Aux params: 0x01FF
+  Aux params 2: 0x00FF
   Logic macro: Can Defeat Floormasters
   Allow randomizing from: True
-  Allow randomizing to: False
+  Allow randomizing to: False # It wouldn't have a path to follow so it would go to some weird spot
 -
-  Pretty name: Floormaster 2?
+  Pretty name: Floormaster
   Actor name: Fmastr2
-  #Params: 0x
-  #Aux params: 0x
-  #Aux params 2: 0x
+  Params: 0xFFFF02FF
+  Aux params: 0x01FF
+  Aux params 2: 0x00FF
   Logic macro: Can Defeat Floormasters
   Allow randomizing from: True
-  Allow randomizing to: False
+  Allow randomizing to: True # What happens if there's no exit set for where it teleports you to...?

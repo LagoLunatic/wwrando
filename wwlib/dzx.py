@@ -415,6 +415,8 @@ class ACTR(ChunkEntry):
     
     "peahat_type": 0x000000FF,
     
+    "rat_type": 0x0000FF00,
+    
     "darknut_behavior_type": 0x0000000F,
     
     "mothula_type": 0x00FF0000,

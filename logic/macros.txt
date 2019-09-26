@@ -566,6 +566,33 @@ Can Defeat Morths:
   | Hero's Bow
   | Hookshot
   # Skull Hammer technically works but it's extremely annoying to hit them with. Same with bombs.
+Can Defeat Rats:
+  Hero's Sword
+  | Hero's Bow
+  | Bombs
+  | Boomerang
+  | Skull Hammer
+  | Grappling Hook
+  # Hookshot pulls them towards you but doesn't appear to damage them. Actually, it seems Hookshot can rarely push them out of bounds.
+  # Skull Hammer also stuns them if you hit the ground near them.
+Can Defeat Bombchus:
+  Hero's Sword
+  | Hero's Bow
+  | Boomerang
+  | Skull Hammer
+  | Grappling Hook
+Can Cut Down Dexivines:
+  Hero's Sword
+  | Hero's Bow
+  | Bombs
+  | Boomerang
+  | Skull Hammer
+  | Grappling Hook
+  | Hookshot
+Can Defeat Dexivines:
+  Impossible
+  # They never die forever, they come back the instant they're cut down.
+  # Things that trigger when all enemies are dead will never trigger.
 
 Can Defeat Gohma:
   Grappling Hook
