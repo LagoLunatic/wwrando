@@ -5,11 +5,10 @@ import copy
 from wwlib import stage_searcher
 
 def randomize_enemies(self):
-  enemy_actor_names_to_randomize_from = [
-    data["Actor name"] for data in self.enemy_types
-    if data["Allow randomizing from"]
-  ]
-  enemy_actor_names_to_randomize_from = list(set(enemy_actor_names_to_randomize_from)) # Remove duplicates
+  enemy_actor_names_to_randomize_from = []
+  for data in self.enemy_types:
+    if data["Allow randomizing from"] and data not in enemy_actor_names_to_randomize_from:
+      enemy_actor_names_to_randomize_from.append(data)
   
   enemies_to_randomize_to = [
     data for data in self.enemy_types
@@ -63,10 +62,10 @@ def randomize_enemies(self):
           dest_jpc.add_texture(copied_texture)
 
 def print_all_enemy_params(self):
-  all_enemy_actor_names = [
-    data["Actor name"] for data in self.enemy_types
-  ]
-  all_enemy_actor_names = list(set(all_enemy_actor_names)) # Remove duplicates
+  all_enemy_actor_names = []
+  for data in self.enemy_types:
+    if data["Actor name"] not in all_enemy_actor_names:
+      all_enemy_actor_names.append(data["Actor name"])
   
   print("% 7s  % 8s  % 4s  % 4s  %s" % ("name", "params", "aux1", "aux2", "path"))
   for dzx, arc_path in stage_searcher.each_stage_and_room(self):
@@ -76,10 +75,10 @@ def print_all_enemy_params(self):
       print("% 7s  %08X  %04X  %04X  %s" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2, arc_path))
 
 def print_all_enemy_locations(self):
-  all_enemy_actor_names = [
-    data["Actor name"] for data in self.enemy_types
-  ]
-  all_enemy_actor_names = list(set(all_enemy_actor_names)) # Remove duplicates
+  all_enemy_actor_names = []
+  for data in self.enemy_types:
+    if data["Actor name"] not in all_enemy_actor_names:
+      all_enemy_actor_names.append(data["Actor name"])
   
   output_str = ""
   prev_stage_folder = None
@@ -113,11 +112,11 @@ def print_all_enemy_locations(self):
       # This function simply creates one group for every layer that has enemies for each room, and sets the original vanilla logic requirements for the group to the combination of all the unique enemy species that were in that room.
       # This way is not necessarily correct in 100% of cases, you could have a room with some enemies you need to kill but some you don't, or a room where you need to kill enemies from both the default layer and a conditional layer to progress. Or you could have rooms where you don't need to kill any of the enemies to progress at all.
       # Therefore the groups and logic will need to be manually adjusted after the fact, this function just creates the base to work off of.
-      logic_macros_for_this_layer = [
-        get_enemy_data_for_actor(self, enemy)["Logic macro"]
-        for enemy in enemies
-      ]
-      logic_macros_for_this_layer = list(set(logic_macros_for_this_layer)) # Remove duplicates
+      logic_macros_for_this_layer = []
+      for enemy in enemies:
+        logic_macro = get_enemy_data_for_actor(self, enemy)["Logic macro"]
+        if logic_macro not in logic_macros_for_this_layer:
+          logic_macros_for_this_layer.append(logic_macro)
       output_str += "-\n"
       output_str += "  Original requirements:\n"
       output_str += "    " + "\n    & ".join(logic_macros_for_this_layer) + "\n"
