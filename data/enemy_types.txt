@@ -175,7 +175,7 @@
   Params: 0xFFFFFFFF
   Aux params: 0x0000
   Aux params 2: 0x0000
-  Logic macro: TODO
+  Logic macro: Can Defeat Freshwater Octoroks
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -184,18 +184,18 @@
   Params: 0xFFFFFF01
   Aux params: 0x0000
   Aux params 2: 0x0000
-  Logic macro: TODO
+  Logic macro: Can Defeat Saltwater Octoroks
   Allow randomizing from: True
   Allow randomizing to: True
 -
   Pretty name: Wizzrobe
   Actor name: wiz_r
-  Params: 0x00FFFF01 # TODO: unknown!
+  Params: 0xFFFFFF00 # Does not follow a path, does not spawn enemies
   Aux params: 0x0000
-  Aux params 2: 0x0003 # TODO: unknown!
-  Logic macro: Can Defeat Wizzrobes at Range & TODO # using the "at Range" macro until it's know what makes the wizzrobes stay away from the player so that can be disabled. also, need to handle the enemies they spawn in logic somehow. like making them only spawn enemies that were randomly placed together with the wizzrobe so it doesn't affect logic?
+  Aux params 2: 0x00FF
+  Logic macro: Can Defeat Wizzrobes
   Allow randomizing from: True
-  Allow randomizing to: False # sorta works, but it may shoot its fireballs through walls and the fireballs may also be invisible. also it can crash if it fails to spawn an enemy, maybe if there's not enough RAM?
+  Allow randomizing to: True # sorta works, but it may shoot its fireballs through walls and the fireballs may also be invisible.
 #-
 #  Pretty name: Unused Wizzrobe?
 #  Actor name: wiz_s
@@ -448,16 +448,16 @@
   Params: 0x00000002
   Aux params: 0x0000
   Aux params 2: 0x0000
-  Logic macro: TODO # note: this doesn't count as an enemy for the purposes of fopAcM_myRoomSearchEnemy, so the game won't softlock if this is put in savage even if it's unbeatable for example.
+  Logic macro: Can Defeat Beamos
   Allow randomizing from: True
   Allow randomizing to: True
 -
   Pretty name: Red Beamos
   Actor name: Hmos2
-  Params: 0x1000FD02 # TODO: what do any of these beamos params even do? might affect drops, rotation, range?
+  Params: 0x1000FD02
   Aux params: 0x0000
   Aux params 2: 0x1FFF
-  Logic macro: TODO # note: this doesn't count as an enemy for the purposes of fopAcM_myRoomSearchEnemy, so the game won't softlock if this is put in savage even if it's unbeatable for example.
+  Logic macro: Can Defeat Beamos
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -466,7 +466,7 @@
   Params: 0x2000FF0F
   Aux params: 0x0000
   Aux params 2: 0x0000
-  Logic macro: TODO # note: this doesn't count as an enemy for the purposes of fopAcM_myRoomSearchEnemy, so the game won't softlock if this is put in savage even if it's unbeatable for example.
+  Logic macro: Can Defeat Beamos
   Allow randomizing from: False
   Allow randomizing to: False
 #-

@@ -593,6 +593,20 @@ Can Defeat Dexivines:
   Impossible
   # They never die forever, they come back the instant they're cut down.
   # Things that trigger when all enemies are dead will never trigger.
+Can Defeat Freshwater Octoroks:
+  Hero's Bow
+  | Boomerang
+  | Hookshot
+  # The sword and shield can be used to reflect projectiles back at them to kill them, but this only works if the player is at the same horizontal level as the Octorok, otherwise it won't shoot projectiles in the first place.
+  # Bombs can also kill them, but they only work in situations where you can actually throw a bomb far enough to reach them. Even then, the timing is very precise because the bomb will be defused when it hits the water.
+Can Defeat Saltwater Octoroks:
+  Hero's Bow
+  | Boomerang
+  | Hookshot
+  # Bombs work when fired from KoRL's cannon, but if a Saltwater Octorok got placed somewhere not in the sea you couldn't use the cannon, and it's too hard to hit them by throwing bombs.
+Can Defeat Beamos:
+  Nothing
+  # Beamos do not count as alive, and therefore not being able to kill them doesn't stop a room from thinking all enemies in the room are dead.
 
 Can Defeat Gohma:
   Grappling Hook
