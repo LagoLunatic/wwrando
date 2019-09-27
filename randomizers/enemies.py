@@ -38,30 +38,30 @@ def randomize_enemies(self):
       
       if arc_name not in enemy_actor_names_placed_in_this_room:
         enemy_actor_names_placed_in_this_room[arc_name] = []
-        
-        if len(enemy_actor_names_placed_in_this_room[arc_name]) >= 8:
-          # Placed a lot of different enemy types in this room already.
-          # Instead of placing yet another new type, reuse a type we already used to prevent overloading the available RAM.
-          filtered_enemy_types_data = [
-            data for data in enemies_to_randomize_to_for_this_group
-            if data["Actor name"] in enemy_actor_names_placed_in_this_room[arc_name]
-          ]
-          new_enemy_data = self.rng.choice(filtered_enemy_types_data)
-        else:
-          new_enemy_data = self.rng.choice(enemies_to_randomize_to_for_this_group)
-        
-        if False:
-          print("Putting a %s (param:%08X) in %s" % (new_enemy_data["Actor name"], new_enemy_data["Params"], arc_path))
-        
-        enemy.name = new_enemy_data["Actor name"]
-        enemy.params = new_enemy_data["Params"]
-        enemy.auxilary_param = new_enemy_data["Aux params"]
-        enemy.auxilary_param_2 = new_enemy_data["Aux params 2"]
-        enemy.save_changes()
-        if new_enemy_data["Actor name"] not in enemy_actor_names_placed_in_this_room[arc_name]:
-          # TODO: we should consider 2 different names that are the same actor to be the same...
-          enemy_actor_names_placed_in_this_room[arc_name].append(new_enemy_data["Actor name"])
-        #print("% 7s  %08X  %s" % (enemy.name, enemy.params, arc_path))
+      
+      if len(enemy_actor_names_placed_in_this_room[arc_name]) >= 8:
+        # Placed a lot of different enemy types in this room already.
+        # Instead of placing yet another new type, reuse a type we already used to prevent overloading the available RAM.
+        filtered_enemy_types_data = [
+          data for data in enemies_to_randomize_to_for_this_group
+          if data["Actor name"] in enemy_actor_names_placed_in_this_room[arc_name]
+        ]
+        new_enemy_data = self.rng.choice(filtered_enemy_types_data)
+      else:
+        new_enemy_data = self.rng.choice(enemies_to_randomize_to_for_this_group)
+      
+      if False:
+        print("Putting a %s (param:%08X) in %s" % (new_enemy_data["Actor name"], new_enemy_data["Params"], arc_path))
+      
+      enemy.name = new_enemy_data["Actor name"]
+      enemy.params = new_enemy_data["Params"]
+      enemy.auxilary_param = new_enemy_data["Aux params"]
+      enemy.auxilary_param_2 = new_enemy_data["Aux params 2"]
+      enemy.save_changes()
+      if new_enemy_data["Actor name"] not in enemy_actor_names_placed_in_this_room[arc_name]:
+        # TODO: we should consider 2 different names that are the same actor to be the same...
+        enemy_actor_names_placed_in_this_room[arc_name].append(new_enemy_data["Actor name"])
+      #print("% 7s  %08X  %s" % (enemy.name, enemy.params, arc_path))
   
   
   
