@@ -136,7 +136,7 @@ def print_all_enemy_locations(self):
         
         layer_name = ""
         if layer != None:
-          layer_name = "/Layer%X" % layer
+          layer_name = "/Layer%x" % layer
         actor_index = actors.index(enemy)
         enemy_loc_path = relative_arc_path + layer_name + "/Actor%03X" % actor_index
         
