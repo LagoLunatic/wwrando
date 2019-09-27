@@ -362,7 +362,11 @@ class Randomizer:
       bgm.randomize_bgm(self)
     
     # Enemies must be randomized before items in order for the enemy logic to properly take into account what items you do and don't start with.
-    enemies.randomize_enemies(self)
+    if True:
+      enemies.randomize_enemies(self)
+    
+    # Reset RNG before doing item randomization so other randomization options don't affect item layout.
+    self.rng = self.get_new_rng()
     
     items.randomize_items(self)
     
