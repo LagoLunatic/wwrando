@@ -1,47 +1,67 @@
 
 import os
 import copy
+import re
 
 from wwlib import stage_searcher
+from logic.logic import Logic
 
 def randomize_enemies(self):
-  enemy_actor_names_to_randomize_from = []
-  for data in self.enemy_types:
-    if data["Allow randomizing from"] and data not in enemy_actor_names_to_randomize_from:
-      enemy_actor_names_to_randomize_from.append(data)
+  self.enemy_locations = Logic.load_and_parse_enemy_locations()
   
   enemies_to_randomize_to = [
     data for data in self.enemy_types
     if data["Allow randomizing to"]
   ]
   
-  for dzx, arc_path in stage_searcher.each_stage_and_room(self):
-    actors = dzx.entries_by_type("ACTR")
-    enemies = [actor for actor in actors if actor.name in enemy_actor_names_to_randomize_from]
+  enemy_actor_names_placed_in_this_room = {}
+  
+  for enemy_group in self.enemy_locations:
+    original_req_string = enemy_group["Original requirements"]
+    #if original_req_string == "Nothing":
+    #  print(enemy_group)
+    enemies_to_randomize_to_for_this_group = self.logic.filter_out_enemies_that_add_new_requirements(original_req_string, enemies_to_randomize_to)
+    #print("Original: %s" % (original_req_string))
+    #print("New allowed:")
+    #for enemy_data in enemies_to_randomize_to_for_this_group:
+    #  print("  " + enemy_data["Pretty name"])
+    #print("New disallowed:")
+    #enemies_not_allowed_in_this_group = [
+    #  data for data in enemies_to_randomize_to
+    #  if data not in enemies_to_randomize_to_for_this_group
+    #]
+    #for enemy_data in enemies_not_allowed_in_this_group:
+    #  print("  " + enemy_data["Pretty name"])
     
-    actor_names_in_this_room = []
-    for enemy in enemies:
-      if len(actor_names_in_this_room) >= 8:
-        filtered_enemy_types_data = [
-          data for data in enemies_to_randomize_to
-          if data["Actor name"] in actor_names_in_this_room
-        ]
-        new_enemy_data = self.rng.choice(filtered_enemy_types_data)
-      else:
-        new_enemy_data = self.rng.choice(enemies_to_randomize_to)
+    for enemy_location in enemy_group["Enemies"]:
+      enemy, arc_name = get_enemy_and_arc_name_for_path(self, enemy_location["Path"])
       
-      if "sea/Room13" in arc_path:
-        print("Putting a %s (param:%08X) in %s" % (new_enemy_data["Actor name"], new_enemy_data["Params"], arc_path))
-      
-      enemy.name = new_enemy_data["Actor name"]
-      enemy.params = new_enemy_data["Params"]
-      enemy.auxilary_param = new_enemy_data["Aux params"]
-      enemy.auxilary_param_2 = new_enemy_data["Aux params 2"]
-      enemy.save_changes()
-      if new_enemy_data["Actor name"] not in actor_names_in_this_room:
-        # TODO: we should consider 2 different names that are the same actor to be the same...
-        actor_names_in_this_room.append(new_enemy_data["Actor name"])
-      #print("% 7s  %08X  %s" % (enemy.name, enemy.params, arc_path))
+      if arc_name not in enemy_actor_names_placed_in_this_room:
+        enemy_actor_names_placed_in_this_room[arc_name] = []
+        
+        if len(enemy_actor_names_placed_in_this_room[arc_name]) >= 8:
+          # Placed a lot of different enemy types in this room already.
+          # Instead of placing yet another new type, reuse a type we already used to prevent overloading the available RAM.
+          filtered_enemy_types_data = [
+            data for data in enemies_to_randomize_to_for_this_group
+            if data["Actor name"] in enemy_actor_names_placed_in_this_room[arc_name]
+          ]
+          new_enemy_data = self.rng.choice(filtered_enemy_types_data)
+        else:
+          new_enemy_data = self.rng.choice(enemies_to_randomize_to_for_this_group)
+        
+        if False:
+          print("Putting a %s (param:%08X) in %s" % (new_enemy_data["Actor name"], new_enemy_data["Params"], arc_path))
+        
+        enemy.name = new_enemy_data["Actor name"]
+        enemy.params = new_enemy_data["Params"]
+        enemy.auxilary_param = new_enemy_data["Aux params"]
+        enemy.auxilary_param_2 = new_enemy_data["Aux params 2"]
+        enemy.save_changes()
+        if new_enemy_data["Actor name"] not in enemy_actor_names_placed_in_this_room[arc_name]:
+          # TODO: we should consider 2 different names that are the same actor to be the same...
+          enemy_actor_names_placed_in_this_room[arc_name].append(new_enemy_data["Actor name"])
+        #print("% 7s  %08X  %s" % (enemy.name, enemy.params, arc_path))
   
   
   
@@ -216,3 +236,24 @@ def get_enemy_data_for_actor(self, enemy):
       return enemy_datas_by_pretty_name["Winged Mothula"]
   
   raise Exception("Unknown enemy subspecies: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2))
+
+def get_enemy_and_arc_name_for_path(self, path):
+  match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/Actor([0-9A-F]{3})$", path)
+  if not match:
+    raise Exception("Invalid enemy path: %s" % path)
+  
+  arc_name = match.group(1)
+  arc_path = "files/res/Stage/" + arc_name
+  if match.group(2):
+    layer = int(match.group(2), 16)
+  else:
+    layer = None
+  actor_index = int(match.group(3), 16)
+  
+  if arc_path.endswith("Stage.arc"):
+    dzx = self.get_arc(arc_path).get_file("stage.dzs")
+  else:
+    dzx = self.get_arc(arc_path).get_file("room.dzr")
+  enemy = dzx.entries_by_type_and_layer("ACTR", layer)[actor_index]
+  
+  return (enemy, arc_name)

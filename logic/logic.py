@@ -973,6 +973,90 @@ class Logic:
     assert chart_name in self.all_cleaned_item_names
     
     return chart_name
+  
+  
+  @staticmethod
+  def load_and_parse_enemy_locations():
+    with open(os.path.join(LOGIC_PATH, "enemy_locations.txt")) as f:
+      enemy_locations = yaml.load(f, YamlOrderedDictLoader)
+    
+    return enemy_locations
+  
+  def filter_out_enemies_that_add_new_requirements(self, original_req_string, possible_new_enemy_datas):
+    # This function takes a list of enemy types and removes the ones that would add new required items for a room.
+    # This is because the enemy randomizer cannot increase the logic requirements compared to when enemies are not randomized, it can only keep them the same or decrease them.
+    
+    # Accomplishing this by directly comparing the requirement lists for the original enemies in the room to the new possible enemies would be very complicated, if not impossible, to do accurately.
+    # So instead, a brute-force approach is used.
+    # The brute-force approach works like this:
+    # * Build a list of progress items that were relevant for defeating the original enemies in the room.
+    # * Build a very large list of all item combinations possible with the above items. This list is at least 2^n where n is the number of relevant items, but will be larger if having more than 1 of any given progressive item is relevant in this room. e.g. Hookshot being relevant multiplies the number of combos by 2 for having or not having it, but Fire & Ice Arrows multiplies the number of combos by 3 for having no bow, Hero's Bow, or Fire & Ice Arrows.
+    # * Go through every single combination in this list and check if this combination allowed you to defeat all the original enemies in the room.
+    # * For combinations that were valid for the original room, check to be sure that they are also valid for each enemy type we're considering placing in this room.
+    # * Enemy types that cannot be beaten with even one item combination that could beat the original room are considered invalid and thrown away.
+    
+    # Default to assuming they're all allowed, remove ones as we find out they don't work.
+    enemy_datas_allowed_here = possible_new_enemy_datas.copy()
+    
+    orig_enemy_macros = original_req_string.split(" & ")
+    orig_req_expression = Logic.parse_logic_expression(original_req_string)
+    
+    relevant_item_names = []
+    max_num_of_each_item_to_check = {}
+    for orig_macro_name in orig_enemy_macros:
+      if orig_macro_name == "Nothing":
+        orig_enemy_req_expression = Logic.parse_logic_expression("Nothing")
+      else:
+        orig_enemy_req_expression = self.macros[orig_macro_name]
+      
+      item_names_in_req = self.get_item_names_from_logical_expression_req(orig_enemy_req_expression)
+      relevant_item_names += item_names_in_req
+      
+      # Determine the maximum relevant number of each progressive item.
+      for item_name in item_names_in_req:
+        if item_name.startswith("Progressive "):
+          num_item_in_this_req = item_names_in_req.count(item_name)
+          if item_name not in max_num_of_each_item_to_check:
+            max_num_of_each_item_to_check[item_name] = num_item_in_this_req
+          elif max_num_of_each_item_to_check[item_name] < num_item_in_this_req:
+            max_num_of_each_item_to_check[item_name] = num_item_in_this_req
+        else:
+          # For non-progressive items, you either have it or you don't, so always check at most up to 1.
+          max_num_of_each_item_to_check[item_name] = 1
+    
+    relevant_item_names = list(set(relevant_item_names)) # Remove duplicates
+    
+    item_combos_to_check = [[]]
+    for item_name in relevant_item_names:
+      old_item_combos = item_combos_to_check.copy()
+      for num in range(1, max_num_of_each_item_to_check[item_name]+1):
+        new_items_to_add = [item_name]*num
+        for old_item_combo in old_item_combos:
+          new_item_combo = old_item_combo + new_items_to_add
+          if new_item_combo in item_combos_to_check:
+            raise Exception("Duplicate item combo!")
+          item_combos_to_check.append(new_item_combo)
+    
+    for item_combo in item_combos_to_check:
+      for item_name in item_combo:
+        self.add_owned_item_or_item_group(item_name)
+      
+      orig_req_met = self.check_logical_expression_req(orig_req_expression)
+      if orig_req_met:
+        for possible_new_enemy_data in possible_new_enemy_datas:
+          if possible_new_enemy_data not in enemy_datas_allowed_here:
+            # Already removed this one
+            continue
+          
+          possible_new_enemy_req_expression = self.macros[possible_new_enemy_data["Logic macro"]]
+          new_req_met = self.check_logical_expression_req(possible_new_enemy_req_expression)
+          if not new_req_met:
+            enemy_datas_allowed_here.remove(possible_new_enemy_data)
+      
+      for item_name in item_combo:
+        self.remove_owned_item_or_item_group(item_name)
+    
+    return enemy_datas_allowed_here
 
 class YamlOrderedDictLoader(yaml.SafeLoader):
   pass

@@ -361,9 +361,10 @@ class Randomizer:
     if self.options.get("randomize_bgm"):
       bgm.randomize_bgm(self)
     
-    items.randomize_items(self)
-    
+    # Enemies must be randomized before items in order for the enemy logic to properly take into account what items you do and don't start with.
     enemies.randomize_enemies(self)
+    
+    items.randomize_items(self)
     
     options_completed += 2
     yield("Saving items...", options_completed)
