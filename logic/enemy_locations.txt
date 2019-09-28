@@ -1412,6 +1412,25 @@
       Path: Cave11/Room2.arc/Actor006
 -
   Original requirements:
+    Can Defeat Poes Without Light Ray
+  Enemies:
+    -
+      Original enemy: Poe
+      Path: Cave11/Room4.arc/Actor002
+    -
+      Original enemy: Poe
+      Path: Cave11/Room4.arc/Actor003
+    -
+      Original enemy: Poe
+      Path: Cave11/Room4.arc/Actor004
+    -
+      Original enemy: Poe
+      Path: Cave11/Room4.arc/Actor005
+    -
+      Original enemy: Poe
+      Path: Cave11/Room4.arc/Actor006
+-
+  Original requirements:
     Can Defeat Winged Mothulas
   Enemies:
     -
@@ -1523,6 +1542,7 @@
 -
   Original requirements:
     Can Defeat Moblins
+    & Can Defeat Poes Without Light Ray
   Enemies:
     -
       Original enemy: Lantern Moblin
@@ -1530,6 +1550,21 @@
     -
       Original enemy: Lantern Moblin
       Path: Cave11/Room13.arc/Actor003
+    -
+      Original enemy: Poe
+      Path: Cave11/Room13.arc/Actor004
+    -
+      Original enemy: Poe
+      Path: Cave11/Room13.arc/Actor005
+    -
+      Original enemy: Poe
+      Path: Cave11/Room13.arc/Actor006
+    -
+      Original enemy: Poe
+      Path: Cave11/Room13.arc/Actor007
+    -
+      Original enemy: Poe
+      Path: Cave11/Room13.arc/Actor008
 -
   Original requirements:
     Can Defeat Stalfos
@@ -1685,6 +1720,7 @@
 -
   Original requirements:
     Can Defeat Red Bubbles
+    & Can Defeat Poes Without Light Ray
     & Can Defeat ReDeads
     & Can Defeat Stalfos
   Enemies:
@@ -1695,6 +1731,9 @@
       Original enemy: Red Bubble
       Path: GanonE/Room0.arc/Actor025
     -
+      Original enemy: Poe
+      Path: GanonE/Room0.arc/Actor029
+    -
       Original enemy: ReDead
       Path: GanonE/Room0.arc/Actor02D
     -
@@ -1703,6 +1742,9 @@
     -
       Original enemy: Stalfos
       Path: GanonE/Room0.arc/Actor041
+    -
+      Original enemy: Poe
+      Path: GanonE/Room0.arc/Actor042
 -
   Original requirements:
     Can Defeat Stalfos
@@ -2422,8 +2464,15 @@
       Path: M_Dai/Room6.arc/Actor004
 -
   Original requirements:
-    Can Defeat Moblins
+    Can Defeat Poes Without Light Ray
+    & Can Defeat Moblins
   Enemies:
+    -
+      Original enemy: Poe
+      Path: M_Dai/Room7.arc/Actor000
+    -
+      Original enemy: Poe
+      Path: M_Dai/Room7.arc/Actor001
     -
       Original enemy: Lantern Moblin
       Path: M_Dai/Room7.arc/Actor00E
@@ -2498,9 +2547,19 @@
       Path: M_Dai/Room11.arc/Actor005
 -
   Original requirements:
-    Can Defeat Floormasters
+    Can Defeat Poes Without Light Ray
+    & Can Defeat Floormasters
     & Can Defeat Red Bubbles
   Enemies:
+    -
+      Original enemy: Poe
+      Path: M_Dai/Room13.arc/Actor001
+    -
+      Original enemy: Poe
+      Path: M_Dai/Room13.arc/Actor002
+    -
+      Original enemy: Poe
+      Path: M_Dai/Room13.arc/Actor003
     -
       Original enemy: Floormaster
       Path: M_Dai/Room13.arc/Actor006
@@ -2925,10 +2984,17 @@
 -
   Original requirements:
     Can Defeat Wizzrobes
+    & Can Defeat Poes Without Light Ray
   Enemies:
     -
       Original enemy: Wizzrobe
       Path: PShip/Room2.arc/Actor009
+    -
+      Original enemy: Poe
+      Path: PShip/Room2.arc/Actor012
+    -
+      Original enemy: Poe
+      Path: PShip/Room2.arc/Actor013
 
 
 # Tower of the Gods
@@ -3300,6 +3366,7 @@
   Original requirements:
     Can Defeat Red Bubbles
     & Can Defeat Wizzrobes
+    & Can Defeat Poes Without Light Ray
   Enemies:
     -
       Original enemy: Red Bubble
@@ -3310,6 +3377,12 @@
     -
       Original enemy: Wizzrobe
       Path: SubD71/Room1.arc/Actor00D
+    -
+      Original enemy: Poe
+      Path: SubD71/Room1.arc/Actor00E
+    -
+      Original enemy: Poe
+      Path: SubD71/Room1.arc/Actor00F
 -
   Original requirements:
     Can Defeat Stalfos
@@ -3335,6 +3408,7 @@
 -
   Original requirements:
     Can Defeat Stalfos
+    & Can Defeat Poes Without Light Ray
     & Can Defeat Wizzrobes
   Enemies:
     -
@@ -3343,6 +3417,12 @@
     -
       Original enemy: Stalfos
       Path: SubD71/Room2.arc/Actor001
+    -
+      Original enemy: Poe
+      Path: SubD71/Room2.arc/Actor00E
+    -
+      Original enemy: Poe
+      Path: SubD71/Room2.arc/Actor00F
     -
       Original enemy: Wizzrobe
       Path: SubD71/Room2.arc/Actor010

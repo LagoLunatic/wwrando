@@ -10,7 +10,7 @@
 -
   Pretty name: Green Bokoblin
   Actor name: Bk
-  Params: 0xFFFFFF03
+  Params: 0xFFFFFF20
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Logic macro: Can Defeat Green Bokoblins
@@ -19,7 +19,7 @@
 -
   Pretty name: Pink Bokoblin
   Actor name: Bk
-  Params: 0xFFFFFF04
+  Params: 0xFFFFFF0B
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Logic macro: Can Defeat Pink Bokoblins
@@ -55,9 +55,9 @@
 -
   Pretty name: Blue ChuChu
   Actor name: c_blue
-  #Params: 0x
-  #Aux params: 0x
-  #Aux params 2: 0x
+  Params: 0xFFFF0200
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
   Logic macro: Can Defeat Blue ChuChus
   Allow randomizing from: False
   Allow randomizing to: False
@@ -68,7 +68,7 @@
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Logic macro: Can Defeat Dark ChuChus
-  Allow randomizing from: False
+  Allow randomizing from: False # some rooms need something to place on the switch. for now don't randomize these guys, eventually maybe replace them with magtails?
   Allow randomizing to: False # (Can't be randomized since there would be no light ray to petrify it)
 -
   Pretty name: Kargaroc
@@ -151,6 +151,7 @@
   Logic macro: Can Defeat Dexivines
   Allow randomizing from: True
   Allow randomizing to: True # TODO don't allow in rooms where you need to kill everything
+  # Note: Cannot escape from a Dexivine that catches you without some weapon to cut it down.
 -
   Pretty name: Keese
   Actor name: keeth
@@ -238,12 +239,12 @@
 -
   Pretty name: Poe
   Actor name: pow
-  Params: 0xFFFFFF01
+  Params: 0xFFFFFF00
   Aux params: 0x0000
   Aux params 2: 0x0000
-  Logic macro: Can Defeat Poes
-  Allow randomizing from: False
-  Allow randomizing to: False # (Can't be randomized since there would be no light ray to materialize it)
+  Logic macro: Can Defeat Poes Without Light Ray
+  Allow randomizing from: True
+  Allow randomizing to: True
 -
   Pretty name: Chasing Morth
   Actor name: kuro_s
@@ -253,6 +254,7 @@
   Logic macro: Can Defeat Morths
   Allow randomizing from: True
   Allow randomizing to: True
+  # Note: These don't count as being alive, if only morths are in a room the room will consider itself completed immediately.
 -
   Pretty name: Morth
   Actor name: kuro_t
@@ -262,6 +264,7 @@
   Logic macro: Can Defeat Morths
   Allow randomizing from: True
   Allow randomizing to: True
+  # Note: These don't count as being alive, if only morths are in a room the room will consider itself completed immediately.
 -
   Pretty name: Miniblin
   Actor name: Puti
@@ -310,8 +313,8 @@
 -
   Pretty name: Shield Darknut
   Actor name: Tn
-  Params: 0xFFFFFF14
-  Aux params: 0x001F
+  Params: 0xFFFFFF10
+  Aux params: 0x007F
   Aux params 2: 0x00FF
   Logic macro: Can Defeat Darknuts
   Allow randomizing from: True
@@ -319,7 +322,7 @@
 -
   Pretty name: Mini-Boss Darknut
   Actor name: Tn
-  Params: 0xFFFFFF1D
+  Params: 0xFFFFFF0D
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Logic macro: Can Defeat Darknuts
@@ -328,8 +331,8 @@
 -
   Pretty name: Mighty Darknut
   Actor name: Tn
-  Params: 0xFFFFFF1E
-  Aux params: 0x001F
+  Params: 0xFFFFFF10
+  Aux params: 0x00FF
   Aux params 2: 0x00FF
   Logic macro: Can Defeat Darknuts
   Allow randomizing from: True
@@ -416,29 +419,20 @@
   Allow randomizing from: True
   Allow randomizing to: True
 -
-  Pretty name: Molgera Child
-  Actor name: Bwds
-  Params: 0x00000023
-  Aux params: 0x0000 # TODO
-  Aux params 2: 0x0000 # TODO
-  Logic macro: TODO
-  Allow randomizing from: False
-  Allow randomizing to: False # Doesn't seem to appear...?
--
   Pretty name: Gyorg
   Actor name: GyCtrl
-  #Params: 0x
-  #Aux params: 0x
-  #Aux params 2: 0x
+  Params: 0xFFFFFF10
+  Aux params: 0x0000
+  Aux params 2: 0x0000
   Logic macro: TODO
   Allow randomizing from: False
-  Allow randomizing to: False # Doesn't spawn on land.
+  Allow randomizing to: False # Only works on the sea, not on land or indoors in water.
 -
   Pretty name: Gyorg B??
   Actor name: GyCtrlB
-  #Params: 0x
-  #Aux params: 0x
-  #Aux params 2: 0x
+  Params: 0xFFFF1441
+  Aux params: 0x0000
+  Aux params 2: 0x0000
   Logic macro: TODO
   Allow randomizing from: False
   Allow randomizing to: False
