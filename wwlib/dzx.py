@@ -606,6 +606,13 @@ class SCLS(ChunkEntry):
 class STAG(ChunkEntry):
   DATA_SIZE = 0x14
   
+  PARAMS = {
+    "unknown_2":            0x0003,
+    "unknown_3":            0x0004,
+    "loaded_particle_bank": 0x07F8,
+    "unknown_4":            0xF800,
+  }
+  
   def __init__(self, file_entry):
     self.file_entry = file_entry
   
@@ -621,12 +628,7 @@ class STAG(ChunkEntry):
     self.is_dungeon = is_dungeon_and_stage_id & 1
     self.stage_id = is_dungeon_and_stage_id >> 1
     
-    loaded_particle_bank_and_unknown = read_u16(data, offset+0xA)
-    self.unknown_2            = ((loaded_particle_bank_and_unknown & 0x0003))
-    self.unknown_3            = ((loaded_particle_bank_and_unknown & 0x0004) >> 2)
-    self.loaded_particle_bank = ((loaded_particle_bank_and_unknown & 0x07F8) >> 3)
-    self.unknown_4            = ((loaded_particle_bank_and_unknown & 0xF800) >> 0xB)
-    
+    self.params = read_u16(data, offset+0xA)
     self.property_index = read_u16(data, offset+0xC)
     self.unknown_5 = read_u8(data, offset+0xE)
     self.unknown_6 = read_u8(data, offset+0xF)
@@ -644,13 +646,7 @@ class STAG(ChunkEntry):
     is_dungeon_and_stage_id = (self.stage_id << 1) | (self.is_dungeon & 1)
     write_u16(data, self.offset+8, is_dungeon_and_stage_id)
     
-    loaded_particle_bank_and_unknown = 0
-    loaded_particle_bank_and_unknown |= ((self.unknown_2                  ) & 0x0003)
-    loaded_particle_bank_and_unknown |= ((self.unknown_3            <<   2) & 0x0004)
-    loaded_particle_bank_and_unknown |= ((self.loaded_particle_bank <<   3) & 0x07F8)
-    loaded_particle_bank_and_unknown |= ((self.unknown_4            << 0xB) & 0xF800)
-    write_u16(data, self.offset+0xA, loaded_particle_bank_and_unknown)
-    
+    write_u16(data, self.offset+0xA, self.params)
     write_u16(data, self.offset+0xC, self.property_index)
     write_u8(data, self.offset+0xE, self.unknown_5)
     write_u8(data, self.offset+0xF, self.unknown_6)
@@ -662,7 +658,15 @@ class FILI(ChunkEntry):
   DATA_SIZE = 8
   
   PARAMS = {
-    "wind_type": 0x000C0000,
+    "unknown_1":                0x0000007F,
+    "draw_depth":               0x00007F80,
+    "unknown_2":                0x00038000,
+    "wind_type":                0x000C0000,
+    "is_weather":               0x00100000,
+    "loaded_particle_bank":     0x1FE00000,
+    "unknown_3":                0x20000000,
+    "can_play_song_of_passing": 0x40000000,
+    "unknown_4":                0x80000000,
   }
   
   def __init__(self, file_entry):
