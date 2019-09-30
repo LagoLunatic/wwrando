@@ -20,7 +20,6 @@ def randomize_enemies(self):
     pretty_name = enemy_data["Pretty name"]
     enemy_datas_by_pretty_name[pretty_name] = enemy_data
   
-  enemy_actor_names_placed_in_this_room = {}
   particles_to_load_for_each_jpc_index = OrderedDict()
   
   for enemy_group in self.enemy_locations:
@@ -40,19 +39,18 @@ def randomize_enemies(self):
     #for enemy_data in enemies_not_allowed_in_this_group:
     #  print("  " + enemy_data["Pretty name"])
     
+    enemy_actor_names_placed_in_this_group = []
+    
     for enemy_location in enemy_group["Enemies"]:
       enemy, arc_name = get_enemy_and_arc_name_for_path(self, enemy_location["Path"])
       stage_name, room_arc_name = arc_name.split("/")
       
-      if arc_name not in enemy_actor_names_placed_in_this_room:
-        enemy_actor_names_placed_in_this_room[arc_name] = []
-      
-      if len(enemy_actor_names_placed_in_this_room[arc_name]) >= 8:
+      if len(enemy_actor_names_placed_in_this_group) >= 8:
         # Placed a lot of different enemy types in this room already.
         # Instead of placing yet another new type, reuse a type we already used to prevent overloading the available RAM.
         filtered_enemy_types_data = [
           data for data in enemies_to_randomize_to_for_this_group
-          if data["Actor name"] in enemy_actor_names_placed_in_this_room[arc_name]
+          if data["Actor name"] in enemy_actor_names_placed_in_this_group
         ]
         new_enemy_data = self.rng.choice(filtered_enemy_types_data)
       else:
@@ -68,9 +66,9 @@ def randomize_enemies(self):
       enemy.auxilary_param = new_enemy_data["Aux params"]
       enemy.auxilary_param_2 = new_enemy_data["Aux params 2"]
       enemy.save_changes()
-      if new_enemy_data["Actor name"] not in enemy_actor_names_placed_in_this_room[arc_name]:
+      if new_enemy_data["Actor name"] not in enemy_actor_names_placed_in_this_group:
         # TODO: we should consider 2 different names that are the same actor to be the same...
-        enemy_actor_names_placed_in_this_room[arc_name].append(new_enemy_data["Actor name"])
+        enemy_actor_names_placed_in_this_group.append(new_enemy_data["Actor name"])
       #print("% 7s  %08X  %s" % (enemy.name, enemy.params, arc_path))
       
       if stage_name == "sea":
