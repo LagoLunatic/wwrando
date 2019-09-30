@@ -1048,7 +1048,7 @@ class Logic:
             # Already removed this one
             continue
           
-          possible_new_enemy_req_expression = self.macros[possible_new_enemy_data["Logic macro"]]
+          possible_new_enemy_req_expression = Logic.parse_logic_expression(possible_new_enemy_data["Requirements to defeat"])
           new_req_met = self.check_logical_expression_req(possible_new_enemy_req_expression)
           if not new_req_met:
             enemy_datas_allowed_here.remove(possible_new_enemy_data)

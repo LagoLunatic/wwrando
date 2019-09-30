@@ -5,7 +5,7 @@
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Required particle IDs: []
-  Logic macro: Can Defeat Blue Bokoblins
+  Requirements to defeat: Can Defeat Blue Bokoblins
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -15,7 +15,7 @@
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Required particle IDs: []
-  Logic macro: Can Defeat Green Bokoblins
+  Requirements to defeat: Can Defeat Green Bokoblins
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -25,7 +25,7 @@
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Required particle IDs: []
-  Logic macro: Can Defeat Pink Bokoblins
+  Requirements to defeat: Can Defeat Pink Bokoblins
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -35,7 +35,7 @@
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Required particle IDs: [0x82A8, 0x82A9]
-  Logic macro: Can Defeat Green ChuChus
+  Requirements to defeat: Can Defeat Green ChuChus
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -45,7 +45,7 @@
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Required particle IDs: [0x82A8, 0x82A9]
-  Logic macro: Can Defeat Red ChuChus
+  Requirements to defeat: Can Defeat Red ChuChus
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -55,7 +55,7 @@
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Required particle IDs: [0x82A8, 0x82A9]
-  Logic macro: Can Defeat Yellow ChuChus
+  Requirements to defeat: Can Defeat Yellow ChuChus
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -65,7 +65,7 @@
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Required particle IDs: [0x82A8, 0x82A9]
-  Logic macro: Can Defeat Blue ChuChus
+  Requirements to defeat: Can Defeat Blue ChuChus
   Allow randomizing from: False
   Allow randomizing to: False
 -
@@ -75,7 +75,7 @@
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Required particle IDs: [0x82A8, 0x82A9]
-  Logic macro: Can Defeat Dark ChuChus
+  Requirements to defeat: Can Defeat Dark ChuChus
   Allow randomizing from: False # some rooms need something to place on the switch. for now don't randomize these guys, eventually maybe replace them with magtails?
   Allow randomizing to: False # (Can't be randomized since there would be no light ray to petrify it)
 -
@@ -85,7 +85,7 @@
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Required particle IDs: []
-  Logic macro: Can Defeat Kargarocs
+  Requirements to defeat: Can Defeat Kargarocs
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -95,7 +95,7 @@
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Required particle IDs: []
-  Logic macro: Can Defeat Moblins
+  Requirements to defeat: Can Defeat Moblins
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -105,7 +105,7 @@
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Required particle IDs: []
-  Logic macro: Can Defeat Moblins
+  Requirements to defeat: Can Defeat Moblins
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -115,7 +115,7 @@
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Required particle IDs: []
-  Logic macro: Can Defeat Moblins
+  Requirements to defeat: Can Defeat Moblins
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -125,7 +125,7 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
-  Logic macro: Can Defeat Peahats
+  Requirements to defeat: Can Defeat Peahats
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -135,7 +135,7 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
-  Logic macro: Can Defeat Seahats
+  Requirements to defeat: Can Defeat Seahats
   Allow randomizing from: False
   Allow randomizing to: False
 -
@@ -145,7 +145,7 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: [0x8127, 0x8128, 0x8156, 0x8157, 0xA125, 0xA126, 0xA154, 0xA155]
-  Logic macro: Can Defeat Armos Knights
+  Requirements to defeat: Can Defeat Armos Knights
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -155,7 +155,7 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: [0x81AE, 0x81AF, 0x81B0, 0xA125]
-  Logic macro: Can Defeat Armos
+  Requirements to defeat: Can Defeat Armos
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -165,7 +165,7 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: [0x8184]
-  Logic macro: Can Defeat Dexivines
+  Requirements to defeat: Can Defeat Dexivines
   Allow randomizing from: True
   Allow randomizing to: True # TODO don't allow in rooms where you need to kill everything
   # Note: Cannot escape from a Dexivine that catches you without some weapon to cut it down.
@@ -176,7 +176,7 @@
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Required particle IDs: [0x8099, 0x809A, 0x809B]
-  Logic macro: Can Defeat Keese
+  Requirements to defeat: Can Defeat Keese
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -186,7 +186,7 @@
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Required particle IDs: [0x8099, 0x809A, 0x809B]
-  Logic macro: Can Defeat Fire Keese
+  Requirements to defeat: Can Defeat Fire Keese
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -196,7 +196,7 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
-  Logic macro: Can Defeat Freshwater Octoroks
+  Requirements to defeat: Can Defeat Freshwater Octoroks
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -206,7 +206,7 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
-  Logic macro: Can Defeat Saltwater Octoroks
+  Requirements to defeat: Can Defeat Saltwater Octoroks
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -216,7 +216,7 @@
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Required particle IDs: [0x8238, 0x8239, 0x823A, 0x823C, 0x823D, 0x8280, 0x8281, 0x8282, 0x8283, 0x8284, 0x8287, 0x8288, 0x8289]
-  Logic macro: Can Defeat Wizzrobes
+  Requirements to defeat: Can Defeat Wizzrobes
   Allow randomizing from: True
   Allow randomizing to: True
 #-
@@ -226,7 +226,7 @@
 #  Aux params: 0x
 #  Aux params 2: 0x
 #  Required particle IDs: []
-#  Logic macro: TODO
+#  Requirements to defeat: TODO
 #-
 #  Pretty name: Unused Wizzrobe?
 #  Actor name: wiz_m
@@ -234,7 +234,7 @@
 #  Aux params: 0x
 #  Aux params 2: 0x
 #  Required particle IDs: []
-#  Logic macro: TODO
+#  Requirements to defeat: TODO
 #-
 #  Pretty name: Unused Wizzrobe?
 #  Actor name: wiz_o
@@ -242,7 +242,7 @@
 #  Aux params: 0x
 #  Aux params 2: 0x
 #  Required particle IDs: []
-#  Logic macro: TODO
+#  Requirements to defeat: TODO
 -
   Pretty name: ReDead
   Actor name: Rdead1
@@ -250,7 +250,7 @@
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Required particle IDs: []
-  Logic macro: Can Defeat ReDeads
+  Requirements to defeat: Can Defeat ReDeads
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -260,7 +260,7 @@
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Required particle IDs: []
-  Logic macro: Can Defeat ReDeads
+  Requirements to defeat: Can Defeat ReDeads
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -270,7 +270,7 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: [0x82EE, 0x8445]
-  Logic macro: Can Defeat Poes Without Light Ray
+  Requirements to defeat: Can Defeat Poes Without Light Ray
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -280,7 +280,7 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
-  Logic macro: Can Defeat Morths
+  Requirements to defeat: Can Defeat Morths
   Allow randomizing from: True
   Allow randomizing to: True
   # Note: These don't count as being alive, if only morths are in a room the room will consider itself completed immediately.
@@ -291,7 +291,7 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
-  Logic macro: Can Defeat Morths
+  Requirements to defeat: Can Defeat Morths
   Allow randomizing from: True
   Allow randomizing to: True
   # Note: These don't count as being alive, if only morths are in a room the room will consider itself completed immediately.
@@ -302,7 +302,7 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
-  Logic macro: Can Defeat Miniblins
+  Requirements to defeat: Can Defeat Miniblins
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -312,7 +312,7 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: [0x8188]
-  Logic macro: Can Defeat Rats
+  Requirements to defeat: Can Defeat Rats
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -322,7 +322,37 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: [0x8188]
-  Logic macro: Can Defeat Bombchus
+  Requirements to defeat: Can Defeat Bombchus
+  Allow randomizing from: True
+  Allow randomizing to: True
+-
+  Pretty name: Rat Hole
+  Actor name: nezuana
+  Params: 0xFF0004C8
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+  Required particle IDs: [0x8188]
+  Requirements to defeat: Can Defeat Rats
+  Allow randomizing from: True
+  Allow randomizing to: True
+-
+  Pretty name: Bombchu Hole
+  Actor name: nezuana
+  Params: 0xFF0104C8
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+  Required particle IDs: [0x8188]
+  Requirements to defeat: Can Defeat Bombchus
+  Allow randomizing from: True
+  Allow randomizing to: True
+-
+  Pretty name: Rat and Bombchu Hole
+  Actor name: nezuana
+  Params: 0xFF0204C8
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
+  Required particle IDs: [0x8188]
+  Requirements to defeat: Can Defeat Rats & Can Defeat Bombchus
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -332,7 +362,7 @@
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Required particle IDs: [0x8179, 0x817A, 0x817B, 0x817E, 0xA17C, 0xA17D]
-  Logic macro: Can Defeat Stalfos
+  Requirements to defeat: Can Defeat Stalfos
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -342,7 +372,7 @@
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Required particle IDs: [0x81B4, 0x81B5, 0x81B6, 0xA1B3]
-  Logic macro: Can Defeat Darknuts
+  Requirements to defeat: Can Defeat Darknuts
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -352,7 +382,7 @@
   Aux params: 0x007F
   Aux params 2: 0x00FF
   Required particle IDs: [0x81B4, 0x81B5, 0x81B6, 0xA1B3]
-  Logic macro: Can Defeat Darknuts
+  Requirements to defeat: Can Defeat Darknuts
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -362,7 +392,7 @@
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Required particle IDs: [0x81B4, 0x81B5, 0x81B6, 0xA1B3]
-  Logic macro: Can Defeat Darknuts
+  Requirements to defeat: Can Defeat Darknuts
   Allow randomizing from: True
   Allow randomizing to: False
 -
@@ -372,7 +402,7 @@
   Aux params: 0x00FF
   Aux params 2: 0x00FF
   Required particle IDs: [0x81B4, 0x81B5, 0x81B6, 0xA1B3]
-  Logic macro: Can Defeat Darknuts
+  Requirements to defeat: Can Defeat Darknuts
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -382,7 +412,7 @@
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Required particle IDs: [0x81B4, 0x81B5, 0x81B6, 0xA1B3]
-  Logic macro: Can Defeat Darknuts
+  Requirements to defeat: Can Defeat Darknuts
   Allow randomizing from: True
   Allow randomizing to: False
 -
@@ -392,7 +422,7 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: [0x8106, 0x8107, 0x8108, 0x8109, 0x810A, 0x810C]
-  Logic macro: Can Defeat Boko Babas
+  Requirements to defeat: Can Defeat Boko Babas
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -402,7 +432,7 @@
   Aux params: 0x0000 # TODO
   Aux params 2: 0x0000 # TODO
   Required particle IDs: [0x8095, 0x8096, 0x80CF, 0xC06C]
-  Logic macro: Can Defeat Magtails
+  Requirements to defeat: Can Defeat Magtails
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -412,7 +442,7 @@
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Required particle IDs: [0x8122, 0x8123, 0x8124, 0x815B]
-  Logic macro: Can Defeat Red Bubbles
+  Requirements to defeat: Can Defeat Red Bubbles
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -422,7 +452,7 @@
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Required particle IDs: [0x8122, 0x8123, 0x8124, 0x815B]
-  Logic macro: Can Defeat Blue Bubbles
+  Requirements to defeat: Can Defeat Blue Bubbles
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -432,7 +462,7 @@
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Required particle IDs: [0x8122, 0x8123, 0x8124, 0x815B]
-  Logic macro: Nothing
+  Requirements to defeat: Nothing
   Allow randomizing from: False
   Allow randomizing to: False
 -
@@ -442,7 +472,7 @@
   Aux params: 0x00FF
   Aux params 2: 0x00FF
   Required particle IDs: [0x81A1, 0x81A2, 0x81A3]
-  Logic macro: Can Defeat Mothulas
+  Requirements to defeat: Can Defeat Mothulas
   Allow randomizing from: True
   Allow randomizing to: False
 -
@@ -452,7 +482,7 @@
   Aux params: 0x00FF
   Aux params 2: 0x00FF
   Required particle IDs: [0x81A1, 0x81A2, 0x81A3]
-  Logic macro: Can Defeat Mothulas
+  Requirements to defeat: Can Defeat Mothulas
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -462,7 +492,7 @@
   Aux params: 0x00FF
   Aux params 2: 0x00FF
   Required particle IDs: [0x81A1, 0x81A2, 0x81A3]
-  Logic macro: Can Defeat Winged Mothulas
+  Requirements to defeat: Can Defeat Winged Mothulas
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -472,7 +502,7 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
-  Logic macro: TODO
+  Requirements to defeat: TODO
   Allow randomizing from: False
   Allow randomizing to: False # Only works on the sea, not on land or indoors in water.
 -
@@ -482,9 +512,10 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
-  Logic macro: TODO
+  Requirements to defeat: TODO
   Allow randomizing from: False
   Allow randomizing to: False
+# TODO: don't randomize beamos at all. they can block the way even after being "killed"
 -
   Pretty name: Blue Beamos
   Actor name: Hmos1
@@ -492,7 +523,7 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: [0x8120, 0x8121, 0x814C, 0x815C, 0x815D, 0x815E, 0x815F, 0x8160]
-  Logic macro: Can Defeat Beamos
+  Requirements to defeat: Can Defeat Beamos
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -502,7 +533,7 @@
   Aux params: 0x0000
   Aux params 2: 0x1FFF
   Required particle IDs: [0x8120, 0x8121, 0x814C, 0x815C, 0x815D, 0x815E, 0x815F, 0x8160]
-  Logic macro: Can Defeat Beamos
+  Requirements to defeat: Can Defeat Beamos
   Allow randomizing from: True
   Allow randomizing to: True
 -
@@ -512,7 +543,7 @@
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: [0x8120, 0x8121, 0x814C, 0x815C, 0x815D, 0x815E, 0x815F, 0x8160]
-  Logic macro: Can Defeat Beamos
+  Requirements to defeat: Can Defeat Beamos
   Allow randomizing from: False
   Allow randomizing to: False
 #-
@@ -522,7 +553,7 @@
 #  #Aux params: 0x
 #  #Aux params 2: 0x
 #  Required particle IDs: [0x809E]
-#  Logic macro: Can Defeat Floormasters
+#  Requirements to defeat: Can Defeat Floormasters
 #  Allow randomizing from: False
 #  Allow randomizing to: False
 -
@@ -532,7 +563,7 @@
   Aux params: 0x01FF
   Aux params 2: 0x00FF
   Required particle IDs: [0x809E]
-  Logic macro: Can Defeat Floormasters
+  Requirements to defeat: Can Defeat Floormasters
   Allow randomizing from: True
   Allow randomizing to: False # It wouldn't have a path to follow so it would go to some weird spot
 -
@@ -542,6 +573,6 @@
   Aux params: 0x01FF
   Aux params 2: 0x00FF
   Required particle IDs: [0x809E]
-  Logic macro: Can Defeat Floormasters
+  Requirements to defeat: Can Defeat Floormasters
   Allow randomizing from: True
   Allow randomizing to: True # What happens if there's no exit set for where it teleports you to...?

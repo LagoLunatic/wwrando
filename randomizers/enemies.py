@@ -183,14 +183,14 @@ def print_all_enemy_locations(self):
       # This function simply creates one group for every layer that has enemies for each room, and sets the original vanilla logic requirements for the group to the combination of all the unique enemy species that were in that room.
       # This way is not necessarily correct in 100% of cases, you could have a room with some enemies you need to kill but some you don't, or a room where you need to kill enemies from both the default layer and a conditional layer to progress. Or you could have rooms where you don't need to kill any of the enemies to progress at all.
       # Therefore the groups and logic will need to be manually adjusted after the fact, this function just creates the base to work off of.
-      logic_macros_for_this_layer = []
+      defeat_reqs_for_this_layer = []
       for enemy in enemies:
-        logic_macro = get_enemy_data_for_actor(self, enemy)["Logic macro"]
-        if logic_macro not in logic_macros_for_this_layer:
-          logic_macros_for_this_layer.append(logic_macro)
+        defeat_reqs = get_enemy_data_for_actor(self, enemy)["Requirements to defeat"]
+        if defeat_reqs not in defeat_reqs_for_this_layer:
+          defeat_reqs_for_this_layer.append(defeat_reqs)
       output_str += "-\n"
       output_str += "  Original requirements:\n"
-      output_str += "    " + "\n    & ".join(logic_macros_for_this_layer) + "\n"
+      output_str += "    " + "\n    & ".join(defeat_reqs_for_this_layer) + "\n"
       output_str += "  Enemies:\n"
       
       # Then write each of the individual enemies in the group.
@@ -199,7 +199,7 @@ def print_all_enemy_locations(self):
         
         enemy_pretty_name = enemy_data["Pretty name"]
         
-        logic_macro = enemy_data["Logic macro"]
+        defeat_reqs = enemy_data["Requirements to defeat"]
         
         layer_name = ""
         if layer != None:
@@ -256,6 +256,13 @@ def get_enemy_data_for_actor(self, enemy):
       return enemy_datas_by_pretty_name["Rat"]
     elif enemy.rat_type == 1:
       return enemy_datas_by_pretty_name["Bombchu"]
+  elif enemy.name == "nezuana":
+    if enemy.rat_hole_type == 0 or enemy.rat_hole_type >= 3:
+      return enemy_datas_by_pretty_name["Rat Hole"]
+    elif enemy.rat_hole_type == 1:
+      return enemy_datas_by_pretty_name["Bombchu Hole"]
+    elif enemy.rat_hole_type == 2:
+      return enemy_datas_by_pretty_name["Rat and Bombchu Hole"]
   elif enemy.name == "Tn":
     if enemy.darknut_behavior_type == 0:
       return enemy_datas_by_pretty_name["Darknut"]
