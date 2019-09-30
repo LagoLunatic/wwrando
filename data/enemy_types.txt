@@ -564,40 +564,39 @@
   Allow randomizing from: False
   Allow randomizing to: False
   Placement categories: [Sea]
-# TODO: don't randomize beamos at all. they can block the way even after being "killed"
--
-  Pretty name: Blue Beamos
-  Actor name: Hmos1
-  Params: 0x00000002
-  Aux params: 0x0000
-  Aux params 2: 0x0000
-  Required particle IDs: [0x8120, 0x8121, 0x814C, 0x815C, 0x815D, 0x815E, 0x815F, 0x8160]
-  Requirements to defeat: Can Defeat Beamos
-  Allow randomizing from: True
-  Allow randomizing to: True
-  Placement categories: [Ground]
--
-  Pretty name: Red Beamos
-  Actor name: Hmos2
-  Params: 0x1000FD02
-  Aux params: 0x0000
-  Aux params 2: 0x1FFF
-  Required particle IDs: [0x8120, 0x8121, 0x814C, 0x815C, 0x815D, 0x815E, 0x815F, 0x8160]
-  Requirements to defeat: Can Defeat Beamos
-  Allow randomizing from: True
-  Allow randomizing to: True
-  Placement categories: [Ground]
--
-  Pretty name: Laser Forcefield
-  Actor name: Hmos3
-  Params: 0x2000FF0F
-  Aux params: 0x0000
-  Aux params 2: 0x0000
-  Required particle IDs: [0x8120, 0x8121, 0x814C, 0x815C, 0x815D, 0x815E, 0x815F, 0x8160]
-  Requirements to defeat: Can Defeat Beamos
-  Allow randomizing from: False
-  Allow randomizing to: False
-  Placement categories: [Wall]
+#-
+#  Pretty name: Blue Beamos
+#  Actor name: Hmos1
+#  Params: 0x00000002
+#  Aux params: 0x0000
+#  Aux params 2: 0x0000
+#  Required particle IDs: [0x8120, 0x8121, 0x814C, 0x815C, 0x815D, 0x815E, 0x815F, 0x8160]
+#  Requirements to defeat: Can Defeat Beamos
+#  Allow randomizing from: False
+#  Allow randomizing to: False
+#  Placement categories: [Ground]
+#-
+#  Pretty name: Red Beamos
+#  Actor name: Hmos2
+#  Params: 0x1000FD02
+#  Aux params: 0x0000
+#  Aux params 2: 0x1FFF
+#  Required particle IDs: [0x8120, 0x8121, 0x814C, 0x815C, 0x815D, 0x815E, 0x815F, 0x8160]
+#  Requirements to defeat: Can Defeat Beamos
+#  Allow randomizing from: False
+#  Allow randomizing to: False
+#  Placement categories: [Ground]
+#-
+#  Pretty name: Laser Forcefield
+#  Actor name: Hmos3
+#  Params: 0x2000FF0F
+#  Aux params: 0x0000
+#  Aux params 2: 0x0000
+#  Required particle IDs: [0x8120, 0x8121, 0x814C, 0x815C, 0x815D, 0x815E, 0x815F, 0x8160]
+#  Requirements to defeat: Can Defeat Beamos
+#  Allow randomizing from: False
+#  Allow randomizing to: False
+#  Placement categories: [Wall]
 #-
 #  Pretty name: Floormaster Hole
 #  Actor name: Fmaster

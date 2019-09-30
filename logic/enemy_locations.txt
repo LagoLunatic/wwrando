@@ -3917,14 +3917,9 @@
       Path: Siren/Room5.arc/Actor014
 -
   Original requirements:
-    Can Defeat Beamos
-    & Can Defeat Armos
+    Can Defeat Armos
     & Can Defeat Rats
   Enemies:
-    -
-      Original enemy: Red Beamos
-      Placement category: Ground
-      Path: Siren/Room6.arc/Actor000
     -
       Original enemy: Armos
       Placement category: Ground
@@ -4048,29 +4043,8 @@
       Path: Siren/Room14.arc/Actor008
 -
   Original requirements:
-    Can Defeat Beamos
+    Can Defeat Armos
   Enemies:
-    -
-      Original enemy: Blue Beamos
-      Placement category: Ground
-      Path: Siren/Room15.arc/Actor002
-    -
-      Original enemy: Blue Beamos
-      Placement category: Ground
-      Path: Siren/Room15.arc/Actor003
--
-  Original requirements:
-    Can Defeat Beamos
-    & Can Defeat Armos
-  Enemies:
-    -
-      Original enemy: Red Beamos
-      Placement category: Ground
-      Path: Siren/Room17.arc/Actor001
-    -
-      Original enemy: Red Beamos
-      Placement category: Ground
-      Path: Siren/Room17.arc/Actor002
     -
       Original enemy: Armos
       Placement category: Ground
@@ -4081,17 +4055,8 @@
       Path: Siren/Room17.arc/Actor00A
 -
   Original requirements:
-    Can Defeat Beamos
-    & Can Defeat Kargarocs
+    Can Defeat Kargarocs
   Enemies:
-    -
-      Original enemy: Blue Beamos
-      Placement category: Ground
-      Path: Siren/Room18.arc/Actor000
-    -
-      Original enemy: Red Beamos
-      Placement category: Ground
-      Path: Siren/Room18.arc/Actor001
     -
       Original enemy: Kargaroc
       Placement category: Air
@@ -4100,26 +4065,6 @@
       Original enemy: Kargaroc
       Placement category: Air
       Path: Siren/Room18.arc/Actor003
-    -
-      Original enemy: Red Beamos
-      Placement category: Ground
-      Path: Siren/Room18.arc/Actor004
-    -
-      Original enemy: Red Beamos
-      Placement category: Ground
-      Path: Siren/Room18.arc/Actor005
-    -
-      Original enemy: Blue Beamos
-      Placement category: Ground
-      Path: Siren/Room18.arc/Actor008
-    -
-      Original enemy: Blue Beamos
-      Placement category: Ground
-      Path: Siren/Room18.arc/Actor009
-    -
-      Original enemy: Blue Beamos
-      Placement category: Ground
-      Path: Siren/Room18.arc/Actor00A
 -
   Original requirements:
     Can Defeat Armos Knights
