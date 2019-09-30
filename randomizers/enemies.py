@@ -45,7 +45,7 @@ def randomize_enemies(self):
       enemy, arc_name = get_enemy_and_arc_name_for_path(self, enemy_location["Path"])
       stage_name, room_arc_name = arc_name.split("/")
       
-      if len(enemy_actor_names_placed_in_this_group) >= 8:
+      if len(enemy_actor_names_placed_in_this_group) >= 5:
         # Placed a lot of different enemy types in this room already.
         # Instead of placing yet another new type, reuse a type we already used to prevent overloading the available RAM.
         filtered_enemy_types_data = [
