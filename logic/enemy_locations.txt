@@ -210,8 +210,18 @@
       Path: Abship/Room4.arc/Actor00A
 -
   Original requirements:
-    Can Defeat Rats
+    Can Defeat Bombchus
+    & Can Defeat Rats
   Enemies:
+    -
+      Original enemy: Bombchu Hole
+      Path: Abship/Room5.arc/Actor000
+    -
+      Original enemy: Bombchu Hole
+      Path: Abship/Room5.arc/Actor001
+    -
+      Original enemy: Bombchu Hole
+      Path: Abship/Room5.arc/Actor002
     -
       Original enemy: Rat
       Path: Abship/Room5.arc/Actor003
@@ -2844,6 +2854,13 @@
       Path: M_NewD2/Room13.arc/Actor00A
 -
   Original requirements:
+    Can Defeat Rats
+  Enemies:
+    -
+      Original enemy: Rat Hole
+      Path: M_NewD2/Room14.arc/Actor00B
+-
+  Original requirements:
     Can Defeat Fire Keese
   Enemies:
     -
@@ -4576,8 +4593,12 @@
 # Forsaken Fortress Interior (2nd visit)
 -
   Original requirements:
-    Can Defeat Moblins
+    Can Defeat Bombchus
+    & Can Defeat Moblins
   Enemies:
+    -
+      Original enemy: Bombchu Hole
+      Path: ma2room/Room0.arc/Actor000
     -
       Original enemy: Lantern Moblin
       Path: ma2room/Room0.arc/Actor001
@@ -4615,8 +4636,12 @@
       Path: ma2room/Room1.arc/Actor014
 -
   Original requirements:
-    Can Defeat Moblins
+    Can Defeat Bombchus
+    & Can Defeat Moblins
   Enemies:
+    -
+      Original enemy: Bombchu Hole
+      Path: ma2room/Room2.arc/Actor000
     -
       Original enemy: Lantern Moblin
       Path: ma2room/Room2.arc/Actor001
@@ -4629,6 +4654,7 @@
 -
   Original requirements:
     Can Defeat Moblins
+    & Can Defeat Bombchus
     & Can Defeat Freshwater Octoroks
     & Can Defeat Floormasters
   Enemies:
@@ -4641,6 +4667,12 @@
     -
       Original enemy: Lantern Moblin
       Path: ma2room/Room3.arc/Actor002
+    -
+      Original enemy: Bombchu Hole
+      Path: ma2room/Room3.arc/Actor010
+    -
+      Original enemy: Bombchu Hole
+      Path: ma2room/Room3.arc/Actor011
     -
       Original enemy: Freshwater Octorok
       Path: ma2room/Room3.arc/Actor012
@@ -4659,8 +4691,12 @@
 # Forsaken Fortress Interior (3rd visit)
 -
   Original requirements:
-    Can Defeat Keese
+    Can Defeat Rats
+    & Can Defeat Keese
   Enemies:
+    -
+      Original enemy: Rat Hole
+      Path: ma3room/Room0.arc/Actor026
     -
       Original enemy: Keese
       Path: ma3room/Room0.arc/Actor027
@@ -4688,8 +4724,12 @@
       Path: ma3room/Room1.arc/Actor00A
 -
   Original requirements:
-    Can Defeat Keese
+    Can Defeat Rats
+    & Can Defeat Keese
   Enemies:
+    -
+      Original enemy: Rat Hole
+      Path: ma3room/Room2.arc/Actor007
     -
       Original enemy: Keese
       Path: ma3room/Room2.arc/Actor008
@@ -4705,6 +4745,7 @@
 -
   Original requirements:
     Can Defeat Keese
+    & Can Defeat Rats
   Enemies:
     -
       Original enemy: Keese
@@ -4712,6 +4753,12 @@
     -
       Original enemy: Keese
       Path: ma3room/Room3.arc/Actor012
+    -
+      Original enemy: Rat Hole
+      Path: ma3room/Room3.arc/Actor013
+    -
+      Original enemy: Rat Hole
+      Path: ma3room/Room3.arc/Actor014
     -
       Original enemy: Keese
       Path: ma3room/Room3.arc/Actor015
@@ -4745,8 +4792,12 @@
 # Forsaken Fortress Interior (1st visit)
 -
   Original requirements:
-    Can Defeat Moblins
+    Can Defeat Rats
+    & Can Defeat Moblins
   Enemies:
+    -
+      Original enemy: Rat Hole
+      Path: majroom/Room0.arc/Actor000
     -
       Original enemy: Lantern Moblin
       Path: majroom/Room0.arc/Actor001
@@ -4784,8 +4835,12 @@
       Path: majroom/Room1.arc/Layerb/Actor003
 -
   Original requirements:
-    Can Defeat Moblins
+    Can Defeat Rats
+    & Can Defeat Moblins
   Enemies:
+    -
+      Original enemy: Rat Hole
+      Path: majroom/Room2.arc/Actor000
     -
       Original enemy: Lantern Moblin
       Path: majroom/Room2.arc/Actor001
@@ -4869,6 +4924,26 @@
     -
       Original enemy: Miniblin
       Path: sea/Room1.arc/Layer1/Actor028
+-
+  Original requirements:
+    Can Defeat Rats
+  Enemies:
+    -
+      Original enemy: Rat Hole
+      Path: sea/Room1.arc/Layer2/Actor005
+    -
+      Original enemy: Rat Hole
+      Path: sea/Room1.arc/Layer2/Actor006
+-
+  Original requirements:
+    Can Defeat Rats
+  Enemies:
+    -
+      Original enemy: Rat Hole
+      Path: sea/Room1.arc/Layer3/Actor005
+    -
+      Original enemy: Rat Hole
+      Path: sea/Room1.arc/Layer3/Actor006
 
 
 # Star Island
