@@ -212,6 +212,8 @@ def print_all_enemy_locations(self):
       for enemy in enemies:
         enemy_data = get_enemy_data_for_actor(self, enemy)
         
+        placement_category = get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy)
+        
         enemy_pretty_name = enemy_data["Pretty name"]
         
         defeat_reqs = enemy_data["Requirements to defeat"]
@@ -224,6 +226,7 @@ def print_all_enemy_locations(self):
         
         output_str += "    -\n"
         output_str += "      Original enemy: " + enemy_pretty_name + "\n"
+        output_str += "      Placement category: " + placement_category + "\n"
         output_str += "      Path: " + enemy_loc_path + "\n"
   
   with open("enemy_locations.txt", "w") as f:
@@ -305,6 +308,36 @@ def get_enemy_data_for_actor(self, enemy):
       return enemy_datas_by_pretty_name["Winged Mothula"]
   
   raise Exception("Unknown enemy subspecies: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2))
+
+def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
+  if len(enemy_data["Placement categories"]) == 1:
+    # For enemy types that only have a single placement category, we don't need to check their params to know which one this is.
+    return enemy_data["Placement categories"][0]
+  
+  if enemy.name == "Bk":
+    if enemy.bokoblin_type == 3:
+      return "Pot"
+    else:
+      return "Ground"
+  elif enemy.name in ["c_green", "c_red", "c_kiiro", "c_blue", "c_black"]:
+    if enemy.chuchu_behavior_type == 1:
+      return "Ceiling"
+    elif enemy.chuchu_behavior_type == 4:
+      return "Pot"
+    else:
+      return "Ground"
+  elif enemy.name == "Bb":
+    if enemy.kargaroc_behavior_type in [4, 7]:
+      return "Ground"
+    else:
+      return "Air"
+  elif enemy.name in ["kuro_s", "kuro_t"]:
+    if enemy.morth_behavior_type == 6:
+      return "Pot"
+    else:
+      return "Ground"
+  
+  raise Exception("Unknown placement category for enemy: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2))
 
 def get_enemy_and_arc_name_for_path(self, path):
   match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/Actor([0-9A-F]{3})$", path)

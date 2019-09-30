@@ -424,6 +424,13 @@ class ACTR(ChunkEntry):
     "mothula_type": 0x00FF0000,
     
     "bubble_type": 0x000000FF,
+    
+    "chuchu_behavior_type": 0x000000FF,
+    "chuchu_type": 0x0000FF00,
+    
+    "kargaroc_behavior_type": 0x000000FF,
+    
+    "morth_behavior_type": 0x000000FF,
   }
   
   ITEM_NAMES = [

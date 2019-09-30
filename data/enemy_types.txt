@@ -8,6 +8,7 @@
   Requirements to defeat: Can Defeat Blue Bokoblins
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground, Pot]
 -
   Pretty name: Green Bokoblin
   Actor name: Bk
@@ -18,6 +19,7 @@
   Requirements to defeat: Can Defeat Green Bokoblins
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground, Pot]
 -
   Pretty name: Pink Bokoblin
   Actor name: Bk
@@ -28,6 +30,7 @@
   Requirements to defeat: Can Defeat Pink Bokoblins
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground, Pot]
 -
   Pretty name: Green ChuChu
   Actor name: c_green
@@ -38,6 +41,7 @@
   Requirements to defeat: Can Defeat Green ChuChus
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground, Pot, Ceiling]
 -
   Pretty name: Red ChuChu
   Actor name: c_red
@@ -48,6 +52,7 @@
   Requirements to defeat: Can Defeat Red ChuChus
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground, Pot, Ceiling]
 -
   Pretty name: Yellow ChuChu
   Actor name: c_kiiro
@@ -58,6 +63,7 @@
   Requirements to defeat: Can Defeat Yellow ChuChus
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground, Pot, Ceiling]
 -
   Pretty name: Blue ChuChu
   Actor name: c_blue
@@ -66,8 +72,9 @@
   Aux params 2: 0x00FF
   Required particle IDs: [0x82A8, 0x82A9]
   Requirements to defeat: Can Defeat Blue ChuChus
-  Allow randomizing from: False
-  Allow randomizing to: False
+  Allow randomizing from: False # Randomizing from them would break the logic for getting the vanilla Blue Chu Jelly locations.
+  Allow randomizing to: False # Randomizing to them would allow you to get Blue Chu Jelly more easily than in vanilla.
+  Placement categories: [Ground, Pot, Ceiling]
 -
   Pretty name: Dark ChuChu
   Actor name: c_black
@@ -77,17 +84,19 @@
   Required particle IDs: [0x82A8, 0x82A9]
   Requirements to defeat: Can Defeat Dark ChuChus
   Allow randomizing from: False # some rooms need something to place on the switch. for now don't randomize these guys, eventually maybe replace them with magtails?
-  Allow randomizing to: False # (Can't be randomized since there would be no light ray to petrify it)
+  Allow randomizing to: False # Can't be randomized since there would be no light ray to petrify it.
+  Placement categories: [Ground, Pot, Ceiling]
 -
   Pretty name: Kargaroc
   Actor name: Bb
-  Params: 0xFFFFFFFF # TODO?
+  Params: 0xFFFFFF00
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Required particle IDs: []
   Requirements to defeat: Can Defeat Kargarocs
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Air, Ground]
 -
   Pretty name: Moblin
   Actor name: mo2
@@ -98,6 +107,7 @@
   Requirements to defeat: Can Defeat Moblins
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Lantern Moblin
   Actor name: mo2
@@ -108,6 +118,7 @@
   Requirements to defeat: Can Defeat Moblins
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Blue Moblin
   Actor name: mo2
@@ -118,6 +129,7 @@
   Requirements to defeat: Can Defeat Moblins
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Peahat
   Actor name: p_hat
@@ -128,6 +140,7 @@
   Requirements to defeat: Can Defeat Peahats
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Air]
 -
   Pretty name: Seahat
   Actor name: p_hat
@@ -138,6 +151,7 @@
   Requirements to defeat: Can Defeat Seahats
   Allow randomizing from: False
   Allow randomizing to: False
+  Placement categories: [Sea]
 -
   Pretty name: Armos Knight
   Actor name: amos
@@ -148,6 +162,7 @@
   Requirements to defeat: Can Defeat Armos Knights
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Armos
   Actor name: amos2
@@ -158,6 +173,7 @@
   Requirements to defeat: Can Defeat Armos
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Dexivine
   Actor name: Sss
@@ -168,6 +184,7 @@
   Requirements to defeat: Can Defeat Dexivines
   Allow randomizing from: True
   Allow randomizing to: True # TODO don't allow in rooms where you need to kill everything
+  Placement categories: [Ground]
   # Note: Cannot escape from a Dexivine that catches you without some weapon to cut it down.
 -
   Pretty name: Keese
@@ -179,6 +196,7 @@
   Requirements to defeat: Can Defeat Keese
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Air]
 -
   Pretty name: Fire Keese
   Actor name: Fkeeth
@@ -189,6 +207,7 @@
   Requirements to defeat: Can Defeat Fire Keese
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Air]
 -
   Pretty name: Freshwater Octorok
   Actor name: Oq
@@ -199,6 +218,7 @@
   Requirements to defeat: Can Defeat Freshwater Octoroks
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Water]
 -
   Pretty name: Saltwater Octorok
   Actor name: Oqw
@@ -209,6 +229,7 @@
   Requirements to defeat: Can Defeat Saltwater Octoroks
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Sea]
 -
   Pretty name: Wizzrobe
   Actor name: wiz_r
@@ -219,6 +240,7 @@
   Requirements to defeat: Can Defeat Wizzrobes
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 #-
 #  Pretty name: Unused Wizzrobe?
 #  Actor name: wiz_s
@@ -253,6 +275,7 @@
   Requirements to defeat: Can Defeat ReDeads
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Sitting ReDead
   Actor name: Rdead2
@@ -263,6 +286,7 @@
   Requirements to defeat: Can Defeat ReDeads
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Poe
   Actor name: pow
@@ -273,6 +297,7 @@
   Requirements to defeat: Can Defeat Poes Without Light Ray
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Chasing Morth
   Actor name: kuro_s
@@ -283,6 +308,7 @@
   Requirements to defeat: Can Defeat Morths
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground, Pot]
   # Note: These don't count as being alive, if only morths are in a room the room will consider itself completed immediately.
 -
   Pretty name: Morth
@@ -294,6 +320,7 @@
   Requirements to defeat: Can Defeat Morths
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground, Pot]
   # Note: These don't count as being alive, if only morths are in a room the room will consider itself completed immediately.
 -
   Pretty name: Miniblin
@@ -305,6 +332,7 @@
   Requirements to defeat: Can Defeat Miniblins
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Rat
   Actor name: nezumi
@@ -315,6 +343,7 @@
   Requirements to defeat: Can Defeat Rats
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Bombchu
   Actor name: nezumi
@@ -325,6 +354,7 @@
   Requirements to defeat: Can Defeat Bombchus
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Rat Hole
   Actor name: nezuana
@@ -335,6 +365,7 @@
   Requirements to defeat: Can Defeat Rats
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Bombchu Hole
   Actor name: nezuana
@@ -345,6 +376,7 @@
   Requirements to defeat: Can Defeat Bombchus
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Rat and Bombchu Hole
   Actor name: nezuana
@@ -355,6 +387,7 @@
   Requirements to defeat: Can Defeat Rats & Can Defeat Bombchus
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Stalfos
   Actor name: Stal
@@ -365,6 +398,7 @@
   Requirements to defeat: Can Defeat Stalfos
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Darknut
   Actor name: Tn
@@ -375,6 +409,7 @@
   Requirements to defeat: Can Defeat Darknuts
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Shield Darknut
   Actor name: Tn
@@ -385,6 +420,7 @@
   Requirements to defeat: Can Defeat Darknuts
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Mini-Boss Darknut
   Actor name: Tn
@@ -395,6 +431,7 @@
   Requirements to defeat: Can Defeat Darknuts
   Allow randomizing from: True
   Allow randomizing to: False
+  Placement categories: [Ground]
 -
   Pretty name: Mighty Darknut
   Actor name: Tn
@@ -405,6 +442,7 @@
   Requirements to defeat: Can Defeat Darknuts
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Frozen Darknut
   Actor name: Tn
@@ -415,6 +453,7 @@
   Requirements to defeat: Can Defeat Darknuts
   Allow randomizing from: True
   Allow randomizing to: False
+  Placement categories: [Ground]
 -
   Pretty name: Boko Baba
   Actor name: bbaba
@@ -425,6 +464,7 @@
   Requirements to defeat: Can Defeat Boko Babas
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Magtail # sorta works, but may start out inside the floor and come up, or start out inside the floor and never come out.
   Actor name: magtail
@@ -435,6 +475,7 @@
   Requirements to defeat: Can Defeat Magtails
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Red Bubble
   Actor name: bable
@@ -445,6 +486,7 @@
   Requirements to defeat: Can Defeat Red Bubbles
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Air]
 -
   Pretty name: Blue Bubble
   Actor name: bable
@@ -455,6 +497,7 @@
   Requirements to defeat: Can Defeat Blue Bubbles
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Air]
 -
   Pretty name: Inanimate Bubble
   Actor name: bable
@@ -465,6 +508,7 @@
   Requirements to defeat: Nothing
   Allow randomizing from: False
   Allow randomizing to: False
+  Placement categories: [Ground]
 -
   Pretty name: Mini-Boss Winged Mothula
   Actor name: gmos
@@ -475,6 +519,7 @@
   Requirements to defeat: Can Defeat Mothulas
   Allow randomizing from: True
   Allow randomizing to: False
+  Placement categories: [Air]
 -
   Pretty name: Wingless Mothula
   Actor name: gmos
@@ -485,6 +530,7 @@
   Requirements to defeat: Can Defeat Mothulas
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Winged Mothula
   Actor name: gmos
@@ -495,6 +541,7 @@
   Requirements to defeat: Can Defeat Winged Mothulas
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Air]
 -
   Pretty name: Gyorg
   Actor name: GyCtrl
@@ -505,6 +552,7 @@
   Requirements to defeat: TODO
   Allow randomizing from: False
   Allow randomizing to: False # Only works on the sea, not on land or indoors in water.
+  Placement categories: [Sea]
 -
   Pretty name: Gyorg B??
   Actor name: GyCtrlB
@@ -515,6 +563,7 @@
   Requirements to defeat: TODO
   Allow randomizing from: False
   Allow randomizing to: False
+  Placement categories: [Sea]
 # TODO: don't randomize beamos at all. they can block the way even after being "killed"
 -
   Pretty name: Blue Beamos
@@ -526,6 +575,7 @@
   Requirements to defeat: Can Defeat Beamos
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Red Beamos
   Actor name: Hmos2
@@ -536,6 +586,7 @@
   Requirements to defeat: Can Defeat Beamos
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
 -
   Pretty name: Laser Forcefield
   Actor name: Hmos3
@@ -546,6 +597,7 @@
   Requirements to defeat: Can Defeat Beamos
   Allow randomizing from: False
   Allow randomizing to: False
+  Placement categories: [Wall]
 #-
 #  Pretty name: Floormaster Hole
 #  Actor name: Fmaster
@@ -556,6 +608,7 @@
 #  Requirements to defeat: Can Defeat Floormasters
 #  Allow randomizing from: False
 #  Allow randomizing to: False
+#  Placement categories: [Ground]
 -
   Pretty name: Path-Following Floormaster
   Actor name: Fmastr1
@@ -566,6 +619,7 @@
   Requirements to defeat: Can Defeat Floormasters
   Allow randomizing from: True
   Allow randomizing to: False # It wouldn't have a path to follow so it would go to some weird spot
+  Placement categories: [Ground]
 -
   Pretty name: Floormaster
   Actor name: Fmastr2
@@ -576,3 +630,4 @@
   Requirements to defeat: Can Defeat Floormasters
   Allow randomizing from: True
   Allow randomizing to: True # What happens if there's no exit set for where it teleports you to...?
+  Placement categories: [Ground]

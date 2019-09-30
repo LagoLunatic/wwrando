@@ -8,18 +8,23 @@
   Enemies:
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer0/Actor003
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer0/Actor004
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer0/Actor005
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: A_mori/Room0.arc/Layer0/Actor006
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: A_mori/Room0.arc/Layer0/Actor007
 -
   Original requirements:
@@ -29,30 +34,39 @@
   Enemies:
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer2/Actor000
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer2/Actor001
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer2/Actor002
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer2/Actor003
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer2/Actor004
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer2/Actor005
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer2/Actor006
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer2/Actor007
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer2/Actor008
 -
   Original requirements:
@@ -62,30 +76,39 @@
   Enemies:
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer3/Actor000
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer3/Actor001
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer3/Actor002
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer3/Actor003
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer3/Actor004
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer3/Actor005
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer3/Actor006
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer3/Actor007
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layer3/Actor008
 -
   Original requirements:
@@ -93,6 +116,7 @@
   Enemies:
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: A_mori/Room0.arc/Layerb/Actor000
 
 
@@ -105,30 +129,39 @@
   Enemies:
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Abship/Room0.arc/Actor000
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Abship/Room0.arc/Actor001
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Abship/Room0.arc/Actor002
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Abship/Room0.arc/Actor003
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Abship/Room0.arc/Actor009
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Abship/Room0.arc/Actor00A
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Abship/Room0.arc/Actor00B
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Abship/Room0.arc/Actor00C
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Abship/Room0.arc/Actor00D
 -
   Original requirements:
@@ -140,30 +173,39 @@
   Enemies:
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: Abship/Room1.arc/Actor000
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: Abship/Room1.arc/Actor001
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: Abship/Room1.arc/Actor002
     -
       Original enemy: Chasing Morth
+      Placement category: Pot
       Path: Abship/Room1.arc/Actor00A
     -
       Original enemy: Green ChuChu
+      Placement category: Pot
       Path: Abship/Room1.arc/Actor00B
     -
       Original enemy: Chasing Morth
+      Placement category: Pot
       Path: Abship/Room1.arc/Actor00D
     -
       Original enemy: Chasing Morth
+      Placement category: Pot
       Path: Abship/Room1.arc/Actor00E
     -
       Original enemy: Red ChuChu
+      Placement category: Pot
       Path: Abship/Room1.arc/Actor00F
     -
       Original enemy: Yellow ChuChu
+      Placement category: Pot
       Path: Abship/Room1.arc/Actor012
 -
   Original requirements:
@@ -173,24 +215,31 @@
   Enemies:
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Abship/Room2.arc/Actor000
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Abship/Room2.arc/Actor001
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Abship/Room2.arc/Actor002
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: Abship/Room2.arc/Actor003
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: Abship/Room2.arc/Actor004
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: Abship/Room2.arc/Actor006
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: Abship/Room2.arc/Actor007
 -
   Original requirements:
@@ -198,15 +247,19 @@
   Enemies:
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: Abship/Room4.arc/Actor001
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: Abship/Room4.arc/Actor008
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: Abship/Room4.arc/Actor009
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: Abship/Room4.arc/Actor00A
 -
   Original requirements:
@@ -215,15 +268,19 @@
   Enemies:
     -
       Original enemy: Bombchu Hole
+      Placement category: Ground
       Path: Abship/Room5.arc/Actor000
     -
       Original enemy: Bombchu Hole
+      Placement category: Ground
       Path: Abship/Room5.arc/Actor001
     -
       Original enemy: Bombchu Hole
+      Placement category: Ground
       Path: Abship/Room5.arc/Actor002
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: Abship/Room5.arc/Actor003
 -
   Original requirements:
@@ -234,45 +291,59 @@
   Enemies:
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Abship/Room6.arc/Actor000
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Abship/Room6.arc/Actor004
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Abship/Room6.arc/Actor005
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: Abship/Room6.arc/Actor006
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Abship/Room6.arc/Actor007
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Abship/Room6.arc/Actor008
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: Abship/Room6.arc/Actor009
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: Abship/Room6.arc/Actor00A
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Abship/Room6.arc/Actor00C
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Abship/Room6.arc/Actor00D
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Abship/Room6.arc/Actor010
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Abship/Room6.arc/Actor011
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Abship/Room6.arc/Actor012
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Abship/Room6.arc/Actor013
 -
   Original requirements:
@@ -280,39 +351,51 @@
   Enemies:
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Abship/Room7.arc/Actor000
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Abship/Room7.arc/Actor001
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Abship/Room7.arc/Actor002
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Abship/Room7.arc/Actor003
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Abship/Room7.arc/Actor004
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Abship/Room7.arc/Actor005
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Abship/Room7.arc/Actor006
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Abship/Room7.arc/Actor007
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Abship/Room7.arc/Actor008
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Abship/Room7.arc/Actor009
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Abship/Room7.arc/Actor00A
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Abship/Room7.arc/Actor012
 
 
@@ -323,9 +406,11 @@
   Enemies:
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave01/Room0.arc/Actor001
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave01/Room0.arc/Actor002
 -
   Original requirements:
@@ -333,9 +418,11 @@
   Enemies:
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave01/Room1.arc/Actor009
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave01/Room1.arc/Actor00A
 -
   Original requirements:
@@ -343,6 +430,7 @@
   Enemies:
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave01/Room1.arc/Layer8/Actor000
 
 
@@ -356,30 +444,39 @@
   Enemies:
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave02/Room0.arc/Actor000
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave02/Room0.arc/Actor001
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave02/Room0.arc/Actor002
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave02/Room0.arc/Actor004
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave02/Room0.arc/Actor005
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave02/Room0.arc/Actor007
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave02/Room0.arc/Actor008
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: Cave02/Room0.arc/Actor00A
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: Cave02/Room0.arc/Actor00B
 
 
@@ -390,15 +487,19 @@
   Enemies:
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: Cave03/Room0.arc/Actor037
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: Cave03/Room0.arc/Actor038
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: Cave03/Room0.arc/Actor039
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: Cave03/Room0.arc/Actor03A
 
 
@@ -409,84 +510,111 @@
   Enemies:
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor002
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor003
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor004
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor005
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor006
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor007
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor008
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor009
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor00A
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor00B
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor00C
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor00D
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor00E
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor00F
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor010
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor011
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor012
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor013
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor014
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor015
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor016
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor017
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor018
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor019
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor01A
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor01B
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave04/Room0.arc/Actor01C
 
 
@@ -498,12 +626,15 @@
   Enemies:
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: Cave05/Room0.arc/Actor000
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: Cave05/Room0.arc/Actor001
     -
       Original enemy: Winged Mothula
+      Placement category: Air
       Path: Cave05/Room0.arc/Actor002
 
 
@@ -514,21 +645,27 @@
   Enemies:
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave07/Room0.arc/Actor000
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave07/Room0.arc/Actor001
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave07/Room0.arc/Actor002
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave07/Room0.arc/Actor003
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave07/Room0.arc/Actor004
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave07/Room0.arc/Actor005
 
 
@@ -539,33 +676,43 @@
   Enemies:
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave09/Room1.arc/Actor002
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave09/Room1.arc/Actor003
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave09/Room1.arc/Actor004
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave09/Room1.arc/Actor005
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave09/Room1.arc/Actor006
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave09/Room1.arc/Actor007
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave09/Room1.arc/Actor008
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave09/Room1.arc/Actor009
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave09/Room1.arc/Actor00A
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave09/Room1.arc/Actor00B
 -
   Original requirements:
@@ -573,21 +720,27 @@
   Enemies:
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave09/Room2.arc/Actor002
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave09/Room2.arc/Actor003
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave09/Room2.arc/Actor004
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave09/Room2.arc/Actor005
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave09/Room2.arc/Actor006
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave09/Room2.arc/Actor007
 -
   Original requirements:
@@ -595,15 +748,19 @@
   Enemies:
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave09/Room3.arc/Actor002
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave09/Room3.arc/Actor003
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave09/Room3.arc/Actor004
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave09/Room3.arc/Actor005
 -
   Original requirements:
@@ -611,21 +768,27 @@
   Enemies:
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: Cave09/Room4.arc/Actor002
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: Cave09/Room4.arc/Actor003
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: Cave09/Room4.arc/Actor004
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: Cave09/Room4.arc/Actor005
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: Cave09/Room4.arc/Actor006
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: Cave09/Room4.arc/Actor007
 -
   Original requirements:
@@ -633,15 +796,19 @@
   Enemies:
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave09/Room5.arc/Actor001
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave09/Room5.arc/Actor002
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave09/Room5.arc/Actor003
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave09/Room5.arc/Actor004
 -
   Original requirements:
@@ -649,12 +816,15 @@
   Enemies:
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave09/Room6.arc/Actor002
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave09/Room6.arc/Actor003
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave09/Room6.arc/Actor004
 -
   Original requirements:
@@ -662,15 +832,19 @@
   Enemies:
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Cave09/Room7.arc/Actor002
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Cave09/Room7.arc/Actor003
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Cave09/Room7.arc/Actor004
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Cave09/Room7.arc/Actor005
 -
   Original requirements:
@@ -678,9 +852,11 @@
   Enemies:
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: Cave09/Room8.arc/Actor001
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: Cave09/Room8.arc/Actor002
 -
   Original requirements:
@@ -688,21 +864,27 @@
   Enemies:
     -
       Original enemy: Yellow ChuChu
+      Placement category: Pot
       Path: Cave09/Room9.arc/Actor002
     -
       Original enemy: Yellow ChuChu
+      Placement category: Pot
       Path: Cave09/Room9.arc/Actor003
     -
       Original enemy: Yellow ChuChu
+      Placement category: Pot
       Path: Cave09/Room9.arc/Actor004
     -
       Original enemy: Yellow ChuChu
+      Placement category: Pot
       Path: Cave09/Room9.arc/Actor005
     -
       Original enemy: Yellow ChuChu
+      Placement category: Pot
       Path: Cave09/Room9.arc/Actor006
     -
       Original enemy: Yellow ChuChu
+      Placement category: Pot
       Path: Cave09/Room9.arc/Actor007
 -
   Original requirements:
@@ -710,15 +892,19 @@
   Enemies:
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: Cave09/Room10.arc/Actor002
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: Cave09/Room10.arc/Actor003
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: Cave09/Room10.arc/Actor004
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: Cave09/Room10.arc/Actor005
 -
   Original requirements:
@@ -727,27 +913,35 @@
   Enemies:
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave09/Room11.arc/Actor002
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave09/Room11.arc/Actor003
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave09/Room11.arc/Actor004
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave09/Room11.arc/Actor005
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave09/Room11.arc/Actor006
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave09/Room11.arc/Actor007
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave09/Room11.arc/Actor008
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Cave09/Room11.arc/Actor009
 -
   Original requirements:
@@ -756,21 +950,27 @@
   Enemies:
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: Cave09/Room12.arc/Actor002
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: Cave09/Room12.arc/Actor003
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: Cave09/Room12.arc/Actor004
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: Cave09/Room12.arc/Actor005
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave09/Room12.arc/Actor006
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave09/Room12.arc/Actor007
 -
   Original requirements:
@@ -779,21 +979,27 @@
   Enemies:
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave09/Room13.arc/Actor002
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave09/Room13.arc/Actor003
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave09/Room13.arc/Actor004
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave09/Room13.arc/Actor005
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: Cave09/Room13.arc/Actor006
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: Cave09/Room13.arc/Actor007
 -
   Original requirements:
@@ -801,9 +1007,11 @@
   Enemies:
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: Cave09/Room14.arc/Actor002
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: Cave09/Room14.arc/Actor003
 -
   Original requirements:
@@ -812,12 +1020,15 @@
   Enemies:
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: Cave09/Room16.arc/Actor002
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave09/Room16.arc/Actor003
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave09/Room16.arc/Actor004
 -
   Original requirements:
@@ -826,15 +1037,19 @@
   Enemies:
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Cave09/Room17.arc/Actor000
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Cave09/Room17.arc/Actor001
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave09/Room17.arc/Actor004
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Cave09/Room17.arc/Actor005
 -
   Original requirements:
@@ -843,15 +1058,19 @@
   Enemies:
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: Cave09/Room18.arc/Actor000
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: Cave09/Room18.arc/Actor001
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: Cave09/Room18.arc/Actor004
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: Cave09/Room18.arc/Actor005
 -
   Original requirements:
@@ -859,9 +1078,11 @@
   Enemies:
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: Cave09/Room19.arc/Actor000
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: Cave09/Room19.arc/Actor001
 
 
@@ -872,21 +1093,27 @@
   Enemies:
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: Cave10/Room1.arc/Actor002
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: Cave10/Room1.arc/Actor003
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: Cave10/Room1.arc/Actor004
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: Cave10/Room1.arc/Actor005
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: Cave10/Room1.arc/Actor006
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: Cave10/Room1.arc/Actor007
 -
   Original requirements:
@@ -894,15 +1121,19 @@
   Enemies:
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room2.arc/Actor002
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room2.arc/Actor003
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room2.arc/Actor004
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room2.arc/Actor005
 -
   Original requirements:
@@ -910,18 +1141,23 @@
   Enemies:
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: Cave10/Room3.arc/Actor002
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: Cave10/Room3.arc/Actor003
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: Cave10/Room3.arc/Actor004
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: Cave10/Room3.arc/Actor005
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: Cave10/Room3.arc/Actor006
 -
   Original requirements:
@@ -929,15 +1165,19 @@
   Enemies:
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave10/Room4.arc/Actor002
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave10/Room4.arc/Actor003
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave10/Room4.arc/Actor004
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave10/Room4.arc/Actor005
 -
   Original requirements:
@@ -945,18 +1185,23 @@
   Enemies:
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: Cave10/Room5.arc/Actor002
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: Cave10/Room5.arc/Actor003
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: Cave10/Room5.arc/Actor004
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: Cave10/Room5.arc/Actor005
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: Cave10/Room5.arc/Actor006
 -
   Original requirements:
@@ -964,75 +1209,99 @@
   Enemies:
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor002
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor003
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor004
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor005
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor006
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor007
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor008
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor009
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor00A
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor00B
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor00C
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor00D
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor00E
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor00F
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor010
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor011
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor012
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor013
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor014
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor015
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor016
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor017
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor018
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: Cave10/Room6.arc/Actor019
 -
   Original requirements:
@@ -1042,93 +1311,123 @@
   Enemies:
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor002
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor003
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor004
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor005
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor006
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor007
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor008
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor009
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor00A
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor00B
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor00C
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor00D
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor00E
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor00F
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor010
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor011
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor012
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor013
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor014
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor015
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor016
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor017
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor018
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor019
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor01A
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor01B
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor01C
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor01D
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor01E
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor01F
 -
   Original requirements:
@@ -1136,18 +1435,23 @@
   Enemies:
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave10/Room8.arc/Actor002
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave10/Room8.arc/Actor003
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave10/Room8.arc/Actor004
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave10/Room8.arc/Actor005
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave10/Room8.arc/Actor006
 -
   Original requirements:
@@ -1156,51 +1460,67 @@
   Enemies:
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave10/Room9.arc/Actor002
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave10/Room9.arc/Actor003
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave10/Room9.arc/Actor004
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave10/Room9.arc/Actor005
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave10/Room9.arc/Actor006
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave10/Room9.arc/Actor007
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave10/Room9.arc/Actor008
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave10/Room9.arc/Actor009
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave10/Room9.arc/Actor00A
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave10/Room9.arc/Actor00B
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave10/Room9.arc/Actor00C
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave10/Room9.arc/Actor00D
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave10/Room9.arc/Actor00E
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave10/Room9.arc/Actor00F
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave10/Room9.arc/Actor010
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave10/Room9.arc/Actor011
 -
   Original requirements:
@@ -1209,21 +1529,27 @@
   Enemies:
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: Cave10/Room10.arc/Actor000
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: Cave10/Room10.arc/Actor001
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: Cave10/Room10.arc/Actor002
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: Cave10/Room10.arc/Actor005
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: Cave10/Room10.arc/Actor006
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: Cave10/Room10.arc/Actor007
 -
   Original requirements:
@@ -1232,21 +1558,27 @@
   Enemies:
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: Cave10/Room11.arc/Actor002
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: Cave10/Room11.arc/Actor003
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: Cave10/Room11.arc/Actor004
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: Cave10/Room11.arc/Actor005
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: Cave10/Room11.arc/Actor006
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: Cave10/Room11.arc/Actor007
 -
   Original requirements:
@@ -1255,27 +1587,35 @@
   Enemies:
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: Cave10/Room12.arc/Actor002
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: Cave10/Room12.arc/Actor003
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: Cave10/Room12.arc/Actor004
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave10/Room12.arc/Actor005
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave10/Room12.arc/Actor006
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave10/Room12.arc/Actor007
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: Cave10/Room12.arc/Actor00B
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: Cave10/Room12.arc/Actor00C
 -
   Original requirements:
@@ -1284,18 +1624,23 @@
   Enemies:
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: Cave10/Room13.arc/Actor002
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: Cave10/Room13.arc/Actor003
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: Cave10/Room13.arc/Actor004
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave10/Room13.arc/Actor005
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave10/Room13.arc/Actor006
 -
   Original requirements:
@@ -1303,9 +1648,11 @@
   Enemies:
     -
       Original enemy: Winged Mothula
+      Placement category: Air
       Path: Cave10/Room14.arc/Actor002
     -
       Original enemy: Winged Mothula
+      Placement category: Air
       Path: Cave10/Room14.arc/Actor003
 -
   Original requirements:
@@ -1314,18 +1661,23 @@
   Enemies:
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: Cave10/Room16.arc/Actor000
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: Cave10/Room16.arc/Actor001
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: Cave10/Room16.arc/Actor004
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: Cave10/Room16.arc/Actor005
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: Cave10/Room16.arc/Actor006
 -
   Original requirements:
@@ -1334,18 +1686,23 @@
   Enemies:
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: Cave10/Room17.arc/Actor000
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: Cave10/Room17.arc/Actor001
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave10/Room17.arc/Actor002
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave10/Room17.arc/Actor003
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Cave10/Room17.arc/Actor006
 -
   Original requirements:
@@ -1353,12 +1710,15 @@
   Enemies:
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: Cave10/Room18.arc/Actor000
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: Cave10/Room18.arc/Actor001
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: Cave10/Room18.arc/Actor008
 -
   Original requirements:
@@ -1366,15 +1726,19 @@
   Enemies:
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: Cave10/Room19.arc/Actor000
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: Cave10/Room19.arc/Actor001
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: Cave10/Room19.arc/Actor004
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: Cave10/Room19.arc/Actor005
 
 
@@ -1385,21 +1749,27 @@
   Enemies:
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: Cave11/Room1.arc/Actor002
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: Cave11/Room1.arc/Actor003
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: Cave11/Room1.arc/Actor004
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: Cave11/Room1.arc/Actor005
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: Cave11/Room1.arc/Actor006
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: Cave11/Room1.arc/Actor007
 -
   Original requirements:
@@ -1407,18 +1777,23 @@
   Enemies:
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: Cave11/Room2.arc/Actor002
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: Cave11/Room2.arc/Actor003
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: Cave11/Room2.arc/Actor004
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: Cave11/Room2.arc/Actor005
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: Cave11/Room2.arc/Actor006
 -
   Original requirements:
@@ -1426,18 +1801,23 @@
   Enemies:
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: Cave11/Room4.arc/Actor002
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: Cave11/Room4.arc/Actor003
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: Cave11/Room4.arc/Actor004
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: Cave11/Room4.arc/Actor005
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: Cave11/Room4.arc/Actor006
 -
   Original requirements:
@@ -1445,12 +1825,15 @@
   Enemies:
     -
       Original enemy: Winged Mothula
+      Placement category: Air
       Path: Cave11/Room5.arc/Actor002
     -
       Original enemy: Winged Mothula
+      Placement category: Air
       Path: Cave11/Room5.arc/Actor003
     -
       Original enemy: Winged Mothula
+      Placement category: Air
       Path: Cave11/Room5.arc/Actor004
 -
   Original requirements:
@@ -1458,12 +1841,15 @@
   Enemies:
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave11/Room6.arc/Actor002
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave11/Room6.arc/Actor003
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: Cave11/Room6.arc/Actor004
 -
   Original requirements:
@@ -1471,24 +1857,31 @@
   Enemies:
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: Cave11/Room7.arc/Actor002
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: Cave11/Room7.arc/Actor003
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: Cave11/Room7.arc/Actor004
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: Cave11/Room7.arc/Actor005
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: Cave11/Room7.arc/Actor006
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: Cave11/Room7.arc/Actor007
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: Cave11/Room7.arc/Actor008
 -
   Original requirements:
@@ -1496,15 +1889,19 @@
   Enemies:
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave11/Room8.arc/Actor001
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave11/Room8.arc/Actor002
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave11/Room8.arc/Actor003
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: Cave11/Room8.arc/Actor004
 -
   Original requirements:
@@ -1512,15 +1909,19 @@
   Enemies:
     -
       Original enemy: Darknut
+      Placement category: Ground
       Path: Cave11/Room9.arc/Actor001
     -
       Original enemy: Darknut
+      Placement category: Ground
       Path: Cave11/Room9.arc/Actor002
     -
       Original enemy: Darknut
+      Placement category: Ground
       Path: Cave11/Room9.arc/Actor004
     -
       Original enemy: Darknut
+      Placement category: Ground
       Path: Cave11/Room9.arc/Actor005
 -
   Original requirements:
@@ -1529,18 +1930,23 @@
   Enemies:
     -
       Original enemy: Sitting ReDead
+      Placement category: Ground
       Path: Cave11/Room11.arc/Actor002
     -
       Original enemy: Sitting ReDead
+      Placement category: Ground
       Path: Cave11/Room11.arc/Actor003
     -
       Original enemy: Sitting ReDead
+      Placement category: Ground
       Path: Cave11/Room11.arc/Actor004
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: Cave11/Room11.arc/Actor005
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: Cave11/Room11.arc/Actor006
 -
   Original requirements:
@@ -1548,6 +1954,7 @@
   Enemies:
     -
       Original enemy: Winged Mothula
+      Placement category: Air
       Path: Cave11/Room12.arc/Actor001
 -
   Original requirements:
@@ -1556,24 +1963,31 @@
   Enemies:
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: Cave11/Room13.arc/Actor002
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: Cave11/Room13.arc/Actor003
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: Cave11/Room13.arc/Actor004
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: Cave11/Room13.arc/Actor005
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: Cave11/Room13.arc/Actor006
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: Cave11/Room13.arc/Actor007
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: Cave11/Room13.arc/Actor008
 -
   Original requirements:
@@ -1582,21 +1996,27 @@
   Enemies:
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: Cave11/Room14.arc/Actor002
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: Cave11/Room14.arc/Actor003
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: Cave11/Room14.arc/Actor004
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: Cave11/Room14.arc/Actor005
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: Cave11/Room14.arc/Actor006
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: Cave11/Room14.arc/Actor007
 -
   Original requirements:
@@ -1604,21 +2024,27 @@
   Enemies:
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Cave11/Room16.arc/Actor000
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Cave11/Room16.arc/Actor001
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Cave11/Room16.arc/Actor002
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Cave11/Room16.arc/Actor003
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Cave11/Room16.arc/Actor004
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Cave11/Room16.arc/Actor005
 -
   Original requirements:
@@ -1626,15 +2052,19 @@
   Enemies:
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Cave11/Room17.arc/Actor000
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Cave11/Room17.arc/Actor001
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Cave11/Room17.arc/Actor002
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Cave11/Room17.arc/Actor003
 -
   Original requirements:
@@ -1642,9 +2072,11 @@
   Enemies:
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: Cave11/Room18.arc/Actor000
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: Cave11/Room18.arc/Actor001
 -
   Original requirements:
@@ -1652,9 +2084,11 @@
   Enemies:
     -
       Original enemy: Darknut
+      Placement category: Ground
       Path: Cave11/Room19.arc/Actor000
     -
       Original enemy: Darknut
+      Placement category: Ground
       Path: Cave11/Room19.arc/Actor001
 
 
@@ -1665,15 +2099,19 @@
   Enemies:
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonA/Room1.arc/Actor004
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonA/Room1.arc/Actor005
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonA/Room1.arc/Actor006
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonA/Room1.arc/Actor007
 
 
@@ -1684,15 +2122,19 @@
   Enemies:
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: GanonB/Room0.arc/Actor014
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: GanonB/Room0.arc/Actor015
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: GanonB/Room0.arc/Actor016
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: GanonB/Room0.arc/Actor017
 
 
@@ -1704,12 +2146,15 @@
   Enemies:
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: GanonC/Room0.arc/Actor018
     -
       Original enemy: Green Bokoblin
+      Placement category: Pot
       Path: GanonC/Room0.arc/Actor01D
     -
       Original enemy: Green Bokoblin
+      Placement category: Pot
       Path: GanonC/Room0.arc/Actor01E
 
 
@@ -1720,9 +2165,11 @@
   Enemies:
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: GanonD/Room0.arc/Actor00D
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: GanonD/Room0.arc/Actor00E
 
 
@@ -1736,24 +2183,31 @@
   Enemies:
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: GanonE/Room0.arc/Actor024
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: GanonE/Room0.arc/Actor025
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: GanonE/Room0.arc/Actor029
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: GanonE/Room0.arc/Actor02D
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: GanonE/Room0.arc/Actor02E
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: GanonE/Room0.arc/Actor041
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: GanonE/Room0.arc/Actor042
 -
   Original requirements:
@@ -1761,6 +2215,7 @@
   Enemies:
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: GanonE/Room0.arc/Layerb/Actor000
 
 
@@ -1771,21 +2226,27 @@
   Enemies:
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: GanonJ/Room0.arc/Actor005
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: GanonJ/Room0.arc/Actor006
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: GanonJ/Room0.arc/Actor007
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: GanonJ/Room0.arc/Actor008
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: GanonJ/Room0.arc/Actor009
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: GanonJ/Room0.arc/Actor00A
 -
   Original requirements:
@@ -1793,51 +2254,67 @@
   Enemies:
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonJ/Room3.arc/Actor00C
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonJ/Room3.arc/Actor00D
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonJ/Room3.arc/Actor00E
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonJ/Room3.arc/Actor00F
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonJ/Room3.arc/Actor010
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonJ/Room3.arc/Actor011
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonJ/Room3.arc/Actor012
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonJ/Room3.arc/Actor013
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonJ/Room3.arc/Actor014
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonJ/Room3.arc/Actor015
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonJ/Room3.arc/Actor016
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonJ/Room3.arc/Actor017
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonJ/Room3.arc/Actor018
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonJ/Room3.arc/Actor019
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonJ/Room3.arc/Actor01A
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: GanonJ/Room3.arc/Actor01B
 -
   Original requirements:
@@ -1845,12 +2322,15 @@
   Enemies:
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: GanonJ/Room6.arc/Actor00B
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: GanonJ/Room6.arc/Actor00C
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: GanonJ/Room6.arc/Actor00D
 -
   Original requirements:
@@ -1859,27 +2339,35 @@
   Enemies:
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: GanonJ/Room9.arc/Actor00F
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: GanonJ/Room9.arc/Actor010
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: GanonJ/Room9.arc/Actor011
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: GanonJ/Room9.arc/Actor012
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: GanonJ/Room9.arc/Actor013
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: GanonJ/Room9.arc/Actor014
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: GanonJ/Room9.arc/Actor015
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: GanonJ/Room9.arc/Actor016
 -
   Original requirements:
@@ -1887,6 +2375,7 @@
   Enemies:
     -
       Original enemy: Green Bokoblin
+      Placement category: Pot
       Path: GanonJ/Room10.arc/Actor00B
 
 
@@ -1897,12 +2386,15 @@
   Enemies:
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: GanonK/Room0.arc/Actor01B
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: GanonK/Room0.arc/Actor01C
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: GanonK/Room0.arc/Actor01D
 
 
@@ -1914,21 +2406,27 @@
   Enemies:
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: GanonL/Room0.arc/Actor000
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: GanonL/Room0.arc/Actor001
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: GanonL/Room0.arc/Actor002
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: GanonL/Room0.arc/Actor003
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: GanonL/Room0.arc/Actor004
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: GanonL/Room0.arc/Actor00B
 
 
@@ -1939,18 +2437,23 @@
   Enemies:
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: GanonN/Room0.arc/Actor000
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: GanonN/Room0.arc/Actor001
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: GanonN/Room0.arc/Actor002
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: GanonN/Room0.arc/Actor003
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: GanonN/Room0.arc/Actor004
 
 
@@ -1962,54 +2465,71 @@
   Enemies:
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor000
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor001
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor002
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor003
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor004
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor005
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor006
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor007
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor008
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor009
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor00A
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor00B
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor00C
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor00D
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor00E
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor00F
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor010
 -
   Original requirements:
@@ -2018,54 +2538,71 @@
   Enemies:
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor000
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor001
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor002
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor003
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor004
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor005
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor006
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor007
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor008
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor009
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor00A
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor00B
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor00C
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor00D
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor00E
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor00F
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor010
 -
   Original requirements:
@@ -2074,54 +2611,71 @@
   Enemies:
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor000
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor001
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor002
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor003
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor004
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor005
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor006
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor007
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor008
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor009
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor00A
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor00B
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor00C
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor00D
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor00E
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor00F
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor010
 
 
@@ -2136,42 +2690,55 @@
   Enemies:
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: Hyrule/Room0.arc/Layer4/Actor000
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: Hyrule/Room0.arc/Layer4/Actor001
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: Hyrule/Room0.arc/Layer4/Actor002
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: Hyrule/Room0.arc/Layer4/Actor003
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: Hyrule/Room0.arc/Layer4/Actor004
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Hyrule/Room0.arc/Layer4/Actor005
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Hyrule/Room0.arc/Layer4/Actor006
     -
       Original enemy: Darknut
+      Placement category: Ground
       Path: Hyrule/Room0.arc/Layer4/Actor007
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: Hyrule/Room0.arc/Layer4/Actor008
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: Hyrule/Room0.arc/Layer4/Actor009
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: Hyrule/Room0.arc/Layer4/Actor00A
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: Hyrule/Room0.arc/Layer4/Actor00B
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: Hyrule/Room0.arc/Layer4/Actor00C
 -
   Original requirements:
@@ -2183,42 +2750,55 @@
   Enemies:
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: Hyrule/Room0.arc/Layer5/Actor000
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: Hyrule/Room0.arc/Layer5/Actor001
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: Hyrule/Room0.arc/Layer5/Actor002
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: Hyrule/Room0.arc/Layer5/Actor003
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Hyrule/Room0.arc/Layer5/Actor004
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Hyrule/Room0.arc/Layer5/Actor005
     -
       Original enemy: Darknut
+      Placement category: Ground
       Path: Hyrule/Room0.arc/Layer5/Actor006
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: Hyrule/Room0.arc/Layer5/Actor007
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: Hyrule/Room0.arc/Layer5/Actor008
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: Hyrule/Room0.arc/Layer5/Actor009
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: Hyrule/Room0.arc/Layer5/Actor00A
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: Hyrule/Room0.arc/Layer5/Actor00B
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: Hyrule/Room0.arc/Layer5/Actor00C
 
 
@@ -2231,18 +2811,23 @@
   Enemies:
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: ITest62/Room0.arc/Actor000
     -
       Original enemy: Frozen Darknut
+      Placement category: Ground
       Path: ITest62/Room0.arc/Actor001
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: ITest62/Room0.arc/Actor002
     -
       Original enemy: Blue Moblin
+      Placement category: Ground
       Path: ITest62/Room0.arc/Actor003
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: ITest62/Room0.arc/Actor004
 
 
@@ -2257,114 +2842,151 @@
   Enemies:
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor000
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor001
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor002
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor003
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor004
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor005
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor006
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor007
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor008
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor009
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor00A
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor00B
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor00C
     -
       Original enemy: Darknut
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor00D
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor00E
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor00F
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor010
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor011
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor012
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor013
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor014
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor015
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor016
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor017
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor018
     -
       Original enemy: Darknut
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor019
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor01A
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor01B
     -
       Original enemy: Darknut
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor01C
     -
       Original enemy: Darknut
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor01D
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor01E
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor01F
     -
       Original enemy: Darknut
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor020
     -
       Original enemy: Darknut
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor021
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor022
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor024
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: ITest63/Room0.arc/Actor026
 
 
@@ -2376,15 +2998,19 @@
   Enemies:
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: M2tower/Room0.arc/Layer3/Actor005
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: M2tower/Room0.arc/Layer3/Actor006
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: M2tower/Room0.arc/Layer3/Actor007
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: M2tower/Room0.arc/Layer3/Actor008
 
 
@@ -2395,12 +3021,15 @@
   Enemies:
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: M_Dai/Room1.arc/Actor004
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: M_Dai/Room1.arc/Actor005
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: M_Dai/Room1.arc/Actor006
 -
   Original requirements:
@@ -2409,21 +3038,27 @@
   Enemies:
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: M_Dai/Room2.arc/Actor013
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: M_Dai/Room2.arc/Actor014
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: M_Dai/Room2.arc/Actor015
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: M_Dai/Room2.arc/Actor016
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: M_Dai/Room2.arc/Actor017
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: M_Dai/Room2.arc/Actor018
 -
   Original requirements:
@@ -2432,15 +3067,19 @@
   Enemies:
     -
       Original enemy: Path-Following Floormaster
+      Placement category: Ground
       Path: M_Dai/Room4.arc/Actor002
     -
       Original enemy: Path-Following Floormaster
+      Placement category: Ground
       Path: M_Dai/Room4.arc/Actor003
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: M_Dai/Room4.arc/Actor006
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: M_Dai/Room4.arc/Actor007
 -
   Original requirements:
@@ -2449,21 +3088,27 @@
   Enemies:
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: M_Dai/Room5.arc/Actor00B
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: M_Dai/Room5.arc/Actor00C
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: M_Dai/Room5.arc/Actor00D
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: M_Dai/Room5.arc/Actor00E
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: M_Dai/Room5.arc/Actor00F
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: M_Dai/Room5.arc/Actor010
 -
   Original requirements:
@@ -2471,6 +3116,7 @@
   Enemies:
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: M_Dai/Room6.arc/Actor004
 -
   Original requirements:
@@ -2479,15 +3125,19 @@
   Enemies:
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: M_Dai/Room7.arc/Actor000
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: M_Dai/Room7.arc/Actor001
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: M_Dai/Room7.arc/Actor00E
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: M_Dai/Room7.arc/Actor00F
 -
   Original requirements:
@@ -2495,12 +3145,15 @@
   Enemies:
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: M_Dai/Room8.arc/Actor005
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: M_Dai/Room8.arc/Actor006
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: M_Dai/Room8.arc/Actor009
 -
   Original requirements:
@@ -2510,18 +3163,23 @@
   Enemies:
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: M_Dai/Room9.arc/Actor001
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: M_Dai/Room9.arc/Actor002
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: M_Dai/Room9.arc/Actor00E
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: M_Dai/Room9.arc/Actor016
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: M_Dai/Room9.arc/Actor017
 -
   Original requirements:
@@ -2529,9 +3187,11 @@
   Enemies:
     -
       Original enemy: Sitting ReDead
+      Placement category: Ground
       Path: M_Dai/Room10.arc/Actor003
     -
       Original enemy: Sitting ReDead
+      Placement category: Ground
       Path: M_Dai/Room10.arc/Actor004
 -
   Original requirements:
@@ -2539,21 +3199,27 @@
   Enemies:
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: M_Dai/Room11.arc/Actor000
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: M_Dai/Room11.arc/Actor001
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: M_Dai/Room11.arc/Actor002
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: M_Dai/Room11.arc/Actor003
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: M_Dai/Room11.arc/Actor004
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: M_Dai/Room11.arc/Actor005
 -
   Original requirements:
@@ -2563,27 +3229,35 @@
   Enemies:
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: M_Dai/Room13.arc/Actor001
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: M_Dai/Room13.arc/Actor002
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: M_Dai/Room13.arc/Actor003
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: M_Dai/Room13.arc/Actor006
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: M_Dai/Room13.arc/Actor007
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: M_Dai/Room13.arc/Actor00C
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: M_Dai/Room13.arc/Actor010
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: M_Dai/Room13.arc/Actor014
 -
   Original requirements:
@@ -2593,30 +3267,39 @@
   Enemies:
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: M_Dai/Room14.arc/Actor010
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: M_Dai/Room14.arc/Actor011
     -
       Original enemy: Keese
+      Placement category: Air
       Path: M_Dai/Room14.arc/Actor012
     -
       Original enemy: Keese
+      Placement category: Air
       Path: M_Dai/Room14.arc/Actor013
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: M_Dai/Room14.arc/Actor014
     -
       Original enemy: Keese
+      Placement category: Air
       Path: M_Dai/Room14.arc/Actor016
     -
       Original enemy: Keese
+      Placement category: Air
       Path: M_Dai/Room14.arc/Actor017
     -
       Original enemy: Keese
+      Placement category: Air
       Path: M_Dai/Room14.arc/Actor018
     -
       Original enemy: Keese
+      Placement category: Air
       Path: M_Dai/Room14.arc/Actor019
 -
   Original requirements:
@@ -2624,12 +3307,15 @@
   Enemies:
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: M_Dai/Room15.arc/Actor003
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: M_Dai/Room15.arc/Actor004
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: M_Dai/Room15.arc/Actor005
 -
   Original requirements:
@@ -2638,12 +3324,15 @@
   Enemies:
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: M_Dai/Room17.arc/Actor000
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: M_Dai/Room17.arc/Actor001
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: M_Dai/Room17.arc/Actor00C
 -
   Original requirements:
@@ -2651,12 +3340,15 @@
   Enemies:
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: M_Dai/Room19.arc/Actor005
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: M_Dai/Room19.arc/Actor006
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: M_Dai/Room19.arc/Actor007
 
 
@@ -2667,12 +3359,15 @@
   Enemies:
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: M_DaiMB/Room12.arc/Actor000
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: M_DaiMB/Room12.arc/Actor001
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: M_DaiMB/Room12.arc/Actor002
 
 
@@ -2684,12 +3379,15 @@
   Enemies:
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: M_Dra09/Room9.arc/Actor001
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: M_Dra09/Room9.arc/Actor004
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: M_Dra09/Room9.arc/Actor005
 
 
@@ -2700,9 +3398,11 @@
   Enemies:
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: M_NewD2/Room0.arc/Actor000
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: M_NewD2/Room0.arc/Actor001
 -
   Original requirements:
@@ -2711,18 +3411,23 @@
   Enemies:
     -
       Original enemy: Blue Bokoblin
+      Placement category: Pot
       Path: M_NewD2/Room1.arc/Actor005
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: M_NewD2/Room1.arc/Actor008
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: M_NewD2/Room1.arc/Actor009
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: M_NewD2/Room1.arc/Actor00A
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: M_NewD2/Room1.arc/Actor00B
 -
   Original requirements:
@@ -2731,15 +3436,19 @@
   Enemies:
     -
       Original enemy: Keese
+      Placement category: Air
       Path: M_NewD2/Room2.arc/Actor022
     -
       Original enemy: Keese
+      Placement category: Air
       Path: M_NewD2/Room2.arc/Actor023
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: M_NewD2/Room2.arc/Actor027
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: M_NewD2/Room2.arc/Actor028
 -
   Original requirements:
@@ -2748,12 +3457,15 @@
   Enemies:
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: M_NewD2/Room3.arc/Actor003
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: M_NewD2/Room3.arc/Actor00C
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: M_NewD2/Room3.arc/Actor00D
 -
   Original requirements:
@@ -2761,18 +3473,23 @@
   Enemies:
     -
       Original enemy: Keese
+      Placement category: Air
       Path: M_NewD2/Room4.arc/Actor000
     -
       Original enemy: Keese
+      Placement category: Air
       Path: M_NewD2/Room4.arc/Actor002
     -
       Original enemy: Keese
+      Placement category: Air
       Path: M_NewD2/Room4.arc/Actor003
     -
       Original enemy: Keese
+      Placement category: Air
       Path: M_NewD2/Room4.arc/Actor017
     -
       Original enemy: Keese
+      Placement category: Air
       Path: M_NewD2/Room4.arc/Actor018
 -
   Original requirements:
@@ -2780,12 +3497,15 @@
   Enemies:
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: M_NewD2/Room6.arc/Actor01F
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: M_NewD2/Room6.arc/Actor020
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: M_NewD2/Room6.arc/Actor021
 -
   Original requirements:
@@ -2794,15 +3514,19 @@
   Enemies:
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: M_NewD2/Room7.arc/Actor003
     -
       Original enemy: Blue Bokoblin
+      Placement category: Pot
       Path: M_NewD2/Room7.arc/Actor009
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: M_NewD2/Room7.arc/Actor00E
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: M_NewD2/Room7.arc/Actor00F
 -
   Original requirements:
@@ -2810,6 +3534,7 @@
   Enemies:
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: M_NewD2/Room8.arc/Actor008
 -
   Original requirements:
@@ -2817,6 +3542,7 @@
   Enemies:
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: M_NewD2/Room10.arc/Actor00D
 -
   Original requirements:
@@ -2825,18 +3551,23 @@
   Enemies:
     -
       Original enemy: Blue Bokoblin
+      Placement category: Pot
       Path: M_NewD2/Room11.arc/Actor006
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: M_NewD2/Room11.arc/Actor00B
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: M_NewD2/Room11.arc/Actor00C
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: M_NewD2/Room11.arc/Actor00D
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: M_NewD2/Room11.arc/Actor00E
 -
   Original requirements:
@@ -2844,6 +3575,7 @@
   Enemies:
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: M_NewD2/Room12.arc/Actor002
 -
   Original requirements:
@@ -2851,6 +3583,7 @@
   Enemies:
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: M_NewD2/Room13.arc/Actor00A
 -
   Original requirements:
@@ -2858,6 +3591,7 @@
   Enemies:
     -
       Original enemy: Rat Hole
+      Placement category: Ground
       Path: M_NewD2/Room14.arc/Actor00B
 -
   Original requirements:
@@ -2865,9 +3599,11 @@
   Enemies:
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: M_NewD2/Room15.arc/Actor007
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: M_NewD2/Room15.arc/Actor008
 -
   Original requirements:
@@ -2875,6 +3611,7 @@
   Enemies:
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: M_NewD2/Room16.arc/Actor004
 
 
@@ -2887,18 +3624,23 @@
   Enemies:
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: MajyuE/Room0.arc/Actor009
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: MajyuE/Room0.arc/Actor00A
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: MajyuE/Room0.arc/Actor00B
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: MajyuE/Room0.arc/Actor00D
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: MajyuE/Room0.arc/Actor015
 -
   Original requirements:
@@ -2906,9 +3648,11 @@
   Enemies:
     -
       Original enemy: Path-Following Floormaster
+      Placement category: Ground
       Path: MajyuE/Room0.arc/Layerb/Actor000
     -
       Original enemy: Path-Following Floormaster
+      Placement category: Ground
       Path: MajyuE/Room0.arc/Layerb/Actor001
 
 
@@ -2919,12 +3663,15 @@
   Enemies:
     -
       Original enemy: Keese
+      Placement category: Air
       Path: MiniHyo/Room0.arc/Actor00E
     -
       Original enemy: Keese
+      Placement category: Air
       Path: MiniHyo/Room0.arc/Actor00F
     -
       Original enemy: Keese
+      Placement category: Air
       Path: MiniHyo/Room0.arc/Actor010
 
 
@@ -2936,33 +3683,43 @@
   Enemies:
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: MiniKaz/Room0.arc/Actor001
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: MiniKaz/Room0.arc/Actor003
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: MiniKaz/Room0.arc/Actor009
     -
       Original enemy: Magtail
+      Placement category: Ground
       Path: MiniKaz/Room0.arc/Actor00A
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: MiniKaz/Room0.arc/Actor00B
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: MiniKaz/Room0.arc/Actor00C
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: MiniKaz/Room0.arc/Actor00D
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: MiniKaz/Room0.arc/Actor00E
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: MiniKaz/Room0.arc/Actor011
     -
       Original enemy: Fire Keese
+      Placement category: Air
       Path: MiniKaz/Room0.arc/Actor012
 
 
@@ -2974,12 +3731,15 @@
   Enemies:
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: PShip/Room0.arc/Actor00A
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: PShip/Room0.arc/Actor00B
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: PShip/Room0.arc/Actor00C
 -
   Original requirements:
@@ -2987,9 +3747,11 @@
   Enemies:
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: PShip/Room0.arc/Layer8/Actor000
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: PShip/Room0.arc/Layer8/Actor001
 -
   Original requirements:
@@ -2997,6 +3759,7 @@
   Enemies:
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: PShip/Room1.arc/Actor00B
 -
   Original requirements:
@@ -3005,12 +3768,15 @@
   Enemies:
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: PShip/Room2.arc/Actor009
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: PShip/Room2.arc/Actor012
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: PShip/Room2.arc/Actor013
 
 
@@ -3022,27 +3788,35 @@
   Enemies:
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ground
       Path: Siren/Room0.arc/Actor004
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ground
       Path: Siren/Room0.arc/Actor009
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room0.arc/Actor00D
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room0.arc/Actor00E
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room0.arc/Actor00F
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room0.arc/Actor010
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room0.arc/Actor016
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room0.arc/Actor017
 -
   Original requirements:
@@ -3051,12 +3825,15 @@
   Enemies:
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room1.arc/Actor002
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room1.arc/Actor003
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: Siren/Room1.arc/Actor004
 -
   Original requirements:
@@ -3064,15 +3841,19 @@
   Enemies:
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ground
       Path: Siren/Room2.arc/Actor000
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ground
       Path: Siren/Room2.arc/Actor001
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ground
       Path: Siren/Room2.arc/Actor006
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ground
       Path: Siren/Room2.arc/Actor007
 -
   Original requirements:
@@ -3080,21 +3861,27 @@
   Enemies:
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ground
       Path: Siren/Room3.arc/Actor013
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ground
       Path: Siren/Room3.arc/Actor014
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Siren/Room3.arc/Actor015
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Siren/Room3.arc/Actor016
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Siren/Room3.arc/Actor017
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Siren/Room3.arc/Actor018
 -
   Original requirements:
@@ -3102,6 +3889,7 @@
   Enemies:
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ground
       Path: Siren/Room4.arc/Actor00A
 -
   Original requirements:
@@ -3109,18 +3897,23 @@
   Enemies:
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Siren/Room5.arc/Actor009
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Siren/Room5.arc/Actor00A
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Siren/Room5.arc/Actor012
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Siren/Room5.arc/Actor013
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ceiling
       Path: Siren/Room5.arc/Actor014
 -
   Original requirements:
@@ -3130,18 +3923,23 @@
   Enemies:
     -
       Original enemy: Red Beamos
+      Placement category: Ground
       Path: Siren/Room6.arc/Actor000
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room6.arc/Actor001
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room6.arc/Actor002
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: Siren/Room6.arc/Actor006
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: Siren/Room6.arc/Actor007
 -
   Original requirements:
@@ -3151,24 +3949,31 @@
   Enemies:
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room8.arc/Actor002
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room8.arc/Actor003
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room8.arc/Actor008
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room8.arc/Actor009
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Siren/Room8.arc/Actor00A
     -
       Original enemy: Keese
+      Placement category: Air
       Path: Siren/Room8.arc/Actor00B
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Siren/Room8.arc/Actor010
 -
   Original requirements:
@@ -3176,9 +3981,11 @@
   Enemies:
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: Siren/Room9.arc/Actor008
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: Siren/Room9.arc/Actor00E
 -
   Original requirements:
@@ -3188,27 +3995,35 @@
   Enemies:
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ground
       Path: Siren/Room11.arc/Actor003
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ground
       Path: Siren/Room11.arc/Actor004
     -
       Original enemy: Yellow ChuChu
+      Placement category: Ground
       Path: Siren/Room11.arc/Actor007
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room11.arc/Actor008
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room11.arc/Actor009
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room11.arc/Actor00A
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room11.arc/Actor00B
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: Siren/Room11.arc/Actor00C
 -
   Original requirements:
@@ -3217,15 +4032,19 @@
   Enemies:
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room14.arc/Actor004
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room14.arc/Actor005
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: Siren/Room14.arc/Actor007
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: Siren/Room14.arc/Actor008
 -
   Original requirements:
@@ -3233,9 +4052,11 @@
   Enemies:
     -
       Original enemy: Blue Beamos
+      Placement category: Ground
       Path: Siren/Room15.arc/Actor002
     -
       Original enemy: Blue Beamos
+      Placement category: Ground
       Path: Siren/Room15.arc/Actor003
 -
   Original requirements:
@@ -3244,15 +4065,19 @@
   Enemies:
     -
       Original enemy: Red Beamos
+      Placement category: Ground
       Path: Siren/Room17.arc/Actor001
     -
       Original enemy: Red Beamos
+      Placement category: Ground
       Path: Siren/Room17.arc/Actor002
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room17.arc/Actor009
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: Siren/Room17.arc/Actor00A
 -
   Original requirements:
@@ -3261,30 +4086,39 @@
   Enemies:
     -
       Original enemy: Blue Beamos
+      Placement category: Ground
       Path: Siren/Room18.arc/Actor000
     -
       Original enemy: Red Beamos
+      Placement category: Ground
       Path: Siren/Room18.arc/Actor001
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: Siren/Room18.arc/Actor002
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: Siren/Room18.arc/Actor003
     -
       Original enemy: Red Beamos
+      Placement category: Ground
       Path: Siren/Room18.arc/Actor004
     -
       Original enemy: Red Beamos
+      Placement category: Ground
       Path: Siren/Room18.arc/Actor005
     -
       Original enemy: Blue Beamos
+      Placement category: Ground
       Path: Siren/Room18.arc/Actor008
     -
       Original enemy: Blue Beamos
+      Placement category: Ground
       Path: Siren/Room18.arc/Actor009
     -
       Original enemy: Blue Beamos
+      Placement category: Ground
       Path: Siren/Room18.arc/Actor00A
 -
   Original requirements:
@@ -3292,9 +4126,11 @@
   Enemies:
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: Siren/Room21.arc/Actor000
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: Siren/Room21.arc/Actor001
 -
   Original requirements:
@@ -3302,9 +4138,11 @@
   Enemies:
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: Siren/Room22.arc/Actor000
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: Siren/Room22.arc/Actor001
 -
   Original requirements:
@@ -3312,6 +4150,7 @@
   Enemies:
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: Siren/Room23.arc/Actor000
 
 
@@ -3322,6 +4161,7 @@
   Enemies:
     -
       Original enemy: Mini-Boss Darknut
+      Placement category: Ground
       Path: SirenMB/Room23.arc/Actor000
 
 
@@ -3332,45 +4172,59 @@
   Enemies:
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: SubD71/Room0.arc/Actor001
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: SubD71/Room0.arc/Actor005
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: SubD71/Room0.arc/Actor006
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: SubD71/Room0.arc/Actor007
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: SubD71/Room0.arc/Actor008
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: SubD71/Room0.arc/Actor009
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: SubD71/Room0.arc/Actor00A
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: SubD71/Room0.arc/Actor00B
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: SubD71/Room0.arc/Actor00C
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: SubD71/Room0.arc/Actor00D
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: SubD71/Room0.arc/Actor00E
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: SubD71/Room0.arc/Actor00F
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: SubD71/Room0.arc/Actor010
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: SubD71/Room0.arc/Actor011
 -
   Original requirements:
@@ -3378,6 +4232,7 @@
   Enemies:
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: SubD71/Room0.arc/Layerb/Actor000
 -
   Original requirements:
@@ -3387,18 +4242,23 @@
   Enemies:
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: SubD71/Room1.arc/Actor000
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: SubD71/Room1.arc/Actor001
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: SubD71/Room1.arc/Actor00D
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: SubD71/Room1.arc/Actor00E
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: SubD71/Room1.arc/Actor00F
 -
   Original requirements:
@@ -3406,21 +4266,27 @@
   Enemies:
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: SubD71/Room1.arc/Layer8/Actor001
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: SubD71/Room1.arc/Layer8/Actor002
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: SubD71/Room1.arc/Layer8/Actor006
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: SubD71/Room1.arc/Layer8/Actor007
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: SubD71/Room1.arc/Layer8/Actor008
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: SubD71/Room1.arc/Layer8/Actor009
 -
   Original requirements:
@@ -3430,18 +4296,23 @@
   Enemies:
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: SubD71/Room2.arc/Actor000
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: SubD71/Room2.arc/Actor001
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: SubD71/Room2.arc/Actor00E
     -
       Original enemy: Poe
+      Placement category: Ground
       Path: SubD71/Room2.arc/Actor00F
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: SubD71/Room2.arc/Actor010
 -
   Original requirements:
@@ -3451,27 +4322,35 @@
   Enemies:
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: SubD71/Room2.arc/Layer8/Actor000
     -
       Original enemy: ReDead
+      Placement category: Ground
       Path: SubD71/Room2.arc/Layer8/Actor001
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: SubD71/Room2.arc/Layer8/Actor008
     -
       Original enemy: Red Bubble
+      Placement category: Air
       Path: SubD71/Room2.arc/Layer8/Actor009
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: SubD71/Room2.arc/Layer8/Actor00A
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: SubD71/Room2.arc/Layer8/Actor00B
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: SubD71/Room2.arc/Layer8/Actor00C
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: SubD71/Room2.arc/Layer8/Actor00D
 
 
@@ -3482,9 +4361,11 @@
   Enemies:
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: TF_01/Room1.arc/Actor001
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: TF_01/Room1.arc/Actor002
 -
   Original requirements:
@@ -3492,18 +4373,23 @@
   Enemies:
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: TF_01/Room2.arc/Actor000
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: TF_01/Room2.arc/Actor001
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: TF_01/Room2.arc/Actor002
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: TF_01/Room2.arc/Actor003
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: TF_01/Room2.arc/Actor004
 -
   Original requirements:
@@ -3511,12 +4397,15 @@
   Enemies:
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: TF_01/Room3.arc/Actor000
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: TF_01/Room3.arc/Actor001
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: TF_01/Room3.arc/Actor002
 -
   Original requirements:
@@ -3524,15 +4413,19 @@
   Enemies:
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: TF_01/Room4.arc/Actor000
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: TF_01/Room4.arc/Actor001
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: TF_01/Room4.arc/Actor002
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: TF_01/Room4.arc/Actor003
 -
   Original requirements:
@@ -3540,9 +4433,11 @@
   Enemies:
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: TF_01/Room5.arc/Actor000
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: TF_01/Room5.arc/Actor001
 
 
@@ -3553,15 +4448,19 @@
   Enemies:
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: TF_02/Room1.arc/Actor001
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: TF_02/Room1.arc/Actor002
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: TF_02/Room1.arc/Actor00B
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: TF_02/Room1.arc/Actor00C
 -
   Original requirements:
@@ -3569,18 +4468,23 @@
   Enemies:
     -
       Original enemy: Green Bokoblin
+      Placement category: Pot
       Path: TF_02/Room2.arc/Actor000
     -
       Original enemy: Green Bokoblin
+      Placement category: Pot
       Path: TF_02/Room2.arc/Actor001
     -
       Original enemy: Green Bokoblin
+      Placement category: Pot
       Path: TF_02/Room2.arc/Actor002
     -
       Original enemy: Green Bokoblin
+      Placement category: Pot
       Path: TF_02/Room2.arc/Actor003
     -
       Original enemy: Green Bokoblin
+      Placement category: Pot
       Path: TF_02/Room2.arc/Actor004
 -
   Original requirements:
@@ -3588,9 +4492,11 @@
   Enemies:
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: TF_02/Room3.arc/Actor000
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: TF_02/Room3.arc/Actor001
 -
   Original requirements:
@@ -3598,12 +4504,15 @@
   Enemies:
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: TF_02/Room4.arc/Actor000
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: TF_02/Room4.arc/Actor001
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: TF_02/Room4.arc/Actor002
 -
   Original requirements:
@@ -3611,9 +4520,11 @@
   Enemies:
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: TF_02/Room5.arc/Actor000
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: TF_02/Room5.arc/Actor001
 
 
@@ -3624,6 +4535,7 @@
   Enemies:
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: TF_03/Room1.arc/Actor001
 -
   Original requirements:
@@ -3631,6 +4543,7 @@
   Enemies:
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: TF_03/Room1.arc/Layer8/Actor000
 -
   Original requirements:
@@ -3638,6 +4551,7 @@
   Enemies:
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: TF_03/Room2.arc/Actor000
 -
   Original requirements:
@@ -3645,6 +4559,7 @@
   Enemies:
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: TF_03/Room3.arc/Actor000
 -
   Original requirements:
@@ -3652,6 +4567,7 @@
   Enemies:
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: TF_03/Room4.arc/Actor000
 -
   Original requirements:
@@ -3659,6 +4575,7 @@
   Enemies:
     -
       Original enemy: Moblin
+      Placement category: Ground
       Path: TF_03/Room5.arc/Actor000
 
 
@@ -3670,33 +4587,43 @@
   Enemies:
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: TF_04/Room0.arc/Actor003
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: TF_04/Room0.arc/Actor004
     -
       Original enemy: Sitting ReDead
+      Placement category: Ground
       Path: TF_04/Room0.arc/Actor00F
     -
       Original enemy: Sitting ReDead
+      Placement category: Ground
       Path: TF_04/Room0.arc/Actor010
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: TF_04/Room0.arc/Actor011
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: TF_04/Room0.arc/Actor012
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: TF_04/Room0.arc/Actor013
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: TF_04/Room0.arc/Actor014
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: TF_04/Room0.arc/Actor022
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: TF_04/Room0.arc/Actor023
 
 
@@ -3707,12 +4634,15 @@
   Enemies:
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: TF_06/Room2.arc/Actor002
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: TF_06/Room2.arc/Actor005
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: TF_06/Room2.arc/Actor006
 -
   Original requirements:
@@ -3720,12 +4650,15 @@
   Enemies:
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: TF_06/Room3.arc/Actor003
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: TF_06/Room3.arc/Actor006
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: TF_06/Room3.arc/Actor007
 -
   Original requirements:
@@ -3733,15 +4666,19 @@
   Enemies:
     -
       Original enemy: Keese
+      Placement category: Air
       Path: TF_06/Room4.arc/Actor003
     -
       Original enemy: Keese
+      Placement category: Air
       Path: TF_06/Room4.arc/Actor006
     -
       Original enemy: Keese
+      Placement category: Air
       Path: TF_06/Room4.arc/Actor007
     -
       Original enemy: Keese
+      Placement category: Air
       Path: TF_06/Room4.arc/Actor008
 -
   Original requirements:
@@ -3749,9 +4686,11 @@
   Enemies:
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: TF_06/Room5.arc/Actor005
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: TF_06/Room5.arc/Actor008
 
 
@@ -3763,57 +4702,75 @@
   Enemies:
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: TyuTyu/Room0.arc/Actor02D
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: TyuTyu/Room0.arc/Actor02E
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: TyuTyu/Room0.arc/Actor02F
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: TyuTyu/Room0.arc/Actor030
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: TyuTyu/Room0.arc/Actor031
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: TyuTyu/Room0.arc/Actor032
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: TyuTyu/Room0.arc/Actor033
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: TyuTyu/Room0.arc/Actor034
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: TyuTyu/Room0.arc/Actor035
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: TyuTyu/Room0.arc/Actor036
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: TyuTyu/Room0.arc/Actor037
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: TyuTyu/Room0.arc/Actor04E
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: TyuTyu/Room0.arc/Actor04F
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: TyuTyu/Room0.arc/Actor050
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: TyuTyu/Room0.arc/Actor051
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: TyuTyu/Room0.arc/Actor060
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: TyuTyu/Room0.arc/Actor061
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: TyuTyu/Room0.arc/Actor062
 
 
@@ -3824,18 +4781,23 @@
   Enemies:
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: WarpD/Room0.arc/Actor01D
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: WarpD/Room0.arc/Actor01E
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: WarpD/Room0.arc/Actor01F
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: WarpD/Room0.arc/Actor020
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: WarpD/Room0.arc/Actor021
 
 
@@ -3847,9 +4809,11 @@
   Enemies:
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: kaze/Room0.arc/Actor00A
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: kaze/Room0.arc/Actor014
 -
   Original requirements:
@@ -3857,9 +4821,11 @@
   Enemies:
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: kaze/Room1.arc/Actor00E
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: kaze/Room1.arc/Actor00F
 -
   Original requirements:
@@ -3868,27 +4834,35 @@
   Enemies:
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: kaze/Room2.arc/Actor020
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: kaze/Room2.arc/Actor021
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room2.arc/Actor029
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room2.arc/Actor02A
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room2.arc/Actor02B
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room2.arc/Actor02C
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room2.arc/Actor02D
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room2.arc/Actor037
 -
   Original requirements:
@@ -3898,30 +4872,39 @@
   Enemies:
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: kaze/Room3.arc/Actor002
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: kaze/Room3.arc/Actor00B
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: kaze/Room3.arc/Actor00C
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: kaze/Room3.arc/Actor00D
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room3.arc/Actor013
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room3.arc/Actor014
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room3.arc/Actor015
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room3.arc/Actor016
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: kaze/Room3.arc/Actor019
 -
   Original requirements:
@@ -3929,24 +4912,31 @@
   Enemies:
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: kaze/Room4.arc/Actor000
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: kaze/Room4.arc/Actor001
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: kaze/Room4.arc/Actor002
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: kaze/Room4.arc/Actor003
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: kaze/Room4.arc/Actor004
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: kaze/Room4.arc/Actor005
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: kaze/Room4.arc/Actor006
 -
   Original requirements:
@@ -3955,21 +4945,27 @@
   Enemies:
     -
       Original enemy: Path-Following Floormaster
+      Placement category: Ground
       Path: kaze/Room5.arc/Actor005
     -
       Original enemy: Path-Following Floormaster
+      Placement category: Ground
       Path: kaze/Room5.arc/Actor006
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room5.arc/Actor008
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room5.arc/Actor009
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room5.arc/Actor00B
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room5.arc/Actor00C
 -
   Original requirements:
@@ -3979,48 +4975,63 @@
   Enemies:
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: kaze/Room7.arc/Actor01F
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: kaze/Room7.arc/Actor022
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room7.arc/Actor023
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room7.arc/Actor024
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room7.arc/Actor025
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room7.arc/Actor037
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room7.arc/Actor038
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room7.arc/Actor039
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room7.arc/Actor03A
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room7.arc/Actor03B
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room7.arc/Actor03C
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room7.arc/Actor03D
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room7.arc/Actor03E
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room7.arc/Actor03F
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room7.arc/Actor040
 -
   Original requirements:
@@ -4028,12 +5039,15 @@
   Enemies:
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: kaze/Room8.arc/Actor000
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: kaze/Room8.arc/Actor001
     -
       Original enemy: Shield Darknut
+      Placement category: Ground
       Path: kaze/Room8.arc/Actor002
 -
   Original requirements:
@@ -4044,48 +5058,63 @@
   Enemies:
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: kaze/Room9.arc/Actor01E
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: kaze/Room9.arc/Actor01F
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kaze/Room9.arc/Actor020
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kaze/Room9.arc/Actor021
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kaze/Room9.arc/Actor022
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kaze/Room9.arc/Actor023
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kaze/Room9.arc/Actor024
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: kaze/Room9.arc/Actor025
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: kaze/Room9.arc/Actor026
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: kaze/Room9.arc/Actor027
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: kaze/Room9.arc/Actor028
     -
       Original enemy: Red ChuChu
+      Placement category: Ceiling
       Path: kaze/Room9.arc/Actor029
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: kaze/Room9.arc/Actor02A
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: kaze/Room9.arc/Actor02B
     -
       Original enemy: Armos
+      Placement category: Ground
       Path: kaze/Room9.arc/Actor02C
 -
   Original requirements:
@@ -4094,12 +5123,15 @@
   Enemies:
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: kaze/Room10.arc/Actor004
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: kaze/Room10.arc/Actor013
     -
       Original enemy: Stalfos
+      Placement category: Ground
       Path: kaze/Room10.arc/Actor014
 -
   Original requirements:
@@ -4111,72 +5143,95 @@
   Enemies:
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor008
     -
       Original enemy: Armos Knight
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor009
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room11.arc/Actor00A
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room11.arc/Actor00B
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room11.arc/Actor00C
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kaze/Room11.arc/Actor00D
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor00E
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor00F
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor010
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor011
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor012
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor03B
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor03C
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor03D
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor03E
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor03F
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor040
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor041
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor042
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor043
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor044
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor04D
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room11.arc/Actor04F
 -
   Original requirements:
@@ -4186,30 +5241,39 @@
   Enemies:
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: kaze/Room16.arc/Actor004
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: kaze/Room16.arc/Actor005
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: kaze/Room16.arc/Actor006
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: kaze/Room16.arc/Actor011
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room16.arc/Actor019
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room16.arc/Actor01A
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room16.arc/Actor01B
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kaze/Room16.arc/Actor01C
     -
       Original enemy: Blue Bubble
+      Placement category: Air
       Path: kaze/Room16.arc/Actor01D
 
 
@@ -4220,9 +5284,11 @@
   Enemies:
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: kazeMB/Room6.arc/Actor000
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: kazeMB/Room6.arc/Actor001
 
 
@@ -4233,9 +5299,11 @@
   Enemies:
     -
       Original enemy: Mighty Darknut
+      Placement category: Ground
       Path: kenroom/Room0.arc/Actor007
     -
       Original enemy: Mighty Darknut
+      Placement category: Ground
       Path: kenroom/Room0.arc/Actor008
 -
   Original requirements:
@@ -4243,9 +5311,11 @@
   Enemies:
     -
       Original enemy: Mighty Darknut
+      Placement category: Ground
       Path: kenroom/Room0.arc/Layer4/Actor002
     -
       Original enemy: Mighty Darknut
+      Placement category: Ground
       Path: kenroom/Room0.arc/Layer4/Actor003
 
 
@@ -4256,6 +5326,7 @@
   Enemies:
     -
       Original enemy: Mini-Boss Winged Mothula
+      Placement category: Air
       Path: kinMB/Room10.arc/Actor023
 
 
@@ -4266,36 +5337,47 @@
   Enemies:
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room0.arc/Actor015
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room0.arc/Actor016
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room0.arc/Actor02A
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room0.arc/Actor02B
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kindan/Room0.arc/Actor02C
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kindan/Room0.arc/Actor02D
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room0.arc/Actor02E
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kindan/Room0.arc/Actor02F
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kindan/Room0.arc/Actor030
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room0.arc/Actor031
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room0.arc/Actor032
 -
   Original requirements:
@@ -4304,39 +5386,51 @@
   Enemies:
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: kindan/Room1.arc/Actor004
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: kindan/Room1.arc/Actor010
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: kindan/Room1.arc/Actor02E
     -
       Original enemy: Green ChuChu
+      Placement category: Pot
       Path: kindan/Room1.arc/Actor03F
     -
       Original enemy: Green ChuChu
+      Placement category: Pot
       Path: kindan/Room1.arc/Actor040
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room1.arc/Actor04B
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room1.arc/Actor04C
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room1.arc/Actor04D
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room1.arc/Actor04E
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room1.arc/Actor06D
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room1.arc/Actor06E
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room1.arc/Actor06F
 -
   Original requirements:
@@ -4345,18 +5439,23 @@
   Enemies:
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: kindan/Room3.arc/Actor00B
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: kindan/Room3.arc/Actor00C
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: kindan/Room3.arc/Actor00D
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kindan/Room3.arc/Actor00F
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kindan/Room3.arc/Actor010
 -
   Original requirements:
@@ -4365,36 +5464,47 @@
   Enemies:
     -
       Original enemy: Chasing Morth
+      Placement category: Pot
       Path: kindan/Room6.arc/Actor000
     -
       Original enemy: Chasing Morth
+      Placement category: Pot
       Path: kindan/Room6.arc/Actor001
     -
       Original enemy: Chasing Morth
+      Placement category: Pot
       Path: kindan/Room6.arc/Actor002
     -
       Original enemy: Chasing Morth
+      Placement category: Ground
       Path: kindan/Room6.arc/Actor006
     -
       Original enemy: Chasing Morth
+      Placement category: Ground
       Path: kindan/Room6.arc/Actor007
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kindan/Room6.arc/Actor012
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kindan/Room6.arc/Actor013
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kindan/Room6.arc/Actor014
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kindan/Room6.arc/Actor015
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kindan/Room6.arc/Actor016
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kindan/Room6.arc/Actor017
 -
   Original requirements:
@@ -4402,9 +5512,11 @@
   Enemies:
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kindan/Room8.arc/Actor00D
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kindan/Room8.arc/Actor00E
 -
   Original requirements:
@@ -4414,24 +5526,31 @@
   Enemies:
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: kindan/Room9.arc/Actor002
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kindan/Room9.arc/Actor003
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kindan/Room9.arc/Actor004
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: kindan/Room9.arc/Actor006
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: kindan/Room9.arc/Actor01B
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kindan/Room9.arc/Actor01C
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kindan/Room9.arc/Actor01D
 -
   Original requirements:
@@ -4442,39 +5561,51 @@
   Enemies:
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kindan/Room11.arc/Actor000
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kindan/Room11.arc/Actor001
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: kindan/Room11.arc/Actor002
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: kindan/Room11.arc/Actor003
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: kindan/Room11.arc/Actor004
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kindan/Room11.arc/Actor02D
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room11.arc/Actor02E
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room11.arc/Actor02F
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kindan/Room11.arc/Actor030
     -
       Original enemy: Green ChuChu
+      Placement category: Ceiling
       Path: kindan/Room11.arc/Actor031
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room11.arc/Actor032
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room11.arc/Actor033
 -
   Original requirements:
@@ -4484,36 +5615,47 @@
   Enemies:
     -
       Original enemy: Freshwater Octorok
+      Placement category: Water
       Path: kindan/Room12.arc/Actor003
     -
       Original enemy: Freshwater Octorok
+      Placement category: Water
       Path: kindan/Room12.arc/Actor004
     -
       Original enemy: Freshwater Octorok
+      Placement category: Water
       Path: kindan/Room12.arc/Actor013
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room12.arc/Actor04C
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room12.arc/Actor04D
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: kindan/Room12.arc/Actor04E
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kindan/Room12.arc/Actor05A
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kindan/Room12.arc/Actor05B
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kindan/Room12.arc/Actor05C
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kindan/Room12.arc/Actor05D
     -
       Original enemy: Dexivine
+      Placement category: Ground
       Path: kindan/Room12.arc/Actor05E
 -
   Original requirements:
@@ -4521,9 +5663,11 @@
   Enemies:
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: kindan/Room13.arc/Actor018
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: kindan/Room13.arc/Actor019
 -
   Original requirements:
@@ -4533,27 +5677,35 @@
   Enemies:
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: kindan/Room14.arc/Actor000
     -
       Original enemy: Morth
+      Placement category: Ground
       Path: kindan/Room14.arc/Actor001
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: kindan/Room14.arc/Actor002
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kindan/Room14.arc/Actor006
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kindan/Room14.arc/Actor007
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: kindan/Room14.arc/Actor008
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: kindan/Room14.arc/Actor009
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: kindan/Room14.arc/Actor00A
 -
   Original requirements:
@@ -4561,9 +5713,11 @@
   Enemies:
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: kindan/Room15.arc/Actor08D
     -
       Original enemy: Wingless Mothula
+      Placement category: Ground
       Path: kindan/Room15.arc/Actor09A
 -
   Original requirements:
@@ -4572,21 +5726,27 @@
   Enemies:
     -
       Original enemy: Chasing Morth
+      Placement category: Pot
       Path: kindan/Room16.arc/Actor00F
     -
       Original enemy: Chasing Morth
+      Placement category: Pot
       Path: kindan/Room16.arc/Actor010
     -
       Original enemy: Chasing Morth
+      Placement category: Pot
       Path: kindan/Room16.arc/Actor011
     -
       Original enemy: Chasing Morth
+      Placement category: Pot
       Path: kindan/Room16.arc/Actor012
     -
       Original enemy: Green ChuChu
+      Placement category: Pot
       Path: kindan/Room16.arc/Actor013
     -
       Original enemy: Green ChuChu
+      Placement category: Pot
       Path: kindan/Room16.arc/Actor014
 
 
@@ -4598,12 +5758,15 @@
   Enemies:
     -
       Original enemy: Bombchu Hole
+      Placement category: Ground
       Path: ma2room/Room0.arc/Actor000
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: ma2room/Room0.arc/Actor001
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: ma2room/Room0.arc/Actor002
 -
   Original requirements:
@@ -4612,27 +5775,35 @@
   Enemies:
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: ma2room/Room1.arc/Actor009
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ma2room/Room1.arc/Actor00E
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ma2room/Room1.arc/Actor00F
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ma2room/Room1.arc/Actor010
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ma2room/Room1.arc/Actor011
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ma2room/Room1.arc/Actor012
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ma2room/Room1.arc/Actor013
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: ma2room/Room1.arc/Actor014
 -
   Original requirements:
@@ -4641,15 +5812,19 @@
   Enemies:
     -
       Original enemy: Bombchu Hole
+      Placement category: Ground
       Path: ma2room/Room2.arc/Actor000
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: ma2room/Room2.arc/Actor001
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: ma2room/Room2.arc/Actor002
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: ma2room/Room2.arc/Actor00C
 -
   Original requirements:
@@ -4660,24 +5835,31 @@
   Enemies:
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: ma2room/Room3.arc/Actor000
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: ma2room/Room3.arc/Actor001
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: ma2room/Room3.arc/Actor002
     -
       Original enemy: Bombchu Hole
+      Placement category: Ground
       Path: ma2room/Room3.arc/Actor010
     -
       Original enemy: Bombchu Hole
+      Placement category: Ground
       Path: ma2room/Room3.arc/Actor011
     -
       Original enemy: Freshwater Octorok
+      Placement category: Water
       Path: ma2room/Room3.arc/Actor012
     -
       Original enemy: Floormaster
+      Placement category: Ground
       Path: ma2room/Room3.arc/Actor016
 -
   Original requirements:
@@ -4685,6 +5867,7 @@
   Enemies:
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: ma2room/Room4.arc/Actor00D
 
 
@@ -4696,21 +5879,27 @@
   Enemies:
     -
       Original enemy: Rat Hole
+      Placement category: Ground
       Path: ma3room/Room0.arc/Actor026
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room0.arc/Actor027
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room0.arc/Actor028
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room0.arc/Actor029
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room0.arc/Actor02A
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room0.arc/Actor02B
 -
   Original requirements:
@@ -4718,9 +5907,11 @@
   Enemies:
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room1.arc/Actor009
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room1.arc/Actor00A
 -
   Original requirements:
@@ -4729,18 +5920,23 @@
   Enemies:
     -
       Original enemy: Rat Hole
+      Placement category: Ground
       Path: ma3room/Room2.arc/Actor007
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room2.arc/Actor008
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room2.arc/Actor009
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room2.arc/Actor00A
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room2.arc/Actor00B
 -
   Original requirements:
@@ -4749,24 +5945,31 @@
   Enemies:
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room3.arc/Actor011
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room3.arc/Actor012
     -
       Original enemy: Rat Hole
+      Placement category: Ground
       Path: ma3room/Room3.arc/Actor013
     -
       Original enemy: Rat Hole
+      Placement category: Ground
       Path: ma3room/Room3.arc/Actor014
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room3.arc/Actor015
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room3.arc/Actor016
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room3.arc/Actor017
 -
   Original requirements:
@@ -4774,18 +5977,23 @@
   Enemies:
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room4.arc/Actor009
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room4.arc/Actor00A
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room4.arc/Actor00B
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room4.arc/Actor00C
     -
       Original enemy: Keese
+      Placement category: Air
       Path: ma3room/Room4.arc/Actor00D
 
 
@@ -4797,12 +6005,15 @@
   Enemies:
     -
       Original enemy: Rat Hole
+      Placement category: Ground
       Path: majroom/Room0.arc/Actor000
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: majroom/Room0.arc/Actor001
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: majroom/Room0.arc/Actor002
 -
   Original requirements:
@@ -4810,18 +6021,23 @@
   Enemies:
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: majroom/Room1.arc/Actor015
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: majroom/Room1.arc/Actor016
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: majroom/Room1.arc/Actor017
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: majroom/Room1.arc/Actor018
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: majroom/Room1.arc/Actor019
 -
   Original requirements:
@@ -4829,9 +6045,11 @@
   Enemies:
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: majroom/Room1.arc/Layerb/Actor002
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: majroom/Room1.arc/Layerb/Actor003
 -
   Original requirements:
@@ -4840,12 +6058,15 @@
   Enemies:
     -
       Original enemy: Rat Hole
+      Placement category: Ground
       Path: majroom/Room2.arc/Actor000
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: majroom/Room2.arc/Actor001
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: majroom/Room2.arc/Actor002
 -
   Original requirements:
@@ -4855,27 +6076,35 @@
   Enemies:
     -
       Original enemy: Keese
+      Placement category: Air
       Path: majroom/Room3.arc/Actor000
     -
       Original enemy: Keese
+      Placement category: Air
       Path: majroom/Room3.arc/Actor001
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: majroom/Room3.arc/Actor002
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: majroom/Room3.arc/Actor003
     -
       Original enemy: Rat
+      Placement category: Ground
       Path: majroom/Room3.arc/Actor004
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: majroom/Room3.arc/Actor005
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: majroom/Room3.arc/Actor006
     -
       Original enemy: Lantern Moblin
+      Placement category: Ground
       Path: majroom/Room3.arc/Actor007
 
 
@@ -4887,42 +6116,55 @@
   Enemies:
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor000
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor001
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor002
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor01A
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor01E
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor01F
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor020
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor021
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor022
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor023
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor024
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor027
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor028
 -
   Original requirements:
@@ -4930,9 +6172,11 @@
   Enemies:
     -
       Original enemy: Rat Hole
+      Placement category: Ground
       Path: sea/Room1.arc/Layer2/Actor005
     -
       Original enemy: Rat Hole
+      Placement category: Ground
       Path: sea/Room1.arc/Layer2/Actor006
 -
   Original requirements:
@@ -4940,9 +6184,11 @@
   Enemies:
     -
       Original enemy: Rat Hole
+      Placement category: Ground
       Path: sea/Room1.arc/Layer3/Actor005
     -
       Original enemy: Rat Hole
+      Placement category: Ground
       Path: sea/Room1.arc/Layer3/Actor006
 
 
@@ -4955,30 +6201,39 @@
   Enemies:
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room2.arc/Actor020
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: sea/Room2.arc/Actor029
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room2.arc/Actor02A
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room2.arc/Actor02D
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room2.arc/Actor02E
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room2.arc/Actor02F
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room2.arc/Actor030
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room2.arc/Actor031
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room2.arc/Actor033
 
 
@@ -4989,15 +6244,19 @@
   Enemies:
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room3.arc/Actor00E
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room3.arc/Actor00F
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room3.arc/Actor013
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room3.arc/Actor014
 
 
@@ -5009,21 +6268,27 @@
   Enemies:
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: sea/Room6.arc/Actor007
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: sea/Room6.arc/Actor008
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: sea/Room6.arc/Actor024
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: sea/Room6.arc/Actor025
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: sea/Room6.arc/Actor029
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: sea/Room6.arc/Actor02B
 
 
@@ -5034,15 +6299,19 @@
   Enemies:
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room12.arc/Actor011
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room12.arc/Actor029
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room12.arc/Actor02E
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room12.arc/Actor033
 
 
@@ -5054,15 +6323,19 @@
   Enemies:
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: sea/Room13.arc/Layer0/Actor007
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room13.arc/Layer0/Actor008
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room13.arc/Layer0/Actor009
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room13.arc/Layer0/Actor00A
 -
   Original requirements:
@@ -5071,15 +6344,19 @@
   Enemies:
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: sea/Room13.arc/Layer1/Actor000
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room13.arc/Layer1/Actor001
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room13.arc/Layer1/Actor002
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room13.arc/Layer1/Actor003
 
 
@@ -5091,15 +6368,19 @@
   Enemies:
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room15.arc/Actor010
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: sea/Room15.arc/Actor019
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: sea/Room15.arc/Actor01A
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room15.arc/Actor01B
 
 
@@ -5111,27 +6392,35 @@
   Enemies:
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room16.arc/Actor012
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room16.arc/Actor01B
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room16.arc/Actor022
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room16.arc/Actor029
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: sea/Room16.arc/Actor02E
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: sea/Room16.arc/Actor02F
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room16.arc/Actor030
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room16.arc/Actor035
 
 
@@ -5142,6 +6431,7 @@
   Enemies:
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room18.arc/Actor02B
 
 
@@ -5152,12 +6442,15 @@
   Enemies:
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room19.arc/Actor011
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room19.arc/Actor01A
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room19.arc/Actor01B
 
 
@@ -5169,9 +6462,11 @@
   Enemies:
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: sea/Room20.arc/Actor006
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room20.arc/Actor01A
 
 
@@ -5184,27 +6479,35 @@
   Enemies:
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room21.arc/Actor006
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room21.arc/Actor007
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: sea/Room21.arc/Actor008
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: sea/Room21.arc/Actor009
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room21.arc/Actor012
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room21.arc/Actor01B
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: sea/Room21.arc/Actor01C
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: sea/Room21.arc/Actor01D
 
 
@@ -5216,15 +6519,19 @@
   Enemies:
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: sea/Room24.arc/Actor01E
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: sea/Room24.arc/Actor01F
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room24.arc/Actor020
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room24.arc/Actor029
 
 
@@ -5236,21 +6543,27 @@
   Enemies:
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room25.arc/Actor009
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room25.arc/Actor00C
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room25.arc/Actor00D
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room25.arc/Actor01D
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room25.arc/Actor020
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room25.arc/Actor029
 
 
@@ -5261,24 +6574,31 @@
   Enemies:
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room27.arc/Actor001
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room27.arc/Actor002
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room27.arc/Actor003
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room27.arc/Actor004
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room27.arc/Actor005
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room27.arc/Actor006
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room27.arc/Actor007
 
 
@@ -5289,15 +6609,19 @@
   Enemies:
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room28.arc/Actor01D
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room28.arc/Actor01E
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room28.arc/Actor01F
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room28.arc/Actor028
 
 
@@ -5308,18 +6632,23 @@
   Enemies:
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: sea/Room29.arc/Actor005
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: sea/Room29.arc/Actor006
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: sea/Room29.arc/Actor007
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room29.arc/Actor012
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room29.arc/Actor013
 
 
@@ -5333,36 +6662,47 @@
   Enemies:
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: sea/Room30.arc/Actor003
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: sea/Room30.arc/Actor004
     -
       Original enemy: Blue Bokoblin
+      Placement category: Ground
       Path: sea/Room30.arc/Actor005
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room30.arc/Actor006
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room30.arc/Actor007
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room30.arc/Actor008
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room30.arc/Actor009
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room30.arc/Actor020
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room30.arc/Actor021
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: sea/Room30.arc/Actor022
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: sea/Room30.arc/Actor023
 
 
@@ -5373,9 +6713,11 @@
   Enemies:
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room31.arc/Actor027
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room31.arc/Actor02F
 
 
@@ -5386,12 +6728,15 @@
   Enemies:
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room34.arc/Actor039
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room34.arc/Actor042
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room34.arc/Actor047
 
 
@@ -5402,18 +6747,23 @@
   Enemies:
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room35.arc/Actor002
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room35.arc/Actor003
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room35.arc/Actor004
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room35.arc/Actor007
     -
       Original enemy: Kargaroc
+      Placement category: Air
       Path: sea/Room35.arc/Actor017
 
 
@@ -5425,21 +6775,27 @@
   Enemies:
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: sea/Room37.arc/Actor017
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: sea/Room37.arc/Actor018
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room37.arc/Actor019
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room37.arc/Actor022
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: sea/Room37.arc/Actor025
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: sea/Room37.arc/Actor026
 
 
@@ -5450,39 +6806,51 @@
   Enemies:
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room38.arc/Actor00D
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room38.arc/Actor00E
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room38.arc/Actor00F
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room38.arc/Actor010
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room38.arc/Actor011
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room38.arc/Actor012
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room38.arc/Actor013
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room38.arc/Actor014
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room38.arc/Actor015
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room38.arc/Actor016
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room38.arc/Actor017
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room38.arc/Actor018
 
 
@@ -5493,24 +6861,31 @@
   Enemies:
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room39.arc/Actor00F
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room39.arc/Actor018
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room39.arc/Actor01E
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room39.arc/Actor01F
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room39.arc/Actor02F
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room39.arc/Actor038
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room39.arc/Actor03D
 
 
@@ -5523,36 +6898,47 @@
   Enemies:
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: sea/Room41.arc/Actor001
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: sea/Room41.arc/Actor002
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: sea/Room41.arc/Actor042
     -
       Original enemy: Freshwater Octorok
+      Placement category: Water
       Path: sea/Room41.arc/Actor047
     -
       Original enemy: Peahat
+      Placement category: Air
       Path: sea/Room41.arc/Actor058
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: sea/Room41.arc/Actor098
     -
       Original enemy: Freshwater Octorok
+      Placement category: Water
       Path: sea/Room41.arc/Actor09C
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: sea/Room41.arc/Actor0AD
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: sea/Room41.arc/Actor0C4
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: sea/Room41.arc/Actor0C6
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: sea/Room41.arc/Actor0CF
 -
   Original requirements:
@@ -5561,9 +6947,11 @@
   Enemies:
     -
       Original enemy: Boko Baba
+      Placement category: Ground
       Path: sea/Room41.arc/Layer7/Actor001
     -
       Original enemy: Freshwater Octorok
+      Placement category: Water
       Path: sea/Room41.arc/Layer7/Actor003
 
 
@@ -5575,24 +6963,31 @@
   Enemies:
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room42.arc/Actor02D
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room42.arc/Actor032
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: sea/Room42.arc/Actor034
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: sea/Room42.arc/Actor035
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room42.arc/Actor036
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room42.arc/Actor037
     -
       Original enemy: Wizzrobe
+      Placement category: Ground
       Path: sea/Room42.arc/Actor038
 
 
@@ -5604,27 +6999,35 @@
   Enemies:
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room43.arc/Actor034
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room43.arc/Actor03D
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room43.arc/Actor043
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room43.arc/Actor04C
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room43.arc/Actor052
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room43.arc/Actor053
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room43.arc/Actor054
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room43.arc/Actor055
 
 
@@ -5637,33 +7040,43 @@
   Enemies:
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor000
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor001
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor002
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor003
     -
       Original enemy: Green ChuChu
+      Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor004
     -
       Original enemy: Red ChuChu
+      Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor005
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor00F
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor019
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor01A
     -
       Original enemy: Miniblin
+      Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor01B
 -
   Original requirements:
@@ -5671,39 +7084,51 @@
   Enemies:
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer6/Actor000
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer6/Actor001
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer6/Actor002
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer6/Actor003
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer6/Actor004
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer6/Actor005
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer6/Actor006
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer6/Actor007
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer6/Actor008
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer6/Actor009
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer6/Actor00A
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer6/Actor00B
 -
   Original requirements:
@@ -5711,27 +7136,35 @@
   Enemies:
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer7/Actor000
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer7/Actor001
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer7/Actor002
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer7/Actor003
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer7/Actor010
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer7/Actor011
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer7/Actor012
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layer7/Actor013
 -
   Original requirements:
@@ -5741,27 +7174,35 @@
   Enemies:
     -
       Original enemy: Chasing Morth
+      Placement category: Pot
       Path: sea/Room44.arc/Layerb/Actor003
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layerb/Actor00A
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layerb/Actor00B
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layerb/Actor00C
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layerb/Actor00D
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layerb/Actor00E
     -
       Original enemy: Keese
+      Placement category: Air
       Path: sea/Room44.arc/Layerb/Actor00F
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room44.arc/Layerb/Actor010
 
 
@@ -5774,36 +7215,47 @@
   Enemies:
     -
       Original enemy: Green Bokoblin
+      Placement category: Ground
       Path: sea/Room46.arc/Actor017
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room46.arc/Actor018
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room46.arc/Actor01D
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room46.arc/Actor01F
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room46.arc/Actor020
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room46.arc/Actor021
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room46.arc/Actor022
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room46.arc/Actor023
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room46.arc/Actor024
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room46.arc/Actor025
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room46.arc/Actor026
 
 
@@ -5814,12 +7266,15 @@
   Enemies:
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room47.arc/Actor00F
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room47.arc/Actor010
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room47.arc/Actor011
 
 
@@ -5831,15 +7286,19 @@
   Enemies:
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room48.arc/Actor02F
     -
       Original enemy: Saltwater Octorok
+      Placement category: Sea
       Path: sea/Room48.arc/Actor031
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room48.arc/Actor035
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room48.arc/Actor036
 
 
@@ -5851,34 +7310,45 @@
   Enemies:
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room49.arc/Actor00E
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room49.arc/Actor00F
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room49.arc/Actor010
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room49.arc/Actor011
     -
       Original enemy: Kargaroc
+      Placement category: Ground
       Path: sea/Room49.arc/Actor012
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room49.arc/Actor01F
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room49.arc/Actor024
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room49.arc/Actor026
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room49.arc/Actor027
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room49.arc/Actor028
     -
       Original enemy: Pink Bokoblin
+      Placement category: Ground
       Path: sea/Room49.arc/Actor029
