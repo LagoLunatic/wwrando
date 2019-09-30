@@ -20,6 +20,7 @@ def randomize_enemies(self):
     pretty_name = enemy_data["Pretty name"]
     enemy_datas_by_pretty_name[pretty_name] = enemy_data
   
+  enemy_actor_names_placed_in_stage = {}
   particles_to_load_for_each_jpc_index = OrderedDict()
   
   for enemy_group in self.enemy_locations:
@@ -45,9 +46,23 @@ def randomize_enemies(self):
       enemy, arc_name = get_enemy_and_arc_name_for_path(self, enemy_location["Path"])
       stage_name, room_arc_name = arc_name.split("/")
       
+      if stage_name != "sea":
+        if stage_name not in enemy_actor_names_placed_in_stage:
+          enemy_actor_names_placed_in_stage[stage_name] = []
+        
+        if len(enemy_actor_names_placed_in_stage[stage_name]) >= 10:
+          # Placed a lot of different enemy types in this stage already.
+          # Instead of placing yet another new type, reuse a type we already used to prevent loading too many different particle IDs for this stage or making the stage feel too chaotic.
+          enemies_to_randomize_to_for_this_group = [
+            data for data in enemies_to_randomize_to_for_this_group
+            if data["Actor name"] in enemy_actor_names_placed_in_stage[stage_name]
+          ]
+          if len(enemies_to_randomize_to_for_this_group) == 0:
+            raise Exception("Cannot place any more enemy species in stage %s but the existing ones aren't logically allowed")
+      
       if len(enemy_actor_names_placed_in_this_group) >= 5:
         # Placed a lot of different enemy types in this room already.
-        # Instead of placing yet another new type, reuse a type we already used to prevent overloading the available RAM.
+        # Instead of placing yet another new type, reuse a type we already used to prevent overloading the available RAM or making combat in this room too chaotic.
         filtered_enemy_types_data = [
           data for data in enemies_to_randomize_to_for_this_group
           if data["Actor name"] in enemy_actor_names_placed_in_this_group
@@ -69,6 +84,8 @@ def randomize_enemies(self):
       if new_enemy_data["Actor name"] not in enemy_actor_names_placed_in_this_group:
         # TODO: we should consider 2 different names that are the same actor to be the same...
         enemy_actor_names_placed_in_this_group.append(new_enemy_data["Actor name"])
+      if stage_name != "sea" and new_enemy_data["Actor name"] not in enemy_actor_names_placed_in_stage[stage_name]:
+        enemy_actor_names_placed_in_stage[stage_name].append(new_enemy_data["Actor name"])
       #print("% 7s  %08X  %s" % (enemy.name, enemy.params, arc_path))
       
       if stage_name == "sea":
