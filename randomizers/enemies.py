@@ -2,6 +2,7 @@
 import os
 import copy
 import re
+from collections import OrderedDict
 
 from wwlib import stage_searcher
 from logic.logic import Logic
@@ -14,7 +15,13 @@ def randomize_enemies(self):
     if data["Allow randomizing to"]
   ]
   
+  enemy_datas_by_pretty_name = {}
+  for enemy_data in self.enemy_types:
+    pretty_name = enemy_data["Pretty name"]
+    enemy_datas_by_pretty_name[pretty_name] = enemy_data
+  
   enemy_actor_names_placed_in_this_room = {}
+  particles_to_load_for_each_jpc_index = OrderedDict()
   
   for enemy_group in self.enemy_locations:
     original_req_string = enemy_group["Original requirements"]
@@ -35,6 +42,7 @@ def randomize_enemies(self):
     
     for enemy_location in enemy_group["Enemies"]:
       enemy, arc_name = get_enemy_and_arc_name_for_path(self, enemy_location["Path"])
+      stage_name, room_arc_name = arc_name.split("/")
       
       if arc_name not in enemy_actor_names_placed_in_this_room:
         enemy_actor_names_placed_in_this_room[arc_name] = []
@@ -50,6 +58,8 @@ def randomize_enemies(self):
       else:
         new_enemy_data = self.rng.choice(enemies_to_randomize_to_for_this_group)
       
+      #new_enemy_data = enemy_datas_by_pretty_name["Wizzrobe"]
+      
       if False:
         print("Putting a %s (param:%08X) in %s" % (new_enemy_data["Actor name"], new_enemy_data["Params"], arc_path))
       
@@ -62,22 +72,59 @@ def randomize_enemies(self):
         # TODO: we should consider 2 different names that are the same actor to be the same...
         enemy_actor_names_placed_in_this_room[arc_name].append(new_enemy_data["Actor name"])
       #print("% 7s  %08X  %s" % (enemy.name, enemy.params, arc_path))
+      
+      if stage_name == "sea":
+        dzr = self.get_arc("files/res/Stage/sea/" + room_arc_name).get_file("room.dzr")
+        dest_jpc_index = dzr.entries_by_type("FILI")[0].loaded_particle_bank
+      else:
+        dzs = self.get_arc("files/res/Stage/" + stage_name + "/Stage.arc").get_file("stage.dzs")
+        dest_jpc_index = dzs.entries_by_type("STAG")[0].loaded_particle_bank
+      
+      if dest_jpc_index not in particles_to_load_for_each_jpc_index:
+        particles_to_load_for_each_jpc_index[dest_jpc_index] = []
+      for particle_id in new_enemy_data["Required particle IDs"]:
+        if particle_id not in particles_to_load_for_each_jpc_index[dest_jpc_index]:
+          particles_to_load_for_each_jpc_index[dest_jpc_index].append(particle_id)
   
-  
-  
-  et_jpc = self.get_jpc("files/res/Particle/Pscene060.jpc")
-  chuchu_jpc = self.get_jpc("files/res/Particle/Pscene203.jpc")
-  
-  for particle_id in [0x8122, 0x8123, 0x8124]:
-    particle = et_jpc.particles_by_id[particle_id]
-    
-    for dest_jpc in [chuchu_jpc]:
+  update_loaded_particles(self, particles_to_load_for_each_jpc_index)
+
+def update_loaded_particles(self, particles_to_load_for_each_jpc_index):
+  # Copy particles to stages that need them for the new enemies we placed.
+  particle_and_textures_by_id = {}
+  for dest_jpc_index, particle_ids in particles_to_load_for_each_jpc_index.items():
+    for particle_id in particle_ids:
+      dest_jpc_path = "files/res/Particle/Pscene%03d.jpc" % dest_jpc_index
+      dest_jpc = self.get_jpc(dest_jpc_path)
+      if particle_id in dest_jpc.particles_by_id:
+        continue
+      
+      if particle_id in particle_and_textures_by_id:
+        particle, textures = particle_and_textures_by_id[particle_id]
+      else:
+        particle = None
+        for i in range(255):
+          src_jpc_path = "files/res/Particle/Pscene%03d.jpc" % i
+          if src_jpc_path.lower() not in self.gcm.files_by_path_lowercase:
+            continue
+          src_jpc = self.get_jpc(src_jpc_path)
+          if particle_id not in src_jpc.particles_by_id:
+            continue
+          particle = src_jpc.particles_by_id[particle_id]
+          textures = [
+            src_jpc.textures_by_filename[texture_filename]
+            for texture_filename in particle.tdb1.texture_filenames
+          ]
+          break
+        
+        if particle is None:
+          raise Exception("Failed to find a particle with ID %04X in any of the game's JPC files." % particle_id)
+        particle_and_textures_by_id[particle_id] = (particle, textures)
+      
       copied_particle = copy.deepcopy(particle)
       dest_jpc.add_particle(copied_particle)
       
-      for texture_filename in copied_particle.tdb1.texture_filenames:
-        if texture_filename not in dest_jpc.textures_by_filename:
-          texture = et_jpc.textures_by_filename[texture_filename]
+      for texture in textures:
+        if texture.filename not in dest_jpc.textures_by_filename:
           copied_texture = copy.deepcopy(texture)
           dest_jpc.add_texture(copied_texture)
 
