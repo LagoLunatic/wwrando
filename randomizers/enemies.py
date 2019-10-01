@@ -206,7 +206,7 @@ def randomize_enemy_group(self, stage_folder, enemy_group):
     enemy.auxilary_param_2 = new_enemy_data["Aux params 2"]
     
     randomize_enemy_params(self, new_enemy_data, enemy, enemy_location["Placement category"], dzx, layer)
-    adjust_enemy(self, new_enemy_data, enemy, enemy_location["Placement category"])
+    adjust_enemy(self, new_enemy_data, enemy, enemy_location["Placement category"], dzx, layer)
     
     enemy.save_changes()
     
@@ -514,7 +514,7 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
     
     enemy.morth_num_morths_in_group = self.rng.randrange(1, 10+1)
 
-def adjust_enemy(self, enemy_data, enemy, category):
+def adjust_enemy(self, enemy_data, enemy, category, dzx, layer):
   if enemy.name == "magtail":
     # Magtails wind up being slightly inside the floor for some reason, so bump them up a bit.
     enemy.y_pos += 50.0
