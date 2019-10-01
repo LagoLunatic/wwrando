@@ -48,16 +48,24 @@ class DZx: # DZR or DZS, same format
     return entity
   
   def remove_entity(self, entity, chunk_type, layer=None):
-    chunk_to_remove_entity_from = None
-    for chunk in self.chunks:
-      if chunk_type == chunk.chunk_type and layer == chunk.layer:
-        chunk_to_remove_entity_from = chunk
-        break
+    assert hasattr(entity, "name")
     
-    if chunk_to_remove_entity_from is None:
-      raise Exception("Could not find chunk of type %s on layer %s" % (chunk_type, layer))
+    # Instead of actually removing the entity from the list, simply set its name to the empty string.
+    # This will cause the game to not load any actor there, so it's effectively removing it.
+    # The benefit of this is that removing an entity from the list shifts down the entity indexes of all entities after it in the list, which has the potential to screw up paths to entities in item_locations.txt and enemy locations.txt.
+    entity.name = ""
     
-    chunk_to_remove_entity_from.entries.remove(entity)
+    # Below is the old code that actually removed the entity from the list.
+    #chunk_to_remove_entity_from = None
+    #for chunk in self.chunks:
+    #  if chunk_type == chunk.chunk_type and layer == chunk.layer:
+    #    chunk_to_remove_entity_from = chunk
+    #    break
+    #
+    #if chunk_to_remove_entity_from is None:
+    #  raise Exception("Could not find chunk of type %s on layer %s" % (chunk_type, layer))
+    #
+    #chunk_to_remove_entity_from.entries.remove(entity)
   
   def save_changes(self):
     data = self.file_entry.data

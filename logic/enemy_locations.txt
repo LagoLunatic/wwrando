@@ -4980,19 +4980,15 @@ kaze:
     -
       Original enemy: Floormaster
       Placement category: Ground
-      Path: kaze/Room3.arc/Actor00B
-    -
-      Original enemy: Floormaster
-      Placement category: Ground
       Path: kaze/Room3.arc/Actor00C
     -
       Original enemy: Floormaster
       Placement category: Ground
       Path: kaze/Room3.arc/Actor00D
     -
-      Original enemy: Dexivine
+      Original enemy: Floormaster
       Placement category: Ground
-      Path: kaze/Room3.arc/Actor013
+      Path: kaze/Room3.arc/Actor00E
     -
       Original enemy: Dexivine
       Placement category: Ground
@@ -5006,9 +5002,13 @@ kaze:
       Placement category: Ground
       Path: kaze/Room3.arc/Actor016
     -
+      Original enemy: Dexivine
+      Placement category: Ground
+      Path: kaze/Room3.arc/Actor017
+    -
       Original enemy: Floormaster
       Placement category: Ground
-      Path: kaze/Room3.arc/Actor019
+      Path: kaze/Room3.arc/Actor01A
 -
   Must defeat enemies: Yes
   Original requirements:
@@ -5415,11 +5415,11 @@ kenroom:
     -
       Original enemy: Darknut
       Placement category: Ground
-      Path: kenroom/Room0.arc/Actor007
+      Path: kenroom/Room0.arc/Actor009
     -
       Original enemy: Darknut
       Placement category: Ground
-      Path: kenroom/Room0.arc/Actor008
+      Path: kenroom/Room0.arc/Actor00A
 -
   Must defeat enemies: Yes
   Original requirements:
@@ -7283,17 +7283,9 @@ sea/Room44.arc:
     -
       Original enemy: Green ChuChu
       Placement category: Ground
-      Path: sea/Room44.arc/Layer5/Actor000
-    -
-      Original enemy: Red ChuChu
-      Placement category: Ground
-      Path: sea/Room44.arc/Layer5/Actor001
-    -
-      Original enemy: Green ChuChu
-      Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor002
     -
-      Original enemy: Green ChuChu
+      Original enemy: Red ChuChu
       Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor003
     -
@@ -7301,25 +7293,33 @@ sea/Room44.arc:
       Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor004
     -
-      Original enemy: Red ChuChu
+      Original enemy: Green ChuChu
       Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor005
     -
-      Original enemy: Miniblin
+      Original enemy: Green ChuChu
       Placement category: Ground
-      Path: sea/Room44.arc/Layer5/Actor00F
+      Path: sea/Room44.arc/Layer5/Actor006
+    -
+      Original enemy: Red ChuChu
+      Placement category: Ground
+      Path: sea/Room44.arc/Layer5/Actor007
     -
       Original enemy: Miniblin
       Placement category: Ground
-      Path: sea/Room44.arc/Layer5/Actor019
-    -
-      Original enemy: Miniblin
-      Placement category: Ground
-      Path: sea/Room44.arc/Layer5/Actor01A
+      Path: sea/Room44.arc/Layer5/Actor011
     -
       Original enemy: Miniblin
       Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor01B
+    -
+      Original enemy: Miniblin
+      Placement category: Ground
+      Path: sea/Room44.arc/Layer5/Actor01C
+    -
+      Original enemy: Miniblin
+      Placement category: Ground
+      Path: sea/Room44.arc/Layer5/Actor01D
 -
   Must defeat enemies: Yes
   Original requirements:

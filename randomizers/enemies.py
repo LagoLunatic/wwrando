@@ -284,6 +284,8 @@ def print_all_enemy_params(self):
       print("% 7s  %08X  %04X  %04X  %s" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2, arc_path))
 
 def print_all_enemy_locations(self):
+  # Autogenerates an enemy_locations.txt file.
+  
   all_enemy_actor_names = []
   for data in self.enemy_types:
     if data["Actor name"] not in all_enemy_actor_names:
