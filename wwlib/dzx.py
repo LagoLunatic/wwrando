@@ -422,6 +422,8 @@ class ACTR(ChunkEntry):
     "rat_hole_type": ("params", 0x00FF0000),
     
     "darknut_behavior_type": ("params", 0x0000000F),
+    "darknut_color":         ("params", 0x000000F0),
+    "darknut_equipment":     ("auxilary_param", 0x00E0),
     
     "mothula_type": ("params", 0x00FF0000),
     

@@ -356,15 +356,17 @@ Can Farm Lots of Rupees:
   Nothing
   # TODO: We might want to add some restrictions here until the player can access efficient farming spots?
 
-Can Defeat Green Bokoblins:
+Can Defeat Bokoblins:
   Hero's Sword
   | Hero's Bow
   | Bombs
   | Skull Hammer
+Can Defeat Green Bokoblins:
+  Can Defeat Bokoblins
 Can Defeat Blue Bokoblins:
-  Can Defeat Green Bokoblins
+  Can Defeat Bokoblins
 Can Defeat Pink Bokoblins:
-  Can Defeat Green Bokoblins
+  Can Defeat Bokoblins
 Can Defeat Moblins:
   Hero's Sword
   | Hero's Bow

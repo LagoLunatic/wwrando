@@ -1,33 +1,11 @@
 -
-  Pretty name: Blue Bokoblin
+  Pretty name: Bokoblin
   Actor name: Bk
   Params: 0xFFFFFF00
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Required particle IDs: []
-  Requirements to defeat: Can Defeat Blue Bokoblins
-  Allow randomizing from: True
-  Allow randomizing to: True
-  Placement categories: [Ground, Pot]
--
-  Pretty name: Green Bokoblin
-  Actor name: Bk
-  Params: 0xFFFFFF20
-  Aux params: 0x001F
-  Aux params 2: 0x00FF
-  Required particle IDs: []
-  Requirements to defeat: Can Defeat Green Bokoblins
-  Allow randomizing from: True
-  Allow randomizing to: True
-  Placement categories: [Ground, Pot]
--
-  Pretty name: Pink Bokoblin
-  Actor name: Bk
-  Params: 0xFFFFFF0B
-  Aux params: 0x001F
-  Aux params 2: 0x00FF
-  Required particle IDs: []
-  Requirements to defeat: Can Defeat Pink Bokoblins
+  Requirements to defeat: Can Defeat Bokoblins
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground, Pot]
@@ -252,30 +230,6 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
-#-
-#  Pretty name: Unused Wizzrobe?
-#  Actor name: wiz_s
-#  Params: 0x
-#  Aux params: 0x
-#  Aux params 2: 0x
-#  Required particle IDs: []
-#  Requirements to defeat: TODO
-#-
-#  Pretty name: Unused Wizzrobe?
-#  Actor name: wiz_m
-#  Params: 0x
-#  Aux params: 0x
-#  Aux params 2: 0x
-#  Required particle IDs: []
-#  Requirements to defeat: TODO
-#-
-#  Pretty name: Unused Wizzrobe?
-#  Actor name: wiz_o
-#  Params: 0x
-#  Aux params: 0x
-#  Aux params 2: 0x
-#  Required particle IDs: []
-#  Requirements to defeat: TODO
 -
   Pretty name: ReDead
   Actor name: Rdead1
@@ -422,50 +376,6 @@
   Allow randomizing to: True
   Placement categories: [Ground]
 -
-  Pretty name: Shield Darknut
-  Actor name: Tn
-  Params: 0xFFFFFF10
-  Aux params: 0x007F
-  Aux params 2: 0x00FF
-  Required particle IDs: [0x81B4, 0x81B5, 0x81B6, 0xA1B3]
-  Requirements to defeat: Can Defeat Darknuts
-  Allow randomizing from: True
-  Allow randomizing to: True
-  Placement categories: [Ground]
--
-  Pretty name: Mini-Boss Darknut
-  Actor name: Tn
-  Params: 0xFFFFFF0D
-  Aux params: 0x001F
-  Aux params 2: 0x00FF
-  Required particle IDs: [0x81B4, 0x81B5, 0x81B6, 0xA1B3]
-  Requirements to defeat: Can Defeat Darknuts
-  Allow randomizing from: True
-  Allow randomizing to: False
-  Placement categories: [Ground]
--
-  Pretty name: Mighty Darknut
-  Actor name: Tn
-  Params: 0xFFFFFF10
-  Aux params: 0x00FF
-  Aux params 2: 0x00FF
-  Required particle IDs: [0x81B4, 0x81B5, 0x81B6, 0xA1B3]
-  Requirements to defeat: Can Defeat Darknuts
-  Allow randomizing from: True
-  Allow randomizing to: True
-  Placement categories: [Ground]
--
-  Pretty name: Frozen Darknut
-  Actor name: Tn
-  Params: 0xFFFFFF1F
-  Aux params: 0x001F
-  Aux params 2: 0x00FF
-  Required particle IDs: [0x81B4, 0x81B5, 0x81B6, 0xA1B3]
-  Requirements to defeat: Can Defeat Darknuts
-  Allow randomizing from: True
-  Allow randomizing to: False
-  Placement categories: [Ground]
--
   Pretty name: Boko Baba
   Actor name: bbaba
   Params: 0xFFFFFFFF
@@ -477,7 +387,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
 -
-  Pretty name: Magtail # sorta works, but may start out inside the floor and come up, or start out inside the floor and never come out.
+  Pretty name: Magtail
   Actor name: magtail
   Params: 0xFFFFFFFF # TODO
   Aux params: 0x0000 # TODO
@@ -527,7 +437,7 @@
   Aux params: 0x00FF
   Aux params 2: 0x00FF
   Required particle IDs: [0x81A1, 0x81A2, 0x81A3]
-  Requirements to defeat: Can Defeat Mothulas
+  Requirements to defeat: Can Defeat Winged Mothulas
   Allow randomizing from: True
   Allow randomizing to: False
   Placement categories: [Air]

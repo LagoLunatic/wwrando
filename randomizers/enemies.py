@@ -513,6 +513,10 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
       enemy.morth_behavior_type = self.rng.choice([0, 1])
     
     enemy.morth_num_morths_in_group = self.rng.randrange(1, 10+1)
+  elif enemy.name == "Tn":
+    enemy.darknut_behavior_type = self.rng.choice([0, 4])
+    enemy.darknut_color = self.rng.randrange(0, 5+1)
+    enemy.darknut_equipment = self.rng.randrange(0, 5+1)
 
 def adjust_enemy(self, enemy_data, enemy, category, dzx, layer):
   if enemy.name == "magtail":

@@ -4,19 +4,19 @@
 A_mori:
 -
   Original requirements:
-    Can Defeat Blue Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Kargarocs
   Enemies:
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: A_mori/Room0.arc/Layer0/Actor003
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: A_mori/Room0.arc/Layer0/Actor004
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: A_mori/Room0.arc/Layer0/Actor005
     -
@@ -125,24 +125,23 @@ A_mori:
 Abship:
 -
   Original requirements:
-    Can Defeat Green Bokoblins
-    & Can Defeat Blue Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Keese
   Enemies:
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Abship/Room0.arc/Actor000
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Abship/Room0.arc/Actor001
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Abship/Room0.arc/Actor002
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Abship/Room0.arc/Actor003
     -
@@ -211,20 +210,19 @@ Abship:
       Path: Abship/Room1.arc/Actor012
 -
   Original requirements:
-    Can Defeat Green Bokoblins
-    & Can Defeat Blue Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Rats
   Enemies:
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Abship/Room2.arc/Actor000
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Abship/Room2.arc/Actor001
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Abship/Room2.arc/Actor002
     -
@@ -442,8 +440,7 @@ Cave02:
 -
   Original requirements:
     Can Defeat Magtails
-    & Can Defeat Blue Bokoblins
-    & Can Defeat Green Bokoblins
+    & Can Defeat Bokoblins
     & Can Defeat Moblins
   Enemies:
     -
@@ -459,19 +456,19 @@ Cave02:
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor002
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor004
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor005
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor007
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor008
     -
@@ -753,22 +750,22 @@ Cave09:
       Path: Cave09/Room2.arc/Actor007
 -
   Original requirements:
-    Can Defeat Blue Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave09/Room3.arc/Actor002
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave09/Room3.arc/Actor003
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave09/Room3.arc/Actor004
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave09/Room3.arc/Actor005
 -
@@ -983,23 +980,23 @@ Cave09:
       Path: Cave09/Room12.arc/Actor007
 -
   Original requirements:
-    Can Defeat Blue Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Fire Keese
   Enemies:
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave09/Room13.arc/Actor002
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave09/Room13.arc/Actor003
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave09/Room13.arc/Actor004
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave09/Room13.arc/Actor005
     -
@@ -1025,18 +1022,18 @@ Cave09:
 -
   Original requirements:
     Can Defeat Darknuts
-    & Can Defeat Green Bokoblins
+    & Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Cave09/Room16.arc/Actor002
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave09/Room16.arc/Actor003
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave09/Room16.arc/Actor004
 -
@@ -1086,11 +1083,11 @@ Cave09:
     Can Defeat Darknuts
   Enemies:
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Cave09/Room19.arc/Actor000
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Cave09/Room19.arc/Actor001
 
@@ -1171,22 +1168,22 @@ Cave10:
       Path: Cave10/Room3.arc/Actor006
 -
   Original requirements:
-    Can Defeat Green Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room4.arc/Actor002
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room4.arc/Actor003
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room4.arc/Actor004
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room4.arc/Actor005
 -
@@ -1465,71 +1462,70 @@ Cave10:
       Path: Cave10/Room8.arc/Actor006
 -
   Original requirements:
-    Can Defeat Blue Bokoblins
-    & Can Defeat Green Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor002
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor003
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor004
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor005
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor006
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor007
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor008
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor009
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor00A
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor00B
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor00C
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor00D
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor00E
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor00F
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor010
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor011
 -
@@ -1593,7 +1589,7 @@ Cave10:
 -
   Original requirements:
     Can Defeat Green ChuChus
-    & Can Defeat Blue Bokoblins
+    & Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Green ChuChu
@@ -1608,15 +1604,15 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room12.arc/Actor004
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: Cave10/Room12.arc/Actor005
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: Cave10/Room12.arc/Actor006
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: Cave10/Room12.arc/Actor007
     -
@@ -1624,13 +1620,13 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room12.arc/Actor00B
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: Cave10/Room12.arc/Actor00C
 -
   Original requirements:
     Can Defeat Mothulas
-    & Can Defeat Green Bokoblins
+    & Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Wingless Mothula
@@ -1645,11 +1641,11 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room13.arc/Actor004
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room13.arc/Actor005
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room13.arc/Actor006
 -
@@ -1678,11 +1674,11 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room16.arc/Actor001
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Cave10/Room16.arc/Actor004
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Cave10/Room16.arc/Actor005
     -
@@ -1695,11 +1691,11 @@ Cave10:
     & Can Defeat Wizzrobes
   Enemies:
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Cave10/Room17.arc/Actor000
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Cave10/Room17.arc/Actor001
     -
@@ -1735,19 +1731,19 @@ Cave10:
     Can Defeat Darknuts
   Enemies:
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Cave10/Room19.arc/Actor000
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Cave10/Room19.arc/Actor001
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Cave10/Room19.arc/Actor004
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Cave10/Room19.arc/Actor005
 
@@ -1896,22 +1892,22 @@ Cave11:
       Path: Cave11/Room7.arc/Actor008
 -
   Original requirements:
-    Can Defeat Green Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave11/Room8.arc/Actor001
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave11/Room8.arc/Actor002
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave11/Room8.arc/Actor003
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave11/Room8.arc/Actor004
 -
@@ -2107,22 +2103,22 @@ Cave11:
 GanonA:
 -
   Original requirements:
-    Can Defeat Green Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonA/Room1.arc/Actor004
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonA/Room1.arc/Actor005
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonA/Room1.arc/Actor006
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonA/Room1.arc/Actor007
 
@@ -2156,18 +2152,18 @@ GanonC:
 -
   Original requirements:
     Can Defeat Wizzrobes
-    & Can Defeat Green Bokoblins
+    & Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: GanonC/Room0.arc/Actor018
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: GanonC/Room0.arc/Actor01D
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: GanonC/Room0.arc/Actor01E
 
@@ -2267,70 +2263,70 @@ GanonJ:
       Path: GanonJ/Room0.arc/Actor00A
 -
   Original requirements:
-    Can Defeat Green Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor00C
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor00D
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor00E
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor00F
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor010
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor011
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor012
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor013
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor014
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor015
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor016
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor017
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor018
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor019
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor01A
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor01B
 -
@@ -2338,15 +2334,15 @@ GanonJ:
     Can Defeat Darknuts
   Enemies:
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: GanonJ/Room6.arc/Actor00B
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: GanonJ/Room6.arc/Actor00C
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: GanonJ/Room6.arc/Actor00D
 -
@@ -2388,10 +2384,10 @@ GanonJ:
       Path: GanonJ/Room9.arc/Actor016
 -
   Original requirements:
-    Can Defeat Green Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: GanonJ/Room10.arc/Actor00B
 
@@ -2436,15 +2432,15 @@ GanonL:
       Placement category: Ground
       Path: GanonL/Room0.arc/Actor002
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: GanonL/Room0.arc/Actor003
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: GanonL/Room0.arc/Actor004
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: GanonL/Room0.arc/Actor00B
 
@@ -2501,23 +2497,23 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor003
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor004
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor005
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor006
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor007
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor008
     -
@@ -2537,7 +2533,7 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor00C
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor00D
     -
@@ -2545,7 +2541,7 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor00E
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor00F
     -
@@ -2574,23 +2570,23 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor003
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor004
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor005
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor006
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor007
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor008
     -
@@ -2610,7 +2606,7 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor00C
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor00D
     -
@@ -2618,7 +2614,7 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor00E
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor00F
     -
@@ -2647,23 +2643,23 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor003
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor004
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor005
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor006
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor007
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor008
     -
@@ -2683,7 +2679,7 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor00C
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor00D
     -
@@ -2691,7 +2687,7 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor00E
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor00F
     -
@@ -2828,16 +2824,16 @@ Hyrule:
 ITest62:
 -
   Original requirements:
-    Can Defeat Green Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Darknuts
     & Can Defeat Moblins
   Enemies:
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest62/Room0.arc/Actor000
     -
-      Original enemy: Frozen Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: ITest62/Room0.arc/Actor001
     -
@@ -2849,7 +2845,7 @@ ITest62:
       Placement category: Ground
       Path: ITest62/Room0.arc/Actor003
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest62/Room0.arc/Actor004
 
@@ -2859,7 +2855,7 @@ ITest63:
 -
   Original requirements:
     Can Defeat Miniblins
-    & Can Defeat Green Bokoblins
+    & Can Defeat Bokoblins
     & Can Defeat Moblins
     & Can Defeat Darknuts
     & Can Defeat Wizzrobes
@@ -2877,15 +2873,15 @@ ITest63:
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor002
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor003
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor004
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor005
     -
@@ -2893,11 +2889,11 @@ ITest63:
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor006
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor007
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor008
     -
@@ -2921,7 +2917,7 @@ ITest63:
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor00D
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor00E
     -
@@ -2929,7 +2925,7 @@ ITest63:
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor00F
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor010
     -
@@ -2937,7 +2933,7 @@ ITest63:
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor011
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor012
     -
@@ -2949,19 +2945,19 @@ ITest63:
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor014
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor015
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor016
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor017
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor018
     -
@@ -3018,23 +3014,22 @@ ITest63:
 M2tower:
 -
   Original requirements:
-    Can Defeat Blue Bokoblins
-    & Can Defeat Green Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: M2tower/Room0.arc/Layer3/Actor005
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: M2tower/Room0.arc/Layer3/Actor006
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: M2tower/Room0.arc/Layer3/Actor007
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: M2tower/Room0.arc/Layer3/Actor008
 
@@ -3357,7 +3352,7 @@ M_Dai:
       Placement category: Air
       Path: M_Dai/Room17.arc/Actor001
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: M_Dai/Room17.arc/Actor00C
 -
@@ -3403,18 +3398,18 @@ M_Dra09:
 -
   Original requirements:
     Can Defeat Kargarocs
-    & Can Defeat Green Bokoblins
+    & Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Kargaroc
       Placement category: Air
       Path: M_Dra09/Room9.arc/Actor001
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: M_Dra09/Room9.arc/Actor004
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: M_Dra09/Room9.arc/Actor005
 
@@ -3423,23 +3418,23 @@ M_Dra09:
 M_NewD2:
 -
   Original requirements:
-    Can Defeat Blue Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: M_NewD2/Room0.arc/Actor000
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: M_NewD2/Room0.arc/Actor001
 -
   Original requirements:
-    Can Defeat Blue Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Red ChuChus
   Enemies:
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: M_NewD2/Room1.arc/Actor005
     -
@@ -3482,14 +3477,14 @@ M_NewD2:
 -
   Original requirements:
     Can Defeat Kargarocs
-    & Can Defeat Blue Bokoblins
+    & Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Kargaroc
       Placement category: Ground
       Path: M_NewD2/Room3.arc/Actor003
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: M_NewD2/Room3.arc/Actor00C
     -
@@ -3522,31 +3517,31 @@ M_NewD2:
       Path: M_NewD2/Room4.arc/Actor018
 -
   Original requirements:
-    Can Defeat Blue Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: M_NewD2/Room6.arc/Actor01F
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: M_NewD2/Room6.arc/Actor020
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: M_NewD2/Room6.arc/Actor021
 -
   Original requirements:
-    Can Defeat Blue Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Fire Keese
   Enemies:
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: M_NewD2/Room7.arc/Actor003
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: M_NewD2/Room7.arc/Actor009
     -
@@ -3575,11 +3570,11 @@ M_NewD2:
       Path: M_NewD2/Room10.arc/Actor00D
 -
   Original requirements:
-    Can Defeat Blue Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Red ChuChus
   Enemies:
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: M_NewD2/Room11.arc/Actor006
     -
@@ -3648,20 +3643,19 @@ M_NewD2:
 MajyuE:
 -
   Original requirements:
-    Can Defeat Blue Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Moblins
-    & Can Defeat Green Bokoblins
   Enemies:
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: MajyuE/Room0.arc/Actor009
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: MajyuE/Room0.arc/Actor00A
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: MajyuE/Room0.arc/Actor00B
     -
@@ -3669,7 +3663,7 @@ MajyuE:
       Placement category: Ground
       Path: MajyuE/Room0.arc/Actor00D
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: MajyuE/Room0.arc/Actor015
 -
@@ -4065,7 +4059,7 @@ Siren:
     Can Defeat Darknuts
   Enemies:
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: Siren/Room23.arc/Actor000
 
@@ -4077,7 +4071,7 @@ SirenMB:
     Can Defeat Darknuts
   Enemies:
     -
-      Original enemy: Mini-Boss Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: SirenMB/Room23.arc/Actor000
 
@@ -4279,35 +4273,35 @@ TF_01:
     Can Defeat Darknuts
   Enemies:
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: TF_01/Room1.arc/Actor001
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: TF_01/Room1.arc/Actor002
 -
   Original requirements:
-    Can Defeat Blue Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: TF_01/Room2.arc/Actor000
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: TF_01/Room2.arc/Actor001
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: TF_01/Room2.arc/Actor002
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: TF_01/Room2.arc/Actor003
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: TF_01/Room2.arc/Actor004
 -
@@ -4367,43 +4361,43 @@ TF_02:
     Can Defeat Darknuts
   Enemies:
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: TF_02/Room1.arc/Actor001
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: TF_02/Room1.arc/Actor002
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: TF_02/Room1.arc/Actor00B
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: TF_02/Room1.arc/Actor00C
 -
   Original requirements:
-    Can Defeat Green Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: TF_02/Room2.arc/Actor000
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: TF_02/Room2.arc/Actor001
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: TF_02/Room2.arc/Actor002
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: TF_02/Room2.arc/Actor003
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Pot
       Path: TF_02/Room2.arc/Actor004
 -
@@ -4460,10 +4454,10 @@ TF_03:
       Path: TF_03/Room1.arc/Actor001
 -
   Original requirements:
-    Can Defeat Green Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: TF_03/Room1.arc/Layer8/Actor000
 -
@@ -4569,18 +4563,18 @@ TF_06:
       Path: TF_06/Room2.arc/Actor006
 -
   Original requirements:
-    Can Defeat Blue Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: TF_06/Room3.arc/Actor003
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: TF_06/Room3.arc/Actor006
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: TF_06/Room3.arc/Actor007
 -
@@ -4964,15 +4958,15 @@ kaze:
     Can Defeat Darknuts
   Enemies:
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: kaze/Room8.arc/Actor000
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: kaze/Room8.arc/Actor001
     -
-      Original enemy: Shield Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: kaze/Room8.arc/Actor002
 -
@@ -5064,7 +5058,7 @@ kaze:
     Can Defeat Armos Knights
     & Can Defeat Peahats
     & Can Defeat Floormasters
-    & Can Defeat Green Bokoblins
+    & Can Defeat Bokoblins
     & Can Defeat Dexivines
   Enemies:
     -
@@ -5096,19 +5090,19 @@ kaze:
       Placement category: Ground
       Path: kaze/Room11.arc/Actor00E
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: kaze/Room11.arc/Actor00F
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: kaze/Room11.arc/Actor010
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: kaze/Room11.arc/Actor011
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: kaze/Room11.arc/Actor012
     -
@@ -5226,11 +5220,11 @@ kenroom:
     Can Defeat Darknuts
   Enemies:
     -
-      Original enemy: Mighty Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: kenroom/Room0.arc/Actor007
     -
-      Original enemy: Mighty Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: kenroom/Room0.arc/Actor008
 -
@@ -5238,11 +5232,11 @@ kenroom:
     Can Defeat Darknuts
   Enemies:
     -
-      Original enemy: Mighty Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: kenroom/Room0.arc/Layer4/Actor002
     -
-      Original enemy: Mighty Darknut
+      Original enemy: Darknut
       Placement category: Ground
       Path: kenroom/Room0.arc/Layer4/Actor003
 
@@ -5251,7 +5245,7 @@ kenroom:
 kinMB:
 -
   Original requirements:
-    Can Defeat Mothulas
+    Can Defeat Winged Mothulas
   Enemies:
     -
       Original enemy: Mini-Boss Winged Mothula
@@ -5701,11 +5695,11 @@ ma2room:
       Path: ma2room/Room0.arc/Actor002
 -
   Original requirements:
-    Can Defeat Green Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Miniblins
   Enemies:
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: ma2room/Room1.arc/Actor009
     -
@@ -5794,10 +5788,10 @@ ma2room:
       Path: ma2room/Room3.arc/Actor016
 -
   Original requirements:
-    Can Defeat Green Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: ma2room/Room4.arc/Actor00D
 
@@ -6045,19 +6039,19 @@ majroom:
 sea/Room1.arc:
 -
   Original requirements:
-    Can Defeat Blue Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Miniblins
   Enemies:
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor000
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor001
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor002
     -
@@ -6130,20 +6124,19 @@ sea/Room1.arc:
 sea/Room2.arc:
 -
   Original requirements:
-    Can Defeat Pink Bokoblins
-    & Can Defeat Green Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Miniblins
   Enemies:
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room2.arc/Actor020
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room2.arc/Actor029
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room2.arc/Actor02A
     -
@@ -6176,22 +6169,22 @@ sea/Room2.arc:
 sea/Room3.arc:
 -
   Original requirements:
-    Can Defeat Pink Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room3.arc/Actor00E
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room3.arc/Actor00F
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room3.arc/Actor013
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room3.arc/Actor014
 
@@ -6233,22 +6226,22 @@ sea/Room6.arc:
 sea/Room12.arc:
 -
   Original requirements:
-    Can Defeat Pink Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room12.arc/Actor011
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room12.arc/Actor029
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room12.arc/Actor02E
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room12.arc/Actor033
 
@@ -6303,23 +6296,22 @@ sea/Room13.arc:
 sea/Room15.arc:
 -
   Original requirements:
-    Can Defeat Pink Bokoblins
-    & Can Defeat Green Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room15.arc/Actor010
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room15.arc/Actor019
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room15.arc/Actor01A
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room15.arc/Actor01B
 
@@ -6328,39 +6320,38 @@ sea/Room15.arc:
 sea/Room16.arc:
 -
   Original requirements:
-    Can Defeat Pink Bokoblins
-    & Can Defeat Green Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room16.arc/Actor012
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room16.arc/Actor01B
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room16.arc/Actor022
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room16.arc/Actor029
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room16.arc/Actor02E
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room16.arc/Actor02F
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room16.arc/Actor030
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room16.arc/Actor035
 
@@ -6381,18 +6372,18 @@ sea/Room18.arc:
 sea/Room19.arc:
 -
   Original requirements:
-    Can Defeat Pink Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room19.arc/Actor011
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room19.arc/Actor01A
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room19.arc/Actor01B
 
@@ -6402,14 +6393,14 @@ sea/Room20.arc:
 -
   Original requirements:
     Can Defeat Kargarocs
-    & Can Defeat Pink Bokoblins
+    & Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Kargaroc
       Placement category: Air
       Path: sea/Room20.arc/Actor006
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room20.arc/Actor01A
 
@@ -6419,8 +6410,7 @@ sea/Room21.arc:
 -
   Original requirements:
     Can Defeat Kargarocs
-    & Can Defeat Pink Bokoblins
-    & Can Defeat Green Bokoblins
+    & Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Kargaroc
@@ -6439,19 +6429,19 @@ sea/Room21.arc:
       Placement category: Air
       Path: sea/Room21.arc/Actor009
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room21.arc/Actor012
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room21.arc/Actor01B
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room21.arc/Actor01C
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room21.arc/Actor01D
 
@@ -6460,23 +6450,22 @@ sea/Room21.arc:
 sea/Room24.arc:
 -
   Original requirements:
-    Can Defeat Green Bokoblins
-    & Can Defeat Pink Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room24.arc/Actor01E
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room24.arc/Actor01F
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room24.arc/Actor020
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room24.arc/Actor029
 
@@ -6485,15 +6474,15 @@ sea/Room24.arc:
 sea/Room25.arc:
 -
   Original requirements:
-    Can Defeat Pink Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Saltwater Octoroks
   Enemies:
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room25.arc/Actor009
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room25.arc/Actor00C
     -
@@ -6501,15 +6490,15 @@ sea/Room25.arc:
       Placement category: Sea
       Path: sea/Room25.arc/Actor00D
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room25.arc/Actor01D
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room25.arc/Actor020
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room25.arc/Actor029
 
@@ -6554,22 +6543,22 @@ sea/Room27.arc:
 sea/Room28.arc:
 -
   Original requirements:
-    Can Defeat Pink Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room28.arc/Actor01D
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room28.arc/Actor01E
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room28.arc/Actor01F
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room28.arc/Actor028
 
@@ -6606,21 +6595,20 @@ sea/Room29.arc:
 sea/Room30.arc:
 -
   Original requirements:
-    Can Defeat Blue Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Kargarocs
-    & Can Defeat Pink Bokoblins
     & Can Defeat Wizzrobes
   Enemies:
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room30.arc/Actor003
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room30.arc/Actor004
     -
-      Original enemy: Blue Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room30.arc/Actor005
     -
@@ -6640,11 +6628,11 @@ sea/Room30.arc:
       Placement category: Ground
       Path: sea/Room30.arc/Actor009
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room30.arc/Actor020
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room30.arc/Actor021
     -
@@ -6661,14 +6649,14 @@ sea/Room30.arc:
 sea/Room31.arc:
 -
   Original requirements:
-    Can Defeat Pink Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room31.arc/Actor027
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room31.arc/Actor02F
 
@@ -6677,18 +6665,18 @@ sea/Room31.arc:
 sea/Room34.arc:
 -
   Original requirements:
-    Can Defeat Pink Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room34.arc/Actor039
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room34.arc/Actor042
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room34.arc/Actor047
 
@@ -6725,31 +6713,30 @@ sea/Room35.arc:
 sea/Room37.arc:
 -
   Original requirements:
-    Can Defeat Green Bokoblins
-    & Can Defeat Pink Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room37.arc/Actor017
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room37.arc/Actor018
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room37.arc/Actor019
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room37.arc/Actor022
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room37.arc/Actor025
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room37.arc/Actor026
 
@@ -6814,34 +6801,34 @@ sea/Room38.arc:
 sea/Room39.arc:
 -
   Original requirements:
-    Can Defeat Pink Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room39.arc/Actor00F
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room39.arc/Actor018
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room39.arc/Actor01E
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room39.arc/Actor01F
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room39.arc/Actor02F
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room39.arc/Actor038
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room39.arc/Actor03D
 
@@ -6917,15 +6904,15 @@ sea/Room41.arc:
 sea/Room42.arc:
 -
   Original requirements:
-    Can Defeat Pink Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Wizzrobes
   Enemies:
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room42.arc/Actor02D
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room42.arc/Actor032
     -
@@ -6937,11 +6924,11 @@ sea/Room42.arc:
       Placement category: Ground
       Path: sea/Room42.arc/Actor035
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room42.arc/Actor036
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room42.arc/Actor037
     -
@@ -6954,23 +6941,23 @@ sea/Room42.arc:
 sea/Room43.arc:
 -
   Original requirements:
-    Can Defeat Pink Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Kargarocs
   Enemies:
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room43.arc/Actor034
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room43.arc/Actor03D
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room43.arc/Actor043
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room43.arc/Actor04C
     -
@@ -7171,20 +7158,19 @@ sea/Room44.arc:
 sea/Room46.arc:
 -
   Original requirements:
-    Can Defeat Green Bokoblins
-    & Can Defeat Pink Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Kargarocs
   Enemies:
     -
-      Original enemy: Green Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room46.arc/Actor017
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room46.arc/Actor018
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room46.arc/Actor01D
     -
@@ -7200,23 +7186,23 @@ sea/Room46.arc:
       Placement category: Ground
       Path: sea/Room46.arc/Actor021
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room46.arc/Actor022
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room46.arc/Actor023
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room46.arc/Actor024
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room46.arc/Actor025
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room46.arc/Actor026
 
@@ -7225,18 +7211,18 @@ sea/Room46.arc:
 sea/Room47.arc:
 -
   Original requirements:
-    Can Defeat Pink Bokoblins
+    Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room47.arc/Actor00F
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room47.arc/Actor010
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room47.arc/Actor011
 
@@ -7245,11 +7231,11 @@ sea/Room47.arc:
 sea/Room48.arc:
 -
   Original requirements:
-    Can Defeat Pink Bokoblins
+    Can Defeat Bokoblins
     & Can Defeat Saltwater Octoroks
   Enemies:
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room48.arc/Actor02F
     -
@@ -7257,11 +7243,11 @@ sea/Room48.arc:
       Placement category: Sea
       Path: sea/Room48.arc/Actor031
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room48.arc/Actor035
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room48.arc/Actor036
 
@@ -7271,7 +7257,7 @@ sea/Room49.arc:
 -
   Original requirements:
     Can Defeat Kargarocs
-    & Can Defeat Pink Bokoblins
+    & Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Kargaroc
@@ -7294,26 +7280,26 @@ sea/Room49.arc:
       Placement category: Ground
       Path: sea/Room49.arc/Actor012
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room49.arc/Actor01F
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room49.arc/Actor024
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room49.arc/Actor026
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room49.arc/Actor027
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room49.arc/Actor028
     -
-      Original enemy: Pink Bokoblin
+      Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room49.arc/Actor029
