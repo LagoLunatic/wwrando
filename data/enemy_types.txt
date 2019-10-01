@@ -431,17 +431,6 @@
   Allow randomizing to: False
   Placement categories: [Ground]
 -
-  Pretty name: Mini-Boss Winged Mothula
-  Actor name: gmos
-  Params: 0xFF000000
-  Aux params: 0x00FF
-  Aux params 2: 0x00FF
-  Required particle IDs: [0x81A1, 0x81A2, 0x81A3]
-  Requirements to defeat: Can Defeat Winged Mothulas
-  Allow randomizing from: True
-  Allow randomizing to: False
-  Placement categories: [Air]
--
   Pretty name: Wingless Mothula
   Actor name: gmos
   Params: 0xFF010000

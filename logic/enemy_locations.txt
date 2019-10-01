@@ -5248,7 +5248,7 @@ kinMB:
     Can Defeat Winged Mothulas
   Enemies:
     -
-      Original enemy: Mini-Boss Winged Mothula
+      Original enemy: Winged Mothula
       Placement category: Air
       Path: kinMB/Room10.arc/Actor023
 

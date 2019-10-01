@@ -429,11 +429,9 @@ def get_enemy_data_for_actor(self, enemy):
     elif enemy.bubble_type == 0x80:
       return enemy_datas_by_pretty_name["Inanimate Bubble"]
   elif enemy.name == "gmos":
-    if enemy.mothula_type == 0:
-      return enemy_datas_by_pretty_name["Mini-Boss Winged Mothula"]
-    elif enemy.mothula_type == 1:
+    if enemy.mothula_type == 1:
       return enemy_datas_by_pretty_name["Wingless Mothula"]
-    elif enemy.mothula_type == 2:
+    elif enemy.mothula_type in [0, 2]:
       return enemy_datas_by_pretty_name["Winged Mothula"]
   
   raise Exception("Unknown enemy subspecies: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2))
