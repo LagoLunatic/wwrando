@@ -3784,7 +3784,6 @@
 -
   Original requirements:
     Can Defeat Yellow ChuChus
-    & Can Defeat Armos
   Enemies:
     -
       Original enemy: Yellow ChuChu
@@ -3794,30 +3793,6 @@
       Original enemy: Yellow ChuChu
       Placement category: Ground
       Path: Siren/Room0.arc/Actor009
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Siren/Room0.arc/Actor00D
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Siren/Room0.arc/Actor00E
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Siren/Room0.arc/Actor00F
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Siren/Room0.arc/Actor010
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Siren/Room0.arc/Actor016
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Siren/Room0.arc/Actor017
 -
   Original requirements:
     Can Defeat Armos
@@ -3917,17 +3892,8 @@
       Path: Siren/Room5.arc/Actor014
 -
   Original requirements:
-    Can Defeat Armos
-    & Can Defeat Rats
+    Can Defeat Rats
   Enemies:
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Siren/Room6.arc/Actor001
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Siren/Room6.arc/Actor002
     -
       Original enemy: Rat
       Placement category: Ground
@@ -3938,26 +3904,9 @@
       Path: Siren/Room6.arc/Actor007
 -
   Original requirements:
-    Can Defeat Armos
-    & Can Defeat Keese
+    Can Defeat Keese
     & Can Defeat Wizzrobes
   Enemies:
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Siren/Room8.arc/Actor002
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Siren/Room8.arc/Actor003
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Siren/Room8.arc/Actor008
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Siren/Room8.arc/Actor009
     -
       Original enemy: Keese
       Placement category: Air
@@ -4009,14 +3958,6 @@
       Placement category: Ground
       Path: Siren/Room11.arc/Actor009
     -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Siren/Room11.arc/Actor00A
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Siren/Room11.arc/Actor00B
-    -
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: Siren/Room11.arc/Actor00C
@@ -4025,10 +3966,6 @@
     Can Defeat Armos
     & Can Defeat Red Bubbles
   Enemies:
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Siren/Room14.arc/Actor004
     -
       Original enemy: Armos
       Placement category: Ground

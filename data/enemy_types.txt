@@ -166,13 +166,24 @@
 -
   Pretty name: Armos
   Actor name: amos2
-  Params: 0xFFFFFFFF
+  Params: 0xFF00FFFF
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: [0x81AE, 0x81AF, 0x81B0, 0xA125]
   Requirements to defeat: Can Defeat Armos
   Allow randomizing from: True
   Allow randomizing to: True
+  Placement categories: [Ground]
+-
+  Pretty name: Inanimate Armos
+  Actor name: amos2
+  Params: 0x8001FFFF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+  Required particle IDs: [0x81AE, 0x81AF, 0x81B0, 0xA125]
+  Requirements to defeat: Impossible
+  Allow randomizing from: False
+  Allow randomizing to: False
   Placement categories: [Ground]
 -
   Pretty name: Dexivine

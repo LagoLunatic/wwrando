@@ -269,6 +269,11 @@ def get_enemy_data_for_actor(self, enemy):
       return enemy_datas_by_pretty_name["Peahat"]
     elif enemy.peahat_type == 1:
       return enemy_datas_by_pretty_name["Seahat"]
+  elif enemy.name == "amos2":
+    if enemy.armos_switch_type == 1 and enemy.armos_switch_index == 0x80:
+      return enemy_datas_by_pretty_name["Inanimate Armos"]
+    else:
+      return enemy_datas_by_pretty_name["Armos"]
   elif enemy.name == "nezumi":
     if enemy.rat_type in [0, 0xFF]:
       return enemy_datas_by_pretty_name["Rat"]
