@@ -426,11 +426,14 @@ class ACTR(ChunkEntry):
     "bubble_type": 0x000000FF,
     
     "chuchu_behavior_type": 0x000000FF,
-    "chuchu_type": 0x0000FF00,
+    "chuchu_type":          0x0000FF00,
     
     "kargaroc_behavior_type": 0x000000FF,
     
     "morth_behavior_type": 0x000000FF,
+    
+    "armos_switch_type":  0x00FF0000,
+    "armos_switch_index": 0xFF000000,
   }
   
   ITEM_NAMES = [
