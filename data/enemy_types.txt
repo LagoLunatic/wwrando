@@ -453,26 +453,26 @@
   Allow randomizing to: True
   Placement categories: [Air]
 -
-  Pretty name: Gyorg
+  Pretty name: Cross-Sector Gyorg Spawner
   Actor name: GyCtrl
   Params: 0xFFFFFF10
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
-  Requirements to defeat: TODO
-  Allow randomizing from: False
-  Allow randomizing to: False # Only works on the sea, not on land or indoors in water.
+  Requirements to defeat: Can Defeat Gyorgs
+  Allow randomizing from: True
+  Allow randomizing to: False # Don't risk memory issues by letting enemies go across sectors.
   Placement categories: [Sea]
 -
-  Pretty name: Gyorg B??
+  Pretty name: Gyorg Spawner
   Actor name: GyCtrlB
-  Params: 0xFFFF1441
+  Params: 0xFFFFFF41
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
-  Requirements to defeat: TODO
-  Allow randomizing from: False
-  Allow randomizing to: False
+  Requirements to defeat: Can Defeat Gyorgs
+  Allow randomizing from: True
+  Allow randomizing to: True
   Placement categories: [Sea]
 #-
 #  Pretty name: Blue Beamos

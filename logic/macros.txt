@@ -619,6 +619,10 @@ Can Defeat Saltwater Octoroks:
 Can Defeat Beamos:
   Nothing
   # Beamos do not count as alive, and therefore not being able to kill them doesn't stop a room from thinking all enemies in the room are dead.
+Can Defeat Gyorgs:
+  Boomerang
+  | Hero's Bow
+  | Hookshot
 
 Can Defeat Gohma:
   Grappling Hook

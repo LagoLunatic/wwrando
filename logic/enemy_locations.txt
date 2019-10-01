@@ -6189,6 +6189,18 @@ sea/Room3.arc:
       Path: sea/Room3.arc/Actor014
 
 
+# Crescent Moon Island
+sea/Room5.arc:
+-
+  Original requirements:
+    Can Defeat Gyorgs
+  Enemies:
+    -
+      Original enemy: Gyorg Spawner
+      Placement category: Sea
+      Path: sea/Room5.arc/Actor002
+
+
 # Seven-Star Isles
 sea/Room6.arc:
 -
@@ -6354,6 +6366,18 @@ sea/Room16.arc:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room16.arc/Actor035
+
+
+# Tingle Island
+sea/Room17.arc:
+-
+  Original requirements:
+    Can Defeat Gyorgs
+  Enemies:
+    -
+      Original enemy: Cross-Sector Gyorg Spawner
+      Placement category: Sea
+      Path: sea/Room17.arc/Actor011
 
 
 # Northern Triangle Island
@@ -6713,8 +6737,17 @@ sea/Room35.arc:
 sea/Room37.arc:
 -
   Original requirements:
-    Can Defeat Bokoblins
+    Can Defeat Gyorgs
+    & Can Defeat Bokoblins
   Enemies:
+    -
+      Original enemy: Gyorg Spawner
+      Placement category: Sea
+      Path: sea/Room37.arc/Actor000
+    -
+      Original enemy: Gyorg Spawner
+      Placement category: Sea
+      Path: sea/Room37.arc/Actor001
     -
       Original enemy: Bokoblin
       Placement category: Ground
@@ -6904,9 +6937,14 @@ sea/Room41.arc:
 sea/Room42.arc:
 -
   Original requirements:
-    Can Defeat Bokoblins
+    Can Defeat Gyorgs
+    & Can Defeat Bokoblins
     & Can Defeat Wizzrobes
   Enemies:
+    -
+      Original enemy: Gyorg Spawner
+      Placement category: Sea
+      Path: sea/Room42.arc/Actor022
     -
       Original enemy: Bokoblin
       Placement category: Ground
@@ -7212,6 +7250,7 @@ sea/Room47.arc:
 -
   Original requirements:
     Can Defeat Bokoblins
+    & Can Defeat Gyorgs
   Enemies:
     -
       Original enemy: Bokoblin
@@ -7225,6 +7264,10 @@ sea/Room47.arc:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room47.arc/Actor011
+    -
+      Original enemy: Gyorg Spawner
+      Placement category: Sea
+      Path: sea/Room47.arc/Actor015
 
 
 # Boating Course
