@@ -478,7 +478,7 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
     elif color == "pink":
       enemy.bokoblin_type = 0xB
     else:
-      enemy.bokoblin_type = self.rng.choice([0, 4, 0xA])
+      enemy.bokoblin_type = self.rng.choice([0, 4])
     if color == "green":
       enemy.bokoblin_is_green = 1
     else:
