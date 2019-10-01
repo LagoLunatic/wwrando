@@ -27,18 +27,20 @@ def randomize_enemies(self):
     original_req_string = enemy_group["Original requirements"]
     #if original_req_string == "Nothing":
     #  print(enemy_group)
-    enemies_to_randomize_to_for_this_group = self.logic.filter_out_enemies_that_add_new_requirements(original_req_string, enemies_to_randomize_to)
+    enemies_logically_allowed_in_this_group = self.logic.filter_out_enemies_that_add_new_requirements(original_req_string, enemies_to_randomize_to)
     #print("Original: %s" % (original_req_string))
     #print("New allowed:")
-    #for enemy_data in enemies_to_randomize_to_for_this_group:
+    #for enemy_data in enemies_logically_allowed_in_this_group:
     #  print("  " + enemy_data["Pretty name"])
     #print("New disallowed:")
     #enemies_not_allowed_in_this_group = [
     #  data for data in enemies_to_randomize_to
-    #  if data not in enemies_to_randomize_to_for_this_group
+    #  if data not in enemies_logically_allowed_in_this_group
     #]
     #for enemy_data in enemies_not_allowed_in_this_group:
     #  print("  " + enemy_data["Pretty name"])
+    
+    enemies_to_randomize_to_for_this_group = enemies_logically_allowed_in_this_group.copy()
     
     enemy_actor_names_placed_in_this_group = []
     
@@ -63,13 +65,12 @@ def randomize_enemies(self):
       if len(enemy_actor_names_placed_in_this_group) >= 5:
         # Placed a lot of different enemy types in this room already.
         # Instead of placing yet another new type, reuse a type we already used to prevent overloading the available RAM or making combat in this room too chaotic.
-        filtered_enemy_types_data = [
+        enemies_to_randomize_to_for_this_group = [
           data for data in enemies_to_randomize_to_for_this_group
           if data["Actor name"] in enemy_actor_names_placed_in_this_group
         ]
-        new_enemy_data = self.rng.choice(filtered_enemy_types_data)
-      else:
-        new_enemy_data = self.rng.choice(enemies_to_randomize_to_for_this_group)
+      
+      new_enemy_data = self.rng.choice(enemies_to_randomize_to_for_this_group)
       
       #new_enemy_data = enemy_datas_by_pretty_name["Wizzrobe"]
       
