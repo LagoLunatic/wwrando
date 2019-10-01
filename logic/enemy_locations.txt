@@ -3,6 +3,7 @@
 # Outset Island Fairy Woods
 A_mori:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Kargarocs
@@ -28,6 +29,7 @@ A_mori:
       Placement category: Air
       Path: A_mori/Room0.arc/Layer0/Actor007
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Morths
     & Can Defeat Mothulas
@@ -70,6 +72,7 @@ A_mori:
       Placement category: Ground
       Path: A_mori/Room0.arc/Layer2/Actor008
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Morths
     & Can Defeat Mothulas
@@ -112,6 +115,7 @@ A_mori:
       Placement category: Ground
       Path: A_mori/Room0.arc/Layer3/Actor008
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Mothulas
   Enemies:
@@ -124,6 +128,7 @@ A_mori:
 # Submarines
 Abship:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Keese
@@ -165,6 +170,7 @@ Abship:
       Placement category: Air
       Path: Abship/Room0.arc/Actor00D
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Morths
@@ -209,6 +215,7 @@ Abship:
       Placement category: Pot
       Path: Abship/Room1.arc/Actor012
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Rats
@@ -242,6 +249,7 @@ Abship:
       Placement category: Ground
       Path: Abship/Room2.arc/Actor007
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
   Enemies:
@@ -262,6 +270,7 @@ Abship:
       Placement category: Ground
       Path: Abship/Room4.arc/Actor00A
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bombchus
     & Can Defeat Rats
@@ -283,6 +292,7 @@ Abship:
       Placement category: Ground
       Path: Abship/Room5.arc/Actor003
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Green ChuChus
@@ -346,6 +356,7 @@ Abship:
       Placement category: Ground
       Path: Abship/Room6.arc/Actor013
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Miniblins
   Enemies:
@@ -402,6 +413,7 @@ Abship:
 # Bomb Island Cave
 Cave01:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Magtails
   Enemies:
@@ -414,6 +426,7 @@ Cave01:
       Placement category: Ground
       Path: Cave01/Room0.arc/Actor002
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Magtails
   Enemies:
@@ -426,6 +439,7 @@ Cave01:
       Placement category: Ground
       Path: Cave01/Room1.arc/Actor00A
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Magtails
   Enemies:
@@ -438,6 +452,7 @@ Cave01:
 # Star Island Cave
 Cave02:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Magtails
     & Can Defeat Bokoblins
@@ -484,6 +499,7 @@ Cave02:
 # Cliff Plateau Isles Cave
 Cave03:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Boko Babas
   Enemies:
@@ -508,6 +524,7 @@ Cave03:
 # Rock Spire Isle Cave
 Cave04:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
   Enemies:
@@ -624,6 +641,7 @@ Cave04:
 # Horseshoe Island Cave
 Cave05:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Mothulas
     & Can Defeat Winged Mothulas
@@ -645,6 +663,7 @@ Cave05:
 # Pawprint Isle Wizzrobe Cave
 Cave07:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
   Enemies:
@@ -677,6 +696,7 @@ Cave07:
 # Savage Labyrinth
 Cave09:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
   Enemies:
@@ -721,6 +741,7 @@ Cave09:
       Placement category: Air
       Path: Cave09/Room1.arc/Actor00B
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Miniblins
   Enemies:
@@ -749,6 +770,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room2.arc/Actor007
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -769,6 +791,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room3.arc/Actor005
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Red ChuChus
   Enemies:
@@ -797,6 +820,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room4.arc/Actor007
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Magtails
   Enemies:
@@ -817,6 +841,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room5.arc/Actor004
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
   Enemies:
@@ -833,6 +858,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room6.arc/Actor004
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos
   Enemies:
@@ -853,6 +879,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room7.arc/Actor005
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos Knights
   Enemies:
@@ -865,6 +892,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room8.arc/Actor002
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Yellow ChuChus
   Enemies:
@@ -893,6 +921,7 @@ Cave09:
       Placement category: Pot
       Path: Cave09/Room9.arc/Actor007
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Red Bubbles
   Enemies:
@@ -913,6 +942,7 @@ Cave09:
       Placement category: Air
       Path: Cave09/Room10.arc/Actor005
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Miniblins
     & Can Defeat Keese
@@ -950,6 +980,7 @@ Cave09:
       Placement category: Air
       Path: Cave09/Room11.arc/Actor009
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Fire Keese
     & Can Defeat Magtails
@@ -979,6 +1010,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room12.arc/Actor007
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Fire Keese
@@ -1008,6 +1040,7 @@ Cave09:
       Placement category: Air
       Path: Cave09/Room13.arc/Actor007
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
   Enemies:
@@ -1020,6 +1053,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room14.arc/Actor003
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
     & Can Defeat Bokoblins
@@ -1037,6 +1071,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room16.arc/Actor004
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos
     & Can Defeat Wizzrobes
@@ -1058,6 +1093,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room17.arc/Actor005
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Red Bubbles
     & Can Defeat Armos Knights
@@ -1079,6 +1115,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room18.arc/Actor005
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
   Enemies:
@@ -1095,6 +1132,7 @@ Cave09:
 # Savage Labyrinth
 Cave10:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Peahats
   Enemies:
@@ -1123,6 +1161,7 @@ Cave10:
       Placement category: Air
       Path: Cave10/Room1.arc/Actor007
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Green ChuChus
   Enemies:
@@ -1143,6 +1182,7 @@ Cave10:
       Placement category: Ceiling
       Path: Cave10/Room2.arc/Actor005
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Boko Babas
   Enemies:
@@ -1167,6 +1207,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room3.arc/Actor006
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -1187,6 +1228,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room4.arc/Actor005
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Mothulas
   Enemies:
@@ -1211,6 +1253,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room5.arc/Actor006
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Miniblins
   Enemies:
@@ -1311,6 +1354,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room6.arc/Actor019
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Green ChuChus
     & Can Defeat Red ChuChus
@@ -1437,6 +1481,7 @@ Cave10:
       Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor01F
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
   Enemies:
@@ -1461,6 +1506,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room8.arc/Actor006
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -1529,6 +1575,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor011
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Stalfos
     & Can Defeat ReDeads
@@ -1558,6 +1605,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room10.arc/Actor007
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Peahats
     & Can Defeat Boko Babas
@@ -1587,6 +1635,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room11.arc/Actor007
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Green ChuChus
     & Can Defeat Bokoblins
@@ -1624,6 +1673,7 @@ Cave10:
       Placement category: Pot
       Path: Cave10/Room12.arc/Actor00C
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Mothulas
     & Can Defeat Bokoblins
@@ -1649,6 +1699,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room13.arc/Actor006
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Winged Mothulas
   Enemies:
@@ -1661,6 +1712,7 @@ Cave10:
       Placement category: Air
       Path: Cave10/Room14.arc/Actor003
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Darknuts
@@ -1686,6 +1738,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room16.arc/Actor006
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
     & Can Defeat Wizzrobes
@@ -1711,6 +1764,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room17.arc/Actor006
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Stalfos
   Enemies:
@@ -1727,6 +1781,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room18.arc/Actor008
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
   Enemies:
@@ -1751,6 +1806,7 @@ Cave10:
 # Savage Labyrinth
 Cave11:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat ReDeads
   Enemies:
@@ -1779,6 +1835,7 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room1.arc/Actor007
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Blue Bubbles
   Enemies:
@@ -1803,6 +1860,7 @@ Cave11:
       Placement category: Air
       Path: Cave11/Room2.arc/Actor006
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Poes Without Light Ray
   Enemies:
@@ -1827,6 +1885,7 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room4.arc/Actor006
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Winged Mothulas
   Enemies:
@@ -1843,6 +1902,7 @@ Cave11:
       Placement category: Air
       Path: Cave11/Room5.arc/Actor004
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Magtails
   Enemies:
@@ -1859,6 +1919,7 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room6.arc/Actor004
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Fire Keese
   Enemies:
@@ -1891,6 +1952,7 @@ Cave11:
       Placement category: Air
       Path: Cave11/Room7.arc/Actor008
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -1911,6 +1973,7 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room8.arc/Actor004
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
   Enemies:
@@ -1931,6 +1994,7 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room9.arc/Actor005
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat ReDeads
     & Can Defeat Moblins
@@ -1956,6 +2020,7 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room11.arc/Actor006
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Winged Mothulas
   Enemies:
@@ -1964,6 +2029,7 @@ Cave11:
       Placement category: Air
       Path: Cave11/Room12.arc/Actor001
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Poes Without Light Ray
@@ -1997,6 +2063,7 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room13.arc/Actor008
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Stalfos
     & Can Defeat Blue Bubbles
@@ -2026,6 +2093,7 @@ Cave11:
       Placement category: Air
       Path: Cave11/Room14.arc/Actor007
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Yellow ChuChus
   Enemies:
@@ -2054,6 +2122,7 @@ Cave11:
       Placement category: Ceiling
       Path: Cave11/Room16.arc/Actor005
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos
   Enemies:
@@ -2074,6 +2143,7 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room17.arc/Actor003
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos Knights
   Enemies:
@@ -2086,6 +2156,7 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room18.arc/Actor001
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
   Enemies:
@@ -2102,6 +2173,7 @@ Cave11:
 # Ganon's Tower Entrance
 GanonA:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -2126,6 +2198,7 @@ GanonA:
 # Ganon's Tower Before Gohma Rematch
 GanonB:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Red Bubbles
   Enemies:
@@ -2150,6 +2223,7 @@ GanonB:
 # Ganon's Tower Before Molgera Rematch
 GanonC:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Bokoblins
@@ -2171,6 +2245,7 @@ GanonC:
 # Ganon's Tower Before Kalle Demos Rematch
 GanonD:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Peahats
   Enemies:
@@ -2187,6 +2262,7 @@ GanonD:
 # Ganon's Tower Before Jalhalla Rematch
 GanonE:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Red Bubbles
     & Can Defeat Poes Without Light Ray
@@ -2222,6 +2298,7 @@ GanonE:
       Placement category: Ground
       Path: GanonE/Room0.arc/Actor042
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Stalfos
   Enemies:
@@ -2234,6 +2311,7 @@ GanonE:
 # Ganon's Tower Maze
 GanonJ:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
   Enemies:
@@ -2262,6 +2340,7 @@ GanonJ:
       Placement category: Ground
       Path: GanonJ/Room0.arc/Actor00A
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -2330,6 +2409,7 @@ GanonJ:
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor01B
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
   Enemies:
@@ -2346,6 +2426,7 @@ GanonJ:
       Placement category: Ground
       Path: GanonJ/Room6.arc/Actor00D
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Miniblins
@@ -2383,6 +2464,7 @@ GanonJ:
       Placement category: Ground
       Path: GanonJ/Room9.arc/Actor016
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -2395,6 +2477,7 @@ GanonJ:
 # Ganon's Tower Puppet Ganon
 GanonK:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Morths
   Enemies:
@@ -2415,6 +2498,7 @@ GanonK:
 # Ganon's Tower Stairs To Puppet Ganon
 GanonL:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Darknuts
@@ -2448,6 +2532,7 @@ GanonL:
 # Ganon's Tower Stairs To Phantom Ganon
 GanonN:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Miniblins
   Enemies:
@@ -2476,6 +2561,7 @@ GanonN:
 # Hyrule Castle Interior
 Hyroom:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Darknuts
@@ -2549,6 +2635,7 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor010
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Darknuts
@@ -2622,6 +2709,7 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor010
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Darknuts
@@ -2699,6 +2787,7 @@ Hyroom:
 # Hyrule Castle
 Hyrule:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Peahats
@@ -2759,6 +2848,7 @@ Hyrule:
       Placement category: Ground
       Path: Hyrule/Room0.arc/Layer4/Actor00C
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Peahats
@@ -2823,6 +2913,7 @@ Hyrule:
 # Ice Ring Isle Inner Cave
 ITest62:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Darknuts
@@ -2853,6 +2944,7 @@ ITest62:
 # Shark Island Cave
 ITest63:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Miniblins
     & Can Defeat Bokoblins
@@ -3013,6 +3105,7 @@ ITest63:
 # Forsaken Fortress Tower (2nd visit)
 M2tower:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -3037,6 +3130,7 @@ M2tower:
 # Earth Temple
 M_Dai:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
   Enemies:
@@ -3053,6 +3147,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room1.arc/Actor006
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Red ChuChus
     & Can Defeat Green ChuChus
@@ -3082,6 +3177,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room2.arc/Actor018
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Floormasters
     & Can Defeat Red Bubbles
@@ -3103,6 +3199,7 @@ M_Dai:
       Placement category: Air
       Path: M_Dai/Room4.arc/Actor007
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Green ChuChus
     & Can Defeat Red ChuChus
@@ -3132,6 +3229,7 @@ M_Dai:
       Placement category: Ceiling
       Path: M_Dai/Room5.arc/Actor010
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Floormasters
   Enemies:
@@ -3140,6 +3238,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room6.arc/Actor004
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Poes Without Light Ray
     & Can Defeat Moblins
@@ -3161,6 +3260,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room7.arc/Actor00F
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat ReDeads
   Enemies:
@@ -3177,6 +3277,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room8.arc/Actor009
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Blue Bubbles
     & Can Defeat Red Bubbles
@@ -3203,6 +3304,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room9.arc/Actor017
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat ReDeads
   Enemies:
@@ -3215,6 +3317,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room10.arc/Actor004
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Floormasters
   Enemies:
@@ -3243,6 +3346,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room11.arc/Actor005
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Poes Without Light Ray
     & Can Defeat Floormasters
@@ -3281,6 +3385,7 @@ M_Dai:
       Placement category: Air
       Path: M_Dai/Room13.arc/Actor014
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat ReDeads
     & Can Defeat Keese
@@ -3323,6 +3428,7 @@ M_Dai:
       Placement category: Air
       Path: M_Dai/Room14.arc/Actor019
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Floormasters
   Enemies:
@@ -3339,6 +3445,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room15.arc/Actor005
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Blue Bubbles
     & Can Defeat Darknuts
@@ -3356,6 +3463,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room17.arc/Actor00C
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Stalfos
   Enemies:
@@ -3376,6 +3484,7 @@ M_Dai:
 # Earth Temple Stalfos Mini-Boss Room
 M_DaiMB:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Stalfos
   Enemies:
@@ -3396,6 +3505,7 @@ M_DaiMB:
 # Dragon Roost Cavern Moblin Mini-Boss Room
 M_Dra09:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Bokoblins
@@ -3417,6 +3527,7 @@ M_Dra09:
 # Dragon Roost Cavern
 M_NewD2:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -3429,6 +3540,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room0.arc/Actor001
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Red ChuChus
@@ -3454,6 +3566,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room1.arc/Actor00B
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
     & Can Defeat Fire Keese
@@ -3475,6 +3588,7 @@ M_NewD2:
       Placement category: Air
       Path: M_NewD2/Room2.arc/Actor028
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Bokoblins
@@ -3492,6 +3606,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room3.arc/Actor00D
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
   Enemies:
@@ -3516,6 +3631,7 @@ M_NewD2:
       Placement category: Air
       Path: M_NewD2/Room4.arc/Actor018
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -3532,6 +3648,7 @@ M_NewD2:
       Placement category: Pot
       Path: M_NewD2/Room6.arc/Actor021
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Fire Keese
@@ -3553,6 +3670,7 @@ M_NewD2:
       Placement category: Air
       Path: M_NewD2/Room7.arc/Actor00F
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Magtails
   Enemies:
@@ -3561,6 +3679,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room8.arc/Actor008
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Magtails
   Enemies:
@@ -3569,6 +3688,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room10.arc/Actor00D
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Red ChuChus
@@ -3594,6 +3714,7 @@ M_NewD2:
       Placement category: Ceiling
       Path: M_NewD2/Room11.arc/Actor00E
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Magtails
   Enemies:
@@ -3602,6 +3723,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room12.arc/Actor002
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Red ChuChus
   Enemies:
@@ -3610,6 +3732,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room13.arc/Actor00A
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Rats
   Enemies:
@@ -3618,6 +3741,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room14.arc/Actor00B
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Fire Keese
   Enemies:
@@ -3630,6 +3754,7 @@ M_NewD2:
       Placement category: Air
       Path: M_NewD2/Room15.arc/Actor008
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Magtails
   Enemies:
@@ -3642,6 +3767,7 @@ M_NewD2:
 # Forsaken Fortress Exterior (1st visit)
 MajyuE:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Moblins
@@ -3667,6 +3793,7 @@ MajyuE:
       Placement category: Ground
       Path: MajyuE/Room0.arc/Actor015
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Floormasters
   Enemies:
@@ -3683,6 +3810,7 @@ MajyuE:
 # Ice Ring Isle Cave
 MiniHyo:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
   Enemies:
@@ -3703,6 +3831,7 @@ MiniHyo:
 # Fire Mountain Cave
 MiniKaz:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Fire Keese
     & Can Defeat Magtails
@@ -3752,6 +3881,7 @@ MiniKaz:
 # Ghost Ship
 PShip:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat ReDeads
     & Can Defeat Wizzrobes
@@ -3769,6 +3899,7 @@ PShip:
       Placement category: Ground
       Path: PShip/Room0.arc/Actor00C
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Red Bubbles
   Enemies:
@@ -3781,6 +3912,7 @@ PShip:
       Placement category: Air
       Path: PShip/Room0.arc/Layer8/Actor001
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
   Enemies:
@@ -3789,6 +3921,7 @@ PShip:
       Placement category: Ground
       Path: PShip/Room1.arc/Actor00B
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Poes Without Light Ray
@@ -3810,6 +3943,7 @@ PShip:
 # Tower of the Gods
 Siren:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Yellow ChuChus
   Enemies:
@@ -3822,6 +3956,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room0.arc/Actor009
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos
     & Can Defeat Red Bubbles
@@ -3839,6 +3974,7 @@ Siren:
       Placement category: Air
       Path: Siren/Room1.arc/Actor004
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Yellow ChuChus
   Enemies:
@@ -3859,6 +3995,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room2.arc/Actor007
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Yellow ChuChus
   Enemies:
@@ -3887,6 +4024,7 @@ Siren:
       Placement category: Ceiling
       Path: Siren/Room3.arc/Actor018
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Yellow ChuChus
   Enemies:
@@ -3895,6 +4033,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room4.arc/Actor00A
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Yellow ChuChus
   Enemies:
@@ -3919,6 +4058,7 @@ Siren:
       Placement category: Ceiling
       Path: Siren/Room5.arc/Actor014
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Rats
   Enemies:
@@ -3931,6 +4071,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room6.arc/Actor007
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
     & Can Defeat Wizzrobes
@@ -3948,6 +4089,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room8.arc/Actor010
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Red Bubbles
   Enemies:
@@ -3960,6 +4102,7 @@ Siren:
       Placement category: Air
       Path: Siren/Room9.arc/Actor00E
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Yellow ChuChus
     & Can Defeat Armos
@@ -3990,6 +4133,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room11.arc/Actor00C
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos
     & Can Defeat Red Bubbles
@@ -4007,6 +4151,7 @@ Siren:
       Placement category: Air
       Path: Siren/Room14.arc/Actor008
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos
   Enemies:
@@ -4019,6 +4164,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room17.arc/Actor00A
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Kargarocs
   Enemies:
@@ -4031,6 +4177,7 @@ Siren:
       Placement category: Air
       Path: Siren/Room18.arc/Actor003
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos Knights
   Enemies:
@@ -4043,6 +4190,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room21.arc/Actor001
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos Knights
   Enemies:
@@ -4055,6 +4203,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room22.arc/Actor001
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
   Enemies:
@@ -4067,6 +4216,7 @@ Siren:
 # Tower of the Gods Darknut Mini-Boss Room
 SirenMB:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
   Enemies:
@@ -4079,6 +4229,7 @@ SirenMB:
 # Boating Course Cave
 SubD71:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Miniblins
   Enemies:
@@ -4139,6 +4290,7 @@ SubD71:
       Placement category: Ground
       Path: SubD71/Room0.arc/Actor011
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Miniblins
   Enemies:
@@ -4147,6 +4299,7 @@ SubD71:
       Placement category: Ground
       Path: SubD71/Room0.arc/Layerb/Actor000
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Red Bubbles
     & Can Defeat Wizzrobes
@@ -4173,6 +4326,7 @@ SubD71:
       Placement category: Ground
       Path: SubD71/Room1.arc/Actor00F
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Stalfos
   Enemies:
@@ -4201,6 +4355,7 @@ SubD71:
       Placement category: Ground
       Path: SubD71/Room1.arc/Layer8/Actor009
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Stalfos
     & Can Defeat Poes Without Light Ray
@@ -4227,6 +4382,7 @@ SubD71:
       Placement category: Ground
       Path: SubD71/Room2.arc/Actor010
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat ReDeads
     & Can Defeat Red Bubbles
@@ -4269,6 +4425,7 @@ SubD71:
 # Stone Watcher Island Cave
 TF_01:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
   Enemies:
@@ -4281,6 +4438,7 @@ TF_01:
       Placement category: Ground
       Path: TF_01/Room1.arc/Actor002
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -4305,6 +4463,7 @@ TF_01:
       Placement category: Ground
       Path: TF_01/Room2.arc/Actor004
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
   Enemies:
@@ -4321,6 +4480,7 @@ TF_01:
       Placement category: Ground
       Path: TF_01/Room3.arc/Actor002
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos
   Enemies:
@@ -4341,6 +4501,7 @@ TF_01:
       Placement category: Ground
       Path: TF_01/Room4.arc/Actor003
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
   Enemies:
@@ -4357,6 +4518,7 @@ TF_01:
 # Overlook Island Cave
 TF_02:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
   Enemies:
@@ -4377,6 +4539,7 @@ TF_02:
       Placement category: Ground
       Path: TF_02/Room1.arc/Actor00C
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -4401,6 +4564,7 @@ TF_02:
       Placement category: Pot
       Path: TF_02/Room2.arc/Actor004
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
   Enemies:
@@ -4413,6 +4577,7 @@ TF_02:
       Placement category: Ground
       Path: TF_02/Room3.arc/Actor001
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos Knights
   Enemies:
@@ -4429,6 +4594,7 @@ TF_02:
       Placement category: Ground
       Path: TF_02/Room4.arc/Actor002
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Stalfos
   Enemies:
@@ -4445,6 +4611,7 @@ TF_02:
 # Bird's Peak Rock Cave
 TF_03:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos Knights
   Enemies:
@@ -4453,6 +4620,7 @@ TF_03:
       Placement category: Ground
       Path: TF_03/Room1.arc/Actor001
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -4461,6 +4629,7 @@ TF_03:
       Placement category: Ground
       Path: TF_03/Room1.arc/Layer8/Actor000
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
   Enemies:
@@ -4469,6 +4638,7 @@ TF_03:
       Placement category: Ground
       Path: TF_03/Room2.arc/Actor000
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
   Enemies:
@@ -4477,6 +4647,7 @@ TF_03:
       Placement category: Ground
       Path: TF_03/Room3.arc/Actor000
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
   Enemies:
@@ -4485,6 +4656,7 @@ TF_03:
       Placement category: Ground
       Path: TF_03/Room4.arc/Actor000
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
   Enemies:
@@ -4497,6 +4669,7 @@ TF_03:
 # Cabana Labyrinth
 TF_04:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Rats
     & Can Defeat ReDeads
@@ -4546,6 +4719,7 @@ TF_04:
 # Dragon Roost Island Secret Cave
 TF_06:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Red ChuChus
   Enemies:
@@ -4562,6 +4736,7 @@ TF_06:
       Placement category: Ground
       Path: TF_06/Room2.arc/Actor006
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -4578,6 +4753,7 @@ TF_06:
       Placement category: Ground
       Path: TF_06/Room3.arc/Actor007
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
   Enemies:
@@ -4598,6 +4774,7 @@ TF_06:
       Placement category: Air
       Path: TF_06/Room4.arc/Actor008
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Mothulas
   Enemies:
@@ -4614,6 +4791,7 @@ TF_06:
 # Pawprint Isle Chuchu Cave
 TyuTyu:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Red ChuChus
     & Can Defeat Green ChuChus
@@ -4695,6 +4873,7 @@ TyuTyu:
 # Diamond Steppe Island Warp Maze
 WarpD:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Floormasters
   Enemies:
@@ -4723,6 +4902,7 @@ WarpD:
 # Wind Temple
 kaze:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Stalfos
@@ -4736,6 +4916,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room0.arc/Actor014
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos
   Enemies:
@@ -4748,6 +4929,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room1.arc/Actor00F
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos Knights
     & Can Defeat Peahats
@@ -4785,6 +4967,7 @@ kaze:
       Placement category: Air
       Path: kaze/Room2.arc/Actor037
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Floormasters
@@ -4827,6 +5010,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room3.arc/Actor019
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos
   Enemies:
@@ -4859,6 +5043,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room4.arc/Actor006
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Floormasters
     & Can Defeat Peahats
@@ -4888,6 +5073,7 @@ kaze:
       Placement category: Air
       Path: kaze/Room5.arc/Actor00C
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Peahats
@@ -4954,6 +5140,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room7.arc/Actor040
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
   Enemies:
@@ -4970,6 +5157,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room8.arc/Actor002
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Floormasters
     & Can Defeat Green ChuChus
@@ -5037,6 +5225,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room9.arc/Actor02C
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Stalfos
@@ -5054,6 +5243,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room10.arc/Actor014
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos Knights
     & Can Defeat Peahats
@@ -5154,6 +5344,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room11.arc/Actor04F
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Floormasters
     & Can Defeat Blue Bubbles
@@ -5200,6 +5391,7 @@ kaze:
 # Wind Temple Wizzrobe Mini-Boss Room
 kazeMB:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
   Enemies:
@@ -5216,6 +5408,7 @@ kazeMB:
 # Master Sword Chamber
 kenroom:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
   Enemies:
@@ -5228,6 +5421,7 @@ kenroom:
       Placement category: Ground
       Path: kenroom/Room0.arc/Actor008
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
   Enemies:
@@ -5244,6 +5438,7 @@ kenroom:
 # Forbidden Woods Mothula Mini-Boss Room
 kinMB:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Winged Mothulas
   Enemies:
@@ -5256,6 +5451,7 @@ kinMB:
 # Forbidden Woods
 kindan:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Green ChuChus
   Enemies:
@@ -5304,6 +5500,7 @@ kindan:
       Placement category: Ground
       Path: kindan/Room0.arc/Actor032
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Boko Babas
     & Can Defeat Green ChuChus
@@ -5357,6 +5554,7 @@ kindan:
       Placement category: Ground
       Path: kindan/Room1.arc/Actor06F
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Boko Babas
     & Can Defeat Peahats
@@ -5382,6 +5580,7 @@ kindan:
       Placement category: Air
       Path: kindan/Room3.arc/Actor010
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Morths
     & Can Defeat Green ChuChus
@@ -5431,6 +5630,7 @@ kindan:
       Placement category: Ceiling
       Path: kindan/Room6.arc/Actor017
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Peahats
   Enemies:
@@ -5443,6 +5643,7 @@ kindan:
       Placement category: Air
       Path: kindan/Room8.arc/Actor00E
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Mothulas
     & Can Defeat Peahats
@@ -5477,6 +5678,7 @@ kindan:
       Placement category: Air
       Path: kindan/Room9.arc/Actor01D
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Dexivines
     & Can Defeat Morths
@@ -5532,6 +5734,7 @@ kindan:
       Placement category: Ground
       Path: kindan/Room11.arc/Actor033
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Freshwater Octoroks
     & Can Defeat Green ChuChus
@@ -5582,6 +5785,7 @@ kindan:
       Placement category: Ground
       Path: kindan/Room12.arc/Actor05E
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Kargarocs
   Enemies:
@@ -5594,6 +5798,7 @@ kindan:
       Placement category: Air
       Path: kindan/Room13.arc/Actor019
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Morths
     & Can Defeat Boko Babas
@@ -5632,6 +5837,7 @@ kindan:
       Placement category: Ground
       Path: kindan/Room14.arc/Actor00A
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Mothulas
   Enemies:
@@ -5644,6 +5850,7 @@ kindan:
       Placement category: Ground
       Path: kindan/Room15.arc/Actor09A
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Morths
     & Can Defeat Green ChuChus
@@ -5677,6 +5884,7 @@ kindan:
 # Forsaken Fortress Interior (2nd visit)
 ma2room:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bombchus
     & Can Defeat Moblins
@@ -5694,6 +5902,7 @@ ma2room:
       Placement category: Ground
       Path: ma2room/Room0.arc/Actor002
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Miniblins
@@ -5731,6 +5940,7 @@ ma2room:
       Placement category: Ground
       Path: ma2room/Room1.arc/Actor014
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bombchus
     & Can Defeat Moblins
@@ -5752,6 +5962,7 @@ ma2room:
       Placement category: Ground
       Path: ma2room/Room2.arc/Actor00C
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Bombchus
@@ -5787,6 +5998,7 @@ ma2room:
       Placement category: Ground
       Path: ma2room/Room3.arc/Actor016
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -5799,6 +6011,7 @@ ma2room:
 # Forsaken Fortress Interior (3rd visit)
 ma3room:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Rats
     & Can Defeat Keese
@@ -5828,6 +6041,7 @@ ma3room:
       Placement category: Air
       Path: ma3room/Room0.arc/Actor02B
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
   Enemies:
@@ -5840,6 +6054,7 @@ ma3room:
       Placement category: Air
       Path: ma3room/Room1.arc/Actor00A
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Rats
     & Can Defeat Keese
@@ -5865,6 +6080,7 @@ ma3room:
       Placement category: Air
       Path: ma3room/Room2.arc/Actor00B
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
     & Can Defeat Rats
@@ -5898,6 +6114,7 @@ ma3room:
       Placement category: Air
       Path: ma3room/Room3.arc/Actor017
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
   Enemies:
@@ -5926,6 +6143,7 @@ ma3room:
 # Forsaken Fortress Interior (1st visit)
 majroom:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Rats
     & Can Defeat Moblins
@@ -5943,6 +6161,7 @@ majroom:
       Placement category: Ground
       Path: majroom/Room0.arc/Actor002
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Miniblins
   Enemies:
@@ -5967,6 +6186,7 @@ majroom:
       Placement category: Ground
       Path: majroom/Room1.arc/Actor019
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
   Enemies:
@@ -5979,6 +6199,7 @@ majroom:
       Placement category: Ground
       Path: majroom/Room1.arc/Layerb/Actor003
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Rats
     & Can Defeat Moblins
@@ -5996,6 +6217,7 @@ majroom:
       Placement category: Ground
       Path: majroom/Room2.arc/Actor002
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
     & Can Defeat Rats
@@ -6038,6 +6260,7 @@ majroom:
 # Forsaken Fortress
 sea/Room1.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Miniblins
@@ -6095,6 +6318,7 @@ sea/Room1.arc:
       Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor028
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Rats
   Enemies:
@@ -6107,6 +6331,7 @@ sea/Room1.arc:
       Placement category: Ground
       Path: sea/Room1.arc/Layer2/Actor006
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Rats
   Enemies:
@@ -6123,6 +6348,7 @@ sea/Room1.arc:
 # Star Island
 sea/Room2.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Miniblins
@@ -6168,6 +6394,7 @@ sea/Room2.arc:
 # Northern Fairy Island
 sea/Room3.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -6192,6 +6419,7 @@ sea/Room3.arc:
 # Crescent Moon Island
 sea/Room5.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Gyorgs
   Enemies:
@@ -6204,6 +6432,7 @@ sea/Room5.arc:
 # Seven-Star Isles
 sea/Room6.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Wizzrobes
@@ -6237,6 +6466,7 @@ sea/Room6.arc:
 # Pawprint Isle
 sea/Room12.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -6261,6 +6491,7 @@ sea/Room12.arc:
 # Dragon Roost Island
 sea/Room13.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Keese
@@ -6282,6 +6513,7 @@ sea/Room13.arc:
       Placement category: Air
       Path: sea/Room13.arc/Layer0/Actor00A
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Keese
@@ -6307,6 +6539,7 @@ sea/Room13.arc:
 # Western Fairy Island
 sea/Room15.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -6331,6 +6564,7 @@ sea/Room15.arc:
 # Rock Spire Isle
 sea/Room16.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -6371,6 +6605,7 @@ sea/Room16.arc:
 # Tingle Island
 sea/Room17.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Gyorgs
   Enemies:
@@ -6383,6 +6618,7 @@ sea/Room17.arc:
 # Northern Triangle Island
 sea/Room18.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Saltwater Octoroks
   Enemies:
@@ -6395,6 +6631,7 @@ sea/Room18.arc:
 # Eastern Fairy Island
 sea/Room19.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -6415,6 +6652,7 @@ sea/Room19.arc:
 # Fire Mountain
 sea/Room20.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Bokoblins
@@ -6432,6 +6670,7 @@ sea/Room20.arc:
 # Star Belt Archipelago
 sea/Room21.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Bokoblins
@@ -6473,6 +6712,7 @@ sea/Room21.arc:
 # Cyclops Reef
 sea/Room24.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -6497,6 +6737,7 @@ sea/Room24.arc:
 # Six-Eye Reef
 sea/Room25.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Saltwater Octoroks
@@ -6530,6 +6771,7 @@ sea/Room25.arc:
 # Eastern Triangle Island
 sea/Room27.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Saltwater Octoroks
   Enemies:
@@ -6566,6 +6808,7 @@ sea/Room27.arc:
 # Thorned Fairy Island
 sea/Room28.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -6590,6 +6833,7 @@ sea/Room28.arc:
 # Needle Rock Isle
 sea/Room29.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Kargarocs
   Enemies:
@@ -6618,6 +6862,7 @@ sea/Room29.arc:
 # Islet of Steel
 sea/Room30.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Kargarocs
@@ -6672,6 +6917,7 @@ sea/Room30.arc:
 # Stone Watcher Island
 sea/Room31.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -6688,6 +6934,7 @@ sea/Room31.arc:
 # Bomb Island
 sea/Room34.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -6708,6 +6955,7 @@ sea/Room34.arc:
 # Bird's Peak Rock
 sea/Room35.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Kargarocs
   Enemies:
@@ -6736,6 +6984,7 @@ sea/Room35.arc:
 # Five-Eye Reef
 sea/Room37.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Gyorgs
     & Can Defeat Bokoblins
@@ -6777,6 +7026,7 @@ sea/Room37.arc:
 # Shark Island
 sea/Room38.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Saltwater Octoroks
   Enemies:
@@ -6833,6 +7083,7 @@ sea/Room38.arc:
 # Southern Fairy Island
 sea/Room39.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -6869,6 +7120,7 @@ sea/Room39.arc:
 # Forest Haven
 sea/Room41.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Peahats
     & Can Defeat Boko Babas
@@ -6919,6 +7171,7 @@ sea/Room41.arc:
       Placement category: Ground
       Path: sea/Room41.arc/Actor0CF
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Boko Babas
     & Can Defeat Freshwater Octoroks
@@ -6936,6 +7189,7 @@ sea/Room41.arc:
 # Cliff Plateau Isles
 sea/Room42.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Gyorgs
     & Can Defeat Bokoblins
@@ -6978,6 +7232,7 @@ sea/Room42.arc:
 # Horseshoe Island
 sea/Room43.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Kargarocs
@@ -7019,6 +7274,7 @@ sea/Room43.arc:
 # Outset Island
 sea/Room44.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Green ChuChus
     & Can Defeat Red ChuChus
@@ -7065,6 +7321,7 @@ sea/Room44.arc:
       Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor01B
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
   Enemies:
@@ -7117,6 +7374,7 @@ sea/Room44.arc:
       Placement category: Air
       Path: sea/Room44.arc/Layer6/Actor00B
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
   Enemies:
@@ -7153,6 +7411,7 @@ sea/Room44.arc:
       Placement category: Air
       Path: sea/Room44.arc/Layer7/Actor013
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Morths
     & Can Defeat Keese
@@ -7195,6 +7454,7 @@ sea/Room44.arc:
 # Two-Eye Reef
 sea/Room46.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Kargarocs
@@ -7248,6 +7508,7 @@ sea/Room46.arc:
 # Angular Isles
 sea/Room47.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Gyorgs
@@ -7273,6 +7534,7 @@ sea/Room47.arc:
 # Boating Course
 sea/Room48.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Saltwater Octoroks
@@ -7298,6 +7560,7 @@ sea/Room48.arc:
 # Five-Star Isles
 sea/Room49.arc:
 -
+  Must defeat enemies: Yes
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Bokoblins

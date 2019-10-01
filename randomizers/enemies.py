@@ -42,7 +42,6 @@ def decide_on_enemy_pools_for_each_stage(self):
   # First decide on the enemy pools that will be available in each stage in advance.
   # This is so we can guarantee every room in each stage will be able to have at least one enemy, instead of later rooms being limited to no enemies that work by a combination of their logic, their placement categories, and enemies that were already placed in other rooms of that stage.
   self.enemy_pool_for_stage = OrderedDict()
-  #enemies_logically_allowed_for_group = {}
   for stage_folder, enemy_locations in self.enemy_locations.items():
     if stage_folder == "sea":
       # The sea stage should have no limit on the number of enemies in it.
@@ -52,9 +51,12 @@ def decide_on_enemy_pools_for_each_stage(self):
     
     category_and_logic_combos_needed = []
     for enemy_group in enemy_locations:
-      original_req_string = enemy_group["Original requirements"]
-      enemies_logically_allowed_in_this_group = self.logic.filter_out_enemies_that_add_new_requirements(original_req_string, self.enemies_to_randomize_to)
-      #enemies_logically_allowed_for_group[enemy_group] = enemies_logically_allowed_in_this_group # Cache
+      if enemy_group["Must defeat enemies"]:
+        original_req_string = enemy_group["Original requirements"]
+        enemies_logically_allowed_in_this_group = self.logic.filter_out_enemies_that_add_new_requirements(original_req_string, self.enemies_to_randomize_to)
+      else:
+        # For rooms where defeating the enemies is not required to progress, don't limit what enemies to put here by logic item requirements.
+        enemies_logically_allowed_in_this_group = self.enemies_to_randomize_to
       
       for enemy_location in enemy_group["Enemies"]:
         category_and_logic_combo = (enemy_location["Placement category"], enemies_logically_allowed_in_this_group)
@@ -328,6 +330,7 @@ def print_all_enemy_locations(self):
         if defeat_reqs not in defeat_reqs_for_this_layer:
           defeat_reqs_for_this_layer.append(defeat_reqs)
       output_str += "-\n"
+      output_str += "  Must defeat enemies: Yes\n"
       output_str += "  Original requirements:\n"
       output_str += "    " + "\n    & ".join(defeat_reqs_for_this_layer) + "\n"
       output_str += "  Enemies:\n"
