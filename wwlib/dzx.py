@@ -183,21 +183,22 @@ class Chunk:
 class ChunkEntry:
   PARAMS = {}
   
-  def __getattr__(self, name):
-    if name in self.PARAMS:
-      mask = self.PARAMS[name]
+  def __getattr__(self, attr_name):
+    if attr_name in self.PARAMS:
+      params_bitfield_name, mask = self.PARAMS[attr_name]
       amount_to_shift = self.get_lowest_set_bit(mask)
-      return ((self.params & mask) >> amount_to_shift)
+      return ((getattr(self, params_bitfield_name) & mask) >> amount_to_shift)
     else:
-      return super(self.__class__, self).__getattribute__(name)
+      return super(self.__class__, self).__getattribute__(attr_name)
   
-  def __setattr__(self, name, value):
-    if name in self.PARAMS:
-      mask = self.PARAMS[name]
+  def __setattr__(self, attr_name, value):
+    if attr_name in self.PARAMS:
+      params_bitfield_name, mask = self.PARAMS[attr_name]
       amount_to_shift = self.get_lowest_set_bit(mask)
-      self.params = (self.params & (~mask)) | ((value << amount_to_shift) & mask)
+      new_params_value = (getattr(self, params_bitfield_name) & (~mask)) | ((value << amount_to_shift) & mask)
+      super().__setattr__(params_bitfield_name, new_params_value)
     else:
-      self.__dict__[name] = value
+      self.__dict__[attr_name] = value
   
   @staticmethod
   def get_lowest_set_bit(integer):
@@ -214,10 +215,10 @@ class TRES(ChunkEntry):
   DATA_SIZE = 0x20
   
   PARAMS = {
-    "chest_type":              0x00F00000,
-    "appear_condition_switch": 0x000FF000,
-    "opened_flag":             0x00000F80,
-    "behavior_type":           0x0000007F,
+    "chest_type":              ("params", 0x00F00000),
+    "appear_condition_switch": ("params", 0x000FF000),
+    "opened_flag":             ("params", 0x00000F80),
+    "behavior_type":           ("params", 0x0000007F),
   }
   
   def __init__(self, file_entry):
@@ -275,16 +276,16 @@ class SCOB(ChunkEntry):
   DATA_SIZE = 0x24
   
   PARAMS = {
-    "salvage_type":               0xF0000000,
-    "salvage_chart_index_plus_1": 0x0FF00000,
-    "salvage_item_id":            0x00000FF0,
+    "salvage_type":               ("params", 0xF0000000),
+    "salvage_chart_index_plus_1": ("params", 0x0FF00000),
+    "salvage_item_id":            ("params", 0x00000FF0),
     
-    "buried_pig_item_id":         0x000000FF,
+    "buried_pig_item_id":         ("params", 0x000000FF),
     
-    "invisible_wall_switch_index": 0x000000FF,
+    "invisible_wall_switch_index": ("params", 0x000000FF),
     
-    "event_trigger_seen_switch_index": 0x0000FF00,
-    "event_trigger_evnt_index":        0xFF000000,
+    "event_trigger_seen_switch_index": ("params", 0x0000FF00),
+    "event_trigger_evnt_index":        ("params", 0xFF000000),
   }
   
   SALVAGE_NAMES = [
@@ -379,64 +380,64 @@ class ACTR(ChunkEntry):
   DATA_SIZE = 0x20
   
   PARAMS = {
-    "item_id":   0x000000FF,
-    "item_flag": 0x0000FF00,
+    "item_id":   ("params", 0x000000FF),
+    "item_flag": ("params", 0x0000FF00),
     
-    "boss_item_stage_id": 0x000000FF,
+    "boss_item_stage_id": ("params", 0x000000FF),
     # The below boss_item_id parameter did not exist for boss items in the vanilla game.
     # The randomizer adds it so that boss items can be randomized and are not just always heart containers.
-    "boss_item_id":       0x0000FF00,
+    "boss_item_id":       ("params", 0x0000FF00),
     
-    "bridge_rpat_index": 0x00FF0000,
+    "bridge_rpat_index": ("params", 0x00FF0000),
     
-    "pot_item_id":   0x0000003F,
-    "pot_item_flag": 0x007F0000,
+    "pot_item_id":   ("params", 0x0000003F),
+    "pot_item_flag": ("params", 0x007F0000),
     
-    "pirate_ship_door_type": 0x0000FF00,
+    "pirate_ship_door_type": ("params", 0x0000FF00),
     
-    "warp_pot_type":            0x0000000F,
-    "warp_pot_event_reg_index": 0x000000F0,
-    "warp_pot_dest_1":          0x0000FF00,
-    "warp_pot_dest_2":          0x00FF0000,
-    "warp_pot_dest_3":          0xFF000000,
+    "warp_pot_type":            ("params", 0x0000000F),
+    "warp_pot_event_reg_index": ("params", 0x000000F0),
+    "warp_pot_dest_1":          ("params", 0x0000FF00),
+    "warp_pot_dest_2":          ("params", 0x00FF0000),
+    "warp_pot_dest_3":          ("params", 0xFF000000),
     
-    "wizzrobe_prereq_switch_index": 0x00FF0000,
+    "wizzrobe_prereq_switch_index": ("params", 0x00FF0000),
     
-    "cannon_appear_condition_switch": 0x0000FF00,
+    "cannon_appear_condition_switch": ("params", 0x0000FF00),
     
-    "grass_type":           0x00000030,
-    "grass_subtype":        0x0000000F,
-    "grass_item_drop_type": 0x00000FC0,
+    "grass_type":           ("params", 0x00000030),
+    "grass_subtype":        ("params", 0x0000000F),
+    "grass_item_drop_type": ("params", 0x00000FC0),
     
-    "bokoblin_type":     0x0000000F,
-    "bokoblin_is_green": 0x00000020,
-    "bokoblin_weapon":   0x000000C0,
+    "bokoblin_type":     ("params", 0x0000000F),
+    "bokoblin_is_green": ("params", 0x00000020),
+    "bokoblin_weapon":   ("params", 0x000000C0),
     
-    "moblin_type": 0x000000FF,
+    "moblin_type": ("params", 0x000000FF),
     
-    "peahat_type": 0x000000FF,
+    "peahat_type": ("params", 0x000000FF),
     
-    "rat_type": 0x0000FF00,
+    "rat_type": ("params", 0x0000FF00),
     
-    "rat_hole_type": 0x00FF0000,
+    "rat_hole_type": ("params", 0x00FF0000),
     
-    "darknut_behavior_type": 0x0000000F,
+    "darknut_behavior_type": ("params", 0x0000000F),
     
-    "mothula_type": 0x00FF0000,
+    "mothula_type": ("params", 0x00FF0000),
     
-    "bubble_type": 0x000000FF,
+    "bubble_type": ("params", 0x000000FF),
     
-    "chuchu_behavior_type": 0x000000FF,
-    "chuchu_type":          0x0000FF00,
+    "chuchu_behavior_type": ("params", 0x000000FF),
+    "chuchu_type":          ("params", 0x0000FF00),
     
-    "kargaroc_behavior_type": 0x000000FF,
+    "kargaroc_behavior_type": ("params", 0x000000FF),
     
-    "morth_behavior_type":       0x000000FF,
-    "morth_num_morths_in_group": 0x0000FF00,
-    "morth_pot_notice_range":    0x00FF0000,
+    "morth_behavior_type":       ("params", 0x000000FF),
+    "morth_num_morths_in_group": ("params", 0x0000FF00),
+    "morth_pot_notice_range":    ("params", 0x00FF0000),
     
-    "armos_switch_type":  0x00FF0000,
-    "armos_switch_index": 0xFF000000,
+    "armos_switch_type":  ("params", 0x00FF0000),
+    "armos_switch_index": ("params", 0xFF000000),
   }
   
   ITEM_NAMES = [
@@ -526,13 +527,13 @@ class PLYR(ChunkEntry):
   DATA_SIZE = 0x20
   
   PARAMS = {
-    "room_num":        0x0000003F,
-    "unknown_param_1": 0x00000040,
-    "unknown_param_2": 0x00000080,
-    "unknown_param_3": 0x00000F00,
-    "spawn_type":      0x0000F000,
-    "unknown_param_4": 0x00FF0000,
-    "event_index":     0xFF000000,
+    "room_num":        ("params", 0x0000003F),
+    "unknown_param_1": ("params", 0x00000040),
+    "unknown_param_2": ("params", 0x00000080),
+    "unknown_param_3": ("params", 0x00000F00),
+    "spawn_type":      ("params", 0x0000F000),
+    "unknown_param_4": ("params", 0x00FF0000),
+    "event_index":     ("params", 0xFF000000),
   }
   
   def __init__(self, file_entry):
@@ -622,10 +623,10 @@ class STAG(ChunkEntry):
   DATA_SIZE = 0x14
   
   PARAMS = {
-    "unknown_2":            0x0003,
-    "unknown_3":            0x0004,
-    "loaded_particle_bank": 0x07F8,
-    "unknown_4":            0xF800,
+    "unknown_2":            ("params", 0x0003),
+    "unknown_3":            ("params", 0x0004),
+    "loaded_particle_bank": ("params", 0x07F8),
+    "unknown_4":            ("params", 0xF800),
   }
   
   def __init__(self, file_entry):
@@ -673,15 +674,15 @@ class FILI(ChunkEntry):
   DATA_SIZE = 8
   
   PARAMS = {
-    "unknown_1":                0x0000007F,
-    "draw_depth":               0x00007F80,
-    "unknown_2":                0x00038000,
-    "wind_type":                0x000C0000,
-    "is_weather":               0x00100000,
-    "loaded_particle_bank":     0x1FE00000,
-    "unknown_3":                0x20000000,
-    "can_play_song_of_passing": 0x40000000,
-    "unknown_4":                0x80000000,
+    "unknown_1":                ("params", 0x0000007F),
+    "draw_depth":               ("params", 0x00007F80),
+    "unknown_2":                ("params", 0x00038000),
+    "wind_type":                ("params", 0x000C0000),
+    "is_weather":               ("params", 0x00100000),
+    "loaded_particle_bank":     ("params", 0x1FE00000),
+    "unknown_3":                ("params", 0x20000000),
+    "can_play_song_of_passing": ("params", 0x40000000),
+    "unknown_4":                ("params", 0x80000000),
   }
   
   def __init__(self, file_entry):
@@ -1031,7 +1032,7 @@ class TGDR(ChunkEntry):
   DATA_SIZE = 0x24
   
   PARAMS = {
-    "open_condition_switch": 0x000000FF,
+    "open_condition_switch": ("params", 0x000000FF),
   }
   
   def __init__(self, file_entry):
