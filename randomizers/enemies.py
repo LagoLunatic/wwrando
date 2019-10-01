@@ -440,7 +440,7 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
     return enemy_data["Placement categories"][0]
   
   if enemy.name == "Bk":
-    if enemy.bokoblin_type == 3:
+    if enemy.bokoblin_type in [2, 3]:
       return "Pot"
     else:
       return "Ground"

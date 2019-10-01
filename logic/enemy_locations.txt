@@ -1609,15 +1609,15 @@ Cave10:
       Path: Cave10/Room12.arc/Actor004
     -
       Original enemy: Blue Bokoblin
-      Placement category: Ground
+      Placement category: Pot
       Path: Cave10/Room12.arc/Actor005
     -
       Original enemy: Blue Bokoblin
-      Placement category: Ground
+      Placement category: Pot
       Path: Cave10/Room12.arc/Actor006
     -
       Original enemy: Blue Bokoblin
-      Placement category: Ground
+      Placement category: Pot
       Path: Cave10/Room12.arc/Actor007
     -
       Original enemy: Green ChuChu
@@ -1625,7 +1625,7 @@ Cave10:
       Path: Cave10/Room12.arc/Actor00B
     -
       Original enemy: Blue Bokoblin
-      Placement category: Ground
+      Placement category: Pot
       Path: Cave10/Room12.arc/Actor00C
 -
   Original requirements:
@@ -3023,19 +3023,19 @@ M2tower:
   Enemies:
     -
       Original enemy: Blue Bokoblin
-      Placement category: Ground
+      Placement category: Pot
       Path: M2tower/Room0.arc/Layer3/Actor005
     -
       Original enemy: Green Bokoblin
-      Placement category: Ground
+      Placement category: Pot
       Path: M2tower/Room0.arc/Layer3/Actor006
     -
       Original enemy: Blue Bokoblin
-      Placement category: Ground
+      Placement category: Pot
       Path: M2tower/Room0.arc/Layer3/Actor007
     -
       Original enemy: Green Bokoblin
-      Placement category: Ground
+      Placement category: Pot
       Path: M2tower/Room0.arc/Layer3/Actor008
 
 
@@ -3526,7 +3526,7 @@ M_NewD2:
   Enemies:
     -
       Original enemy: Blue Bokoblin
-      Placement category: Ground
+      Placement category: Pot
       Path: M_NewD2/Room6.arc/Actor01F
     -
       Original enemy: Blue Bokoblin
@@ -3534,7 +3534,7 @@ M_NewD2:
       Path: M_NewD2/Room6.arc/Actor020
     -
       Original enemy: Blue Bokoblin
-      Placement category: Ground
+      Placement category: Pot
       Path: M_NewD2/Room6.arc/Actor021
 -
   Original requirements:
