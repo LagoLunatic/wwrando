@@ -28,6 +28,11 @@ def randomize_enemies(self):
     pretty_name = enemy_data["Pretty name"]
     self.enemy_datas_by_pretty_name[pretty_name] = enemy_data
   
+  self.all_enemy_actor_names = []
+  for data in self.enemy_types:
+    if data["Actor name"] not in self.all_enemy_actor_names:
+      self.all_enemy_actor_names.append(data["Actor name"])
+  
   self.particles_to_load_for_each_jpc_index = OrderedDict()
   
   decide_on_enemy_pools_for_each_stage(self)
@@ -554,6 +559,9 @@ def get_enemy_instance_by_path(self, path):
   else:
     dzx = self.get_arc(arc_path).get_file("room.dzr")
   enemy = dzx.entries_by_type_and_layer("ACTR", layer)[actor_index]
+  
+  if enemy.name not in self.all_enemy_actor_names:
+    raise Exception("Enemy location path %s points to a %s actor, not an enemy!" % (path, enemy.name))
   
   return (enemy, arc_name, dzx, layer)
 
