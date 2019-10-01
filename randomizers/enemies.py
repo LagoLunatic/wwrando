@@ -190,6 +190,10 @@ def print_all_enemy_locations(self):
         output_str += "\n"
         output_str += "\n"
         output_str += "# " + stage_name + "\n"
+        if stage_folder == "sea":
+          output_str += stage_folder + "/" + arc_name + ":\n"
+        else:
+          output_str += stage_folder + ":\n"
         prev_stage_folder = stage_folder
         prev_arc_name = arc_name
       

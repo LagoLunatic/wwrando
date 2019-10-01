@@ -1,6 +1,7 @@
 
 
 # Outset Island Fairy Woods
+A_mori:
 -
   Original requirements:
     Can Defeat Blue Bokoblins
@@ -121,6 +122,7 @@
 
 
 # Submarines
+Abship:
 -
   Original requirements:
     Can Defeat Green Bokoblins
@@ -400,6 +402,7 @@
 
 
 # Bomb Island Cave
+Cave01:
 -
   Original requirements:
     Can Defeat Magtails
@@ -435,6 +438,7 @@
 
 
 # Star Island Cave
+Cave02:
 -
   Original requirements:
     Can Defeat Magtails
@@ -481,6 +485,7 @@
 
 
 # Cliff Plateau Isles Cave
+Cave03:
 -
   Original requirements:
     Can Defeat Boko Babas
@@ -504,6 +509,7 @@
 
 
 # Rock Spire Isle Cave
+Cave04:
 -
   Original requirements:
     Can Defeat Keese
@@ -619,6 +625,7 @@
 
 
 # Horseshoe Island Cave
+Cave05:
 -
   Original requirements:
     Can Defeat Mothulas
@@ -639,6 +646,7 @@
 
 
 # Pawprint Isle Wizzrobe Cave
+Cave07:
 -
   Original requirements:
     Can Defeat Wizzrobes
@@ -670,6 +678,7 @@
 
 
 # Savage Labyrinth
+Cave09:
 -
   Original requirements:
     Can Defeat Keese
@@ -1087,6 +1096,7 @@
 
 
 # Savage Labyrinth
+Cave10:
 -
   Original requirements:
     Can Defeat Peahats
@@ -1743,6 +1753,7 @@
 
 
 # Savage Labyrinth
+Cave11:
 -
   Original requirements:
     Can Defeat ReDeads
@@ -2093,6 +2104,7 @@
 
 
 # Ganon's Tower Entrance
+GanonA:
 -
   Original requirements:
     Can Defeat Green Bokoblins
@@ -2116,6 +2128,7 @@
 
 
 # Ganon's Tower Before Gohma Rematch
+GanonB:
 -
   Original requirements:
     Can Defeat Red Bubbles
@@ -2139,6 +2152,7 @@
 
 
 # Ganon's Tower Before Molgera Rematch
+GanonC:
 -
   Original requirements:
     Can Defeat Wizzrobes
@@ -2159,6 +2173,7 @@
 
 
 # Ganon's Tower Before Kalle Demos Rematch
+GanonD:
 -
   Original requirements:
     Can Defeat Peahats
@@ -2174,6 +2189,7 @@
 
 
 # Ganon's Tower Before Jalhalla Rematch
+GanonE:
 -
   Original requirements:
     Can Defeat Red Bubbles
@@ -2220,6 +2236,7 @@
 
 
 # Ganon's Tower Maze
+GanonJ:
 -
   Original requirements:
     Can Defeat Moblins
@@ -2380,6 +2397,7 @@
 
 
 # Ganon's Tower Puppet Ganon
+GanonK:
 -
   Original requirements:
     Can Defeat Morths
@@ -2399,6 +2417,7 @@
 
 
 # Ganon's Tower Stairs To Puppet Ganon
+GanonL:
 -
   Original requirements:
     Can Defeat Moblins
@@ -2431,6 +2450,7 @@
 
 
 # Ganon's Tower Stairs To Phantom Ganon
+GanonN:
 -
   Original requirements:
     Can Defeat Miniblins
@@ -2458,6 +2478,7 @@
 
 
 # Hyrule Castle Interior
+Hyroom:
 -
   Original requirements:
     Can Defeat Moblins
@@ -2680,6 +2701,7 @@
 
 
 # Hyrule Castle
+Hyrule:
 -
   Original requirements:
     Can Defeat Moblins
@@ -2803,6 +2825,7 @@
 
 
 # Ice Ring Isle Inner Cave
+ITest62:
 -
   Original requirements:
     Can Defeat Green Bokoblins
@@ -2832,6 +2855,7 @@
 
 
 # Shark Island Cave
+ITest63:
 -
   Original requirements:
     Can Defeat Miniblins
@@ -2991,6 +3015,7 @@
 
 
 # Forsaken Fortress Tower (2nd visit)
+M2tower:
 -
   Original requirements:
     Can Defeat Blue Bokoblins
@@ -3015,6 +3040,7 @@
 
 
 # Earth Temple
+M_Dai:
 -
   Original requirements:
     Can Defeat Moblins
@@ -3353,6 +3379,7 @@
 
 
 # Earth Temple Stalfos Mini-Boss Room
+M_DaiMB:
 -
   Original requirements:
     Can Defeat Stalfos
@@ -3372,6 +3399,7 @@
 
 
 # Dragon Roost Cavern Moblin Mini-Boss Room
+M_Dra09:
 -
   Original requirements:
     Can Defeat Kargarocs
@@ -3392,6 +3420,7 @@
 
 
 # Dragon Roost Cavern
+M_NewD2:
 -
   Original requirements:
     Can Defeat Blue Bokoblins
@@ -3616,6 +3645,7 @@
 
 
 # Forsaken Fortress Exterior (1st visit)
+MajyuE:
 -
   Original requirements:
     Can Defeat Blue Bokoblins
@@ -3657,6 +3687,7 @@
 
 
 # Ice Ring Isle Cave
+MiniHyo:
 -
   Original requirements:
     Can Defeat Keese
@@ -3676,6 +3707,7 @@
 
 
 # Fire Mountain Cave
+MiniKaz:
 -
   Original requirements:
     Can Defeat Fire Keese
@@ -3724,6 +3756,7 @@
 
 
 # Ghost Ship
+PShip:
 -
   Original requirements:
     Can Defeat ReDeads
@@ -3781,6 +3814,7 @@
 
 
 # Tower of the Gods
+Siren:
 -
   Original requirements:
     Can Defeat Yellow ChuChus
@@ -4037,6 +4071,7 @@
 
 
 # Tower of the Gods Darknut Mini-Boss Room
+SirenMB:
 -
   Original requirements:
     Can Defeat Darknuts
@@ -4048,6 +4083,7 @@
 
 
 # Boating Course Cave
+SubD71:
 -
   Original requirements:
     Can Defeat Miniblins
@@ -4237,6 +4273,7 @@
 
 
 # Stone Watcher Island Cave
+TF_01:
 -
   Original requirements:
     Can Defeat Darknuts
@@ -4324,6 +4361,7 @@
 
 
 # Overlook Island Cave
+TF_02:
 -
   Original requirements:
     Can Defeat Darknuts
@@ -4411,6 +4449,7 @@
 
 
 # Bird's Peak Rock Cave
+TF_03:
 -
   Original requirements:
     Can Defeat Armos Knights
@@ -4462,6 +4501,7 @@
 
 
 # Cabana Labyrinth
+TF_04:
 -
   Original requirements:
     Can Defeat Rats
@@ -4510,6 +4550,7 @@
 
 
 # Dragon Roost Island Secret Cave
+TF_06:
 -
   Original requirements:
     Can Defeat Red ChuChus
@@ -4577,6 +4618,7 @@
 
 
 # Pawprint Isle Chuchu Cave
+TyuTyu:
 -
   Original requirements:
     Can Defeat Red ChuChus
@@ -4657,6 +4699,7 @@
 
 
 # Diamond Steppe Island Warp Maze
+WarpD:
 -
   Original requirements:
     Can Defeat Floormasters
@@ -4684,6 +4727,7 @@
 
 
 # Wind Temple
+kaze:
 -
   Original requirements:
     Can Defeat Wizzrobes
@@ -5160,6 +5204,7 @@
 
 
 # Wind Temple Wizzrobe Mini-Boss Room
+kazeMB:
 -
   Original requirements:
     Can Defeat Wizzrobes
@@ -5175,6 +5220,7 @@
 
 
 # Master Sword Chamber
+kenroom:
 -
   Original requirements:
     Can Defeat Darknuts
@@ -5202,6 +5248,7 @@
 
 
 # Forbidden Woods Mothula Mini-Boss Room
+kinMB:
 -
   Original requirements:
     Can Defeat Mothulas
@@ -5213,6 +5260,7 @@
 
 
 # Forbidden Woods
+kindan:
 -
   Original requirements:
     Can Defeat Green ChuChus
@@ -5633,6 +5681,7 @@
 
 
 # Forsaken Fortress Interior (2nd visit)
+ma2room:
 -
   Original requirements:
     Can Defeat Bombchus
@@ -5754,6 +5803,7 @@
 
 
 # Forsaken Fortress Interior (3rd visit)
+ma3room:
 -
   Original requirements:
     Can Defeat Rats
@@ -5880,6 +5930,7 @@
 
 
 # Forsaken Fortress Interior (1st visit)
+majroom:
 -
   Original requirements:
     Can Defeat Rats
@@ -5991,6 +6042,7 @@
 
 
 # Forsaken Fortress
+sea/Room1.arc:
 -
   Original requirements:
     Can Defeat Blue Bokoblins
@@ -6075,6 +6127,7 @@
 
 
 # Star Island
+sea/Room2.arc:
 -
   Original requirements:
     Can Defeat Pink Bokoblins
@@ -6120,6 +6173,7 @@
 
 
 # Northern Fairy Island
+sea/Room3.arc:
 -
   Original requirements:
     Can Defeat Pink Bokoblins
@@ -6143,6 +6197,7 @@
 
 
 # Seven-Star Isles
+sea/Room6.arc:
 -
   Original requirements:
     Can Defeat Kargarocs
@@ -6175,6 +6230,7 @@
 
 
 # Pawprint Isle
+sea/Room12.arc:
 -
   Original requirements:
     Can Defeat Pink Bokoblins
@@ -6198,6 +6254,7 @@
 
 
 # Dragon Roost Island
+sea/Room13.arc:
 -
   Original requirements:
     Can Defeat Kargarocs
@@ -6243,6 +6300,7 @@
 
 
 # Western Fairy Island
+sea/Room15.arc:
 -
   Original requirements:
     Can Defeat Pink Bokoblins
@@ -6267,6 +6325,7 @@
 
 
 # Rock Spire Isle
+sea/Room16.arc:
 -
   Original requirements:
     Can Defeat Pink Bokoblins
@@ -6307,6 +6366,7 @@
 
 
 # Northern Triangle Island
+sea/Room18.arc:
 -
   Original requirements:
     Can Defeat Saltwater Octoroks
@@ -6318,6 +6378,7 @@
 
 
 # Eastern Fairy Island
+sea/Room19.arc:
 -
   Original requirements:
     Can Defeat Pink Bokoblins
@@ -6337,6 +6398,7 @@
 
 
 # Fire Mountain
+sea/Room20.arc:
 -
   Original requirements:
     Can Defeat Kargarocs
@@ -6353,6 +6415,7 @@
 
 
 # Star Belt Archipelago
+sea/Room21.arc:
 -
   Original requirements:
     Can Defeat Kargarocs
@@ -6394,6 +6457,7 @@
 
 
 # Cyclops Reef
+sea/Room24.arc:
 -
   Original requirements:
     Can Defeat Green Bokoblins
@@ -6418,6 +6482,7 @@
 
 
 # Six-Eye Reef
+sea/Room25.arc:
 -
   Original requirements:
     Can Defeat Pink Bokoblins
@@ -6450,6 +6515,7 @@
 
 
 # Eastern Triangle Island
+sea/Room27.arc:
 -
   Original requirements:
     Can Defeat Saltwater Octoroks
@@ -6485,6 +6551,7 @@
 
 
 # Thorned Fairy Island
+sea/Room28.arc:
 -
   Original requirements:
     Can Defeat Pink Bokoblins
@@ -6508,6 +6575,7 @@
 
 
 # Needle Rock Isle
+sea/Room29.arc:
 -
   Original requirements:
     Can Defeat Kargarocs
@@ -6535,6 +6603,7 @@
 
 
 # Islet of Steel
+sea/Room30.arc:
 -
   Original requirements:
     Can Defeat Blue Bokoblins
@@ -6589,6 +6658,7 @@
 
 
 # Stone Watcher Island
+sea/Room31.arc:
 -
   Original requirements:
     Can Defeat Pink Bokoblins
@@ -6604,6 +6674,7 @@
 
 
 # Bomb Island
+sea/Room34.arc:
 -
   Original requirements:
     Can Defeat Pink Bokoblins
@@ -6623,6 +6694,7 @@
 
 
 # Bird's Peak Rock
+sea/Room35.arc:
 -
   Original requirements:
     Can Defeat Kargarocs
@@ -6650,6 +6722,7 @@
 
 
 # Five-Eye Reef
+sea/Room37.arc:
 -
   Original requirements:
     Can Defeat Green Bokoblins
@@ -6682,6 +6755,7 @@
 
 
 # Shark Island
+sea/Room38.arc:
 -
   Original requirements:
     Can Defeat Saltwater Octoroks
@@ -6737,6 +6811,7 @@
 
 
 # Southern Fairy Island
+sea/Room39.arc:
 -
   Original requirements:
     Can Defeat Pink Bokoblins
@@ -6772,6 +6847,7 @@
 
 
 # Forest Haven
+sea/Room41.arc:
 -
   Original requirements:
     Can Defeat Peahats
@@ -6838,6 +6914,7 @@
 
 
 # Cliff Plateau Isles
+sea/Room42.arc:
 -
   Original requirements:
     Can Defeat Pink Bokoblins
@@ -6874,6 +6951,7 @@
 
 
 # Horseshoe Island
+sea/Room43.arc:
 -
   Original requirements:
     Can Defeat Pink Bokoblins
@@ -6914,6 +6992,7 @@
 
 
 # Outset Island
+sea/Room44.arc:
 -
   Original requirements:
     Can Defeat Green ChuChus
@@ -7089,6 +7168,7 @@
 
 
 # Two-Eye Reef
+sea/Room46.arc:
 -
   Original requirements:
     Can Defeat Green Bokoblins
@@ -7142,6 +7222,7 @@
 
 
 # Angular Isles
+sea/Room47.arc:
 -
   Original requirements:
     Can Defeat Pink Bokoblins
@@ -7161,6 +7242,7 @@
 
 
 # Boating Course
+sea/Room48.arc:
 -
   Original requirements:
     Can Defeat Pink Bokoblins
@@ -7185,6 +7267,7 @@
 
 
 # Five-Star Isles
+sea/Room49.arc:
 -
   Original requirements:
     Can Defeat Kargarocs
