@@ -410,6 +410,7 @@ class ACTR(ChunkEntry):
     
     "bokoblin_type":     0x0000000F,
     "bokoblin_is_green": 0x00000020,
+    "bokoblin_weapon":   0x000000C0,
     
     "moblin_type": 0x000000FF,
     
@@ -430,7 +431,9 @@ class ACTR(ChunkEntry):
     
     "kargaroc_behavior_type": 0x000000FF,
     
-    "morth_behavior_type": 0x000000FF,
+    "morth_behavior_type":       0x000000FF,
+    "morth_num_morths_in_group": 0x0000FF00,
+    "morth_pot_notice_range":    0x00FF0000,
     
     "armos_switch_type":  0x00FF0000,
     "armos_switch_index": 0xFF000000,

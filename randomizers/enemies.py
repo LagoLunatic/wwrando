@@ -3,6 +3,7 @@ import os
 import copy
 import re
 from collections import OrderedDict
+import math
 
 from wwlib import stage_searcher
 from logic.logic import Logic
@@ -159,7 +160,7 @@ def randomize_enemy_group(self, stage_folder, enemy_group):
       enemy_pool_for_group.append(chosen_enemy)
   
   for enemy_location in enemy_group["Enemies"]:
-    enemy, arc_name = get_enemy_and_arc_name_for_path(self, enemy_location["Path"])
+    enemy, arc_name, dzx, layer = get_enemy_instance_by_path(self, enemy_location["Path"])
     stage_folder, room_arc_name = arc_name.split("/")
     
     enemies_to_randomize_to_for_this_location = [
@@ -203,7 +204,10 @@ def randomize_enemy_group(self, stage_folder, enemy_group):
     enemy.params = new_enemy_data["Params"]
     enemy.auxilary_param = new_enemy_data["Aux params"]
     enemy.auxilary_param_2 = new_enemy_data["Aux params 2"]
-    set_enemy_params_for_placement_category(self, new_enemy_data, enemy, enemy_location["Placement category"])
+    
+    randomize_enemy_params(self, new_enemy_data, enemy, enemy_location["Placement category"], dzx, layer)
+    adjust_enemy(self, new_enemy_data, enemy, enemy_location["Placement category"])
+    
     enemy.save_changes()
     
     if stage_folder == "sea":
@@ -464,23 +468,70 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
   
   raise Exception("Unknown placement category for enemy: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2))
 
-def set_enemy_params_for_placement_category(self, enemy_data, enemy, category):
+def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
   if enemy.name == "Bk":
+    color = self.rng.choice(["blue", "green", "pink"])
     if category == "Pot":
-      enemy.bokoblin_type = 3
+      # The category (being in a pot) must take precedence.
+      # Since being in a pot and being pink are both types, pink Bokoblins cannot be in pots.
+      enemy.bokoblin_type = self.rng.choice([2, 3])
+    elif color == "pink":
+      enemy.bokoblin_type = 0xB
+    else:
+      enemy.bokoblin_type = self.rng.choice([0, 4, 0xA])
+    if color == "green":
+      enemy.bokoblin_is_green = 1
+    else:
+      enemy.bokoblin_is_green = 0
+    
+    enemy.bokoblin_weapon = self.rng.choice([
+      0, # Unlit torch
+      1, # Machete
+      2, # Lit torch
+      3, # Machete
+    ])
   elif enemy.name in ["c_green", "c_red", "c_kiiro", "c_blue", "c_black"]:
     if category == "Ceiling":
       enemy.chuchu_behavior_type = 1
     elif category == "Pot":
       enemy.chuchu_behavior_type = 4
+    else:
+      enemy.chuchu_behavior_type = 0
   elif enemy.name == "Bb":
     if category == "Ground":
-      enemy.kargaroc_behavior_type = 4
+      enemy.kargaroc_behavior_type = self.rng.choice([4, 7])
+    elif category == "Air":
+      enemy.kargaroc_behavior_type = self.rng.choice([0, 1, 2, 3])
   elif enemy.name in ["kuro_s", "kuro_t"]:
     if category == "Pot":
       enemy.morth_behavior_type = 6
+      
+      # Three possible ranges to notice the player at and escape from the pot:
+      # 0 (don't escape, wait for Link to break the pot), 20 (escape when Link is right next to the pot), and 60 (escape when Link is anywhere near the pot).
+      enemy.morth_pot_notice_range = self.rng.choice([0, 20, 60])
+    else:
+      enemy.morth_behavior_type = self.rng.choice([0, 1])
+    
+    enemy.morth_num_morths_in_group = self.rng.randrange(1, 10+1)
 
-def get_enemy_and_arc_name_for_path(self, path):
+def adjust_enemy(self, enemy_data, enemy, category):
+  if enemy.name == "magtail":
+    # Magtails wind up being slightly inside the floor for some reason, so bump them up a bit.
+    enemy.y_pos += 50.0
+  elif enemy.name in ["c_green", "c_red", "c_kiiro", "c_blue", "c_black"] and category == "Pot":
+    # ChuChus in pots will only appear if the pot has the EXACT same position as the ChuChu, just being very close is not enough.
+    pots_on_same_layer = [
+      actor for actor in dzx.entries_by_type_and_layer("ACTR", layer)
+      if actor.is_pot()
+    ]
+    if not pots_on_same_layer:
+      raise Exception("No pots on same layer as ChuChu in a pot")
+    closest_pot = min(pots_on_same_layer, key=lambda pot: distance_between_entities(enemy, pot))
+    enemy.x_pos = closest_pot.x_pos
+    enemy.y_pos = closest_pot.y_pos
+    enemy.z_pos = closest_pot.z_pos
+
+def get_enemy_instance_by_path(self, path):
   match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/Actor([0-9A-F]{3})$", path)
   if not match:
     raise Exception("Invalid enemy path: %s" % path)
@@ -499,4 +550,10 @@ def get_enemy_and_arc_name_for_path(self, path):
     dzx = self.get_arc(arc_path).get_file("room.dzr")
   enemy = dzx.entries_by_type_and_layer("ACTR", layer)[actor_index]
   
-  return (enemy, arc_name)
+  return (enemy, arc_name, dzx, layer)
+
+def distance_between_entities(entity_1, entity_2):
+  x1, y1, z1 = entity_1.x_pos, entity_1.y_pos, entity_1.z_pos
+  x2, y2, z2 = entity_2.x_pos, entity_2.y_pos, entity_2.z_pos
+  
+  return math.sqrt((x2-x1)**2 + (y2-y1)**2 + (z2-z1)**2)
