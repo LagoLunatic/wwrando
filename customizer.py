@@ -1,7 +1,7 @@
 
 import os
 import re
-import yaml
+from ruamel import yaml
 from collections import OrderedDict
 from io import BytesIO
 import glob

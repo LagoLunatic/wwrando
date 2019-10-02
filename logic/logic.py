@@ -1,5 +1,5 @@
 
-import yaml
+from ruamel import yaml
 import re
 from collections import OrderedDict
 import copy

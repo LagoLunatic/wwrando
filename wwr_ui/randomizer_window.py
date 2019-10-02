@@ -19,11 +19,11 @@ import struct
 import base64
 import colorsys
 
-import yaml
+from ruamel import yaml
 try:
-  from yaml import CDumper as Dumper
+  from ruamel.yaml import CDumper as Dumper
 except ImportError:
-  from yaml import Dumper
+  from ruamel.yaml import Dumper
 
 from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError, InvalidCleanISOError
 from paths import ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE
@@ -41,6 +41,7 @@ class WWRandomizerWindow(QMainWindow):
     
     self.cmd_line_args = cmd_line_args
     self.bulk_test = ("-bulk" in cmd_line_args)
+    self.no_ui_test = ("-noui" in cmd_line_args)
     
     self.custom_color_selector_buttons = OrderedDict()
     self.custom_color_selector_hex_inputs = OrderedDict()
@@ -108,6 +109,10 @@ class WWRandomizerWindow(QMainWindow):
     
     # Hide unfinished options from the GUI (still accessible via settings.txt).
     self.ui.randomize_bgm.hide()
+    
+    if self.no_ui_test:
+      self.randomize()
+      return
     
     self.show()
     
@@ -257,6 +262,10 @@ class WWRandomizerWindow(QMainWindow):
   
   def randomization_complete(self):
     self.progress_dialog.reset()
+    
+    if self.no_ui_test:
+      self.close()
+      return
     
     text = """Randomization complete.<br><br>
       If you get stuck, check the progression spoiler log in the output folder."""

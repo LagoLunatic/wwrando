@@ -6,7 +6,7 @@ import tempfile
 import shutil
 from collections import OrderedDict
 import struct
-import yaml
+from ruamel import yaml
 import traceback
 from sys import platform
 
