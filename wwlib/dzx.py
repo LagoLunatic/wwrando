@@ -448,6 +448,9 @@ class ACTR(ChunkEntry):
     
     "armos_switch_type":  ("params", 0x00FF0000),
     "armos_switch_index": ("params", 0xFF000000),
+    
+    "armos_knight_behavior_type":      ("params", 0x000000FF),
+    "armos_knight_guarded_area_range": ("params", 0x0000FF00),
   }
   
   ITEM_NAMES = [

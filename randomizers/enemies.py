@@ -525,6 +525,13 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
     enemy.darknut_behavior_type = self.rng.choice([0, 4])
     enemy.darknut_color = self.rng.randrange(0, 5+1)
     enemy.darknut_equipment = self.rng.randrange(0, 5+1)
+  elif enemy.name == "mo2":
+    enemy.moblin_type = self.rng.choice([0, 1])
+  elif enemy.name == "amos":
+    enemy.armos_knight_behavior_type = self.rng.choice([
+      0, # Normal
+      1, # Guards an area and returns to its spawn point when Link leaves the area
+    ])
 
 def adjust_enemy(self, enemy_data, enemy, category, dzx, layer):
   if enemy.name == "magtail":
