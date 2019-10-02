@@ -1025,6 +1025,11 @@ class Logic:
           max_num_of_each_item_to_check[item_name] = 1
     
     relevant_item_names = list(set(relevant_item_names)) # Remove duplicates
+    if self.rando.options.get("sword_mode") == "Swordless":
+      if "Progressive Sword" in relevant_item_names:
+        relevant_item_names.remove("Progressive Sword")
+      if "Hurricane Spin" in relevant_item_names:
+        relevant_item_names.remove("Hurricane Spin")
     
     item_combos_to_check = [[]]
     for item_name in relevant_item_names:
