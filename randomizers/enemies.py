@@ -113,8 +113,11 @@ def decide_on_enemy_pools_for_each_stage(self):
         self.enemy_pool_for_stage[stage_folder].append(chosen_enemy)
   
 def randomize_enemy_group(self, stage_folder, enemy_group):
-  original_req_string = enemy_group["Original requirements"]
-  enemies_logically_allowed_in_this_group = self.logic.filter_out_enemies_that_add_new_requirements(original_req_string, self.enemies_to_randomize_to)
+  if enemy_group["Must defeat enemies"]:
+    original_req_string = enemy_group["Original requirements"]
+    enemies_logically_allowed_in_this_group = self.logic.filter_out_enemies_that_add_new_requirements(original_req_string, self.enemies_to_randomize_to)
+  else:
+    enemies_logically_allowed_in_this_group = self.enemies_to_randomize_to
   
   unique_categories_in_this_group = []
   for enemy_location in enemy_group["Enemies"]:
