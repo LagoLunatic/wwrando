@@ -19,11 +19,11 @@ import struct
 import base64
 import colorsys
 
-import yaml
+from ruamel import yaml
 try:
-  from yaml import CDumper as Dumper
+  from ruamel.yaml import CDumper as Dumper
 except ImportError:
-  from yaml import Dumper
+  from ruamel.yaml import Dumper
 
 from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError, InvalidCleanISOError
 from paths import ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE
