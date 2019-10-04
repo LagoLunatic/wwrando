@@ -1,6 +1,6 @@
 
 import re
-from ruamel import yaml
+import yaml
 import os
 from io import BytesIO
 from collections import namedtuple
