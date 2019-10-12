@@ -513,6 +513,46 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
       enemy.kargaroc_behavior_type = self.rng.choice([4, 7])
     elif category == "Air":
       enemy.kargaroc_behavior_type = self.rng.choice([0, 1, 2, 3])
+  elif enemy.name == "mo2":
+    enemy.moblin_type = self.rng.choice([0, 1])
+  elif enemy.name == "p_hat":
+    pass
+  elif enemy.name == "amos":
+    enemy.armos_knight_behavior_type = self.rng.choice([
+      0, # Normal
+      1, # Guards an area and returns to its spawn point when Link leaves the area
+    ])
+  elif enemy.name == "amos2":
+    pass
+  elif enemy.name == "Sss":
+    pass
+  elif enemy.name in ["keeth", "Fkeeth"]:
+    enemy.keese_is_fire_keese = self.rng.choice([0, 1])
+  elif enemy.name == "Oq":
+    # Freshwater Octorok.
+    enemy.octorok_projectile_type = self.rng.choice([
+      0, # Shoots rocks
+      1, # Shoots bombs
+    ])
+  elif enemy.name == "Oqws":
+    # Saltwater Octorok.
+    enemy.octorok_type = self.rng.choice([
+      1, # Single one that shoots at a certain range.
+      3, # Spawner.
+      4, # Single one that shoots after a certain delay.
+    ])
+  elif enemy.name == "wiz_r":
+    pass
+  elif enemy.name in ["Rdead1", "Rdead2"]:
+    enemy.redead_idle_animation = self.rng.choice([0, 1])
+  elif enemy.name == "pow":
+    enemy.poe_type = self.rng.choice([
+      0, # Visible from start
+      1, # Invisible until noticing player
+      2, # Poe invisible until noticing player but lantern always visible
+    ])
+    enemy.poe_floats = self.rng.choice([0, 1]) # 0 here will make it hover down if it's placed in the air (though the rando won't place them in the air so it shouldn't change anything).
+    enemy.poe_color = self.rng.choice([0, 1, 2, 3, 4, 5])
   elif enemy.name in ["kuro_s", "kuro_t"]:
     if category == "Pot":
       enemy.morth_behavior_type = 6
@@ -524,17 +564,20 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
       enemy.morth_behavior_type = self.rng.choice([0, 1])
     
     enemy.morth_num_morths_in_group = self.rng.randrange(1, 10+1)
+  # TODO miniblins
+  # TODO rats
+  # TODO rat holes
+  # TODO stalfos
   elif enemy.name == "Tn":
     enemy.darknut_behavior_type = self.rng.choice([0, 4])
     enemy.darknut_color = self.rng.randrange(0, 5+1)
     enemy.darknut_equipment = self.rng.randrange(0, 5+1)
-  elif enemy.name == "mo2":
-    enemy.moblin_type = self.rng.choice([0, 1])
-  elif enemy.name == "amos":
-    enemy.armos_knight_behavior_type = self.rng.choice([
-      0, # Normal
-      1, # Guards an area and returns to its spawn point when Link leaves the area
-    ])
+  # TODO boko baba
+  # TODO magtail
+  # TODO bubbles
+  # TODO mothulas
+  # TODO gyorgs
+  # TODO floormasters
 
 def adjust_enemy(self, enemy_data, enemy, category, dzx, layer):
   if enemy.name == "magtail":
