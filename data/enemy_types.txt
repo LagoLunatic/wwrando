@@ -173,7 +173,7 @@
   Required particle IDs: [0x8099, 0x809A, 0x809B]
   Requirements to defeat: Can Defeat Fire Keese
   Allow randomizing from: True
-  Allow randomizing to: True
+  Allow randomizing to: False # We will place these, but just by randomizing the parameters on regular Keese instead.
   Placement categories: [Air]
 -
   Pretty name: Freshwater Octorok
@@ -228,7 +228,7 @@
   Required particle IDs: []
   Requirements to defeat: Can Defeat ReDeads
   Allow randomizing from: True
-  Allow randomizing to: True
+  Allow randomizing to: False # We will place these, but just by randomizing the parameters on regular ReDeads instead.
   Placement categories: [Ground]
 -
   Pretty name: Poe
