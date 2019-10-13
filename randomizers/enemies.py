@@ -409,6 +409,11 @@ def get_enemy_data_for_actor(self, enemy):
       return enemy_datas_by_pretty_name["Bombchu Hole"]
     elif enemy.rat_hole_type == 2:
       return enemy_datas_by_pretty_name["Rat and Bombchu Hole"]
+  elif enemy.name == "bbaba":
+    if enemy.boko_baba_boko_bud_type in [0, 0xFF]:
+      return enemy_datas_by_pretty_name["Boko Baba"]
+    else:
+      return enemy_datas_by_pretty_name["Boko Bud Boko Baba"]
   elif enemy.name == "bable":
     if enemy.bubble_type in [0, 2, 0xFF]:
       return enemy_datas_by_pretty_name["Red Bubble"]

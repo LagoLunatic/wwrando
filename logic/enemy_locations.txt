@@ -506,10 +506,6 @@ Cave03:
     -
       Original enemy: Boko Baba
       Placement category: Ground
-      Path: Cave03/Room0.arc/Actor037
-    -
-      Original enemy: Boko Baba
-      Placement category: Ground
       Path: Cave03/Room0.arc/Actor038
     -
       Original enemy: Boko Baba
@@ -5512,10 +5508,6 @@ kindan:
     -
       Original enemy: Boko Baba
       Placement category: Ground
-      Path: kindan/Room1.arc/Actor010
-    -
-      Original enemy: Boko Baba
-      Placement category: Ground
       Path: kindan/Room1.arc/Actor02E
     -
       Original enemy: Green ChuChu
@@ -5567,10 +5559,6 @@ kindan:
       Original enemy: Boko Baba
       Placement category: Ground
       Path: kindan/Room3.arc/Actor00C
-    -
-      Original enemy: Boko Baba
-      Placement category: Ground
-      Path: kindan/Room3.arc/Actor00D
     -
       Original enemy: Peahat
       Placement category: Air
@@ -5647,7 +5635,6 @@ kindan:
   Original requirements:
     Can Defeat Mothulas
     & Can Defeat Peahats
-    & Can Defeat Boko Babas
   Enemies:
     -
       Original enemy: Wingless Mothula
@@ -5661,14 +5648,6 @@ kindan:
       Original enemy: Peahat
       Placement category: Air
       Path: kindan/Room9.arc/Actor004
-    -
-      Original enemy: Boko Baba
-      Placement category: Ground
-      Path: kindan/Room9.arc/Actor006
-    -
-      Original enemy: Boko Baba
-      Placement category: Ground
-      Path: kindan/Room9.arc/Actor01B
     -
       Original enemy: Peahat
       Placement category: Air
@@ -5801,8 +5780,8 @@ kindan:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Morths
-    & Can Defeat Boko Babas
     & Can Defeat Peahats
+    & Can Defeat Boko Babas
   Enemies:
     -
       Original enemy: Morth
@@ -5812,10 +5791,6 @@ kindan:
       Original enemy: Morth
       Placement category: Ground
       Path: kindan/Room14.arc/Actor001
-    -
-      Original enemy: Boko Baba
-      Placement category: Ground
-      Path: kindan/Room14.arc/Actor002
     -
       Original enemy: Peahat
       Placement category: Air

@@ -365,6 +365,17 @@
   Allow randomizing to: True
   Placement categories: [Ground]
 -
+  Pretty name: Boko Bud Boko Baba
+  Actor name: bbaba
+  Params: 0xFFFF01FF
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+  Required particle IDs: [0x8106, 0x8107, 0x8108, 0x8109, 0x810A, 0x810C]
+  Requirements to defeat: Can Defeat Boko Babas
+  Allow randomizing from: False # Player would not be able to progress without the Baba Buds left behind by these.
+  Allow randomizing to: False
+  Placement categories: [Ground]
+-
   Pretty name: Magtail
   Actor name: magtail
   Params: 0xFFFFFFFF # TODO
