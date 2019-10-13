@@ -387,21 +387,7 @@ def get_enemy_data_for_actor(self, enemy):
     pretty_name = enemy_data["Pretty name"]
     enemy_datas_by_pretty_name[pretty_name] = enemy_data
   
-  if enemy.name == "Bk":
-    if enemy.bokoblin_type == 0xB:
-      return enemy_datas_by_pretty_name["Pink Bokoblin"]
-    elif enemy.bokoblin_is_green != 0:
-      return enemy_datas_by_pretty_name["Green Bokoblin"]
-    else:
-      return enemy_datas_by_pretty_name["Blue Bokoblin"]
-  elif enemy.name == "mo2":
-    if enemy.moblin_type == 0:
-      return enemy_datas_by_pretty_name["Moblin"]
-    elif enemy.moblin_type == 1:
-      return enemy_datas_by_pretty_name["Lantern Moblin"]
-    elif enemy.moblin_type in [0xF, 0xFF]:
-      return enemy_datas_by_pretty_name["Blue Moblin"]
-  elif enemy.name == "p_hat":
+  if enemy.name == "p_hat":
     if enemy.peahat_type in [0xFF, 0]:
       return enemy_datas_by_pretty_name["Peahat"]
     elif enemy.peahat_type == 1:
@@ -423,17 +409,6 @@ def get_enemy_data_for_actor(self, enemy):
       return enemy_datas_by_pretty_name["Bombchu Hole"]
     elif enemy.rat_hole_type == 2:
       return enemy_datas_by_pretty_name["Rat and Bombchu Hole"]
-  elif enemy.name == "Tn":
-    if enemy.darknut_behavior_type == 0:
-      return enemy_datas_by_pretty_name["Darknut"]
-    elif enemy.darknut_behavior_type == 4:
-      return enemy_datas_by_pretty_name["Shield Darknut"]
-    elif enemy.darknut_behavior_type == 0xD:
-      return enemy_datas_by_pretty_name["Mini-Boss Darknut"]
-    elif enemy.darknut_behavior_type == 0xE:
-      return enemy_datas_by_pretty_name["Mighty Darknut"]
-    elif enemy.darknut_behavior_type == 0xF:
-      return enemy_datas_by_pretty_name["Frozen Darknut"]
   elif enemy.name == "bable":
     if enemy.bubble_type in [0, 2, 0xFF]:
       return enemy_datas_by_pretty_name["Red Bubble"]
