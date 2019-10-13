@@ -452,6 +452,23 @@ class ACTR(ChunkEntry):
     
     "armos_knight_behavior_type":      ("params", 0x000000FF),
     "armos_knight_guarded_area_range": ("params", 0x0000FF00),
+    
+    "keese_is_fire_keese": ("params", 0x00008000),
+    
+    "octorok_type":            ("params", 0x000000FF),
+    "octorok_projectile_type": ("params", 0x0000FF00),
+    
+    "redead_idle_animation": ("params", 0x00000001),
+    
+    "poe_type":   ("params", 0x000000FF),
+    "poe_floats": ("params", 0x00000100),
+    "poe_color":  ("params", 0x0000FE00),
+    
+    "stalfos_type":  ("params", 0x0000000F),
+    
+    "mothula_initially_missing_wings":  ("params", 0x000000FF),
+    
+    "floormaster_targeting_behavior_type":  ("params", 0x00000C00),
   }
   
   ITEM_NAMES = [

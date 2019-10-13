@@ -572,7 +572,12 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
   # TODO miniblins
   # TODO rats
   # TODO rat holes
-  # TODO stalfos
+  elif enemy.name == "Stal":
+    enemy.stalfos_type = self.rng.choice([
+      0, # Normal
+      1, # Underground
+      0xE, # Upper half of body only
+    ])
   elif enemy.name == "Tn":
     enemy.darknut_behavior_type = self.rng.choice([0, 4])
     enemy.darknut_color = self.rng.randrange(0, 5+1)
@@ -580,9 +585,26 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
   # TODO boko baba
   # TODO magtail
   # TODO bubbles
-  # TODO mothulas
+  elif enemy.name == "gmos":
+    if enemy_data["Pretty name"] == "Winged Mothula":
+      number_of_wings_to_have = self.rng.choice([1, 2, 2, 3, 3, 4, 4, 4, 4, 4])
+      number_of_wings_to_be_missing = 4 - number_of_wings_to_have
+      
+      wing_indexes_to_be_missing = [0, 1, 2, 3]
+      self.rng.shuffle(wing_indexes_to_be_missing)
+      wing_indexes_to_be_missing = wing_indexes_to_be_missing[0:number_of_wings_to_be_missing]
+      
+      enemy.mothula_initially_missing_wings = 0
+      for wing_index in wing_indexes_to_be_missing:
+        enemy.mothula_initially_missing_wings |= (1 << wing_index)
   # TODO gyorgs
-  # TODO floormasters
+  if enemy.name in ["Fmaster", "Fmastr1", "Fmastr2"]:
+    enemy.floormaster_targeting_behavior_type = self.rng.choice([
+      0, # Prioritize Medli/Makar over Link if they're present
+      1, # Target only Link
+      2, # Target only Medli/Makar
+    ])
+    # TODO maybe set the floormaster's exit index to take medli/makar in when capturing them if in earth or wind temple. and what happens if medli/makar is captured by a floormaster with that not set?
 
 def adjust_enemy(self, enemy_data, enemy, category, dzx, layer):
   if enemy.name == "magtail":
