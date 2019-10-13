@@ -435,7 +435,8 @@ class ACTR(ChunkEntry):
     
     "mothula_type": ("params", 0x00FF0000),
     
-    "bubble_type": ("params", 0x000000FF),
+    "bubble_type":         ("params", 0x000000FF),
+    "bubble_should_float": ("params", 0xFF000000),
     
     "chuchu_behavior_type": ("params", 0x000000FF),
     "chuchu_type":          ("params", 0x0000FF00),

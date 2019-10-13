@@ -927,19 +927,19 @@ Cave09:
   Enemies:
     -
       Original enemy: Red Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: Cave09/Room10.arc/Actor002
     -
       Original enemy: Red Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: Cave09/Room10.arc/Actor003
     -
       Original enemy: Red Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: Cave09/Room10.arc/Actor004
     -
       Original enemy: Red Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: Cave09/Room10.arc/Actor005
 -
   Must defeat enemies: Yes
@@ -1100,11 +1100,11 @@ Cave09:
   Enemies:
     -
       Original enemy: Red Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: Cave09/Room18.arc/Actor000
     -
       Original enemy: Red Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: Cave09/Room18.arc/Actor001
     -
       Original enemy: Armos Knight
@@ -1841,23 +1841,23 @@ Cave11:
   Enemies:
     -
       Original enemy: Blue Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: Cave11/Room2.arc/Actor002
     -
       Original enemy: Blue Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: Cave11/Room2.arc/Actor003
     -
       Original enemy: Blue Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: Cave11/Room2.arc/Actor004
     -
       Original enemy: Blue Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: Cave11/Room2.arc/Actor005
     -
       Original enemy: Blue Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: Cave11/Room2.arc/Actor006
 -
   Must defeat enemies: Yes
@@ -2078,19 +2078,19 @@ Cave11:
       Path: Cave11/Room14.arc/Actor003
     -
       Original enemy: Blue Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: Cave11/Room14.arc/Actor004
     -
       Original enemy: Blue Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: Cave11/Room14.arc/Actor005
     -
       Original enemy: Blue Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: Cave11/Room14.arc/Actor006
     -
       Original enemy: Blue Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: Cave11/Room14.arc/Actor007
 -
   Must defeat enemies: Yes
@@ -2212,11 +2212,11 @@ GanonB:
       Path: GanonB/Room0.arc/Actor015
     -
       Original enemy: Red Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: GanonB/Room0.arc/Actor016
     -
       Original enemy: Red Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: GanonB/Room0.arc/Actor017
 
 
@@ -3293,7 +3293,7 @@ M_Dai:
       Path: M_Dai/Room9.arc/Actor002
     -
       Original enemy: Red Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: M_Dai/Room9.arc/Actor00E
     -
       Original enemy: Floormaster
@@ -3452,11 +3452,11 @@ M_Dai:
   Enemies:
     -
       Original enemy: Blue Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: M_Dai/Room17.arc/Actor000
     -
       Original enemy: Blue Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: M_Dai/Room17.arc/Actor001
     -
       Original enemy: Darknut
@@ -3905,11 +3905,11 @@ PShip:
   Enemies:
     -
       Original enemy: Red Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: PShip/Room0.arc/Layer8/Actor000
     -
       Original enemy: Red Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: PShip/Room0.arc/Layer8/Actor001
 -
   Must defeat enemies: Yes
@@ -3971,7 +3971,7 @@ Siren:
       Path: Siren/Room1.arc/Actor003
     -
       Original enemy: Red Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: Siren/Room1.arc/Actor004
 -
   Must defeat enemies: Yes
@@ -4307,11 +4307,11 @@ SubD71:
   Enemies:
     -
       Original enemy: Red Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: SubD71/Room1.arc/Actor000
     -
       Original enemy: Red Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: SubD71/Room1.arc/Actor001
     -
       Original enemy: Wizzrobe
@@ -4398,11 +4398,11 @@ SubD71:
       Path: SubD71/Room2.arc/Layer8/Actor001
     -
       Original enemy: Red Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: SubD71/Room2.arc/Layer8/Actor008
     -
       Original enemy: Red Bubble
-      Placement category: Air
+      Placement category: Ground
       Path: SubD71/Room2.arc/Layer8/Actor009
     -
       Original enemy: Stalfos

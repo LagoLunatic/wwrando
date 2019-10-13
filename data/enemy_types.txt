@@ -385,7 +385,7 @@
   Requirements to defeat: Can Defeat Red Bubbles
   Allow randomizing from: True
   Allow randomizing to: True
-  Placement categories: [Air]
+  Placement categories: [Ground, Air]
 -
   Pretty name: Blue Bubble
   Actor name: bable
@@ -396,7 +396,7 @@
   Requirements to defeat: Can Defeat Blue Bubbles
   Allow randomizing from: True
   Allow randomizing to: True
-  Placement categories: [Air]
+  Placement categories: [Ground, Air]
 -
   Pretty name: Inanimate Bubble
   Actor name: bable

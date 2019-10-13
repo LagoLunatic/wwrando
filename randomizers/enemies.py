@@ -476,6 +476,11 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
       return "Pot"
     else:
       return "Ground"
+  elif enemy.name == "bable":
+    if enemy.bubble_should_float == 1:
+      return "Air"
+    else:
+      return "Ground"
   
   raise Exception("Unknown placement category for enemy: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2))
 
