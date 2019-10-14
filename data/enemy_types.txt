@@ -255,7 +255,7 @@
 -
   Pretty name: Chasing Morth
   Actor name: kuro_s
-  Params: 0xFFFF0500
+  Params: 0xFFFF0A00
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
@@ -267,7 +267,7 @@
 -
   Pretty name: Morth
   Actor name: kuro_t
-  Params: 0xFFFF0501
+  Params: 0xFFFF0A01
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
@@ -312,7 +312,7 @@
 -
   Pretty name: Rat Hole
   Actor name: nezuana
-  Params: 0xFF0004C8
+  Params: 0xFF0005C8
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Required particle IDs: [0x8188]
@@ -323,7 +323,7 @@
 -
   Pretty name: Bombchu Hole
   Actor name: nezuana
-  Params: 0xFF0104C8
+  Params: 0xFF0105C8
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Required particle IDs: [0x8188]
@@ -334,7 +334,7 @@
 -
   Pretty name: Rat and Bombchu Hole
   Actor name: nezuana
-  Params: 0xFF0204C8
+  Params: 0xFF0205C8
   Aux params: 0x0000
   Aux params 2: 0x00FF
   Required particle IDs: [0x8188]
@@ -455,7 +455,7 @@
 -
   Pretty name: Cross-Sector Gyorg Spawner
   Actor name: GyCtrl
-  Params: 0xFFFFFF10
+  Params: 0xFFFFFF50
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
@@ -466,7 +466,7 @@
 -
   Pretty name: Gyorg Spawner
   Actor name: GyCtrlB
-  Params: 0xFFFFFF41
+  Params: 0xFFFFFF51
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
