@@ -48,11 +48,11 @@ A_mori:
       Placement category: Ground
       Path: A_mori/Room0.arc/Layer2/Actor002
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: A_mori/Room0.arc/Layer2/Actor003
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: A_mori/Room0.arc/Layer2/Actor004
     -
@@ -91,11 +91,11 @@ A_mori:
       Placement category: Ground
       Path: A_mori/Room0.arc/Layer3/Actor002
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: A_mori/Room0.arc/Layer3/Actor003
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: A_mori/Room0.arc/Layer3/Actor004
     -
@@ -179,15 +179,15 @@ Abship:
     & Can Defeat Yellow ChuChus
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Abship/Room1.arc/Actor000
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Abship/Room1.arc/Actor001
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Abship/Room1.arc/Actor002
     -
@@ -254,19 +254,19 @@ Abship:
     Can Defeat Moblins
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: Abship/Room4.arc/Actor001
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: Abship/Room4.arc/Actor008
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: Abship/Room4.arc/Actor009
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: Abship/Room4.arc/Actor00A
 -
@@ -487,11 +487,11 @@ Cave02:
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor008
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor00A
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor00B
 
@@ -1041,11 +1041,11 @@ Cave09:
     Can Defeat Moblins
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Cave09/Room14.arc/Actor002
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Cave09/Room14.arc/Actor003
 -
@@ -1714,11 +1714,11 @@ Cave10:
     & Can Defeat Darknuts
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Cave10/Room16.arc/Actor000
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Cave10/Room16.arc/Actor001
     -
@@ -1730,7 +1730,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room16.arc/Actor005
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Cave10/Room16.arc/Actor006
 -
@@ -2008,11 +2008,11 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room11.arc/Actor004
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Cave11/Room11.arc/Actor005
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Cave11/Room11.arc/Actor006
 -
@@ -2031,11 +2031,11 @@ Cave11:
     & Can Defeat Poes Without Light Ray
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: Cave11/Room13.arc/Actor002
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: Cave11/Room13.arc/Actor003
     -
@@ -2312,27 +2312,27 @@ GanonJ:
     Can Defeat Moblins
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: GanonJ/Room0.arc/Actor005
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: GanonJ/Room0.arc/Actor006
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: GanonJ/Room0.arc/Actor007
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: GanonJ/Room0.arc/Actor008
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: GanonJ/Room0.arc/Actor009
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: GanonJ/Room0.arc/Actor00A
 -
@@ -2428,11 +2428,11 @@ GanonJ:
     & Can Defeat Miniblins
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: GanonJ/Room9.arc/Actor00F
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: GanonJ/Room9.arc/Actor010
     -
@@ -2500,15 +2500,15 @@ GanonL:
     & Can Defeat Darknuts
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: GanonL/Room0.arc/Actor000
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: GanonL/Room0.arc/Actor001
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: GanonL/Room0.arc/Actor002
     -
@@ -2563,19 +2563,19 @@ Hyroom:
     & Can Defeat Darknuts
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor000
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor001
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor002
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor003
     -
@@ -2599,19 +2599,19 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor008
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor009
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor00A
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor00B
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor00C
     -
@@ -2619,7 +2619,7 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor00D
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor00E
     -
@@ -2627,7 +2627,7 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor00F
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor010
 -
@@ -2637,19 +2637,19 @@ Hyroom:
     & Can Defeat Darknuts
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor000
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor001
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor002
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor003
     -
@@ -2673,19 +2673,19 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor008
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor009
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor00A
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor00B
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor00C
     -
@@ -2693,7 +2693,7 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor00D
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor00E
     -
@@ -2701,7 +2701,7 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor00F
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer1/Actor010
 -
@@ -2711,19 +2711,19 @@ Hyroom:
     & Can Defeat Darknuts
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor000
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor001
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor002
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor003
     -
@@ -2747,19 +2747,19 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor008
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor009
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor00A
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor00B
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor00C
     -
@@ -2767,7 +2767,7 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor00D
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor00E
     -
@@ -2775,7 +2775,7 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor00F
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer8/Actor010
 
@@ -2792,11 +2792,11 @@ Hyrule:
     & Can Defeat Red ChuChus
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyrule/Room0.arc/Layer4/Actor000
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyrule/Room0.arc/Layer4/Actor001
     -
@@ -2853,11 +2853,11 @@ Hyrule:
     & Can Defeat Red ChuChus
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyrule/Room0.arc/Layer5/Actor000
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyrule/Room0.arc/Layer5/Actor001
     -
@@ -2924,11 +2924,11 @@ ITest62:
       Placement category: Ground
       Path: ITest62/Room0.arc/Actor001
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: ITest62/Room0.arc/Actor002
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: ITest62/Room0.arc/Actor003
     -
@@ -2973,7 +2973,7 @@ ITest63:
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor005
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor006
     -
@@ -3053,11 +3053,11 @@ ITest63:
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor019
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor01A
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor01B
     -
@@ -3069,11 +3069,11 @@ ITest63:
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor01D
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor01E
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor01F
     -
@@ -3085,7 +3085,7 @@ ITest63:
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor021
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor022
     -
@@ -3131,15 +3131,15 @@ M_Dai:
     Can Defeat Moblins
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: M_Dai/Room1.arc/Actor004
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: M_Dai/Room1.arc/Actor005
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: M_Dai/Room1.arc/Actor006
 -
@@ -3248,11 +3248,11 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room7.arc/Actor001
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: M_Dai/Room7.arc/Actor00E
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: M_Dai/Room7.arc/Actor00F
 -
@@ -3781,7 +3781,7 @@ MajyuE:
       Placement category: Ground
       Path: MajyuE/Room0.arc/Actor00B
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: MajyuE/Room0.arc/Actor00D
     -
@@ -4502,11 +4502,11 @@ TF_01:
     Can Defeat Moblins
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: TF_01/Room5.arc/Actor000
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: TF_01/Room5.arc/Actor001
 
@@ -4630,7 +4630,7 @@ TF_03:
     Can Defeat Moblins
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: TF_03/Room2.arc/Actor000
 -
@@ -4639,7 +4639,7 @@ TF_03:
     Can Defeat Moblins
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: TF_03/Room3.arc/Actor000
 -
@@ -4648,7 +4648,7 @@ TF_03:
     Can Defeat Moblins
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: TF_03/Room4.arc/Actor000
 -
@@ -4657,7 +4657,7 @@ TF_03:
     Can Defeat Moblins
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Blue Moblin
       Placement category: Ground
       Path: TF_03/Room5.arc/Actor000
 
@@ -5869,11 +5869,11 @@ ma2room:
       Placement category: Ground
       Path: ma2room/Room0.arc/Actor000
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: ma2room/Room0.arc/Actor001
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: ma2room/Room0.arc/Actor002
 -
@@ -5925,15 +5925,15 @@ ma2room:
       Placement category: Ground
       Path: ma2room/Room2.arc/Actor000
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: ma2room/Room2.arc/Actor001
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: ma2room/Room2.arc/Actor002
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: ma2room/Room2.arc/Actor00C
 -
@@ -5945,15 +5945,15 @@ ma2room:
     & Can Defeat Floormasters
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: ma2room/Room3.arc/Actor000
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: ma2room/Room3.arc/Actor001
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: ma2room/Room3.arc/Actor002
     -
@@ -6128,11 +6128,11 @@ majroom:
       Placement category: Ground
       Path: majroom/Room0.arc/Actor000
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: majroom/Room0.arc/Actor001
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: majroom/Room0.arc/Actor002
 -
@@ -6166,11 +6166,11 @@ majroom:
     Can Defeat Moblins
   Enemies:
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: majroom/Room1.arc/Layerb/Actor002
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: majroom/Room1.arc/Layerb/Actor003
 -
@@ -6184,11 +6184,11 @@ majroom:
       Placement category: Ground
       Path: majroom/Room2.arc/Actor000
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: majroom/Room2.arc/Actor001
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: majroom/Room2.arc/Actor002
 -
@@ -6219,15 +6219,15 @@ majroom:
       Placement category: Ground
       Path: majroom/Room3.arc/Actor004
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: majroom/Room3.arc/Actor005
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: majroom/Room3.arc/Actor006
     -
-      Original enemy: Moblin
+      Original enemy: Lantern Moblin
       Placement category: Ground
       Path: majroom/Room3.arc/Actor007
 

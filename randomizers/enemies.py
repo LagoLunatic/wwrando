@@ -387,6 +387,11 @@ def get_enemy_data_for_actor(self, enemy):
     pretty_name = enemy_data["Pretty name"]
     enemy_datas_by_pretty_name[pretty_name] = enemy_data
   
+  if enemy.name == "mo2":
+    if enemy.moblin_type == 1:
+      return enemy_datas_by_pretty_name["Lantern Moblin"]
+    elif enemy.moblin_type in [0, 0xF, 0xFF]:
+      return enemy_datas_by_pretty_name["Blue Moblin"]
   if enemy.name == "p_hat":
     if enemy.peahat_type in [0xFF, 0]:
       return enemy_datas_by_pretty_name["Peahat"]

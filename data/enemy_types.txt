@@ -76,9 +76,20 @@
   Allow randomizing to: True
   Placement categories: [Air, Ground]
 -
-  Pretty name: Moblin
+  Pretty name: Lantern Moblin
   Actor name: mo2
   Params: 0xFFFFFF01
+  Aux params: 0x001F
+  Aux params 2: 0x00FF
+  Required particle IDs: []
+  Requirements to defeat: Can Defeat Moblins
+  Allow randomizing from: True
+  Allow randomizing to: True
+  Placement categories: [Ground]
+-
+  Pretty name: Blue Moblin
+  Actor name: mo2
+  Params: 0xFFFFFF00
   Aux params: 0x001F
   Aux params 2: 0x00FF
   Required particle IDs: []
