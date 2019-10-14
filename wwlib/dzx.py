@@ -464,11 +464,22 @@ class ACTR(ChunkEntry):
     "poe_floats": ("params", 0x00000100),
     "poe_color":  ("params", 0x0000FE00),
     
-    "stalfos_type":  ("params", 0x0000000F),
+    "stalfos_type": ("params", 0x0000000F),
     
-    "mothula_initially_missing_wings":  ("params", 0x000000FF),
+    "mothula_initially_missing_wings": ("params", 0x000000FF),
     
-    "floormaster_targeting_behavior_type":  ("params", 0x00000C00),
+    "floormaster_targeting_behavior_type": ("params", 0x00000C00),
+    
+    "boko_baba_boko_bud_type": ("params", 0x0000FF00),
+    
+    "miniblin_type":                ("params", 0x0000000F),
+    "miniblin_initial_spawn_type":  ("params", 0x00000010),
+    "miniblin_respawn_delay":       ("params", 0x000000E0),
+    "miniblin_initial_spawn_delay": ("auxilary_param", 0xFFFF),
+    
+    "rat_hole_num_spawned_rats": ("params", 0x0000FF00),
+    
+    "gyorg_spawner_num_spawned_gyorgs": ("params", 0x000000F0),
   }
   
   ITEM_NAMES = [

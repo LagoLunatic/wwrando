@@ -549,9 +549,17 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
       enemy.morth_behavior_type = self.rng.choice([0, 1])
     
     enemy.morth_num_morths_in_group = self.rng.randrange(1, 10+1)
-  # TODO miniblins
-  # TODO rats
-  # TODO rat holes
+  elif enemy.name == "Puti":
+    enemy.miniblin_initial_spawn_type = self.rng.choice([
+      0, # Spawned from the start
+      1, # Doesn't spawn until the player looks away from it
+    ])
+    
+    # TODO: allow miniblin spawners in rooms where you don't need to kill all enemies.
+  elif enemy.name == "nezumi":
+    pass
+  elif enemy.name == "nezuana":
+    enemy.rat_hole_num_spawned_rats = self.rng.randrange(1, 5+1)
   elif enemy.name == "Stal":
     enemy.stalfos_type = self.rng.choice([
       0, # Normal
@@ -562,9 +570,15 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
     enemy.darknut_behavior_type = self.rng.choice([0, 4])
     enemy.darknut_color = self.rng.randrange(0, 5+1)
     enemy.darknut_equipment = self.rng.randrange(0, 5+1)
-  # TODO boko baba
-  # TODO magtail
-  # TODO bubbles
+  elif enemy.name == "bbaba":
+    pass
+  elif enemy.name == "magtail":
+    pass
+  elif enemy.name == "bable":
+    if category == "Air":
+      enemy.bubble_should_float = 1
+    else:
+      enemy.bubble_should_float = 0
   elif enemy.name == "gmos":
     if enemy_data["Pretty name"] == "Winged Mothula":
       number_of_wings_to_have = self.rng.choice([1, 2, 2, 3, 3, 4, 4, 4, 4, 4])
@@ -577,7 +591,8 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
       enemy.mothula_initially_missing_wings = 0
       for wing_index in wing_indexes_to_be_missing:
         enemy.mothula_initially_missing_wings |= (1 << wing_index)
-  # TODO gyorgs
+  elif enemy.name in ["GyCtrl", "GyCtrlB"]:
+    enemy.gyorg_spawner_num_spawned_gyorgs = self.rng.choice([1, 1, 1, 1, 2, 2, 3, 3, 4, 5])
   if enemy.name in ["Fmaster", "Fmastr1", "Fmastr2"]:
     enemy.floormaster_targeting_behavior_type = self.rng.choice([
       0, # Prioritize Medli/Makar over Link if they're present

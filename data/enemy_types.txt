@@ -378,9 +378,9 @@
 -
   Pretty name: Magtail
   Actor name: magtail
-  Params: 0xFFFFFFFF # TODO
-  Aux params: 0x0000 # TODO
-  Aux params 2: 0x0000 # TODO
+  Params: 0xFFFF7FFF
+  Aux params: 0x0000
+  Aux params 2: 0x00FF
   Required particle IDs: [0x8095, 0x8096, 0x80CF, 0xC06C]
   Requirements to defeat: Can Defeat Magtails
   Allow randomizing from: True
