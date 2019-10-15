@@ -9,6 +9,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground, Pot]
+  Memory used by first one: 53280
+  Memory used by subequent ones: 23088
 -
   Pretty name: Green ChuChu
   Actor name: c_green
@@ -20,6 +22,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground, Pot, Ceiling]
+  Memory used by first one: 31904
+  Memory used by subequent ones: 18496
 -
   Pretty name: Red ChuChu
   Actor name: c_red
@@ -31,6 +35,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground, Pot, Ceiling]
+  Memory used by first one: 31904
+  Memory used by subequent ones: 18496
 -
   Pretty name: Yellow ChuChu
   Actor name: c_kiiro
@@ -42,6 +48,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground, Pot, Ceiling]
+  Memory used by first one: 31904
+  Memory used by subequent ones: 18496
 -
   Pretty name: Blue ChuChu
   Actor name: c_blue
@@ -53,6 +61,8 @@
   Allow randomizing from: False # Randomizing from them would break the logic for getting the vanilla Blue Chu Jelly locations.
   Allow randomizing to: False # Randomizing to them would allow you to get Blue Chu Jelly more easily than in vanilla.
   Placement categories: [Ground, Pot, Ceiling]
+  Memory used by first one: 31904
+  Memory used by subequent ones: 18496
 -
   Pretty name: Dark ChuChu
   Actor name: c_black
@@ -64,6 +74,8 @@
   Allow randomizing from: False # some rooms need something to place on the switch. for now don't randomize these guys, eventually maybe replace them with magtails?
   Allow randomizing to: False # Can't be randomized since there would be no light ray to petrify it.
   Placement categories: [Ground, Pot, Ceiling]
+  Memory used by first one: 31904
+  Memory used by subequent ones: 18496
 -
   Pretty name: Kargaroc
   Actor name: Bb
@@ -75,6 +87,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Air, Ground]
+  Memory used by first one: 49120
+  Memory used by subequent ones: 41024
 -
   Pretty name: Lantern Moblin
   Actor name: mo2
@@ -86,6 +100,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 105088
+  Memory used by subequent ones: 66400
 -
   Pretty name: Blue Moblin
   Actor name: mo2
@@ -97,6 +113,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 60512
+  Memory used by subequent ones: 36112
 -
   Pretty name: Peahat
   Actor name: p_hat
@@ -108,6 +126,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Air]
+  Memory used by first one: 14688
+  Memory used by subequent ones: 10208
 -
   Pretty name: Seahat
   Actor name: p_hat
@@ -119,6 +139,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Sea]
+  Memory used by first one: 23872
+  Memory used by subequent ones: 16096
 -
   Pretty name: Armos Knight
   Actor name: amos
@@ -130,6 +152,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 13152
+  Memory used by subequent ones: 7456
 -
   Pretty name: Armos
   Actor name: amos2
@@ -141,6 +165,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 11840
+  Memory used by subequent ones: 6976
 -
   Pretty name: Inanimate Armos
   Actor name: amos2
@@ -152,6 +178,8 @@
   Allow randomizing from: False
   Allow randomizing to: False
   Placement categories: [Ground]
+  Memory used by first one: 11840
+  Memory used by subequent ones: 6976
 -
   Pretty name: Dexivine
   Actor name: Sss
@@ -163,6 +191,8 @@
   Allow randomizing from: True
   Allow randomizing to: True # TODO don't allow in rooms where you need to kill everything
   Placement categories: [Ground]
+  Memory used by first one: 7744
+  Memory used by subequent ones: 6976
   # Note: Cannot escape from a Dexivine that catches you without some weapon to cut it down.
 -
   Pretty name: Keese
@@ -175,6 +205,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Air]
+  Memory used by first one: 15744
+  Memory used by subequent ones: 6016
 -
   Pretty name: Fire Keese
   Actor name: Fkeeth
@@ -186,6 +218,8 @@
   Allow randomizing from: True
   Allow randomizing to: False # We will place these, but just by randomizing the parameters on regular Keese instead.
   Placement categories: [Air]
+  Memory used by first one: 17376
+  Memory used by subequent ones: 7648
 -
   Pretty name: Freshwater Octorok
   Actor name: Oq
@@ -197,6 +231,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Water]
+  Memory used by first one: 28640
+  Memory used by subequent ones: 11936
 -
   Pretty name: Saltwater Octorok
   Actor name: Oqw
@@ -208,6 +244,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Sea]
+  Memory used by first one: 34784
+  Memory used by subequent ones: 18080
 -
   Pretty name: Saltwater Octorok Spawner
   Actor name: Oqw
@@ -219,6 +257,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Sea]
+  Memory used by first one: 112784
+  Memory used by subequent ones: 93888
 -
   Pretty name: Wizzrobe
   Actor name: wiz_r
@@ -230,6 +270,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 25440
+  Memory used by subequent ones: 13536
 -
   Pretty name: ReDead
   Actor name: Rdead1
@@ -241,6 +283,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 14272
+  Memory used by subequent ones: 9664
 -
   Pretty name: Sitting ReDead
   Actor name: Rdead2
@@ -252,6 +296,8 @@
   Allow randomizing from: True
   Allow randomizing to: False # We will place these, but just by randomizing the parameters on regular ReDeads instead.
   Placement categories: [Ground]
+  Memory used by first one: 14272
+  Memory used by subequent ones: 9664
 -
   Pretty name: Poe
   Actor name: pow
@@ -263,6 +309,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 59712
+  Memory used by subequent ones: 39984
 -
   Pretty name: Chasing Morth
   Actor name: kuro_s
@@ -274,6 +322,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground, Pot]
+  Memory used by first one: 44896 # For 10 Morths.
+  Memory used by subequent ones: 43520 # For 10 Morths.
   # Note: These don't count as being alive, if only morths are in a room the room will consider itself completed immediately.
 -
   Pretty name: Morth
@@ -286,6 +336,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground, Pot]
+  Memory used by first one: 44896 # For 10 Morths.
+  Memory used by subequent ones: 43520 # For 10 Morths.
   # Note: These don't count as being alive, if only morths are in a room the room will consider itself completed immediately.
 -
   Pretty name: Miniblin
@@ -298,6 +350,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 7904
+  Memory used by subequent ones: 5312
 -
   Pretty name: Rat
   Actor name: nezumi
@@ -309,6 +363,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 24512
+  Memory used by subequent ones: 12960
 -
   Pretty name: Bombchu
   Actor name: nezumi
@@ -320,6 +376,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 26944
+  Memory used by subequent ones: 15392
 -
   Pretty name: Rat Hole
   Actor name: nezuana
@@ -331,6 +389,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 99136 # For 5 rats, also includes the rat shopkeeper.
+  Memory used by subequent ones: 79040 # For 5 rats, also includes the rat shopkeeper.
 -
   Pretty name: Bombchu Hole
   Actor name: nezuana
@@ -342,6 +402,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 92128 # For 5 Bombchus.
+  Memory used by subequent ones: 78784 # For 5 Bombchus.
 -
   Pretty name: Rat and Bombchu Hole
   Actor name: nezuana
@@ -353,6 +415,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 92128 # For 5 rats/Bombchus.
+  Memory used by subequent ones: 78784 # For 5 rats/Bombchus.
 -
   Pretty name: Stalfos
   Actor name: Stal
@@ -364,6 +428,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 93536
+  Memory used by subequent ones: 42064
 -
   Pretty name: Darknut
   Actor name: Tn
@@ -375,6 +441,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 109296
+  Memory used by subequent ones: 73920
 -
   Pretty name: Boko Baba
   Actor name: bbaba
@@ -386,6 +454,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 20288
+  Memory used by subequent ones: 12704
 -
   Pretty name: Boko Bud Boko Baba
   Actor name: bbaba
@@ -397,6 +467,8 @@
   Allow randomizing from: False # Player would not be able to progress without the Baba Buds left behind by these.
   Allow randomizing to: False
   Placement categories: [Ground]
+  Memory used by first one: 20288
+  Memory used by subequent ones: 12704
 -
   Pretty name: Magtail
   Actor name: magtail
@@ -408,6 +480,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 80896
+  Memory used by subequent ones: 56512
 -
   Pretty name: Red Bubble
   Actor name: bable
@@ -419,6 +493,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground, Air]
+  Memory used by first one: 7936
+  Memory used by subequent ones: 5504
 -
   Pretty name: Blue Bubble
   Actor name: bable
@@ -430,6 +506,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground, Air]
+  Memory used by first one: 7936
+  Memory used by subequent ones: 5504
 -
   Pretty name: Inanimate Bubble
   Actor name: bable
@@ -441,6 +519,8 @@
   Allow randomizing from: False
   Allow randomizing to: False
   Placement categories: [Ground]
+  Memory used by first one: 7936
+  Memory used by subequent ones: 5504
 -
   Pretty name: Wingless Mothula
   Actor name: gmos
@@ -452,6 +532,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
+  Memory used by first one: 46944
+  Memory used by subequent ones: 25312
 -
   Pretty name: Winged Mothula
   Actor name: gmos
@@ -463,6 +545,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Air]
+  Memory used by first one: 46944
+  Memory used by subequent ones: 25312
 -
   Pretty name: Cross-Sector Gyorg Spawner
   Actor name: GyCtrl
@@ -474,6 +558,8 @@
   Allow randomizing from: True
   Allow randomizing to: False # Don't risk memory issues by letting enemies go across sectors.
   Placement categories: [Sea]
+  Memory used by first one: 106576 # For 5 Gyorgs.
+  Memory used by subequent ones: 88736 # For 5 Gyorgs.
 -
   Pretty name: Gyorg Spawner
   Actor name: GyCtrlB
@@ -485,6 +571,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Sea]
+  Memory used by first one: 106576 # For 5 Gyorgs.
+  Memory used by subequent ones: 88736 # For 5 Gyorgs.
 #-
 #  Pretty name: Blue Beamos
 #  Actor name: Hmos1
@@ -540,6 +628,8 @@
   Allow randomizing from: True
   Allow randomizing to: False # It wouldn't have a path to follow so it would go to some weird spot
   Placement categories: [Ground]
+  Memory used by first one: 12608
+  Memory used by subequent ones: 8608
 -
   Pretty name: Floormaster
   Actor name: Fmastr2
@@ -551,3 +641,5 @@
   Allow randomizing from: True
   Allow randomizing to: True # What happens if there's no exit set for where it teleports you to...?
   Placement categories: [Ground]
+  Memory used by first one: 12608
+  Memory used by subequent ones: 8608
