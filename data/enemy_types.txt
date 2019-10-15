@@ -455,7 +455,7 @@
 -
   Pretty name: Cross-Sector Gyorg Spawner
   Actor name: GyCtrl
-  Params: 0xFFFFFF50
+  Params: 0xFFFFFE50
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
@@ -466,7 +466,7 @@
 -
   Pretty name: Gyorg Spawner
   Actor name: GyCtrlB
-  Params: 0xFFFFFF51
+  Params: 0xFFFFFE51
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: []
