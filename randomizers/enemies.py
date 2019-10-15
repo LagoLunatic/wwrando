@@ -402,6 +402,11 @@ def get_enemy_data_for_actor(self, enemy):
       return enemy_datas_by_pretty_name["Inanimate Armos"]
     else:
       return enemy_datas_by_pretty_name["Armos"]
+  elif enemy.name == "Oqw":
+    if enemy.octorok_type == 3:
+      return enemy_datas_by_pretty_name["Saltwater Octorok Spawner"]
+    else:
+      return enemy_datas_by_pretty_name["Saltwater Octorok"]
   elif enemy.name == "nezumi":
     if enemy.rat_type in [0, 0xFF]:
       return enemy_datas_by_pretty_name["Rat"]
@@ -526,11 +531,13 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
     ])
   elif enemy.name == "Oqw":
     # Saltwater Octorok.
-    enemy.octorok_type = self.rng.choice([
-      1, # Single one that shoots at a certain range.
-      3, # Spawner.
-      4, # Single one that shoots after a certain delay.
-    ])
+    if enemy_data["Pretty name"] == "Saltwater Octorok":
+      enemy.octorok_type = self.rng.choice([
+        1, # Single one that shoots at a certain range.
+        4, # Single one that shoots after a certain delay.
+      ])
+    elif enemy_data["Pretty name"] == "Saltwater Octorok Spawner":
+      enemy.octorok_type = 3 # Spawner
   elif enemy.name == "wiz_r":
     pass
   elif enemy.name in ["Rdead1", "Rdead2"]:

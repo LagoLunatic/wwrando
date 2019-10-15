@@ -6598,7 +6598,7 @@ sea/Room18.arc:
     Can Defeat Saltwater Octoroks
   Enemies:
     -
-      Original enemy: Saltwater Octorok
+      Original enemy: Saltwater Octorok Spawner
       Placement category: Sea
       Path: sea/Room18.arc/Actor02B
 
@@ -6788,7 +6788,7 @@ sea/Room25.arc:
       Placement category: Ground
       Path: sea/Room25.arc/Actor00C
     -
-      Original enemy: Saltwater Octorok
+      Original enemy: Saltwater Octorok Spawner
       Placement category: Sea
       Path: sea/Room25.arc/Actor00D
     -

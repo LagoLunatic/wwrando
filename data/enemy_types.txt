@@ -209,6 +209,17 @@
   Allow randomizing to: True
   Placement categories: [Sea]
 -
+  Pretty name: Saltwater Octorok Spawner
+  Actor name: Oqw
+  Params: 0xFFFFFF03
+  Aux params: 0x0000
+  Aux params 2: 0x0000
+  Required particle IDs: []
+  Requirements to defeat: Can Defeat Saltwater Octoroks
+  Allow randomizing from: True
+  Allow randomizing to: True
+  Placement categories: [Sea]
+-
   Pretty name: Wizzrobe
   Actor name: wiz_r
   Params: 0xFFFFFF00 # Does not follow a path, does not spawn enemies
