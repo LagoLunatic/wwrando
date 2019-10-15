@@ -524,7 +524,7 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
       0, # Shoots rocks
       1, # Shoots bombs
     ])
-  elif enemy.name == "Oqws":
+  elif enemy.name == "Oqw":
     # Saltwater Octorok.
     enemy.octorok_type = self.rng.choice([
       1, # Single one that shoots at a certain range.
