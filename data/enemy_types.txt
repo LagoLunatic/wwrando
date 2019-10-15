@@ -116,8 +116,8 @@
   Aux params 2: 0x0000
   Required particle IDs: []
   Requirements to defeat: Can Defeat Seahats
-  Allow randomizing from: False
-  Allow randomizing to: False
+  Allow randomizing from: True
+  Allow randomizing to: True
   Placement categories: [Sea]
 -
   Pretty name: Armos Knight
