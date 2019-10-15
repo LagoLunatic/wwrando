@@ -6647,9 +6647,30 @@ sea/Room21.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Kargarocs
+    Can Defeat Seahats
+    & Can Defeat Kargarocs
     & Can Defeat Bokoblins
   Enemies:
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room21.arc/Actor001
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room21.arc/Actor002
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room21.arc/Actor003
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room21.arc/Actor004
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room21.arc/Actor005
     -
       Original enemy: Kargaroc
       Placement category: Ground
@@ -6689,8 +6710,49 @@ sea/Room24.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Can Defeat Seahats
+    & Can Defeat Bokoblins
   Enemies:
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room24.arc/Actor000
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room24.arc/Actor001
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room24.arc/Actor002
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room24.arc/Actor003
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room24.arc/Actor004
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room24.arc/Actor005
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room24.arc/Actor006
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room24.arc/Actor007
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room24.arc/Actor008
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room24.arc/Actor009
     -
       Original enemy: Bokoblin
       Placement category: Ground
@@ -6785,8 +6847,21 @@ sea/Room28.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Can Defeat Seahats
+    & Can Defeat Bokoblins
   Enemies:
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room28.arc/Actor000
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room28.arc/Actor001
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room28.arc/Actor002
     -
       Original enemy: Bokoblin
       Placement category: Ground
@@ -6904,6 +6979,43 @@ sea/Room31.arc:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room31.arc/Actor02F
+
+
+# Southern Triangle Island
+sea/Room32.arc:
+-
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Defeat Seahats
+  Enemies:
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room32.arc/Actor01F
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room32.arc/Actor020
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room32.arc/Actor021
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room32.arc/Actor022
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room32.arc/Actor023
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room32.arc/Actor024
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room32.arc/Actor025
 
 
 # Bomb Island
@@ -7209,9 +7321,30 @@ sea/Room43.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Can Defeat Seahats
+    & Can Defeat Bokoblins
     & Can Defeat Kargarocs
   Enemies:
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room43.arc/Actor013
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room43.arc/Actor014
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room43.arc/Actor015
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room43.arc/Actor016
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room43.arc/Actor017
     -
       Original enemy: Bokoblin
       Placement category: Ground
@@ -7511,9 +7644,30 @@ sea/Room48.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Can Defeat Seahats
+    & Can Defeat Bokoblins
     & Can Defeat Saltwater Octoroks
   Enemies:
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room48.arc/Actor016
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room48.arc/Actor017
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room48.arc/Actor018
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room48.arc/Actor019
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room48.arc/Actor01A
     -
       Original enemy: Bokoblin
       Placement category: Ground
@@ -7522,6 +7676,14 @@ sea/Room48.arc:
       Original enemy: Saltwater Octorok
       Placement category: Sea
       Path: sea/Room48.arc/Actor031
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room48.arc/Actor033
+    -
+      Original enemy: Seahat
+      Placement category: Sea
+      Path: sea/Room48.arc/Actor034
     -
       Original enemy: Bokoblin
       Placement category: Ground
