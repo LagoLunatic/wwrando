@@ -132,6 +132,7 @@ def randomize_enemy_group(self, stage_folder, enemy_group):
     enemies_allowed = [
       enemy_data for enemy_data in enemies_logically_allowed_in_this_group_not_yet_in_pool
       if category in enemy_data["Placement categories"]
+      and enemy_data in self.enemy_pool_for_stage[stage_folder]
     ]
     
     for enemy_data in enemies_allowed:
