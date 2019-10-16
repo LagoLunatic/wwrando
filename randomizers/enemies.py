@@ -606,7 +606,7 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
         enemy.mothula_initially_missing_wings |= (1 << wing_index)
   elif enemy.name in ["GyCtrl", "GyCtrlB"]:
     enemy.gyorg_spawner_num_spawned_gyorgs = self.rng.choice([1, 1, 1, 1, 2, 2, 3, 3, 4, 5])
-  if enemy.name in ["Fmaster", "Fmastr1", "Fmastr2"]:
+  elif enemy.name in ["Fmaster", "Fmastr1", "Fmastr2"]:
     enemy.floormaster_targeting_behavior_type = self.rng.choice([
       0, # Prioritize Medli/Makar over Link if they're present
       1, # Target only Link
