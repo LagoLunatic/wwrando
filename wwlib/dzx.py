@@ -915,54 +915,14 @@ class RPPN(ChunkEntry):
     write_float(data, self.offset+8, self.y_pos)
     write_float(data, self.offset+0xC, self.z_pos)
 
-class TGOB(ChunkEntry):
-  DATA_SIZE = 0x20
-  
-  def __init__(self, file_entry):
-    self.file_entry = file_entry
-    
-    self.name = None
-    self.params = 0
-    self.x_pos = 0
-    self.y_pos = 0
-    self.z_pos = 0
-    self.x_rot = 0
-    self.y_rot = 0
-    self.z_rot = 0
-    self.padding = 0xFFFF
-  
-  def read(self, offset):
-    self.offset = offset
-    data = self.file_entry.data
-    
-    self.name = read_str(data, offset, 8)
-    
-    self.params = read_u32(data, offset + 8)
-    
-    self.x_pos = read_float(data, offset + 0x0C)
-    self.y_pos = read_float(data, offset + 0x10)
-    self.z_pos = read_float(data, offset + 0x14)
-    self.x_rot = read_u16(data, offset + 0x18)
-    self.y_rot = read_u16(data, offset + 0x1A)
-    self.z_rot = read_u16(data, offset + 0x1C)
-    
-    self.padding = read_u16(data, offset + 0x1E)
-  
-  def save_changes(self):
-    data = self.file_entry.data
-    
-    write_str(data, self.offset, self.name, 8)
-    
-    write_u32(data, self.offset+0x08, self.params)
-    
-    write_float(data, self.offset+0x0C, self.x_pos)
-    write_float(data, self.offset+0x10, self.y_pos)
-    write_float(data, self.offset+0x14, self.z_pos)
-    write_u16(data, self.offset+0x18, self.x_rot)
-    write_u16(data, self.offset+0x1A, self.y_rot)
-    write_u16(data, self.offset+0x1C, self.z_rot)
-    
-    write_u16(data, self.offset+0x1E, self.padding)
+class TGOB(ACTR):
+  pass
+
+class TGSC(SCOB):
+  pass
+
+class DOOR(SCOB):
+  pass
 
 class EVNT(ChunkEntry):
   DATA_SIZE = 0x18
