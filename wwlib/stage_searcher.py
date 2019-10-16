@@ -307,7 +307,7 @@ def print_actor_info(self):
 def print_all_entity_params(self):
   with open("All Entity Params.txt", "w") as f:
     for dzx, arc_path in each_stage_and_room(self, exclude_unused=False):
-      for chunk_type in ["ACTR", "SCOB", "TRES"]:
+      for chunk_type in ["ACTR", "SCOB", "TRES", "TGOB", "TGSC", "DOOR"]:
         for layer in [None] + list(range(11+1)):
           for i, entity in enumerate(dzx.entries_by_type_and_layer(chunk_type, layer)):
             params = entity.params
