@@ -306,6 +306,7 @@ def print_actor_info(self):
 
 def print_all_entity_params(self):
   with open("All Entity Params.txt", "w") as f:
+    f.write("   name   params aux1 aux2    stage/arc    chunk/index\n")
     for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
       stage_and_rooms = [(dzs, stage_arc_path)] + rooms
       for dzx, arc_path in stage_and_rooms:
