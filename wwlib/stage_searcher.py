@@ -49,19 +49,19 @@ def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_n
       continue
     yield(dzr, room_arc_path)
 
-def each_stage(self):
-  return each_stage_and_room(self, exclude_rooms=True)
+def each_stage(self, exclude_unused=True):
+  return each_stage_and_room(self, exclude_rooms=True, exclude_unused=exclude_unused)
 
-def each_room(self):
-  return each_stage_and_room(self, exclude_stages=True)
+def each_room(self, exclude_unused=True):
+  return each_stage_and_room(self, exclude_stages=True, exclude_unused=exclude_unused)
 
-def each_stage_with_rooms(self):
-  for dzs, stage_arc_path in each_stage(self):
+def each_stage_with_rooms(self, exclude_unused=True):
+  for dzs, stage_arc_path in each_stage(self, exclude_unused=exclude_unused):
     match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
     stage_name = match.group(1)
     
     rooms = []
-    for dzr, room_arc_path in each_stage_and_room(self, exclude_stages=True, stage_name_to_limit_to=stage_name):
+    for dzr, room_arc_path in each_stage_and_room(self, exclude_stages=True, stage_name_to_limit_to=stage_name, exclude_unused=exclude_unused):
       rooms.append((dzr, room_arc_path))
     yield(dzs, stage_arc_path, rooms)
 
@@ -306,24 +306,26 @@ def print_actor_info(self):
 
 def print_all_entity_params(self):
   with open("All Entity Params.txt", "w") as f:
-    for dzx, arc_path in each_stage_and_room(self, exclude_unused=False):
-      for chunk_type in ["ACTR", "SCOB", "TRES", "TGOB", "TGSC", "DOOR"]:
-        for layer in [None] + list(range(11+1)):
-          for i, entity in enumerate(dzx.entries_by_type_and_layer(chunk_type, layer)):
-            params = entity.params
-            if chunk_type == "TRES":
-              auxparams1 = entity.room_num
-              auxparams2 = (entity.item_id << 8) | entity.flag_id
-            else:
-              auxparams1 = entity.auxilary_param
-              auxparams2 = entity.auxilary_param_2
-            
-            arc_path_short = arc_path[len("files/res/Stage/"):-len(".arc")]
-            location_identifier = arc_path_short
-            location_identifier += " %s/" % chunk_type
-            if layer is not None:
-              location_identifier += "Layer%X/" % layer
-            location_identifier += "%03X" % i
-            out_str = "% 7s %08X %04X %04X in %s" % (entity.name, params, auxparams1, auxparams2, location_identifier)
-            #print(out_str)
-            f.write(out_str + "\n")
+    for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
+      stage_and_rooms = [(dzs, stage_arc_path)] + rooms
+      for dzx, arc_path in stage_and_rooms:
+        for chunk_type in ["ACTR", "SCOB", "TRES", "TGOB", "TGSC", "DOOR"]:
+          for layer in [None] + list(range(11+1)):
+            for i, entity in enumerate(dzx.entries_by_type_and_layer(chunk_type, layer)):
+              params = entity.params
+              if chunk_type == "TRES":
+                auxparams1 = entity.room_num
+                auxparams2 = (entity.item_id << 8) | entity.flag_id
+              else:
+                auxparams1 = entity.auxilary_param
+                auxparams2 = entity.auxilary_param_2
+              
+              arc_path_short = arc_path[len("files/res/Stage/"):-len(".arc")]
+              location_identifier = arc_path_short
+              location_identifier += " %s/" % chunk_type
+              if layer is not None:
+                location_identifier += "Layer%X/" % layer
+              location_identifier += "%03X" % i
+              out_str = "% 7s %08X %04X %04X in %s" % (entity.name, params, auxparams1, auxparams2, location_identifier)
+              #print(out_str)
+              f.write(out_str + "\n")
