@@ -298,6 +298,7 @@ Abship:
     & Can Defeat Green ChuChus
     & Can Defeat Red ChuChus
     & Can Defeat Miniblins
+  Free memory: 1354576
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -359,6 +360,7 @@ Abship:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Miniblins
+  Free memory: 1142496
   Enemies:
     -
       Original enemy: Miniblin
@@ -523,6 +525,7 @@ Cave04:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
+  Free memory: 1429984
   Enemies:
     -
       Original enemy: Keese
@@ -695,6 +698,7 @@ Cave09:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
+  Free memory: 1511488
   Enemies:
     -
       Original enemy: Keese
@@ -1252,6 +1256,7 @@ Cave10:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Miniblins
+  Free memory: 1424976
   Enemies:
     -
       Original enemy: Miniblin
@@ -1355,6 +1360,7 @@ Cave10:
     Can Defeat Green ChuChus
     & Can Defeat Red ChuChus
     & Can Defeat Yellow ChuChus
+  Free memory: 1424976
   Enemies:
     -
       Original enemy: Green ChuChu
@@ -1505,6 +1511,7 @@ Cave10:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
+  Free memory: 1417936
   Enemies:
     -
       Original enemy: Bokoblin
@@ -2339,6 +2346,7 @@ GanonJ:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
+  Free memory: 1295088
   Enemies:
     -
       Original enemy: Bokoblin
@@ -2561,6 +2569,7 @@ Hyroom:
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Darknuts
+  Free memory: 1222624
   Enemies:
     -
       Original enemy: Blue Moblin
@@ -2635,6 +2644,7 @@ Hyroom:
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Darknuts
+  Free memory: 1222624
   Enemies:
     -
       Original enemy: Blue Moblin
@@ -2709,6 +2719,7 @@ Hyroom:
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Darknuts
+  Free memory: 1222624
   Enemies:
     -
       Original enemy: Blue Moblin
@@ -2790,6 +2801,7 @@ Hyrule:
     & Can Defeat Keese
     & Can Defeat Darknuts
     & Can Defeat Red ChuChus
+  Free memory: 1038656
   Enemies:
     -
       Original enemy: Blue Moblin
@@ -2851,6 +2863,7 @@ Hyrule:
     & Can Defeat Keese
     & Can Defeat Darknuts
     & Can Defeat Red ChuChus
+  Free memory: 1038656
   Enemies:
     -
       Original enemy: Blue Moblin
@@ -2947,6 +2960,7 @@ ITest63:
     & Can Defeat Moblins
     & Can Defeat Darknuts
     & Can Defeat Wizzrobes
+  Free memory: 1411392
   Enemies:
     -
       Original enemy: Miniblin
@@ -3526,6 +3540,7 @@ M_NewD2:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
+  Free memory: 995888
   Enemies:
     -
       Original enemy: Bokoblin
@@ -3540,6 +3555,7 @@ M_NewD2:
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Red ChuChus
+  Free memory: 1009392
   Enemies:
     -
       Original enemy: Bokoblin
@@ -3566,6 +3582,7 @@ M_NewD2:
   Original requirements:
     Can Defeat Keese
     & Can Defeat Fire Keese
+  Free memory: 605936
   Enemies:
     -
       Original enemy: Keese
@@ -3809,6 +3826,7 @@ MiniHyo:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
+  Free memory: 1351456
   Enemies:
     -
       Original enemy: Keese
@@ -3831,6 +3849,7 @@ MiniKaz:
   Original requirements:
     Can Defeat Fire Keese
     & Can Defeat Magtails
+  Free memory: 1200304
   Enemies:
     -
       Original enemy: Fire Keese
@@ -4228,6 +4247,7 @@ SubD71:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Miniblins
+  Free memory: 1399856
   Enemies:
     -
       Original enemy: Miniblin
@@ -4669,6 +4689,7 @@ TF_04:
   Original requirements:
     Can Defeat Rats
     & Can Defeat ReDeads
+  Free memory: 1124592
   Enemies:
     -
       Original enemy: Rat
@@ -4791,6 +4812,7 @@ TyuTyu:
   Original requirements:
     Can Defeat Red ChuChus
     & Can Defeat Green ChuChus
+  Free memory: 493040
   Enemies:
     -
       Original enemy: Red ChuChu
@@ -5074,6 +5096,7 @@ kaze:
     Can Defeat Wizzrobes
     & Can Defeat Peahats
     & Can Defeat Dexivines
+  Free memory: 1104080
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -5159,6 +5182,7 @@ kaze:
     & Can Defeat Green ChuChus
     & Can Defeat Red ChuChus
     & Can Defeat Armos
+  Free memory: 1034528
   Enemies:
     -
       Original enemy: Floormaster
@@ -5246,6 +5270,7 @@ kaze:
     & Can Defeat Floormasters
     & Can Defeat Bokoblins
     & Can Defeat Dexivines
+  Free memory: 1105040
   Enemies:
     -
       Original enemy: Armos Knight
@@ -5450,6 +5475,7 @@ kindan:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Green ChuChus
+  Free memory: 935808
   Enemies:
     -
       Original enemy: Green ChuChu
@@ -5500,6 +5526,7 @@ kindan:
   Original requirements:
     Can Defeat Boko Babas
     & Can Defeat Green ChuChus
+  Free memory: 753072
   Enemies:
     -
       Original enemy: Boko Baba
@@ -5550,6 +5577,7 @@ kindan:
   Original requirements:
     Can Defeat Boko Babas
     & Can Defeat Peahats
+  Free memory: 875072
   Enemies:
     -
       Original enemy: Boko Baba
@@ -5572,6 +5600,7 @@ kindan:
   Original requirements:
     Can Defeat Morths
     & Can Defeat Green ChuChus
+  Free memory: 978928
   Enemies:
     -
       Original enemy: Chasing Morth
@@ -5663,6 +5692,7 @@ kindan:
     & Can Defeat Morths
     & Can Defeat Peahats
     & Can Defeat Green ChuChus
+  Free memory: 983056
   Enemies:
     -
       Original enemy: Dexivine
@@ -5718,6 +5748,7 @@ kindan:
     Can Defeat Freshwater Octoroks
     & Can Defeat Green ChuChus
     & Can Defeat Dexivines
+  Free memory: 944336
   Enemies:
     -
       Original enemy: Freshwater Octorok
@@ -5863,6 +5894,7 @@ ma2room:
   Original requirements:
     Can Defeat Bombchus
     & Can Defeat Moblins
+  Free memory: 1132240
   Enemies:
     -
       Original enemy: Bombchu Hole
@@ -5881,6 +5913,7 @@ ma2room:
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Miniblins
+  Free memory: 1155248
   Enemies:
     -
       Original enemy: Bokoblin
@@ -5919,6 +5952,7 @@ ma2room:
   Original requirements:
     Can Defeat Bombchus
     & Can Defeat Moblins
+  Free memory: 1174208
   Enemies:
     -
       Original enemy: Bombchu Hole
@@ -5943,6 +5977,7 @@ ma2room:
     & Can Defeat Bombchus
     & Can Defeat Freshwater Octoroks
     & Can Defeat Floormasters
+  Free memory: 1213760
   Enemies:
     -
       Original enemy: Lantern Moblin
@@ -5976,6 +6011,7 @@ ma2room:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
+  Free memory: 1193888
   Enemies:
     -
       Original enemy: Bokoblin
@@ -6239,6 +6275,7 @@ sea/Room1.arc:
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Miniblins
+  Free memory: 558464
   Enemies:
     -
       Original enemy: Bokoblin
@@ -6296,6 +6333,7 @@ sea/Room1.arc:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Rats
+  Free memory: 558464
   Enemies:
     -
       Original enemy: Rat Hole
@@ -6309,6 +6347,7 @@ sea/Room1.arc:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Rats
+  Free memory: 558464
   Enemies:
     -
       Original enemy: Rat Hole
@@ -6470,6 +6509,7 @@ sea/Room13.arc:
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Keese
+  Free memory: 494080
   Enemies:
     -
       Original enemy: Kargaroc
@@ -6492,6 +6532,7 @@ sea/Room13.arc:
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Keese
+  Free memory: 494080
   Enemies:
     -
       Original enemy: Kargaroc
@@ -6917,6 +6958,7 @@ sea/Room30.arc:
     Can Defeat Bokoblins
     & Can Defeat Kargarocs
     & Can Defeat Wizzrobes
+  Free memory: 1177744
   Enemies:
     -
       Original enemy: Bokoblin
@@ -7116,6 +7158,7 @@ sea/Room38.arc:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Saltwater Octoroks
+  Free memory: 1039296
   Enemies:
     -
       Original enemy: Saltwater Octorok
@@ -7212,6 +7255,7 @@ sea/Room41.arc:
     Can Defeat Peahats
     & Can Defeat Boko Babas
     & Can Defeat Freshwater Octoroks
+  Free memory: 920752
   Enemies:
     -
       Original enemy: Peahat
@@ -7262,6 +7306,7 @@ sea/Room41.arc:
   Original requirements:
     Can Defeat Boko Babas
     & Can Defeat Freshwater Octoroks
+  Free memory: 920752
   Enemies:
     -
       Original enemy: Boko Baba
@@ -7324,6 +7369,7 @@ sea/Room43.arc:
     Can Defeat Seahats
     & Can Defeat Bokoblins
     & Can Defeat Kargarocs
+  Free memory: 715648
   Enemies:
     -
       Original enemy: Seahat
@@ -7387,6 +7433,7 @@ sea/Room44.arc:
     Can Defeat Green ChuChus
     & Can Defeat Red ChuChus
     & Can Defeat Miniblins
+  Free memory: 789344
   Enemies:
     -
       Original enemy: Green ChuChu
@@ -7566,6 +7613,7 @@ sea/Room46.arc:
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Kargarocs
+  Free memory: 838704
   Enemies:
     -
       Original enemy: Bokoblin
@@ -7701,6 +7749,7 @@ sea/Room49.arc:
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Bokoblins
+  Free memory: 1109216
   Enemies:
     -
       Original enemy: Kargaroc
