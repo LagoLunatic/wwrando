@@ -217,7 +217,7 @@
   Requirements to defeat: Can Defeat Fire Keese
   Allow randomizing from: True
   Allow randomizing to: False # We will place these, but just by randomizing the parameters on regular Keese instead.
-  Placement categories: [Air]
+  Placement categories: [Air, Ceiling]
   Memory used by first one: 17376
   Memory used by subequent ones: 7648
 -
