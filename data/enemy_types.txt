@@ -204,7 +204,7 @@
   Requirements to defeat: Can Defeat Keese
   Allow randomizing from: True
   Allow randomizing to: True
-  Placement categories: [Air]
+  Placement categories: [Air, Ceiling]
   Memory used by first one: 15744
   Memory used by subequent ones: 6016
 -

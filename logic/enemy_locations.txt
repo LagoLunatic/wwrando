@@ -151,23 +151,23 @@ Abship:
       Path: Abship/Room0.arc/Actor003
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Abship/Room0.arc/Actor009
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Abship/Room0.arc/Actor00A
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Abship/Room0.arc/Actor00B
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Abship/Room0.arc/Actor00C
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Abship/Room0.arc/Actor00D
 -
   Must defeat enemies: Yes
@@ -529,87 +529,87 @@ Cave04:
   Enemies:
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor002
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor003
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor004
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor005
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor006
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor007
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor008
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor009
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor00A
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor00B
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor00C
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor00D
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor00E
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor00F
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor010
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor011
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor012
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor013
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor014
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor015
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Cave04/Room0.arc/Actor016
     -
       Original enemy: Keese
@@ -2825,11 +2825,11 @@ Hyrule:
       Path: Hyrule/Room0.arc/Layer4/Actor004
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Hyrule/Room0.arc/Layer4/Actor005
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Hyrule/Room0.arc/Layer4/Actor006
     -
       Original enemy: Darknut
@@ -2883,11 +2883,11 @@ Hyrule:
       Path: Hyrule/Room0.arc/Layer5/Actor003
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Hyrule/Room0.arc/Layer5/Actor004
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: Hyrule/Room0.arc/Layer5/Actor005
     -
       Original enemy: Darknut
@@ -3625,23 +3625,23 @@ M_NewD2:
   Enemies:
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: M_NewD2/Room4.arc/Actor000
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: M_NewD2/Room4.arc/Actor002
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: M_NewD2/Room4.arc/Actor003
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: M_NewD2/Room4.arc/Actor017
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: M_NewD2/Room4.arc/Actor018
 -
   Must defeat enemies: Yes
@@ -6033,23 +6033,23 @@ ma3room:
       Path: ma3room/Room0.arc/Actor026
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room0.arc/Actor027
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room0.arc/Actor028
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room0.arc/Actor029
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room0.arc/Actor02A
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room0.arc/Actor02B
 -
   Must defeat enemies: Yes
@@ -6058,11 +6058,11 @@ ma3room:
   Enemies:
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room1.arc/Actor009
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room1.arc/Actor00A
 -
   Must defeat enemies: Yes
@@ -6076,19 +6076,19 @@ ma3room:
       Path: ma3room/Room2.arc/Actor007
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room2.arc/Actor008
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room2.arc/Actor009
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room2.arc/Actor00A
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room2.arc/Actor00B
 -
   Must defeat enemies: Yes
@@ -6098,11 +6098,11 @@ ma3room:
   Enemies:
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room3.arc/Actor011
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room3.arc/Actor012
     -
       Original enemy: Rat Hole
@@ -6114,15 +6114,15 @@ ma3room:
       Path: ma3room/Room3.arc/Actor014
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room3.arc/Actor015
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room3.arc/Actor016
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room3.arc/Actor017
 -
   Must defeat enemies: Yes
@@ -6131,23 +6131,23 @@ ma3room:
   Enemies:
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room4.arc/Actor009
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room4.arc/Actor00A
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room4.arc/Actor00B
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room4.arc/Actor00C
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: ma3room/Room4.arc/Actor00D
 
 
@@ -6236,11 +6236,11 @@ majroom:
   Enemies:
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: majroom/Room3.arc/Actor000
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: majroom/Room3.arc/Actor001
     -
       Original enemy: Rat
@@ -6521,11 +6521,11 @@ sea/Room13.arc:
       Path: sea/Room13.arc/Layer0/Actor008
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: sea/Room13.arc/Layer0/Actor009
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: sea/Room13.arc/Layer0/Actor00A
 -
   Must defeat enemies: Yes
@@ -6544,11 +6544,11 @@ sea/Room13.arc:
       Path: sea/Room13.arc/Layer1/Actor001
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: sea/Room13.arc/Layer1/Actor002
     -
       Original enemy: Keese
-      Placement category: Air
+      Placement category: Ceiling
       Path: sea/Room13.arc/Layer1/Actor003
 
 

@@ -537,6 +537,11 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
       return "Ground"
     else:
       return "Air"
+  elif enemy.name in ["keeth", "Fkeeth"]:
+    if enemy.keese_behavior_type in [0, 0x80]:
+      return "Ceiling"
+    else:
+      return "Air"
   elif enemy.name in ["kuro_s", "kuro_t"]:
     if enemy.morth_behavior_type == 6:
       return "Pot"
