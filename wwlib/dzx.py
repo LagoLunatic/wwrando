@@ -453,6 +453,7 @@ class ACTR(ChunkEntry):
     "armos_knight_behavior_type":      ("params", 0x000000FF),
     "armos_knight_guarded_area_range": ("params", 0x0000FF00),
     
+    "keese_behavior_type": ("params", 0x000000FF),
     "keese_is_fire_keese": ("params", 0x00008000),
     
     "octorok_type":            ("params", 0x000000FF),
