@@ -15,6 +15,14 @@ MAX_ENEMY_SPECIES_PER_STAGE = 10
 # Limit the number of species in a single room at a time too.
 MAX_ENEMY_SPECIES_PER_GROUP = 5
 
+# We can't let the free memory get all the way down to 0.
+# We need at least 37kb free to take out Grappling Hook, and having other items out at the same time like Bombs and Boomerang can use even more, up to about 46kb.
+# We use 60kb as the amount we always leave free in case the estimated amounts of memory each enemy uses are off by a bit.
+MIN_FREE_SPACE_TO_LEAVE_PER_ROOM = 60000
+
+MAX_RANDOMIZATION_REDOS_PER_STAGE = 50
+MAX_RANDOMIZATION_REDOS_PER_ROOM = 20
+
 def randomize_enemies(self):
   self.enemy_locations = Logic.load_and_parse_enemy_locations()
   
@@ -33,86 +41,126 @@ def randomize_enemies(self):
     if data["Actor name"] not in self.all_enemy_actor_names:
       self.all_enemy_actor_names.append(data["Actor name"])
   
+  self.done_enemy_locations = OrderedDict()
+  
   self.particles_to_load_for_each_jpc_index = OrderedDict()
   
-  decide_on_enemy_pools_for_each_stage(self)
-  
   for stage_folder, enemy_locations in self.enemy_locations.items():
-    for enemy_group in enemy_locations:
-      randomize_enemy_group(self, stage_folder, enemy_group)
+    stage_attempts = 0
+    max_stage_attempts = MAX_RANDOMIZATION_REDOS_PER_STAGE
+    if stage_folder == "sea":
+      # Sea stage doesn't use an enemy pool, so there's no need to retry it
+      max_stage_attempts = 1
+    
+    while True:
+      success = randomize_enemy_groups_for_stage(self, stage_folder, enemy_locations)
+      
+      stage_attempts += 1
+      if success:
+        break
+      elif stage_attempts >= max_stage_attempts:
+        raise Exception("Enemy rando failed %d times for one stage (%s)" % (stage_attempts, stage_folder))
+  
+  # Now that all randomized enemy locations have been decided successfully, actually save the changed enemies.
+  save_changed_enemies_and_randomize_their_params(self)
   
   update_loaded_particles(self, self.particles_to_load_for_each_jpc_index)
 
-def decide_on_enemy_pools_for_each_stage(self):
-  # First decide on the enemy pools that will be available in each stage in advance.
-  # This is so we can guarantee every room in each stage will be able to have at least one enemy, instead of later rooms being limited to no enemies that work by a combination of their logic, their placement categories, and enemies that were already placed in other rooms of that stage.
-  self.enemy_pool_for_stage = OrderedDict()
-  for stage_folder, enemy_locations in self.enemy_locations.items():
-    if stage_folder == "sea":
-      # The sea stage should have no limit on the number of enemies in it.
-      # Particle banks are loaded per-room on the sea.
-      self.enemy_pool_for_stage[stage_folder] = self.enemies_to_randomize_to
+def decide_on_enemy_pool_for_stage(self, stage_folder, enemy_locations):
+  # Decide on the enemy pool that will be available in this stage.
+  # This is so we can guarantee every room in the stage will be able to have at least one enemy, instead of later rooms being limited to no enemies that work by a combination of their logic, their placement categories, and enemies that were already placed in other rooms of that stage.
+  enemy_pool_for_stage = []
+  
+  if stage_folder == "sea":
+    # The sea stage should have no limit on the number of enemies in it.
+    # Particle banks are loaded per-room on the sea.
+    return self.enemies_to_randomize_to
+  
+  category_and_logic_combos_needed = []
+  for enemy_group in enemy_locations:
+    if enemy_group["Must defeat enemies"]:
+      original_req_string = enemy_group["Original requirements"]
+      enemies_logically_allowed_in_this_group = self.logic.filter_out_enemies_that_add_new_requirements(original_req_string, self.enemies_to_randomize_to)
+    else:
+      # For rooms where defeating the enemies is not required to progress, don't limit what enemies to put here by logic item requirements.
+      enemies_logically_allowed_in_this_group = self.enemies_to_randomize_to
+    
+    for enemy_location in enemy_group["Enemies"]:
+      category_and_logic_combo = (enemy_location["Placement category"], enemies_logically_allowed_in_this_group)
+      if category_and_logic_combo not in category_and_logic_combos_needed:
+        category_and_logic_combos_needed.append(category_and_logic_combo)
+  
+  # First build a minimum list of enemies to allow in this stage to make sure every location in it can have at least one possible enemy there.
+  all_enemies_possible_for_this_stage = []
+  for category, enemies_logically_allowed in category_and_logic_combos_needed:
+    enemies_allowed_for_combo = [
+      enemy_data for enemy_data in enemies_logically_allowed
+      if category in enemy_data["Placement categories"]
+    ]
+    
+    for enemy_data in enemies_allowed_for_combo:
+      if enemy_data not in all_enemies_possible_for_this_stage:
+        all_enemies_possible_for_this_stage.append(enemy_data)
+    
+    enemies_allowed_already_in_pool = [
+      enemy_data for enemy_data in enemies_allowed_for_combo
+      if enemy_data in enemy_pool_for_stage
+    ]
+    if enemies_allowed_already_in_pool:
+      # One of the other category/logic combos we added an enemy for also happened to fulfill this combo.
+      # No need to add another.
       continue
     
-    category_and_logic_combos_needed = []
-    for enemy_group in enemy_locations:
-      if enemy_group["Must defeat enemies"]:
-        original_req_string = enemy_group["Original requirements"]
-        enemies_logically_allowed_in_this_group = self.logic.filter_out_enemies_that_add_new_requirements(original_req_string, self.enemies_to_randomize_to)
-      else:
-        # For rooms where defeating the enemies is not required to progress, don't limit what enemies to put here by logic item requirements.
-        enemies_logically_allowed_in_this_group = self.enemies_to_randomize_to
-      
-      for enemy_location in enemy_group["Enemies"]:
-        category_and_logic_combo = (enemy_location["Placement category"], enemies_logically_allowed_in_this_group)
-        if category_and_logic_combo not in category_and_logic_combos_needed:
-          category_and_logic_combos_needed.append(category_and_logic_combo)
-    
-    # First build a minimum list of enemies to allow in this stage to make sure every location in it can have at least one possible enemy there.
-    self.enemy_pool_for_stage[stage_folder] = []
-    all_enemies_possible_for_this_stage = []
-    for category, enemies_logically_allowed in category_and_logic_combos_needed:
-      enemies_allowed_for_combo = [
-        enemy_data for enemy_data in enemies_logically_allowed
-        if category in enemy_data["Placement categories"]
-      ]
-      
-      for enemy_data in enemies_allowed_for_combo:
-        if enemy_data not in all_enemies_possible_for_this_stage:
-          all_enemies_possible_for_this_stage.append(enemy_data)
-      
-      enemies_allowed_already_in_pool = [
-        enemy_data for enemy_data in enemies_allowed_for_combo
-        if enemy_data in self.enemy_pool_for_stage[stage_folder]
-      ]
-      if enemies_allowed_already_in_pool:
-        # One of the other category/logic combos we added an enemy for also happened to fulfill this combo.
-        # No need to add another.
-        continue
-      
-      chosen_enemy = self.rng.choice(enemies_allowed_for_combo)
-      self.enemy_pool_for_stage[stage_folder].append(chosen_enemy)
-    
-    num_species_chosen = len(self.enemy_pool_for_stage[stage_folder])
-    if num_species_chosen > MAX_ENEMY_SPECIES_PER_STAGE:
-      raise Exception("Enemy species pool for %s has %d species in it instead of %d" % (stage_folder, num_species_chosen, MAX_ENEMY_SPECIES_PER_STAGE))
-    elif num_species_chosen < MAX_ENEMY_SPECIES_PER_STAGE:
-      # Fill up the pool with other random enemies that can go in this stage.
-      for i in range(MAX_ENEMY_SPECIES_PER_STAGE-num_species_chosen):
-        enemies_possible_for_this_stage_minus_chosen = [
-          enemy_data for enemy_data in all_enemies_possible_for_this_stage
-          if enemy_data not in self.enemy_pool_for_stage[stage_folder]
-        ]
-        
-        if not enemies_possible_for_this_stage_minus_chosen:
-          # The number of enemy species that can actually be placed in this stage is less than the max species per stage.
-          # Just exit early with a pool smaller than normal in this case.
-          break
-        
-        chosen_enemy = self.rng.choice(enemies_possible_for_this_stage_minus_chosen)
-        self.enemy_pool_for_stage[stage_folder].append(chosen_enemy)
+    chosen_enemy = self.rng.choice(enemies_allowed_for_combo)
+    enemy_pool_for_stage.append(chosen_enemy)
   
-def randomize_enemy_group(self, stage_folder, enemy_group):
+  num_species_chosen = len(enemy_pool_for_stage)
+  if num_species_chosen > MAX_ENEMY_SPECIES_PER_STAGE:
+    raise Exception("Enemy species pool for %s has %d species in it instead of %d" % (stage_folder, num_species_chosen, MAX_ENEMY_SPECIES_PER_STAGE))
+  elif num_species_chosen < MAX_ENEMY_SPECIES_PER_STAGE:
+    # Fill up the pool with other random enemies that can go in this stage.
+    for i in range(MAX_ENEMY_SPECIES_PER_STAGE-num_species_chosen):
+      enemies_possible_for_this_stage_minus_chosen = [
+        enemy_data for enemy_data in all_enemies_possible_for_this_stage
+        if enemy_data not in enemy_pool_for_stage
+      ]
+      
+      if not enemies_possible_for_this_stage_minus_chosen:
+        # The number of enemy species that can actually be placed in this stage is less than the max species per stage.
+        # Just exit early with a pool smaller than normal in this case.
+        break
+      
+      chosen_enemy = self.rng.choice(enemies_possible_for_this_stage_minus_chosen)
+      enemy_pool_for_stage.append(chosen_enemy)
+  
+  return enemy_pool_for_stage
+
+def randomize_enemy_groups_for_stage(self, stage_folder, enemy_locations):
+  enemy_pool_for_stage = decide_on_enemy_pool_for_stage(self, stage_folder, enemy_locations)
+  for enemy_group in enemy_locations:
+    room_attempts = 0
+    room_failures = 0
+    max_room_attempts = MAX_RANDOMIZATION_REDOS_PER_ROOM
+    if stage_folder == "sea":
+      max_room_attempts *= 5 # Give sea rooms more attempts to compensate for the lack of stage attempts.
+    
+    while True:
+      success = randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
+      
+      room_attempts += 1
+      if success:
+        break
+      elif room_attempts >= max_room_attempts:
+        #print("Enemy rando failed %d times for one room (%s)" % (room_attempts, enemy_group["Enemies"][0]["Path"]))
+        return False
+  
+  return True
+
+def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage):
+  free_memory = get_free_memory_for_group(enemy_group)
+  if False:
+    print("Initial free memory: %d" % free_memory)
+  
   if enemy_group["Must defeat enemies"]:
     original_req_string = enemy_group["Original requirements"]
     enemies_logically_allowed_in_this_group = self.logic.filter_out_enemies_that_add_new_requirements(original_req_string, self.enemies_to_randomize_to)
@@ -132,7 +180,7 @@ def randomize_enemy_group(self, stage_folder, enemy_group):
     enemies_allowed = [
       enemy_data for enemy_data in enemies_logically_allowed_in_this_group_not_yet_in_pool
       if category in enemy_data["Placement categories"]
-      and enemy_data in self.enemy_pool_for_stage[stage_folder]
+      and enemy_data in enemy_pool_for_stage
     ]
     
     for enemy_data in enemies_allowed:
@@ -170,6 +218,8 @@ def randomize_enemy_group(self, stage_folder, enemy_group):
       chosen_enemy = self.rng.choice(enemies_possible_for_this_group_minus_chosen)
       enemy_pool_for_group.append(chosen_enemy)
   
+  # Then decide what enemy species will be placed in each enemy location in this group.
+  enemy_actor_names_already_placed_in_room = []
   for enemy_location in enemy_group["Enemies"]:
     enemy, arc_name, dzx, layer = get_enemy_instance_by_path(self, enemy_location["Path"])
     stage_folder, room_arc_name = arc_name.split("/")
@@ -183,7 +233,7 @@ def randomize_enemy_group(self, stage_folder, enemy_group):
       error_msg = "No possible enemies to place in %s of the correct category\n" % arc_name
       enemy_pretty_names_in_this_stage_pool = [
         enemy_data["Pretty name"]
-        for enemy_data in self.enemy_pool_for_stage[stage_folder]
+        for enemy_data in enemy_pool_for_stage
       ]
       error_msg += "Enemies in this stage's enemy pool: %s\n" % ", ".join(enemy_pretty_names_in_this_stage_pool)
       enemy_actor_names_logically_allowed_in_this_group = []
@@ -206,7 +256,32 @@ def randomize_enemy_group(self, stage_folder, enemy_group):
     
     new_enemy_data = self.rng.choice(enemies_to_randomize_to_for_this_location)
     
-    #new_enemy_data = self.enemy_datas_by_pretty_name["Wizzrobe"]
+    #new_enemy_data = self.enemy_datas_by_pretty_name["Lantern Moblin"]
+    
+    # Account for the amount of memory used up by this enemy instance.
+    free_memory -= get_amount_of_memory_for_enemy(new_enemy_data, enemy_actor_names_already_placed_in_room)
+    if False:
+      print("Enemy placed: %s" % new_enemy_data["Pretty name"])
+      print("Free memory: %d" % free_memory)
+      print("Subtracted: %d" % get_amount_of_memory_for_enemy(new_enemy_data, enemy_actor_names_already_placed_in_room))
+    
+    if free_memory < MIN_FREE_SPACE_TO_LEAVE_PER_ROOM:
+      # Not enough memory left in this room. Give up early.
+      return False
+    
+    if new_enemy_data["Actor name"] not in enemy_actor_names_already_placed_in_room:
+      # TODO: maybe use rel name instead of actor name...?
+      enemy_actor_names_already_placed_in_room.append(new_enemy_data["Actor name"])
+    
+    self.done_enemy_locations[enemy_location.values()] = new_enemy_data
+  
+  return True
+
+def save_changed_enemies_and_randomize_their_params(self):
+  # Finally actually save the enemies, since there was no issue in deciding what any of them should be.
+  for (original_enemy, placement_category, path), new_enemy_data in self.done_enemy_locations.items():
+    enemy, arc_name, dzx, layer = get_enemy_instance_by_path(self, path)
+    stage_folder, room_arc_name = arc_name.split("/")
     
     if False:
       print("Putting a %s (param:%08X) in %s" % (new_enemy_data["Actor name"], new_enemy_data["Params"], arc_name))
@@ -216,8 +291,8 @@ def randomize_enemy_group(self, stage_folder, enemy_group):
     enemy.auxilary_param = new_enemy_data["Aux params"]
     enemy.auxilary_param_2 = new_enemy_data["Aux params 2"]
     
-    randomize_enemy_params(self, new_enemy_data, enemy, enemy_location["Placement category"], dzx, layer)
-    adjust_enemy(self, new_enemy_data, enemy, enemy_location["Placement category"], dzx, layer)
+    randomize_enemy_params(self, new_enemy_data, enemy, placement_category, dzx, layer)
+    adjust_enemy(self, new_enemy_data, enemy, placement_category, dzx, layer)
     
     enemy.save_changes()
     
@@ -474,6 +549,20 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
       return "Ground"
   
   raise Exception("Unknown placement category for enemy: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2))
+
+def get_amount_of_memory_for_enemy(enemy_data, enemy_actor_names_already_placed_in_room):
+  # The first enemy of a species placed in a room uses more than the subsequent ones.
+  if enemy_data["Actor name"] in enemy_actor_names_already_placed_in_room:
+    return enemy_data["Memory used by subequent ones"]
+  else:
+    return enemy_data["Memory used by first one"]
+
+def get_free_memory_for_group(enemy_group):
+  if "Free memory" in enemy_group:
+    return enemy_group["Free memory"]
+  else:
+    # Default to 1mb free for rooms that don't have their actual amount documented.
+    return 1000000
 
 def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
   if enemy.name == "Bk":
