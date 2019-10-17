@@ -132,6 +132,8 @@ Abship:
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Keese
+  Switch AND operators:
+    - Abship/Room0.arc/Actor005
   Enemies:
     -
       Original enemy: Bokoblin

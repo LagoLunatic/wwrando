@@ -64,6 +64,8 @@ def randomize_enemies(self):
   # Now that all randomized enemy locations have been decided successfully, actually save the changed enemies.
   save_changed_enemies_and_randomize_their_params(self)
   
+  replace_switch_and_operators(self)
+  
   update_loaded_particles(self, self.particles_to_load_for_each_jpc_index)
 
 def decide_on_enemy_pool_for_stage(self, stage_folder, enemy_locations):
@@ -309,6 +311,29 @@ def save_changed_enemies_and_randomize_their_params(self):
       if particle_id not in self.particles_to_load_for_each_jpc_index[dest_jpc_index]:
         self.particles_to_load_for_each_jpc_index[dest_jpc_index].append(particle_id)
 
+def replace_switch_and_operators(self):
+  # Change each AND operator that checked multiple enemy death switches and set another switch to an entity that simply checks if every enemy in the room is dead and sets a switch instead.
+  for stage_folder, enemy_locations in self.enemy_locations.items():
+    for enemy_group in enemy_locations:
+      if "Switch AND operators" not in enemy_group:
+        continue
+      
+      switch_and_op_paths = enemy_group["Switch AND operators"]
+      for and_op_path in switch_and_op_paths:
+        and_op = get_switch_and_operator_by_path(self, and_op_path)
+        
+        if and_op.name == "AND_SW2":
+          switch_to_set = and_op.and_sw2_switch_to_set
+        else:
+          raise Exception("TODO AND_SW0")
+        
+        and_op.name = "ALLdie"
+        and_op.params = 0xFFFFFFFF
+        and_op.auxilary_param_1 = 0
+        and_op.auxilary_param_2 = 0
+        and_op.alldie_switch_to_set = switch_to_set
+        and_op.save_changes()
+
 def update_loaded_particles(self, particles_to_load_for_each_jpc_index):
   # Copy particles to stages that need them for the new enemies we placed.
   particle_and_textures_by_id = {}
@@ -419,6 +444,22 @@ def print_all_enemy_locations(self):
       output_str += "  Must defeat enemies: Yes\n"
       output_str += "  Original requirements:\n"
       output_str += "    " + "\n    & ".join(defeat_reqs_for_this_layer) + "\n"
+      
+      and_sws = [
+        actor for actor in actors
+        if actor.name in ["AND_SW0", "AND_SW2"]
+      ]
+      if and_sws:
+        output_str += "  Switch AND operators:\n"
+        for and_sw in and_sws:
+          layer_name = ""
+          if layer != None:
+            layer_name = "/Layer%x" % layer
+          actor_index = actors.index(and_sw)
+          and_sw_path = relative_arc_path + layer_name + "/Actor%03X" % actor_index
+          
+          output_str += "    - " + and_sw_path + "\n"
+      
       output_str += "  Enemies:\n"
       
       # Then write each of the individual enemies in the group.
@@ -748,6 +789,27 @@ def get_enemy_instance_by_path(self, path):
     raise Exception("Enemy location path %s points to a %s actor, not an enemy!" % (path, enemy.name))
   
   return (enemy, arc_name, dzx, layer)
+
+def get_switch_and_operator_by_path(self, path):
+  match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/Actor([0-9A-F]{3})$", path)
+  if not match:
+    raise Exception("Invalid AND operator path: %s" % path)
+  
+  arc_name = match.group(1)
+  arc_path = "files/res/Stage/" + arc_name
+  if match.group(2):
+    layer = int(match.group(2), 16)
+  else:
+    layer = None
+  actor_index = int(match.group(3), 16)
+  
+  if arc_path.endswith("Stage.arc"):
+    dzx = self.get_arc(arc_path).get_file("stage.dzs")
+  else:
+    dzx = self.get_arc(arc_path).get_file("room.dzr")
+  and_op = dzx.entries_by_type_and_layer("ACTR", layer)[actor_index]
+  
+  return and_op
 
 def distance_between_entities(entity_1, entity_2):
   x1, y1, z1 = entity_1.x_pos, entity_1.y_pos, entity_1.z_pos
