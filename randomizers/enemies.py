@@ -287,6 +287,7 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
 
 def save_changed_enemies_and_randomize_their_params(self):
   # Finally actually save the enemies, since there was no issue in deciding what any of them should be.
+  last_printed_group_path = None
   for enemy_location, new_enemy_data in self.done_enemy_locations:
     path = enemy_location["Path"]
     placement_category = enemy_location["Placement category"]
@@ -294,7 +295,11 @@ def save_changed_enemies_and_randomize_their_params(self):
     stage_folder, room_arc_name = arc_name.split("/")
     
     if False:
-      print("Putting a %s (param:%08X) in %s" % (new_enemy_data["Actor name"], new_enemy_data["Params"], arc_name))
+      group_path = "/".join(path.split("/")[0:-1])
+      if group_path != last_printed_group_path:
+        print()
+      last_printed_group_path = group_path
+      print("Putting a %s (param:%08X) in %s" % (new_enemy_data["Actor name"], new_enemy_data["Params"], path))
     
     enemy.name = new_enemy_data["Actor name"]
     enemy.params = new_enemy_data["Params"]
