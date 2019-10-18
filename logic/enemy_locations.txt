@@ -179,11 +179,14 @@ Abship:
     & Can Defeat Green ChuChus
     & Can Defeat Red ChuChus
     & Can Defeat Yellow ChuChus
+  Switch AND operators:
+    - Abship/Room1.arc/Actor006
   Enemies:
     -
       Original enemy: Blue Moblin
       Placement category: Ground
       Path: Abship/Room1.arc/Actor000
+      Position: [-300, -1000, -1700]
     -
       Original enemy: Blue Moblin
       Placement category: Ground
@@ -192,6 +195,7 @@ Abship:
       Original enemy: Blue Moblin
       Placement category: Ground
       Path: Abship/Room1.arc/Actor002
+      Position: [300, -1000, -1700]
     -
       Original enemy: Chasing Morth
       Placement category: Pot

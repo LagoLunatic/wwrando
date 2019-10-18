@@ -306,6 +306,12 @@ def save_changed_enemies_and_randomize_their_params(self):
     enemy.auxilary_param = new_enemy_data["Aux params"]
     enemy.auxilary_param_2 = new_enemy_data["Aux params 2"]
     
+    if "Position" in enemy_location:
+      x, y, z = enemy_location["Position"]
+      enemy.x_pos = x
+      enemy.y_pos = y
+      enemy.z_pos = z
+    
     randomize_enemy_params(self, new_enemy_data, enemy, placement_category, dzx, layer)
     adjust_enemy(self, new_enemy_data, enemy, placement_category, dzx, layer)
     
