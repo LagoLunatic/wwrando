@@ -2,34 +2,34 @@
 
 # Outset Island Fairy Woods
 A_mori:
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Bokoblins
+#    & Can Defeat Kargarocs
+#  Enemies:
+#    -
+#      Original enemy: Bokoblin
+#      Placement category: Ground
+#      Path: A_mori/Room0.arc/Layer0/Actor003
+#    -
+#      Original enemy: Bokoblin
+#      Placement category: Ground
+#      Path: A_mori/Room0.arc/Layer0/Actor004
+#    -
+#      Original enemy: Bokoblin
+#      Placement category: Ground
+#      Path: A_mori/Room0.arc/Layer0/Actor005
+#    -
+#      Original enemy: Kargaroc
+#      Placement category: Air
+#      Path: A_mori/Room0.arc/Layer0/Actor006
+#    -
+#      Original enemy: Kargaroc
+#      Placement category: Air
+#      Path: A_mori/Room0.arc/Layer0/Actor007
 -
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Bokoblins
-    & Can Defeat Kargarocs
-  Enemies:
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
-      Path: A_mori/Room0.arc/Layer0/Actor003
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
-      Path: A_mori/Room0.arc/Layer0/Actor004
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
-      Path: A_mori/Room0.arc/Layer0/Actor005
-    -
-      Original enemy: Kargaroc
-      Placement category: Air
-      Path: A_mori/Room0.arc/Layer0/Actor006
-    -
-      Original enemy: Kargaroc
-      Placement category: Air
-      Path: A_mori/Room0.arc/Layer0/Actor007
--
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Morths
     & Can Defeat Mothulas
@@ -71,58 +71,58 @@ A_mori:
       Original enemy: Morth
       Placement category: Ground
       Path: A_mori/Room0.arc/Layer2/Actor008
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Morths
-    & Can Defeat Mothulas
-    & Can Defeat Moblins
-  Enemies:
-    -
-      Original enemy: Morth
-      Placement category: Ground
-      Path: A_mori/Room0.arc/Layer3/Actor000
-    -
-      Original enemy: Morth
-      Placement category: Ground
-      Path: A_mori/Room0.arc/Layer3/Actor001
-    -
-      Original enemy: Wingless Mothula
-      Placement category: Ground
-      Path: A_mori/Room0.arc/Layer3/Actor002
-    -
-      Original enemy: Lantern Moblin
-      Placement category: Ground
-      Path: A_mori/Room0.arc/Layer3/Actor003
-    -
-      Original enemy: Lantern Moblin
-      Placement category: Ground
-      Path: A_mori/Room0.arc/Layer3/Actor004
-    -
-      Original enemy: Morth
-      Placement category: Ground
-      Path: A_mori/Room0.arc/Layer3/Actor005
-    -
-      Original enemy: Morth
-      Placement category: Ground
-      Path: A_mori/Room0.arc/Layer3/Actor006
-    -
-      Original enemy: Morth
-      Placement category: Ground
-      Path: A_mori/Room0.arc/Layer3/Actor007
-    -
-      Original enemy: Morth
-      Placement category: Ground
-      Path: A_mori/Room0.arc/Layer3/Actor008
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Mothulas
-  Enemies:
-    -
-      Original enemy: Wingless Mothula
-      Placement category: Ground
-      Path: A_mori/Room0.arc/Layerb/Actor000
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Morths
+#    & Can Defeat Mothulas
+#    & Can Defeat Moblins
+#  Enemies:
+#    -
+#      Original enemy: Morth
+#      Placement category: Ground
+#      Path: A_mori/Room0.arc/Layer3/Actor000
+#    -
+#      Original enemy: Morth
+#      Placement category: Ground
+#      Path: A_mori/Room0.arc/Layer3/Actor001
+#    -
+#      Original enemy: Wingless Mothula
+#      Placement category: Ground
+#      Path: A_mori/Room0.arc/Layer3/Actor002
+#    -
+#      Original enemy: Lantern Moblin
+#      Placement category: Ground
+#      Path: A_mori/Room0.arc/Layer3/Actor003
+#    -
+#      Original enemy: Lantern Moblin
+#      Placement category: Ground
+#      Path: A_mori/Room0.arc/Layer3/Actor004
+#    -
+#      Original enemy: Morth
+#      Placement category: Ground
+#      Path: A_mori/Room0.arc/Layer3/Actor005
+#    -
+#      Original enemy: Morth
+#      Placement category: Ground
+#      Path: A_mori/Room0.arc/Layer3/Actor006
+#    -
+#      Original enemy: Morth
+#      Placement category: Ground
+#      Path: A_mori/Room0.arc/Layer3/Actor007
+#    -
+#      Original enemy: Morth
+#      Placement category: Ground
+#      Path: A_mori/Room0.arc/Layer3/Actor008
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Mothulas
+#  Enemies:
+#    -
+#      Original enemy: Wingless Mothula
+#      Placement category: Ground
+#      Path: A_mori/Room0.arc/Layerb/Actor000
 
 
 # Submarines
@@ -225,6 +225,8 @@ Abship:
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Rats
+  Switch AND operators:
+    - Abship/Room2.arc/Actor005
   Enemies:
     -
       Original enemy: Bokoblin
@@ -255,7 +257,7 @@ Abship:
       Placement category: Ground
       Path: Abship/Room2.arc/Actor007
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Moblins
   Enemies:
@@ -301,10 +303,13 @@ Abship:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
+    & Can Defeat Wizzrobes at Range
     & Can Defeat Green ChuChus
     & Can Defeat Red ChuChus
     & Can Defeat Miniblins
   Free memory: 1354576
+  Switch AND operators:
+    - Abship/Room6.arc/Actor00E
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -314,6 +319,7 @@ Abship:
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: Abship/Room6.arc/Actor004
+      Position: [400, -500, -300]
     -
       Original enemy: Green ChuChu
       Placement category: Ceiling
@@ -340,11 +346,12 @@ Abship:
       Path: Abship/Room6.arc/Actor00A
     -
       Original enemy: Wizzrobe
-      Placement category: Ground
+      Placement category: Air
       Path: Abship/Room6.arc/Actor00C
+      Position: [-400, -400, -300]
     -
       Original enemy: Wizzrobe
-      Placement category: Ground
+      Placement category: Air
       Path: Abship/Room6.arc/Actor00D
     -
       Original enemy: Miniblin
@@ -367,6 +374,8 @@ Abship:
   Original requirements:
     Can Defeat Miniblins
   Free memory: 1142496
+  Switch AND operators:
+    - Abship/Room7.arc/Actor011
   Enemies:
     -
       Original enemy: Miniblin
