@@ -602,6 +602,11 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
       return "Ceiling"
     else:
       return "Air"
+  elif enemy.name == "wiz_r":
+    return "Ground"
+    # Wizzrobes can appear on the ground or in the air, but we can't detect this by their params.
+    # Will need to manually set air locations in enemy_locations.txt.
+    # When doing this, will also need to change the logic from "Can Defeat Wizzrobes" to "Can Defeat Wizzrobes at Range".
   elif enemy.name in ["kuro_s", "kuro_t"]:
     if enemy.morth_behavior_type == 6:
       return "Pot"
