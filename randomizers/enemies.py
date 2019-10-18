@@ -41,7 +41,7 @@ def randomize_enemies(self):
     if data["Actor name"] not in self.all_enemy_actor_names:
       self.all_enemy_actor_names.append(data["Actor name"])
   
-  self.done_enemy_locations = OrderedDict()
+  self.done_enemy_locations = []
   
   self.particles_to_load_for_each_jpc_index = OrderedDict()
   
@@ -53,10 +53,11 @@ def randomize_enemies(self):
       max_stage_attempts = 1
     
     while True:
-      success = randomize_enemy_groups_for_stage(self, stage_folder, enemy_locations)
+      done_enemy_locations_for_stage = randomize_enemy_groups_for_stage(self, stage_folder, enemy_locations)
       
       stage_attempts += 1
-      if success:
+      if done_enemy_locations_for_stage != False:
+        self.done_enemy_locations += done_enemy_locations_for_stage
         break
       elif stage_attempts >= max_stage_attempts:
         raise Exception("Enemy rando failed %d times for one stage (%s)" % (stage_attempts, stage_folder))
@@ -138,6 +139,8 @@ def decide_on_enemy_pool_for_stage(self, stage_folder, enemy_locations):
   return enemy_pool_for_stage
 
 def randomize_enemy_groups_for_stage(self, stage_folder, enemy_locations):
+  done_enemy_locations_for_stage = []
+  
   enemy_pool_for_stage = decide_on_enemy_pool_for_stage(self, stage_folder, enemy_locations)
   for enemy_group in enemy_locations:
     room_attempts = 0
@@ -147,18 +150,21 @@ def randomize_enemy_groups_for_stage(self, stage_folder, enemy_locations):
       max_room_attempts *= 5 # Give sea rooms more attempts to compensate for the lack of stage attempts.
     
     while True:
-      success = randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
+      done_enemy_locations_for_room = randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
       
       room_attempts += 1
-      if success:
+      if done_enemy_locations_for_room != False:
+        done_enemy_locations_for_stage += done_enemy_locations_for_room
         break
       elif room_attempts >= max_room_attempts:
         #print("Enemy rando failed %d times for one room (%s)" % (room_attempts, enemy_group["Enemies"][0]["Path"]))
         return False
   
-  return True
+  return done_enemy_locations_for_stage
 
 def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage):
+  done_enemy_locations_for_room = []
+  
   free_memory = get_free_memory_for_group(enemy_group)
   if False:
     print("Initial free memory: %d" % free_memory)
@@ -275,13 +281,15 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
       # TODO: maybe use rel name instead of actor name...?
       enemy_actor_names_already_placed_in_room.append(new_enemy_data["Actor name"])
     
-    self.done_enemy_locations[enemy_location.values()] = new_enemy_data
+    done_enemy_locations_for_room.append((enemy_location, new_enemy_data))
   
-  return True
+  return done_enemy_locations_for_room
 
 def save_changed_enemies_and_randomize_their_params(self):
   # Finally actually save the enemies, since there was no issue in deciding what any of them should be.
-  for (original_enemy, placement_category, path), new_enemy_data in self.done_enemy_locations.items():
+  for enemy_location, new_enemy_data in self.done_enemy_locations:
+    path = enemy_location["Path"]
+    placement_category = enemy_location["Placement category"]
     enemy, arc_name, dzx, layer = get_enemy_instance_by_path(self, path)
     stage_folder, room_arc_name = arc_name.split("/")
     
