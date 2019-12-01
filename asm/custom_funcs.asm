@@ -2709,4 +2709,59 @@ b 0x800C3424 ; Return
 
 
 
+.global ballad_of_gales_warp_table
+ballad_of_gales_warp_table:
+; For reference, here is the original table from vanilla:
+;.byte -2, -2,  0, -1,  1, -1,  7
+;.byte  0, -2,  1,  0,  2, -1,  7
+;.byte  2, -2,  2,  1, -1,  0,  7
+;.byte -2,  0,  3, -1,  4,  7,  8
+;.byte  1,  0,  4,  3, -1,  7,  8
+;.byte  2,  2,  5,  8, -1,  4,  6
+;.byte -2,  3,  6,  5, -1,  8, -1
+;.byte -1, -1,  7, -1, -1,  0,  3
+;.byte  0,  2,  8, -1,  5,  3,  6
+
+; Custom table:
+.byte -2, -2,  0,  9,  1,  9,  7
+.byte  0, -2,  1,  0,  2, -1,  7
+.byte  2, -2,  2,  1, -1,  0,  7
+.byte -2,  0,  3, -1,  4,  7,  8
+.byte  1,  0,  4,  3, -1,  7,  8
+.byte  2,  2,  5,  8, -1,  4,  6
+.byte -2,  3,  6,  5, -1,  8, -1
+.byte -1, -1,  7, -1, -1,  0,  3
+.byte  0,  2,  8, -1,  5,  3,  6
+.byte -3, -3,  9, -1,  0, -1,  0
+
+.align 2 ; Align to the next 4 bytes
+
+.global ballad_of_gales_warp_float_bank
+ballad_of_gales_warp_float_bank:
+; X positions for each warp
+.float -193, -82, 30, -193, -26, 30, -193, -137, -83, -249
+; Y positions for each warp
+.float -137, -137, -137, -25, -25, 86, 145, -80, 86, -193
+; Not sure what these are, but they need to be here because the code reads them from the same symbol as the X/Y positions
+.float 1.6, 0.75
+
+
+
+
+; Since we couldn't put the new message ID for the custom warp's confirmation dialog text right after the original ones, we need custom code to return the custom message ID.
+.global set_warp_confirm_dialog_message_id_for_custom_warps
+set_warp_confirm_dialog_message_id_for_custom_warps:
+cmpwi r31, 9 ; Forsaken Fortress Warp index
+bne set_warp_confirm_dialog_message_id_for_custom_warps_not_custom
+
+li r10, 848 ; Custom message ID
+b 0x801B80F8 ; Return to normal code after deciding message ID
+
+set_warp_confirm_dialog_message_id_for_custom_warps_not_custom:
+addi r10, r31, 69 ; Replace the line we overwrote to jump here
+b 0x801B80F8 ; Return to normal code after deciding message ID
+
+
+
+
 .close

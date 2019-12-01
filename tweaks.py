@@ -1903,3 +1903,70 @@ def fix_forsaken_fortress_door_softlock(self):
   face_list_offset = read_u32(ff_dzb.data, 0xC)
   face_offset = face_list_offset + face_index*0xA
   write_u16(ff_dzb.data, face_offset+6, new_property_index)
+
+def add_new_bog_warp(self):
+  # Adds a new Ballad of Gales warp point destination to Forsaken Fortress.
+  # To do this we must relocate the lists with data for each warp to free space, modify the code to use the relocated lists, and modify the code to loop the number of times counting the new warp, instead of only the vanilla number of times.
+  # We also must add a new message for the confirmation dialog to display when the player select the Forsaken Fortress warp.
+  # (Note that the actual warp spawn point in Forsaken Fortress already existed in the vanilla game unused, so we don't need to add that, it already works perfectly.)
+  
+  new_num_warps = 10
+  
+  # Update the pointers to the warp table in various pieces of code to point to a custom one.
+  custom_warp_table_address = self.custom_symbols["ballad_of_gales_warp_table"]
+  high_halfword, low_halfword = split_pointer_into_high_and_low_half_for_hardcoding(custom_warp_table_address)
+  dol_data = self.get_raw_file("sys/main.dol")
+  for code_address in [0x801B96DC, 0x801B96F0, 0x801B9790]:
+    write_u16(dol_data, address_to_offset(code_address+2), high_halfword)
+    write_u16(dol_data, address_to_offset(code_address+6), low_halfword)
+  
+  # Update the pointers to the float bank of X/Y positions for the warp icons to point to a custom one.
+  custom_warp_float_bank_address = self.custom_symbols["ballad_of_gales_warp_float_bank"]
+  high_halfword, low_halfword = split_pointer_into_high_and_low_half_for_hardcoding(custom_warp_float_bank_address)
+  dol_data = self.get_raw_file("sys/main.dol")
+  for code_address in [0x801B9360, 0x801B7C28]:
+    write_u16(dol_data, address_to_offset(code_address+2), high_halfword)
+    write_u16(dol_data, address_to_offset(code_address+6), low_halfword)
+  
+  # Update the offsets relative to the float bank symbol since they're all going to be completely different in the custom float bank compared to the original one.
+  write_u16(dol_data, address_to_offset(0x801B7C3C+2), 0) # Reading X positions in dMenu_Fmap_c::init_warpMode
+  write_u16(dol_data, address_to_offset(0x801B7C44+2), new_num_warps*4) # Reading Y positions in dMenu_Fmap_c::init_warpMode
+  write_u16(dol_data, address_to_offset(0x801B9378+2), 0) # Reading X positions in dMenu_Fmap_c::warpAreaAnime0
+  write_u16(dol_data, address_to_offset(0x801B9380+2), new_num_warps*4) # Reading Y positions in dMenu_Fmap_c::warpAreaAnime0
+  write_u16(dol_data, address_to_offset(0x801B93A4+2), new_num_warps*2*4) # Reading unknown value in dMenu_Fmap_c::warpAreaAnime0
+  write_u16(dol_data, address_to_offset(0x801B93C8+2), new_num_warps*2*4 + 4) # Reading unknown value in dMenu_Fmap_c::warpAreaAnime0
+  
+  # These handle displaying the spinning warp icons on the warp select screen.
+  write_u16(dol_data, address_to_offset(0x801B7988+2), new_num_warps) # dMenu_Fmap_c::_open_warpMode
+  write_u16(dol_data, address_to_offset(0x801B7C80+2), new_num_warps) # dMenu_Fmap_c::init_warpMode
+  
+  # These handle moving the cursor on the currently selected warp on the warp select screen.
+  # They also seem to handle deleting the spinning warp icons when you exit the screen.
+  write_u16(dol_data, address_to_offset(0x801B8414+2), new_num_warps) # dMenu_Fmap_c::wrapMove
+  write_u16(dol_data, address_to_offset(0x801B84D0+2), new_num_warps) # dMenu_Fmap_c::wrapMove
+  
+  # Necessary for the 10th warp to work correctly.
+  write_u16(dol_data, address_to_offset(0x801B979C+2), new_num_warps) # dMenu_Fmap_c::getWarpAreaTablePtr
+  
+  # Handles something when you open the warp select screen.
+  write_u16(dol_data, address_to_offset(0x801B6E6C+2), new_num_warps) # dMenu_Fmap_c::paneTranceZoomMap
+  
+  # Handles something when you cancel a warp at the confirmation prompt.
+  write_u16(dol_data, address_to_offset(0x801B9020+2), new_num_warps) # dMenu_Fmap_c::wrapSelWinFadeOut
+  
+  # Handles something when you confirm a warp at the confirmation prompt.
+  write_u16(dol_data, address_to_offset(0x801B9230+2), new_num_warps) # dMenu_Fmap_c::wrapSelWarp
+  
+  # Handles highlighting the currently selected warp icon.
+  write_u16(dol_data, address_to_offset(0x801B936C+2), new_num_warps) # dMenu_Fmap_c::warpAreaAnime0
+  
+  # Note: The place in memory that stores pointers to the spinning warp icon particle emitter seems to have room for 12 warps total. So we could theoretically add 3 new warps without issue instead of just 1. But any more than that won't work.
+  # Example of code dealing with this list: 801BA0F4 stores the emitter pointer to that list.
+  
+  # Add a new message for the text in the confirmation dialog when selecting the new warp.
+  msg = self.bmg.add_new_message(848)
+  msg.string = "Warp to \\{1A 06 FF 00 00 01}Forsaken Fortress\\{1A 06 FF 00 00 00}?"
+  msg.text_box_type = 0 # Dialog
+  msg.initial_draw_type = 1 # Instant message speed
+  msg.text_box_position = 2 # Centered
+  msg.num_lines_per_box = 2

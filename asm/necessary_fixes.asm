@@ -1201,3 +1201,36 @@
 .org 0x80052698 ; In getLayerNo
   nop ; Remove line that would take a branch if event bit 2C01 (MIGHTY_DARKNUTS_DEFEATED) is set.
 .close
+
+
+
+
+; Display the newly added message for the warp confirmation dialog when selecting a custom warp.
+.open "sys/main.dol"
+.org 0x801B80EC ; In wrapMove__12dMenu_Fmap_cFv
+  b set_warp_confirm_dialog_message_id_for_custom_warps
+; Also fix the text color commands to use the proper special colors for this new message.
+; The engine hardcodes checks on the message IDs to know what messages should use the special colors.
+; We add in a check for the new message, and then simplify the code for the vanilla messages by using a range check to shorten it so we don't need free space.
+.org 0x80032590 ; In stringSet__21fopMsgM_msgDataProc_cFv
+  cmplwi r0, 848 ; Custom message ID
+  beq 0x800325E0 ; Use special colors
+  cmplwi r0, 66
+  blt 0x80032624 ; Do not use special colors
+  cmplwi r0, 75
+  bgt 0x80032624 ; Do not use special colors
+  b 0x800325E0 ; Use special colors (for messages 66-75, the vanilla warp confirmation messages)
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+.close
