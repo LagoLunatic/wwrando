@@ -1349,10 +1349,11 @@ def increase_grapple_animation_speed(self):
 def increase_block_moving_animation(self):
   dol_data = self.get_raw_file("sys/main.dol")
   
-  #increase Link's pulling animation from 1.0 to 1.4 (purely visual)
+  # Increase Link's pushing animation speed from 1.0 to 1.4
+  # Note that this causes a softlock when opening a specific door in Forsaken Fortress - see fix_forsaken_fortress_door_softlock for more details.
   write_float(dol_data, address_to_offset(0x8035DBB0), 1.4)
   
-  #increase Link's pushing animation from 1.0 to 1.4 (purely visual)
+  # Increase Link's pulling animation speed from 1.0 to 1.4
   write_float(dol_data, address_to_offset(0x8035DBB8), 1.4)
   
   block_data = self.get_raw_file("files/rels/d_a_obj_movebox.rel")
@@ -1890,9 +1891,9 @@ def test_room(self):
   write_u8(dol_data, address_to_offset(spawn_id_ptr), self.test_room_args["spawn"])
 
 def fix_forsaken_fortress_door_softlock(self):
-  # Fix a bug where entering Forsaken Fortress via the left half of the big door on the second floor (the one you'd normally only exit from and not go back through) could softlock the game.
-  # For some reason, entering via the left half doesn't make Link walk as far into the door as entering via the right half does.
-  # As a result, Link may not wind up standing on top of the collision triangles that have an exit index set, softlocking the game because a transition never occurs, but the door animation never ends either.
+  # Fix a bug where entering Forsaken Fortress via the left half of the big door on the second floor (the one you'd normally only exit from and not go back through) would softlock the game.
+  # Because of the changes to Link's pushing animation (see increase_block_moving_animation), entering via the left half doesn't make Link walk as far into the door as entering via the right half does.
+  # As a result, Link will wind up a couple units short of standing on top of the collision triangles that have an exit index set, softlocking the game because a transition never occurs, but the door animation never ends either.
   # To fix this, we simply make one more collision triangle have the property with an exit index set, so that Link doesn't need to go as far inside the door for the transition to happen.
   
   face_index = 0x1493
