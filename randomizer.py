@@ -440,6 +440,8 @@ class Randomizer:
     tweaks.update_beedle_spoil_selling_text(self)
     tweaks.fix_totg_warp_out_spawn_pos(self)
     tweaks.remove_phantom_ganon_requirement_from_eye_reefs(self)
+    tweaks.fix_forsaken_fortress_door_softlock(self)
+    tweaks.add_new_bog_warp(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)

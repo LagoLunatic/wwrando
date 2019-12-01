@@ -202,7 +202,7 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, main_symbols, rel_map
             if rel.bss_section_index and relocated_offset >= rel.fix_size:
               out_str += "    [BSS]"
       else:
-        branch_match = re.search(r"\s(bl|b|beq|bne|blt|bgt|ble|bge)\s+0x([0-9a-f]+)", line, re.IGNORECASE)
+        branch_match = re.search(r"\s(bl|b|beq|bne|blt|bgt|ble|bge|bdnz|bdz)\s+0x([0-9a-f]+)", line, re.IGNORECASE)
         if branch_match:
           branch_offset = int(branch_match.group(2), 16)
           if branch_offset in rel_symbol_names:
@@ -238,7 +238,7 @@ def add_symbols_to_main(asm_path, main_symbols):
           line_after_offset = match.group(2)
           line = "%08X%s" % (address, line_after_offset)
       
-      match = re.search(r"^(.+ \t(?:bl|b|beq|bne|blt|bgt|ble|bge)\s+0x)([0-9a-f]+)$", line, re.IGNORECASE)
+      match = re.search(r"^(.+ \t(?:bl|b|beq|bne|blt|bgt|ble|bge|bdnz|bdz)\s+0x)([0-9a-f]+)$", line, re.IGNORECASE)
       #print(match)
       if match:
         line_before_offset = match.group(1)
