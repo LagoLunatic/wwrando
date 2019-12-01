@@ -1888,3 +1888,18 @@ def test_room(self):
   write_str(dol_data, address_to_offset(stage_name_ptr), self.test_room_args["stage"], 8)
   write_u8(dol_data, address_to_offset(room_index_ptr), self.test_room_args["room"])
   write_u8(dol_data, address_to_offset(spawn_id_ptr), self.test_room_args["spawn"])
+
+def fix_forsaken_fortress_door_softlock(self):
+  # Fix a bug where entering Forsaken Fortress via the left half of the big door on the second floor (the one you'd normally only exit from and not go back through) could softlock the game.
+  # For some reason, entering via the left half doesn't make Link walk as far into the door as entering via the right half does.
+  # As a result, Link may not wind up standing on top of the collision triangles that have an exit index set, softlocking the game because a transition never occurs, but the door animation never ends either.
+  # To fix this, we simply make one more collision triangle have the property with an exit index set, so that Link doesn't need to go as far inside the door for the transition to happen.
+  
+  face_index = 0x1493
+  new_property_index = 0x11
+  
+  ff_dzb = self.get_arc("files/res/Stage/sea/Room1.arc").get_file_entry("room.dzb")
+  ff_dzb.decompress_data_if_necessary()
+  face_list_offset = read_u32(ff_dzb.data, 0xC)
+  face_offset = face_list_offset + face_index*0xA
+  write_u16(ff_dzb.data, face_offset+6, new_property_index)
