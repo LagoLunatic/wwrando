@@ -1121,6 +1121,7 @@ Tower of the Gods - Big Key Chest:
     & Hero's Bow
     & TotG Small Key x2
     & Deku Leaf
+    # Note: Deku Leaf is not strictly necessary in the 3rd statue guy room because you can jump on two decorative pillars near the side of the room, and then jump onto the wall protrusion above where the lasers are coming out of to reach the statue guy. But since it's not clear the wall protrusion is something you can jump to and stand on, this is not currently required by the logic.
   Original item: Big Key
   Types: Dungeon
   Paths:
@@ -1402,7 +1403,8 @@ Earth Temple - Stalfos Mini-Boss Room:
     & Fire Arrows
     & Power Bracelets
     & Can Defeat Floormasters
-    & Can Defeat Stalfos
+    & (Can Defeat Stalfos | Hookshot)
+    # Hookshot allows you to skip fighting the mini-boss if you use it on one of the torches up near the chest.
   # Need to escape: Can Aim Mirror Shield
   Original item: Mirror Shield
   Types: Dungeon
