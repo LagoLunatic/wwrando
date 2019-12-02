@@ -1402,7 +1402,8 @@ Earth Temple - Stalfos Mini-Boss Room:
     & Fire Arrows
     & Power Bracelets
     & Can Defeat Floormasters
-    & Can Defeat Stalfos
+    & (Can Defeat Stalfos | Hookshot)
+    # Hookshot allows you to skip fighting the mini-boss if you use it on one of the torches up near the chest.
   # Need to escape: Can Aim Mirror Shield
   Original item: Mirror Shield
   Types: Dungeon
