@@ -1175,9 +1175,10 @@ Forsaken Fortress - Phantom Ganon:
     - sea/Room1.arc/Chest000
 Forsaken Fortress - Chest Outside Upper Jail Cell:
   Need:
-    # Instead of using Deku Leaf to fly over to the chest, you could also use the Hookshot on the chest.
     Can Get Inside Forsaken Fortress
     & (Deku Leaf | Hookshot)
+    # Instead of using Deku Leaf to fly over to the chest, you can also use the Hookshot on the chest.
+    # Note: You could also intentionally get caught by the Floormaster so that it takes you to jail, then escape and access this chest without needing either Deku Leaf or Hookshot. But since this one Floormaster behaving differently from all others in the game is obscure, this is not currently required by the logic.
   Original item: Dungeon Map
   Types: Dungeon
   Paths:
