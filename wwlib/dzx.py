@@ -1061,6 +1061,37 @@ class TGDR(ChunkEntry):
     write_u8(data, self.offset+0x22, self.scale_z)
     write_u8(data, self.offset+0x23, self.padding)
 
+class MULT(ChunkEntry):
+  DATA_SIZE = 0xC
+  
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+    
+    self.x_pos = 0.0
+    self.z_pos = 0.0
+    self.y_rot = 0
+    self.room_index = 0
+    self.unknown_1 = 0
+  
+  def read(self, offset):
+    self.offset = offset
+    data = self.file_entry.data
+    
+    self.x_pos = read_float(data, offset)
+    self.z_pos = read_float(data, offset+4)
+    self.y_rot = read_u16(data, offset+8)
+    self.room_index = read_u8(data, offset+0xA)
+    self.unknown_1 = read_u8(data, offset+0xB)
+    
+  def save_changes(self):
+    data = self.file_entry.data
+    
+    write_float(data, self.offset, self.x_pos)
+    write_float(data, self.offset+4, self.z_pos)
+    write_u16(data, self.offset+8, self.y_rot)
+    write_u8(data, self.offset+0xA, self.room_index)
+    write_u8(data, self.offset+0xB, self.unknown_1)
+
 class DummyEntry(ChunkEntry):
   def __init__(self, file_entry):
     self.file_entry = file_entry
@@ -1090,9 +1121,6 @@ class RCAM(DummyEntry):
 
 class RARO(DummyEntry):
   DATA_SIZE = 0x14
-
-class MULT(DummyEntry):
-  DATA_SIZE = 0xC
 
 class DMAP(DummyEntry):
   DATA_SIZE = 0x10
