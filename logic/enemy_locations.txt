@@ -357,6 +357,7 @@ Abship:
       Original enemy: Miniblin
       Placement category: Ground
       Path: Abship/Room6.arc/Actor010
+      Position: [300, -1000, -1700]
     -
       Original enemy: Miniblin
       Placement category: Ground
@@ -369,6 +370,7 @@ Abship:
       Original enemy: Miniblin
       Placement category: Ground
       Path: Abship/Room6.arc/Actor013
+      Position: [-300, -1000, -1700]
 -
   Must defeat enemies: Yes
   Original requirements:
@@ -393,6 +395,7 @@ Abship:
       Original enemy: Miniblin
       Placement category: Ground
       Path: Abship/Room7.arc/Actor003
+      Position: [400, -1000, -2300]
     -
       Original enemy: Miniblin
       Placement category: Ground
@@ -401,10 +404,12 @@ Abship:
       Original enemy: Miniblin
       Placement category: Ground
       Path: Abship/Room7.arc/Actor005
+      Position: [-400, -1000, -2300]
     -
       Original enemy: Miniblin
       Placement category: Ground
       Path: Abship/Room7.arc/Actor006
+      Position: [0, -1000, -1900]
     -
       Original enemy: Miniblin
       Placement category: Ground
