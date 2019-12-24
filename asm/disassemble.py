@@ -1,5 +1,6 @@
 
 from subprocess import call
+from subprocess import DEVNULL
 import tempfile
 import os
 import re
@@ -86,7 +87,7 @@ def disassemble_file(bin_path, asm_path):
   print(" ".join(command))
   print()
   with open(asm_path, "wb") as f:
-    result = call(command, stdout=f)
+    result = call(command, stdout=f, stdin=DEVNULL, stderr=DEVNULL)
   if result != 0:
     raise Exception("Disassembler call failed")
 
