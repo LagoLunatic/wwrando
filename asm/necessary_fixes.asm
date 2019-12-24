@@ -1234,3 +1234,15 @@
   nop
   nop
 .close
+
+
+
+
+; Delete Morths that fall out-of-bounds.
+.open "files/rels/d_a_ks.rel" ; Morth
+.org 0x678 ; In naraku_check__FP8ks_class
+  ; This function was originally intended to delete Morths that fall into pits that cause Link to void out.
+  ; We tweak it so that, instead of ignoring when the Morth has no collision below it, it runs the same deletion code in that case as when it has void-out-collision under it.
+  beq 0x6b0
+.close
+
