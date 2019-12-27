@@ -158,7 +158,7 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, main_symbols, rel_map
       else:
         current_section_index = None
         current_section = None
-    symbol_entry_match = re.search(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?:  \d)? (.+?) \t", line, re.IGNORECASE)
+    symbol_entry_match = re.search(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?: +\d+)? (.+?) \t", line, re.IGNORECASE)
     if current_section is not None and symbol_entry_match:
       current_section_offset = current_section.offset
       if current_section_offset == 0:
@@ -287,7 +287,7 @@ def get_main_symbols(self):
     framework_map_contents = self.gcm.read_file_data("files/maps/framework.map")
   framework_map_contents.seek(0)
   framework_map_contents = framework_map_contents.read().decode("ascii")
-  matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?:  \d)? (.+?) \t", framework_map_contents, re.IGNORECASE | re.MULTILINE)
+  matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?: +\d+)? (.+?) \t", framework_map_contents, re.IGNORECASE | re.MULTILINE)
   for match in matches:
     address, name = match
     address = int(address, 16)
