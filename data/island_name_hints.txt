@@ -67,7 +67,7 @@ Private Oasis:
 Bomb Island:
   an island shaped like an explosive
 Bird's Peak Rock:
-  a fruit is required to progress
+  a place where a fruit is required to progress
 Diamond Steppe Island:
   an island shaped like a jewel
 Five-Eye Reef:
