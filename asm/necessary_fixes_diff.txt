@@ -188,8 +188,6 @@ files/rels/d_a_shop_item.rel:
   5784: [128, 63, 214, 108]
 files/rels/d_a_npc_tt.rel:
   3176: [56, 0, 0, 1]
-files/rels/d_a_st.rel:
-  23232: [72, 0, 0, 60]
 files/rels/d_a_npc_ba1.rel:
   5852: [56, 0, 7, 245]
 files/rels/d_a_npc_mk.rel:
@@ -260,3 +258,12 @@ files/rels/d_a_obj_firewall.rel:
   4688: [65, 130, 0, 116]
 files/rels/d_a_ks.rel:
   1656: [65, 130, 0, 56]
+files/rels/d_a_st.rel:
+  57148: [128, 63, 233, 20]
+files/rels/d_a_pt.rel:
+  35152: [128, 63, 233, 92]
+files/rels/d_a_pw.rel:
+  2252: [72, 0, 0, 12]
+  38440: [128, 63, 233, 144]
+  2308: [131, 225, 0, 28, 128, 1, 0, 36, 124, 8, 3, 166, 56, 33, 0, 32, 78, 128, 0,
+    32]

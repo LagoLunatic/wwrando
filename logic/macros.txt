@@ -552,8 +552,8 @@ Can Defeat Stalfos:
   Hero's Sword
   | Bombs
   | Skull Hammer
-  # Some other items can damage the head once you break the body apart, but you still need sword/bombs/hammer to break it apart in the first place.
-  # Light Arrows worked on Stalfos in vanilla but this is changed in the randomizer.
+  | Light Arrows
+  # Some other items can damage the head once you break the body apart, but you still need sword/bombs/hammer/light arrows to break it apart in the first place.
 Can Defeat Floormasters:
   Hero's Sword
   | Hero's Bow

@@ -2764,4 +2764,137 @@ b 0x801B80F8 ; Return to normal code after deciding message ID
 
 
 
+; Fix the lower body of a Stalfos not dying when the upper body dies to light arrows.
+.global stalfos_kill_lower_body_when_upper_body_light_arrowed
+stalfos_kill_lower_body_when_upper_body_light_arrowed:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+bl fopAcIt_Judge__FPFPvPv_PvPv ; Get upper body entity
+cmplwi r3, 0
+beq stalfos_kill_lower_body_when_upper_body_light_arrowed_end
+
+lbz r0, 0x1FAE (r3) ; Counter for how many frames the upper body has been dying to light arrows
+cmpwi r0, 0
+beq stalfos_kill_lower_body_when_upper_body_light_arrowed_end ; The upper body hasn't been hit with light arrows, so don't kill the lower body either
+
+lbz r0, 0x1FAE (r31) ; Counter for how many frames the lower body has been dying to light arrows
+cmpwi r0, 0
+bne stalfos_kill_lower_body_when_upper_body_light_arrowed_end ; The lower body is already dying to light arrows, so don't reset its counter
+
+li r0, 1
+stb r0, 0x1FAE (r31) ; Start the lower body's counter for dying to light arrows at 1
+
+stalfos_kill_lower_body_when_upper_body_light_arrowed_end:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
+; Fix Miniblins not setting a switch on death if killed with Light Arrows.
+.global miniblin_set_death_switch_when_light_arrowed
+miniblin_set_death_switch_when_light_arrowed:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+bl Set__8dCcD_SphFRC11dCcD_SrcSph ; Replace the function call we overwrote to call this custom function
+
+lbz r0, 0x2B4 (r29) ; Read the behavior type param for the Miniblin
+cmpwi r0, 0 ; Behavior type 0 is a respawning Miniblin
+beq miniblin_set_death_switch_when_light_arrowed_end ; Respawning Miniblins should not set a switch when they die, so don't do anything
+
+; Otherwise it's a single Miniblin, so it should set a switch when it dies.
+lbz r0, 0x2B8 (r29) ; Read the switch index param the non-respawning Miniblin should set on death
+stb r0, 0x995 (r29) ; Store it into the Miniblin's enemyice struct as the switch index it should set when it dies to Light Arrows.
+; Note: The enemy_ice function does not set the switch specified here in the case that it's switch index 0, but the Miniblin itself would even for index 0. This doesn't matter in practice because no Miniblins placed in the game are supposed to set switch index 0 on death.
+
+miniblin_set_death_switch_when_light_arrowed_end:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
+; Fix child Poes not telling Jalhalla they died when hit with light arrows.
+.global poe_fix_light_arrows_bug
+poe_fix_light_arrows_bug:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lbz r0, 0x285 (r31) ; Read the Poe's current HP
+extsb. r0,r0
+ble poe_fix_light_arrows_bug_poe_is_dead ; Consider the Poe dead if its HP is <= 0
+
+lbz r0, 0x88A (r31) ; Read the Poe's dying to light arrows counter
+cmpwi r0, 0
+bgt poe_fix_light_arrows_bug_poe_is_dead ; Consider the Poe dead if it was hit with light arrows, even if its HP isn't 0 yet
+
+b poe_fix_light_arrows_bug_return_false ; Otherwise consider the Poe alive
+
+poe_fix_light_arrows_bug_poe_is_dead:
+bl fopAcM_SearchByID__FUiPP10fopAc_ac_c ; Replace the function call we overwrote to call this custom function
+
+; Then we need to reproduce most of the rest of the original Big_pow_down_check function.
+; The reason for this is a weird quirk Poes in the Jalhalla fight have where if they're killed in the last 4 frames before Jalhalla reforms, they will "unkill" themselves so they can join back up with Jalhalla.
+; We need to unset the dying to light arrows counter in that case as well.
+
+cmpwi r3, 0
+beq poe_fix_light_arrows_bug_return_false
+lwz r4, 0x18 (sp) ; Read Jalhalla entity pointer (original code used sp+8 but this function's stack offset is +0x10)
+cmplwi r4, 0
+beq poe_fix_light_arrows_bug_return_false
+lha r0, 8 (r4)
+cmpwi r0, 0xD4 ; Check to be sure the supposed Jalhalla entity is actually an instance of bpw_class.
+bne poe_fix_light_arrows_bug_return_false
+lha r0, 0x446 (r4)
+cmpwi r0, 0x6F ; Check Jalhalla's state or something, 0x6F is for when the child Poes are running around
+bne poe_fix_light_arrows_bug_unkill_poe
+lha r0, 0x44E (r4) ; Read number of frames left until Jalhalla reforms
+cmpwi r0, 3 ; Poes killed within the last 4 frames before Jalhalla reforms shouldn't actually die
+ble poe_fix_light_arrows_bug_unkill_poe
+lbz r3, 0x285 (r4)
+addi r0, r3, -1 ; Decrement Jalhalla's HP
+stb r0, 0x285 (r4)
+lwz r3, 0x18 (sp) ; Read Jalhalla entity pointer again
+lbz r0, 0x285 (r3) ; Check if Jalhalla's HP is zero, meaning this Poe that just died was the last one
+extsb. r0,r0
+bgt poe_fix_light_arrows_bug_not_the_last_poe
+li r0, 1
+stb r0, 0x344 (r31)
+poe_fix_light_arrows_bug_not_the_last_poe:
+li r0, 1
+stb r0, 0x345 (r31)
+b poe_fix_light_arrows_bug_return_false
+
+poe_fix_light_arrows_bug_unkill_poe:
+li r0,4
+stb r0, 0x285 (r31)
+
+; These 2 lines are the new code:
+li r0, 0
+stb r0, 0x88A (r31) ; Set the Poe's dying to light arrows counter to zero to stop it from dying
+
+li r3, 1
+b poe_fix_light_arrows_bug_end
+
+poe_fix_light_arrows_bug_return_false:
+li r3, 0
+
+poe_fix_light_arrows_bug_end:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 .close
