@@ -432,6 +432,7 @@ Abship:
       Path: Abship/Room7.arc/Actor012
 
 
+# TODO
 # Bomb Island Cave
 Cave01:
 -
@@ -471,6 +472,7 @@ Cave01:
       Path: Cave01/Room1.arc/Layer8/Actor000
 
 
+# TODO
 # Star Island Cave
 Cave02:
 -
@@ -518,6 +520,7 @@ Cave02:
       Path: Cave02/Room0.arc/Actor00B
 
 
+# TODO
 # Cliff Plateau Isles Cave
 Cave03:
 -
@@ -539,6 +542,7 @@ Cave03:
       Path: Cave03/Room0.arc/Actor03A
 
 
+# TODO
 # Rock Spire Isle Cave
 Cave04:
 -
@@ -657,6 +661,7 @@ Cave04:
       Path: Cave04/Room0.arc/Actor01C
 
 
+# TODO
 # Horseshoe Island Cave
 Cave05:
 -
@@ -679,6 +684,7 @@ Cave05:
       Path: Cave05/Room0.arc/Actor002
 
 
+# TODO
 # Pawprint Isle Wizzrobe Cave
 Cave07:
 -
@@ -712,6 +718,7 @@ Cave07:
       Path: Cave07/Room0.arc/Actor005
 
 
+# TODO
 # Savage Labyrinth
 Cave09:
 -
@@ -1149,6 +1156,7 @@ Cave09:
       Path: Cave09/Room19.arc/Actor001
 
 
+# TODO
 # Savage Labyrinth
 Cave10:
 -
@@ -1826,6 +1834,7 @@ Cave10:
       Path: Cave10/Room19.arc/Actor005
 
 
+# TODO
 # Savage Labyrinth
 Cave11:
 -
@@ -2193,6 +2202,7 @@ Cave11:
       Path: Cave11/Room19.arc/Actor001
 
 
+# TODO
 # Ganon's Tower Entrance
 GanonA:
 -
@@ -2218,6 +2228,7 @@ GanonA:
       Path: GanonA/Room1.arc/Actor007
 
 
+# TODO
 # Ganon's Tower Before Gohma Rematch
 GanonB:
 -
@@ -2243,6 +2254,7 @@ GanonB:
       Path: GanonB/Room0.arc/Actor017
 
 
+# TODO
 # Ganon's Tower Before Molgera Rematch
 GanonC:
 -
@@ -2265,6 +2277,7 @@ GanonC:
       Path: GanonC/Room0.arc/Actor01E
 
 
+# TODO
 # Ganon's Tower Before Kalle Demos Rematch
 GanonD:
 -
@@ -2282,6 +2295,7 @@ GanonD:
       Path: GanonD/Room0.arc/Actor00E
 
 
+# TODO
 # Ganon's Tower Before Jalhalla Rematch
 GanonE:
 -
@@ -2331,6 +2345,7 @@ GanonE:
       Path: GanonE/Room0.arc/Layerb/Actor000
 
 
+# TODO
 # Ganon's Tower Maze
 GanonJ:
 -
@@ -2498,6 +2513,7 @@ GanonJ:
       Path: GanonJ/Room10.arc/Actor00B
 
 
+# TODO
 # Ganon's Tower Puppet Ganon
 GanonK:
 -
@@ -2519,6 +2535,7 @@ GanonK:
       Path: GanonK/Room0.arc/Actor01D
 
 
+# TODO
 # Ganon's Tower Stairs To Puppet Ganon
 GanonL:
 -
@@ -2553,6 +2570,7 @@ GanonL:
       Path: GanonL/Room0.arc/Actor00B
 
 
+# TODO
 # Ganon's Tower Stairs To Phantom Ganon
 GanonN:
 -
@@ -2582,6 +2600,7 @@ GanonN:
       Path: GanonN/Room0.arc/Actor004
 
 
+# TODO
 # Hyrule Castle Interior
 Hyroom:
 -
@@ -2811,6 +2830,7 @@ Hyroom:
       Path: Hyroom/Room0.arc/Layer8/Actor010
 
 
+# TODO
 # Hyrule Castle
 Hyrule:
 -
@@ -2939,6 +2959,7 @@ Hyrule:
       Path: Hyrule/Room0.arc/Layer5/Actor00C
 
 
+# TODO
 # Ice Ring Isle Inner Cave
 ITest62:
 -
@@ -2970,6 +2991,7 @@ ITest62:
       Path: ITest62/Room0.arc/Actor004
 
 
+# TODO
 # Shark Island Cave
 ITest63:
 -
@@ -3132,6 +3154,7 @@ ITest63:
       Path: ITest63/Room0.arc/Actor026
 
 
+# TODO
 # Forsaken Fortress Tower (2nd visit)
 M2tower:
 -
@@ -3157,6 +3180,7 @@ M2tower:
       Path: M2tower/Room0.arc/Layer3/Actor008
 
 
+# TODO
 # Earth Temple
 M_Dai:
 -
@@ -3511,6 +3535,7 @@ M_Dai:
       Path: M_Dai/Room19.arc/Actor007
 
 
+# TODO
 # Earth Temple Stalfos Mini-Boss Room
 M_DaiMB:
 -
@@ -3532,6 +3557,7 @@ M_DaiMB:
       Path: M_DaiMB/Room12.arc/Actor002
 
 
+# TODO
 # Dragon Roost Cavern Moblin Mini-Boss Room
 M_Dra09:
 -
@@ -3554,6 +3580,7 @@ M_Dra09:
       Path: M_Dra09/Room9.arc/Actor005
 
 
+# TODO
 # Dragon Roost Cavern
 M_NewD2:
 -
@@ -3797,6 +3824,7 @@ M_NewD2:
       Path: M_NewD2/Room16.arc/Actor004
 
 
+# TODO
 # Forsaken Fortress Exterior (1st visit)
 MajyuE:
 -
@@ -3840,6 +3868,7 @@ MajyuE:
       Path: MajyuE/Room0.arc/Layerb/Actor001
 
 
+# TODO
 # Ice Ring Isle Cave
 MiniHyo:
 -
@@ -3862,6 +3891,7 @@ MiniHyo:
       Path: MiniHyo/Room0.arc/Actor010
 
 
+# TODO
 # Fire Mountain Cave
 MiniKaz:
 -
@@ -3913,6 +3943,7 @@ MiniKaz:
       Path: MiniKaz/Room0.arc/Actor012
 
 
+# TODO
 # Ghost Ship
 PShip:
 -
@@ -3975,6 +4006,7 @@ PShip:
       Path: PShip/Room2.arc/Actor013
 
 
+# TODO
 # Tower of the Gods
 Siren:
 -
@@ -4248,6 +4280,7 @@ Siren:
       Path: Siren/Room23.arc/Actor000
 
 
+# TODO
 # Tower of the Gods Darknut Mini-Boss Room
 SirenMB:
 -
@@ -4261,6 +4294,7 @@ SirenMB:
       Path: SirenMB/Room23.arc/Actor000
 
 
+# TODO
 # Boating Course Cave
 SubD71:
 -
@@ -4458,6 +4492,7 @@ SubD71:
       Path: SubD71/Room2.arc/Layer8/Actor00D
 
 
+# TODO
 # Stone Watcher Island Cave
 TF_01:
 -
@@ -4551,6 +4586,7 @@ TF_01:
       Path: TF_01/Room5.arc/Actor001
 
 
+# TODO
 # Overlook Island Cave
 TF_02:
 -
@@ -4644,6 +4680,7 @@ TF_02:
       Path: TF_02/Room5.arc/Actor001
 
 
+# TODO
 # Bird's Peak Rock Cave
 TF_03:
 -
@@ -4702,6 +4739,7 @@ TF_03:
       Path: TF_03/Room5.arc/Actor000
 
 
+# TODO
 # Cabana Labyrinth
 TF_04:
 -
@@ -4753,6 +4791,7 @@ TF_04:
       Path: TF_04/Room0.arc/Actor023
 
 
+# TODO
 # Dragon Roost Island Secret Cave
 TF_06:
 -
@@ -4825,6 +4864,7 @@ TF_06:
       Path: TF_06/Room5.arc/Actor008
 
 
+# TODO
 # Pawprint Isle Chuchu Cave
 TyuTyu:
 -
@@ -4908,6 +4948,7 @@ TyuTyu:
       Path: TyuTyu/Room0.arc/Actor062
 
 
+# TODO
 # Diamond Steppe Island Warp Maze
 WarpD:
 -
@@ -4937,6 +4978,7 @@ WarpD:
       Path: WarpD/Room0.arc/Actor021
 
 
+# TODO
 # Wind Temple
 kaze:
 -
@@ -5429,6 +5471,7 @@ kaze:
       Path: kaze/Room16.arc/Actor01D
 
 
+# TODO
 # Wind Temple Wizzrobe Mini-Boss Room
 kazeMB:
 -
@@ -5446,6 +5489,7 @@ kazeMB:
       Path: kazeMB/Room6.arc/Actor001
 
 
+# TODO
 # Master Sword Chamber
 kenroom:
 -
@@ -5476,6 +5520,7 @@ kenroom:
       Path: kenroom/Room0.arc/Layer4/Actor003
 
 
+# TODO
 # Forbidden Woods Mothula Mini-Boss Room
 kinMB:
 -
@@ -5489,6 +5534,7 @@ kinMB:
       Path: kinMB/Room10.arc/Actor023
 
 
+# TODO
 # Forbidden Woods
 kindan:
 -
@@ -5907,6 +5953,7 @@ kindan:
       Path: kindan/Room16.arc/Actor014
 
 
+# TODO
 # Forsaken Fortress Interior (2nd visit)
 ma2room:
 -
@@ -6039,6 +6086,7 @@ ma2room:
       Path: ma2room/Room4.arc/Actor00D
 
 
+# TODO
 # Forsaken Fortress Interior (3rd visit)
 ma3room:
 -
@@ -6171,6 +6219,7 @@ ma3room:
       Path: ma3room/Room4.arc/Actor00D
 
 
+# TODO
 # Forsaken Fortress Interior (1st visit)
 majroom:
 -
@@ -6288,6 +6337,7 @@ majroom:
       Path: majroom/Room3.arc/Actor007
 
 
+# TODO
 # Forsaken Fortress
 sea/Room1.arc:
 -
@@ -6379,6 +6429,7 @@ sea/Room1.arc:
       Path: sea/Room1.arc/Layer3/Actor006
 
 
+# TODO
 # Star Island
 sea/Room2.arc:
 -
@@ -6425,6 +6476,7 @@ sea/Room2.arc:
       Path: sea/Room2.arc/Actor033
 
 
+# TODO
 # Northern Fairy Island
 sea/Room3.arc:
 -
@@ -6450,6 +6502,7 @@ sea/Room3.arc:
       Path: sea/Room3.arc/Actor014
 
 
+# TODO
 # Crescent Moon Island
 sea/Room5.arc:
 -
@@ -6463,6 +6516,7 @@ sea/Room5.arc:
       Path: sea/Room5.arc/Actor002
 
 
+# TODO
 # Seven-Star Isles
 sea/Room6.arc:
 -
@@ -6497,6 +6551,7 @@ sea/Room6.arc:
       Path: sea/Room6.arc/Actor02B
 
 
+# TODO
 # Pawprint Isle
 sea/Room12.arc:
 -
@@ -6522,6 +6577,7 @@ sea/Room12.arc:
       Path: sea/Room12.arc/Actor033
 
 
+# TODO
 # Dragon Roost Island
 sea/Room13.arc:
 -
@@ -6572,6 +6628,7 @@ sea/Room13.arc:
       Path: sea/Room13.arc/Layer1/Actor003
 
 
+# TODO
 # Western Fairy Island
 sea/Room15.arc:
 -
@@ -6597,6 +6654,7 @@ sea/Room15.arc:
       Path: sea/Room15.arc/Actor01B
 
 
+# TODO
 # Rock Spire Isle
 sea/Room16.arc:
 -
@@ -6638,6 +6696,7 @@ sea/Room16.arc:
       Path: sea/Room16.arc/Actor035
 
 
+# TODO
 # Tingle Island
 sea/Room17.arc:
 -
@@ -6651,6 +6710,7 @@ sea/Room17.arc:
       Path: sea/Room17.arc/Actor011
 
 
+# TODO
 # Northern Triangle Island
 sea/Room18.arc:
 -
@@ -6664,6 +6724,7 @@ sea/Room18.arc:
       Path: sea/Room18.arc/Actor02B
 
 
+# TODO
 # Eastern Fairy Island
 sea/Room19.arc:
 -
@@ -6685,6 +6746,7 @@ sea/Room19.arc:
       Path: sea/Room19.arc/Actor01B
 
 
+# TODO
 # Fire Mountain
 sea/Room20.arc:
 -
@@ -6703,6 +6765,7 @@ sea/Room20.arc:
       Path: sea/Room20.arc/Actor01A
 
 
+# TODO
 # Star Belt Archipelago
 sea/Room21.arc:
 -
@@ -6766,6 +6829,7 @@ sea/Room21.arc:
       Path: sea/Room21.arc/Actor01D
 
 
+# TODO
 # Cyclops Reef
 sea/Room24.arc:
 -
@@ -6832,6 +6896,7 @@ sea/Room24.arc:
       Path: sea/Room24.arc/Actor029
 
 
+# TODO
 # Six-Eye Reef
 sea/Room25.arc:
 -
@@ -6866,6 +6931,7 @@ sea/Room25.arc:
       Path: sea/Room25.arc/Actor029
 
 
+# TODO
 # Eastern Triangle Island
 sea/Room27.arc:
 -
@@ -6903,6 +6969,7 @@ sea/Room27.arc:
       Path: sea/Room27.arc/Actor007
 
 
+# TODO
 # Thorned Fairy Island
 sea/Room28.arc:
 -
@@ -6941,6 +7008,7 @@ sea/Room28.arc:
       Path: sea/Room28.arc/Actor028
 
 
+# TODO
 # Needle Rock Isle
 sea/Room29.arc:
 -
@@ -6970,6 +7038,7 @@ sea/Room29.arc:
       Path: sea/Room29.arc/Actor013
 
 
+# TODO
 # Islet of Steel
 sea/Room30.arc:
 -
@@ -7026,6 +7095,7 @@ sea/Room30.arc:
       Path: sea/Room30.arc/Actor023
 
 
+# TODO
 # Stone Watcher Island
 sea/Room31.arc:
 -
@@ -7043,6 +7113,7 @@ sea/Room31.arc:
       Path: sea/Room31.arc/Actor02F
 
 
+# TODO
 # Southern Triangle Island
 sea/Room32.arc:
 -
@@ -7080,6 +7151,7 @@ sea/Room32.arc:
       Path: sea/Room32.arc/Actor025
 
 
+# TODO
 # Bomb Island
 sea/Room34.arc:
 -
@@ -7101,6 +7173,7 @@ sea/Room34.arc:
       Path: sea/Room34.arc/Actor047
 
 
+# TODO
 # Bird's Peak Rock
 sea/Room35.arc:
 -
@@ -7130,6 +7203,7 @@ sea/Room35.arc:
       Path: sea/Room35.arc/Actor017
 
 
+# TODO
 # Five-Eye Reef
 sea/Room37.arc:
 -
@@ -7172,6 +7246,7 @@ sea/Room37.arc:
       Path: sea/Room37.arc/Actor026
 
 
+# TODO
 # Shark Island
 sea/Room38.arc:
 -
@@ -7230,6 +7305,7 @@ sea/Room38.arc:
       Path: sea/Room38.arc/Actor018
 
 
+# TODO
 # Southern Fairy Island
 sea/Room39.arc:
 -
@@ -7267,6 +7343,7 @@ sea/Room39.arc:
       Path: sea/Room39.arc/Actor03D
 
 
+# TODO
 # Forest Haven
 sea/Room41.arc:
 -
@@ -7338,6 +7415,7 @@ sea/Room41.arc:
       Path: sea/Room41.arc/Layer7/Actor003
 
 
+# TODO
 # Cliff Plateau Isles
 sea/Room42.arc:
 -
@@ -7381,6 +7459,7 @@ sea/Room42.arc:
       Path: sea/Room42.arc/Actor038
 
 
+# TODO
 # Horseshoe Island
 sea/Room43.arc:
 -
@@ -7445,6 +7524,7 @@ sea/Room43.arc:
       Path: sea/Room43.arc/Actor055
 
 
+# TODO
 # Outset Island
 sea/Room44.arc:
 -
@@ -7626,6 +7706,7 @@ sea/Room44.arc:
       Path: sea/Room44.arc/Layerb/Actor010
 
 
+# TODO
 # Two-Eye Reef
 sea/Room46.arc:
 -
@@ -7681,6 +7762,7 @@ sea/Room46.arc:
       Path: sea/Room46.arc/Actor026
 
 
+# TODO
 # Angular Isles
 sea/Room47.arc:
 -
@@ -7707,6 +7789,7 @@ sea/Room47.arc:
       Path: sea/Room47.arc/Actor015
 
 
+# TODO
 # Boating Course
 sea/Room48.arc:
 -
@@ -7762,6 +7845,7 @@ sea/Room48.arc:
       Path: sea/Room48.arc/Actor036
 
 
+# TODO
 # Five-Star Isles
 sea/Room49.arc:
 -
