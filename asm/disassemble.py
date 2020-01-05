@@ -1,9 +1,11 @@
 
 from subprocess import call
+from subprocess import DEVNULL
 import tempfile
 import os
 import re
 from io import BytesIO
+from collections import OrderedDict
 
 from fs_helpers import *
 from wwlib.yaz0 import Yaz0
@@ -22,53 +24,73 @@ def disassemble_all_code(self):
   main_symbols = get_main_symbols(self)
   
   
-  files_to_disassemble = get_list_of_all_rels(self)
+  all_rel_paths = get_list_of_all_rels(self)
+  files_to_disassemble = all_rel_paths.copy()
   files_to_disassemble.append("sys/main.dol")
   
-  for file_path in files_to_disassemble:
-    basename_with_ext = os.path.basename(file_path)
-    print(basename_with_ext)
+  for file_path_in_gcm in files_to_disassemble:
+    basename_with_ext = os.path.basename(file_path_in_gcm)
     
     rel_file_entry = rels_arc.get_file_entry(basename_with_ext)
     if rel_file_entry:
       rel_file_entry.decompress_data_if_necessary()
       data = rel_file_entry.data
     else:
-      data = self.gcm.read_file_data(file_path)
+      data = self.gcm.read_file_data(file_path_in_gcm)
       if try_read_str(data, 0, 4) == "Yaz0":
         data = Yaz0.decompress(data)
     
     basename, file_ext = os.path.splitext(basename_with_ext)
     
-    is_rel = (file_ext == ".rel")
-    
-    
     bin_path = os.path.join(out_dir, basename_with_ext)
     with open(bin_path, "wb") as f:
       data.seek(0)
       f.write(data.read())
+  
+  all_rels_by_path = OrderedDict()
+  all_rel_symbols_by_path = OrderedDict()
+  for file_path_in_gcm in all_rel_paths:
+    basename_with_ext = os.path.basename(file_path_in_gcm)
+    basename, file_ext = os.path.splitext(basename_with_ext)
     
+    
+    bin_path = os.path.join(out_dir, basename_with_ext)
+    rel = REL(bin_path)
+    all_rels_by_path[file_path_in_gcm] = rel
+    
+    
+    demangled_map_path = os.path.join(ASM_PATH, "maps-out", basename + ".map.out")
+    if os.path.isfile(demangled_map_path):
+      with open(demangled_map_path, "rb") as f:
+        rel_map_data = BytesIO(f.read())
+    else:
+      rel_map_data = self.gcm.read_file_data("files/maps/" + basename + ".map")
+    rel_map_data.seek(0)
+    rel_map_data = rel_map_data.read()
+    
+    # Copy the map file to the output directory
+    rel_map_path = os.path.join(out_dir, basename + ".map")
+    with open(rel_map_path, "wb") as f:
+      f.write(rel_map_data)
+    
+    rel_map_data = rel_map_data.decode("ascii")
+    
+    all_rel_symbols_by_path[file_path_in_gcm] = get_rel_symbols(rel, rel_map_data)
+  
+  for file_path_in_gcm in files_to_disassemble:
+    basename_with_ext = os.path.basename(file_path_in_gcm)
+    print(basename_with_ext)
+    
+    basename, file_ext = os.path.splitext(basename_with_ext)
+    
+    bin_path = os.path.join(out_dir, basename_with_ext)
     asm_path = os.path.join(out_dir, basename + ".asm")
     
     disassemble_file(bin_path, asm_path)
     
+    is_rel = (file_ext == ".rel")
     if is_rel:
-      demangled_map_path = os.path.join(ASM_PATH, "maps-out", basename + ".map.out")
-      if os.path.isfile(demangled_map_path):
-        with open(demangled_map_path, "rb") as f:
-          rel_map_data = BytesIO(f.read())
-      else:
-        rel_map_data = self.gcm.read_file_data("files/maps/" + basename + ".map")
-      rel_map_data.seek(0)
-      rel_map_data = rel_map_data.read()
-      
-      # Copy the map file to the output directory
-      rel_map_path = os.path.join(out_dir, basename + ".map")
-      with open(rel_map_path, "wb") as f:
-        f.write(rel_map_data)
-      
-      rel_map_data = rel_map_data.decode("ascii")
-      add_relocations_and_symbols_to_rel(asm_path, bin_path, main_symbols, rel_map_data)
+      add_relocations_and_symbols_to_rel(asm_path, bin_path, file_path_in_gcm, main_symbols, all_rel_symbols_by_path, all_rels_by_path)
     else:
       add_symbols_to_main(asm_path, main_symbols)
 
@@ -86,12 +108,14 @@ def disassemble_file(bin_path, asm_path):
   print(" ".join(command))
   print()
   with open(asm_path, "wb") as f:
-    result = call(command, stdout=f)
+    result = call(command, stdout=f, stdin=DEVNULL, stderr=DEVNULL)
   if result != 0:
     raise Exception("Disassembler call failed")
 
-def add_relocations_and_symbols_to_rel(asm_path, rel_path, main_symbols, rel_map_data):
-  rel = REL(rel_path)
+def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, main_symbols, all_rel_symbols_by_path, all_rels_by_path):
+  rel = all_rels_by_path[file_path_in_gcm]
+  rel_symbol_names = all_rel_symbols_by_path[file_path_in_gcm]
+  
   replacements = {}
   replacement_offsets = {}
   for module_num, relocation_entries in rel.relocation_entries_for_module.items():
@@ -102,74 +126,45 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, main_symbols, rel_map
       replacement_location = curr_section_offset+relocation_data_entry.relocation_offset
       rounded_down_location = replacement_location & (~3) # round down to nearest 4
       #print("location of replacement: %04X" % replacement_location)
+      #print("module num: %02X" % module_num)
       if module_num == 0:
         #print("symbol address: %X  %s" % (relocation_data_entry.symbol_address, main_symbols.get(relocation_data_entry.symbol_address, "")))
         symbol_name = main_symbols.get(relocation_data_entry.symbol_address, "")
         replacements[rounded_down_location] = "%X  %s" % (relocation_data_entry.symbol_address, symbol_name)
       else:
-        section_to_relocate_against = rel.sections[relocation_data_entry.section_num_to_relocate_against]
-        section_offset_to_relocate_against = section_to_relocate_against.offset
-        #print("address: %04X (%X + %X)" % (section_offset_to_relocate_against + relocation_data_entry.symbol_address, section_offset_to_relocate_against, relocation_data_entry.symbol_address))
-        #print("section #%X; section offset %X" % (relocation_data_entry.section_num_to_relocate_against, section_offset_to_relocate_against))
-        #replacements[rounded_down_location] = section_offset_to_relocate_against + relocation_data_entry.symbol_address
-        replacements[rounded_down_location] = "%X (%X + %X)" % (
-          section_offset_to_relocate_against + relocation_data_entry.symbol_address,
-          section_offset_to_relocate_against,
-          relocation_data_entry.symbol_address,
-        )
-        replacement_offsets[rounded_down_location] = (section_offset_to_relocate_against + relocation_data_entry.symbol_address)
-      #print()
+        if module_num == rel.id:
+          section_to_relocate_against = rel.sections[relocation_data_entry.section_num_to_relocate_against]
+          section_offset_to_relocate_against = section_to_relocate_against.offset
+          #print("address: %04X (%X + %X)" % (section_offset_to_relocate_against + relocation_data_entry.symbol_address, section_offset_to_relocate_against, relocation_data_entry.symbol_address))
+          #print("section #%X; section offset %X" % (relocation_data_entry.section_num_to_relocate_against, section_offset_to_relocate_against))
+          replacements[rounded_down_location] = "%X (%X + %X)" % (
+            section_offset_to_relocate_against + relocation_data_entry.symbol_address,
+            section_offset_to_relocate_against,
+            relocation_data_entry.symbol_address,
+          )
+          replacement_offsets[rounded_down_location] = (section_offset_to_relocate_against + relocation_data_entry.symbol_address)
+        else:
+          other_rel, other_rel_path_in_gcm = find_rel_by_module_num(all_rels_by_path, module_num)
+          other_rel_symbol_names = all_rel_symbols_by_path[other_rel_path_in_gcm]
+          other_rel_name = os.path.basename(other_rel_path_in_gcm)
+          
+          section_to_relocate_against = other_rel.sections[relocation_data_entry.section_num_to_relocate_against]
+          section_offset_to_relocate_against = section_to_relocate_against.offset
+          #print("address: %04X (%X + %X)" % (section_offset_to_relocate_against + relocation_data_entry.symbol_address, section_offset_to_relocate_against, relocation_data_entry.symbol_address))
+          #print("section #%X; section offset %X" % (relocation_data_entry.section_num_to_relocate_against, section_offset_to_relocate_against))
+          
+          relocated_offset = section_offset_to_relocate_against + relocation_data_entry.symbol_address
+          symbol_name = other_rel_symbol_names.get(relocated_offset, "")
+          replacements[rounded_down_location] = "%s:      %X (%X + %X)      %s" % (
+            other_rel_name,
+            relocated_offset,
+            section_offset_to_relocate_against,
+            relocation_data_entry.symbol_address,
+            symbol_name,
+          )
+          if other_rel.bss_section_index and relocated_offset >= other_rel.fix_size:
+            replacements[rounded_down_location] += "    [BSS]"
   
-  rel_map_lines = rel_map_data.splitlines()
-  found_memory_map = False
-  next_section_index = 0
-  section_name_to_section_index = {}
-  for line in rel_map_lines:
-    if line.strip() == "Memory map:":
-      found_memory_map = True
-    if found_memory_map:
-      section_match = re.search(r"^ +\.(text|ctors|dtors|rodata|data|bss)  [0-9a-f]{8} ([0-9a-f]{8}) [0-9a-f]{8}$", line)
-      if section_match:
-        section_name = section_match.group(1)
-        section_size = int(section_match.group(2), 16)
-        if section_size > 0:
-          section_name_to_section_index[section_name] = next_section_index
-          next_section_index += 1
-  if not found_memory_map:
-    raise Exception("Failed to find memory map")
-  
-  rel_symbol_names = {}
-  all_valid_sections = []
-  for section in rel.sections:
-    if section.length != 0:
-      all_valid_sections.append(section)
-  current_section_name = None
-  current_section_index = None
-  current_section = None
-  for line in rel_map_lines:
-    section_header_match = re.search(r"^\.(text|ctors|dtors|rodata|data|bss) section layout$", line)
-    if section_header_match:
-      current_section_name = section_header_match.group(1)
-      if current_section_name in section_name_to_section_index:
-        current_section_index = section_name_to_section_index[current_section_name]
-        #print(current_section_name, current_section_index, all_valid_sections)
-        current_section = all_valid_sections[current_section_index]
-      else:
-        current_section_index = None
-        current_section = None
-    symbol_entry_match = re.search(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?:  \d)? (.+?) \t", line, re.IGNORECASE)
-    if current_section is not None and symbol_entry_match:
-      current_section_offset = current_section.offset
-      if current_section_offset == 0:
-        raise Exception("Found symbol in section with offset 0")
-      symbol_offset = symbol_entry_match.group(1)
-      symbol_offset = int(symbol_offset, 16)
-      symbol_offset += current_section_offset
-      symbol_name = symbol_entry_match.group(2)
-      rel_symbol_names[symbol_offset] = symbol_name
-      #print("%08X  %s" % (symbol_offset, symbol_name))
-  
-  #print(rel_symbol_names)
   
   with open(asm_path) as f:
     asm = f.read()
@@ -276,6 +271,12 @@ def get_list_of_all_rels(self):
   
   return all_rel_paths
 
+def find_rel_by_module_num(all_rels_by_path, module_num):
+  for rel_path, rel in all_rels_by_path.items():
+    if rel.id == module_num:
+      return (rel, rel_path)
+  return (None, None)
+
 def get_main_symbols(self):
   main_symbols = {}
   demangled_map_path = os.path.join(ASM_PATH, "maps-out", "framework.map.out")
@@ -286,9 +287,63 @@ def get_main_symbols(self):
     framework_map_contents = self.gcm.read_file_data("files/maps/framework.map")
   framework_map_contents.seek(0)
   framework_map_contents = framework_map_contents.read().decode("ascii")
-  matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?:  \d)? (.+?) \t", framework_map_contents, re.IGNORECASE | re.MULTILINE)
+  matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?: +\d+)? (.+?) \t", framework_map_contents, re.IGNORECASE | re.MULTILINE)
   for match in matches:
     address, name = match
     address = int(address, 16)
     main_symbols[address] = name
   return main_symbols
+
+def get_rel_symbols(rel, rel_map_data):
+  rel_map_lines = rel_map_data.splitlines()
+  found_memory_map = False
+  next_section_index = 0
+  section_name_to_section_index = {}
+  for line in rel_map_lines:
+    if line.strip() == "Memory map:":
+      found_memory_map = True
+    if found_memory_map:
+      section_match = re.search(r"^ +\.(text|ctors|dtors|rodata|data|bss)  [0-9a-f]{8} ([0-9a-f]{8}) [0-9a-f]{8}$", line)
+      if section_match:
+        section_name = section_match.group(1)
+        section_size = int(section_match.group(2), 16)
+        if section_size > 0:
+          section_name_to_section_index[section_name] = next_section_index
+          next_section_index += 1
+  if not found_memory_map:
+    raise Exception("Failed to find memory map")
+  
+  rel_symbol_names = {}
+  all_valid_sections = []
+  for section in rel.sections:
+    if section.length != 0:
+      all_valid_sections.append(section)
+  current_section_name = None
+  current_section_index = None
+  current_section = None
+  for line in rel_map_lines:
+    section_header_match = re.search(r"^\.(text|ctors|dtors|rodata|data|bss) section layout$", line)
+    if section_header_match:
+      current_section_name = section_header_match.group(1)
+      if current_section_name in section_name_to_section_index:
+        current_section_index = section_name_to_section_index[current_section_name]
+        #print(current_section_name, current_section_index, all_valid_sections)
+        current_section = all_valid_sections[current_section_index]
+      else:
+        current_section_index = None
+        current_section = None
+    symbol_entry_match = re.search(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?: +\d+)? (.+?) \t", line, re.IGNORECASE)
+    if current_section is not None and symbol_entry_match:
+      current_section_offset = current_section.offset
+      if current_section_offset == 0:
+        raise Exception("Found symbol in section with offset 0")
+      symbol_offset = symbol_entry_match.group(1)
+      symbol_offset = int(symbol_offset, 16)
+      symbol_offset += current_section_offset
+      symbol_name = symbol_entry_match.group(2)
+      rel_symbol_names[symbol_offset] = symbol_name
+      #print("%08X  %s" % (symbol_offset, symbol_name))
+  
+  #print(rel_symbol_names)
+  
+  return rel_symbol_names

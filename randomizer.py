@@ -118,8 +118,9 @@ class Randomizer:
       
       try:
         self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").get_file("cmapdat.bin")
-      except InvalidOffsetError:
+      except (InvalidOffsetError, AssertionError):
         # An invalid offset error when reading fmapres.arc seems to happen when the user has a corrupted clean ISO.
+        # Alternatively, fmapres.arc's magic bytes not being RARC can also happen here, also caused by a corrupted clean ISO.
         # The reason for this is unknown, but when this happens check the ISO's MD5 and if it's wrong say so in an error message.
         self.verify_correct_clean_iso_md5(clean_iso_path)
         

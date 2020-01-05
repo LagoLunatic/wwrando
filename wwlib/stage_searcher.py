@@ -2,6 +2,9 @@
 import re
 from collections import OrderedDict
 
+from fs_helpers import *
+import tweaks
+
 def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_name_to_limit_to=None, exclude_unused=True):
   all_filenames = list(self.gcm.files_by_path.keys())
   
@@ -260,7 +263,7 @@ def print_actor_info(self):
   actr_name_to_actor_info_mapping_offset = tweaks.address_to_offset(0x80372818) # l_objectName
   dol_data = self.get_raw_file("sys/main.dol")
   
-  actor_id_to_rel_filename = {}
+  actor_id_to_rel_filename = OrderedDict()
   
   i = 0
   while True:
@@ -283,6 +286,7 @@ def print_actor_info(self):
     i += 1
   
   with open("Actor Info.txt", "w") as f:
+    done_actor_ids = []
     for i in range(0x339):
       offset = actr_name_to_actor_info_mapping_offset + i*0xC
       
@@ -303,6 +307,17 @@ def print_actor_info(self):
         unknown,
         rel_filename
       ))
+      
+      done_actor_ids.append(actor_id)
+    
+    for actor_id, rel_filename in actor_id_to_rel_filename.items():
+      if actor_id not in done_actor_ids:
+        # Print nameless actors
+        f.write(" [none]:   ID %04X,   Subtype [],   Unknown [],   REL %s\n" % (
+          actor_id,
+          rel_filename
+        ))
+      
 
 def print_all_entity_params(self):
   with open("All Entity Params.txt", "w") as f:

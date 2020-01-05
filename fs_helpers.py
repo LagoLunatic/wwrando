@@ -1,5 +1,6 @@
 
 import struct
+from io import BytesIO
 
 class InvalidOffsetError(Exception):
   pass
@@ -7,6 +8,11 @@ class InvalidOffsetError(Exception):
 def data_len(data):
   data_length = data.seek(0, 2)
   return data_length
+
+def make_copy_data(data):
+  data.seek(0)
+  copy_data = data.read()
+  return BytesIO(copy_data)
 
 
 def read_bytes(data, offset, length):

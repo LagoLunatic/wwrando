@@ -761,17 +761,6 @@
 
 
 
-; Change Stalfos to be immune to Light Arrows.
-; This is because if you cut the Stalfos in half and then kill the upper body with Light Arrows, the lower body will never die, which can softlock the player in the room.
-.open "files/rels/d_a_st.rel"
-.org 0x5AC0
-  ; Make this branch unconditional so the code to die to Light Arrows is never run.
-  b 0x5AFC
-.close
-
-
-
-
 ; When the player enters Wind Temple, reset Makar's position to the starting room, or to near the warp pot the player exited.
 ; This is to prevent possible softlocks where Makar can teleport to later rooms in the dungeon for seemingly no reason.
 .open "files/rels/d_a_npc_cb1.rel" ; Makar
@@ -1233,4 +1222,54 @@
   nop
   nop
   nop
+.close
+
+
+
+
+; Delete Morths that fall out-of-bounds.
+.open "files/rels/d_a_ks.rel" ; Morth
+.org 0x678 ; In naraku_check__FP8ks_class
+  ; This function was originally intended to delete Morths that fall into pits that cause Link to void out.
+  ; We tweak it so that, instead of ignoring when the Morth has no collision below it, it runs the same deletion code in that case as when it has void-out-collision under it.
+  beq 0x6b0
+.close
+
+
+
+
+; Fix a vanilla bug where cutting Stalfos in half and then hitting the upper body with light arrows would make the lower body permanently unkillable.
+.open "files/rels/d_a_st.rel" ; Stalfos
+.org 0xDF3C ; Relocation for line 0x85CC
+  .int stalfos_kill_lower_body_when_upper_body_light_arrowed
+.close
+
+
+
+
+; Fix a vanilla bug where Miniblins killed with light arrows will not set their death switch.
+; (Note: This fix still does not fix the case where the Miniblin is supposed to set switch index 0 on death, but there are no Miniblins in the game that are supposed to set that, so it doesn't matter.)
+.open "files/rels/d_a_pt.rel" ; Miniblin
+.org 0x8950 ; Relocation for line 0x4B44
+  .int miniblin_set_death_switch_when_light_arrowed
+.close
+
+
+
+
+; Fix a vanilla bug where Jalhalla's child Poes would not tell Jalhalla they died when hit by light arrows.
+.open "files/rels/d_a_pw.rel" ; Poe
+.org 0x8CC
+  ; Remove a check that the Poe's HP must be <= 0 for it to be considered dead by Jalhalla.
+  ; We're going to add this back in our custom code, we just need to remove it here so the original code reaches the function call we hijack to insert custom code, so that we can have it check (HP <= 0 || isDyingToLightArrows).
+  b 0x8D8
+.org 0x9628 ; Relocation for line 0x900
+  .int poe_fix_light_arrows_bug
+.org 0x904
+  ; Our custom function replaces the entire rest of this function, so just return after the custom function finished.
+  lwz r31, 0x1C (r1)
+  lwz r0, 0x24 (r1)
+  mtlr r0
+  addi r1, r1, 0x20
+  blr
 .close
