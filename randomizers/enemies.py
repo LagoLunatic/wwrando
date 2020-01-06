@@ -311,6 +311,8 @@ def save_changed_enemies_and_randomize_their_params(self):
       enemy.x_pos = x
       enemy.y_pos = y
       enemy.z_pos = z
+    if "Y Rotation" in enemy_location:
+      enemy.y_rot = enemy_location["Y Rotation"]
     
     randomize_enemy_params(self, new_enemy_data, enemy, placement_category, dzx, layer)
     adjust_enemy(self, new_enemy_data, enemy, placement_category, dzx, layer)
@@ -341,10 +343,12 @@ def replace_switch_and_operators(self):
       for and_op_path in switch_and_op_paths:
         and_op = get_switch_and_operator_by_path(self, and_op_path)
         
-        if and_op.name == "AND_SW2":
+        if and_op.name == "AND_SW0":
+          switch_to_set = and_op.and_sw0_switch_to_set
+        elif and_op.name == "AND_SW2":
           switch_to_set = and_op.and_sw2_switch_to_set
         else:
-          raise Exception("TODO AND_SW0")
+          raise Exception("Unknown switch AND operator name: %s" % and_op.name)
         
         and_op.name = "ALLdie"
         and_op.params = 0xFFFFFFFF

@@ -482,6 +482,8 @@ class ACTR(ChunkEntry):
     
     "gyorg_spawner_num_spawned_gyorgs": ("params", 0x000000F0),
     
+    "and_sw0_switch_to_set": ("params", 0xFF000000),
+    
     "and_sw2_switch_to_set": ("params", 0x00FF0000),
     
     "alldie_switch_to_set": ("params", 0x0000FF00),
