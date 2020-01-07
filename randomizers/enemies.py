@@ -71,7 +71,7 @@ def randomize_enemies(self):
   # Now that all randomized enemy locations have been decided successfully, actually save the changed enemies.
   save_changed_enemies_and_randomize_their_params(self)
   
-  replace_switch_and_operators(self)
+  replace_switch_setting_actors_with_alldies(self)
   
   update_loaded_particles(self, self.particles_to_load_for_each_jpc_index)
 
@@ -338,8 +338,8 @@ def save_changed_enemies_and_randomize_their_params(self):
       if particle_id not in self.particles_to_load_for_each_jpc_index[dest_jpc_index]:
         self.particles_to_load_for_each_jpc_index[dest_jpc_index].append(particle_id)
 
-def replace_switch_and_operators(self):
-  # Change each AND operator that checked multiple enemy death switches and set another switch to an entity that simply checks if every enemy in the room is dead and sets a switch instead.
+def replace_switch_setting_actors_with_alldies(self):
+  # Change certain actors that checked something incompatible with enemy randomizer and set a switch to an entity that simply checks if every enemy in the room is dead and sets a switch instead.
   for stage_folder, enemy_locations in self.enemy_locations.items():
     for enemy_group in enemy_locations:
       if "Actors to replace with ALLdies" not in enemy_group:
@@ -347,7 +347,7 @@ def replace_switch_and_operators(self):
       
       actor_paths = enemy_group["Actors to replace with ALLdies"]
       for actor_path in actor_paths:
-        actor = get_switch_and_operator_by_path(self, actor_path)
+        actor = get_switch_setter_actor_by_path(self, actor_path)
         
         if actor.name == "AND_SW0":
           switch_to_set = actor.and_sw0_switch_to_set
@@ -356,7 +356,7 @@ def replace_switch_and_operators(self):
         elif actor.name in ["Kbota_A", "Kbota_B", "KbotaC"]:
           switch_to_set = actor.button_switch_to_set
         else:
-          raise Exception("Unimplemented switch-setting actor name: %s" % and_op.name)
+          raise Exception("Unimplemented switch-setting actor name: %s" % actor.name)
         
         actor.name = "ALLdie"
         actor.params = 0xFFFFFFFF
@@ -829,10 +829,10 @@ def get_enemy_instance_by_path(self, path):
   
   return (enemy, arc_name, dzx, layer)
 
-def get_switch_and_operator_by_path(self, path):
+def get_switch_setter_actor_by_path(self, path):
   match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/Actor([0-9A-F]{3})$", path)
   if not match:
-    raise Exception("Invalid AND operator path: %s" % path)
+    raise Exception("Invalid switch setter actor path: %s" % path)
   
   arc_name = match.group(1)
   arc_path = "files/res/Stage/" + arc_name
@@ -846,9 +846,9 @@ def get_switch_and_operator_by_path(self, path):
     dzx = self.get_arc(arc_path).get_file("stage.dzs")
   else:
     dzx = self.get_arc(arc_path).get_file("room.dzr")
-  and_op = dzx.entries_by_type_and_layer("ACTR", layer)[actor_index]
+  actor = dzx.entries_by_type_and_layer("ACTR", layer)[actor_index]
   
-  return and_op
+  return actor
 
 def distance_between_entities(entity_1, entity_2):
   x1, y1, z1 = entity_1.x_pos, entity_1.y_pos, entity_1.z_pos
