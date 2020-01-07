@@ -3567,9 +3567,11 @@ M_Dra09:
     & Can Defeat Bokoblins
   Enemies:
     -
-      Original enemy: Kargaroc
-      Placement category: Air
+      Original enemy: Kargaroc # More accurately, a Kargaroc that drops a Moblin
+      Placement category: Ground
       Path: M_Dra09/Room9.arc/Actor001
+      Position: [-2625, 13600, 475]
+      Y Rotation: 0xCAAA
     -
       Original enemy: Bokoblin
       Placement category: Ground
@@ -3584,7 +3586,7 @@ M_Dra09:
 # Dragon Roost Cavern
 M_NewD2:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
   Free memory: 995888
@@ -3593,21 +3595,21 @@ M_NewD2:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: M_NewD2/Room0.arc/Actor000
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
-      Path: M_NewD2/Room0.arc/Actor001
+    #- # TODO: place a boko stick in the room somewhere so this bokoblin can be randomized
+    #  Original enemy: Bokoblin
+    #  Placement category: Ground
+    #  Path: M_NewD2/Room0.arc/Actor001
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Red ChuChus
   Free memory: 1009392
   Enemies:
-    -
-      Original enemy: Bokoblin
-      Placement category: Pot
-      Path: M_NewD2/Room1.arc/Actor005
+    #- # TODO: place a scimitar in the room somewhere, and move this bokoblin out of the fenced off area, and randomize it
+    #  Original enemy: Bokoblin
+    #  Placement category: Pot
+    #  Path: M_NewD2/Room1.arc/Actor005
     -
       Original enemy: Red ChuChu
       Placement category: Ceiling
@@ -3625,7 +3627,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room1.arc/Actor00B
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Keese
     & Can Defeat Fire Keese
@@ -3648,7 +3650,7 @@ M_NewD2:
       Placement category: Air
       Path: M_NewD2/Room2.arc/Actor028
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Bokoblins
@@ -3661,12 +3663,12 @@ M_NewD2:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: M_NewD2/Room3.arc/Actor00C
-    -
+    - # TODO: don't allow rats to be placed here. they run off the cliff with the item.
       Original enemy: Kargaroc
       Placement category: Ground
       Path: M_NewD2/Room3.arc/Actor00D
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Keese
   Enemies:
@@ -3712,6 +3714,8 @@ M_NewD2:
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Fire Keese
+  Switch AND operators:
+    - M_NewD2/Room7.arc/Actor010
   Enemies:
     -
       Original enemy: Bokoblin
@@ -3730,7 +3734,7 @@ M_NewD2:
       Placement category: Air
       Path: M_NewD2/Room7.arc/Actor00F
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Magtails
   Enemies:
@@ -3739,7 +3743,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room8.arc/Actor008
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Magtails
   Enemies:
@@ -3748,15 +3752,15 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room10.arc/Actor00D
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Red ChuChus
   Enemies:
-    -
-      Original enemy: Bokoblin
-      Placement category: Pot
-      Path: M_NewD2/Room11.arc/Actor006
+    #- # TODO place torch or scimitar somewhere so this guy can be randomized
+    #  Original enemy: Bokoblin
+    #  Placement category: Pot
+    #  Path: M_NewD2/Room11.arc/Actor006
     -
       Original enemy: Red ChuChu
       Placement category: Ceiling
@@ -3773,17 +3777,17 @@ M_NewD2:
       Original enemy: Red ChuChu
       Placement category: Ceiling
       Path: M_NewD2/Room11.arc/Actor00E
+#- # Note: Cannot be randomized because the Magtail is needed to weigh down the button. TODO: replace the button with an ALLdie, and move the magtail onto land.
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Magtails
+#  Enemies:
+#    -
+#      Original enemy: Magtail
+#      Placement category: Ground
+#      Path: M_NewD2/Room12.arc/Actor002
 -
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Magtails
-  Enemies:
-    -
-      Original enemy: Magtail
-      Placement category: Ground
-      Path: M_NewD2/Room12.arc/Actor002
--
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Red ChuChus
   Enemies:
@@ -3792,7 +3796,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room13.arc/Actor00A
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Rats
   Enemies:
@@ -3801,7 +3805,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room14.arc/Actor00B
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Fire Keese
   Enemies:
@@ -3813,15 +3817,15 @@ M_NewD2:
       Original enemy: Fire Keese
       Placement category: Air
       Path: M_NewD2/Room15.arc/Actor008
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Magtails
-  Enemies:
-    -
-      Original enemy: Magtail
-      Placement category: Ground
-      Path: M_NewD2/Room16.arc/Actor004
+#- # Unused room
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Magtails
+#  Enemies:
+#    -
+#      Original enemy: Magtail
+#      Placement category: Ground
+#      Path: M_NewD2/Room16.arc/Actor004
 
 
 # TODO
