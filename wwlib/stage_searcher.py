@@ -325,7 +325,7 @@ def print_all_entity_params(self):
     for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
       stage_and_rooms = [(dzs, stage_arc_path)] + rooms
       for dzx, arc_path in stage_and_rooms:
-        for chunk_type in ["ACTR", "SCOB", "TRES", "TGOB", "TGSC", "DOOR"]:
+        for chunk_type in ["ACTR", "SCOB", "TRES", "TGOB", "TGSC", "DOOR", "TGDR"]:
           for layer in [None] + list(range(11+1)):
             for i, entity in enumerate(dzx.entries_by_type_and_layer(chunk_type, layer)):
               params = entity.params
