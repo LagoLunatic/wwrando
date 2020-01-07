@@ -270,8 +270,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground, Air]
-  Memory used by first one: 25440
-  Memory used by subequent ones: 13536
+  Memory used by first one: 65712 # 25440 without the fireballs being spawned
+  Memory used by subequent ones: 54224 # 13536 without the fireballs being spawned
 -
   Pretty name: ReDead
   Actor name: Rdead1
