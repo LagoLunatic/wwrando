@@ -317,6 +317,11 @@ def save_changed_enemies_and_randomize_their_params(self):
       enemy.x_pos = x
       enemy.y_pos = y
       enemy.z_pos = z
+    elif "Position offset" in enemy_location:
+      x, y, z = enemy_location["Position offset"]
+      enemy.x_pos += x
+      enemy.y_pos += y
+      enemy.z_pos += z
     if "Y Rotation" in enemy_location:
       enemy.y_rot = enemy_location["Y Rotation"]
     

@@ -3581,7 +3581,6 @@ M_Dra09:
       Path: M_Dra09/Room9.arc/Actor005
 
 
-# TODO
 # Dragon Roost Cavern
 M_NewD2:
 -
@@ -3747,10 +3746,12 @@ M_NewD2:
       Original enemy: Fire Keese
       Placement category: Air
       Path: M_NewD2/Room7.arc/Actor00E
+      Position offset: [0, -500, 0]
     -
       Original enemy: Fire Keese
       Placement category: Air
       Path: M_NewD2/Room7.arc/Actor00F
+      Position offset: [0, -500, 0]
 -
   Must defeat enemies: No
   Original requirements:
