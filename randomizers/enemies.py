@@ -694,7 +694,6 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
   elif enemy.name == "Sss":
     pass
   elif enemy.name in ["keeth", "Fkeeth"]:
-    enemy.keese_is_fire_keese = self.rng.choice([0, 1])
     if category == "Ceiling":
       enemy.keese_behavior_type = 0
     else:
