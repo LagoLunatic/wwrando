@@ -30,6 +30,12 @@ def randomize_enemies(self):
     data for data in self.enemy_types
     if data["Allow randomizing to"]
   ]
+  self.enemies_to_randomize_to_when_all_enemies_must_be_killed = [
+    data for data in self.enemy_types
+    if data["Allow randomizing to"]
+    # Ban Morths from being in rooms where you have to kill all enemies, since they don't count as a living enemy, and it would be weird for the player to not be required to kill an enemy placed there.
+    and "Morth" not in data["Pretty name"]
+  ]
   
   self.enemy_datas_by_pretty_name = {}
   for enemy_data in self.enemy_types:
@@ -83,7 +89,7 @@ def decide_on_enemy_pool_for_stage(self, stage_folder, enemy_locations):
   for enemy_group in enemy_locations:
     if enemy_group["Must defeat enemies"]:
       original_req_string = enemy_group["Original requirements"]
-      enemies_logically_allowed_in_this_group = self.logic.filter_out_enemies_that_add_new_requirements(original_req_string, self.enemies_to_randomize_to)
+      enemies_logically_allowed_in_this_group = self.logic.filter_out_enemies_that_add_new_requirements(original_req_string, self.enemies_to_randomize_to_when_all_enemies_must_be_killed)
     else:
       # For rooms where defeating the enemies is not required to progress, don't limit what enemies to put here by logic item requirements.
       enemies_logically_allowed_in_this_group = self.enemies_to_randomize_to
@@ -171,7 +177,7 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
   
   if enemy_group["Must defeat enemies"]:
     original_req_string = enemy_group["Original requirements"]
-    enemies_logically_allowed_in_this_group = self.logic.filter_out_enemies_that_add_new_requirements(original_req_string, self.enemies_to_randomize_to)
+    enemies_logically_allowed_in_this_group = self.logic.filter_out_enemies_that_add_new_requirements(original_req_string, self.enemies_to_randomize_to_when_all_enemies_must_be_killed)
   else:
     enemies_logically_allowed_in_this_group = self.enemies_to_randomize_to
   
