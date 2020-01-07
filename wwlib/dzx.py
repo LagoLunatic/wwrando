@@ -487,6 +487,8 @@ class ACTR(ChunkEntry):
     "and_sw2_switch_to_set": ("params", 0x00FF0000),
     
     "alldie_switch_to_set": ("params", 0x0000FF00),
+    
+    "button_switch_to_set": ("params", 0x0000FF00),
   }
   
   ITEM_NAMES = [

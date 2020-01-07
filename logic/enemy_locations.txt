@@ -132,7 +132,7 @@ Abship:
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Keese
-  Switch AND operators:
+  Actors to replace with ALLdies:
     - Abship/Room0.arc/Actor005
   Enemies:
     -
@@ -179,7 +179,7 @@ Abship:
     & Can Defeat Green ChuChus
     & Can Defeat Red ChuChus
     & Can Defeat Yellow ChuChus
-  Switch AND operators:
+  Actors to replace with ALLdies:
     - Abship/Room1.arc/Actor006
   Enemies:
     -
@@ -225,7 +225,7 @@ Abship:
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Rats
-  Switch AND operators:
+  Actors to replace with ALLdies:
     - Abship/Room2.arc/Actor005
   Enemies:
     -
@@ -308,7 +308,7 @@ Abship:
     & Can Defeat Red ChuChus
     & Can Defeat Miniblins
   Free memory: 1354576
-  Switch AND operators:
+  Actors to replace with ALLdies:
     - Abship/Room6.arc/Actor00E
   Enemies:
     -
@@ -376,7 +376,7 @@ Abship:
   Original requirements:
     Can Defeat Miniblins
   Free memory: 1142496
-  Switch AND operators:
+  Actors to replace with ALLdies:
     - Abship/Room7.arc/Actor011
   Enemies:
     -
@@ -3714,7 +3714,7 @@ M_NewD2:
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Fire Keese
-  Switch AND operators:
+  Actors to replace with ALLdies:
     - M_NewD2/Room7.arc/Actor010
   Enemies:
     -
@@ -3777,15 +3777,19 @@ M_NewD2:
       Original enemy: Red ChuChu
       Placement category: Ceiling
       Path: M_NewD2/Room11.arc/Actor00E
-#- # Note: Cannot be randomized because the Magtail is needed to weigh down the button. TODO: replace the button with an ALLdie, and move the magtail onto land.
-#  Must defeat enemies: Yes
-#  Original requirements:
-#    Can Defeat Magtails
-#  Enemies:
-#    -
-#      Original enemy: Magtail
-#      Placement category: Ground
-#      Path: M_NewD2/Room12.arc/Actor002
+-
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Defeat Magtails
+  Actors to replace with ALLdies:
+    - M_NewD2/Room12.arc/Actor005
+  Enemies:
+    -
+      Original enemy: Magtail
+      Placement category: Ground
+      Path: M_NewD2/Room12.arc/Actor002
+      Position: [5647, -200, -2800]
+      Y Rotation: 0xA1C0
 -
   Must defeat enemies: No
   Original requirements:

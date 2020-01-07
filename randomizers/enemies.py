@@ -342,26 +342,28 @@ def replace_switch_and_operators(self):
   # Change each AND operator that checked multiple enemy death switches and set another switch to an entity that simply checks if every enemy in the room is dead and sets a switch instead.
   for stage_folder, enemy_locations in self.enemy_locations.items():
     for enemy_group in enemy_locations:
-      if "Switch AND operators" not in enemy_group:
+      if "Actors to replace with ALLdies" not in enemy_group:
         continue
       
-      switch_and_op_paths = enemy_group["Switch AND operators"]
-      for and_op_path in switch_and_op_paths:
-        and_op = get_switch_and_operator_by_path(self, and_op_path)
+      actor_paths = enemy_group["Actors to replace with ALLdies"]
+      for actor_path in actor_paths:
+        actor = get_switch_and_operator_by_path(self, actor_path)
         
-        if and_op.name == "AND_SW0":
-          switch_to_set = and_op.and_sw0_switch_to_set
-        elif and_op.name == "AND_SW2":
-          switch_to_set = and_op.and_sw2_switch_to_set
+        if actor.name == "AND_SW0":
+          switch_to_set = actor.and_sw0_switch_to_set
+        elif actor.name == "AND_SW2":
+          switch_to_set = actor.and_sw2_switch_to_set
+        elif actor.name in ["Kbota_A", "Kbota_B", "KbotaC"]:
+          switch_to_set = actor.button_switch_to_set
         else:
-          raise Exception("Unknown switch AND operator name: %s" % and_op.name)
+          raise Exception("Unimplemented switch-setting actor name: %s" % and_op.name)
         
-        and_op.name = "ALLdie"
-        and_op.params = 0xFFFFFFFF
-        and_op.auxilary_param_1 = 0
-        and_op.auxilary_param_2 = 0
-        and_op.alldie_switch_to_set = switch_to_set
-        and_op.save_changes()
+        actor.name = "ALLdie"
+        actor.params = 0xFFFFFFFF
+        actor.auxilary_param_1 = 0
+        actor.auxilary_param_2 = 0
+        actor.alldie_switch_to_set = switch_to_set
+        actor.save_changes()
 
 def update_loaded_particles(self, particles_to_load_for_each_jpc_index):
   # Copy particles to stages that need them for the new enemies we placed.
@@ -479,7 +481,7 @@ def print_all_enemy_locations(self):
         if actor.name in ["AND_SW0", "AND_SW2"]
       ]
       if and_sws:
-        output_str += "  Switch AND operators:\n"
+        output_str += "  Actors to replace with ALLdies:\n"
         for and_sw in and_sws:
           layer_name = ""
           if layer != None:
