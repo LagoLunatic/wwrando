@@ -3557,7 +3557,6 @@ M_DaiMB:
       Path: M_DaiMB/Room12.arc/Actor002
 
 
-# TODO
 # Dragon Roost Cavern Moblin Mini-Boss Room
 M_Dra09:
 -
@@ -3590,26 +3589,45 @@ M_NewD2:
   Original requirements:
     Can Defeat Bokoblins
   Free memory: 995888
+  Existing actors to modify:
+    - # Add two sticks to one of the pots
+      Path: M_NewD2/Room0.arc/Actor003
+      Params: 0x7140C220
   Enemies:
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: M_NewD2/Room0.arc/Actor000
-    #- # TODO: place a boko stick in the room somewhere so this bokoblin can be randomized
-    #  Original enemy: Bokoblin
-    #  Placement category: Ground
-    #  Path: M_NewD2/Room0.arc/Actor001
+    -
+      Original enemy: Bokoblin
+      Placement category: Ground
+      Path: M_NewD2/Room0.arc/Actor001
 -
   Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Red ChuChus
   Free memory: 1009392
+  New actors to add:
+    - # Pot with two unlit sticks in it
+      Name: ootubo1
+      Params: 0x717FC23F
+      Aux Params 1: 0x0000
+      Aux Params 2: 0x00FF
+      Position: [3886, 450, 3593]
+      Y Rotation: 0x0000
+    - # Torch to light the sticks with
+      Name: bonbori
+      Params: 0xFFFFFFFF
+      Aux Params 1: 0x0000
+      Aux Params 2: 0x0000
+      Position: [3920, 450, 3430]
+      Y Rotation: 0x0000
   Enemies:
-    #- # TODO: place a scimitar in the room somewhere, and move this bokoblin out of the fenced off area, and randomize it
-    #  Original enemy: Bokoblin
-    #  Placement category: Pot
-    #  Path: M_NewD2/Room1.arc/Actor005
+    -
+      Original enemy: Bokoblin
+      Placement category: Pot
+      Path: M_NewD2/Room1.arc/Actor005
     -
       Original enemy: Red ChuChu
       Placement category: Ceiling
@@ -3756,11 +3774,16 @@ M_NewD2:
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Red ChuChus
+  Existing actors to modify:
+    - # Add two sticks to one of the pots and move it out of the barricaded section
+      Path: M_NewD2/Room11.arc/Actor004
+      Params: 0x017FC201
+      Position: [-3953, 500, 1426]
   Enemies:
-    #- # TODO place torch or scimitar somewhere so this guy can be randomized
-    #  Original enemy: Bokoblin
-    #  Placement category: Pot
-    #  Path: M_NewD2/Room11.arc/Actor006
+    -
+      Original enemy: Bokoblin
+      Placement category: Ground # Originally in a pot, but we moved the pot
+      Path: M_NewD2/Room11.arc/Actor006
     -
       Original enemy: Red ChuChu
       Placement category: Ceiling

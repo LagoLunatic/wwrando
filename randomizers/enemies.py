@@ -71,7 +71,7 @@ def randomize_enemies(self):
   # Now that all randomized enemy locations have been decided successfully, actually save the changed enemies.
   save_changed_enemies_and_randomize_their_params(self)
   
-  replace_switch_setting_actors_with_alldies(self)
+  add_modify_and_replace_actors_for_enemy_rando(self)
   
   update_loaded_particles(self, self.particles_to_load_for_each_jpc_index)
 
@@ -338,7 +338,7 @@ def save_changed_enemies_and_randomize_their_params(self):
       if particle_id not in self.particles_to_load_for_each_jpc_index[dest_jpc_index]:
         self.particles_to_load_for_each_jpc_index[dest_jpc_index].append(particle_id)
 
-def replace_switch_setting_actors_with_alldies(self):
+def add_modify_and_replace_actors_for_enemy_rando(self):
   # Change certain actors that checked something incompatible with enemy randomizer and set a switch to an entity that simply checks if every enemy in the room is dead and sets a switch instead.
   for stage_folder, enemy_locations in self.enemy_locations.items():
     for enemy_group in enemy_locations:
@@ -347,7 +347,7 @@ def replace_switch_setting_actors_with_alldies(self):
       
       actor_paths = enemy_group["Actors to replace with ALLdies"]
       for actor_path in actor_paths:
-        actor = get_switch_setter_actor_by_path(self, actor_path)
+        actor = get_actor_by_path(self, actor_path)
         
         if actor.name == "AND_SW0":
           switch_to_set = actor.and_sw0_switch_to_set
@@ -364,6 +364,57 @@ def replace_switch_setting_actors_with_alldies(self):
         actor.auxilary_param_2 = 0
         actor.alldie_switch_to_set = switch_to_set
         actor.save_changes()
+  
+  # Make specific changes to existing actors.
+  for stage_folder, enemy_locations in self.enemy_locations.items():
+    for enemy_group in enemy_locations:
+      if "Existing actors to modify" not in enemy_group:
+        continue
+      
+      existing_actor_datas = enemy_group["Existing actors to modify"]
+      for existing_actor_data in existing_actor_datas:
+        actor = get_actor_by_path(self, existing_actor_data["Path"])
+        
+        if "Name" in existing_actor_data:
+          actor.name = existing_actor_data["Name"]
+        if "Params" in existing_actor_data:
+          actor.params = existing_actor_data["Params"]
+        if "Aux Params 1" in existing_actor_data:
+          actor.auxilary_param_1 = existing_actor_data["Aux Params 1"]
+        if "Aux Params 2" in existing_actor_data:
+          actor.auxilary_param_2 = existing_actor_data["Aux Params 2"]
+        if "Position" in existing_actor_data:
+          x, y, z = existing_actor_data["Position"]
+          actor.x_pos = x
+          actor.y_pos = y
+          actor.z_pos = z
+        if "Y Rotation" in existing_actor_data:
+          actor.y_rot = existing_actor_data["Y Rotation"]
+        
+        actor.save_changes()
+  
+  # Add brand new actors when necessary.
+  for stage_folder, enemy_locations in self.enemy_locations.items():
+    for enemy_group in enemy_locations:
+      if "New actors to add" not in enemy_group:
+        continue
+      
+      new_actor_datas = enemy_group["New actors to add"]
+      for new_actor_data in new_actor_datas:
+        dzx, layer = get_dzx_and_layer_by_path(self, enemy_group["Enemies"][0]["Path"])
+        actor = dzx.add_entity("ACTR", layer=layer)
+        
+        actor.name = new_actor_data["Name"]
+        actor.params = new_actor_data["Params"]
+        actor.auxilary_param_1 = new_actor_data["Aux Params 1"]
+        actor.auxilary_param_2 = new_actor_data["Aux Params 2"]
+        x, y, z = new_actor_data["Position"]
+        actor.x_pos = x
+        actor.y_pos = y
+        actor.z_pos = z
+        actor.y_rot = new_actor_data["Y Rotation"]
+        
+        dzx.save_changes()
 
 def update_loaded_particles(self, particles_to_load_for_each_jpc_index):
   # Copy particles to stages that need them for the new enemies we placed.
@@ -808,7 +859,7 @@ def adjust_enemy(self, enemy_data, enemy, category, dzx, layer):
 def get_enemy_instance_by_path(self, path):
   match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/Actor([0-9A-F]{3})$", path)
   if not match:
-    raise Exception("Invalid enemy path: %s" % path)
+    raise Exception("Invalid actor path: %s" % path)
   
   arc_name = match.group(1)
   arc_path = "files/res/Stage/" + arc_name
@@ -829,10 +880,10 @@ def get_enemy_instance_by_path(self, path):
   
   return (enemy, arc_name, dzx, layer)
 
-def get_switch_setter_actor_by_path(self, path):
+def get_actor_by_path(self, path):
   match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/Actor([0-9A-F]{3})$", path)
   if not match:
-    raise Exception("Invalid switch setter actor path: %s" % path)
+    raise Exception("Invalid actor path: %s" % path)
   
   arc_name = match.group(1)
   arc_path = "files/res/Stage/" + arc_name
@@ -849,6 +900,25 @@ def get_switch_setter_actor_by_path(self, path):
   actor = dzx.entries_by_type_and_layer("ACTR", layer)[actor_index]
   
   return actor
+
+def get_dzx_and_layer_by_path(self, path):
+  match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/Actor([0-9A-F]{3})$", path)
+  if not match:
+    raise Exception("Invalid actor path: %s" % path)
+  
+  arc_name = match.group(1)
+  arc_path = "files/res/Stage/" + arc_name
+  if match.group(2):
+    layer = int(match.group(2), 16)
+  else:
+    layer = None
+  
+  if arc_path.endswith("Stage.arc"):
+    dzx = self.get_arc(arc_path).get_file("stage.dzs")
+  else:
+    dzx = self.get_arc(arc_path).get_file("room.dzr")
+  
+  return (dzx, layer)
 
 def distance_between_entities(entity_1, entity_2):
   x1, y1, z1 = entity_1.x_pos, entity_1.y_pos, entity_1.z_pos
