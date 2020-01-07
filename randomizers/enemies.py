@@ -104,7 +104,7 @@ def decide_on_enemy_pool_for_stage(self, stage_folder, enemy_locations):
   for category, enemies_logically_allowed in category_and_logic_combos_needed:
     enemies_allowed_for_combo = [
       enemy_data for enemy_data in enemies_logically_allowed
-      if category in enemy_data["Placement categories"]
+      if is_enemy_allowed_in_placement_category(enemy_data, category)
     ]
     
     for enemy_data in enemies_allowed_for_combo:
@@ -193,7 +193,7 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
   for category in unique_categories_in_this_group:
     enemies_allowed = [
       enemy_data for enemy_data in enemies_logically_allowed_in_this_group_not_yet_in_pool
-      if category in enemy_data["Placement categories"]
+      if is_enemy_allowed_in_placement_category(enemy_data, category)
       and enemy_data in enemy_pool_for_stage
     ]
     
@@ -240,7 +240,7 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
     
     enemies_to_randomize_to_for_this_location = [
       data for data in enemy_pool_for_group
-      if enemy_location["Placement category"] in data["Placement categories"]
+      if is_enemy_allowed_in_placement_category(data, enemy_location["Placement category"])
     ]
     
     if len(enemies_to_randomize_to_for_this_location) == 0:
@@ -262,7 +262,7 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
       error_msg += "Enemies in this group's enemy pool: %s\n" % ", ".join(enemy_pretty_names_in_this_group_pool)
       enemy_actor_names_of_correct_category = []
       for data in self.enemy_types:
-        if enemy_location["Placement category"] in data["Placement categories"]:
+        if is_enemy_allowed_in_placement_category(data, enemy_location["Placement category"]):
           if data["Actor name"] not in enemy_actor_names_of_correct_category:
             enemy_actor_names_of_correct_category.append(data["Actor name"])
       error_msg += "Enemies of the correct category (%s): %s" % (enemy_location["Placement category"], ", ".join(enemy_actor_names_of_correct_category))
@@ -683,6 +683,23 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
   
   raise Exception("Unknown placement category for enemy: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2))
 
+def is_enemy_allowed_in_placement_category(enemy_data, category):
+  enemy_categories = enemy_data["Placement categories"]
+  
+  if category in enemy_categories:
+    return True
+  
+  if category == "Pot" and "Ground" in enemy_categories:
+    return True
+  
+  if category == "Ceiling" and "Air" in enemy_categories:
+    return True
+  
+  if category in ["Ground", "Pot"] and "Air" in enemy_categories:
+    return True
+  
+  return False
+
 def get_amount_of_memory_for_enemy(enemy_data, enemy_actor_names_already_placed_in_room):
   # The first enemy of a species placed in a room uses more than the subsequent ones.
   if enemy_data["Actor name"] in enemy_actor_names_already_placed_in_room:
@@ -729,7 +746,7 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
   elif enemy.name == "Bb":
     if category == "Ground":
       enemy.kargaroc_behavior_type = self.rng.choice([4, 7])
-    elif category == "Air":
+    else: # Air
       enemy.kargaroc_behavior_type = self.rng.choice([0, 1, 2, 3])
   elif enemy.name == "mo2":
     enemy.moblin_type = self.rng.choice([0, 1])
@@ -840,6 +857,11 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
     # TODO maybe set the floormaster's exit index to take medli/makar in when capturing them if in earth or wind temple. and what happens if medli/makar is captured by a floormaster with that not set?
 
 def adjust_enemy(self, enemy_data, enemy, category, dzx, layer):
+  if category == "Ceiling" and "Ceiling" not in enemy_data["Placement categories"]:
+    # Placing Air enemies in Ceiling locations can cause them to clip out of bounds.
+    # Move them down to avoid this.
+    enemy.y_pos -= 500.0
+  
   if enemy.name == "magtail":
     # Magtails wind up being slightly inside the floor for some reason, so bump them up a bit.
     enemy.y_pos += 50.0
