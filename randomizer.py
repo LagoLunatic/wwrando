@@ -17,7 +17,7 @@ from wwlib.gcm import GCM
 from wwlib.jpc import JPC
 import tweaks
 from logic.logic import Logic
-from paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH
+from paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH, IS_RUNNING_FROM_SOURCE
 import customizer
 from wwlib import stage_searcher
 
@@ -39,9 +39,7 @@ with open(os.path.join(RANDO_ROOT_PATH, "version.txt"), "r") as f:
 VERSION_WITHOUT_COMMIT = VERSION
 
 # Try to add the git commit hash to the version number if running from source.
-try:
-  from sys import _MEIPASS
-except ImportError:
+if IS_RUNNING_FROM_SOURCE:
   version_suffix = "_NOGIT"
   
   git_commit_head_file = os.path.join(RANDO_ROOT_PATH, ".git", "HEAD")
@@ -86,6 +84,10 @@ class Randomizer:
       self.dry_run = True
       self.no_logs = True
     self.print_used_flags = ("-printflags" in cmd_line_args)
+    if ("-noitemrando" in cmd_line_args) and IS_RUNNING_FROM_SOURCE:
+      self.randomize_items = False
+    else:
+      self.randomize_items = True
     
     self.test_room_args = None
     if "-test" in cmd_line_args:
@@ -369,12 +371,13 @@ class Randomizer:
     # Reset RNG before doing item randomization so other randomization options don't affect item layout.
     self.rng = self.get_new_rng()
     
-    items.randomize_items(self)
+    if self.randomize_items:
+      items.randomize_items(self)
     
     options_completed += 2
     yield("Saving items...", options_completed)
     
-    if not self.dry_run:
+    if self.randomize_items and not self.dry_run:
       items.write_changed_items(self)
     
     if not self.dry_run:
@@ -389,9 +392,10 @@ class Randomizer:
     options_completed += 9
     yield("Writing logs...", options_completed)
     
-    if self.options.get("generate_spoiler_log"):
-      self.write_spoiler_log()
-    self.write_non_spoiler_log()
+    if self.randomize_items:
+      if self.options.get("generate_spoiler_log"):
+        self.write_spoiler_log()
+      self.write_non_spoiler_log()
     
     yield("Done", -1)
   
@@ -449,12 +453,13 @@ class Randomizer:
     customizer.change_player_clothes_color(self)
   
   def apply_necessary_post_randomization_tweaks(self):
-    tweaks.update_shop_item_descriptions(self)
-    tweaks.update_auction_item_names(self)
-    tweaks.update_battlesquid_item_names(self)
-    tweaks.update_item_names_in_letter_advertising_rock_spire_shop(self)
-    tweaks.update_savage_labyrinth_hint_tablet(self)
-    tweaks.update_randomly_chosen_hints(self)
+    if self.randomize_items:
+      tweaks.update_shop_item_descriptions(self)
+      tweaks.update_auction_item_names(self)
+      tweaks.update_battlesquid_item_names(self)
+      tweaks.update_item_names_in_letter_advertising_rock_spire_shop(self)
+      tweaks.update_savage_labyrinth_hint_tablet(self)
+      tweaks.update_randomly_chosen_hints(self)
     tweaks.show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=self.race_mode_required_dungeons)
     tweaks.prevent_fire_mountain_lava_softlock(self)
   
