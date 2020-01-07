@@ -15,13 +15,33 @@ MAX_ENEMY_SPECIES_PER_STAGE = 10
 # Limit the number of species in a single room at a time too.
 MAX_ENEMY_SPECIES_PER_GROUP = 5
 
+MAX_RANDOMIZATION_REDOS_PER_STAGE = 50
+MAX_RANDOMIZATION_REDOS_PER_ROOM = 20
+
 # We can't let the free memory get all the way down to 0.
 # We need at least 37kb free to take out Grappling Hook, and having other items out at the same time like Bombs and Boomerang can use even more, up to about 46kb.
 # We use 60kb as the amount we always leave free in case the estimated amounts of memory each enemy uses are off by a bit.
 MIN_FREE_SPACE_TO_LEAVE_PER_ROOM = 60000
 
-MAX_RANDOMIZATION_REDOS_PER_STAGE = 50
-MAX_RANDOMIZATION_REDOS_PER_ROOM = 20
+# Stages where the game can temporarily have the entities for two rooms loaded at once while the player is moving through a door.
+# These stages can pose a problem when it comes to calculating how much free memory we have to work with for enemies, so we need to be extra careful with them.
+STAGE_NAMES_WHERE_MULTIPLE_ROOMS_CAN_BE_LOADED_AT_ONCE = [
+  "M_NewD2",
+  "kindan",
+  "Siren",
+  "majroom",
+  "ma2room",
+  "ma3room",
+  "M_Dai",
+  "kaze",
+  "GanonA",
+  "GanonJ",
+  "GanonM",
+  "Cave01",
+  "TF_01",
+  "TF_02",
+  "TF_06",
+]
 
 def randomize_enemies(self):
   self.enemy_locations = Logic.load_and_parse_enemy_locations()
@@ -172,7 +192,12 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
   done_enemy_locations_for_room = []
   
   free_memory = get_free_memory_for_group(enemy_group)
+  if stage_folder in STAGE_NAMES_WHERE_MULTIPLE_ROOMS_CAN_BE_LOADED_AT_ONCE:
+    # In stages where there can be two rooms loaded at once, consider the real amount of free space half of the documented amount.
+    # This probably isn't a very accurate way to emulate this, but it will have to do since we don't know how much memory enemies in the rooms connected to this room take up, since the other rooms may not be randomized yet.
+    free_memory = free_memory / 2
   if False:
+    print("/".join(enemy_group["Enemies"][0]["Path"].split("/")[0:-1]))
     print("Initial free memory: %d" % free_memory)
   
   if enemy_group["Must defeat enemies"]:
@@ -236,7 +261,7 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
   enemy_actor_names_already_placed_in_room = []
   for enemy_location in enemy_group["Enemies"]:
     enemy, arc_name, dzx, layer = get_enemy_instance_by_path(self, enemy_location["Path"])
-    stage_folder, room_arc_name = arc_name.split("/")
+    _, room_arc_name = arc_name.split("/")
     
     enemies_to_randomize_to_for_this_location = [
       data for data in enemy_pool_for_group
