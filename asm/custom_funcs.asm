@@ -1850,7 +1850,7 @@ b 0x80034D34 ; Return (to after a text command has been successfully executed)
 
 
 check_run_new_text_commands_check_failed:
-clrlwi r0,r0,24 ; Replace the line we overwrote to jump here
+clrlwi. r6,r0,24 ; Replace the line we overwrote to jump here
 b 0x80033E78 ; Return (to back inside the code to check what text command should be run)
 
 
