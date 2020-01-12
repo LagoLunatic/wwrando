@@ -109,6 +109,17 @@ class GCM:
     
     return data
   
+  def read_file_raw_data(self, file_path):
+    file_path = file_path.lower()
+    if file_path not in self.files_by_path_lowercase:
+      raise Exception("Could not find file: " + file_path)
+    
+    file_entry = self.files_by_path_lowercase[file_path]
+    with open(self.iso_path, "rb") as iso_file:
+      data = read_bytes(iso_file, file_entry.file_data_offset, file_entry.file_size)
+    
+    return data
+  
   def get_dir_file_entry(self, dir_path):
     dir_path = dir_path.lower()
     if dir_path not in self.dirs_by_path_lowercase:
