@@ -633,13 +633,13 @@
 -
   Pretty name: Floormaster
   Actor name: Fmastr2
-  Params: 0xFFFF02FF
+  Params: 0xFFFF02FF # FF for the exit to put Link in when captured means Link will just be brought back to the entrance of the current room.
   Aux params: 0x01FF
   Aux params 2: 0x00FF
   Required particle IDs: [0x809E]
   Requirements to defeat: Can Defeat Floormasters
   Allow randomizing from: True
-  Allow randomizing to: True # What happens if there's no exit set for where it teleports you to...?
+  Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 12608
   Memory used by subequent ones: 8608

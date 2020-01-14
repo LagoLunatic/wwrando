@@ -5552,13 +5552,20 @@ kenroom:
       Path: kenroom/Room0.arc/Layer4/Actor003
 
 
-# TODO
 # Forbidden Woods Mothula Mini-Boss Room
 kinMB:
 -
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Winged Mothulas
+  New actors to add:
+    - # We need something to open the gate to the chest when the miniboss is dead
+      Name: ALLdie
+      Params: 0xFFFF19FF
+      Aux Params 1: 0x0000
+      Aux Params 2: 0x0000
+      Position: [0, 0, 0]
+      Y Rotation: 0x0000
   Enemies:
     -
       Original enemy: Winged Mothula
@@ -5566,11 +5573,10 @@ kinMB:
       Path: kinMB/Room10.arc/Actor023
 
 
-# TODO
 # Forbidden Woods
 kindan:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Green ChuChus
   Free memory: 935808
@@ -5620,7 +5626,7 @@ kindan:
       Placement category: Ground
       Path: kindan/Room0.arc/Actor032
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Boko Babas
     & Can Defeat Green ChuChus
@@ -5671,7 +5677,7 @@ kindan:
       Placement category: Ground
       Path: kindan/Room1.arc/Actor06F
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Boko Babas
     & Can Defeat Peahats
@@ -5694,7 +5700,7 @@ kindan:
       Placement category: Air
       Path: kindan/Room3.arc/Actor010
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Morths
     & Can Defeat Green ChuChus
@@ -5745,7 +5751,7 @@ kindan:
       Placement category: Ceiling
       Path: kindan/Room6.arc/Actor017
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Peahats
   Enemies:
@@ -5758,7 +5764,7 @@ kindan:
       Placement category: Air
       Path: kindan/Room8.arc/Actor00E
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Mothulas
     & Can Defeat Peahats
@@ -5776,6 +5782,14 @@ kindan:
       Placement category: Air
       Path: kindan/Room9.arc/Actor004
     -
+      Original enemy: Boko Bud Boko Baba # There's already a plain Boko Bud for the player to use, so the Boko Baba is unnecessary and can be randomized.
+      Placement category: Ground
+      Path: kindan/Room9.arc/Actor006
+    -
+      Original enemy: Boko Bud Boko Baba # There's already a plain Boko Bud for the player to use, so the Boko Baba is unnecessary and can be randomized.
+      Placement category: Ground
+      Path: kindan/Room9.arc/Actor01B
+    -
       Original enemy: Peahat
       Placement category: Air
       Path: kindan/Room9.arc/Actor01C
@@ -5784,7 +5798,7 @@ kindan:
       Placement category: Air
       Path: kindan/Room9.arc/Actor01D
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Dexivines
     & Can Defeat Morths
@@ -5841,7 +5855,7 @@ kindan:
       Placement category: Ground
       Path: kindan/Room11.arc/Actor033
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Freshwater Octoroks
     & Can Defeat Green ChuChus
@@ -5898,15 +5912,17 @@ kindan:
     Can Defeat Kargarocs
   Enemies:
     -
-      Original enemy: Kargaroc
-      Placement category: Air
+      Original enemy: Kargaroc # More accurately, a Kargaroc that drops a Moblin
+      Placement category: Ground
       Path: kindan/Room13.arc/Actor018
+      Position: [-6400, 563.4323, -600]
     -
-      Original enemy: Kargaroc
-      Placement category: Air
+      Original enemy: Kargaroc # More accurately, a Kargaroc that drops a Moblin
+      Placement category: Ground
       Path: kindan/Room13.arc/Actor019
+      Position: [-6600, 563.4323, -800]
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Morths
     & Can Defeat Peahats
@@ -5944,6 +5960,8 @@ kindan:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Mothulas
+  Actors to replace with ALLdies:
+    - kindan/Room15.arc/Actor09B
   Enemies:
     -
       Original enemy: Wingless Mothula
@@ -5954,7 +5972,7 @@ kindan:
       Placement category: Ground
       Path: kindan/Room15.arc/Actor09A
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Morths
     & Can Defeat Green ChuChus
