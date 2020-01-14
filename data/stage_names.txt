@@ -209,7 +209,7 @@ M_DragB
 M_NewD2
   Dragon Roost Cavern
 Name
-  Unused
+  File Select Screen
 Nitiyou
   Mrs. Marie's School
 Obombh
@@ -217,7 +217,7 @@ Obombh
 Obshop
   Beedle's Shop Ship
 Ocean
-  Unused
+  Boating Course Minigame
 Ocmera
   Lenzo's House
 Ocrogh
@@ -257,7 +257,7 @@ sea
 sea_E
   Unused
 sea_T
-  Unused
+  Title Screen
 ShipD
   Islet of Steel Interior
 Siren
