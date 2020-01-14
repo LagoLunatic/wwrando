@@ -423,7 +423,9 @@ class ACTR(ChunkEntry):
     
     "moblin_type": ("params", 0x000000FF),
     
-    "peahat_type": ("params", 0x000000FF),
+    "peahat_type":             ("params", 0x000000FF),
+    "peahat_horizontal_range": ("params", 0x0000FF00),
+    "peahat_vertical_range":   ("params", 0x00FF0000),
     
     "rat_type": ("params", 0x0000FF00),
     
@@ -442,6 +444,7 @@ class ACTR(ChunkEntry):
     "chuchu_type":          ("params", 0x0000FF00),
     
     "kargaroc_behavior_type": ("params", 0x000000FF),
+    "kargaroc_range":         ("params", 0x0000FF00),
     
     "morth_behavior_type":       ("params", 0x000000FF),
     "morth_num_morths_in_group": ("params", 0x0000FF00),
@@ -454,6 +457,7 @@ class ACTR(ChunkEntry):
     "armos_knight_guarded_area_range": ("params", 0x0000FF00),
     
     "keese_behavior_type": ("params", 0x000000FF),
+    "keese_range":         ("params", 0x00007F00),
     "keese_is_fire_keese": ("params", 0x00008000),
     
     "octorok_type":            ("params", 0x000000FF),

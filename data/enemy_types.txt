@@ -86,7 +86,7 @@
   Requirements to defeat: Can Defeat Kargarocs
   Allow randomizing from: True
   Allow randomizing to: True
-  Placement categories: [Air, Ground]
+  Placement categories: [Air, Ground, Ceiling]
   Memory used by first one: 49120
   Memory used by subequent ones: 41024
 -
@@ -125,7 +125,7 @@
   Requirements to defeat: Can Defeat Peahats
   Allow randomizing from: True
   Allow randomizing to: True
-  Placement categories: [Air]
+  Placement categories: [Air, Ceiling]
   Memory used by first one: 14688
   Memory used by subequent ones: 10208
 -
@@ -492,7 +492,7 @@
   Requirements to defeat: Can Defeat Red Bubbles
   Allow randomizing from: True
   Allow randomizing to: True
-  Placement categories: [Ground, Air]
+  Placement categories: [Ground, Air, Ceiling]
   Memory used by first one: 7936
   Memory used by subequent ones: 5504
 -
@@ -505,7 +505,7 @@
   Requirements to defeat: Can Defeat Blue Bubbles
   Allow randomizing from: True
   Allow randomizing to: True
-  Placement categories: [Ground, Air]
+  Placement categories: [Ground, Air, Ceiling]
   Memory used by first one: 7936
   Memory used by subequent ones: 5504
 -
@@ -544,7 +544,7 @@
   Requirements to defeat: Can Defeat Winged Mothulas
   Allow randomizing from: True
   Allow randomizing to: True
-  Placement categories: [Air]
+  Placement categories: [Air, Ceiling]
   Memory used by first one: 46944
   Memory used by subequent ones: 25312
 -

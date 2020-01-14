@@ -722,9 +722,6 @@ def is_enemy_allowed_in_placement_category(enemy_data, category):
   if category == "Pot" and "Ground" in enemy_categories:
     return True
   
-  if category == "Ceiling" and "Air" in enemy_categories:
-    return True
-  
   if category in ["Ground", "Pot"] and "Air" in enemy_categories:
     return True
   
@@ -776,12 +773,17 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
   elif enemy.name == "Bb":
     if category == "Ground":
       enemy.kargaroc_behavior_type = self.rng.choice([4, 7])
-    else: # Air
+    elif category == "Air":
       enemy.kargaroc_behavior_type = self.rng.choice([0, 1, 2, 3])
+    elif category == "Ceiling":
+      # For locations where the enemy is placed up on the ceiling but is supposed to fall down, allow type 3 (flying and immediately flies down to the player) and types 4 and 7 (sitting, but targets the player when they get close enough). The other types (flying around) will never come down to fight the player and may even clip out of bounds.
+      enemy.kargaroc_behavior_type = self.rng.choice([3, 4, 7])
   elif enemy.name == "mo2":
     enemy.moblin_type = self.rng.choice([0, 1])
   elif enemy.name == "p_hat":
-    pass
+    if category == "Ceiling":
+      enemy.peahat_horizontal_range = 20
+      enemy.peahat_vertical_range = 50
   elif enemy.name == "amos":
     enemy.armos_knight_behavior_type = self.rng.choice([
       0, # Normal
@@ -794,6 +796,7 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
   elif enemy.name in ["keeth", "Fkeeth"]:
     if category == "Ceiling":
       enemy.keese_behavior_type = 0
+      enemy.keese_range = 2 # Increase range to 1500.0
     else:
       enemy.keese_behavior_type = 1
   elif enemy.name == "Oq":
@@ -862,7 +865,7 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
   elif enemy.name == "bable":
     if category == "Air":
       enemy.bubble_should_float = 1
-    else:
+    elif category in ["Ground", "Ceiling"]:
       enemy.bubble_should_float = 0
   elif enemy.name == "gmos":
     if enemy_data["Pretty name"] == "Winged Mothula":
