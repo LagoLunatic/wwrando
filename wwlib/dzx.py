@@ -294,6 +294,9 @@ class SCOB(ChunkEntry):
     
     "event_trigger_seen_switch_index": ("params", 0x0000FF00),
     "event_trigger_evnt_index":        ("params", 0xFF000000),
+    
+    "switch_setter_switch_index": ("params", 0x000000FF),
+    "switch_setter_type":         ("params", 0x00030000),
   }
   
   SALVAGE_NAMES = [
