@@ -13,6 +13,7 @@ class GCM:
     self.files_by_path_lowercase = {}
     self.dirs_by_path = {}
     self.dirs_by_path_lowercase = {}
+    self.changed_files = {}
   
   def read_entire_disc(self):
     self.iso_file = open(self.iso_path, "rb")
@@ -128,8 +129,19 @@ class GCM:
     file_entry = self.dirs_by_path_lowercase[dir_path]
     return file_entry
   
-  def export_disc_to_folder_with_changed_files(self, output_folder_path, changed_files):
-    self.changed_files = changed_files
+  def import_all_files_from_disk(self, input_directory):
+    num_files_overwritten = 0
+    
+    for file_path, file_entry in self.files_by_path.items():
+      full_file_path = os.path.join(input_directory, file_path)
+      if os.path.isfile(full_file_path):
+        with open(full_file_path, "rb") as f:
+          self.changed_files[file_path] = BytesIO(f.read())
+          num_files_overwritten += 1
+    
+    return num_files_overwritten
+  
+  def export_disc_to_folder_with_changed_files(self, output_folder_path):
     for file_path, file_entry in self.files_by_path.items():
       full_file_path = os.path.join(output_folder_path, file_path)
       dir_name = os.path.dirname(full_file_path)
@@ -156,9 +168,7 @@ class GCM:
             size_remaining -= size_to_read
             offset_in_file += size_to_read
   
-  def export_disc_to_iso_with_changed_files(self, output_file_path, changed_files):
-    self.changed_files = changed_files
-    
+  def export_disc_to_iso_with_changed_files(self, output_file_path):
     # Check the changed_files dict for files that didn't originally exist, and add them.
     for file_path in self.changed_files:
       if file_path.lower() in self.files_by_path_lowercase:

@@ -615,7 +615,6 @@ class Randomizer:
   def save_randomized_iso(self):
     self.bmg.save_changes()
     
-    changed_files = {}
     for file_path, data in self.raw_files_by_path.items():
       if file_path.startswith("files/rels/"):
         rel_name = os.path.basename(file_path)
@@ -626,24 +625,24 @@ class Randomizer:
           rel_file_entry.data = data
           continue
       
-      changed_files[file_path] = data
+      self.gcm.changed_files[file_path] = data
     for arc_path, arc in self.arcs_by_path.items():
       for file_name, instantiated_file in arc.instantiated_object_files.items():
         if file_name == "event_list.dat":
           instantiated_file.save_changes()
       
       arc.save_changes()
-      changed_files[arc_path] = arc.data
+      self.gcm.changed_files[arc_path] = arc.data
     for jpc_path, jpc in self.jpcs_by_path.items():
       jpc.save_changes()
-      changed_files[jpc_path] = jpc.data
+      self.gcm.changed_files[jpc_path] = jpc.data
     
     if self.export_disc_to_folder:
       output_folder_path = os.path.join(self.randomized_output_folder, "WW Random %s" % self.seed)
-      self.gcm.export_disc_to_folder_with_changed_files(output_folder_path, changed_files)
+      self.gcm.export_disc_to_folder_with_changed_files(output_folder_path)
     else:
       output_file_path = os.path.join(self.randomized_output_folder, "WW Random %s.iso" % self.seed)
-      self.gcm.export_disc_to_iso_with_changed_files(output_file_path, changed_files)
+      self.gcm.export_disc_to_iso_with_changed_files(output_file_path)
   
   def convert_string_to_integer_md5(self, string):
     return int(hashlib.md5(string.encode('utf-8')).hexdigest(), 16)
