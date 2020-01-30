@@ -136,10 +136,25 @@ class GCM:
       if not os.path.isdir(dir_name):
         os.makedirs(dir_name)
       
-      file_data = self.get_changed_file_data(file_path)
-      with open(full_file_path, "wb") as f:
-        file_data.seek(0)
-        f.write(file_data.read())
+      if file_path in self.changed_files:
+        file_data = self.changed_files[file_path]
+        with open(full_file_path, "wb") as f:
+          file_data.seek(0)
+          f.write(file_data.read())
+      else:
+        # Need to avoid reading enormous files all at once
+        size_remaining = file_entry.file_size
+        offset_in_file = 0
+        with open(full_file_path, "wb") as f:
+          while size_remaining > 0:
+            size_to_read = min(size_remaining, MAX_DATA_SIZE_TO_READ_AT_ONCE)
+            
+            with open(self.iso_path, "rb") as iso_file:
+              data = read_bytes(iso_file, file_entry.file_data_offset + offset_in_file, size_to_read)
+            f.write(data)
+            
+            size_remaining -= size_to_read
+            offset_in_file += size_to_read
   
   def export_disc_to_iso_with_changed_files(self, output_file_path, changed_files):
     self.changed_files = changed_files
