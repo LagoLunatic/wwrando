@@ -1288,3 +1288,12 @@
   addi r1, r1, 0x20
   blr
 .close
+
+
+
+
+; Fix a bug where losing to the Outset whirlpool wouldn't stop the intense music from playing, and would result in both that music and Outset's normal music playing at the same time afterwards.
+.open "files/rels/d_a_ship.rel"
+.org 0x1121C ; Relocatiaon for line 7CB8 (in daShip_c::procWhirlDown)
+  .int set_next_stage_and_stop_sub_bgm
+.close
