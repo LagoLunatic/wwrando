@@ -1317,3 +1317,13 @@
 .org 0x80182544 ; In makeRecInfo
   b get_max_health_for_file_select_screen
 .close
+
+
+
+
+; Properly force the player model to be either hero's clothes or casual clothes depending on what the user selected, and not whether they're on new game or new game+.
+.open "sys/main.dol"
+.org 0x80125AEC ; In daPy_lk_c::playerInit(void)
+  bl check_player_in_casual_clothes
+  cmplwi r3, 0 ; Change check on r0 to check on r3
+.close

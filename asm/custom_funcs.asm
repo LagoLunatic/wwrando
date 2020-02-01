@@ -72,6 +72,8 @@ lis r3, 0x803C522C@ha
 addi r3, r3, 0x803C522C@l
 li r4, 0x3510 ; HAS_SEEN_INTRO
 bl onEventBit__11dSv_event_cFUs
+li r4, 0x2A80 ; HAS_HEROS_CLOTHES (This should be set even if the player wants to wear casual clothes, it's overridden elsewhere)
+bl onEventBit__11dSv_event_cFUs
 li r4, 0x0280 ; SAW_TETRA_IN_FOREST_OF_FAIRIES
 bl onEventBit__11dSv_event_cFUs
 li r4, 0x0520 ; GOSSIP_STONE_AT_FF1 (Causes Aryll and the pirates to disappear from Outset)
@@ -278,18 +280,6 @@ addi r3, r3, 0x803C522C@l
 li r4, 0x3D04 ; Saw the Triforce refuse
 bl onEventBit__11dSv_event_cFUs
 after_starting_triforce_shards:
-
-
-lis r5, should_start_with_heros_clothes@ha
-addi r5, r5, should_start_with_heros_clothes@l
-lbz r5, 0 (r5) ; Load bool of whether player should start with Hero's clothes
-cmpwi r5, 1
-bne after_starting_heros_clothes
-lis r3, 0x803C522C@ha
-addi r3, r3, 0x803C522C@l
-li r4, 0x2A80 ; HAS_HEROS_CLOTHES
-bl onEventBit__11dSv_event_cFUs
-after_starting_heros_clothes:
 
 
 lis r5, skip_rematch_bosses@ha
@@ -3025,6 +3015,34 @@ lhz r0, 0 (r4)
 
 get_max_health_for_file_select_screen_end:
 b 0x80182548
+
+
+
+
+.global check_player_in_casual_clothes
+check_player_in_casual_clothes:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lis r3, should_start_with_heros_clothes@ha
+addi r3, r3, should_start_with_heros_clothes@l
+lbz r3, 0 (r3) ; Load bool of whether player should start with Hero's clothes
+cmpwi r3, 1
+beq check_player_in_casual_clothes_hero
+
+check_player_in_casual_clothes_casual:
+li r3, 1
+b check_player_in_casual_clothes_end
+
+check_player_in_casual_clothes_hero:
+li r3, 0
+
+check_player_in_casual_clothes_end:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
 
 
 
