@@ -9,6 +9,15 @@
 
 
 
+; Also allow the initial current HP to be different from the initial max HP (for starting with some heart pieces).
+.open "sys/main.dol"
+.org 0x800589b0
+  b set_active_starting_health ; No bl because there's already a linked branch
+.close
+
+
+
+
 ; nop out a couple lines so the long intro movie is skipped.
 .open "sys/main.dol"
 .org 0x80232C78

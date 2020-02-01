@@ -1165,6 +1165,21 @@ def set_num_starting_triforce_shards(self):
   dol_data = self.get_raw_file("sys/main.dol")
   write_u8(dol_data, address_to_offset(num_shards_address), num_starting_triforce_shards)
 
+def set_starting_health(self):
+  heart_pieces = self.options.get("starting_pohs")
+  heart_containers = self.options.get("starting_hcs") * 4
+  base_health = 12
+
+  starting_health = base_health + heart_containers + heart_pieces
+
+  dol_data = self.get_raw_file("sys/main.dol")
+  write_u16(dol_data, address_to_offset(0x800589AA), starting_health) # Overwrite constant of starting health
+
+def give_double_magic(self):
+  starting_magic_address = self.custom_symbols["starting_magic"]
+  dol_data = self.get_raw_file("sys/main.dol")
+  write_u8(dol_data, address_to_offset(starting_magic_address), 32)
+
 def add_pirate_ship_to_windfall(self):
   windfall_dzx = self.get_arc("files/res/Stage/sea/Room11.arc").get_file("room.dzr")
   

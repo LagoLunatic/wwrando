@@ -152,6 +152,17 @@ class Randomizer:
     num_starting_triforce_shards = int(self.options.get("num_starting_triforce_shards", 0))
     for i in range(num_starting_triforce_shards):
       self.starting_items.append("Triforce Shard %d" % (i+1))
+
+    starting_pohs = self.options.get("starting_pohs")
+    for i in range(starting_pohs):
+      self.starting_items.append("Piece of Heart")
+
+    starting_hcs = self.options.get("starting_hcs")
+    for i in range(starting_hcs):
+      self.starting_items.append("Heart Container")
+
+    if self.options.get("start_double_magic"):
+      self.starting_items.append("Magic Meter Upgrade")
     
     # Default entrances connections to be used if the entrance randomizer is not on.
     self.entrance_connections = OrderedDict([
@@ -342,6 +353,8 @@ class Randomizer:
       tweaks.update_starting_gear(self)
       if self.options.get("disable_tingle_chests_with_tingle_bombs"):
         tweaks.apply_patch(self, "disable_tingle_bombs_on_tingle_chests")
+      if self.options.get("start_double_magic"):
+      	tweaks.give_double_magic(self)
       
       if self.test_room_args is not None:
         tweaks.test_room(self)
@@ -411,6 +424,7 @@ class Randomizer:
     tweaks.shorten_zephos_event(self)
     tweaks.update_korl_dialogue(self)
     tweaks.set_num_starting_triforce_shards(self)
+    tweaks.set_starting_health(self)
     tweaks.add_pirate_ship_to_windfall(self)
     tweaks.remove_makar_kidnapping_event(self)
     tweaks.increase_player_movement_speeds(self)

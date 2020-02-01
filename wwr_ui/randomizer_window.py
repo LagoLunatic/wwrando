@@ -64,6 +64,9 @@ class WWRandomizerWindow(QMainWindow):
     
     self.cached_item_locations = Logic.load_and_parse_item_locations()
     
+    self.ui.starting_pohs.valueChanged.connect(self.update_health_label)
+    self.ui.starting_hcs.valueChanged.connect(self.update_health_label)
+    
     self.load_settings()
     
     self.ui.clean_iso_path.editingFinished.connect(self.update_settings)
@@ -84,6 +87,8 @@ class WWRandomizerWindow(QMainWindow):
         widget.currentIndexChanged.connect(self.update_settings)
       elif isinstance(widget, QListView):
         pass
+      elif isinstance(widget, QSpinBox):
+        widget.valueChanged.connect(self.update_settings)
       else:
         raise Exception("Option widget is invalid: %s" % option_name)
     
@@ -181,6 +186,23 @@ class WWRandomizerWindow(QMainWindow):
     self.move_selected_rows(self.ui.starting_gear, self.ui.randomized_gear)
     self.ui.randomized_gear.model().sourceModel().sort(0)
     self.update_settings()
+  
+  def update_health_label(self):
+    pohs = self.ui.starting_pohs.value()
+    hcs = self.ui.starting_hcs.value() * 4
+    
+    health = hcs + pohs + 12
+    pieces = health % 4
+    
+    text = "Current Starting Health: %d hearts" % (health // 4) # full hearts
+    
+    if pieces != 0:
+      if pieces == 1: # grammar check
+        text += " and 1 piece" 
+      else:
+        text += " and %d pieces" % pieces
+    
+    self.ui.current_health.setText(text)
   
   def randomize(self):
     clean_iso_path = self.settings["clean_iso_path"].strip()
@@ -435,6 +457,11 @@ class WWRandomizerWindow(QMainWindow):
         value = widget.currentIndex()
         assert 0 <= value <= 255
         bitswriter.write(value, 8)
+      elif isinstance(widget, QSpinBox):
+        box_length = (widget.maximum() - widget.minimum()).bit_length()
+        value = widget.value() - widget.minimum()
+        assert 0 <= value < (2 ** box_length)
+        bitswriter.write(value, box_length)
       elif widget == self.ui.starting_gear:
         # randomized_gear is a complement of starting_gear
         for i in range(len(REGULAR_ITEMS)):
@@ -489,6 +516,12 @@ class WWRandomizerWindow(QMainWindow):
         if index >= widget.count() or index < 0:
           index = 0
         value = widget.itemText(index)
+        self.set_option_value(option_name, value)
+      elif isinstance(widget, QSpinBox):
+        box_length = (widget.maximum() - widget.minimum()).bit_length()
+        value = bitsreader.read(box_length) + widget.minimum()
+        if value > widget.maximum() or value < widget.minimum():
+          value = self.default_settings[option_name]
         self.set_option_value(option_name, value)
       elif widget == self.ui.starting_gear:
         # Reset model with only the regular items
@@ -560,6 +593,8 @@ class WWRandomizerWindow(QMainWindow):
       return widget.isChecked()
     elif isinstance(widget, QComboBox):
       return widget.itemText(widget.currentIndex())
+    elif isinstance(widget, QSpinBox):
+      return widget.value()
     elif isinstance(widget, QListView):
       if widget.model() == None:
         return []
@@ -587,6 +622,12 @@ class WWRandomizerWindow(QMainWindow):
         index_of_value = 0
       
       widget.setCurrentIndex(index_of_value)
+    elif isinstance(widget, QSpinBox):
+      if new_value < widget.minimum() or new_value > widget.maximum():
+        print("Value %s out of range for spinbox %s" % (new_value, option_name))
+        new_value = self.default_settings[option_name] # reset to default in case 0 is not default or in normal range
+
+      widget.setValue(new_value)
     elif isinstance(widget, QListView):
       if widget.model() != None:
         model = widget.model()

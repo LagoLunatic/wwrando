@@ -58,7 +58,9 @@ stb r4, 7 (r3) ; Max bombs
 ; Start the player with a magic meter so items that use it work correctly.
 lis r3, 0x803C4C1B@ha
 addi r3, r3, 0x803C4C1B@l
-li r4, 16 ; 16 is the normal starting size of the magic meter.
+lis r4, starting_magic@ha 
+addi r4, r4, starting_magic@l
+lbz r4, 0 (r4) ; Load starting magic address into r4, then load byte at address into r4
 stb r4, 0 (r3) ; Max magic meter
 stb r4, 1 (r3) ; Current magic meter
 
@@ -360,6 +362,9 @@ skip_rematch_bosses:
 starting_gear:
 .space 47, 0xFF ; Allocate space for up to 47 additional items (when changing this also update the constant in tweaks.py)
 .byte 0xFF
+.global starting_magic
+starting_magic:
+.byte 16 ; By default start with 16 units of magic (small magic meter)
 
 .align 2 ; Align to the next 4 bytes
 
@@ -2944,6 +2949,18 @@ lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
 blr
+
+
+
+
+; Func for rounding down active health to 4 so that you don't start a new file with 11 and a quarter hearts
+.global set_active_starting_health
+set_active_starting_health:
+; Health is loaded in r0 from original init__10dSv_save_cFv func
+; Base address to write health to is still stored in r3 as well from the same func
+rlwinm r0,r0,0,0,29
+sth r0, 0x0002 (r3)
+b 0x800589b4
 
 
 
