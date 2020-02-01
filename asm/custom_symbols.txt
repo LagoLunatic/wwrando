@@ -5,7 +5,8 @@
 803fd392 sword_mode
 803fd393 skip_rematch_bosses
 803fd394 starting_gear
-803fd3c4 starting_magic
+803fd3c4 starting_quarter_hearts
+803fd3c6 starting_magic
 803fd3c8 convert_progressive_item_id
 803fd5d0 convert_progressive_item_id_for_createDemoItem
 803fd5fc convert_progressive_item_id_for_daItem_create
@@ -97,7 +98,9 @@
 803fe9a8 miniblin_set_death_switch_when_light_arrowed
 803fe9dc poe_fix_light_arrows_bug
 803fea9c set_next_stage_and_stop_sub_bgm
-803feacc set_active_starting_health
+803feacc set_starting_health
+803feae8 get_current_health_for_file_select_screen
+803feb10 get_max_health_for_file_select_screen
 8022d034 test_room_stage_name
 8022d03c test_room_starting_items_list
 800531e3 test_room_spawn_id

@@ -1171,9 +1171,11 @@ def set_starting_health(self):
   base_health = 12
 
   starting_health = base_health + heart_containers + heart_pieces
+  
+  starting_quarter_hearts_address = self.custom_symbols["starting_quarter_hearts"]
 
   dol_data = self.get_raw_file("sys/main.dol")
-  write_u16(dol_data, address_to_offset(0x800589AA), starting_health) # Overwrite constant of starting health
+  write_u16(dol_data, address_to_offset(starting_quarter_hearts_address), starting_health)
 
 def give_double_magic(self):
   starting_magic_address = self.custom_symbols["starting_magic"]

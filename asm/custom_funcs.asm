@@ -362,6 +362,10 @@ skip_rematch_bosses:
 starting_gear:
 .space 47, 0xFF ; Allocate space for up to 47 additional items (when changing this also update the constant in tweaks.py)
 .byte 0xFF
+.align 1 ; Align to the next 2 bytes
+.global starting_quarter_hearts
+starting_quarter_hearts:
+.short 12 ; By default start with 12 quarter hearts (3 heart containers)
 .global starting_magic
 starting_magic:
 .byte 16 ; By default start with 16 units of magic (small magic meter)
@@ -2953,14 +2957,74 @@ blr
 
 
 
-; Func for rounding down active health to 4 so that you don't start a new file with 11 and a quarter hearts
-.global set_active_starting_health
-set_active_starting_health:
-; Health is loaded in r0 from original init__10dSv_save_cFv func
-; Base address to write health to is still stored in r3 as well from the same func
+; Sets both maximum and active health, and rounds down active health to 4 so that you don't start a new file with 11 and a quarter hearts.
+.global set_starting_health
+set_starting_health:
+
+; Base address to write health to is still stored in r3 from init__10dSv_save_cFv
+lis r4, starting_quarter_hearts@ha
+addi r4, r4, starting_quarter_hearts@l
+lhz r0, 0 (r4)
+sth r0, 0 (r3) ; Store maximum HP (including unfinished heart pieces)
 rlwinm r0,r0,0,0,29
-sth r0, 0x0002 (r3)
-b 0x800589b4
+sth r0, 2 (r3) ; Store current HP (not including unfinished heart pieces)
+
+b 0x800589B4
+
+
+
+
+.global get_current_health_for_file_select_screen
+get_current_health_for_file_select_screen:
+
+; Read the first character of the player's name on this save file.
+; If it's null, the save file does not exist. (This is how the vanilla code detected nonexistent save files as well.)
+lbz r0, 0x157 (r29)
+cmpwi r0, 0
+beq get_current_health_for_file_select_screen_for_blank_save_file
+
+get_current_health_for_file_select_screen_for_existing_save_file:
+; For existing save files, we want to read the amount of health in the save.
+; Just replace the line of code we overwrote to jump here and then return.
+lhz r3, 2 (r29)
+b get_current_health_for_file_select_screen_end
+
+get_current_health_for_file_select_screen_for_blank_save_file:
+; For blank save files, read the initial HP instead of the wrong HP value saved to the deleted save file.
+lis r4, starting_quarter_hearts@ha
+addi r4, r4, starting_quarter_hearts@l
+lhz r3, 0 (r4)
+rlwinm r3,r3,0,0,29 ; Round down initial max HP to 4 to get rid of unfinished heart pieces
+
+get_current_health_for_file_select_screen_end:
+b 0x80182508
+
+
+
+
+.global get_max_health_for_file_select_screen
+get_max_health_for_file_select_screen:
+
+; Read the first character of the player's name on this save file.
+; If it's null, the save file does not exist. (This is how the vanilla code detected nonexistent save files as well.)
+lbz r0, 0x157 (r29)
+cmpwi r0, 0
+beq get_max_health_for_file_select_screen_for_blank_save_file
+
+get_max_health_for_file_select_screen_for_existing_save_file:
+; For existing save files, we want to read the amount of health in the save.
+; Just replace the line of code we overwrote to jump here and then return.
+lhz r0, 0 (r29)
+b get_max_health_for_file_select_screen_end
+
+get_max_health_for_file_select_screen_for_blank_save_file:
+; For blank save files, read the initial HP instead of the wrong HP value saved to the deleted save file.
+lis r4, starting_quarter_hearts@ha
+addi r4, r4, starting_quarter_hearts@l
+lhz r0, 0 (r4)
+
+get_max_health_for_file_select_screen_end:
+b 0x80182548
 
 
 

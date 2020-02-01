@@ -9,10 +9,10 @@
 
 
 
-; Also allow the initial current HP to be different from the initial max HP (for starting with some heart pieces).
+; Set initial HP from a custom symbol and also also allow the initial current HP to be rounded down from the initial max HP (for starting with some heart pieces).
 .open "sys/main.dol"
-.org 0x800589b0
-  b set_active_starting_health ; No bl because there's already a linked branch
+.org 0x800589A8
+  b set_starting_health
 .close
 
 
@@ -1305,4 +1305,15 @@
 .open "files/rels/d_a_ship.rel"
 .org 0x1121C ; Relocatiaon for line 7CB8 (in daShip_c::procWhirlDown)
   .int set_next_stage_and_stop_sub_bgm
+.close
+
+
+
+
+; Fixes a bug related to changing starting health where blank save files on the file select screen would show the number of hearts the player started with on the ISO where the save file was deleted, instead of on the current ISO.
+.open "sys/main.dol"
+.org 0x80182504 ; In makeRecInfo
+  b get_current_health_for_file_select_screen
+.org 0x80182544 ; In makeRecInfo
+  b get_max_health_for_file_select_screen
 .close
