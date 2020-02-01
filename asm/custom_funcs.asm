@@ -949,8 +949,9 @@ blr
 ; This function takes the same arguments as fastCreateItem, but it loads in any unloaded models without crashing like createItem.
 ; This is so we can replace any randomized item spawns that use fastCreateItem with a call to this new function instead.
 ; Note: One part of fastCreateItem that this custom function cannot emulate is giving the item a starting velocity.
-; fastCreateItem can do that because the item subentity is created instantly, but when slow-loading the model for the item, the subentity is created asynchronously later on, so there's no way for us to store the velocity to it.
+; fastCreateItem can do that because the item actor is created instantly, but when slow-loading the model for the item, the actor is created asynchronously later on, so there's no way for us to store the velocity to it.
 ; The proper way to store a velocity to a slow-loaded item is for the object that created this item to check if the item is loaded every frame, and once it is it then stores the velocity to it. But this would be too complex to implement via ASM.
+; Another note: This function cannot accurately emulate the return value of fastCreateItem, which is a pointer to the created actor, because as mentioned above, the actor doesn't exist yet at the moment after createItem is called. Therefore, it has to return the item actor's unique ID instead, like createItem does. This means that any code calling this custom function will need to have any code after the call that handles the return value changed or else it will crash because it will treat the actor unique ID as a pointer.
 .global custom_createItem
 custom_createItem:
 stwu sp, -0x10 (sp)
@@ -958,7 +959,7 @@ mflr r0
 stw r0, 0x14 (sp)
 
 ; If the item ID is FF, no item will be spawned.
-; In order to avoid crashes we need to return a null pointer.
+; In order to avoid issues we need to return -1.
 ; Also don't bother even trying to spawn the item - it wouldn't do anything.
 cmpwi r4, 0xFF
 beq custom_createItem_invalid_item_id
@@ -973,14 +974,11 @@ li r7, 3 ; Don't fade out
 li r9, 5 ; Item action, how it behaves. 5 causes it to make a ding sound so that it's more obvious.
 bl fopAcM_createItem__FP4cXyziiiiP5csXyziP4cXyz
 
-; We need to return a pointer to the item entity to match fastCreateItem.
-; But createItem only returns the entity ID.
-; However, the entity pointer is still conveniently leftover in r5, so we just return that.
-mr r3, r5
+; Return the actor's unique ID that createItem returned.
 b custom_createItem_func_end
 
 custom_createItem_invalid_item_id:
-li r3, 0
+li r3, -1 ; Return -1 to indicate no actor was created.
 
 custom_createItem_func_end:
 lwz r0, 0x14 (sp)
@@ -991,50 +989,80 @@ blr
 
 
 
-; When creating the item for the withered trees, offset the position it spawns at to be right in front of the player.
-; Normally it would spawn at the top and then shoot out with momentum until it's in front of the player.
-; But because of the way custom_createItem works, adding momentum is impossible.
-; So instead just change the position to be in front of the player (but still up in the tree, so it falls down with gravity).
-.global create_item_for_withered_trees
-create_item_for_withered_trees:
+.global withered_tree_item_try_give_momentum
+withered_tree_item_try_give_momentum:
 stwu sp, -0x10 (sp)
 mflr r0
 stw r0, 0x14 (sp)
 
-lis r10, withered_tree_item_spawn_offset@ha
-addi r10, r10, withered_tree_item_spawn_offset@l
+; First replace the function call we overwrote to call this custom function.
+bl fopAcM_SearchByID__FUiPP10fopAc_ac_c
 
-; Offset X pos
-lfs f0, 0 (r3)
-lfs f4, 0 (r10) ; Read the X offset
-fadds f0,f4,f0
-stfs f0, 0 (r3)
+cmpwi r3, 0
+beq withered_tree_item_try_give_momentum_end ; Item actor has already been picked up
 
-; Offset Y pos
-lfs f0, 4 (r3)
-lfs f4, 4 (r10) ; Read the Y offset
-fadds f0,f4,f0
-stfs f0, 4 (r3)
+lwz r4, 0x18 (sp) ; Read the item actor pointer (original code used sp+8 but this function's stack offset is +0x10)
+cmpwi r4, 0
+beq withered_tree_item_try_give_momentum_end ; Item actor was just created a few frames ago and hasn't actually been properly spawned yet
 
-; Offset Z pos
-lfs f0, 8 (r3)
-lfs f4, 8 (r10) ; Read the Z offset
-fadds f0,f4,f0
-stfs f0, 8 (r3)
+; Now that we have the item actor pointer in r4, we need to check if the actor was just created this frame or not.
+; To do that we store a custom flag to an unused byte in the withered tree actor struct.
+lbz r5, 0x212 (r31) ; (Bytes +0x212 and +0x213 were originally just padding)
+cmpwi r5, 0
+bne withered_tree_item_try_give_momentum_end ; Already set the flag, so this isn't the first frame it spawned on.
 
-bl custom_createItem
+; Since this is the first frame since the item actor was properly created, we can set its momentum.
+lis r10, withered_tree_item_speeds@ha
+addi r10, r10, withered_tree_item_speeds@l
+lfs r0, 0 (r10) ; Read forward velocity
+stfs f0, 0x254 (r4)
+lfs r0, 4 (r10) ; Read the Y velocity
+stfs f0, 0x224 (r4)
+lfs r0, 8 (r10) ; Read gravity
+stfs f0, 0x258 (r4)
 
+; Also set bit 0x40 in some bitfield for the item actor.
+; Apparently this bit is for allowing the actor to still move while events are going on. It doesn't seem to really matter in this specific case, but set it just to be completely safe.
+lwz r5, 0x1C4 (r4)
+ori r5, r5, 0x40
+stw r5, 0x1C4 (r4)
+
+; Now store the custom flag meaning that we've already set the item actor's momentum so we don't do it again.
+li r5, 1
+stb r5, 0x212 (r31)
+
+withered_tree_item_try_give_momentum_end:
 lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
 blr
 
 
-.global withered_tree_item_spawn_offset
-withered_tree_item_spawn_offset:
-.float -245.0 ; X offset
-.float 0.0 ; Y offset
-.float -135.0 ; Z offset
+.global withered_tree_item_speeds
+withered_tree_item_speeds:
+.float 1.75 ; Initial forward velocity
+.float 30 ; Initial Y velocity
+.float -2.1 ; Gravity (Y acceleration)
+
+
+
+
+.global create_item_for_withered_trees_without_setting_speeds
+create_item_for_withered_trees_without_setting_speeds:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+bl custom_createItem
+
+; We need to set our custom flag at withered_tree_entity+0x212 to 1 to prevent withered_tree_item_try_give_momentum from setting the speeds for this item actor.
+li r5, 1
+stb r5, 0x212 (r31)
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
 
 
 
