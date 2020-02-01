@@ -294,7 +294,7 @@ Can Farm Knight's Crests:
   )
   # There are respawning Darknuts in:
   # * The inner cave of Ice Ring Isle.
-  # * Floor 27 (and below) of Savage Labyrinth. (We use the Floor 30 requirements here since they're the same as Floor 27.)
+  # * Floor 27 (and below) of Savage Labyrinth. (We use the Floor 30 requirements here instead of Floor 27 because there's only 1 Darknut on Floor 27, and having to do 27 floors to get 1 Knight's Crest would be way more tedious than doing 30 floors to get 3 Knight's Crests and a chest item.)
   # * The big key room of Earth Temple.
   # * Shark Island's cave.
   # Note: The Ice Ring, Savage, and Shark Island ones have enemies with droppable weapons in the same room as the Darknut, so in swordless you can trick the Darknut into attacking the other enemies, steal their weapon, and use it to kill the Darknut.
