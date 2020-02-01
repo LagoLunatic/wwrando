@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Sat Feb  1 11:42:32 2020
+# Created: Sat Feb  1 12:09:38 2020
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -305,7 +305,7 @@ class Ui_MainWindow(object):
         self.starting_hcs.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.starting_hcs.setMaximum(6)
         self.starting_hcs.setProperty("value", 0)
-        self.starting_hcs.setDisplayIntegerBase(10)
+        self.starting_hcs.setProperty("displayIntegerBase", 10)
         self.starting_hcs.setObjectName("starting_hcs")
         self.horizontalLayout_10.addWidget(self.starting_hcs)
         self.label_5 = QtWidgets.QLabel(self.tab_3)
@@ -314,7 +314,7 @@ class Ui_MainWindow(object):
         self.starting_pohs = QtWidgets.QSpinBox(self.tab_3)
         self.starting_pohs.setMaximum(44)
         self.starting_pohs.setProperty("value", 0)
-        self.starting_pohs.setDisplayIntegerBase(10)
+        self.starting_pohs.setProperty("displayIntegerBase", 10)
         self.starting_pohs.setObjectName("starting_pohs")
         self.horizontalLayout_10.addWidget(self.starting_pohs)
         self.current_health = QtWidgets.QLabel(self.tab_3)
@@ -322,10 +322,6 @@ class Ui_MainWindow(object):
         self.horizontalLayout_10.addWidget(self.current_health)
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_10.addItem(spacerItem2)
-        self.start_double_magic = QtWidgets.QCheckBox(self.tab_3)
-        self.start_double_magic.setLayoutDirection(QtCore.Qt.RightToLeft)
-        self.start_double_magic.setObjectName("start_double_magic")
-        self.horizontalLayout_10.addWidget(self.start_double_magic)
         self.verticalLayout_10.addLayout(self.horizontalLayout_10)
         self.tabWidget.addTab(self.tab_3, "")
         self.tab_2 = QtWidgets.QWidget()
@@ -498,7 +494,6 @@ class Ui_MainWindow(object):
         self.label_6.setText(QtWidgets.QApplication.translate("MainWindow", "Heart Containers", None, -1))
         self.label_5.setText(QtWidgets.QApplication.translate("MainWindow", "Heart Pieces", None, -1))
         self.current_health.setText(QtWidgets.QApplication.translate("MainWindow", "Current Starting Health: 3 hearts", None, -1))
-        self.start_double_magic.setText(QtWidgets.QApplication.translate("MainWindow", "Double Magic", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QtWidgets.QApplication.translate("MainWindow", "Starting Items", None, -1))
         self.label_for_custom_player_model.setText(QtWidgets.QApplication.translate("MainWindow", "Player Model", None, -1))
         self.player_in_casual_clothes.setText(QtWidgets.QApplication.translate("MainWindow", "Casual Clothes", None, -1))

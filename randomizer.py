@@ -160,9 +160,6 @@ class Randomizer:
     starting_hcs = self.options.get("starting_hcs")
     for i in range(starting_hcs):
       self.starting_items.append("Heart Container")
-
-    if self.options.get("start_double_magic"):
-      self.starting_items.append("Magic Meter Upgrade")
     
     # Default entrances connections to be used if the entrance randomizer is not on.
     self.entrance_connections = OrderedDict([
@@ -353,8 +350,6 @@ class Randomizer:
       tweaks.update_starting_gear(self)
       if self.options.get("disable_tingle_chests_with_tingle_bombs"):
         tweaks.apply_patch(self, "disable_tingle_bombs_on_tingle_chests")
-      if self.options.get("start_double_magic"):
-      	tweaks.give_double_magic(self)
       
       if self.test_room_args is not None:
         tweaks.test_room(self)

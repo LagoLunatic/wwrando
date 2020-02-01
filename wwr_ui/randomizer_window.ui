@@ -33,16 +33,7 @@
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
+        <property name="margin">
          <number>0</number>
         </property>
         <item>
@@ -694,7 +685,7 @@
                 <property name="value">
                  <number>0</number>
                 </property>
-                <property name="displayIntegerBase">
+                <property name="displayIntegerBase" stdset="0">
                  <number>10</number>
                 </property>
                </widget>
@@ -714,7 +705,7 @@
                 <property name="value">
                  <number>0</number>
                 </property>
-                <property name="displayIntegerBase">
+                <property name="displayIntegerBase" stdset="0">
                  <number>10</number>
                 </property>
                </widget>
@@ -738,16 +729,6 @@
                  </size>
                 </property>
                </spacer>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="start_double_magic">
-                <property name="layoutDirection">
-                 <enum>Qt::RightToLeft</enum>
-                </property>
-                <property name="text">
-                 <string>Double Magic</string>
-                </property>
-               </widget>
               </item>
              </layout>
             </item>

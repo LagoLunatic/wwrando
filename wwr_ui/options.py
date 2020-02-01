@@ -182,10 +182,6 @@ OPTIONS = OrderedDict([
     "starting_hcs",
     "Amount of extra heart containers that you start with."
   ),
-  (
-    "start_double_magic",
-    "Start with the extended magic meter."
-  ),
 ])
 
 NON_PERMALINK_OPTIONS = [

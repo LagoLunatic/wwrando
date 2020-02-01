@@ -1462,7 +1462,13 @@ def update_sword_mode_game_variable(self):
     raise Exception("Unknown sword mode: %s" % self.options.get("sword_mode"))
 
 def update_starting_gear(self):
-  starting_gear = self.options.get("starting_gear")
+  starting_gear = self.options.get("starting_gear").copy()
+  
+  if "Magic Meter Upgrade" in starting_gear:
+    # Double magic doesn't work when given via our normal starting items initialization code, so we need to handle it specially.
+    give_double_magic(self)
+    starting_gear.remove("Magic Meter Upgrade")
+  
   if len(starting_gear) > MAXIMUM_ADDITIONAL_STARTING_ITEMS:
     raise Exception("Tried to start with more starting items than the maximum number that was allocated")
   starting_gear_array_address = self.custom_symbols["starting_gear"]
