@@ -885,7 +885,7 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
     enemy.floormaster_targeting_behavior_type = self.rng.choice([
       0, # Prioritize Medli/Makar over Link if they're present
       1, # Target only Link
-      2, # Target only Medli/Makar
+      # 2, # Target only Medli/Makar (Do not allow this one because the floormaster would never come up and be killable if not in a stage with a partner)
     ])
     # TODO maybe set the floormaster's exit index to take medli/makar in when capturing them if in earth or wind temple. and what happens if medli/makar is captured by a floormaster with that not set?
 
