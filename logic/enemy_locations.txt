@@ -2991,7 +2991,6 @@ ITest62:
       Path: ITest62/Room0.arc/Actor004
 
 
-# TODO
 # Shark Island Cave
 ITest63:
 -
@@ -3003,6 +3002,8 @@ ITest63:
     & Can Defeat Darknuts
     & Can Defeat Wizzrobes
   Free memory: 1411392
+  Actors to replace with ALLdies:
+    - ITest63/Room0.arc/Actor025
   Enemies:
     -
       Original enemy: Miniblin
@@ -3020,26 +3021,32 @@ ITest63:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor003
+      Position: [2000, 26, -1100]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor004
+      Position: [3200, 26, 200]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor005
+      Position: [3200, 26, -200]
     -
       Original enemy: Blue Moblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor006
+      Position: [2516, 26, -233]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor007
+      Position: [2516, 26, 233]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor008
+      Position: [1666, 26, -991]
     -
       Original enemy: Miniblin
       Placement category: Ground
@@ -3060,10 +3067,12 @@ ITest63:
       Original enemy: Darknut
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor00D
+      Position: [1540, 26, -463]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor00E
+      Position: [2241, 26, -486]
     -
       Original enemy: Miniblin
       Placement category: Ground
@@ -3072,6 +3081,7 @@ ITest63:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor010
+      Position: [1540, 26, 463]
     -
       Original enemy: Miniblin
       Placement category: Ground
@@ -3080,6 +3090,7 @@ ITest63:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor012
+      Position: [2862, 26, -905]
     -
       Original enemy: Miniblin
       Placement category: Ground
@@ -3096,54 +3107,71 @@ ITest63:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor016
+      Position: [2241, 26, 486]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor017
+      Position: [3200, 26, -627]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor018
+      Position: [2862, 26, 649]
     -
       Original enemy: Darknut
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor019
+      Position: [2878, 26, 0]
     -
       Original enemy: Blue Moblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor01A
+      Position: [2100, 26, 1000]
     -
       Original enemy: Blue Moblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor01B
+      Position: [1150, 26, 1000]
     -
       Original enemy: Darknut
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor01C
+      Position: [2446, 26, 404]
+      Y Rotation offset: 0x4000
     -
       Original enemy: Darknut
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor01D
+      Position: [3200, 26, 562]
     -
       Original enemy: Blue Moblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor01E
+      Position: [1900, 26, -855]
     -
       Original enemy: Blue Moblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor01F
+      Position: [2878, 26, 283]
     -
       Original enemy: Darknut
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor020
+      Position: [2878, 26, -283]
+      Y Rotation offset: -0x4000
     -
       Original enemy: Darknut
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor021
+      Position: [1991, 26, 224]
+      Y Rotation offset: -0x4000
     -
       Original enemy: Blue Moblin
       Placement category: Ground
       Path: ITest63/Room0.arc/Actor022
+      Position: [1991, 26, -224]
+      Y Rotation offset: 0x4000
     -
       Original enemy: Wizzrobe
       Placement category: Ground
@@ -4326,11 +4354,10 @@ SirenMB:
       Path: SirenMB/Room23.arc/Actor000
 
 
-# TODO
 # Boating Course Cave
 SubD71:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: Yes # Killing the enemies is not necessary, but hitting the switches without being able to kill them could be very annoying depending on what the enemies are.
   Original requirements:
     Can Defeat Miniblins
   Free memory: 1399856
@@ -4359,6 +4386,7 @@ SubD71:
       Original enemy: Miniblin
       Placement category: Ground
       Path: SubD71/Room0.arc/Actor009
+      Position: [835, 10, -191]
     -
       Original enemy: Miniblin
       Placement category: Ground
@@ -4367,6 +4395,7 @@ SubD71:
       Original enemy: Miniblin
       Placement category: Ground
       Path: SubD71/Room0.arc/Actor00B
+      Position: [835, 10, 144]
     -
       Original enemy: Miniblin
       Placement category: Ground
@@ -4391,137 +4420,137 @@ SubD71:
       Original enemy: Miniblin
       Placement category: Ground
       Path: SubD71/Room0.arc/Actor011
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Miniblins
-  Enemies:
-    -
-      Original enemy: Miniblin
-      Placement category: Ground
-      Path: SubD71/Room0.arc/Layerb/Actor000
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Red Bubbles
-    & Can Defeat Wizzrobes
-    & Can Defeat Poes Without Light Ray
-  Enemies:
-    -
-      Original enemy: Red Bubble
-      Placement category: Ground
-      Path: SubD71/Room1.arc/Actor000
-    -
-      Original enemy: Red Bubble
-      Placement category: Ground
-      Path: SubD71/Room1.arc/Actor001
-    -
-      Original enemy: Wizzrobe
-      Placement category: Ground
-      Path: SubD71/Room1.arc/Actor00D
-    -
-      Original enemy: Poe
-      Placement category: Ground
-      Path: SubD71/Room1.arc/Actor00E
-    -
-      Original enemy: Poe
-      Placement category: Ground
-      Path: SubD71/Room1.arc/Actor00F
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Stalfos
-  Enemies:
-    -
-      Original enemy: Stalfos
-      Placement category: Ground
-      Path: SubD71/Room1.arc/Layer8/Actor001
-    -
-      Original enemy: Stalfos
-      Placement category: Ground
-      Path: SubD71/Room1.arc/Layer8/Actor002
-    -
-      Original enemy: Stalfos
-      Placement category: Ground
-      Path: SubD71/Room1.arc/Layer8/Actor006
-    -
-      Original enemy: Stalfos
-      Placement category: Ground
-      Path: SubD71/Room1.arc/Layer8/Actor007
-    -
-      Original enemy: Stalfos
-      Placement category: Ground
-      Path: SubD71/Room1.arc/Layer8/Actor008
-    -
-      Original enemy: Stalfos
-      Placement category: Ground
-      Path: SubD71/Room1.arc/Layer8/Actor009
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Stalfos
-    & Can Defeat Poes Without Light Ray
-    & Can Defeat Wizzrobes
-  Enemies:
-    -
-      Original enemy: Stalfos
-      Placement category: Ground
-      Path: SubD71/Room2.arc/Actor000
-    -
-      Original enemy: Stalfos
-      Placement category: Ground
-      Path: SubD71/Room2.arc/Actor001
-    -
-      Original enemy: Poe
-      Placement category: Ground
-      Path: SubD71/Room2.arc/Actor00E
-    -
-      Original enemy: Poe
-      Placement category: Ground
-      Path: SubD71/Room2.arc/Actor00F
-    -
-      Original enemy: Wizzrobe
-      Placement category: Ground
-      Path: SubD71/Room2.arc/Actor010
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat ReDeads
-    & Can Defeat Red Bubbles
-    & Can Defeat Stalfos
-  Enemies:
-    -
-      Original enemy: ReDead
-      Placement category: Ground
-      Path: SubD71/Room2.arc/Layer8/Actor000
-    -
-      Original enemy: ReDead
-      Placement category: Ground
-      Path: SubD71/Room2.arc/Layer8/Actor001
-    -
-      Original enemy: Red Bubble
-      Placement category: Ground
-      Path: SubD71/Room2.arc/Layer8/Actor008
-    -
-      Original enemy: Red Bubble
-      Placement category: Ground
-      Path: SubD71/Room2.arc/Layer8/Actor009
-    -
-      Original enemy: Stalfos
-      Placement category: Ground
-      Path: SubD71/Room2.arc/Layer8/Actor00A
-    -
-      Original enemy: Stalfos
-      Placement category: Ground
-      Path: SubD71/Room2.arc/Layer8/Actor00B
-    -
-      Original enemy: Stalfos
-      Placement category: Ground
-      Path: SubD71/Room2.arc/Layer8/Actor00C
-    -
-      Original enemy: Stalfos
-      Placement category: Ground
-      Path: SubD71/Room2.arc/Layer8/Actor00D
+#- # Unused layer
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Miniblins
+#  Enemies:
+#    -
+#      Original enemy: Miniblin
+#      Placement category: Ground
+#      Path: SubD71/Room0.arc/Layerb/Actor000
+#- # Unused room
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Red Bubbles
+#    & Can Defeat Wizzrobes
+#    & Can Defeat Poes Without Light Ray
+#  Enemies:
+#    -
+#      Original enemy: Red Bubble
+#      Placement category: Ground
+#      Path: SubD71/Room1.arc/Actor000
+#    -
+#      Original enemy: Red Bubble
+#      Placement category: Ground
+#      Path: SubD71/Room1.arc/Actor001
+#    -
+#      Original enemy: Wizzrobe
+#      Placement category: Ground
+#      Path: SubD71/Room1.arc/Actor00D
+#    -
+#      Original enemy: Poe
+#      Placement category: Ground
+#      Path: SubD71/Room1.arc/Actor00E
+#    -
+#      Original enemy: Poe
+#      Placement category: Ground
+#      Path: SubD71/Room1.arc/Actor00F
+#- # Unused room
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Stalfos
+#  Enemies:
+#    -
+#      Original enemy: Stalfos
+#      Placement category: Ground
+#      Path: SubD71/Room1.arc/Layer8/Actor001
+#    -
+#      Original enemy: Stalfos
+#      Placement category: Ground
+#      Path: SubD71/Room1.arc/Layer8/Actor002
+#    -
+#      Original enemy: Stalfos
+#      Placement category: Ground
+#      Path: SubD71/Room1.arc/Layer8/Actor006
+#    -
+#      Original enemy: Stalfos
+#      Placement category: Ground
+#      Path: SubD71/Room1.arc/Layer8/Actor007
+#    -
+#      Original enemy: Stalfos
+#      Placement category: Ground
+#      Path: SubD71/Room1.arc/Layer8/Actor008
+#    -
+#      Original enemy: Stalfos
+#      Placement category: Ground
+#      Path: SubD71/Room1.arc/Layer8/Actor009
+#- # Unused room
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Stalfos
+#    & Can Defeat Poes Without Light Ray
+#    & Can Defeat Wizzrobes
+#  Enemies:
+#    -
+#      Original enemy: Stalfos
+#      Placement category: Ground
+#      Path: SubD71/Room2.arc/Actor000
+#    -
+#      Original enemy: Stalfos
+#      Placement category: Ground
+#      Path: SubD71/Room2.arc/Actor001
+#    -
+#      Original enemy: Poe
+#      Placement category: Ground
+#      Path: SubD71/Room2.arc/Actor00E
+#    -
+#      Original enemy: Poe
+#      Placement category: Ground
+#      Path: SubD71/Room2.arc/Actor00F
+#    -
+#      Original enemy: Wizzrobe
+#      Placement category: Ground
+#      Path: SubD71/Room2.arc/Actor010
+#- # Unused room
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat ReDeads
+#    & Can Defeat Red Bubbles
+#    & Can Defeat Stalfos
+#  Enemies:
+#    -
+#      Original enemy: ReDead
+#      Placement category: Ground
+#      Path: SubD71/Room2.arc/Layer8/Actor000
+#    -
+#      Original enemy: ReDead
+#      Placement category: Ground
+#      Path: SubD71/Room2.arc/Layer8/Actor001
+#    -
+#      Original enemy: Red Bubble
+#      Placement category: Ground
+#      Path: SubD71/Room2.arc/Layer8/Actor008
+#    -
+#      Original enemy: Red Bubble
+#      Placement category: Ground
+#      Path: SubD71/Room2.arc/Layer8/Actor009
+#    -
+#      Original enemy: Stalfos
+#      Placement category: Ground
+#      Path: SubD71/Room2.arc/Layer8/Actor00A
+#    -
+#      Original enemy: Stalfos
+#      Placement category: Ground
+#      Path: SubD71/Room2.arc/Layer8/Actor00B
+#    -
+#      Original enemy: Stalfos
+#      Placement category: Ground
+#      Path: SubD71/Room2.arc/Layer8/Actor00C
+#    -
+#      Original enemy: Stalfos
+#      Placement category: Ground
+#      Path: SubD71/Room2.arc/Layer8/Actor00D
 
 
 # TODO

@@ -349,6 +349,9 @@ def save_changed_enemies_and_randomize_their_params(self):
       enemy.z_pos += z
     if "Y Rotation" in enemy_location:
       enemy.y_rot = enemy_location["Y Rotation"]
+    elif "Y Rotation offset" in enemy_location:
+      enemy.y_rot += enemy_location["Y Rotation offset"]
+      enemy.y_rot &= 0xFFFF
     
     randomize_enemy_params(self, new_enemy_data, enemy, placement_category, dzx, layer)
     adjust_enemy(self, new_enemy_data, enemy, placement_category, dzx, layer)
