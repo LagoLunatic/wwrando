@@ -520,11 +520,10 @@ Cave02:
       Path: Cave02/Room0.arc/Actor00B
 
 
-# TODO
 # Cliff Plateau Isles Cave
 Cave03:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Boko Babas
   Enemies:
@@ -542,7 +541,6 @@ Cave03:
       Path: Cave03/Room0.arc/Actor03A
 
 
-# TODO
 # Rock Spire Isle Cave
 Cave04:
 -
@@ -661,7 +659,6 @@ Cave04:
       Path: Cave04/Room0.arc/Actor01C
 
 
-# TODO
 # Horseshoe Island Cave
 Cave05:
 -
@@ -2202,11 +2199,10 @@ Cave11:
       Path: Cave11/Room19.arc/Actor001
 
 
-# TODO
 # Ganon's Tower Entrance
 GanonA:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -2228,11 +2224,10 @@ GanonA:
       Path: GanonA/Room1.arc/Actor007
 
 
-# TODO
 # Ganon's Tower Before Gohma Rematch
 GanonB:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Red Bubbles
   Enemies:
@@ -2254,11 +2249,10 @@ GanonB:
       Path: GanonB/Room0.arc/Actor017
 
 
-# TODO
 # Ganon's Tower Before Molgera Rematch
 GanonC:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Bokoblins
@@ -2277,7 +2271,6 @@ GanonC:
       Path: GanonC/Room0.arc/Actor01E
 
 
-# TODO
 # Ganon's Tower Before Kalle Demos Rematch
 GanonD:
 -
@@ -2295,14 +2288,13 @@ GanonD:
       Path: GanonD/Room0.arc/Actor00E
 
 
-# TODO
 # Ganon's Tower Before Jalhalla Rematch
 GanonE:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Red Bubbles
-    & Can Defeat Poes Without Light Ray
+    & Can Defeat Poes
     & Can Defeat ReDeads
     & Can Defeat Stalfos
   Enemies:
@@ -2334,18 +2326,17 @@ GanonE:
       Original enemy: Poe
       Placement category: Ground
       Path: GanonE/Room0.arc/Actor042
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Stalfos
-  Enemies:
-    -
-      Original enemy: Stalfos
-      Placement category: Ground
-      Path: GanonE/Room0.arc/Layerb/Actor000
+#- # Unused layer
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Stalfos
+#  Enemies:
+#    -
+#      Original enemy: Stalfos
+#      Placement category: Ground
+#      Path: GanonE/Room0.arc/Layerb/Actor000
 
 
-# TODO
 # Ganon's Tower Maze
 GanonJ:
 -
@@ -2469,6 +2460,8 @@ GanonJ:
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Miniblins
+  Actors to replace with ALLdies:
+    - GanonJ/Room9.arc/Actor017
   Enemies:
     -
       Original enemy: Blue Moblin
@@ -2503,7 +2496,7 @@ GanonJ:
       Placement category: Ground
       Path: GanonJ/Room9.arc/Actor016
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -2513,11 +2506,10 @@ GanonJ:
       Path: GanonJ/Room10.arc/Actor00B
 
 
-# TODO
 # Ganon's Tower Puppet Ganon
 GanonK:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Morths
   Enemies:
@@ -2535,7 +2527,6 @@ GanonK:
       Path: GanonK/Room0.arc/Actor01D
 
 
-# TODO
 # Ganon's Tower Stairs To Puppet Ganon
 GanonL:
 -
@@ -2570,11 +2561,10 @@ GanonL:
       Path: GanonL/Room0.arc/Actor00B
 
 
-# TODO
 # Ganon's Tower Stairs To Phantom Ganon
 GanonN:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Miniblins
   Enemies:
@@ -4048,7 +4038,7 @@ PShip:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
-    & Can Defeat Poes Without Light Ray
+    & Can Defeat Poes
   Enemies:
     -
       Original enemy: Wizzrobe
