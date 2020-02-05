@@ -29,6 +29,7 @@ REGULAR_ITEMS = [
   "Cabana Deed",
   "Ghost Ship Chart",
   "Empty Bottle",
+  "Magic Meter Upgrade",
 ]
 REGULAR_ITEMS.sort()
 

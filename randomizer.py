@@ -155,6 +155,14 @@ class Randomizer:
     num_starting_triforce_shards = int(self.options.get("num_starting_triforce_shards", 0))
     for i in range(num_starting_triforce_shards):
       self.starting_items.append("Triforce Shard %d" % (i+1))
+
+    starting_pohs = self.options.get("starting_pohs")
+    for i in range(starting_pohs):
+      self.starting_items.append("Piece of Heart")
+
+    starting_hcs = self.options.get("starting_hcs")
+    for i in range(starting_hcs):
+      self.starting_items.append("Heart Container")
     
     # Default entrances connections to be used if the entrance randomizer is not on.
     self.entrance_connections = OrderedDict([
@@ -423,6 +431,7 @@ class Randomizer:
     tweaks.shorten_zephos_event(self)
     tweaks.update_korl_dialogue(self)
     tweaks.set_num_starting_triforce_shards(self)
+    tweaks.set_starting_health(self)
     tweaks.add_pirate_ship_to_windfall(self)
     tweaks.remove_makar_kidnapping_event(self)
     tweaks.increase_player_movement_speeds(self)
@@ -631,7 +640,6 @@ class Randomizer:
   def save_randomized_iso(self):
     self.bmg.save_changes()
     
-    changed_files = {}
     for file_path, data in self.raw_files_by_path.items():
       if file_path.startswith("files/rels/"):
         rel_name = os.path.basename(file_path)
@@ -642,24 +650,24 @@ class Randomizer:
           rel_file_entry.data = data
           continue
       
-      changed_files[file_path] = data
+      self.gcm.changed_files[file_path] = data
     for arc_path, arc in self.arcs_by_path.items():
       for file_name, instantiated_file in arc.instantiated_object_files.items():
         if file_name == "event_list.dat":
           instantiated_file.save_changes()
       
       arc.save_changes()
-      changed_files[arc_path] = arc.data
+      self.gcm.changed_files[arc_path] = arc.data
     for jpc_path, jpc in self.jpcs_by_path.items():
       jpc.save_changes()
-      changed_files[jpc_path] = jpc.data
+      self.gcm.changed_files[jpc_path] = jpc.data
     
     if self.export_disc_to_folder:
       output_folder_path = os.path.join(self.randomized_output_folder, "WW Random %s" % self.seed)
-      self.gcm.export_disc_to_folder_with_changed_files(output_folder_path, changed_files)
+      self.gcm.export_disc_to_folder_with_changed_files(output_folder_path)
     else:
       output_file_path = os.path.join(self.randomized_output_folder, "WW Random %s.iso" % self.seed)
-      self.gcm.export_disc_to_iso_with_changed_files(output_file_path, changed_files)
+      self.gcm.export_disc_to_iso_with_changed_files(output_file_path)
   
   def convert_string_to_integer_md5(self, string):
     return int(hashlib.md5(string.encode('utf-8')).hexdigest(), 16)

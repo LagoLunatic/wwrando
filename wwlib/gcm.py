@@ -13,6 +13,7 @@ class GCM:
     self.files_by_path_lowercase = {}
     self.dirs_by_path = {}
     self.dirs_by_path_lowercase = {}
+    self.changed_files = {}
   
   def read_entire_disc(self):
     self.iso_file = open(self.iso_path, "rb")
@@ -128,22 +129,46 @@ class GCM:
     file_entry = self.dirs_by_path_lowercase[dir_path]
     return file_entry
   
-  def export_disc_to_folder_with_changed_files(self, output_folder_path, changed_files):
-    self.changed_files = changed_files
+  def import_all_files_from_disk(self, input_directory):
+    num_files_overwritten = 0
+    
+    for file_path, file_entry in self.files_by_path.items():
+      full_file_path = os.path.join(input_directory, file_path)
+      if os.path.isfile(full_file_path):
+        with open(full_file_path, "rb") as f:
+          self.changed_files[file_path] = BytesIO(f.read())
+          num_files_overwritten += 1
+    
+    return num_files_overwritten
+  
+  def export_disc_to_folder_with_changed_files(self, output_folder_path):
     for file_path, file_entry in self.files_by_path.items():
       full_file_path = os.path.join(output_folder_path, file_path)
       dir_name = os.path.dirname(full_file_path)
       if not os.path.isdir(dir_name):
         os.makedirs(dir_name)
       
-      file_data = self.get_changed_file_data(file_path)
-      with open(full_file_path, "wb") as f:
-        file_data.seek(0)
-        f.write(file_data.read())
+      if file_path in self.changed_files:
+        file_data = self.changed_files[file_path]
+        with open(full_file_path, "wb") as f:
+          file_data.seek(0)
+          f.write(file_data.read())
+      else:
+        # Need to avoid reading enormous files all at once
+        size_remaining = file_entry.file_size
+        offset_in_file = 0
+        with open(full_file_path, "wb") as f:
+          while size_remaining > 0:
+            size_to_read = min(size_remaining, MAX_DATA_SIZE_TO_READ_AT_ONCE)
+            
+            with open(self.iso_path, "rb") as iso_file:
+              data = read_bytes(iso_file, file_entry.file_data_offset + offset_in_file, size_to_read)
+            f.write(data)
+            
+            size_remaining -= size_to_read
+            offset_in_file += size_to_read
   
-  def export_disc_to_iso_with_changed_files(self, output_file_path, changed_files):
-    self.changed_files = changed_files
-    
+  def export_disc_to_iso_with_changed_files(self, output_file_path):
     # Check the changed_files dict for files that didn't originally exist, and add them.
     for file_path in self.changed_files:
       if file_path.lower() in self.files_by_path_lowercase:

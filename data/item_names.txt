@@ -28,7 +28,7 @@
 1B - 
 1C - 
 1D - 
-1E - 
+1E - Three Hearts (Pickup)
 1F - Joy Pendant
 20 - Telescope
 21 - Tingle Tuner

@@ -12,6 +12,13 @@ class Yaz0:
   prev_flag = False
   
   @staticmethod
+  def check_is_compressed(comp_data):
+    if try_read_str(comp_data, 0, 4) != "Yaz0":
+      return False
+    
+    return True
+  
+  @staticmethod
   def decompress(comp_data):
     if try_read_str(comp_data, 0, 4) != "Yaz0":
       print("File is not compressed.")

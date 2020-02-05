@@ -1165,6 +1165,23 @@ def set_num_starting_triforce_shards(self):
   dol_data = self.get_raw_file("sys/main.dol")
   write_u8(dol_data, address_to_offset(num_shards_address), num_starting_triforce_shards)
 
+def set_starting_health(self):
+  heart_pieces = self.options.get("starting_pohs")
+  heart_containers = self.options.get("starting_hcs") * 4
+  base_health = 12
+
+  starting_health = base_health + heart_containers + heart_pieces
+  
+  starting_quarter_hearts_address = self.custom_symbols["starting_quarter_hearts"]
+
+  dol_data = self.get_raw_file("sys/main.dol")
+  write_u16(dol_data, address_to_offset(starting_quarter_hearts_address), starting_health)
+
+def give_double_magic(self):
+  starting_magic_address = self.custom_symbols["starting_magic"]
+  dol_data = self.get_raw_file("sys/main.dol")
+  write_u8(dol_data, address_to_offset(starting_magic_address), 32)
+
 def add_pirate_ship_to_windfall(self):
   windfall_dzx = self.get_arc("files/res/Stage/sea/Room11.arc").get_file("room.dzr")
   
@@ -1447,7 +1464,13 @@ def update_sword_mode_game_variable(self):
     raise Exception("Unknown sword mode: %s" % self.options.get("sword_mode"))
 
 def update_starting_gear(self):
-  starting_gear = self.options.get("starting_gear")
+  starting_gear = self.options.get("starting_gear").copy()
+  
+  if "Magic Meter Upgrade" in starting_gear:
+    # Double magic doesn't work when given via our normal starting items initialization code, so we need to handle it specially.
+    give_double_magic(self)
+    starting_gear.remove("Magic Meter Upgrade")
+  
   if len(starting_gear) > MAXIMUM_ADDITIONAL_STARTING_ITEMS:
     raise Exception("Tried to start with more starting items than the maximum number that was allocated")
   starting_gear_array_address = self.custom_symbols["starting_gear"]

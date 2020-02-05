@@ -37,7 +37,7 @@ class RARC:
     self.nodes = []
     for node_index in range(0, num_nodes):
       offset = node_list_offset + node_index*0x10
-      node = Node(data, offset)
+      node = Node(data, offset, self)
       self.nodes.append(node)
     
     self.file_entries = []
@@ -66,11 +66,8 @@ class RARC:
       with open(output_file_path, "wb") as f:
         f.write(file_entry.data.read())
   
-  def extract_all_files_to_disk(self, output_directory=None):
+  def extract_all_files_to_disk(self, output_directory):
     # Preserves directory structure.
-    if output_directory is None:
-      output_directory, _ = os.path.splitext(self.file_path)
-    
     root_node = self.nodes[0]
     self.extract_node_to_disk(root_node, output_directory)
   
@@ -89,6 +86,29 @@ class RARC:
         file.data.seek(0)
         with open(file_path, "wb") as f:
           f.write(file.data.read())
+  
+  def import_all_files_from_disk(self, input_directory):
+    root_node = self.nodes[0]
+    return self.import_node_from_disk(root_node, input_directory)
+  
+  def import_node_from_disk(self, node, path):
+    num_files_overwritten = 0
+    
+    for file in node.files:
+      if file.is_dir:
+        if file.name not in [".", ".."]:
+          subdir_path = os.path.join(path, file.name)
+          subdir_node = self.nodes[file.node_index]
+          num_files_overwritten += self.import_node_from_disk(subdir_node, subdir_path)
+      else:
+        file_path = os.path.join(path, file.name)
+        if os.path.isfile(file_path):
+          with open(file_path, "rb") as f:
+            data = BytesIO(f.read())
+            file.data = data
+            num_files_overwritten += 1
+    
+    return num_files_overwritten
   
   def save_changes(self):
     # Repacks the .arc file.
@@ -178,12 +198,14 @@ class RARC:
       raise Exception("Unknown file type: %s" % file_name)
 
 class Node:
-  def __init__(self, data, offset):
-    self.type = read_str(data, offset, 4)
-    self.name_offset = read_u32(data, offset+4)
-    self.name_hash = read_u16(data, offset+8)
-    self.num_files = read_u16(data, offset+0xA)
-    self.first_file_index = read_u32(data, offset+0xC)
+  def __init__(self, rarc_data, offset, rarc):
+    self.type = read_str(rarc_data, offset, 4)
+    self.name_offset = read_u32(rarc_data, offset+4)
+    self.name_hash = read_u16(rarc_data, offset+8)
+    self.num_files = read_u16(rarc_data, offset+0xA)
+    self.first_file_index = read_u32(rarc_data, offset+0xC)
+    
+    self.name = read_str_until_null_character(rarc_data, rarc.string_list_offset + self.name_offset)
     
     self.files = [] # This will be populated after the file entries have been read.
 
@@ -234,6 +256,12 @@ class FileEntry:
       hash += ord(char)
       hash &= 0xFFFF
     self.name_hash = hash
+    
+    # Set or clear compressed type bits
+    if Yaz0.check_is_compressed(self.data):
+      self.type |= 0x84
+    else:
+      self.type &= ~0x84
     
     type_and_name_offset = (self.type << 24) | (self.name_offset & 0x00FFFFFF)
     

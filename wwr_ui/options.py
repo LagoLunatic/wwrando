@@ -174,6 +174,14 @@ OPTIONS = OrderedDict([
     "starting_gear",
     "Items that will be in Link's inventory at the start of a new game."
   ),
+  (
+    "starting_pohs",
+    "Amount of extra pieces of heart that you start with."
+  ),
+  (
+    "starting_hcs",
+    "Amount of extra heart containers that you start with."
+  ),
 ])
 
 NON_PERMALINK_OPTIONS = [

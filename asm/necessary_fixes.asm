@@ -9,6 +9,15 @@
 
 
 
+; Set initial HP from a custom symbol and also also allow the initial current HP to be rounded down from the initial max HP (for starting with some heart pieces).
+.open "sys/main.dol"
+.org 0x800589A8
+  b set_starting_health
+.close
+
+
+
+
 ; nop out a couple lines so the long intro movie is skipped.
 .open "sys/main.dol"
 .org 0x80232C78
@@ -317,7 +326,7 @@
 ; Three items are spawned by a call to fastCreateItem:
 ; * The item buried under black soil that you need the pig to dig up.
 ; * The item given by the withered trees.
-; * The item hidden in a tree on Windfall.
+; * The item hidden in a tree on Windfall. (Not modified here since its item is not randomized.)
 ; This is bad since fastCreateItem doesn't load the field item model in. If the model isn't already loaded the game will crash.
 ; So we add a new custom function to create an item and load the model, and replace the relevant calls so they call the new function.
 ; Buried item
@@ -327,7 +336,7 @@
   bl custom_createItem
   ; Then remove the code that sets bit 0x4000 of the bitfield at item_entity+0x1C4.
   ; This bit just seems to offset the item or something, but custom_createItem's item action does this anyway.
-  ; Furthermore, it's not possible to set that bit until after the item has been fully loaded in, which doesn't happen until later with custom_createItem unlike fastCreateItem.
+  ; Furthermore, it's not possible to set that bit until after the item actor has been created, which doesn't happen until later with custom_createItem unlike fastCreateItem.
   nop
   nop
   nop
@@ -336,26 +345,41 @@
 .close
 ; Withered trees
 .open "files/rels/d_a_obj_ftree.rel" ; Withered Trees
+; In launch_heart_part (for creating the heart piece when the player waters the final tree)
 .org 0x60E8 ; Relocation for line 0x25C
-  .int create_item_for_withered_trees
-.org 0x6190 ; Relocation for line 0x418
   .int custom_createItem
-; Also change the code that reads the entity ID from subentity+4 to instead read from entity+3C.
-; fastCreateItem returns a pointer to the item subentity, but when slow-loading an item, that sub entity doesn't even exist yet.
-; But this is mostly fine, since all we need is to read the entity ID - and the exact same ID is at entity+3C.
-.org 0x26C
-  lwz r0,0x3C(r31)
-.org 0x428
-  lwz r0,0x3C(r3)
+.org 0x260
+  ; Change the check on the return value from fastCreateItem being 0 (meaning no item actor was created) to instead check if the return value from custom_createItem is -1 (also meaning no item actor was created).
+  mr r31, r3
+  cmpwi r31, -1
+  beq 0x2B8 ; (We overwrite a single line of code here which was a pointless branch that would never execute.)
+  ; Then change the line of code that read the actor's unique ID from actor+4. Since the unique ID was already returned by custom_createItem directly, we don't need to read it, we can just move it from r31.
+  mr r0, r31
+  ; (After this, the withered tree will store the actor's unique ID to tree_actor+0x64C as normal.)
+.org 0x2A4
+  ; Then remove a line of code where it set the bitfield at the item actor+0x1C4 to 0x00004040.
+  ; Since the actor doesn't exist yet we can't set this yet.
+  ; Bit 0x4000 gets set by custom_createItem's item action, so that doesn't matter anyway.
+  ; Bit 0x40 we will set on the frame that the item actor properly spawns as part of withered_tree_item_try_give_momentum.
+  nop
+; In place_heart_part (for recreating the heart piece if the player watered all the trees and then reloaded the stage)
+.org 0x6190 ; Relocation for line 0x418
+  ; Instead of simply calling custom_createItem, we have to call a wrapper function that both calls custom_createItem and sets our custom flag at withered_tree_entity+0x212 on in order to avoid our custom withered tree code setting the speeds to launch the item into the air.
+  .int create_item_for_withered_trees_without_setting_speeds
+.org 0x41C
+  ; Again, like above we change the check on the return value to check -1 instead of 0.
+  cmpwi r3, -1
+  beq 0x45C
+  nop ; (We overwrite a single line of code here which was a pointless branch that would never execute.)
+  ; And again change the line of code that read the actor's unique ID to just move the register it's in.
+  mr r0, r3
+  ; (After this, the withered tree will store the actor's unique ID to tree_actor+0x64C as normal.)
+; In search_heart_part (for detecting if the player has picked up the heart piece yet)
+.org 0x60C8 ; Relocation for line 0x184
+  ; The way this function was originally coded already handled its job of detecting if the item was picked up appropriately, even in cases where the item is delayed spawned and doesn't exist for the first few frames. We don't need to modify anything to fix that.
+  ; However, we do hijack this function in order to set some speed variables for the item on the frame it spawns, since custom_createItem wasn't able to do that like fastCreateItem was.
+  .int withered_tree_item_try_give_momentum
 .close
-; Item Ivan hid in a tree on Windfall
-;.open "files/rels/d_a_tag_mk.rel" ; Item in Windfall tree
-;.org 0x1828 ; Relocation for line 0x658
-;  .int custom_createItem
-;; Again, change the code that reads the entity ID to read from entity+3C instead of subentity+4.
-;.org 0x6A4
-;  lwz r0,0x3C(r30)
-;.close
 
 
 
@@ -1272,4 +1296,34 @@
   mtlr r0
   addi r1, r1, 0x20
   blr
+.close
+
+
+
+
+; Fix a bug where losing to the Outset whirlpool wouldn't stop the intense music from playing, and would result in both that music and Outset's normal music playing at the same time afterwards.
+.open "files/rels/d_a_ship.rel"
+.org 0x1121C ; Relocatiaon for line 7CB8 (in daShip_c::procWhirlDown)
+  .int set_next_stage_and_stop_sub_bgm
+.close
+
+
+
+
+; Fixes a bug related to changing starting health where blank save files on the file select screen would show the number of hearts the player started with on the ISO where the save file was deleted, instead of on the current ISO.
+.open "sys/main.dol"
+.org 0x80182504 ; In makeRecInfo
+  b get_current_health_for_file_select_screen
+.org 0x80182544 ; In makeRecInfo
+  b get_max_health_for_file_select_screen
+.close
+
+
+
+
+; Properly force the player model to be either hero's clothes or casual clothes depending on what the user selected, and not whether they're on new game or new game+.
+.open "sys/main.dol"
+.org 0x80125AEC ; In daPy_lk_c::playerInit(void)
+  bl check_player_in_casual_clothes
+  cmplwi r3, 0 ; Change check on r0 to check on r3
 .close
