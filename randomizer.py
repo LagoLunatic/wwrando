@@ -456,6 +456,7 @@ class Randomizer:
     tweaks.remove_phantom_ganon_requirement_from_eye_reefs(self)
     tweaks.fix_forsaken_fortress_door_softlock(self)
     tweaks.add_new_bog_warp(self)
+    tweaks.make_rat_holes_visible_from_behind(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)

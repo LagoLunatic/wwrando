@@ -1982,3 +1982,10 @@ def add_new_bog_warp(self):
   msg.initial_draw_type = 1 # Instant message speed
   msg.text_box_position = 2 # Centered
   msg.num_lines_per_box = 2
+
+def make_rat_holes_visible_from_behind(self):
+  # Change the cull mode on the rat hole model from backface culling to none.
+  # This is so the hole is visible from behind in enemy rando.
+  data = self.get_arc("files/res/Object/Nzg.arc").get_file_entry("kana_00.bdl").data
+  write_u32(data, 0xC80, 0x00) # Change cull mode in the MAT3 section
+  write_u8(data, 0xFCE, 0x04) # Change cull mode in the MDL3 section
