@@ -1051,6 +1051,7 @@ class TGDR(ChunkEntry):
   
   PARAMS = {
     "open_condition_switch": ("params", 0x000000FF),
+    "type":                  ("params", 0x00000F00),
   }
   
   def __init__(self, file_entry):

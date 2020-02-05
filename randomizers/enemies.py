@@ -439,13 +439,17 @@ def add_modify_and_replace_actors_for_enemy_rando(self):
         
         actor.name = new_actor_data["Name"]
         actor.params = new_actor_data["Params"]
-        actor.auxilary_param_1 = new_actor_data["Aux Params 1"]
-        actor.auxilary_param_2 = new_actor_data["Aux Params 2"]
-        x, y, z = new_actor_data["Position"]
-        actor.x_pos = x
-        actor.y_pos = y
-        actor.z_pos = z
-        actor.y_rot = new_actor_data["Y Rotation"]
+        if "Aux Params 1" in new_actor_data:
+          actor.auxilary_param_1 = new_actor_data["Aux Params 1"]
+        if "Aux Params 2" in new_actor_data:
+          actor.auxilary_param_2 = new_actor_data["Aux Params 2"]
+        if "Position" in new_actor_data:
+          x, y, z = new_actor_data["Position"]
+          actor.x_pos = x
+          actor.y_pos = y
+          actor.z_pos = z
+        if "Y Rotation" in new_actor_data:
+          actor.y_rot = new_actor_data["Y Rotation"]
         
         dzx.save_changes()
 
@@ -939,7 +943,7 @@ def get_enemy_instance_by_path(self, path):
   return (enemy, arc_name, dzx, layer)
 
 def get_actor_by_path(self, path):
-  match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/Actor([0-9A-F]{3})$", path)
+  match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/(Actor|ScalableObject|Door|ScalableDoor)([0-9A-F]{3})$", path)
   if not match:
     raise Exception("Invalid actor path: %s" % path)
   
@@ -949,18 +953,29 @@ def get_actor_by_path(self, path):
     layer = int(match.group(2), 16)
   else:
     layer = None
-  actor_index = int(match.group(3), 16)
+  dzx_chunk_type_name = match.group(3)
+  if dzx_chunk_type_name == "Actor":
+    dzx_chunk_type_fourcc = "ACTR"
+  elif dzx_chunk_type_name == "ScalableObject":
+    dzx_chunk_type_fourcc = "SCOB"
+  elif dzx_chunk_type_name == "Door":
+    dzx_chunk_type_fourcc = "DOOR"
+  elif dzx_chunk_type_name == "ScalableDoor":
+    dzx_chunk_type_fourcc = "TGDR"
+  else:
+    raise Exception("Unknown DZx chunk type name: %s" % dzx_chunk_type_name)
+  actor_index = int(match.group(4), 16)
   
   if arc_path.endswith("Stage.arc"):
     dzx = self.get_arc(arc_path).get_file("stage.dzs")
   else:
     dzx = self.get_arc(arc_path).get_file("room.dzr")
-  actor = dzx.entries_by_type_and_layer("ACTR", layer)[actor_index]
+  actor = dzx.entries_by_type_and_layer(dzx_chunk_type_fourcc, layer)[actor_index]
   
   return actor
 
 def get_dzx_and_layer_by_path(self, path):
-  match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/Actor([0-9A-F]{3})$", path)
+  match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/(Actor|ScalableObject|Door|ScalableDoor)([0-9A-F]{3})$", path)
   if not match:
     raise Exception("Invalid actor path: %s" % path)
   

@@ -2949,7 +2949,6 @@ Hyrule:
       Path: Hyrule/Room0.arc/Layer5/Actor00C
 
 
-# TODO
 # Ice Ring Isle Inner Cave
 ITest62:
 -
@@ -3917,11 +3916,10 @@ M_NewD2:
 #      Path: MajyuE/Room0.arc/Layerb/Actor001
 
 
-# TODO
 # Ice Ring Isle Cave
 MiniHyo:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Keese
   Free memory: 1351456
@@ -3940,15 +3938,15 @@ MiniHyo:
       Path: MiniHyo/Room0.arc/Actor010
 
 
-# TODO
 # Fire Mountain Cave
 MiniKaz:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Fire Keese
-    & Can Defeat Magtails
+    Can Defeat Magtails
   Free memory: 1200304
+  Actors to replace with ALLdies:
+    - MiniKaz/Room0.arc/Actor00F
   Enemies:
     -
       Original enemy: Fire Keese
@@ -4541,13 +4539,25 @@ SubD71:
 #      Path: SubD71/Room2.arc/Layer8/Actor00D
 
 
-# TODO
 # Stone Watcher Island Cave
 TF_01:
 -
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
+  Existing actors to modify:
+    - # Change the Zenshut door leading from the center room to the chest to check for switch 22 being set, instead of checking for all the enemies in the current room being dead and setting switch 22.
+      Path: TF_01/Stage.arc/ScalableDoor005
+      Name: door10
+      Params: 0x0FFFF022
+  New actors to add:
+    - # Add an ALLdie to detect when all enemies in the center room have been defeated and set switch 99.
+      Name: ALLdie
+      Params: 0xFFFF99FF
+    - # Add an AND_SW to detect when both the above switch from our ALLdie is set (switch 99), AND all the side rooms have been completed as well (switch 98), and then set switch 22.
+      Name: AND_SW2
+      Params: 0x98220002
+      Aux Params 1: 0x00FF
   Enemies:
     -
       Original enemy: Darknut
@@ -5579,10 +5589,6 @@ kinMB:
     - # We need something to open the gate to the chest when the miniboss is dead
       Name: ALLdie
       Params: 0xFFFF19FF
-      Aux Params 1: 0x0000
-      Aux Params 2: 0x0000
-      Position: [0, 0, 0]
-      Y Rotation: 0x0000
   Enemies:
     -
       Original enemy: Winged Mothula
