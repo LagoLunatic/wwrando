@@ -461,15 +461,15 @@ Cave01:
       Original enemy: Magtail
       Placement category: Ground
       Path: Cave01/Room1.arc/Actor00A
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Magtails
-  Enemies:
-    -
-      Original enemy: Magtail
-      Placement category: Ground
-      Path: Cave01/Room1.arc/Layer8/Actor000
+#- # Unused layer
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Magtails
+#  Enemies:
+#    -
+#      Original enemy: Magtail
+#      Placement category: Ground
+#      Path: Cave01/Room1.arc/Layer8/Actor000
 
 
 # TODO
@@ -3884,48 +3884,47 @@ M_NewD2:
 #      Path: M_NewD2/Room16.arc/Actor004
 
 
-# TODO
 # Forsaken Fortress Exterior (1st visit)
-MajyuE:
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Bokoblins
-    & Can Defeat Moblins
-  Enemies:
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
-      Path: MajyuE/Room0.arc/Actor009
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
-      Path: MajyuE/Room0.arc/Actor00A
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
-      Path: MajyuE/Room0.arc/Actor00B
-    -
-      Original enemy: Lantern Moblin
-      Placement category: Ground
-      Path: MajyuE/Room0.arc/Actor00D
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
-      Path: MajyuE/Room0.arc/Actor015
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Floormasters
-  Enemies:
-    -
-      Original enemy: Path-Following Floormaster
-      Placement category: Ground
-      Path: MajyuE/Room0.arc/Layerb/Actor000
-    -
-      Original enemy: Path-Following Floormaster
-      Placement category: Ground
-      Path: MajyuE/Room0.arc/Layerb/Actor001
+#MajyuE: # Inaccessible in rando
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Bokoblins
+#    & Can Defeat Moblins
+#  Enemies:
+#    -
+#      Original enemy: Bokoblin
+#      Placement category: Ground
+#      Path: MajyuE/Room0.arc/Actor009
+#    -
+#      Original enemy: Bokoblin
+#      Placement category: Ground
+#      Path: MajyuE/Room0.arc/Actor00A
+#    -
+#      Original enemy: Bokoblin
+#      Placement category: Ground
+#      Path: MajyuE/Room0.arc/Actor00B
+#    -
+#      Original enemy: Lantern Moblin
+#      Placement category: Ground
+#      Path: MajyuE/Room0.arc/Actor00D
+#    -
+#      Original enemy: Bokoblin
+#      Placement category: Ground
+#      Path: MajyuE/Room0.arc/Actor015
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Floormasters
+#  Enemies:
+#    -
+#      Original enemy: Path-Following Floormaster
+#      Placement category: Ground
+#      Path: MajyuE/Room0.arc/Layerb/Actor000
+#    -
+#      Original enemy: Path-Following Floormaster
+#      Placement category: Ground
+#      Path: MajyuE/Room0.arc/Layerb/Actor001
 
 
 # TODO
@@ -4003,49 +4002,48 @@ MiniKaz:
       Path: MiniKaz/Room0.arc/Actor012
 
 
-# TODO
 # Ghost Ship
 PShip:
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat ReDeads
-    & Can Defeat Wizzrobes
-  Enemies:
-    -
-      Original enemy: ReDead
-      Placement category: Ground
-      Path: PShip/Room0.arc/Actor00A
-    -
-      Original enemy: ReDead
-      Placement category: Ground
-      Path: PShip/Room0.arc/Actor00B
-    -
-      Original enemy: Wizzrobe
-      Placement category: Ground
-      Path: PShip/Room0.arc/Actor00C
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Red Bubbles
-  Enemies:
-    -
-      Original enemy: Red Bubble
-      Placement category: Ground
-      Path: PShip/Room0.arc/Layer8/Actor000
-    -
-      Original enemy: Red Bubble
-      Placement category: Ground
-      Path: PShip/Room0.arc/Layer8/Actor001
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Wizzrobes
-  Enemies:
-    -
-      Original enemy: Wizzrobe
-      Placement category: Ground
-      Path: PShip/Room1.arc/Actor00B
+#- # Unused room
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat ReDeads
+#    & Can Defeat Wizzrobes
+#  Enemies:
+#    -
+#      Original enemy: ReDead
+#      Placement category: Ground
+#      Path: PShip/Room0.arc/Actor00A
+#    -
+#      Original enemy: ReDead
+#      Placement category: Ground
+#      Path: PShip/Room0.arc/Actor00B
+#    -
+#      Original enemy: Wizzrobe
+#      Placement category: Ground
+#      Path: PShip/Room0.arc/Actor00C
+#- # Unused room
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Red Bubbles
+#  Enemies:
+#    -
+#      Original enemy: Red Bubble
+#      Placement category: Ground
+#      Path: PShip/Room0.arc/Layer8/Actor000
+#    -
+#      Original enemy: Red Bubble
+#      Placement category: Ground
+#      Path: PShip/Room0.arc/Layer8/Actor001
+#- # Unused room
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Wizzrobes
+#  Enemies:
+#    -
+#      Original enemy: Wizzrobe
+#      Placement category: Ground
+#      Path: PShip/Room1.arc/Actor00B
 -
   Must defeat enemies: Yes
   Original requirements:
@@ -4753,51 +4751,51 @@ TF_03:
       Original enemy: Armos Knight
       Placement category: Ground
       Path: TF_03/Room1.arc/Actor001
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Bokoblins
-  Enemies:
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
-      Path: TF_03/Room1.arc/Layer8/Actor000
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Moblins
-  Enemies:
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: TF_03/Room2.arc/Actor000
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Moblins
-  Enemies:
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: TF_03/Room3.arc/Actor000
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Moblins
-  Enemies:
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: TF_03/Room4.arc/Actor000
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Moblins
-  Enemies:
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: TF_03/Room5.arc/Actor000
+#- # Unused room
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Bokoblins
+#  Enemies:
+#    -
+#      Original enemy: Bokoblin
+#      Placement category: Ground
+#      Path: TF_03/Room1.arc/Layer8/Actor000
+#- # Unused room
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Moblins
+#  Enemies:
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: TF_03/Room2.arc/Actor000
+#- # Unused room
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Moblins
+#  Enemies:
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: TF_03/Room3.arc/Actor000
+#- # Unused room
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Moblins
+#  Enemies:
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: TF_03/Room4.arc/Actor000
+#- # Unused room
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Moblins
+#  Enemies:
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: TF_03/Room5.arc/Actor000
 
 
 # TODO
@@ -6165,255 +6163,253 @@ ma2room:
       Path: ma2room/Room4.arc/Actor00D
 
 
-# TODO
 # Forsaken Fortress Interior (3rd visit)
-ma3room:
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Rats
-    & Can Defeat Keese
-  Enemies:
-    -
-      Original enemy: Rat Hole
-      Placement category: Ground
-      Path: ma3room/Room0.arc/Actor026
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room0.arc/Actor027
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room0.arc/Actor028
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room0.arc/Actor029
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room0.arc/Actor02A
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room0.arc/Actor02B
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Keese
-  Enemies:
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room1.arc/Actor009
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room1.arc/Actor00A
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Rats
-    & Can Defeat Keese
-  Enemies:
-    -
-      Original enemy: Rat Hole
-      Placement category: Ground
-      Path: ma3room/Room2.arc/Actor007
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room2.arc/Actor008
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room2.arc/Actor009
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room2.arc/Actor00A
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room2.arc/Actor00B
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Keese
-    & Can Defeat Rats
-  Enemies:
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room3.arc/Actor011
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room3.arc/Actor012
-    -
-      Original enemy: Rat Hole
-      Placement category: Ground
-      Path: ma3room/Room3.arc/Actor013
-    -
-      Original enemy: Rat Hole
-      Placement category: Ground
-      Path: ma3room/Room3.arc/Actor014
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room3.arc/Actor015
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room3.arc/Actor016
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room3.arc/Actor017
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Keese
-  Enemies:
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room4.arc/Actor009
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room4.arc/Actor00A
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room4.arc/Actor00B
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room4.arc/Actor00C
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: ma3room/Room4.arc/Actor00D
+#ma3room: # Inaccessible in rando
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Rats
+#    & Can Defeat Keese
+#  Enemies:
+#    -
+#      Original enemy: Rat Hole
+#      Placement category: Ground
+#      Path: ma3room/Room0.arc/Actor026
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room0.arc/Actor027
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room0.arc/Actor028
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room0.arc/Actor029
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room0.arc/Actor02A
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room0.arc/Actor02B
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Keese
+#  Enemies:
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room1.arc/Actor009
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room1.arc/Actor00A
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Rats
+#    & Can Defeat Keese
+#  Enemies:
+#    -
+#      Original enemy: Rat Hole
+#      Placement category: Ground
+#      Path: ma3room/Room2.arc/Actor007
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room2.arc/Actor008
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room2.arc/Actor009
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room2.arc/Actor00A
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room2.arc/Actor00B
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Keese
+#    & Can Defeat Rats
+#  Enemies:
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room3.arc/Actor011
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room3.arc/Actor012
+#    -
+#      Original enemy: Rat Hole
+#      Placement category: Ground
+#      Path: ma3room/Room3.arc/Actor013
+#    -
+#      Original enemy: Rat Hole
+#      Placement category: Ground
+#      Path: ma3room/Room3.arc/Actor014
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room3.arc/Actor015
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room3.arc/Actor016
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room3.arc/Actor017
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Keese
+#  Enemies:
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room4.arc/Actor009
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room4.arc/Actor00A
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room4.arc/Actor00B
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room4.arc/Actor00C
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: ma3room/Room4.arc/Actor00D
 
 
-# TODO
 # Forsaken Fortress Interior (1st visit)
-majroom:
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Rats
-    & Can Defeat Moblins
-  Enemies:
-    -
-      Original enemy: Rat Hole
-      Placement category: Ground
-      Path: majroom/Room0.arc/Actor000
-    -
-      Original enemy: Lantern Moblin
-      Placement category: Ground
-      Path: majroom/Room0.arc/Actor001
-    -
-      Original enemy: Lantern Moblin
-      Placement category: Ground
-      Path: majroom/Room0.arc/Actor002
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Miniblins
-  Enemies:
-    -
-      Original enemy: Miniblin
-      Placement category: Ground
-      Path: majroom/Room1.arc/Actor015
-    -
-      Original enemy: Miniblin
-      Placement category: Ground
-      Path: majroom/Room1.arc/Actor016
-    -
-      Original enemy: Miniblin
-      Placement category: Ground
-      Path: majroom/Room1.arc/Actor017
-    -
-      Original enemy: Miniblin
-      Placement category: Ground
-      Path: majroom/Room1.arc/Actor018
-    -
-      Original enemy: Miniblin
-      Placement category: Ground
-      Path: majroom/Room1.arc/Actor019
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Moblins
-  Enemies:
-    -
-      Original enemy: Lantern Moblin
-      Placement category: Ground
-      Path: majroom/Room1.arc/Layerb/Actor002
-    -
-      Original enemy: Lantern Moblin
-      Placement category: Ground
-      Path: majroom/Room1.arc/Layerb/Actor003
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Rats
-    & Can Defeat Moblins
-  Enemies:
-    -
-      Original enemy: Rat Hole
-      Placement category: Ground
-      Path: majroom/Room2.arc/Actor000
-    -
-      Original enemy: Lantern Moblin
-      Placement category: Ground
-      Path: majroom/Room2.arc/Actor001
-    -
-      Original enemy: Lantern Moblin
-      Placement category: Ground
-      Path: majroom/Room2.arc/Actor002
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Keese
-    & Can Defeat Rats
-    & Can Defeat Moblins
-  Enemies:
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: majroom/Room3.arc/Actor000
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: majroom/Room3.arc/Actor001
-    -
-      Original enemy: Rat
-      Placement category: Ground
-      Path: majroom/Room3.arc/Actor002
-    -
-      Original enemy: Rat
-      Placement category: Ground
-      Path: majroom/Room3.arc/Actor003
-    -
-      Original enemy: Rat
-      Placement category: Ground
-      Path: majroom/Room3.arc/Actor004
-    -
-      Original enemy: Lantern Moblin
-      Placement category: Ground
-      Path: majroom/Room3.arc/Actor005
-    -
-      Original enemy: Lantern Moblin
-      Placement category: Ground
-      Path: majroom/Room3.arc/Actor006
-    -
-      Original enemy: Lantern Moblin
-      Placement category: Ground
-      Path: majroom/Room3.arc/Actor007
+#majroom: # Inaccessible in rando
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Rats
+#    & Can Defeat Moblins
+#  Enemies:
+#    -
+#      Original enemy: Rat Hole
+#      Placement category: Ground
+#      Path: majroom/Room0.arc/Actor000
+#    -
+#      Original enemy: Lantern Moblin
+#      Placement category: Ground
+#      Path: majroom/Room0.arc/Actor001
+#    -
+#      Original enemy: Lantern Moblin
+#      Placement category: Ground
+#      Path: majroom/Room0.arc/Actor002
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Miniblins
+#  Enemies:
+#    -
+#      Original enemy: Miniblin
+#      Placement category: Ground
+#      Path: majroom/Room1.arc/Actor015
+#    -
+#      Original enemy: Miniblin
+#      Placement category: Ground
+#      Path: majroom/Room1.arc/Actor016
+#    -
+#      Original enemy: Miniblin
+#      Placement category: Ground
+#      Path: majroom/Room1.arc/Actor017
+#    -
+#      Original enemy: Miniblin
+#      Placement category: Ground
+#      Path: majroom/Room1.arc/Actor018
+#    -
+#      Original enemy: Miniblin
+#      Placement category: Ground
+#      Path: majroom/Room1.arc/Actor019
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Moblins
+#  Enemies:
+#    -
+#      Original enemy: Lantern Moblin
+#      Placement category: Ground
+#      Path: majroom/Room1.arc/Layerb/Actor002
+#    -
+#      Original enemy: Lantern Moblin
+#      Placement category: Ground
+#      Path: majroom/Room1.arc/Layerb/Actor003
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Rats
+#    & Can Defeat Moblins
+#  Enemies:
+#    -
+#      Original enemy: Rat Hole
+#      Placement category: Ground
+#      Path: majroom/Room2.arc/Actor000
+#    -
+#      Original enemy: Lantern Moblin
+#      Placement category: Ground
+#      Path: majroom/Room2.arc/Actor001
+#    -
+#      Original enemy: Lantern Moblin
+#      Placement category: Ground
+#      Path: majroom/Room2.arc/Actor002
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Keese
+#    & Can Defeat Rats
+#    & Can Defeat Moblins
+#  Enemies:
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: majroom/Room3.arc/Actor000
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: majroom/Room3.arc/Actor001
+#    -
+#      Original enemy: Rat
+#      Placement category: Ground
+#      Path: majroom/Room3.arc/Actor002
+#    -
+#      Original enemy: Rat
+#      Placement category: Ground
+#      Path: majroom/Room3.arc/Actor003
+#    -
+#      Original enemy: Rat
+#      Placement category: Ground
+#      Path: majroom/Room3.arc/Actor004
+#    -
+#      Original enemy: Lantern Moblin
+#      Placement category: Ground
+#      Path: majroom/Room3.arc/Actor005
+#    -
+#      Original enemy: Lantern Moblin
+#      Placement category: Ground
+#      Path: majroom/Room3.arc/Actor006
+#    -
+#      Original enemy: Lantern Moblin
+#      Placement category: Ground
+#      Path: majroom/Room3.arc/Actor007
 
 
 # TODO
