@@ -125,7 +125,7 @@ class BTI:
     self.width = new_image.width
     self.height = new_image.height
 
-class BTIFile(BTI): # For standalone .bti files (as opposed to textures embedded in .bdl models)
+class BTIFile(BTI): # For standalone .bti files (as opposed to textures embedded inside J3D models/animations)
   def __init__(self, file_entry):
     self.file_entry = file_entry
     self.file_entry.decompress_data_if_necessary()

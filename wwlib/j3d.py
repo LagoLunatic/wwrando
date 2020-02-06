@@ -8,15 +8,15 @@ from wwlib.bti import BTI
 
 from fs_helpers import *
 
-class BDL:
+class J3DFile:
   def __init__(self, file_entry):
     self.file_entry = file_entry
     self.file_entry.decompress_data_if_necessary()
     data = self.file_entry.data
     
     self.magic = read_str(data, 0, 4)
-    assert self.magic == "J3D2"
-    self.model_type = read_str(data, 4, 4)
+    assert self.magic.startswith("J3D")
+    self.file_type = read_str(data, 4, 4)
     self.length = read_u32(data, 8)
     self.num_chunks = read_u32(data, 0x0C)
     
@@ -24,7 +24,7 @@ class BDL:
     self.chunk_by_type = {}
     offset = 0x20
     for chunk_index in range(self.num_chunks):
-      chunk = BDLChunk()
+      chunk = J3DChunk()
       chunk.read(data, offset)
       self.chunks.append(chunk)
       self.chunk_by_type[chunk.magic] = chunk
@@ -52,22 +52,22 @@ class BDL:
     self.num_chunks = len(self.chunks)
     
     write_str(data, 0, self.magic, 4)
-    write_str(data, 4, self.model_type, 4)
+    write_str(data, 4, self.file_type, 4)
     write_u32(data, 8, self.length)
     write_u32(data, 0xC, self.num_chunks)
 
-class BDLChunk:
+class J3DChunk:
   def __init__(self):
     self.magic = None
     self.size = None
     self.data = None
   
-  def read(self, bdl_data, chunk_offset):
-    self.magic = read_str(bdl_data, chunk_offset, 4)
-    self.size = read_u32(bdl_data, chunk_offset+4)
+  def read(self, file_data, chunk_offset):
+    self.magic = read_str(file_data, chunk_offset, 4)
+    self.size = read_u32(file_data, chunk_offset+4)
     
-    bdl_data.seek(chunk_offset)
-    self.data = BytesIO(bdl_data.read(self.size))
+    file_data.seek(chunk_offset)
+    self.data = BytesIO(file_data.read(self.size))
     
     if self.magic == "TEX1":
       self.read_tex1()
@@ -78,7 +78,7 @@ class BDLChunk:
     
     # Pad the size of this chunk to the next 0x20 bytes.
     align_data_to_nearest(self.data, 0x20)
-    # The original BDLs used the repeating string "This is padding" for the padding, but we simply use null bytes instead.
+    # The original J3D files used the repeating string "This is padding" for the padding, but we simply use null bytes instead.
     
     self.size = data_len(self.data)
     write_str(self.data, 0, self.magic, 4)
@@ -174,3 +174,24 @@ class BDLChunk:
       filename = self.texture_names[i]
       write_str_with_null_byte(self.data, self.string_section_offset+offset_in_string_list, filename)
       offset_in_string_list += len(filename) + 1
+
+class BDL(J3DFile):
+  def __init__(self, file_entry):
+    super().__init__(file_entry)
+    
+    assert self.magic == "J3D2"
+    assert self.file_type == "bdl4"
+
+class BMD(J3DFile):
+  def __init__(self, file_entry):
+    super().__init__(file_entry)
+    
+    assert self.magic == "J3D2"
+    assert self.file_type == "bmd3"
+
+class BMT(J3DFile):
+  def __init__(self, file_entry):
+    super().__init__(file_entry)
+    
+    assert self.magic == "J3D2"
+    assert self.file_type == "bmt3"
