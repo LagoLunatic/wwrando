@@ -134,6 +134,13 @@ def replace_link_model(self):
     raise Exception("The chosen custom player model's filesize is too large and may cause crashes or other issues in game.\nMax size: %.2fMB\nSelected model size: %.2fMB" % (MAX_ALLOWED_LINK_ARC_FILE_SIZE_IN_MEGABYTES, custom_link_arc_size_in_mb))
   self.replace_arc("files/res/Object/Link.arc", custom_link_arc_data)
   
+  # Replace Link's animations.
+  lkanm_path = custom_model_path + "LkAnm.arc"
+  if os.path.isfile(lkanm_path):
+    with open(lkanm_path, "rb") as f:
+      custom_lkanm_arc_data = BytesIO(f.read())
+    self.replace_arc("files/res/Object/LkAnm.arc", custom_lkanm_arc_data)
+  
   # The texture shown on the wall when reflecting light with the mirror shield is separate from Link.arc.
   mirror_shield_reflection_image_path = custom_model_path + "shmref.bti"
   if os.path.isfile(mirror_shield_reflection_image_path):
