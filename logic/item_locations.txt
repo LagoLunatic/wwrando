@@ -2130,6 +2130,7 @@ Overlook Island - Cave:
     & Can Defeat Morths
     & Can Defeat Kargarocs
     & Can Defeat Darknuts
+    & Can Play Wind's Requiem
     # The Armos Knights require nothing since there are bomb flowers in their room.
     # The chuchus, keese, morths, and kargarocs don't necessarily have to be fought, but may be summoned by the wizzrobes.
     # One of the rooms has Green Bokoblins but you can trick them into attacking each other to steal a weapon.
