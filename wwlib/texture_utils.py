@@ -370,6 +370,8 @@ def get_color_distance_fast(color_1, color_2):
 
 
 def decode_palettes(palette_data, palette_format, num_colors, image_format):
+  if not isinstance(image_format, ImageFormat):
+    raise Exception("Invalid image format: %s" % image_format)
   if image_format not in IMAGE_FORMATS_THAT_USE_PALETTES:
     return []
   
@@ -413,6 +415,14 @@ def generate_new_palettes_from_image(image, image_format, palette_format):
     )
   
   return (encoded_colors, colors_to_color_indexes)
+
+def generate_new_palettes_from_colors(colors, palette_format):
+  encoded_colors = []
+  for color in colors:
+    encoded_color = encode_color(color, palette_format)
+    encoded_colors.append(encoded_color)
+  
+  return encoded_colors
 
 def encode_color(color, palette_format):
   if palette_format == PaletteFormat.IA8:
