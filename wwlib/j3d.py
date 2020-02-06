@@ -10,6 +10,7 @@ from fs_helpers import *
 
 IMPLEMENTED_CHUNK_TYPES = [
   "TEX1",
+  "TRK1",
 ]
 
 class J3DFile:
@@ -85,6 +86,13 @@ class BMT(J3DFile):
     
     assert self.magic == "J3D2"
     assert self.file_type == "bmt3"
+
+class BRK(J3DFile):
+  def __init__(self, file_entry):
+    super().__init__(file_entry)
+    
+    assert self.magic == "J3D1"
+    assert self.file_type == "brk1"
 
 
 
@@ -211,3 +219,81 @@ class TEX1(J3DChunk):
       filename = self.texture_names[i]
       write_str_with_null_byte(self.data, self.string_section_offset+offset_in_string_list, filename)
       offset_in_string_list += len(filename) + 1
+
+class TRK1(J3DChunk):
+  def read_chunk_specific_data(self):
+    self.reg_color_anims_count = read_u16(self.data, 0x0C)
+    self.konst_color_anims_count = read_u16(self.data, 0x0E)
+    
+    self.reg_r_count = read_u16(self.data, 0x10)
+    self.reg_g_count = read_u16(self.data, 0x12)
+    self.reg_b_count = read_u16(self.data, 0x14)
+    self.reg_a_count = read_u16(self.data, 0x16)
+    self.konst_r_count = read_u16(self.data, 0x18)
+    self.konst_g_count = read_u16(self.data, 0x1A)
+    self.konst_b_count = read_u16(self.data, 0x1C)
+    self.konst_a_count = read_u16(self.data, 0x1E)
+    
+    self.reg_color_anims_offset = read_u32(self.data, 0x20)
+    self.konst_color_anims_offset = read_u32(self.data, 0x24)
+    
+    self.reg_r_offset = read_u32(self.data, 0x38)
+    self.reg_g_offset = read_u32(self.data, 0x3C)
+    self.reg_b_offset = read_u32(self.data, 0x40)
+    self.reg_a_offset = read_u32(self.data, 0x44)
+    self.konst_r_offset = read_u32(self.data, 0x48)
+    self.konst_g_offset = read_u32(self.data, 0x4C)
+    self.konst_b_offset = read_u32(self.data, 0x50)
+    self.konst_a_offset = read_u32(self.data, 0x54)
+    
+    self.reg_rs = []
+    for i in range(self.reg_r_count):
+      r = read_s16(self.data, self.reg_r_offset+i*2)
+      self.reg_rs.append(r)
+    self.reg_gs = []
+    for i in range(self.reg_g_count):
+      g = read_s16(self.data, self.reg_g_offset+i*2)
+      self.reg_gs.append(g)
+    self.reg_bs = []
+    for i in range(self.reg_b_count):
+      b = read_s16(self.data, self.reg_b_offset+i*2)
+      self.reg_bs.append(b)
+    self.reg_as = []
+    for i in range(self.reg_a_count):
+      a = read_s16(self.data, self.reg_a_offset+i*2)
+      self.reg_as.append(a)
+    self.konst_rs = []
+    for i in range(self.konst_r_count):
+      r = read_s16(self.data, self.konst_r_offset+i*2)
+      self.konst_rs.append(r)
+    self.konst_gs = []
+    for i in range(self.konst_g_count):
+      g = read_s16(self.data, self.konst_g_offset+i*2)
+      self.konst_gs.append(g)
+    self.konst_bs = []
+    for i in range(self.konst_b_count):
+      b = read_s16(self.data, self.konst_b_offset+i*2)
+      self.konst_bs.append(b)
+    self.konst_as = []
+    for i in range(self.konst_a_count):
+      a = read_s16(self.data, self.konst_a_offset+i*2)
+      self.konst_as.append(a)
+  
+  def save_chunk_specific_data(self):
+    # Does not support adding new color entries currently.
+    for i in range(self.reg_r_count):
+      write_s16(self.data, self.reg_r_offset+i*2, self.reg_rs[i])
+    for i in range(self.reg_g_count):
+      write_s16(self.data, self.reg_g_offset+i*2, self.reg_gs[i])
+    for i in range(self.reg_b_count):
+      write_s16(self.data, self.reg_b_offset+i*2, self.reg_bs[i])
+    for i in range(self.reg_a_count):
+      write_s16(self.data, self.reg_a_offset+i*2, self.reg_as[i])
+    for i in range(self.konst_r_count):
+      write_s16(self.data, self.konst_r_offset+i*2, self.konst_rs[i])
+    for i in range(self.konst_g_count):
+      write_s16(self.data, self.konst_g_offset+i*2, self.konst_gs[i])
+    for i in range(self.konst_b_count):
+      write_s16(self.data, self.konst_b_offset+i*2, self.konst_bs[i])
+    for i in range(self.konst_a_count):
+      write_s16(self.data, self.konst_a_offset+i*2, self.konst_as[i])
