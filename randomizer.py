@@ -369,6 +369,9 @@ class Randomizer:
     if self.options.get("randomize_bgm"):
       bgm.randomize_bgm(self)
     
+    # Reset RNG before doing item randomization so other randomization options don't affect item layout.
+    self.rng = self.get_new_rng()
+    
     items.randomize_items(self)
     
     options_completed += 2
