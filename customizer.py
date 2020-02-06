@@ -132,14 +132,34 @@ def replace_link_model(self):
   custom_link_arc_size_in_mb = data_len(custom_link_arc_data) / (1024 * 1024)
   if custom_link_arc_size_in_mb > MAX_ALLOWED_LINK_ARC_FILE_SIZE_IN_MEGABYTES+0.005:
     raise Exception("The chosen custom player model's filesize is too large and may cause crashes or other issues in game.\nMax size: %.2fMB\nSelected model size: %.2fMB" % (MAX_ALLOWED_LINK_ARC_FILE_SIZE_IN_MEGABYTES, custom_link_arc_size_in_mb))
+  orig_link_arc = self.get_arc("files/res/Object/Link.arc")
   self.replace_arc("files/res/Object/Link.arc", custom_link_arc_data)
+  custom_link_arc = self.get_arc("files/res/Object/Link.arc")
+  
+  # Revert all BCK animations in Link.arc to the original ones.
+  # This is because BCK animations can change gameplay, which we don't want to allow cosmetic mods to do.
+  for orig_file_entry in orig_link_arc.file_entries:
+    basename, file_ext = os.path.splitext(orig_file_entry.name)
+    if file_ext == ".bck":
+      custom_file_entry = custom_link_arc.get_file_entry(orig_file_entry.name)
+      custom_file_entry.data = orig_file_entry.data
   
   # Replace Link's animations.
   lkanm_path = custom_model_path + "LkAnm.arc"
   if os.path.isfile(lkanm_path):
     with open(lkanm_path, "rb") as f:
       custom_lkanm_arc_data = BytesIO(f.read())
+    orig_lkanm_arc = self.get_arc("files/res/Object/LkAnm.arc")
     self.replace_arc("files/res/Object/LkAnm.arc", custom_lkanm_arc_data)
+    custom_lkanm_arc = self.get_arc("files/res/Object/LkAnm.arc")
+    
+    # Revert all BCK animations in LkAnm.arc to the original ones.
+    # This is because BCK animations can change gameplay, which we don't want to allow cosmetic mods to do.
+    for orig_file_entry in orig_lkanm_arc.file_entries:
+      basename, file_ext = os.path.splitext(orig_file_entry.name)
+      if file_ext == ".bck":
+        custom_file_entry = custom_lkanm_arc.get_file_entry(orig_file_entry.name)
+        custom_file_entry.data = orig_file_entry.data
   
   # The texture shown on the wall when reflecting light with the mirror shield is separate from Link.arc.
   mirror_shield_reflection_image_path = custom_model_path + "shmref.bti"
