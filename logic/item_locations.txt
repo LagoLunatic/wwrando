@@ -312,7 +312,7 @@ Windfall Island - Maggie's Father - Give 20 Skull Necklaces:
 #  Original item: Red Rupee
 #  Paths:
 #    - rels/d_a_npc_kf1.rel@1A23
-Windfall Island - Maggie - Letter:
+Windfall Island - Maggie - Free Item:
   Need: Rescued Aryll
   # Note: If you say no when she asks you to deliver her letter, she won't prompt you again - but that's temporary. Simply leave the room and re-enter and she will ask again.
   Original item: Maggie's Letter
