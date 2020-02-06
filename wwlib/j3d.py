@@ -8,6 +8,10 @@ from wwlib.bti import BTI
 
 from fs_helpers import *
 
+IMPLEMENTED_CHUNK_TYPES = [
+  "TEX1",
+]
+
 class J3DFile:
   def __init__(self, file_entry):
     self.file_entry = file_entry
@@ -24,13 +28,18 @@ class J3DFile:
     self.chunk_by_type = {}
     offset = 0x20
     for chunk_index in range(self.num_chunks):
-      chunk = J3DChunk()
+      chunk_magic = read_str(data, offset, 4)
+      if chunk_magic in IMPLEMENTED_CHUNK_TYPES:
+        chunk_class = globals().get(chunk_magic, None)
+      else:
+        chunk_class = J3DChunk
+      chunk = chunk_class()
       chunk.read(data, offset)
       self.chunks.append(chunk)
       self.chunk_by_type[chunk.magic] = chunk
       
-      if chunk.magic == "TEX1":
-        self.tex1 = chunk
+      if chunk.magic in IMPLEMENTED_CHUNK_TYPES:
+        setattr(self, chunk.magic.lower(), chunk)
       
       offset += chunk.size
   
@@ -56,6 +65,29 @@ class J3DFile:
     write_u32(data, 8, self.length)
     write_u32(data, 0xC, self.num_chunks)
 
+class BDL(J3DFile):
+  def __init__(self, file_entry):
+    super().__init__(file_entry)
+    
+    assert self.magic == "J3D2"
+    assert self.file_type == "bdl4"
+
+class BMD(J3DFile):
+  def __init__(self, file_entry):
+    super().__init__(file_entry)
+    
+    assert self.magic == "J3D2"
+    assert self.file_type == "bmd3"
+
+class BMT(J3DFile):
+  def __init__(self, file_entry):
+    super().__init__(file_entry)
+    
+    assert self.magic == "J3D2"
+    assert self.file_type == "bmt3"
+
+
+
 class J3DChunk:
   def __init__(self):
     self.magic = None
@@ -69,12 +101,13 @@ class J3DChunk:
     file_data.seek(chunk_offset)
     self.data = BytesIO(file_data.read(self.size))
     
-    if self.magic == "TEX1":
-      self.read_tex1()
+    self.read_chunk_specific_data()
+  
+  def read_chunk_specific_data(self):
+    pass
   
   def save_changes(self):
-    if self.magic == "TEX1":
-      self.save_tex1()
+    self.save_chunk_specific_data()
     
     # Pad the size of this chunk to the next 0x20 bytes.
     align_data_to_nearest(self.data, 0x20)
@@ -84,7 +117,11 @@ class J3DChunk:
     write_str(self.data, 0, self.magic, 4)
     write_u32(self.data, 4, self.size)
   
-  def read_tex1(self):
+  def save_chunk_specific_data(self):
+    pass
+
+class TEX1(J3DChunk):
+  def read_chunk_specific_data(self):
     self.textures = []
     self.num_textures = read_u16(self.data, 8)
     self.texture_header_list_offset = read_u32(self.data, 0x0C)
@@ -112,7 +149,7 @@ class J3DChunk:
       
       offset_in_string_list += len(filename) + 1
   
-  def save_tex1(self):
+  def save_chunk_specific_data(self):
     # Does not support adding new textures currently.
     assert len(self.textures) == self.num_textures
     
@@ -174,24 +211,3 @@ class J3DChunk:
       filename = self.texture_names[i]
       write_str_with_null_byte(self.data, self.string_section_offset+offset_in_string_list, filename)
       offset_in_string_list += len(filename) + 1
-
-class BDL(J3DFile):
-  def __init__(self, file_entry):
-    super().__init__(file_entry)
-    
-    assert self.magic == "J3D2"
-    assert self.file_type == "bdl4"
-
-class BMD(J3DFile):
-  def __init__(self, file_entry):
-    super().__init__(file_entry)
-    
-    assert self.magic == "J3D2"
-    assert self.file_type == "bmd3"
-
-class BMT(J3DFile):
-  def __init__(self, file_entry):
-    super().__init__(file_entry)
-    
-    assert self.magic == "J3D2"
-    assert self.file_type == "bmt3"
