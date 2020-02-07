@@ -3,6 +3,7 @@ import os
 from enum import Enum
 from io import BytesIO
 from collections import OrderedDict
+from enum import Enum
 
 from wwlib.bti import BTI
 
@@ -281,9 +282,27 @@ class TRK1(J3DChunk):
     for i in range(self.konst_a_count):
       a = read_s16(self.data, self.konst_a_offset+i*2)
       self.konst_as.append(a)
+    
+    self.animations = []
+    
+    offset = self.reg_color_anims_offset
+    for i in range(self.reg_color_anims_count):
+      anim = ColorAnimation(self.data, offset, self.reg_rs, self.reg_gs, self.reg_bs, self.reg_as)
+      offset += ColorAnimation.DATA_SIZE
+      self.animations.append(anim)
+    
+    offset = self.konst_color_anims_offset
+    for i in range(self.konst_color_anims_count):
+      anim = ColorAnimation(self.data, offset, self.konst_rs, self.konst_gs, self.konst_bs, self.konst_as)
+      offset += ColorAnimation.DATA_SIZE
+      self.animations.append(anim)
   
   def save_chunk_specific_data(self):
     # Does not support adding new color entries currently.
+    
+    for anim in self.animations:
+      anim.save_changes()
+    
     for i in range(self.reg_r_count):
       write_s16(self.data, self.reg_r_offset+i*2, self.reg_rs[i])
     for i in range(self.reg_g_count):
@@ -300,3 +319,110 @@ class TRK1(J3DChunk):
       write_s16(self.data, self.konst_b_offset+i*2, self.konst_bs[i])
     for i in range(self.konst_a_count):
       write_s16(self.data, self.konst_a_offset+i*2, self.konst_as[i])
+
+class TangentType(Enum):
+  IN     =   0
+  IN_OUT =   1
+
+class AnimationTrack:
+  DATA_SIZE = 6
+  
+  def __init__(self, metadata, offset, track_data):
+    self.metadata = metadata
+    self.track_data = track_data
+    
+    self.read(offset)
+  
+  def read(self, offset):
+    self.count = read_u16(self.metadata, offset+0)
+    self.index = read_u16(self.metadata, offset+2)
+    self.tangent_type = TangentType(read_u16(self.metadata, offset+4))
+    
+    self.keyframes = []
+    if self.count == 1:
+      keyframe = AnimationKeyframe(0, self.track_data[self.index], 0, 0)
+      self.keyframes.append(keyframe)
+    else:
+      if self.tangent_type == TangentType.IN:
+        for i in range(self.index, self.index + self.count*3, 3):
+          keyframe = AnimationKeyframe(self.track_data[i+0], self.track_data[i+1], self.track_data[i+2], self.track_data[i+2])
+          self.keyframes.append(keyframe)
+      elif self.tangent_type ==TangentType.IN_OUT:
+        for i in range(self.index, self.index + self.count*4, 4):
+          keyframe = AnimationKeyframe(self.track_data[i+0], self.track_data[i+1], self.track_data[i+2], self.track_data[i+3])
+          self.keyframes.append(keyframe)
+  
+  def save_changes(self, offset):
+    write_u16(self.metadata, offset+0, self.count)
+    write_u16(self.metadata, offset+2, self.index)
+    write_u16(self.metadata, offset+4, self.tangent_type.value)
+    
+    if self.count == 1:
+      assert len(self.keyframes) == 1
+      self.track_data[self.index] = self.keyframes[0].value
+    else:
+      if self.tangent_type == TangentType.IN:
+        i = self.index
+        for keyframe in self.keyframes:
+          self.track_data[i+0] = keyframe.time
+          self.track_data[i+1] = keyframe.value
+          self.track_data[i+2] = keyframe.tangent_in
+          i += 3
+      elif self.tangent_type == TangentType.IN_OUT:
+        i = self.index
+        for keyframe in self.keyframes:
+          self.track_data[i+0] = keyframe.time
+          self.track_data[i+1] = keyframe.value
+          self.track_data[i+2] = keyframe.tangent_in
+          self.track_data[i+3] = keyframe.tangent_out
+          i += 4
+
+class AnimationKeyframe:
+  def __init__(self, time, value, tangent_in, tangent_out):
+    self.time = time
+    self.value = value
+    self.tangent_in = tangent_in
+    self.tangent_out = tangent_out
+
+class ColorAnimation:
+  DATA_SIZE = 4*AnimationTrack.DATA_SIZE + 4
+  
+  def __init__(self, metadata, offset, r_track_data, g_track_data, b_track_data, a_track_data):
+    self.metadata = metadata
+    self.offset = offset
+    self.r_track_data = r_track_data
+    self.g_track_data = g_track_data
+    self.b_track_data = b_track_data
+    self.a_track_data = a_track_data
+    
+    self.read()
+  
+  def read(self):
+    offset = self.offset
+    
+    self.r = AnimationTrack(self.metadata, offset, self.r_track_data)
+    offset += AnimationTrack.DATA_SIZE
+    self.g = AnimationTrack(self.metadata, offset, self.g_track_data)
+    offset += AnimationTrack.DATA_SIZE
+    self.b = AnimationTrack(self.metadata, offset, self.b_track_data)
+    offset += AnimationTrack.DATA_SIZE
+    self.a = AnimationTrack(self.metadata, offset, self.a_track_data)
+    offset += AnimationTrack.DATA_SIZE
+    
+    self.color_id = read_u8(self.metadata, offset)
+    offset += 4
+  
+  def save_changes(self):
+    offset = self.offset
+    
+    self.r.save_changes(offset)
+    offset += AnimationTrack.DATA_SIZE
+    self.g.save_changes(offset)
+    offset += AnimationTrack.DATA_SIZE
+    self.b.save_changes(offset)
+    offset += AnimationTrack.DATA_SIZE
+    self.a.save_changes(offset)
+    offset += AnimationTrack.DATA_SIZE
+    
+    write_u8(self.metadata, offset, self.color_id)
+    offset += 4
