@@ -11,6 +11,7 @@ from fs_helpers import *
 
 IMPLEMENTED_CHUNK_TYPES = [
   "TEX1",
+  "MAT3",
   "MDL3",
   "TRK1",
 ]
@@ -224,6 +225,45 @@ class TEX1(J3DChunk):
         filename = self.texture_names[i]
         write_str_with_null_byte(self.data, self.string_section_offset+offset_in_string_list, filename)
         offset_in_string_list += len(filename) + 1
+
+class MAT3(J3DChunk):
+  def read_chunk_specific_data(self):
+    self.tev_reg_colors_offset = read_u32(self.data, 0x50)
+    self.tev_konst_colors_offset = read_u32(self.data, 0x54)
+    self.tev_stages_offset = read_u32(self.data, 0x58)
+    
+    self.num_reg_colors = (self.tev_konst_colors_offset - self.tev_reg_colors_offset) // 8
+    self.reg_colors = []
+    for i in range(self.num_reg_colors):
+      r = read_s16(self.data, self.tev_reg_colors_offset + i*8 + 0)
+      g = read_s16(self.data, self.tev_reg_colors_offset + i*8 + 2)
+      b = read_s16(self.data, self.tev_reg_colors_offset + i*8 + 4)
+      a = read_s16(self.data, self.tev_reg_colors_offset + i*8 + 6)
+      self.reg_colors.append((r, g, b, a))
+    
+    self.num_konst_colors = (self.tev_stages_offset - self.tev_konst_colors_offset) // 4
+    self.konst_colors = []
+    for i in range(self.num_konst_colors):
+      r = read_u8(self.data, self.tev_konst_colors_offset + i*4 + 0)
+      g = read_u8(self.data, self.tev_konst_colors_offset + i*4 + 1)
+      b = read_u8(self.data, self.tev_konst_colors_offset + i*4 + 2)
+      a = read_u8(self.data, self.tev_konst_colors_offset + i*4 + 3)
+      self.konst_colors.append((r, g, b, a))
+  
+  def save_chunk_specific_data(self):
+    for i in range(self.num_reg_colors):
+      r, g, b, a = self.reg_colors[i]
+      write_s16(self.data, self.tev_reg_colors_offset + i*8 + 0, r)
+      write_s16(self.data, self.tev_reg_colors_offset + i*8 + 2, g)
+      write_s16(self.data, self.tev_reg_colors_offset + i*8 + 4, b)
+      write_s16(self.data, self.tev_reg_colors_offset + i*8 + 6, a)
+    
+    for i in range(self.num_konst_colors):
+      r, g, b, a = self.konst_colors[i]
+      write_u8(self.data, self.tev_konst_colors_offset + i*4 + 0, r)
+      write_u8(self.data, self.tev_konst_colors_offset + i*4 + 1, g)
+      write_u8(self.data, self.tev_konst_colors_offset + i*4 + 2, b)
+      write_u8(self.data, self.tev_konst_colors_offset + i*4 + 3, a)
 
 class MDL3(J3DChunk):
   def read_chunk_specific_data(self):
