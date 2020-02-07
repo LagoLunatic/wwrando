@@ -1042,8 +1042,11 @@ def hsv_shift_color(color, h_shift, v_shift):
     v = 90
   v_diff = v - orig_v
   
+  # Instead of shifting saturation separately, we simply make it relative to the value shift.
+  # As value increases we want saturation to decrease and vice versa.
+  # This is because bright colors look bad if they are too saturated, and dark colors look bland if they aren't saturated enough.
   orig_s = s
-  s += v_diff
+  s -= v_diff
   if s < 0:
     s = 0
   if s > 100:
