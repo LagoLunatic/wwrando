@@ -324,10 +324,11 @@ class MDLEntry:
     for command in self.xf_commands:
       offset = command.save(offset)
     
-    padding_bytes_needed = (0x20 - (offset % 0x20))
-    padding = b"\0"*padding_bytes_needed
-    write_bytes(self.data, offset, padding)
-    offset += padding_bytes_needed
+    if offset % 0x20 != 0:
+      padding_bytes_needed = (0x20 - (offset % 0x20))
+      padding = b"\0"*padding_bytes_needed
+      write_bytes(self.data, offset, padding)
+      offset += padding_bytes_needed
     
     # Adding new commands not supported.
     assert offset <= self.size
