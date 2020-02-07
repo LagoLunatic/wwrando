@@ -741,6 +741,42 @@
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
              <layout class="QGridLayout" name="gridLayout_5">
+              <item row="0" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_11">
+                <item>
+                 <widget class="QPushButton" name="randomize_all_custom_colors_together">
+                  <property name="text">
+                   <string>Randomize Colors Orderly</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="randomize_all_custom_colors_separately">
+                  <property name="text">
+                   <string>Randomize Colors Chaotically</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_7">
+                  <item>
+                   <widget class="QCheckBox" name="player_in_casual_clothes">
+                    <property name="text">
+                     <string>Casual Clothes</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="disable_custom_player_voice">
+                    <property name="text">
+                     <string>Disable Custom Voice</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
               <item row="0" column="0">
                <layout class="QHBoxLayout" name="horizontalLayout_3">
                 <item>
@@ -752,24 +788,6 @@
                 </item>
                 <item>
                  <widget class="QComboBox" name="custom_player_model"/>
-                </item>
-               </layout>
-              </item>
-              <item row="0" column="1">
-               <layout class="QHBoxLayout" name="horizontalLayout_7">
-                <item>
-                 <widget class="QCheckBox" name="player_in_casual_clothes">
-                  <property name="text">
-                   <string>Casual Clothes</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="disable_custom_player_voice">
-                  <property name="text">
-                   <string>Disable Custom Voice</string>
-                  </property>
-                 </widget>
                 </item>
                </layout>
               </item>

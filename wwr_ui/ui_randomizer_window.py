@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Sat Feb  1 12:09:38 2020
+# Created: Fri Feb  7 17:05:25 2020
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -330,6 +330,24 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.gridLayout_5 = QtWidgets.QGridLayout()
         self.gridLayout_5.setObjectName("gridLayout_5")
+        self.horizontalLayout_11 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_11.setObjectName("horizontalLayout_11")
+        self.randomize_all_custom_colors_together = QtWidgets.QPushButton(self.tab_2)
+        self.randomize_all_custom_colors_together.setObjectName("randomize_all_custom_colors_together")
+        self.horizontalLayout_11.addWidget(self.randomize_all_custom_colors_together)
+        self.randomize_all_custom_colors_separately = QtWidgets.QPushButton(self.tab_2)
+        self.randomize_all_custom_colors_separately.setObjectName("randomize_all_custom_colors_separately")
+        self.horizontalLayout_11.addWidget(self.randomize_all_custom_colors_separately)
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.player_in_casual_clothes = QtWidgets.QCheckBox(self.tab_2)
+        self.player_in_casual_clothes.setObjectName("player_in_casual_clothes")
+        self.horizontalLayout_7.addWidget(self.player_in_casual_clothes)
+        self.disable_custom_player_voice = QtWidgets.QCheckBox(self.tab_2)
+        self.disable_custom_player_voice.setObjectName("disable_custom_player_voice")
+        self.horizontalLayout_7.addWidget(self.disable_custom_player_voice)
+        self.horizontalLayout_11.addLayout(self.horizontalLayout_7)
+        self.gridLayout_5.addLayout(self.horizontalLayout_11, 0, 1, 1, 1)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.label_for_custom_player_model = QtWidgets.QLabel(self.tab_2)
@@ -339,15 +357,6 @@ class Ui_MainWindow(object):
         self.custom_player_model.setObjectName("custom_player_model")
         self.horizontalLayout_3.addWidget(self.custom_player_model)
         self.gridLayout_5.addLayout(self.horizontalLayout_3, 0, 0, 1, 1)
-        self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
-        self.player_in_casual_clothes = QtWidgets.QCheckBox(self.tab_2)
-        self.player_in_casual_clothes.setObjectName("player_in_casual_clothes")
-        self.horizontalLayout_7.addWidget(self.player_in_casual_clothes)
-        self.disable_custom_player_voice = QtWidgets.QCheckBox(self.tab_2)
-        self.disable_custom_player_voice.setObjectName("disable_custom_player_voice")
-        self.horizontalLayout_7.addWidget(self.disable_custom_player_voice)
-        self.gridLayout_5.addLayout(self.horizontalLayout_7, 0, 1, 1, 1)
         self.verticalLayout_3.addLayout(self.gridLayout_5)
         self.custom_model_comment = QtWidgets.QLabel(self.tab_2)
         self.custom_model_comment.setMaximumSize(QtCore.QSize(810, 16777215))
@@ -495,9 +504,11 @@ class Ui_MainWindow(object):
         self.label_5.setText(QtWidgets.QApplication.translate("MainWindow", "Heart Pieces", None, -1))
         self.current_health.setText(QtWidgets.QApplication.translate("MainWindow", "Current Starting Health: 3 hearts", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QtWidgets.QApplication.translate("MainWindow", "Starting Items", None, -1))
-        self.label_for_custom_player_model.setText(QtWidgets.QApplication.translate("MainWindow", "Player Model", None, -1))
+        self.randomize_all_custom_colors_together.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Colors Orderly", None, -1))
+        self.randomize_all_custom_colors_separately.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Colors Chaotically", None, -1))
         self.player_in_casual_clothes.setText(QtWidgets.QApplication.translate("MainWindow", "Casual Clothes", None, -1))
         self.disable_custom_player_voice.setText(QtWidgets.QApplication.translate("MainWindow", "Disable Custom Voice", None, -1))
+        self.label_for_custom_player_model.setText(QtWidgets.QApplication.translate("MainWindow", "Player Model", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtWidgets.QApplication.translate("MainWindow", "Cosmetic", None, -1))
         self.label_4.setText(QtWidgets.QApplication.translate("MainWindow", "Permalink (copy paste to share your settings):", None, -1))
         self.update_checker_label.setText(QtWidgets.QApplication.translate("MainWindow", "Checking for updates to the randomizer...", None, -1))
