@@ -138,24 +138,26 @@ class TEX1(J3DChunk):
       texture = BTI(self.data, bti_header_offset)
       self.textures.append(texture)
     
+    self.texture_names = []
+    self.textures_by_name = OrderedDict()
+    
     self.string_section_offset = read_u32(self.data, 0x10)
     self.num_strings = read_u16(self.data, self.string_section_offset)
     self.string_unknown_1 = read_u16(self.data, self.string_section_offset+2)
-    self.string_unknown_2 = read_u16(self.data, self.string_section_offset+4)
-    self.string_data_offset = read_u16(self.data, self.string_section_offset+6)
-    self.string_unknown_3 = read_bytes(self.data, self.string_section_offset+8, self.string_data_offset-8)
-    
-    self.texture_names = []
-    self.textures_by_name = OrderedDict()
-    offset_in_string_list = self.string_data_offset
-    for texture in self.textures:
-      filename = read_str_until_null_character(self.data, self.string_section_offset + offset_in_string_list)
-      self.texture_names.append(filename)
-      if filename not in self.textures_by_name:
-        self.textures_by_name[filename] = []
-      self.textures_by_name[filename].append(texture)
+    if self.num_strings > 0:
+      self.string_unknown_2 = read_u16(self.data, self.string_section_offset+4)
+      self.string_data_offset = read_u16(self.data, self.string_section_offset+6)
+      self.string_unknown_3 = read_bytes(self.data, self.string_section_offset+8, self.string_data_offset-8)
       
-      offset_in_string_list += len(filename) + 1
+      offset_in_string_list = self.string_data_offset
+      for texture in self.textures:
+        filename = read_str_until_null_character(self.data, self.string_section_offset + offset_in_string_list)
+        self.texture_names.append(filename)
+        if filename not in self.textures_by_name:
+          self.textures_by_name[filename] = []
+        self.textures_by_name[filename].append(texture)
+        
+        offset_in_string_list += len(filename) + 1
   
   def save_chunk_specific_data(self):
     # Does not support adding new textures currently.
@@ -210,15 +212,16 @@ class TEX1(J3DChunk):
     write_u32(self.data, 0x10, self.string_section_offset)
     write_u16(self.data, self.string_section_offset, self.num_strings)
     write_u16(self.data, self.string_section_offset+2, self.string_unknown_1)
-    write_u16(self.data, self.string_section_offset+4, self.string_unknown_2)
-    write_u16(self.data, self.string_section_offset+6, self.string_data_offset)
-    write_bytes(self.data, self.string_section_offset+8, self.string_unknown_3)
-    
-    offset_in_string_list = self.string_data_offset
-    for i, texture in enumerate(self.textures):
-      filename = self.texture_names[i]
-      write_str_with_null_byte(self.data, self.string_section_offset+offset_in_string_list, filename)
-      offset_in_string_list += len(filename) + 1
+    if self.num_strings > 0:
+      write_u16(self.data, self.string_section_offset+4, self.string_unknown_2)
+      write_u16(self.data, self.string_section_offset+6, self.string_data_offset)
+      write_bytes(self.data, self.string_section_offset+8, self.string_unknown_3)
+      
+      offset_in_string_list = self.string_data_offset
+      for i, texture in enumerate(self.textures):
+        filename = self.texture_names[i]
+        write_str_with_null_byte(self.data, self.string_section_offset+offset_in_string_list, filename)
+        offset_in_string_list += len(filename) + 1
 
 class TRK1(J3DChunk):
   def read_chunk_specific_data(self):
