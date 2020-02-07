@@ -903,7 +903,7 @@ def encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y
     if needs_transparent_color and color_0_rgb565 > color_1_rgb565:
       color_0_rgb565, color_1_rgb565 = color_1_rgb565, color_0_rgb565
       color_0, color_1 = color_1, color_0
-    elif color_0_rgb565 < color_1_rgb565:
+    elif not needs_transparent_color and color_0_rgb565 < color_1_rgb565:
       color_0_rgb565, color_1_rgb565 = color_1_rgb565, color_0_rgb565
       color_0, color_1 = color_1, color_0
     
