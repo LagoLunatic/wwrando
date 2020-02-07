@@ -319,7 +319,7 @@ Windfall Island - Maggie - Free Item:
   Types: Free Gift
   Paths:
     - rels/d_a_npc_kp1.rel@17D7
-Windfall Island - Maggie - Reward:
+Windfall Island - Maggie - Delivery Reward:
   Need: Rescued Aryll & Delivery Bag & Moblin's Letter
   Original item: Piece of Heart
   Types: Short Sidequest
@@ -331,7 +331,7 @@ Windfall Island - Cafe Bar - Postman:
   Types: Short Sidequest
   Paths:
     - Opub/Stage.arc/Event00E:Get_Mo3_Ltr/Actor002/Action001
-Windfall Island - Kreeb:
+Windfall Island - Kreeb - Light Up Lighthouse:
   Need:
     # Need to activate the windmill and light up the lighthouse for him to give this to you.
     Can Play Wind's Requiem
@@ -352,7 +352,7 @@ Windfall Island - Transparent Chest:
     - sea/Room11.arc/Layer1/Chest000
     - sea/Room11.arc/Layer3/Chest000
     - sea/Room11.arc/Layer5/Chest000
-Windfall Island - Tott:
+Windfall Island - Tott - Teach Rhythm:
   Need: Wind Waker
   Original item: Song of Passing
   Types: Free Gift
@@ -365,18 +365,18 @@ Windfall Island - Pirate Ship:
   Paths:
     - Asoko/Stage.arc/Layer2/Chest000
     - Asoko/Stage.arc/Layer3/Chest000
-Windfall Island - 40 Rupee Auction:
-  Need: Nothing
-  Original item: Joy Pendant
-  Types: Expensive Purchase, Minigame
-  Paths:
-    - rels/d_a_auction.rel@4489
 Windfall Island - 5 Rupee Auction:
   Need: Nothing
   Original item: Treasure Chart 18
   Types: Expensive Purchase, Minigame
   Paths:
     - rels/d_a_auction.rel@4491
+Windfall Island - 40 Rupee Auction:
+  Need: Nothing
+  Original item: Joy Pendant
+  Types: Expensive Purchase, Minigame
+  Paths:
+    - rels/d_a_auction.rel@4489
 Windfall Island - 60 Rupee Auction:
   Need: Nothing
   Original item: Treasure Chart 38
@@ -434,7 +434,7 @@ Windfall Island - Sam - Decorate the Town:
 #  Original item: Red Rupee
 #  Paths:
 #    - rels/d_a_npc_people.rel@C227
-Windfall Island - Mila:
+Windfall Island - Mila - Follow the Thief:
   Need: Rescued Aryll
   Original item: Empty Bottle
   Types: Short Sidequest
@@ -479,7 +479,7 @@ Windfall Island - Battlesquid - Under 20 Shots Prize:
 #  Original item: Red Rupee
 #  Paths:
 #    - rels/d_a_npc_people.rel@5BC3
-Windfall Island - Pompie and Vera:
+Windfall Island - Pompie and Vera - Secret Meeting Photo:
   Need:
     # Need to snap a photo of Lenzo and Minenco in Lenzo's house.
     # Need Wind's Requiem to activate the Windmill.
@@ -490,13 +490,13 @@ Windfall Island - Pompie and Vera:
   Types: Short Sidequest
   Paths:
     - rels/d_a_npc_people.rel@C54F
-Windfall Island - Kamo:
+Windfall Island - Kamo - Full Moon Photo:
   Need: Deluxe Picto Box & Song of Passing
   Original item: Treasure Chart 31
   Types: Long Sidequest
   Paths:
     - rels/d_a_npc_people.rel@C55F
-Windfall Island - Minenco:
+Windfall Island - Minenco - Miss Windfall Photo:
   Need: Deluxe Picto Box
   Original item: Treasure Chart 33
   Types: Short Sidequest
