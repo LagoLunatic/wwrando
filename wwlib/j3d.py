@@ -32,6 +32,11 @@ class J3DFile:
     self.chunk_by_type = {}
     offset = 0x20
     for chunk_index in range(self.num_chunks):
+      if offset == data_len(data):
+        # Normally the number of chunks tells us when to stop reading.
+        # But in rare cases like Bk.arc/bk_boko.bmt, the number of chunks can be greater than how many chunks are actually in the file, so we need to detect when we've reached the end of the file manually.
+        break
+      
       chunk_magic = read_str(data, offset, 4)
       if chunk_magic in IMPLEMENTED_CHUNK_TYPES:
         chunk_class = globals().get(chunk_magic, None)
