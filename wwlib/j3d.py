@@ -11,6 +11,7 @@ from fs_helpers import *
 
 IMPLEMENTED_CHUNK_TYPES = [
   "TEX1",
+  "MDL3",
   "TRK1",
 ]
 
@@ -223,6 +224,142 @@ class TEX1(J3DChunk):
         filename = self.texture_names[i]
         write_str_with_null_byte(self.data, self.string_section_offset+offset_in_string_list, filename)
         offset_in_string_list += len(filename) + 1
+
+class MDL3(J3DChunk):
+  def read_chunk_specific_data(self):
+    self.num_entries = read_u16(self.data, 0x08)
+    self.packets_offset = read_u32(self.data, 0x0C)
+    
+    self.entries = []
+    packet_offset = self.packets_offset
+    for i in range(self.num_entries):
+      entry_offset = read_u32(self.data, packet_offset + 0x00)
+      entry_size = read_u32(self.data, packet_offset + 0x04)
+      entry = MDLEntry(self.data, entry_offset+packet_offset, entry_size)
+      self.entries.append(entry)
+      packet_offset += 8
+  
+  def save_chunk_specific_data(self):
+    for entry in self.entries:
+      entry.save_changes()
+      
+      entry.data.seek(0)
+      entry_data = entry.data.read()
+      self.data.seek(entry.entry_offset)
+      self.data.write(entry_data)
+
+class MDLEntry:
+  def __init__(self, chunk_data, entry_offset, size):
+    self.entry_offset = entry_offset
+    self.size = size
+    
+    chunk_data.seek(self.entry_offset)
+    self.data = BytesIO(chunk_data.read(self.size))
+    
+    self.read()
+  
+  def read(self):
+    self.bp_commands = []
+    self.xf_commands = []
+    offset = 0
+    while offset < self.size:
+      command_type = read_u8(self.data, offset)
+      if command_type == MDLCommandType.BP.value:
+        command = BPCommand(self.data)
+        offset = command.read(offset)
+        self.bp_commands.append(command)
+      elif command_type == MDLCommandType.XF.value:
+        command = XFCommand(self.data)
+        offset = command.read(offset)
+        self.xf_commands.append(command)
+      elif command_type == MDLCommandType.END_MARKER.value:
+        break
+      else:
+        raise Exception("Invalid MDL3 command type: %02X" % command_type)
+  
+  def save_changes(self):
+    offset = 0
+    for command in self.bp_commands:
+      offset = command.save(offset)
+    for command in self.xf_commands:
+      offset = command.save(offset)
+    
+    padding_bytes_needed = (0x20 - (offset % 0x20))
+    padding = b"\0"*padding_bytes_needed
+    write_bytes(self.data, offset, padding)
+    offset += padding_bytes_needed
+    
+    # Adding new commands not supported.
+    assert offset <= self.size
+
+class MDLCommandType(Enum):
+  END_MARKER = 0x00
+  XF = 0x10
+  BP = 0x61
+
+class BPCommand:
+  def __init__(self, data):
+    self.data = data
+  
+  def read(self, offset):
+    assert read_u8(self.data, offset) == MDLCommandType.BP.value
+    offset += 1
+    
+    bitfield = read_u32(self.data, offset)
+    offset += 4
+    self.register = (bitfield & 0xFF000000) >> 24
+    self.value = (bitfield & 0x00FFFFFF)
+    
+    return offset
+  
+  def save(self, offset):
+    write_u8(self.data, offset, MDLCommandType.BP.value)
+    offset += 1
+    
+    bitfield = (self.register << 24) & 0xFF000000
+    bitfield |= self.value & 0x00FFFFFF
+    write_u32(self.data, offset, bitfield)
+    offset += 4
+    
+    return offset
+
+class XFCommand:
+  def __init__(self, data):
+    self.data = data
+  
+  def read(self, offset):
+    assert read_u8(self.data, offset) == MDLCommandType.XF.value
+    offset += 1
+    
+    num_args = read_u16(self.data, offset) + 1
+    offset += 2
+    self.register = read_u16(self.data, offset)
+    offset += 2
+    
+    self.args = []
+    for i in range(num_args):
+      arg = read_u32(self.data, offset)
+      offset += 4
+      self.args.append(arg)
+    
+    return offset
+  
+  def save(self, offset):
+    write_u8(self.data, offset, MDLCommandType.XF.value)
+    offset += 1
+    
+    num_args = len(self.args)
+    
+    write_u16(self.data, offset, num_args-1)
+    offset += 2
+    write_u16(self.data, offset, self.register)
+    offset += 2
+    
+    for arg in self.args:
+      write_u32(self.data, offset, arg)
+      offset += 4
+    
+    return offset
 
 class TRK1(J3DChunk):
   def read_chunk_specific_data(self):
