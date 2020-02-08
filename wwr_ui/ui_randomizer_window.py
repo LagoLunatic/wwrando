@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Fri Feb  7 17:07:23 2020
+# Created: Sat Feb  8 13:16:48 2020
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -231,6 +231,10 @@ class Ui_MainWindow(object):
         self.generate_spoiler_log.setChecked(True)
         self.generate_spoiler_log.setObjectName("generate_spoiler_log")
         self.gridLayout_4.addWidget(self.generate_spoiler_log, 1, 2, 1, 1)
+        self.skip_rematch_bosses = QtWidgets.QCheckBox(self.groupBox_2)
+        self.skip_rematch_bosses.setChecked(True)
+        self.skip_rematch_bosses.setObjectName("skip_rematch_bosses")
+        self.gridLayout_4.addWidget(self.skip_rematch_bosses, 1, 0, 1, 1)
         self.swift_sail = QtWidgets.QCheckBox(self.groupBox_2)
         self.swift_sail.setChecked(True)
         self.swift_sail.setObjectName("swift_sail")
@@ -245,13 +249,13 @@ class Ui_MainWindow(object):
         self.reveal_full_sea_chart.setChecked(True)
         self.reveal_full_sea_chart.setObjectName("reveal_full_sea_chart")
         self.gridLayout_4.addWidget(self.reveal_full_sea_chart, 0, 2, 1, 1)
-        self.skip_rematch_bosses = QtWidgets.QCheckBox(self.groupBox_2)
-        self.skip_rematch_bosses.setChecked(True)
-        self.skip_rematch_bosses.setObjectName("skip_rematch_bosses")
-        self.gridLayout_4.addWidget(self.skip_rematch_bosses, 1, 0, 1, 1)
         self.disable_tingle_chests_with_tingle_bombs = QtWidgets.QCheckBox(self.groupBox_2)
         self.disable_tingle_chests_with_tingle_bombs.setObjectName("disable_tingle_chests_with_tingle_bombs")
         self.gridLayout_4.addWidget(self.disable_tingle_chests_with_tingle_bombs, 2, 1, 1, 1)
+        self.remove_title_and_ending_videos = QtWidgets.QCheckBox(self.groupBox_2)
+        self.remove_title_and_ending_videos.setChecked(True)
+        self.remove_title_and_ending_videos.setObjectName("remove_title_and_ending_videos")
+        self.gridLayout_4.addWidget(self.remove_title_and_ending_videos, 2, 2, 1, 1)
         self.verticalLayout_2.addWidget(self.groupBox_2)
         self.tabWidget.addTab(self.tab, "")
         self.tab_3 = QtWidgets.QWidget()
@@ -493,12 +497,13 @@ class Ui_MainWindow(object):
         self.groupBox_2.setTitle(QtWidgets.QApplication.translate("MainWindow", "Convenience Tweaks", None, -1))
         self.instant_text_boxes.setText(QtWidgets.QApplication.translate("MainWindow", "Instant Text Boxes", None, -1))
         self.generate_spoiler_log.setText(QtWidgets.QApplication.translate("MainWindow", "Generate Spoiler Log", None, -1))
+        self.skip_rematch_bosses.setText(QtWidgets.QApplication.translate("MainWindow", "Skip Boss Rematches", None, -1))
         self.swift_sail.setText(QtWidgets.QApplication.translate("MainWindow", "Swift Sail", None, -1))
         self.invert_camera_x_axis.setText(QtWidgets.QApplication.translate("MainWindow", "Invert Camera X-Axis", None, -1))
         self.add_shortcut_warps_between_dungeons.setText(QtWidgets.QApplication.translate("MainWindow", "Add Shortcut Warps Between Dungeons", None, -1))
         self.reveal_full_sea_chart.setText(QtWidgets.QApplication.translate("MainWindow", "Reveal Full Sea Chart", None, -1))
-        self.skip_rematch_bosses.setText(QtWidgets.QApplication.translate("MainWindow", "Skip Boss Rematches", None, -1))
         self.disable_tingle_chests_with_tingle_bombs.setText(QtWidgets.QApplication.translate("MainWindow", "Tingle Chests Require Non-Tingle Bombs", None, -1))
+        self.remove_title_and_ending_videos.setText(QtWidgets.QApplication.translate("MainWindow", "Remove Title and Ending Videos", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtWidgets.QApplication.translate("MainWindow", "Randomizer Settings", None, -1))
         self.label_for_randomized_gear.setText(QtWidgets.QApplication.translate("MainWindow", "Randomized Gear", None, -1))
         self.remove_gear.setText(QtWidgets.QApplication.translate("MainWindow", "<-", None, -1))

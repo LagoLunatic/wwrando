@@ -157,6 +157,10 @@ OPTIONS = OrderedDict([
     "randomize_enemy_palettes",
     "Gives all the enemies in the game random colors.",
   ),
+  (
+    "remove_title_and_ending_videos",
+    "Removes the two videos that play if you wait on the title screen and after you beat the game.\nNote that this option decreases the randomized ISO's filesize by about 600MB.",
+  ),
   
   (
     "custom_player_model",

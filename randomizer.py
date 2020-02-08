@@ -351,6 +351,8 @@ class Randomizer:
       tweaks.update_starting_gear(self)
       if self.options.get("disable_tingle_chests_with_tingle_bombs"):
         tweaks.apply_patch(self, "disable_tingle_bombs_on_tingle_chests")
+      if self.options.get("remove_title_and_ending_videos"):
+        tweaks.remove_title_and_ending_videos(self)
       
       if self.test_room_args is not None:
         tweaks.test_room(self)
@@ -419,7 +421,6 @@ class Randomizer:
     tweaks.add_chest_in_place_queen_fairy_cutscene(self)
     #tweaks.add_cube_to_earth_temple_first_room(self)
     tweaks.add_more_magic_jars(self)
-    tweaks.remove_title_and_ending_videos(self)
     tweaks.modify_title_screen_logo(self)
     tweaks.update_game_name_icon_and_banners(self)
     tweaks.allow_dungeon_items_to_appear_anywhere(self)

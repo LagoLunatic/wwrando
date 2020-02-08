@@ -506,6 +506,16 @@
                  </property>
                 </widget>
                </item>
+               <item row="1" column="0">
+                <widget class="QCheckBox" name="skip_rematch_bosses">
+                 <property name="text">
+                  <string>Skip Boss Rematches</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
                <item row="0" column="0">
                 <widget class="QCheckBox" name="swift_sail">
                  <property name="text">
@@ -540,20 +550,20 @@
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QCheckBox" name="skip_rematch_bosses">
-                 <property name="text">
-                  <string>Skip Boss Rematches</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
                <item row="2" column="1">
                 <widget class="QCheckBox" name="disable_tingle_chests_with_tingle_bombs">
                  <property name="text">
                   <string>Tingle Chests Require Non-Tingle Bombs</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2">
+                <widget class="QCheckBox" name="remove_title_and_ending_videos">
+                 <property name="text">
+                  <string>Remove Title and Ending Videos</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
