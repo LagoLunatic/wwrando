@@ -1037,6 +1037,7 @@ def update_randomly_chosen_hints(self):
       continue
     if location_name == "Two-Eye Reef - Big Octo Great Fairy":
       # We don't want this Great Fairy to hint at her own item.
+      continue
     
     item_name = self.logic.done_item_locations[location_name]
     if item_name not in self.logic.all_progress_items:
