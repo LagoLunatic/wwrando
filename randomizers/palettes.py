@@ -12,8 +12,9 @@ def randomize_enemy_palettes(self):
     #print(h_shift, v_shift)
     
     if randomizable_file_group["Name"] == "Darknut":
-      shift_hardcoded_darknut_particle_colors(self, h_shift, v_shift)
-      shift_hardcoded_darknut_cape_particle_colors(self, h_shift, v_shift)
+      shift_hardcoded_darknut_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "Moblin":
+      shift_hardcoded_moblin_colors(self, h_shift, v_shift)
     
     if randomizable_file_group["Particle IDs"]:
       particle_ids = randomizable_file_group["Particle IDs"]
@@ -222,8 +223,8 @@ def shift_all_colors_in_particle(self, particle, h_shift, v_shift):
     r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
     particle.ssp1.color_env = (r, g, b, a)
 
-def shift_hardcoded_darknut_particle_colors(self, h_shift, v_shift):
-  # Darknuts have RGB values inside their REL that recolor the particles for their armor being destroyed.
+def shift_hardcoded_darknut_colors(self, h_shift, v_shift):
+  # Update the RGB values for Darknut armor destroyed particles.
   darknut_data = self.get_raw_file("files/rels/d_a_tn.rel")
   offset = 0xE2AC
   for i in range(12):
@@ -234,8 +235,8 @@ def shift_hardcoded_darknut_particle_colors(self, h_shift, v_shift):
     write_u8(darknut_data, offset+i*4 + 0, r)
     write_u8(darknut_data, offset+i*4 + 1, g)
     write_u8(darknut_data, offset+i*4 + 2, b)
-
-def shift_hardcoded_darknut_cape_particle_colors(self, h_shift, v_shift):
+  
+  # Update the Darknut's cape colors
   cape_data = self.get_raw_file("files/rels/d_a_mant.rel")
   for palette_offset in [0x4540, 0x6560, 0x8580, 0xA5A0, 0xC5C0]:
     cape_data.seek(palette_offset)
@@ -253,3 +254,15 @@ def shift_hardcoded_darknut_cape_particle_colors(self, h_shift, v_shift):
     cape_data.seek(palette_offset)
     palette_data.seek(0)
     cape_data.write(palette_data.read())
+
+def shift_hardcoded_moblin_colors(self, h_shift, v_shift):
+  # Update the thread colors for the Moblin's spear
+  for rel_name, offset in [("mo2", 0xD648), ("boko", 0x4488)]:
+    data = self.get_raw_file("files/rels/d_a_%s.rel" % rel_name)
+    r = read_u8(data, offset + 0)
+    g = read_u8(data, offset + 1)
+    b = read_u8(data, offset + 2)
+    r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+    write_u8(data, offset + 0, r)
+    write_u8(data, offset + 1, g)
+    write_u8(data, offset + 2, b)
