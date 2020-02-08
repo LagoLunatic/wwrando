@@ -1,150 +1,175 @@
 
 # Common enemies
-- # Bokoblin
+-
+  Name: Bokoblin
   Particle IDs: []
   RARCs:
     -
       Name: Bk
       Excluded files: []
-- # ChuChu
+-
+  Name: ChuChu
   Particle IDs: [] # 0x82A8 is the Dark ChuChu breaking apart and reforming one, but the colors for it seem hardcoded.
   RARCs:
     -
       Name: Cc
       Excluded files: []
-- # Kargaroc
+-
+  Name: Kargaroc
   Particle IDs: []
   RARCs:
     -
       Name: Bb
       Excluded files: []
-- # Moblin
+-
+  Name: Moblin
   Particle IDs: []
   RARCs:
     -
       Name: Mo2
       Excluded files: []
-- # Peahat
+-
+  Name: Peahat
   Particle IDs: []
   RARCs:
     -
       Name: Ph
       Excluded files: []
-- # Seahat
+-
+  Name: Seahat
   Particle IDs: []
   RARCs:
     -
       Name: Ph
       Excluded files: []
-- # Armos Knight
+-
+  Name: Armos Knight
   Particle IDs: [0x8128]
   RARCs:
     -
       Name: Am
       Excluded files: []
-- # Armos
+-
+  Name: Armos
   Particle IDs: [0x81AE, 0x81AF, 0x81B0]
   RARCs:
     -
       Name: Am2
       Excluded files: []
-- # Dexivine
+-
+  Name: Dexivine
   Particle IDs: [0x8184]
   RARCs:
     -
       Name: Sss
       Excluded files: []
-- # Keese
+-
+  Name: Keese
   Particle IDs: [0x8061, 0x8099, 0x809A, 0x809B]
   RARCs:
     -
       Name: Ki
       Excluded files: []
-- # Octorok
+-
+  Name: Octorok
   Particle IDs: []
   RARCs:
     -
       Name: Oq
       Excluded files: []
-- # Wizzrobe
+-
+  Name: Wizzrobe
   Particle IDs: [0x8238, 0x8239, 0x823A, 0x823C, 0x823D, 0x8280, 0x8281, 0x8282, 0x8283, 0x8284, 0x8287, 0x8288, 0x8289]
   RARCs:
     -
       Name: Wz
       Excluded files: []
-- # ReDead
+-
+  Name: ReDead
   Particle IDs: []
   RARCs:
     -
       Name: Rd
       Excluded files: []
-- # Poe
+-
+  Name: Poe
   Particle IDs: [0x82EE, 0x8445]
   RARCs:
     -
       Name: Pw
       Excluded files: []
-- # Morth
+-
+  Name: Morth
   Particle IDs: []
   RARCs:
     -
       Name: Ks
       Excluded files: []
-- # Miniblin
+-
+  Name: Miniblin
   Particle IDs: []
   RARCs:
     -
       Name: Pt
       Excluded files: [pt.brk]
-- # Rat
+-
+  Name: Rat
   Particle IDs: [0x8188]
   RARCs:
     -
       Name: Nz
       Excluded files: []
-- # Stalfos
+-
+  Name: Stalfos
   Particle IDs: [0x8179, 0x817A, 0x817B, 0x817E, 0xA17C, 0xA17D]
   RARCs:
     -
       Name: St
       Excluded files: []
-- # Darknut
+-
+  Name: Darknut
   Particle IDs: [0x81B6, 0xA1B3]
   RARCs:
     -
       Name: Tn
       Excluded files: []
-- # Boko Baba
+-
+  Name: Boko Baba
   Particle IDs: [0x8106, 0x8107, 0x8108, 0x8109, 0x810A, 0x810C]
   RARCs:
     -
       Name: Bo
       Excluded files: []
-- # Magtail
+-
+  Name: Magtail
   Particle IDs: [0x8095, 0x8096, 0x80CF]
   RARCs:
     -
       Name: Mt
       Excluded files: []
-- # Bubble
+-
+  Name: Bubble
   Particle IDs: [0x8123, 0x8124]
   RARCs:
     -
       Name: Bl
       Excluded files: []
-- # Mothula
+-
+  Name: Mothula
   Particle IDs: [0x81A1, 0x81A2, 0x81A3]
   RARCs:
     -
       Name: Gm
       Excluded files: []
-- # Gyorg
+-
+  Name: Gyorg
   Particle IDs: []
   RARCs:
     -
       Name: gy
       Excluded files: []
-- # Floormaster
+-
+  Name: Floormaster
   Particle IDs: [0x809E]
   RARCs:
     -
@@ -152,13 +177,15 @@
       Excluded files: []
 
 # Sort-of enemies
-- # Beamos
+-
+  Name: Beamos
   Particle IDs: [0x815F]
   RARCs:
     -
       Name: Hmos
       Excluded files: [hmos3.bdl]
-- # Door/chest flower
+-
+  Name: Door/chest flower
   Particle IDs: []
   RARCs:
     -
@@ -167,13 +194,15 @@
 
 # Bosses
 # TODO: boss particles
-- # Gohma
+-
+  Name: Gohma
   Particle IDs: []
   RARCs:
     -
       Name: Btd
       Excluded files: []
-- # Kalle Demos
+-
+  Name: Kalle Demos
   Particle IDs: []
   RARCs:
     -
@@ -185,31 +214,36 @@
     -
       Name: Bmdhand
       Excluded files: []
-- # Gohdan
+-
+  Name: Gohdan
   Particle IDs: []
   RARCs:
     -
       Name: Bst
       Excluded files: []
-- # Phantom Ganon
+-
+  Name: Phantom Ganon
   Particle IDs: []
   RARCs:
     -
       Name: Fganon
       Excluded files: []
-- # Helmaroc King
+-
+  Name: Helmaroc King
   Particle IDs: []
   RARCs:
     -
       Name: Bdk
       Excluded files: []
-- # Jalhalla
+-
+  Name: Jalhalla
   Particle IDs: []
   RARCs:
     -
       Name: Bpw
       Excluded files: []
-- # Molgera
+-
+  Name: Molgera
   Particle IDs: []
   RARCs:
     -
@@ -218,13 +252,15 @@
     -
       Name: Bwds
       Excluded files: []
-- # Puppet Ganon
+-
+  Name: Puppet Ganon
   Particle IDs: []
   RARCs:
     -
       Name: Bgn
       Excluded files: []
-- # Ganondorf
+-
+  Name: Ganondorf
   Particle IDs: []
   RARCs:
     -
