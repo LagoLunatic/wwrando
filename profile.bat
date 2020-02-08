@@ -1,1 +1,1 @@
-py -m cProfile -s cumtime wwrando.py > profileresults.txt
+py wwrando.py -noui -profile

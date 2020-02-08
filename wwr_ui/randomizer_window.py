@@ -43,6 +43,7 @@ class WWRandomizerWindow(QMainWindow):
     self.cmd_line_args = cmd_line_args
     self.bulk_test = ("-bulk" in cmd_line_args)
     self.no_ui_test = ("-noui" in cmd_line_args)
+    self.profiling = ("-profile" in cmd_line_args)
     
     self.custom_color_selector_buttons = OrderedDict()
     self.custom_color_selector_hex_inputs = OrderedDict()
@@ -276,7 +277,7 @@ class WWRandomizerWindow(QMainWindow):
       self.randomization_failed(error_message)
       return
     
-    self.randomizer_thread = RandomizerThread(rando)
+    self.randomizer_thread = RandomizerThread(rando, profiling=self.profiling)
     self.randomizer_thread.update_progress.connect(self.update_progress_dialog)
     self.randomizer_thread.randomization_complete.connect(self.randomization_complete)
     self.randomizer_thread.randomization_failed.connect(self.randomization_failed)
@@ -1142,12 +1143,18 @@ class RandomizerThread(QThread):
   randomization_complete = Signal()
   randomization_failed = Signal(str)
   
-  def __init__(self, randomizer):
+  def __init__(self, randomizer, profiling=False):
     QThread.__init__(self)
     
     self.randomizer = randomizer
+    self.profiling = profiling
   
   def run(self):
+    if self.profiling:
+      import cProfile, pstats
+      profiler = cProfile.Profile()
+      profiler.enable()
+    
     try:
       randomizer_generator = self.randomizer.randomize()
       while True:
@@ -1161,6 +1168,12 @@ class RandomizerThread(QThread):
       error_message = "Randomization failed with error:\n" + str(e) + "\n\n" + stack_trace
       self.randomization_failed.emit(error_message)
       return
+    
+    if self.profiling:
+      profiler.disable()
+      with open("profileresults.txt", "w") as f:
+        ps = pstats.Stats(profiler, stream=f).sort_stats("cumulative")
+        ps.print_stats()
     
     self.randomization_complete.emit()
 
