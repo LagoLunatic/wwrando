@@ -1045,6 +1045,10 @@ class WWRandomizerWindow(QMainWindow):
     return custom_colors
   
   def update_model_preview(self):
+    if self.no_ui_test:
+      # Preview can't be seen without a UI anyway, don't waste time generating it.
+      return
+    
     custom_model_name = self.get_option_value("custom_player_model")
     custom_model_metadata = customizer.get_model_metadata(custom_model_name)
     disable_casual_clothes = custom_model_metadata.get("disable_casual_clothes", False)
