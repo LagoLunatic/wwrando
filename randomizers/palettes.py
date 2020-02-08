@@ -15,6 +15,14 @@ def randomize_enemy_palettes(self):
       shift_hardcoded_darknut_colors(self, h_shift, v_shift)
     elif randomizable_file_group["Name"] == "Moblin":
       shift_hardcoded_moblin_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "Stalfos":
+      shift_hardcoded_stalfos_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "Rat":
+      shift_hardcoded_rat_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "Puppet Ganon":
+      shift_hardcoded_puppet_ganon_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "Ganondorf":
+      shift_hardcoded_ganondorf_colors(self, h_shift, v_shift)
     
     if randomizable_file_group["Particle IDs"]:
       particle_ids = randomizable_file_group["Particle IDs"]
@@ -223,18 +231,21 @@ def shift_all_colors_in_particle(self, particle, h_shift, v_shift):
     r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
     particle.ssp1.color_env = (r, g, b, a)
 
+def shift_hardcoded_color(data, offset, h_shift, v_shift):
+  r = read_u8(data, offset + 0)
+  g = read_u8(data, offset + 1)
+  b = read_u8(data, offset + 2)
+  r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+  write_u8(data, offset + 0, r)
+  write_u8(data, offset + 1, g)
+  write_u8(data, offset + 2, b)
+
 def shift_hardcoded_darknut_colors(self, h_shift, v_shift):
   # Update the RGB values for Darknut armor destroyed particles.
   darknut_data = self.get_raw_file("files/rels/d_a_tn.rel")
   offset = 0xE2AC
   for i in range(12):
-    r = read_u8(darknut_data, offset+i*4 + 0)
-    g = read_u8(darknut_data, offset+i*4 + 1)
-    b = read_u8(darknut_data, offset+i*4 + 2)
-    r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-    write_u8(darknut_data, offset+i*4 + 0, r)
-    write_u8(darknut_data, offset+i*4 + 1, g)
-    write_u8(darknut_data, offset+i*4 + 2, b)
+    shift_hardcoded_color(darknut_data, offset+i*4, h_shift, v_shift)
   
   # Update the Darknut's cape colors
   cape_data = self.get_raw_file("files/rels/d_a_mant.rel")
@@ -259,10 +270,43 @@ def shift_hardcoded_moblin_colors(self, h_shift, v_shift):
   # Update the thread colors for the Moblin's spear
   for rel_name, offset in [("mo2", 0xD648), ("boko", 0x4488)]:
     data = self.get_raw_file("files/rels/d_a_%s.rel" % rel_name)
-    r = read_u8(data, offset + 0)
-    g = read_u8(data, offset + 1)
-    b = read_u8(data, offset + 2)
-    r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-    write_u8(data, offset + 0, r)
-    write_u8(data, offset + 1, g)
-    write_u8(data, offset + 2, b)
+    shift_hardcoded_color(data, offset, h_shift, v_shift)
+
+def shift_hardcoded_stalfos_colors(self, h_shift, v_shift):
+  # Stalfos hat thread
+  data = self.get_raw_file("files/rels/d_a_st.rel")
+  offset = 0x9F30
+  shift_hardcoded_color(data, offset, h_shift, v_shift)
+
+def shift_hardcoded_rat_colors(self, h_shift, v_shift):
+  # Rat tails
+  data = self.get_raw_file("files/rels/d_a_nz.rel")
+  offset = 0x8FB8
+  shift_hardcoded_color(data, offset, h_shift, v_shift)
+  
+  data = self.get_raw_file("files/rels/d_a_npc_nz.rel")
+  offset = 0x48C0
+  shift_hardcoded_color(data, offset, h_shift, v_shift)
+
+def shift_hardcoded_puppet_ganon_colors(self, h_shift, v_shift):
+  # Puppet ganon's strings
+  data = self.get_raw_file("files/rels/d_a_bgn.rel")
+  offset = 0xF0A8
+  shift_hardcoded_color(data, offset, h_shift, v_shift)
+  offset = 0xF0B0
+  shift_hardcoded_color(data, offset, h_shift, v_shift)
+  
+  data = self.get_raw_file("files/rels/d_a_bgn3.rel")
+  r = read_u8(data, 0x2CF)
+  g = read_u8(data, 0x2D7)
+  b = read_u8(data, 0x2DF)
+  r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+  write_u8(data, 0x2CF, r)
+  write_u8(data, 0x2D7, g)
+  write_u8(data, 0x2DF, b)
+
+def shift_hardcoded_ganondorf_colors(self, h_shift, v_shift):
+  # Ganondorf's fancy threads
+  data = self.get_raw_file("files/rels/d_a_gnd.rel")
+  offset = 0x8F1C
+  shift_hardcoded_color(data, offset, h_shift, v_shift)
