@@ -6,6 +6,12 @@ from enum import Enum
 
 from fs_helpers import *
 
+try:
+  import pyfastbti
+  PY_FAST_BTI_INSTALLED = True
+except ImportError:
+  PY_FAST_BTI_INSTALLED = False
+
 class TooManyColorsError(Exception):
   pass
 
@@ -250,6 +256,9 @@ def get_interpolated_cmpr_colors(color_0_rgb565, color_1_rgb565):
   return colors
 
 def get_best_cmpr_key_colors(all_colors):
+  if PY_FAST_BTI_INSTALLED:
+    return pyfastbti.get_best_cmpr_key_colors(all_colors)
+  
   max_dist = -1
   color_1 = None
   color_2 = None
