@@ -119,6 +119,12 @@
     -
       Name: Nz
       Excluded files: []
+    -
+      Name: Npcnz
+      Excluded files: []
+    -
+      Name: Pfall
+      Excluded files: [aotsi.bdl]
 -
   Name: Stalfos
   Particle IDs: [0x8179, 0x817A, 0x817B, 0x817E, 0xA17C, 0xA17D]
