@@ -354,8 +354,8 @@ class Randomizer:
       
       if self.test_room_args is not None:
         tweaks.test_room(self)
-    
     options_completed += 1
+    
     yield("Randomizing...", options_completed)
     
     if self.options.get("randomize_charts"):
@@ -370,29 +370,31 @@ class Randomizer:
     if self.options.get("randomize_bgm"):
       bgm.randomize_bgm(self)
     
+    options_completed += 1
+    
     if self.options.get("randomize_enemy_palettes"):
+      yield("Randomizing enemy colors...", options_completed)
       palettes.randomize_enemy_palettes(self)
+      options_completed += 10
 
     # Reset RNG before doing item randomization so other randomization options don't affect item layout.
     self.rng = self.get_new_rng()
     
+    yield("Randomizing items...", options_completed)
     items.randomize_items(self)
-    
     options_completed += 2
-    yield("Saving items...", options_completed)
     
+    yield("Saving items...", options_completed)
     if not self.dry_run:
       items.write_changed_items(self)
     
     if not self.dry_run:
       self.apply_necessary_post_randomization_tweaks()
-    
     options_completed += 7
-    yield("Saving randomized ISO...", options_completed)
     
+    yield("Saving randomized ISO...", options_completed)
     if not self.dry_run:
       self.save_randomized_iso()
-    
     options_completed += 9
     yield("Writing logs...", options_completed)
     
