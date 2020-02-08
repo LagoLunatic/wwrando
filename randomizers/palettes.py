@@ -12,6 +12,10 @@ def randomize_enemy_palettes(self):
     v_shift = self.rng.randint(-25, 25)
     #print(h_shift, v_shift)
     
+    if randomizable_file_group["Name"] == "Darknut":
+      shift_hardcoded_darknut_particle_colors(self, h_shift, v_shift)
+      shift_hardcoded_darknut_cape_particle_colors(self, h_shift, v_shift)
+    
     if randomizable_file_group["Particle IDs"]:
       particle_ids = randomizable_file_group["Particle IDs"]
       for i in range(255):
@@ -215,3 +219,35 @@ def shift_all_colors_in_trk1(self, file_name, j3d_file, h_shift, v_shift):
       anim.r.keyframes[i].value = r
       anim.g.keyframes[i].value = g
       anim.b.keyframes[i].value = b
+
+def shift_hardcoded_darknut_particle_colors(self, h_shift, v_shift):
+  # Darknuts have RGB values inside their REL that recolor the particles for their armor being destroyed.
+  darknut_data = self.get_raw_file("files/rels/d_a_tn.rel")
+  offset = 0xE2AC
+  for i in range(12):
+    r = read_u8(darknut_data, offset+i*4 + 0)
+    g = read_u8(darknut_data, offset+i*4 + 1)
+    b = read_u8(darknut_data, offset+i*4 + 2)
+    r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+    write_u8(darknut_data, offset+i*4 + 0, r)
+    write_u8(darknut_data, offset+i*4 + 1, g)
+    write_u8(darknut_data, offset+i*4 + 2, b)
+
+def shift_hardcoded_darknut_cape_particle_colors(self, h_shift, v_shift):
+  cape_data = self.get_raw_file("files/rels/d_a_mant.rel")
+  for palette_offset in [0x4540, 0x6560, 0x8580, 0xA5A0, 0xC5C0]:
+    cape_data.seek(palette_offset)
+    palette_data = BytesIO(cape_data.read(0x20))
+    colors = texture_utils.decode_palettes(
+      palette_data, texture_utils.PaletteFormat.RGB565,
+      16, texture_utils.ImageFormat.C4
+    )
+    
+    colors = texture_utils.hsv_shift_palette(colors, h_shift, v_shift)
+    
+    encoded_colors = texture_utils.generate_new_palettes_from_colors(colors, texture_utils.PaletteFormat.RGB565)
+    palette_data = texture_utils.encode_palette(encoded_colors, texture_utils.PaletteFormat.RGB565, texture_utils.ImageFormat.C4)
+    assert data_len(palette_data) == 0x20
+    cape_data.seek(palette_offset)
+    palette_data.seek(0)
+    cape_data.write(palette_data.read())
