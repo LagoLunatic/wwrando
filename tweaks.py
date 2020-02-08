@@ -1035,6 +1035,8 @@ def update_randomly_chosen_hints(self):
     if location_name in self.race_mode_required_locations:
       # You already know which boss locations have a required item and which don't in race mode by looking at the sea chart.
       continue
+    if location_name == "Two-Eye Reef - Big Octo Great Fairy":
+      # We don't want this Great Fairy to hint at her own item.
     
     item_name = self.logic.done_item_locations[location_name]
     if item_name not in self.logic.all_progress_items:
