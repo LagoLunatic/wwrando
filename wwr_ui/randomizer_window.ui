@@ -28,8 +28,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>854</width>
-         <height>536</height>
+         <width>837</width>
+         <height>559</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -463,10 +463,17 @@
                  </property>
                 </widget>
                </item>
-               <item row="2" column="2">
+               <item row="3" column="0">
                 <widget class="QCheckBox" name="randomize_bgm">
                  <property name="text">
                   <string>Randomize Background Music</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2">
+                <widget class="QCheckBox" name="randomize_enemy_palettes">
+                 <property name="text">
+                  <string>Randomize Enemy Palettes</string>
                  </property>
                 </widget>
                </item>
@@ -741,6 +748,24 @@
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
              <layout class="QGridLayout" name="gridLayout_5">
+              <item row="0" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_11">
+                <item>
+                 <widget class="QPushButton" name="randomize_all_custom_colors_together">
+                  <property name="text">
+                   <string>Randomize Colors Orderly</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="randomize_all_custom_colors_separately">
+                  <property name="text">
+                   <string>Randomize Colors Chaotically</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
               <item row="0" column="0">
                <layout class="QHBoxLayout" name="horizontalLayout_3">
                 <item>
@@ -755,7 +780,7 @@
                 </item>
                </layout>
               </item>
-              <item row="0" column="1">
+              <item row="0" column="3">
                <layout class="QHBoxLayout" name="horizontalLayout_7">
                 <item>
                  <widget class="QCheckBox" name="player_in_casual_clothes">

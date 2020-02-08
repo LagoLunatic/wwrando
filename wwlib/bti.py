@@ -111,6 +111,13 @@ class BTI:
     )
     return image
   
+  def render_palette(self):
+    colors = decode_palettes(
+      self.palette_data, self.palette_format,
+      self.num_colors, self.image_format
+    )
+    return colors
+  
   def replace_image_from_path(self, new_image_file_path):
     self.image_data, self.palette_data, encoded_colors = encode_image_from_path(
       new_image_file_path, self.image_format, self.palette_format
@@ -124,8 +131,13 @@ class BTI:
     self.num_colors = len(encoded_colors)
     self.width = new_image.width
     self.height = new_image.height
+  
+  def replace_palette(self, new_colors):
+    encoded_colors = generate_new_palettes_from_colors(new_colors, self.palette_format)
+    self.palette_data = encode_palette(encoded_colors, self.palette_format, self.image_format)
+    self.num_colors = len(encoded_colors)
 
-class BTIFile(BTI): # For standalone .bti files (as opposed to textures embedded in .bdl models)
+class BTIFile(BTI): # For standalone .bti files (as opposed to textures embedded inside J3D models/animations)
   def __init__(self, file_entry):
     self.file_entry = file_entry
     self.file_entry.decompress_data_if_necessary()

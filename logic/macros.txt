@@ -290,13 +290,19 @@ Can Farm Knight's Crests:
     (Can Access Other Location "Ice Ring Isle - Inner Cave - Chest")
     | (Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30")
     | (Can Access Other Location "Earth Temple - Big Key Chest" & Can Defeat Darknuts Easily)
+    | (Can Access Other Location "Wind Temple - Big Key Chest" & Can Defeat Darknuts Easily)
     | (Can Access Other Location "Shark Island - Cave")
+    | (Can Access Other Location "Stone Watcher Island - Cave" & Can Defeat Darknuts Easily)
+    | (Can Access Other Location "Overlook Island - Cave" & Can Defeat Darknuts Easily)
   )
   # There are respawning Darknuts in:
   # * The inner cave of Ice Ring Isle.
   # * Floor 27 (and below) of Savage Labyrinth. (We use the Floor 30 requirements here instead of Floor 27 because there's only 1 Darknut on Floor 27, and having to do 27 floors to get 1 Knight's Crest would be way more tedious than doing 30 floors to get 3 Knight's Crests and a chest item.)
   # * The big key room of Earth Temple.
+  # * The big key room of Wind Temple.
   # * Shark Island's cave.
+  # * Stone Watcher Island's cave. (After defeating them once, the cave stays 'completed' in that the door stays unlocked and the fires remain lit, but you can refight the Darknuts by defeating the 4 surrounding rooms again.) (The logic for this location includes "Can Play Wind's Requiem" which is necessary for getting the chest but not killing the Darknuts, but since Wind Waker and Wind's Requiem are not currently randomized it makes no difference to the logic.)
+  # * Overlook Island's cave. (Same notes as Stone Watcher above.)
   # Note: The Ice Ring, Savage, and Shark Island ones have enemies with droppable weapons in the same room as the Darknut, so in swordless you can trick the Darknut into attacking the other enemies, steal their weapon, and use it to kill the Darknut.
 Can Farm Joy Pendants:
   Grappling Hook & Spoils Bag

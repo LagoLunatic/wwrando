@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Sat Feb  1 12:09:38 2020
+# Created: Fri Feb  7 17:07:23 2020
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 854, 536))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 837, 559))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
@@ -214,7 +214,10 @@ class Ui_MainWindow(object):
         self.gridLayout_3.addWidget(self.randomize_charts, 2, 0, 1, 1)
         self.randomize_bgm = QtWidgets.QCheckBox(self.groupBox_3)
         self.randomize_bgm.setObjectName("randomize_bgm")
-        self.gridLayout_3.addWidget(self.randomize_bgm, 2, 2, 1, 1)
+        self.gridLayout_3.addWidget(self.randomize_bgm, 3, 0, 1, 1)
+        self.randomize_enemy_palettes = QtWidgets.QCheckBox(self.groupBox_3)
+        self.randomize_enemy_palettes.setObjectName("randomize_enemy_palettes")
+        self.gridLayout_3.addWidget(self.randomize_enemy_palettes, 2, 2, 1, 1)
         self.verticalLayout_2.addWidget(self.groupBox_3)
         self.groupBox_2 = QtWidgets.QGroupBox(self.tab)
         self.groupBox_2.setObjectName("groupBox_2")
@@ -330,6 +333,15 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.gridLayout_5 = QtWidgets.QGridLayout()
         self.gridLayout_5.setObjectName("gridLayout_5")
+        self.horizontalLayout_11 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_11.setObjectName("horizontalLayout_11")
+        self.randomize_all_custom_colors_together = QtWidgets.QPushButton(self.tab_2)
+        self.randomize_all_custom_colors_together.setObjectName("randomize_all_custom_colors_together")
+        self.horizontalLayout_11.addWidget(self.randomize_all_custom_colors_together)
+        self.randomize_all_custom_colors_separately = QtWidgets.QPushButton(self.tab_2)
+        self.randomize_all_custom_colors_separately.setObjectName("randomize_all_custom_colors_separately")
+        self.horizontalLayout_11.addWidget(self.randomize_all_custom_colors_separately)
+        self.gridLayout_5.addLayout(self.horizontalLayout_11, 0, 1, 1, 1)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.label_for_custom_player_model = QtWidgets.QLabel(self.tab_2)
@@ -347,7 +359,7 @@ class Ui_MainWindow(object):
         self.disable_custom_player_voice = QtWidgets.QCheckBox(self.tab_2)
         self.disable_custom_player_voice.setObjectName("disable_custom_player_voice")
         self.horizontalLayout_7.addWidget(self.disable_custom_player_voice)
-        self.gridLayout_5.addLayout(self.horizontalLayout_7, 0, 1, 1, 1)
+        self.gridLayout_5.addLayout(self.horizontalLayout_7, 0, 3, 1, 1)
         self.verticalLayout_3.addLayout(self.gridLayout_5)
         self.custom_model_comment = QtWidgets.QLabel(self.tab_2)
         self.custom_model_comment.setMaximumSize(QtCore.QSize(810, 16777215))
@@ -477,6 +489,7 @@ class Ui_MainWindow(object):
         self.randomize_starting_island.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Starting Island", None, -1))
         self.randomize_charts.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Charts", None, -1))
         self.randomize_bgm.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Background Music", None, -1))
+        self.randomize_enemy_palettes.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Enemy Palettes", None, -1))
         self.groupBox_2.setTitle(QtWidgets.QApplication.translate("MainWindow", "Convenience Tweaks", None, -1))
         self.instant_text_boxes.setText(QtWidgets.QApplication.translate("MainWindow", "Instant Text Boxes", None, -1))
         self.generate_spoiler_log.setText(QtWidgets.QApplication.translate("MainWindow", "Generate Spoiler Log", None, -1))
@@ -495,6 +508,8 @@ class Ui_MainWindow(object):
         self.label_5.setText(QtWidgets.QApplication.translate("MainWindow", "Heart Pieces", None, -1))
         self.current_health.setText(QtWidgets.QApplication.translate("MainWindow", "Current Starting Health: 3 hearts", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QtWidgets.QApplication.translate("MainWindow", "Starting Items", None, -1))
+        self.randomize_all_custom_colors_together.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Colors Orderly", None, -1))
+        self.randomize_all_custom_colors_separately.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Colors Chaotically", None, -1))
         self.label_for_custom_player_model.setText(QtWidgets.QApplication.translate("MainWindow", "Player Model", None, -1))
         self.player_in_casual_clothes.setText(QtWidgets.QApplication.translate("MainWindow", "Casual Clothes", None, -1))
         self.disable_custom_player_voice.setText(QtWidgets.QApplication.translate("MainWindow", "Disable Custom Voice", None, -1))

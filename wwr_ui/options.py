@@ -153,6 +153,10 @@ OPTIONS = OrderedDict([
     "disable_tingle_chests_with_tingle_bombs",
     "This prevents the Tingle Tuner's bombs from revealing Tingle Chests, meaning the only way to access these chests is to find the normal bombs item.",
   ),
+  (
+    "randomize_enemy_palettes",
+    "Gives all the enemies in the game random colors.",
+  ),
   
   (
     "custom_player_model",

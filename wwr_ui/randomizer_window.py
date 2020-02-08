@@ -29,6 +29,7 @@ from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError, Inv
 from paths import ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE
 import customizer
 from logic.logic import Logic
+from wwlib import texture_utils
 
 class WWRandomizerWindow(QMainWindow):
   VALID_SEED_CHARACTERS = "-_'%%.%s%s" % (string.ascii_letters, string.digits)
@@ -45,6 +46,7 @@ class WWRandomizerWindow(QMainWindow):
     
     self.custom_color_selector_buttons = OrderedDict()
     self.custom_color_selector_hex_inputs = OrderedDict()
+    self.custom_color_reset_buttons = OrderedDict()
     self.custom_colors = OrderedDict()
     self.initialize_custom_player_model_list()
     
@@ -78,6 +80,8 @@ class WWRandomizerWindow(QMainWindow):
     
     self.ui.custom_player_model.currentIndexChanged.connect(self.custom_model_changed)
     self.ui.player_in_casual_clothes.clicked.connect(self.custom_model_changed)
+    self.ui.randomize_all_custom_colors_together.clicked.connect(self.randomize_all_custom_colors_together)
+    self.ui.randomize_all_custom_colors_separately.clicked.connect(self.randomize_all_custom_colors_separately)
     
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
@@ -672,6 +676,7 @@ class WWRandomizerWindow(QMainWindow):
           widget.deleteLater()
     self.custom_color_selector_buttons = OrderedDict()
     self.custom_color_selector_hex_inputs = OrderedDict()
+    self.custom_color_reset_buttons = OrderedDict()
     
     custom_model_name = self.get_option_value("custom_player_model")
     metadata = customizer.get_model_metadata(custom_model_name)
@@ -720,21 +725,42 @@ class WWRandomizerWindow(QMainWindow):
       label_for_color_selector = QLabel(self.ui.tab_2)
       label_for_color_selector.setText("Player %s Color" % custom_color_name)
       hlayout.addWidget(label_for_color_selector)
+      
       color_hex_code_input = QLineEdit(self.ui.tab_2)
       color_hex_code_input.setText("")
       color_hex_code_input.setObjectName(option_name + "_hex_code_input")
-      color_hex_code_input.setFixedWidth(52)
+      color_hex_code_input.setFixedWidth(46)
       hlayout.addWidget(color_hex_code_input)
+      
+      color_randomize_button = QPushButton(self.ui.tab_2)
+      color_randomize_button.setText("Random")
+      color_randomize_button.setObjectName(option_name + "_randomize_color")
+      color_randomize_button.setFixedWidth(48)
+      hlayout.addWidget(color_randomize_button)
+      
       color_selector_button = QPushButton(self.ui.tab_2)
       color_selector_button.setText("Click to set color")
       color_selector_button.setObjectName(option_name)
       hlayout.addWidget(color_selector_button)
+      
+      color_reset_button = QPushButton(self.ui.tab_2)
+      color_reset_button.setText("X")
+      color_reset_button.setObjectName(option_name + "_reset_color")
+      color_reset_button.setFixedWidth(18)
+      size_policy = color_reset_button.sizePolicy()
+      size_policy.setRetainSizeWhenHidden(True)
+      color_reset_button.setSizePolicy(size_policy)
+      color_reset_button.setVisible(False)
+      hlayout.addWidget(color_reset_button)
       
       self.custom_color_selector_buttons[option_name] = color_selector_button
       color_selector_button.clicked.connect(self.open_custom_color_chooser)
       self.custom_color_selector_hex_inputs[option_name] = color_hex_code_input
       color_hex_code_input.textEdited.connect(self.custom_color_hex_code_changed)
       color_hex_code_input.editingFinished.connect(self.custom_color_hex_code_finished_editing)
+      color_randomize_button.clicked.connect(self.randomize_one_custom_color)
+      color_reset_button.clicked.connect(self.reset_one_custom_color)
+      self.custom_color_reset_buttons[option_name] = color_reset_button
       
       self.ui.custom_colors_layout.addLayout(hlayout)
       
@@ -762,18 +788,7 @@ class WWRandomizerWindow(QMainWindow):
         self.ui.disable_custom_player_voice.hide()
   
   def reset_color_selectors_to_model_default_colors(self):
-    custom_model_name = self.get_option_value("custom_player_model")
-    is_casual = self.get_option_value("player_in_casual_clothes")
-    if is_casual:
-      prefix = "casual"
-    else:
-      prefix = "hero"
-    
-    metadata = customizer.get_model_metadata(custom_model_name)
-    if metadata is None:
-      return
-    
-    custom_colors = metadata.get(prefix + "_custom_colors", {})
+    custom_colors = self.get_default_custom_colors_for_current_model()
     
     any_color_changed = False
     for custom_color_name, default_color in custom_colors.items():
@@ -864,6 +879,8 @@ class WWRandomizerWindow(QMainWindow):
         self.ui.player_in_casual_clothes.setEnabled(True)
   
   def set_color(self, option_name, color, update_preview=True):
+    if isinstance(color, tuple):
+      color = list(color)
     if not (isinstance(color, list) and len(color) == 3):
       color = [255, 255, 255]
     
@@ -873,6 +890,7 @@ class WWRandomizerWindow(QMainWindow):
     
     color_button = self.custom_color_selector_buttons[option_name]
     hex_input = self.custom_color_selector_hex_inputs[option_name]
+    reset_button = self.custom_color_reset_buttons[option_name]
     if color is None:
       color_button.setStyleSheet("")
       hex_input.setText("")
@@ -892,6 +910,13 @@ class WWRandomizerWindow(QMainWindow):
         "background-color: rgb(%d, %d, %d);" % (r, g, b) + \
         "color: rgb(%d, %d, %d);" % text_color,
       )
+    
+    custom_colors = self.get_default_custom_colors_for_current_model()
+    default_color = custom_colors[color_name]
+    if color == default_color:
+      reset_button.setVisible(False)
+    else:
+      reset_button.setVisible(True)
     
     if update_preview:
       self.update_model_preview()
@@ -933,16 +958,91 @@ class WWRandomizerWindow(QMainWindow):
       option_name, color_name = self.get_option_name_and_color_name_from_sender_object_name()
       self.set_color(option_name, self.custom_colors[color_name])
   
+  def reset_one_custom_color(self):
+    option_name, color_name = self.get_option_name_and_color_name_from_sender_object_name()
+    
+    custom_colors = self.get_default_custom_colors_for_current_model()
+    
+    default_color = custom_colors[color_name]
+    
+    if self.custom_colors[color_name] != default_color:
+      self.set_color(option_name, default_color)
+    
+    self.update_settings()
+  
+  def randomize_one_custom_color(self):
+    option_name, color_name = self.get_option_name_and_color_name_from_sender_object_name()
+    
+    custom_colors = self.get_default_custom_colors_for_current_model()
+    
+    h_shift = random.randint(0, 359)
+    v_shift = random.randint(-25, 25)
+    default_color = custom_colors[color_name]
+    color = texture_utils.hsv_shift_color(default_color, h_shift, v_shift)
+    
+    self.set_color(option_name, color)
+    
+    self.update_settings()
+  
+  def randomize_all_custom_colors_together(self):
+    custom_colors = self.get_default_custom_colors_for_current_model()
+    
+    h_shift = random.randint(0, 359)
+    v_shift = random.randint(-25, 25)
+    for custom_color_name, default_color in custom_colors.items():
+      color = texture_utils.hsv_shift_color(default_color, h_shift, v_shift)
+      
+      option_name = "custom_color_" + custom_color_name
+      self.set_color(option_name, color, update_preview=False)
+    self.update_model_preview()
+    
+    self.update_settings()
+  
+  def randomize_all_custom_colors_separately(self):
+    custom_colors = self.get_default_custom_colors_for_current_model()
+    
+    for custom_color_name, default_color in custom_colors.items():
+      h_shift = random.randint(0, 359)
+      v_shift = random.randint(-25, 25)
+      color = texture_utils.hsv_shift_color(default_color, h_shift, v_shift)
+      
+      option_name = "custom_color_" + custom_color_name
+      self.set_color(option_name, color, update_preview=False)
+    self.update_model_preview()
+    
+    self.update_settings()
+  
   def get_option_name_and_color_name_from_sender_object_name(self):
     object_name = self.sender().objectName()
     
-    assert object_name.endswith("_hex_code_input")
-    option_name = object_name[:len(object_name)-len("_hex_code_input")]
+    if object_name.endswith("_hex_code_input"):
+      option_name = object_name[:len(object_name)-len("_hex_code_input")]
+    elif object_name.endswith("_randomize_color"):
+      option_name = object_name[:len(object_name)-len("_randomize_color")]
+    elif object_name.endswith("_reset_color"):
+      option_name = object_name[:len(object_name)-len("_reset_color")]
+    else:
+      raise Exception("Invalid custom color sender object name: %s" % object_name)
     
     assert option_name.startswith("custom_color_")
     color_name = option_name[len("custom_color_"):]
     
     return (option_name, color_name)
+  
+  def get_default_custom_colors_for_current_model(self):
+    custom_model_name = self.get_option_value("custom_player_model")
+    is_casual = self.get_option_value("player_in_casual_clothes")
+    if is_casual:
+      prefix = "casual"
+    else:
+      prefix = "hero"
+    
+    metadata = customizer.get_model_metadata(custom_model_name)
+    if metadata is None:
+      return {}
+    
+    custom_colors = metadata.get(prefix + "_custom_colors", {})
+    return custom_colors
   
   def update_model_preview(self):
     custom_model_name = self.get_option_value("custom_player_model")

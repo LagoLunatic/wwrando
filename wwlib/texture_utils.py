@@ -370,6 +370,8 @@ def get_color_distance_fast(color_1, color_2):
 
 
 def decode_palettes(palette_data, palette_format, num_colors, image_format):
+  if not isinstance(image_format, ImageFormat):
+    raise Exception("Invalid image format: %s" % image_format)
   if image_format not in IMAGE_FORMATS_THAT_USE_PALETTES:
     return []
   
@@ -413,6 +415,14 @@ def generate_new_palettes_from_image(image, image_format, palette_format):
     )
   
   return (encoded_colors, colors_to_color_indexes)
+
+def generate_new_palettes_from_colors(colors, palette_format):
+  encoded_colors = []
+  for color in colors:
+    encoded_color = encode_color(color, palette_format)
+    encoded_colors.append(encoded_color)
+  
+  return encoded_colors
 
 def encode_color(color, palette_format):
   if palette_format == PaletteFormat.IA8:
@@ -893,7 +903,7 @@ def encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y
     if needs_transparent_color and color_0_rgb565 > color_1_rgb565:
       color_0_rgb565, color_1_rgb565 = color_1_rgb565, color_0_rgb565
       color_0, color_1 = color_1, color_0
-    elif color_0_rgb565 < color_1_rgb565:
+    elif not needs_transparent_color and color_0_rgb565 < color_1_rgb565:
       color_0_rgb565, color_1_rgb565 = color_1_rgb565, color_0_rgb565
       color_0, color_1 = color_1, color_0
     
@@ -990,3 +1000,68 @@ def color_exchange(image, base_color, replacement_color, mask_path=None, validat
       pixels[x, y] = (r, g, b, a)
   
   return image
+
+def hsv_shift_image(image, h_shift, v_shift):
+  pixels = image.load()
+  for x in range(image.width):
+    for y in range(image.height):
+      pixels[x, y] = hsv_shift_color(pixels[x, y], h_shift, v_shift)
+  
+  return image
+
+def hsv_shift_palette(colors, h_shift, v_shift):
+  for i, color in enumerate(colors):
+    colors[i] = hsv_shift_color(color, h_shift, v_shift)
+  
+  return colors
+
+def hsv_shift_color(color, h_shift, v_shift):
+  if len(color) == 4:
+    r, g, b, a = color
+  else:
+    r, g, b = color
+    a = None
+  
+  h, s, v = colorsys.rgb_to_hsv(r/255, g/255, b/255)
+  h = int(h*360)
+  s = int(s*100)
+  v = int(v*100)
+  
+  h += h_shift
+  h %= 360
+  
+  orig_v = v
+  v += v_shift
+  if v < 0:
+    v = 0
+  if v > 100:
+    v = 100
+  if v < 30 and orig_v >= 30:
+    v = 30
+  if v > 90 and orig_v <= 90:
+    v = 90
+  v_diff = v - orig_v
+  
+  # Instead of shifting saturation separately, we simply make it relative to the value shift.
+  # As value increases we want saturation to decrease and vice versa.
+  # This is because bright colors look bad if they are too saturated, and dark colors look bland if they aren't saturated enough.
+  orig_s = s
+  s -= v_diff
+  if s < 0:
+    s = 0
+  if s > 100:
+    s = 100
+  if s < 5 and orig_s >= 5:
+    s = 5
+  if s > 80 and orig_s <= 80:
+    s = 80
+  
+  r, g, b = colorsys.hsv_to_rgb(h/360, s/100, v/100)
+  r = int(r*255)
+  g = int(g*255)
+  b = int(b*255)
+  
+  if a is None:
+    return (r, g, b)
+  else:
+    return (r, g, b, a)
