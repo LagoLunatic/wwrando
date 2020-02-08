@@ -681,13 +681,16 @@ def decode_cmpr_block(image_format, image_data, offset, block_data_size, colors)
 
 
 
-def encode_image_from_path(new_image_file_path, image_format, palette_format):
+def encode_image_from_path(new_image_file_path, image_format, palette_format, mipmap_count=1):
   image = Image.open(new_image_file_path)
-  return encode_image(image, image_format, palette_format)
+  return encode_image(image, image_format, palette_format, mipmap_count=mipmap_count)
 
-def encode_image(image, image_format, palette_format):
+def encode_image(image, image_format, palette_format, mipmap_count=1):
   image = image.convert("RGBA")
   image_width, image_height = image.size
+  
+  if mipmap_count < 1:
+    mipmap_count = 1
   
   encoded_colors, colors_to_color_indexes = generate_new_palettes_from_image(image, image_format, palette_format)
   
@@ -695,11 +698,36 @@ def encode_image(image, image_format, palette_format):
   block_height = BLOCK_HEIGHTS[image_format]
   block_data_size = BLOCK_DATA_SIZES[image_format]
   
+  new_image_data = BytesIO()
+  mipmap_image = image
+  mipmap_width = image_width
+  mipmap_height = image_height
+  for i in range(mipmap_count):
+    if i != 0:
+      mipmap_width //= 2
+      mipmap_height //= 2
+      mipmap_image = image.resize((mipmap_width, mipmap_height), Image.NEAREST)
+    
+    mipmap_image_data = encode_mipmap_image(
+      mipmap_image, image_format,
+      colors_to_color_indexes,
+      block_width, block_height,
+      mipmap_width, mipmap_height
+    )
+    
+    mipmap_image_data.seek(0)
+    new_image_data.write(mipmap_image_data.read())
+  
+  new_palette_data = encode_palette(encoded_colors, palette_format, image_format)
+  
+  return (new_image_data, new_palette_data, encoded_colors)
+
+def encode_mipmap_image(image, image_format, colors_to_color_indexes, block_width, block_height, image_width, image_height):
   pixels = image.load()
   offset_in_image_data = 0
   block_x = 0
   block_y = 0
-  new_image_data = BytesIO()
+  mipmap_image_data = BytesIO()
   while block_y < image_height:
     block_data = encode_image_to_block(
       image_format,
@@ -709,7 +737,7 @@ def encode_image(image, image_format, palette_format):
     
     assert len(block_data) == BLOCK_DATA_SIZES[image_format]
     
-    write_bytes(new_image_data, offset_in_image_data, block_data)
+    write_bytes(mipmap_image_data, offset_in_image_data, block_data)
     
     offset_in_image_data += BLOCK_DATA_SIZES[image_format]
     block_x += BLOCK_WIDTHS[image_format]
@@ -717,9 +745,7 @@ def encode_image(image, image_format, palette_format):
       block_x = 0
       block_y += BLOCK_HEIGHTS[image_format]
   
-  new_palette_data = encode_palette(encoded_colors, palette_format, image_format)
-  
-  return (new_image_data, new_palette_data, encoded_colors)
+  return mipmap_image_data
 
 def encode_image_to_block(image_format, pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
   if image_format == ImageFormat.I4:
