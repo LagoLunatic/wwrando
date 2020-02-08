@@ -979,7 +979,7 @@ class WWRandomizerWindow(QMainWindow):
     custom_colors = self.get_default_custom_colors_for_current_model()
     
     h_shift = random.randint(0, 359)
-    v_shift = random.randint(-25, 25)
+    v_shift = random.randint(-40, 40)
     default_color = custom_colors[color_name]
     color = texture_utils.hsv_shift_color(default_color, h_shift, v_shift)
     
@@ -991,7 +991,7 @@ class WWRandomizerWindow(QMainWindow):
     custom_colors = self.get_default_custom_colors_for_current_model()
     
     h_shift = random.randint(0, 359)
-    v_shift = random.randint(-25, 25)
+    v_shift = random.randint(-40, 40)
     for custom_color_name, default_color in custom_colors.items():
       color = texture_utils.hsv_shift_color(default_color, h_shift, v_shift)
       
@@ -1006,7 +1006,7 @@ class WWRandomizerWindow(QMainWindow):
     
     for custom_color_name, default_color in custom_colors.items():
       h_shift = random.randint(0, 359)
-      v_shift = random.randint(-25, 25)
+      v_shift = random.randint(-40, 40)
       color = texture_utils.hsv_shift_color(default_color, h_shift, v_shift)
       
       option_name = "custom_color_" + custom_color_name
