@@ -7,6 +7,9 @@
     -
       Name: Bk
       Excluded files: []
+    -
+      Name: Nata
+      Excluded files: []
 -
   Name: ChuChu
   Particle IDs: [] # 0x82A8 is the Dark ChuChu breaking apart and reforming one, but the colors for it seem hardcoded.
@@ -27,6 +30,9 @@
   RARCs:
     -
       Name: Mo2
+      Excluded files: []
+    -
+      Name: Spear
       Excluded files: []
 -
   Name: Peahat
@@ -132,6 +138,9 @@
     -
       Name: St
       Excluded files: []
+    -
+      Name: Club
+      Excluded files: []
 -
   Name: Darknut
   Particle IDs: [0x81B6, 0xA1B3]
@@ -139,12 +148,18 @@
     -
       Name: Tn
       Excluded files: []
+    -
+      Name: Tkwn
+      Excluded files: []
 -
   Name: Boko Baba
   Particle IDs: [0x8106, 0x8107, 0x8108, 0x8109, 0x810A, 0x810C]
   RARCs:
     -
       Name: Bo
+      Excluded files: []
+    -
+      Name: Boko
       Excluded files: []
 -
   Name: Magtail
@@ -232,6 +247,9 @@
   RARCs:
     -
       Name: Fganon
+      Excluded files: []
+    -
+      Name: Pgsw
       Excluded files: []
 -
   Name: Helmaroc King
