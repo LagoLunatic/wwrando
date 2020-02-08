@@ -1,0 +1,231 @@
+
+# Common enemies
+- # Bokoblin
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Bk
+      Excluded files: []
+- # ChuChu
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Cc
+      Excluded files: []
+- # Kargaroc
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Bb
+      Excluded files: []
+- # Moblin
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Mo2
+      Excluded files: []
+- # Peahat
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Ph
+      Excluded files: []
+- # Seahat
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Ph
+      Excluded files: []
+- # Armos Knight
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Am
+      Excluded files: []
+- # Armos
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Am2
+      Excluded files: []
+- # Dexivine
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Sss
+      Excluded files: []
+- # Keese
+  Particle IDs: [] # TODO
+  RARCs:
+    -
+      Name: Ki
+      Excluded files: []
+- # Octorok
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Oq
+      Excluded files: []
+- # Wizzrobe
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Wz
+      Excluded files: []
+- # ReDead
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Rd
+      Excluded files: []
+- # Poe
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Pw
+      Excluded files: []
+- # Morth
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Ks
+      Excluded files: []
+- # Miniblin
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Pt
+      Excluded files: [pt.brk]
+- # Rat
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Nz
+      Excluded files: []
+- # Stalfos
+  Particle IDs: []
+  RARCs:
+    -
+      Name: St
+      Excluded files: []
+- # Darknut
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Tn
+      Excluded files: []
+- # Boko Baba
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Bo
+      Excluded files: []
+- # Magtail
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Mt
+      Excluded files: []
+- # Bubble
+  Particle IDs: [] # TODO
+  RARCs:
+    -
+      Name: Bl
+      Excluded files: []
+- # Mothula
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Gm
+      Excluded files: []
+- # Gyorg
+  Particle IDs: []
+  RARCs:
+    -
+      Name: gy
+      Excluded files: []
+- # Floormaster
+  Particle IDs: []
+  RARCs:
+    -
+      Name: fm
+      Excluded files: []
+
+# Sort-of enemies
+- # Beamos
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Hmos
+      Excluded files: [hmos3.bdl]
+- # Door/chest flower
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Ss
+      Excluded files: []
+
+# Bosses
+- # Gohma
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Btd
+      Excluded files: []
+- # Kalle Demos
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Bmd
+      Excluded files: []
+    -
+      Name: Bmdfoot
+      Excluded files: []
+    -
+      Name: Bmdhand
+      Excluded files: []
+- # Gohdan
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Bst
+      Excluded files: []
+- # Phantom Ganon
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Fganon
+      Excluded files: []
+- # Helmaroc King
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Bdk
+      Excluded files: []
+- # Jalhalla
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Bpw
+      Excluded files: []
+- # Molgera
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Bwd
+      Excluded files: []
+    -
+      Name: Bwds
+      Excluded files: []
+- # Puppet Ganon
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Bgn
+      Excluded files: []
+- # Ganondorf
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Gnd
+      Excluded files: []
