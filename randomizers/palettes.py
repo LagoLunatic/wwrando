@@ -7,9 +7,6 @@ from fs_helpers import *
 
 def randomize_enemy_palettes(self):
   for randomizable_file_group in self.palette_randomizable_files:
-    for i in range(73):
-      self.rng.getrandbits(i+1)
-    
     h_shift = self.rng.randint(20, 340)
     v_shift = self.rng.randint(-25, 25)
     #print(h_shift, v_shift)
