@@ -37,8 +37,8 @@ class BTI:
     self.num_colors = read_u16(data, header_offset+0xA)
     self.palette_data_offset = read_u32(data, header_offset+0xC)
     
-    self.mag_filter = FilterMode(read_u8(data, header_offset+0x14))
-    self.min_filter = FilterMode(read_u8(data, header_offset+0x15))
+    self.min_filter = FilterMode(read_u8(data, header_offset+0x14))
+    self.mag_filter = FilterMode(read_u8(data, header_offset+0x15))
     
     self.unknown_2 = read_u16(data, header_offset+0x16)
     self.mipmap_count = read_u8(data, header_offset+0x18)
@@ -71,8 +71,8 @@ class BTI:
     write_u16(self.data, self.header_offset+0xA, self.num_colors)
     write_u32(self.data, self.header_offset+0xC, self.palette_data_offset)
     
-    write_u8(self.data, self.header_offset+0x14, self.mag_filter.value)
-    write_u8(self.data, self.header_offset+0x15, self.min_filter.value)
+    write_u8(self.data, self.header_offset+0x14, self.min_filter.value)
+    write_u8(self.data, self.header_offset+0x15, self.mag_filter.value)
     
     write_u16(self.data, self.header_offset+0x16, self.unknown_2)
     write_u8(self.data, self.header_offset+0x18, self.mipmap_count)
