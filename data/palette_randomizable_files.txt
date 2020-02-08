@@ -7,7 +7,7 @@
       Name: Bk
       Excluded files: []
 - # ChuChu
-  Particle IDs: []
+  Particle IDs: [] # 0x82A8 is the Dark ChuChu breaking apart and reforming one, but the colors for it seem hardcoded.
   RARCs:
     -
       Name: Cc
@@ -37,25 +37,25 @@
       Name: Ph
       Excluded files: []
 - # Armos Knight
-  Particle IDs: []
+  Particle IDs: [0x8128]
   RARCs:
     -
       Name: Am
       Excluded files: []
 - # Armos
-  Particle IDs: []
+  Particle IDs: [0x81AE, 0x81AF, 0x81B0]
   RARCs:
     -
       Name: Am2
       Excluded files: []
 - # Dexivine
-  Particle IDs: []
+  Particle IDs: [0x8184]
   RARCs:
     -
       Name: Sss
       Excluded files: []
 - # Keese
-  Particle IDs: [] # TODO
+  Particle IDs: [0x8061, 0x8099, 0x809A, 0x809B]
   RARCs:
     -
       Name: Ki
@@ -67,7 +67,7 @@
       Name: Oq
       Excluded files: []
 - # Wizzrobe
-  Particle IDs: []
+  Particle IDs: [0x8238, 0x8239, 0x823A, 0x823C, 0x823D, 0x8280, 0x8281, 0x8282, 0x8283, 0x8284, 0x8287, 0x8288, 0x8289]
   RARCs:
     -
       Name: Wz
@@ -79,7 +79,7 @@
       Name: Rd
       Excluded files: []
 - # Poe
-  Particle IDs: []
+  Particle IDs: [0x82EE, 0x8445]
   RARCs:
     -
       Name: Pw
@@ -97,43 +97,43 @@
       Name: Pt
       Excluded files: [pt.brk]
 - # Rat
-  Particle IDs: []
+  Particle IDs: [0x8188]
   RARCs:
     -
       Name: Nz
       Excluded files: []
 - # Stalfos
-  Particle IDs: []
+  Particle IDs: [0x8179, 0x817A, 0x817B, 0x817E, 0xA17C, 0xA17D]
   RARCs:
     -
       Name: St
       Excluded files: []
 - # Darknut
-  Particle IDs: []
+  Particle IDs: [0x81B6, 0xA1B3]
   RARCs:
     -
       Name: Tn
       Excluded files: []
 - # Boko Baba
-  Particle IDs: []
+  Particle IDs: [0x8106, 0x8107, 0x8108, 0x8109, 0x810A, 0x810C]
   RARCs:
     -
       Name: Bo
       Excluded files: []
 - # Magtail
-  Particle IDs: []
+  Particle IDs: [0x8095, 0x8096, 0x80CF]
   RARCs:
     -
       Name: Mt
       Excluded files: []
 - # Bubble
-  Particle IDs: [] # TODO
+  Particle IDs: [0x8123, 0x8124]
   RARCs:
     -
       Name: Bl
       Excluded files: []
 - # Mothula
-  Particle IDs: []
+  Particle IDs: [0x81A1, 0x81A2, 0x81A3]
   RARCs:
     -
       Name: Gm
@@ -145,7 +145,7 @@
       Name: gy
       Excluded files: []
 - # Floormaster
-  Particle IDs: []
+  Particle IDs: [0x809E]
   RARCs:
     -
       Name: fm
@@ -153,7 +153,7 @@
 
 # Sort-of enemies
 - # Beamos
-  Particle IDs: []
+  Particle IDs: [0x815F]
   RARCs:
     -
       Name: Hmos
@@ -166,6 +166,7 @@
       Excluded files: []
 
 # Bosses
+# TODO: boss particles
 - # Gohma
   Particle IDs: []
   RARCs:

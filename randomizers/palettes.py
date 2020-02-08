@@ -12,6 +12,52 @@ def randomize_enemy_palettes(self):
     v_shift = self.rng.randint(-25, 25)
     #print(h_shift, v_shift)
     
+    if randomizable_file_group["Particle IDs"]:
+      particle_ids = randomizable_file_group["Particle IDs"]
+      for i in range(255):
+        jpc_path = "files/res/Particle/Pscene%03d.jpc" % i
+        if jpc_path.lower() not in self.gcm.files_by_path_lowercase:
+          continue
+        jpc = self.get_jpc(jpc_path)
+        
+        particle_ids_for_enemy_in_jpc = [particle_id for particle_id in jpc.particles_by_id if particle_id in particle_ids]
+        if not particle_ids_for_enemy_in_jpc:
+          continue
+        
+        for particle_id in particle_ids_for_enemy_in_jpc:
+          particle = jpc.particles_by_id[particle_id]
+          #print("%04X" % particle_id)
+          #print(particle.tdb1.texture_filenames)
+          
+          r, g, b, a = particle.bsp1.color_prm
+          r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+          particle.bsp1.color_prm = (r, g, b, a)
+          
+          r, g, b, a = particle.bsp1.color_env
+          r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+          particle.bsp1.color_env = (r, g, b, a)
+          
+          #print(particle.bsp1.color_prm_anm_data_count)
+          for i in range(particle.bsp1.color_prm_anm_data_count):
+            keyframe_time, (r, g, b, a) = particle.bsp1.color_prm_anm_table[i]
+            r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+            particle.bsp1.color_prm_anm_table[i] = (keyframe_time, (r, g, b, a))
+          
+          #print(particle.bsp1.color_env_anm_data_count)
+          for i in range(particle.bsp1.color_env_anm_data_count):
+            keyframe_time, (r, g, b, a) = particle.bsp1.color_env_anm_table[i]
+            r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+            particle.bsp1.color_env_anm_table[i] = (keyframe_time, (r, g, b, a))
+          
+          if hasattr(particle, "ssp1"):
+            r, g, b, a = particle.ssp1.color_prm
+            r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+            particle.ssp1.color_prm = (r, g, b, a)
+            
+            r, g, b, a = particle.ssp1.color_env
+            r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+            particle.ssp1.color_env = (r, g, b, a)
+    
     for rarc_data in randomizable_file_group["RARCs"]:
       rarc_name = rarc_data["Name"]
       #print(rarc_name)
