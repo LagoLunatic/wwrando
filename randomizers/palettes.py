@@ -29,37 +29,7 @@ def randomize_enemy_palettes(self):
         
         for particle_id in particle_ids_for_enemy_in_jpc:
           particle = jpc.particles_by_id[particle_id]
-          #print("%04X" % particle_id)
-          #print(particle.tdb1.texture_filenames)
-          
-          r, g, b, a = particle.bsp1.color_prm
-          r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-          particle.bsp1.color_prm = (r, g, b, a)
-          
-          r, g, b, a = particle.bsp1.color_env
-          r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-          particle.bsp1.color_env = (r, g, b, a)
-          
-          #print(particle.bsp1.color_prm_anm_data_count)
-          for i in range(particle.bsp1.color_prm_anm_data_count):
-            keyframe_time, (r, g, b, a) = particle.bsp1.color_prm_anm_table[i]
-            r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-            particle.bsp1.color_prm_anm_table[i] = (keyframe_time, (r, g, b, a))
-          
-          #print(particle.bsp1.color_env_anm_data_count)
-          for i in range(particle.bsp1.color_env_anm_data_count):
-            keyframe_time, (r, g, b, a) = particle.bsp1.color_env_anm_table[i]
-            r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-            particle.bsp1.color_env_anm_table[i] = (keyframe_time, (r, g, b, a))
-          
-          if hasattr(particle, "ssp1"):
-            r, g, b, a = particle.ssp1.color_prm
-            r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-            particle.ssp1.color_prm = (r, g, b, a)
-            
-            r, g, b, a = particle.ssp1.color_env
-            r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-            particle.ssp1.color_env = (r, g, b, a)
+          shift_all_colors_in_particle(self, particle, h_shift, v_shift)
     
     for rarc_data in randomizable_file_group["RARCs"]:
       rarc_name = rarc_data["Name"]
@@ -218,6 +188,39 @@ def shift_all_colors_in_trk1(self, file_name, j3d_file, h_shift, v_shift):
       anim.r.keyframes[i].value = r
       anim.g.keyframes[i].value = g
       anim.b.keyframes[i].value = b
+
+def shift_all_colors_in_particle(self, particle, h_shift, v_shift):
+  #print("%04X" % particle_id)
+  #print(particle.tdb1.texture_filenames)
+  
+  r, g, b, a = particle.bsp1.color_prm
+  r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+  particle.bsp1.color_prm = (r, g, b, a)
+  
+  r, g, b, a = particle.bsp1.color_env
+  r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+  particle.bsp1.color_env = (r, g, b, a)
+  
+  #print(particle.bsp1.color_prm_anm_data_count)
+  for i in range(particle.bsp1.color_prm_anm_data_count):
+    keyframe_time, (r, g, b, a) = particle.bsp1.color_prm_anm_table[i]
+    r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+    particle.bsp1.color_prm_anm_table[i] = (keyframe_time, (r, g, b, a))
+  
+  #print(particle.bsp1.color_env_anm_data_count)
+  for i in range(particle.bsp1.color_env_anm_data_count):
+    keyframe_time, (r, g, b, a) = particle.bsp1.color_env_anm_table[i]
+    r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+    particle.bsp1.color_env_anm_table[i] = (keyframe_time, (r, g, b, a))
+  
+  if hasattr(particle, "ssp1"):
+    r, g, b, a = particle.ssp1.color_prm
+    r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+    particle.ssp1.color_prm = (r, g, b, a)
+    
+    r, g, b, a = particle.ssp1.color_env
+    r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+    particle.ssp1.color_env = (r, g, b, a)
 
 def shift_hardcoded_darknut_particle_colors(self, h_shift, v_shift):
   # Darknuts have RGB values inside their REL that recolor the particles for their armor being destroyed.
