@@ -161,6 +161,9 @@
     -
       Name: Boko
       Excluded files: []
+    -
+      Name: Jbo
+      Excluded files: []
 -
   Name: Magtail
   Particle IDs: [0x8095, 0x8096, 0x80CF]
