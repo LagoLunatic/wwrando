@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Sat Feb  8 13:16:48 2020
+# Created: Sat Feb  8 21:53:17 2020
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -518,7 +518,7 @@ class Ui_MainWindow(object):
         self.label_for_custom_player_model.setText(QtWidgets.QApplication.translate("MainWindow", "Player Model", None, -1))
         self.player_in_casual_clothes.setText(QtWidgets.QApplication.translate("MainWindow", "Casual Clothes", None, -1))
         self.disable_custom_player_voice.setText(QtWidgets.QApplication.translate("MainWindow", "Disable Custom Voice", None, -1))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtWidgets.QApplication.translate("MainWindow", "Cosmetic", None, -1))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtWidgets.QApplication.translate("MainWindow", "Player Customization", None, -1))
         self.label_4.setText(QtWidgets.QApplication.translate("MainWindow", "Permalink (copy paste to share your settings):", None, -1))
         self.update_checker_label.setText(QtWidgets.QApplication.translate("MainWindow", "Checking for updates to the randomizer...", None, -1))
         self.about_button.setText(QtWidgets.QApplication.translate("MainWindow", "About", None, -1))

@@ -753,7 +753,7 @@
           </widget>
           <widget class="QWidget" name="tab_2">
            <attribute name="title">
-            <string>Cosmetic</string>
+            <string>Player Customization</string>
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
