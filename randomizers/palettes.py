@@ -202,6 +202,9 @@ def shift_all_colors_in_particle(self, particle, h_shift, v_shift):
   #print("%04X" % particle_id)
   #print(particle.tdb1.texture_filenames)
   
+  # Changing value/saturation of particle colors can sometimes make them disappear or be bigger/smaller than in vanilla if the changes are too extreme, so limit to hue shifting only for particles.
+  v_shift = 0
+  
   r, g, b, a = particle.bsp1.color_prm
   r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
   particle.bsp1.color_prm = (r, g, b, a)
