@@ -105,6 +105,7 @@ OPTIONS = OrderedDict([
     "Randomizes which island you start the game on."
   ),
   
+  
   (
     "swift_sail",
     "Sailing speed is doubled and the direction of the wind is always at your back as long as the sail is out."
@@ -159,8 +160,9 @@ OPTIONS = OrderedDict([
   ),
   (
     "remove_title_and_ending_videos",
-    "Removes the two videos that play if you wait on the title screen and after you beat the game.\nNote that this option decreases the randomized ISO's filesize by about 600MB.",
+    "Removes the two prerendered videos that play if you wait on the title screen and after you beat the game. (Decreases randomized ISO's filesize by about 600MB.)\nIf you keep these videos in, they won't reflect your custom player model or colors.",
   ),
+  
   
   (
     "custom_player_model",
