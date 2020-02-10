@@ -1022,6 +1022,10 @@ def color_exchange(image, base_color, replacement_color, mask_path=None, validat
       s = int(s*100)
       v = int(v*100)
       
+      if s == 0:
+        # Prevent issues when recoloring black/white/grey parts of a texture where the base color is not black/white/grey.
+        s = 100
+      
       new_h = replacement_h
       new_s = s + s_change
       new_v = v + v_change
