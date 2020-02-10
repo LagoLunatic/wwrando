@@ -974,7 +974,7 @@ def encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y
   new_data.seek(0)
   return new_data.read()
 
-def color_exchange(image, base_color, replacement_color, mask_path=None, validate_mask_colors=True):
+def color_exchange(image, base_color, replacement_color, mask_path=None, validate_mask_colors=True, ignore_bright=False):
   if mask_path:
     mask_image = Image.open(mask_path).convert("RGBA")
     mask_pixels = mask_image.load()
@@ -1017,6 +1017,10 @@ def color_exchange(image, base_color, replacement_color, mask_path=None, validat
             continue
       
       r, g, b, a = pixels[x, y]
+      
+      if ignore_bright and r > 128 and g > 128 and b > 128 and a == 0xFF:
+        continue
+      
       h, s, v = colorsys.rgb_to_hsv(r/255, g/255, b/255)
       h = int(h*360)
       s = int(s*100)

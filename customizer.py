@@ -41,15 +41,19 @@ def get_model_metadata(custom_model_name):
     
     metadata["preview_hero"] = os.path.join(previews_path, "preview_hero.png")
     metadata["preview_casual"] = os.path.join(previews_path, "preview_casual.png")
-    metadata["hands_hero_color_mask_path"] = os.path.join(color_masks_path, "hands_hero.png")
-    metadata["hands_casual_color_mask_path"] = os.path.join(color_masks_path, "hands_casual.png")
     
     metadata["hero_color_mask_paths"] = OrderedDict()
     metadata["casual_color_mask_paths"] = OrderedDict()
     metadata["hands_hero_color_mask_paths"] = OrderedDict()
     metadata["hands_casual_color_mask_paths"] = OrderedDict()
+    metadata["hitomi_hero_color_mask_paths"] = OrderedDict()
+    metadata["hitomi_casual_color_mask_paths"] = OrderedDict()
     metadata["preview_hero_color_mask_paths"] = OrderedDict()
     metadata["preview_casual_color_mask_paths"] = OrderedDict()
+    metadata["mouth_color_mask_paths"] = []
+    metadata["mouth_color_mask_paths"].append(None) # Dummy entry for mouth number 0, which doesn't exist
+    for i in range(1, 9+1):
+      metadata["mouth_color_mask_paths"].append(OrderedDict())
     
     for key, value in metadata.items():
       if key in ["hero_custom_colors", "casual_custom_colors"]:
@@ -80,8 +84,14 @@ def get_model_metadata(custom_model_name):
           metadata["%s_color_mask_paths" % prefix][custom_color_name] = mask_path
           hands_mask_path = os.path.join(color_masks_path, "hands_%s_%s.png" % (prefix, custom_color_name))
           metadata["hands_%s_color_mask_paths" % prefix][custom_color_name] = hands_mask_path
+          hitomi_mask_path = os.path.join(color_masks_path, "hitomi_%s_%s.png" % (prefix, custom_color_name))
+          metadata["hitomi_%s_color_mask_paths" % prefix][custom_color_name] = hitomi_mask_path
           preview_mask_path = os.path.join(previews_path, "preview_%s_%s.png" % (prefix, custom_color_name))
           metadata["preview_%s_color_mask_paths" % prefix][custom_color_name] = preview_mask_path
+          
+          for i in range(1, 9+1):
+            mouth_mask_path = os.path.join(color_masks_path, "mouths", "mouthS3TC.%d_%s.png" % (i, custom_color_name))
+            metadata["mouth_color_mask_paths"][i][custom_color_name] = mouth_mask_path
     
     return metadata
 
@@ -209,14 +219,34 @@ def change_player_clothes_color(self):
   hands_textures = hands_model.tex1.textures_by_name["handsS3TC"]
   hands_image = hands_textures[0].render()
   
+  all_mouth_textures = OrderedDict()
+  all_mouth_images = OrderedDict()
+  
   replaced_any = False
   replaced_any_hands = False
   custom_colors = custom_model_metadata.get(prefix + "_custom_colors", {})
   has_colored_eyebrows = custom_model_metadata.get("has_colored_eyebrows", False)
   hands_color_name = custom_model_metadata.get(prefix + "_hands_color_name", "Skin")
   mouth_color_name = custom_model_metadata.get(prefix + "_mouth_color_name", "Skin")
+  hitomi_color_name = custom_model_metadata.get(prefix + "_hitomi_color_name", "Eyes")
   eyebrow_color_name = custom_model_metadata.get(prefix + "_eyebrow_color_name", "Hair")
   casual_hair_color_name = custom_model_metadata.get("casual_hair_color_name", "Hair")
+  
+  # The "_color_name" fields will be completely ignored if that type of texture has even a single mask present.
+  for custom_color_basename in custom_colors:
+    for i in range(1, 9+1):
+      mouth_mask_path = custom_model_metadata["mouth_color_mask_paths"][i][custom_color_basename]
+      if os.path.isfile(mouth_mask_path):
+        mouth_color_name = None
+    
+    hands_mask_path = custom_model_metadata["hands_" + prefix + "_color_mask_paths"][custom_color_basename]
+    if os.path.isfile(hands_mask_path):
+      hands_color_name = None
+    
+    hitomi_mask_path = custom_model_metadata["hitomi_" + prefix + "_color_mask_paths"][custom_color_basename]
+    if os.path.isfile(hitomi_mask_path):
+      hitomi_color_name = None
+  
   for custom_color_basename, base_color in custom_colors.items():
     custom_color = self.options.get("custom_colors", {}).get(custom_color_basename, None)
     if custom_color is None:
@@ -226,11 +256,33 @@ def change_player_clothes_color(self):
     if custom_color == base_color:
       continue
     
+    # Recolor the pupils.
+    replaced_any_pupils_for_this_color = False
+    hitomi_textures = link_main_model.tex1.textures_by_name["hitomi"]
+    hitomi_image = hitomi_textures[0].render()
+    
+    hitomi_mask_path = custom_model_metadata["hitomi_" + prefix + "_color_mask_paths"][custom_color_basename]
+    if os.path.isfile(hitomi_mask_path) or custom_color_basename == hitomi_color_name:
+      replaced_any_pupils_for_this_color = True
+      
+      if os.path.isfile(hitomi_mask_path):
+        check_valid_mask_path(hitomi_mask_path)
+        hitomi_image = texture_utils.color_exchange(hitomi_image, base_color, custom_color, ignore_bright=True, mask_path=hitomi_mask_path)
+      elif custom_color_basename == hitomi_color_name:
+        hitomi_image = texture_utils.color_exchange(hitomi_image, base_color, custom_color, ignore_bright=True)
+      
+      for hitomi_texture in hitomi_textures:
+        hitomi_texture.replace_image(hitomi_image)
+    
+    # Recolor the main player body texture.
     mask_path = custom_model_metadata[prefix + "_color_mask_paths"][custom_color_basename]
     
-    check_valid_mask_path(mask_path)
-    
-    link_main_image = texture_utils.color_exchange(link_main_image, base_color, custom_color, mask_path=mask_path)
+    if not os.path.isfile(mask_path) and replaced_any_pupils_for_this_color:
+      # Normally we throw an error for any color that doesn't have a mask for the main body texture, but if it's an eye color, we ignore it.
+      pass
+    else:
+      check_valid_mask_path(mask_path)
+      link_main_image = texture_utils.color_exchange(link_main_image, base_color, custom_color, mask_path=mask_path)
     replaced_any = True
     
     # Recolor the eyebrows.
@@ -258,17 +310,24 @@ def change_player_clothes_color(self):
       link_hair_model.save_changes()
     
     # Recolor the mouth.
-    if custom_color_basename == mouth_color_name:
-      for i in range(1, 9+1):
-        mouth_textures = link_main_model.tex1.textures_by_name["mouthS3TC.%d" % i]
-        mouth_image = mouth_textures[0].render()
-        mouth_image = texture_utils.color_exchange(mouth_image, base_color, custom_color)
-        for mouth_texture in mouth_textures:
-          mouth_texture.replace_image(mouth_image)
+    for i in range(1, 9+1):
+      mouth_mask_path = custom_model_metadata["mouth_color_mask_paths"][i][custom_color_basename]
+      if os.path.isfile(mouth_mask_path) or custom_color_basename == mouth_color_name:
+        if i not in all_mouth_textures:
+          all_mouth_textures[i] = link_main_model.tex1.textures_by_name["mouthS3TC.%d" % i]
+          all_mouth_images[i] = all_mouth_textures[i][0].render()
+        mouth_image = all_mouth_images[i]
+        
+        if os.path.isfile(mouth_mask_path):
+          check_valid_mask_path(mouth_mask_path)
+          mouth_image = texture_utils.color_exchange(mouth_image, base_color, custom_color, mask_path=mouth_mask_path)
+        elif custom_color_basename == mouth_color_name:
+          mouth_image = texture_utils.color_exchange(mouth_image, base_color, custom_color)
     
     # Recolor the hands.
     hands_mask_path = custom_model_metadata["hands_" + prefix + "_color_mask_paths"][custom_color_basename]
     if os.path.isfile(hands_mask_path):
+      check_valid_mask_path(hands_mask_path)
       hands_image = texture_utils.color_exchange(hands_image, base_color, custom_color, mask_path=hands_mask_path)
       replaced_any_hands = True
     elif custom_color_basename == hands_color_name:
@@ -288,6 +347,11 @@ def change_player_clothes_color(self):
     
     if is_casual:
       texture.save_changes()
+  
+  for i, mouth_textures in all_mouth_textures.items():
+    mouth_image = all_mouth_images[i]
+    for mouth_texture in mouth_textures:
+      mouth_texture.replace_image(mouth_image)
   
   if replaced_any_hands:
     for hands_texture in hands_textures:
