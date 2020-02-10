@@ -46,7 +46,7 @@
   Particle IDs: []
   RARCs:
     -
-      Name: Ph
+      Name: Sh
       Excluded files: []
 -
   Name: Armos Knight
@@ -198,6 +198,13 @@
   RARCs:
     -
       Name: fm
+      Excluded files: []
+-
+  Name: Big Octo
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Daiocta
       Excluded files: []
 
 # Sort-of enemies
