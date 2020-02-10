@@ -973,14 +973,33 @@ class WWRandomizerWindow(QMainWindow):
     
     self.update_settings()
   
+  def get_random_h_and_v_shifts_for_custom_color(self, default_color):
+    r, g, b = default_color
+    h, s, v = colorsys.rgb_to_hsv(r/255, g/255, b/255)
+    h = int(h*360)
+    s = int(s*100)
+    v = int(v*100)
+    
+    min_v_shift = -40
+    max_v_shift = 40
+    if s < 10:
+      # For very unsaturated colors, we want to limit the range of value randomization to exclude results that wouldn't change anything anyway.
+      # This effectively stops white and black from having a 50% chance to not change at all.
+      min_v_shift = max(-40, 0-v)
+      max_v_shift = min(40, 100-v)
+    
+    h_shift = random.randint(0, 359)
+    v_shift = random.randint(min_v_shift, max_v_shift)
+    
+    return (h_shift, v_shift)
+  
   def randomize_one_custom_color(self):
     option_name, color_name = self.get_option_name_and_color_name_from_sender_object_name()
     
     custom_colors = self.get_default_custom_colors_for_current_model()
     
-    h_shift = random.randint(0, 359)
-    v_shift = random.randint(-40, 40)
     default_color = custom_colors[color_name]
+    h_shift, v_shift = self.get_random_h_and_v_shifts_for_custom_color(default_color)
     color = texture_utils.hsv_shift_color(default_color, h_shift, v_shift)
     
     self.set_color(option_name, color)
@@ -1005,8 +1024,7 @@ class WWRandomizerWindow(QMainWindow):
     custom_colors = self.get_default_custom_colors_for_current_model()
     
     for custom_color_name, default_color in custom_colors.items():
-      h_shift = random.randint(0, 359)
-      v_shift = random.randint(-40, 40)
+      h_shift, v_shift = self.get_random_h_and_v_shifts_for_custom_color(default_color)
       color = texture_utils.hsv_shift_color(default_color, h_shift, v_shift)
       
       option_name = "custom_color_" + custom_color_name
