@@ -46,6 +46,7 @@ class RARC:
         file_entry_offset = file_entries_list_offset + file_index*0x14
         
         file_entry = FileEntry(data, file_entry_offset, self)
+        file_entry.parent_node = node
         self.file_entries.append(file_entry)
         node.files.append(file_entry)
     
@@ -252,6 +253,8 @@ class FileEntry:
       self.data_offset = data_offset_or_node_index
       rarc_data.seek(rarc.file_data_list_offset + self.data_offset)
       self.data = BytesIO(rarc_data.read(self.data_size))
+    
+    self.parent_node = None
   
   def decompress_data_if_necessary(self):
     if try_read_str(self.data, 0, 4) == "Yaz0":
