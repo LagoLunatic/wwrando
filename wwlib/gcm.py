@@ -189,7 +189,6 @@ class GCM:
     finally:
       self.output_iso.close()
       self.output_iso = None
-      self.changed_files = None
   
   def get_changed_file_data(self, file_path):
     if file_path in self.changed_files:
