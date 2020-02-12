@@ -48,6 +48,7 @@ class GCM:
   def read_directory(self, directory_file_entry, dir_path):
     assert directory_file_entry.is_dir
     self.dirs_by_path[dir_path] = directory_file_entry
+    directory_file_entry.dir_path = dir_path
     
     i = directory_file_entry.file_index + 1
     while i < directory_file_entry.next_fst_index:
@@ -169,14 +170,6 @@ class GCM:
             offset_in_file += size_to_read
   
   def export_disc_to_iso_with_changed_files(self, output_file_path):
-    # Check the changed_files dict for files that didn't originally exist, and add them.
-    for file_path in self.changed_files:
-      if file_path.lower() in self.files_by_path_lowercase:
-        # Existing file
-        continue
-      
-      self.add_new_file(file_path)
-    
     self.output_iso = open(output_file_path, "wb")
     try:
       self.export_system_data_to_iso()
@@ -196,7 +189,7 @@ class GCM:
     else:
       return self.read_file_data(file_path)
   
-  def add_new_file(self, file_path):
+  def add_new_file(self, file_path, file_data):
     assert file_path.lower() not in self.files_by_path_lowercase
     
     dirname = os.path.dirname(file_path)
@@ -206,12 +199,16 @@ class GCM:
     new_file.name = basename
     new_file.file_path = file_path
     new_file.file_data_offset = None
-    new_file.file_size = None
+    new_file.file_size = data_len(file_data)
     new_file.vanilla_file_data_offset = (1<<32) # Order new files to be written after vanilla files in the ISO
     
     parent_dir = self.get_dir_file_entry(dirname)
     parent_dir.children.append(new_file)
     new_file.parent = parent_dir
+    
+    self.changed_files[file_path] = file_data
+    self.files_by_path[file_path] = new_file
+    self.files_by_path_lowercase[file_path.lower()] = new_file
   
   def pad_output_iso_by(self, amount):
     self.output_iso.write(b"\0"*amount)
