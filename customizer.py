@@ -342,6 +342,11 @@ def change_player_clothes_color(self):
       # Change the casual clothes texture to use C8 instead of C4 to increase the potential colors from 16 to 256.
       # This is only done for the vanilla Link model that comes with the game, not for custom models, since custom model creators could just change it themselves if they want to.
       texture.image_format = ImageFormat.C8
+    elif self.custom_model_name == "Link" and not is_casual and texture.image_format == ImageFormat.CMPR:
+      # Change the hero's clothes texture to use C8 instead of CMPR to prevent the lossy compression from creating seams.
+      # This is only done for the vanilla Link model that comes with the game, not for custom models, since custom model creators could just change it themselves if they want to.
+      texture.image_format = ImageFormat.C8
+      texture.palette_format = PaletteFormat.RGB565
     
     texture.replace_image(link_main_image)
     
