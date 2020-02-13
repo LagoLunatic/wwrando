@@ -1013,11 +1013,11 @@ bne withered_tree_item_try_give_momentum_end ; Already set the flag, so this isn
 ; Since this is the first frame since the item actor was properly created, we can set its momentum.
 lis r10, withered_tree_item_speeds@ha
 addi r10, r10, withered_tree_item_speeds@l
-lfs r0, 0 (r10) ; Read forward velocity
+lfs f0, 0 (r10) ; Read forward velocity
 stfs f0, 0x254 (r4)
-lfs r0, 4 (r10) ; Read the Y velocity
+lfs f0, 4 (r10) ; Read the Y velocity
 stfs f0, 0x224 (r4)
-lfs r0, 8 (r10) ; Read gravity
+lfs f0, 8 (r10) ; Read gravity
 stfs f0, 0x258 (r4)
 
 ; Also set bit 0x40 in some bitfield for the item actor.
