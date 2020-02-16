@@ -190,18 +190,46 @@ def shift_all_colors_in_trk1(self, file_name, j3d_file, h_shift, v_shift):
       # ChuChu eyes material animation, doesn't look right recolored so we just recolor the texture instead
       continue
     
-    if not len(anim.r.keyframes) == len(anim.g.keyframes) == len(anim.b.keyframes):
-      # Can't properly adjust colors in HSV when RGB don't come together in sets.
-      continue
+    assert len(anim.r.keyframes) > 0 and len(anim.g.keyframes) > 0 and len(anim.b.keyframes) > 0
     
-    for i in range(len(anim.r.keyframes)):
-      r = anim.r.keyframes[i].value & 0xFF
-      g = anim.g.keyframes[i].value & 0xFF
-      b = anim.b.keyframes[i].value & 0xFF
+    # In some cases (specifically Gohma), there won't be an equal number of keyframes for R G and B, so we can't simply iterate over the list.
+    
+    # First make a list of what times are present on the timeline for this animation.
+    unique_keyframe_times = []
+    for keyframe in (anim.r.keyframes + anim.g.keyframes + anim.b.keyframes):
+      if keyframe.time not in unique_keyframe_times:
+        unique_keyframe_times.append(keyframe.time)
+    unique_keyframe_times.sort()
+    
+    def get_keyframe_by_closest_time(keyframes, keyframe_time):
+      return min(keyframes, key=lambda kf: abs(kf.time-keyframe_time))
+    
+    def get_keyframe_by_exact_time(keyframes, keyframe_time):
+      return next((kf for kf in keyframes if kf.time == keyframe_time), None)
+    
+    # Then make a list of what the modified colors at each time will be, but don't actually modify them yet since we may need to re-read the values of previous times if the next time is missing a channel.
+    modified_colors_by_time = {}
+    for keyframe_time in unique_keyframe_times:
+      #print("  %d" % keyframe_time)
+      r = get_keyframe_by_closest_time(anim.r.keyframes, keyframe_time).value & 0xFF
+      g = get_keyframe_by_closest_time(anim.g.keyframes, keyframe_time).value & 0xFF
+      b = get_keyframe_by_closest_time(anim.b.keyframes, keyframe_time).value & 0xFF
+      #print("    %d %d %d" % (r, g, b))
       r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-      anim.r.keyframes[i].value = r
-      anim.g.keyframes[i].value = g
-      anim.b.keyframes[i].value = b
+      modified_colors_by_time[keyframe_time] = (r, g, b)
+    
+    # Then actually modify the colors.
+    for keyframe_time in unique_keyframe_times:
+      r, g, b = modified_colors_by_time[keyframe_time]
+      r_keyframe = get_keyframe_by_exact_time(anim.r.keyframes, keyframe_time)
+      if r_keyframe:
+        r_keyframe.value = r
+      g_keyframe = get_keyframe_by_exact_time(anim.g.keyframes, keyframe_time)
+      if g_keyframe:
+        g_keyframe.value = g
+      b_keyframe = get_keyframe_by_exact_time(anim.b.keyframes, keyframe_time)
+      if b_keyframe:
+        b_keyframe.value = b
 
 def shift_all_colors_in_particle(self, particle, h_shift, v_shift):
   #print("%04X" % particle_id)
