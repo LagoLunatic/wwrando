@@ -12,7 +12,7 @@
       Excluded files: []
 -
   Name: ChuChu
-  Particle IDs: [] # 0x82A8 is the Dark ChuChu breaking apart and reforming one, but the colors for it seem hardcoded.
+  Particle IDs: []
   RARCs:
     -
       Name: Cc

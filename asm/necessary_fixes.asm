@@ -1327,3 +1327,21 @@
   bl check_player_in_casual_clothes
   cmplwi r3, 0 ; Change check on r0 to check on r3
 .close
+
+
+
+
+; In order to recolor the particles of globs of jelly coming off Dark ChuChus and then reforming, we need to shuffle around some floats in the ChuChu's float bank.
+; This is because the RGB multiplier values for that particle's color are stored as floats, and the red multiplier float constant happens to be used by other things unrelated to color, so we can't simply change it.
+.open "files/rels/d_a_cc.rel" ; ChuChu
+.org 0x33A4 ; In action_damage_move
+  ; Change a line of code that originally read 0x00000000 from 0x7E9C to instead read it from 0x7DE4.
+  ; This is so we can repurpose 0x7E9C for a new float.
+  lwz r0, 4 (r30)
+.org 0x7E9C
+  ; Put the R value of the color into the new float constant spot we freed up.
+  .float 40.0
+.org 0x3B14
+  ; Change the line of code that originally read the R multiplier for the color to read from our new spot (0x7E9C) instead of from 0x7E2C.
+  lfs f0, 0xBC (r30)
+.close

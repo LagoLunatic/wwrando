@@ -19,6 +19,8 @@ def randomize_enemy_palettes(self):
       shift_hardcoded_stalfos_colors(self, h_shift, v_shift)
     elif randomizable_file_group["Name"] == "Rat":
       shift_hardcoded_rat_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "ChuChu":
+      shift_hardcoded_chuchu_colors(self, h_shift, v_shift)
     elif randomizable_file_group["Name"] == "Puppet Ganon":
       shift_hardcoded_puppet_ganon_colors(self, h_shift, v_shift)
     elif randomizable_file_group["Name"] == "Ganondorf":
@@ -293,6 +295,25 @@ def shift_hardcoded_rat_colors(self, h_shift, v_shift):
   data = self.get_raw_file("files/rels/d_a_npc_nz.rel")
   offset = 0x48C0
   shift_hardcoded_color(data, offset, h_shift, v_shift)
+
+def shift_hardcoded_chuchu_colors(self, h_shift, v_shift):
+  # ChuChu particles
+  data = self.get_raw_file("files/rels/d_a_cc.rel")
+  offset = 0x7F88
+  for i in range(5):
+    shift_hardcoded_color(data, offset+i*4, h_shift, v_shift)
+  
+  # The particles that come off of Dark ChuChus when attacked where they temporarily break apart and reform are tricky.
+  # That RGB value is stored as three multiplier floats instead of three bytes, and the red multiplier in the float constant bank is coincidentally reused by other things in the ChuChu code unrelated to color so we can't change that.
+  # So we change the asm code to read the red multiplier from elsewhere, and then modify that instead.
+  r = int(read_float(data, 0x7E9C))
+  g = int(read_float(data, 0x7EBC))
+  b = int(read_float(data, 0x7EC0))
+  assert r != 0 # Make sure the asm patch was applied
+  r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+  write_float(data, 0x7E9C, r)
+  write_float(data, 0x7EBC, g)
+  write_float(data, 0x7EC0, b)
 
 def shift_hardcoded_puppet_ganon_colors(self, h_shift, v_shift):
   # Puppet ganon's strings
