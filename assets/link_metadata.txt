@@ -2,6 +2,7 @@ hero_custom_colors:
   Hair: FFEE10
   Skin: F6DA9C
   Eyes: 10514A
+  Sclera: FFFFFF
   Shirt: 5AB24A
   Undershirt: ACE241
   Pants: FFFFFF
@@ -12,6 +13,7 @@ casual_custom_colors:
   Hair: FFEE10
   Skin: F6DA9C
   Eyes: 10514A
+  Sclera: FFFFFF
   Shirt: 4A75AC
   Shirt Emblem: FFFFD5
   Armbands: 62696A
