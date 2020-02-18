@@ -1,6 +1,7 @@
 hero_custom_colors:
   Hair: FFEE10
   Skin: F6DA9C
+  Mouth: F74963
   Eyes: 10514A
   Sclera: FFFFFF
   Shirt: 5AB24A
@@ -12,6 +13,7 @@ hero_custom_colors:
 casual_custom_colors:
   Hair: FFEE10
   Skin: F6DA9C
+  Mouth: F74963
   Eyes: 10514A
   Sclera: FFFFFF
   Shirt: 4A75AC
