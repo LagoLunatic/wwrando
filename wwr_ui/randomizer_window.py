@@ -385,7 +385,7 @@ class WWRandomizerWindow(QMainWindow):
       if option_name in self.settings:
         self.set_option_value(option_name, self.settings[option_name])
     
-    self.custom_model_changed()
+    self.custom_model_changed(update_preview=False)
     if "custom_colors" in self.settings:
       custom_colors_from_settings = self.settings["custom_colors"]
       
@@ -713,7 +713,7 @@ class WWRandomizerWindow(QMainWindow):
       # Otherwise switch to Default, since the Casual colors get cleared on model switch anyway.
       self.set_option_value("custom_colors_preset", "Default")
   
-  def custom_model_changed(self):
+  def custom_model_changed(self, update_preview=True):
     self.disable_invalid_cosmetic_options()
     
     while self.ui.custom_colors_layout.count():
@@ -825,7 +825,8 @@ class WWRandomizerWindow(QMainWindow):
     
     self.update_color_presets_list()
     
-    self.update_model_preview()
+    if update_preview:
+      self.update_model_preview()
     
     # Hide the custom voice disable option for models that don't have custom voice files.
     if custom_model_name == "Random" or custom_model_name == "Random (exclude Link)":
