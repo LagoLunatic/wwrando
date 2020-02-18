@@ -240,6 +240,9 @@ def change_player_clothes_color(self):
   first_texture = link_main_textures[0]
   link_main_image = first_texture.render()
   
+  hitomi_textures = link_main_model.tex1.textures_by_name["hitomi"]
+  hitomi_image = hitomi_textures[0].render()
+  
   hands_model = link_arc.get_file("hands.bdl")
   hands_textures = hands_model.tex1.textures_by_name["handsS3TC"]
   hands_image = hands_textures[0].render()
@@ -283,8 +286,6 @@ def change_player_clothes_color(self):
     
     # Recolor the pupils.
     replaced_any_pupils_for_this_color = False
-    hitomi_textures = link_main_model.tex1.textures_by_name["hitomi"]
-    hitomi_image = hitomi_textures[0].render()
     
     hitomi_mask_path = custom_model_metadata["hitomi_" + prefix + "_color_mask_paths"][custom_color_basename]
     if os.path.isfile(hitomi_mask_path) or custom_color_basename == hitomi_color_name:
@@ -341,13 +342,12 @@ def change_player_clothes_color(self):
         if i not in all_mouth_textures:
           all_mouth_textures[i] = link_main_model.tex1.textures_by_name["mouthS3TC.%d" % i]
           all_mouth_images[i] = all_mouth_textures[i][0].render()
-        mouth_image = all_mouth_images[i]
         
         if os.path.isfile(mouth_mask_path):
           check_valid_mask_path(mouth_mask_path)
-          mouth_image = texture_utils.color_exchange(mouth_image, base_color, custom_color, mask_path=mouth_mask_path)
+          all_mouth_images[i] = texture_utils.color_exchange(all_mouth_images[i], base_color, custom_color, mask_path=mouth_mask_path)
         elif custom_color_basename == mouth_color_name:
-          mouth_image = texture_utils.color_exchange(mouth_image, base_color, custom_color)
+          all_mouth_images[i] = texture_utils.color_exchange(all_mouth_images[i], base_color, custom_color)
     
     # Recolor the hands.
     hands_mask_path = custom_model_metadata["hands_" + prefix + "_color_mask_paths"][custom_color_basename]
