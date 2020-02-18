@@ -267,7 +267,7 @@ def change_player_clothes_color(self):
       
       if os.path.isfile(hitomi_mask_path):
         check_valid_mask_path(hitomi_mask_path)
-        hitomi_image = texture_utils.color_exchange(hitomi_image, base_color, custom_color, ignore_bright=True, mask_path=hitomi_mask_path)
+        hitomi_image = texture_utils.color_exchange(hitomi_image, base_color, custom_color, mask_path=hitomi_mask_path)
       elif custom_color_basename == hitomi_color_name:
         hitomi_image = texture_utils.color_exchange(hitomi_image, base_color, custom_color, ignore_bright=True)
       
