@@ -683,9 +683,9 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.custom_colors_preset.addItem("Default")
     self.ui.custom_colors_preset.addItem("Custom")
     
-    self.update_color_presets_list()
+    self.update_color_presets_list(reload_colors=False)
   
-  def update_color_presets_list(self):
+  def update_color_presets_list(self, reload_colors=True):
     # Temporarily prevent the preset changing from regenerating the preview image since we'll be changing it several times in this function.
     self.ui.custom_colors_preset.blockSignals(True)
     
@@ -715,6 +715,10 @@ class WWRandomizerWindow(QMainWindow):
     else:
       # Otherwise switch to Default, since the Casual colors get cleared on model switch anyway.
       self.set_option_value("custom_colors_preset", "Default")
+    
+    if reload_colors:
+      # Because we blocked signals, we manually reload the color buttons, without generating the preview.
+      self.reload_colors(update_preview=False)
     
     self.ui.custom_colors_preset.blockSignals(False)
   
@@ -845,18 +849,23 @@ class WWRandomizerWindow(QMainWindow):
       else:
         self.ui.disable_custom_player_voice.hide()
   
+  def reload_colors(self, update_preview=True):
+    preset_name = self.get_option_value("custom_colors_preset")
+    for color_name in self.get_default_custom_colors_for_current_model():
+      color = self.get_color(color_name)
+      self.set_color("custom_color_" + color_name, color, update_preview=False, save_color_as_custom=False)
+    
+    if update_preview:
+      self.update_model_preview()
+  
   def custom_model_changed(self, index):
     self.reload_custom_model()
   
   def in_casual_clothes_changed(self, checked):
     self.reload_custom_model()
   
-  def color_preset_changed(self):
-    preset_name = self.get_option_value("custom_colors_preset")
-    for color_name in self.get_default_custom_colors_for_current_model():
-      color = self.get_color(color_name)
-      self.set_color("custom_color_" + color_name, color, update_preview=False, save_color_as_custom=False)
-    self.update_model_preview()
+  def color_preset_changed(self, index):
+    self.reload_colors()
   
   def reset_color_selectors_to_model_default_colors(self):
     custom_colors = self.get_default_custom_colors_for_current_model()
