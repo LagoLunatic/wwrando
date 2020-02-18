@@ -81,7 +81,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.permalink.textEdited.connect(self.permalink_modified)
     
     self.ui.custom_player_model.currentIndexChanged.connect(self.custom_model_changed)
-    self.ui.player_in_casual_clothes.clicked.connect(self.custom_model_changed)
+    self.ui.player_in_casual_clothes.clicked.connect(self.in_casual_clothes_changed)
     self.ui.randomize_all_custom_colors_together.clicked.connect(self.randomize_all_custom_colors_together)
     self.ui.randomize_all_custom_colors_separately.clicked.connect(self.randomize_all_custom_colors_separately)
     self.ui.custom_colors_preset.currentIndexChanged.connect(self.color_preset_changed)
@@ -839,6 +839,9 @@ class WWRandomizerWindow(QMainWindow):
         self.ui.disable_custom_player_voice.show()
       else:
         self.ui.disable_custom_player_voice.hide()
+  
+  def in_casual_clothes_changed(self, checked):
+    self.custom_model_changed()
   
   def color_preset_changed(self):
     preset_name = self.get_option_value("custom_colors_preset")
