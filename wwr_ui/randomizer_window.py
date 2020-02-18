@@ -683,12 +683,35 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.custom_colors_preset.addItem("Default")
     self.ui.custom_colors_preset.addItem("Custom")
     
+    self.update_color_presets_list()
+  
+  def update_color_presets_list(self):
+    # Keep track of what the value of the presets dropdown was.
+    prev_selected_preset_type = self.get_option_value("custom_colors_preset")
+    
+    # Remove everything except "Default" and "Custom".
+    indexes_to_remove = []
+    for i in reversed(range(self.ui.custom_colors_preset.count())):
+      if self.ui.custom_colors_preset.itemText(i) in ["Default", "Custom"]:
+        continue
+      self.ui.custom_colors_preset.removeItem(i)
+    
+    # Add the presets specific to this model.
     presets = self.get_color_presets_for_current_model()
     for preset_name in presets:
       if preset_name in ["Default", "Custom"]:
         QMessageBox.warning(self, "Invalid color preset name", "The selected player model has a preset named \"%s\", which is a reserved name. This preset will be ignored." % preset_name)
         continue
       self.ui.custom_colors_preset.addItem(preset_name)
+    
+    # If the new model has a preset with the same name as the selected preset for the previous model, set the dropdown back to that value.
+    # This is so switching between hero/casual doesn't reset the preset you have selected, in cases where the same preset is specified for both hero and casual.
+    # (This has the side effect of preserving the preset even across entirely different models if they happen to have presets of the same name.)
+    if prev_selected_preset_type in presets:
+      self.set_option_value("custom_colors_preset", prev_selected_preset_type)
+    else:
+      # Otherwise switch to Default, since the Casual colors get cleared on model switch anyway.
+      self.set_option_value("custom_colors_preset", "Default")
   
   def custom_model_changed(self):
     self.disable_invalid_cosmetic_options()
@@ -799,6 +822,8 @@ class WWRandomizerWindow(QMainWindow):
       hspacer = QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum)
       hlayout.addItem(hspacer)
       self.ui.custom_colors_layout.addLayout(hlayout)
+    
+    self.update_color_presets_list()
     
     self.update_model_preview()
     

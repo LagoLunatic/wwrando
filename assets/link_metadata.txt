@@ -34,3 +34,15 @@ hero_color_presets:
     Boots: 000000
     Belt: 000000
     Belt Buckle: 000000
+casual_color_presets:
+  Dark Link:
+    Hair: 000000
+    Skin: 000000
+    Mouth: 000000
+    Eyes: FF0000
+    Sclera: 000000
+    Shirt: 000000
+    Shirt Emblem: 000000
+    Armbands: 000000
+    Pants: 000000
+    Shoes: 000000
