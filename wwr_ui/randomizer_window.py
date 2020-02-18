@@ -875,7 +875,7 @@ class WWRandomizerWindow(QMainWindow):
       if self.custom_colors[custom_color_name] != default_color:
         any_color_changed = True
       option_name = "custom_color_" + custom_color_name
-      self.set_color(option_name, default_color, update_preview=False)
+      self.set_color(option_name, default_color, update_preview=False, save_color_as_custom=False)
     
     if any_color_changed:
       self.update_model_preview()
@@ -984,7 +984,6 @@ class WWRandomizerWindow(QMainWindow):
     option_name, color, update_preview=True,
     save_color_as_custom=True, move_other_non_custom_colors_to_custom=True
   ):
-    
     if isinstance(color, tuple):
       color = list(color)
     if not (isinstance(color, list) and len(color) == 3):
