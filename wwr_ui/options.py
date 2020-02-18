@@ -177,6 +177,10 @@ OPTIONS = OrderedDict([
     "If the chosen custom model comes with custom voice files, you can check this option to turn them off and simply use Link's normal voice instead."
   ),
   (
+    "custom_colors_preset",
+    "This allows you to select from preset color combinations chosen by the author of the selected player model."
+  ),
+  (
     "randomized_gear",
     "Inventory items that will be randomized."
   ),
@@ -199,4 +203,5 @@ NON_PERMALINK_OPTIONS = [
   "custom_player_model",
   "player_in_casual_clothes",
   "disable_custom_player_voice",
+  "custom_colors_preset",
 ]

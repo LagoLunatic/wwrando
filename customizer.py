@@ -92,6 +92,31 @@ def get_model_metadata(custom_model_name):
           for i in range(1, 9+1):
             mouth_mask_path = os.path.join(color_masks_path, "mouths", "mouthS3TC.%d_%s.png" % (i, custom_color_name))
             metadata["mouth_color_mask_paths"][i][custom_color_name] = mouth_mask_path
+      
+      if key in ["hero_color_presets", "casual_color_presets"]:
+        prefix = key.split("_")[0]
+        
+        for preset_name, preset in value.items():
+          for custom_color_name, hex_color in preset.items():
+            if isinstance(hex_color, int):
+              hex_color_string = "%06d" % hex_color
+            elif isinstance(hex_color, str):
+              hex_color_string = hex_color
+            else:
+              error_message = "Color preset \"%s\"'s color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (preset_name, custom_color_name, hex_color)
+              return {
+                "error_message": error_message,
+              }
+            
+            match = re.search(r"^([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})$", hex_color_string, re.IGNORECASE)
+            if match:
+              r, g, b = int(match.group(1), 16), int(match.group(2), 16), int(match.group(3), 16)
+              preset[custom_color_name] = [r, g, b]
+            else:
+              error_message = "Color preset \"%s\"'s color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (preset_name, custom_color_name, hex_color)
+              return {
+                "error_message": error_message,
+              }
     
     return metadata
 
