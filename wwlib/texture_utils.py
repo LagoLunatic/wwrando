@@ -1008,7 +1008,10 @@ def color_exchange(image, base_color, replacement_color, mask_path=None, validat
           elif mask_pixels[x, y] == (255, 255, 255, 255):
             # White, unmasked
             continue
-          elif mask_pixels[x, y][3] != 0:
+          elif mask_pixels[x, y][3] == 0:
+            # Completely transparent, unmasked
+            continue
+          else:
             # Not red or white and also not completely transparent, so this is an invalid color.
             r, g, b, a = mask_pixels[x, y]
             raise Exception("Invalid color %02X%02X%02X%02X in mask %s" % (r, g, b, a, mask_path))
