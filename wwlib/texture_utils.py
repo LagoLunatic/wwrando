@@ -12,6 +12,12 @@ try:
 except ImportError:
   PY_FAST_BTI_INSTALLED = False
 
+try:
+  import pyfasttextureutils
+  PY_FAST_TEXTURE_UTILS_INSTALLED = True
+except ImportError:
+  PY_FAST_TEXTURE_UTILS_INSTALLED = False
+
 class TooManyColorsError(Exception):
   pass
 
@@ -977,10 +983,31 @@ def encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y
 def color_exchange(image, base_color, replacement_color, mask_path=None, validate_mask_colors=True, ignore_bright=False):
   if mask_path:
     mask_image = Image.open(mask_path).convert("RGBA")
-    mask_pixels = mask_image.load()
-    
     if image.size != mask_image.size:
       raise Exception("Mask image is not the same size as the texture.")
+  
+  if PY_FAST_TEXTURE_UTILS_INSTALLED:
+    image_bytes = image.tobytes()
+    
+    if mask_path:
+      mask_bytes = mask_image.tobytes()
+    else:
+      mask_bytes = None
+    
+    new_image_bytes = pyfasttextureutils.color_exchange(
+      image_bytes, base_color, replacement_color,
+      mask_bytes, validate_mask_colors, ignore_bright
+    )
+    
+    new_image = Image.frombytes(image.mode, (image.width, image.height), new_image_bytes)
+    return new_image
+  
+  # When recoloring via native Python code, explicitly make a copy of the image and modify that.
+  # This is for consistency with the C function, which has to return a copy.
+  image = image.copy()
+  
+  if mask_path:
+    mask_pixels = mask_image.load()
   
   base_r, base_g, base_b = base_color
   base_h, base_s, base_v = colorsys.rgb_to_hsv(base_r/255, base_g/255, base_b/255)
