@@ -402,6 +402,9 @@ class WWRandomizerWindow(QMainWindow):
         option_name = "custom_color_" + color_name
         self.set_color(option_name, color, update_preview=False, save_color_as_custom=False)
     
+    if "custom_colors_preset" in self.settings:
+      self.set_option_value("custom_colors_preset", self.settings["custom_colors_preset"])
+    
     self.update_model_preview()
   
   def save_settings(self):
