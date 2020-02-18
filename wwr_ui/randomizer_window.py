@@ -385,7 +385,7 @@ class WWRandomizerWindow(QMainWindow):
       if option_name in self.settings:
         self.set_option_value(option_name, self.settings[option_name])
     
-    self.custom_model_changed(update_preview=False)
+    self.reload_custom_model(update_preview=False)
     if "custom_colors" in self.settings:
       custom_colors_from_settings = self.settings["custom_colors"]
       
@@ -718,7 +718,7 @@ class WWRandomizerWindow(QMainWindow):
     
     self.ui.custom_colors_preset.blockSignals(False)
   
-  def custom_model_changed(self, update_preview=True):
+  def reload_custom_model(self, update_preview=True):
     self.disable_invalid_cosmetic_options()
     
     while self.ui.custom_colors_layout.count():
@@ -845,8 +845,11 @@ class WWRandomizerWindow(QMainWindow):
       else:
         self.ui.disable_custom_player_voice.hide()
   
+  def custom_model_changed(self, index):
+    self.reload_custom_model()
+  
   def in_casual_clothes_changed(self, checked):
-    self.custom_model_changed()
+    self.reload_custom_model()
   
   def color_preset_changed(self):
     preset_name = self.get_option_value("custom_colors_preset")
