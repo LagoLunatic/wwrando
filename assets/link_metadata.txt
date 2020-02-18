@@ -1,26 +1,27 @@
 hero_custom_colors:
-  Hair: FFEE10
-  Skin: F6DA9C
+  Hair: FFEF10
+  Skin: F7DB9C
   Mouth: F74963
   Eyes: 10514A
   Sclera: FFFFFF
   Shirt: 5AB24A
-  Undershirt: ACE241
+  Undershirt: ADE342
   Pants: FFFFFF
   Boots: 944908
   Belt: 633008
-  Belt Buckle: F7EF10
+  Belt Buckle: FFEF10
 casual_custom_colors:
-  Hair: FFEE10
-  Skin: F6DA9C
+  Hair: FFEF10
+  Skin: F7DB9C
   Mouth: F74963
   Eyes: 10514A
   Sclera: FFFFFF
-  Shirt: 4A75AC
-  Shirt Emblem: FFFFD5
-  Armbands: 62696A
-  Pants: FFA100
-  Shoes: 62696A
+  Shirt: 4A75AD
+  Shirt Emblem: FFFFD6
+  Armbands: 63696B
+  Pants: FFA608
+  Shoes: 63696B
+  Shoe Soles: D6BA39
 hero_color_presets:
   Dark Link:
     Hair: 000000
@@ -46,3 +47,4 @@ casual_color_presets:
     Armbands: 000000
     Pants: 000000
     Shoes: 000000
+    Shoe Soles: 000000
