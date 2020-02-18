@@ -686,6 +686,9 @@ class WWRandomizerWindow(QMainWindow):
     self.update_color_presets_list()
   
   def update_color_presets_list(self):
+    # Temporarily prevent the preset changing from regenerating the preview image since we'll be changing it several times in this function.
+    self.ui.custom_colors_preset.blockSignals(True)
+    
     # Keep track of what the value of the presets dropdown was.
     prev_selected_preset_type = self.get_option_value("custom_colors_preset")
     
@@ -712,6 +715,8 @@ class WWRandomizerWindow(QMainWindow):
     else:
       # Otherwise switch to Default, since the Casual colors get cleared on model switch anyway.
       self.set_option_value("custom_colors_preset", "Default")
+    
+    self.ui.custom_colors_preset.blockSignals(False)
   
   def custom_model_changed(self, update_preview=True):
     self.disable_invalid_cosmetic_options()
