@@ -404,6 +404,7 @@ class WWRandomizerWindow(QMainWindow):
     
     if "custom_colors_preset" in self.settings:
       self.set_option_value("custom_colors_preset", self.settings["custom_colors_preset"])
+      self.reload_colors()
     
     self.update_model_preview()
   
