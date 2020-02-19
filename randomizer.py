@@ -287,6 +287,7 @@ class Randomizer:
     self.race_mode_banned_locations = []
     
     self.custom_model_name = "Link"
+    self.using_custom_sail_texture = False
     
     self.logic = Logic(self)
     
@@ -457,6 +458,7 @@ class Randomizer:
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)
+    tweaks.check_hide_ship_sail(self)
     customizer.change_player_clothes_color(self)
   
   def apply_necessary_post_randomization_tweaks(self):

@@ -171,13 +171,7 @@ def replace_link_model(self):
   self.replace_arc("files/res/Object/Link.arc", custom_link_arc_data)
   custom_link_arc = self.get_arc("files/res/Object/Link.arc")
   
-  # Revert all BCK animations in Link.arc to the original ones.
-  # This is because BCK animations can change gameplay, which we don't want to allow cosmetic mods to do.
-  for orig_file_entry in orig_link_arc.file_entries:
-    basename, file_ext = os.path.splitext(orig_file_entry.name)
-    if file_ext == ".bck":
-      custom_file_entry = custom_link_arc.get_file_entry(orig_file_entry.name)
-      custom_file_entry.data = orig_file_entry.data
+  revert_bck_files_in_arc_to_original(orig_link_arc, custom_link_arc)
   
   # Replace Link's animations.
   lkanm_path = custom_model_path + "LkAnm.arc"
@@ -188,13 +182,26 @@ def replace_link_model(self):
     self.replace_arc("files/res/Object/LkAnm.arc", custom_lkanm_arc_data)
     custom_lkanm_arc = self.get_arc("files/res/Object/LkAnm.arc")
     
-    # Revert all BCK animations in LkAnm.arc to the original ones.
-    # This is because BCK animations can change gameplay, which we don't want to allow cosmetic mods to do.
-    for orig_file_entry in orig_lkanm_arc.file_entries:
-      basename, file_ext = os.path.splitext(orig_file_entry.name)
-      if file_ext == ".bck":
-        custom_file_entry = custom_lkanm_arc.get_file_entry(orig_file_entry.name)
-        custom_file_entry.data = orig_file_entry.data
+    revert_bck_files_in_arc_to_original(orig_lkanm_arc, custom_lkanm_arc)
+  
+  # Replace KoRL.
+  ship_path = custom_model_path + "Ship.arc"
+  if os.path.isfile(ship_path):
+    with open(ship_path, "rb") as f:
+      custom_ship_arc_data = BytesIO(f.read())
+    orig_ship_arc = self.get_arc("files/res/Object/Ship.arc")
+    self.replace_arc("files/res/Object/Ship.arc", custom_ship_arc_data)
+    custom_ship_arc = self.get_arc("files/res/Object/Ship.arc")
+    
+    revert_bck_files_in_arc_to_original(orig_ship_arc, custom_ship_arc)
+    
+    orig_sail_tex_data = orig_ship_arc.get_file_entry("new_ho1.bti").data
+    custom_sail_tex_data = custom_ship_arc.get_file_entry("new_ho1.bti").data
+    orig_sail_tex_data.seek(0)
+    custom_sail_tex_data.seek(0)
+    if custom_sail_tex_data.read() != orig_sail_tex_data.read():
+      # Don't allow the swift sail tweak to replace this custom texture with the swift sail texture.
+      self.using_custom_sail_texture = True
   
   # The texture shown on the wall when reflecting light with the mirror shield is separate from Link.arc.
   mirror_shield_reflection_image_path = custom_model_path + "shmref.bti"
@@ -220,6 +227,15 @@ def replace_link_model(self):
         with open(ganont_aw_path, "rb") as f:
           ganont_aw_data = BytesIO(f.read())
         self.replace_raw_file("files/Audiores/Banks/GanonT_0.aw", ganont_aw_data)
+
+def revert_bck_files_in_arc_to_original(orig_arc, custom_arc):
+  # Revert all BCK animations in a custom arc to the original ones.
+  # This is because BCK animations can change gameplay, which we don't want to allow cosmetic mods to do.
+  for orig_file_entry in orig_arc.file_entries:
+    basename, file_ext = os.path.splitext(orig_file_entry.name)
+    if file_ext == ".bck":
+      custom_file_entry = custom_arc.get_file_entry(orig_file_entry.name)
+      custom_file_entry.data = orig_file_entry.data
 
 def change_player_clothes_color(self):
   custom_model_metadata = get_model_metadata(self.custom_model_name)
