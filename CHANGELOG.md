@@ -11,9 +11,10 @@ New features:
 Changes:
 * Drastically improved the performance of recoloring the player model preview image in the randomizer's UI, especially when lots of different color options are changed from the model's defaults.
 * Added more custom color options for the vanilla Link model.
+* The "Generate Spoiler Log" option is now worded as "Do Not Generate Spoiler Log" and unchecked by default. Its effect is the same, just flipped.
 
 Bug fixes:
-* Fixed a bug where slightly recoloring certain grey colors on player models would make them extremely saturated colors.
+* Fixed a bug where slightly recoloring certain grey colors on player models would make them appear as extremely saturated colors.
 * Fixed a vanilla bug where respawning Magtails killed by shooting them in the head with Light Arrows would not respawn.
 
 
