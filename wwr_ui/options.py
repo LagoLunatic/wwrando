@@ -127,8 +127,8 @@ OPTIONS = OrderedDict([
     "Adds new warp pots that act as shortcuts connecting dungeons to each other directly. (DRC, FW, TotG, and separately FF, ET, WT.)\nEach pot must be unlocked before it can be used, so you cannot use them to access dungeons you wouldn't already have access to."
   ),
   (
-    "generate_spoiler_log",
-    "Generate a text file that lists the location of every single item for this seed. (This also changes where items are placed in this seed.)<br><u>Generating a spoiler log is highly recommended even if you don't intend to use it</u>, just in case you get completely stuck."
+    "do_not_generate_spoiler_log",
+    "This options prevents the randomizer from generating a text file listing out the location of every single item for this seed. (This being checked also changes where items are placed in this seed.)<br><u>Generating a spoiler log is highly recommended even if you don't intend to use it</u>, just in case you get completely stuck."
   ),
   (
     "sword_mode",

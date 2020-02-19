@@ -95,7 +95,7 @@ class Randomizer:
         self.test_room_args = {"stage": stage, "room": int(room), "spawn": int(spawn)}
     
     seed_string = self.seed
-    if not self.options.get("generate_spoiler_log"):
+    if self.options.get("do_not_generate_spoiler_log"):
       seed_string += SEED_KEY
     
     self.integer_seed = self.convert_string_to_integer_md5(seed_string)
@@ -403,7 +403,7 @@ class Randomizer:
     options_completed += 9
     yield("Writing logs...", options_completed)
     
-    if self.options.get("generate_spoiler_log"):
+    if not self.options.get("do_not_generate_spoiler_log"):
       self.write_spoiler_log()
     self.write_non_spoiler_log()
     
@@ -677,7 +677,7 @@ class Randomizer:
   def get_new_rng(self):
     rng = Random()
     rng.seed(self.integer_seed)
-    if not self.options.get("generate_spoiler_log"):
+    if self.options.get("do_not_generate_spoiler_log"):
       for i in range(1, 100):
         rng.getrandbits(i)
     return rng

@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Wed Feb 19 15:46:19 2020
+# Created: Wed Feb 19 15:59:34 2020
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -263,10 +263,9 @@ class Ui_MainWindow(object):
         self.disable_tingle_chests_with_tingle_bombs = QtWidgets.QCheckBox(self.groupBox_4)
         self.disable_tingle_chests_with_tingle_bombs.setObjectName("disable_tingle_chests_with_tingle_bombs")
         self.gridLayout_6.addWidget(self.disable_tingle_chests_with_tingle_bombs, 0, 1, 1, 1)
-        self.generate_spoiler_log = QtWidgets.QCheckBox(self.groupBox_4)
-        self.generate_spoiler_log.setChecked(True)
-        self.generate_spoiler_log.setObjectName("generate_spoiler_log")
-        self.gridLayout_6.addWidget(self.generate_spoiler_log, 0, 0, 1, 1)
+        self.do_not_generate_spoiler_log = QtWidgets.QCheckBox(self.groupBox_4)
+        self.do_not_generate_spoiler_log.setObjectName("do_not_generate_spoiler_log")
+        self.gridLayout_6.addWidget(self.do_not_generate_spoiler_log, 0, 0, 1, 1)
         self.widget_3 = QtWidgets.QWidget(self.groupBox_4)
         self.widget_3.setObjectName("widget_3")
         self.gridLayout_6.addWidget(self.widget_3, 0, 2, 1, 1)
@@ -531,7 +530,7 @@ class Ui_MainWindow(object):
         self.invert_camera_x_axis.setText(QtWidgets.QApplication.translate("MainWindow", "Invert Camera X-Axis", None, -1))
         self.groupBox_4.setTitle(QtWidgets.QApplication.translate("MainWindow", "Advanced Options", None, -1))
         self.disable_tingle_chests_with_tingle_bombs.setText(QtWidgets.QApplication.translate("MainWindow", "Tingle Chests Require Non-Tingle Bombs", None, -1))
-        self.generate_spoiler_log.setText(QtWidgets.QApplication.translate("MainWindow", "Generate Spoiler Log", None, -1))
+        self.do_not_generate_spoiler_log.setText(QtWidgets.QApplication.translate("MainWindow", "Do Not Generate Spoiler Log", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtWidgets.QApplication.translate("MainWindow", "Randomizer Settings", None, -1))
         self.label_for_randomized_gear.setText(QtWidgets.QApplication.translate("MainWindow", "Randomized Gear", None, -1))
         self.remove_gear.setText(QtWidgets.QApplication.translate("MainWindow", "<-", None, -1))

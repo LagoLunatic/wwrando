@@ -577,12 +577,9 @@
                 </widget>
                </item>
                <item row="0" column="0">
-                <widget class="QCheckBox" name="generate_spoiler_log">
+                <widget class="QCheckBox" name="do_not_generate_spoiler_log">
                  <property name="text">
-                  <string>Generate Spoiler Log</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
+                  <string>Do Not Generate Spoiler Log</string>
                  </property>
                 </widget>
                </item>
