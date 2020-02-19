@@ -1,4 +1,23 @@
 
+### Next version (in progress, not released yet)
+
+New features:
+* Implemented color presets for custom player models. The model's author can optionally include sets of colors with the model that can be selected via a dropdown in the randomizer's UI.
+  * For example, the vanilla Link model now comes with the following color presets: Dark Link, Smash Dark Link, Green Link, Red Link, Blue Link, Purple Link, Shadow Link.
+* Custom player models can now optionally include a custom ship model for the player to ride.
+* Custom player models can now allow recoloring the player's sclera.
+* Added an option to remove all music from the game.
+
+Changes:
+* Drastically improved the performance of recoloring the player model preview image in the randomizer's UI, especially when lots of different color options are changed from the model's defaults.
+* Added more custom color options for the vanilla Link model.
+
+Bug fixes:
+* Fixed a bug where slightly recoloring certain grey colors on player models would make them extremely saturated colors.
+* Fixed a vanilla bug where respawning Magtails killed by shooting them in the head with Light Arrows would not respawn.
+
+
+
 ### Version 1.7.0 (released 2019-02-16)
 
 New features:
