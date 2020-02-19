@@ -7,12 +7,17 @@ from io import BytesIO
 import glob
 from PIL import Image
 
-from fs_helpers import *
+from fs_helpers import data_len
 from wwlib.texture_utils import *
 from wwlib import texture_utils
 from paths import ASSETS_PATH
 
-MAX_ALLOWED_LINK_ARC_FILE_SIZE_IN_MEGABYTES = 1.45
+ORIG_LINK_ARC_FILE_SIZE_IN_BYTES  = 1308608
+ORIG_LKANM_ARC_FILE_SIZE_IN_BYTES = 1842464
+ORIG_SHIP_ARC_FILE_SIZE_IN_BYTES  =  191520
+# Allow the above arcs combined to increase in filesize by at most 0.202 mebibytes.
+# In other words, the same amount of increase as when the 1.24MiB original Link.arc is increased to 1.44MiB.
+MAX_ALLOWED_TOTAL_ARC_FILE_SIZE_SUM_INCREASE_IN_BYTES = 1525678 - ORIG_LINK_ARC_FILE_SIZE_IN_BYTES
 
 def get_model_metadata(custom_model_name):
   if custom_model_name == "Random":
@@ -162,16 +167,23 @@ def replace_link_model(self):
   if not os.path.isfile(custom_link_arc_path):
     raise Exception("Custom model is missing Link.arc: %s" % custom_model_path)
   
+  orig_sum_of_changed_arc_sizes = 0
+  new_sum_of_changed_arc_sizes = 0
+  checked_arc_names = []
+  
   with open(custom_link_arc_path, "rb") as f:
     custom_link_arc_data = BytesIO(f.read())
-  custom_link_arc_size_in_mb = data_len(custom_link_arc_data) / (1024 * 1024)
-  if custom_link_arc_size_in_mb > MAX_ALLOWED_LINK_ARC_FILE_SIZE_IN_MEGABYTES+0.005:
-    raise Exception("The chosen custom player model's filesize is too large and may cause crashes or other issues in game.\nMax size: %.2fMB\nSelected model size: %.2fMB" % (MAX_ALLOWED_LINK_ARC_FILE_SIZE_IN_MEGABYTES, custom_link_arc_size_in_mb))
   orig_link_arc = self.get_arc("files/res/Object/Link.arc")
   self.replace_arc("files/res/Object/Link.arc", custom_link_arc_data)
   custom_link_arc = self.get_arc("files/res/Object/Link.arc")
   
   revert_bck_files_in_arc_to_original(orig_link_arc, custom_link_arc)
+  
+  orig_sum_of_changed_arc_sizes += ORIG_LINK_ARC_FILE_SIZE_IN_BYTES
+  custom_link_arc.save_changes()
+  new_sum_of_changed_arc_sizes += data_len(custom_link_arc.data)
+  checked_arc_names.append("Link.arc")
+  check_changed_archives_over_filesize_limit(orig_sum_of_changed_arc_sizes, new_sum_of_changed_arc_sizes, checked_arc_names)
   
   # Replace Link's animations.
   lkanm_path = custom_model_path + "LkAnm.arc"
@@ -183,6 +195,12 @@ def replace_link_model(self):
     custom_lkanm_arc = self.get_arc("files/res/Object/LkAnm.arc")
     
     revert_bck_files_in_arc_to_original(orig_lkanm_arc, custom_lkanm_arc)
+    
+    orig_sum_of_changed_arc_sizes += ORIG_LKANM_ARC_FILE_SIZE_IN_BYTES
+    custom_lkanm_arc.save_changes()
+    new_sum_of_changed_arc_sizes += data_len(custom_lkanm_arc.data)
+    checked_arc_names.append("LkAnm.arc")
+    check_changed_archives_over_filesize_limit(orig_sum_of_changed_arc_sizes, new_sum_of_changed_arc_sizes, checked_arc_names)
   
   # Replace KoRL.
   ship_path = custom_model_path + "Ship.arc"
@@ -194,6 +212,12 @@ def replace_link_model(self):
     custom_ship_arc = self.get_arc("files/res/Object/Ship.arc")
     
     revert_bck_files_in_arc_to_original(orig_ship_arc, custom_ship_arc)
+    
+    orig_sum_of_changed_arc_sizes += ORIG_SHIP_ARC_FILE_SIZE_IN_BYTES
+    custom_ship_arc.save_changes()
+    new_sum_of_changed_arc_sizes += data_len(custom_ship_arc.data)
+    checked_arc_names.append("Ship.arc")
+    check_changed_archives_over_filesize_limit(orig_sum_of_changed_arc_sizes, new_sum_of_changed_arc_sizes, checked_arc_names)
     
     orig_sail_tex_data = orig_ship_arc.get_file_entry("new_ho1.bti").data
     custom_sail_tex_data = custom_ship_arc.get_file_entry("new_ho1.bti").data
@@ -236,6 +260,16 @@ def revert_bck_files_in_arc_to_original(orig_arc, custom_arc):
     if file_ext == ".bck":
       custom_file_entry = custom_arc.get_file_entry(orig_file_entry.name)
       custom_file_entry.data = orig_file_entry.data
+
+def check_changed_archives_over_filesize_limit(orig_sum_of_changed_arc_sizes, new_sum_of_changed_arc_sizes, checked_arc_names):
+  # Validate the filesize didn't increase enough to cause memory issues.
+  max_sum_of_changed_arc_sizes = orig_sum_of_changed_arc_sizes + MAX_ALLOWED_TOTAL_ARC_FILE_SIZE_SUM_INCREASE_IN_BYTES
+  if new_sum_of_changed_arc_sizes > max_sum_of_changed_arc_sizes:
+    error_message = "The chosen custom player model's filesize is too large and may cause crashes or other issues in game.\n\n"
+    error_message += "Archives: %s\n" % (", ".join(checked_arc_names))
+    error_message += "Max combined size of the above archives: %.2fMiB\n" % (max_sum_of_changed_arc_sizes / (1024*1024))
+    error_message += "Combined size of selected model's archives: %.2fMiB\n" % (new_sum_of_changed_arc_sizes / (1024*1024))
+    raise Exception(error_message)
 
 def change_player_clothes_color(self):
   custom_model_metadata = get_model_metadata(self.custom_model_name)
