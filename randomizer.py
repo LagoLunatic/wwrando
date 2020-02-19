@@ -86,6 +86,7 @@ class Randomizer:
       self.dry_run = True
       self.no_logs = True
     self.print_used_flags = ("-printflags" in cmd_line_args)
+    self.map_select = ("-mapselect" in cmd_line_args)
     
     self.test_room_args = None
     if "-test" in cmd_line_args:
@@ -356,6 +357,8 @@ class Randomizer:
         tweaks.remove_title_and_ending_videos(self)
       if self.options.get("remove_music"):
         tweaks.apply_patch(self, "remove_music")
+      if self.map_select:
+        tweaks.apply_patch(self, "map_select")
       
       if self.test_room_args is not None:
         tweaks.test_room(self)

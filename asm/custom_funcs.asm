@@ -3077,4 +3077,33 @@ blr
 
 
 
+.global change_game_state_check_enter_debug_map_select
+change_game_state_check_enter_debug_map_select:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+lis r7, mPadButton__10JUTGamePad@ha ; Bitfield of currently pressed buttons
+addi r7, r7, mPadButton__10JUTGamePad@l
+lwz r0, 0 (r7)
+rlwinm. r0, r0, 0, 20, 20 ; AND with 0x800 to check if the Y button is held down
+
+; If Y is not down, just change to whatever game state the original code was going to (in r4)
+beq change_game_state_check_enter_debug_map_select_change_game_state
+
+; If Y is down, change to game state 6 (map select) instead.
+li r4, 6
+
+change_game_state_check_enter_debug_map_select_change_game_state:
+; Change the game state (replacing the call we overwrote to call this custom function).
+bl fopScnM_ChangeReq__FP11scene_classssUs
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 .close
