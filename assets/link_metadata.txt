@@ -80,3 +80,43 @@ casual_color_presets:
     Pants: 000000
     Shoes: 000000
     Shoe Soles: 000000
+  Smash Dark Link:
+    Hair: D8D9DB
+    Skin: 736B69
+    Mouth: 736B69
+    Eyes: FF0000
+    Sclera: 000000
+    Shirt: 333333
+    Shirt Emblem: D8D9DB
+    Pants: 898E91
+    Shoes: 464646
+    Shoe Soles: 464646
+    Belt: A4A09D
+    Belt Buckle: BABB93
+  Green Link:
+    Hair: 9CF543
+    Shirt: 5AB24A
+    Pants: ADE342
+    Armbands: 638F5A
+  Red Link:
+    Hair: FF532E
+    Shirt: E52B36
+    Pants: E38981
+    Armbands: 8F5D5A
+  Blue Link:
+    Hair: 3F64DB
+    Shirt: 698DB9
+    Pants: AAD3E0
+    Armbands: 5B8391
+  Purple Link:
+    Hair: D649FD
+    Shirt: 9A4F9F
+    Pants: CC8FB1
+    Armbands: 8B5A8F
+  Shadow Link:
+    Hair: A3338D
+    Shirt: 444444
+    Shirt Emblem: FFFFFF
+    Pants: FFFFFF
+    Shoes: 392437
+    Shoe Soles: 392437
