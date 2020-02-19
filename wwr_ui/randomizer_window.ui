@@ -775,14 +775,14 @@
               <item row="1" column="0">
                <layout class="QHBoxLayout" name="horizontalLayout_12">
                 <item>
-                 <widget class="QLabel" name="label_for_custom_colors_preset">
+                 <widget class="QLabel" name="label_for_custom_color_preset">
                   <property name="text">
-                   <string>Colors Preset</string>
+                   <string>Color Preset</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="custom_colors_preset"/>
+                 <widget class="QComboBox" name="custom_color_preset"/>
                 </item>
                </layout>
               </item>

@@ -84,7 +84,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.player_in_casual_clothes.clicked.connect(self.in_casual_clothes_changed)
     self.ui.randomize_all_custom_colors_together.clicked.connect(self.randomize_all_custom_colors_together)
     self.ui.randomize_all_custom_colors_separately.clicked.connect(self.randomize_all_custom_colors_separately)
-    self.ui.custom_colors_preset.currentIndexChanged.connect(self.color_preset_changed)
+    self.ui.custom_color_preset.currentIndexChanged.connect(self.color_preset_changed)
     
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
@@ -402,8 +402,8 @@ class WWRandomizerWindow(QMainWindow):
         option_name = "custom_color_" + color_name
         self.set_color(option_name, color, update_preview=False, save_color_as_custom=False)
     
-    if "custom_colors_preset" in self.settings:
-      self.set_option_value("custom_colors_preset", self.settings["custom_colors_preset"])
+    if "custom_color_preset" in self.settings:
+      self.set_option_value("custom_color_preset", self.settings["custom_color_preset"])
       self.reload_colors()
     
     self.update_model_preview()
@@ -684,24 +684,24 @@ class WWRandomizerWindow(QMainWindow):
       self.ui.custom_player_model.setEnabled(False)
   
   def initialize_color_presets_list(self):
-    self.ui.custom_colors_preset.addItem("Default")
-    self.ui.custom_colors_preset.addItem("Custom")
+    self.ui.custom_color_preset.addItem("Default")
+    self.ui.custom_color_preset.addItem("Custom")
     
     self.update_color_presets_list(reload_colors=False)
   
   def update_color_presets_list(self, reload_colors=True):
     # Temporarily prevent the preset changing from regenerating the preview image since we'll be changing it several times in this function.
-    self.ui.custom_colors_preset.blockSignals(True)
+    self.ui.custom_color_preset.blockSignals(True)
     
     # Keep track of what the value of the presets dropdown was.
-    prev_selected_preset_type = self.get_option_value("custom_colors_preset")
+    prev_selected_preset_type = self.get_option_value("custom_color_preset")
     
     # Remove everything except "Default" and "Custom".
     indexes_to_remove = []
-    for i in reversed(range(self.ui.custom_colors_preset.count())):
-      if self.ui.custom_colors_preset.itemText(i) in ["Default", "Custom"]:
+    for i in reversed(range(self.ui.custom_color_preset.count())):
+      if self.ui.custom_color_preset.itemText(i) in ["Default", "Custom"]:
         continue
-      self.ui.custom_colors_preset.removeItem(i)
+      self.ui.custom_color_preset.removeItem(i)
     
     # Add the presets specific to this model.
     presets = self.get_color_presets_for_current_model()
@@ -709,22 +709,22 @@ class WWRandomizerWindow(QMainWindow):
       if preset_name in ["Default", "Custom"]:
         QMessageBox.warning(self, "Invalid color preset name", "The selected player model has a preset named \"%s\", which is a reserved name. This preset will be ignored." % preset_name)
         continue
-      self.ui.custom_colors_preset.addItem(preset_name)
+      self.ui.custom_color_preset.addItem(preset_name)
     
     # If the new model has a preset with the same name as the selected preset for the previous model, set the dropdown back to that value.
     # This is so switching between hero/casual doesn't reset the preset you have selected, in cases where the same preset is specified for both hero and casual.
     # (This has the side effect of preserving the preset even across entirely different models if they happen to have presets of the same name.)
     if prev_selected_preset_type in presets:
-      self.set_option_value("custom_colors_preset", prev_selected_preset_type)
+      self.set_option_value("custom_color_preset", prev_selected_preset_type)
     else:
       # Otherwise switch to Default, since the Casual colors get cleared on model switch anyway.
-      self.set_option_value("custom_colors_preset", "Default")
+      self.set_option_value("custom_color_preset", "Default")
     
     if reload_colors:
       # Because we blocked signals, we manually reload the color buttons, without generating the preview.
       self.reload_colors(update_preview=False)
     
-    self.ui.custom_colors_preset.blockSignals(False)
+    self.ui.custom_color_preset.blockSignals(False)
   
   def reload_custom_model(self, update_preview=True):
     self.disable_invalid_cosmetic_options()
@@ -854,7 +854,7 @@ class WWRandomizerWindow(QMainWindow):
         self.ui.disable_custom_player_voice.hide()
   
   def reload_colors(self, update_preview=True):
-    preset_name = self.get_option_value("custom_colors_preset")
+    preset_name = self.get_option_value("custom_color_preset")
     for color_name in self.get_default_custom_colors_for_current_model():
       color = self.get_color(color_name)
       self.set_color("custom_color_" + color_name, color, update_preview=False, save_color_as_custom=False)
@@ -963,7 +963,7 @@ class WWRandomizerWindow(QMainWindow):
         self.ui.player_in_casual_clothes.setEnabled(True)
   
   def get_color(self, color_name):
-    preset_type = self.get_option_value("custom_colors_preset")
+    preset_type = self.get_option_value("custom_color_preset")
     default_colors = self.get_default_custom_colors_for_current_model()
     if preset_type == "Default":
       return default_colors[color_name]
@@ -1030,7 +1030,7 @@ class WWRandomizerWindow(QMainWindow):
       # First, save the color as a custom color.
       self.custom_colors[color_name] = color
       
-      if self.get_option_value("custom_colors_preset") != "Custom" and move_other_non_custom_colors_to_custom:
+      if self.get_option_value("custom_color_preset") != "Custom" and move_other_non_custom_colors_to_custom:
         # If the presets dropdown isn't already on Custom, we'll switch to to Custom automatically.
         
         # However, in order to prevent all the other colors besides this one from abruptly switching when we do that, we need to copy all of the currently visible default or preset colors (except this currently changing color) over to custom colors.
@@ -1042,7 +1042,7 @@ class WWRandomizerWindow(QMainWindow):
           self.set_color(other_option_name, color, update_preview=False, save_color_as_custom=True, move_other_non_custom_colors_to_custom=False)
         
         # Then we actually switch the presets dropdown to Custom.
-        self.set_option_value("custom_colors_preset", "Custom")
+        self.set_option_value("custom_color_preset", "Custom")
     
     if update_preview:
       self.update_model_preview()

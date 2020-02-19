@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Tue Feb 18 00:03:57 2020
+# Created: Tue Feb 18 22:41:08 2020
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -348,12 +348,12 @@ class Ui_MainWindow(object):
         self.gridLayout_5.addLayout(self.horizontalLayout_3, 0, 0, 1, 1)
         self.horizontalLayout_12 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_12.setObjectName("horizontalLayout_12")
-        self.label_for_custom_colors_preset = QtWidgets.QLabel(self.tab_2)
-        self.label_for_custom_colors_preset.setObjectName("label_for_custom_colors_preset")
-        self.horizontalLayout_12.addWidget(self.label_for_custom_colors_preset)
-        self.custom_colors_preset = QtWidgets.QComboBox(self.tab_2)
-        self.custom_colors_preset.setObjectName("custom_colors_preset")
-        self.horizontalLayout_12.addWidget(self.custom_colors_preset)
+        self.label_for_custom_color_preset = QtWidgets.QLabel(self.tab_2)
+        self.label_for_custom_color_preset.setObjectName("label_for_custom_color_preset")
+        self.horizontalLayout_12.addWidget(self.label_for_custom_color_preset)
+        self.custom_color_preset = QtWidgets.QComboBox(self.tab_2)
+        self.custom_color_preset.setObjectName("custom_color_preset")
+        self.horizontalLayout_12.addWidget(self.custom_color_preset)
         self.gridLayout_5.addLayout(self.horizontalLayout_12, 1, 0, 1, 1)
         self.horizontalLayout_11 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_11.setObjectName("horizontalLayout_11")
@@ -523,7 +523,7 @@ class Ui_MainWindow(object):
         self.current_health.setText(QtWidgets.QApplication.translate("MainWindow", "Current Starting Health: 3 hearts", None, -1))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QtWidgets.QApplication.translate("MainWindow", "Starting Items", None, -1))
         self.label_for_custom_player_model.setText(QtWidgets.QApplication.translate("MainWindow", "Player Model", None, -1))
-        self.label_for_custom_colors_preset.setText(QtWidgets.QApplication.translate("MainWindow", "Colors Preset", None, -1))
+        self.label_for_custom_color_preset.setText(QtWidgets.QApplication.translate("MainWindow", "Color Preset", None, -1))
         self.randomize_all_custom_colors_together.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Colors Orderly", None, -1))
         self.randomize_all_custom_colors_separately.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Colors Chaotically", None, -1))
         self.player_in_casual_clothes.setText(QtWidgets.QApplication.translate("MainWindow", "Casual Clothes", None, -1))
