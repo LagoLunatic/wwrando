@@ -3077,31 +3077,34 @@ blr
 
 
 
-.global change_game_state_check_enter_debug_map_select
-change_game_state_check_enter_debug_map_select:
-stwu sp, -0x10 (sp)
-mflr r0
-stw r0, 0x14 (sp)
+.global check_open_map_select
+check_open_map_select:
 
-lis r7, mPadButton__10JUTGamePad@ha ; Bitfield of currently pressed buttons
-addi r7, r7, mPadButton__10JUTGamePad@l
-lwz r0, 0 (r7)
-rlwinm. r0, r0, 0, 20, 20 ; AND with 0x800 to check if the Y button is held down
+lis r3, mPadButton__10JUTGamePad@ha ; Bitfield of currently pressed buttons
+addi r3, r3, mPadButton__10JUTGamePad@l
+lwz r0, 0 (r3)
+lis r3, map_select_button_combo_bitmask@ha ; Custom button combo
+addi r3, r3, map_select_button_combo_bitmask@l
+lwz r3, 0 (r3)
+and r0, r0, r3 ; AND to get which buttons in the combo are currently being pressed
+cmpw r0, r3 ; Check to make sure all of the buttons in the combo are pressed
+bne check_open_map_select_do_not_open
 
-; If Y is not down, just change to whatever game state the original code was going to (in r4)
-beq change_game_state_check_enter_debug_map_select_change_game_state
-
-; If Y is down, change to game state 6 (map select) instead.
-li r4, 6
-
-change_game_state_check_enter_debug_map_select_change_game_state:
-; Change the game state (replacing the call we overwrote to call this custom function).
+; Change the game state to map select.
+mr r3, r27
+li r4, 6 ; Map select game state
+li r5, 0 ; Fade to white
+li r6, 5
 bl fopScnM_ChangeReq__FP11scene_classssUs
+b 0x80234DE4 ; Return to normal code (skipping the part where Link would trigger a stage transition, since that would crash if it happened at the same time as map select opening)
 
-lwz r0, 0x14 (sp)
-mtlr r0
-addi sp, sp, 0x10
-blr
+check_open_map_select_do_not_open:
+lbz r0, 0x514C (r31) ; Replace a line of code we overwrote to jump here
+b 0x80234C10 ; Return to normal code
+
+.global map_select_button_combo_bitmask
+map_select_button_combo_bitmask:
+.int 0x00000814 ; Y, Z, and D-pad down
 
 
 
