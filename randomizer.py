@@ -354,6 +354,8 @@ class Randomizer:
         tweaks.apply_patch(self, "disable_tingle_bombs_on_tingle_chests")
       if self.options.get("remove_title_and_ending_videos"):
         tweaks.remove_title_and_ending_videos(self)
+      if self.options.get("remove_music"):
+        tweaks.apply_patch(self, "remove_music")
       
       if self.test_room_args is not None:
         tweaks.test_room(self)

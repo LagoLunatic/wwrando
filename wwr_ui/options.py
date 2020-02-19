@@ -196,6 +196,10 @@ OPTIONS = OrderedDict([
     "starting_hcs",
     "Amount of extra heart containers that you start with."
   ),
+  (
+    "remove_music",
+    "Mutes all ingame music."
+  ),
 ])
 
 NON_PERMALINK_OPTIONS = [
