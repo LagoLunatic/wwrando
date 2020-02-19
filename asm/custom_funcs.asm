@@ -2924,6 +2924,36 @@ blr
 
 
 
+.global magtail_respawn_when_head_light_arrowed
+magtail_respawn_when_head_light_arrowed:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+bl GetTgHitObj__12dCcD_GObjInfFv ; Replace the function call we overwrote to call this custom function
+
+; Then we need to reproduce a few lines of code from the original
+stw r3, 0x30 (r1)
+addi r0, r30, 0x1874
+stw r0, 0x44 (r1)
+lwz r0, 0x10 (r3) ; Read the bitfield of damage types done by the actor that just damaged this Magtail
+rlwinm. r0, r0, 0, 11, 11 ; Check the Light Arrows damage type
+
+; Then if the Light Arrows bit was set, we store true to magtail_entity+0x1CBC to signify that the Magtail should respawn.
+; (We can't use the original branch on the Light Arrows bit because it's inside the REL.)
+beq magtail_respawn_when_head_light_arrowed_end
+li r0, 1
+stb r0, 0x1CBC (r30)
+
+magtail_respawn_when_head_light_arrowed_end:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 .global set_next_stage_and_stop_sub_bgm
 set_next_stage_and_stop_sub_bgm:
 stwu sp, -0x10 (sp)

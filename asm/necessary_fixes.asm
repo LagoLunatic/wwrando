@@ -1301,6 +1301,22 @@
 
 
 
+; Fix a vanilla bug where respawning Magtails would not respawn if you shoot their head with Light Arrows.
+.open "files/rels/d_a_mt.rel" ; Magtail
+.org 0xD2B0 ; Relocation for line 0x6000
+  .int magtail_respawn_when_head_light_arrowed
+.org 0x6004
+  ; Then remove some lines of code after the function call we had to move into the custom function.
+  nop
+  nop
+  nop
+  nop
+  nop
+.close
+
+
+
+
 ; Fix a bug where losing to the Outset whirlpool wouldn't stop the intense music from playing, and would result in both that music and Outset's normal music playing at the same time afterwards.
 .open "files/rels/d_a_ship.rel"
 .org 0x1121C ; Relocatiaon for line 7CB8 (in daShip_c::procWhirlDown)

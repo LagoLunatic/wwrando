@@ -65,6 +65,7 @@ calc__14mDoExt_McaMorfFv = 0x800132e8;
 fopAcM_SearchByID__FUiPP10fopAc_ac_c = 0x800241c0;
 dComIfGp_setNextStage__FPCcsScScfUliSc = 0x800537c8;
 subBgmStop__11JAIZelBasicFv = 0x802a4cdc;
+GetTgHitObj__12dCcD_GObjInfFv = 0x800aba48;
 
 fopMsgM_int_to_char__FPcib = 0x800350b8;
 strcmp = 0x8032db44;
