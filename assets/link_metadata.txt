@@ -35,6 +35,78 @@ hero_color_presets:
     Boots: 000000
     Belt: 000000
     Belt Buckle: 000000
+  Smash Dark Link:
+    Hair: D8D9DB
+    Skin: 736B69
+    Mouth: 736B69
+    Eyes: FF0000
+    Sclera: 000000
+    Shirt: 333333
+    Undershirt: 62656A
+    Pants: 898E91
+    Boots: 464646
+    Belt: A4A09D
+    Belt Buckle: BABB93
+  Green Link:
+    Hair: 9CF543
+    Skin: F7DB9C
+    Mouth: F74963
+    Eyes: 10514A
+    Sclera: FFFFFF
+    Shirt: 5AB24A
+    Undershirt: ADE342
+    Pants: FFFFFF
+    Boots: 944908
+    Belt: 633008
+    Belt Buckle: FFEF10
+  Red Link:
+    Hair: FF532E
+    Skin: F7DB9C
+    Mouth: F74963
+    Eyes: 10514A
+    Sclera: FFFFFF
+    Shirt: E52B36
+    Undershirt: E38981
+    Pants: FFFFFF
+    Boots: 944908
+    Belt: 633008
+    Belt Buckle: FFEF10
+  Blue Link:
+    Hair: 3F64DB
+    Skin: F7DB9C
+    Mouth: F74963
+    Eyes: 10514A
+    Sclera: FFFFFF
+    Shirt: 698DB9
+    Undershirt: AAD3E0
+    Pants: FFFFFF
+    Boots: 944908
+    Belt: 633008
+    Belt Buckle: FFEF10
+  Purple Link:
+    Hair: D649FD
+    Skin: F7DB9C
+    Mouth: F74963
+    Eyes: 10514A
+    Sclera: FFFFFF
+    Shirt: 9A4F9F
+    Undershirt: CC8FB1
+    Pants: FFFFFF
+    Boots: 944908
+    Belt: 633008
+    Belt Buckle: FFEF10
+  Shadow Link:
+    Hair: A3338D
+    Skin: F7DB9C
+    Mouth: F74963
+    Eyes: 10514A
+    Sclera: FFFFFF
+    Shirt: 444444
+    Undershirt: FFFFFF
+    Pants: FFFFFF
+    Boots: 392437
+    Belt: 791009
+    Belt Buckle: FFEF10
 casual_color_presets:
   Dark Link:
     Hair: 000000
