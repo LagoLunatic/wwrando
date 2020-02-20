@@ -170,6 +170,9 @@ class GCM:
             offset_in_file += size_to_read
   
   def export_disc_to_iso_with_changed_files(self, output_file_path):
+    if os.path.realpath(self.iso_path) == os.path.realpath(output_file_path):
+      raise Exception("Input ISO path and output ISO path are the same. Aborting.")
+    
     self.output_iso = open(output_file_path, "wb")
     try:
       self.export_system_data_to_iso()
