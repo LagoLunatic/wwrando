@@ -205,7 +205,7 @@
   RARCs:
     -
       Name: Daiocta
-      Excluded files: []
+      Excluded files: [damage_eye_a1.brk, damage_eye_b1.brk]
 
 # Sort-of enemies
 -
