@@ -98,6 +98,11 @@ class RARC:
     
     return file_entry
   
+  def delete_file(self, file_entry):
+    file_entry.parent_node.files.remove(file_entry)
+    
+    self.regenerate_all_file_entries_list()
+  
   def regenerate_all_file_entries_list(self):
     # Regenerate the list of all file entries so they're all together for the nodes, and update the first_file_index of the nodes.
     self.file_entries = []
@@ -182,14 +187,16 @@ class RARC:
     self.regenerate_all_file_entries_list()
     
     # Assign the entry offsets for each file entry, but don't actually save them yet because we need to write their data and names first.
-    self.file_entries_list_offset = pad_offset_to_nearest(next_node_offset, 0x20)
+    align_data_to_nearest(self.data, 0x20)
+    self.file_entries_list_offset = self.data.tell()
     next_file_entry_offset = self.file_entries_list_offset
     for file_entry in self.file_entries:
       file_entry.entry_offset = next_file_entry_offset
       next_file_entry_offset += FileEntry.ENTRY_SIZE
     
     # Write the strings for the node names and file entry names.
-    self.string_list_offset = pad_offset_to_nearest(next_file_entry_offset, 0x20)
+    align_data_to_nearest(self.data, 0x20)
+    self.string_list_offset = self.data.tell()
     offsets_for_already_written_strings = {}
     # The dots for the current and parent directories are always written first.
     write_str_with_null_byte(self.data, self.string_list_offset+0, ".")
@@ -213,7 +220,8 @@ class RARC:
       node.save_changes()
     
     # Write the file data, and save the file entries as well.
-    self.file_data_list_offset = pad_offset_to_nearest(self.string_list_offset + next_string_offset, 0x20)
+    align_data_to_nearest(self.data, 0x20)
+    self.file_data_list_offset = self.data.tell()
     next_file_data_offset = 0
     for file_entry in self.file_entries:
       if file_entry.is_dir:
@@ -232,7 +240,8 @@ class RARC:
       next_file_data_offset += data_size
       
       # Pad start of the next file to the next 0x20 bytes.
-      next_file_data_offset = pad_offset_to_nearest(next_file_data_offset, 0x20)
+      align_data_to_nearest(self.data, 0x20)
+      next_file_data_offset = self.data.tell() - self.file_data_list_offset
     
     # Update the header.
     write_str(self.data, 0x00, "RARC", 4)
