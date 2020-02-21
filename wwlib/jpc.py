@@ -164,9 +164,23 @@ class ParticleSection:
       
       num_texture_ids = ((self.size - 0xC) // 2)
       self.texture_ids = []
-      for texture_id_index in range(0, num_texture_ids):
+      for texture_id_index in range(num_texture_ids):
         texture_id = read_u16(self.data, 0xC + texture_id_index*2)
         self.texture_ids.append(texture_id)
+      
+      # There's an issue with reading texture IDs where it can include false positives because the texture ID list pads the end with null bytes, which can be interpreted as the texture with ID 0.
+      # So we use a heuristic to guess when the list really ends and the padding starts.
+      # Simply, we count all texture IDs up until the last nonzero ID, then stop counting zero IDs after that.
+      # However, we always include the texture ID at index 0, even if it's zero.
+      # TODO: This is a bit hacky. A proper way would involve completely implementing all JPC sections and reading all the texture ID indexes from them, and then reading only the texture IDs at those indexes. But that would be much more work, and this appears to work fine.
+      last_nonzero_texture_id_index = None
+      for texture_id_index in reversed(range(num_texture_ids)):
+        if self.texture_ids[texture_id_index] != 0:
+          last_nonzero_texture_id_index = texture_id_index
+          break
+      if last_nonzero_texture_id_index is None:
+        last_nonzero_texture_id_index = 0
+      self.texture_ids = self.texture_ids[:last_nonzero_texture_id_index+1]
       
       self.texture_filenames = [] # Leave this list empty for now, it will be populated after the texture list is read.
     elif self.magic == "BSP1":
