@@ -1,5 +1,8 @@
 
 from io import BytesIO
+import os
+import glob
+from collections import OrderedDict
 
 from fs_helpers import *
 
@@ -17,7 +20,7 @@ class JPC:
     self.particles = []
     self.particles_by_id = {}
     offset = 0x20
-    for particle_index in range(0, self.num_particles):
+    for particle_index in range(self.num_particles):
       particle = Particle(data, offset)
       self.particles.append(particle)
       
@@ -31,7 +34,7 @@ class JPC:
     
     self.textures = []
     self.textures_by_filename = {}
-    for texture_index in range(0, self.num_textures):
+    for texture_index in range(self.num_textures):
       texture = ParticleSection(data, offset)
       self.textures.append(texture)
       
@@ -48,12 +51,99 @@ class JPC:
         particle.tdb1.texture_filenames.append(texture.filename)
   
   def add_particle(self, particle):
+    if particle.particle_id in self.particles_by_id:
+      raise Exception("Cannot add a particle with the same name as an existing one: %04X" % particle.particle_id)
     self.particles.append(particle)
     self.particles_by_id[particle.particle_id] = particle
   
+  def replace_particle(self, particle):
+    if particle.particle_id not in self.particles_by_id:
+      raise Exception("Cannot replace a particle that does not already exist: %04X" % particle.particle_id)
+    existing_particle = self.particles_by_id[particle.particle_id]
+    particle_index = self.particles.index(existing_particle)
+    self.particles[particle_index] = particle
+    self.particles_by_id[particle.particle_id] = particle
+  
   def add_texture(self, texture):
+    if texture.filename in self.textures_by_filename:
+      raise Exception("Cannot add a texture with the same name as an existing one: %s" % texture.filename)
     self.textures.append(texture)
     self.textures_by_filename[texture.filename] = texture
+  
+  def replace_texture(self, texture):
+    if texture.filename not in self.textures_by_filename:
+      raise Exception("Cannot replace a texture that does not already exist: %s" % texture.filename)
+    existing_texture = self.textures_by_filename[texture.filename]
+    texture_id = self.textures.index(existing_texture)
+    self.textures[texture_id] = texture
+    self.textures_by_filename[texture.filename] = texture
+  
+  def extract_all_particles_to_disk(self, output_directory):
+    if not os.path.isdir(output_directory):
+      os.mkdir(output_directory)
+    
+    for particle in self.particles:
+      file_name = "%04X.jpa" % particle.particle_id
+      particle_path = os.path.join(output_directory, file_name)
+      with open(particle_path, "wb") as f:
+        particle.data.seek(0)
+        f.write(particle.data.read())
+        
+        for texture_id in particle.tdb1.texture_ids:
+          texture = self.textures[texture_id]
+          texture.data.seek(0)
+          f.write(texture.data.read())
+  
+  def import_particles_from_disk(self, input_directory):
+    all_jpa_file_paths = glob.glob(os.path.join(input_directory, "*.jpa"))
+    new_particles = []
+    new_textures = []
+    new_textures_for_particle_id = OrderedDict()
+    for jpa_path in all_jpa_file_paths:
+      # Read the particle itself.
+      with open(jpa_path, "rb") as f:
+        data = BytesIO(f.read())
+      particle = Particle(data, 0)
+      new_particles.append(particle)
+      new_textures_for_particle_id[particle.particle_id] = []
+      
+      # Read the textures.
+      offset = data_len(particle.data)
+      while True:
+        if offset == data_len(data):
+          break
+        texture = ParticleSection(data, offset)
+        new_textures.append(texture)
+        new_textures_for_particle_id[particle.particle_id].append(texture)
+        offset += texture.size
+    
+    num_particles_added = 0
+    num_particles_overwritten = 0
+    num_textures_added = 0
+    num_textures_overwritten = 0
+    
+    for particle in new_particles:
+      if particle.particle_id in self.particles_by_id:
+        self.replace_particle(particle)
+        num_particles_overwritten += 1
+      else:
+        num_particles_added += 1
+        self.add_particle(particle)
+      
+      # Populate the particle's TDB1 texture filename list.
+      particle.tdb1.texture_filenames = []
+      for texture in new_textures_for_particle_id[particle.particle_id]:
+        particle.tdb1.texture_filenames.append(texture.filename)
+    
+    for texture in new_textures:
+      if texture.filename in self.textures_by_filename:
+        self.replace_texture(texture)
+        num_textures_overwritten += 1
+      else:
+        self.add_texture(texture)
+        num_textures_added += 1
+    
+    return (num_particles_added, num_particles_overwritten, num_textures_added, num_textures_overwritten)
   
   def save_changes(self):
     self.num_particles = len(self.particles)
