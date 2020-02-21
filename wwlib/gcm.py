@@ -213,6 +213,15 @@ class GCM:
     self.files_by_path[file_path] = new_file
     self.files_by_path_lowercase[file_path.lower()] = new_file
   
+  def delete_file(self, file_entry):
+    parent_dir = file_entry.parent
+    parent_dir.children.remove(file_entry)
+    
+    del self.files_by_path[file_entry.file_path]
+    del self.files_by_path_lowercase[file_entry.file_path.lower()]
+    if file_entry.file_path in self.changed_files:
+      del self.changed_files[file_entry.file_path]
+  
   def pad_output_iso_by(self, amount):
     self.output_iso.write(b"\0"*amount)
   
