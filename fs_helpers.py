@@ -163,3 +163,7 @@ def align_data_to_nearest(data, size):
   padding_needed = next_offset - current_end
   data.seek(current_end)
   data.write(b"\0"*padding_needed)
+
+def pad_offset_to_nearest(offset, size):
+  next_offset = offset + (size - offset % size) % size
+  return next_offset
