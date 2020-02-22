@@ -181,6 +181,8 @@ class RARC:
     next_node_offset = self.node_list_offset
     for node in self.nodes:
       node.node_offset = next_node_offset
+      self.data.seek(node.node_offset)
+      self.data.write(b'\0'*Node.ENTRY_SIZE)
       next_node_offset += Node.ENTRY_SIZE
     
     # Reorders the self.file_entries list and sets the first_file_index field for each node.
@@ -192,6 +194,8 @@ class RARC:
     next_file_entry_offset = self.file_entries_list_offset
     for file_entry in self.file_entries:
       file_entry.entry_offset = next_file_entry_offset
+      self.data.seek(file_entry.entry_offset)
+      self.data.write(b'\0'*FileEntry.ENTRY_SIZE)
       next_file_entry_offset += FileEntry.ENTRY_SIZE
     
     # Write the strings for the node names and file entry names.
