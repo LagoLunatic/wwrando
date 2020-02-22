@@ -384,6 +384,9 @@ class WWRandomizerWindow(QMainWindow):
     
     for option_name in OPTIONS:
       if option_name in self.settings:
+        if option_name == "custom_color_preset":
+          # Color presets not loaded yet, handle this later
+          continue
         self.set_option_value(option_name, self.settings[option_name])
     
     self.reload_custom_model(update_preview=False)
