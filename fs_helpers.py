@@ -10,10 +10,13 @@ def data_len(data):
   return data_length
 
 def make_copy_data(data):
-  data.seek(0)
-  copy_data = data.read()
+  copy_data = read_all_bytes(data)
   return BytesIO(copy_data)
 
+
+def read_all_bytes(data):
+  data.seek(0)
+  return data.read()
 
 def read_bytes(data, offset, length):
   data.seek(offset)
