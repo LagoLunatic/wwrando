@@ -128,6 +128,9 @@ def swizzle_6_bit_to_8_bit(v):
   # 00123456 -> 12345612
   return (v << 2) | (v >> 4)
 
+def convert_rgb_to_greyscale(r, g, b):
+  return round(((r * 30) + (g * 59) + (b * 11)) / 100)
+
 def convert_rgb565_to_color(rgb565):
   r = ((rgb565 >> 11) & 0x1F)
   g = ((rgb565 >> 5) & 0x3F)
@@ -206,9 +209,9 @@ def convert_ia4_to_color(ia4):
 
 def convert_color_to_ia4(color):
   r, g, b, a = get_rgba(color)
-  assert r == g == b
+  l = convert_rgb_to_greyscale(r, g, b)
   ia4 = 0x00
-  ia4 |= ((r >> 4) & 0xF)
+  ia4 |= ((l >> 4) & 0xF)
   ia4 |= (a & 0xF0)
   return ia4
 
@@ -223,9 +226,9 @@ def convert_ia8_to_color(ia8):
 
 def convert_color_to_ia8(color):
   r, g, b, a = get_rgba(color)
-  assert r == g == b
+  l = convert_rgb_to_greyscale(r, g, b)
   ia8 = 0x0000
-  ia8 |= (r & 0xFF)
+  ia8 |= (l & 0xFF)
   ia8 |= ((a & 0xFF) << 8)
   return ia8
 
@@ -236,7 +239,7 @@ def convert_i4_to_color(i4):
 
 def convert_color_to_i4(color):
   r, g, b, a = get_rgba(color)
-  assert r == g == b
+  #l = convert_rgb_to_greyscale(r, g, b)
   i4 = ((a >> 4) & 0xF)
   return i4
 
