@@ -199,10 +199,18 @@ def convert_ia4_to_color(ia4):
   low_nibble = ia4 & 0xF
   high_nibble = (ia4 >> 4) & 0xF
   
-  r = g = b = low_nibble*0x11
-  a = high_nibble*0x11
+  r = g = b = swizzle_4_bit_to_8_bit(low_nibble)
+  a = swizzle_4_bit_to_8_bit(high_nibble)
   
   return (r, g, b, a)
+
+def convert_color_to_ia4(color):
+  r, g, b, a = get_rgba(color)
+  assert r == g == b
+  ia4 = 0x00
+  ia4 |= ((r >> 4) & 0xF)
+  ia4 |= (a & 0xF0)
+  return ia4
 
 def convert_ia8_to_color(ia8):
   low_byte = ia8 & 0xFF
@@ -222,7 +230,7 @@ def convert_color_to_ia8(color):
   return ia8
 
 def convert_i4_to_color(i4):
-  r = g = b = a = i4*0x11
+  r = g = b = a = swizzle_4_bit_to_8_bit(i4)
   
   return (r, g, b, a)
 
@@ -761,7 +769,7 @@ def encode_image_to_block(image_format, pixels, colors_to_color_indexes, block_x
   elif image_format == ImageFormat.I8:
     raise Exception("Unimplemented image format: %s" % ImageFormat(image_format).name)
   elif image_format == ImageFormat.IA4:
-    raise Exception("Unimplemented image format: %s" % ImageFormat(image_format).name)
+    return encode_image_to_ia4_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == ImageFormat.IA8:
     raise Exception("Unimplemented image format: %s" % ImageFormat(image_format).name)
   elif image_format == ImageFormat.RGB565:
@@ -810,7 +818,27 @@ def encode_image_to_i4_block(pixels, colors_to_color_indexes, block_x, block_y, 
   
   new_data.seek(0)
   return new_data.read()
+
+def encode_image_to_ia4_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
+  new_data = BytesIO()
+  offset = 0
   
+  for y in range(block_y, block_y+block_height):
+    for x in range(block_x, block_x+block_width):
+      if x >= image_width or y >= image_height:
+        # This block bleeds past the edge of the image
+        ia4 = 0xFF
+      else:
+        color = pixels[x,y]
+        ia4 = convert_color_to_ia4(color)
+        assert 0 <= ia4 <= 0xFF
+      
+      write_u8(new_data, offset, ia4)
+      offset += 1
+  
+  new_data.seek(0)
+  return new_data.read()
+
 def encode_image_to_rgb563_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
   new_data = BytesIO()
   offset = 0
