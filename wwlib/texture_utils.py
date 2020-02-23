@@ -994,10 +994,36 @@ def color_exchange(image, base_color, replacement_color, mask_path=None, validat
     else:
       mask_bytes = None
     
-    new_image_bytes = pyfasttextureutils.color_exchange(
-      image_bytes, base_color, replacement_color,
-      mask_bytes, validate_mask_colors, ignore_bright
-    )
+    try:
+      new_image_bytes = pyfasttextureutils.color_exchange(
+        image_bytes, base_color, replacement_color,
+        mask_bytes, validate_mask_colors, ignore_bright
+      )
+    except Exception as e:
+      if str(e) == "Invalid color color in mask, only red (FF0000) and white (FFFFFF) should be present":
+        # The exception given by PyFastTextureUtils for invalid colors is too vague. We list out all invalid colors when this happens with Python code instead.
+        invalid_colors = []
+        mask_pixels = mask_image.load()
+        for x in range(image.width):
+          for y in range(image.height):
+            if mask_pixels[x, y] == (255, 0, 0, 255):
+              # Red
+              continue
+            elif mask_pixels[x, y] == (255, 255, 255, 255):
+              # White
+              continue
+            elif mask_pixels[x, y][3] == 0:
+              # Completely transparent
+              continue
+            else:
+              if mask_pixels[x, y] not in invalid_colors:
+                invalid_colors.append(mask_pixels[x, y])
+        invalid_colors_str = ", ".join("%02X%02X%02X%02X" % color for color in invalid_colors)
+        new_err_message = "Mask %s has invalid colors in it. Only pure red (FF0000FF) and pure white (FFFFFFFF) are allowed.\n\nAll invalid colors in the mask are: %s" % (mask_path, invalid_colors_str)
+        e.args = (new_err_message,)
+        raise
+      else:
+        raise
     
     new_image = Image.frombytes(image.mode, (image.width, image.height), new_image_bytes)
     return new_image
