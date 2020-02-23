@@ -239,8 +239,8 @@ def convert_i4_to_color(i4):
 
 def convert_color_to_i4(color):
   r, g, b, a = get_rgba(color)
-  #l = convert_rgb_to_greyscale(r, g, b)
-  i4 = ((a >> 4) & 0xF)
+  l = convert_rgb_to_greyscale(r, g, b)
+  i4 = ((l >> 4) & 0xF)
   return i4
 
 def convert_i8_to_color(i8):
