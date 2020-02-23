@@ -208,4 +208,5 @@ NON_PERMALINK_OPTIONS = [
   "player_in_casual_clothes",
   "disable_custom_player_voice",
   "custom_color_preset",
+  "remove_music",
 ]
