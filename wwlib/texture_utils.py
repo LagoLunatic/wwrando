@@ -97,9 +97,9 @@ GREYSCALE_PALETTE_FORMATS = [
 ]
 
 MAX_COLORS_FOR_IMAGE_FORMAT = {
-  ImageFormat.C4   : 1<<4, # C4
-  ImageFormat.C8   : 1<<8, # C8
-  ImageFormat.C14X2: 1<<14, # C14X2
+  ImageFormat.C4   : 1<<4,
+  ImageFormat.C8   : 1<<8,
+  ImageFormat.C14X2: 1<<14,
 }
 
 
@@ -800,7 +800,7 @@ def encode_image_to_block(image_format, pixels, colors_to_color_indexes, block_x
   elif image_format == ImageFormat.C8:
     return encode_image_to_c8_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == ImageFormat.C14X2:
-    raise Exception("Unimplemented image format: %s" % ImageFormat(image_format).name)
+    return encode_image_to_c14x2_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == ImageFormat.CMPR:
     return encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   else:
@@ -985,6 +985,7 @@ def encode_image_to_c4_block(pixels, colors_to_color_indexes, block_x, block_y, 
 def encode_image_to_c8_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
   new_data = BytesIO()
   offset = 0
+  
   for y in range(block_y, block_y+block_height):
     for x in range(block_x, block_x+block_width):
       if x >= image_width or y >= image_height:
@@ -993,8 +994,28 @@ def encode_image_to_c8_block(pixels, colors_to_color_indexes, block_x, block_y, 
       else:
         color = pixels[x,y]
         color_index = colors_to_color_indexes[color]
+      
       write_u8(new_data, offset, color_index)
       offset += 1
+  
+  new_data.seek(0)
+  return new_data.read()
+
+def encode_image_to_c14x2_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
+  new_data = BytesIO()
+  offset = 0
+  
+  for y in range(block_y, block_y+block_height):
+    for x in range(block_x, block_x+block_width):
+      if x >= image_width or y >= image_height:
+        # This block bleeds past the edge of the image
+        color_index = 0x3FFF
+      else:
+        color = pixels[x,y]
+        color_index = colors_to_color_indexes[color]
+      
+      write_u16(new_data, offset, color_index)
+      offset += 2
   
   new_data.seek(0)
   return new_data.read()
