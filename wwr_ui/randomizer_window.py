@@ -1236,7 +1236,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.custom_model_preview_label.show()
     
     data = preview_image.tobytes('raw', 'BGRA')
-    qimage = QImage(data, preview_image.size[0], preview_image.size[1], QImage.Format_ARGB32)
+    qimage = QImage(data, preview_image.width, preview_image.height, QImage.Format_ARGB32)
     scaled_pixmap = QPixmap.fromImage(qimage).scaled(225, 350, Qt.KeepAspectRatio, Qt.SmoothTransformation)
     self.ui.custom_model_preview_label.setPixmap(scaled_pixmap)
   
