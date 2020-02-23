@@ -149,10 +149,10 @@ class BTI:
     self.num_colors = len(encoded_colors)
 
 class BTIFile(BTI): # For standalone .bti files (as opposed to textures embedded inside J3D models/animations)
-  def __init__(self, file_entry):
-    self.file_entry = file_entry
-    self.file_entry.decompress_data_if_necessary()
-    super(BTIFile, self).__init__(self.file_entry.data)
+  def __init__(self, data):
+    if try_read_str(data, 0, 4) == "Yaz0":
+      data = Yaz0.decompress(data)
+    super(BTIFile, self).__init__(data)
   
   def save_changes(self):
     # Cut off the image and palette data first since we're replacing this data entirely.
@@ -171,3 +171,9 @@ class BTIFile(BTI): # For standalone .bti files (as opposed to textures embedded
       self.palette_data_offset = 0
     
     self.save_header_changes()
+
+class BTIFileEntry(BTIFile):
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+    self.file_entry.decompress_data_if_necessary()
+    super(BTIFileEntry, self).__init__(self.file_entry.data)

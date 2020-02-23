@@ -10,7 +10,7 @@ from wwlib.events import EventList
 from wwlib.bmg import BMG
 from wwlib.charts import ChartList
 from wwlib.j3d import BDL, BMD, BMT, BRK
-from wwlib.bti import BTIFile
+from wwlib.bti import BTIFileEntry
 
 class RARC:
   def __init__(self, data):
@@ -318,7 +318,7 @@ class RARC:
       self.instantiated_object_files[file_name] = brk
       return brk
     elif file_name.endswith(".bti"):
-      bti = BTIFile(file_entry)
+      bti = BTIFileEntry(file_entry)
       self.instantiated_object_files[file_name] = bti
       return bti
     elif file_name == "cmapdat.bin":
