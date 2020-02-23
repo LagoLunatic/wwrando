@@ -228,6 +228,14 @@ def convert_color_to_ia8(color):
   r, g, b, a = get_rgba(color)
   l = convert_rgb_to_greyscale(r, g, b)
   ia8 = 0x0000
+  ia8 |= l & 0x00FF
+  ia8 |= (a << 8) & 0xFF00
+  return ia8
+
+def convert_color_to_ia8(color):
+  r, g, b, a = get_rgba(color)
+  l = convert_rgb_to_greyscale(r, g, b)
+  ia8 = 0x0000
   ia8 |= (l & 0xFF)
   ia8 |= ((a & 0xFF) << 8)
   return ia8
@@ -247,6 +255,12 @@ def convert_i8_to_color(i8):
   r = g = b = a = i8
   
   return (r, g, b, a)
+
+def convert_color_to_i8(color):
+  r, g, b, a = get_rgba(color)
+  l = convert_rgb_to_greyscale(r, g, b)
+  i8 = l & 0xFF
+  return i8
 
 def get_interpolated_cmpr_colors(color_0_rgb565, color_1_rgb565):
   color_0 = convert_rgb565_to_color(color_0_rgb565)
@@ -770,11 +784,11 @@ def encode_image_to_block(image_format, pixels, colors_to_color_indexes, block_x
   if image_format == ImageFormat.I4:
     return encode_image_to_i4_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == ImageFormat.I8:
-    raise Exception("Unimplemented image format: %s" % ImageFormat(image_format).name)
+    return encode_image_to_i8_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == ImageFormat.IA4:
     return encode_image_to_ia4_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == ImageFormat.IA8:
-    raise Exception("Unimplemented image format: %s" % ImageFormat(image_format).name)
+    return encode_image_to_ia8_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == ImageFormat.RGB565:
     return encode_image_to_rgb563_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height)
   elif image_format == ImageFormat.RGB5A3:
@@ -822,6 +836,26 @@ def encode_image_to_i4_block(pixels, colors_to_color_indexes, block_x, block_y, 
   new_data.seek(0)
   return new_data.read()
 
+def encode_image_to_i8_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
+  new_data = BytesIO()
+  offset = 0
+  
+  for y in range(block_y, block_y+block_height):
+    for x in range(block_x, block_x+block_width):
+      if x >= image_width or y >= image_height:
+        # This block bleeds past the edge of the image
+        i8 = 0xFF
+      else:
+        color = pixels[x,y]
+        i8 = convert_color_to_i8(color)
+        assert 0 <= i8 <= 0xFF
+      
+      write_u8(new_data, offset, i8)
+      offset += 1
+  
+  new_data.seek(0)
+  return new_data.read()
+
 def encode_image_to_ia4_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
   new_data = BytesIO()
   offset = 0
@@ -838,6 +872,26 @@ def encode_image_to_ia4_block(pixels, colors_to_color_indexes, block_x, block_y,
       
       write_u8(new_data, offset, ia4)
       offset += 1
+  
+  new_data.seek(0)
+  return new_data.read()
+
+def encode_image_to_ia8_block(pixels, colors_to_color_indexes, block_x, block_y, block_width, block_height, image_width, image_height):
+  new_data = BytesIO()
+  offset = 0
+  
+  for y in range(block_y, block_y+block_height):
+    for x in range(block_x, block_x+block_width):
+      if x >= image_width or y >= image_height:
+        # This block bleeds past the edge of the image
+        ia8 = 0xFF
+      else:
+        color = pixels[x,y]
+        ia8 = convert_color_to_ia8(color)
+        assert 0 <= ia8 <= 0xFFFF
+      
+      write_u16(new_data, offset, ia8)
+      offset += 2
   
   new_data.seek(0)
   return new_data.read()
