@@ -128,7 +128,7 @@ class BTI:
     return colors
   
   def replace_image_from_path(self, new_image_file_path):
-    self.image_data, self.palette_data, encoded_colors = encode_image_from_path(
+    self.image_data, self.palette_data, encoded_colors, self.width, self.height = encode_image_from_path(
       new_image_file_path, self.image_format, self.palette_format,
       mipmap_count=self.mipmap_count
     )

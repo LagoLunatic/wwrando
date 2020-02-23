@@ -670,7 +670,10 @@ def update_game_name_icon_and_banners(self):
   new_image_file_path = os.path.join(ASSETS_PATH, "banner.png")
   image_format = texture_utils.ImageFormat.RGB5A3
   palette_format = texture_utils.PaletteFormat.RGB5A3
-  image_data, _, _ = texture_utils.encode_image_from_path(new_image_file_path, image_format, palette_format)
+  image_data, _, _, image_width, image_height = texture_utils.encode_image_from_path(new_image_file_path, image_format, palette_format)
+  assert image_width == 96
+  assert image_height == 32
+  assert data_len(image_data) == 0x1800
   image_data.seek(0)
   write_bytes(banner_data, 0x20, image_data.read())
   

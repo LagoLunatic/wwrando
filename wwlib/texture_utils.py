@@ -689,7 +689,9 @@ def decode_cmpr_block(image_format, image_data, offset, block_data_size, colors)
 
 def encode_image_from_path(new_image_file_path, image_format, palette_format, mipmap_count=1):
   image = Image.open(new_image_file_path)
-  return encode_image(image, image_format, palette_format, mipmap_count=mipmap_count)
+  image_width, image_height = image.size
+  new_image_data, new_palette_data, encoded_colors = encode_image(image, image_format, palette_format, mipmap_count=mipmap_count)
+  return (new_image_data, new_palette_data, encoded_colors, image_width, image_height)
 
 def encode_image(image, image_format, palette_format, mipmap_count=1):
   image = image.convert("RGBA")
