@@ -104,7 +104,6 @@
 803feb34 get_max_health_for_file_select_screen
 803feb58 check_player_in_casual_clothes
 803feb94 check_open_map_select
-803febd8 map_select_button_combo_bitmask
 8022d034 test_room_stage_name
 8022d03c test_room_starting_items_list
 800531e3 test_room_spawn_id

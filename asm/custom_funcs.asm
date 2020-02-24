@@ -3077,15 +3077,15 @@ blr
 
 
 
+; Checks if the player is holding down a certain button combination and opens map select if so.
+; (Note: This function is coded specifically to avoid use of relative branches so that it can still function when converted to be a Gecko cheat code. This is why bctrl is used in place of bl and b.)
 .global check_open_map_select
 check_open_map_select:
 
 lis r3, mPadButton__10JUTGamePad@ha ; Bitfield of currently pressed buttons
 addi r3, r3, mPadButton__10JUTGamePad@l
 lwz r0, 0 (r3)
-lis r3, map_select_button_combo_bitmask@ha ; Custom button combo
-addi r3, r3, map_select_button_combo_bitmask@l
-lwz r3, 0 (r3)
+li r3, 0x0814 ; Custom button combo. Y, Z, and D-pad down.
 and r0, r0, r3 ; AND to get which buttons in the combo are currently being pressed
 cmpw r0, r3 ; Check to make sure all of the buttons in the combo are pressed
 bne check_open_map_select_do_not_open
@@ -3095,16 +3095,24 @@ mr r3, r27
 li r4, 6 ; Map select game state
 li r5, 0 ; Fade to white
 li r6, 5
-bl fopScnM_ChangeReq__FP11scene_classssUs
-b 0x80234DE4 ; Return to normal code (skipping the part where Link would trigger a stage transition, since that would crash if it happened at the same time as map select opening)
+lis r7, fopScnM_ChangeReq__FP11scene_classssUs@ha
+addi r7, r7, fopScnM_ChangeReq__FP11scene_classssUs@l
+mtctr r7
+bctrl
+
+; Return to normal code (skipping the part where Link would trigger a stage transition/cutscene, since that would crash if it happened at the same time as map select opening)
+lis r3, 0x80234DE4@ha
+addi r3, r3, 0x80234DE4@l
+mtctr r3
+bctrl
 
 check_open_map_select_do_not_open:
-lbz r0, 0x514C (r31) ; Replace a line of code we overwrote to jump here
-b 0x80234C10 ; Return to normal code
-
-.global map_select_button_combo_bitmask
-map_select_button_combo_bitmask:
-.int 0x00000814 ; Y, Z, and D-pad down
+lha r0, 8 (r27) ; Replace a line of code we overwrote to jump here
+; Return to normal code
+lis r3, 0x80234BFC@ha
+addi r3, r3, 0x80234BFC@l
+mtctr r3
+bctrl
 
 
 
