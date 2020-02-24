@@ -71,7 +71,7 @@ try:
       branch_match = re.match(r"(?:b|beq|bne|blt|bgt|ble|bge)\s+0x([0-9a-f]+)(?:$|\s)", line, re.IGNORECASE)
       if open_file_match:
         relative_file_path = open_file_match.group(1)
-        if most_recent_file_path or most_recent_org_offset:
+        if most_recent_file_path or most_recent_org_offset is not None:
           raise Exception("File %s was not closed before opening new file %s" % (most_recent_file_path, relative_file_path))
         if relative_file_path not in code_chunks:
           code_chunks[relative_file_path] = OrderedDict()
@@ -109,7 +109,7 @@ try:
       
       if not most_recent_file_path:
         raise Exception("Found code when no file was open")
-      if not most_recent_org_offset:
+      if most_recent_org_offset is None:
         raise Exception("Found code before any .org directive")
       
       code_chunks[most_recent_file_path][most_recent_org_offset] += line + "\n"
@@ -117,7 +117,7 @@ try:
     if not code_chunks:
       raise Exception("No code found")
     
-    if most_recent_file_path or most_recent_org_offset:
+    if most_recent_file_path or most_recent_org_offset is not None:
       raise Exception("File %s was not closed before the end of the file" % most_recent_file_path)
     
     diffs = OrderedDict()
