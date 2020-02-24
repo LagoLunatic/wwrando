@@ -105,6 +105,7 @@ OPTIONS = OrderedDict([
     "Randomizes which island you start the game on."
   ),
   
+  
   (
     "swift_sail",
     "Sailing speed is doubled and the direction of the wind is always at your back as long as the sail is out."
@@ -126,8 +127,8 @@ OPTIONS = OrderedDict([
     "Adds new warp pots that act as shortcuts connecting dungeons to each other directly. (DRC, FW, TotG, and separately FF, ET, WT.)\nEach pot must be unlocked before it can be used, so you cannot use them to access dungeons you wouldn't already have access to."
   ),
   (
-    "generate_spoiler_log",
-    "Generate a text file that lists the location of every single item for this seed. (This also changes where items are placed in this seed.)<br><u>Generating a spoiler log is highly recommended even if you don't intend to use it</u>, just in case you get completely stuck."
+    "do_not_generate_spoiler_log",
+    "This options prevents the randomizer from generating a text file listing out the location of every single item for this seed. (This being checked also changes where items are placed in this seed.)<br><u>Generating a spoiler log is highly recommended even if you don't intend to use it</u>, just in case you get completely stuck."
   ),
   (
     "sword_mode",
@@ -151,12 +152,17 @@ OPTIONS = OrderedDict([
   ),
   (
     "disable_tingle_chests_with_tingle_bombs",
-    "This prevents the Tingle Tuner's bombs from revealing Tingle Chests, meaning the only way to access these chests is to find the normal bombs item.",
+    "This prevents the Tingle Tuner's bombs from revealing Tingle Chests, meaning the only way to access these chests is to find the normal bombs item.\n(The randomizer makes normal bombs work on Tingle Chests regardless of this option.)",
   ),
   (
     "randomize_enemy_palettes",
     "Gives all the enemies in the game random colors.",
   ),
+  (
+    "remove_title_and_ending_videos",
+    "Removes the two prerendered videos that play if you wait on the title screen and after you beat the game. (Decreases randomized ISO's filesize by about 600MB.)\nIf you keep these videos in, they won't reflect your custom player model or colors.",
+  ),
+  
   
   (
     "custom_player_model",
@@ -169,6 +175,10 @@ OPTIONS = OrderedDict([
   (
     "disable_custom_player_voice",
     "If the chosen custom model comes with custom voice files, you can check this option to turn them off and simply use Link's normal voice instead."
+  ),
+  (
+    "custom_color_preset",
+    "This allows you to select from preset color combinations chosen by the author of the selected player model."
   ),
   (
     "randomized_gear",
@@ -186,6 +196,10 @@ OPTIONS = OrderedDict([
     "starting_hcs",
     "Amount of extra heart containers that you start with."
   ),
+  (
+    "remove_music",
+    "Mutes all ingame music."
+  ),
 ])
 
 NON_PERMALINK_OPTIONS = [
@@ -193,4 +207,6 @@ NON_PERMALINK_OPTIONS = [
   "custom_player_model",
   "player_in_casual_clothes",
   "disable_custom_player_voice",
+  "custom_color_preset",
+  "remove_music",
 ]

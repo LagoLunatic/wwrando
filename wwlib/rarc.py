@@ -10,7 +10,7 @@ from wwlib.events import EventList
 from wwlib.bmg import BMG
 from wwlib.charts import ChartList
 from wwlib.j3d import BDL, BMD, BMT, BRK
-from wwlib.bti import BTIFile
+from wwlib.bti import BTIFileEntry
 
 class RARC:
   def __init__(self, data):
@@ -24,32 +24,91 @@ class RARC:
     self.magic = read_str(data, 0, 4)
     assert self.magic == "RARC"
     self.size = read_u32(data, 4)
+    self.node_list_offset = 0x40
     self.file_data_list_offset = read_u32(data, 0xC) + 0x20
     self.file_data_total_size = read_u32(data, 0x10)
     self.file_data_total_size_2 = read_u32(data, 0x14)
     self.file_data_total_size_3 = read_u32(data, 0x18)
-    num_nodes = read_u32(data, 0x20)
-    node_list_offset = 0x40
+    self.num_nodes = read_u32(data, 0x20)
     self.total_num_file_entries = read_u32(data, 0x28)
-    file_entries_list_offset = read_u32(data, 0x2C) + 0x20
+    self.file_entries_list_offset = read_u32(data, 0x2C) + 0x20
     self.string_list_offset = read_u32(data, 0x34) + 0x20
     
     self.nodes = []
-    for node_index in range(0, num_nodes):
-      offset = node_list_offset + node_index*0x10
-      node = Node(data, offset, self)
+    for node_index in range(self.num_nodes):
+      offset = self.node_list_offset + node_index*Node.ENTRY_SIZE
+      node = Node(self)
+      node.read(offset)
       self.nodes.append(node)
     
     self.file_entries = []
+    for file_index in range(self.total_num_file_entries):
+      file_entry_offset = self.file_entries_list_offset + file_index*FileEntry.ENTRY_SIZE
+      file_entry = FileEntry(self)
+      file_entry.read(file_entry_offset)
+      self.file_entries.append(file_entry)
+    
     for node in self.nodes:
       for file_index in range(node.first_file_index, node.first_file_index+node.num_files):
-        file_entry_offset = file_entries_list_offset + file_index*0x14
-        
-        file_entry = FileEntry(data, file_entry_offset, self)
-        self.file_entries.append(file_entry)
+        file_entry = self.file_entries[file_index]
+        file_entry.parent_node = node
         node.files.append(file_entry)
     
     self.instantiated_object_files = {}
+  
+  def add_new_node(self, type, name):
+    node = Node(self)
+    
+    node.type = type
+    node.name = name
+    
+    return node
+  
+  def add_new_file(self, file_name, file_data, node):
+    file_entry = FileEntry(self)
+    
+    highest_file_id = max(fe.id for fe in self.file_entries)
+    file_entry.id = highest_file_id + 1
+    # Give the file the lowest free file ID.
+    used_file_ids = [other_file_entry.id for other_file_entry in self.file_entries]
+    file_entry.id = None
+    for id in range(0xFFFF+1):
+      if id in used_file_ids:
+        continue
+      file_entry.id = id
+      break
+    assert file_entry.id is not None
+    
+    file_entry.type = 0x01
+    if file_name.endswith(".rel"):
+      file_entry.type |= 0x20
+    else:
+      file_entry.type |= 0x10
+    
+    file_entry.name = file_name
+    
+    file_entry.data = file_data
+    file_entry.data_size = data_len(file_entry.data)
+    
+    file_entry.parent_node = node
+    self.file_entries.append(file_entry)
+    node.files.append(file_entry)
+    
+    self.regenerate_all_file_entries_list()
+    
+    return file_entry
+  
+  def delete_file(self, file_entry):
+    file_entry.parent_node.files.remove(file_entry)
+    
+    self.regenerate_all_file_entries_list()
+  
+  def regenerate_all_file_entries_list(self):
+    # Regenerate the list of all file entries so they're all together for the nodes, and update the first_file_index of the nodes.
+    self.file_entries = []
+    for node in self.nodes:
+      node.first_file_index = len(self.file_entries)
+      self.file_entries += node.files
   
   def extract_all_files_to_disk_flat(self, output_directory):
     # Does not preserve directory structure.
@@ -112,15 +171,65 @@ class RARC:
   
   def save_changes(self):
     # Repacks the .arc file.
-    # Supports files changing in size but not changing filenames or adding/removing files.
+    # Supports files changing size, name, files being added or removed, nodes being added or removed, etc.
     
-    # Cut off the file data first since we're replacing this data entirely.
-    self.data.truncate(self.file_data_list_offset)
-    self.data.seek(self.file_data_list_offset)
+    # Cut off all the data after the header since we're replacing it entirely.
+    self.data.truncate(self.node_list_offset)
+    self.data.seek(self.node_list_offset)
     
+    # Assign the node offsets for each node, but don't actually save them yet because we need to write their names first.
+    next_node_offset = self.node_list_offset
+    for node in self.nodes:
+      node.node_offset = next_node_offset
+      self.data.seek(node.node_offset)
+      self.data.write(b'\0'*Node.ENTRY_SIZE)
+      next_node_offset += Node.ENTRY_SIZE
+    
+    # Reorders the self.file_entries list and sets the first_file_index field for each node.
+    self.regenerate_all_file_entries_list()
+    
+    # Assign the entry offsets for each file entry, but don't actually save them yet because we need to write their data and names first.
+    align_data_to_nearest(self.data, 0x20)
+    self.file_entries_list_offset = self.data.tell()
+    next_file_entry_offset = self.file_entries_list_offset
+    for file_entry in self.file_entries:
+      file_entry.entry_offset = next_file_entry_offset
+      self.data.seek(file_entry.entry_offset)
+      self.data.write(b'\0'*FileEntry.ENTRY_SIZE)
+      next_file_entry_offset += FileEntry.ENTRY_SIZE
+    
+    # Write the strings for the node names and file entry names.
+    align_data_to_nearest(self.data, 0x20)
+    self.string_list_offset = self.data.tell()
+    offsets_for_already_written_strings = {}
+    # The dots for the current and parent directories are always written first.
+    write_str_with_null_byte(self.data, self.string_list_offset+0, ".")
+    offsets_for_already_written_strings["."] = 0
+    write_str_with_null_byte(self.data, self.string_list_offset+2, "..")
+    offsets_for_already_written_strings[".."] = 2
+    next_string_offset = 5
+    for file_entry in self.nodes + self.file_entries:
+      string = file_entry.name
+      if string in offsets_for_already_written_strings:
+        offset = offsets_for_already_written_strings[string]
+      else:
+        offset = next_string_offset
+        write_str_with_null_byte(self.data, self.string_list_offset+offset, string)
+        next_string_offset += len(string) + 1
+        offsets_for_already_written_strings[string] = offset
+      file_entry.name_offset = offset
+    
+    # Save the nodes.
+    for node in self.nodes:
+      node.save_changes()
+    
+    # Write the file data, and save the file entries as well.
+    align_data_to_nearest(self.data, 0x20)
+    self.file_data_list_offset = self.data.tell()
     next_file_data_offset = 0
     for file_entry in self.file_entries:
       if file_entry.is_dir:
+        file_entry.save_changes()
         continue
       
       data_size = data_len(file_entry.data)
@@ -132,11 +241,21 @@ class RARC:
       file_entry.data.seek(0)
       self.data.write(file_entry.data.read())
       
+      next_file_data_offset += data_size
+      
       # Pad start of the next file to the next 0x20 bytes.
-      padded_data_size = (data_size + 0x1F) & ~0x1F
-      next_file_data_offset += padded_data_size
-      padding_size_needed = padded_data_size - data_size
-      self.data.write(b"\0"*padding_size_needed)
+      align_data_to_nearest(self.data, 0x20)
+      next_file_data_offset = self.data.tell() - self.file_data_list_offset
+    
+    # Update the header.
+    write_str(self.data, 0x00, "RARC", 4)
+    write_u32(self.data, 0x0C, self.file_data_list_offset-0x20)
+    self.num_nodes = len(self.nodes)
+    write_u32(self.data, 0x20, self.num_nodes)
+    self.total_num_file_entries = len(self.file_entries)
+    write_u32(self.data, 0x28, self.total_num_file_entries)
+    write_u32(self.data, 0x2C, self.file_entries_list_offset-0x20)
+    write_u32(self.data, 0x34, self.string_list_offset-0x20)
     
     # Update rarc's size fields.
     self.size = self.file_data_list_offset + next_file_data_offset
@@ -199,7 +318,7 @@ class RARC:
       self.instantiated_object_files[file_name] = brk
       return brk
     elif file_name.endswith(".bti"):
-      bti = BTIFile(file_entry)
+      bti = BTIFileEntry(file_entry)
       self.instantiated_object_files[file_name] = bti
       return bti
     elif file_name == "cmapdat.bin":
@@ -210,27 +329,59 @@ class RARC:
       raise Exception("Unknown file type: %s" % file_name)
 
 class Node:
-  def __init__(self, rarc_data, offset, rarc):
-    self.type = read_str(rarc_data, offset, 4)
-    self.name_offset = read_u32(rarc_data, offset+4)
-    self.name_hash = read_u16(rarc_data, offset+8)
-    self.num_files = read_u16(rarc_data, offset+0xA)
-    self.first_file_index = read_u32(rarc_data, offset+0xC)
-    
-    self.name = read_str_until_null_character(rarc_data, rarc.string_list_offset + self.name_offset)
-    
-    self.files = [] # This will be populated after the file entries have been read.
-
-class FileEntry:
-  def __init__(self, rarc_data, entry_offset, rarc):
-    self.entry_offset = entry_offset
+  ENTRY_SIZE = 0x10
+  
+  def __init__(self, rarc):
     self.rarc = rarc
     
-    self.id = read_u16(rarc_data, entry_offset)
-    self.name_hash = read_u16(rarc_data, entry_offset + 2)
-    type_and_name_offset = read_u32(rarc_data, entry_offset + 4)
-    data_offset_or_node_index = read_u32(rarc_data, entry_offset + 8)
-    self.data_size = read_u32(rarc_data, entry_offset + 0xC)
+    self.files = [] # This will be populated after the file entries have been read.
+    self.num_files = 0
+    self.first_file_index = None
+  
+  def read(self, node_offset):
+    self.node_offset = node_offset
+    
+    self.type = read_str(self.rarc.data, self.node_offset+0x00, 4)
+    self.name_offset = read_u32(self.rarc.data, self.node_offset+0x04)
+    self.name_hash = read_u16(self.rarc.data, self.node_offset+0x08)
+    self.num_files = read_u16(self.rarc.data, self.node_offset+0x0A)
+    self.first_file_index = read_u32(self.rarc.data, self.node_offset+0x0C)
+    
+    self.name = read_str_until_null_character(self.rarc.data, self.rarc.string_list_offset + self.name_offset)
+  
+  def save_changes(self):
+    hash = 0
+    for char in self.name:
+      char = char.lower()
+      hash *= 3
+      hash += ord(char)
+      hash &= 0xFFFF
+    self.name_hash = hash
+    
+    self.num_files = len(self.files)
+    
+    write_str(self.rarc.data, self.node_offset+0x00, self.type, 4)
+    write_u32(self.rarc.data, self.node_offset+0x04, self.name_offset)
+    write_u16(self.rarc.data, self.node_offset+0x08, self.name_hash)
+    write_u16(self.rarc.data, self.node_offset+0x0A, self.num_files)
+    write_u32(self.rarc.data, self.node_offset+0x0C, self.first_file_index)
+
+class FileEntry:
+  ENTRY_SIZE = 0x14
+  
+  def __init__(self, rarc):
+    self.rarc = rarc
+    
+    self.parent_node = None
+  
+  def read(self, entry_offset):
+    self.entry_offset = entry_offset
+    
+    self.id = read_u16(self.rarc.data, entry_offset)
+    self.name_hash = read_u16(self.rarc.data, entry_offset + 2)
+    type_and_name_offset = read_u32(self.rarc.data, entry_offset + 4)
+    data_offset_or_node_index = read_u32(self.rarc.data, entry_offset + 8)
+    self.data_size = read_u32(self.rarc.data, entry_offset + 0xC)
     
     self.type = ((type_and_name_offset & 0xFF000000) >> 24)
     # Type is a bitfield. Bits:
@@ -240,18 +391,29 @@ class FileEntry:
     #   10 - Data file? (As opposed to a REL file)
     #   20 - For dynamic link libraries, aka REL files?
     #   80 - Yaz0 compressed (as opposed to Yay0?).
-    self.is_dir = (self.type & 0x02) != 0
     
     self.name_offset = type_and_name_offset & 0x00FFFFFF
-    self.name = read_str_until_null_character(rarc_data, rarc.string_list_offset + self.name_offset)
+    self.name = read_str_until_null_character(self.rarc.data, self.rarc.string_list_offset + self.name_offset)
     
     if self.is_dir:
+      assert self.data_size == 0x10
       self.node_index = data_offset_or_node_index
       self.data = None
     else:
       self.data_offset = data_offset_or_node_index
-      rarc_data.seek(rarc.file_data_list_offset + self.data_offset)
-      self.data = BytesIO(rarc_data.read(self.data_size))
+      self.rarc.data.seek(self.rarc.file_data_list_offset + self.data_offset)
+      self.data = BytesIO(self.rarc.data.read(self.data_size))
+  
+  @property
+  def is_dir(self):
+    return (self.type & 0x02) != 0
+  
+  @is_dir.setter
+  def is_dir(self, value):
+    if value:
+      self.type |= 0x02
+    else:
+      self.type &= ~0x02
   
   def decompress_data_if_necessary(self):
     if try_read_str(self.data, 0, 4) == "Yaz0":
@@ -259,8 +421,6 @@ class FileEntry:
       self.type &= ~0x84 # Clear compressed type bits
   
   def save_changes(self):
-    rarc_data = self.rarc.data
-    
     hash = 0
     for char in self.name:
       char = char.lower()
@@ -270,7 +430,7 @@ class FileEntry:
     self.name_hash = hash
     
     # Set or clear compressed type bits
-    if Yaz0.check_is_compressed(self.data):
+    if not self.is_dir and Yaz0.check_is_compressed(self.data):
       self.type |= 0x84
     else:
       self.type &= ~0x84
@@ -282,9 +442,14 @@ class FileEntry:
     else:
       data_offset_or_node_index = self.data_offset
     
-    self.data_size = data_len(self.data)
+    if self.is_dir:
+      self.data_size = 0x10
+    else:
+      self.data_size = data_len(self.data)
     
-    write_u16(rarc_data, self.entry_offset+0x2, self.name_hash)
-    write_u32(rarc_data, self.entry_offset+0x4, type_and_name_offset)
-    write_u32(rarc_data, self.entry_offset+0x8, data_offset_or_node_index)
-    write_u32(rarc_data, self.entry_offset+0xC, self.data_size)
+    write_u16(self.rarc.data, self.entry_offset+0x00, self.id)
+    write_u16(self.rarc.data, self.entry_offset+0x02, self.name_hash)
+    write_u32(self.rarc.data, self.entry_offset+0x04, type_and_name_offset)
+    write_u32(self.rarc.data, self.entry_offset+0x08, data_offset_or_node_index)
+    write_u32(self.rarc.data, self.entry_offset+0x0C, self.data_size)
+    write_u32(self.rarc.data, self.entry_offset+0x10, 0) # Unused?

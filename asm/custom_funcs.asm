@@ -1013,11 +1013,11 @@ bne withered_tree_item_try_give_momentum_end ; Already set the flag, so this isn
 ; Since this is the first frame since the item actor was properly created, we can set its momentum.
 lis r10, withered_tree_item_speeds@ha
 addi r10, r10, withered_tree_item_speeds@l
-lfs r0, 0 (r10) ; Read forward velocity
+lfs f0, 0 (r10) ; Read forward velocity
 stfs f0, 0x254 (r4)
-lfs r0, 4 (r10) ; Read the Y velocity
+lfs f0, 4 (r10) ; Read the Y velocity
 stfs f0, 0x224 (r4)
-lfs r0, 8 (r10) ; Read gravity
+lfs f0, 8 (r10) ; Read gravity
 stfs f0, 0x258 (r4)
 
 ; Also set bit 0x40 in some bitfield for the item actor.
@@ -2924,6 +2924,36 @@ blr
 
 
 
+.global magtail_respawn_when_head_light_arrowed
+magtail_respawn_when_head_light_arrowed:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+bl GetTgHitObj__12dCcD_GObjInfFv ; Replace the function call we overwrote to call this custom function
+
+; Then we need to reproduce a few lines of code from the original
+stw r3, 0x30 (r1)
+addi r0, r30, 0x1874
+stw r0, 0x44 (r1)
+lwz r0, 0x10 (r3) ; Read the bitfield of damage types done by the actor that just damaged this Magtail
+rlwinm. r0, r0, 0, 11, 11 ; Check the Light Arrows damage type
+
+; Then if the Light Arrows bit was set, we store true to magtail_entity+0x1CBC to signify that the Magtail should respawn.
+; (We can't use the original branch on the Light Arrows bit because it's inside the REL.)
+beq magtail_respawn_when_head_light_arrowed_end
+li r0, 1
+stb r0, 0x1CBC (r30)
+
+magtail_respawn_when_head_light_arrowed_end:
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 .global set_next_stage_and_stop_sub_bgm
 set_next_stage_and_stop_sub_bgm:
 stwu sp, -0x10 (sp)
@@ -3043,6 +3073,46 @@ lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
 blr
+
+
+
+
+; Checks if the player is holding down a certain button combination and opens map select if so.
+; (Note: This function is coded specifically to avoid use of relative branches so that it can still function when converted to be a Gecko cheat code. This is why bctrl is used in place of bl and b.)
+.global check_open_map_select
+check_open_map_select:
+
+lis r3, mPadButton__10JUTGamePad@ha ; Bitfield of currently pressed buttons
+addi r3, r3, mPadButton__10JUTGamePad@l
+lwz r0, 0 (r3)
+li r3, 0x0814 ; Custom button combo. Y, Z, and D-pad down.
+and r0, r0, r3 ; AND to get which buttons in the combo are currently being pressed
+cmpw r0, r3 ; Check to make sure all of the buttons in the combo are pressed
+bne check_open_map_select_do_not_open
+
+; Change the game state to map select.
+mr r3, r27
+li r4, 6 ; Map select game state
+li r5, 0 ; Fade to white
+li r6, 5
+lis r7, fopScnM_ChangeReq__FP11scene_classssUs@ha
+addi r7, r7, fopScnM_ChangeReq__FP11scene_classssUs@l
+mtctr r7
+bctrl
+
+; Return to normal code (skipping the part where Link would trigger a stage transition/cutscene, since that would crash if it happened at the same time as map select opening)
+lis r3, 0x80234DE4@ha
+addi r3, r3, 0x80234DE4@l
+mtctr r3
+bctrl
+
+check_open_map_select_do_not_open:
+lha r0, 8 (r27) ; Replace a line of code we overwrote to jump here
+; Return to normal code
+lis r3, 0x80234BFC@ha
+addi r3, r3, 0x80234BFC@l
+mtctr r3
+bctrl
 
 
 

@@ -89,6 +89,7 @@ class Randomizer:
       self.randomize_items = False
     else:
       self.randomize_items = True
+    self.map_select = ("-mapselect" in cmd_line_args)
     
     self.test_room_args = None
     if "-test" in cmd_line_args:
@@ -98,7 +99,7 @@ class Randomizer:
         self.test_room_args = {"stage": stage, "room": int(room), "spawn": int(spawn)}
     
     seed_string = self.seed
-    if not self.options.get("generate_spoiler_log"):
+    if self.options.get("do_not_generate_spoiler_log"):
       seed_string += SEED_KEY
     
     self.integer_seed = self.convert_string_to_integer_md5(seed_string)
@@ -290,6 +291,7 @@ class Randomizer:
     self.race_mode_banned_locations = []
     
     self.custom_model_name = "Link"
+    self.using_custom_sail_texture = False
     
     self.logic = Logic(self)
     
@@ -354,11 +356,17 @@ class Randomizer:
       tweaks.update_starting_gear(self)
       if self.options.get("disable_tingle_chests_with_tingle_bombs"):
         tweaks.apply_patch(self, "disable_tingle_bombs_on_tingle_chests")
+      if self.options.get("remove_title_and_ending_videos"):
+        tweaks.remove_title_and_ending_videos(self)
+      if self.options.get("remove_music"):
+        tweaks.apply_patch(self, "remove_music")
+      if self.map_select:
+        tweaks.apply_patch(self, "map_select")
       
       if self.test_room_args is not None:
         tweaks.test_room(self)
-    
     options_completed += 1
+    
     yield("Randomizing...", options_completed)
     
     if self.options.get("randomize_charts"):
@@ -373,39 +381,42 @@ class Randomizer:
     if self.options.get("randomize_bgm"):
       bgm.randomize_bgm(self)
     
+    options_completed += 1
+    
     # Enemies must be randomized before items in order for the enemy logic to properly take into account what items you do and don't start with.
     if True:
       enemies.randomize_enemies(self)
     
     if self.options.get("randomize_enemy_palettes"):
+      yield("Randomizing enemy colors...", options_completed)
       palettes.randomize_enemy_palettes(self)
+      options_completed += 10
     
     # Reset RNG before doing item randomization so other randomization options don't affect item layout.
     self.rng = self.get_new_rng()
     
+    yield("Randomizing items...", options_completed)
     if self.randomize_items:
       items.randomize_items(self)
     
     options_completed += 2
-    yield("Saving items...", options_completed)
     
+    yield("Saving items...", options_completed)
     if self.randomize_items and not self.dry_run:
       items.write_changed_items(self)
     
     if not self.dry_run:
       self.apply_necessary_post_randomization_tweaks()
-    
     options_completed += 7
-    yield("Saving randomized ISO...", options_completed)
     
+    yield("Saving randomized ISO...", options_completed)
     if not self.dry_run:
       self.save_randomized_iso()
-    
     options_completed += 9
     yield("Writing logs...", options_completed)
     
     if self.randomize_items:
-      if self.options.get("generate_spoiler_log"):
+      if not self.options.get("do_not_generate_spoiler_log"):
         self.write_spoiler_log()
       self.write_non_spoiler_log()
     
@@ -426,7 +437,6 @@ class Randomizer:
     tweaks.add_chest_in_place_queen_fairy_cutscene(self)
     #tweaks.add_cube_to_earth_temple_first_room(self)
     tweaks.add_more_magic_jars(self)
-    tweaks.remove_title_and_ending_videos(self)
     tweaks.modify_title_screen_logo(self)
     tweaks.update_game_name_icon_and_banners(self)
     tweaks.allow_dungeon_items_to_appear_anywhere(self)
@@ -464,6 +474,7 @@ class Randomizer:
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)
+    tweaks.check_hide_ship_sail(self)
     customizer.change_player_clothes_color(self)
   
   def apply_necessary_post_randomization_tweaks(self):
@@ -643,6 +654,7 @@ class Randomizer:
     if file_path.lower() in self.gcm.files_by_path_lowercase:
       raise Exception("Cannot add a new file that has the same path and name as an existing one: " + file_path)
     
+    self.gcm.add_new_file(file_path, new_data)
     self.raw_files_by_path[file_path] = new_data
   
   def save_randomized_iso(self):
@@ -683,7 +695,7 @@ class Randomizer:
   def get_new_rng(self):
     rng = Random()
     rng.seed(self.integer_seed)
-    if not self.options.get("generate_spoiler_log"):
+    if self.options.get("do_not_generate_spoiler_log"):
       for i in range(1, 100):
         rng.getrandbits(i)
     return rng

@@ -10,10 +10,13 @@ def data_len(data):
   return data_length
 
 def make_copy_data(data):
-  data.seek(0)
-  copy_data = data.read()
+  copy_data = read_all_bytes(data)
   return BytesIO(copy_data)
 
+
+def read_all_bytes(data):
+  data.seek(0)
+  return data.read()
 
 def read_bytes(data, offset, length):
   data.seek(offset)
@@ -163,3 +166,7 @@ def align_data_to_nearest(data, size):
   padding_needed = next_offset - current_end
   data.seek(current_end)
   data.write(b"\0"*padding_needed)
+
+def pad_offset_to_nearest(offset, size):
+  next_offset = offset + (size - offset % size) % size
+  return next_offset

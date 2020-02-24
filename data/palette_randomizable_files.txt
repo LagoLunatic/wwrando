@@ -7,9 +7,12 @@
     -
       Name: Bk
       Excluded files: []
+    -
+      Name: Nata
+      Excluded files: []
 -
   Name: ChuChu
-  Particle IDs: [] # 0x82A8 is the Dark ChuChu breaking apart and reforming one, but the colors for it seem hardcoded.
+  Particle IDs: []
   RARCs:
     -
       Name: Cc
@@ -28,6 +31,9 @@
     -
       Name: Mo2
       Excluded files: []
+    -
+      Name: Spear
+      Excluded files: []
 -
   Name: Peahat
   Particle IDs: []
@@ -40,7 +46,7 @@
   Particle IDs: []
   RARCs:
     -
-      Name: Ph
+      Name: Sh
       Excluded files: []
 -
   Name: Armos Knight
@@ -132,6 +138,9 @@
     -
       Name: St
       Excluded files: []
+    -
+      Name: Club
+      Excluded files: []
 -
   Name: Darknut
   Particle IDs: [0x81B6, 0xA1B3]
@@ -139,12 +148,21 @@
     -
       Name: Tn
       Excluded files: []
+    -
+      Name: Tkwn
+      Excluded files: []
 -
   Name: Boko Baba
   Particle IDs: [0x8106, 0x8107, 0x8108, 0x8109, 0x810A, 0x810C]
   RARCs:
     -
       Name: Bo
+      Excluded files: []
+    -
+      Name: Boko
+      Excluded files: []
+    -
+      Name: Jbo
       Excluded files: []
 -
   Name: Magtail
@@ -181,6 +199,13 @@
     -
       Name: fm
       Excluded files: []
+-
+  Name: Big Octo
+  Particle IDs: []
+  RARCs:
+    -
+      Name: Daiocta
+      Excluded files: [damage_eye_a1.brk, damage_eye_b1.brk]
 
 # Sort-of enemies
 -
@@ -199,17 +224,16 @@
       Excluded files: []
 
 # Bosses
-# TODO: boss particles
 -
   Name: Gohma
-  Particle IDs: []
+  Particle IDs: [0x80AA, 0x80A9, 0x80BD, 0x80BC, 0x80DE, 0x80A1, 0x80A2, 0x80A3, 0x80A4, 0x80A6, 0x80A7, 0x80A0, 0x809F, 0x80B1, 0x80B3, 0x80B0, 0x80B2]
   RARCs:
     -
       Name: Btd
       Excluded files: []
 -
   Name: Kalle Demos
-  Particle IDs: []
+  Particle IDs: [0x80F3, 0x8100, 0x80F1, 0x80F8, 0x80F7, 0x80FE, 0x80ED, 0x80F9, 0x80FA]
   RARCs:
     -
       Name: Bmd
@@ -222,35 +246,38 @@
       Excluded files: []
 -
   Name: Gohdan
-  Particle IDs: []
+  Particle IDs: [0x81E8, 0x81E9]
   RARCs:
     -
       Name: Bst
       Excluded files: []
 -
   Name: Phantom Ganon
-  Particle IDs: []
+  Particle IDs: [0x821A, 0x821B, 0x8242, 0x8243, 0x8218, 0x8219, 0x821C, 0x821D, 0x826B, 0x81CE, 0x81CF, 0x81F0, 0x81EE, 0x81EF, 0x821E, 0x8244, 0x8245, 0x8246, 0x81CC, 0x81CD]
   RARCs:
     -
       Name: Fganon
       Excluded files: []
+    -
+      Name: Pgsw
+      Excluded files: []
 -
   Name: Helmaroc King
-  Particle IDs: []
+  Particle IDs: [0x8131, 0x8133, 0x812C, 0x8137, 0x8129, 0x813C, 0x813B, 0x8138, 0x8147, 0x8148, 0x8149, 0x814A, 0x814E]
   RARCs:
     -
       Name: Bdk
       Excluded files: []
 -
   Name: Jalhalla
-  Particle IDs: []
+  Particle IDs: [0x82CE, 0x82CD, 0x82CF, 0x8444, 0x845A, 0x8310, 0x8311, 0x8312, 0x82D1, 0x82D2, 0x82D5, 0x82D6, 0x82D3, 0x8456]
   RARCs:
     -
       Name: Bpw
       Excluded files: []
 -
   Name: Molgera
-  Particle IDs: []
+  Particle IDs: [0x8266, 0x8259, 0x8257, 0x8253, 0x8252, 0x8254, 0x8255, 0x824E, 0x8250, 0x8249, 0x8265, 0x825D, 0x825E, 0x824D, 0x825C, 0x825B, 0x824B]
   RARCs:
     -
       Name: Bwd
@@ -260,14 +287,14 @@
       Excluded files: []
 -
   Name: Puppet Ganon
-  Particle IDs: []
+  Particle IDs: [0x8414, 0x8415, 0x8416, 0x8417, 0x8457, 0x8458, 0x8459, 0x8419, 0x841B, 0x841C, 0x841A]
   RARCs:
     -
       Name: Bgn
       Excluded files: []
 -
   Name: Ganondorf
-  Particle IDs: []
+  Particle IDs: [0x8381]
   RARCs:
     -
       Name: Gnd

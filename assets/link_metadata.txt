@@ -1,17 +1,122 @@
 hero_custom_colors:
-  Hair: FFEE10
-  Skin: F6DA9C
+  Hair: FFEF10
+  Skin: F7DB9C
+  Mouth: F74963
+  Eyes: 10514A
+  Sclera: FFFFFF
   Shirt: 5AB24A
-  Undershirt: ACE241
+  Undershirt: ADE342
   Pants: FFFFFF
   Boots: 944908
   Belt: 633008
-  Belt Buckle: F7EF10
+  Belt Buckle: FFEF10
 casual_custom_colors:
-  Hair: FFEE10
-  Skin: F6DA9C
-  Shirt: 4A75AC
-  Shirt Emblem: FFFFD5
-  Armbands: 62696A
-  Pants: FFA100
-  Shoes: 62696A
+  Hair: FFEF10
+  Skin: F7DB9C
+  Mouth: F74963
+  Eyes: 10514A
+  Sclera: FFFFFF
+  Shirt: 4A75AD
+  Shirt Emblem: FFFFD6
+  Armbands: 63696B
+  Pants: FFA608
+  Shoes: 63696B
+  Shoe Soles: D6BA39
+hero_color_presets:
+  Dark Link:
+    Hair: 000000
+    Skin: 000000
+    Mouth: 000000
+    Eyes: FF0000
+    Sclera: 000000
+    Shirt: 000000
+    Undershirt: 000000
+    Pants: 000000
+    Boots: 000000
+    Belt: 000000
+    Belt Buckle: 000000
+  Smash Dark Link:
+    Hair: D8D9DB
+    Skin: 736B69
+    Mouth: 736B69
+    Eyes: FF0000
+    Sclera: 000000
+    Shirt: 333333
+    Undershirt: 62656A
+    Pants: 898E91
+    Boots: 464646
+    Belt: A4A09D
+    Belt Buckle: BABB93
+  Green Link:
+    Hair: 9CF543
+  Red Link:
+    Hair: FF532E
+    Shirt: E52B36
+    Undershirt: E38981
+  Blue Link:
+    Hair: 3F64DB
+    Shirt: 698DB9
+    Undershirt: AAD3E0
+  Purple Link:
+    Hair: D649FD
+    Shirt: 9A4F9F
+    Undershirt: CC8FB1
+  Shadow Link:
+    Hair: A3338D
+    Shirt: 444444
+    Undershirt: FFFFFF
+    Boots: 392437
+    Belt: 791009
+casual_color_presets:
+  Dark Link:
+    Hair: 000000
+    Skin: 000000
+    Mouth: 000000
+    Eyes: FF0000
+    Sclera: 000000
+    Shirt: 000000
+    Shirt Emblem: 000000
+    Armbands: 000000
+    Pants: 000000
+    Shoes: 000000
+    Shoe Soles: 000000
+  Smash Dark Link:
+    Hair: D8D9DB
+    Skin: 736B69
+    Mouth: 736B69
+    Eyes: FF0000
+    Sclera: 000000
+    Shirt: 333333
+    Shirt Emblem: D8D9DB
+    Pants: 898E91
+    Shoes: 464646
+    Shoe Soles: 464646
+    Belt: A4A09D
+    Belt Buckle: BABB93
+  Green Link:
+    Hair: 9CF543
+    Shirt: 5AB24A
+    Pants: ADE342
+    Armbands: 638F5A
+  Red Link:
+    Hair: FF532E
+    Shirt: E52B36
+    Pants: E38981
+    Armbands: 8F5D5A
+  Blue Link:
+    Hair: 3F64DB
+    Shirt: 698DB9
+    Pants: AAD3E0
+    Armbands: 5B8391
+  Purple Link:
+    Hair: D649FD
+    Shirt: 9A4F9F
+    Pants: CC8FB1
+    Armbands: 8B5A8F
+  Shadow Link:
+    Hair: A3338D
+    Shirt: 444444
+    Shirt Emblem: FFFFFF
+    Pants: FFFFFF
+    Shoes: 392437
+    Shoe Soles: 392437

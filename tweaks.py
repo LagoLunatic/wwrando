@@ -469,11 +469,12 @@ def make_sail_behave_like_swift_sail(self):
   new_sail_icon_image_path = os.path.join(ASSETS_PATH, "swift sail icon.png")
   new_sail_itemget_tex_image_path = os.path.join(ASSETS_PATH, "swift sail item get texture.png")
   
-  # Modify the sail's texture while sailing.
-  ship_arc = self.get_arc("files/res/Object/Ship.arc")
-  sail_image = ship_arc.get_file("new_ho1.bti")
-  sail_image.replace_image_from_path(new_sail_tex_image_path)
-  sail_image.save_changes()
+  if not self.using_custom_sail_texture:
+    # Modify the sail's texture while sailing (only if the custom player model didn't already change the sail texture).
+    ship_arc = self.get_arc("files/res/Object/Ship.arc")
+    sail_image = ship_arc.get_file("new_ho1.bti")
+    sail_image.replace_image_from_path(new_sail_tex_image_path)
+    sail_image.save_changes()
   
   # Modify the sail's item icon.
   itemicon_arc = self.get_arc("files/res/Msg/itemicon.arc")
@@ -669,7 +670,10 @@ def update_game_name_icon_and_banners(self):
   new_image_file_path = os.path.join(ASSETS_PATH, "banner.png")
   image_format = texture_utils.ImageFormat.RGB5A3
   palette_format = texture_utils.PaletteFormat.RGB5A3
-  image_data, _, _ = texture_utils.encode_image_from_path(new_image_file_path, image_format, palette_format)
+  image_data, _, _, image_width, image_height = texture_utils.encode_image_from_path(new_image_file_path, image_format, palette_format)
+  assert image_width == 96
+  assert image_height == 32
+  assert data_len(image_data) == 0x1800
   image_data.seek(0)
   write_bytes(banner_data, 0x20, image_data.read())
   
@@ -1420,6 +1424,18 @@ def change_starting_clothes(self):
     write_u8(dol_data, address_to_offset(should_start_with_heros_clothes_address), 0)
   else:
     write_u8(dol_data, address_to_offset(should_start_with_heros_clothes_address), 1)
+
+def check_hide_ship_sail(self):
+  # Allow the custom model author to specify if they want the ship's sail to be hidden.
+  # The reason simply changing the texture to be transparent doesn't work is that even when fully transparent, it will still be rendered over the white lines the ship makes when parting the sea in front of it.
+  custom_model_metadata = customizer.get_model_metadata(self.custom_model_name)
+  hide_ship_sail = custom_model_metadata.get("hide_ship_sail", False)
+  
+  if hide_ship_sail:
+    # Make the sail's draw function return immediately to hide it.
+    sail_draw_func_address = 0x800E93B8 # daHo_packet_c::draw(void)
+    dol_data = self.get_raw_file("sys/main.dol")
+    write_u32(dol_data, address_to_offset(sail_draw_func_address), 0x4E800020) # blr
 
 def shorten_auction_intro_event(self):
   event_list = self.get_arc("files/res/Stage/Orichh/Stage.arc").get_file("event_list.dat")

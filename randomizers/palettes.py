@@ -7,16 +7,24 @@ from fs_helpers import *
 
 def randomize_enemy_palettes(self):
   for randomizable_file_group in self.palette_randomizable_files:
-    for i in range(73):
-      self.rng.getrandbits(i+1)
-    
     h_shift = self.rng.randint(20, 340)
-    v_shift = self.rng.randint(-25, 25)
+    v_shift = self.rng.randint(-40, 40)
     #print(h_shift, v_shift)
     
     if randomizable_file_group["Name"] == "Darknut":
-      shift_hardcoded_darknut_particle_colors(self, h_shift, v_shift)
-      shift_hardcoded_darknut_cape_particle_colors(self, h_shift, v_shift)
+      shift_hardcoded_darknut_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "Moblin":
+      shift_hardcoded_moblin_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "Stalfos":
+      shift_hardcoded_stalfos_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "Rat":
+      shift_hardcoded_rat_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "ChuChu":
+      shift_hardcoded_chuchu_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "Puppet Ganon":
+      shift_hardcoded_puppet_ganon_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "Ganondorf":
+      shift_hardcoded_ganondorf_colors(self, h_shift, v_shift)
     
     if randomizable_file_group["Particle IDs"]:
       particle_ids = randomizable_file_group["Particle IDs"]
@@ -32,37 +40,7 @@ def randomize_enemy_palettes(self):
         
         for particle_id in particle_ids_for_enemy_in_jpc:
           particle = jpc.particles_by_id[particle_id]
-          #print("%04X" % particle_id)
-          #print(particle.tdb1.texture_filenames)
-          
-          r, g, b, a = particle.bsp1.color_prm
-          r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-          particle.bsp1.color_prm = (r, g, b, a)
-          
-          r, g, b, a = particle.bsp1.color_env
-          r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-          particle.bsp1.color_env = (r, g, b, a)
-          
-          #print(particle.bsp1.color_prm_anm_data_count)
-          for i in range(particle.bsp1.color_prm_anm_data_count):
-            keyframe_time, (r, g, b, a) = particle.bsp1.color_prm_anm_table[i]
-            r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-            particle.bsp1.color_prm_anm_table[i] = (keyframe_time, (r, g, b, a))
-          
-          #print(particle.bsp1.color_env_anm_data_count)
-          for i in range(particle.bsp1.color_env_anm_data_count):
-            keyframe_time, (r, g, b, a) = particle.bsp1.color_env_anm_table[i]
-            r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-            particle.bsp1.color_env_anm_table[i] = (keyframe_time, (r, g, b, a))
-          
-          if hasattr(particle, "ssp1"):
-            r, g, b, a = particle.ssp1.color_prm
-            r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-            particle.ssp1.color_prm = (r, g, b, a)
-            
-            r, g, b, a = particle.ssp1.color_env
-            r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-            particle.ssp1.color_env = (r, g, b, a)
+          shift_all_colors_in_particle(self, particle, h_shift, v_shift)
     
     for rarc_data in randomizable_file_group["RARCs"]:
       rarc_name = rarc_data["Name"]
@@ -155,6 +133,9 @@ def shift_all_colors_in_bti(self, texture_name, texture, h_shift, v_shift):
 def shift_all_colors_in_mat3(self, file_name, j3d_file, h_shift, v_shift):
   for i, color in enumerate(j3d_file.mat3.reg_colors):
     r, g, b, a = color
+    if r < 0 or g < 0 or b < 0:
+      # Negative color? Skip it to avoid errors.
+      continue
     r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
     j3d_file.mat3.reg_colors[i] = (r, g, b, a)
   
@@ -209,33 +190,100 @@ def shift_all_colors_in_trk1(self, file_name, j3d_file, h_shift, v_shift):
       # ChuChu eyes material animation, doesn't look right recolored so we just recolor the texture instead
       continue
     
-    if not len(anim.r.keyframes) == len(anim.g.keyframes) == len(anim.b.keyframes):
-      # Can't properly adjust colors in HSV when RGB don't come together in sets.
-      continue
+    assert len(anim.r.keyframes) > 0 and len(anim.g.keyframes) > 0 and len(anim.b.keyframes) > 0
     
-    for i in range(len(anim.r.keyframes)):
-      r = anim.r.keyframes[i].value & 0xFF
-      g = anim.g.keyframes[i].value & 0xFF
-      b = anim.b.keyframes[i].value & 0xFF
+    # In some cases (specifically Gohma), there won't be an equal number of keyframes for R G and B, so we can't simply iterate over the list.
+    
+    # First make a list of what times are present on the timeline for this animation.
+    unique_keyframe_times = []
+    for keyframe in (anim.r.keyframes + anim.g.keyframes + anim.b.keyframes):
+      if keyframe.time not in unique_keyframe_times:
+        unique_keyframe_times.append(keyframe.time)
+    unique_keyframe_times.sort()
+    
+    def get_keyframe_by_closest_time(keyframes, keyframe_time):
+      return min(keyframes, key=lambda kf: abs(kf.time-keyframe_time))
+    
+    def get_keyframe_by_exact_time(keyframes, keyframe_time):
+      return next((kf for kf in keyframes if kf.time == keyframe_time), None)
+    
+    # Then make a list of what the modified colors at each time will be, but don't actually modify them yet since we may need to re-read the values of previous times if the next time is missing a channel.
+    modified_colors_by_time = {}
+    for keyframe_time in unique_keyframe_times:
+      #print("  %d" % keyframe_time)
+      r = get_keyframe_by_closest_time(anim.r.keyframes, keyframe_time).value & 0xFF
+      g = get_keyframe_by_closest_time(anim.g.keyframes, keyframe_time).value & 0xFF
+      b = get_keyframe_by_closest_time(anim.b.keyframes, keyframe_time).value & 0xFF
+      #print("    %d %d %d" % (r, g, b))
       r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-      anim.r.keyframes[i].value = r
-      anim.g.keyframes[i].value = g
-      anim.b.keyframes[i].value = b
+      modified_colors_by_time[keyframe_time] = (r, g, b)
+    
+    # Then actually modify the colors.
+    for keyframe_time in unique_keyframe_times:
+      r, g, b = modified_colors_by_time[keyframe_time]
+      r_keyframe = get_keyframe_by_exact_time(anim.r.keyframes, keyframe_time)
+      if r_keyframe:
+        r_keyframe.value = r
+      g_keyframe = get_keyframe_by_exact_time(anim.g.keyframes, keyframe_time)
+      if g_keyframe:
+        g_keyframe.value = g
+      b_keyframe = get_keyframe_by_exact_time(anim.b.keyframes, keyframe_time)
+      if b_keyframe:
+        b_keyframe.value = b
 
-def shift_hardcoded_darknut_particle_colors(self, h_shift, v_shift):
-  # Darknuts have RGB values inside their REL that recolor the particles for their armor being destroyed.
+def shift_all_colors_in_particle(self, particle, h_shift, v_shift):
+  #print("%04X" % particle_id)
+  #print(particle.tdb1.texture_filenames)
+  
+  # Changing value/saturation of particle colors can sometimes make them disappear or be bigger/smaller than in vanilla if the changes are too extreme, so limit to hue shifting only for particles.
+  v_shift = 0
+  
+  r, g, b, a = particle.bsp1.color_prm
+  r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+  particle.bsp1.color_prm = (r, g, b, a)
+  
+  r, g, b, a = particle.bsp1.color_env
+  r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+  particle.bsp1.color_env = (r, g, b, a)
+  
+  #print(particle.bsp1.color_prm_anm_data_count)
+  for i in range(particle.bsp1.color_prm_anm_data_count):
+    keyframe_time, (r, g, b, a) = particle.bsp1.color_prm_anm_table[i]
+    r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+    particle.bsp1.color_prm_anm_table[i] = (keyframe_time, (r, g, b, a))
+  
+  #print(particle.bsp1.color_env_anm_data_count)
+  for i in range(particle.bsp1.color_env_anm_data_count):
+    keyframe_time, (r, g, b, a) = particle.bsp1.color_env_anm_table[i]
+    r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+    particle.bsp1.color_env_anm_table[i] = (keyframe_time, (r, g, b, a))
+  
+  if hasattr(particle, "ssp1"):
+    r, g, b, a = particle.ssp1.color_prm
+    r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+    particle.ssp1.color_prm = (r, g, b, a)
+    
+    r, g, b, a = particle.ssp1.color_env
+    r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+    particle.ssp1.color_env = (r, g, b, a)
+
+def shift_hardcoded_color(data, offset, h_shift, v_shift):
+  r = read_u8(data, offset + 0)
+  g = read_u8(data, offset + 1)
+  b = read_u8(data, offset + 2)
+  r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+  write_u8(data, offset + 0, r)
+  write_u8(data, offset + 1, g)
+  write_u8(data, offset + 2, b)
+
+def shift_hardcoded_darknut_colors(self, h_shift, v_shift):
+  # Update the RGB values for Darknut armor destroyed particles.
   darknut_data = self.get_raw_file("files/rels/d_a_tn.rel")
   offset = 0xE2AC
   for i in range(12):
-    r = read_u8(darknut_data, offset+i*4 + 0)
-    g = read_u8(darknut_data, offset+i*4 + 1)
-    b = read_u8(darknut_data, offset+i*4 + 2)
-    r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-    write_u8(darknut_data, offset+i*4 + 0, r)
-    write_u8(darknut_data, offset+i*4 + 1, g)
-    write_u8(darknut_data, offset+i*4 + 2, b)
-
-def shift_hardcoded_darknut_cape_particle_colors(self, h_shift, v_shift):
+    shift_hardcoded_color(darknut_data, offset+i*4, h_shift, v_shift)
+  
+  # Update the Darknut's cape colors
   cape_data = self.get_raw_file("files/rels/d_a_mant.rel")
   for palette_offset in [0x4540, 0x6560, 0x8580, 0xA5A0, 0xC5C0]:
     cape_data.seek(palette_offset)
@@ -253,3 +301,67 @@ def shift_hardcoded_darknut_cape_particle_colors(self, h_shift, v_shift):
     cape_data.seek(palette_offset)
     palette_data.seek(0)
     cape_data.write(palette_data.read())
+
+def shift_hardcoded_moblin_colors(self, h_shift, v_shift):
+  # Update the thread colors for the Moblin's spear
+  for rel_name, offset in [("mo2", 0xD648), ("boko", 0x4488)]:
+    data = self.get_raw_file("files/rels/d_a_%s.rel" % rel_name)
+    shift_hardcoded_color(data, offset, h_shift, v_shift)
+
+def shift_hardcoded_stalfos_colors(self, h_shift, v_shift):
+  # Stalfos hat thread
+  data = self.get_raw_file("files/rels/d_a_st.rel")
+  offset = 0x9F30
+  shift_hardcoded_color(data, offset, h_shift, v_shift)
+
+def shift_hardcoded_rat_colors(self, h_shift, v_shift):
+  # Rat tails
+  data = self.get_raw_file("files/rels/d_a_nz.rel")
+  offset = 0x8FB8
+  shift_hardcoded_color(data, offset, h_shift, v_shift)
+  
+  data = self.get_raw_file("files/rels/d_a_npc_nz.rel")
+  offset = 0x48C0
+  shift_hardcoded_color(data, offset, h_shift, v_shift)
+
+def shift_hardcoded_chuchu_colors(self, h_shift, v_shift):
+  # ChuChu particles
+  data = self.get_raw_file("files/rels/d_a_cc.rel")
+  offset = 0x7F88
+  for i in range(5):
+    shift_hardcoded_color(data, offset+i*4, h_shift, v_shift)
+  
+  # The particles that come off of Dark ChuChus when attacked where they temporarily break apart and reform are tricky.
+  # That RGB value is stored as three multiplier floats instead of three bytes, and the red multiplier in the float constant bank is coincidentally reused by other things in the ChuChu code unrelated to color so we can't change that.
+  # So we change the asm code to read the red multiplier from elsewhere, and then modify that instead.
+  r = int(read_float(data, 0x7E9C))
+  g = int(read_float(data, 0x7EBC))
+  b = int(read_float(data, 0x7EC0))
+  assert r != 0 # Make sure the asm patch was applied
+  r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+  write_float(data, 0x7E9C, r)
+  write_float(data, 0x7EBC, g)
+  write_float(data, 0x7EC0, b)
+
+def shift_hardcoded_puppet_ganon_colors(self, h_shift, v_shift):
+  # Puppet ganon's strings
+  data = self.get_raw_file("files/rels/d_a_bgn.rel")
+  offset = 0xF0A8
+  shift_hardcoded_color(data, offset, h_shift, v_shift)
+  offset = 0xF0B0
+  shift_hardcoded_color(data, offset, h_shift, v_shift)
+  
+  data = self.get_raw_file("files/rels/d_a_bgn3.rel")
+  r = read_u8(data, 0x2CF)
+  g = read_u8(data, 0x2D7)
+  b = read_u8(data, 0x2DF)
+  r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
+  write_u8(data, 0x2CF, r)
+  write_u8(data, 0x2D7, g)
+  write_u8(data, 0x2DF, b)
+
+def shift_hardcoded_ganondorf_colors(self, h_shift, v_shift):
+  # Ganondorf's fancy threads
+  data = self.get_raw_file("files/rels/d_a_gnd.rel")
+  offset = 0x8F1C
+  shift_hardcoded_color(data, offset, h_shift, v_shift)

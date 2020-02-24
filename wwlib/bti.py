@@ -37,8 +37,8 @@ class BTI:
     self.num_colors = read_u16(data, header_offset+0xA)
     self.palette_data_offset = read_u32(data, header_offset+0xC)
     
-    self.mag_filter = FilterMode(read_u8(data, header_offset+0x14))
-    self.min_filter = FilterMode(read_u8(data, header_offset+0x15))
+    self.min_filter = FilterMode(read_u8(data, header_offset+0x14))
+    self.mag_filter = FilterMode(read_u8(data, header_offset+0x15))
     
     self.unknown_2 = read_u16(data, header_offset+0x16)
     self.mipmap_count = read_u8(data, header_offset+0x18)
@@ -50,6 +50,15 @@ class BTI:
     blocks_wide = (self.width + (self.block_width-1)) // self.block_width
     blocks_tall = (self.height + (self.block_height-1)) // self.block_height
     image_data_size = blocks_wide*blocks_tall*self.block_data_size
+    remaining_mipmaps = self.mipmap_count-1
+    curr_mipmap_size = image_data_size
+    while remaining_mipmaps > 0:
+      # Each mipmap is a quarter the size of the last (half the width and half the height).
+      curr_mipmap_size = curr_mipmap_size//4
+      image_data_size += curr_mipmap_size
+      remaining_mipmaps -= 1
+      # Note: We don't actually read the smaller mipmaps, we only read the normal sized one, and when saving recalculate the others by scaling the normal one down.
+      # This is to simplify things, but a full implementation would allow reading and saving each mipmap individually (since the mipmaps can actually have different contents).
     self.image_data = BytesIO(read_bytes(data, header_offset+self.image_data_offset, image_data_size))
     
     palette_data_size = self.num_colors*2
@@ -71,8 +80,8 @@ class BTI:
     write_u16(self.data, self.header_offset+0xA, self.num_colors)
     write_u32(self.data, self.header_offset+0xC, self.palette_data_offset)
     
-    write_u8(self.data, self.header_offset+0x14, self.mag_filter.value)
-    write_u8(self.data, self.header_offset+0x15, self.min_filter.value)
+    write_u8(self.data, self.header_offset+0x14, self.min_filter.value)
+    write_u8(self.data, self.header_offset+0x15, self.mag_filter.value)
     
     write_u16(self.data, self.header_offset+0x16, self.unknown_2)
     write_u8(self.data, self.header_offset+0x18, self.mipmap_count)
@@ -119,14 +128,16 @@ class BTI:
     return colors
   
   def replace_image_from_path(self, new_image_file_path):
-    self.image_data, self.palette_data, encoded_colors = encode_image_from_path(
-      new_image_file_path, self.image_format, self.palette_format
+    self.image_data, self.palette_data, encoded_colors, self.width, self.height = encode_image_from_path(
+      new_image_file_path, self.image_format, self.palette_format,
+      mipmap_count=self.mipmap_count
     )
     self.num_colors = len(encoded_colors)
   
   def replace_image(self, new_image):
     self.image_data, self.palette_data, encoded_colors = encode_image(
-      new_image, self.image_format, self.palette_format
+      new_image, self.image_format, self.palette_format,
+      mipmap_count=self.mipmap_count
     )
     self.num_colors = len(encoded_colors)
     self.width = new_image.width
@@ -138,10 +149,10 @@ class BTI:
     self.num_colors = len(encoded_colors)
 
 class BTIFile(BTI): # For standalone .bti files (as opposed to textures embedded inside J3D models/animations)
-  def __init__(self, file_entry):
-    self.file_entry = file_entry
-    self.file_entry.decompress_data_if_necessary()
-    super(BTIFile, self).__init__(self.file_entry.data)
+  def __init__(self, data):
+    if try_read_str(data, 0, 4) == "Yaz0":
+      data = Yaz0.decompress(data)
+    super(BTIFile, self).__init__(data)
   
   def save_changes(self):
     # Cut off the image and palette data first since we're replacing this data entirely.
@@ -160,3 +171,9 @@ class BTIFile(BTI): # For standalone .bti files (as opposed to textures embedded
       self.palette_data_offset = 0
     
     self.save_header_changes()
+
+class BTIFileEntry(BTIFile):
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+    self.file_entry.decompress_data_if_necessary()
+    super(BTIFileEntry, self).__init__(self.file_entry.data)
