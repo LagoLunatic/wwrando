@@ -4,6 +4,7 @@ from enum import Enum
 
 from fs_helpers import *
 from wwlib.texture_utils import *
+from wwlib.yaz0 import Yaz0
 
 class WrapMode(Enum):
   ClampToEdge    = 0
