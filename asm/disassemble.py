@@ -366,9 +366,9 @@ def get_extra_comment_for_asm_line(line):
   clrlwi_match = re.search(r"^.+ \t(?:clrlwi\.?)\s+(r\d+),(r\d+),(\d+)$", line, re.IGNORECASE)
   rotlwi_match = re.search(r"^.+ \t(?:rotlwi\.?)\s+(r\d+),(r\d+),(\d+)$", line, re.IGNORECASE)
   
-  # TODO: rlwimi
+  rlwimi_match = re.search(r"^.+ \t(?:rlwimi\.?)\s+(r\d+),(r\d+),(\d+),(\d+),(\d+)$", line, re.IGNORECASE)
   
-  if rlwinm_match or clrlwi_match or rotlwi_match:
+  if rlwinm_match or clrlwi_match or rotlwi_match or rlwimi_match:
     if rlwinm_match:
       dst_reg = rlwinm_match.group(1)
       src_reg = rlwinm_match.group(2)
@@ -387,8 +387,14 @@ def get_extra_comment_for_asm_line(line):
       l_shift = int(rotlwi_match.group(3))
       first_mask_bit = 0
       last_mask_bit = 31
+    elif rlwimi_match:
+      dst_reg = rlwimi_match.group(1)
+      src_reg = rlwimi_match.group(2)
+      l_shift = int(rlwimi_match.group(3))
+      first_mask_bit = int(rlwimi_match.group(4))
+      last_mask_bit = int(rlwimi_match.group(5))
     else:
-      raise Exception("Unknown rlwinm opcode")
+      raise Exception("Unknown rotate left opcode")
     
     if first_mask_bit <= last_mask_bit:
       mask_length = (last_mask_bit - first_mask_bit) + 1
@@ -403,20 +409,26 @@ def get_extra_comment_for_asm_line(line):
       inverse_mask <<= (31 - last_inverse_mask_bit)
       mask = (~inverse_mask) & 0xFFFFFFFF
     
-    # Undo the shifting operation on the mask so we can present the mask as if it was ANDed pre-shift (it's actually post-shift).
-    mask = (mask >> l_shift) | (mask << (32 - l_shift))
-    mask &= 0xFFFFFFFF
-    
-    # Represent right shifting as a negative number.
-    if l_shift != 0 and first_mask_bit - l_shift >= 0:
-      l_shift = -(32 - l_shift)
-    
-    if l_shift == 0:
-      comment += "%s = (%s & 0x%08X)" % (dst_reg, src_reg, mask)
-    elif l_shift < 0:
-      comment += "%s = (%s & 0x%08X) >> 0x%02X" % (dst_reg, src_reg, mask, -l_shift)
+    if rlwimi_match:
+      if l_shift == 0:
+        comment += "%s |= %s & 0x%08X" % (dst_reg, src_reg, mask)
+      else:
+        comment += "%s |= (%s << 0x%02X) & 0x%08X" % (dst_reg, src_reg, l_shift, mask)
     else:
-      comment += "%s = (%s & 0x%08X) << 0x%02X" % (dst_reg, src_reg, mask, l_shift)
+      # Undo the shifting operation on the mask so we can present the mask as if it was ANDed pre-shift (it's actually post-shift).
+      adjusted_mask = (mask >> l_shift) | (mask << (32 - l_shift))
+      adjusted_mask &= 0xFFFFFFFF
+      
+      # Represent right shifting as a negative number.
+      if l_shift != 0 and first_mask_bit - l_shift >= 0:
+        l_shift = -(32 - l_shift)
+      
+      if l_shift == 0:
+        comment += "%s = %s & 0x%08X" % (dst_reg, src_reg, adjusted_mask)
+      elif l_shift < 0:
+        comment += "%s = (%s & 0x%08X) >> 0x%02X" % (dst_reg, src_reg, adjusted_mask, -l_shift)
+      else:
+        comment += "%s = (%s & 0x%08X) << 0x%02X" % (dst_reg, src_reg, adjusted_mask, l_shift)
   
   if comment:
     comment = get_padded_comment_string_for_line(line) + comment
