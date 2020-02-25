@@ -434,7 +434,7 @@ def get_extra_comment_for_asm_line(line):
       adjusted_mask &= 0xFFFFFFFF
       
       # Represent right shifting as a negative number.
-      if l_shift != 0 and first_mask_bit - l_shift >= 0:
+      if l_shift != 0 and last_mask_bit + l_shift > 31:
         l_shift = -(32 - l_shift)
       
       if l_shift == 0:
