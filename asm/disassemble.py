@@ -180,6 +180,12 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, mai
           if rel.bss_section_index and offset >= rel.fix_size:
             out_str += "    [BSS symbol, value initialized at runtime]"
           out_str += "\n"
+      
+      if not check_offset_in_executable_rel_section(word_offset, rel):
+        # Remove the disassembled code for non-executable sections since it will be nonsense, not actually code.
+        before_disassembly_match = re.search(r"^( +[0-9a-f]+:\s(?:[0-9a-f]{2} ){4}).+", line)
+        if before_disassembly_match:
+          line = before_disassembly_match.group(1)
     
     out_str += line
     
@@ -358,6 +364,14 @@ def get_padded_comment_string_for_line(line):
     spaces_needed = 1
   
   return (" "*spaces_needed) + "; "
+
+def check_offset_in_executable_rel_section(offset, rel):
+  for section in rel.sections:
+    if offset >= section.offset and offset < section.offset+section.length:
+      return section.is_executable
+  
+  #print("Failed to find section for offset: %04X" % offset)
+  return False
 
 def get_extra_comment_for_asm_line(line):
   comment = ""
