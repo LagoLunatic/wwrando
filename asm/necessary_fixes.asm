@@ -525,9 +525,9 @@
 ; Normally if you encountered spoils or bait as a field item without owning the Bait Bag/Spoils bag, it would turn itself into a single green rupee instead so you can't get the items without a bag to put them in.
 ; In the randomizer we allow these to drop even without having the bags so you can get these items early.
 .open "sys/main.dol"
-.org 0x800C7E58
+.org 0x800C7E58 ; In check_itemno
   li r3, 1 ; Bait Bag
-.org 0x800C7E84
+.org 0x800C7E84 ; In check_itemno
   li r3, 1 ; Spoils Bag
 .close
 
