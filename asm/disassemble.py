@@ -205,6 +205,8 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, mai
             out_str += "      ; " + symbol_name
             if rel.bss_section_index and branch_offset >= rel.fix_size:
               out_str += "    [BSS]"
+        else:
+          out_str += get_extra_comment_for_asm_line(line)
     
     out_str += "\n"
     
@@ -250,6 +252,8 @@ def add_symbols_to_main(asm_path, main_symbols):
           out_str += line
       else:
         out_str += line
+        
+        out_str += get_extra_comment_for_asm_line(line)
       out_str += "\n"
       if line.endswith("blr"):
         out_str += "\n" # Separate functions
@@ -347,3 +351,67 @@ def get_rel_symbols(rel, rel_map_data):
   #print(rel_symbol_names)
   
   return rel_symbol_names
+
+def get_extra_comment_for_asm_line(line):
+  comment = ""
+  
+  rlwinm_match = re.search(r"^.+ \t(?:rlwinm\.?)\s+(r\d+),(r\d+),(\d+),(\d+),(\d+)$", line, re.IGNORECASE)
+  clrlwi_match = re.search(r"^.+ \t(?:clrlwi\.?)\s+(r\d+),(r\d+),(\d+)$", line, re.IGNORECASE)
+  rotlwi_match = re.search(r"^.+ \t(?:rotlwi\.?)\s+(r\d+),(r\d+),(\d+)$", line, re.IGNORECASE)
+  
+  # TODO: rlwimi
+  
+  if rlwinm_match or clrlwi_match or rotlwi_match:
+    if rlwinm_match:
+      dst_reg = rlwinm_match.group(1)
+      src_reg = rlwinm_match.group(2)
+      l_shift = int(rlwinm_match.group(3))
+      first_mask_bit = int(rlwinm_match.group(4))
+      last_mask_bit = int(rlwinm_match.group(5))
+    elif clrlwi_match:
+      dst_reg = clrlwi_match.group(1)
+      src_reg = clrlwi_match.group(2)
+      l_shift = 0
+      first_mask_bit = int(clrlwi_match.group(3))
+      last_mask_bit = 31
+    elif rotlwi_match:
+      dst_reg = rotlwi_match.group(1)
+      src_reg = rotlwi_match.group(2)
+      l_shift = int(rotlwi_match.group(3))
+      first_mask_bit = 0
+      last_mask_bit = 31
+    else:
+      raise Exception("Unknown rlwinm opcode")
+    
+    if first_mask_bit <= last_mask_bit:
+      mask_length = (last_mask_bit - first_mask_bit) + 1
+      mask = (1 << mask_length) - 1
+      mask <<= (31 - last_mask_bit)
+    else:
+      # Mask with a gap in the middle, but bits set at the beginning and end
+      first_inverse_mask_bit = last_mask_bit + 1
+      last_inverse_mask_bit = first_mask_bit - 1
+      inverse_mask_length = (last_inverse_mask_bit - first_inverse_mask_bit) + 1
+      inverse_mask = (1 << inverse_mask_length) - 1
+      inverse_mask <<= (31 - last_inverse_mask_bit)
+      mask = (~inverse_mask) & 0xFFFFFFFF
+    
+    # Undo the shifting operation on the mask so we can present the mask as if it was ANDed pre-shift (it's actually post-shift).
+    mask = (mask >> l_shift) | (mask << (32 - l_shift))
+    mask &= 0xFFFFFFFF
+    
+    # Represent right shifting as a negative number.
+    if l_shift != 0 and first_mask_bit - l_shift >= 0:
+      l_shift = -(32 - l_shift)
+    
+    if l_shift == 0:
+      comment += "%s = (%s & 0x%08X)" % (dst_reg, src_reg, mask)
+    elif l_shift < 0:
+      comment += "%s = (%s & 0x%08X) >> 0x%02X" % (dst_reg, src_reg, mask, -l_shift)
+    else:
+      comment += "%s = (%s & 0x%08X) << 0x%02X" % (dst_reg, src_reg, mask, l_shift)
+  
+  if comment:
+    comment = "      ; " + comment
+  
+  return comment
