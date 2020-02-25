@@ -186,7 +186,7 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, mai
     if match:
       offset = int(match.group(1), 16)
       if offset in replacements:
-        out_str += "      ; "
+        out_str += get_padded_comment_string_for_line(line)
         replacement = replacements[offset]
         out_str += replacement
         if offset in replacement_offsets:
@@ -202,7 +202,7 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, mai
           branch_offset = int(branch_match.group(2), 16)
           if branch_offset in rel_symbol_names:
             symbol_name = rel_symbol_names[branch_offset]
-            out_str += "      ; " + symbol_name
+            out_str += get_padded_comment_string_for_line(line) + symbol_name
             if rel.bss_section_index and branch_offset >= rel.fix_size:
               out_str += "    [BSS]"
         else:
@@ -247,7 +247,7 @@ def add_symbols_to_main(asm_path, main_symbols):
           if address in main_symbols:
             symbol_name = main_symbols[address]
             #print(symbol_name)
-            out_str += "      ; %08X    %s" % (address, symbol_name)
+            out_str += get_padded_comment_string_for_line(line) + "%08X    %s" % (address, symbol_name)
         else:
           out_str += line
       else:
@@ -352,6 +352,13 @@ def get_rel_symbols(rel, rel_map_data):
   
   return rel_symbol_names
 
+def get_padded_comment_string_for_line(line):
+  spaces_needed = 50 - len(line)
+  if spaces_needed < 1:
+    spaces_needed = 1
+  
+  return (" "*spaces_needed) + "; "
+
 def get_extra_comment_for_asm_line(line):
   comment = ""
   
@@ -412,6 +419,6 @@ def get_extra_comment_for_asm_line(line):
       comment += "%s = (%s & 0x%08X) << 0x%02X" % (dst_reg, src_reg, mask, l_shift)
   
   if comment:
-    comment = "      ; " + comment
+    comment = get_padded_comment_string_for_line(line) + comment
   
   return comment
