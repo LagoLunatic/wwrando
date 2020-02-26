@@ -70,14 +70,14 @@ class GCM:
         i += 1
   
   def read_system_data(self):
-    self.files_by_path["sys/boot.bin"] = SystemFile(0, 0x440)
-    self.files_by_path["sys/bi2.bin"] = SystemFile(0x440, 0x2000)
+    self.files_by_path["sys/boot.bin"] = SystemFile(0, 0x440, "boot.bin")
+    self.files_by_path["sys/bi2.bin"] = SystemFile(0x440, 0x2000, "bi2.bin")
     
     apploader_header_size = 0x20
     apploader_size = read_u32(self.iso_file, 0x2440 + 0x14)
     apploader_trailer_size = read_u32(self.iso_file, 0x2440 + 0x18)
     apploader_full_size = apploader_header_size + apploader_size + apploader_trailer_size
-    self.files_by_path["sys/apploader.img"] = SystemFile(0x2440, apploader_full_size)
+    self.files_by_path["sys/apploader.img"] = SystemFile(0x2440, apploader_full_size, "apploader.img")
     
     dol_offset = read_u32(self.iso_file, 0x420)
     main_dol_size = 0
@@ -93,9 +93,17 @@ class GCM:
       section_end_offset = section_offset + section_size
       if section_end_offset > main_dol_size:
         main_dol_size = section_end_offset
-    self.files_by_path["sys/main.dol"] = SystemFile(dol_offset, main_dol_size)
+    self.files_by_path["sys/main.dol"] = SystemFile(dol_offset, main_dol_size, "main.dol")
     
-    self.files_by_path["sys/fst.bin"] = SystemFile(self.fst_offset, self.fst_size)
+    self.files_by_path["sys/fst.bin"] = SystemFile(self.fst_offset, self.fst_size, "fst.bin")
+    
+    self.system_files = [
+      self.files_by_path["sys/boot.bin"],
+      self.files_by_path["sys/bi2.bin"],
+      self.files_by_path["sys/apploader.img"],
+      self.files_by_path["sys/main.dol"],
+      self.files_by_path["sys/fst.bin"],
+    ]
   
   def read_file_data(self, file_path):
     file_path = file_path.lower()
@@ -377,6 +385,7 @@ class FileEntry:
     self.file_index = None
     
     self.is_dir = False
+    self.is_system_file = False
   
   def read(self, file_index, iso_file, file_entry_offset, fnt_offset):
     self.file_index = file_index
@@ -404,6 +413,12 @@ class FileEntry:
       self.name = read_str_until_null_character(iso_file, fnt_offset + self.name_offset)
 
 class SystemFile:
-  def __init__(self, file_data_offset, file_size):
+  def __init__(self, file_data_offset, file_size, name):
     self.file_data_offset = file_data_offset
     self.file_size = file_size
+    
+    self.name = name
+    self.file_path = "sys/" + name
+    
+    self.is_dir = False
+    self.is_system_file = True
