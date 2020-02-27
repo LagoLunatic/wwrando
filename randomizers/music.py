@@ -186,6 +186,7 @@ def randomize_music(self):
     orig_sound_infos.append(sound_info_bytes)
   
   # TODO: don't allow replacing BGMs that can happen anywhere (like item get, common enemy fight, sailing, etc) with BGMs that require specific scene waves to work
+  # (though is there maybe some way to allow that to work...? having dragon roost island music for sailing for example would be great. maybe for sailing, have a 20% chance per seed that the first scene wave for ALL islands is just set to one for a specific BGM...? but that wouldn't work well for FF or windfall, which require a first scene wave for other purposes...)
   
   used_bgm_names = []
   for orig_bgm_name, new_possible_bgm_names in bgm_replacements_that_work.items():

@@ -99,6 +99,8 @@ BGM_INDEX_TO_NAME = {
   0x0060: "tak8_mdr.bms", # Earth God's Lyric by Medli, played when returning to Jalhalla's room after defeating it
 }
 
+# TODO: I might need a more sophisticated system for keeping track of needed wave banks. instead of just the first/second index needed, it would be better to keep track of the specific .aw files needed for each BGM/stage/island, and then completely regenerate the list of first/second wave bank indexes from scratch based on what is needed for this particular randomizer seed.
+
 FIRST_SCENE_WAVE_NEEDED_FOR_BGM = {
   #"i_linkf.bms":      0x05, # ?? doesn't work
   "i_taura.bms":      0x0B,
@@ -107,6 +109,7 @@ FIRST_SCENE_WAVE_NEEDED_FOR_BGM = {
   "i_moridk.bms":     0x0F,
   
   "jaboo.bms":        0x22, # There's quite a few possibilities that would work here
+  "subdun.bms":       0x26, # Many possibilities
   "elf.bms":          0x24,
   
   "store.bms":        0x10,
@@ -123,10 +126,12 @@ FIRST_SCENE_WAVE_NEEDED_FOR_BGM = {
   
   "p_goma_a.bms":     0x1C,
   "p_goma_b.bms":     0x1C,
+  "p_rane.bms":       0x1F,
   "taraba_intro.bms": 0x2A,
   
   "hyrul_of.bms":     0x14,
   "hyrul_on.bms":     0x14,
+  #"death_vl.bms":     0x25, # doesn't sound necessary? hard to tell with how quiet it is
   
   "next_dry.bms":     0x0F,
   "takt_mcl.bms":     0x08,
@@ -147,7 +152,6 @@ SECOND_SCENE_WAVE_NEEDED_FOR_BGM = {
   "p_ganon2.bms":     0x0A,
   
   "rane.bms":         0x09,
-  "p_rane.bms":       0x09,
   "bigpow.bms":       0x0B,
   
   # not sure if this is necessary...?
@@ -204,6 +208,8 @@ BGMS_HARDCODED_TO_PLAY_FOR_STAGE = {
   "Xboss2": ["p_bigpow.bms"],
   "Xboss3": ["p_rane.bms"],
   "GanonM": ["p_ganon2.bms"],
+  "GanonJ": ["p_ganon2.bms"],
+  "GanonK": ["kugutu1.bms", "kugutu2.bms", "kugutu3.bms", "taraba_intro.bms"],
   "GTower": ["e_ganon.bms"],
   
   # TODO non-boss stuff
@@ -352,7 +358,7 @@ BGM_RANDOMIZATION_GROUPS = [
     "baachan.bms",
     "drug.bms",
     "elf.bms",
-    "jaboo.bms", # this is ambient, TODO maybe make ambient tracks a separate category
+    "jaboo.bms",
     "subdun.bms",
     "i_moridk.bms",
     "dekpinch.bms",
@@ -372,6 +378,7 @@ BGM_RANDOMIZATION_GROUPS = [
     "hyrul_of.bms",
     "hyrul_on.bms",
     "death_vl.bms",
+    # TODO: try to raise the volume of hyrul_of.bms and death_vl.bms
     
     # Dungeons
     "d_ryumt.bms",
