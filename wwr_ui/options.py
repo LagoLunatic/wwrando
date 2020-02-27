@@ -208,5 +208,5 @@ NON_PERMALINK_OPTIONS = [
   "player_in_casual_clothes",
   "disable_custom_player_voice",
   "custom_color_preset",
-  "remove_music",
+  # Note: Options that affect music must be included in the permalink because music duration affects gameplay in some cases, like not being allowed to close the item get textbox until the item get jingle has finished playing.
 ]
