@@ -147,8 +147,8 @@ OPTIONS = OrderedDict([
     "In Race Mode, 4 random dungeon bosses will drop required items (e.g. Triforce Shards). Nothing in the other 2 dungeons will ever be required.\nYou can see which islands have the required dungeons on them by opening the sea chart and checking which islands have blue quest markers.",
   ),
   (
-    "randomize_bgm",
-    "Shuffles around all the background music in the game to play at random locations.",
+    "randomize_music",
+    "Shuffles around all the music in the game. This affects background music, combat music, fanfares, etc.",
   ),
   (
     "disable_tingle_chests_with_tingle_bombs",
