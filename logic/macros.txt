@@ -492,6 +492,7 @@ Can Defeat Boko Babas:
   | Hookshot
   | Bombs
   | (Deku Leaf & Grappling Hook)
+  # Note: Killing Boko Babas with the Skull Hammer does not yield a stick if you squish them, but if you stun it first then kill it while it's stunned, it will yield a stick as normal.
 Can Defeat Mothulas:
   Hero's Sword
   | Hero's Bow

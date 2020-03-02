@@ -6,7 +6,7 @@ import copy
 
 import os
 
-from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUNGEON_PROGRESS_ITEMS, DUNGEON_NONPROGRESS_ITEMS
+from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS, DUNGEON_PROGRESS_ITEMS, DUNGEON_NONPROGRESS_ITEMS
 from paths import LOGIC_PATH
 from randomizers import entrances
 
@@ -81,7 +81,8 @@ class Logic:
     # Initialize item related attributes.
     self.all_progress_items = PROGRESS_ITEMS.copy()
     self.all_nonprogress_items = NONPROGRESS_ITEMS.copy()
-    self.all_consumable_items = CONSUMABLE_ITEMS.copy()
+    self.all_fixed_consumable_items = CONSUMABLE_ITEMS.copy()
+    self.duplicatable_consumable_items = DUPLICATABLE_CONSUMABLE_ITEMS.copy()
     
     self.triforce_chart_names = []
     self.treasure_chart_names = []
@@ -122,14 +123,19 @@ class Logic:
       self.rando.item_name_to_id[dungeon_item_name] = self.rando.item_name_to_id[regular_item_name]
     
     self.all_cleaned_item_names = []
-    for item_name in (self.all_progress_items + self.all_nonprogress_items + self.all_consumable_items):
+    all_item_names = []
+    all_item_names += self.all_progress_items
+    all_item_names += self.all_nonprogress_items
+    all_item_names += self.all_fixed_consumable_items
+    all_item_names += self.duplicatable_consumable_items
+    for item_name in all_item_names:
       cleaned_item_name = self.clean_item_name(item_name)
       if cleaned_item_name not in self.all_cleaned_item_names:
         self.all_cleaned_item_names.append(cleaned_item_name)
     
     self.unplaced_progress_items = self.all_progress_items.copy()
     self.unplaced_nonprogress_items = self.all_nonprogress_items.copy()
-    self.unplaced_consumable_items = self.all_consumable_items.copy()
+    self.unplaced_fixed_consumable_items = self.all_fixed_consumable_items.copy()
     
     self.progress_item_groups = copy.deepcopy(self.PROGRESS_ITEM_GROUPS)
     
@@ -259,8 +265,8 @@ class Logic:
       self.unplaced_progress_items.remove(item_name)
     elif item_name in self.unplaced_nonprogress_items:
       self.unplaced_nonprogress_items.remove(item_name)
-    elif item_name in self.unplaced_consumable_items:
-      self.unplaced_consumable_items.remove(item_name)
+    elif item_name in self.unplaced_fixed_consumable_items:
+      self.unplaced_fixed_consumable_items.remove(item_name)
   
   def remove_owned_item(self, item_name):
     cleaned_item_name = self.clean_item_name(item_name)
@@ -273,8 +279,9 @@ class Logic:
       self.unplaced_progress_items.append(item_name)
     elif item_name in self.all_nonprogress_items:
       self.unplaced_nonprogress_items.append(item_name)
-    elif item_name in self.all_consumable_items:
-      self.unplaced_consumable_items.append(item_name)
+    else:
+      # Removing consumable items doesn't work because we don't know if the item is from the fixed list or the duplicatable list
+      raise Exception("Cannot remove item from simulated inventory: %s" % item_name)
   
   def add_owned_item_or_item_group(self, item_name):
     if item_name in self.progress_item_groups:

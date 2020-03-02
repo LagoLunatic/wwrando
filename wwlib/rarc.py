@@ -385,12 +385,12 @@ class FileEntry:
     
     self.type = ((type_and_name_offset & 0xFF000000) >> 24)
     # Type is a bitfield. Bits:
-    #   01 - File?
+    #   01 - File.
     #   02 - Directory.
     #   04 - Compressed.
-    #   10 - Data file? (As opposed to a REL file)
-    #   20 - For dynamic link libraries, aka REL files?
-    #   80 - Yaz0 compressed (as opposed to Yay0?).
+    #   10 - Data file (as opposed to a REL file).
+    #   20 - For dynamic link libraries, aka REL files.
+    #   80 - Yaz0 compressed (as opposed to Yay0).
     
     self.name_offset = type_and_name_offset & 0x00FFFFFF
     self.name = read_str_until_null_character(self.rarc.data, self.rarc.string_list_offset + self.name_offset)

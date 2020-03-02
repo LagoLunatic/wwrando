@@ -805,6 +805,7 @@ Forbidden Woods - Inside Hollow Tree's Mouth:
   Need:
     Can Access Forbidden Woods
     & (Can Defeat Door Flowers | Can Defeat Boko Babas)
+  # You need to kill the flower on the chest, but if you can kill the Boko Babas you can take one of the sticks they drop, light it on fire, and burn the flower to get to the chest.
   Original item: Knight's Crest
   Types: Dungeon
   Paths:

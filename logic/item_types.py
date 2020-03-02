@@ -97,10 +97,10 @@ NONPROGRESS_ITEMS = [
 CONSUMABLE_ITEMS = \
    1 * ["Green Rupee"] + \
    2 * ["Blue Rupee"] + \
-   4 * ["Yellow Rupee"] + \
-  10 * ["Red Rupee"] + \
-  22 * ["Purple Rupee"] + \
-  23 * ["Orange Rupee"] + \
+   3 * ["Yellow Rupee"] + \
+   5 * ["Red Rupee"] + \
+  10 * ["Purple Rupee"] + \
+  15 * ["Orange Rupee"] + \
   15 * ["Silver Rupee"] + \
    1 * ["Rainbow Rupee"] + \
   \
@@ -115,6 +115,17 @@ CONSUMABLE_ITEMS = \
    1 * ["All-Purpose Bait"] + \
    4 * ["Hyoi Pear"]
 # (Note: Blue Chu Jelly is not included as it is specially coded and would cause issues if randomly placed as a field item.)
+
+# Once all the items that have a fixed number per seed are used up, this list is used.
+# Unlike the other lists, this one does not have items removed from it as they are placed.
+# The number of each item in this list is instead its weighting relative to the other items in the list.
+DUPLICATABLE_CONSUMABLE_ITEMS = \
+   3 * ["Yellow Rupee"] + \
+   7 * ["Red Rupee"] + \
+  10 * ["Purple Rupee"] + \
+  15 * ["Orange Rupee"] + \
+  \
+   3 * ["Joy Pendant"]
 
 DUNGEON_PROGRESS_ITEMS = \
   ["DRC Big Key"] *1 + ["DRC Small Key"] *4 + \

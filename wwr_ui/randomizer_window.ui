@@ -464,9 +464,9 @@
                 </layout>
                </item>
                <item row="2" column="3">
-                <widget class="QCheckBox" name="randomize_bgm">
+                <widget class="QCheckBox" name="randomize_music">
                  <property name="text">
-                  <string>Randomize Background Music</string>
+                  <string>Randomize Music</string>
                  </property>
                 </widget>
                </item>

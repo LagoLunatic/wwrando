@@ -41,7 +41,8 @@ class BTI:
     self.min_filter = FilterMode(read_u8(data, header_offset+0x14))
     self.mag_filter = FilterMode(read_u8(data, header_offset+0x15))
     
-    self.unknown_2 = read_u16(data, header_offset+0x16)
+    self.min_lod = read_u8(data, header_offset+0x16)
+    self.max_lod = read_u8(data, header_offset+0x17) # seems to be equal to (mipmap_count-1)*8
     self.mipmap_count = read_u8(data, header_offset+0x18)
     self.unknown_3 = read_u8(data, header_offset+0x19)
     self.lod_bias = read_u16(data, header_offset+0x1A)
@@ -84,7 +85,8 @@ class BTI:
     write_u8(self.data, self.header_offset+0x14, self.min_filter.value)
     write_u8(self.data, self.header_offset+0x15, self.mag_filter.value)
     
-    write_u16(self.data, self.header_offset+0x16, self.unknown_2)
+    write_u8(self.data, self.header_offset+0x16, self.min_lod)
+    write_u8(self.data, self.header_offset+0x17, self.max_lod)
     write_u8(self.data, self.header_offset+0x18, self.mipmap_count)
     write_u8(self.data, self.header_offset+0x19, self.unknown_3)
     write_u16(self.data, self.header_offset+0x1A, self.lod_bias)

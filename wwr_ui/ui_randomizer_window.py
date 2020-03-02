@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Wed Feb 19 15:59:34 2020
+# Created: Thu Feb 27 15:24:39 2020
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -212,9 +212,9 @@ class Ui_MainWindow(object):
         self.widget_2.setObjectName("widget_2")
         self.horizontalLayout_8.addWidget(self.widget_2)
         self.gridLayout_3.addLayout(self.horizontalLayout_8, 0, 1, 1, 2)
-        self.randomize_bgm = QtWidgets.QCheckBox(self.groupBox_3)
-        self.randomize_bgm.setObjectName("randomize_bgm")
-        self.gridLayout_3.addWidget(self.randomize_bgm, 2, 3, 1, 1)
+        self.randomize_music = QtWidgets.QCheckBox(self.groupBox_3)
+        self.randomize_music.setObjectName("randomize_music")
+        self.gridLayout_3.addWidget(self.randomize_music, 2, 3, 1, 1)
         self.randomize_enemy_palettes = QtWidgets.QCheckBox(self.groupBox_3)
         self.randomize_enemy_palettes.setObjectName("randomize_enemy_palettes")
         self.gridLayout_3.addWidget(self.randomize_enemy_palettes, 2, 2, 1, 1)
@@ -517,7 +517,7 @@ class Ui_MainWindow(object):
         self.randomize_entrances.setItemText(2, QtWidgets.QApplication.translate("MainWindow", "Secret Caves", None, -1))
         self.randomize_entrances.setItemText(3, QtWidgets.QApplication.translate("MainWindow", "Dungeons & Secret Caves (Separately)", None, -1))
         self.randomize_entrances.setItemText(4, QtWidgets.QApplication.translate("MainWindow", "Dungeons & Secret Caves (Together)", None, -1))
-        self.randomize_bgm.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Background Music", None, -1))
+        self.randomize_music.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Music", None, -1))
         self.randomize_enemy_palettes.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Enemy Palettes", None, -1))
         self.groupBox_2.setTitle(QtWidgets.QApplication.translate("MainWindow", "Convenience Tweaks", None, -1))
         self.instant_text_boxes.setText(QtWidgets.QApplication.translate("MainWindow", "Instant Text Boxes", None, -1))

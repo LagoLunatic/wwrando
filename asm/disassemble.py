@@ -180,13 +180,19 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, mai
           if rel.bss_section_index and offset >= rel.fix_size:
             out_str += "    [BSS symbol, value initialized at runtime]"
           out_str += "\n"
+      
+      if not check_offset_in_executable_rel_section(word_offset, rel):
+        # Remove the disassembled code for non-executable sections since it will be nonsense, not actually code.
+        before_disassembly_match = re.search(r"^( +[0-9a-f]+:\s(?:[0-9a-f]{2} ){4}).+", line)
+        if before_disassembly_match:
+          line = before_disassembly_match.group(1)
     
     out_str += line
     
     if match:
       offset = int(match.group(1), 16)
       if offset in replacements:
-        out_str += "      ; "
+        out_str += get_padded_comment_string_for_line(line)
         replacement = replacements[offset]
         out_str += replacement
         if offset in replacement_offsets:
@@ -202,9 +208,11 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, mai
           branch_offset = int(branch_match.group(2), 16)
           if branch_offset in rel_symbol_names:
             symbol_name = rel_symbol_names[branch_offset]
-            out_str += "      ; " + symbol_name
+            out_str += get_padded_comment_string_for_line(line) + symbol_name
             if rel.bss_section_index and branch_offset >= rel.fix_size:
               out_str += "    [BSS]"
+        else:
+          out_str += get_extra_comment_for_asm_line(line)
     
     out_str += "\n"
     
@@ -245,11 +253,13 @@ def add_symbols_to_main(asm_path, main_symbols):
           if address in main_symbols:
             symbol_name = main_symbols[address]
             #print(symbol_name)
-            out_str += "      ; %08X    %s" % (address, symbol_name)
+            out_str += get_padded_comment_string_for_line(line) + "%08X    %s" % (address, symbol_name)
         else:
           out_str += line
       else:
         out_str += line
+        
+        out_str += get_extra_comment_for_asm_line(line)
       out_str += "\n"
       if line.endswith("blr"):
         out_str += "\n" # Separate functions
@@ -347,3 +357,94 @@ def get_rel_symbols(rel, rel_map_data):
   #print(rel_symbol_names)
   
   return rel_symbol_names
+
+def get_padded_comment_string_for_line(line):
+  spaces_needed = 50 - len(line)
+  if spaces_needed < 1:
+    spaces_needed = 1
+  
+  return (" "*spaces_needed) + "; "
+
+def check_offset_in_executable_rel_section(offset, rel):
+  for section in rel.sections:
+    if offset >= section.offset and offset < section.offset+section.length:
+      return section.is_executable
+  
+  #print("Failed to find section for offset: %04X" % offset)
+  return False
+
+def get_extra_comment_for_asm_line(line):
+  comment = ""
+  
+  rlwinm_match = re.search(r"^.+ \t(?:rlwinm\.?)\s+(r\d+),(r\d+),(\d+),(\d+),(\d+)$", line, re.IGNORECASE)
+  clrlwi_match = re.search(r"^.+ \t(?:clrlwi\.?)\s+(r\d+),(r\d+),(\d+)$", line, re.IGNORECASE)
+  rotlwi_match = re.search(r"^.+ \t(?:rotlwi\.?)\s+(r\d+),(r\d+),(\d+)$", line, re.IGNORECASE)
+  
+  rlwimi_match = re.search(r"^.+ \t(?:rlwimi\.?)\s+(r\d+),(r\d+),(\d+),(\d+),(\d+)$", line, re.IGNORECASE)
+  
+  if rlwinm_match or clrlwi_match or rotlwi_match or rlwimi_match:
+    if rlwinm_match:
+      dst_reg = rlwinm_match.group(1)
+      src_reg = rlwinm_match.group(2)
+      l_shift = int(rlwinm_match.group(3))
+      first_mask_bit = int(rlwinm_match.group(4))
+      last_mask_bit = int(rlwinm_match.group(5))
+    elif clrlwi_match:
+      dst_reg = clrlwi_match.group(1)
+      src_reg = clrlwi_match.group(2)
+      l_shift = 0
+      first_mask_bit = int(clrlwi_match.group(3))
+      last_mask_bit = 31
+    elif rotlwi_match:
+      dst_reg = rotlwi_match.group(1)
+      src_reg = rotlwi_match.group(2)
+      l_shift = int(rotlwi_match.group(3))
+      first_mask_bit = 0
+      last_mask_bit = 31
+    elif rlwimi_match:
+      dst_reg = rlwimi_match.group(1)
+      src_reg = rlwimi_match.group(2)
+      l_shift = int(rlwimi_match.group(3))
+      first_mask_bit = int(rlwimi_match.group(4))
+      last_mask_bit = int(rlwimi_match.group(5))
+    else:
+      raise Exception("Unknown rotate left opcode")
+    
+    if first_mask_bit <= last_mask_bit:
+      mask_length = (last_mask_bit - first_mask_bit) + 1
+      mask = (1 << mask_length) - 1
+      mask <<= (31 - last_mask_bit)
+    else:
+      # Mask with a gap in the middle, but bits set at the beginning and end
+      first_inverse_mask_bit = last_mask_bit + 1
+      last_inverse_mask_bit = first_mask_bit - 1
+      inverse_mask_length = (last_inverse_mask_bit - first_inverse_mask_bit) + 1
+      inverse_mask = (1 << inverse_mask_length) - 1
+      inverse_mask <<= (31 - last_inverse_mask_bit)
+      mask = (~inverse_mask) & 0xFFFFFFFF
+    
+    if rlwimi_match:
+      if l_shift == 0:
+        comment += "%s |= %s & 0x%08X" % (dst_reg, src_reg, mask)
+      else:
+        comment += "%s |= (%s << 0x%02X) & 0x%08X" % (dst_reg, src_reg, l_shift, mask)
+    else:
+      # Undo the shifting operation on the mask so we can present the mask as if it was ANDed pre-shift (it's actually post-shift).
+      adjusted_mask = (mask >> l_shift) | (mask << (32 - l_shift))
+      adjusted_mask &= 0xFFFFFFFF
+      
+      # Represent right shifting as a negative number.
+      if l_shift != 0 and last_mask_bit + l_shift > 31:
+        l_shift = -(32 - l_shift)
+      
+      if l_shift == 0:
+        comment += "%s = %s & 0x%08X" % (dst_reg, src_reg, adjusted_mask)
+      elif l_shift < 0:
+        comment += "%s = (%s & 0x%08X) >> 0x%02X" % (dst_reg, src_reg, adjusted_mask, -l_shift)
+      else:
+        comment += "%s = (%s & 0x%08X) << 0x%02X" % (dst_reg, src_reg, adjusted_mask, l_shift)
+  
+  if comment:
+    comment = get_padded_comment_string_for_line(line) + comment
+  
+  return comment

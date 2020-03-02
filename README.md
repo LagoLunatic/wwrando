@@ -5,7 +5,7 @@ This is a randomizer for The Legend of Zelda: The Wind Waker.
 It randomizes all the items in the game so that each playthrough is unique and you never know where a particular item will be.  
 It also makes the game completely open world from the start, removes most cutscenes from the game, and increases sailing speed and text speed.
 
-Download it here: https://github.com/LagoLunatic/wwrando/releases/latest
+**You can download the randomizer here: https://github.com/LagoLunatic/wwrando/releases/latest**
 
 ### Information
 

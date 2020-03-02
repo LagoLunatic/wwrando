@@ -40,11 +40,13 @@ def randomize_items(self):
   # Fill remaining unused locations with consumables (Rupees, spoils, and bait).
   locations_to_place_consumables_at = self.logic.remaining_item_locations.copy()
   for location_name in locations_to_place_consumables_at:
-    possible_items = self.logic.filter_items_valid_for_location(self.logic.unplaced_consumable_items, location_name)
+    possible_items = self.logic.filter_items_valid_for_location(self.logic.unplaced_fixed_consumable_items, location_name)
     if len(possible_items) == 0:
-      item_name = "Red Rupee"
-    else:
-      item_name = self.rng.choice(possible_items)
+      possible_items = self.logic.filter_items_valid_for_location(self.logic.duplicatable_consumable_items, location_name)
+      if len(possible_items) == 0:
+        raise Exception("No valid consumable items for location %s" % location_name)
+    
+    item_name = self.rng.choice(possible_items)
     self.logic.set_location_to_item(location_name, item_name)
 
 def randomize_boss_rewards(self):
