@@ -54,6 +54,7 @@ class DZx: # DZR or DZS, same format
     # This will cause the game to not load any actor there, so it's effectively removing it.
     # The benefit of this is that removing an entity from the list shifts down the entity indexes of all entities after it in the list, which has the potential to screw up paths to entities in item_locations.txt and enemy locations.txt.
     entity.name = ""
+    entity.save_changes()
     
     # Below is the old code that actually removed the entity from the list.
     #chunk_to_remove_entity_from = None

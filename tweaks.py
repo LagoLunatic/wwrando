@@ -1217,7 +1217,6 @@ def add_pirate_ship_to_windfall(self):
     ship_actors_on_this_layer = ship_dzx.entries_by_type_and_layer("ACTR", layer_num)
     niko = next(x for x in ship_actors_on_this_layer if x.name == "P2b")
     ship_dzx.remove_entity(niko, "ACTR", layer=layer_num)
-    ship_dzx.save_changes()
 
 WarpPotData = namedtuple("WarpPotData", 'stage_name room_num x y z y_rot event_reg_index')
 INTER_DUNGEON_WARP_DATA = [
@@ -1323,8 +1322,6 @@ def remove_makar_kidnapping_event(self):
   wizzrobe = next(x for x in actors if x.name == "wiz_r")
   wizzrobe.wizzrobe_prereq_switch_index = 0xFF
   wizzrobe.save_changes()
-  
-  dzx.save_changes()
 
 def increase_player_movement_speeds(self):
   dol_data = self.get_raw_file("sys/main.dol")
@@ -1710,14 +1707,12 @@ def disable_ice_ring_isle_and_fire_mountain_effects_indoors(self):
   actors = iri_dzx.entries_by_type_and_layer("ACTR", None)
   kill_trigger = next(x for x in actors if x.name == "VolTag")
   iri_dzx.remove_entity(kill_trigger, "ACTR", layer=None)
-  iri_dzx.save_changes()
   
   # Remove the entity from Fire Mountain.
   fm_dzx = self.get_arc("files/res/Stage/MiniKaz/Room0.arc").get_file("room.dzr")
   actors = fm_dzx.entries_by_type_and_layer("ACTR", None)
   kill_trigger = next(x for x in actors if x.name == "VolTag")
   fm_dzx.remove_entity(kill_trigger, "ACTR", layer=None)
-  fm_dzx.save_changes()
 
 def prevent_fire_mountain_lava_softlock(self):
   # Sometimes when spawning from spawn ID 0 outside fire mountain, the player will get stuck in an infinite loop of taking damage from lava.

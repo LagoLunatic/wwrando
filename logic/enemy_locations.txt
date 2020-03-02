@@ -4056,7 +4056,7 @@ PShip:
 # Tower of the Gods
 Siren:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Yellow ChuChus
   Enemies:
@@ -4069,7 +4069,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room0.arc/Actor009
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Armos
     & Can Defeat Red Bubbles
@@ -4108,7 +4108,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room2.arc/Actor007
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Yellow ChuChus
   Enemies:
@@ -4137,7 +4137,7 @@ Siren:
       Placement category: Ceiling
       Path: Siren/Room3.arc/Actor018
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Yellow ChuChus
   Enemies:
@@ -4146,7 +4146,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room4.arc/Actor00A
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: Yes # You don't have to be able to beat the enemies technically, but they can get in the way of solving the puzzle if you can't.
   Original requirements:
     Can Defeat Yellow ChuChus
   Enemies:
@@ -4171,7 +4171,7 @@ Siren:
       Placement category: Ceiling
       Path: Siren/Room5.arc/Actor014
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Rats
   Enemies:
@@ -4184,7 +4184,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room6.arc/Actor007
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Keese
     & Can Defeat Wizzrobes
@@ -4202,7 +4202,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room8.arc/Actor010
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Red Bubbles
   Enemies:
@@ -4215,7 +4215,7 @@ Siren:
       Placement category: Air
       Path: Siren/Room9.arc/Actor00E
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: Yes # Not technically needed but the enemies can interfere with carrying the Servant of the Tower across.
   Original requirements:
     Can Defeat Yellow ChuChus
     & Can Defeat Armos
@@ -4246,7 +4246,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room11.arc/Actor00C
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: Yes # Not necessary but they can interfere with carrying the Servant of the Tower
   Original requirements:
     Can Defeat Armos
     & Can Defeat Red Bubbles
@@ -4267,6 +4267,8 @@ Siren:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos
+  Actors to replace with ALLdies:
+    - Siren/Room17.arc/Actor00E
   Enemies:
     -
       Original enemy: Armos
@@ -4277,7 +4279,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room17.arc/Actor00A
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Kargarocs
   Enemies:
@@ -4290,7 +4292,7 @@ Siren:
       Placement category: Air
       Path: Siren/Room18.arc/Actor003
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No # Chest appears when playing Wind's Requiem
   Original requirements:
     Can Defeat Armos Knights
   Enemies:
@@ -4315,24 +4317,27 @@ Siren:
       Original enemy: Armos Knight
       Placement category: Ground
       Path: Siren/Room22.arc/Actor001
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Darknuts
-  Enemies:
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Siren/Room23.arc/Actor000
+#- # Unused miniboss room
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Darknuts
+#  Enemies:
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Siren/Room23.arc/Actor000
 
 
-# TODO
 # Tower of the Gods Darknut Mini-Boss Room
 SirenMB:
 -
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
+  Actors to remove:
+    # Remove the event trigger for the short event that introduces the miniboss.
+    # When the enemy is randomized, it has control during this event, but the player doesn't.
+    - SirenMB/Room23.arc/ScalableObject000
   Enemies:
     -
       Original enemy: Darknut

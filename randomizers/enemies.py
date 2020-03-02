@@ -434,7 +434,7 @@ def add_modify_and_replace_actors_for_enemy_rando(self):
       
       new_actor_datas = enemy_group["New actors to add"]
       for new_actor_data in new_actor_datas:
-        dzx, layer = get_dzx_and_layer_by_path(self, enemy_group["Enemies"][0]["Path"])
+        dzx, _, layer = get_dzx_fourcc_and_layer_by_path(self, enemy_group["Enemies"][0]["Path"])
         actor = dzx.add_entity("ACTR", layer=layer)
         
         actor.name = new_actor_data["Name"]
@@ -452,6 +452,19 @@ def add_modify_and_replace_actors_for_enemy_rando(self):
           actor.y_rot = new_actor_data["Y Rotation"]
         
         dzx.save_changes()
+  
+  # Remove actors when necessary.
+  for stage_folder, enemy_locations in self.enemy_locations.items():
+    for enemy_group in enemy_locations:
+      if "Actors to remove" not in enemy_group:
+        continue
+      
+      actor_paths = enemy_group["Actors to remove"]
+      for actor_path in actor_paths:
+        dzx, fourcc, layer = get_dzx_fourcc_and_layer_by_path(self, actor_path)
+        actor = get_actor_by_path(self, actor_path)
+        
+        dzx.remove_entity(actor, fourcc, layer=layer)
 
 def update_loaded_particles(self, particles_to_load_for_each_jpc_index):
   # Copy particles to stages that need them for the new enemies we placed.
@@ -942,6 +955,18 @@ def get_enemy_instance_by_path(self, path):
   
   return (enemy, arc_name, dzx, layer)
 
+def get_fourcc_by_english_chunk_name(dzx_chunk_type_name):
+  if dzx_chunk_type_name == "Actor":
+    return "ACTR"
+  elif dzx_chunk_type_name == "ScalableObject":
+    return "SCOB"
+  elif dzx_chunk_type_name == "Door":
+    return "DOOR"
+  elif dzx_chunk_type_name == "ScalableDoor":
+    return "TGDR"
+  else:
+    raise Exception("Unknown DZx chunk type name: %s" % dzx_chunk_type_name)
+
 def get_actor_by_path(self, path):
   match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/(Actor|ScalableObject|Door|ScalableDoor)([0-9A-F]{3})$", path)
   if not match:
@@ -954,27 +979,18 @@ def get_actor_by_path(self, path):
   else:
     layer = None
   dzx_chunk_type_name = match.group(3)
-  if dzx_chunk_type_name == "Actor":
-    dzx_chunk_type_fourcc = "ACTR"
-  elif dzx_chunk_type_name == "ScalableObject":
-    dzx_chunk_type_fourcc = "SCOB"
-  elif dzx_chunk_type_name == "Door":
-    dzx_chunk_type_fourcc = "DOOR"
-  elif dzx_chunk_type_name == "ScalableDoor":
-    dzx_chunk_type_fourcc = "TGDR"
-  else:
-    raise Exception("Unknown DZx chunk type name: %s" % dzx_chunk_type_name)
+  fourcc = get_fourcc_by_english_chunk_name(dzx_chunk_type_name)
   actor_index = int(match.group(4), 16)
   
   if arc_path.endswith("Stage.arc"):
     dzx = self.get_arc(arc_path).get_file("stage.dzs")
   else:
     dzx = self.get_arc(arc_path).get_file("room.dzr")
-  actor = dzx.entries_by_type_and_layer(dzx_chunk_type_fourcc, layer)[actor_index]
+  actor = dzx.entries_by_type_and_layer(fourcc, layer)[actor_index]
   
   return actor
 
-def get_dzx_and_layer_by_path(self, path):
+def get_dzx_fourcc_and_layer_by_path(self, path):
   match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/(Actor|ScalableObject|Door|ScalableDoor)([0-9A-F]{3})$", path)
   if not match:
     raise Exception("Invalid actor path: %s" % path)
@@ -991,7 +1007,10 @@ def get_dzx_and_layer_by_path(self, path):
   else:
     dzx = self.get_arc(arc_path).get_file("room.dzr")
   
-  return (dzx, layer)
+  dzx_chunk_type_name = match.group(3)
+  fourcc = get_fourcc_by_english_chunk_name(dzx_chunk_type_name)
+  
+  return (dzx, fourcc, layer)
 
 def distance_between_entities(entity_1, entity_2):
   x1, y1, z1 = entity_1.x_pos, entity_1.y_pos, entity_1.z_pos
