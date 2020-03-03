@@ -1005,18 +1005,13 @@ class Logic:
     # Default to assuming they're all allowed, remove ones as we find out they don't work.
     enemy_datas_allowed_here = possible_new_enemy_datas.copy()
     
-    orig_enemy_macros = original_req_string.split(" & ")
+    orig_enemy_reqs = original_req_string.split(" & ")
     orig_req_expression = Logic.parse_logic_expression(original_req_string)
     
     relevant_item_names = []
     max_num_of_each_item_to_check = {}
-    for orig_macro_name in orig_enemy_macros:
-      if orig_macro_name == "Nothing":
-        orig_enemy_req_expression = Logic.parse_logic_expression("Nothing")
-      else:
-        orig_enemy_req_expression = self.macros[orig_macro_name]
-      
-      item_names_in_req = self.get_item_names_from_logical_expression_req(orig_enemy_req_expression)
+    for orig_req in orig_enemy_reqs:
+      item_names_in_req = self.get_item_names_by_req_name(orig_req)
       relevant_item_names += item_names_in_req
       
       # Determine the maximum relevant number of each progressive item.
