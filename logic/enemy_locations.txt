@@ -720,7 +720,7 @@ Cave09:
 - # Floor 1
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Keese
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Free memory: 1511488
   Enemies:
     -
@@ -766,7 +766,7 @@ Cave09:
 - # Floor 2
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Miniblins
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Miniblin
@@ -795,7 +795,7 @@ Cave09:
 - # Floor 3
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Bokoblin
@@ -816,7 +816,7 @@ Cave09:
 - # Floor 4
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Red ChuChus
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Red ChuChu
@@ -845,7 +845,7 @@ Cave09:
 - # Floor 5
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Magtails
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Magtail
@@ -866,8 +866,7 @@ Cave09:
 - # Floor 6
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Miniblins
-    & Can Defeat Keese
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Miniblin
@@ -904,8 +903,7 @@ Cave09:
 - # Floor 7
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Fire Keese
-    & Can Defeat Magtails
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Fire Keese
@@ -934,8 +932,7 @@ Cave09:
 - # Floor 8
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
-    & Can Defeat Fire Keese
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Bokoblin
@@ -964,7 +961,7 @@ Cave09:
 - # Floor 9
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Moblins
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Blue Moblin
@@ -977,7 +974,7 @@ Cave09:
 - # Floor 21
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Wizzrobes
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -994,7 +991,7 @@ Cave09:
 - # Floor 22
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Armos
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Armos
@@ -1015,7 +1012,7 @@ Cave09:
 - # Floor 23
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Armos Knights
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Armos Knight
@@ -1028,7 +1025,7 @@ Cave09:
 - # Floor 24
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Yellow ChuChus
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Yellow ChuChu
@@ -1057,7 +1054,7 @@ Cave09:
 - # Floor 25
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Red Bubbles
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Red Bubble
@@ -1078,8 +1075,7 @@ Cave09:
 - # Floor 26
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Darknuts
-    & Can Defeat Bokoblins
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Darknut
@@ -1096,8 +1092,7 @@ Cave09:
 - # Floor 27
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Armos
-    & Can Defeat Wizzrobes
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Armos
@@ -1118,8 +1113,7 @@ Cave09:
 - # Floor 28
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Red Bubbles
-    & Can Defeat Armos Knights
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Red Bubble
@@ -1140,7 +1134,7 @@ Cave09:
 - # Floor 29
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Darknuts
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Darknut
@@ -1157,7 +1151,7 @@ Cave10:
 - # Floor 11
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Peahats
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Peahat
@@ -1186,7 +1180,7 @@ Cave10:
 - # Floor 12
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Green ChuChus
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Green ChuChu
@@ -1207,7 +1201,7 @@ Cave10:
 - # Floor 13
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Boko Babas
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Boko Baba
@@ -1232,7 +1226,7 @@ Cave10:
 - # Floor 14
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Bokoblin
@@ -1253,7 +1247,7 @@ Cave10:
 - # Floor 15
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Mothulas
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Wingless Mothula
@@ -1278,8 +1272,7 @@ Cave10:
 - # Floor 16
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Peahats
-    & Can Defeat Boko Babas
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Peahat
@@ -1308,8 +1301,7 @@ Cave10:
 - # Floor 17
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Green ChuChus
-    & Can Defeat Bokoblins
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Green ChuChu
@@ -1346,8 +1338,7 @@ Cave10:
 - # Floor 18
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Mothulas
-    & Can Defeat Bokoblins
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Wingless Mothula
@@ -1372,7 +1363,7 @@ Cave10:
 - # Floor 19
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Winged Mothulas
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Winged Mothula
@@ -1385,7 +1376,7 @@ Cave10:
 - # Floor 41
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Miniblins
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Free memory: 1424976
   Enemies:
     -
@@ -1487,9 +1478,7 @@ Cave10:
 - # Floor 42
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Green ChuChus
-    & Can Defeat Red ChuChus
-    & Can Defeat Yellow ChuChus
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Free memory: 1424976
   Enemies:
     -
@@ -1615,7 +1604,7 @@ Cave10:
 - # Floor 43
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Wizzrobes
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -1640,7 +1629,7 @@ Cave10:
 - # Floor 44
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Free memory: 1417936
   Enemies:
     -
@@ -1710,8 +1699,7 @@ Cave10:
 - # Floor 45
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Stalfos
-    & Can Defeat ReDeads
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Stalfos
@@ -1740,8 +1728,7 @@ Cave10:
 - # Floor 46
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Moblins
-    & Can Defeat Darknuts
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Blue Moblin
@@ -1766,8 +1753,7 @@ Cave10:
 - # Floor 47
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Darknuts
-    & Can Defeat Wizzrobes
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Darknut
@@ -1792,7 +1778,7 @@ Cave10:
 - # Floor 48
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Stalfos
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Stalfos
@@ -1809,7 +1795,7 @@ Cave10:
 - # Floor 49
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Darknuts
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Darknut
@@ -1834,7 +1820,7 @@ Cave11:
 - # Floor 31
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat ReDeads
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: ReDead
@@ -1863,7 +1849,7 @@ Cave11:
 - # Floor 32
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Blue Bubbles
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Blue Bubble
@@ -1888,7 +1874,7 @@ Cave11:
 - # Floor 34
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Poes Without Light Ray
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Poe
@@ -1913,7 +1899,7 @@ Cave11:
 - # Floor 35
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Winged Mothulas
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Winged Mothula
@@ -1930,8 +1916,7 @@ Cave11:
 - # Floor 36
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat ReDeads
-    & Can Defeat Moblins
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Sitting ReDead
@@ -1956,7 +1941,7 @@ Cave11:
 - # Floor 37
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Winged Mothulas
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Winged Mothula
@@ -1965,8 +1950,7 @@ Cave11:
 - # Floor 38
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Moblins
-    & Can Defeat Poes Without Light Ray
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Lantern Moblin
@@ -1999,8 +1983,7 @@ Cave11:
 - # Floor 39
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Stalfos
-    & Can Defeat Blue Bubbles
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Stalfos
