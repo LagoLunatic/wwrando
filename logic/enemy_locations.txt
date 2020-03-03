@@ -715,10 +715,9 @@ Cave07:
       Path: Cave07/Room0.arc/Actor005
 
 
-# TODO
 # Savage Labyrinth
 Cave09:
--
+- # Floor 1
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Keese
@@ -764,7 +763,7 @@ Cave09:
       Original enemy: Keese
       Placement category: Air
       Path: Cave09/Room1.arc/Actor00B
--
+- # Floor 2
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Miniblins
@@ -793,7 +792,7 @@ Cave09:
       Original enemy: Miniblin
       Placement category: Ground
       Path: Cave09/Room2.arc/Actor007
--
+- # Floor 3
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
@@ -814,7 +813,7 @@ Cave09:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave09/Room3.arc/Actor005
--
+- # Floor 4
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Red ChuChus
@@ -843,7 +842,7 @@ Cave09:
       Original enemy: Red ChuChu
       Placement category: Ground
       Path: Cave09/Room4.arc/Actor007
--
+- # Floor 5
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Magtails
@@ -864,108 +863,7 @@ Cave09:
       Original enemy: Magtail
       Placement category: Ground
       Path: Cave09/Room5.arc/Actor004
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Wizzrobes
-  Enemies:
-    -
-      Original enemy: Wizzrobe
-      Placement category: Ground
-      Path: Cave09/Room6.arc/Actor002
-    -
-      Original enemy: Wizzrobe
-      Placement category: Ground
-      Path: Cave09/Room6.arc/Actor003
-    -
-      Original enemy: Wizzrobe
-      Placement category: Ground
-      Path: Cave09/Room6.arc/Actor004
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Armos
-  Enemies:
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Cave09/Room7.arc/Actor002
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Cave09/Room7.arc/Actor003
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Cave09/Room7.arc/Actor004
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Cave09/Room7.arc/Actor005
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Armos Knights
-  Enemies:
-    -
-      Original enemy: Armos Knight
-      Placement category: Ground
-      Path: Cave09/Room8.arc/Actor001
-    -
-      Original enemy: Armos Knight
-      Placement category: Ground
-      Path: Cave09/Room8.arc/Actor002
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Yellow ChuChus
-  Enemies:
-    -
-      Original enemy: Yellow ChuChu
-      Placement category: Pot
-      Path: Cave09/Room9.arc/Actor002
-    -
-      Original enemy: Yellow ChuChu
-      Placement category: Pot
-      Path: Cave09/Room9.arc/Actor003
-    -
-      Original enemy: Yellow ChuChu
-      Placement category: Pot
-      Path: Cave09/Room9.arc/Actor004
-    -
-      Original enemy: Yellow ChuChu
-      Placement category: Pot
-      Path: Cave09/Room9.arc/Actor005
-    -
-      Original enemy: Yellow ChuChu
-      Placement category: Pot
-      Path: Cave09/Room9.arc/Actor006
-    -
-      Original enemy: Yellow ChuChu
-      Placement category: Pot
-      Path: Cave09/Room9.arc/Actor007
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Red Bubbles
-  Enemies:
-    -
-      Original enemy: Red Bubble
-      Placement category: Ground
-      Path: Cave09/Room10.arc/Actor002
-    -
-      Original enemy: Red Bubble
-      Placement category: Ground
-      Path: Cave09/Room10.arc/Actor003
-    -
-      Original enemy: Red Bubble
-      Placement category: Ground
-      Path: Cave09/Room10.arc/Actor004
-    -
-      Original enemy: Red Bubble
-      Placement category: Ground
-      Path: Cave09/Room10.arc/Actor005
--
+- # Floor 6
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Miniblins
@@ -1003,7 +901,7 @@ Cave09:
       Original enemy: Keese
       Placement category: Air
       Path: Cave09/Room11.arc/Actor009
--
+- # Floor 7
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Fire Keese
@@ -1033,7 +931,7 @@ Cave09:
       Original enemy: Magtail
       Placement category: Ground
       Path: Cave09/Room12.arc/Actor007
--
+- # Floor 8
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
@@ -1063,7 +961,7 @@ Cave09:
       Original enemy: Fire Keese
       Placement category: Air
       Path: Cave09/Room13.arc/Actor007
--
+- # Floor 9
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
@@ -1076,7 +974,108 @@ Cave09:
       Original enemy: Blue Moblin
       Placement category: Ground
       Path: Cave09/Room14.arc/Actor003
--
+- # Floor 21
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Defeat Wizzrobes
+  Enemies:
+    -
+      Original enemy: Wizzrobe
+      Placement category: Ground
+      Path: Cave09/Room6.arc/Actor002
+    -
+      Original enemy: Wizzrobe
+      Placement category: Ground
+      Path: Cave09/Room6.arc/Actor003
+    -
+      Original enemy: Wizzrobe
+      Placement category: Ground
+      Path: Cave09/Room6.arc/Actor004
+- # Floor 22
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Defeat Armos
+  Enemies:
+    -
+      Original enemy: Armos
+      Placement category: Ground
+      Path: Cave09/Room7.arc/Actor002
+    -
+      Original enemy: Armos
+      Placement category: Ground
+      Path: Cave09/Room7.arc/Actor003
+    -
+      Original enemy: Armos
+      Placement category: Ground
+      Path: Cave09/Room7.arc/Actor004
+    -
+      Original enemy: Armos
+      Placement category: Ground
+      Path: Cave09/Room7.arc/Actor005
+- # Floor 23
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Defeat Armos Knights
+  Enemies:
+    -
+      Original enemy: Armos Knight
+      Placement category: Ground
+      Path: Cave09/Room8.arc/Actor001
+    -
+      Original enemy: Armos Knight
+      Placement category: Ground
+      Path: Cave09/Room8.arc/Actor002
+- # Floor 24
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Defeat Yellow ChuChus
+  Enemies:
+    -
+      Original enemy: Yellow ChuChu
+      Placement category: Pot
+      Path: Cave09/Room9.arc/Actor002
+    -
+      Original enemy: Yellow ChuChu
+      Placement category: Pot
+      Path: Cave09/Room9.arc/Actor003
+    -
+      Original enemy: Yellow ChuChu
+      Placement category: Pot
+      Path: Cave09/Room9.arc/Actor004
+    -
+      Original enemy: Yellow ChuChu
+      Placement category: Pot
+      Path: Cave09/Room9.arc/Actor005
+    -
+      Original enemy: Yellow ChuChu
+      Placement category: Pot
+      Path: Cave09/Room9.arc/Actor006
+    -
+      Original enemy: Yellow ChuChu
+      Placement category: Pot
+      Path: Cave09/Room9.arc/Actor007
+- # Floor 25
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Defeat Red Bubbles
+  Enemies:
+    -
+      Original enemy: Red Bubble
+      Placement category: Ground
+      Path: Cave09/Room10.arc/Actor002
+    -
+      Original enemy: Red Bubble
+      Placement category: Ground
+      Path: Cave09/Room10.arc/Actor003
+    -
+      Original enemy: Red Bubble
+      Placement category: Ground
+      Path: Cave09/Room10.arc/Actor004
+    -
+      Original enemy: Red Bubble
+      Placement category: Ground
+      Path: Cave09/Room10.arc/Actor005
+- # Floor 26
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
@@ -1094,7 +1093,7 @@ Cave09:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave09/Room16.arc/Actor004
--
+- # Floor 27
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Armos
@@ -1116,7 +1115,7 @@ Cave09:
       Original enemy: Armos
       Placement category: Ground
       Path: Cave09/Room17.arc/Actor005
--
+- # Floor 28
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Red Bubbles
@@ -1138,7 +1137,7 @@ Cave09:
       Original enemy: Armos Knight
       Placement category: Ground
       Path: Cave09/Room18.arc/Actor005
--
+- # Floor 29
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
@@ -1153,10 +1152,9 @@ Cave09:
       Path: Cave09/Room19.arc/Actor001
 
 
-# TODO
 # Savage Labyrinth
 Cave10:
--
+- # Floor 11
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Peahats
@@ -1185,7 +1183,7 @@ Cave10:
       Original enemy: Peahat
       Placement category: Air
       Path: Cave10/Room1.arc/Actor007
--
+- # Floor 12
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Green ChuChus
@@ -1206,7 +1204,7 @@ Cave10:
       Original enemy: Green ChuChu
       Placement category: Ceiling
       Path: Cave10/Room2.arc/Actor005
--
+- # Floor 13
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Boko Babas
@@ -1231,7 +1229,7 @@ Cave10:
       Original enemy: Boko Baba
       Placement category: Ground
       Path: Cave10/Room3.arc/Actor006
--
+- # Floor 14
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
@@ -1252,7 +1250,7 @@ Cave10:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room4.arc/Actor005
--
+- # Floor 15
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Mothulas
@@ -1277,7 +1275,114 @@ Cave10:
       Original enemy: Wingless Mothula
       Placement category: Ground
       Path: Cave10/Room5.arc/Actor006
--
+- # Floor 16
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Defeat Peahats
+    & Can Defeat Boko Babas
+  Enemies:
+    -
+      Original enemy: Peahat
+      Placement category: Air
+      Path: Cave10/Room11.arc/Actor002
+    -
+      Original enemy: Peahat
+      Placement category: Air
+      Path: Cave10/Room11.arc/Actor003
+    -
+      Original enemy: Peahat
+      Placement category: Air
+      Path: Cave10/Room11.arc/Actor004
+    -
+      Original enemy: Boko Baba
+      Placement category: Ground
+      Path: Cave10/Room11.arc/Actor005
+    -
+      Original enemy: Boko Baba
+      Placement category: Ground
+      Path: Cave10/Room11.arc/Actor006
+    -
+      Original enemy: Boko Baba
+      Placement category: Ground
+      Path: Cave10/Room11.arc/Actor007
+- # Floor 17
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Defeat Green ChuChus
+    & Can Defeat Bokoblins
+  Enemies:
+    -
+      Original enemy: Green ChuChu
+      Placement category: Ground
+      Path: Cave10/Room12.arc/Actor002
+    -
+      Original enemy: Green ChuChu
+      Placement category: Ground
+      Path: Cave10/Room12.arc/Actor003
+    -
+      Original enemy: Green ChuChu
+      Placement category: Ground
+      Path: Cave10/Room12.arc/Actor004
+    -
+      Original enemy: Bokoblin
+      Placement category: Pot
+      Path: Cave10/Room12.arc/Actor005
+    -
+      Original enemy: Bokoblin
+      Placement category: Pot
+      Path: Cave10/Room12.arc/Actor006
+    -
+      Original enemy: Bokoblin
+      Placement category: Pot
+      Path: Cave10/Room12.arc/Actor007
+    -
+      Original enemy: Green ChuChu
+      Placement category: Ground
+      Path: Cave10/Room12.arc/Actor00B
+    -
+      Original enemy: Bokoblin
+      Placement category: Pot
+      Path: Cave10/Room12.arc/Actor00C
+- # Floor 18
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Defeat Mothulas
+    & Can Defeat Bokoblins
+  Enemies:
+    -
+      Original enemy: Wingless Mothula
+      Placement category: Ground
+      Path: Cave10/Room13.arc/Actor002
+    -
+      Original enemy: Wingless Mothula
+      Placement category: Ground
+      Path: Cave10/Room13.arc/Actor003
+    -
+      Original enemy: Wingless Mothula
+      Placement category: Ground
+      Path: Cave10/Room13.arc/Actor004
+    -
+      Original enemy: Bokoblin
+      Placement category: Ground
+      Path: Cave10/Room13.arc/Actor005
+    -
+      Original enemy: Bokoblin
+      Placement category: Ground
+      Path: Cave10/Room13.arc/Actor006
+- # Floor 19
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Defeat Winged Mothulas
+  Enemies:
+    -
+      Original enemy: Winged Mothula
+      Placement category: Air
+      Path: Cave10/Room14.arc/Actor002
+    -
+      Original enemy: Winged Mothula
+      Placement category: Air
+      Path: Cave10/Room14.arc/Actor003
+- # Floor 41
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Miniblins
@@ -1379,7 +1484,7 @@ Cave10:
       Original enemy: Miniblin
       Placement category: Ground
       Path: Cave10/Room6.arc/Actor019
--
+- # Floor 42
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Green ChuChus
@@ -1507,7 +1612,7 @@ Cave10:
       Original enemy: Yellow ChuChu
       Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor01F
--
+- # Floor 43
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Wizzrobes
@@ -1532,7 +1637,7 @@ Cave10:
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: Cave10/Room8.arc/Actor006
--
+- # Floor 44
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
@@ -1602,7 +1707,7 @@ Cave10:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor011
--
+- # Floor 45
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Stalfos
@@ -1632,114 +1737,7 @@ Cave10:
       Original enemy: ReDead
       Placement category: Ground
       Path: Cave10/Room10.arc/Actor007
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Peahats
-    & Can Defeat Boko Babas
-  Enemies:
-    -
-      Original enemy: Peahat
-      Placement category: Air
-      Path: Cave10/Room11.arc/Actor002
-    -
-      Original enemy: Peahat
-      Placement category: Air
-      Path: Cave10/Room11.arc/Actor003
-    -
-      Original enemy: Peahat
-      Placement category: Air
-      Path: Cave10/Room11.arc/Actor004
-    -
-      Original enemy: Boko Baba
-      Placement category: Ground
-      Path: Cave10/Room11.arc/Actor005
-    -
-      Original enemy: Boko Baba
-      Placement category: Ground
-      Path: Cave10/Room11.arc/Actor006
-    -
-      Original enemy: Boko Baba
-      Placement category: Ground
-      Path: Cave10/Room11.arc/Actor007
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Green ChuChus
-    & Can Defeat Bokoblins
-  Enemies:
-    -
-      Original enemy: Green ChuChu
-      Placement category: Ground
-      Path: Cave10/Room12.arc/Actor002
-    -
-      Original enemy: Green ChuChu
-      Placement category: Ground
-      Path: Cave10/Room12.arc/Actor003
-    -
-      Original enemy: Green ChuChu
-      Placement category: Ground
-      Path: Cave10/Room12.arc/Actor004
-    -
-      Original enemy: Bokoblin
-      Placement category: Pot
-      Path: Cave10/Room12.arc/Actor005
-    -
-      Original enemy: Bokoblin
-      Placement category: Pot
-      Path: Cave10/Room12.arc/Actor006
-    -
-      Original enemy: Bokoblin
-      Placement category: Pot
-      Path: Cave10/Room12.arc/Actor007
-    -
-      Original enemy: Green ChuChu
-      Placement category: Ground
-      Path: Cave10/Room12.arc/Actor00B
-    -
-      Original enemy: Bokoblin
-      Placement category: Pot
-      Path: Cave10/Room12.arc/Actor00C
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Mothulas
-    & Can Defeat Bokoblins
-  Enemies:
-    -
-      Original enemy: Wingless Mothula
-      Placement category: Ground
-      Path: Cave10/Room13.arc/Actor002
-    -
-      Original enemy: Wingless Mothula
-      Placement category: Ground
-      Path: Cave10/Room13.arc/Actor003
-    -
-      Original enemy: Wingless Mothula
-      Placement category: Ground
-      Path: Cave10/Room13.arc/Actor004
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
-      Path: Cave10/Room13.arc/Actor005
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
-      Path: Cave10/Room13.arc/Actor006
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Winged Mothulas
-  Enemies:
-    -
-      Original enemy: Winged Mothula
-      Placement category: Air
-      Path: Cave10/Room14.arc/Actor002
-    -
-      Original enemy: Winged Mothula
-      Placement category: Air
-      Path: Cave10/Room14.arc/Actor003
--
+- # Floor 46
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
@@ -1765,7 +1763,7 @@ Cave10:
       Original enemy: Blue Moblin
       Placement category: Ground
       Path: Cave10/Room16.arc/Actor006
--
+- # Floor 47
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
@@ -1791,7 +1789,7 @@ Cave10:
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: Cave10/Room17.arc/Actor006
--
+- # Floor 48
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Stalfos
@@ -1808,7 +1806,7 @@ Cave10:
       Original enemy: Stalfos
       Placement category: Ground
       Path: Cave10/Room18.arc/Actor008
--
+- # Floor 49
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Darknuts
@@ -1831,10 +1829,9 @@ Cave10:
       Path: Cave10/Room19.arc/Actor005
 
 
-# TODO
 # Savage Labyrinth
 Cave11:
--
+- # Floor 31
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat ReDeads
@@ -1863,7 +1860,7 @@ Cave11:
       Original enemy: ReDead
       Placement category: Ground
       Path: Cave11/Room1.arc/Actor007
--
+- # Floor 32
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Blue Bubbles
@@ -1888,7 +1885,7 @@ Cave11:
       Original enemy: Blue Bubble
       Placement category: Ground
       Path: Cave11/Room2.arc/Actor006
--
+- # Floor 34
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Poes Without Light Ray
@@ -1913,7 +1910,7 @@ Cave11:
       Original enemy: Poe
       Placement category: Ground
       Path: Cave11/Room4.arc/Actor006
--
+- # Floor 35
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Winged Mothulas
@@ -1930,99 +1927,7 @@ Cave11:
       Original enemy: Winged Mothula
       Placement category: Air
       Path: Cave11/Room5.arc/Actor004
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Magtails
-  Enemies:
-    -
-      Original enemy: Magtail
-      Placement category: Ground
-      Path: Cave11/Room6.arc/Actor002
-    -
-      Original enemy: Magtail
-      Placement category: Ground
-      Path: Cave11/Room6.arc/Actor003
-    -
-      Original enemy: Magtail
-      Placement category: Ground
-      Path: Cave11/Room6.arc/Actor004
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Fire Keese
-  Enemies:
-    -
-      Original enemy: Fire Keese
-      Placement category: Air
-      Path: Cave11/Room7.arc/Actor002
-    -
-      Original enemy: Fire Keese
-      Placement category: Air
-      Path: Cave11/Room7.arc/Actor003
-    -
-      Original enemy: Fire Keese
-      Placement category: Air
-      Path: Cave11/Room7.arc/Actor004
-    -
-      Original enemy: Fire Keese
-      Placement category: Air
-      Path: Cave11/Room7.arc/Actor005
-    -
-      Original enemy: Fire Keese
-      Placement category: Air
-      Path: Cave11/Room7.arc/Actor006
-    -
-      Original enemy: Fire Keese
-      Placement category: Air
-      Path: Cave11/Room7.arc/Actor007
-    -
-      Original enemy: Fire Keese
-      Placement category: Air
-      Path: Cave11/Room7.arc/Actor008
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Bokoblins
-  Enemies:
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
-      Path: Cave11/Room8.arc/Actor001
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
-      Path: Cave11/Room8.arc/Actor002
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
-      Path: Cave11/Room8.arc/Actor003
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
-      Path: Cave11/Room8.arc/Actor004
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Darknuts
-  Enemies:
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Cave11/Room9.arc/Actor001
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Cave11/Room9.arc/Actor002
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Cave11/Room9.arc/Actor004
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Cave11/Room9.arc/Actor005
--
+- # Floor 36
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat ReDeads
@@ -2048,7 +1953,7 @@ Cave11:
       Original enemy: Blue Moblin
       Placement category: Ground
       Path: Cave11/Room11.arc/Actor006
--
+- # Floor 37
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Winged Mothulas
@@ -2057,7 +1962,7 @@ Cave11:
       Original enemy: Winged Mothula
       Placement category: Air
       Path: Cave11/Room12.arc/Actor001
--
+- # Floor 38
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Moblins
@@ -2091,7 +1996,7 @@ Cave11:
       Original enemy: Poe
       Placement category: Ground
       Path: Cave11/Room13.arc/Actor008
--
+- # Floor 39
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Stalfos
@@ -2121,82 +2026,175 @@ Cave11:
       Original enemy: Blue Bubble
       Placement category: Ground
       Path: Cave11/Room14.arc/Actor007
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Yellow ChuChus
-  Enemies:
-    -
-      Original enemy: Yellow ChuChu
-      Placement category: Ceiling
-      Path: Cave11/Room16.arc/Actor000
-    -
-      Original enemy: Yellow ChuChu
-      Placement category: Ceiling
-      Path: Cave11/Room16.arc/Actor001
-    -
-      Original enemy: Yellow ChuChu
-      Placement category: Ceiling
-      Path: Cave11/Room16.arc/Actor002
-    -
-      Original enemy: Yellow ChuChu
-      Placement category: Ceiling
-      Path: Cave11/Room16.arc/Actor003
-    -
-      Original enemy: Yellow ChuChu
-      Placement category: Ceiling
-      Path: Cave11/Room16.arc/Actor004
-    -
-      Original enemy: Yellow ChuChu
-      Placement category: Ceiling
-      Path: Cave11/Room16.arc/Actor005
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Armos
-  Enemies:
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Cave11/Room17.arc/Actor000
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Cave11/Room17.arc/Actor001
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Cave11/Room17.arc/Actor002
-    -
-      Original enemy: Armos
-      Placement category: Ground
-      Path: Cave11/Room17.arc/Actor003
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Armos Knights
-  Enemies:
-    -
-      Original enemy: Armos Knight
-      Placement category: Ground
-      Path: Cave11/Room18.arc/Actor000
-    -
-      Original enemy: Armos Knight
-      Placement category: Ground
-      Path: Cave11/Room18.arc/Actor001
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Darknuts
-  Enemies:
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Cave11/Room19.arc/Actor000
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Cave11/Room19.arc/Actor001
+# Bunch of unused floors below:
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Magtails
+#  Enemies:
+#    -
+#      Original enemy: Magtail
+#      Placement category: Ground
+#      Path: Cave11/Room6.arc/Actor002
+#    -
+#      Original enemy: Magtail
+#      Placement category: Ground
+#      Path: Cave11/Room6.arc/Actor003
+#    -
+#      Original enemy: Magtail
+#      Placement category: Ground
+#      Path: Cave11/Room6.arc/Actor004
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Fire Keese
+#  Enemies:
+#    -
+#      Original enemy: Fire Keese
+#      Placement category: Air
+#      Path: Cave11/Room7.arc/Actor002
+#    -
+#      Original enemy: Fire Keese
+#      Placement category: Air
+#      Path: Cave11/Room7.arc/Actor003
+#    -
+#      Original enemy: Fire Keese
+#      Placement category: Air
+#      Path: Cave11/Room7.arc/Actor004
+#    -
+#      Original enemy: Fire Keese
+#      Placement category: Air
+#      Path: Cave11/Room7.arc/Actor005
+#    -
+#      Original enemy: Fire Keese
+#      Placement category: Air
+#      Path: Cave11/Room7.arc/Actor006
+#    -
+#      Original enemy: Fire Keese
+#      Placement category: Air
+#      Path: Cave11/Room7.arc/Actor007
+#    -
+#      Original enemy: Fire Keese
+#      Placement category: Air
+#      Path: Cave11/Room7.arc/Actor008
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Bokoblins
+#  Enemies:
+#    -
+#      Original enemy: Bokoblin
+#      Placement category: Ground
+#      Path: Cave11/Room8.arc/Actor001
+#    -
+#      Original enemy: Bokoblin
+#      Placement category: Ground
+#      Path: Cave11/Room8.arc/Actor002
+#    -
+#      Original enemy: Bokoblin
+#      Placement category: Ground
+#      Path: Cave11/Room8.arc/Actor003
+#    -
+#      Original enemy: Bokoblin
+#      Placement category: Ground
+#      Path: Cave11/Room8.arc/Actor004
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Darknuts
+#  Enemies:
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Cave11/Room9.arc/Actor001
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Cave11/Room9.arc/Actor002
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Cave11/Room9.arc/Actor004
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Cave11/Room9.arc/Actor005
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Yellow ChuChus
+#  Enemies:
+#    -
+#      Original enemy: Yellow ChuChu
+#      Placement category: Ceiling
+#      Path: Cave11/Room16.arc/Actor000
+#    -
+#      Original enemy: Yellow ChuChu
+#      Placement category: Ceiling
+#      Path: Cave11/Room16.arc/Actor001
+#    -
+#      Original enemy: Yellow ChuChu
+#      Placement category: Ceiling
+#      Path: Cave11/Room16.arc/Actor002
+#    -
+#      Original enemy: Yellow ChuChu
+#      Placement category: Ceiling
+#      Path: Cave11/Room16.arc/Actor003
+#    -
+#      Original enemy: Yellow ChuChu
+#      Placement category: Ceiling
+#      Path: Cave11/Room16.arc/Actor004
+#    -
+#      Original enemy: Yellow ChuChu
+#      Placement category: Ceiling
+#      Path: Cave11/Room16.arc/Actor005
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Armos
+#  Enemies:
+#    -
+#      Original enemy: Armos
+#      Placement category: Ground
+#      Path: Cave11/Room17.arc/Actor000
+#    -
+#      Original enemy: Armos
+#      Placement category: Ground
+#      Path: Cave11/Room17.arc/Actor001
+#    -
+#      Original enemy: Armos
+#      Placement category: Ground
+#      Path: Cave11/Room17.arc/Actor002
+#    -
+#      Original enemy: Armos
+#      Placement category: Ground
+#      Path: Cave11/Room17.arc/Actor003
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Armos Knights
+#  Enemies:
+#    -
+#      Original enemy: Armos Knight
+#      Placement category: Ground
+#      Path: Cave11/Room18.arc/Actor000
+#    -
+#      Original enemy: Armos Knight
+#      Placement category: Ground
+#      Path: Cave11/Room18.arc/Actor001
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Darknuts
+#  Enemies:
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Cave11/Room19.arc/Actor000
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Cave11/Room19.arc/Actor001
 
 
 # Ganon's Tower Entrance
