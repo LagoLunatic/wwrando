@@ -1871,6 +1871,35 @@ Cave11:
       Original enemy: Blue Bubble
       Placement category: Ground
       Path: Cave11/Room2.arc/Actor006
+- # Floor 33
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+  Enemies:
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: Cave11/Room3.arc/Actor002
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: Cave11/Room3.arc/Actor003
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: Cave11/Room3.arc/Actor004
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: Cave11/Room3.arc/Actor005
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: Cave11/Room3.arc/Actor006
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: Cave11/Room3.arc/Actor007
 - # Floor 34
   Must defeat enemies: Yes
   Original requirements:
@@ -1947,6 +1976,26 @@ Cave11:
       Original enemy: Winged Mothula
       Placement category: Air
       Path: Cave11/Room12.arc/Actor001
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: Cave11/Room12.arc/Actor002
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: Cave11/Room12.arc/Actor003
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: Cave11/Room12.arc/Actor004
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: Cave11/Room12.arc/Actor005
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: Cave11/Room12.arc/Actor006
 - # Floor 38
   Must defeat enemies: Yes
   Original requirements:
