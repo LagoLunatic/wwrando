@@ -164,6 +164,8 @@ class Logic:
       if len(self.progress_item_groups[group_name]) == 0:
         if group_name in self.unplaced_progress_items:
           self.unplaced_progress_items.remove(group_name)
+    
+    self.cached_enemies_tested_for_req_string = OrderedDict()
   
   def set_location_to_item(self, location_name, item_name):
     #print("Setting %s to %s" % (location_name, item_name))
@@ -1005,6 +1007,25 @@ class Logic:
     # Default to assuming they're all allowed, remove ones as we find out they don't work.
     enemy_datas_allowed_here = possible_new_enemy_datas.copy()
     
+    # Default to checking all enemy datas passed to this function.
+    possible_new_enemy_datas_to_check = possible_new_enemy_datas.copy()
+    
+    # However, we don't recheck ones that are already in the cache.
+    if original_req_string not in self.cached_enemies_tested_for_req_string:
+      self.cached_enemies_tested_for_req_string[original_req_string] = OrderedDict()
+    else:
+      for possible_new_enemy_data in possible_new_enemy_datas:
+        enemy_name = possible_new_enemy_data["Pretty name"]
+        if enemy_name in self.cached_enemies_tested_for_req_string[original_req_string]:
+          # Cached.
+          possible_new_enemy_datas_to_check.remove(possible_new_enemy_data)
+          if not self.cached_enemies_tested_for_req_string[original_req_string][enemy_name]:
+            enemy_datas_allowed_here.remove(possible_new_enemy_data)
+    
+    if not possible_new_enemy_datas_to_check:
+      # All the enemies we need to check have already been checked and cached. Return early to improve performance.
+      return enemy_datas_allowed_here
+    
     orig_enemy_reqs = original_req_string.split(" & ")
     orig_req_expression = Logic.parse_logic_expression(original_req_string)
     
@@ -1050,18 +1071,25 @@ class Logic:
       
       orig_req_met = self.check_logical_expression_req(orig_req_expression)
       if orig_req_met:
-        for possible_new_enemy_data in possible_new_enemy_datas:
+        for possible_new_enemy_data in possible_new_enemy_datas_to_check:
           if possible_new_enemy_data not in enemy_datas_allowed_here:
             # Already removed this one
             continue
+          
+          enemy_name = possible_new_enemy_data["Pretty name"]
           
           possible_new_enemy_req_expression = Logic.parse_logic_expression(possible_new_enemy_data["Requirements to defeat"])
           new_req_met = self.check_logical_expression_req(possible_new_enemy_req_expression)
           if not new_req_met:
             enemy_datas_allowed_here.remove(possible_new_enemy_data)
+            self.cached_enemies_tested_for_req_string[original_req_string][enemy_name] = False
       
       for item_name in item_combo:
         self.remove_owned_item_or_item_group(item_name)
+    
+    for enemy_data in enemy_datas_allowed_here:
+      enemy_name = enemy_data["Pretty name"]
+      self.cached_enemies_tested_for_req_string[original_req_string][enemy_name] = True
     
     return enemy_datas_allowed_here
 
