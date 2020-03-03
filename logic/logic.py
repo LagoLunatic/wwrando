@@ -855,31 +855,47 @@ class Logic:
       return all(subexpression_results)
   
   def get_item_names_by_req_name(self, req_name):
+    items_needed = self.get_items_needed_by_req_name(req_name)
+    return self.flatten_items_needed_to_item_names(items_needed)
+  
+  def get_item_names_from_logical_expression_req(self, logical_expression):
+    items_needed = self.get_items_needed_from_logical_expression_req(logical_expression)
+    return self.flatten_items_needed_to_item_names(items_needed)
+  
+  def flatten_items_needed_to_item_names(self, items_needed):
     item_names = []
+    for item_name, num_required in items_needed.items():
+      item_names += [item_name]*num_required
+    return item_names
+  
+  def get_items_needed_by_req_name(self, req_name):
+    items_needed = OrderedDict()
     if req_name.startswith("Progressive "):
       match = re.search(r"^(Progressive .+) x(\d+)$", req_name)
       item_name = match.group(1)
       num_required = int(match.group(2))
-      for i in range(num_required):
-        item_names.append(item_name)
+      items_needed[item_name] = max(num_required, items_needed.setdefault(item_name, 0))
     elif " Small Key x" in req_name:
       match = re.search(r"^(.+ Small Key) x(\d+)$", req_name)
       small_key_name = match.group(1)
       num_keys_required = int(match.group(2))
-      for i in range(num_keys_required):
-        item_names.append(small_key_name)
+      items_needed[small_key_name] = max(num_keys_required, items_needed.setdefault(small_key_name, 0))
     elif req_name.startswith("Can Access Other Location \""):
       match = re.search(r"^Can Access Other Location \"([^\"]+)\"$", req_name)
       other_location_name = match.group(1)
       requirement_expression = self.item_locations[other_location_name]["Need"]
-      item_names += self.get_item_names_from_logical_expression_req(requirement_expression)
+      sub_items_needed = self.get_items_needed_from_logical_expression_req(requirement_expression)
+      for item_name, num_required in sub_items_needed.items():
+        items_needed[item_name] = max(num_required, items_needed.setdefault(item_name, 0))
     elif req_name.startswith("Option \""):
       pass
     elif req_name in self.all_cleaned_item_names:
-      item_names.append(req_name)
+      items_needed[req_name] = max(1, items_needed.setdefault(req_name, 0))
     elif req_name in self.macros:
       logical_expression = self.macros[req_name]
-      item_names += self.get_item_names_from_logical_expression_req(logical_expression)
+      sub_items_needed = self.get_items_needed_from_logical_expression_req(logical_expression)
+      for item_name, num_required in sub_items_needed.items():
+        items_needed[item_name] = max(num_required, items_needed.setdefault(item_name, 0))
     elif req_name == "Nothing":
       pass
     elif req_name == "Impossible":
@@ -887,14 +903,14 @@ class Logic:
     else:
       raise Exception("Unknown requirement name: " + req_name)
     
-    return item_names
+    return items_needed
   
-  def get_item_names_from_logical_expression_req(self, logical_expression):
+  def get_items_needed_from_logical_expression_req(self, logical_expression):
     if self.check_logical_expression_req(logical_expression):
       # If this expression is already satisfied, we don't want to include any other items in the OR statement.
-      return []
+      return OrderedDict()
     
-    item_names = []
+    items_needed = OrderedDict()
     tokens = logical_expression.copy()
     tokens.reverse()
     while tokens:
@@ -908,15 +924,17 @@ class Logic:
         if nested_expression == "(":
           # Nested parentheses
           nested_expression = ["("] + tokens.pop()
-        result = self.get_item_names_from_logical_expression_req(nested_expression)
-        item_names += result
+        sub_items_needed = self.get_items_needed_from_logical_expression_req(nested_expression)
+        for item_name, num_required in sub_items_needed.items():
+          items_needed[item_name] = max(num_required, items_needed.setdefault(item_name, 0))
         assert tokens.pop() == ")"
       else:
         # Subexpression.
-        sub_item_names = self.get_item_names_by_req_name(token)
-        item_names += sub_item_names
+        sub_items_needed = self.get_items_needed_by_req_name(token)
+        for item_name, num_required in sub_items_needed.items():
+          items_needed[item_name] = max(num_required, items_needed.setdefault(item_name, 0))
     
-    return item_names
+    return items_needed
   
   def check_progressive_item_req(self, req_name):
     match = re.search(r"^(Progressive .+) x(\d+)$", req_name)
@@ -1029,25 +1047,9 @@ class Logic:
     orig_enemy_reqs = original_req_string.split(" & ")
     orig_req_expression = Logic.parse_logic_expression(original_req_string)
     
-    relevant_item_names = []
-    max_num_of_each_item_to_check = {}
-    for orig_req in orig_enemy_reqs:
-      item_names_in_req = self.get_item_names_by_req_name(orig_req)
-      relevant_item_names += item_names_in_req
-      
-      # Determine the maximum relevant number of each progressive item.
-      for item_name in item_names_in_req:
-        if item_name.startswith("Progressive "):
-          num_item_in_this_req = item_names_in_req.count(item_name)
-          if item_name not in max_num_of_each_item_to_check:
-            max_num_of_each_item_to_check[item_name] = num_item_in_this_req
-          elif max_num_of_each_item_to_check[item_name] < num_item_in_this_req:
-            max_num_of_each_item_to_check[item_name] = num_item_in_this_req
-        else:
-          # For non-progressive items, you either have it or you don't, so always check at most up to 1.
-          max_num_of_each_item_to_check[item_name] = 1
+    max_num_of_each_item_to_check = self.get_items_needed_from_logical_expression_req(orig_req_expression)
     
-    relevant_item_names = list(set(relevant_item_names)) # Remove duplicates
+    relevant_item_names = list(max_num_of_each_item_to_check.keys())
     if self.rando.options.get("sword_mode") == "Swordless":
       if "Progressive Sword" in relevant_item_names:
         relevant_item_names.remove("Progressive Sword")
