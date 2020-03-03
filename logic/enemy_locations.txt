@@ -6608,11 +6608,10 @@ sea/Room3.arc:
       Path: sea/Room3.arc/Actor014
 
 
-# TODO
 # Crescent Moon Island
 sea/Room5.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Gyorgs
   Enemies:
@@ -6802,11 +6801,10 @@ sea/Room16.arc:
       Path: sea/Room16.arc/Actor035
 
 
-# TODO
 # Tingle Island
 sea/Room17.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Gyorgs
   Enemies:
@@ -6816,11 +6814,10 @@ sea/Room17.arc:
       Path: sea/Room17.arc/Actor011
 
 
-# TODO
 # Northern Triangle Island
 sea/Room18.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Saltwater Octoroks
   Enemies:
@@ -7037,11 +7034,10 @@ sea/Room25.arc:
       Path: sea/Room25.arc/Actor029
 
 
-# TODO
 # Eastern Triangle Island
 sea/Room27.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Saltwater Octoroks
   Enemies:
@@ -7219,11 +7215,10 @@ sea/Room31.arc:
       Path: sea/Room31.arc/Actor02F
 
 
-# TODO
 # Southern Triangle Island
 sea/Room32.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Seahats
   Enemies:
@@ -7352,11 +7347,10 @@ sea/Room37.arc:
       Path: sea/Room37.arc/Actor026
 
 
-# TODO
 # Shark Island
 sea/Room38.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Saltwater Octoroks
   Free memory: 1039296
@@ -7521,11 +7515,10 @@ sea/Room41.arc:
       Path: sea/Room41.arc/Layer7/Actor003
 
 
-# TODO
 # Cliff Plateau Isles
 sea/Room42.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Gyorgs
     & Can Defeat Bokoblins
@@ -7565,11 +7558,10 @@ sea/Room42.arc:
       Path: sea/Room42.arc/Actor038
 
 
-# TODO
 # Horseshoe Island
 sea/Room43.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Seahats
     & Can Defeat Bokoblins
@@ -7630,11 +7622,10 @@ sea/Room43.arc:
       Path: sea/Room43.arc/Actor055
 
 
-# TODO
 # Outset Island
 sea/Room44.arc:
--
-  Must defeat enemies: Yes
+- # Outset at night
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Green ChuChus
     & Can Defeat Red ChuChus
@@ -7681,142 +7672,141 @@ sea/Room44.arc:
       Original enemy: Miniblin
       Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor01D
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Keese
-  Enemies:
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer6/Actor000
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer6/Actor001
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer6/Actor002
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer6/Actor003
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer6/Actor004
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer6/Actor005
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer6/Actor006
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer6/Actor007
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer6/Actor008
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer6/Actor009
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer6/Actor00A
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer6/Actor00B
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Keese
-  Enemies:
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer7/Actor000
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer7/Actor001
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer7/Actor002
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer7/Actor003
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer7/Actor010
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer7/Actor011
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer7/Actor012
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layer7/Actor013
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Morths
-    & Can Defeat Keese
-    & Can Defeat Kargarocs
-  Enemies:
-    -
-      Original enemy: Chasing Morth
-      Placement category: Pot
-      Path: sea/Room44.arc/Layerb/Actor003
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layerb/Actor00A
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layerb/Actor00B
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layerb/Actor00C
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layerb/Actor00D
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layerb/Actor00E
-    -
-      Original enemy: Keese
-      Placement category: Air
-      Path: sea/Room44.arc/Layerb/Actor00F
-    -
-      Original enemy: Kargaroc
-      Placement category: Ground
-      Path: sea/Room44.arc/Layerb/Actor010
+#- # Unused layer
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Keese
+#  Enemies:
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer6/Actor000
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer6/Actor001
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer6/Actor002
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer6/Actor003
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer6/Actor004
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer6/Actor005
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer6/Actor006
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer6/Actor007
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer6/Actor008
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer6/Actor009
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer6/Actor00A
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer6/Actor00B
+#- # Unused layer
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Keese
+#  Enemies:
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer7/Actor000
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer7/Actor001
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer7/Actor002
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer7/Actor003
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer7/Actor010
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer7/Actor011
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer7/Actor012
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layer7/Actor013
+#- # Unused layer
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Morths
+#    & Can Defeat Keese
+#    & Can Defeat Kargarocs
+#  Enemies:
+#    -
+#      Original enemy: Chasing Morth
+#      Placement category: Pot
+#      Path: sea/Room44.arc/Layerb/Actor003
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layerb/Actor00A
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layerb/Actor00B
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layerb/Actor00C
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layerb/Actor00D
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layerb/Actor00E
+#    -
+#      Original enemy: Keese
+#      Placement category: Air
+#      Path: sea/Room44.arc/Layerb/Actor00F
+#    -
+#      Original enemy: Kargaroc
+#      Placement category: Ground
+#      Path: sea/Room44.arc/Layerb/Actor010
 
 
-# TODO
 # Two-Eye Reef
 sea/Room46.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Kargarocs
@@ -7868,11 +7858,10 @@ sea/Room46.arc:
       Path: sea/Room46.arc/Actor026
 
 
-# TODO
 # Angular Isles
 sea/Room47.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Gyorgs
@@ -7895,11 +7884,10 @@ sea/Room47.arc:
       Path: sea/Room47.arc/Actor015
 
 
-# TODO
 # Boating Course
 sea/Room48.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Seahats
     & Can Defeat Bokoblins
@@ -7951,11 +7939,10 @@ sea/Room48.arc:
       Path: sea/Room48.arc/Actor036
 
 
-# TODO
 # Five-Star Isles
 sea/Room49.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Bokoblins
