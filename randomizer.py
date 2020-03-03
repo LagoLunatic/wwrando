@@ -385,6 +385,7 @@ class Randomizer:
     
     # Enemies must be randomized before items in order for the enemy logic to properly take into account what items you do and don't start with.
     if True:
+      yield("Randomizing enemy locations...", options_completed)
       enemies.randomize_enemies(self)
     
     if self.options.get("randomize_enemy_palettes"):
