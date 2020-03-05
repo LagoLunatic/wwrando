@@ -241,7 +241,6 @@ class ChunkEntry:
       super().__setattr__(params_bitfield_name, new_params_value)
     else:
       if self.IS_ACTOR_CHUNK and attr_name not in ["offset", "file_entry", "name", "params", "x_pos", "y_pos", "z_pos", "aux_params_1", "y_rot", "aux_params_2", "enemy_number", "scale_x", "scale_y", "scale_z", "padding"]:
-        # TODO not refactored params
         raise Exception("Tried to set unknown actor parameter \"%s\" for actor class %s (actor name: %s)" % (attr_name, self.actor_class_name, self.name))
       
       self.__dict__[attr_name] = value
@@ -329,15 +328,6 @@ class SCOB(ChunkEntry):
     write_u8(data, self.offset+0x21, self.scale_y)
     write_u8(data, self.offset+0x22, self.scale_z)
     write_u8(data, self.offset+0x23, self.padding)
-  
-  # TODO remove properties like this, use params instead
-  @property
-  def salvage_duplicate_id(self):
-    return (self.aux_params_2 & 0x0003)
-  
-  @salvage_duplicate_id.setter
-  def salvage_duplicate_id(self, value):
-    self.aux_params_2 = (self.aux_params_2 & (~0x0003)) | (value&0x0003)
 
 class ACTR(ChunkEntry):
   DATA_SIZE = 0x20

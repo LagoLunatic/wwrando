@@ -2561,6 +2561,9 @@ d_a_salvage:
   salvage_type:
     Bitfield name: params
     Mask: 0xF0000000
+  duplicate_id:
+    Bitfield name: aux_params_2
+    Mask: 0x0003
 
 d_a_salvage_tbox:
   unknown_param_1:
