@@ -300,6 +300,7 @@ def print_actor_info(self):
       else:
         rel_filename = "[none]"
       
+      # Condensed dump format for human readability and searching.
       f.write("%7s:   ID %04X,   Subtype %02X,   Unknown %02X,   REL %s\n" % (
         actr_name,
         actor_id,
@@ -307,6 +308,15 @@ def print_actor_info(self):
         unknown,
         rel_filename
       ))
+      
+      # Alternate dump format as YAML to be read by the randomizer.
+      #f.write("%s:\n  Class Name: %s\n  Actor ID: 0x%04X\n  Subtype: 0x%02X\n  GBA Name: 0x%02X\n" % (
+      #  actr_name,
+      #  rel_filename,
+      #  actor_id,
+      #  subtype_index,
+      #  unknown
+      #))
       
       done_actor_ids.append(actor_id)
     
