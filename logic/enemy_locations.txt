@@ -2620,11 +2620,10 @@ GanonN:
       Path: GanonN/Room0.arc/Actor004
 
 
-# TODO
 # Hyrule Castle Interior
 Hyroom:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Darknuts
@@ -2698,163 +2697,195 @@ Hyroom:
       Original enemy: Blue Moblin
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor010
+#-
+#  Must defeat enemies: No
+#  Original requirements:
+#    Can Defeat Moblins
+#    & Can Defeat Darknuts
+#  Free memory: 1222624
+#  Enemies:
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor000
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor001
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor002
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor003
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor004
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor005
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor006
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor007
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor008
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor009
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor00A
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor00B
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor00C
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor00D
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor00E
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor00F
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer1/Actor010
+#-
+#  Must defeat enemies: No
+#  Original requirements:
+#    Can Defeat Moblins
+#    & Can Defeat Darknuts
+#  Free memory: 1222624
+#  Enemies:
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor000
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor001
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor002
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor003
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor004
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor005
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor006
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor007
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor008
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor009
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor00A
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor00B
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor00C
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor00D
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor00E
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor00F
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyroom/Room0.arc/Layer8/Actor010
+
+
+# Master Sword Chamber
+kenroom:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Moblins
-    & Can Defeat Darknuts
-  Free memory: 1222624
+    Can Defeat Darknuts
+  Actors to remove:
+    # Remove the ring of flames. Its event doesn't work right with the enemies randomized.
+    - kenroom/Room0.arc/Actor007
   Enemies:
     -
-      Original enemy: Blue Moblin
+      Original enemy: Darknut
       Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor000
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor001
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor002
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor003
+      Path: kenroom/Room0.arc/Actor009
     -
       Original enemy: Darknut
       Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor004
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor005
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor006
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor007
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor008
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor009
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor00A
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor00B
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor00C
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor00D
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor00E
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor00F
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer1/Actor010
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Moblins
-    & Can Defeat Darknuts
-  Free memory: 1222624
-  Enemies:
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor000
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor001
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor002
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor003
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor004
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor005
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor006
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor007
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor008
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor009
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor00A
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor00B
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor00C
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor00D
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor00E
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor00F
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyroom/Room0.arc/Layer8/Actor010
+      Path: kenroom/Room0.arc/Actor00A
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Darknuts
+#  Enemies:
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: kenroom/Room0.arc/Layer4/Actor002
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: kenroom/Room0.arc/Layer4/Actor003
 
 
-# TODO
 # Hyrule Castle
 Hyrule:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Peahats
@@ -2915,68 +2946,68 @@ Hyrule:
       Original enemy: Red ChuChu
       Placement category: Ground
       Path: Hyrule/Room0.arc/Layer4/Actor00C
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Moblins
-    & Can Defeat Peahats
-    & Can Defeat Keese
-    & Can Defeat Darknuts
-    & Can Defeat Red ChuChus
-  Free memory: 1038656
-  Enemies:
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyrule/Room0.arc/Layer5/Actor000
-    -
-      Original enemy: Blue Moblin
-      Placement category: Ground
-      Path: Hyrule/Room0.arc/Layer5/Actor001
-    -
-      Original enemy: Peahat
-      Placement category: Air
-      Path: Hyrule/Room0.arc/Layer5/Actor002
-    -
-      Original enemy: Peahat
-      Placement category: Air
-      Path: Hyrule/Room0.arc/Layer5/Actor003
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: Hyrule/Room0.arc/Layer5/Actor004
-    -
-      Original enemy: Keese
-      Placement category: Ceiling
-      Path: Hyrule/Room0.arc/Layer5/Actor005
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: Hyrule/Room0.arc/Layer5/Actor006
-    -
-      Original enemy: Red ChuChu
-      Placement category: Ground
-      Path: Hyrule/Room0.arc/Layer5/Actor007
-    -
-      Original enemy: Red ChuChu
-      Placement category: Ground
-      Path: Hyrule/Room0.arc/Layer5/Actor008
-    -
-      Original enemy: Red ChuChu
-      Placement category: Ground
-      Path: Hyrule/Room0.arc/Layer5/Actor009
-    -
-      Original enemy: Red ChuChu
-      Placement category: Ground
-      Path: Hyrule/Room0.arc/Layer5/Actor00A
-    -
-      Original enemy: Red ChuChu
-      Placement category: Ground
-      Path: Hyrule/Room0.arc/Layer5/Actor00B
-    -
-      Original enemy: Peahat
-      Placement category: Air
-      Path: Hyrule/Room0.arc/Layer5/Actor00C
+#-
+#  Must defeat enemies: No
+#  Original requirements:
+#    Can Defeat Moblins
+#    & Can Defeat Peahats
+#    & Can Defeat Keese
+#    & Can Defeat Darknuts
+#    & Can Defeat Red ChuChus
+#  Free memory: 1038656
+#  Enemies:
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyrule/Room0.arc/Layer5/Actor000
+#    -
+#      Original enemy: Blue Moblin
+#      Placement category: Ground
+#      Path: Hyrule/Room0.arc/Layer5/Actor001
+#    -
+#      Original enemy: Peahat
+#      Placement category: Air
+#      Path: Hyrule/Room0.arc/Layer5/Actor002
+#    -
+#      Original enemy: Peahat
+#      Placement category: Air
+#      Path: Hyrule/Room0.arc/Layer5/Actor003
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: Hyrule/Room0.arc/Layer5/Actor004
+#    -
+#      Original enemy: Keese
+#      Placement category: Ceiling
+#      Path: Hyrule/Room0.arc/Layer5/Actor005
+#    -
+#      Original enemy: Darknut
+#      Placement category: Ground
+#      Path: Hyrule/Room0.arc/Layer5/Actor006
+#    -
+#      Original enemy: Red ChuChu
+#      Placement category: Ground
+#      Path: Hyrule/Room0.arc/Layer5/Actor007
+#    -
+#      Original enemy: Red ChuChu
+#      Placement category: Ground
+#      Path: Hyrule/Room0.arc/Layer5/Actor008
+#    -
+#      Original enemy: Red ChuChu
+#      Placement category: Ground
+#      Path: Hyrule/Room0.arc/Layer5/Actor009
+#    -
+#      Original enemy: Red ChuChu
+#      Placement category: Ground
+#      Path: Hyrule/Room0.arc/Layer5/Actor00A
+#    -
+#      Original enemy: Red ChuChu
+#      Placement category: Ground
+#      Path: Hyrule/Room0.arc/Layer5/Actor00B
+#    -
+#      Original enemy: Peahat
+#      Placement category: Air
+#      Path: Hyrule/Room0.arc/Layer5/Actor00C
 
 
 # Ice Ring Isle Inner Cave
@@ -4082,7 +4113,6 @@ PShip:
       Path: PShip/Room2.arc/Actor013
 
 
-# TODO
 # Tower of the Gods
 Siren:
 -
@@ -5583,37 +5613,6 @@ kazeMB:
       Path: kazeMB/Room6.arc/Actor001
 
 
-# TODO
-# Master Sword Chamber
-kenroom:
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Darknuts
-  Enemies:
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: kenroom/Room0.arc/Actor009
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: kenroom/Room0.arc/Actor00A
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Darknuts
-  Enemies:
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: kenroom/Room0.arc/Layer4/Actor002
-    -
-      Original enemy: Darknut
-      Placement category: Ground
-      Path: kenroom/Room0.arc/Layer4/Actor003
-
-
 # Forbidden Woods Mothula Mini-Boss Room
 kinMB:
 -
@@ -6535,11 +6534,10 @@ sea/Room1.arc:
       Path: sea/Room1.arc/Layer3/Actor006
 
 
-# TODO
 # Star Island
 sea/Room2.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Miniblins
@@ -6582,11 +6580,10 @@ sea/Room2.arc:
       Path: sea/Room2.arc/Actor033
 
 
-# TODO
 # Northern Fairy Island
 sea/Room3.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
