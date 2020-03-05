@@ -858,12 +858,12 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
     
     enemy.num_morths_in_group = self.rng.randrange(1, 10+1)
   elif enemy.name == "Puti":
-    enemy.miniblin_initial_spawn_type = self.rng.choice([
+    enemy.initial_spawn_delay = self.rng.choice([
       0, # Spawned from the start
       1, # Doesn't spawn until the player looks away from it
     ])
     
-    # TODO: allow miniblin spawners in rooms where you don't need to kill all enemies.
+    # TODO: allow miniblin spawners in rooms where you don't need to kill all enemies. they should be a separate enemy type for randomization purposes.
   elif enemy.name == "nezumi":
     pass
   elif enemy.name == "nezuana":

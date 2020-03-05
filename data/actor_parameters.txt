@@ -241,7 +241,7 @@ d_a_bk:
   unknown_param_7:
     Bitfield name: params
     Mask: 0xFF000000
-  unknown_param_8:
+  disable_spawn_on_death_switch:
     Bitfield name: aux_params_2
     Mask: 0x00FF
 
@@ -577,7 +577,7 @@ d_a_gm:
   mothula_type:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  disable_spawn_on_death_switch:
     Bitfield name: params
     Mask: 0xFF000000
   unknown_param_5:
@@ -767,10 +767,10 @@ d_a_ki:
   is_fire_keese:
     Bitfield name: params
     Mask: 0x00008000
-  unknown_param_4:
+  path_index:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_5:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -997,7 +997,7 @@ d_a_mo2:
   unknown_param_4:
     Bitfield name: params
     Mask: 0xFF000000
-  unknown_param_5:
+  disable_spawn_on_death_switch:
     Bitfield name: aux_params_2
     Mask: 0x00FF
 
@@ -1029,7 +1029,7 @@ d_a_mt:
   unknown_param_5:
     Bitfield name: params
     Mask: 0xFF000000
-  unknown_param_6:
+  disable_spawn_on_death_switch:
     Bitfield name: aux_params_2
     Mask: 0x00FF
 
@@ -2467,22 +2467,22 @@ d_a_pt:
   miniblin_type:
     Bitfield name: params
     Mask: 0x0000000F
-  miniblin_initial_spawn_type:
+  initial_spawn_type:
     Bitfield name: params
     Mask: 0x00000010
-  miniblin_respawn_delay:
+  respawn_delay:
     Bitfield name: params
     Mask: 0x000000E0
-  unknown_param_4:
+  range:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_5:
+  irregular_switch:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_6:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0xFF000000
-  miniblin_initial_spawn_delay:
+  initial_spawn_delay:
     Bitfield name: aux_params_1
     Mask: 0xFFFF
 
@@ -2702,7 +2702,7 @@ d_a_st:
   unknown_param_4:
     Bitfield name: params
     Mask: 0xFF000000
-  unknown_param_5:
+  death_switch:
     Bitfield name: aux_params_2
     Mask: 0x00FF
 
@@ -3096,7 +3096,7 @@ d_a_tn:
   equipment:
     Bitfield name: aux_params_1
     Mask: 0x00E0
-  unknown_param_7:
+  disable_spawn_on_death_switch:
     Bitfield name: aux_params_2
     Mask: 0x00FF
 
@@ -3234,19 +3234,19 @@ d_a_wind_tag:
     Mask: 0x00F0
 
 d_a_wz:
-  unknown_param_1:
+  behavior_type:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  disable_spawn_on_death_switch:
     Bitfield name: params
     Mask: 0x0000FF00
   enable_spawn_switch:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  path_index:
     Bitfield name: params
     Mask: 0xFF000000
-  unknown_param_5:
+  summon_table_index:
     Bitfield name: aux_params_2
     Mask: 0x00FF
 
