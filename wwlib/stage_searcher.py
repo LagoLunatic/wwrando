@@ -77,8 +77,8 @@ def print_all_used_item_pickup_flags(self):
       used_item_flags_by_stage_id[stage_id] = []
     
     for dzx, arc_path in [(dzs, stage_arc_path)]+rooms:
-      items = [actor for actor in dzx.entries_by_type("ACTR") if actor.is_item()]
-      pots = [actor for actor in dzx.entries_by_type("ACTR") if actor.is_pot()]
+      items = [actor for actor in dzx.entries_by_type("ACTR") if actor_class_name in ["d_a_item", "d_a_boss_item"]]
+      pots = [actor for actor in dzx.entries_by_type("ACTR") if actor_class_name == "d_a_tsubo"]
       
       for item in items:
         if item.item_flag == 0xFF:
@@ -86,13 +86,13 @@ def print_all_used_item_pickup_flags(self):
         item_name = self.item_names[item.item_id]
         used_item_flags_by_stage_id[stage_id].append((item.item_flag, item_name, arc_path))
       for pot in pots:
-        if pot.pot_item_flag == 0x7F:
+        if pot.item_flag == 0x7F:
           continue
-        if pot.pot_item_id < 0x20:
-          item_name = self.item_names[pot.pot_item_id]
+        if pot.item_id < 0x20:
+          item_name = self.item_names[pot.item_id]
         else:
-          item_name = "Pot drop type 0x%02X" % pot.pot_item_id
-        used_item_flags_by_stage_id[stage_id].append((pot.pot_item_flag, item_name, arc_path))
+          item_name = "Pot drop type 0x%02X" % pot.item_id
+        used_item_flags_by_stage_id[stage_id].append((pot.item_flag, item_name, arc_path))
   
   used_item_flags_by_stage_id = OrderedDict(sorted(
     used_item_flags_by_stage_id.items(), key=lambda x: x[0]

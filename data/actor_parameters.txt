@@ -25,15 +25,15 @@ d_a_agbsw0:
     Mask: 0x00FF
 
 d_a_alldie:
-  unknown_param_1:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x0000FF00
 
 d_a_am:
-  unknown_param_1:
+  behavior_type:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  guarded_area_range:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_3:
@@ -246,7 +246,7 @@ d_a_bk:
     Mask: 0x00FF
 
 d_a_bl:
-  unknown_param_1:
+  bubble_type:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
@@ -255,7 +255,7 @@ d_a_bl:
   unknown_param_3:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  bubble_should_float:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -297,9 +297,14 @@ d_a_boko:
     Mask: 0xFFFF
 
 d_a_boss_item:
-  unknown_param_1:
+  stage_id:
     Bitfield name: params
     Mask: 0x000000FF
+  # The below item_id parameter did not exist for boss items in the vanilla game.
+  # The randomizer adds it so that boss items can be randomized and are not just always heart containers.
+  item_id:
+    Bitfield name: params
+    Mask: 0x0000FF00
 
 d_a_bpw:
   unknown_param_1:
@@ -321,7 +326,7 @@ d_a_bridge:
   unknown_param_2:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  bridge_rpat_index:
     Bitfield name: params
     Mask: 0x00FF0000
 
@@ -350,10 +355,10 @@ d_a_canon:
     Mask: 0xFFFF
 
 d_a_cc:
-  unknown_param_1:
+  chuchu_behavior_type:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  chuchu_type:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_3:
@@ -551,13 +556,13 @@ d_a_ghostship:
     Mask: 0x00FF0000
 
 d_a_gm:
-  unknown_param_1:
+  mothula_initially_missing_wings:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  mothula_type:
     Bitfield name: params
     Mask: 0x00FF0000
   unknown_param_4:
@@ -584,19 +589,22 @@ d_a_goal_flag:
     Mask: 0x00FF0000
 
 d_a_grass:
-  unknown_param_1:
+  grass_subtype:
     Bitfield name: params
     Mask: 0x0000000F
-  unknown_param_2:
+  grass_type:
     Bitfield name: params
     Mask: 0x00000030
-  unknown_param_3:
+  grass_item_drop_type:
     Bitfield name: params
     Mask: 0x00000FC0
 
 d_a_gy: {}
 
-d_a_gy_ctrl: {}
+d_a_gy_ctrl:
+  num_spawned_gyorgs:
+    Bitfield name: params
+    Mask: 0x000000F0
 
 d_a_himo3:
   unknown_param_1:
@@ -738,13 +746,13 @@ d_a_kb:
 d_a_kddoor: {}
 
 d_a_ki:
-  unknown_param_1:
+  behavior_type:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  range:
     Bitfield name: params
     Mask: 0x00007F00
-  unknown_param_3:
+  is_fire_keese:
     Bitfield name: params
     Mask: 0x00008000
   unknown_param_4:
@@ -965,7 +973,7 @@ d_a_mgameboard: {}
 d_a_mmusic: {}
 
 d_a_mo2:
-  unknown_param_1:
+  moblin_type:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
@@ -1395,7 +1403,7 @@ d_a_nzg:
   unknown_param_1:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  num_spawned_rats:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_3:
@@ -2090,6 +2098,9 @@ d_a_obj_pirateship:
   unknown_param_1:
     Bitfield name: params
     Mask: 0x0000000F
+  pirate_ship_door_type:
+    Bitfield name: params
+    Mask: 0x0000FF00
   unknown_param_2:
     Bitfield name: params
     Mask: 0x00FF0000
@@ -2330,27 +2341,27 @@ d_a_obj_vyasi:
     Mask: 0x000000FF
 
 d_a_obj_warpt:
-  unknown_param_1:
+  warp_pot_type:
     Bitfield name: params
     Mask: 0x0000000F
-  unknown_param_2:
+  warp_pot_event_reg_index:
     Bitfield name: params
     Mask: 0x000000F0 # (WARNING: overlaps)
+  warp_pot_dest_1:
+    Bitfield name: params
+    Mask: 0x0000FF00 # (WARNING: overlaps)
+  warp_pot_dest_2:
+    Bitfield name: params
+    Mask: 0x00FF0000 # (WARNING: overlaps)
+  warp_pot_dest_3:
+    Bitfield name: params
+    Mask: 0xFF000000
   unknown_param_3:
     Bitfield name: params
     Mask: 0x00000FF0 # (WARNING: overlaps)
-  unknown_param_4:
-    Bitfield name: params
-    Mask: 0x0000FF00 # (WARNING: overlaps)
   unknown_param_5:
     Bitfield name: params
     Mask: 0x000FF000 # (WARNING: overlaps)
-  unknown_param_6:
-    Bitfield name: params
-    Mask: 0x00FF0000 # (WARNING: overlaps)
-  unknown_param_7:
-    Bitfield name: params
-    Mask: 0xFF000000
   unknown_param_8:
     Bitfield name: aux_params_1
     Mask: 0x00FF
@@ -2389,10 +2400,10 @@ d_a_obj_zouK:
     Mask: 0x0000000F
 
 d_a_oq:
-  unknown_param_1:
+  octorok_type:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  octorok_projectile_type:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_3:
@@ -2441,13 +2452,13 @@ d_a_ph:
 d_a_pirate_flag: {}
 
 d_a_pt:
-  unknown_param_1:
+  miniblin_type:
     Bitfield name: params
     Mask: 0x0000000F
-  unknown_param_2:
+  miniblin_initial_spawn_type:
     Bitfield name: params
     Mask: 0x00000010
-  unknown_param_3:
+  miniblin_respawn_delay:
     Bitfield name: params
     Mask: 0x000000E0
   unknown_param_4:
@@ -2459,15 +2470,18 @@ d_a_pt:
   unknown_param_6:
     Bitfield name: params
     Mask: 0xFF000000
+  miniblin_initial_spawn_delay:
+    Bitfield name: aux_params_1
+    Mask: 0xFFFF
 
 d_a_pw:
-  unknown_param_1:
+  poe_type:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  poe_floats:
     Bitfield name: params
     Mask: 0x00000100
-  unknown_param_3:
+  poe_color:
     Bitfield name: params
     Mask: 0x0000FE00
   unknown_param_4:
@@ -2494,7 +2508,7 @@ d_a_race_item:
     Mask: 0x00078000
 
 d_a_rd:
-  unknown_param_1:
+  idle_animation:
     Bitfield name: params
     Mask: 0x00000001
   unknown_param_2:
@@ -2652,7 +2666,7 @@ d_a_sss:
     Mask: 0x00FF0000
 
 d_a_st:
-  unknown_param_1:
+  stalfos_type:
     Bitfield name: params
     Mask: 0x0000000F
   unknown_param_2:
@@ -3080,7 +3094,7 @@ d_a_tornado:
 d_a_tpota: {}
 
 d_a_tsubo:
-  unknown_param_1:
+  item_id:
     Bitfield name: params
     Mask: 0x0000003F
   unknown_param_2:
@@ -3089,7 +3103,7 @@ d_a_tsubo:
   unknown_param_3:
     Bitfield name: params
     Mask: 0x0000C000
-  unknown_param_4:
+  item_flag:
     Bitfield name: params
     Mask: 0x007F0000
   unknown_param_5:
@@ -3202,7 +3216,7 @@ d_a_wz:
   unknown_param_2:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0x00FF0000
   unknown_param_4:

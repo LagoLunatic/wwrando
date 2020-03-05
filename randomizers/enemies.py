@@ -395,7 +395,7 @@ def add_modify_and_replace_actors_for_enemy_rando(self):
         actor.params = 0xFFFFFFFF
         actor.aux_params_1 = 0
         actor.aux_params_2 = 0
-        actor.alldie_switch_to_set = switch_to_set
+        actor.switch_to_set = switch_to_set
         actor.save_changes()
   
   # Make specific changes to existing actors.
@@ -711,7 +711,7 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
     else:
       return "Air"
   elif enemy.name in ["keeth", "Fkeeth"]:
-    if enemy.keese_behavior_type in [0, 0x80]:
+    if enemy.behavior_type in [0, 0x80]:
       return "Ceiling"
     else:
       return "Air"
@@ -805,7 +805,7 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
       enemy.peahat_horizontal_range = 20
       enemy.peahat_vertical_range = 50
   elif enemy.name == "amos":
-    enemy.armos_knight_behavior_type = self.rng.choice([
+    enemy.behavior_type = self.rng.choice([
       0, # Normal
       1, # Guards an area and returns to its spawn point when Link leaves the area
     ])
@@ -815,10 +815,10 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
     pass
   elif enemy.name in ["keeth", "Fkeeth"]:
     if category == "Ceiling":
-      enemy.keese_behavior_type = 0
-      enemy.keese_range = 2 # Increase range to 1500.0
+      enemy.behavior_type = 0
+      enemy.range = 2 # Increase range to 1500.0
     else:
-      enemy.keese_behavior_type = 1
+      enemy.behavior_type = 1
   elif enemy.name == "Oq":
     # Freshwater Octorok.
     enemy.octorok_projectile_type = self.rng.choice([
@@ -837,7 +837,7 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
   elif enemy.name == "wiz_r":
     pass
   elif enemy.name in ["Rdead1", "Rdead2"]:
-    enemy.redead_idle_animation = self.rng.choice([0, 1])
+    enemy.idle_animation = self.rng.choice([0, 1])
   elif enemy.name == "pow":
     enemy.poe_type = self.rng.choice([
       0, # Visible from start
@@ -867,7 +867,7 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
   elif enemy.name == "nezumi":
     pass
   elif enemy.name == "nezuana":
-    enemy.rat_hole_num_spawned_rats = self.rng.randrange(1, 5+1)
+    enemy.num_spawned_rats = self.rng.randrange(1, 5+1)
   elif enemy.name == "Stal":
     enemy.stalfos_type = self.rng.choice([
       0, # Normal
@@ -900,7 +900,7 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
       for wing_index in wing_indexes_to_be_missing:
         enemy.mothula_initially_missing_wings |= (1 << wing_index)
   elif enemy.name in ["GyCtrl", "GyCtrlB"]:
-    enemy.gyorg_spawner_num_spawned_gyorgs = self.rng.choice([1, 1, 1, 1, 2, 2, 3, 3, 4, 5])
+    enemy.num_spawned_gyorgs = self.rng.choice([1, 1, 1, 1, 2, 2, 3, 3, 4, 5])
   elif enemy.name in ["Fmaster", "Fmastr1", "Fmastr2"]:
     enemy.floormaster_targeting_behavior_type = self.rng.choice([
       0, # Prioritize Medli/Makar over Link if they're present
@@ -922,7 +922,7 @@ def adjust_enemy(self, enemy_data, enemy, category, dzx, layer):
     # ChuChus in pots will only appear if the pot has the EXACT same position as the ChuChu, just being very close is not enough.
     pots_on_same_layer = [
       actor for actor in dzx.entries_by_type_and_layer("ACTR", layer)
-      if actor.is_pot()
+      if actor.actor_class_name == "d_a_tsubo"
     ]
     if not pots_on_same_layer:
       raise Exception("No pots on same layer as ChuChu in a pot")

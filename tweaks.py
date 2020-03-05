@@ -582,16 +582,16 @@ def add_more_magic_jars(self):
   drc_center_room = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr")
   actors = drc_center_room.entries_by_type("ACTR")
   skulls = [actor for actor in actors if actor.name == "Odokuro"]
-  skulls[2].pot_item_id = self.item_name_to_id["Small Magic Jar (Pickup)"]
+  skulls[2].item_id = self.item_name_to_id["Small Magic Jar (Pickup)"]
   skulls[2].save_changes()
-  skulls[5].pot_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
+  skulls[5].item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   skulls[5].save_changes()
   drc_before_boss_room = self.get_arc("files/res/Stage/M_NewD2/Room10.arc").get_file("room.dzr")
   actors = drc_before_boss_room.entries_by_type("ACTR")
   skulls = [actor for actor in actors if actor.name == "Odokuro"]
-  skulls[0].pot_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
+  skulls[0].item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   skulls[0].save_changes()
-  skulls[9].pot_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
+  skulls[9].item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   skulls[9].save_changes()
   
   # The grass on the small elevated islands around DRI have a lot of grass that can drop magic, but it's not guaranteed.
@@ -619,7 +619,7 @@ def add_more_magic_jars(self):
   totg_before_miniboss_room = self.get_arc("files/res/Stage/Siren/Room14.arc").get_file("room.dzr")
   actors = totg_before_miniboss_room.entries_by_type("ACTR")
   pots = [actor for actor in actors if actor.name == "kotubo"]
-  pots[1].pot_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
+  pots[1].item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   pots[1].save_changes()
 
 def remove_title_and_ending_videos(self):
@@ -1326,9 +1326,9 @@ def remove_makar_kidnapping_event(self):
   and_switch_actor = next(x for x in actors if x.name == "AND_SW2")
   dzx.remove_entity(and_switch_actor, "ACTR", layer=None)
   
-  # Remove the prerequisite switch index from the Wizzrobe so it's just always there.
+  # Remove the enable spawn switch from the Wizzrobe so it's just always there.
   wizzrobe = next(x for x in actors if x.name == "wiz_r")
-  wizzrobe.wizzrobe_prereq_switch_index = 0xFF
+  wizzrobe.enable_spawn_switch = 0xFF
   wizzrobe.save_changes()
 
 def increase_player_movement_speeds(self):

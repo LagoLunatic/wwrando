@@ -201,13 +201,13 @@ class ChunkEntry:
     
     if self.IS_ACTOR_CHUNK:
       if self.name in DataTables.actor_name_to_class_name:
-        rel_name = DataTables.actor_name_to_class_name[self.name]
-        if rel_name is None:
+        class_name = DataTables.actor_name_to_class_name[self.name]
+        if class_name is None:
           # Undocumented non-REL class. TODO
           print(self.name)
           param_fields = {}
         else:
-          param_fields = DataTables.actor_parameters[rel_name]
+          param_fields = DataTables.actor_parameters[class_name]
       else:
         param_fields = {}
     else:
@@ -226,13 +226,13 @@ class ChunkEntry:
     
     if self.IS_ACTOR_CHUNK and hasattr(self, "name"):
       if self.name in DataTables.actor_name_to_class_name:
-        rel_name = DataTables.actor_name_to_class_name[self.name]
-        if rel_name is None:
+        class_name = DataTables.actor_name_to_class_name[self.name]
+        if class_name is None:
           # Undocumented non-REL class. TODO
           print(self.name)
           param_fields = {}
         else:
-          param_fields = DataTables.actor_parameters[rel_name]
+          param_fields = DataTables.actor_parameters[class_name]
       else:
         param_fields = {}
     else:
@@ -246,7 +246,7 @@ class ChunkEntry:
     else:
       if self.IS_ACTOR_CHUNK and attr_name not in ["offset", "file_entry", "name", "params", "x_pos", "y_pos", "z_pos", "aux_params_1", "y_rot", "aux_params_2", "enemy_number"]:
         # TODO not refactored params
-        print(self.name, attr_name)
+        print("%7s %14s %40s" % (self.name, self.actor_class_name, attr_name))
       
       self.__dict__[attr_name] = value
   
@@ -260,6 +260,13 @@ class ChunkEntry:
     if lowest_set_bit_index is None:
       raise Exception("Invalid mask: %08X" % mask)
     return lowest_set_bit_index
+  
+  @property
+  def actor_class_name(self):
+    if not self.IS_ACTOR_CHUNK:
+      raise Exception("Tried to get the actor class name of an entity in a non-actor DZx chunk")
+    
+    return DataTables.actor_name_to_class_name[self.name]
 
 class TRES(ChunkEntry):
   DATA_SIZE = 0x20
@@ -436,40 +443,9 @@ class ACTR(ChunkEntry):
   IS_ACTOR_CHUNK = True
   
   PARAMS = {
-    #"item_id":   ("params", 0x000000FF),
-    #"item_flag": ("params", 0x0000FF00),
-    
-    "boss_item_stage_id": ("params", 0x000000FF),
-    # The below boss_item_id parameter did not exist for boss items in the vanilla game.
-    # The randomizer adds it so that boss items can be randomized and are not just always heart containers.
-    "boss_item_id":       ("params", 0x0000FF00),
-    
-    "bridge_rpat_index": ("params", 0x00FF0000),
-    
-    "pot_item_id":   ("params", 0x0000003F),
-    "pot_item_flag": ("params", 0x007F0000),
-    
-    "pirate_ship_door_type": ("params", 0x0000FF00),
-    
-    "warp_pot_type":            ("params", 0x0000000F),
-    "warp_pot_event_reg_index": ("params", 0x000000F0),
-    "warp_pot_dest_1":          ("params", 0x0000FF00),
-    "warp_pot_dest_2":          ("params", 0x00FF0000),
-    "warp_pot_dest_3":          ("params", 0xFF000000),
-    
-    "wizzrobe_prereq_switch_index": ("params", 0x00FF0000),
-    
-    #"cannon_appear_condition_switch": ("params", 0x0000FF00),
-    
-    "grass_type":           ("params", 0x00000030),
-    "grass_subtype":        ("params", 0x0000000F),
-    "grass_item_drop_type": ("params", 0x00000FC0),
-    
     "bokoblin_type":     ("params", 0x0000000F),
     "bokoblin_is_green": ("params", 0x00000020),
     "bokoblin_weapon":   ("params", 0x000000C0),
-    
-    "moblin_type": ("params", 0x000000FF),
     
     "peahat_type":             ("params", 0x000000FF),
     "peahat_horizontal_range": ("params", 0x0000FF00),
@@ -483,14 +459,6 @@ class ACTR(ChunkEntry):
     "darknut_color":         ("params", 0x000000F0),
     "darknut_equipment":     ("aux_params_1", 0x00E0),
     
-    "mothula_type": ("params", 0x00FF0000),
-    
-    "bubble_type":         ("params", 0x000000FF),
-    "bubble_should_float": ("params", 0xFF000000),
-    
-    "chuchu_behavior_type": ("params", 0x000000FF),
-    "chuchu_type":          ("params", 0x0000FF00),
-    
     "kargaroc_behavior_type": ("params", 0x000000FF),
     "kargaroc_range":         ("params", 0x0000FF00),
     
@@ -501,71 +469,10 @@ class ACTR(ChunkEntry):
     "armos_switch_type":  ("params", 0x00FF0000),
     "armos_switch_index": ("params", 0xFF000000),
     
-    "armos_knight_behavior_type":      ("params", 0x000000FF),
-    "armos_knight_guarded_area_range": ("params", 0x0000FF00),
-    
-    "keese_behavior_type": ("params", 0x000000FF),
-    "keese_range":         ("params", 0x00007F00),
-    "keese_is_fire_keese": ("params", 0x00008000),
-    
-    "octorok_type":            ("params", 0x000000FF),
-    "octorok_projectile_type": ("params", 0x0000FF00),
-    
-    "redead_idle_animation": ("params", 0x00000001),
-    
-    "poe_type":   ("params", 0x000000FF),
-    "poe_floats": ("params", 0x00000100),
-    "poe_color":  ("params", 0x0000FE00),
-    
-    "stalfos_type": ("params", 0x0000000F),
-    
-    "mothula_initially_missing_wings": ("params", 0x000000FF),
-    
     "floormaster_targeting_behavior_type": ("params", 0x00000C00),
     
     "boko_baba_boko_bud_type": ("params", 0x0000FF00),
-    
-    "miniblin_type":                ("params", 0x0000000F),
-    "miniblin_initial_spawn_type":  ("params", 0x00000010),
-    "miniblin_respawn_delay":       ("params", 0x000000E0),
-    "miniblin_initial_spawn_delay": ("aux_params_1", 0xFFFF),
-    
-    "rat_hole_num_spawned_rats": ("params", 0x0000FF00),
-    
-    "gyorg_spawner_num_spawned_gyorgs": ("params", 0x000000F0),
-    
-    #"and_sw0_switch_to_set": ("params", 0xFF000000),
-    
-    #"and_sw2_switch_to_set": ("params", 0x00FF0000),
-    
-    "alldie_switch_to_set": ("params", 0x0000FF00),
-    
-    #"button_switch_to_set": ("params", 0x0000FF00),
   }
-  
-  ITEM_NAMES = [
-    "item",
-    "itemFLY",
-  ]
-  
-  BOSS_ITEM_NAMES = [
-    "Bitem",
-  ]
-  
-  POT_NAMES = [
-    "kotubo",
-    "ootubo1",
-    "Kmtub",
-    "Ktaru",
-    "Ostool",
-    "Odokuro",
-    "Okioke",
-    "Kmi02",
-    "Ptubo",
-    "KkibaB",
-    "Kmi00",
-    "Hbox2S",
-  ]
   
   def __init__(self, file_entry):
     self.file_entry = file_entry
@@ -616,15 +523,6 @@ class ACTR(ChunkEntry):
     
     write_u16(data, self.offset+0x1C, self.aux_params_2)
     write_u16(data, self.offset+0x1E, self.enemy_number)
-  
-  def is_item(self):
-    return self.name in self.ITEM_NAMES
-  
-  def is_boss_item(self):
-    return self.name in self.BOSS_ITEM_NAMES
-  
-  def is_pot(self):
-    return self.name in self.POT_NAMES
 
 class PLYR(ChunkEntry):
   DATA_SIZE = 0x20
