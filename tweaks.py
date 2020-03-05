@@ -1464,7 +1464,7 @@ def disable_invisible_walls(self):
   # Remove an invisible wall in the second room of DRC.
   dzx = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr")
   invisible_wall = next(x for x in dzx.entries_by_type("SCOB") if x.name == "Akabe")
-  invisible_wall.invisible_wall_switch_index = 0xFF
+  invisible_wall.switch_index = 0xFF
   invisible_wall.save_changes()
 
 def update_skip_rematch_bosses_game_variable(self):
@@ -1548,8 +1548,8 @@ def prevent_door_boulder_softlocks(self):
   swc00 = dzr.add_entity("SCOB", layer=None)
   swc00.name = "SW_C00"
   swc00.params = 0x0000FF00
-  swc00.switch_setter_switch_index = boulder_destroyed_switch_index
-  swc00.switch_setter_type = 3 # Don't unset the switch when leaving the region
+  swc00.switch_to_set = boulder_destroyed_switch_index
+  swc00.behavior_type = 3 # Don't unset the switch when leaving the region
   swc00.x_pos = 2635
   swc00.y_pos = 0
   swc00.z_pos = 227
@@ -1567,8 +1567,8 @@ def prevent_door_boulder_softlocks(self):
   swc00 = dzr.add_entity("SCOB", layer=None)
   swc00.name = "SW_C00"
   swc00.params = 0x0000FF00
-  swc00.switch_setter_switch_index = boulder_destroyed_switch_index
-  swc00.switch_setter_type = 3 # Don't unset the switch when leaving the region
+  swc00.switch_to_set = boulder_destroyed_switch_index
+  swc00.behavior_type = 3 # Don't unset the switch when leaving the region
   swc00.x_pos = -4002
   swc00.y_pos = 1950
   swc00.z_pos = -2156

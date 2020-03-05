@@ -1423,7 +1423,7 @@ d_a_obj_ajav:
 d_a_obj_ajavw: {}
 
 d_a_obj_akabe:
-  unknown_param_1:
+  switch_index:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
@@ -2539,7 +2539,16 @@ d_a_saku:
     Bitfield name: params
     Mask: 0x00FF0000
 
-d_a_salvage: {}
+d_a_salvage:
+  item_id:
+    Bitfield name: params
+    Mask: 0x00000FF0
+  chart_index_plus_1:
+    Bitfield name: params
+    Mask: 0x0FF00000
+  salvage_type:
+    Bitfield name: params
+    Mask: 0xF0000000
 
 d_a_salvage_tbox:
   unknown_param_1:
@@ -2736,13 +2745,13 @@ d_a_swattack:
     Mask: 0x0000FF00
 
 d_a_swc00:
-  unknown_param_1:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  behavior_type:
     Bitfield name: params
     Mask: 0x00030000
 
@@ -2828,13 +2837,13 @@ d_a_tag_event:
   unknown_param_1:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_3:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  evnt_index:
     Bitfield name: params
     Mask: 0xFF000000
   unknown_param_5:
@@ -2895,7 +2904,7 @@ d_a_tag_island:
     Mask: 0xFF000000
 
 d_a_tag_kb_item:
-  unknown_param_1:
+  item_id:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:

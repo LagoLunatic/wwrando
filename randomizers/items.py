@@ -531,11 +531,8 @@ def change_scob_item(self, arc_path, scob_index, layer, item_id):
   else:
     dzx = self.get_arc(arc_path).get_file("room.dzr")
   scob = dzx.entries_by_type_and_layer("SCOB", layer)[scob_index]
-  if scob.is_salvage():
-    scob.salvage_item_id = item_id
-    scob.save_changes()
-  elif scob.is_buried_pig_item():
-    scob.buried_pig_item_id = item_id
+  if scob.actor_class_name in ["d_a_salvage", "d_a_tag_kb_item"]:
+    scob.item_id = item_id
     scob.save_changes()
   else:
     raise Exception("%s/SCOB%03X is an unknown type of SCOB" % (arc_path, scob_index))

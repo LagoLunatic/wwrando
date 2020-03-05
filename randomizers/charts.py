@@ -32,8 +32,8 @@ def randomize_charts(self):
     # Then update the salvage object on the sea so it knows what chart corresponds to it now.
     dzx = self.get_arc("files/res/Stage/sea/Room%d.arc" % chart.island_number).get_file("room.dzr")
     for scob in dzx.entries_by_type("SCOB"):
-      if scob.is_salvage() and scob.salvage_type == 0:
-        scob.salvage_chart_index_plus_1 = chart.owned_chart_index_plus_1
+      if scob.actor_class_name == "d_a_salvage" and scob.salvage_type == 0:
+        scob.chart_index_plus_1 = chart.owned_chart_index_plus_1
         scob.save_changes()
     
     self.island_number_to_chart_name[chart_to_copy_from.island_number] = chart.item_name

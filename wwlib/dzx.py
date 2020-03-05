@@ -244,7 +244,7 @@ class ChunkEntry:
       new_params_value = (getattr(self, params_bitfield_name) & (~mask)) | ((value << amount_to_shift) & mask)
       super().__setattr__(params_bitfield_name, new_params_value)
     else:
-      if self.IS_ACTOR_CHUNK and attr_name not in ["offset", "file_entry", "name", "params", "x_pos", "y_pos", "z_pos", "aux_params_1", "y_rot", "aux_params_2", "enemy_number"]:
+      if self.IS_ACTOR_CHUNK and attr_name not in ["offset", "file_entry", "name", "params", "x_pos", "y_pos", "z_pos", "aux_params_1", "y_rot", "aux_params_2", "enemy_number", "scale_x", "scale_y", "scale_z", "padding"]:
         # TODO not refactored params
         print("%7s %14s %40s" % (self.name, self.actor_class_name, attr_name))
       
@@ -332,34 +332,7 @@ class TRES(ChunkEntry):
 class SCOB(ChunkEntry):
   DATA_SIZE = 0x24
   
-  PARAMS = {
-    "salvage_type":               ("params", 0xF0000000),
-    "salvage_chart_index_plus_1": ("params", 0x0FF00000),
-    "salvage_item_id":            ("params", 0x00000FF0),
-    
-    "buried_pig_item_id":         ("params", 0x000000FF),
-    
-    "invisible_wall_switch_index": ("params", 0x000000FF),
-    
-    "event_trigger_seen_switch_index": ("params", 0x0000FF00),
-    "event_trigger_evnt_index":        ("params", 0xFF000000),
-    
-    "switch_setter_switch_index": ("params", 0x000000FF),
-    "switch_setter_type":         ("params", 0x00030000),
-  }
-  
-  SALVAGE_NAMES = [
-    "Salvage",
-    "SwSlvg",
-    "Salvag2",
-    "SalvagN",
-    "SalvagE",
-    "SalvFM",
-  ]
-  
-  BURIED_PIG_ITEM_NAMES = [
-    "TagKb",
-  ]
+  IS_ACTOR_CHUNK = True
   
   def __init__(self, file_entry):
     self.file_entry = file_entry
@@ -422,9 +395,6 @@ class SCOB(ChunkEntry):
     write_u8(data, self.offset+0x22, self.scale_z)
     write_u8(data, self.offset+0x23, self.padding)
   
-  def is_salvage(self):
-    return self.name in self.SALVAGE_NAMES
-  
   # TODO remove properties like this, use params instead
   @property
   def salvage_duplicate_id(self):
@@ -433,9 +403,6 @@ class SCOB(ChunkEntry):
   @salvage_duplicate_id.setter
   def salvage_duplicate_id(self, value):
     self.aux_params_2 = (self.aux_params_2 & (~0x0003)) | (value&0x0003)
-  
-  def is_buried_pig_item(self):
-    return self.name in self.BURIED_PIG_ITEM_NAMES
 
 class ACTR(ChunkEntry):
   DATA_SIZE = 0x20
