@@ -338,20 +338,12 @@ def print_all_entity_params(self):
         for chunk_type in ["ACTR", "SCOB", "TRES", "TGOB", "TGSC", "DOOR", "TGDR"]:
           for layer in [None] + list(range(11+1)):
             for i, entity in enumerate(dzx.entries_by_type_and_layer(chunk_type, layer)):
-              params = entity.params
-              if chunk_type == "TRES":
-                auxparams1 = entity.room_num
-                auxparams2 = (entity.item_id << 8) | entity.flag_id
-              else:
-                auxparams1 = entity.aux_params_1
-                auxparams2 = entity.aux_params_2
-              
               arc_path_short = arc_path[len("files/res/Stage/"):-len(".arc")]
               location_identifier = arc_path_short
               location_identifier += " %s/" % chunk_type
               if layer is not None:
                 location_identifier += "Layer%X/" % layer
               location_identifier += "%03X" % i
-              out_str = "% 7s %08X %04X %04X in %s" % (entity.name, params, auxparams1, auxparams2, location_identifier)
+              out_str = "% 7s %08X %04X %04X in %s" % (entity.name, entity.params, entity.aux_params_1, entity.aux_params_2, location_identifier)
               #print(out_str)
               f.write(out_str + "\n")
