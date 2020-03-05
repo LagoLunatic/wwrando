@@ -819,7 +819,7 @@ Evsw:
   Subtype: 0xFF
   GBA Name: 0x00
 Search:
-  Class Name: null # TODO
+  Class Name: d_a_obj_search
   Actor ID: 0x0044
   Subtype: 0xFF
   GBA Name: 0x00
@@ -1044,12 +1044,12 @@ Kamome:
   Subtype: 0xFF
   GBA Name: 0x00
 item:
-  Class Name: null # TODO
+  Class Name: d_a_item
   Actor ID: 0x0101
   Subtype: 0xFF
   GBA Name: 0x00
 itemFLY:
-  Class Name: null # TODO
+  Class Name: d_a_item
   Actor ID: 0x0101
   Subtype: 0xFF
   GBA Name: 0x00
@@ -1144,7 +1144,7 @@ kytag7:
   Subtype: 0xFF
   GBA Name: 0x00
 sea:
-  Class Name: null # TODO
+  Class Name: d_a_sea
   Actor ID: 0x0028
   Subtype: 0xFF
   GBA Name: 0x00
@@ -1314,7 +1314,7 @@ dragon:
   Subtype: 0xFF
   GBA Name: 0x00
 Nh:
-  Class Name: null # TODO
+  Class Name: d_a_nh
   Actor ID: 0x013B
   Subtype: 0xFF
   GBA Name: 0x00
@@ -1579,7 +1579,7 @@ De1:
   Subtype: 0xFF
   GBA Name: 0x3B
 Sfairy:
-  Class Name: null # TODO
+  Class Name: d_a_npc_fa1
   Actor ID: 0x016A
   Subtype: 0xFF
   GBA Name: 0x00
@@ -2089,7 +2089,7 @@ Tc:
   Subtype: 0xFF
   GBA Name: 0x3B
 Throck:
-  Class Name: null # TODO
+  Class Name: d_throwstone
   Actor ID: 0x001B
   Subtype: 0xFF
   GBA Name: 0x00

@@ -78,7 +78,7 @@ d_a_andsw0:
   unknown_param_4:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_5:
+  switch_to_set:
     Bitfield name: params
     Mask: 0xFF000000
   unknown_param_6:
@@ -95,7 +95,7 @@ d_a_andsw2:
   unknown_param_2:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x00FF0000
   unknown_param_4:
@@ -1551,7 +1551,7 @@ d_a_obj_canon:
   unknown_param_1:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_3:
@@ -2189,7 +2189,7 @@ d_a_obj_swpush:
   unknown_param_1:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_3:
@@ -3228,3 +3228,28 @@ d_a_ykgr:
 d_a_yougan: {}
 
 f_pc_profile_lst: {}
+
+
+
+### Below this are non-REL classes.
+
+d_a_item:
+  item_id:
+    Bitfield name: params
+    Mask: 0x000000FF
+  item_flag:
+    Bitfield name: params
+    Mask: 0x0000FF00
+  activation_switch_index:
+    Bitfield name: aux_params_2
+    Mask: 0x00FF
+
+d_a_sea: {}
+
+d_throwstone: {}
+
+d_a_nh: {}
+
+d_a_npc_fa1: {}
+
+d_a_obj_search: {}
