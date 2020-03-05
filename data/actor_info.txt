@@ -1,0 +1,4125 @@
+kusax1:
+  Class Name: d_a_grass
+  Actor ID: 0x01B8
+  Subtype: 0xFF
+  GBA Name: 0x00
+kusax7:
+  Class Name: d_a_grass
+  Actor ID: 0x01B8
+  Subtype: 0xFF
+  GBA Name: 0x00
+kusax21:
+  Class Name: d_a_grass
+  Actor ID: 0x01B8
+  Subtype: 0xFF
+  GBA Name: 0x00
+flower:
+  Class Name: d_a_grass
+  Actor ID: 0x01B8
+  Subtype: 0xFF
+  GBA Name: 0x00
+flwr7:
+  Class Name: d_a_grass
+  Actor ID: 0x01B8
+  Subtype: 0xFF
+  GBA Name: 0x00
+flwr17:
+  Class Name: d_a_grass
+  Actor ID: 0x01B8
+  Subtype: 0xFF
+  GBA Name: 0x00
+pflower:
+  Class Name: d_a_grass
+  Actor ID: 0x01B8
+  Subtype: 0xFF
+  GBA Name: 0x00
+pflwrx7:
+  Class Name: d_a_grass
+  Actor ID: 0x01B8
+  Subtype: 0xFF
+  GBA Name: 0x00
+swood:
+  Class Name: d_a_grass
+  Actor ID: 0x01B8
+  Subtype: 0xFF
+  GBA Name: 0x00
+swood3:
+  Class Name: d_a_grass
+  Actor ID: 0x01B8
+  Subtype: 0xFF
+  GBA Name: 0x00
+swood5:
+  Class Name: d_a_grass
+  Actor ID: 0x01B8
+  Subtype: 0xFF
+  GBA Name: 0x00
+woodb:
+  Class Name: d_a_obj_wood
+  Actor ID: 0x010C
+  Subtype: 0xFF
+  GBA Name: 0x00
+woodbx:
+  Class Name: d_a_obj_wood
+  Actor ID: 0x010C
+  Subtype: 0xFF
+  GBA Name: 0x00
+door10:
+  Class Name: d_a_door10
+  Actor ID: 0x012E
+  Subtype: 0xFF
+  GBA Name: 0x00
+door11:
+  Class Name: d_a_door10
+  Actor ID: 0x012E
+  Subtype: 0xFF
+  GBA Name: 0x00
+door20:
+  Class Name: d_a_door10
+  Actor ID: 0x012E
+  Subtype: 0xFF
+  GBA Name: 0x00
+door21:
+  Class Name: d_a_door10
+  Actor ID: 0x012E
+  Subtype: 0xFF
+  GBA Name: 0x00
+Zenshut:
+  Class Name: d_a_door10
+  Actor ID: 0x012E
+  Subtype: 0xFF
+  GBA Name: 0x00
+keyshut:
+  Class Name: d_a_door10
+  Actor ID: 0x012E
+  Subtype: 0xFF
+  GBA Name: 0x00
+K_Zshut:
+  Class Name: d_a_door10
+  Actor ID: 0x012E
+  Subtype: 0xFF
+  GBA Name: 0x00
+ATdoor:
+  Class Name: d_a_atdoor
+  Actor ID: 0x0130
+  Subtype: 0xFF
+  GBA Name: 0x00
+Mori1:
+  Class Name: d_a_mdoor
+  Actor ID: 0x0131
+  Subtype: 0xFF
+  GBA Name: 0x00
+doorKD:
+  Class Name: d_a_kddoor
+  Actor ID: 0x0132
+  Subtype: 0xFF
+  GBA Name: 0x00
+ZenshKD:
+  Class Name: d_a_kddoor
+  Actor ID: 0x0132
+  Subtype: 0xFF
+  GBA Name: 0x00
+K_ZshKD:
+  Class Name: d_a_kddoor
+  Actor ID: 0x0132
+  Subtype: 0xFF
+  GBA Name: 0x00
+doorSH:
+  Class Name: d_a_kddoor
+  Actor ID: 0x0132
+  Subtype: 0xFF
+  GBA Name: 0x00
+doorSZ:
+  Class Name: d_a_kddoor
+  Actor ID: 0x0132
+  Subtype: 0xFF
+  GBA Name: 0x00
+KNOB00:
+  Class Name: d_a_knob00
+  Actor ID: 0x0133
+  Subtype: 0xFF
+  GBA Name: 0x00
+KNOB01:
+  Class Name: d_a_knob00
+  Actor ID: 0x0133
+  Subtype: 0xFF
+  GBA Name: 0x00
+KNOB02:
+  Class Name: d_a_knob00
+  Actor ID: 0x0133
+  Subtype: 0xFF
+  GBA Name: 0x00
+KNOB03:
+  Class Name: d_a_knob00
+  Actor ID: 0x0133
+  Subtype: 0xFF
+  GBA Name: 0x00
+KNOB00D:
+  Class Name: d_a_knob00
+  Actor ID: 0x0133
+  Subtype: 0xFF
+  GBA Name: 0x00
+KNOB01D:
+  Class Name: d_a_knob00
+  Actor ID: 0x0133
+  Subtype: 0xFF
+  GBA Name: 0x00
+KNOB02D:
+  Class Name: d_a_knob00
+  Actor ID: 0x0133
+  Subtype: 0xFF
+  GBA Name: 0x00
+KNOB03D:
+  Class Name: d_a_knob00
+  Actor ID: 0x0133
+  Subtype: 0xFF
+  GBA Name: 0x00
+door12:
+  Class Name: d_a_door12
+  Actor ID: 0x012F
+  Subtype: 0x00
+  GBA Name: 0x00
+door12M:
+  Class Name: d_a_door12
+  Actor ID: 0x012F
+  Subtype: 0x01
+  GBA Name: 0x00
+door12B:
+  Class Name: d_a_door12
+  Actor ID: 0x012F
+  Subtype: 0x02
+  GBA Name: 0x00
+door13:
+  Class Name: d_a_door12
+  Actor ID: 0x012F
+  Subtype: 0x03
+  GBA Name: 0x00
+door13M:
+  Class Name: d_a_door12
+  Actor ID: 0x012F
+  Subtype: 0x04
+  GBA Name: 0x00
+door13B:
+  Class Name: d_a_door12
+  Actor ID: 0x012F
+  Subtype: 0x05
+  GBA Name: 0x00
+keyS12:
+  Class Name: d_a_door12
+  Actor ID: 0x012F
+  Subtype: 0x01
+  GBA Name: 0x00
+ZenS12:
+  Class Name: d_a_door12
+  Actor ID: 0x012F
+  Subtype: 0x02
+  GBA Name: 0x00
+bonbori:
+  Class Name: d_a_ep
+  Actor ID: 0x00BA
+  Subtype: 0xFF
+  GBA Name: 0x00
+SW_C00:
+  Class Name: d_a_swc00
+  Actor ID: 0x012C
+  Subtype: 0xFF
+  GBA Name: 0x00
+takara:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+takara2:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+takara3:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+takara4:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+takara5:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+takara6:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+takara7:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+takara8:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+takaraK:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+takaraI:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+takaraM:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+tkrASw:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+tkrAGc:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+tkrAKd:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+tkrAIk:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+tkrBMs:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+tkrCTf:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+tkrAOc:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+tkrAOs:
+  Class Name: d_a_tbox
+  Actor ID: 0x0126
+  Subtype: 0xFF
+  GBA Name: 0x3E
+tkrSlv:
+  Class Name: d_a_sbox
+  Actor ID: 0x0127
+  Subtype: 0xFF
+  GBA Name: 0x3E
+agbA:
+  Class Name: d_a_agbsw0
+  Actor ID: 0x01B6
+  Subtype: 0xFF
+  GBA Name: 0x00
+agbAT:
+  Class Name: d_a_agbsw0
+  Actor ID: 0x01B6
+  Subtype: 0xFF
+  GBA Name: 0x00
+agbA2:
+  Class Name: d_a_agbsw0
+  Actor ID: 0x01B6
+  Subtype: 0xFF
+  GBA Name: 0x00
+agbF:
+  Class Name: d_a_agbsw0
+  Actor ID: 0x01B6
+  Subtype: 0xFF
+  GBA Name: 0x00
+agbF2:
+  Class Name: d_a_agbsw0
+  Actor ID: 0x01B6
+  Subtype: 0xFF
+  GBA Name: 0x00
+agbMARK:
+  Class Name: d_a_agbsw0
+  Actor ID: 0x01B6
+  Subtype: 0xFF
+  GBA Name: 0x00
+agbMW:
+  Class Name: d_a_agbsw0
+  Actor ID: 0x01B6
+  Subtype: 0xFF
+  GBA Name: 0x00
+agbCSW:
+  Class Name: d_a_agbsw0
+  Actor ID: 0x01B6
+  Subtype: 0xFF
+  GBA Name: 0x00
+agbTBOX:
+  Class Name: d_a_agbsw0
+  Actor ID: 0x01B6
+  Subtype: 0xFF
+  GBA Name: 0x00
+agbR:
+  Class Name: d_a_agbsw0
+  Actor ID: 0x01B6
+  Subtype: 0xFF
+  GBA Name: 0x00
+agbB:
+  Class Name: d_a_agbsw0
+  Actor ID: 0x01B6
+  Subtype: 0xFF
+  GBA Name: 0x00
+agbD:
+  Class Name: d_a_agbsw0
+  Actor ID: 0x01B6
+  Subtype: 0xFF
+  GBA Name: 0x00
+agbFA:
+  Class Name: d_a_agbsw0
+  Actor ID: 0x01B6
+  Subtype: 0xFF
+  GBA Name: 0x00
+NoneCam:
+  Class Name: null # TODO
+  Actor ID: 0x01E2
+  Subtype: 0xFF
+  GBA Name: 0x00
+NormCam:
+  Class Name: null # TODO
+  Actor ID: 0x01E2
+  Subtype: 0xFF
+  GBA Name: 0x00
+Link:
+  Class Name: null # TODO
+  Actor ID: 0x00A9
+  Subtype: 0xFF
+  GBA Name: 0x00
+kotubo:
+  Class Name: d_a_tsubo
+  Actor ID: 0x01CB
+  Subtype: 0x00
+  GBA Name: 0x00
+ootubo1:
+  Class Name: d_a_tsubo
+  Actor ID: 0x01CB
+  Subtype: 0x01
+  GBA Name: 0x00
+Kmtub:
+  Class Name: d_a_tsubo
+  Actor ID: 0x01CB
+  Subtype: 0x02
+  GBA Name: 0x00
+Ktaru:
+  Class Name: d_a_tsubo
+  Actor ID: 0x01CB
+  Subtype: 0x03
+  GBA Name: 0x00
+Ostool:
+  Class Name: d_a_tsubo
+  Actor ID: 0x01CB
+  Subtype: 0x04
+  GBA Name: 0x00
+Odokuro:
+  Class Name: d_a_tsubo
+  Actor ID: 0x01CB
+  Subtype: 0x05
+  GBA Name: 0x00
+Okioke:
+  Class Name: d_a_tsubo
+  Actor ID: 0x01CB
+  Subtype: 0x06
+  GBA Name: 0x00
+Kmi02:
+  Class Name: d_a_tsubo
+  Actor ID: 0x01CB
+  Subtype: 0x07
+  GBA Name: 0x00
+Ptubo:
+  Class Name: d_a_tsubo
+  Actor ID: 0x01CB
+  Subtype: 0x08
+  GBA Name: 0x00
+KkibaB:
+  Class Name: d_a_tsubo
+  Actor ID: 0x01CB
+  Subtype: 0x09
+  GBA Name: 0x00
+Kmi00:
+  Class Name: d_a_tsubo
+  Actor ID: 0x01CB
+  Subtype: 0x0A
+  GBA Name: 0x00
+Hbox2S:
+  Class Name: d_a_tsubo
+  Actor ID: 0x01CB
+  Subtype: 0x0B
+  GBA Name: 0x00
+SW_HIT0:
+  Class Name: d_a_swhit0
+  Actor ID: 0x01C9
+  Subtype: 0xFF
+  GBA Name: 0x00
+koisi1:
+  Class Name: d_a_stone
+  Actor ID: 0x01CC
+  Subtype: 0x00
+  GBA Name: 0x00
+koisi2:
+  Class Name: d_a_stone
+  Actor ID: 0x01CC
+  Subtype: 0x01
+  GBA Name: 0x00
+Aygr:
+  Class Name: d_a_obj_aygr
+  Actor ID: 0x00A6
+  Subtype: 0xFF
+  GBA Name: 0x00
+Salvage:
+  Class Name: d_a_salvage
+  Actor ID: 0x0194
+  Subtype: 0xFF
+  GBA Name: 0x00
+SwSlvg:
+  Class Name: d_a_salvage
+  Actor ID: 0x0194
+  Subtype: 0xFF
+  GBA Name: 0x3F
+Salvag2:
+  Class Name: d_a_salvage
+  Actor ID: 0x0194
+  Subtype: 0xFF
+  GBA Name: 0x3F
+SalvagN:
+  Class Name: d_a_salvage
+  Actor ID: 0x0194
+  Subtype: 0xFF
+  GBA Name: 0x3F
+SalvagE:
+  Class Name: d_a_salvage
+  Actor ID: 0x0194
+  Subtype: 0xFF
+  GBA Name: 0x3F
+SalvFM:
+  Class Name: d_a_salvage
+  Actor ID: 0x0194
+  Subtype: 0xFF
+  GBA Name: 0x3F
+osiBLK0:
+  Class Name: d_a_obj_movebox
+  Actor ID: 0x002D
+  Subtype: 0x00
+  GBA Name: 0x3D
+osiBLK1:
+  Class Name: d_a_obj_movebox
+  Actor ID: 0x002D
+  Subtype: 0x01
+  GBA Name: 0x3D
+Kkiba:
+  Class Name: d_a_obj_movebox
+  Actor ID: 0x002D
+  Subtype: 0x02
+  GBA Name: 0x3D
+Hseki2:
+  Class Name: d_a_obj_movebox
+  Actor ID: 0x002D
+  Subtype: 0x03
+  GBA Name: 0x3D
+Hseki7:
+  Class Name: d_a_obj_movebox
+  Actor ID: 0x002D
+  Subtype: 0x04
+  GBA Name: 0x3D
+Mmrr:
+  Class Name: d_a_obj_movebox
+  Actor ID: 0x002D
+  Subtype: 0x05
+  GBA Name: 0x3D
+MkieBB:
+  Class Name: d_a_obj_movebox
+  Actor ID: 0x002D
+  Subtype: 0x06
+  GBA Name: 0x3D
+Ecube:
+  Class Name: d_a_obj_movebox
+  Actor ID: 0x002D
+  Subtype: 0x07
+  GBA Name: 0x3D
+Hjump1:
+  Class Name: d_a_obj_movebox
+  Actor ID: 0x002D
+  Subtype: 0x08
+  GBA Name: 0x3D
+Hbox1:
+  Class Name: d_a_obj_movebox
+  Actor ID: 0x002D
+  Subtype: 0x09
+  GBA Name: 0x3D
+MpwrB:
+  Class Name: d_a_obj_movebox
+  Actor ID: 0x002D
+  Subtype: 0x0A
+  GBA Name: 0x3D
+DBLK0:
+  Class Name: d_a_obj_movebox
+  Actor ID: 0x002D
+  Subtype: 0x0B
+  GBA Name: 0x3D
+DBLK1:
+  Class Name: d_a_obj_movebox
+  Actor ID: 0x002D
+  Subtype: 0x0C
+  GBA Name: 0x3D
+DKkiba:
+  Class Name: d_a_obj_movebox
+  Actor ID: 0x002D
+  Subtype: 0x0D
+  GBA Name: 0x3D
+Hbox2:
+  Class Name: d_a_obj_movebox
+  Actor ID: 0x002D
+  Subtype: 0x0E
+  GBA Name: 0x3D
+BLK_CR:
+  Class Name: d_a_obj_correct
+  Actor ID: 0x01D8
+  Subtype: 0x00
+  GBA Name: 0x00
+CrTrS3:
+  Class Name: d_a_obj_correct
+  Actor ID: 0x01D8
+  Subtype: 0x01
+  GBA Name: 0x00
+CrTrS4:
+  Class Name: d_a_obj_correct
+  Actor ID: 0x01D8
+  Subtype: 0x02
+  GBA Name: 0x00
+CrTrS5:
+  Class Name: d_a_obj_correct
+  Actor ID: 0x01D8
+  Subtype: 0x03
+  GBA Name: 0x00
+CrTrM1:
+  Class Name: d_a_obj_correct
+  Actor ID: 0x01D8
+  Subtype: 0x04
+  GBA Name: 0x00
+CrTrM2:
+  Class Name: d_a_obj_correct
+  Actor ID: 0x01D8
+  Subtype: 0x05
+  GBA Name: 0x00
+CrTrGr:
+  Class Name: d_a_obj_correct
+  Actor ID: 0x01D8
+  Subtype: 0x06
+  GBA Name: 0x3D
+CrTrBl:
+  Class Name: d_a_obj_correct
+  Actor ID: 0x01D8
+  Subtype: 0x07
+  GBA Name: 0x3D
+Kbota_A:
+  Class Name: d_a_obj_swpush
+  Actor ID: 0x001D
+  Subtype: 0x00
+  GBA Name: 0x00
+Kbota_B:
+  Class Name: d_a_obj_swpush
+  Actor ID: 0x001D
+  Subtype: 0x01
+  GBA Name: 0x00
+KbotaC:
+  Class Name: d_a_obj_swpush
+  Actor ID: 0x001D
+  Subtype: 0x02
+  GBA Name: 0x00
+Hhbot1:
+  Class Name: d_a_obj_swheavy
+  Actor ID: 0x001E
+  Subtype: 0x00
+  GBA Name: 0x00
+Hhbot1N:
+  Class Name: d_a_obj_swheavy
+  Actor ID: 0x001E
+  Subtype: 0x01
+  GBA Name: 0x00
+MhmrSW0:
+  Class Name: d_a_obj_swhammer
+  Actor ID: 0x0021
+  Subtype: 0xFF
+  GBA Name: 0x00
+TagSo:
+  Class Name: d_a_tag_so
+  Actor ID: 0x0025
+  Subtype: 0x00
+  GBA Name: 0x00
+TagMSo:
+  Class Name: d_a_tag_so
+  Actor ID: 0x0025
+  Subtype: 0x01
+  GBA Name: 0x00
+PScnChg:
+  Class Name: d_a_tag_ghostship
+  Actor ID: 0x01CA
+  Subtype: 0xFF
+  GBA Name: 0x00
+ALLdie:
+  Class Name: d_a_alldie
+  Actor ID: 0x0016
+  Subtype: 0xFF
+  GBA Name: 0x00
+TagEv:
+  Class Name: d_a_tag_event
+  Actor ID: 0x019C
+  Subtype: 0xFF
+  GBA Name: 0x00
+TagHt:
+  Class Name: d_a_tag_hint
+  Actor ID: 0x019D
+  Subtype: 0x00
+  GBA Name: 0x00
+TagHt2:
+  Class Name: d_a_tag_hint
+  Actor ID: 0x019D
+  Subtype: 0x01
+  GBA Name: 0x00
+TagMsg:
+  Class Name: d_a_tag_msg
+  Actor ID: 0x019E
+  Subtype: 0x00
+  GBA Name: 0x00
+TagMsg2:
+  Class Name: d_a_tag_msg
+  Actor ID: 0x019E
+  Subtype: 0x01
+  GBA Name: 0x00
+TagIsl:
+  Class Name: d_a_tag_island
+  Actor ID: 0x01A0
+  Subtype: 0x00
+  GBA Name: 0x00
+TagMd:
+  Class Name: d_a_tag_etc
+  Actor ID: 0x019F
+  Subtype: 0x00
+  GBA Name: 0x00
+TagKf1:
+  Class Name: d_a_tag_kf1
+  Actor ID: 0x01A1
+  Subtype: 0xFF
+  GBA Name: 0x00
+TagKk1:
+  Class Name: d_a_tag_kk1
+  Actor ID: 0x01A2
+  Subtype: 0xFF
+  GBA Name: 0x00
+TagKb:
+  Class Name: d_a_tag_kb_item
+  Actor ID: 0x01A4
+  Subtype: 0xFF
+  GBA Name: 0x00
+TagMk:
+  Class Name: d_a_tag_mk
+  Actor ID: 0x01A5
+  Subtype: 0x00
+  GBA Name: 0x00
+TagWp:
+  Class Name: d_a_tag_mk
+  Actor ID: 0x01A5
+  Subtype: 0x01
+  GBA Name: 0x00
+TagDM:
+  Class Name: d_a_tag_mk
+  Actor ID: 0x01A5
+  Subtype: 0x02
+  GBA Name: 0x00
+TagTy:
+  Class Name: d_a_tag_mk
+  Actor ID: 0x01A5
+  Subtype: 0x03
+  GBA Name: 0x00
+TagMd1:
+  Class Name: d_a_tag_md_cb
+  Actor ID: 0x01A6
+  Subtype: 0x00
+  GBA Name: 0x00
+TagCb1:
+  Class Name: d_a_tag_md_cb
+  Actor ID: 0x01A6
+  Subtype: 0x01
+  GBA Name: 0x00
+TagMd11:
+  Class Name: d_a_tag_md_cb
+  Actor ID: 0x01A6
+  Subtype: 0x02
+  GBA Name: 0x00
+TagMd12:
+  Class Name: d_a_tag_md_cb
+  Actor ID: 0x01A6
+  Subtype: 0x03
+  GBA Name: 0x00
+TagMd13:
+  Class Name: d_a_tag_md_cb
+  Actor ID: 0x01A6
+  Subtype: 0x04
+  GBA Name: 0x00
+TagMd14:
+  Class Name: d_a_tag_md_cb
+  Actor ID: 0x01A6
+  Subtype: 0x05
+  GBA Name: 0x00
+TagMd15:
+  Class Name: d_a_tag_md_cb
+  Actor ID: 0x01A6
+  Subtype: 0x06
+  GBA Name: 0x00
+TagMd16:
+  Class Name: d_a_tag_md_cb
+  Actor ID: 0x01A6
+  Subtype: 0x07
+  GBA Name: 0x00
+TagCb11:
+  Class Name: d_a_tag_md_cb
+  Actor ID: 0x01A6
+  Subtype: 0x08
+  GBA Name: 0x00
+TagCb12:
+  Class Name: d_a_tag_md_cb
+  Actor ID: 0x01A6
+  Subtype: 0x09
+  GBA Name: 0x00
+TagCb13:
+  Class Name: d_a_tag_md_cb
+  Actor ID: 0x01A6
+  Subtype: 0x0A
+  GBA Name: 0x00
+TagCb14:
+  Class Name: d_a_tag_md_cb
+  Actor ID: 0x01A6
+  Subtype: 0x0B
+  GBA Name: 0x00
+TagBa1:
+  Class Name: d_a_tag_ba1
+  Actor ID: 0x01A7
+  Subtype: 0x01
+  GBA Name: 0x00
+Evsw:
+  Class Name: d_a_tag_evsw
+  Actor ID: 0x001C
+  Subtype: 0xFF
+  GBA Name: 0x00
+Search:
+  Class Name: null # TODO
+  Actor ID: 0x0044
+  Subtype: 0xFF
+  GBA Name: 0x00
+Otble:
+  Class Name: d_a_obj_otble
+  Actor ID: 0x0042
+  Subtype: 0x00
+  GBA Name: 0x00
+OtbleL:
+  Class Name: d_a_obj_otble
+  Actor ID: 0x0042
+  Subtype: 0x01
+  GBA Name: 0x00
+Warpt:
+  Class Name: d_a_obj_warpt
+  Actor ID: 0x0043
+  Subtype: 0x00
+  GBA Name: 0x31
+Warpnt:
+  Class Name: d_a_obj_warpt
+  Actor ID: 0x0043
+  Subtype: 0x01
+  GBA Name: 0x31
+Warpts1:
+  Class Name: d_a_obj_warpt
+  Actor ID: 0x0043
+  Subtype: 0x02
+  GBA Name: 0x31
+Warpts2:
+  Class Name: d_a_obj_warpt
+  Actor ID: 0x0043
+  Subtype: 0x03
+  GBA Name: 0x31
+Warpts3:
+  Class Name: d_a_obj_warpt
+  Actor ID: 0x0043
+  Subtype: 0x04
+  GBA Name: 0x31
+Seatag:
+  Class Name: d_a_seatag
+  Actor ID: 0x0027
+  Subtype: 0xFF
+  GBA Name: 0x00
+Warpf:
+  Class Name: d_a_warpf
+  Actor ID: 0x006A
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hys:
+  Class Name: d_a_hys
+  Actor ID: 0x01C8
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hys2:
+  Class Name: d_a_hys
+  Actor ID: 0x01C8
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hsen1:
+  Class Name: d_a_fan
+  Actor ID: 0x012D
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hsen2:
+  Class Name: d_a_fan
+  Actor ID: 0x012D
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hsen3:
+  Class Name: d_a_fan
+  Actor ID: 0x012D
+  Subtype: 0xFF
+  GBA Name: 0x00
+Olift:
+  Class Name: d_a_leaflift
+  Actor ID: 0x007A
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ylsic:
+  Class Name: d_a_icelift
+  Actor ID: 0x005F
+  Subtype: 0xFF
+  GBA Name: 0x00
+Yllic:
+  Class Name: d_a_icelift
+  Actor ID: 0x005F
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ylkic:
+  Class Name: d_a_icelift
+  Actor ID: 0x005F
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hpbot1:
+  Class Name: d_a_swpropeller
+  Actor ID: 0x01B2
+  Subtype: 0xFF
+  GBA Name: 0x00
+Vpbot:
+  Class Name: d_a_swpropeller
+  Actor ID: 0x01B2
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hami1:
+  Class Name: d_a_amiprop
+  Actor ID: 0x0060
+  Subtype: 0xFF
+  GBA Name: 0x00
+HamiY:
+  Class Name: d_a_amiprop
+  Actor ID: 0x0060
+  Subtype: 0xFF
+  GBA Name: 0x00
+LTag0:
+  Class Name: d_a_tag_light
+  Actor ID: 0x01DB
+  Subtype: 0x00
+  GBA Name: 0x00
+LTag1:
+  Class Name: d_a_tag_light
+  Actor ID: 0x01DB
+  Subtype: 0x01
+  GBA Name: 0x00
+LTagR0:
+  Class Name: d_a_tag_light
+  Actor ID: 0x01DB
+  Subtype: 0x02
+  GBA Name: 0x00
+AttTag:
+  Class Name: d_a_tag_attention
+  Actor ID: 0x01DC
+  Subtype: 0x00
+  GBA Name: 0x00
+AttTagB:
+  Class Name: d_a_tag_attention
+  Actor ID: 0x01DC
+  Subtype: 0x01
+  GBA Name: 0x00
+Ikori:
+  Class Name: d_a_obj_ice
+  Actor ID: 0x01D2
+  Subtype: 0xFF
+  GBA Name: 0x00
+MsuSW:
+  Class Name: d_a_obj_swlight
+  Actor ID: 0x0020
+  Subtype: 0x00
+  GBA Name: 0x00
+MsuSWB:
+  Class Name: d_a_obj_swlight
+  Actor ID: 0x0020
+  Subtype: 0x01
+  GBA Name: 0x00
+SWat00:
+  Class Name: d_a_swattack
+  Actor ID: 0x0138
+  Subtype: 0xFF
+  GBA Name: 0x00
+ITat00:
+  Class Name: d_a_switem
+  Actor ID: 0x0139
+  Subtype: 0xFF
+  GBA Name: 0x00
+SWtact:
+  Class Name: d_a_swtact
+  Actor ID: 0x013A
+  Subtype: 0xFF
+  GBA Name: 0x00
+SWtactB:
+  Class Name: d_a_swtact
+  Actor ID: 0x013A
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hhyu1:
+  Class Name: d_a_floor
+  Actor ID: 0x0062
+  Subtype: 0xFF
+  GBA Name: 0x00
+Oyashi:
+  Class Name: d_a_obj_lpalm
+  Actor ID: 0x004B
+  Subtype: 0xFF
+  GBA Name: 0x00
+Kanban:
+  Class Name: d_a_kanban
+  Actor ID: 0x00B7
+  Subtype: 0xFF
+  GBA Name: 0x34
+kt:
+  Class Name: d_a_kt
+  Actor ID: 0x00B9
+  Subtype: 0xFF
+  GBA Name: 0x00
+ho:
+  Class Name: d_a_ff
+  Actor ID: 0x00BC
+  Subtype: 0xFF
+  GBA Name: 0x00
+mo2:
+  Class Name: d_a_mo2
+  Actor ID: 0x00BD
+  Subtype: 0xFF
+  GBA Name: 0x02
+moZOU:
+  Class Name: d_a_mozo
+  Actor ID: 0x00FB
+  Subtype: 0xFF
+  GBA Name: 0x00
+hotest:
+  Class Name: d_a_rectangle
+  Actor ID: 0x00B5
+  Subtype: 0xFF
+  GBA Name: 0x00
+Kui:
+  Class Name: d_a_kui
+  Actor ID: 0x00FC
+  Subtype: 0xFF
+  GBA Name: 0x00
+Kamome:
+  Class Name: d_a_kamome
+  Actor ID: 0x00C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+item:
+  Class Name: null # TODO
+  Actor ID: 0x0101
+  Subtype: 0xFF
+  GBA Name: 0x00
+itemFLY:
+  Class Name: null # TODO
+  Actor ID: 0x0101
+  Subtype: 0xFF
+  GBA Name: 0x00
+itemDek:
+  Class Name: d_a_deku_item
+  Actor ID: 0x0106
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ship:
+  Class Name: d_a_ship
+  Actor ID: 0x00A7
+  Subtype: 0xFF
+  GBA Name: 0x00
+AND_SW0:
+  Class Name: d_a_andsw0
+  Actor ID: 0x0135
+  Subtype: 0xFF
+  GBA Name: 0x00
+AND_SW2:
+  Class Name: d_a_andsw2
+  Actor ID: 0x0136
+  Subtype: 0xFF
+  GBA Name: 0x00
+Bb:
+  Class Name: d_a_bb
+  Actor ID: 0x00B6
+  Subtype: 0xFF
+  GBA Name: 0x1A
+Ebrock:
+  Class Name: d_a_stone2
+  Actor ID: 0x01CD
+  Subtype: 0x00
+  GBA Name: 0x00
+Ekao:
+  Class Name: d_a_stone2
+  Actor ID: 0x01CD
+  Subtype: 0x01
+  GBA Name: 0x00
+Ebrock2:
+  Class Name: d_a_stone2
+  Actor ID: 0x01CD
+  Subtype: 0x02
+  GBA Name: 0x00
+ky_tag0:
+  Class Name: d_a_kytag00
+  Actor ID: 0x0181
+  Subtype: 0xFF
+  GBA Name: 0x00
+kytag00:
+  Class Name: d_a_kytag00
+  Actor ID: 0x0181
+  Subtype: 0xFF
+  GBA Name: 0x00
+ky00you:
+  Class Name: d_a_kytag00
+  Actor ID: 0x0181
+  Subtype: 0xFF
+  GBA Name: 0x00
+ky_tag1:
+  Class Name: d_a_kytag01
+  Actor ID: 0x0182
+  Subtype: 0xFF
+  GBA Name: 0x00
+ky_tag2:
+  Class Name: d_a_kytag02
+  Actor ID: 0x0183
+  Subtype: 0xFF
+  GBA Name: 0x00
+ky_tag3:
+  Class Name: d_a_kytag03
+  Actor ID: 0x0184
+  Subtype: 0xFF
+  GBA Name: 0x00
+kytag4:
+  Class Name: d_a_kytag04
+  Actor ID: 0x0185
+  Subtype: 0xFF
+  GBA Name: 0x00
+kytag5:
+  Class Name: d_a_kytag05
+  Actor ID: 0x0186
+  Subtype: 0xFF
+  GBA Name: 0x00
+kytag6:
+  Class Name: d_a_kytag06
+  Actor ID: 0x0187
+  Subtype: 0xFF
+  GBA Name: 0x00
+kytag7:
+  Class Name: d_a_kytag07
+  Actor ID: 0x0188
+  Subtype: 0xFF
+  GBA Name: 0x00
+sea:
+  Class Name: null # TODO
+  Actor ID: 0x0028
+  Subtype: 0xFF
+  GBA Name: 0x00
+nezumi:
+  Class Name: d_a_nz
+  Actor ID: 0x00C7
+  Subtype: 0xFF
+  GBA Name: 0x18
+nezuana:
+  Class Name: d_a_nzg
+  Actor ID: 0x00C8
+  Subtype: 0xFF
+  GBA Name: 0x00
+kani:
+  Class Name: d_a_kn
+  Actor ID: 0x00C9
+  Subtype: 0xFF
+  GBA Name: 0x00
+Demo_Dk:
+  Class Name: d_a_demo_dk
+  Actor ID: 0x00CA
+  Subtype: 0xFF
+  GBA Name: 0x00
+DmKmm:
+  Class Name: d_a_demo_kmm
+  Actor ID: 0x00C6
+  Subtype: 0x00
+  GBA Name: 0x00
+DmKmm2:
+  Class Name: d_a_demo_kmm
+  Actor ID: 0x00C6
+  Subtype: 0x01
+  GBA Name: 0x00
+amos:
+  Class Name: d_a_am
+  Actor ID: 0x00CB
+  Subtype: 0xFF
+  GBA Name: 0x0C
+amos2:
+  Class Name: d_a_am2
+  Actor ID: 0x00CC
+  Subtype: 0xFF
+  GBA Name: 0x0B
+gmos:
+  Class Name: d_a_gm
+  Actor ID: 0x00CD
+  Subtype: 0xFF
+  GBA Name: 0x09
+gmos_g:
+  Class Name: d_a_gm
+  Actor ID: 0x00CD
+  Subtype: 0xFF
+  GBA Name: 0x09
+gmos_f:
+  Class Name: d_a_gm
+  Actor ID: 0x00CD
+  Subtype: 0xFF
+  GBA Name: 0x09
+kuro_s:
+  Class Name: d_a_ks
+  Actor ID: 0x00CE
+  Subtype: 0xFF
+  GBA Name: 0x14
+kuro_t:
+  Class Name: d_a_ks
+  Actor ID: 0x00CE
+  Subtype: 0xFF
+  GBA Name: 0x00
+c_green:
+  Class Name: d_a_cc
+  Actor ID: 0x00CF
+  Subtype: 0xFF
+  GBA Name: 0x16
+c_red:
+  Class Name: d_a_cc
+  Actor ID: 0x00CF
+  Subtype: 0xFF
+  GBA Name: 0x15
+c_blue:
+  Class Name: d_a_cc
+  Actor ID: 0x00CF
+  Subtype: 0xFF
+  GBA Name: 0x1E
+c_black:
+  Class Name: d_a_cc
+  Actor ID: 0x00CF
+  Subtype: 0xFF
+  GBA Name: 0x10
+c_kiiro:
+  Class Name: d_a_cc
+  Actor ID: 0x00CF
+  Subtype: 0xFF
+  GBA Name: 0x0A
+bable:
+  Class Name: d_a_bl
+  Actor ID: 0x00D0
+  Subtype: 0xFF
+  GBA Name: 0x0F
+bable_r:
+  Class Name: d_a_bl
+  Actor ID: 0x00D0
+  Subtype: 0xFF
+  GBA Name: 0x0E
+wiz_r:
+  Class Name: d_a_wz
+  Actor ID: 0x00D1
+  Subtype: 0xFF
+  GBA Name: 0x11
+wiz_s:
+  Class Name: d_a_wz
+  Actor ID: 0x00D1
+  Subtype: 0xFF
+  GBA Name: 0x11
+wiz_m:
+  Class Name: d_a_wz
+  Actor ID: 0x00D1
+  Subtype: 0xFF
+  GBA Name: 0x11
+wiz_o:
+  Class Name: d_a_wz
+  Actor ID: 0x00D1
+  Subtype: 0xFF
+  GBA Name: 0x11
+p_hat:
+  Class Name: d_a_ph
+  Actor ID: 0x00D2
+  Subtype: 0xFF
+  GBA Name: 0x08
+p_zelda:
+  Class Name: d_a_pz
+  Actor ID: 0x00D3
+  Subtype: 0xFF
+  GBA Name: 0x3C
+big_pow:
+  Class Name: d_a_bpw
+  Actor ID: 0x00D4
+  Subtype: 0xFF
+  GBA Name: 0x00
+pow:
+  Class Name: d_a_pw
+  Actor ID: 0x00D5
+  Subtype: 0xFF
+  GBA Name: 0x0D
+sea_hat:
+  Class Name: d_a_ph
+  Actor ID: 0x00D2
+  Subtype: 0xFF
+  GBA Name: 0x1F
+jbaba:
+  Class Name: d_a_jbo
+  Actor ID: 0x00D6
+  Subtype: 0xFF
+  GBA Name: 0x21
+bbaba:
+  Class Name: d_a_bo
+  Actor ID: 0x00D7
+  Subtype: 0xFF
+  GBA Name: 0x07
+bridge:
+  Class Name: d_a_bridge
+  Actor ID: 0x005B
+  Subtype: 0xFF
+  GBA Name: 0x00
+dragon:
+  Class Name: d_a_dr
+  Actor ID: 0x00DF
+  Subtype: 0xFF
+  GBA Name: 0x00
+Nh:
+  Class Name: null # TODO
+  Actor ID: 0x013B
+  Subtype: 0xFF
+  GBA Name: 0x00
+NpcSo:
+  Class Name: d_a_npc_so
+  Actor ID: 0x0078
+  Subtype: 0xFF
+  GBA Name: 0x00
+NpcNz:
+  Class Name: d_a_npc_nz
+  Actor ID: 0x0077
+  Subtype: 0xFF
+  GBA Name: 0x00
+Os:
+  Class Name: d_a_npc_os
+  Actor ID: 0x013C
+  Subtype: 0x00
+  GBA Name: 0x00
+Os1:
+  Class Name: d_a_npc_os
+  Actor ID: 0x013C
+  Subtype: 0x01
+  GBA Name: 0x00
+Os2:
+  Class Name: d_a_npc_os
+  Actor ID: 0x013C
+  Subtype: 0x02
+  GBA Name: 0x00
+Ym1:
+  Class Name: d_a_npc_ym1
+  Actor ID: 0x013D
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Ym2:
+  Class Name: d_a_npc_ym1
+  Actor ID: 0x013E
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Yw1:
+  Class Name: d_a_npc_yw1
+  Actor ID: 0x013F
+  Subtype: 0xFF
+  GBA Name: 0x3C
+Ji1:
+  Class Name: d_a_npc_ji1
+  Actor ID: 0x0140
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Ko1:
+  Class Name: d_a_npc_ko1
+  Actor ID: 0x0141
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Ko2:
+  Class Name: d_a_npc_ko1
+  Actor ID: 0x0142
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Ls1:
+  Class Name: d_a_npc_ls1
+  Actor ID: 0x0143
+  Subtype: 0xFF
+  GBA Name: 0x3C
+Bm1:
+  Class Name: d_a_npc_bm1
+  Actor ID: 0x0148
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Bm2:
+  Class Name: d_a_npc_bm1
+  Actor ID: 0x0149
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Bm3:
+  Class Name: d_a_npc_bm1
+  Actor ID: 0x014A
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Bm4:
+  Class Name: d_a_npc_bm1
+  Actor ID: 0x014B
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Bm5:
+  Class Name: d_a_npc_bm1
+  Actor ID: 0x014C
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Bmcon1:
+  Class Name: d_a_npc_bmcon1
+  Actor ID: 0x015C
+  Subtype: 0x00
+  GBA Name: 0x00
+Bmcon2:
+  Class Name: d_a_npc_bmcon1
+  Actor ID: 0x015C
+  Subtype: 0x01
+  GBA Name: 0x00
+Bmsw:
+  Class Name: d_a_npc_bmsw
+  Actor ID: 0x015E
+  Subtype: 0xFF
+  GBA Name: 0x00
+Btsw:
+  Class Name: d_a_npc_btsw
+  Actor ID: 0x015F
+  Subtype: 0xFF
+  GBA Name: 0x00
+Btsw2:
+  Class Name: d_a_npc_btsw2
+  Actor ID: 0x0160
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Zk1:
+  Class Name: d_a_npc_zk1
+  Actor ID: 0x0175
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Zl1:
+  Class Name: d_a_npc_zl1
+  Actor ID: 0x01AD
+  Subtype: 0xFF
+  GBA Name: 0x3C
+Ob1:
+  Class Name: d_a_npc_ob1
+  Actor ID: 0x014D
+  Subtype: 0xFF
+  GBA Name: 0x3C
+Aj1:
+  Class Name: d_a_npc_aj1
+  Actor ID: 0x014E
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Km1:
+  Class Name: d_a_npc_km1
+  Actor ID: 0x014F
+  Subtype: 0xFF
+  GBA Name: 0x3C
+Cb1:
+  Class Name: d_a_npc_cb1
+  Actor ID: 0x0150
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Ba1:
+  Class Name: d_a_npc_ba1
+  Actor ID: 0x0151
+  Subtype: 0xFF
+  GBA Name: 0x3C
+Bj1:
+  Class Name: d_a_npc_bj1
+  Actor ID: 0x0152
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Bj2:
+  Class Name: d_a_npc_bj1
+  Actor ID: 0x0153
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Bj3:
+  Class Name: d_a_npc_bj1
+  Actor ID: 0x0154
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Bj4:
+  Class Name: d_a_npc_bj1
+  Actor ID: 0x0155
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Bj5:
+  Class Name: d_a_npc_bj1
+  Actor ID: 0x0156
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Bj6:
+  Class Name: d_a_npc_bj1
+  Actor ID: 0x0157
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Bj7:
+  Class Name: d_a_npc_bj1
+  Actor ID: 0x0158
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Bj8:
+  Class Name: d_a_npc_bj1
+  Actor ID: 0x0159
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Bj9:
+  Class Name: d_a_npc_bj1
+  Actor ID: 0x015A
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Bs1:
+  Class Name: d_a_npc_bs1
+  Actor ID: 0x015B
+  Subtype: 0x00
+  GBA Name: 0x3B
+Bs2:
+  Class Name: d_a_npc_bs1
+  Actor ID: 0x015B
+  Subtype: 0x01
+  GBA Name: 0x00
+Bms1:
+  Class Name: d_a_npc_bms1
+  Actor ID: 0x015D
+  Subtype: 0x00
+  GBA Name: 0x00
+Bms2:
+  Class Name: d_a_npc_bms1
+  Actor ID: 0x015D
+  Subtype: 0x01
+  GBA Name: 0x00
+Ds1:
+  Class Name: d_a_npc_ds1
+  Actor ID: 0x0161
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Rsh1:
+  Class Name: d_a_npc_rsh1
+  Actor ID: 0x0162
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Kk1:
+  Class Name: d_a_npc_kk1
+  Actor ID: 0x0163
+  Subtype: 0xFF
+  GBA Name: 0x3C
+Pm1:
+  Class Name: d_a_npc_pm1
+  Actor ID: 0x0164
+  Subtype: 0xFF
+  GBA Name: 0x3C
+Kp1:
+  Class Name: d_a_npc_kp1
+  Actor ID: 0x0165
+  Subtype: 0xFF
+  GBA Name: 0x3C
+Pf1:
+  Class Name: d_a_npc_pf1
+  Actor ID: 0x0166
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Gp1:
+  Class Name: d_a_npc_gp1
+  Actor ID: 0x0167
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Jb1:
+  Class Name: d_a_npc_jb1
+  Actor ID: 0x0168
+  Subtype: 0xFF
+  GBA Name: 0x00
+Kf1:
+  Class Name: d_a_npc_kf1
+  Actor ID: 0x0169
+  Subtype: 0xFF
+  GBA Name: 0x3B
+De1:
+  Class Name: d_a_npc_de1
+  Actor ID: 0x0076
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Sfairy:
+  Class Name: null # TODO
+  Actor ID: 0x016A
+  Subtype: 0xFF
+  GBA Name: 0x00
+Md1:
+  Class Name: d_a_npc_md
+  Actor ID: 0x0171
+  Subtype: 0xFF
+  GBA Name: 0x3C
+Uo1:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x00
+  GBA Name: 0x3B
+Uo2:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x01
+  GBA Name: 0x3B
+Uo3:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x02
+  GBA Name: 0x3B
+Ub1:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x03
+  GBA Name: 0x00
+Ub2:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x04
+  GBA Name: 0x00
+Ub3:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x05
+  GBA Name: 0x00
+Ub4:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x06
+  GBA Name: 0x00
+Uw1:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x07
+  GBA Name: 0x00
+Uw2:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x08
+  GBA Name: 0x00
+Um1:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x09
+  GBA Name: 0x00
+Um2:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x0A
+  GBA Name: 0x00
+Um3:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x0B
+  GBA Name: 0x00
+Sa1:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x0C
+  GBA Name: 0x00
+Sa2:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x0D
+  GBA Name: 0x00
+Sa3:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x0E
+  GBA Name: 0x00
+Sa4:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x0F
+  GBA Name: 0x00
+Sa5:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x10
+  GBA Name: 0x00
+Ug1:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x11
+  GBA Name: 0x00
+Ug2:
+  Class Name: d_a_npc_people
+  Actor ID: 0x0177
+  Subtype: 0x12
+  GBA Name: 0x00
+Gk1:
+  Class Name: d_a_npc_gk1
+  Actor ID: 0x0178
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Ac1:
+  Class Name: d_a_npc_ac1
+  Actor ID: 0x017A
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Hi1:
+  Class Name: d_a_npc_hi1
+  Actor ID: 0x017B
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Pirates:
+  Class Name: d_a_obj_pirateship
+  Actor ID: 0x003B
+  Subtype: 0xFF
+  GBA Name: 0x00
+keeth:
+  Class Name: d_a_ki
+  Actor ID: 0x00D8
+  Subtype: 0xFF
+  GBA Name: 0x17
+Fkeeth:
+  Class Name: d_a_ki
+  Actor ID: 0x00D8
+  Subtype: 0xFF
+  GBA Name: 0x06
+yg_awa:
+  Class Name: d_a_yougan
+  Actor ID: 0x018A
+  Subtype: 0xFF
+  GBA Name: 0x00
+magtail:
+  Class Name: d_a_mt
+  Actor ID: 0x00D9
+  Subtype: 0xFF
+  GBA Name: 0x05
+RopeR:
+  Class Name: d_a_himo3
+  Actor ID: 0x01C5
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ktarur:
+  Class Name: d_a_obj_barrel2
+  Actor ID: 0x01CF
+  Subtype: 0xFF
+  GBA Name: 0x3D
+Ktarux:
+  Class Name: d_a_obj_barrel
+  Actor ID: 0x01CE
+  Subtype: 0xFF
+  GBA Name: 0x00
+Magrock:
+  Class Name: d_a_obj_magmarock
+  Actor ID: 0x002C
+  Subtype: 0xFF
+  GBA Name: 0x00
+Quake:
+  Class Name: d_a_obj_quake
+  Actor ID: 0x0022
+  Subtype: 0xFF
+  GBA Name: 0x00
+Yfire00:
+  Class Name: d_a_obj_flame
+  Actor ID: 0x010D
+  Subtype: 0xFF
+  GBA Name: 0x00
+Turu:
+  Class Name: d_a_sk
+  Actor ID: 0x0067
+  Subtype: 0x00
+  GBA Name: 0x00
+Turu2:
+  Class Name: d_a_sk2
+  Actor ID: 0x0068
+  Subtype: 0x00
+  GBA Name: 0x00
+Turu3:
+  Class Name: d_a_sk2
+  Actor ID: 0x0068
+  Subtype: 0x01
+  GBA Name: 0x00
+Kanat:
+  Class Name: d_a_obj_kanat
+  Actor ID: 0x00A5
+  Subtype: 0xFF
+  GBA Name: 0x00
+s_turu:
+  Class Name: d_a_ssk
+  Actor ID: 0x0069
+  Subtype: 0xFF
+  GBA Name: 0x00
+spotbox:
+  Class Name: d_a_spotbox
+  Actor ID: 0x01BF
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ksaku:
+  Class Name: d_a_saku
+  Actor ID: 0x0191
+  Subtype: 0xFF
+  GBA Name: 0x00
+spotbx1:
+  Class Name: d_a_spotbox
+  Actor ID: 0x01BF
+  Subtype: 0xFF
+  GBA Name: 0x00
+Mswing:
+  Class Name: d_a_msw
+  Actor ID: 0x005C
+  Subtype: 0xFF
+  GBA Name: 0x00
+Pig:
+  Class Name: d_a_kb
+  Actor ID: 0x00DD
+  Subtype: 0xFF
+  GBA Name: 0x00
+Rdead1:
+  Class Name: d_a_rd
+  Actor ID: 0x00E1
+  Subtype: 0x00
+  GBA Name: 0x12
+Rdead2:
+  Class Name: d_a_rd
+  Actor ID: 0x00E1
+  Subtype: 0x01
+  GBA Name: 0x12
+Fmaster:
+  Class Name: d_a_fm
+  Actor ID: 0x0079
+  Subtype: 0x00
+  GBA Name: 0x19
+Fmastr1:
+  Class Name: d_a_fm
+  Actor ID: 0x0079
+  Subtype: 0x01
+  GBA Name: 0x19
+Fmastr2:
+  Class Name: d_a_fm
+  Actor ID: 0x0079
+  Subtype: 0x02
+  GBA Name: 0x19
+Daiocta:
+  Class Name: d_a_daiocta
+  Actor ID: 0x00E2
+  Subtype: 0xFF
+  GBA Name: 0x1C
+Daioeye:
+  Class Name: d_a_daiocta_eye
+  Actor ID: 0x00E3
+  Subtype: 0xFF
+  GBA Name: 0x00
+Oq:
+  Class Name: d_a_oq
+  Actor ID: 0x00E4
+  Subtype: 0x00
+  GBA Name: 0x1B
+Oqw:
+  Class Name: d_a_oq
+  Actor ID: 0x00E4
+  Subtype: 0x01
+  GBA Name: 0x41
+Gy:
+  Class Name: d_a_gy
+  Actor ID: 0x00E5
+  Subtype: 0xFF
+  GBA Name: 0x1D
+GyCtrl:
+  Class Name: d_a_gy_ctrl
+  Actor ID: 0x00E6
+  Subtype: 0xFF
+  GBA Name: 0x00
+GyCtrlB:
+  Class Name: d_a_gy_ctrl
+  Actor ID: 0x00E7
+  Subtype: 0xFF
+  GBA Name: 0x00
+Bk:
+  Class Name: d_a_bk
+  Actor ID: 0x00BE
+  Subtype: 0xFF
+  GBA Name: 0x01
+Ypit00:
+  Class Name: d_a_obj_hole
+  Actor ID: 0x0049
+  Subtype: 0x00
+  GBA Name: 0x00
+Pitfall:
+  Class Name: d_a_obj_hole
+  Actor ID: 0x0049
+  Subtype: 0x01
+  GBA Name: 0x00
+Nzfall:
+  Class Name: d_a_obj_pfall
+  Actor ID: 0x0048
+  Subtype: 0xFF
+  GBA Name: 0x00
+ScnChg:
+  Class Name: d_a_scene_change
+  Actor ID: 0x002B
+  Subtype: 0xFF
+  GBA Name: 0x00
+Oship:
+  Class Name: d_a_oship
+  Actor ID: 0x00B4
+  Subtype: 0xFF
+  GBA Name: 0x38
+Ayush:
+  Class Name: d_a_ghostship
+  Actor ID: 0x00B3
+  Subtype: 0xFF
+  GBA Name: 0x39
+Tpost:
+  Class Name: d_a_obj_toripost
+  Actor ID: 0x0045
+  Subtype: 0xFF
+  GBA Name: 0x35
+Ocanon:
+  Class Name: d_a_obj_canon
+  Actor ID: 0x0041
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ikada:
+  Class Name: d_a_obj_ikada
+  Actor ID: 0x0046
+  Subtype: 0x00
+  GBA Name: 0x3D
+ikada_h:
+  Class Name: d_a_obj_ikada
+  Actor ID: 0x0046
+  Subtype: 0x01
+  GBA Name: 0x3D
+ikadaS:
+  Class Name: d_a_obj_ikada
+  Actor ID: 0x0046
+  Subtype: 0x02
+  GBA Name: 0x3D
+ikada_u:
+  Class Name: d_a_obj_ikada
+  Actor ID: 0x0046
+  Subtype: 0x03
+  GBA Name: 0x3D
+Svsp:
+  Class Name: d_a_obj_ikada
+  Actor ID: 0x0046
+  Subtype: 0x04
+  GBA Name: 0x3D
+Sv0:
+  Class Name: d_a_npc_sv
+  Actor ID: 0x017C
+  Subtype: 0x00
+  GBA Name: 0x00
+Sv1:
+  Class Name: d_a_npc_sv
+  Actor ID: 0x017C
+  Subtype: 0x01
+  GBA Name: 0x00
+Sv2:
+  Class Name: d_a_npc_sv
+  Actor ID: 0x017C
+  Subtype: 0x02
+  GBA Name: 0x00
+Sv3:
+  Class Name: d_a_npc_sv
+  Actor ID: 0x017C
+  Subtype: 0x03
+  GBA Name: 0x00
+MjDoor:
+  Class Name: d_a_obj_majyuu_door
+  Actor ID: 0x0047
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ikari:
+  Class Name: d_a_ikari
+  Actor ID: 0x01B3
+  Subtype: 0xFF
+  GBA Name: 0x00
+MjFlag:
+  Class Name: d_a_majuu_flag
+  Actor ID: 0x00AF
+  Subtype: 0x00
+  GBA Name: 0x00
+MtFlag:
+  Class Name: d_a_majuu_flag
+  Actor ID: 0x00AF
+  Subtype: 0x01
+  GBA Name: 0x00
+HcFlag:
+  Class Name: d_a_majuu_flag
+  Actor ID: 0x00AF
+  Subtype: 0x03
+  GBA Name: 0x00
+TrFlag:
+  Class Name: d_a_tori_flag
+  Actor ID: 0x00B0
+  Subtype: 0x00
+  GBA Name: 0x00
+SieFlag:
+  Class Name: d_a_sie_flag
+  Actor ID: 0x00B1
+  Subtype: 0x00
+  GBA Name: 0x00
+lwood:
+  Class Name: d_a_lwood
+  Actor ID: 0x019A
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ktaruo:
+  Class Name: d_a_obj_demo_barrel
+  Actor ID: 0x0109
+  Subtype: 0xFF
+  GBA Name: 0x00
+Touseki:
+  Class Name: d_a_obj_tousekiki
+  Actor ID: 0x003C
+  Subtype: 0xFF
+  GBA Name: 0x00
+frock:
+  Class Name: d_a_fallrock_tag
+  Actor ID: 0x01A8
+  Subtype: 0xFF
+  GBA Name: 0x00
+fallrck:
+  Class Name: d_a_fallrock
+  Actor ID: 0x01A9
+  Subtype: 0xFF
+  GBA Name: 0x00
+Dr2:
+  Class Name: d_a_dr2
+  Actor ID: 0x00E0
+  Subtype: 0xFF
+  GBA Name: 0x00
+Mkdan1:
+  Class Name: d_a_obj_stair
+  Actor ID: 0x004A
+  Subtype: 0xFF
+  GBA Name: 0x00
+Btd:
+  Class Name: d_a_btd
+  Actor ID: 0x00EB
+  Subtype: 0xFF
+  GBA Name: 0x00
+Dk:
+  Class Name: d_a_dk
+  Actor ID: 0x00EF
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ystm0:
+  Class Name: d_a_steam_tag
+  Actor ID: 0x01AA
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ystm1:
+  Class Name: d_a_steam_tag
+  Actor ID: 0x01AA
+  Subtype: 0xFF
+  GBA Name: 0x00
+Gflag:
+  Class Name: d_a_goal_flag
+  Actor ID: 0x0125
+  Subtype: 0xFF
+  GBA Name: 0x00
+Branch:
+  Class Name: d_a_branch
+  Actor ID: 0x01AC
+  Subtype: 0xFF
+  GBA Name: 0x00
+P1a:
+  Class Name: d_a_npc_p1
+  Actor ID: 0x0144
+  Subtype: 0x00
+  GBA Name: 0x3B
+P1b:
+  Class Name: d_a_npc_p1
+  Actor ID: 0x0144
+  Subtype: 0x01
+  GBA Name: 0x3B
+P1c:
+  Class Name: d_a_npc_p1
+  Actor ID: 0x0144
+  Subtype: 0x02
+  GBA Name: 0x3B
+P2a:
+  Class Name: d_a_npc_p2
+  Actor ID: 0x0145
+  Subtype: 0x00
+  GBA Name: 0x3B
+P2b:
+  Class Name: d_a_npc_p2
+  Actor ID: 0x0145
+  Subtype: 0x01
+  GBA Name: 0x3B
+P2c:
+  Class Name: d_a_npc_p2
+  Actor ID: 0x0145
+  Subtype: 0x02
+  GBA Name: 0x3B
+Tc:
+  Class Name: d_a_npc_tc
+  Actor ID: 0x0147
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Throck:
+  Class Name: null # TODO
+  Actor ID: 0x001B
+  Subtype: 0xFF
+  GBA Name: 0x00
+magma:
+  Class Name: d_a_magma
+  Actor ID: 0x01B7
+  Subtype: 0xFF
+  GBA Name: 0x00
+Bita:
+  Class Name: d_a_bita
+  Actor ID: 0x0066
+  Subtype: 0xFF
+  GBA Name: 0x00
+YkgrON:
+  Class Name: d_a_ykgr
+  Actor ID: 0x0190
+  Subtype: 0xFF
+  GBA Name: 0x00
+YkgrOFF:
+  Class Name: d_a_ykgr
+  Actor ID: 0x0190
+  Subtype: 0xFF
+  GBA Name: 0x00
+Dsaku:
+  Class Name: d_a_saku
+  Actor ID: 0x0191
+  Subtype: 0xFF
+  GBA Name: 0x00
+Otana:
+  Class Name: d_a_obj_shelf
+  Actor ID: 0x002F
+  Subtype: 0x00
+  GBA Name: 0x00
+OtanaG:
+  Class Name: d_a_obj_shelf
+  Actor ID: 0x002F
+  Subtype: 0x01
+  GBA Name: 0x00
+Bdk:
+  Class Name: d_a_bdk
+  Actor ID: 0x00F0
+  Subtype: 0xFF
+  GBA Name: 0x00
+Bdkobj:
+  Class Name: d_a_bdkobj
+  Actor ID: 0x00F1
+  Subtype: 0xFF
+  GBA Name: 0x00
+SWTdoor:
+  Class Name: d_a_swtdoor
+  Actor ID: 0x00FA
+  Subtype: 0xFF
+  GBA Name: 0x00
+Canon:
+  Class Name: d_a_canon
+  Actor ID: 0x003F
+  Subtype: 0xFF
+  GBA Name: 0x00
+GBoard:
+  Class Name: d_a_mgameboard
+  Actor ID: 0x0040
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hlift:
+  Class Name: d_a_obj_hlift
+  Actor ID: 0x0030
+  Subtype: 0x00
+  GBA Name: 0x00
+Hliftb:
+  Class Name: d_a_obj_hlift
+  Actor ID: 0x0030
+  Subtype: 0x01
+  GBA Name: 0x00
+Hami2:
+  Class Name: d_a_obj_hami2
+  Actor ID: 0x0031
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hami3:
+  Class Name: d_a_obj_hami3
+  Actor ID: 0x0032
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hami4:
+  Class Name: d_a_obj_hami4
+  Actor ID: 0x0033
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hbrf1:
+  Class Name: d_a_obj_hbrf1
+  Actor ID: 0x0034
+  Subtype: 0xFF
+  GBA Name: 0x00
+Mflft:
+  Class Name: d_a_mflft
+  Actor ID: 0x005D
+  Subtype: 0xFF
+  GBA Name: 0x00
+ObjTime:
+  Class Name: d_a_obj_timer
+  Actor ID: 0x01E1
+  Subtype: 0xFF
+  GBA Name: 0x00
+Klft:
+  Class Name: d_a_klft
+  Actor ID: 0x005E
+  Subtype: 0xFF
+  GBA Name: 0x00
+Kita:
+  Class Name: d_a_kita
+  Actor ID: 0x0063
+  Subtype: 0xFF
+  GBA Name: 0x00
+Humi0z:
+  Class Name: d_a_obj_tide
+  Actor ID: 0x0029
+  Subtype: 0x00
+  GBA Name: 0x00
+Humi4z:
+  Class Name: d_a_obj_tide
+  Actor ID: 0x0029
+  Subtype: 0x01
+  GBA Name: 0x00
+Humi5z:
+  Class Name: d_a_obj_tide
+  Actor ID: 0x0029
+  Subtype: 0x02
+  GBA Name: 0x00
+Tide3:
+  Class Name: d_a_obj_tide
+  Actor ID: 0x0029
+  Subtype: 0x03
+  GBA Name: 0x00
+Humi2z:
+  Class Name: d_a_obj_tide
+  Actor ID: 0x0029
+  Subtype: 0x04
+  GBA Name: 0x00
+Humi3z:
+  Class Name: d_a_obj_tide
+  Actor ID: 0x0029
+  Subtype: 0x05
+  GBA Name: 0x00
+WLvTag:
+  Class Name: d_a_tag_waterlevel
+  Actor ID: 0x01DD
+  Subtype: 0xFF
+  GBA Name: 0x00
+Fire:
+  Class Name: d_a_fire
+  Actor ID: 0x01AB
+  Subtype: 0xFF
+  GBA Name: 0x00
+Zenfire:
+  Class Name: d_a_fire
+  Actor ID: 0x01AB
+  Subtype: 0xFF
+  GBA Name: 0x00
+Kokiie:
+  Class Name: d_a_kokiie
+  Actor ID: 0x0064
+  Subtype: 0xFF
+  GBA Name: 0x00
+Paper:
+  Class Name: d_a_obj_paper
+  Actor ID: 0x0108
+  Subtype: 0x00
+  GBA Name: 0x00
+Ppos:
+  Class Name: d_a_obj_paper
+  Actor ID: 0x0108
+  Subtype: 0x01
+  GBA Name: 0x00
+Piwa:
+  Class Name: d_a_obj_paper
+  Actor ID: 0x0108
+  Subtype: 0x02
+  GBA Name: 0x36
+Ss:
+  Class Name: d_a_ss
+  Actor ID: 0x00FD
+  Subtype: 0xFF
+  GBA Name: 0x00
+WindTag:
+  Class Name: d_a_wind_tag
+  Actor ID: 0x0189
+  Subtype: 0xFF
+  GBA Name: 0x00
+Kryu00:
+  Class Name: d_a_obj_drift
+  Actor ID: 0x0023
+  Subtype: 0xFF
+  GBA Name: 0x00
+Mcube:
+  Class Name: d_a_obj_mtest
+  Actor ID: 0x004C
+  Subtype: 0x00
+  GBA Name: 0x00
+Mcyln:
+  Class Name: d_a_obj_mtest
+  Actor ID: 0x004C
+  Subtype: 0x01
+  GBA Name: 0x00
+Mcube10:
+  Class Name: d_a_obj_mtest
+  Actor ID: 0x004C
+  Subtype: 0x02
+  GBA Name: 0x00
+Mcyln10:
+  Class Name: d_a_obj_mtest
+  Actor ID: 0x004C
+  Subtype: 0x03
+  GBA Name: 0x00
+MwtrSB:
+  Class Name: d_a_obj_mtest
+  Actor ID: 0x004C
+  Subtype: 0x04
+  GBA Name: 0x00
+MygnSB:
+  Class Name: d_a_obj_mtest
+  Actor ID: 0x004C
+  Subtype: 0x05
+  GBA Name: 0x00
+Owater:
+  Class Name: d_a_obj_mtest
+  Actor ID: 0x004C
+  Subtype: 0x06
+  GBA Name: 0x00
+Astop:
+  Class Name: d_a_obj_mtest
+  Actor ID: 0x004C
+  Subtype: 0x07
+  GBA Name: 0x00
+Ojtree:
+  Class Name: d_a_obj_ojtree
+  Actor ID: 0x0055
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ospbox:
+  Class Name: d_a_obj_ospbox
+  Actor ID: 0x0056
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hmlif:
+  Class Name: d_a_hmlif
+  Actor ID: 0x002A
+  Subtype: 0xFF
+  GBA Name: 0x3D
+Ywarp00:
+  Class Name: d_a_warpls
+  Actor ID: 0x006C
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ysdls00:
+  Class Name: d_a_warpls
+  Actor ID: 0x006C
+  Subtype: 0xFF
+  GBA Name: 0x00
+Yswtr00:
+  Class Name: d_a_waterfall
+  Actor ID: 0x01AE
+  Subtype: 0xFF
+  GBA Name: 0x00
+Gbrg00:
+  Class Name: d_a_lbridge
+  Actor ID: 0x01AF
+  Subtype: 0xFF
+  GBA Name: 0x00
+Mhsg6:
+  Class Name: d_a_obj_ladder
+  Actor ID: 0x0057
+  Subtype: 0x00
+  GBA Name: 0x00
+Mhsg9:
+  Class Name: d_a_obj_ladder
+  Actor ID: 0x0057
+  Subtype: 0x01
+  GBA Name: 0x00
+Mhsg12:
+  Class Name: d_a_obj_ladder
+  Actor ID: 0x0057
+  Subtype: 0x02
+  GBA Name: 0x00
+Mhsg15:
+  Class Name: d_a_obj_ladder
+  Actor ID: 0x0057
+  Subtype: 0x03
+  GBA Name: 0x00
+Mhsg4h:
+  Class Name: d_a_obj_ladder
+  Actor ID: 0x0057
+  Subtype: 0x04
+  GBA Name: 0x00
+Sss:
+  Class Name: d_a_sss
+  Actor ID: 0x00FE
+  Subtype: 0xFF
+  GBA Name: 0x00
+Wall:
+  Class Name: d_a_wall
+  Actor ID: 0x01B1
+  Subtype: 0xFF
+  GBA Name: 0x00
+Blift:
+  Class Name: d_a_obj_balancelift
+  Actor ID: 0x0071
+  Subtype: 0xFF
+  GBA Name: 0x00
+MtoriSU:
+  Class Name: d_a_obj_nest
+  Actor ID: 0x0054
+  Subtype: 0xFF
+  GBA Name: 0x00
+Lamp:
+  Class Name: d_a_lamp
+  Actor ID: 0x00BB
+  Subtype: 0xFF
+  GBA Name: 0x00
+Sitem:
+  Class Name: d_a_sitem
+  Actor ID: 0x00FF
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hmos1:
+  Class Name: d_a_obj_bemos
+  Actor ID: 0x00EA
+  Subtype: 0x00
+  GBA Name: 0x23
+Hmos2:
+  Class Name: d_a_obj_bemos
+  Actor ID: 0x00EA
+  Subtype: 0x01
+  GBA Name: 0x23
+Hmos3:
+  Class Name: d_a_obj_bemos
+  Actor ID: 0x00EA
+  Subtype: 0x02
+  GBA Name: 0x23
+Ylesr00:
+  Class Name: d_a_beam
+  Actor ID: 0x00E9
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hseki1:
+  Class Name: d_a_obj_try
+  Actor ID: 0x01D0
+  Subtype: 0x00
+  GBA Name: 0x3D
+Hseki6:
+  Class Name: d_a_obj_try
+  Actor ID: 0x01D0
+  Subtype: 0x01
+  GBA Name: 0x3D
+Hseki3:
+  Class Name: d_a_obj_try
+  Actor ID: 0x01D0
+  Subtype: 0x02
+  GBA Name: 0x3D
+Hseki4:
+  Class Name: d_a_obj_try
+  Actor ID: 0x01D0
+  Subtype: 0x03
+  GBA Name: 0x3D
+Hseki5:
+  Class Name: d_a_obj_try
+  Actor ID: 0x01D0
+  Subtype: 0x04
+  GBA Name: 0x3D
+Hmon1:
+  Class Name: d_a_obj_try
+  Actor ID: 0x01D0
+  Subtype: 0x05
+  GBA Name: 0x3D
+Hmon1d:
+  Class Name: d_a_obj_try
+  Actor ID: 0x01D0
+  Subtype: 0x06
+  GBA Name: 0x3D
+Hmon2:
+  Class Name: d_a_obj_try
+  Actor ID: 0x01D0
+  Subtype: 0x07
+  GBA Name: 0x3D
+Hmon2d:
+  Class Name: d_a_obj_try
+  Actor ID: 0x01D0
+  Subtype: 0x08
+  GBA Name: 0x3D
+Hseki31:
+  Class Name: d_a_obj_try
+  Actor ID: 0x01D0
+  Subtype: 0x09
+  GBA Name: 0x3D
+Hseki41:
+  Class Name: d_a_obj_try
+  Actor ID: 0x01D0
+  Subtype: 0x0A
+  GBA Name: 0x3D
+Hseki51:
+  Class Name: d_a_obj_try
+  Actor ID: 0x01D0
+  Subtype: 0x0B
+  GBA Name: 0x3D
+Hseki32:
+  Class Name: d_a_obj_try
+  Actor ID: 0x01D0
+  Subtype: 0x0C
+  GBA Name: 0x3D
+Hseki42:
+  Class Name: d_a_obj_try
+  Actor ID: 0x01D0
+  Subtype: 0x0D
+  GBA Name: 0x3D
+Hseki52:
+  Class Name: d_a_obj_try
+  Actor ID: 0x01D0
+  Subtype: 0x0E
+  GBA Name: 0x3D
+Com_A:
+  Class Name: d_a_obj_coming
+  Actor ID: 0x010F
+  Subtype: 0xFF
+  GBA Name: 0x00
+WBird:
+  Class Name: d_a_wbird
+  Actor ID: 0x00C5
+  Subtype: 0xFF
+  GBA Name: 0x00
+SMtoge:
+  Class Name: d_a_mtoge
+  Actor ID: 0x0134
+  Subtype: 0xFF
+  GBA Name: 0x00
+SMBdor:
+  Class Name: d_a_mbdoor
+  Actor ID: 0x0075
+  Subtype: 0x00
+  GBA Name: 0x00
+KGBdor:
+  Class Name: d_a_mbdoor
+  Actor ID: 0x0075
+  Subtype: 0x01
+  GBA Name: 0x00
+BFlower:
+  Class Name: d_a_bflower
+  Actor ID: 0x012A
+  Subtype: 0xFF
+  GBA Name: 0x00
+VbakH:
+  Class Name: d_a_bflower
+  Actor ID: 0x012A
+  Subtype: 0xFF
+  GBA Name: 0x00
+VigaH:
+  Class Name: d_a_acorn_leaf
+  Actor ID: 0x012B
+  Subtype: 0xFF
+  GBA Name: 0x00
+Stal:
+  Class Name: d_a_st
+  Actor ID: 0x00BF
+  Subtype: 0xFF
+  GBA Name: 0x04
+MkieBA:
+  Class Name: d_a_obj_mkie
+  Actor ID: 0x004D
+  Subtype: 0x00
+  GBA Name: 0x3D
+MkieBAB:
+  Class Name: d_a_obj_mkie
+  Actor ID: 0x004D
+  Subtype: 0x01
+  GBA Name: 0x3D
+MkieK:
+  Class Name: d_a_obj_mkiek
+  Actor ID: 0x004E
+  Subtype: 0xFF
+  GBA Name: 0x00
+MknjD:
+  Class Name: d_a_obj_mknjd
+  Actor ID: 0x004F
+  Subtype: 0xFF
+  GBA Name: 0x00
+Msdan:
+  Class Name: d_a_obj_msdan
+  Actor ID: 0x0050
+  Subtype: 0xFF
+  GBA Name: 0x00
+MsdanSb:
+  Class Name: d_a_obj_msdan_sub
+  Actor ID: 0x0051
+  Subtype: 0xFF
+  GBA Name: 0x00
+Msdan2:
+  Class Name: d_a_obj_msdan2
+  Actor ID: 0x0052
+  Subtype: 0xFF
+  GBA Name: 0x00
+MsdanS2:
+  Class Name: d_a_obj_msdan_sub2
+  Actor ID: 0x0053
+  Subtype: 0xFF
+  GBA Name: 0x00
+Htobi1:
+  Class Name: d_a_shutter
+  Actor ID: 0x0072
+  Subtype: 0xFF
+  GBA Name: 0x00
+Htobi2:
+  Class Name: d_a_shutter
+  Actor ID: 0x0072
+  Subtype: 0xFF
+  GBA Name: 0x00
+Htobi3:
+  Class Name: d_a_shutter2
+  Actor ID: 0x0073
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hfbot1A:
+  Class Name: d_a_obj_swflat
+  Actor ID: 0x001F
+  Subtype: 0x00
+  GBA Name: 0x00
+Hfbot1B:
+  Class Name: d_a_obj_swflat
+  Actor ID: 0x001F
+  Subtype: 0x01
+  GBA Name: 0x00
+Hfbot1C:
+  Class Name: d_a_obj_swflat
+  Actor ID: 0x001F
+  Subtype: 0x02
+  GBA Name: 0x00
+Ykzyg:
+  Class Name: d_a_obj_volcano
+  Actor ID: 0x0035
+  Subtype: 0xFF
+  GBA Name: 0x00
+GiceL:
+  Class Name: d_a_obj_iceisland
+  Actor ID: 0x0039
+  Subtype: 0xFF
+  GBA Name: 0x00
+Qdghd:
+  Class Name: d_a_obj_dragonhead
+  Actor ID: 0x003A
+  Subtype: 0xFF
+  GBA Name: 0x00
+dmgroom:
+  Class Name: d_a_obj_dmgroom
+  Actor ID: 0x010A
+  Subtype: 0xFF
+  GBA Name: 0x00
+Doguu:
+  Class Name: d_a_obj_doguu
+  Actor ID: 0x010B
+  Subtype: 0x00
+  GBA Name: 0x00
+MegamiD:
+  Class Name: d_a_obj_doguu
+  Actor ID: 0x010B
+  Subtype: 0x01
+  GBA Name: 0x00
+MegamiF:
+  Class Name: d_a_obj_doguu
+  Actor ID: 0x010B
+  Subtype: 0x02
+  GBA Name: 0x00
+MegamiN:
+  Class Name: d_a_obj_doguu
+  Actor ID: 0x010B
+  Subtype: 0x03
+  GBA Name: 0x00
+DoguuD:
+  Class Name: d_a_obj_doguu_demo
+  Actor ID: 0x01BE
+  Subtype: 0xFF
+  GBA Name: 0x00
+ReTag0:
+  Class Name: d_a_tag_ret
+  Actor ID: 0x003D
+  Subtype: 0xFF
+  GBA Name: 0x00
+VolTag:
+  Class Name: d_a_tag_volcano
+  Actor ID: 0x0024
+  Subtype: 0xFF
+  GBA Name: 0x00
+Auc7:
+  Class Name: d_a_npc_auction
+  Actor ID: 0x016B
+  Subtype: 0x00
+  GBA Name: 0x00
+Auc1:
+  Class Name: d_a_npc_auction
+  Actor ID: 0x016B
+  Subtype: 0x01
+  GBA Name: 0x00
+Auc2:
+  Class Name: d_a_npc_auction
+  Actor ID: 0x016B
+  Subtype: 0x02
+  GBA Name: 0x00
+Auc3:
+  Class Name: d_a_npc_auction
+  Actor ID: 0x016B
+  Subtype: 0x03
+  GBA Name: 0x00
+Auc4:
+  Class Name: d_a_npc_auction
+  Actor ID: 0x016B
+  Subtype: 0x04
+  GBA Name: 0x00
+Auc5:
+  Class Name: d_a_npc_auction
+  Actor ID: 0x016B
+  Subtype: 0x05
+  GBA Name: 0x00
+Auc6:
+  Class Name: d_a_npc_auction
+  Actor ID: 0x016B
+  Subtype: 0x06
+  GBA Name: 0x00
+Auc0:
+  Class Name: d_a_npc_auction
+  Actor ID: 0x016B
+  Subtype: 0x07
+  GBA Name: 0x3B
+RotenA:
+  Class Name: d_a_npc_roten
+  Actor ID: 0x0176
+  Subtype: 0x00
+  GBA Name: 0x3B
+RotenB:
+  Class Name: d_a_npc_roten
+  Actor ID: 0x0176
+  Subtype: 0x01
+  GBA Name: 0x3B
+RotenC:
+  Class Name: d_a_npc_roten
+  Actor ID: 0x0176
+  Subtype: 0x02
+  GBA Name: 0x3B
+Tn:
+  Class Name: d_a_tn
+  Actor ID: 0x00C0
+  Subtype: 0xFF
+  GBA Name: 0x03
+Fdai:
+  Class Name: d_a_dai
+  Actor ID: 0x0137
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ytrnd00:
+  Class Name: d_a_tornado
+  Actor ID: 0x01C0
+  Subtype: 0xFF
+  GBA Name: 0x3A
+Plant:
+  Class Name: d_a_obj_plant
+  Actor ID: 0x0114
+  Subtype: 0xFF
+  GBA Name: 0x00
+Rflw:
+  Class Name: d_a_obj_rflw
+  Actor ID: 0x0117
+  Subtype: 0xFF
+  GBA Name: 0x00
+Table:
+  Class Name: d_a_obj_table
+  Actor ID: 0x0118
+  Subtype: 0xFF
+  GBA Name: 0x00
+Gtaki:
+  Class Name: d_a_obj_gtaki
+  Actor ID: 0x0115
+  Subtype: 0xFF
+  GBA Name: 0x00
+Tenmado:
+  Class Name: d_a_obj_tenmado
+  Actor ID: 0x0119
+  Subtype: 0xFF
+  GBA Name: 0x00
+X_tower:
+  Class Name: d_a_obj_tower
+  Actor ID: 0x01BD
+  Subtype: 0xFF
+  GBA Name: 0x00
+Eskban:
+  Class Name: d_a_obj_eskban
+  Actor ID: 0x00A2
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ekskz:
+  Class Name: d_a_obj_ekskz
+  Actor ID: 0x00A3
+  Subtype: 0xFF
+  GBA Name: 0x00
+Pbka:
+  Class Name: d_a_obj_pbka
+  Actor ID: 0x0113
+  Subtype: 0xFF
+  GBA Name: 0x00
+Yboil00:
+  Class Name: d_a_obj_Yboil
+  Actor ID: 0x0116
+  Subtype: 0xFF
+  GBA Name: 0x00
+Cafelmp:
+  Class Name: d_a_obj_cafelmp
+  Actor ID: 0x011A
+  Subtype: 0xFF
+  GBA Name: 0x00
+MKanoke:
+  Class Name: d_a_obj_kanoke
+  Actor ID: 0x00A1
+  Subtype: 0x00
+  GBA Name: 0x3D
+MKanok2:
+  Class Name: d_a_obj_kanoke
+  Actor ID: 0x00A1
+  Subtype: 0x01
+  GBA Name: 0x3D
+Kg1:
+  Class Name: d_a_npc_kg1
+  Actor ID: 0x016C
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Kg2:
+  Class Name: d_a_npc_kg2
+  Actor ID: 0x016D
+  Subtype: 0xFF
+  GBA Name: 0x00
+Tt:
+  Class Name: d_a_npc_tt
+  Actor ID: 0x016E
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Hr:
+  Class Name: d_a_npc_hr
+  Actor ID: 0x016F
+  Subtype: 0x00
+  GBA Name: 0x00
+Hr2:
+  Class Name: d_a_npc_hr
+  Actor ID: 0x016F
+  Subtype: 0x01
+  GBA Name: 0x00
+BigElf:
+  Class Name: d_a_bigelf
+  Actor ID: 0x0173
+  Subtype: 0x00
+  GBA Name: 0x00
+Ho:
+  Class Name: d_a_npc_ho
+  Actor ID: 0x0170
+  Subtype: 0x00
+  GBA Name: 0x00
+Gkai00:
+  Class Name: d_a_lstair
+  Actor ID: 0x01B0
+  Subtype: 0xFF
+  GBA Name: 0x00
+Mk:
+  Class Name: d_a_npc_mk
+  Actor ID: 0x00AB
+  Subtype: 0x00
+  GBA Name: 0x3B
+UkB:
+  Class Name: d_a_npc_uk
+  Actor ID: 0x0172
+  Subtype: 0x01
+  GBA Name: 0x3B
+UkC:
+  Class Name: d_a_npc_uk
+  Actor ID: 0x0172
+  Subtype: 0x02
+  GBA Name: 0x3B
+UkD:
+  Class Name: d_a_npc_uk
+  Actor ID: 0x0172
+  Subtype: 0x03
+  GBA Name: 0x3B
+Mk2:
+  Class Name: d_a_npc_mk
+  Actor ID: 0x00AB
+  Subtype: 0x04
+  GBA Name: 0x00
+UkB2:
+  Class Name: d_a_npc_uk
+  Actor ID: 0x0172
+  Subtype: 0x05
+  GBA Name: 0x00
+UkC2:
+  Class Name: d_a_npc_uk
+  Actor ID: 0x0172
+  Subtype: 0x06
+  GBA Name: 0x00
+UkD2:
+  Class Name: d_a_npc_uk
+  Actor ID: 0x0172
+  Subtype: 0x07
+  GBA Name: 0x00
+Co1:
+  Class Name: d_a_npc_co1
+  Actor ID: 0x0174
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Mt:
+  Class Name: d_a_npc_mt
+  Actor ID: 0x017D
+  Subtype: 0xFF
+  GBA Name: 0x00
+Mn:
+  Class Name: d_a_npc_mn
+  Actor ID: 0x017E
+  Subtype: 0xFF
+  GBA Name: 0x3B
+Ah:
+  Class Name: d_a_npc_ah
+  Actor ID: 0x017F
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hyuf1:
+  Class Name: d_a_hmlif
+  Actor ID: 0x002A
+  Subtype: 0xFF
+  GBA Name: 0x3D
+Hyuf2:
+  Class Name: d_a_hmlif
+  Actor ID: 0x002A
+  Subtype: 0xFF
+  GBA Name: 0x3D
+Hdai1:
+  Class Name: d_a_pedestal
+  Actor ID: 0x0061
+  Subtype: 0x00
+  GBA Name: 0x3D
+Hdai2:
+  Class Name: d_a_pedestal
+  Actor ID: 0x0061
+  Subtype: 0x01
+  GBA Name: 0x3D
+Hdai3:
+  Class Name: d_a_pedestal
+  Actor ID: 0x0061
+  Subtype: 0x02
+  GBA Name: 0x3D
+Auction:
+  Class Name: d_a_auction
+  Actor ID: 0x0180
+  Subtype: 0xFF
+  GBA Name: 0x00
+Auzu:
+  Class Name: d_a_obj_auzu
+  Actor ID: 0x011D
+  Subtype: 0xFF
+  GBA Name: 0x3A
+Hpu1:
+  Class Name: d_a_windmill
+  Actor ID: 0x0074
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hpu2:
+  Class Name: d_a_windmill
+  Actor ID: 0x0074
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hkikai1:
+  Class Name: d_a_machine
+  Actor ID: 0x0100
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ybgaf00:
+  Class Name: d_a_wind_tag
+  Actor ID: 0x0189
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD01:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD02:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD03:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD04:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD05:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD06:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD07:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD08:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD09:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD10:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD11:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD12:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD13:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD14:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD15:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD16:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD17:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD18:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD19:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD20:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD21:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD22:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD23:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD24:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD25:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD26:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD27:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD28:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD29:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD30:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD31:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD32:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD33:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD34:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD35:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD36:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD37:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD38:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD39:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD40:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD41:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD42:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD43:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD44:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD45:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD46:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD47:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD48:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+LOD49:
+  Class Name: d_a_lod_bg
+  Actor ID: 0x01C3
+  Subtype: 0xFF
+  GBA Name: 0x00
+MtryB:
+  Class Name: d_a_obj_tribox
+  Actor ID: 0x002E
+  Subtype: 0x00
+  GBA Name: 0x00
+MtryBCr:
+  Class Name: d_a_obj_tribox
+  Actor ID: 0x002E
+  Subtype: 0x01
+  GBA Name: 0x00
+Vdora:
+  Class Name: d_a_obj_gong
+  Actor ID: 0x011E
+  Subtype: 0xFF
+  GBA Name: 0x00
+Roten2:
+  Class Name: d_a_obj_roten
+  Actor ID: 0x007B
+  Subtype: 0x00
+  GBA Name: 0x00
+Roten3:
+  Class Name: d_a_obj_roten
+  Actor ID: 0x007B
+  Subtype: 0x01
+  GBA Name: 0x00
+Roten4:
+  Class Name: d_a_obj_roten
+  Actor ID: 0x007B
+  Subtype: 0x02
+  GBA Name: 0x00
+Qtkhd:
+  Class Name: d_a_obj_smplbg
+  Actor ID: 0x0058
+  Subtype: 0xFF
+  GBA Name: 0x00
+Akabe:
+  Class Name: d_a_obj_akabe
+  Actor ID: 0x0059
+  Subtype: 0x00
+  GBA Name: 0x00
+Akabe10:
+  Class Name: d_a_obj_akabe
+  Actor ID: 0x0059
+  Subtype: 0x01
+  GBA Name: 0x00
+NBOX:
+  Class Name: d_a_obj_akabe
+  Actor ID: 0x0059
+  Subtype: 0x02
+  GBA Name: 0x00
+NBOX10:
+  Class Name: d_a_obj_akabe
+  Actor ID: 0x0059
+  Subtype: 0x03
+  GBA Name: 0x00
+Ashut:
+  Class Name: d_a_obj_ashut
+  Actor ID: 0x005A
+  Subtype: 0xFF
+  GBA Name: 0x00
+Mcrtn:
+  Class Name: d_a_obj_tapestry
+  Actor ID: 0x0123
+  Subtype: 0xFF
+  GBA Name: 0x00
+VmcBS:
+  Class Name: d_a_obj_vmc
+  Actor ID: 0x0036
+  Subtype: 0xFF
+  GBA Name: 0x00
+Usovmc:
+  Class Name: d_a_obj_usovmc
+  Actor ID: 0x0037
+  Subtype: 0xFF
+  GBA Name: 0x00
+Vfan:
+  Class Name: d_a_obj_vfan
+  Actor ID: 0x0038
+  Subtype: 0xFF
+  GBA Name: 0x00
+Apzl:
+  Class Name: d_a_obj_apzl
+  Actor ID: 0x011B
+  Subtype: 0xFF
+  GBA Name: 0x00
+Adnno:
+  Class Name: d_a_obj_adnno
+  Actor ID: 0x011C
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ycage00:
+  Class Name: d_a_obj_barrier
+  Actor ID: 0x011F
+  Subtype: 0xFF
+  GBA Name: 0x00
+Yswdr00:
+  Class Name: d_a_obj_firewall
+  Actor ID: 0x0120
+  Subtype: 0xFF
+  GBA Name: 0x00
+TnTrap:
+  Class Name: d_a_obj_tntrap
+  Actor ID: 0x0121
+  Subtype: 0xFF
+  GBA Name: 0x00
+FgTrap:
+  Class Name: d_a_obj_tntrap
+  Actor ID: 0x0121
+  Subtype: 0xFF
+  GBA Name: 0x00
+CmTrap:
+  Class Name: d_a_obj_tntrap
+  Actor ID: 0x0121
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hjump2:
+  Class Name: d_a_obj_jump
+  Actor ID: 0x00A8
+  Subtype: 0xFF
+  GBA Name: 0x3D
+Esekh:
+  Class Name: d_a_obj_monument
+  Actor ID: 0x0122
+  Subtype: 0x00
+  GBA Name: 0x37
+Esekh2:
+  Class Name: d_a_obj_monument
+  Actor ID: 0x0122
+  Subtype: 0x01
+  GBA Name: 0x37
+Po:
+  Class Name: d_a_npc_photo
+  Actor ID: 0x0179
+  Subtype: 0xFF
+  GBA Name: 0x3B
+TagPo:
+  Class Name: d_a_tag_photo
+  Actor ID: 0x01A3
+  Subtype: 0xFF
+  GBA Name: 0x00
+Htoge1:
+  Class Name: d_a_toge
+  Actor ID: 0x007C
+  Subtype: 0xFF
+  GBA Name: 0x32
+Skanran:
+  Class Name: d_a_obj_ferris
+  Actor ID: 0x007D
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ajav:
+  Class Name: d_a_obj_ajav
+  Actor ID: 0x0088
+  Subtype: 0xFF
+  GBA Name: 0x00
+Trap:
+  Class Name: d_a_obj_trap
+  Actor ID: 0x0089
+  Subtype: 0xFF
+  GBA Name: 0x33
+Hha:
+  Class Name: d_a_obj_hha
+  Actor ID: 0x008A
+  Subtype: 0xFF
+  GBA Name: 0x00
+Htetu1:
+  Class Name: d_a_obj_htetu1
+  Actor ID: 0x008B
+  Subtype: 0xFF
+  GBA Name: 0x00
+Tpota:
+  Class Name: d_a_tpota
+  Actor ID: 0x018D
+  Subtype: 0xFF
+  GBA Name: 0x00
+Stoudai:
+  Class Name: d_a_obj_light
+  Actor ID: 0x0082
+  Subtype: 0xFF
+  GBA Name: 0x00
+Pbco:
+  Class Name: d_a_obj_pbco
+  Actor ID: 0x0026
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ebomzo:
+  Class Name: d_a_obj_ebomzo
+  Actor ID: 0x00A4
+  Subtype: 0xFF
+  GBA Name: 0x00
+Psail:
+  Class Name: d_a_sail
+  Actor ID: 0x00AD
+  Subtype: 0x00
+  GBA Name: 0x00
+Homen1:
+  Class Name: d_a_obj_homen
+  Actor ID: 0x0083
+  Subtype: 0x00
+  GBA Name: 0x00
+Homen2:
+  Class Name: d_a_obj_homen
+  Actor ID: 0x0083
+  Subtype: 0x01
+  GBA Name: 0x00
+Xfuta:
+  Class Name: d_a_obj_xfuta
+  Actor ID: 0x007E
+  Subtype: 0x01
+  GBA Name: 0x00
+Vochi:
+  Class Name: d_a_obj_leaves
+  Actor ID: 0x0092
+  Subtype: 0x00
+  GBA Name: 0x00
+Hfuck1:
+  Class Name: d_a_obj_hfuck1
+  Actor ID: 0x0096
+  Subtype: 0x00
+  GBA Name: 0x00
+YLzou:
+  Class Name: d_a_obj_YLzou
+  Actor ID: 0x0093
+  Subtype: 0x00
+  GBA Name: 0x00
+Gbed:
+  Class Name: d_a_obj_ganonbed
+  Actor ID: 0x0094
+  Subtype: 0x00
+  GBA Name: 0x00
+Vteng:
+  Class Name: d_a_obj_Vteng
+  Actor ID: 0x0095
+  Subtype: 0x00
+  GBA Name: 0x00
+Ohatch:
+  Class Name: d_a_obj_ohatch
+  Actor ID: 0x0097
+  Subtype: 0xFF
+  GBA Name: 0x00
+Rcloud:
+  Class Name: d_a_obj_rcloud
+  Actor ID: 0x008F
+  Subtype: 0x00
+  GBA Name: 0x00
+Ocloud:
+  Class Name: d_a_obj_rcloud
+  Actor ID: 0x008F
+  Subtype: 0x01
+  GBA Name: 0x00
+MPot:
+  Class Name: d_a_obj_mshokki
+  Actor ID: 0x01D3
+  Subtype: 0x00
+  GBA Name: 0x00
+MOsara:
+  Class Name: d_a_obj_mshokki
+  Actor ID: 0x01D3
+  Subtype: 0x01
+  GBA Name: 0x00
+MKoppu:
+  Class Name: d_a_obj_mshokki
+  Actor ID: 0x01D3
+  Subtype: 0x02
+  GBA Name: 0x00
+Ptco:
+  Class Name: d_a_obj_bscurtain
+  Actor ID: 0x009A
+  Subtype: 0x00
+  GBA Name: 0x00
+Ptcu:
+  Class Name: d_a_obj_bscurtain
+  Actor ID: 0x009A
+  Subtype: 0x01
+  GBA Name: 0x00
+Kmon:
+  Class Name: d_a_kmon
+  Actor ID: 0x0196
+  Subtype: 0x00
+  GBA Name: 0x00
+Sarace:
+  Class Name: d_a_npc_sarace
+  Actor ID: 0x0146
+  Subtype: 0x00
+  GBA Name: 0x00
+Hsh:
+  Class Name: d_a_obj_hsehi1
+  Actor ID: 0x0124
+  Subtype: 0x00
+  GBA Name: 0x36
+Hsh2:
+  Class Name: d_a_obj_hsehi1
+  Actor ID: 0x0124
+  Subtype: 0x01
+  GBA Name: 0x36
+Mmusic:
+  Class Name: d_a_mmusic
+  Actor ID: 0x018B
+  Subtype: 0xFF
+  GBA Name: 0x00
+Gryw00:
+  Class Name: d_a_obj_gryw00
+  Actor ID: 0x0090
+  Subtype: 0xFF
+  GBA Name: 0x00
+AjavW:
+  Class Name: d_a_obj_AjavW
+  Actor ID: 0x0091
+  Subtype: 0x00
+  GBA Name: 0x00
+Omensmk:
+  Class Name: d_a_obj_homensmoke
+  Actor ID: 0x0084
+  Subtype: 0xFF
+  GBA Name: 0x00
+Itnak:
+  Class Name: d_a_obj_Itnak
+  Actor ID: 0x018E
+  Subtype: 0xFF
+  GBA Name: 0x00
+Yfrlt00:
+  Class Name: d_a_komore
+  Actor ID: 0x018C
+  Subtype: 0xFF
+  GBA Name: 0x00
+FTree:
+  Class Name: d_a_obj_ftree
+  Actor ID: 0x0085
+  Subtype: 0xFF
+  GBA Name: 0x00
+Vyasi:
+  Class Name: d_a_obj_vyasi
+  Actor ID: 0x0087
+  Subtype: 0xFF
+  GBA Name: 0x00
+Vds:
+  Class Name: d_a_obj_Vds
+  Actor ID: 0x0086
+  Subtype: 0xFF
+  GBA Name: 0x00
+Rforce:
+  Class Name: d_a_obj_rforce
+  Actor ID: 0x0080
+  Subtype: 0xFF
+  GBA Name: 0x00
+zouK:
+  Class Name: d_a_obj_zouK
+  Actor ID: 0x018F
+  Subtype: 0x00
+  GBA Name: 0x00
+zouK1:
+  Class Name: d_a_obj_zouK
+  Actor ID: 0x018F
+  Subtype: 0x01
+  GBA Name: 0x00
+zouK2:
+  Class Name: d_a_obj_zouK
+  Actor ID: 0x018F
+  Subtype: 0x02
+  GBA Name: 0x00
+zouK3:
+  Class Name: d_a_obj_zouK
+  Actor ID: 0x018F
+  Subtype: 0x03
+  GBA Name: 0x00
+zouK4:
+  Class Name: d_a_obj_zouK
+  Actor ID: 0x018F
+  Subtype: 0x04
+  GBA Name: 0x00
+Gaship1:
+  Class Name: d_a_obj_gaship
+  Actor ID: 0x007F
+  Subtype: 0xFF
+  GBA Name: 0x00
+Gaship2:
+  Class Name: d_a_obj_gaship2
+  Actor ID: 0x0081
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ghrwp:
+  Class Name: d_a_warphr
+  Actor ID: 0x006D
+  Subtype: 0xFF
+  GBA Name: 0x00
+Gdemo20:
+  Class Name: d_a_warpdm20
+  Actor ID: 0x006E
+  Subtype: 0xFF
+  GBA Name: 0x00
+Warpgn:
+  Class Name: d_a_warpgn
+  Actor ID: 0x006F
+  Subtype: 0xFF
+  GBA Name: 0x00
+Warpmj:
+  Class Name: d_a_warpmj
+  Actor ID: 0x0070
+  Subtype: 0xFF
+  GBA Name: 0x00
+Warpfo:
+  Class Name: d_a_warpfout
+  Actor ID: 0x006B
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ygush00:
+  Class Name: d_a_obj_Ygush00
+  Actor ID: 0x0099
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ygush01:
+  Class Name: d_a_obj_Ygush00
+  Actor ID: 0x0099
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ygstp00:
+  Class Name: d_a_obj_Ygush00
+  Actor ID: 0x0099
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ygush02:
+  Class Name: d_a_obj_Ygush00
+  Actor ID: 0x0099
+  Subtype: 0xFF
+  GBA Name: 0x00
+Hcbh:
+  Class Name: d_a_obj_hcbh
+  Actor ID: 0x0098
+  Subtype: 0x00
+  GBA Name: 0x00
+Com_B:
+  Class Name: d_a_coming2
+  Actor ID: 0x0110
+  Subtype: 0xFF
+  GBA Name: 0x00
+Com_C:
+  Class Name: d_a_coming3
+  Actor ID: 0x0111
+  Subtype: 0xFF
+  GBA Name: 0x00
+SPitem:
+  Class Name: null # TODO
+  Actor ID: 0x0107
+  Subtype: 0xFF
+  GBA Name: 0x00
+HyoiKam:
+  Class Name: d_a_npc_kamome
+  Actor ID: 0x00C4
+  Subtype: 0xFF
+  GBA Name: 0x00
+Shmrgrd:
+  Class Name: d_a_obj_shmrgrd
+  Actor ID: 0x009B
+  Subtype: 0xFF
+  GBA Name: 0x00
+Vtil1:
+  Class Name: d_a_obj_vtil
+  Actor ID: 0x01D1
+  Subtype: 0x00
+  GBA Name: 0x00
+Vtil2:
+  Class Name: d_a_obj_vtil
+  Actor ID: 0x01D1
+  Subtype: 0x01
+  GBA Name: 0x00
+Vtil3:
+  Class Name: d_a_obj_vtil
+  Actor ID: 0x01D1
+  Subtype: 0x02
+  GBA Name: 0x00
+Vtil4:
+  Class Name: d_a_obj_vtil
+  Actor ID: 0x01D1
+  Subtype: 0x03
+  GBA Name: 0x00
+Vtil5:
+  Class Name: d_a_obj_vtil
+  Actor ID: 0x01D1
+  Subtype: 0x04
+  GBA Name: 0x00
+Eayogn:
+  Class Name: d_a_obj_eayogn
+  Actor ID: 0x009C
+  Subtype: 0xFF
+  GBA Name: 0x00
+VmsMS:
+  Class Name: d_a_obj_vmsms
+  Actor ID: 0x009D
+  Subtype: 0xFF
+  GBA Name: 0x00
+VmsDZ:
+  Class Name: d_a_obj_vmsdz
+  Actor ID: 0x009E
+  Subtype: 0xFF
+  GBA Name: 0x00
+VgnFD:
+  Class Name: d_a_obj_vgnfd
+  Actor ID: 0x00A0
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ygcwp:
+  Class Name: d_a_ygcwp
+  Actor ID: 0x009F
+  Subtype: 0xFF
+  GBA Name: 0x00
+Figure:
+  Class Name: d_a_obj_figure
+  Actor ID: 0x0197
+  Subtype: 0xFF
+  GBA Name: 0x00
+RoHat:
+  Class Name: d_a_obj_hat
+  Actor ID: 0x0198
+  Subtype: 0xFF
+  GBA Name: 0x00
+Gntakis:
+  Class Name: d_a_obj_gnndemotakis
+  Actor ID: 0x008C
+  Subtype: 0xFF
+  GBA Name: 0x00
+Gntakie:
+  Class Name: d_a_obj_gnndemotakie
+  Actor ID: 0x008D
+  Subtype: 0xFF
+  GBA Name: 0x00
+Gnbtaki:
+  Class Name: d_a_obj_gnnbtltaki
+  Actor ID: 0x008E
+  Subtype: 0xFF
+  GBA Name: 0x00
+Bkm:
+  Class Name: d_a_bmd
+  Actor ID: 0x00EC
+  Subtype: 0xFF
+  GBA Name: 0x00
+Bst:
+  Class Name: d_a_bst
+  Actor ID: 0x00F2
+  Subtype: 0xFF
+  GBA Name: 0x00
+Bitem:
+  Class Name: d_a_boss_item
+  Actor ID: 0x0102
+  Subtype: 0xFF
+  GBA Name: 0x00
+Fganon:
+  Class Name: d_a_fganon
+  Actor ID: 0x00F3
+  Subtype: 0xFF
+  GBA Name: 0x00
+Bwd:
+  Class Name: d_a_bwd
+  Actor ID: 0x00DA
+  Subtype: 0xFF
+  GBA Name: 0x00
+Bwds:
+  Class Name: d_a_bwds
+  Actor ID: 0x00DB
+  Subtype: 0xFF
+  GBA Name: 0x00
+Bgn:
+  Class Name: d_a_bgn
+  Actor ID: 0x00F5
+  Subtype: 0xFF
+  GBA Name: 0x00
+Gnd:
+  Class Name: d_a_gnd
+  Actor ID: 0x00F8
+  Subtype: 0xFF
+  GBA Name: 0x00
+Puti:
+  Class Name: d_a_pt
+  Actor ID: 0x00F9
+  Subtype: 0xFF
+  GBA Name: 0x00
+d_act0:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x00
+  GBA Name: 0x00
+d_act1:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x01
+  GBA Name: 0x00
+d_act2:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x02
+  GBA Name: 0x00
+d_act3:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x03
+  GBA Name: 0x00
+d_act4:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x04
+  GBA Name: 0x00
+d_act5:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x05
+  GBA Name: 0x00
+d_act6:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x06
+  GBA Name: 0x00
+d_act7:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x07
+  GBA Name: 0x00
+d_act8:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x08
+  GBA Name: 0x00
+d_act9:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x09
+  GBA Name: 0x00
+d_act10:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x0A
+  GBA Name: 0x00
+d_act11:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x0B
+  GBA Name: 0x00
+d_act12:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x0C
+  GBA Name: 0x00
+d_act13:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x0D
+  GBA Name: 0x00
+d_act14:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x0E
+  GBA Name: 0x00
+d_act15:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x0F
+  GBA Name: 0x00
+d_act16:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x10
+  GBA Name: 0x00
+d_act17:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x11
+  GBA Name: 0x00
+d_act18:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x12
+  GBA Name: 0x00
+d_act19:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x13
+  GBA Name: 0x00
+d_act20:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x14
+  GBA Name: 0x00
+d_act21:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x15
+  GBA Name: 0x00
+d_act22:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x16
+  GBA Name: 0x00
+d_act23:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x17
+  GBA Name: 0x00
+d_act24:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x18
+  GBA Name: 0x00
+d_act25:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x19
+  GBA Name: 0x00
+d_act26:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x1A
+  GBA Name: 0x00
+d_act27:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x1B
+  GBA Name: 0x00
+d_act28:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x1C
+  GBA Name: 0x00
+d_act29:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x1D
+  GBA Name: 0x00
+d_act30:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x1E
+  GBA Name: 0x00
+d_act31:
+  Class Name: null # TODO
+  Actor ID: 0x0199
+  Subtype: 0x1F
+  GBA Name: 0x00
+SYAN:
+  Class Name: d_a_syan
+  Actor ID: 0x00B2
+  Subtype: 0xFF
+  GBA Name: 0x00
+TagD1:
+  Class Name: d_a_dummy
+  Actor ID: 0x019B
+  Subtype: 0x00
+  GBA Name: 0x00
+TagD2:
+  Class Name: d_a_dummy
+  Actor ID: 0x019B
+  Subtype: 0x01
+  GBA Name: 0x00
+TagD3:
+  Class Name: d_a_dummy
+  Actor ID: 0x019B
+  Subtype: 0x02
+  GBA Name: 0x00
+TagD4:
+  Class Name: d_a_dummy
+  Actor ID: 0x019B
+  Subtype: 0x03
+  GBA Name: 0x00
+mp:
+  Class Name: d_a_movie_player
+  Actor ID: 0x01C2
+  Subtype: 0xFF
+  GBA Name: 0x00
+STBox:
+  Class Name: d_a_salvage_tbox
+  Actor ID: 0x0195
+  Subtype: 0xFF
+  GBA Name: 0x00
+Fobj00:
+  Class Name: null # TODO
+  Actor ID: 0x01D4
+  Subtype: 0xFF
+  GBA Name: 0x00
+Tama:
+  Class Name: d_a_tama
+  Actor ID: 0x01D6
+  Subtype: 0xFF
+  GBA Name: 0x00
+Agb:
+  Class Name: null # TODO
+  Actor ID: 0x01B5
+  Subtype: 0xFF
+  GBA Name: 0x00
+Bg:
+  Class Name: null # TODO
+  Actor ID: 0x01BC
+  Subtype: 0xFF
+  GBA Name: 0x00
+Himo2:
+  Class Name: null # TODO
+  Actor ID: 0x01C4
+  Subtype: 0xFF
+  GBA Name: 0x00
+Esa:
+  Class Name: null # TODO
+  Actor ID: 0x00DE
+  Subtype: 0xFF
+  GBA Name: 0x00
+Boko:
+  Class Name: d_a_boko
+  Actor ID: 0x01D5
+  Subtype: 0xFF
+  GBA Name: 0x00
+Kantera:
+  Class Name: d_a_kantera
+  Actor ID: 0x00C2
+  Subtype: 0xFF
+  GBA Name: 0x00
+HShot:
+  Class Name: null # TODO
+  Actor ID: 0x00AA
+  Subtype: 0xFF
+  GBA Name: 0x00
+Boom:
+  Class Name: null # TODO
+  Actor ID: 0x01B4
+  Subtype: 0xFF
+  GBA Name: 0x00
+Bomb:
+  Class Name: null # TODO
+  Actor ID: 0x0128
+  Subtype: 0xFF
+  GBA Name: 0x00
+Bomb2:
+  Class Name: null # TODO
+  Actor ID: 0x0129
+  Subtype: 0xFF
+  GBA Name: 0x00
+Boko:
+  Class Name: d_a_boko
+  Actor ID: 0x01D5
+  Subtype: 0xFF
+  GBA Name: 0x00
+Arrow:
+  Class Name: null # TODO
+  Actor ID: 0x01DE
+  Subtype: 0xFF
+  GBA Name: 0x00
+Arrow_i:
+  Class Name: d_a_arrow_iceeff
+  Actor ID: 0x01DF
+  Subtype: 0xFF
+  GBA Name: 0x00
+Arrow_l:
+  Class Name: d_a_arrow_lighteff
+  Actor ID: 0x01E0
+  Subtype: 0xFF
+  GBA Name: 0x00
+Grid:
+  Class Name: null # TODO
+  Actor ID: 0x00AC
+  Subtype: 0xFF
+  GBA Name: 0x00
+Kaji:
+  Class Name: d_a_kaji
+  Actor ID: 0x003E
+  Subtype: 0xFF
+  GBA Name: 0x00
+HFloor:
+  Class Name: d_a_hot_floor
+  Actor ID: 0x00E8
+  Subtype: 0xFF
+  GBA Name: 0x00
+Buoyr:
+  Class Name: d_a_obj_buoyrace
+  Actor ID: 0x010E
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ritem:
+  Class Name: d_a_race_item
+  Actor ID: 0x0104
+  Subtype: 0xFF
+  GBA Name: 0x00
+Sitem:
+  Class Name: d_a_shop_item
+  Actor ID: 0x0105
+  Subtype: 0xFF
+  GBA Name: 0x00
+Ditem:
+  Class Name: d_a_demo_item
+  Actor ID: 0x0103
+  Subtype: 0xFF
+  GBA Name: 0x00
+Iball:
+  Class Name: null # TODO
+  Actor ID: 0x0192
+  Subtype: 0xFF
+  GBA Name: 0x00
+Grass:
+  Class Name: d_a_grass
+  Actor ID: 0x01B8
+  Subtype: 0xFF
+  GBA Name: 0x00
+Vrbox:
+  Class Name: null # TODO
+  Actor ID: 0x01BA
+  Subtype: 0xFF
+  GBA Name: 0x00
+Vrbox2:
+  Class Name: null # TODO
+  Actor ID: 0x01BB
+  Subtype: 0xFF
+  GBA Name: 0x00
+EndCode:
+  Class Name: null # TODO
+  Actor ID: 0x0007
+  Subtype: 0xFF
+  GBA Name: 0x00
