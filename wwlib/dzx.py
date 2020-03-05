@@ -203,9 +203,7 @@ class ChunkEntry:
       if self.name in DataTables.actor_name_to_class_name:
         class_name = DataTables.actor_name_to_class_name[self.name]
         if class_name is None:
-          # Undocumented non-REL class. TODO
-          print(self.name)
-          param_fields = {}
+          raise Exception("Unknown actor name: \"%s\"" % self.name)
         else:
           param_fields = DataTables.actor_parameters[class_name]
       else:
@@ -228,9 +226,7 @@ class ChunkEntry:
       if self.name in DataTables.actor_name_to_class_name:
         class_name = DataTables.actor_name_to_class_name[self.name]
         if class_name is None:
-          # Undocumented non-REL class. TODO
-          print(self.name)
-          param_fields = {}
+          raise Exception("Unknown actor name: \"%s\"" % self.name)
         else:
           param_fields = DataTables.actor_parameters[class_name]
       else:
@@ -246,7 +242,7 @@ class ChunkEntry:
     else:
       if self.IS_ACTOR_CHUNK and attr_name not in ["offset", "file_entry", "name", "params", "x_pos", "y_pos", "z_pos", "aux_params_1", "y_rot", "aux_params_2", "enemy_number", "scale_x", "scale_y", "scale_z", "padding"]:
         # TODO not refactored params
-        print("%7s %14s %40s" % (self.name, self.actor_class_name, attr_name))
+        raise Exception("Tried to set unknown actor parameter \"%s\" for actor class %s (actor name: %s)" % (attr_name, self.actor_class_name, self.name))
       
       self.__dict__[attr_name] = value
   
@@ -267,67 +263,6 @@ class ChunkEntry:
       raise Exception("Tried to get the actor class name of an entity in a non-actor DZx chunk")
     
     return DataTables.actor_name_to_class_name[self.name]
-
-class TRES(ChunkEntry):
-  DATA_SIZE = 0x20
-  
-  PARAMS = {
-    "chest_type":              ("params", 0x00F00000),
-    "appear_condition_switch": ("params", 0x000FF000),
-    "opened_flag":             ("params", 0x00000F80),
-    "behavior_type":           ("params", 0x0000007F),
-  }
-  
-  def __init__(self, file_entry):
-    self.file_entry = file_entry
-    
-    self.name = None
-    self.params = 0xFF000000
-    self.x_pos = 0
-    self.y_pos = 0
-    self.z_pos = 0
-    self.room_num = 0
-    self.y_rot = 0
-    self.item_id = 0
-    self.flag_id = 0xFF
-    self.padding = 0xFFFF
-  
-  def read(self, offset):
-    self.offset = offset
-    data = self.file_entry.data
-    
-    self.name = read_str(data, offset, 8)
-    
-    self.params = read_u32(data, offset+8)
-    
-    self.x_pos = read_float(data, offset+0x0C)
-    self.y_pos = read_float(data, offset+0x10)
-    self.z_pos = read_float(data, offset+0x14)
-    self.room_num = read_u16(data, offset+0x18)
-    self.y_rot = read_u16(data, offset+0x1A)
-    
-    self.item_id = read_u8(data, offset+0x1C)
-    self.flag_id = read_u8(data, offset+0x1D)
-    
-    self.padding = read_u16(data, offset + 0x1E)
-    
-  def save_changes(self):
-    data = self.file_entry.data
-    
-    write_str(data, self.offset, self.name, 8)
-    
-    write_u32(data, self.offset+0x08, self.params)
-    
-    write_float(data, self.offset+0x0C, self.x_pos)
-    write_float(data, self.offset+0x10, self.y_pos)
-    write_float(data, self.offset+0x14, self.z_pos)
-    write_u16(data, self.offset+0x18, self.room_num)
-    write_u16(data, self.offset+0x1A, self.y_rot)
-    
-    write_u8(data, self.offset+0x1C, self.item_id)
-    write_u8(data, self.offset+0x1D, self.flag_id)
-    
-    write_u16(data, self.offset+0x1E, self.padding)
 
 class SCOB(ChunkEntry):
   DATA_SIZE = 0x24
@@ -458,6 +393,9 @@ class ACTR(ChunkEntry):
     
     write_u16(data, self.offset+0x1C, self.aux_params_2)
     write_u16(data, self.offset+0x1E, self.enemy_number)
+
+class TRES(ACTR):
+  pass
 
 class PLYR(ChunkEntry):
   DATA_SIZE = 0x20

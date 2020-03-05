@@ -3038,25 +3038,25 @@ d_a_tama:
     Mask: 0xFFFF
 
 d_a_tbox:
-  unknown_param_1:
+  behavior_type:
     Bitfield name: params
     Mask: 0x0000007F
-  unknown_param_2:
+  opened_flag:
     Bitfield name: params
     Mask: 0x00000F80
-  unknown_param_3:
+  appear_condition_switch:
     Bitfield name: params
     Mask: 0x000FF000
-  unknown_param_4:
+  chest_type:
     Bitfield name: params
     Mask: 0x00F00000
-  unknown_param_5:
+  room_num:
     Bitfield name: aux_params_1
     Mask: 0x003F
-  unknown_param_6:
+  item_id:
     Bitfield name: aux_params_2
     Mask: 0x00FF
-  unknown_param_7:
+  flag_id:
     Bitfield name: aux_params_2
     Mask: 0xFF00
 
