@@ -12,6 +12,8 @@ Changes:
 * Drastically improved the performance of recoloring the player model preview image in the randomizer's UI, especially when lots of different color options are changed from the model's defaults.
 * Added more custom color options for the vanilla Link model.
 * The "Generate Spoiler Log" option is now worded as "Do Not Generate Spoiler Log" and unchecked by default. Its effect is the same, just flipped.
+* Hyrule Castle now has Moblins and Darknuts in it. (Killing them is not necessary to progress like in vanilla.)
+* When the randomizer runs out of items to place (e.g. because you started with extra gear) it will now place various consumables randomly to fill the locations up, instead of only using red rupees.
 
 Bug fixes:
 * Fixed a bug where slightly recoloring certain grey colors on player models would make them appear as extremely saturated colors.
