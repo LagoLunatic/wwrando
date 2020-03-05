@@ -3,7 +3,7 @@
 # Form implementation generated from reading ui file 'randomizer_window.ui',
 # licensing of 'randomizer_window.ui' applies.
 #
-# Created: Thu Feb 27 15:24:39 2020
+# Created: Thu Mar  5 15:49:44 2020
 #      by: pyside2-uic  running on PySide2 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -218,9 +218,12 @@ class Ui_MainWindow(object):
         self.randomize_enemy_palettes = QtWidgets.QCheckBox(self.groupBox_3)
         self.randomize_enemy_palettes.setObjectName("randomize_enemy_palettes")
         self.gridLayout_3.addWidget(self.randomize_enemy_palettes, 2, 2, 1, 1)
+        self.randomize_enemies = QtWidgets.QCheckBox(self.groupBox_3)
+        self.randomize_enemies.setObjectName("randomize_enemies")
+        self.gridLayout_3.addWidget(self.randomize_enemies, 0, 3, 1, 1)
         self.widget_5 = QtWidgets.QWidget(self.groupBox_3)
         self.widget_5.setObjectName("widget_5")
-        self.gridLayout_3.addWidget(self.widget_5, 0, 3, 1, 1)
+        self.gridLayout_3.addWidget(self.widget_5, 1, 3, 1, 1)
         self.verticalLayout_2.addWidget(self.groupBox_3)
         self.groupBox_2 = QtWidgets.QGroupBox(self.tab)
         self.groupBox_2.setObjectName("groupBox_2")
@@ -519,6 +522,7 @@ class Ui_MainWindow(object):
         self.randomize_entrances.setItemText(4, QtWidgets.QApplication.translate("MainWindow", "Dungeons & Secret Caves (Together)", None, -1))
         self.randomize_music.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Music", None, -1))
         self.randomize_enemy_palettes.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Enemy Palettes", None, -1))
+        self.randomize_enemies.setText(QtWidgets.QApplication.translate("MainWindow", "Randomize Enemy Locations", None, -1))
         self.groupBox_2.setTitle(QtWidgets.QApplication.translate("MainWindow", "Convenience Tweaks", None, -1))
         self.instant_text_boxes.setText(QtWidgets.QApplication.translate("MainWindow", "Instant Text Boxes", None, -1))
         self.skip_rematch_bosses.setText(QtWidgets.QApplication.translate("MainWindow", "Skip Boss Rematches", None, -1))

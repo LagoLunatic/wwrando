@@ -478,6 +478,13 @@
                 </widget>
                </item>
                <item row="0" column="3">
+                <widget class="QCheckBox" name="randomize_enemies">
+                 <property name="text">
+                  <string>Randomize Enemy Locations</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="3">
                 <widget class="QWidget" name="widget_5" native="true"/>
                </item>
               </layout>

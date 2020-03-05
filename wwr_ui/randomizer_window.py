@@ -119,9 +119,16 @@ class WWRandomizerWindow(QMainWindow):
     icon_path = os.path.join(ASSETS_PATH, "icon.ico")
     self.setWindowIcon(QIcon(icon_path))
     
+    # Disable options that produce unbeatable seeds when not running from source.
+    if self.get_option_value("randomize_enemies") and not IS_RUNNING_FROM_SOURCE:
+      self.set_option_value("randomize_enemies", False)
+      self.update_settings()
+    
     # Hide unfinished options from the GUI (still accessible via settings.txt).
     if not self.get_option_value("randomize_music"):
       self.ui.randomize_music.hide()
+    if not self.get_option_value("randomize_enemies"):
+      self.ui.randomize_enemies.hide()
     
     if self.no_ui_test:
       self.randomize()

@@ -200,6 +200,10 @@ OPTIONS = OrderedDict([
     "remove_music",
     "Mutes all ingame music."
   ),
+  (
+    "randomize_enemies",
+    "Randomizes the placement of non-boss enemies."
+  ),
 ])
 
 NON_PERMALINK_OPTIONS = [
