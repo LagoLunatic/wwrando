@@ -362,6 +362,8 @@ class Randomizer:
         tweaks.apply_patch(self, "remove_music")
       if self.map_select:
         tweaks.apply_patch(self, "map_select")
+      if IS_RUNNING_FROM_SOURCE:
+        tweaks.enable_developer_mode(self)
       
       if self.test_room_args is not None:
         tweaks.test_room(self)

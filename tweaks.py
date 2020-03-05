@@ -2003,3 +2003,9 @@ def make_rat_holes_visible_from_behind(self):
   data = self.get_arc("files/res/Object/Nzg.arc").get_file_entry("kana_00.bdl").data
   write_u32(data, 0xC80, 0x00) # Change cull mode in the MAT3 section
   write_u8(data, 0xFCE, 0x04) # Change cull mode in the MDL3 section
+
+def enable_developer_mode(self):
+  # This enables the developer mode left in the game's code.
+  
+  dol_data = self.get_raw_file("sys/main.dol")
+  write_u8(dol_data, address_to_offset(0x803F60E0), 1) # mDoMain::developmentMode(void)
