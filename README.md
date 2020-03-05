@@ -35,11 +35,15 @@ https://discord.gg/r2963mt
 ### Credits
 
 The randomizer was created and programmed by LagoLunatic, with help from:  
-MelonSpeedruns (game design, graphic design)  
-Hypatia (textures)  
-SageOfMirrors (file format documentation)  
-LordNed (file format documentation)  
 CryZe (event flag documentation)  
+Gamma / SageOfMirrors (custom model conversion, file format documentation)  
+Hypatia (textures)  
+JarheadHME (additional programming)  
+LordNed (file format documentation)  
+MelonSpeedruns (game design suggestions, graphic design)  
+TrogWW (additional programming)  
+nbouteme (additional programming)  
+wooferzfg (additional programming)  
 
 ### Running the randomizer from source
 
