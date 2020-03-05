@@ -245,7 +245,7 @@ def fix_deku_leaf_model(self):
     actor.params = 0x01FF0000 # Misc params, one of which makes the item not fade out over time
     actor.item_id = 0x34 # Deku Leaf
     actor.item_flag = 2 # This is the same item pickup flag that itemDek originally had in its params.
-    actor.set_flag = 0xFF # Unknown what this is, but might need to be FF for the player to pick up the item sometimes?
+    actor.activation_switch_index = 0xFF # Necessary for the item to be pickupable.
     actor.save_changes()
 
 def allow_all_items_to_be_field_items(self):
