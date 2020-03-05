@@ -418,9 +418,21 @@ d_a_dk:
     Bitfield name: params
     Mask: 0x000000FF
 
-d_a_door10: {}
+d_a_door10:
+  open_condition_switch:
+    Bitfield name: params
+    Mask: 0x000000FF
+  type:
+    Bitfield name: params
+    Mask: 0x00000F00
 
-d_a_door12: {}
+d_a_door12:
+  open_condition_switch:
+    Bitfield name: params
+    Mask: 0x000000FF
+  type:
+    Bitfield name: params
+    Mask: 0x00000F00
 
 d_a_dr: {}
 
