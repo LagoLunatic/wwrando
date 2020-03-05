@@ -294,6 +294,7 @@ Can Farm Knight's Crests:
     | (Can Access Other Location "Shark Island - Cave")
     | (Can Access Other Location "Stone Watcher Island - Cave" & Can Defeat Darknuts Easily)
     | (Can Access Other Location "Overlook Island - Cave" & Can Defeat Darknuts Easily)
+    | (Can Access Hyrule)
   )
   # There are respawning Darknuts in:
   # * The inner cave of Ice Ring Isle.
@@ -303,7 +304,8 @@ Can Farm Knight's Crests:
   # * Shark Island's cave.
   # * Stone Watcher Island's cave. (After defeating them once, the cave stays 'completed' in that the door stays unlocked and the fires remain lit, but you can refight the Darknuts by defeating the 4 surrounding rooms again.) (The logic for this location includes "Can Play Wind's Requiem" which is necessary for getting the chest but not killing the Darknuts, but since Wind Waker and Wind's Requiem are not currently randomized it makes no difference to the logic.)
   # * Overlook Island's cave. (Same notes as Stone Watcher above.)
-  # Note: The Ice Ring, Savage, and Shark Island ones have enemies with droppable weapons in the same room as the Darknut, so in swordless you can trick the Darknut into attacking the other enemies, steal their weapon, and use it to kill the Darknut.
+  # * Inside Hyrule Castle.
+  # Note: The Ice Ring, Savage, Shark Island, and Hyrule Castle ones have enemies with droppable weapons in the same room as the Darknut, so in swordless you can trick the Darknut into attacking the other enemies, steal their weapon, and use it to kill the Darknut.
 Can Farm Joy Pendants:
   Grappling Hook & Spoils Bag
   # Dropped by Bokoblins, which are everywhere.

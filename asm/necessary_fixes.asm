@@ -1209,10 +1209,10 @@
 
 
 
-; Don't spawn enemies in Hyrule Castle after defeating the Mighty Darknuts in the Master Sword chamber.
+; Always spawn the Moblins and Darknuts inside Hyrule Castle.
 .open "sys/main.dol"
-.org 0x80052698 ; In getLayerNo
-  nop ; Remove line that would take a branch if event bit 2C01 (MIGHTY_DARKNUTS_DEFEATED) is set.
+.org 0x80052668 ; In getLayerNo
+  b 0x80052850 ; Skip checking various event bits and the number of triforce shards owned, just always use the same layer
 .close
 
 
