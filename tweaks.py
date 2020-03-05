@@ -166,6 +166,14 @@ def add_custom_functions_to_free_space(self, new_bytes):
   low_halfword = new_end_pointer_for_default_thread & 0xFFFF
   write_u32(dol_data, address_to_offset(0x80003278), 0x3C200000 | high_halfword)
   write_u32(dol_data, address_to_offset(0x8000327C), 0x60210000 | low_halfword)
+  # We also update another pointer which seems like it should remain at 0x12000 later in RAM from the pointer we updated.
+  # (This pointer was originally 0x8040EFA8.)
+  # Updating this one is definitely not necessary since the function it's in (InitMetroTRK) is never called, and was likely for debugging. But we update it anyway just for completeness' sake.
+  new_pointer_for_metro_trk = new_start_pointer_for_default_thread + 0x12000
+  high_halfword = (new_pointer_for_metro_trk & 0xFFFF0000) >> 16
+  low_halfword = new_pointer_for_metro_trk & 0xFFFF
+  write_u32(dol_data, address_to_offset(0x803370A8), 0x3C200000 | high_halfword)
+  write_u32(dol_data, address_to_offset(0x803370AC), 0x60210000 | low_halfword)
   
   # Original thread start pointer: 803FCFA8 (must be updated)
   # Original stack end pointer (r1): 8040CFA8 (must be updated)
