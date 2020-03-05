@@ -3068,10 +3068,10 @@ d_a_tbox:
   room_num:
     Bitfield name: aux_params_1
     Mask: 0x003F
-  item_id:
+  switch_to_set:
     Bitfield name: aux_params_2
     Mask: 0x00FF
-  flag_id:
+  item_id:
     Bitfield name: aux_params_2
     Mask: 0xFF00
 
