@@ -334,8 +334,8 @@ def save_changed_enemies_and_randomize_their_params(self):
     
     enemy.name = new_enemy_data["Actor name"]
     enemy.params = new_enemy_data["Params"]
-    enemy.auxilary_param = new_enemy_data["Aux params"]
-    enemy.auxilary_param_2 = new_enemy_data["Aux params 2"]
+    enemy.aux_params_1 = new_enemy_data["Aux params"]
+    enemy.aux_params_2 = new_enemy_data["Aux params 2"]
     
     if "Position" in enemy_location:
       x, y, z = enemy_location["Position"]
@@ -383,18 +383,18 @@ def add_modify_and_replace_actors_for_enemy_rando(self):
         actor = get_actor_by_path(self, actor_path)
         
         if actor.name == "AND_SW0":
-          switch_to_set = actor.and_sw0_switch_to_set
+          switch_to_set = actor.switch_to_set
         elif actor.name == "AND_SW2":
-          switch_to_set = actor.and_sw2_switch_to_set
-        elif actor.name in ["Kbota_A", "Kbota_B", "KbotaC"]:
-          switch_to_set = actor.button_switch_to_set
+          switch_to_set = actor.switch_to_set
+        elif actor.name in ["AND_SW0", "AND_SW2", "Kbota_A", "Kbota_B", "KbotaC"]:
+          switch_to_set = actor.switch_to_set
         else:
           raise Exception("Unimplemented switch-setting actor name: %s" % actor.name)
         
         actor.name = "ALLdie"
         actor.params = 0xFFFFFFFF
-        actor.auxilary_param_1 = 0
-        actor.auxilary_param_2 = 0
+        actor.aux_params_1 = 0
+        actor.aux_params_2 = 0
         actor.alldie_switch_to_set = switch_to_set
         actor.save_changes()
   
@@ -413,9 +413,9 @@ def add_modify_and_replace_actors_for_enemy_rando(self):
         if "Params" in existing_actor_data:
           actor.params = existing_actor_data["Params"]
         if "Aux Params 1" in existing_actor_data:
-          actor.auxilary_param_1 = existing_actor_data["Aux Params 1"]
+          actor.aux_params_1 = existing_actor_data["Aux Params 1"]
         if "Aux Params 2" in existing_actor_data:
-          actor.auxilary_param_2 = existing_actor_data["Aux Params 2"]
+          actor.aux_params_2 = existing_actor_data["Aux Params 2"]
         if "Position" in existing_actor_data:
           x, y, z = existing_actor_data["Position"]
           actor.x_pos = x
@@ -440,9 +440,9 @@ def add_modify_and_replace_actors_for_enemy_rando(self):
         actor.name = new_actor_data["Name"]
         actor.params = new_actor_data["Params"]
         if "Aux Params 1" in new_actor_data:
-          actor.auxilary_param_1 = new_actor_data["Aux Params 1"]
+          actor.aux_params_1 = new_actor_data["Aux Params 1"]
         if "Aux Params 2" in new_actor_data:
-          actor.auxilary_param_2 = new_actor_data["Aux Params 2"]
+          actor.aux_params_2 = new_actor_data["Aux Params 2"]
         if "Position" in new_actor_data:
           x, y, z = new_actor_data["Position"]
           actor.x_pos = x
@@ -517,7 +517,7 @@ def print_all_enemy_params(self):
     actors = dzx.entries_by_type("ACTR")
     enemies = [actor for actor in actors if actor.name in all_enemy_actor_names]
     for enemy in enemies:
-      print("% 7s  %08X  %04X  %04X  %s" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2, arc_path))
+      print("% 7s  %08X  %04X  %04X  %s" % (enemy.name, enemy.params, enemy.aux_params_1, enemy.aux_params_2, arc_path))
 
 def print_all_enemy_locations(self):
   # Autogenerates an enemy_locations.txt file.
@@ -686,7 +686,7 @@ def get_enemy_data_for_actor(self, enemy):
     elif enemy.mothula_type in [0, 2]:
       return enemy_datas_by_pretty_name["Winged Mothula"]
   
-  raise Exception("Unknown enemy subspecies: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2))
+  raise Exception("Unknown enemy subspecies: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.aux_params_1, enemy.aux_params_2))
 
 def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
   if len(enemy_data["Placement categories"]) == 1:
@@ -731,7 +731,7 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
     else:
       return "Ground"
   
-  raise Exception("Unknown placement category for enemy: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.auxilary_param, enemy.auxilary_param_2))
+  raise Exception("Unknown placement category for enemy: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.aux_params_1, enemy.aux_params_2))
 
 def is_enemy_allowed_in_placement_category(enemy_data, category):
   enemy_categories = enemy_data["Placement categories"]

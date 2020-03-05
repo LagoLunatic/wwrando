@@ -343,8 +343,8 @@ def print_all_entity_params(self):
                 auxparams1 = entity.room_num
                 auxparams2 = (entity.item_id << 8) | entity.flag_id
               else:
-                auxparams1 = entity.auxilary_param
-                auxparams2 = entity.auxilary_param_2
+                auxparams1 = entity.aux_params_1
+                auxparams2 = entity.aux_params_2
               
               arc_path_short = arc_path[len("files/res/Stage/"):-len(".arc")]
               location_identifier = arc_path_short

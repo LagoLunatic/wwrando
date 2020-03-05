@@ -1,6 +1,8 @@
 
 from fs_helpers import *
 
+from data_tables import DataTables
+
 class DZx: # DZR or DZS, same format
   def __init__(self, file_entry):
     self.file_entry = file_entry
@@ -191,22 +193,61 @@ class Chunk:
 
 class ChunkEntry:
   PARAMS = {}
+  IS_ACTOR_CHUNK = False
   
   def __getattr__(self, attr_name):
-    if attr_name in self.PARAMS:
-      params_bitfield_name, mask = self.PARAMS[attr_name]
+    if attr_name in ["name"]:
+      return super(self.__class__, self).__getattribute__(attr_name)
+    
+    if self.IS_ACTOR_CHUNK:
+      if self.name in DataTables.actor_name_to_class_name:
+        rel_name = DataTables.actor_name_to_class_name[self.name]
+        if rel_name is None:
+          # Undocumented non-REL class. TODO
+          print(self.name)
+          param_fields = {}
+        else:
+          param_fields = DataTables.actor_parameters[rel_name]
+      else:
+        param_fields = {}
+    else:
+      param_fields = self.PARAMS
+    
+    if attr_name in param_fields:
+      params_bitfield_name, mask = param_fields[attr_name]
       amount_to_shift = self.get_lowest_set_bit(mask)
       return ((getattr(self, params_bitfield_name) & mask) >> amount_to_shift)
     else:
       return super(self.__class__, self).__getattribute__(attr_name)
   
   def __setattr__(self, attr_name, value):
-    if attr_name in self.PARAMS:
-      params_bitfield_name, mask = self.PARAMS[attr_name]
+    if attr_name in ["name"]:
+      self.__dict__[attr_name] = value
+    
+    if self.IS_ACTOR_CHUNK and hasattr(self, "name"):
+      if self.name in DataTables.actor_name_to_class_name:
+        rel_name = DataTables.actor_name_to_class_name[self.name]
+        if rel_name is None:
+          # Undocumented non-REL class. TODO
+          print(self.name)
+          param_fields = {}
+        else:
+          param_fields = DataTables.actor_parameters[rel_name]
+      else:
+        param_fields = {}
+    else:
+      param_fields = self.PARAMS
+    
+    if attr_name in param_fields:
+      params_bitfield_name, mask = param_fields[attr_name]
       amount_to_shift = self.get_lowest_set_bit(mask)
       new_params_value = (getattr(self, params_bitfield_name) & (~mask)) | ((value << amount_to_shift) & mask)
       super().__setattr__(params_bitfield_name, new_params_value)
     else:
+      if self.IS_ACTOR_CHUNK and attr_name not in ["offset", "file_entry", "name", "params", "x_pos", "y_pos", "z_pos", "aux_params_1", "y_rot", "aux_params_2", "enemy_number"]:
+        # TODO not refactored params
+        print(self.name, attr_name)
+      
       self.__dict__[attr_name] = value
   
   @staticmethod
@@ -321,9 +362,9 @@ class SCOB(ChunkEntry):
     self.x_pos = 0
     self.y_pos = 0
     self.z_pos = 0
-    self.auxilary_param = 0
+    self.aux_params_1 = 0
     self.y_rot = 0
-    self.auxilary_param_2 = 0
+    self.aux_params_2 = 0
     self.enemy_number = 0xFFFF
     self.scale_x = 10
     self.scale_y = 10
@@ -342,11 +383,11 @@ class SCOB(ChunkEntry):
     self.y_pos = read_float(data, offset + 0x10)
     self.z_pos = read_float(data, offset + 0x14)
     
-    self.auxilary_param = read_u16(data, offset + 0x18)
+    self.aux_params_1 = read_u16(data, offset + 0x18)
     
     self.y_rot = read_u16(data, offset + 0x1A)
     
-    self.auxilary_param_2 = read_u16(data, offset + 0x1C)
+    self.aux_params_2 = read_u16(data, offset + 0x1C)
     self.enemy_number = read_u16(data, offset + 0x1E)
     
     self.scale_x = read_u8(data, offset + 0x20)
@@ -364,9 +405,9 @@ class SCOB(ChunkEntry):
     write_float(data, self.offset+0x0C, self.x_pos)
     write_float(data, self.offset+0x10, self.y_pos)
     write_float(data, self.offset+0x14, self.z_pos)
-    write_u16(data, self.offset+0x18, self.auxilary_param)
+    write_u16(data, self.offset+0x18, self.aux_params_1)
     write_u16(data, self.offset+0x1A, self.y_rot)
-    write_u16(data, self.offset+0x1C, self.auxilary_param_2)
+    write_u16(data, self.offset+0x1C, self.aux_params_2)
     write_u16(data, self.offset+0x1E, self.enemy_number)
     
     write_u8(data, self.offset+0x20, self.scale_x)
@@ -377,13 +418,14 @@ class SCOB(ChunkEntry):
   def is_salvage(self):
     return self.name in self.SALVAGE_NAMES
   
+  # TODO remove properties like this, use params instead
   @property
   def salvage_duplicate_id(self):
-    return (self.auxilary_param_2 & 0x0003)
+    return (self.aux_params_2 & 0x0003)
   
   @salvage_duplicate_id.setter
   def salvage_duplicate_id(self, value):
-    self.auxilary_param_2 = (self.auxilary_param_2 & (~0x0003)) | (value&0x0003)
+    self.aux_params_2 = (self.aux_params_2 & (~0x0003)) | (value&0x0003)
   
   def is_buried_pig_item(self):
     return self.name in self.BURIED_PIG_ITEM_NAMES
@@ -391,9 +433,11 @@ class SCOB(ChunkEntry):
 class ACTR(ChunkEntry):
   DATA_SIZE = 0x20
   
+  IS_ACTOR_CHUNK = True
+  
   PARAMS = {
-    "item_id":   ("params", 0x000000FF),
-    "item_flag": ("params", 0x0000FF00),
+    #"item_id":   ("params", 0x000000FF),
+    #"item_flag": ("params", 0x0000FF00),
     
     "boss_item_stage_id": ("params", 0x000000FF),
     # The below boss_item_id parameter did not exist for boss items in the vanilla game.
@@ -415,7 +459,7 @@ class ACTR(ChunkEntry):
     
     "wizzrobe_prereq_switch_index": ("params", 0x00FF0000),
     
-    "cannon_appear_condition_switch": ("params", 0x0000FF00),
+    #"cannon_appear_condition_switch": ("params", 0x0000FF00),
     
     "grass_type":           ("params", 0x00000030),
     "grass_subtype":        ("params", 0x0000000F),
@@ -437,7 +481,7 @@ class ACTR(ChunkEntry):
     
     "darknut_behavior_type": ("params", 0x0000000F),
     "darknut_color":         ("params", 0x000000F0),
-    "darknut_equipment":     ("auxilary_param", 0x00E0),
+    "darknut_equipment":     ("aux_params_1", 0x00E0),
     
     "mothula_type": ("params", 0x00FF0000),
     
@@ -484,19 +528,19 @@ class ACTR(ChunkEntry):
     "miniblin_type":                ("params", 0x0000000F),
     "miniblin_initial_spawn_type":  ("params", 0x00000010),
     "miniblin_respawn_delay":       ("params", 0x000000E0),
-    "miniblin_initial_spawn_delay": ("auxilary_param", 0xFFFF),
+    "miniblin_initial_spawn_delay": ("aux_params_1", 0xFFFF),
     
     "rat_hole_num_spawned_rats": ("params", 0x0000FF00),
     
     "gyorg_spawner_num_spawned_gyorgs": ("params", 0x000000F0),
     
-    "and_sw0_switch_to_set": ("params", 0xFF000000),
+    #"and_sw0_switch_to_set": ("params", 0xFF000000),
     
-    "and_sw2_switch_to_set": ("params", 0x00FF0000),
+    #"and_sw2_switch_to_set": ("params", 0x00FF0000),
     
     "alldie_switch_to_set": ("params", 0x0000FF00),
     
-    "button_switch_to_set": ("params", 0x0000FF00),
+    #"button_switch_to_set": ("params", 0x0000FF00),
   }
   
   ITEM_NAMES = [
@@ -531,9 +575,9 @@ class ACTR(ChunkEntry):
     self.x_pos = 0
     self.y_pos = 0
     self.z_pos = 0
-    self.auxilary_param = 0
+    self.aux_params_1 = 0
     self.y_rot = 0
-    self.auxilary_param_2 = 0
+    self.aux_params_2 = 0
     self.enemy_number = 0xFFFF
   
   def read(self, offset):
@@ -548,11 +592,11 @@ class ACTR(ChunkEntry):
     self.y_pos = read_float(data, offset + 0x10)
     self.z_pos = read_float(data, offset + 0x14)
     
-    self.auxilary_param = read_u16(data, offset + 0x18)
+    self.aux_params_1 = read_u16(data, offset + 0x18)
     
     self.y_rot = read_u16(data, offset + 0x1A)
     
-    self.auxilary_param_2 = read_u16(data, offset + 0x1C)
+    self.aux_params_2 = read_u16(data, offset + 0x1C)
     self.enemy_number = read_u16(data, offset + 0x1E)
   
   def save_changes(self):
@@ -566,11 +610,11 @@ class ACTR(ChunkEntry):
     write_float(data, self.offset+0x10, self.y_pos)
     write_float(data, self.offset+0x14, self.z_pos)
     
-    write_u16(data, self.offset+0x18, self.auxilary_param)
+    write_u16(data, self.offset+0x18, self.aux_params_1)
     
     write_u16(data, self.offset+0x1A, self.y_rot)
     
-    write_u16(data, self.offset+0x1C, self.auxilary_param_2)
+    write_u16(data, self.offset+0x1C, self.aux_params_2)
     write_u16(data, self.offset+0x1E, self.enemy_number)
   
   def is_item(self):
@@ -1063,9 +1107,9 @@ class TGDR(ChunkEntry):
     self.x_pos = 0
     self.y_pos = 0
     self.z_pos = 0
-    self.auxilary_param = 0
+    self.aux_params_1 = 0
     self.y_rot = 0
-    self.auxilary_param_2 = 0
+    self.aux_params_2 = 0
     self.enemy_number = 0xFFFF
     self.scale_x = 10
     self.scale_y = 10
@@ -1084,11 +1128,11 @@ class TGDR(ChunkEntry):
     self.y_pos = read_float(data, offset + 0x10)
     self.z_pos = read_float(data, offset + 0x14)
     
-    self.auxilary_param = read_u16(data, offset + 0x18)
+    self.aux_params_1 = read_u16(data, offset + 0x18)
     
     self.y_rot = read_u16(data, offset + 0x1A)
     
-    self.auxilary_param_2 = read_u16(data, offset + 0x1C)
+    self.aux_params_2 = read_u16(data, offset + 0x1C)
     self.enemy_number = read_u16(data, offset + 0x1E)
     
     self.scale_x = read_u8(data, offset + 0x20)
@@ -1106,9 +1150,9 @@ class TGDR(ChunkEntry):
     write_float(data, self.offset+0x0C, self.x_pos)
     write_float(data, self.offset+0x10, self.y_pos)
     write_float(data, self.offset+0x14, self.z_pos)
-    write_u16(data, self.offset+0x18, self.auxilary_param)
+    write_u16(data, self.offset+0x18, self.aux_params_1)
     write_u16(data, self.offset+0x1A, self.y_rot)
-    write_u16(data, self.offset+0x1C, self.auxilary_param_2)
+    write_u16(data, self.offset+0x1C, self.aux_params_2)
     write_u16(data, self.offset+0x1E, self.enemy_number)
     
     write_u8(data, self.offset+0x20, self.scale_x)

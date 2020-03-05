@@ -506,9 +506,9 @@ def add_ganons_tower_warp_to_ff2(self):
   layer_1_warp.x_pos = layer_2_warp.x_pos
   layer_1_warp.y_pos = layer_2_warp.y_pos
   layer_1_warp.z_pos = layer_2_warp.z_pos
-  layer_1_warp.auxilary_param = layer_2_warp.auxilary_param
+  layer_1_warp.aux_params_1 = layer_2_warp.aux_params_1
   layer_1_warp.y_rot = layer_2_warp.y_rot
-  layer_1_warp.auxilary_param_2 = layer_2_warp.auxilary_param_2
+  layer_1_warp.aux_params_2 = layer_2_warp.aux_params_2
   layer_1_warp.enemy_number = layer_2_warp.enemy_number
   
   dzx.save_changes()
@@ -1201,9 +1201,9 @@ def add_pirate_ship_to_windfall(self):
   default_layer_pirate_ship.x_pos = layer_2_pirate_ship.x_pos
   default_layer_pirate_ship.y_pos = layer_2_pirate_ship.y_pos
   default_layer_pirate_ship.z_pos = layer_2_pirate_ship.z_pos
-  default_layer_pirate_ship.auxilary_param = layer_2_pirate_ship.auxilary_param
+  default_layer_pirate_ship.aux_params_1 = layer_2_pirate_ship.aux_params_1
   default_layer_pirate_ship.y_rot = layer_2_pirate_ship.y_rot
-  default_layer_pirate_ship.auxilary_param_2 = layer_2_pirate_ship.auxilary_param_2
+  default_layer_pirate_ship.aux_params_2 = layer_2_pirate_ship.aux_params_2
   default_layer_pirate_ship.enemy_number = layer_2_pirate_ship.enemy_number
   
   # Change the door to not require a password.
@@ -1285,8 +1285,8 @@ def add_inter_dungeon_warp_pots(self):
       warp_pot.y_pos = warp_pot_data.y
       warp_pot.z_pos = warp_pot_data.z
       warp_pot.y_rot = warp_pot_data.y_rot
-      warp_pot.auxilary_param = 0xFFFF
-      warp_pot.auxilary_param_2 = 0xFFFF
+      warp_pot.aux_params_1 = 0xFFFF
+      warp_pot.aux_params_2 = 0xFFFF
       
       room_dzx.save_changes()
       stage_dzx.save_changes()
@@ -1545,9 +1545,9 @@ def prevent_door_boulder_softlocks(self):
   swc00.x_pos = 2635
   swc00.y_pos = 0
   swc00.z_pos = 227
-  swc00.auxilary_param = 0
+  swc00.aux_params_1 = 0
   swc00.y_rot = 0xC000
-  swc00.auxilary_param_2 = 0xFFFF
+  swc00.aux_params_2 = 0xFFFF
   swc00.scale_x = 32
   swc00.scale_y = 16
   swc00.scale_z = 16
@@ -1564,9 +1564,9 @@ def prevent_door_boulder_softlocks(self):
   swc00.x_pos = -4002
   swc00.y_pos = 1950
   swc00.z_pos = -2156
-  swc00.auxilary_param = 0
+  swc00.aux_params_1 = 0
   swc00.y_rot = 0xA000
-  swc00.auxilary_param_2 = 0xFFFF
+  swc00.aux_params_2 = 0xFFFF
   swc00.scale_x = 32
   swc00.scale_y = 16
   swc00.scale_z = 16
@@ -1775,9 +1775,9 @@ def add_chest_in_place_of_jabun_cutscene(self):
   layer_none_door.x_pos = layer_5_door.x_pos
   layer_none_door.y_pos = layer_5_door.y_pos
   layer_none_door.z_pos = layer_5_door.z_pos
-  layer_none_door.auxilary_param = layer_5_door.auxilary_param
+  layer_none_door.aux_params_1 = layer_5_door.aux_params_1
   layer_none_door.y_rot = layer_5_door.y_rot
-  layer_none_door.auxilary_param_2 = layer_5_door.auxilary_param_2
+  layer_none_door.aux_params_2 = layer_5_door.aux_params_2
   layer_none_door.enemy_number = layer_5_door.enemy_number
   
   layer_none_whirlpool = outset_dzr.add_entity("ACTR", layer=None)
@@ -1786,9 +1786,9 @@ def add_chest_in_place_of_jabun_cutscene(self):
   layer_none_whirlpool.x_pos = layer_5_whirlpool.x_pos
   layer_none_whirlpool.y_pos = layer_5_whirlpool.y_pos
   layer_none_whirlpool.z_pos = layer_5_whirlpool.z_pos
-  layer_none_whirlpool.auxilary_param = layer_5_whirlpool.auxilary_param
+  layer_none_whirlpool.aux_params_1 = layer_5_whirlpool.aux_params_1
   layer_none_whirlpool.y_rot = layer_5_whirlpool.y_rot
-  layer_none_whirlpool.auxilary_param_2 = layer_5_whirlpool.auxilary_param_2
+  layer_none_whirlpool.aux_params_2 = layer_5_whirlpool.aux_params_2
   layer_none_whirlpool.enemy_number = layer_5_whirlpool.enemy_number
   
   outset_dzr.remove_entity(layer_5_door, "ACTR", layer=5)
@@ -1834,9 +1834,9 @@ def add_chest_in_place_of_master_sword(self):
     new_actor.x_pos = orig_actor.x_pos
     new_actor.y_pos = orig_actor.y_pos
     new_actor.z_pos = orig_actor.z_pos
-    new_actor.auxilary_param = orig_actor.auxilary_param
+    new_actor.aux_params_1 = orig_actor.aux_params_1
     new_actor.y_rot = orig_actor.y_rot
-    new_actor.auxilary_param_2 = orig_actor.auxilary_param_2
+    new_actor.aux_params_2 = orig_actor.aux_params_2
     new_actor.enemy_number = orig_actor.enemy_number
   
   # Remove the entities on layer 5 that are no longer necessary.
@@ -1893,13 +1893,13 @@ def remove_phantom_ganon_requirement_from_eye_reefs(self):
     actors = eye_reef_dzr.entries_by_type("ACTR")
     cannons = [x for x in actors if x.name == "Ocanon"]
     for cannon in cannons:
-      if cannon.cannon_appear_condition_switch == 0x2A: # Switch 2A is Phantom Ganon being dead.
-        cannon.cannon_appear_condition_switch = 0xFF
+      if cannon.enable_spawn_switch == 0x2A: # Switch 2A is Phantom Ganon being dead.
+        cannon.enable_spawn_switch = 0xFF
         cannon.save_changes()
     gunboats = [x for x in actors if x.name == "Oship"]
     for gunboat in gunboats:
-      if (gunboat.auxilary_param & 0xFF) == 0x2A: # Switch 2A is Phantom Ganon being dead.
-        gunboat.auxilary_param = (gunboat.auxilary_param & 0xFF00) | 0xFF
+      if (gunboat.aux_params_1 & 0xFF) == 0x2A: # Switch 2A is Phantom Ganon being dead.
+        gunboat.aux_params_1 = (gunboat.aux_params_1 & 0xFF00) | 0xFF
         gunboat.save_changes()
 
 def test_room(self):
