@@ -442,38 +442,6 @@ class ACTR(ChunkEntry):
   
   IS_ACTOR_CHUNK = True
   
-  PARAMS = {
-    "bokoblin_type":     ("params", 0x0000000F),
-    "bokoblin_is_green": ("params", 0x00000020),
-    "bokoblin_weapon":   ("params", 0x000000C0),
-    
-    "peahat_type":             ("params", 0x000000FF),
-    "peahat_horizontal_range": ("params", 0x0000FF00),
-    "peahat_vertical_range":   ("params", 0x00FF0000),
-    
-    "rat_type": ("params", 0x0000FF00),
-    
-    "rat_hole_type": ("params", 0x00FF0000),
-    
-    "darknut_behavior_type": ("params", 0x0000000F),
-    "darknut_color":         ("params", 0x000000F0),
-    "darknut_equipment":     ("aux_params_1", 0x00E0),
-    
-    "kargaroc_behavior_type": ("params", 0x000000FF),
-    "kargaroc_range":         ("params", 0x0000FF00),
-    
-    "morth_behavior_type":       ("params", 0x000000FF),
-    "morth_num_morths_in_group": ("params", 0x0000FF00),
-    "morth_pot_notice_range":    ("params", 0x00FF0000),
-    
-    "armos_switch_type":  ("params", 0x00FF0000),
-    "armos_switch_index": ("params", 0xFF000000),
-    
-    "floormaster_targeting_behavior_type": ("params", 0x00000C00),
-    
-    "boko_baba_boko_bud_type": ("params", 0x0000FF00),
-  }
-  
   def __init__(self, file_entry):
     self.file_entry = file_entry
     

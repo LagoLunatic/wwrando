@@ -647,7 +647,7 @@ def get_enemy_data_for_actor(self, enemy):
     elif enemy.peahat_type == 1:
       return enemy_datas_by_pretty_name["Seahat"]
   elif enemy.name == "amos2":
-    if enemy.armos_switch_type == 1 and enemy.armos_switch_index == 0x80:
+    if enemy.switch_type == 1 and enemy.switch_index == 0x80:
       return enemy_datas_by_pretty_name["Inanimate Armos"]
     else:
       return enemy_datas_by_pretty_name["Armos"]
@@ -669,7 +669,7 @@ def get_enemy_data_for_actor(self, enemy):
     elif enemy.rat_hole_type == 2:
       return enemy_datas_by_pretty_name["Rat and Bombchu Hole"]
   elif enemy.name == "bbaba":
-    if enemy.boko_baba_boko_bud_type in [0, 0xFF]:
+    if enemy.boko_bud_type in [0, 0xFF]:
       return enemy_datas_by_pretty_name["Boko Baba"]
     else:
       return enemy_datas_by_pretty_name["Boko Bud Boko Baba"]
@@ -706,7 +706,7 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
     else:
       return "Ground"
   elif enemy.name == "Bb":
-    if enemy.kargaroc_behavior_type in [4, 7]:
+    if enemy.behavior_type in [4, 7]:
       return "Ground"
     else:
       return "Air"
@@ -721,7 +721,7 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
     # Will need to manually set air locations in enemy_locations.txt.
     # When doing this, will also need to change the logic from "Can Defeat Wizzrobes" to "Can Defeat Wizzrobes at Range".
   elif enemy.name in ["kuro_s", "kuro_t"]:
-    if enemy.morth_behavior_type == 6:
+    if enemy.behavior_type == 6:
       return "Pot"
     else:
       return "Ground"
@@ -773,11 +773,11 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
     else:
       enemy.bokoblin_type = self.rng.choice([0, 4])
     if color == "green":
-      enemy.bokoblin_is_green = 1
+      enemy.is_green = 1
     else:
-      enemy.bokoblin_is_green = 0
+      enemy.is_green = 0
     
-    enemy.bokoblin_weapon = self.rng.choice([
+    enemy.weapon = self.rng.choice([
       0, # Unlit torch
       1, # Machete
       2, # Lit torch
@@ -792,18 +792,18 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
       enemy.chuchu_behavior_type = 0
   elif enemy.name == "Bb":
     if category == "Ground":
-      enemy.kargaroc_behavior_type = self.rng.choice([4, 7])
+      enemy.behavior_type = self.rng.choice([4, 7])
     elif category == "Air":
-      enemy.kargaroc_behavior_type = self.rng.choice([0, 1, 2, 3])
+      enemy.behavior_type = self.rng.choice([0, 1, 2, 3])
     elif category == "Ceiling":
       # For locations where the enemy is placed up on the ceiling but is supposed to fall down, allow type 3 (flying and immediately flies down to the player) and types 4 and 7 (sitting, but targets the player when they get close enough). The other types (flying around) will never come down to fight the player and may even clip out of bounds.
-      enemy.kargaroc_behavior_type = self.rng.choice([3, 4, 7])
+      enemy.behavior_type = self.rng.choice([3, 4, 7])
   elif enemy.name == "mo2":
     enemy.moblin_type = self.rng.choice([0, 1])
   elif enemy.name == "p_hat":
     if category == "Ceiling":
-      enemy.peahat_horizontal_range = 20
-      enemy.peahat_vertical_range = 50
+      enemy.horizontal_range = 20
+      enemy.vertical_range = 50
   elif enemy.name == "amos":
     enemy.behavior_type = self.rng.choice([
       0, # Normal
@@ -848,15 +848,15 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
     enemy.poe_color = self.rng.choice([0, 1, 2, 3, 4, 5])
   elif enemy.name in ["kuro_s", "kuro_t"]:
     if category == "Pot":
-      enemy.morth_behavior_type = 6
+      enemy.behavior_type = 6
       
       # Three possible ranges to notice the player at and escape from the pot:
       # 0 (don't escape, wait for Link to break the pot), 20 (escape when Link is right next to the pot), and 60 (escape when Link is anywhere near the pot).
-      enemy.morth_pot_notice_range = self.rng.choice([0, 20, 60])
+      enemy.pot_notice_range = self.rng.choice([0, 20, 60])
     else:
-      enemy.morth_behavior_type = self.rng.choice([0, 1])
+      enemy.behavior_type = self.rng.choice([0, 1])
     
-    enemy.morth_num_morths_in_group = self.rng.randrange(1, 10+1)
+    enemy.num_morths_in_group = self.rng.randrange(1, 10+1)
   elif enemy.name == "Puti":
     enemy.miniblin_initial_spawn_type = self.rng.choice([
       0, # Spawned from the start
@@ -875,9 +875,9 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
       0xE, # Upper half of body only
     ])
   elif enemy.name == "Tn":
-    enemy.darknut_behavior_type = self.rng.choice([0, 4])
-    enemy.darknut_color = self.rng.randrange(0, 5+1)
-    enemy.darknut_equipment = self.rng.randrange(0, 5+1)
+    enemy.behavior_type = self.rng.choice([0, 4])
+    enemy.color = self.rng.randrange(0, 5+1)
+    enemy.equipment = self.rng.randrange(0, 5+1)
   elif enemy.name == "bbaba":
     pass
   elif enemy.name == "magtail":
@@ -902,7 +902,7 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
   elif enemy.name in ["GyCtrl", "GyCtrlB"]:
     enemy.num_spawned_gyorgs = self.rng.choice([1, 1, 1, 1, 2, 2, 3, 3, 4, 5])
   elif enemy.name in ["Fmaster", "Fmastr1", "Fmastr2"]:
-    enemy.floormaster_targeting_behavior_type = self.rng.choice([
+    enemy.targeting_behavior_type = self.rng.choice([
       0, # Prioritize Medli/Makar over Link if they're present
       1, # Target only Link
       # 2, # Target only Medli/Makar (Do not allow this one because the floormaster would never come up and be killable if not in a stage with a partner)

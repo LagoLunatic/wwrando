@@ -50,10 +50,10 @@ d_a_am2:
   unknown_param_2:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  switch_type:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  switch_index:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -128,10 +128,10 @@ d_a_att:
 d_a_auction: {}
 
 d_a_bb:
-  unknown_param_1:
+  behavior_type:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  range:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_3:
@@ -220,16 +220,16 @@ d_a_bita:
     Mask: 0x0000FF00
 
 d_a_bk:
-  unknown_param_1:
+  bokoblin_type:
     Bitfield name: params
     Mask: 0x0000000F
   unknown_param_2:
     Bitfield name: params
     Mask: 0x00000010
-  unknown_param_3:
+  is_green:
     Bitfield name: params
     Mask: 0x00000020
-  unknown_param_4:
+  weapon:
     Bitfield name: params
     Mask: 0x000000C0
   unknown_param_5:
@@ -281,7 +281,7 @@ d_a_bo:
   unknown_param_1:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  boko_bud_type:
     Bitfield name: params
     Mask: 0x0000FF00
 
@@ -525,7 +525,7 @@ d_a_fm:
   unknown_param_2:
     Bitfield name: params
     Mask: 0x00000300
-  unknown_param_3:
+  targeting_behavior_type:
     Bitfield name: params
     Mask: 0x00000C00
   unknown_param_4:
@@ -807,13 +807,13 @@ d_a_kokiie:
 d_a_komore: {}
 
 d_a_ks:
-  unknown_param_1:
+  behavior_type:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  num_morths_in_group:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  pot_notice_range:
     Bitfield name: params
     Mask: 0x00FF0000
 
@@ -1392,7 +1392,7 @@ d_a_nz:
   unknown_param_1:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  rat_type:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_3:
@@ -1406,7 +1406,7 @@ d_a_nzg:
   num_spawned_rats:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  rat_hole_type:
     Bitfield name: params
     Mask: 0x00FF0000
   unknown_param_4:
@@ -2439,13 +2439,13 @@ d_a_pedestal:
     Mask: 0x000000FF
 
 d_a_ph:
-  unknown_param_1:
+  peahat_type:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  horizontal_range:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  vertical_range:
     Bitfield name: params
     Mask: 0x00FF0000
 
@@ -3054,10 +3054,10 @@ d_a_tbox:
 d_a_title: {}
 
 d_a_tn:
-  unknown_param_1:
+  behavior_type:
     Bitfield name: params
     Mask: 0x0000000F
-  unknown_param_2:
+  color:
     Bitfield name: params
     Mask: 0x000000F0
   unknown_param_3:
@@ -3069,7 +3069,7 @@ d_a_tn:
   unknown_param_5:
     Bitfield name: params
     Mask: 0xFF000000
-  unknown_param_6:
+  equipment:
     Bitfield name: aux_params_1
     Mask: 0x00E0
   unknown_param_7:
