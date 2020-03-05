@@ -528,6 +528,8 @@ def add_chest_in_place_medli_grappling_hook_gift(self):
   
   chest_in_jail = dzx.add_entity("TRES", layer=None)
   chest_in_jail.name = "takara3"
+  chest_in_jail.params = 0xFF000000
+  chest_in_jail.switch_to_set = 0xFF
   chest_in_jail.chest_type = 2
   chest_in_jail.opened_flag = 0x11
   chest_in_jail.x_pos = -1620.81
@@ -546,6 +548,8 @@ def add_chest_in_place_queen_fairy_cutscene(self):
   
   mother_island_chest = dzx.add_entity("TRES", layer=None)
   mother_island_chest.name = "takara3"
+  mother_island_chest.params = 0xFF000000
+  mother_island_chest.switch_to_set = 0xFF
   mother_island_chest.chest_type = 2
   mother_island_chest.opened_flag = 0x1C
   mother_island_chest.x_pos = -180031
@@ -1755,6 +1759,7 @@ def add_chest_in_place_of_jabun_cutscene(self):
   jabun_chest = jabun_dzr.add_entity("TRES", layer=None)
   jabun_chest.name = "takara3"
   jabun_chest.params = 0xFF000000
+  jabun_chest.switch_to_set = 0xFF
   jabun_chest.chest_type = 2
   jabun_chest.appear_condition_switch = 0xFF
   jabun_chest.opened_flag = 6
@@ -1856,6 +1861,7 @@ def add_chest_in_place_of_master_sword(self):
   ms_chest = ms_chamber_dzr.add_entity("TRES", layer=None)
   ms_chest.name = "takara3"
   ms_chest.params = 0xFF000000
+  ms_chest.switch_to_set = 0xFF
   ms_chest.chest_type = 2
   ms_chest.appear_condition_switch = 5 # The Mighty Darknuts set switch 5 when they die.
   ms_chest.opened_flag = 0
