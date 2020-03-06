@@ -2932,10 +2932,10 @@ stw r0, 0x14 (sp)
 
 bl GetTgHitObj__12dCcD_GObjInfFv ; Replace the function call we overwrote to call this custom function
 
-; Then we need to reproduce a few lines of code from the original
-stw r3, 0x30 (r1)
+; Then we need to reproduce a few lines of code from the original function.
+stw r3, 0x40 (sp) ; Write the TgHitObj (original code used sp+0x30 but this function's stack offset is +0x10)
 addi r0, r30, 0x1874
-stw r0, 0x44 (r1)
+stw r0, 0x54 (sp) ; Write something from the Magtail entity (original code used sp+0x44 but this function's stack offset is +0x10)
 lwz r0, 0x10 (r3) ; Read the bitfield of damage types done by the actor that just damaged this Magtail
 rlwinm. r0, r0, 0, 11, 11 ; Check the Light Arrows damage type
 
