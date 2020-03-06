@@ -6624,6 +6624,7 @@ sea/Room6.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
+    # TODO: must split into 4 groups (1 for kargarocs, 3 for the 3 chests)
     Can Defeat Kargarocs
     & Can Defeat Wizzrobes
   Enemies:
@@ -6637,19 +6638,19 @@ sea/Room6.arc:
       Path: sea/Room6.arc/Actor008
     -
       Original enemy: Wizzrobe
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch
       Path: sea/Room6.arc/Actor024
     -
       Original enemy: Wizzrobe
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch
       Path: sea/Room6.arc/Actor025
     -
       Original enemy: Wizzrobe
-      Placement category: Ground
+      Placement category: StationaryAir:SetsDeathSwitch
       Path: sea/Room6.arc/Actor029
     -
       Original enemy: Wizzrobe
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch
       Path: sea/Room6.arc/Actor02B
 
 

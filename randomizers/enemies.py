@@ -46,6 +46,13 @@ STAGE_NAMES_WHERE_MULTIPLE_ROOMS_CAN_BE_LOADED_AT_ONCE = [
 def randomize_enemies(self):
   self.enemy_locations = Logic.load_and_parse_enemy_locations()
   
+  # We must compile the human-written placement categories each enemy type is allowed in to account for extra category limitations (like locations where the enemy is required to set a switch on death).
+  for enemy_type in self.enemy_types:
+    enemy_type["Compiled categories"] = []
+    for placement_category in enemy_type["Placement categories"]:
+      compiled_category = EnemyCategory(placement_category, enemy_type)
+      enemy_type["Compiled categories"].append(compiled_category)
+  
   self.enemies_to_randomize_to = [
     data for data in self.enemy_types
     if data["Allow randomizing to"]
@@ -332,6 +339,23 @@ def save_changed_enemies_and_randomize_their_params(self):
       last_printed_group_path = group_path
       print("Putting a %s (param:%08X) in %s" % (new_enemy_data["Actor name"], new_enemy_data["Params"], path))
     
+    death_switch_to_set = None
+    if ":" in placement_category:
+      category_string, conditions_string = placement_category.split(":", 1)
+      conditions = conditions_string.split(",")
+      
+      if "SetsDeathSwitch" in conditions:
+        # We need
+        original_enemy_type = get_enemy_data_for_actor(self, enemy)
+        death_switch_param_name = original_enemy_type["Death switch param name"]
+        
+        if death_switch_param_name is None:
+          raise Exception("An enemy location specified that it must set a switch on death, but the original enemy there is not documented to be able to set a switch on death.")
+        
+        death_switch_to_set = getattr(enemy, death_switch_param_name)
+        if death_switch_to_set in [0x00, 0x80, 0xFF] or death_switch_to_set >= 0xF0:
+          raise Exception("Switch index to set on enemy death is not valid for all enemy types: %02X" % death_switch_to_set)
+    
     enemy.name = new_enemy_data["Actor name"]
     enemy.params = new_enemy_data["Params"]
     enemy.aux_params_1 = new_enemy_data["Aux params"]
@@ -355,6 +379,12 @@ def save_changed_enemies_and_randomize_their_params(self):
     
     randomize_enemy_params(self, new_enemy_data, enemy, placement_category, dzx, layer)
     adjust_enemy(self, new_enemy_data, enemy, placement_category, dzx, layer)
+    
+    if death_switch_to_set is not None:
+      death_switch_param_name = new_enemy_data["Death switch param name"]
+      if death_switch_param_name is None:
+        raise Exception("Tried to place an enemy type that cannot set a switch on death in a location that requires a switch be set on death: %s" % enemy.name)
+      setattr(enemy, death_switch_param_name, death_switch_to_set)
     
     enemy.save_changes()
     
@@ -734,18 +764,9 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
   raise Exception("Unknown placement category for enemy: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.aux_params_1, enemy.aux_params_2))
 
 def is_enemy_allowed_in_placement_category(enemy_data, category):
-  enemy_categories = enemy_data["Placement categories"]
+  enemy_categories = enemy_data["Compiled categories"]
   
-  if category in enemy_categories:
-    return True
-  
-  if category == "Pot" and "Ground" in enemy_categories:
-    return True
-  
-  if category in ["Ground", "Pot"] and "Air" in enemy_categories:
-    return True
-  
-  return False
+  return category in enemy_categories
 
 def get_amount_of_memory_for_enemy(enemy_data, enemy_actor_names_already_placed_in_room):
   # The first enemy of a species placed in a room uses more than the subsequent ones.
@@ -1017,3 +1038,55 @@ def distance_between_entities(entity_1, entity_2):
   x2, y2, z2 = entity_2.x_pos, entity_2.y_pos, entity_2.z_pos
   
   return math.sqrt((x2-x1)**2 + (y2-y1)**2 + (z2-z1)**2)
+
+
+class EnemyCategory:
+  def __init__(self, category_string, enemy_type=None):
+    self.category_string = category_string
+    
+    if enemy_type is None:
+      # When enemy_type is not passed (e.g. `EnemyCategory("Pot")`) default to assuming the most flexible possible enemy.
+      self.can_set_switch = True
+    else:
+      if enemy_type["Death switch param name"] is None:
+        self.can_set_switch = False
+      else:
+        self.can_set_switch = True
+  
+  def __eq__(self, other):
+    if not isinstance(other, str):
+      raise NotImplementedError()
+    
+    if ":" in other:
+      other_category_string, other_conditions_string = other.split(":", 1)
+      other_conditions = other_conditions_string.split(",")
+    else:
+      other_category_string = other
+      other_conditions = []
+    
+    for other_condition in other_conditions:
+      if other_condition == "SetsDeathSwitch":
+        if not self.can_set_switch:
+          return False
+      else:
+        raise NotImplementedError("Enemy placement category condition type not implemented: %s" % other_condition)
+    
+    if other_category_string == self.category_string:
+      return True
+    
+    if other_category_string == "Pot" and self.category_string == "Ground":
+      return True
+    
+    if other_category_string in ["Ground", "Pot"] and self.category_string == "Air":
+      return True
+    
+    if other_category_string == "StationaryAir" and self.category_string == "Air":
+      return True
+    
+    return False
+  
+  def __str__(self):
+    return "EnemyCategory(%s, DeathSwitch: %s)" % (self.category_string, self.can_set_switch)
+  
+  def __repr__(self):
+    return self.__str__()

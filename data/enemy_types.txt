@@ -289,7 +289,7 @@
   Requirements to defeat: Can Defeat Wizzrobes
   Allow randomizing from: True
   Allow randomizing to: True
-  Placement categories: [Ground] # Also should include Air, but Wizzrobes placed by the randomizer never come down because they don't have a path set up.
+  Placement categories: [Ground, StationaryAir]
   Memory used by first one: 65712 # 25440 without the fireballs being spawned
   Memory used by subequent ones: 54224 # 13536 without the fireballs being spawned
   Death switch param name: disable_spawn_on_death_switch
