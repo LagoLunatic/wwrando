@@ -6638,19 +6638,20 @@ sea/Room6.arc:
       Path: sea/Room6.arc/Actor008
     -
       Original enemy: Wizzrobe
-      Placement category: Ground:SetsDeathSwitch
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room6.arc/Actor024
+      Position offset: [200, 0, 200] # Move it out of the guard rail.
     -
       Original enemy: Wizzrobe
-      Placement category: Ground:SetsDeathSwitch
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room6.arc/Actor025
     -
       Original enemy: Wizzrobe
-      Placement category: StationaryAir:SetsDeathSwitch
+      Placement category: StationaryAir:SetsDeathSwitch,HasPit
       Path: sea/Room6.arc/Actor029
     -
       Original enemy: Wizzrobe
-      Placement category: Ground:SetsDeathSwitch
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room6.arc/Actor02B
 
 

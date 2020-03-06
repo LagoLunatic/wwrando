@@ -275,6 +275,9 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
       if is_enemy_allowed_in_placement_category(data, enemy_location["Placement category"])
     ]
     
+    #if ":" in enemy_location["Placement category"]:
+    #  print([x["Pretty name"] for x in enemies_to_randomize_to_for_this_location])
+    
     if len(enemies_to_randomize_to_for_this_location) == 0:
       error_msg = "No possible enemies to place in %s of the correct category\n" % arc_name
       enemy_pretty_names_in_this_stage_pool = [
@@ -1041,17 +1044,18 @@ def distance_between_entities(entity_1, entity_2):
 
 
 class EnemyCategory:
-  def __init__(self, category_string, enemy_type=None):
+  def __init__(self, category_string, enemy_type):
     self.category_string = category_string
     
-    if enemy_type is None:
-      # When enemy_type is not passed (e.g. `EnemyCategory("Pot")`) default to assuming the most flexible possible enemy.
-      self.can_set_switch = True
+    if enemy_type["Death switch param name"] is None:
+      self.can_set_switch = False
     else:
-      if enemy_type["Death switch param name"] is None:
-        self.can_set_switch = False
-      else:
-        self.can_set_switch = True
+      self.can_set_switch = True
+    
+    if enemy_type["Allow near pits"]:
+      self.allow_near_pits = True
+    else:
+      self.allow_near_pits = False
   
   def __eq__(self, other):
     if not isinstance(other, str):
@@ -1067,6 +1071,9 @@ class EnemyCategory:
     for other_condition in other_conditions:
       if other_condition == "SetsDeathSwitch":
         if not self.can_set_switch:
+          return False
+      elif other_condition == "HasPit":
+        if not self.allow_near_pits:
           return False
       else:
         raise NotImplementedError("Enemy placement category condition type not implemented: %s" % other_condition)
