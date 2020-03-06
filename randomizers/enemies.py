@@ -8,6 +8,10 @@ import math
 from wwlib import stage_searcher
 from logic.logic import Logic
 
+# This variable is for debugging specific enemies.
+# Set it to the name of a specific enemy type and it will handle putting that enemy type in every single enemy location throughout the game - ignoring memory and logic limits.
+DEBUG_ENEMY_NAME_TO_PLACE_EVERYWHERE = None
+
 # Limit the number of species that appear in a given stage to prevent issues loading too many particles and to prevent stages from feeling too chaotic.
 # (This limit does not apply to the sea.)
 MAX_ENEMY_SPECIES_PER_STAGE = 10
@@ -313,7 +317,8 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
     
     new_enemy_data = self.rng.choice(enemies_to_randomize_to_for_this_location)
     
-    #new_enemy_data = self.enemy_datas_by_pretty_name["Lantern Moblin"]
+    if DEBUG_ENEMY_NAME_TO_PLACE_EVERYWHERE is not None:
+      new_enemy_data = self.enemy_datas_by_pretty_name[DEBUG_ENEMY_NAME_TO_PLACE_EVERYWHERE]
     
     # Account for the amount of memory used up by this enemy instance.
     free_memory -= get_amount_of_memory_for_enemy(new_enemy_data, enemy_actor_names_already_placed_in_room)
@@ -322,7 +327,7 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
       print("Free memory: %d" % free_memory)
       print("Subtracted: %d" % get_amount_of_memory_for_enemy(new_enemy_data, enemy_actor_names_already_placed_in_room))
     
-    if free_memory < MIN_FREE_SPACE_TO_LEAVE_PER_ROOM:
+    if free_memory < MIN_FREE_SPACE_TO_LEAVE_PER_ROOM and DEBUG_ENEMY_NAME_TO_PLACE_EVERYWHERE is None:
       # Not enough memory left in this room. Give up early.
       return False
     
@@ -394,8 +399,10 @@ def save_changed_enemies_and_randomize_their_params(self):
     if death_switch_to_set is not None:
       death_switch_param_name = new_enemy_data["Death switch param name"]
       if death_switch_param_name is None:
-        raise Exception("Tried to place an enemy type that cannot set a switch on death in a location that requires a switch be set on death: %s" % enemy.name)
-      setattr(enemy, death_switch_param_name, death_switch_to_set)
+        if DEBUG_ENEMY_NAME_TO_PLACE_EVERYWHERE is None:
+          raise Exception("Tried to place an enemy type that cannot set a switch on death in a location that requires a switch be set on death: %s" % enemy.name)
+      else:
+        setattr(enemy, death_switch_param_name, death_switch_to_set)
     
     enemy.save_changes()
     
