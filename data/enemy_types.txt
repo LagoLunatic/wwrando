@@ -592,7 +592,7 @@
   Memory used by subequent ones: 56512
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: False # If it falls in the sea, it dies, but doesn't set its death switch. TODO: try to code it to set that properly. also TODO: I assume these work in lava pits? if so, I may need to separate lava vs sea pits into separate conditions.
-  Can be killed with thrown objects: No # TODO CHECK
+  Can be killed with thrown objects: No # They do take damage from thrown objects, but it's annoying to hit them and just two objects isn't enough to kill it, so don't make this required.
 -
   Pretty name: Red Bubble
   Actor name: bable
