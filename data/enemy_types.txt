@@ -462,7 +462,7 @@
   Placement categories: [Ground]
   Memory used by first one: 93536
   Memory used by subequent ones: 42064
-  Death switch param name: death_switch
+  Death switch param name: disable_spawn_on_death_switch
 -
   Pretty name: Darknut
   Actor name: Tn

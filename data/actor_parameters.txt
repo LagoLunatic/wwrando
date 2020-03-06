@@ -2702,7 +2702,7 @@ d_a_st:
   unknown_param_4:
     Bitfield name: params
     Mask: 0xFF000000
-  death_switch:
+  disable_spawn_on_death_switch:
     Bitfield name: aux_params_2
     Mask: 0x00FF
 
