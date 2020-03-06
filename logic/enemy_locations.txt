@@ -6618,15 +6618,12 @@ sea/Room5.arc:
       Path: sea/Room5.arc/Actor002
 
 
-# TODO
 # Seven-Star Isles
 sea/Room6.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
-    # TODO: must split into 4 groups (1 for kargarocs, 3 for the 3 chests)
     Can Defeat Kargarocs
-    & Can Defeat Wizzrobes
   Enemies:
     -
       Original enemy: Kargaroc
@@ -6636,15 +6633,33 @@ sea/Room6.arc:
       Original enemy: Kargaroc
       Placement category: Air
       Path: sea/Room6.arc/Actor008
+-
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Access Other Location "Seven-Star Isles - Northern Lookout Platform"
+  Has throwable objects: Yes
+  Enemies:
     -
       Original enemy: Wizzrobe
       Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room6.arc/Actor024
       Position offset: [200, 0, 200] # Move it out of the guard rail.
+-
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Access Other Location "Seven-Star Isles - Center Lookout Platform"
+  Has throwable objects: Yes
+  Enemies:
     -
       Original enemy: Wizzrobe
       Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room6.arc/Actor025
+-
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Access Other Location "Seven-Star Isles - Southern Lookout Platform"
+  Has throwable objects: Yes
+  Enemies:
     -
       Original enemy: Wizzrobe
       Placement category: StationaryAir:SetsDeathSwitch,HasPit

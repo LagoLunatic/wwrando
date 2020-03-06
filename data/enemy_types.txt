@@ -13,6 +13,7 @@
   Memory used by subequent ones: 23088
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: True # Dies when falling in pits, but properly sets it death switch, so we allow it.
+  Can be killed with thrown objects: Yes
 -
   Pretty name: Green ChuChu
   Actor name: c_green
@@ -28,6 +29,7 @@
   Memory used by subequent ones: 18496
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Red ChuChu
   Actor name: c_red
@@ -43,6 +45,7 @@
   Memory used by subequent ones: 18496
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Yellow ChuChu
   Actor name: c_kiiro
@@ -58,6 +61,7 @@
   Memory used by subequent ones: 18496
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Blue ChuChu
   Actor name: c_blue
@@ -73,6 +77,7 @@
   Memory used by subequent ones: 18496
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Dark ChuChu
   Actor name: c_black
@@ -88,6 +93,7 @@
   Memory used by subequent ones: 18496
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Kargaroc
   Actor name: Bb
@@ -103,6 +109,7 @@
   Memory used by subequent ones: 41024
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Lantern Moblin
   Actor name: mo2
@@ -118,6 +125,7 @@
   Memory used by subequent ones: 66400
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: False # Dies instantly when over a pit, and doesn't set its death switch when it does that. TODO: see if that can be fixed so they set their death switch when falling in a pit.
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Blue Moblin
   Actor name: mo2
@@ -133,6 +141,7 @@
   Memory used by subequent ones: 36112
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: False # Dies instantly when over a pit, and doesn't set its death switch when it does that. TODO: see if that can be fixed so they set their death switch when falling in a pit.
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Peahat
   Actor name: p_hat
@@ -148,6 +157,7 @@
   Memory used by subequent ones: 10208
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Seahat
   Actor name: p_hat
@@ -163,6 +173,7 @@
   Memory used by subequent ones: 16096
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Armos Knight
   Actor name: amos
@@ -178,6 +189,7 @@
   Memory used by subequent ones: 7456
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Armos
   Actor name: amos2
@@ -193,6 +205,7 @@
   Memory used by subequent ones: 6976
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Inanimate Armos
   Actor name: amos2
@@ -208,6 +221,7 @@
   Memory used by subequent ones: 6976
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Dexivine
   Actor name: Sss
@@ -223,6 +237,7 @@
   Memory used by subequent ones: 6976
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
   # Note: Cannot escape from a Dexivine that catches you without some weapon to cut it down.
 -
   Pretty name: Keese
@@ -239,6 +254,7 @@
   Memory used by subequent ones: 6016
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Fire Keese
   Actor name: Fkeeth
@@ -254,6 +270,7 @@
   Memory used by subequent ones: 7648
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Freshwater Octorok
   Actor name: Oq
@@ -269,6 +286,7 @@
   Memory used by subequent ones: 11936
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Saltwater Octorok
   Actor name: Oqw
@@ -284,6 +302,7 @@
   Memory used by subequent ones: 18080
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Saltwater Octorok Spawner
   Actor name: Oqw
@@ -299,6 +318,7 @@
   Memory used by subequent ones: 93888
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Wizzrobe
   Actor name: wiz_r
@@ -314,6 +334,7 @@
   Memory used by subequent ones: 54224 # 13536 without the fireballs being spawned
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: True
+  Can be killed with thrown objects: Yes # Takes two pots to kill.
 -
   Pretty name: ReDead
   Actor name: Rdead1
@@ -329,6 +350,7 @@
   Memory used by subequent ones: 9664
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Sitting ReDead
   Actor name: Rdead2
@@ -344,6 +366,7 @@
   Memory used by subequent ones: 9664
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Poe
   Actor name: pow
@@ -359,6 +382,7 @@
   Memory used by subequent ones: 39984
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Chasing Morth
   Actor name: kuro_s
@@ -374,6 +398,7 @@
   Memory used by subequent ones: 43520 # For 10 Morths.
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
   # Note: These don't count as being alive, if only morths are in a room the room will consider itself completed immediately.
 -
   Pretty name: Morth
@@ -390,6 +415,7 @@
   Memory used by subequent ones: 43520 # For 10 Morths.
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
   # Note: These don't count as being alive, if only morths are in a room the room will consider itself completed immediately.
 -
   Pretty name: Miniblin
@@ -406,6 +432,7 @@
   Memory used by subequent ones: 5312
   Death switch param name: null # TODO irregular_switch acts as this for single miniblins, but it's buggy for permanent switches. perhaps we could make use of it, but replace the switch that's set with a temporary switch...?
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Rat
   Actor name: nezumi
@@ -421,6 +448,7 @@
   Memory used by subequent ones: 12960
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Bombchu
   Actor name: nezumi
@@ -436,6 +464,7 @@
   Memory used by subequent ones: 15392
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Rat Hole
   Actor name: nezuana
@@ -451,6 +480,7 @@
   Memory used by subequent ones: 79040 # For 5 rats, also includes the rat shopkeeper.
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Bombchu Hole
   Actor name: nezuana
@@ -466,6 +496,7 @@
   Memory used by subequent ones: 78784 # For 5 Bombchus.
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Rat and Bombchu Hole
   Actor name: nezuana
@@ -481,6 +512,7 @@
   Memory used by subequent ones: 78784 # For 5 rats/Bombchus.
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Stalfos
   Actor name: Stal
@@ -496,6 +528,7 @@
   Memory used by subequent ones: 42064
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: False # Instantly deletes itself without setting its death switch.
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Darknut
   Actor name: Tn
@@ -511,6 +544,7 @@
   Memory used by subequent ones: 73920
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: False # Instantly deletes itself without setting its death switch.
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Boko Baba
   Actor name: bbaba
@@ -526,6 +560,7 @@
   Memory used by subequent ones: 12704
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Boko Bud Boko Baba
   Actor name: bbaba
@@ -541,6 +576,7 @@
   Memory used by subequent ones: 12704
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Magtail
   Actor name: magtail
@@ -556,6 +592,7 @@
   Memory used by subequent ones: 56512
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Red Bubble
   Actor name: bable
@@ -571,6 +608,7 @@
   Memory used by subequent ones: 5504
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Blue Bubble
   Actor name: bable
@@ -586,6 +624,7 @@
   Memory used by subequent ones: 5504
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Inanimate Bubble
   Actor name: bable
@@ -601,6 +640,7 @@
   Memory used by subequent ones: 5504
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Wingless Mothula
   Actor name: gmos
@@ -616,6 +656,7 @@
   Memory used by subequent ones: 25312
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: False # They don't die in pits.
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Winged Mothula
   Actor name: gmos
@@ -631,6 +672,7 @@
   Memory used by subequent ones: 25312
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: False # They turn into wingless ones, which then don't die in pits.
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Cross-Sector Gyorg Spawner
   Actor name: GyCtrl
@@ -646,6 +688,7 @@
   Memory used by subequent ones: 88736 # For 5 Gyorgs.
   Death switch param name: null
   Allow near pits: True
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Gyorg Spawner
   Actor name: GyCtrlB
@@ -661,6 +704,7 @@
   Memory used by subequent ones: 88736 # For 5 Gyorgs.
   Death switch param name: null
   Allow near pits: True
+  Can be killed with thrown objects: No # TODO CHECK
 #-
 #  Pretty name: Blue Beamos
 #  Actor name: Hmos1
@@ -720,6 +764,7 @@
   Memory used by subequent ones: 8608
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Floormaster
   Actor name: Fmastr2
@@ -735,3 +780,4 @@
   Memory used by subequent ones: 8608
   Death switch param name: null
   Allow near pits: True # TODO CHECK
+  Can be killed with thrown objects: No # TODO CHECK

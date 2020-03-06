@@ -1009,7 +1009,7 @@ class Logic:
     
     return enemy_locations
   
-  def filter_out_enemies_that_add_new_requirements(self, original_req_string, possible_new_enemy_datas):
+  def filter_out_enemies_that_add_new_requirements(self, original_req_string, has_throwable_objects, possible_new_enemy_datas):
     # This function takes a list of enemy types and removes the ones that would add new required items for a room.
     # This is because the enemy randomizer cannot increase the logic requirements compared to when enemies are not randomized, it can only keep them the same or decrease them.
     
@@ -1079,6 +1079,10 @@ class Logic:
             continue
           
           enemy_name = possible_new_enemy_data["Pretty name"]
+          
+          if has_throwable_objects and possible_new_enemy_data["Can be killed with thrown objects"]:
+            # Allow enemies that can be killed by throwing stuff at them even if the player doesn't have the weapons to kill them.
+            continue
           
           possible_new_enemy_req_expression = Logic.parse_logic_expression(possible_new_enemy_data["Requirements to defeat"])
           new_req_met = self.check_logical_expression_req(possible_new_enemy_req_expression)
