@@ -591,7 +591,7 @@
   Memory used by first one: 80896
   Memory used by subequent ones: 56512
   Death switch param name: disable_spawn_on_death_switch
-  Allow near pits: True # TODO CHECK
+  Allow near pits: False # If it falls in the sea, it dies, but doesn't set its death switch. TODO: try to code it to set that properly. also TODO: I assume these work in lava pits? if so, I may need to separate lava vs sea pits into separate conditions.
   Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Red Bubble
