@@ -20,6 +20,10 @@ class J3DFile:
   def __init__(self, file_entry):
     self.file_entry = file_entry
     self.file_entry.decompress_data_if_necessary()
+    
+    self.read()
+  
+  def read(self):
     data = self.file_entry.data
     
     self.magic = read_str(data, 0, 4)
@@ -127,7 +131,6 @@ class J3DChunk:
     
     # Pad the size of this chunk to the next 0x20 bytes.
     align_data_to_nearest(self.data, 0x20)
-    # The original J3D files used the repeating string "This is padding" for the padding, but we simply use null bytes instead.
     
     self.size = data_len(self.data)
     write_str(self.data, 0, self.magic, 4)
@@ -430,19 +433,20 @@ class TRK1(J3DChunk):
     assert read_str(self.data, 0, 4) == "TRK1"
     
     self.loop_mode = LoopMode(read_u8(self.data, 0x08))
+    assert read_u8(self.data, 0x09) == 0xFF
     self.duration = read_u16(self.data, 0x0A)
     
-    self.reg_color_anims_count = read_u16(self.data, 0x0C)
-    self.konst_color_anims_count = read_u16(self.data, 0x0E)
+    reg_color_anims_count = read_u16(self.data, 0x0C)
+    konst_color_anims_count = read_u16(self.data, 0x0E)
     
-    self.reg_r_count = read_u16(self.data, 0x10)
-    self.reg_g_count = read_u16(self.data, 0x12)
-    self.reg_b_count = read_u16(self.data, 0x14)
-    self.reg_a_count = read_u16(self.data, 0x16)
-    self.konst_r_count = read_u16(self.data, 0x18)
-    self.konst_g_count = read_u16(self.data, 0x1A)
-    self.konst_b_count = read_u16(self.data, 0x1C)
-    self.konst_a_count = read_u16(self.data, 0x1E)
+    reg_r_count = read_u16(self.data, 0x10)
+    reg_g_count = read_u16(self.data, 0x12)
+    reg_b_count = read_u16(self.data, 0x14)
+    reg_a_count = read_u16(self.data, 0x16)
+    konst_r_count = read_u16(self.data, 0x18)
+    konst_g_count = read_u16(self.data, 0x1A)
+    konst_b_count = read_u16(self.data, 0x1C)
+    konst_a_count = read_u16(self.data, 0x1E)
     
     self.reg_color_anims_offset = read_u32(self.data, 0x20)
     self.konst_color_anims_offset = read_u32(self.data, 0x24)
@@ -453,57 +457,57 @@ class TRK1(J3DChunk):
     self.reg_mat_names_table_offset = read_u32(self.data, 0x30)
     self.konst_mat_names_table_offset = read_u32(self.data, 0x34)
     
-    self.reg_r_offset = read_u32(self.data, 0x38)
-    self.reg_g_offset = read_u32(self.data, 0x3C)
-    self.reg_b_offset = read_u32(self.data, 0x40)
-    self.reg_a_offset = read_u32(self.data, 0x44)
-    self.konst_r_offset = read_u32(self.data, 0x48)
-    self.konst_g_offset = read_u32(self.data, 0x4C)
-    self.konst_b_offset = read_u32(self.data, 0x50)
-    self.konst_a_offset = read_u32(self.data, 0x54)
+    reg_r_offset = read_u32(self.data, 0x38)
+    reg_g_offset = read_u32(self.data, 0x3C)
+    reg_b_offset = read_u32(self.data, 0x40)
+    reg_a_offset = read_u32(self.data, 0x44)
+    konst_r_offset = read_u32(self.data, 0x48)
+    konst_g_offset = read_u32(self.data, 0x4C)
+    konst_b_offset = read_u32(self.data, 0x50)
+    konst_a_offset = read_u32(self.data, 0x54)
     
     # Ensure the remap tables are identity.
     # Actual remapping not currently supported by this implementation.
-    for i in range(self.reg_color_anims_count):
+    for i in range(reg_color_anims_count):
       assert i == read_u16(self.data, self.reg_remap_table_offset+i*2)
-    for i in range(self.konst_color_anims_count):
+    for i in range(konst_color_anims_count):
       assert i == read_u16(self.data, self.konst_remap_table_offset+i*2)
     
     self.reg_mat_names = self.read_string_table(self.reg_mat_names_table_offset)
     self.konst_mat_names = self.read_string_table(self.konst_mat_names_table_offset)
     
-    self.reg_rs = []
-    for i in range(self.reg_r_count):
-      r = read_s16(self.data, self.reg_r_offset+i*2)
-      self.reg_rs.append(r)
-    self.reg_gs = []
-    for i in range(self.reg_g_count):
-      g = read_s16(self.data, self.reg_g_offset+i*2)
-      self.reg_gs.append(g)
-    self.reg_bs = []
-    for i in range(self.reg_b_count):
-      b = read_s16(self.data, self.reg_b_offset+i*2)
-      self.reg_bs.append(b)
-    self.reg_as = []
-    for i in range(self.reg_a_count):
-      a = read_s16(self.data, self.reg_a_offset+i*2)
-      self.reg_as.append(a)
-    self.konst_rs = []
-    for i in range(self.konst_r_count):
-      r = read_s16(self.data, self.konst_r_offset+i*2)
-      self.konst_rs.append(r)
-    self.konst_gs = []
-    for i in range(self.konst_g_count):
-      g = read_s16(self.data, self.konst_g_offset+i*2)
-      self.konst_gs.append(g)
-    self.konst_bs = []
-    for i in range(self.konst_b_count):
-      b = read_s16(self.data, self.konst_b_offset+i*2)
-      self.konst_bs.append(b)
-    self.konst_as = []
-    for i in range(self.konst_a_count):
-      a = read_s16(self.data, self.konst_a_offset+i*2)
-      self.konst_as.append(a)
+    reg_rs = []
+    for i in range(reg_r_count):
+      r = read_s16(self.data, reg_r_offset+i*2)
+      reg_rs.append(r)
+    reg_gs = []
+    for i in range(reg_g_count):
+      g = read_s16(self.data, reg_g_offset+i*2)
+      reg_gs.append(g)
+    reg_bs = []
+    for i in range(reg_b_count):
+      b = read_s16(self.data, reg_b_offset+i*2)
+      reg_bs.append(b)
+    reg_as = []
+    for i in range(reg_a_count):
+      a = read_s16(self.data, reg_a_offset+i*2)
+      reg_as.append(a)
+    konst_rs = []
+    for i in range(konst_r_count):
+      r = read_s16(self.data, konst_r_offset+i*2)
+      konst_rs.append(r)
+    konst_gs = []
+    for i in range(konst_g_count):
+      g = read_s16(self.data, konst_g_offset+i*2)
+      konst_gs.append(g)
+    konst_bs = []
+    for i in range(konst_b_count):
+      b = read_s16(self.data, konst_b_offset+i*2)
+      konst_bs.append(b)
+    konst_as = []
+    for i in range(konst_a_count):
+      a = read_s16(self.data, konst_a_offset+i*2)
+      konst_as.append(a)
     
     self.reg_animations = []
     self.konst_animations = []
@@ -511,8 +515,8 @@ class TRK1(J3DChunk):
     self.mat_name_to_konst_anims = OrderedDict()
     
     offset = self.reg_color_anims_offset
-    for i in range(self.reg_color_anims_count):
-      anim = ColorAnimation(self.data, offset, self.reg_rs, self.reg_gs, self.reg_bs, self.reg_as)
+    for i in range(reg_color_anims_count):
+      anim = ColorAnimation(self.data, offset, reg_rs, reg_gs, reg_bs, reg_as)
       offset += ColorAnimation.DATA_SIZE
       
       self.reg_animations.append(anim)
@@ -523,8 +527,8 @@ class TRK1(J3DChunk):
       self.mat_name_to_reg_anims[mat_name].append(anim)
     
     offset = self.konst_color_anims_offset
-    for i in range(self.konst_color_anims_count):
-      anim = ColorAnimation(self.data, offset, self.konst_rs, self.konst_gs, self.konst_bs, self.konst_as)
+    for i in range(konst_color_anims_count):
+      anim = ColorAnimation(self.data, offset, konst_rs, konst_gs, konst_bs, konst_as)
       offset += ColorAnimation.DATA_SIZE
       
       self.konst_animations.append(anim)
@@ -535,29 +539,177 @@ class TRK1(J3DChunk):
       self.mat_name_to_konst_anims[mat_name].append(anim)
   
   def save_chunk_specific_data(self):
-    # Does not support adding new color entries currently.
+    # Cut off all the data, we're rewriting it entirely.
+    self.data.truncate(0)
     
+    # Placeholder for the header.
+    self.data.seek(0)
+    self.data.write(b"\0"*0x58)
+    
+    align_data_to_nearest(self.data, 0x20)
+    offset = self.data.tell()
+    
+    reg_rs = []
+    reg_gs = []
+    reg_bs = []
+    reg_as = []
+    self.reg_color_anims_offset = offset
+    if not self.reg_animations:
+      self.reg_color_anims_offset = 0
     for anim in self.reg_animations:
-      anim.save_changes()
-    for anim in self.konst_animations:
-      anim.save_changes()
+      anim.save_changes(offset, reg_rs, reg_gs, reg_bs, reg_as)
+      offset += ColorAnimation.DATA_SIZE
     
-    for i in range(self.reg_r_count):
-      write_s16(self.data, self.reg_r_offset+i*2, self.reg_rs[i])
-    for i in range(self.reg_g_count):
-      write_s16(self.data, self.reg_g_offset+i*2, self.reg_gs[i])
-    for i in range(self.reg_b_count):
-      write_s16(self.data, self.reg_b_offset+i*2, self.reg_bs[i])
-    for i in range(self.reg_a_count):
-      write_s16(self.data, self.reg_a_offset+i*2, self.reg_as[i])
-    for i in range(self.konst_r_count):
-      write_s16(self.data, self.konst_r_offset+i*2, self.konst_rs[i])
-    for i in range(self.konst_g_count):
-      write_s16(self.data, self.konst_g_offset+i*2, self.konst_gs[i])
-    for i in range(self.konst_b_count):
-      write_s16(self.data, self.konst_b_offset+i*2, self.konst_bs[i])
-    for i in range(self.konst_a_count):
-      write_s16(self.data, self.konst_a_offset+i*2, self.konst_as[i])
+    offset = pad_offset_to_nearest(offset, 4)
+    
+    konst_rs = []
+    konst_gs = []
+    konst_bs = []
+    konst_as = []
+    self.konst_color_anims_offset = offset
+    if not self.konst_animations:
+      self.konst_color_anims_offset = 0
+    for anim in self.konst_animations:
+      anim.save_changes(offset, konst_rs, konst_gs, konst_bs, konst_as)
+      offset += ColorAnimation.DATA_SIZE
+    
+    align_data_to_nearest(self.data, 4)
+    offset = self.data.tell()
+    reg_r_offset = offset
+    if not reg_rs:
+      reg_r_offset = 0
+    for r in reg_rs:
+      write_s16(self.data, offset, r)
+      offset += 2
+    
+    align_data_to_nearest(self.data, 4)
+    offset = self.data.tell()
+    reg_g_offset = offset
+    if not reg_gs:
+      reg_g_offset = 0
+    for g in reg_gs:
+      write_s16(self.data, offset, g)
+      offset += 2
+    
+    align_data_to_nearest(self.data, 4)
+    offset = self.data.tell()
+    reg_b_offset = offset
+    if not reg_bs:
+      reg_b_offset = 0
+    for b in reg_bs:
+      write_s16(self.data, offset, b)
+      offset += 2
+    
+    align_data_to_nearest(self.data, 4)
+    offset = self.data.tell()
+    reg_a_offset = offset
+    if not reg_as:
+      reg_a_offset = 0
+    for a in reg_as:
+      write_s16(self.data, offset, a)
+      offset += 2
+    
+    align_data_to_nearest(self.data, 4)
+    offset = self.data.tell()
+    konst_r_offset = offset
+    if not konst_rs:
+      konst_r_offset = 0
+    for r in konst_rs:
+      write_s16(self.data, offset, r)
+      offset += 2
+    
+    align_data_to_nearest(self.data, 4)
+    offset = self.data.tell()
+    konst_g_offset = offset
+    if not konst_gs:
+      konst_g_offset = 0
+    for g in konst_gs:
+      write_s16(self.data, offset, g)
+      offset += 2
+    
+    align_data_to_nearest(self.data, 4)
+    offset = self.data.tell()
+    konst_b_offset = offset
+    if not konst_bs:
+      konst_b_offset = 0
+    for b in konst_bs:
+      write_s16(self.data, offset, b)
+      offset += 2
+    
+    align_data_to_nearest(self.data, 4)
+    offset = self.data.tell()
+    konst_a_offset = offset
+    if not konst_as:
+      konst_a_offset = 0
+    for a in konst_as:
+      write_s16(self.data, offset, a)
+      offset += 2
+    
+    offset = pad_offset_to_nearest(offset, 4)
+    
+    # Remaps tables always written as identity, remapping not supported.
+    self.reg_remap_table_offset = offset
+    if not self.reg_animations:
+      self.reg_remap_table_offset = 0
+    for i in range(len(self.reg_animations)):
+      write_u16(self.data, offset, i)
+      offset += 2
+    
+    self.konst_remap_table_offset = offset
+    if not self.konst_animations:
+      self.konst_remap_table_offset = 0
+    for i in range(len(self.konst_animations)):
+      write_u16(self.data, offset, i)
+      offset += 2
+    
+    offset = pad_offset_to_nearest(offset, 4)
+    
+    self.reg_mat_names_table_offset = offset
+    self.write_string_table(self.reg_mat_names_table_offset, self.reg_mat_names) # TODO?
+    
+    align_data_to_nearest(self.data, 4)
+    offset = self.data.tell()
+    
+    self.konst_mat_names_table_offset = offset
+    self.write_string_table(self.konst_mat_names_table_offset, self.konst_mat_names) # TODO?
+    
+    
+    # Write the header.
+    write_str(self.data, 0, "TRK1", 4)
+    
+    write_u8(self.data, 0x08, self.loop_mode.value)
+    write_u8(self.data, 0x09, 0xFF)
+    write_u16(self.data, 0x0A, self.duration)
+    
+    write_u16(self.data, 0x0C, len(self.reg_animations))
+    write_u16(self.data, 0x0E, len(self.konst_animations))
+    
+    write_s16(self.data, 0x10, len(reg_rs))
+    write_s16(self.data, 0x12, len(reg_gs))
+    write_s16(self.data, 0x14, len(reg_bs))
+    write_s16(self.data, 0x16, len(reg_as))
+    write_s16(self.data, 0x18, len(konst_rs))
+    write_s16(self.data, 0x1A, len(konst_gs))
+    write_s16(self.data, 0x1C, len(konst_bs))
+    write_s16(self.data, 0x1E, len(konst_as))
+    
+    write_u32(self.data, 0x20, self.reg_color_anims_offset)
+    write_u32(self.data, 0x24, self.konst_color_anims_offset)
+    
+    write_u32(self.data, 0x28, self.reg_remap_table_offset)
+    write_u32(self.data, 0x2C, self.konst_remap_table_offset)
+    
+    write_u32(self.data, 0x30, self.reg_mat_names_table_offset)
+    write_u32(self.data, 0x34, self.konst_mat_names_table_offset)
+    
+    write_u32(self.data, 0x38, reg_r_offset)
+    write_u32(self.data, 0x3C, reg_g_offset)
+    write_u32(self.data, 0x40, reg_b_offset)
+    write_u32(self.data, 0x44, reg_a_offset)
+    write_u32(self.data, 0x48, konst_r_offset)
+    write_u32(self.data, 0x4C, konst_g_offset)
+    write_u32(self.data, 0x50, konst_b_offset)
+    write_u32(self.data, 0x54, konst_a_offset)
 
 class LoopMode(Enum):
   ONCE = 0
@@ -573,55 +725,75 @@ class TangentType(Enum):
 class AnimationTrack:
   DATA_SIZE = 6
   
-  def __init__(self, metadata, offset, track_data):
-    self.metadata = metadata
-    self.track_data = track_data
-    
-    self.read(offset)
+  def __init__(self):
+    self.tangent_type = TangentType.IN_OUT
+    self.keyframes = []
   
-  def read(self, offset):
-    self.count = read_u16(self.metadata, offset+0)
-    self.index = read_u16(self.metadata, offset+2)
-    self.tangent_type = TangentType(read_u16(self.metadata, offset+4))
+  def read(self, data, offset, track_data):
+    self.count = read_u16(data, offset+0)
+    self.index = read_u16(data, offset+2)
+    self.tangent_type = TangentType(read_u16(data, offset+4))
     
     self.keyframes = []
     if self.count == 1:
-      keyframe = AnimationKeyframe(0, self.track_data[self.index], 0, 0)
+      keyframe = AnimationKeyframe(0, track_data[self.index], 0, 0)
       self.keyframes.append(keyframe)
     else:
       if self.tangent_type == TangentType.IN:
         for i in range(self.index, self.index + self.count*3, 3):
-          keyframe = AnimationKeyframe(self.track_data[i+0], self.track_data[i+1], self.track_data[i+2], self.track_data[i+2])
+          keyframe = AnimationKeyframe(track_data[i+0], track_data[i+1], track_data[i+2], track_data[i+2])
           self.keyframes.append(keyframe)
-      elif self.tangent_type ==TangentType.IN_OUT:
+      elif self.tangent_type == TangentType.IN_OUT:
         for i in range(self.index, self.index + self.count*4, 4):
-          keyframe = AnimationKeyframe(self.track_data[i+0], self.track_data[i+1], self.track_data[i+2], self.track_data[i+3])
+          keyframe = AnimationKeyframe(track_data[i+0], track_data[i+1], track_data[i+2], track_data[i+3])
           self.keyframes.append(keyframe)
+      else:
+        raise Exception("Invalid tangent type")
   
-  def save_changes(self, offset):
-    write_u16(self.metadata, offset+0, self.count)
-    write_u16(self.metadata, offset+2, self.index)
-    write_u16(self.metadata, offset+4, self.tangent_type.value)
+  def save_changes(self, data, offset, track_data):
+    self.count = len(self.keyframes)
+    
+    this_track_data = []
     
     if self.count == 1:
-      assert len(self.keyframes) == 1
-      self.track_data[self.index] = self.keyframes[0].value
+      this_track_data.append(self.keyframes[0].value)
     else:
       if self.tangent_type == TangentType.IN:
-        i = self.index
         for keyframe in self.keyframes:
-          self.track_data[i+0] = keyframe.time
-          self.track_data[i+1] = keyframe.value
-          self.track_data[i+2] = keyframe.tangent_in
-          i += 3
+          this_track_data.append(keyframe.time)
+          this_track_data.append(keyframe.value)
+          this_track_data.append(keyframe.tangent_in)
       elif self.tangent_type == TangentType.IN_OUT:
-        i = self.index
         for keyframe in self.keyframes:
-          self.track_data[i+0] = keyframe.time
-          self.track_data[i+1] = keyframe.value
-          self.track_data[i+2] = keyframe.tangent_in
-          self.track_data[i+3] = keyframe.tangent_out
-          i += 4
+          this_track_data.append(keyframe.time)
+          this_track_data.append(keyframe.value)
+          this_track_data.append(keyframe.tangent_in)
+          this_track_data.append(keyframe.tangent_out)
+      else:
+        raise Exception("Invalid tangent type")
+    
+    # Try to find if this track's data is already in the full track list to avoid duplicating data.
+    self.index = None
+    for i in range(len(track_data) - len(this_track_data) + 1):
+      found_match = True
+      
+      for j in range(len(this_track_data)):
+        if track_data[i+j] != this_track_data[j]:
+          found_match = False
+          break
+      
+      if found_match:
+        self.index = i
+        break
+    
+    if self.index is None:
+      # If this data isn't already in the list, we append it to the end.
+      self.index = len(track_data)
+      track_data += this_track_data
+    
+    write_u16(data, offset+0, self.count)
+    write_u16(data, offset+2, self.index)
+    write_u16(data, offset+4, self.tangent_type.value)
 
 class AnimationKeyframe:
   def __init__(self, time, value, tangent_in, tangent_out):
@@ -633,8 +805,8 @@ class AnimationKeyframe:
 class ColorAnimation:
   DATA_SIZE = 4*AnimationTrack.DATA_SIZE + 4
   
-  def __init__(self, metadata, offset, r_track_data, g_track_data, b_track_data, a_track_data):
-    self.metadata = metadata
+  def __init__(self, data, offset, r_track_data, g_track_data, b_track_data, a_track_data):
+    self.data = data
     self.offset = offset
     self.r_track_data = r_track_data
     self.g_track_data = g_track_data
@@ -646,29 +818,40 @@ class ColorAnimation:
   def read(self):
     offset = self.offset
     
-    self.r = AnimationTrack(self.metadata, offset, self.r_track_data)
-    offset += AnimationTrack.DATA_SIZE
-    self.g = AnimationTrack(self.metadata, offset, self.g_track_data)
-    offset += AnimationTrack.DATA_SIZE
-    self.b = AnimationTrack(self.metadata, offset, self.b_track_data)
-    offset += AnimationTrack.DATA_SIZE
-    self.a = AnimationTrack(self.metadata, offset, self.a_track_data)
+    self.r = AnimationTrack()
+    self.r.read(self.data, offset, self.r_track_data)
     offset += AnimationTrack.DATA_SIZE
     
-    self.color_id = read_u8(self.metadata, offset)
+    self.g = AnimationTrack()
+    self.g.read(self.data, offset, self.g_track_data)
+    offset += AnimationTrack.DATA_SIZE
+    
+    self.b = AnimationTrack()
+    self.b.read(self.data, offset, self.b_track_data)
+    offset += AnimationTrack.DATA_SIZE
+    
+    self.a = AnimationTrack()
+    self.a.read(self.data, offset, self.a_track_data)
+    offset += AnimationTrack.DATA_SIZE
+    
+    self.color_id = read_u8(self.data, offset)
     offset += 4
   
-  def save_changes(self):
-    offset = self.offset
-    
-    self.r.save_changes(offset)
-    offset += AnimationTrack.DATA_SIZE
-    self.g.save_changes(offset)
-    offset += AnimationTrack.DATA_SIZE
-    self.b.save_changes(offset)
-    offset += AnimationTrack.DATA_SIZE
-    self.a.save_changes(offset)
+  def save_changes(self, offset, r_track_data, g_track_data, b_track_data, a_track_data):
+    self.r.save_changes(self.data, offset, r_track_data)
     offset += AnimationTrack.DATA_SIZE
     
-    write_u8(self.metadata, offset, self.color_id)
+    self.g.save_changes(self.data, offset, g_track_data)
+    offset += AnimationTrack.DATA_SIZE
+    
+    self.b.save_changes(self.data, offset, b_track_data)
+    offset += AnimationTrack.DATA_SIZE
+    
+    self.a.save_changes(self.data, offset, a_track_data)
+    offset += AnimationTrack.DATA_SIZE
+    
+    write_u8(self.data, offset, self.color_id)
+    write_u8(self.data, offset+1, 0xFF)
+    write_u8(self.data, offset+2, 0xFF)
+    write_u8(self.data, offset+3, 0xFF)
     offset += 4

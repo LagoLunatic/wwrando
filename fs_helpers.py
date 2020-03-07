@@ -2,6 +2,8 @@
 import struct
 from io import BytesIO
 
+PADDING_BYTES = b"This is padding data to alignme"
+
 class InvalidOffsetError(Exception):
   pass
 
@@ -165,7 +167,8 @@ def align_data_to_nearest(data, size):
   next_offset = current_end + (size - current_end % size) % size
   padding_needed = next_offset - current_end
   data.seek(current_end)
-  data.write(b"\0"*padding_needed)
+  padding = PADDING_BYTES[:padding_needed]
+  data.write(padding)
 
 def pad_offset_to_nearest(offset, size):
   next_offset = offset + (size - offset % size) % size
