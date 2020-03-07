@@ -476,38 +476,38 @@ class TRK1(J3DChunk):
     reg_mat_names = self.read_string_table(self.reg_mat_names_table_offset)
     konst_mat_names = self.read_string_table(self.konst_mat_names_table_offset)
     
-    reg_rs = []
+    reg_r_track_data = []
     for i in range(reg_r_count):
       r = read_s16(self.data, reg_r_offset+i*2)
-      reg_rs.append(r)
-    reg_gs = []
+      reg_r_track_data.append(r)
+    reg_g_track_data = []
     for i in range(reg_g_count):
       g = read_s16(self.data, reg_g_offset+i*2)
-      reg_gs.append(g)
-    reg_bs = []
+      reg_g_track_data.append(g)
+    reg_b_track_data = []
     for i in range(reg_b_count):
       b = read_s16(self.data, reg_b_offset+i*2)
-      reg_bs.append(b)
-    reg_as = []
+      reg_b_track_data.append(b)
+    reg_a_track_data = []
     for i in range(reg_a_count):
       a = read_s16(self.data, reg_a_offset+i*2)
-      reg_as.append(a)
-    konst_rs = []
+      reg_a_track_data.append(a)
+    konst_r_track_data = []
     for i in range(konst_r_count):
       r = read_s16(self.data, konst_r_offset+i*2)
-      konst_rs.append(r)
-    konst_gs = []
+      konst_r_track_data.append(r)
+    konst_g_track_data = []
     for i in range(konst_g_count):
       g = read_s16(self.data, konst_g_offset+i*2)
-      konst_gs.append(g)
-    konst_bs = []
+      konst_g_track_data.append(g)
+    konst_b_track_data = []
     for i in range(konst_b_count):
       b = read_s16(self.data, konst_b_offset+i*2)
-      konst_bs.append(b)
-    konst_as = []
+      konst_b_track_data.append(b)
+    konst_a_track_data = []
     for i in range(konst_a_count):
       a = read_s16(self.data, konst_a_offset+i*2)
-      konst_as.append(a)
+      konst_a_track_data.append(a)
     
     reg_animations = []
     konst_animations = []
@@ -517,7 +517,7 @@ class TRK1(J3DChunk):
     offset = self.reg_color_anims_offset
     for i in range(reg_color_anims_count):
       anim = ColorAnimation()
-      anim.read(self.data, offset, reg_rs, reg_gs, reg_bs, reg_as)
+      anim.read(self.data, offset, reg_r_track_data, reg_g_track_data, reg_b_track_data, reg_a_track_data)
       offset += ColorAnimation.DATA_SIZE
       
       reg_animations.append(anim)
@@ -530,7 +530,7 @@ class TRK1(J3DChunk):
     offset = self.konst_color_anims_offset
     for i in range(konst_color_anims_count):
       anim = ColorAnimation()
-      anim.read(self.data, offset, konst_rs, konst_gs, konst_bs, konst_as)
+      anim.read(self.data, offset, konst_r_track_data, konst_g_track_data, konst_b_track_data, konst_a_track_data)
       offset += ColorAnimation.DATA_SIZE
       
       konst_animations.append(anim)
@@ -564,100 +564,100 @@ class TRK1(J3DChunk):
         konst_animations.append(anim)
         konst_mat_names.append(mat_name)
     
-    reg_rs = []
-    reg_gs = []
-    reg_bs = []
-    reg_as = []
+    reg_r_track_data = []
+    reg_g_track_data = []
+    reg_b_track_data = []
+    reg_a_track_data = []
     self.reg_color_anims_offset = offset
     if not reg_animations:
       self.reg_color_anims_offset = 0
     for anim in reg_animations:
-      anim.save_changes(self.data, offset, reg_rs, reg_gs, reg_bs, reg_as)
+      anim.save_changes(self.data, offset, reg_r_track_data, reg_g_track_data, reg_b_track_data, reg_a_track_data)
       offset += ColorAnimation.DATA_SIZE
     
     align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     
-    konst_rs = []
-    konst_gs = []
-    konst_bs = []
-    konst_as = []
+    konst_r_track_data = []
+    konst_g_track_data = []
+    konst_b_track_data = []
+    konst_a_track_data = []
     self.konst_color_anims_offset = offset
     if not konst_animations:
       self.konst_color_anims_offset = 0
     for anim in konst_animations:
-      anim.save_changes(self.data, offset, konst_rs, konst_gs, konst_bs, konst_as)
+      anim.save_changes(self.data, offset, konst_r_track_data, konst_g_track_data, konst_b_track_data, konst_a_track_data)
       offset += ColorAnimation.DATA_SIZE
     
     align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     reg_r_offset = offset
-    if not reg_rs:
+    if not reg_r_track_data:
       reg_r_offset = 0
-    for r in reg_rs:
+    for r in reg_r_track_data:
       write_s16(self.data, offset, r)
       offset += 2
     
     align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     reg_g_offset = offset
-    if not reg_gs:
+    if not reg_g_track_data:
       reg_g_offset = 0
-    for g in reg_gs:
+    for g in reg_g_track_data:
       write_s16(self.data, offset, g)
       offset += 2
     
     align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     reg_b_offset = offset
-    if not reg_bs:
+    if not reg_b_track_data:
       reg_b_offset = 0
-    for b in reg_bs:
+    for b in reg_b_track_data:
       write_s16(self.data, offset, b)
       offset += 2
     
     align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     reg_a_offset = offset
-    if not reg_as:
+    if not reg_a_track_data:
       reg_a_offset = 0
-    for a in reg_as:
+    for a in reg_a_track_data:
       write_s16(self.data, offset, a)
       offset += 2
     
     align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     konst_r_offset = offset
-    if not konst_rs:
+    if not konst_r_track_data:
       konst_r_offset = 0
-    for r in konst_rs:
+    for r in konst_r_track_data:
       write_s16(self.data, offset, r)
       offset += 2
     
     align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     konst_g_offset = offset
-    if not konst_gs:
+    if not konst_g_track_data:
       konst_g_offset = 0
-    for g in konst_gs:
+    for g in konst_g_track_data:
       write_s16(self.data, offset, g)
       offset += 2
     
     align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     konst_b_offset = offset
-    if not konst_bs:
+    if not konst_b_track_data:
       konst_b_offset = 0
-    for b in konst_bs:
+    for b in konst_b_track_data:
       write_s16(self.data, offset, b)
       offset += 2
     
     align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     konst_a_offset = offset
-    if not konst_as:
+    if not konst_a_track_data:
       konst_a_offset = 0
-    for a in konst_as:
+    for a in konst_a_track_data:
       write_s16(self.data, offset, a)
       offset += 2
     
@@ -702,14 +702,14 @@ class TRK1(J3DChunk):
     write_u16(self.data, 0x0C, len(reg_animations))
     write_u16(self.data, 0x0E, len(konst_animations))
     
-    write_s16(self.data, 0x10, len(reg_rs))
-    write_s16(self.data, 0x12, len(reg_gs))
-    write_s16(self.data, 0x14, len(reg_bs))
-    write_s16(self.data, 0x16, len(reg_as))
-    write_s16(self.data, 0x18, len(konst_rs))
-    write_s16(self.data, 0x1A, len(konst_gs))
-    write_s16(self.data, 0x1C, len(konst_bs))
-    write_s16(self.data, 0x1E, len(konst_as))
+    write_s16(self.data, 0x10, len(reg_r_track_data))
+    write_s16(self.data, 0x12, len(reg_g_track_data))
+    write_s16(self.data, 0x14, len(reg_b_track_data))
+    write_s16(self.data, 0x16, len(reg_a_track_data))
+    write_s16(self.data, 0x18, len(konst_r_track_data))
+    write_s16(self.data, 0x1A, len(konst_g_track_data))
+    write_s16(self.data, 0x1C, len(konst_b_track_data))
+    write_s16(self.data, 0x1E, len(konst_a_track_data))
     
     write_u32(self.data, 0x20, self.reg_color_anims_offset)
     write_u32(self.data, 0x24, self.konst_color_anims_offset)
