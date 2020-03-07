@@ -448,14 +448,14 @@ class TRK1(J3DChunk):
     konst_b_count = read_u16(self.data, 0x1C)
     konst_a_count = read_u16(self.data, 0x1E)
     
-    self.reg_color_anims_offset = read_u32(self.data, 0x20)
-    self.konst_color_anims_offset = read_u32(self.data, 0x24)
+    reg_color_anims_offset = read_u32(self.data, 0x20)
+    konst_color_anims_offset = read_u32(self.data, 0x24)
     
-    self.reg_remap_table_offset = read_u32(self.data, 0x28)
-    self.konst_remap_table_offset = read_u32(self.data, 0x2C)
+    reg_remap_table_offset = read_u32(self.data, 0x28)
+    konst_remap_table_offset = read_u32(self.data, 0x2C)
     
-    self.reg_mat_names_table_offset = read_u32(self.data, 0x30)
-    self.konst_mat_names_table_offset = read_u32(self.data, 0x34)
+    reg_mat_names_table_offset = read_u32(self.data, 0x30)
+    konst_mat_names_table_offset = read_u32(self.data, 0x34)
     
     reg_r_offset = read_u32(self.data, 0x38)
     reg_g_offset = read_u32(self.data, 0x3C)
@@ -469,12 +469,12 @@ class TRK1(J3DChunk):
     # Ensure the remap tables are identity.
     # Actual remapping not currently supported by this implementation.
     for i in range(reg_color_anims_count):
-      assert i == read_u16(self.data, self.reg_remap_table_offset+i*2)
+      assert i == read_u16(self.data, reg_remap_table_offset+i*2)
     for i in range(konst_color_anims_count):
-      assert i == read_u16(self.data, self.konst_remap_table_offset+i*2)
+      assert i == read_u16(self.data, konst_remap_table_offset+i*2)
     
-    reg_mat_names = self.read_string_table(self.reg_mat_names_table_offset)
-    konst_mat_names = self.read_string_table(self.konst_mat_names_table_offset)
+    reg_mat_names = self.read_string_table(reg_mat_names_table_offset)
+    konst_mat_names = self.read_string_table(konst_mat_names_table_offset)
     
     reg_r_track_data = []
     for i in range(reg_r_count):
@@ -514,7 +514,7 @@ class TRK1(J3DChunk):
     self.mat_name_to_reg_anims = OrderedDict()
     self.mat_name_to_konst_anims = OrderedDict()
     
-    offset = self.reg_color_anims_offset
+    offset = reg_color_anims_offset
     for i in range(reg_color_anims_count):
       anim = ColorAnimation()
       anim.read(self.data, offset, reg_r_track_data, reg_g_track_data, reg_b_track_data, reg_a_track_data)
@@ -527,7 +527,7 @@ class TRK1(J3DChunk):
         self.mat_name_to_reg_anims[mat_name] = []
       self.mat_name_to_reg_anims[mat_name].append(anim)
     
-    offset = self.konst_color_anims_offset
+    offset = konst_color_anims_offset
     for i in range(konst_color_anims_count):
       anim = ColorAnimation()
       anim.read(self.data, offset, konst_r_track_data, konst_g_track_data, konst_b_track_data, konst_a_track_data)
@@ -568,9 +568,9 @@ class TRK1(J3DChunk):
     reg_g_track_data = []
     reg_b_track_data = []
     reg_a_track_data = []
-    self.reg_color_anims_offset = offset
+    reg_color_anims_offset = offset
     if not reg_animations:
-      self.reg_color_anims_offset = 0
+      reg_color_anims_offset = 0
     for anim in reg_animations:
       anim.save_changes(self.data, offset, reg_r_track_data, reg_g_track_data, reg_b_track_data, reg_a_track_data)
       offset += ColorAnimation.DATA_SIZE
@@ -582,9 +582,9 @@ class TRK1(J3DChunk):
     konst_g_track_data = []
     konst_b_track_data = []
     konst_a_track_data = []
-    self.konst_color_anims_offset = offset
+    konst_color_anims_offset = offset
     if not konst_animations:
-      self.konst_color_anims_offset = 0
+      konst_color_anims_offset = 0
     for anim in konst_animations:
       anim.save_changes(self.data, offset, konst_r_track_data, konst_g_track_data, konst_b_track_data, konst_a_track_data)
       offset += ColorAnimation.DATA_SIZE
@@ -665,16 +665,16 @@ class TRK1(J3DChunk):
     offset = self.data.tell()
     
     # Remaps tables always written as identity, remapping not supported.
-    self.reg_remap_table_offset = offset
+    reg_remap_table_offset = offset
     if not reg_animations:
-      self.reg_remap_table_offset = 0
+      reg_remap_table_offset = 0
     for i in range(len(reg_animations)):
       write_u16(self.data, offset, i)
       offset += 2
     
-    self.konst_remap_table_offset = offset
+    konst_remap_table_offset = offset
     if not konst_animations:
-      self.konst_remap_table_offset = 0
+      konst_remap_table_offset = 0
     for i in range(len(konst_animations)):
       write_u16(self.data, offset, i)
       offset += 2
@@ -682,14 +682,14 @@ class TRK1(J3DChunk):
     align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     
-    self.reg_mat_names_table_offset = offset
-    self.write_string_table(self.reg_mat_names_table_offset, reg_mat_names)
+    reg_mat_names_table_offset = offset
+    self.write_string_table(reg_mat_names_table_offset, reg_mat_names)
     
     align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     
-    self.konst_mat_names_table_offset = offset
-    self.write_string_table(self.konst_mat_names_table_offset, konst_mat_names)
+    konst_mat_names_table_offset = offset
+    self.write_string_table(konst_mat_names_table_offset, konst_mat_names)
     
     
     # Write the header.
@@ -711,14 +711,14 @@ class TRK1(J3DChunk):
     write_s16(self.data, 0x1C, len(konst_b_track_data))
     write_s16(self.data, 0x1E, len(konst_a_track_data))
     
-    write_u32(self.data, 0x20, self.reg_color_anims_offset)
-    write_u32(self.data, 0x24, self.konst_color_anims_offset)
+    write_u32(self.data, 0x20, reg_color_anims_offset)
+    write_u32(self.data, 0x24, konst_color_anims_offset)
     
-    write_u32(self.data, 0x28, self.reg_remap_table_offset)
-    write_u32(self.data, 0x2C, self.konst_remap_table_offset)
+    write_u32(self.data, 0x28, reg_remap_table_offset)
+    write_u32(self.data, 0x2C, konst_remap_table_offset)
     
-    write_u32(self.data, 0x30, self.reg_mat_names_table_offset)
-    write_u32(self.data, 0x34, self.konst_mat_names_table_offset)
+    write_u32(self.data, 0x30, reg_mat_names_table_offset)
+    write_u32(self.data, 0x34, konst_mat_names_table_offset)
     
     write_u32(self.data, 0x38, reg_r_offset)
     write_u32(self.data, 0x3C, reg_g_offset)
