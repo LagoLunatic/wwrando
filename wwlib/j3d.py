@@ -135,6 +135,47 @@ class J3DChunk:
   
   def save_chunk_specific_data(self):
     pass
+  
+  def read_string_table(self, string_table_offset):
+    num_strings = read_u16(self.data, string_table_offset+0x00)
+    padding = read_u16(self.data, string_table_offset+0x02)
+    assert padding == 0xFFFF
+    
+    strings = []
+    offset = string_table_offset + 4
+    for i in range(num_strings):
+      string_hash = read_u16(self.data, offset+0x00)
+      string_data_offset = read_u16(self.data, offset+0x02)
+      
+      string = read_str_until_null_character(self.data, string_table_offset + string_data_offset)
+      strings.append(string)
+      
+      offset += 4
+    
+    return strings
+  
+  def write_string_table(self, string_table_offset, strings):
+    num_strings = len(strings)
+    write_u16(self.data, string_table_offset+0x00, num_strings)
+    write_u16(self.data, string_table_offset+0x02, 0xFFFF)
+    
+    offset = string_table_offset + 4
+    next_string_data_offset = 4 + num_strings*4
+    for string in strings:
+      hash = 0
+      for char in string:
+        char = char.lower()
+        hash *= 3
+        hash += ord(char)
+        hash &= 0xFFFF
+      
+      write_u16(self.data, offset+0x00, hash)
+      write_u16(self.data, offset+0x02, next_string_data_offset)
+      
+      write_str_with_null_byte(self.data, string_table_offset+next_string_data_offset, string)
+      
+      offset += 4
+      next_string_data_offset += len(string) + 1
 
 class TEX1(J3DChunk):
   def read_chunk_specific_data(self):
@@ -146,26 +187,14 @@ class TEX1(J3DChunk):
       texture = BTI(self.data, bti_header_offset)
       self.textures.append(texture)
     
-    self.texture_names = []
+    self.string_table_offset = read_u32(self.data, 0x10)
+    self.texture_names = self.read_string_table(self.string_table_offset)
     self.textures_by_name = OrderedDict()
-    
-    self.string_section_offset = read_u32(self.data, 0x10)
-    self.num_strings = read_u16(self.data, self.string_section_offset)
-    self.string_unknown_1 = read_u16(self.data, self.string_section_offset+2)
-    if self.num_strings > 0:
-      self.string_unknown_2 = read_u16(self.data, self.string_section_offset+4)
-      self.string_data_offset = read_u16(self.data, self.string_section_offset+6)
-      self.string_unknown_3 = read_bytes(self.data, self.string_section_offset+8, self.string_data_offset-8)
-      
-      offset_in_string_list = self.string_data_offset
-      for texture in self.textures:
-        filename = read_str_until_null_character(self.data, self.string_section_offset + offset_in_string_list)
-        self.texture_names.append(filename)
-        if filename not in self.textures_by_name:
-          self.textures_by_name[filename] = []
-        self.textures_by_name[filename].append(texture)
-        
-        offset_in_string_list += len(filename) + 1
+    for i, texture in enumerate(self.textures):
+      texture_name = self.texture_names[i]
+      if texture_name not in self.textures_by_name:
+        self.textures_by_name[texture_name] = []
+      self.textures_by_name[texture_name].append(texture)
   
   def save_chunk_specific_data(self):
     # Does not support adding new textures currently.
@@ -216,20 +245,9 @@ class TEX1(J3DChunk):
     for texture in self.textures:
       texture.save_header_changes()
     
-    self.string_section_offset = next_available_data_offset
-    write_u32(self.data, 0x10, self.string_section_offset)
-    write_u16(self.data, self.string_section_offset, self.num_strings)
-    write_u16(self.data, self.string_section_offset+2, self.string_unknown_1)
-    if self.num_strings > 0:
-      write_u16(self.data, self.string_section_offset+4, self.string_unknown_2)
-      write_u16(self.data, self.string_section_offset+6, self.string_data_offset)
-      write_bytes(self.data, self.string_section_offset+8, self.string_unknown_3)
-      
-      offset_in_string_list = self.string_data_offset
-      for i, texture in enumerate(self.textures):
-        filename = self.texture_names[i]
-        write_str_with_null_byte(self.data, self.string_section_offset+offset_in_string_list, filename)
-        offset_in_string_list += len(filename) + 1
+    self.string_table_offset = next_available_data_offset
+    write_u32(self.data, 0x10, self.string_table_offset)
+    self.write_string_table(self.string_table_offset, self.texture_names)
 
 class MAT3(J3DChunk):
   def read_chunk_specific_data(self):
@@ -409,6 +427,11 @@ class XFCommand:
 
 class TRK1(J3DChunk):
   def read_chunk_specific_data(self):
+    assert read_str(self.data, 0, 4) == "TRK1"
+    
+    self.loop_mode = LoopMode(read_u8(self.data, 0x08))
+    self.duration = read_u16(self.data, 0x0A)
+    
     self.reg_color_anims_count = read_u16(self.data, 0x0C)
     self.konst_color_anims_count = read_u16(self.data, 0x0E)
     
@@ -424,6 +447,12 @@ class TRK1(J3DChunk):
     self.reg_color_anims_offset = read_u32(self.data, 0x20)
     self.konst_color_anims_offset = read_u32(self.data, 0x24)
     
+    self.reg_remap_table_offset = read_u32(self.data, 0x28)
+    self.konst_remap_table_offset = read_u32(self.data, 0x2C)
+    
+    self.reg_mat_names_table_offset = read_u32(self.data, 0x30)
+    self.konst_mat_names_table_offset = read_u32(self.data, 0x34)
+    
     self.reg_r_offset = read_u32(self.data, 0x38)
     self.reg_g_offset = read_u32(self.data, 0x3C)
     self.reg_b_offset = read_u32(self.data, 0x40)
@@ -432,6 +461,16 @@ class TRK1(J3DChunk):
     self.konst_g_offset = read_u32(self.data, 0x4C)
     self.konst_b_offset = read_u32(self.data, 0x50)
     self.konst_a_offset = read_u32(self.data, 0x54)
+    
+    # Ensure the remap tables are identity.
+    # Actual remapping not currently supported by this implementation.
+    for i in range(self.reg_color_anims_count):
+      assert i == read_u16(self.data, self.reg_remap_table_offset+i*2)
+    for i in range(self.konst_color_anims_count):
+      assert i == read_u16(self.data, self.konst_remap_table_offset+i*2)
+    
+    self.reg_mat_names = self.read_string_table(self.reg_mat_names_table_offset)
+    self.konst_mat_names = self.read_string_table(self.konst_mat_names_table_offset)
     
     self.reg_rs = []
     for i in range(self.reg_r_count):
@@ -466,24 +505,41 @@ class TRK1(J3DChunk):
       a = read_s16(self.data, self.konst_a_offset+i*2)
       self.konst_as.append(a)
     
-    self.animations = []
+    self.reg_animations = []
+    self.konst_animations = []
+    self.mat_name_to_reg_anims = OrderedDict()
+    self.mat_name_to_konst_anims = OrderedDict()
     
     offset = self.reg_color_anims_offset
     for i in range(self.reg_color_anims_count):
       anim = ColorAnimation(self.data, offset, self.reg_rs, self.reg_gs, self.reg_bs, self.reg_as)
       offset += ColorAnimation.DATA_SIZE
-      self.animations.append(anim)
+      
+      self.reg_animations.append(anim)
+      
+      mat_name = self.reg_mat_names[i]
+      if mat_name not in self.mat_name_to_reg_anims:
+        self.mat_name_to_reg_anims[mat_name] = []
+      self.mat_name_to_reg_anims[mat_name].append(anim)
     
     offset = self.konst_color_anims_offset
     for i in range(self.konst_color_anims_count):
       anim = ColorAnimation(self.data, offset, self.konst_rs, self.konst_gs, self.konst_bs, self.konst_as)
       offset += ColorAnimation.DATA_SIZE
-      self.animations.append(anim)
+      
+      self.konst_animations.append(anim)
+      
+      mat_name = self.konst_mat_names[i]
+      if mat_name not in self.mat_name_to_konst_anims:
+        self.mat_name_to_konst_anims[mat_name] = []
+      self.mat_name_to_konst_anims[mat_name].append(anim)
   
   def save_chunk_specific_data(self):
     # Does not support adding new color entries currently.
     
-    for anim in self.animations:
+    for anim in self.reg_animations:
+      anim.save_changes()
+    for anim in self.konst_animations:
       anim.save_changes()
     
     for i in range(self.reg_r_count):
@@ -502,6 +558,13 @@ class TRK1(J3DChunk):
       write_s16(self.data, self.konst_b_offset+i*2, self.konst_bs[i])
     for i in range(self.konst_a_count):
       write_s16(self.data, self.konst_a_offset+i*2, self.konst_as[i])
+
+class LoopMode(Enum):
+  ONCE = 0
+  ONCE_AND_RESET = 1
+  REPEAT = 2
+  MIRRORED_ONCE = 3
+  MIRRORED_REPEAT = 4
 
 class TangentType(Enum):
   IN     =   0

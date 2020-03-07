@@ -185,7 +185,8 @@ def shift_all_colors_in_mdl3(self, file_name, j3d_file, h_shift, v_shift):
       lo_command.value |= ((a << 12) & 0x7FF000)
 
 def shift_all_colors_in_trk1(self, file_name, j3d_file, h_shift, v_shift):
-  for anim_index, anim in enumerate(j3d_file.trk1.animations):
+  animations = j3d_file.trk1.reg_animations + j3d_file.trk1.konst_animations
+  for anim_index, anim in enumerate(animations):
     if file_name == "cc.brk" and anim_index == 1:
       # ChuChu eyes material animation, doesn't look right recolored so we just recolor the texture instead
       continue
