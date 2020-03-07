@@ -556,11 +556,13 @@ class TRK1(J3DChunk):
     reg_mat_names = []
     konst_mat_names = []
     for mat_name, anims in self.mat_name_to_reg_anims.items():
-      reg_animations += anims
-      reg_mat_names.append(mat_name)
+      for anim in anims:
+        reg_animations.append(anim)
+        reg_mat_names.append(mat_name)
     for mat_name, anims in self.mat_name_to_konst_anims.items():
-      konst_animations += anims
-      konst_mat_names.append(mat_name)
+      for anim in anims:
+        konst_animations.append(anim)
+        konst_mat_names.append(mat_name)
     
     reg_rs = []
     reg_gs = []
