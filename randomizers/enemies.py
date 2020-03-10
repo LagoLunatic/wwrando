@@ -830,13 +830,13 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
     else:
       enemy.chuchu_behavior_type = 0
   elif enemy.name == "Bb":
-    if category == "Ground":
-      enemy.behavior_type = self.rng.choice([4, 7])
-    elif category == "Air":
+    if category == "Air":
       enemy.behavior_type = self.rng.choice([0, 1, 2, 3])
     elif category == "Ceiling":
       # For locations where the enemy is placed up on the ceiling but is supposed to fall down, allow type 3 (flying and immediately flies down to the player) and types 4 and 7 (sitting, but targets the player when they get close enough). The other types (flying around) will never come down to fight the player and may even clip out of bounds.
       enemy.behavior_type = self.rng.choice([3, 4, 7])
+    else:
+      enemy.behavior_type = self.rng.choice([4, 7])
   elif enemy.name == "mo2":
     enemy.moblin_type = self.rng.choice([0, 1])
   elif enemy.name == "p_hat":
