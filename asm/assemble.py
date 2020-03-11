@@ -32,6 +32,12 @@ yaml.CDumper.add_representer(
   lambda dumper, data: dumper.represent_dict(data.items())
 )
 
+# Change how yaml dumps lists so each element isn't on a separate line.
+yaml.CDumper.add_representer(
+  list,
+  lambda dumper, data: dumper.represent_sequence(u'tag:yaml.org,2002:seq', data, flow_style=True)
+)
+
 temp_dir = tempfile.mkdtemp()
 print(temp_dir)
 print()
@@ -202,7 +208,7 @@ try:
     
     diff_name = basename + "_diff.txt"
     with open(diff_name, "w") as f:
-      f.write(yaml.dump(diffs, Dumper=yaml.CDumper))
+      f.write(yaml.dump(diffs, Dumper=yaml.CDumper, default_flow_style=False))
 except Exception as e:
   stack_trace = traceback.format_exc()
   error_message = str(e) + "\n\n" + stack_trace
