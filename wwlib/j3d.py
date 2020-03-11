@@ -167,7 +167,6 @@ class J3DChunk:
     for string in strings:
       hash = 0
       for char in string:
-        char = char
         hash *= 3
         hash += ord(char)
         hash &= 0xFFFF

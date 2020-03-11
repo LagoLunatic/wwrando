@@ -368,7 +368,6 @@ class Node:
   def save_changes(self):
     hash = 0
     for char in self.name:
-      char = char
       hash *= 3
       hash += ord(char)
       hash &= 0xFFFF
@@ -439,7 +438,6 @@ class FileEntry:
   def save_changes(self):
     hash = 0
     for char in self.name:
-      char = char
       hash *= 3
       hash += ord(char)
       hash &= 0xFFFF
