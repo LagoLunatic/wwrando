@@ -1,5 +1,5 @@
 PySide2==5.11.2
-PyYAML==3.13
+PyYAML==5.3
 Pillow==6.2.1
 PyInstaller==3.6
 git+git://github.com/LagoLunatic/PyFastBTI.git@44635d298147b58d7b4456692bc93b64b7f74679#egg=PyFastBTI
