@@ -38,6 +38,12 @@ yaml.CDumper.add_representer(
   lambda dumper, data: dumper.represent_sequence(u'tag:yaml.org,2002:seq', data, flow_style=True)
 )
 
+# Output integers as hexadecimal.
+yaml.CDumper.add_representer(
+  int,
+  lambda dumper, data: yaml.ScalarNode('tag:yaml.org,2002:int', "0x%02X" % data)
+)
+
 temp_dir = tempfile.mkdtemp()
 print(temp_dir)
 print()
