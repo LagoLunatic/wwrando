@@ -67,7 +67,5 @@ Then run the randomizer with:
 `python3 wwrando.py` (on Mac)  
 `python3 wwrando.py` (on Linux)  
 
-In addition, follow this if you want to use PyInstaller to build a distributable version of the randomizer:  
-* Install one of PyInstaller's dependencies manually: `py -3.6 -m pip install pywin32-ctypes==0.2.0`  
-* Install PyInstaller: `py -3.6 -m pip install PyInstaller==3.4`  
-* Then to make a build in the `dist` directory: `build.bat`  
+Optionally, you can also install `requirements_full.txt` with the same process you used for `requirements.txt` above.  
+`requirements_full.txt` will install additional libraries that speed up texture recoloring, as well as for building a distributable version of the randomizer. You can still run the randomizer from source without these.  
