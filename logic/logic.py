@@ -523,7 +523,7 @@ class Logic:
     return filtered_locations
   
   def check_item_valid_in_location(self, item_name, location_name):
-    # Don't allow dungeon items to appear outside their proper dungeon or they wouldn't work correctly.
+    # Don't allow dungeon items to appear outside their proper dungeon when Key-Lunacy is off.
     if self.is_dungeon_item(item_name) and not self.rando.options.get("keylunacy"):
       short_dungeon_name = item_name.split(" ")[0]
       dungeon_name = self.DUNGEON_NAMES[short_dungeon_name]
