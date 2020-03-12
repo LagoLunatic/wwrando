@@ -3291,3 +3291,5 @@ d_a_nh: {}
 d_a_npc_fa1: {}
 
 d_a_obj_search: {}
+
+d_a_spc_item: {}

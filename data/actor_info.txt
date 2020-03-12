@@ -3654,7 +3654,7 @@ Com_C:
   Subtype: 0xFF
   GBA Name: 0x00
 SPitem:
-  Class Name: null # TODO
+  Class Name: d_a_spc_item
   Actor ID: 0x0107
   Subtype: 0xFF
   GBA Name: 0x00
