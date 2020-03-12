@@ -2023,3 +2023,58 @@ def enable_developer_mode(self):
   
   dol_data = self.get_raw_file("sys/main.dol")
   write_u8(dol_data, address_to_offset(0x803F60E0), 1) # mDoMain::developmentMode(void)
+
+def add_failsafe_id_0_spawns(self):
+  # Add spawns with spawn ID 0 to any rooms that didn't originally have them, copying an existing spawn from the same room.
+  # This is so anything that assumes all rooms have a spawn with ID 0 (for example, Floormasters that don't have an explicit exit set for when they capture you) doesn't crash the game.
+  
+  spawns_to_copy = [
+    ("Asoko", 0, 255),
+    ("I_TestM", 0, 1),
+    ("M_Dai", 20, 23),
+    ("M_NewD2", 1, 20),
+    ("M_NewD2", 2, 1),
+    ("M_NewD2", 3, 6),
+    ("M_NewD2", 4, 7),
+    ("M_NewD2", 6, 9),
+    ("M_NewD2", 8, 14),
+    ("M_NewD2", 11, 2),
+    ("M_NewD2", 12, 3),
+    ("M_NewD2", 13, 4),
+    ("M_NewD2", 14, 5),
+    ("M_NewD2", 15, 18),
+    ("TF_06", 1, 1),
+    ("TF_06", 2, 2),
+    ("TF_06", 3, 2),
+    ("TF_06", 4, 2),
+    ("TF_06", 5, 2),
+    ("TF_06", 6, 6),
+    ("ma2room", 1, 2),
+    ("ma2room", 2, 15), # Front door
+    ("ma2room", 3, 9), # In the water
+    ("ma2room", 4, 6),
+    ("ma3room", 1, 2),
+    ("ma3room", 2, 15), # Front door
+    ("ma3room", 3, 9), # In the water
+    ("ma3room", 4, 6),
+    ("majroom", 1, 2),
+    ("majroom", 2, 15), # Front door
+    ("majroom", 3, 9), # In the water
+    ("majroom", 4, 6),
+  ]
+  
+  for stage_name, room_number, spawn_id_to_copy in spawns_to_copy:
+    dzr = self.get_arc("files/res/Stage/%s/Room%d.arc" % (stage_name, room_number)).get_file("room.dzr")
+    spawns = dzr.entries_by_type("PLYR")
+    spawn_to_copy = next(spawn for spawn in spawns if spawn.spawn_id == spawn_id_to_copy)
+    
+    new_spawn = dzr.add_entity("PLYR", layer=None)
+    new_spawn.spawn_type = spawn_to_copy.spawn_type
+    new_spawn.room_num = spawn_to_copy.room_num
+    new_spawn.x_pos = spawn_to_copy.x_pos
+    new_spawn.y_pos = spawn_to_copy.y_pos
+    new_spawn.z_pos = spawn_to_copy.z_pos
+    new_spawn.y_rot = spawn_to_copy.y_rot
+    new_spawn.spawn_id = 0
+    
+    dzr.save_changes()
