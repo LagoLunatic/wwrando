@@ -844,10 +844,11 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
       enemy.horizontal_range = 20
       enemy.vertical_range = 50
   elif enemy.name == "amos":
-    enemy.behavior_type = self.rng.choice([
-      0, # Normal
-      1, # Guards an area and returns to its spawn point when Link leaves the area
-    ])
+    pass
+    #enemy.behavior_type = self.rng.choice([
+    #  0, # Normal
+    #  1, # Guards an area and returns to its spawn point when Link leaves the area (disabled because they get stuck trying to return to the center of their area if placed too near a wall)
+    #])
   elif enemy.name == "amos2":
     pass
   elif enemy.name == "Sss":
