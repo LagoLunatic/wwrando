@@ -222,10 +222,28 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, mai
   with open(asm_path, "w") as f:
     f.write(out_str)
 
+ALL_LOAD_OR_STORE_OPCODES = [
+  "lbz",
+  "lbzu",
+  
+  "lha",
+  "lhau",
+  "lhz",
+  "lhzu",
+  
+  "lmw",
+  "lwz",
+  "lwzu",
+]
+
 def add_symbols_to_main(asm_path, main_symbols):
   out_str = ""
   with open(asm_path) as f:
-    for line in f:
+    last_lis_match = None
+    while True:
+      line = f.readline()
+      if line == "":
+        break
       line = line.rstrip("\r\n")
       
       match = re.search(r"^\s+([0-9a-f]+)(:\s.+)$", line, re.IGNORECASE)
@@ -242,11 +260,12 @@ def add_symbols_to_main(asm_path, main_symbols):
           line_after_offset = match.group(2)
           line = "%08X%s" % (address, line_after_offset)
       
-      match = re.search(r"^(.+ \t(?:bl|b|beq|bne|blt|bgt|ble|bge|bdnz|bdz)\s+0x)([0-9a-f]+)$", line, re.IGNORECASE)
-      #print(match)
-      if match:
-        line_before_offset = match.group(1)
-        offset = int(match.group(2), 16)
+      branch_match = re.search(r"^(.+ \t(?:bl|b|beq|bne|blt|bgt|ble|bge|bdnz|bdz)\s+0x)([0-9a-f]+)$", line, re.IGNORECASE)
+      addi_match = re.search(r"^.+ \t(?:addi)\s+r\d+,(r\d+),(-?\d+)$", line, re.IGNORECASE)
+      load_or_store_match = re.search(r"^.+ \t(?:" + "|".join(ALL_LOAD_OR_STORE_OPCODES) + ")\s+r\d+,(-?\d+)\((r\d+)\)$", line, re.IGNORECASE)
+      if branch_match:
+        line_before_offset = branch_match.group(1)
+        offset = int(branch_match.group(2), 16)
         address = offset_to_address(offset)
         if address is not None:
           line = "%s%08X" % (line_before_offset, address)
@@ -254,14 +273,47 @@ def add_symbols_to_main(asm_path, main_symbols):
           if address in main_symbols:
             symbol_name = main_symbols[address]
             #print(symbol_name)
-            out_str += get_padded_comment_string_for_line(line) + "%08X    %s" % (address, symbol_name)
+            out_str += get_padded_comment_string_for_line(line)
+            out_str += "%08X    %s" % (address, symbol_name)
         else:
           out_str += line
-      else:
+      elif last_lis_match is not None and (addi_match or load_or_store_match):
+        if addi_match:
+          source_register = addi_match.group(1)
+          lower_halfword = int(addi_match.group(2))
+        elif load_or_store_match:
+          source_register = load_or_store_match.group(2)
+          lower_halfword = int(load_or_store_match.group(1))
+        
+        lis_register = last_lis_match.group(1)
+        upper_halfword = int(last_lis_match.group(2)) & 0xFFFF
+        address = (upper_halfword << 16)
+        address += lower_halfword
+        
         out_str += line
         
+        if lis_register == source_register and (address & ~0x01FFFFFF) == 0x80000000:
+          out_str += get_padded_comment_string_for_line(line)
+          out_str += "%08X" % address
+          
+          if address in main_symbols:
+            symbol_name = main_symbols[address]
+            out_str += "      " + symbol_name
+        else:
+          out_str += line
+          out_str += get_extra_comment_for_asm_line(line)
+      else:
+        out_str += line
         out_str += get_extra_comment_for_asm_line(line)
+      
+      lis_match = re.search(r"^.+ \t(?:lis)\s+(r\d+),(-?\d+)$", line, re.IGNORECASE)
+      if lis_match:
+        last_lis_match = lis_match
+      else:
+        last_lis_match = None
+      
       out_str += "\n"
+      
       if line.endswith("blr"):
         out_str += "\n" # Separate functions
   with open(asm_path, "w") as f:
