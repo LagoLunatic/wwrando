@@ -28,9 +28,13 @@ class REL:
     self.fix_size = 0
   
   def read_from_file(self, file_path):
-    self.file_path = file_path
-    with open(self.file_path, "rb") as file:
-      self.data = BytesIO(file.read())
+    with open(file_path, "rb") as file:
+      data = BytesIO(file.read())
+    
+    self.read(data)
+  
+  def read(self, data):
+    self.data = data
     
     if try_read_str(self.data, 0, 4) == "Yaz0":
       self.data = Yaz0.decompress(self.data)
@@ -110,7 +114,13 @@ class REL:
         break
   
   def save_to_file(self, file_path):
-    self.data = BytesIO()
+    self.save_changes()
+    
+    with open(file_path, "wb") as f:
+      f.write(read_all_bytes(self.data))
+  
+  def save_changes(self):
+    self.data.truncate(0)
     data = self.data
     
     write_u32(data, 0x00, self.id)
@@ -202,9 +212,6 @@ class REL:
       # TODO how to properly detect what fix_size should be? this current method is a total hack
       self.fix_size = self.relocation_table_offset
     write_u32(data, 0x48, self.fix_size)
-    
-    with open(file_path, "wb") as f:
-      f.write(read_all_bytes(data))
 
 class RELSection:
   ENTRY_SIZE = 8
