@@ -1361,3 +1361,19 @@
   ; Change the line of code that originally read the R multiplier for the color to read from our new spot (0x7E9C) instead of from 0x7E2C.
   lfs f0, 0xBC (r30)
 .close
+
+
+
+
+; Modify the warning message that appears on screen in developer mode when a particle is missing to mention what the particle ID is.
+.open "sys/main.dol"
+.org 0x8025F1FC ; In createSimpleEmitterID
+  ; Change the string passed as the format string from the one at 0x80366983 ("%s") to the one at 0x80366986 instead (which wasn't originally a format string, but we will replace it with a custom one.)
+  addi r6, r4, 0x6E
+  ; Pass the particle ID as a string format argument.
+  mr r7, r21
+.org 0x80366986
+  ; Replace a string with a custom format string to display the missing particle ID in hex.
+  ; Note that the string we're replacing was originally 0x23 bytes long, so this string should not be made any longer than that.
+  .string "Missing particle with ID: 0x%04X"
+.close
