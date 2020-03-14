@@ -55,7 +55,8 @@ def disassemble_all_code(self):
     
     
     bin_path = os.path.join(out_dir, basename_with_ext)
-    rel = REL(bin_path)
+    rel = REL()
+    rel.read_from_file(bin_path)
     all_rels_by_path[file_path_in_gcm] = rel
     
     
