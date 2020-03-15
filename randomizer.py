@@ -673,17 +673,9 @@ class Randomizer:
       return self.raw_files_by_path[file_path]
     else:
       if file_path.startswith("files/rels/"):
-        rel_name = os.path.basename(file_path)
-        rels_arc = self.get_arc("files/RELS.arc")
-        rel_file_entry = rels_arc.get_file_entry(rel_name)
-      else:
-        rel_file_entry = None
+        raise Exception("Cannot read a REL as a raw file.")
       
-      if rel_file_entry:
-        rel_file_entry.decompress_data_if_necessary()
-        data = rel_file_entry.data
-      else:
-        data = self.gcm.read_file_data(file_path)
+      data = self.gcm.read_file_data(file_path)
       
       if try_read_str(data, 0, 4) == "Yaz0":
         data = Yaz0.decompress(data)
@@ -715,16 +707,20 @@ class Randomizer:
     self.bmg.save_changes()
     
     for file_path, data in self.raw_files_by_path.items():
-      if file_path.startswith("files/rels/"):
-        rel_name = os.path.basename(file_path)
-        rels_arc = self.get_arc("files/RELS.arc")
-        rel_file_entry = rels_arc.get_file_entry(rel_name)
-        if rel_file_entry:
-          # Modify the RELS.arc entry for this rel.
-          rel_file_entry.data = data
-          continue
-      
       self.gcm.changed_files[file_path] = data
+    
+    for rel_path, rel in self.rels_by_path.items():
+      rel.save_changes(preserve_section_data_offsets=True)
+      
+      rel_name = os.path.basename(rel_path)
+      rels_arc = self.get_arc("files/RELS.arc")
+      rel_file_entry = rels_arc.get_file_entry(rel_name)
+      if rel_file_entry:
+        # The REL already wrote to the same BytesIO object as the file entry uses, so no need to do anything more here.
+        assert rel_file_entry.data == rel.data
+      else:
+        self.gcm.changed_files[rel_path] = rel.data
+    
     for arc_path, arc in self.arcs_by_path.items():
       for file_name, instantiated_file in arc.instantiated_object_files.items():
         if file_name == "event_list.dat":
@@ -732,6 +728,7 @@ class Randomizer:
       
       arc.save_changes()
       self.gcm.changed_files[arc_path] = arc.data
+    
     for jpc_path, jpc in self.jpcs_by_path.items():
       jpc.save_changes()
       self.gcm.changed_files[jpc_path] = jpc.data
