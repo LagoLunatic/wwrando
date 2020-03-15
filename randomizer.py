@@ -20,6 +20,7 @@ from logic.logic import Logic
 from paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH, IS_RUNNING_FROM_SOURCE
 import customizer
 from wwlib import stage_searcher
+from asm import disassemble
 
 try:
   from keys.seed_key import SEED_KEY
@@ -107,6 +108,8 @@ class Randomizer:
     
     self.arcs_by_path = {}
     self.jpcs_by_path = {}
+    self.rels_by_path = {}
+    self.symbol_maps_by_path = {}
     self.raw_files_by_path = {}
     
     self.read_text_file_lists()
@@ -616,6 +619,53 @@ class Randomizer:
       self.jpcs_by_path[jpc_path] = jpc
       return jpc
   
+  def get_rel(self, rel_path):
+    rel_path = rel_path.replace("\\", "/")
+    
+    if rel_path in self.rels_by_path:
+      return self.rels_by_path[rel_path]
+    else:
+      if not rel_path.startswith("files/rels/"):
+        raise Exception("Invalid REL path: %s" % rel_path)
+      
+      rel_name = os.path.basename(rel_path)
+      rels_arc = self.get_arc("files/RELS.arc")
+      rel_file_entry = rels_arc.get_file_entry(rel_name)
+      
+      if rel_file_entry:
+        rel_file_entry.decompress_data_if_necessary()
+        data = rel_file_entry.data
+      else:
+        data = self.gcm.read_file_data(rel_path)
+      
+      rel = REL()
+      rel.read(data)
+      self.rels_by_path[rel_path] = rel
+      return rel
+  
+  def get_symbol_map(self, map_path):
+    map_path = map_path.replace("\\", "/")
+    
+    if map_path in self.symbol_maps_by_path:
+      return self.symbol_maps_by_path[map_path]
+    else:
+      data = self.gcm.read_file_data(map_path)
+      map_text = read_all_bytes(data).decode("ascii")
+      
+      if map_path == "files/maps/framework.map":
+        addr_to_name_map = disassemble.get_main_symbols(map_text)
+      else:
+        rel_name = os.path.splitext(os.path.basename(map_path))[0]
+        rel = self.get_rel("files/rels/%s.rel" % rel_name)
+        addr_to_name_map = disassemble.get_rel_symbols(rel, map_text)
+      
+      symbol_map = {}
+      for address, name in addr_to_name_map.items():
+        symbol_map[name] = address
+      
+      self.symbol_maps_by_path[map_path] = symbol_map
+      return symbol_map
+  
   def get_raw_file(self, file_path):
     file_path = file_path.replace("\\", "/")
     
@@ -970,5 +1020,4 @@ class Randomizer:
       f.write(error_log_str)
   
   def disassemble_all_code(self):
-    from asm.disassemble import disassemble_all_code
-    disassemble_all_code(self)
+    disassemble.disassemble_all_code(self)
