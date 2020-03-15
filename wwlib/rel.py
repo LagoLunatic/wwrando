@@ -121,15 +121,20 @@ class REL:
     # BSS doesn't start until the next 0x20 byte alignment after the end of the initialized data (specified by fix_size).
     return (self.fix_size + 0x1F) & ~(0x1F)
   
-  def get_section_index_containing_offset(self, offset):
-    for section_index, section in enumerate(self.sections):
+  def convert_rel_offset_to_section_index_and_relative_offset(self, offset):
+    section_index = None
+    relative_offset = None
+    
+    for section in self.sections:
       if section.is_uninitialized:
         continue
       
       if section.offset <= offset < section.offset+section.length:
-        return section_index
+        section_index = self.sections.index(section)
+        relative_offset = offset - section.offset
+        break
     
-    return None
+    return (section_index, relative_offset)
   
   def convert_rel_offset_to_section_data_and_relative_offset(self, offset):
     data = None
@@ -166,6 +171,10 @@ class REL:
       # This should ideally be removed if all the REL asm patches that use it are rewritten.
       for module_num, relocation_data_entries in self.relocation_entries_for_module.items():
         for relocation in relocation_data_entries:
+          if relocation.offset is None:
+            # Not a vanilla relocation, but a brand new one we added, so this can't be the desired one.
+            continue
+          
           if offset == relocation.offset+4:
             if write_callback == write_u32 and isinstance(args[0], int):
               new_symbol_address = args[0]
