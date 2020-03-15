@@ -135,23 +135,27 @@ try:
     diffs = OrderedDict()
     for file_path, code_chunks_for_file in code_chunks.items():
       for org_offset_or_symbol, temp_asm in code_chunks_for_file.items():
+        org_offset = None
+        
         if isinstance(org_offset_or_symbol, int):
           org_offset = org_offset_or_symbol
+          org_offset_string = "%08X" % org_offset_or_symbol
         else:
           org_symbol = org_offset_or_symbol
           if org_symbol not in custom_symbols:
             raise Exception(".org specified an invalid custom symbol: %s" % org_symbol)
           org_offset = int(custom_symbols[org_symbol], 16)
+          org_offset_string = "%08X" % org_offset
         
         temp_linker_name = os.path.join(temp_dir, "tmp_linker.ld")
         with open(temp_linker_name, "w") as f:
           f.write(temp_linker_script)
         
-        temp_asm_name = os.path.join(temp_dir, "tmp_" + basename + "_%08X.asm" % org_offset)
+        temp_asm_name = os.path.join(temp_dir, "tmp_" + basename + "_%s.asm" % org_offset_string)
         with open(temp_asm_name, "w") as f:
           f.write(temp_asm)
         
-        o_name = os.path.join(temp_dir, "tmp_" + basename + "_%08X.o" % org_offset)
+        o_name = os.path.join(temp_dir, "tmp_" + basename + "_%s.o" % org_offset_string)
         command = [
           get_bin("powerpc-eabi-as"),
           "-mregnames",
@@ -165,11 +169,11 @@ try:
         if result != 0:
           raise Exception("Assembler call failed")
         
-        bin_name = os.path.join(temp_dir, "tmp_" + basename + "_%08X.bin" % org_offset)
+        bin_name = os.path.join(temp_dir, "tmp_" + basename + "_%s.bin" % org_offset_string)
         map_name = os.path.join(temp_dir, "tmp_" + basename + ".map")
         command = [
           get_bin("powerpc-eabi-ld"),
-          "-Ttext", "%X" % org_offset,
+          "-Ttext", org_offset_string,
           "-T", temp_linker_name,
           "--oformat", "binary",
           "-Map=" + map_name,
@@ -203,14 +207,19 @@ try:
         if file_path not in diffs:
           diffs[file_path] = OrderedDict()
         
-        if org_offset in diffs[file_path]:
-          raise Exception("Duplicate .org directive: %X" % org_offset)
+        if org_offset is not None:
+          org_offset_key = org_offset
+        else:
+          org_offset_key = org_offset_string
+        
+        if org_offset_key in diffs[file_path]:
+          raise Exception("Duplicate .org directive: %s" % org_offset_key)
         
         with open(bin_name, "rb") as f:
           binary_data = f.read()
         
         bytes = list(struct.unpack("B"*len(binary_data), binary_data))
-        diffs[file_path][org_offset] = bytes
+        diffs[file_path][org_offset_key] = bytes
     
     diff_name = basename + "_diff.txt"
     with open(diff_name, "w") as f:
