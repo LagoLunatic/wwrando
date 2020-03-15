@@ -163,7 +163,7 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, mai
             relocation_data_entry.symbol_address,
             symbol_name,
           )
-          if other_rel.bss_section_index and relocated_offset >= other_rel.fix_size:
+          if other_rel.bss_section_index and relocated_offset >= other_rel.bss_offset:
             replacements[rounded_down_location] += "    [BSS]"
   
   
@@ -178,7 +178,7 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, mai
         if offset in rel_symbol_names:
           symbol_name = rel_symbol_names[offset]
           out_str += "; SYMBOL: %X    %s" % (offset, symbol_name)
-          if rel.bss_section_index and offset >= rel.fix_size:
+          if rel.bss_section_index and offset >= rel.bss_offset:
             out_str += "    [BSS symbol, value initialized at runtime]"
           out_str += "\n"
       
@@ -201,7 +201,7 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, mai
           if relocated_offset in rel_symbol_names:
             symbol_name = rel_symbol_names[relocated_offset]
             out_str += "      " + symbol_name
-            if rel.bss_section_index and relocated_offset >= rel.fix_size:
+            if rel.bss_section_index and relocated_offset >= rel.bss_offset:
               out_str += "    [BSS]"
       else:
         branch_match = re.search(r"\s(bl|b|beq|bne|blt|bgt|ble|bge|bdnz|bdz)\s+0x([0-9a-f]+)", line, re.IGNORECASE)
@@ -210,7 +210,7 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, mai
           if branch_offset in rel_symbol_names:
             symbol_name = rel_symbol_names[branch_offset]
             out_str += get_padded_comment_string_for_line(line) + symbol_name
-            if rel.bss_section_index and branch_offset >= rel.fix_size:
+            if rel.bss_section_index and branch_offset >= rel.bss_offset:
               out_str += "    [BSS]"
         else:
           out_str += get_extra_comment_for_asm_line(line)

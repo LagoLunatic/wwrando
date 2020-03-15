@@ -14,6 +14,8 @@ class REL:
     self.name_length = 0
     self.rel_format_version = 3
     
+    self.bss_size = 0
+    
     self.relocation_entries_for_module = OrderedDict()
     
     self.prolog_section = 0
@@ -55,6 +57,8 @@ class REL:
     self.name_offset = read_u32(data, 0x14)
     self.name_length = read_u32(data, 0x18)
     self.rel_format_version = read_u32(data, 0x1C)
+    
+    self.bss_size = read_u32(data, 0x20)
     
     relocation_data_offset_for_module = OrderedDict()
     self.relocation_table_offset = read_u32(data, 0x24)
@@ -104,22 +108,26 @@ class REL:
     # Space after this fix_size offset can be reused for other purposes.
     # Such as using the space that originally had the relocations list for .bss static variables instead.
     self.fix_size = read_u32(data, 0x48)
-    self.fix_size = (self.fix_size + 0x1F) & ~(0x1F) # Round up to nearest 0x20
     
     self.bss_section_index = None # The byte at offset 0x33 in the REL is reserved for this value at runtime.
     for section_index, section in enumerate(self.sections):
       if section.is_bss:
         self.bss_section_index = section_index
-        section.offset = self.fix_size
+        section.offset = self.bss_offset
         break
   
-  def save_to_file(self, file_path):
-    self.save_changes()
+  @property
+  def bss_offset(self):
+    # BSS doesn't start until the next 0x20 byte alignment after the end of the initialized data (specified by fix_size).
+    return (self.fix_size + 0x1F) & ~(0x1F)
+  
+  def save_to_file(self, file_path, preserve_section_data_offsets=False):
+    self.save_changes(preserve_section_data_offsets=preserve_section_data_offsets)
     
     with open(file_path, "wb") as f:
       f.write(read_all_bytes(self.data))
   
-  def save_changes(self):
+  def save_changes(self, preserve_section_data_offsets=False):
     self.data.truncate(0)
     data = self.data
     
@@ -131,21 +139,34 @@ class REL:
     write_u32(data, 0x14, self.name_offset)
     write_u32(data, 0x18, self.name_length)
     write_u32(data, 0x1C, self.rel_format_version)
+    write_u32(data, 0x20, self.bss_size) # TODO recalculate this properly when necessary
     
     self.section_info_table_offset = 0x4C
     write_u32(data, 0x10, self.section_info_table_offset)
     next_section_info_offset = self.section_info_table_offset
     next_section_data_offset = self.section_info_table_offset + self.num_sections*RELSection.ENTRY_SIZE
     next_section_data_offset = pad_offset_to_nearest(next_section_data_offset, 4) # TODO why is 4 more accurate here than the 8 from self.alignment?
-    for section in self.sections:
-      section.save(data, next_section_info_offset, next_section_data_offset, 4)
+    for section_index, section in enumerate(self.sections):
+      if preserve_section_data_offsets:
+        if section.is_uninitialized or section.offset == 0:
+          # An uninitialized section (or a section that used to be uninitialized that we make use of).
+          # We don't need to preserve the data offsets for these. Do nothing.
+          pass
+        else:
+          assert section.offset >= next_section_data_offset
+          next_section_data_offset = section.offset
+      
+      section.save(data, next_section_info_offset, next_section_data_offset, self.bss_size)
       next_section_info_offset += RELSection.ENTRY_SIZE
       next_section_data_offset += section.length
+      
+      next_section_data_offset = pad_offset_to_nearest(next_section_data_offset, 4)
     
     self.imp_table_offset = data_len(data)
     imp_table_size = len(self.relocation_entries_for_module)*8
     imp_table_end = self.imp_table_offset + imp_table_size
     self.relocation_table_offset = imp_table_end
+    self.fix_size = self.relocation_table_offset
     write_u32(data, 0x24, self.relocation_table_offset)
     write_u32(data, 0x28, self.imp_table_offset)
     write_u32(data, 0x2C, imp_table_size)
@@ -196,6 +217,13 @@ class REL:
       
       table_end_entry.save(data, next_relocation_entry_offset)
       next_relocation_entry_offset += RELRelocation.ENTRY_SIZE
+      
+      if module_num != 0 and module_num != self.id:
+        # Normally fix_size wouldn't need to include any of the relocation table in it, because all relocations happen when the REL is first loaded, and the whole relocation table can be repurposed afterwards.
+        # But when the REL has relocations against a module besides main.dol and itself, that is no longer the case.
+        # Relocations against a different REL can happen after this REL is initially loaded, so we need to include those relocations in fix_size.
+        # Only relocations after the end of the last REL-to-REL relocation can be repurposed.
+        self.fix_size = next_relocation_entry_offset
     
     write_u8(data, 0x30, self.prolog_section)
     write_u8(data, 0x31, self.epilog_section)
@@ -208,9 +236,6 @@ class REL:
     write_u32(data, 0x44, self.bss_alignment)
     # TODO: align bss to the bss_alignment
     
-    if self.fix_size == 0:
-      # TODO how to properly detect what fix_size should be? this current method is a total hack
-      self.fix_size = self.relocation_table_offset
     write_u32(data, 0x48, self.fix_size)
 
 class RELSection:
@@ -248,7 +273,7 @@ class RELSection:
       if self.length != 0:
         self.data = BytesIO(read_bytes(rel_data, self.offset, self.length))
   
-  def save(self, rel_data, info_offset, next_section_data_offset, alignment):
+  def save(self, rel_data, info_offset, next_section_data_offset, bss_size):
     if self.is_uninitialized:
       self.offset = 0
     else:
@@ -258,8 +283,10 @@ class RELSection:
       mult_vals |= 1
     write_u32(rel_data, info_offset+0x00, mult_vals)
     
-    align_data_to_nearest(self.data, alignment)
-    self.length = data_len(self.data)
+    if self.is_bss:
+      self.length = bss_size
+    else:
+      self.length = data_len(self.data)
     write_u32(rel_data, info_offset+0x04, self.length)
     
     if not self.is_bss and self.length != 0 and not self.is_uninitialized:
