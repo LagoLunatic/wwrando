@@ -21,7 +21,16 @@ def disassemble_all_code(self):
   out_dir = os.path.join(self.randomized_output_folder, "disassemble")
   if not os.path.isdir(out_dir):
     os.mkdir(out_dir)
-  main_symbols = get_main_symbols(self)
+  
+  
+  demangled_map_path = os.path.join(ASM_PATH, "maps-out", "framework.map.out")
+  if os.path.isfile(demangled_map_path):
+    with open(demangled_map_path, "rb") as f:
+      framework_map_contents = BytesIO(f.read())
+  else:
+    framework_map_contents = self.gcm.read_file_data("files/maps/framework.map")
+  framework_map_contents = read_all_bytes(framework_map_contents).decode("ascii")
+  main_symbols = get_main_symbols(framework_map_contents)
   
   
   all_rel_paths = get_list_of_all_rels(self)
@@ -356,16 +365,8 @@ def find_rel_by_module_num(all_rels_by_path, module_num):
       return (rel, rel_path)
   return (None, None)
 
-def get_main_symbols(self):
+def get_main_symbols(framework_map_contents):
   main_symbols = {}
-  demangled_map_path = os.path.join(ASM_PATH, "maps-out", "framework.map.out")
-  if os.path.isfile(demangled_map_path):
-    with open(demangled_map_path, "rb") as f:
-      framework_map_contents = BytesIO(f.read())
-  else:
-    framework_map_contents = self.gcm.read_file_data("files/maps/framework.map")
-  framework_map_contents.seek(0)
-  framework_map_contents = framework_map_contents.read().decode("ascii")
   matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?: +\d+)? (.+?) \t", framework_map_contents, re.IGNORECASE | re.MULTILINE)
   for match in matches:
     address, name = match
