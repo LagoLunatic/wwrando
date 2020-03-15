@@ -219,7 +219,8 @@ try:
           binary_data = f.read()
         
         bytes = list(struct.unpack("B"*len(binary_data), binary_data))
-        diffs[file_path][org_offset_key] = bytes
+        diffs[file_path][org_offset_key] = OrderedDict()
+        diffs[file_path][org_offset_key]["Data"] = bytes
     
     diff_name = basename + "_diff.txt"
     with open(diff_name, "w") as f:

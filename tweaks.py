@@ -117,7 +117,9 @@ def apply_patch(self, patch_name):
     diffs = yaml.safe_load(f)
   
   for file_path, diffs_for_file in diffs.items():
-    for org_address, new_bytes in diffs_for_file.items():
+    for org_address, patchlet in diffs_for_file.items():
+      new_bytes = patchlet["Data"]
+      
       if file_path == "sys/main.dol":
         if org_address == ORIGINAL_FREE_SPACE_RAM_ADDRESS:
           add_custom_functions_to_free_space(self, new_bytes)
