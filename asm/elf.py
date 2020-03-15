@@ -30,14 +30,6 @@ class ELF:
     for section in self.sections:
       self.sections_by_name[section.name] = section
     
-    self.strings_by_offset = OrderedDict()
-    string_offset = 0
-    while string_offset < self.sections_by_name[".strtab"].size:
-      offset = self.sections_by_name[".strtab"].section_offset + string_offset
-      string = read_str_until_null_character(self.data, offset)
-      self.strings_by_offset[string_offset] = string
-      string_offset += len(string) + 1
-    
     self.relocations = OrderedDict()
     for section in self.sections:
       if section.type == ELFSectionType.SHT_RELA:
@@ -56,9 +48,13 @@ class ELF:
         for i in range(section.size//ELFSymbol.ENTRY_SIZE):
           symbol = ELFSymbol()
           symbol.read(self.data, section.section_offset + i*ELFSymbol.ENTRY_SIZE)
-          symbol.name = self.strings_by_offset[symbol.name_offset]
+          symbol.name = self.read_string_from_table(symbol.name_offset)
           self.symbols[section.name].append(symbol)
           self.symbols_by_name[section.name][symbol.name] = symbol
+  
+  def read_string_from_table(self, string_offset):
+    offset = self.sections_by_name[".strtab"].section_offset + string_offset
+    return read_str_until_null_character(self.data, offset)
 
 class ELFSection:
   ENTRY_SIZE = 0x28
