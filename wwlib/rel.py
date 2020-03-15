@@ -121,6 +121,16 @@ class REL:
     # BSS doesn't start until the next 0x20 byte alignment after the end of the initialized data (specified by fix_size).
     return (self.fix_size + 0x1F) & ~(0x1F)
   
+  def get_section_index_containing_offset(self, offset):
+    for section_index, section in enumerate(self.sections):
+      if section.is_uninitialized:
+        continue
+      
+      if section.offset <= offset < section.offset+section.length:
+        return section_index
+    
+    return None
+  
   def convert_rel_offset_to_section_data_and_relative_offset(self, offset):
     data = None
     relative_offset = None
