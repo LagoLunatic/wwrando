@@ -117,7 +117,6 @@ def apply_patch(self, patch_name):
     diffs = yaml.safe_load(f)
   
   for file_path, diffs_for_file in diffs.items():
-    data = self.get_raw_file(file_path)
     for org_address, new_bytes in diffs_for_file.items():
       if file_path == "sys/main.dol":
         if org_address == ORIGINAL_FREE_SPACE_RAM_ADDRESS:
@@ -125,10 +124,13 @@ def apply_patch(self, patch_name):
           continue
         else:
           offset = address_to_offset(org_address)
+          data = self.get_raw_file(file_path)
+          write_and_pack_bytes(data, offset, new_bytes, "B"*len(new_bytes))
       else:
+        assert file_path.endswith(".rel")
         offset = org_address
-      
-      write_and_pack_bytes(data, offset, new_bytes, "B"*len(new_bytes))
+        rel = self.get_rel(file_path)
+        rel.write_data(write_and_pack_bytes, offset, new_bytes, "B"*len(new_bytes))
 
 def add_custom_functions_to_free_space(self, new_bytes):
   dol_data = self.get_raw_file("sys/main.dol")
@@ -459,12 +461,12 @@ def make_sail_behave_like_swift_sail(self):
   # Also doubles KoRL's speed.
   # And changes the textures to match the swift sail from HD.
   
-  ship_data = self.get_raw_file("files/rels/d_a_ship.rel")
+  ship_rel = self.get_rel("files/rels/d_a_ship.rel")
   # Change the relocation for line B9FC, which originally called setShipSailState.
-  write_u32(ship_data, 0x11C94, self.custom_symbols["set_wind_dir_to_ship_dir"])
+  ship_rel.write_data(write_u32, 0x11C94, self.custom_symbols["set_wind_dir_to_ship_dir"])
   
-  write_float(ship_data, 0xDBE8, 55.0*2) # Sailing speed
-  write_float(ship_data, 0xDBC0, 80.0*2) # Initial speed
+  ship_rel.write_data(write_float, 0xDBE8, 55.0*2) # Sailing speed
+  ship_rel.write_data(write_float, 0xDBC0, 80.0*2) # Initial speed
   
   # Also increase deceleration when the player is stopping or is knocked out of the ship.
   apply_patch(self, "swift_sail")
@@ -656,10 +658,10 @@ def modify_title_screen_logo(self):
   subtitle_glare_model.save_changes()
   
   # Move where the subtitle is drawn downwards a bit so the word "the" doesn't get covered up by the main logo.
-  title_data = self.get_raw_file("files/rels/d_a_title.rel")
-  y_pos = read_float(title_data, 0x1F44)
+  title_rel = self.get_rel("files/rels/d_a_title.rel")
+  y_pos = title_rel.read_data(read_float, 0x1F44)
   y_pos -= 13.0
-  write_float(title_data, 0x1F44, y_pos)
+  title_rel.write_data(write_float, 0x1F44, y_pos)
   
   # Move the sparkle particle effect down a bit to fit the taller logo better.
   # (This has the side effect of also moving down the clouds below the ship, but this is not noticeable.)
@@ -1389,12 +1391,12 @@ def increase_block_moving_animation(self):
   # Increase Link's pulling animation speed from 1.0 to 1.4
   write_float(dol_data, address_to_offset(0x8035DBB8), 1.4)
   
-  block_data = self.get_raw_file("files/rels/d_a_obj_movebox.rel")
+  block_rel = self.get_rel("files/rels/d_a_obj_movebox.rel")
   
   offset = 0x54B0 # M_attr__Q212daObjMovebox5Act_c. List of various data for each type of block.
   for i in range(13): # 13 types of blocks total.
-    write_u16(block_data, offset + 4, 12) # Reduce number frames for pushing to last from 20 to 12
-    write_u16(block_data, offset + 0xA, 12) # Reduce number frames for pulling to last from 20 to 12
+    block_rel.write_data(write_u16, offset + 0x04, 12) # Reduce number frames for pushing to last from 20 to 12
+    block_rel.write_data(write_u16, offset + 0x0A, 12) # Reduce number frames for pulling to last from 20 to 12
     offset += 0x9C
 
 def increase_misc_animations(self):

@@ -273,27 +273,26 @@ def shift_all_colors_in_particle(self, particle, h_shift, v_shift):
     r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
     particle.ssp1.color_env = (r, g, b, a)
 
-def shift_hardcoded_color(data, offset, h_shift, v_shift):
-  r = read_u8(data, offset + 0)
-  g = read_u8(data, offset + 1)
-  b = read_u8(data, offset + 2)
+def shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift):
+  r = rel.read_data(read_u8, offset + 0)
+  g = rel.read_data(read_u8, offset + 1)
+  b = rel.read_data(read_u8, offset + 2)
   r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-  write_u8(data, offset + 0, r)
-  write_u8(data, offset + 1, g)
-  write_u8(data, offset + 2, b)
+  rel.write_data(write_u8, offset + 0, r)
+  rel.write_data(write_u8, offset + 1, g)
+  rel.write_data(write_u8, offset + 2, b)
 
 def shift_hardcoded_darknut_colors(self, h_shift, v_shift):
   # Update the RGB values for Darknut armor destroyed particles.
-  darknut_data = self.get_raw_file("files/rels/d_a_tn.rel")
+  rel = self.get_rel("files/rels/d_a_tn.rel")
   offset = 0xE2AC
   for i in range(12):
-    shift_hardcoded_color(darknut_data, offset+i*4, h_shift, v_shift)
+    shift_hardcoded_color_in_rel(rel, offset+i*4, h_shift, v_shift)
   
   # Update the Darknut's cape colors
-  cape_data = self.get_raw_file("files/rels/d_a_mant.rel")
+  rel = self.get_rel("files/rels/d_a_mant.rel")
   for palette_offset in [0x4540, 0x6560, 0x8580, 0xA5A0, 0xC5C0]:
-    cape_data.seek(palette_offset)
-    palette_data = BytesIO(cape_data.read(0x20))
+    palette_data = BytesIO(rel.read_data(read_bytes, palette_offset, 0x20))
     colors = texture_utils.decode_palettes(
       palette_data, texture_utils.PaletteFormat.RGB565,
       16, texture_utils.ImageFormat.C4
@@ -304,70 +303,68 @@ def shift_hardcoded_darknut_colors(self, h_shift, v_shift):
     encoded_colors = texture_utils.generate_new_palettes_from_colors(colors, texture_utils.PaletteFormat.RGB565)
     palette_data = texture_utils.encode_palette(encoded_colors, texture_utils.PaletteFormat.RGB565, texture_utils.ImageFormat.C4)
     assert data_len(palette_data) == 0x20
-    cape_data.seek(palette_offset)
-    palette_data.seek(0)
-    cape_data.write(palette_data.read())
+    rel.write_data(write_bytes, palette_offset, read_all_bytes(palette_data))
 
 def shift_hardcoded_moblin_colors(self, h_shift, v_shift):
   # Update the thread colors for the Moblin's spear
   for rel_name, offset in [("mo2", 0xD648), ("boko", 0x4488)]:
-    data = self.get_raw_file("files/rels/d_a_%s.rel" % rel_name)
-    shift_hardcoded_color(data, offset, h_shift, v_shift)
+    rel = self.get_rel("files/rels/d_a_%s.rel" % rel_name)
+    shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift)
 
 def shift_hardcoded_stalfos_colors(self, h_shift, v_shift):
   # Stalfos hat thread
-  data = self.get_raw_file("files/rels/d_a_st.rel")
+  rel = self.get_rel("files/rels/d_a_st.rel")
   offset = 0x9F30
-  shift_hardcoded_color(data, offset, h_shift, v_shift)
+  shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift)
 
 def shift_hardcoded_rat_colors(self, h_shift, v_shift):
   # Rat tails
-  data = self.get_raw_file("files/rels/d_a_nz.rel")
+  rel = self.get_rel("files/rels/d_a_nz.rel")
   offset = 0x8FB8
-  shift_hardcoded_color(data, offset, h_shift, v_shift)
+  shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift)
   
-  data = self.get_raw_file("files/rels/d_a_npc_nz.rel")
+  rel = self.get_rel("files/rels/d_a_npc_nz.rel")
   offset = 0x48C0
-  shift_hardcoded_color(data, offset, h_shift, v_shift)
+  shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift)
 
 def shift_hardcoded_chuchu_colors(self, h_shift, v_shift):
   # ChuChu particles
-  data = self.get_raw_file("files/rels/d_a_cc.rel")
+  rel = self.get_rel("files/rels/d_a_cc.rel")
   offset = 0x7F88
   for i in range(5):
-    shift_hardcoded_color(data, offset+i*4, h_shift, v_shift)
+    shift_hardcoded_color_in_rel(rel, offset+i*4, h_shift, v_shift)
   
   # The particles that come off of Dark ChuChus when attacked where they temporarily break apart and reform are tricky.
   # That RGB value is stored as three multiplier floats instead of three bytes, and the red multiplier in the float constant bank is coincidentally reused by other things in the ChuChu code unrelated to color so we can't change that.
   # So we change the asm code to read the red multiplier from elsewhere, and then modify that instead.
-  r = int(read_float(data, 0x7E9C))
-  g = int(read_float(data, 0x7EBC))
-  b = int(read_float(data, 0x7EC0))
+  r = int(rel.read_data(read_float, 0x7E9C))
+  g = int(rel.read_data(read_float, 0x7EBC))
+  b = int(rel.read_data(read_float, 0x7EC0))
   assert r != 0 # Make sure the asm patch was applied
   r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-  write_float(data, 0x7E9C, r)
-  write_float(data, 0x7EBC, g)
-  write_float(data, 0x7EC0, b)
+  rel.write_data(write_float, 0x7E9C, r)
+  rel.write_data(write_float, 0x7EBC, g)
+  rel.write_data(write_float, 0x7EC0, b)
 
 def shift_hardcoded_puppet_ganon_colors(self, h_shift, v_shift):
   # Puppet ganon's strings
-  data = self.get_raw_file("files/rels/d_a_bgn.rel")
+  rel = self.get_rel("files/rels/d_a_bgn.rel")
   offset = 0xF0A8
-  shift_hardcoded_color(data, offset, h_shift, v_shift)
+  shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift)
   offset = 0xF0B0
-  shift_hardcoded_color(data, offset, h_shift, v_shift)
+  shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift)
   
-  data = self.get_raw_file("files/rels/d_a_bgn3.rel")
-  r = read_u8(data, 0x2CF)
-  g = read_u8(data, 0x2D7)
-  b = read_u8(data, 0x2DF)
+  rel = self.get_rel("files/rels/d_a_bgn3.rel")
+  r = rel.read_data(read_u8, 0x2CF)
+  g = rel.read_data(read_u8, 0x2D7)
+  b = rel.read_data(read_u8, 0x2DF)
   r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-  write_u8(data, 0x2CF, r)
-  write_u8(data, 0x2D7, g)
-  write_u8(data, 0x2DF, b)
+  rel.write_data(write_u8, 0x2CF, r)
+  rel.write_data(write_u8, 0x2D7, g)
+  rel.write_data(write_u8, 0x2DF, b)
 
 def shift_hardcoded_ganondorf_colors(self, h_shift, v_shift):
   # Ganondorf's fancy threads
-  data = self.get_raw_file("files/rels/d_a_gnd.rel")
+  rel = self.get_rel("files/rels/d_a_gnd.rel")
   offset = 0x8F1C
-  shift_hardcoded_color(data, offset, h_shift, v_shift)
+  shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift)
