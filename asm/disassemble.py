@@ -234,6 +234,11 @@ ALL_LOAD_OR_STORE_OPCODES = [
   "lmw",
   "lwz",
   "lwzu",
+  
+  "lfs",
+  "lfsu",
+  "lfd",
+  "lfdu",
 ]
 
 def add_symbols_to_main(asm_path, main_symbols):
@@ -262,7 +267,7 @@ def add_symbols_to_main(asm_path, main_symbols):
       
       branch_match = re.search(r"^(.+ \t(?:bl|b|beq|bne|blt|bgt|ble|bge|bdnz|bdz)\s+0x)([0-9a-f]+)$", line, re.IGNORECASE)
       addi_match = re.search(r"^.+ \t(?:addi)\s+r\d+,(r\d+),(-?\d+)$", line, re.IGNORECASE)
-      load_or_store_match = re.search(r"^.+ \t(?:" + "|".join(ALL_LOAD_OR_STORE_OPCODES) + ")\s+r\d+,(-?\d+)\((r\d+)\)$", line, re.IGNORECASE)
+      load_or_store_match = re.search(r"^.+ \t(?:" + "|".join(ALL_LOAD_OR_STORE_OPCODES) + ")\s+[rf]\d+,(-?\d+)\((r\d+)\)$", line, re.IGNORECASE)
       if branch_match:
         line_before_offset = branch_match.group(1)
         offset = int(branch_match.group(2), 16)
@@ -277,22 +282,33 @@ def add_symbols_to_main(asm_path, main_symbols):
             out_str += "%08X    %s" % (address, symbol_name)
         else:
           out_str += line
-      elif last_lis_match is not None and (addi_match or load_or_store_match):
+      elif addi_match or load_or_store_match:
         if addi_match:
           source_register = addi_match.group(1)
-          lower_halfword = int(addi_match.group(2))
+          address_offset = int(addi_match.group(2))
         elif load_or_store_match:
           source_register = load_or_store_match.group(2)
-          lower_halfword = int(load_or_store_match.group(1))
+          address_offset = int(load_or_store_match.group(1))
         
-        lis_register = last_lis_match.group(1)
-        upper_halfword = int(last_lis_match.group(2)) & 0xFFFF
-        address = (upper_halfword << 16)
-        address += lower_halfword
+        address = None
+        if source_register == "r2":
+          address = 0x803FFD00
+        elif source_register == "r13":
+          address = 0x803FE0E0
+        elif last_lis_match is not None:
+          lis_register = last_lis_match.group(1)
+          if lis_register == source_register:
+            upper_halfword = int(last_lis_match.group(2)) & 0xFFFF
+            address = (upper_halfword << 16)
         
-        out_str += line
+        if address is not None:
+          address += address_offset
+          
+          if (address & ~0x01FFFFFF) != 0x80000000:
+            address = None
         
-        if lis_register == source_register and (address & ~0x01FFFFFF) == 0x80000000:
+        if address is not None:
+          out_str += line
           out_str += get_padded_comment_string_for_line(line)
           out_str += "%08X" % address
           
