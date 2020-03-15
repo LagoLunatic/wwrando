@@ -205,7 +205,7 @@ class RARC:
     self.regenerate_all_file_entries_list()
     
     # Assign the entry offsets for each file entry, but don't actually save them yet because we need to write their data and names first.
-    align_data_to_nearest(self.data, 0x20)
+    align_data_to_nearest(self.data, 0x20, padding_bytes=b'\0')
     self.file_entries_list_offset = self.data.tell()
     next_file_entry_offset = self.file_entries_list_offset
     for file_entry in self.file_entries:

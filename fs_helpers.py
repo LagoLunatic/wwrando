@@ -162,12 +162,13 @@ def write_s32(data, offset, new_value):
   data.write(new_value)
 
 
-def align_data_to_nearest(data, size):
+def align_data_to_nearest(data, size, padding_bytes=PADDING_BYTES):
   current_end = data_len(data)
   next_offset = current_end + (size - current_end % size) % size
   padding_needed = next_offset - current_end
   data.seek(current_end)
-  padding = PADDING_BYTES[:padding_needed]
+  padding = padding_bytes*(padding_needed // len(padding_bytes))
+  padding += padding_bytes[:padding_needed % len(padding_bytes)]
   data.write(padding)
 
 def pad_offset_to_nearest(offset, size):
