@@ -294,14 +294,14 @@ def shift_hardcoded_darknut_colors(self, h_shift, v_shift):
   for palette_offset in [0x4540, 0x6560, 0x8580, 0xA5A0, 0xC5C0]:
     palette_data = BytesIO(rel.read_data(read_bytes, palette_offset, 0x20))
     colors = texture_utils.decode_palettes(
-      palette_data, texture_utils.PaletteFormat.RGB565,
+      palette_data, texture_utils.PaletteFormat.RGB5A3,
       16, texture_utils.ImageFormat.C4
     )
     
     colors = texture_utils.hsv_shift_palette(colors, h_shift, v_shift)
     
-    encoded_colors = texture_utils.generate_new_palettes_from_colors(colors, texture_utils.PaletteFormat.RGB565)
-    palette_data = texture_utils.encode_palette(encoded_colors, texture_utils.PaletteFormat.RGB565, texture_utils.ImageFormat.C4)
+    encoded_colors = texture_utils.generate_new_palettes_from_colors(colors, texture_utils.PaletteFormat.RGB5A3)
+    palette_data = texture_utils.encode_palette(encoded_colors, texture_utils.PaletteFormat.RGB5A3, texture_utils.ImageFormat.C4)
     assert data_len(palette_data) == 0x20
     rel.write_data(write_bytes, palette_offset, read_all_bytes(palette_data))
 

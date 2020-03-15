@@ -19,6 +19,7 @@ Bug fixes:
 * Fixed a bug where slightly recoloring certain grey colors on player models would make them appear as extremely saturated colors.
 * Fixed a vanilla bug where respawning Magtails that are killed by shooting them in the head with Light Arrows would not respawn.
 * Fixed Big Octo eyes not changing color very much when destroyed if the enemy palette randomizer was on.
+* Fixed Mighty Darknut capes sometimes being transparent when the enemy palette randomizer was on.
 
 
 
