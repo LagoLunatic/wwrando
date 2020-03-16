@@ -142,7 +142,8 @@ try:
   with open("linker.ld") as f:
     linker_script = f.read()
   
-  all_asm_files = glob.glob('*.asm')
+  all_asm_file_paths = glob.glob('./patches/*.asm')
+  all_asm_files = [os.path.basename(rel_path) for rel_path in all_asm_file_paths]
   all_asm_files.remove("custom_funcs.asm")
   # Always do custom_funcs first so the custom symbols are defined for all the other patches to use.
   all_asm_files = ["custom_funcs.asm"] + all_asm_files
@@ -153,7 +154,8 @@ try:
   next_free_space_id_for_file = {}
   for patch_filename in all_asm_files:
     print("Assembling " + patch_filename)
-    with open(patch_filename) as f:
+    patch_path = os.path.join(".", "patches", patch_filename)
+    with open(patch_path) as f:
       asm = f.read()
     
     patch_name = os.path.splitext(patch_filename)[0]
@@ -367,8 +369,8 @@ try:
         if relocations:
           diffs[file_path][org_offset]["Relocations"] = relocations
     
-    diff_name = patch_name + "_diff.txt"
-    with open(diff_name, "w") as f:
+    diff_path = os.path.join(".", "patch_diffs", patch_name + "_diff.txt")
+    with open(diff_path, "w") as f:
       f.write(yaml.dump(diffs, Dumper=yaml.CDumper, default_flow_style=False))
   
   # Write the custom symbols to a text file.
