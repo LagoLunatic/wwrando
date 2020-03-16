@@ -223,8 +223,14 @@ try:
         continue
       
       if not most_recent_file_path:
+        if line[0] == ";":
+          # Comment
+          continue
         raise Exception("Found code when no file was open")
       if most_recent_org_offset is None:
+        if line[0] == ";":
+          # Comment
+          continue
         raise Exception("Found code before any .org directive")
       
       code_chunks[patch_name][most_recent_file_path][most_recent_org_offset] += line + "\n"
