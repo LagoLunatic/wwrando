@@ -455,7 +455,7 @@ def change_item(self, path, item_name):
     rel_path = rel_match.group(1)
     offset = int(rel_match.group(2), 16)
     path = os.path.join("files", rel_path)
-    change_hardcoded_item(self, path, offset, item_id)
+    change_hardcoded_item_in_rel(self, path, offset, item_id)
   elif main_dol_match:
     offset = int(main_dol_match.group(1), 16)
     path = os.path.join("sys", "main.dol")
@@ -500,6 +500,10 @@ def change_item(self, path, item_name):
     change_actor_item(self, arc_path, actor_index, layer, item_id)
   else:
     raise Exception("Invalid item path: " + path)
+
+def change_hardcoded_item_in_rel(self, path, offset, item_id):
+  rel = self.get_rel(path)
+  rel.write_data(write_u8, offset, item_id)
 
 def change_hardcoded_item(self, path, offset, item_id):
   data = self.get_raw_file(path)
