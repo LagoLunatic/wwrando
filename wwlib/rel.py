@@ -134,6 +134,9 @@ class REL:
         relative_offset = offset - section.offset
         break
     
+    if section_index is None:
+      raise Exception("Offset %04X is not in the data for any of the REL sections" % offset)
+    
     return (section_index, relative_offset)
   
   def convert_rel_offset_to_section_data_and_relative_offset(self, offset):
@@ -233,7 +236,8 @@ class REL:
       
       section.save(data, next_section_info_offset, next_section_data_offset, self.bss_size)
       next_section_info_offset += RELSection.ENTRY_SIZE
-      next_section_data_offset += section.length
+      if not section.is_bss:
+        next_section_data_offset += section.length
       
       next_section_data_offset = pad_offset_to_nearest(next_section_data_offset, 4)
     
