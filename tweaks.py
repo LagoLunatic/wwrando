@@ -214,7 +214,8 @@ def apply_free_space_patchlet_to_rel(self, file_path, offset, new_bytes, relocat
     # This is the first free space patchlet we're applying to this REL, so initialize the section.
     add_free_space_section_to_rel(self, file_path)
   
-  write_and_pack_bytes(rel_section.data, offset, new_bytes, "B"*len(new_bytes))
+  section_relative_offset = offset - rel_section.offset
+  write_and_pack_bytes(rel_section.data, section_relative_offset, new_bytes, "B"*len(new_bytes))
   
   if relocations:
     add_relocations_to_rel(self, file_path, rel_section_index, patchlet_offset_into_curr_section, relocations)
@@ -238,6 +239,10 @@ def add_relocations_to_rel(self, file_path, rel_section_index, offset_into_secti
   
   rel = self.get_rel(file_path)
   
+  main_symbols = self.get_symbol_map("files/maps/framework.map")
+  
+  free_space_start = self.free_space_start_offsets[file_path]
+  
   for relocation_dict in relocations:
     symbol_name = relocation_dict["SymbolName"]
     relocation_offset = relocation_dict["Offset"]
@@ -247,8 +252,6 @@ def add_relocations_to_rel(self, file_path, rel_section_index, offset_into_secti
     
     rel_relocation = RELRelocation()
     rel_relocation.relocation_type = RELRelocationType[relocation_type]
-    
-    main_symbols = self.get_symbol_map("files/maps/framework.map")
     
     branch_label_match = re.search(r"^branch_label_([0-9A-F]+)$", symbol_name, re.IGNORECASE)
     if symbol_name in self.main_custom_symbols:
@@ -266,7 +269,13 @@ def add_relocations_to_rel(self, file_path, rel_section_index, offset_into_secti
       
       module_num = rel.id
       
-      other_rel_section_index, relative_offset = rel.convert_rel_offset_to_section_index_and_relative_offset(custom_symbol_offset)
+      if custom_symbol_offset >= free_space_start:
+        # In our custom free space section.
+        other_rel_section_index = 7
+        relative_offset = custom_symbol_offset - free_space_start
+      else:
+        other_rel_section_index, relative_offset = rel.convert_rel_offset_to_section_index_and_relative_offset(custom_symbol_offset)
+      
       rel_relocation.section_num_to_relocate_against = other_rel_section_index
       rel_relocation.symbol_address = relative_offset
     elif ":" in symbol_name:
@@ -301,7 +310,7 @@ def add_relocations_to_rel(self, file_path, rel_section_index, offset_into_secti
       rel_relocation.symbol_address = main_symbols[symbol_name]
       
       # I don't think this value is used for dol relocations.
-      # In vanilla, this was written as 4 for some reason?
+      # In vanilla, it was written as some kind of section index in the DOL (e.g. 4 for .text, 7 for .rodata), but this doesn't seem necessary.
       rel_relocation.section_num_to_relocate_against = 0
     else:
       raise Exception("Could not find symbol name: %s" % symbol_name)
