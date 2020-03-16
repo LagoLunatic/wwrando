@@ -110,3 +110,5 @@ sys/main.dol:
   test_room_spawn_id: 0x800531E3
   test_room_room_index: 0x800531E7
   test_room_override_layer_num: 0x800531EB
+files/rels/d_a_fganon.rel:
+  phantom_ganon_check_link_within_y_diff: 0xB020

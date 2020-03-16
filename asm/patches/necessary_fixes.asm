@@ -1378,3 +1378,31 @@
   ; Note that the string we're replacing was originally 0x23 bytes long, so this string should not be made any longer than that.
   .string "Missing particle with ID: 0x%04X"
 .close
+
+
+
+
+; Fixes Phantom Ganon 1's hardcoded fight trigger region in FF2 to check Link's Y position.
+; This is so it doesn't trigger when the player is much higher than Phantom Ganon, and is trying to go fight Helmaroc.
+.open "files/rels/d_a_fganon.rel"
+.org 0x4F50
+  b phantom_ganon_check_link_within_y_diff
+
+.org @NextFreeSpace
+.global phantom_ganon_check_link_within_y_diff
+phantom_ganon_check_link_within_y_diff:
+  lfs f4, 0x1C (sp) ; Read the Y difference between Link and Phantom Ganon
+  lfs f3, 0x88 (r31) ; Read the float constant 1000.0 from 0xA918
+  
+  ; If the Link is 1000.0 units or more higher than PG, do not trigger the fight.
+  ; (Does not account for negative difference. Still extends infinitely downwards.)
+  fcmpo cr0, f4, f3
+  bge phantom_ganon_check_link_within_y_diff_outside_range
+  
+  ; Otherwise, go on to check the X and Z difference as usual.
+  fmuls f1, f1, f1 ; Replace the line of code we overwrote to jump here
+  b 0x4F54
+
+phantom_ganon_check_link_within_y_diff_outside_range:
+  b 0x5204
+.close
