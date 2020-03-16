@@ -462,9 +462,9 @@ def change_item(self, path, item_name):
     change_hardcoded_item(self, path, offset, item_id)
   elif custom_symbol_match:
     custom_symbol = custom_symbol_match.group(1)
-    if custom_symbol not in self.custom_symbols:
+    if custom_symbol not in self.main_custom_symbols:
       raise Exception("Invalid custom symbol: %s" % custom_symbol)
-    address = self.custom_symbols[custom_symbol]
+    address = self.main_custom_symbols[custom_symbol]
     offset = address - tweaks.ORIGINAL_FREE_SPACE_RAM_ADDRESS + tweaks.ORIGINAL_DOL_SIZE
     path = os.path.join("sys", "main.dol")
     change_hardcoded_item(self, path, offset, item_id)

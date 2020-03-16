@@ -579,11 +579,12 @@ class Randomizer:
       icon_name_pointer = int(icon_name_pointer, 16)
       self.icon_name_pointer[item_id] = icon_name_pointer
     
-    self.custom_symbols = {}
     with open(os.path.join(ASM_PATH, "custom_symbols.txt"), "r") as f:
-      matches = re.findall(r"^([0-9a-f]{8}) (\S+)", f.read(), re.IGNORECASE | re.MULTILINE)
-    for symbol_address, symbol_name in matches:
-      self.custom_symbols[symbol_name] = int(symbol_address, 16)
+      self.custom_symbols = yaml.safe_load(f)
+    self.main_custom_symbols = self.custom_symbols["sys/main.dol"]
+    
+    with open(os.path.join(ASM_PATH, "free_space_start_offsets.txt"), "r") as f:
+      self.free_space_start_offsets = yaml.safe_load(f)
     
     with open(os.path.join(DATA_PATH, "progress_item_hints.txt"), "r") as f:
       self.progress_item_hints = yaml.safe_load(f)

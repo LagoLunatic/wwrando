@@ -226,8 +226,8 @@ class REL:
     next_section_data_offset = pad_offset_to_nearest(next_section_data_offset, 4) # TODO why is 4 more accurate here than the 8 from self.alignment?
     for section_index, section in enumerate(self.sections):
       if preserve_section_data_offsets:
-        if section.is_uninitialized or section.offset == 0:
-          # An uninitialized section (or a section that used to be uninitialized that we make use of).
+        if section.is_uninitialized:
+          # An uninitialized section.
           # We don't need to preserve the data offsets for these. Do nothing.
           pass
         else:

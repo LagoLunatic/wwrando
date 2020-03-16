@@ -11,6 +11,7 @@ from random import Random
 from fs_helpers import *
 from wwlib import texture_utils
 from wwlib.rarc import RARC
+from wwlib.rel import RELSection, RELRelocation, RELRelocationType
 from paths import ASSETS_PATH, ASM_PATH, SEEDGEN_PATH
 import customizer
 
@@ -112,6 +113,7 @@ def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
   
   return high_halfword, low_halfword
 
+
 def apply_patch(self, patch_name):
   with open(os.path.join(ASM_PATH, patch_name + "_diff.txt")) as f:
     diffs = yaml.safe_load(f)
@@ -120,9 +122,11 @@ def apply_patch(self, patch_name):
     for org_address, patchlet in diffs_for_file.items():
       new_bytes = patchlet["Data"]
       
+      free_space_start = self.free_space_start_offsets[file_path]
+      
       if file_path == "sys/main.dol":
-        if org_address == ORIGINAL_FREE_SPACE_RAM_ADDRESS:
-          add_custom_functions_to_free_space(self, new_bytes)
+        if org_address >= free_space_start:
+          add_free_space_section_to_main_dol(self, new_bytes)
           continue
         else:
           offset = address_to_offset(org_address)
@@ -131,11 +135,23 @@ def apply_patch(self, patch_name):
       else:
         assert file_path.endswith(".rel")
         offset = org_address
+        relocations = patchlet.get("Relocations", [])
+        
         rel = self.get_rel(file_path)
-        rel.write_data(write_and_pack_bytes, offset, new_bytes, "B"*len(new_bytes))
+        if False:#offset >= free_space_start: # TODO: uncomment this check once all the manual relocation hex edits in asm patches have been removed. this check incorrectly picks them up as free space changes.
+          apply_free_space_patchlet_to_rel(self, file_path, offset, new_bytes, relocations)
+        else:
+          rel.write_data(write_and_pack_bytes, offset, new_bytes, "B"*len(new_bytes))
+          
+          if relocations:
+            rel_section_index, offset_into_section = rel.convert_rel_offset_to_section_index_and_relative_offset(offset)
+            add_relocations_to_rel(self, file_path, rel_section_index, offset_into_section, relocations)
 
-def add_custom_functions_to_free_space(self, new_bytes):
+def add_free_space_section_to_main_dol(self, new_bytes):
   dol_data = self.get_raw_file("sys/main.dol")
+  
+  if data_len(dol_data) != ORIGINAL_DOL_SIZE:
+    raise Exception("Having multiple separate free space directives for main.dol is not currently supported.")
   
   # First write our custom code to the end of the dol file.
   patch_length = len(new_bytes)
@@ -183,6 +199,122 @@ def add_custom_functions_to_free_space(self, new_bytes):
   # Original stack end pointer (r1): 8040CFA8 (must be updated)
   # Original rtoc pointer (r2): 803FFD00 (must NOT be updated)
   # Original read-write small data area pointer (r13): 803FE0E0 (must NOT be updated)
+
+def apply_free_space_patchlet_to_rel(self, file_path, offset, new_bytes, relocations):
+  # We add a new section to the REL to hold our custom code.
+  
+  rel = self.get_rel(file_path)
+  
+  # Use REL section 7 for any custom code we add into RELs.
+  # REL sections 7-0x10 were present in all RELs in the original game, but always uninitialized, so we can use them freely.
+  # (REL section 0 was also present in all RELs but uninitialized, but that one seems to be necessary for some reason.)
+  rel_section_index = 7
+  rel_section = rel.sections[rel_section_index]
+  if rel_section.is_uninitialized:
+    # This is the first free space patchlet we're applying to this REL, so initialize the section.
+    add_free_space_section_to_rel(self, file_path)
+  
+  write_and_pack_bytes(rel_section.data, offset, new_bytes, "B"*len(new_bytes))
+  
+  if relocations:
+    add_relocations_to_rel(self, file_path, rel_section_index, patchlet_offset_into_curr_section, relocations)
+
+def add_free_space_section_to_rel(self, file_path):
+  rel = self.get_rel(file_path)
+  
+  rel_section_index = 7
+  rel_section = rel.sections[rel_section_index]
+  
+  assert not rel_section.is_bss
+  rel_section.is_uninitialized = False
+  rel_section.is_executable = True
+  rel_section.data = BytesIO()
+  
+  # We could leave it to the REL implementation's saving logic to decide where to place the free space, but to be on the safe side, instead use the free space offset from free_space_start_offsets.txt, because that's the offset that was used for linking the code.
+  rel_section.offset = self.free_space_start_offsets[file_path]
+
+def add_relocations_to_rel(self, file_path, rel_section_index, offset_into_section, relocations):
+  # Create the new REL relocations.
+  
+  rel = self.get_rel(file_path)
+  
+  for relocation_dict in relocations:
+    symbol_name = relocation_dict["SymbolName"]
+    relocation_offset = relocation_dict["Offset"]
+    relocation_type = relocation_dict["Type"]
+    
+    relocation_offset += offset_into_section
+    
+    rel_relocation = RELRelocation()
+    rel_relocation.relocation_type = RELRelocationType[relocation_type]
+    
+    main_symbols = self.get_symbol_map("files/maps/framework.map")
+    
+    branch_label_match = re.search(r"^branch_label_([0-9A-F]+)$", symbol_name, re.IGNORECASE)
+    if symbol_name in self.main_custom_symbols:
+      # Custom symbol located in main.dol.
+      module_num = 0
+      
+      rel_relocation.symbol_address = self.main_custom_symbols[symbol_name]
+      
+      # I don't think this value is used for dol relocations.
+      # In vanilla, this was written as 4 for some reason?
+      rel_relocation.section_num_to_relocate_against = 0
+    elif symbol_name in self.custom_symbols.get(file_path, {}):
+      # Custom symbol located in the current REL.
+      custom_symbol_offset = self.custom_symbols[file_path][symbol_name]
+      
+      module_num = rel.id
+      
+      other_rel_section_index, relative_offset = rel.convert_rel_offset_to_section_index_and_relative_offset(custom_symbol_offset)
+      rel_relocation.section_num_to_relocate_against = other_rel_section_index
+      rel_relocation.symbol_address = relative_offset
+    elif ":" in symbol_name:
+      # Vanilla symbol located in a REL.
+      # We use a colon to signify rel_name:symbol_name.
+      # (This is because we don't necessarily know for sure that the REL is calling a function inside of itself, it's possible to call a function in another REL.)
+      rel_name, symbol_name = symbol_name.split(":", 1)
+      other_rel = self.get_rel("files/rels/%s.rel" % rel_name)
+      other_rel_symbols = self.get_symbol_map("files/maps/%s.map" % rel_name)
+      
+      if symbol_name not in other_rel_symbols:
+        raise Exception("Symbol \"%s\" could not be found in the symbol map for REL %s.rel" % (symbol_name, rel_name))
+      
+      module_num = other_rel.id
+      
+      other_rel_section_index, relative_offset = other_rel.convert_rel_offset_to_section_index_and_relative_offset(other_rel_symbols[symbol_name])
+      rel_relocation.section_num_to_relocate_against = other_rel_section_index
+      rel_relocation.symbol_address = relative_offset
+    elif branch_label_match:
+      # Relative branch. The destination must be in the current REL.
+      branch_dest_offset = int(branch_label_match.group(1), 16)
+      
+      module_num = rel.id
+      
+      other_rel_section_index, relative_offset = rel.convert_rel_offset_to_section_index_and_relative_offset(branch_dest_offset)
+      rel_relocation.section_num_to_relocate_against = other_rel_section_index
+      rel_relocation.symbol_address = relative_offset
+    elif symbol_name in main_symbols:
+      # Vanilla symbol located in main.dol.
+      module_num = 0
+      
+      rel_relocation.symbol_address = main_symbols[symbol_name]
+      
+      # I don't think this value is used for dol relocations.
+      # In vanilla, this was written as 4 for some reason?
+      rel_relocation.section_num_to_relocate_against = 0
+    else:
+      raise Exception("Could not find symbol name: %s" % symbol_name)
+    
+    rel_relocation.relocation_offset = relocation_offset
+    rel_relocation.curr_section_num = rel_section_index
+    
+    if module_num not in rel.relocation_entries_for_module:
+      rel.relocation_entries_for_module[module_num] = []
+    rel.relocation_entries_for_module[module_num].append(rel_relocation)
+
+
+
 
 def set_new_game_starting_spawn_id(self, spawn_id):
   dol_data = self.get_raw_file("sys/main.dol")
@@ -302,7 +434,7 @@ def allow_all_items_to_be_field_items(self):
     
     if item_id == 0xAA:
       # Hurricane Spin, switch it to using the custom scroll model instead of the sword model.
-      arc_name_pointer = self.custom_symbols["hurricane_spin_item_resource_arc_name"]
+      arc_name_pointer = self.main_custom_symbols["hurricane_spin_item_resource_arc_name"]
       item_resources_offset_to_fix = item_resources_list_start + item_id*0x24
     
     write_u32(dol_data, field_item_resources_offset, arc_name_pointer)
@@ -413,27 +545,27 @@ def make_items_progressive(self):
   
   for sword_item_id in [0x38, 0x39, 0x3A, 0x3D, 0x3E]:
     sword_item_get_func_offset = item_get_funcs_list + sword_item_id*4
-    write_u32(dol_data, sword_item_get_func_offset, self.custom_symbols["progressive_sword_item_func"])
+    write_u32(dol_data, sword_item_get_func_offset, self.main_custom_symbols["progressive_sword_item_func"])
   
   for bow_item_id in [0x27, 0x35, 0x36]:
     bow_item_get_func_offset = item_get_funcs_list + bow_item_id*4
-    write_u32(dol_data, bow_item_get_func_offset, self.custom_symbols["progressive_bow_func"])
+    write_u32(dol_data, bow_item_get_func_offset, self.main_custom_symbols["progressive_bow_func"])
   
   for wallet_item_id in [0xAB, 0xAC]:
     wallet_item_get_func_offset = item_get_funcs_list + wallet_item_id*4
-    write_u32(dol_data, wallet_item_get_func_offset, self.custom_symbols["progressive_wallet_item_func"])
+    write_u32(dol_data, wallet_item_get_func_offset, self.main_custom_symbols["progressive_wallet_item_func"])
   
   for bomb_bag_item_id in [0xAD, 0xAE]:
     bomb_bag_item_get_func_offset = item_get_funcs_list + bomb_bag_item_id*4
-    write_u32(dol_data, bomb_bag_item_get_func_offset, self.custom_symbols["progressive_bomb_bag_item_func"])
+    write_u32(dol_data, bomb_bag_item_get_func_offset, self.main_custom_symbols["progressive_bomb_bag_item_func"])
   
   for quiver_item_id in [0xAF, 0xB0]:
     quiver_item_get_func_offset = item_get_funcs_list + quiver_item_id*4
-    write_u32(dol_data, quiver_item_get_func_offset, self.custom_symbols["progressive_quiver_item_func"])
+    write_u32(dol_data, quiver_item_get_func_offset, self.main_custom_symbols["progressive_quiver_item_func"])
   
   for picto_box_item_id in [0x23, 0x26]:
     picto_box_item_get_func_offset = item_get_funcs_list + picto_box_item_id*4
-    write_u32(dol_data, picto_box_item_get_func_offset, self.custom_symbols["progressive_picto_box_item_func"])
+    write_u32(dol_data, picto_box_item_get_func_offset, self.main_custom_symbols["progressive_picto_box_item_func"])
   
   # Register which item ID is for which progressive item.
   self.item_name_to_id["Progressive Sword"] = 0x38
@@ -465,7 +597,7 @@ def make_sail_behave_like_swift_sail(self):
   
   ship_rel = self.get_rel("files/rels/d_a_ship.rel")
   # Change the relocation for line B9FC, which originally called setShipSailState.
-  ship_rel.write_data(write_u32, 0x11C94, self.custom_symbols["set_wind_dir_to_ship_dir"])
+  ship_rel.write_data(write_u32, 0x11C94, self.main_custom_symbols["set_wind_dir_to_ship_dir"])
   
   ship_rel.write_data(write_float, 0xDBE8, 55.0*2) # Sailing speed
   ship_rel.write_data(write_float, 0xDBC0, 80.0*2) # Initial speed
@@ -747,7 +879,7 @@ def allow_dungeon_items_to_appear_anywhere(self):
     # Update the item get funcs for the dungeon items to point to our custom item get funcs instead.
     custom_symbol_name = item_name.lower().replace(" ", "_") + "_item_get_func"
     item_get_func_offset = item_get_funcs_list + item_id*4
-    write_u32(dol_data, item_get_func_offset, self.custom_symbols[custom_symbol_name])
+    write_u32(dol_data, item_get_func_offset, self.main_custom_symbols[custom_symbol_name])
     
     # Add item get messages for the items.
     if base_item_name == "Small Key":
@@ -1184,7 +1316,7 @@ def update_korl_dialogue(self):
 
 def set_num_starting_triforce_shards(self):
   num_starting_triforce_shards = int(self.options.get("num_starting_triforce_shards", 0))
-  num_shards_address = self.custom_symbols["num_triforce_shards_to_start_with"]
+  num_shards_address = self.main_custom_symbols["num_triforce_shards_to_start_with"]
   dol_data = self.get_raw_file("sys/main.dol")
   write_u8(dol_data, address_to_offset(num_shards_address), num_starting_triforce_shards)
 
@@ -1195,13 +1327,13 @@ def set_starting_health(self):
 
   starting_health = base_health + heart_containers + heart_pieces
   
-  starting_quarter_hearts_address = self.custom_symbols["starting_quarter_hearts"]
+  starting_quarter_hearts_address = self.main_custom_symbols["starting_quarter_hearts"]
 
   dol_data = self.get_raw_file("sys/main.dol")
   write_u16(dol_data, address_to_offset(starting_quarter_hearts_address), starting_health)
 
 def give_double_magic(self):
-  starting_magic_address = self.custom_symbols["starting_magic"]
+  starting_magic_address = self.main_custom_symbols["starting_magic"]
   dol_data = self.get_raw_file("sys/main.dol")
   write_u8(dol_data, address_to_offset(starting_magic_address), 32)
 
@@ -1431,7 +1563,7 @@ def change_starting_clothes(self):
   custom_model_metadata = customizer.get_model_metadata(self.custom_model_name)
   disable_casual_clothes = custom_model_metadata.get("disable_casual_clothes", False)
   
-  should_start_with_heros_clothes_address = self.custom_symbols["should_start_with_heros_clothes"]
+  should_start_with_heros_clothes_address = self.main_custom_symbols["should_start_with_heros_clothes"]
   dol_data = self.get_raw_file("sys/main.dol")
   if self.options.get("player_in_casual_clothes") and not disable_casual_clothes:
     write_u8(dol_data, address_to_offset(should_start_with_heros_clothes_address), 0)
@@ -1476,7 +1608,7 @@ def disable_invisible_walls(self):
   invisible_wall.save_changes()
 
 def update_skip_rematch_bosses_game_variable(self):
-  skip_rematch_bosses_address = self.custom_symbols["skip_rematch_bosses"]
+  skip_rematch_bosses_address = self.main_custom_symbols["skip_rematch_bosses"]
   dol_data = self.get_raw_file("sys/main.dol")
   if self.options.get("skip_rematch_bosses"):
     write_u8(dol_data, address_to_offset(skip_rematch_bosses_address), 1)
@@ -1484,7 +1616,7 @@ def update_skip_rematch_bosses_game_variable(self):
     write_u8(dol_data, address_to_offset(skip_rematch_bosses_address), 0)
 
 def update_sword_mode_game_variable(self):
-  sword_mode_address = self.custom_symbols["sword_mode"]
+  sword_mode_address = self.main_custom_symbols["sword_mode"]
   dol_data = self.get_raw_file("sys/main.dol")
   if self.options.get("sword_mode") == "Start with Sword":
     write_u8(dol_data, address_to_offset(sword_mode_address), 0)
@@ -1505,7 +1637,7 @@ def update_starting_gear(self):
   
   if len(starting_gear) > MAXIMUM_ADDITIONAL_STARTING_ITEMS:
     raise Exception("Tried to start with more starting items than the maximum number that was allocated")
-  starting_gear_array_address = self.custom_symbols["starting_gear"]
+  starting_gear_array_address = self.main_custom_symbols["starting_gear"]
   dol_data = self.get_raw_file("sys/main.dol")
   normal_items = 0
   for i in range(len(starting_gear)):
@@ -1596,7 +1728,7 @@ def update_tingle_statue_item_get_funcs(self):
     item_get_func_offset = item_get_funcs_list + tingle_statue_item_id*4
     item_name = self.item_names[tingle_statue_item_id]
     custom_symbol_name = item_name.lower().replace(" ", "_") + "_item_get_func"
-    write_u32(dol_data, item_get_func_offset, self.custom_symbols[custom_symbol_name])
+    write_u32(dol_data, item_get_func_offset, self.main_custom_symbols[custom_symbol_name])
 
 def make_tingle_statue_reward_rupee_rainbow_colored(self):
   # Change the color index of the special 500 rupee to be 7 - this is a special value (originally unused) we use to indicate to our custom code that it's the special rupee, and so it should have its color animated.
@@ -1925,9 +2057,9 @@ def test_room(self):
   
   dol_data = self.get_raw_file("sys/main.dol")
   
-  stage_name_ptr = self.custom_symbols["test_room_stage_name"]
-  room_index_ptr = self.custom_symbols["test_room_room_index"]
-  spawn_id_ptr = self.custom_symbols["test_room_spawn_id"]
+  stage_name_ptr = self.main_custom_symbols["test_room_stage_name"]
+  room_index_ptr = self.main_custom_symbols["test_room_room_index"]
+  spawn_id_ptr = self.main_custom_symbols["test_room_spawn_id"]
   
   write_str(dol_data, address_to_offset(stage_name_ptr), self.test_room_args["stage"], 8)
   write_u8(dol_data, address_to_offset(room_index_ptr), self.test_room_args["room"])
@@ -1957,7 +2089,7 @@ def add_new_bog_warp(self):
   new_num_warps = 10
   
   # Update the pointers to the warp table in various pieces of code to point to a custom one.
-  custom_warp_table_address = self.custom_symbols["ballad_of_gales_warp_table"]
+  custom_warp_table_address = self.main_custom_symbols["ballad_of_gales_warp_table"]
   high_halfword, low_halfword = split_pointer_into_high_and_low_half_for_hardcoding(custom_warp_table_address)
   dol_data = self.get_raw_file("sys/main.dol")
   for code_address in [0x801B96DC, 0x801B96F0, 0x801B9790]:
@@ -1965,7 +2097,7 @@ def add_new_bog_warp(self):
     write_u16(dol_data, address_to_offset(code_address+6), low_halfword)
   
   # Update the pointers to the float bank of X/Y positions for the warp icons to point to a custom one.
-  custom_warp_float_bank_address = self.custom_symbols["ballad_of_gales_warp_float_bank"]
+  custom_warp_float_bank_address = self.main_custom_symbols["ballad_of_gales_warp_float_bank"]
   high_halfword, low_halfword = split_pointer_into_high_and_low_half_for_hardcoding(custom_warp_float_bank_address)
   dol_data = self.get_raw_file("sys/main.dol")
   for code_address in [0x801B9360, 0x801B7C28]:

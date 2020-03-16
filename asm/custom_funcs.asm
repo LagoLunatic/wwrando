@@ -1,6 +1,6 @@
 
 .open "sys/main.dol"
-.org 0x803FCFA8
+.org @NextFreeSpace
 
 .global init_save_with_tweaks
 init_save_with_tweaks:
