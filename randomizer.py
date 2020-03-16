@@ -430,7 +430,11 @@ class Randomizer:
   
   def apply_necessary_tweaks(self):
     tweaks.apply_patch(self, "custom_funcs")
-    tweaks.apply_patch(self, "necessary_fixes")
+    tweaks.apply_patch(self, "make_game_nonlinear")
+    tweaks.apply_patch(self, "remove_cutscenes")
+    tweaks.apply_patch(self, "flexible_item_locations")
+    tweaks.apply_patch(self, "fix_vanilla_bugs")
+    tweaks.apply_patch(self, "misc_rando_features")
     tweaks.skip_wakeup_intro_and_start_at_dock(self)
     tweaks.start_ship_at_outset(self)
     tweaks.fix_deku_leaf_model(self)

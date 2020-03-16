@@ -547,6 +547,8 @@ def remove_forsaken_fortress_2_cutscenes(self):
 def make_items_progressive(self):
   # This makes items progressive, so even if you get them out of order, they will always be upgraded, never downgraded.
   
+  apply_patch(self, "make_items_progressive")
+  
   dol_data = self.get_raw_file("sys/main.dol")
   
   # Update the item get funcs for the items to point to our custom progressive item get funcs instead.
