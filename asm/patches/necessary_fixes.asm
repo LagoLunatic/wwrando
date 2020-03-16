@@ -384,11 +384,10 @@
 
 
 
-; In order to get rid of the cutscene where the player warps down to Hyrule 3, we set the HYRULE_3_WARP_CUTSCENE event bit on starting a new game.
+; In order to get rid of the cutscene where the player warps down to Hyrule 3, we set the HYRULE_3_WARP_CUTSCENE event bit in the custom function for initializing a new game.
 ; But then that results in the warp appearing even before the player should unlock it.
 ; So we replace a couple places that check that event bit to instead call a custom function that returns whether the warp should be unlocked or not.
 .open "files/rels/d_a_warpdm20.rel" ; Hyrule warp object
-; This is a rel, so overwrite the relocation addresses instead of the actual code.
 .org 0x634
   bl check_hyrule_warp_unlocked
 .org 0xB50
@@ -412,7 +411,6 @@
 ; We replace where he calls dComIfGs_checkGetItem__FUc with a custom function that checks the appropriate treasure chest open flag.
 ; We only make this change for Phanton Ganon 2 (in the maze) not Phantom Ganon 3 (when you kill him with Light Arrows).
 .open "files/rels/d_a_fganon.rel" ; Phantom Ganon
-; This is a rel, so overwrite the relocation addresses instead of the actual code.
 .org 0x4D4C ; In standby__FP12fganon_class
   bl check_ganons_tower_chest_opened
 .close
@@ -730,7 +728,6 @@
   nop
   nop
 .org 0x8B8
-  ; Then we go up a bit to the start of the function, and replace the function call to _savegpr_28 with a call to our custom function, getting around the need to add a new relocation.
   bl convert_progressive_item_id_for_shop_item
 .close
 
