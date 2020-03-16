@@ -10,6 +10,11 @@ import yaml
 import traceback
 from sys import platform
 
+import sys
+sys.path.insert(0, "../")
+from fs_helpers import *
+from elf import *
+
 if platform == "win32":
   devkitbasepath = r"C:\devkitPro\devkitPPC\bin"
 else:
@@ -57,6 +62,81 @@ with open("free_space_start_offsets.txt", "r") as f:
 next_free_space_offsets = {}
 for file_path, offset in free_space_start_offsets.items():
   next_free_space_offsets[file_path] = offset
+
+def get_code_and_relocations_from_elf(bin_name):
+  elf = ELF()
+  elf.read_from_file(bin_name)
+  
+  relocations_in_elf = []
+  
+  for elf_section in elf.sections:
+    # TODO: Maybe support multiple sections, not just .text, such as .data?
+    found_text_section = False
+    if elf_section.name == ".text":
+      assert not found_text_section
+      found_text_section = True
+      # Get the code and overwrite the ELF file with just the raw binary code.
+      with open(bin_name, "wb") as f:
+        f.write(read_all_bytes(elf_section.data))
+    elif elf_section.type == ELFSectionType.SHT_RELA:
+      # Get the relocations.
+      assert elf_section.name.startswith(".rela")
+      relocated_section_name = elf_section.name[len(".rela"):]
+      assert relocated_section_name == ".text"
+      
+      for elf_relocation in elf.relocations[elf_section.name]:
+        elf_symbol = elf.symbols[".symtab"][elf_relocation.symbol_index]
+        is_local_relocation = try_apply_local_relocation(bin_name, elf_relocation, elf_symbol)
+        
+        if not is_local_relocation:
+          relocations_in_elf.append(OrderedDict([
+            ["SymbolName", elf_symbol.name],
+            ["Offset", elf_relocation.relocation_offset],
+            ["Type", elf_relocation.type.name],
+          ]))
+  
+  return relocations_in_elf
+
+def try_apply_local_relocation(bin_name, elf_relocation, elf_symbol):
+  branch_label_match = re.search(r"^branch_label_([0-9A-F]+)$", elf_symbol.name, re.IGNORECASE)
+  if branch_label_match:
+    # We should relocate the relative branches within this REL ourselves so the game doesn't need to do it at runtime.
+    branch_src_offset = org_offset + elf_relocation.relocation_offset
+    branch_dest_offset = int(branch_label_match.group(1), 16)
+    relative_branch_offset = ((branch_dest_offset - branch_src_offset) // 4) << 2
+    
+    if elf_relocation.type == ELFRelocationType.R_PPC_REL24:
+      if relative_branch_offset > 0x1FFFFFF or relative_branch_offset < -0x2000000:
+        raise Exception("Relocation failed: Cannot branch from %X to %X with a 24-bit relative offset." % (branch_src_offset, branch_dest_offset))
+      
+      with open(bin_name, "r+b") as f:
+        instruction = read_u32(f, elf_relocation.relocation_offset)
+        instruction &= ~0x03FFFFFC
+        instruction |= relative_branch_offset & 0x03FFFFFC
+        write_u32(f, elf_relocation.relocation_offset, instruction)
+      
+      return True
+    elif elf_relocation.type == ELFRelocationType.R_PPC_REL14:
+      if relative_branch_offset > 0x7FFF or relative_branch_offset < -0x8000:
+        raise Exception("Relocation failed: Cannot branch from %X to %X with a 14-bit relative offset." % (branch_src_offset, branch_dest_offset))
+      
+      with open(bin_name, "r+b") as f:
+        instruction = read_u32(f, elf_relocation.relocation_offset)
+        instruction &= ~0x0000FFFC
+        instruction |= relative_branch_offset & 0x0000FFFC
+        write_u32(f, elf_relocation.relocation_offset, instruction)
+      
+      return True
+  
+  if elf_relocation.type == ELFRelocationType.R_PPC_ADDR32:
+    # Also relocate absolute pointers into main.dol.
+    
+    with open(bin_name, "r+b") as f:
+      write_u32(f, elf_relocation.relocation_offset, elf_symbol.address)
+    
+    return True
+  
+  return False
 
 try:
   with open("linker.ld") as f:
@@ -227,11 +307,16 @@ try:
           get_bin("powerpc-eabi-ld"),
           "-Ttext", "%X" % org_offset,
           "-T", temp_linker_name,
-          "--oformat", "binary",
           "-Map=" + map_name,
           o_name,
           "-o", bin_name
         ]
+        if file_path.endswith(".rel"):
+          # Output an ELF with relocation for RELs.
+          command += ["--relocatable"]
+        else:
+          # For main, just output the raw binary code, not an ELF.
+          command += ["--oformat", "binary"]
         print(" ".join(command))
         print()
         result = call(command)
@@ -254,6 +339,11 @@ try:
               symbol_name = match.group(2)
               custom_symbols_for_file[symbol_name] = symbol_address
               temp_linker_script += "%s = 0x%08X;\n" % (symbol_name, symbol_address)
+        
+        if file_path.endswith(".rel"):
+          # This is for a REL, so we can't link it.
+          # Instead read the ELF to get the assembled code and relocations out of it directly.
+          relocations += get_code_and_relocations_from_elf(bin_name)
         
         # Keep track of changed bytes.
         if file_path not in diffs:
