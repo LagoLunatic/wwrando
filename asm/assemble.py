@@ -184,6 +184,9 @@ try:
           raise Exception("Found .org directive when no file was open")
         
         org_offset = int(org_match.group(1), 16)
+        if org_offset >= free_space_start_offsets[most_recent_file_path]:
+          raise Exception("Tried to manually set the origin point to after the start of free space.\n.org offset: 0x%X\nFile path: %s\n\nUse \".org @NextFreeSpace\" instead to get an automatically assigned free space offset." % (org_offset, most_recent_file_path))
+        
         code_chunks[patch_name][most_recent_file_path][org_offset] = ""
         most_recent_org_offset = org_offset
         continue
@@ -312,7 +315,7 @@ try:
           "-o", bin_name
         ]
         if file_path.endswith(".rel"):
-          # Output an ELF with relocation for RELs.
+          # Output an ELF with relocations for RELs.
           command += ["--relocatable"]
         else:
           # For main, just output the raw binary code, not an ELF.

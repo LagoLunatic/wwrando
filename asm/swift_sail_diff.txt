@@ -1,5 +1,10 @@
 files/rels/d_a_ship.rel:
-  0x1068C:
-    Data: [0x80, 0x3F, 0xDE, 0x94]
-  0x106B4:
-    Data: [0x80, 0x3F, 0xDE, 0xCC]
+  0xB9FC:
+    Data: [0x48, 0x00, 0x00, 0x01]
+    Relocations: [{SymbolName: set_wind_dir_to_ship_dir, Offset: 0x00, Type: R_PPC_REL24}]
+  0x3A74:
+    Data: [0x48, 0x00, 0x00, 0x01]
+    Relocations: [{SymbolName: slow_down_ship_when_stopping, Offset: 0x00, Type: R_PPC_REL24}]
+  0x3BC8:
+    Data: [0x48, 0x00, 0x00, 0x01]
+    Relocations: [{SymbolName: slow_down_ship_when_idle, Offset: 0x00, Type: R_PPC_REL24}]

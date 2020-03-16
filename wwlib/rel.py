@@ -169,31 +169,6 @@ class REL:
     
     data, relative_offset = self.convert_rel_offset_to_section_data_and_relative_offset(offset)
     
-    if data is None and offset > self.relocation_table_offset:
-      # Legacy support for changing a relocation's address.
-      # This should ideally be removed if all the REL asm patches that use it are rewritten.
-      for module_num, relocation_data_entries in self.relocation_entries_for_module.items():
-        for relocation in relocation_data_entries:
-          if relocation.offset is None:
-            # Not a vanilla relocation, but a brand new one we added, so this can't be the desired one.
-            continue
-          
-          if offset == relocation.offset+4:
-            if write_callback == write_u32 and isinstance(args[0], int):
-              new_symbol_address = args[0]
-            elif write_callback == write_and_pack_bytes and len(args[0]) == 4:
-              new_bytes = args[0]
-              new_symbol_address = 0
-              new_symbol_address |= new_bytes[0] << 24
-              new_symbol_address |= new_bytes[1] << 16
-              new_symbol_address |= new_bytes[2] << 8
-              new_symbol_address |= new_bytes[3] << 0
-            else:
-              raise Exception("Invalid legacy overwrite of REL relocation: %s, %04X, %s" % (write_callback, offset, args))
-            
-            relocation.symbol_address = new_symbol_address
-            return
-    
     if data is None:
       raise Exception("Offset %04X is not in the data for any of the REL sections" % offset)
     

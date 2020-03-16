@@ -287,12 +287,12 @@
 ; So we change the functions he calls to set the slot as sold out and check if it's sold out to custom functions.
 ; These custom functions use bit 40 of byte 803C4CBF, which was originally unused, to keep track of this.
 .open "files/rels/d_a_npc_bs1.rel" ; Beedle
-.org 0x7834
-  ; Change the relocation for line 1CE8, which originally called SoldOutItem.
-  .int set_shop_item_in_bait_bag_slot_sold_out
-.org 0x7BD4
-  ; Change the relocation for line 2DC4, which originally called checkGetItem.
-  .int check_shop_item_in_bait_bag_slot_sold_out
+.org 0x1CE8
+  ; Originally called SoldOutItem
+  bl set_shop_item_in_bait_bag_slot_sold_out
+.org 0x2DC4
+  ; Originally called checkGetItem.
+  bl check_shop_item_in_bait_bag_slot_sold_out
 .close
 
 
@@ -346,8 +346,8 @@
 ; Withered trees
 .open "files/rels/d_a_obj_ftree.rel" ; Withered Trees
 ; In launch_heart_part (for creating the heart piece when the player waters the final tree)
-.org 0x60E8 ; Relocation for line 0x25C
-  .int custom_createItem
+.org 0x25C
+  bl custom_createItem
 .org 0x260
   ; Change the check on the return value from fastCreateItem being 0 (meaning no item actor was created) to instead check if the return value from custom_createItem is -1 (also meaning no item actor was created).
   mr r31, r3
@@ -363,9 +363,9 @@
   ; Bit 0x40 we will set on the frame that the item actor properly spawns as part of withered_tree_item_try_give_momentum.
   nop
 ; In place_heart_part (for recreating the heart piece if the player watered all the trees and then reloaded the stage)
-.org 0x6190 ; Relocation for line 0x418
+.org 0x418
   ; Instead of simply calling custom_createItem, we have to call a wrapper function that both calls custom_createItem and sets our custom flag at withered_tree_entity+0x212 on in order to avoid our custom withered tree code setting the speeds to launch the item into the air.
-  .int create_item_for_withered_trees_without_setting_speeds
+  bl create_item_for_withered_trees_without_setting_speeds
 .org 0x41C
   ; Again, like above we change the check on the return value to check -1 instead of 0.
   cmpwi r3, -1
@@ -375,10 +375,10 @@
   mr r0, r3
   ; (After this, the withered tree will store the actor's unique ID to tree_actor+0x64C as normal.)
 ; In search_heart_part (for detecting if the player has picked up the heart piece yet)
-.org 0x60C8 ; Relocation for line 0x184
+.org 0x184
   ; The way this function was originally coded already handled its job of detecting if the item was picked up appropriately, even in cases where the item is delayed spawned and doesn't exist for the first few frames. We don't need to modify anything to fix that.
   ; However, we do hijack this function in order to set some speed variables for the item on the frame it spawns, since custom_createItem wasn't able to do that like fastCreateItem was.
-  .int withered_tree_item_try_give_momentum
+  bl withered_tree_item_try_give_momentum
 .close
 
 
@@ -389,10 +389,10 @@
 ; So we replace a couple places that check that event bit to instead call a custom function that returns whether the warp should be unlocked or not.
 .open "files/rels/d_a_warpdm20.rel" ; Hyrule warp object
 ; This is a rel, so overwrite the relocation addresses instead of the actual code.
-.org 0x2530 ; Relocation for line 634
-  .int check_hyrule_warp_unlocked
-.org 0x2650 ; Relocation for line B50
-  .int check_hyrule_warp_unlocked
+.org 0x634
+  bl check_hyrule_warp_unlocked
+.org 0xB50
+  bl check_hyrule_warp_unlocked
 .close
 
 
@@ -413,14 +413,14 @@
 ; We only make this change for Phanton Ganon 2 (in the maze) not Phantom Ganon 3 (when you kill him with Light Arrows).
 .open "files/rels/d_a_fganon.rel" ; Phantom Ganon
 ; This is a rel, so overwrite the relocation addresses instead of the actual code.
-.org 0xDB54 ; Relocation for line 0x4D4C in standby__FP12fganon_class
-  .int check_ganons_tower_chest_opened
+.org 0x4D4C ; In standby__FP12fganon_class
+  bl check_ganons_tower_chest_opened
 .close
 ; Then there's an issue where killing Phantom Ganon 3 first and using his sword to destroy the door makes the sword dropped by Phantom Ganon 2 also disappear, which is bad because then the player wouldn't know which way to go in the maze.
 .open "files/rels/d_a_boko.rel" ; Weapons lying on the ground
-.org 0x6404 ; Relocation for line 0x2A90 in execute__8daBoko_cFv
+.org 0x2A90 ; In execute__8daBoko_cFv
   ; Instead of checking if the event flag for having destroyed the door with Phantom Ganon's sword is set, call a custom function.
-  .int check_phantom_ganons_sword_should_disappear
+  bl check_phantom_ganons_sword_should_disappear
 .close
 
 
@@ -442,27 +442,27 @@
   .short 0x6910 ; Unused event bit
 ; Then change the function call to createItemForPresentDemo to call our own custom function instead.
 ; This custom function will both call createItemForPresentDemo and set one of the event bits specified above, by extracting the item ID and event bit separately from argument r4.
-.org 0xFB34 ; Relocation for line 0x4BEC
-  .int create_item_and_set_event_bit_for_townsperson
+.org 0x4BEC
+  bl create_item_and_set_event_bit_for_townsperson
 ; We also need to change the calls to checkGetItem to instead call isEventBit.
-.org 0xF17C ; Relocation for line 0x8D8
-  .int dComIfGs_isEventBit__FUs
-.org 0xF40C ; Relocation for line 0x14D0
-  .int dComIfGs_isEventBit__FUs
-.org 0xF5CC ; Relocation for line 0x1C38
-  .int dComIfGs_isEventBit__FUs
-.org 0xFFA4 ; Relocation for line 0x6174
-  .int dComIfGs_isEventBit__FUs
-.org 0x102BC ; Relocation for line 0x6C54
-  .int dComIfGs_isEventBit__FUs
-.org 0x102DC ; Relocation for line 0x6CC8
-  .int dComIfGs_isEventBit__FUs
-.org 0x106FC ; Relocation for line 0x88A8
-  .int dComIfGs_isEventBit__FUs
-.org 0x10744 ; Relocation for line 0x8A60
-  .int dComIfGs_isEventBit__FUs
-.org 0x10954 ; Relocation for line 0x91C4
-  .int dComIfGs_isEventBit__FUs
+.org 0x8D8
+  bl dComIfGs_isEventBit__FUs
+.org 0x14D0
+  bl dComIfGs_isEventBit__FUs
+.org 0x1C38
+  bl dComIfGs_isEventBit__FUs
+.org 0x6174
+  bl dComIfGs_isEventBit__FUs
+.org 0x6C54
+  bl dComIfGs_isEventBit__FUs
+.org 0x6CC8
+  bl dComIfGs_isEventBit__FUs
+.org 0x88A8
+  bl dComIfGs_isEventBit__FUs
+.org 0x8A60
+  bl dComIfGs_isEventBit__FUs
+.org 0x91C4
+  bl dComIfGs_isEventBit__FUs
 ; And finally, we change argument r3 passed to isEventBit to be the relevant event bit, as opposed to the item ID that it originally was for checkGetItem.
 .org 0x08D4 ; For Pompie and Vera
   li r3, 0x6904
@@ -485,10 +485,10 @@
 .close
 ; Also, we need to change a couple checks Lenzo does, since he also checks if you got the item from Pompie and Vera.
 .open "files/rels/d_a_npc_photo.rel" ; Lenzo
-.org 0x717C ; Relocation for line 0x9C8
-  .int dComIfGs_isEventBit__FUs
-.org 0x7194 ; Relocation for line 0x9F8
-  .int dComIfGs_isEventBit__FUs
+.org 0x9C8
+  bl dComIfGs_isEventBit__FUs
+.org 0x9F8
+  bl dComIfGs_isEventBit__FUs
 .org 0x9C4 ; For Lenzo, checking Pompie and Vera's event bit
   li r3, 0x6904
 .org 0x9F4 ; For Lenzo, checking Pompie and Vera's event bit
@@ -499,16 +499,16 @@
 .open "files/rels/d_a_npc_photo.rel" ; Lenzo
 ; First we need to change a function Lenzo calls when he gives you the item in the Deluxe Picto Box slot to call a custom function.
 ; This custom function will set an event bit to keep track of whether you've done this independantly of what the item itself is.
-.org 0x7B04 ; Relocation for line 0x3BDC
-  .int lenzo_set_deluxe_picto_box_event_bit
+.org 0x3BDC
+  bl lenzo_set_deluxe_picto_box_event_bit
 ; Then we change the calls to checkGetItem to see if the player owns the Deluxe Picto Box to instead check the event bit we just set (6920).
 ; Change the calls to checkGetItem to instead call isEventBit.
-.org 0x7AEC ; Relocation for line 0x3BB4
-  .int dComIfGs_isEventBit__FUs
-.org 0x7B14 ; Relocation for line 0x3C6C
-  .int dComIfGs_isEventBit__FUs
-.org 0x7D6C ; Relocation for line 0x4AFC
-  .int dComIfGs_isEventBit__FUs
+.org 0x3BB4
+  bl dComIfGs_isEventBit__FUs
+.org 0x3C6C
+  bl dComIfGs_isEventBit__FUs
+.org 0x4AFC
+  bl dComIfGs_isEventBit__FUs
 ; And change argument r3 passed to isEventBit to be the event bit we set (6920), as opposed to the item ID that it originally was for checkGetItem.
 .org 0x3BB0
   li r3, 0x6920
@@ -587,11 +587,11 @@
   ; We replace this with a call to isEventBit checking our custom event bit.
   li r3, 0x6940
   nop
-.org 0x71B4 ; Relocation for line 0x1784
-  .int dComIfGs_isEventBit__FUs
-.org 0x75F4 ; Relocation for line 0x32E8
+.org 0x1784
+  bl dComIfGs_isEventBit__FUs
+.org 0x32E8
   ; Change the call to createItemForPresentDemo to instead call our custom function so that it can set the custom event bit if necessary.
-  .int zunari_give_item_and_set_magic_armor_event_bit
+  bl zunari_give_item_and_set_magic_armor_event_bit
 .close
 
 
@@ -602,11 +602,11 @@
 .open "files/rels/d_a_npc_sv.rel" ; Salvage Corp
 .org 0x2C8
   li r3, 0x6980
-.org 0x3DFC ; Relocation for line 0x2CC
-  .int dComIfGs_isEventBit__FUs
-.org 0x41CC ; Relocation for line 0x19A8
+.org 0x2CC
+  bl dComIfGs_isEventBit__FUs
+.org 0x19A8
   ; Change the call to createItemForPresentDemo to instead call our custom function so that it can set the custom event bit if necessary.
-  .int salvage_corp_give_item_and_set_event_bit
+  bl salvage_corp_give_item_and_set_event_bit
 .close
 
 
@@ -630,11 +630,11 @@
 ; Change how she checks if she's given you her first item yet.
 .org 0x1214
   li r3, 0x6A01
-.org 0x40A8 ; Relocation for line 0x1218
-  .int dComIfGs_isEventBit__FUs
+.org 0x1218
+  bl dComIfGs_isEventBit__FUs
 ; Change the function call when she gives you her first item to a custom function that will set the custom event bit.
-.org 0x4190 ; Relocation for line 0x17EC
-  .int maggie_give_item_and_set_event_bit
+.org 0x17EC
+  bl maggie_give_item_and_set_event_bit
 ; Also, normally if you finished her quest and get her second item, it locks you out from ever getting her first item.
 ; So we change it so she never acts like the quest is complete (she thinks you still have Moe's Letter in your inventory).
 .org 0x11D8
@@ -650,16 +650,16 @@
 ; Change how he checks if he's given you his item yet when he's initializing.
 .org 0x1020
   li r3, 0x6A02
-.org 0xD06C ; Relocation for line 0x1024
-  .int dComIfGs_isEventBit__FUs
+.org 0x1024
+  bl dComIfGs_isEventBit__FUs
 ; Change how he checks if he's given you his item yet when you talk to him.
 .org 0x3178
   li r3, 0x6A02
-.org 0xD5A4 ; Relocation for line 0x317C
-  .int dComIfGs_isEventBit__FUs
+.org 0x317C
+  bl dComIfGs_isEventBit__FUs
 ; Change the function call when he starts the event that gives you his item to instead call a custom function that will set a custom event bit.
-.org 0xD384 ; Relocation for line 0x225C
-  .int rito_cafe_postman_start_event_and_set_event_bit
+.org 0x225C
+  bl rito_cafe_postman_start_event_and_set_event_bit
 .close
 
 
@@ -675,8 +675,8 @@
   ; In vanilla, Orca's letter is sent when you watch a cutscene on Greatfish Isle.
   ; That cutscene is removed, so change it to be sent when you kill Kalle Demos.
   li r3, 4
-.org 0x385C ; Relocation for line 0x1B10
-  .int dComIfGs_isStageBossEnemy__Fi
+.org 0x1B10
+  bl dComIfGs_isStageBossEnemy__Fi
 .close
 .open "sys/main.dol"
 .org 0x80197ADC
@@ -729,9 +729,9 @@
   ; So instead we first remove this original code.
   nop
   nop
-.org 0x1698 ; Relocation for line 0x8B8
+.org 0x8B8
   ; Then we go up a bit to the start of the function, and replace the function call to _savegpr_28 with a call to our custom function, getting around the need to add a new relocation.
-  .int convert_progressive_item_id_for_shop_item
+  bl convert_progressive_item_id_for_shop_item
 .close
 
 
@@ -739,12 +739,12 @@
 
 ; Fix a big where buying a progressive item from the shop would not show the item get animation if it's the tier 2+ item.
 .open "files/rels/d_a_npc_bs1.rel"
-.org 0x783C ; Relocation for line 0x1D00
+.org 0x1D00
   ; For the Bait Bag slot.
-  .int custom_getSelectItemNo_progressive
-.org 0x792C ; Relocation for line 0x1F3C
+  bl custom_getSelectItemNo_progressive
+.org 0x1F3C
   ; For the 3 Rock Spire Shop Ship slots.
-  .int custom_getSelectItemNo_progressive
+  bl custom_getSelectItemNo_progressive
 .close
 
 
@@ -788,8 +788,8 @@
 ; When the player enters Wind Temple, reset Makar's position to the starting room, or to near the warp pot the player exited.
 ; This is to prevent possible softlocks where Makar can teleport to later rooms in the dungeon for seemingly no reason.
 .open "files/rels/d_a_npc_cb1.rel" ; Makar
-.org 0xD740 ; Relocation for line 0x7D4
-  .int reset_makar_position_to_start_of_dungeon
+.org 0x7D4
+  bl reset_makar_position_to_start_of_dungeon
 .org 0x7B4 ; This line originally stopped Makar from spawning if the partner ID number (803C4DC3) was not set to 1.
   ; Remove the line so that Makar spawns in, even after taking an inter-dungeon warp pot.
   nop
@@ -801,8 +801,8 @@
 ; When the player enters Earth Temple, reset Medli's position to the starting room, or to near the warp pot the player exited.
 ; This is to prevent an issue where the player can't get past the first room without Medli unless they have Deku Leaf.
 .open "files/rels/d_a_npc_md.rel" ; Medli
-.org 0x19D34 ; Relocation for line 0xDB4
-  .int reset_medli_position_to_start_of_dungeon
+.org 0xDB4
+  bl reset_medli_position_to_start_of_dungeon
 .org 0xD94 ; This line originally stopped Medli from spawning if the partner ID number (803C4DC3) was not set to 2.
   ; Remove the line so that Medli spawns in, even after taking an inter-dungeon warp pot.
   nop
@@ -1036,54 +1036,54 @@
 ; But that wouldn't work correctly when Tingle Statues are randomized.
 ; The Tingle Statue item get functions are changed to set certain event bits, so we change the code here to check those same event bits.
 .open "files/rels/d_a_obj_vtil.rel" ; Physical Tingle Statues on Tingle Island
-.org 0x269C ; Relocation for line 0x820
-  .int check_tingle_statue_owned
+.org 0x820
+  bl check_tingle_statue_owned
 .close
 .open "files/rels/d_a_npc_tc.rel" ; Tingle and brothers
-.org 0x858C ; Relocation for line 0x2F8
-  .int check_tingle_statue_owned
-.org 0x8594 ; Relocation for line 0x308
-  .int check_tingle_statue_owned
-.org 0x859C ; Relocation for line 0x318
-  .int check_tingle_statue_owned
-.org 0x85A4 ; Relocation for line 0x328
-  .int check_tingle_statue_owned
-.org 0x85AC ; Relocation for line 0x338
-  .int check_tingle_statue_owned
-.org 0x88AC ; Relocation for line 0x1578
-  .int check_tingle_statue_owned
-.org 0x88B4 ; Relocation for line 0x158C
-  .int check_tingle_statue_owned
-.org 0x88BC ; Relocation for line 0x15A0
-  .int check_tingle_statue_owned
-.org 0x88C4 ; Relocation for line 0x15B4
-  .int check_tingle_statue_owned
-.org 0x88CC ; Relocation for line 0x15C8
-  .int check_tingle_statue_owned
-.org 0x8964 ; Relocation for line 0x193C
-  .int check_tingle_statue_owned
-.org 0x896C ; Relocation for line 0x1950
-  .int check_tingle_statue_owned
-.org 0x8974 ; Relocation for line 0x1964
-  .int check_tingle_statue_owned
-.org 0x897C ; Relocation for line 0x1978
-  .int check_tingle_statue_owned
-.org 0x8984 ; Relocation for line 0x198C
-  .int check_tingle_statue_owned
-.org 0x934C ; Relocation for line 0x58CC
-  .int check_tingle_statue_owned
-.org 0x935C ; Relocation for line 0x58FC
-  .int check_tingle_statue_owned
-.org 0x936C ; Relocation for line 0x592C
-  .int check_tingle_statue_owned
-.org 0x937C ; Relocation for line 0x595C
-  .int check_tingle_statue_owned
-.org 0x938C ; Relocation for line 0x598C
-  .int check_tingle_statue_owned
-.org 0x93B4 ; Relocation for line 0x5A54
-  .int check_tingle_statue_owned
-.org 0x93F4 ; Relocation for line 0x5C50
-  .int check_tingle_statue_owned
+.org 0x2F8
+  bl check_tingle_statue_owned
+.org 0x308
+  bl check_tingle_statue_owned
+.org 0x318
+  bl check_tingle_statue_owned
+.org 0x328
+  bl check_tingle_statue_owned
+.org 0x338
+  bl check_tingle_statue_owned
+.org 0x1578
+  bl check_tingle_statue_owned
+.org 0x158C
+  bl check_tingle_statue_owned
+.org 0x15A0
+  bl check_tingle_statue_owned
+.org 0x15B4
+  bl check_tingle_statue_owned
+.org 0x15C8
+  bl check_tingle_statue_owned
+.org 0x193C
+  bl check_tingle_statue_owned
+.org 0x1950
+  bl check_tingle_statue_owned
+.org 0x1964
+  bl check_tingle_statue_owned
+.org 0x1978
+  bl check_tingle_statue_owned
+.org 0x198C
+  bl check_tingle_statue_owned
+.org 0x58CC
+  bl check_tingle_statue_owned
+.org 0x58FC
+  bl check_tingle_statue_owned
+.org 0x592C
+  bl check_tingle_statue_owned
+.org 0x595C
+  bl check_tingle_statue_owned
+.org 0x598C
+  bl check_tingle_statue_owned
+.org 0x5A54
+  bl check_tingle_statue_owned
+.org 0x5C50
+  bl check_tingle_statue_owned
 .close
 
 
@@ -1131,8 +1131,9 @@
 
 ; Allow randomizing the first Green/Blue Potions Doc Bandam makes when you give him 15 jelly separately from the subsequent ones when you give him 5 jelly.
 .open "files/rels/d_a_npc_ds1.rel"
-.org 0x7B24 ; Relocation for line 0x2940, originally called fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz
-  .int doc_bandam_check_new_potion_and_give_free_item
+.org 0x2940
+  ; Originally called fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz
+  bl doc_bandam_check_new_potion_and_give_free_item
 .org 0x1550 ; When Doc Bandam just made a new potion, this is where it checks if you have an empty bottle
   nop ; Remove the branch here that skips giving the item in this case so the player can't miss this item.
 .close
@@ -1199,8 +1200,8 @@
   ; We change it to check switch 5 (set when the Mighty Darknuts die) to decide if it should play the short version of the intro event, or if it shouldn't play any event at all once you've defeated the Darknuts.
   li r4, 5
   li r5, 0
-.org 0x2E54 ; Relocation for line 0x1248
-  .int isSwitch__10dSv_info_cFii
+.org 0x1248
+  bl isSwitch__10dSv_info_cFii
 .org 0x1250
   beq 0x12C4 ; If the Darknuts are defeated, destroy this firewall object so it doesn't play any intro event.
   ; Otherwise continue on with the normal code to initialize the short intro event.
@@ -1264,8 +1265,8 @@
 
 ; Fix a vanilla bug where cutting Stalfos in half and then hitting the upper body with light arrows would make the lower body permanently unkillable.
 .open "files/rels/d_a_st.rel" ; Stalfos
-.org 0xDF3C ; Relocation for line 0x85CC
-  .int stalfos_kill_lower_body_when_upper_body_light_arrowed
+.org 0x85CC
+  bl stalfos_kill_lower_body_when_upper_body_light_arrowed
 .close
 
 
@@ -1274,8 +1275,8 @@
 ; Fix a vanilla bug where Miniblins killed with light arrows will not set their death switch.
 ; (Note: This fix still does not fix the case where the Miniblin is supposed to set switch index 0 on death, but there are no Miniblins in the game that are supposed to set that, so it doesn't matter.)
 .open "files/rels/d_a_pt.rel" ; Miniblin
-.org 0x8950 ; Relocation for line 0x4B44
-  .int miniblin_set_death_switch_when_light_arrowed
+.org 0x4B44
+  bl miniblin_set_death_switch_when_light_arrowed
 .close
 
 
@@ -1287,8 +1288,8 @@
   ; Remove a check that the Poe's HP must be <= 0 for it to be considered dead by Jalhalla.
   ; We're going to add this back in our custom code, we just need to remove it here so the original code reaches the function call we hijack to insert custom code, so that we can have it check (HP <= 0 || isDyingToLightArrows).
   b 0x8D8
-.org 0x9628 ; Relocation for line 0x900
-  .int poe_fix_light_arrows_bug
+.org 0x900
+  bl poe_fix_light_arrows_bug
 .org 0x904
   ; Our custom function replaces the entire rest of this function, so just return after the custom function finished.
   lwz r31, 0x1C (r1)
@@ -1303,8 +1304,8 @@
 
 ; Fix a vanilla bug where respawning Magtails would not respawn if you shoot their head with Light Arrows.
 .open "files/rels/d_a_mt.rel" ; Magtail
-.org 0xD2B0 ; Relocation for line 0x6000
-  .int magtail_respawn_when_head_light_arrowed
+.org 0x6000
+  bl magtail_respawn_when_head_light_arrowed
 .org 0x6004
   ; Then remove some lines of code after the function call we had to move into the custom function.
   nop
@@ -1319,8 +1320,8 @@
 
 ; Fix a bug where losing to the Outset whirlpool wouldn't stop the intense music from playing, and would result in both that music and Outset's normal music playing at the same time afterwards.
 .open "files/rels/d_a_ship.rel"
-.org 0x1121C ; Relocatiaon for line 7CB8 (in daShip_c::procWhirlDown)
-  .int set_next_stage_and_stop_sub_bgm
+.org 0x7CB8 ; In daShip_c::procWhirlDown
+  bl set_next_stage_and_stop_sub_bgm
 .close
 
 

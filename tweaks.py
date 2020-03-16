@@ -138,7 +138,7 @@ def apply_patch(self, patch_name):
         relocations = patchlet.get("Relocations", [])
         
         rel = self.get_rel(file_path)
-        if False:#offset >= free_space_start: # TODO: uncomment this check once all the manual relocation hex edits in asm patches have been removed. this check incorrectly picks them up as free space changes.
+        if offset >= free_space_start:
           apply_free_space_patchlet_to_rel(self, file_path, offset, new_bytes, relocations)
         else:
           rel.write_data(write_and_pack_bytes, offset, new_bytes, "B"*len(new_bytes))
@@ -595,15 +595,13 @@ def make_sail_behave_like_swift_sail(self):
   # Also doubles KoRL's speed.
   # And changes the textures to match the swift sail from HD.
   
-  ship_rel = self.get_rel("files/rels/d_a_ship.rel")
-  # Change the relocation for line B9FC, which originally called setShipSailState.
-  ship_rel.write_data(write_u32, 0x11C94, self.main_custom_symbols["set_wind_dir_to_ship_dir"])
+  # Apply the asm patch.
+  apply_patch(self, "swift_sail")
   
+  # Double the speed.
+  ship_rel = self.get_rel("files/rels/d_a_ship.rel")
   ship_rel.write_data(write_float, 0xDBE8, 55.0*2) # Sailing speed
   ship_rel.write_data(write_float, 0xDBC0, 80.0*2) # Initial speed
-  
-  # Also increase deceleration when the player is stopping or is knocked out of the ship.
-  apply_patch(self, "swift_sail")
   
   # Update the pause menu name for the sail.
   msg = self.bmg.messages_by_id[463]
