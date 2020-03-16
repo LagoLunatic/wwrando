@@ -256,7 +256,9 @@ class REL:
       write_u32(data, next_imp_offset+0x04, next_relocation_entry_offset)
       next_imp_offset += 8
       
-      # TODO: sort the relocation_data_entries by curr_section_num to reduce the number of section number switches we need to do
+      # Sort the relocations first by their section, then by their offset within the section.
+      relocation_data_entries.sort(key=lambda reloc: (reloc.curr_section_num, reloc.relocation_offset))
+      
       curr_section_num = None
       prev_relocation_offset = 0
       for relocation_data_entry in relocation_data_entries:
@@ -284,6 +286,9 @@ class REL:
           next_relocation_entry_offset += RELRelocation.ENTRY_SIZE
           
           offset_diff -= 0xFFFF
+        
+        if offset_diff < 0:
+          raise Exception("Negative offset difference between relocation. Relocations not properly sorted.")
         
         relocation_data_entry.offset_of_curr_relocation_from_prev = offset_diff
         relocation_data_entry.save(data, next_relocation_entry_offset)
