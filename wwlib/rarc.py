@@ -106,7 +106,6 @@ class RARC:
     file_entry.parent_node = node
     self.file_entries.append(file_entry)
     node.files.append(file_entry)
-    node.files.sort(key=lambda fe: fe.id) # Files in a folder must be sorted by ID.
     
     self.regenerate_all_file_entries_list()
     
@@ -198,8 +197,6 @@ class RARC:
       self.data.seek(node.node_offset)
       self.data.write(b'\0'*Node.ENTRY_SIZE)
       next_node_offset += Node.ENTRY_SIZE
-      
-      node.files.sort(key=lambda fe: fe.id) # Files in a folder must be sorted by ID.
     
     # Reorders the self.file_entries list and sets the first_file_index field for each node.
     self.regenerate_all_file_entries_list()
