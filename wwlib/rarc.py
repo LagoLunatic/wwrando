@@ -251,7 +251,7 @@ class RARC:
     self.total_num_file_entries = len(self.file_entries)
     write_u32(self.data, 0x28, self.total_num_file_entries)
     write_u32(self.data, 0x2C, self.file_entries_list_offset-0x20)
-    self.string_list_size = self.string_list_offset - self.file_data_list_offset
+    self.string_list_size = self.file_data_list_offset - self.string_list_offset
     write_u32(self.data, 0x30, self.string_list_size)
     write_u32(self.data, 0x34, self.string_list_offset-0x20)
     write_u16(self.data, 0x38, self.next_free_file_id)
