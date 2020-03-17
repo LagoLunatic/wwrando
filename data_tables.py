@@ -4,7 +4,7 @@ import yaml
 
 from paths import DATA_PATH
 
-class DataTables:
+def read_actor_info():
   with open(os.path.join(DATA_PATH, "actor_info.txt"), "r") as f:
     actor_info = yaml.safe_load(f)
   
@@ -16,6 +16,9 @@ class DataTables:
       class_name = class_name.lower()
     actor_name_to_class_name[actor_name] = class_name
   
+  return actor_name_to_class_name
+
+def read_actor_params():
   with open(os.path.join(DATA_PATH, "actor_parameters.txt"), "r") as f:
     case_sensitive_actor_parameters = yaml.safe_load(f)
   
@@ -28,4 +31,9 @@ class DataTables:
     for param_name, param_data in params.items():
       actor_parameters[class_name][param_name] = (param_data["Bitfield name"], param_data["Mask"])
   
-  del case_sensitive_actor_parameters
+  return actor_parameters
+
+class DataTables:
+  if os.path.isdir(DATA_PATH):
+    actor_name_to_class_name = read_actor_info()
+    actor_parameters = read_actor_params()
