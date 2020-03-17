@@ -67,30 +67,17 @@ class RARC:
   def add_new_file(self, file_name, file_data, node):
     file_entry = FileEntry(self)
     
-    # Give the file a free file ID.
+    highest_file_id = max(fe.id for fe in self.file_entries)
+    file_entry.id = highest_file_id + 1
+    # Give the file the lowest free file ID.
     used_file_ids = [other_file_entry.id for other_file_entry in self.file_entries]
     file_entry.id = None
-    # First try to insert it add the end of the folder, meaning it must have a file ID greater than the highest in the folder currently.
-    if node.files:
-      first_file_id_to_check = max(fe.id for fe in node.files if fe.id != 0xFFFF) + 1
-    else:
-      first_file_id_to_check = 0
-    for id in range(first_file_id_to_check, 0xFFFE+1):
+    for id in range(0xFFFF+1):
       if id in used_file_ids:
         continue
-      else:
-        file_entry.id = id
-        break
-    if file_entry.id is None:
-      # If all file IDs after the current highest are used up somehow, insert it at the beginning/middle of the folder instead.
-      for id in range(0, first_file_id_to_check):
-        if id in used_file_ids:
-          continue
-        else:
-          file_entry.id = id
-          break
-      if file_entry.id is None:
-        raise Exception("No free file IDs. Cannot add new file.")
+      file_entry.id = id
+      break
+    assert file_entry.id is not None
     
     file_entry.type = 0x01
     if file_name.endswith(".rel"):
