@@ -2801,7 +2801,7 @@ Crescent Moon Island - Sunken Treasure:
     - sea/Room5.arc/ScalableObject009
 Seven-Star Isles - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 6 & Bombs
-  # Bombs are not necessary, but it's tricky to salvage this treasure with two stationary gunboats shooting at you, so being able to destroy them makes this much easier.
+  # Bombs are not necessary, but it's tricky to salvage this treasure with two stationary gunboats shooting at you, so being able to destroy them makes this much easier. (Note that these gunboats only spawn after you have deciphered Triforce Chart 7.)
   Original item: Triforce Shard 7
   Types: Sunken Treasure
   Paths:
