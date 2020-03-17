@@ -32,7 +32,10 @@ class RARC:
     self.num_nodes = read_u32(data, 0x20)
     self.total_num_file_entries = read_u32(data, 0x28)
     self.file_entries_list_offset = read_u32(data, 0x2C) + 0x20
+    self.string_list_size = read_u32(data, 0x30)
     self.string_list_offset = read_u32(data, 0x34) + 0x20
+    self.next_free_file_id = read_u16(data, 0x38)
+    self.keep_file_ids_synced_with_indexes = read_u8(data, 0x3A)
     
     self.nodes = []
     for node_index in range(self.num_nodes):
@@ -67,17 +70,10 @@ class RARC:
   def add_new_file(self, file_name, file_data, node):
     file_entry = FileEntry(self)
     
-    highest_file_id = max(fe.id for fe in self.file_entries)
-    file_entry.id = highest_file_id + 1
-    # Give the file the lowest free file ID.
-    used_file_ids = [other_file_entry.id for other_file_entry in self.file_entries]
-    file_entry.id = None
-    for id in range(0xFFFF+1):
-      if id in used_file_ids:
-        continue
-      file_entry.id = id
-      break
-    assert file_entry.id is not None
+    if self.next_free_file_id == 0xFFFF:
+      raise Exception("Next free file ID in RARC is 0xFFFF. Cannot add new file.")
+    file_entry.id = self.next_free_file_id
+    self.next_free_file_id += 1
     
     file_entry.type = 0x01
     if file_name.endswith(".rel"):
@@ -255,7 +251,11 @@ class RARC:
     self.total_num_file_entries = len(self.file_entries)
     write_u32(self.data, 0x28, self.total_num_file_entries)
     write_u32(self.data, 0x2C, self.file_entries_list_offset-0x20)
+    self.string_list_size = self.string_list_offset - self.file_data_list_offset
+    write_u32(self.data, 0x30, self.string_list_size)
     write_u32(self.data, 0x34, self.string_list_offset-0x20)
+    write_u16(self.data, 0x38, self.next_free_file_id)
+    write_u8(self.data, 0x3A, self.keep_file_ids_synced_with_indexes)
     
     # Update rarc's size fields.
     self.size = self.file_data_list_offset + next_file_data_offset
