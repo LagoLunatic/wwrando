@@ -1,1 +1,1 @@
-py -3.6 assemble.py
+py -3.8 assemble.py

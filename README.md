@@ -53,17 +53,17 @@ Download and install git from here: https://git-scm.com/downloads
 Then clone this repository with git by running this in a command prompt:  
 `git clone https://github.com/LagoLunatic/wwrando.git`  
 
-Download and install Python 3.6.6 from here: https://www.python.org/downloads/release/python-366/  
+Download and install Python 3.8.2 from here: https://www.python.org/downloads/release/python-382/  
 "Windows x86-64 executable installer" is the one you want if you're on Windows, "macOS 64-bit installer" if you're on Mac.  
-If you're on Linux, run this command instead: `sudo apt-get install python3.6`  
+If you're on Linux, run this command instead: `sudo apt-get install python3.8`  
 
 Open the wwrando folder in a command prompt and install dependencies by running:  
-`py -3.6 -m pip install -r requirements.txt` (on Windows)  
+`py -3.8 -m pip install -r requirements.txt` (on Windows)  
 `python3 -m pip install -r requirements.txt` (on Mac)  
 `python3 -m pip install $(cat requirements.txt) --user` (on Linux)  
 
 Then run the randomizer with:  
-`py -3.6 wwrando.py` (on Windows)  
+`py -3.8 wwrando.py` (on Windows)  
 `python3 wwrando.py` (on Mac)  
 `python3 wwrando.py` (on Linux)  
 
