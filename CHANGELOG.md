@@ -22,6 +22,7 @@ Bug fixes:
 * Fixed a vanilla bug where respawning Magtails that are killed by shooting them in the head with Light Arrows would not respawn.
 * Fixed Big Octo eyes not changing color very much when destroyed if the enemy palette randomizer was on.
 * Fixed Mighty Darknut and Phantom Ganon's capes sometimes being transparent when the enemy palette randomizer was on.
+* Fixed the floor of the roof of Forsaken Fortress's tower being recolored along with Helmaroc King when the enemy palette randomizer was on.
 
 
 
