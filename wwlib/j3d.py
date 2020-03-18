@@ -17,14 +17,15 @@ IMPLEMENTED_CHUNK_TYPES = [
 ]
 
 class J3DFile:
-  def __init__(self, file_entry):
-    self.file_entry = file_entry
-    self.file_entry.decompress_data_if_necessary()
+  def __init__(self, data):
+    if try_read_str(data, 0, 4) == "Yaz0":
+      data = Yaz0.decompress(data)
+    self.data = data
     
     self.read()
   
   def read(self):
-    data = self.file_entry.data
+    data = self.data
     
     self.magic = read_str(data, 0, 4)
     assert self.magic.startswith("J3D")
@@ -57,7 +58,7 @@ class J3DFile:
       offset += chunk.size
   
   def save_changes(self):
-    data = self.file_entry.data
+    data = self.data
     
     # Cut off the chunk data first since we're replacing this data entirely.
     data.truncate(0x20)
@@ -78,28 +79,34 @@ class J3DFile:
     write_u32(data, 8, self.length)
     write_u32(data, 0xC, self.num_chunks)
 
-class BDL(J3DFile):
+class J3DFileEntry(J3DFile):
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+    self.file_entry.decompress_data_if_necessary()
+    super(J3DFileEntry, self).__init__(self.file_entry.data)
+
+class BDL(J3DFileEntry):
   def __init__(self, file_entry):
     super().__init__(file_entry)
     
     assert self.magic == "J3D2"
     assert self.file_type == "bdl4"
 
-class BMD(J3DFile):
+class BMD(J3DFileEntry):
   def __init__(self, file_entry):
     super().__init__(file_entry)
     
     assert self.magic == "J3D2"
     assert self.file_type == "bmd3"
 
-class BMT(J3DFile):
+class BMT(J3DFileEntry):
   def __init__(self, file_entry):
     super().__init__(file_entry)
     
     assert self.magic == "J3D2"
     assert self.file_type == "bmt3"
 
-class BRK(J3DFile):
+class BRK(J3DFileEntry):
   def __init__(self, file_entry):
     super().__init__(file_entry)
     
