@@ -1506,7 +1506,9 @@ def increase_grapple_animation_speed(self):
   dol_data = self.get_raw_file("sys/main.dol")
   
   # Double the velocity the grappling hook is thrown out (from 20.0 to 40.0)
-  write_float(dol_data, address_to_offset(0x803F9D28), 40.0) # Grappling hook velocity
+  # Instead of reading 20.0 from 803F9D28, read 40.0 from 803F9DAC.
+  # (We can't just change the float value itself because it's used for multiple things.)
+  write_s16(dol_data, address_to_offset(0x800EE0E4+2), 0x803F9DAC-0x803FFD00)
   
   # Half the number of frames grappling hook extends outward in 1st person (from 40 to 20 frames)
   write_u32(dol_data, address_to_offset(0x800EDB74), 0x38030014) # addi r0,r3,20
@@ -1515,10 +1517,13 @@ def increase_grapple_animation_speed(self):
   write_u32(dol_data, address_to_offset(0x800EDEA4), 0x3803000A) # addi r0,r3,10
   
   # Increase the speed in which the grappling hook falls onto it's target (from 10.0 to 20.0)
-  write_float(dol_data, address_to_offset(0x803F9C44), 20.0) 
+  # Instead of reading 10.0 from 803F9C44, read 20.0 from 803F9D28.
+  # (We can't just change the float value itself because it's used for multiple things.)
+  write_s16(dol_data, address_to_offset(0x800EEC40+2), 0x803F9D28-0x803FFD00)
   
-  # Increase grappling hook speed as it wraps around it's target (from 17.0 to 25.0)
-  write_float(dol_data, address_to_offset(0x803F9D60), 25.0) 
+  # Increase grappling hook speed as it wraps around its target (from 17.0 to 25.0)
+  # (Only read in one spot, so we can change the value directly.)
+  write_float(dol_data, address_to_offset(0x803F9D60), 25.0)
   
   # Increase the counter that determines how fast to end the wrap around animation. (From +1 each frame to +6 each frame)
   write_u32(dol_data, address_to_offset(0x800EECA8), 0x38A30006) # addi r5,r3,6

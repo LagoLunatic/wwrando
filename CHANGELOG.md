@@ -19,11 +19,12 @@ Changes:
 * The "Generate Spoiler Log" option is now worded as "Do Not Generate Spoiler Log" and unchecked by default. Its effect is the same, just flipped.
 
 Bug fixes:
-* Fixed a bug where slightly recoloring certain grey colors on player models would make them appear as extremely saturated colors.
+* Fixed a bug introduced in 1.7.0 where slightly recoloring certain grey colors on player models would make them appear as extremely saturated colors.
 * Fixed a vanilla bug where respawning Magtails that are killed by shooting them in the head with Light Arrows would not respawn.
 * Fixed Big Octo eyes not changing color very much when destroyed if the enemy palette randomizer was on.
 * Fixed Mighty Darknut and Phantom Ganon's capes sometimes being transparent when the enemy palette randomizer was on.
 * Fixed the floor of the roof of Forsaken Fortress's tower being recolored along with Helmaroc King when the enemy palette randomizer was on.
+* Fixed a bug introduced in 1.5.0 where the Grappling Hook's hook would visually appear slightly detached from the rope when Link holds it at his side.
 
 
 
