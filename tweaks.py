@@ -2174,6 +2174,24 @@ def enable_developer_mode(self):
   dol_data = self.get_raw_file("sys/main.dol")
   write_u8(dol_data, address_to_offset(0x803F60E0), 1) # mDoMain::developmentMode(void)
 
+def enable_heap_display(self):
+  # Enables the heap display left in the game's code for viewing how much memory is free in real time.
+  
+  dol_data = self.get_raw_file("sys/main.dol")
+  boot_data = self.get_raw_file("sys/boot.bin")
+  
+  # Change a variable in the ISO header to allow the heap display to be used.
+  write_u8(boot_data, 0x07, 0x91)
+  
+  # Default the heap display to on when booting up the game so it doesn't need to be toggled on with R+Z on controller 3.
+  write_u8(dol_data, address_to_offset(0x800063E7), 1) # Hardcoded default value for mDisplayHeapSize (in func main01)
+  
+  # Default tab of the heap display to 1 instead of 4 so it doesn't need to be changed with L+Z on controller 3.
+  write_u8(dol_data, address_to_offset(0x803F60E8), 1) # mHeapBriefType
+  
+  # Remove a check that a controller must be connected to port 3 for the heap display to be shown.
+  write_u32(dol_data, address_to_offset(0x800084A0), 0x60000000) # nop (in mDoGph_AfterOfDraw)
+
 def add_failsafe_id_0_spawns(self):
   # Add spawns with spawn ID 0 to any rooms that didn't originally have them, copying an existing spawn from the same room.
   # This is so anything that assumes all rooms have a spawn with ID 0 (for example, Floormasters that don't have an explicit exit set for when they capture you) doesn't crash the game.

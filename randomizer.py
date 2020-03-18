@@ -91,6 +91,7 @@ class Randomizer:
     else:
       self.randomize_items = True
     self.map_select = ("-mapselect" in cmd_line_args)
+    self.heap_display = ("-heap" in cmd_line_args)
     
     self.test_room_args = None
     if "-test" in cmd_line_args:
@@ -367,6 +368,8 @@ class Randomizer:
         tweaks.apply_patch(self, "map_select")
       if IS_RUNNING_FROM_SOURCE:
         tweaks.enable_developer_mode(self)
+      if self.heap_display:
+        tweaks.enable_heap_display(self)
       
       if self.test_room_args is not None:
         tweaks.test_room(self)
