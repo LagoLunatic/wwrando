@@ -838,7 +838,7 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
     else:
       enemy.behavior_type = self.rng.choice([4, 7])
   elif enemy.name == "mo2":
-    enemy.moblin_type = self.rng.choice([0, 1])
+    pass
   elif enemy.name == "p_hat":
     if category == "Ceiling":
       enemy.horizontal_range = 20
