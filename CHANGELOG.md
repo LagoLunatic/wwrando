@@ -9,12 +9,13 @@ New features:
 * Added an option to remove all music from the game.
 
 Changes:
+* The trigger for the Phantom Ganon fight at Forsaken Fortress no longer extends infinitely upwards above Phantom Ganon like it did in vanilla. This means you can fight Helmaroc King without first defeating Phantom Ganon (which can now be required by the logic).
+* Removed the minor cutscenes in DRC, FW, TotG, and ET where the camera panned around the hub room.
+* When the randomizer runs out of items to place (e.g. because you started with extra gear) it will now place various consumables randomly to fill the locations up, instead of only using red rupees.
+* Hyrule Castle now has Moblins and Darknuts in it. (Killing them is not necessary to progress like in vanilla.)
 * Drastically improved the performance of recoloring the player model preview image in the randomizer's UI, especially when lots of different color options are changed from the model's defaults.
 * Added more custom color options for the vanilla Link model.
 * The "Generate Spoiler Log" option is now worded as "Do Not Generate Spoiler Log" and unchecked by default. Its effect is the same, just flipped.
-* The trigger for the Phantom Ganon fight at Forsaken Fortress no longer extends infinitely upwards above Phantom Ganon like it did in vanilla. This means you can fight Helmaroc King without first defeating Phantom Ganon (which can now be required by the logic).
-* Hyrule Castle now has Moblins and Darknuts in it. (Killing them is not necessary to progress like in vanilla.)
-* When the randomizer runs out of items to place (e.g. because you started with extra gear) it will now place various consumables randomly to fill the locations up, instead of only using red rupees.
 
 Bug fixes:
 * Fixed a bug where slightly recoloring certain grey colors on player models would make them appear as extremely saturated colors.
