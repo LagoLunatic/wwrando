@@ -887,7 +887,7 @@ class WWRandomizerWindow(QMainWindow):
     
     any_color_changed = False
     for custom_color_name, default_color in default_colors.items():
-      if self.custom_colors[custom_color_name] != default_color:
+      if custom_color_name in self.custom_colors and self.custom_colors[custom_color_name] != default_color:
         any_color_changed = True
       option_name = "custom_color_" + custom_color_name
       self.set_color(option_name, default_color, update_preview=False, save_color_as_custom=False)
