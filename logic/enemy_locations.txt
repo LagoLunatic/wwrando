@@ -6679,30 +6679,40 @@ sea/Room6.arc:
       Path: sea/Room6.arc/Actor02B
 
 
-# TODO
 # Pawprint Isle
 sea/Room12.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
+  Has throwable objects: Yes
   Enemies:
     -
       Original enemy: Bokoblin
-      Placement category: Ground
-      Path: sea/Room12.arc/Actor011
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room12.arc/Actor029
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room12.arc/Actor02E
+      Position offset: [0, -200, 0]
+-
+  Must defeat enemies: No
+  Original requirements:
+    Can Defeat Bokoblins
+  Has throwable objects: Yes
+  Enemies:
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
+      Path: sea/Room12.arc/Actor011
+      Position offset: [0, -200, 0]
+    -
+      Original enemy: Bokoblin
+      Placement category: Ground:HasPit
       Path: sea/Room12.arc/Actor033
+      Position offset: [0, -200, 0]
 
 
 # TODO
