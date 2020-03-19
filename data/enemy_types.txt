@@ -28,7 +28,7 @@
   Memory used by first one: 31904
   Memory used by subequent ones: 18496
   Death switch param name: null
-  Allow near pits: True # TODO CHECK
+  Allow near pits: True # TODO CHECK (they can jump off while trying to attack the player, but don't by themselves. do they die in the pit, or still count as a living enemy?)
   Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Red ChuChu
@@ -397,7 +397,7 @@
   Memory used by first one: 44896 # For 10 Morths.
   Memory used by subequent ones: 43520 # For 10 Morths.
   Death switch param name: null
-  Allow near pits: True # TODO CHECK
+  Allow near pits: False
   Can be killed with thrown objects: No # TODO CHECK
   # Note: These don't count as being alive, if only morths are in a room the room will consider itself completed immediately.
 -
@@ -414,7 +414,7 @@
   Memory used by first one: 44896 # For 10 Morths.
   Memory used by subequent ones: 43520 # For 10 Morths.
   Death switch param name: null
-  Allow near pits: True # TODO CHECK
+  Allow near pits: False
   Can be killed with thrown objects: No # TODO CHECK
   # Note: These don't count as being alive, if only morths are in a room the room will consider itself completed immediately.
 -
@@ -447,7 +447,7 @@
   Memory used by first one: 24512
   Memory used by subequent ones: 12960
   Death switch param name: null
-  Allow near pits: True # TODO CHECK
+  Allow near pits: False # Rats run off by themselves, often before the player even sees them.
   Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Bombchu
@@ -463,7 +463,7 @@
   Memory used by first one: 26944
   Memory used by subequent ones: 15392
   Death switch param name: null
-  Allow near pits: True # TODO CHECK
+  Allow near pits: False # Rats run off by themselves, often before the player even sees them.
   Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Rat Hole
@@ -479,7 +479,7 @@
   Memory used by first one: 99136 # For 5 rats, also includes the rat shopkeeper.
   Memory used by subequent ones: 79040 # For 5 rats, also includes the rat shopkeeper.
   Death switch param name: null
-  Allow near pits: True # TODO CHECK
+  Allow near pits: False # Rats run off by themselves, often before the player even sees them.
   Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Bombchu Hole
@@ -495,7 +495,7 @@
   Memory used by first one: 92128 # For 5 Bombchus.
   Memory used by subequent ones: 78784 # For 5 Bombchus.
   Death switch param name: null
-  Allow near pits: True # TODO CHECK
+  Allow near pits: False # Rats run off by themselves, often before the player even sees them.
   Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Rat and Bombchu Hole
@@ -511,7 +511,7 @@
   Memory used by first one: 92128 # For 5 rats/Bombchus.
   Memory used by subequent ones: 78784 # For 5 rats/Bombchus.
   Death switch param name: null
-  Allow near pits: True # TODO CHECK
+  Allow near pits: False # Rats run off by themselves, often before the player even sees them.
   Can be killed with thrown objects: No # TODO CHECK
 -
   Pretty name: Stalfos
