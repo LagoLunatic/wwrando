@@ -636,6 +636,7 @@ class WWRandomizerWindow(QMainWindow):
       model = widget.model();
       if isinstance(model, ModelFilterOut):
         model = model.sourceModel()
+      model.sort(0)
       return [model.data(model.index(i)) for i in range(model.rowCount())]
     else:
       print("Option widget is invalid: %s" % option_name)
