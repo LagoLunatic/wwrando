@@ -883,10 +883,10 @@ class WWRandomizerWindow(QMainWindow):
     self.reload_colors()
   
   def reset_color_selectors_to_model_default_colors(self):
-    custom_colors = self.get_default_custom_colors_for_current_model()
+    default_colors = self.get_default_custom_colors_for_current_model()
     
     any_color_changed = False
-    for custom_color_name, default_color in custom_colors.items():
+    for custom_color_name, default_color in default_colors.items():
       if self.custom_colors[custom_color_name] != default_color:
         any_color_changed = True
       option_name = "custom_color_" + custom_color_name
@@ -1030,8 +1030,8 @@ class WWRandomizerWindow(QMainWindow):
         "color: rgb(%d, %d, %d);" % text_color,
       )
     
-    custom_colors = self.get_default_custom_colors_for_current_model()
-    default_color = custom_colors[color_name]
+    default_colors = self.get_default_custom_colors_for_current_model()
+    default_color = default_colors[color_name]
     if color == default_color:
       reset_button.setVisible(False)
     else:
@@ -1045,7 +1045,7 @@ class WWRandomizerWindow(QMainWindow):
         # If the presets dropdown isn't already on Custom, we'll switch to to Custom automatically.
         
         # However, in order to prevent all the other colors besides this one from abruptly switching when we do that, we need to copy all of the currently visible default or preset colors (except this currently changing color) over to custom colors.
-        for other_color_name in self.get_default_custom_colors_for_current_model():
+        for other_color_name in default_colors:
           if color_name == other_color_name:
             continue
           color = self.get_color(other_color_name)
@@ -1098,9 +1098,8 @@ class WWRandomizerWindow(QMainWindow):
   def reset_one_custom_color(self):
     option_name, color_name = self.get_option_name_and_color_name_from_sender_object_name()
     
-    custom_colors = self.get_default_custom_colors_for_current_model()
-    
-    default_color = custom_colors[color_name]
+    default_colors = self.get_default_custom_colors_for_current_model()
+    default_color = default_colors[color_name]
     
     if self.get_color(color_name) != default_color:
       self.set_color(option_name, default_color)
@@ -1130,9 +1129,8 @@ class WWRandomizerWindow(QMainWindow):
   def randomize_one_custom_color(self):
     option_name, color_name = self.get_option_name_and_color_name_from_sender_object_name()
     
-    custom_colors = self.get_default_custom_colors_for_current_model()
-    
-    default_color = custom_colors[color_name]
+    default_colors = self.get_default_custom_colors_for_current_model()
+    default_color = default_colors[color_name]
     h_shift, v_shift = self.get_random_h_and_v_shifts_for_custom_color(default_color)
     color = texture_utils.hsv_shift_color(default_color, h_shift, v_shift)
     
@@ -1141,11 +1139,11 @@ class WWRandomizerWindow(QMainWindow):
     self.update_settings()
   
   def randomize_all_custom_colors_together(self):
-    custom_colors = self.get_default_custom_colors_for_current_model()
+    default_colors = self.get_default_custom_colors_for_current_model()
     
     h_shift = random.randint(0, 359)
     v_shift = random.randint(-40, 40)
-    for custom_color_name, default_color in custom_colors.items():
+    for custom_color_name, default_color in default_colors.items():
       color = texture_utils.hsv_shift_color(default_color, h_shift, v_shift)
       
       option_name = "custom_color_" + custom_color_name
@@ -1155,9 +1153,9 @@ class WWRandomizerWindow(QMainWindow):
     self.update_settings()
   
   def randomize_all_custom_colors_separately(self):
-    custom_colors = self.get_default_custom_colors_for_current_model()
+    default_colors = self.get_default_custom_colors_for_current_model()
     
-    for custom_color_name, default_color in custom_colors.items():
+    for custom_color_name, default_color in default_colors.items():
       h_shift, v_shift = self.get_random_h_and_v_shifts_for_custom_color(default_color)
       color = texture_utils.hsv_shift_color(default_color, h_shift, v_shift)
       
@@ -1199,8 +1197,8 @@ class WWRandomizerWindow(QMainWindow):
   
   def get_default_custom_colors_for_current_model(self):
     metadata, prefix = self.get_current_model_metadata_and_prefix()
-    custom_colors = metadata.get(prefix + "_custom_colors", {})
-    return custom_colors
+    default_colors = metadata.get(prefix + "_custom_colors", {})
+    return default_colors
   
   def get_color_presets_for_current_model(self):
     metadata, prefix = self.get_current_model_metadata_and_prefix()
