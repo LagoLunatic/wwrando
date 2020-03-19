@@ -174,3 +174,13 @@
 .org 0x8012E3A4 ; In setGetItemSound__9daPy_lk_cFUsi
   b 0x8012E3E8
 .close
+
+
+
+
+; Prevent Ivan from automatically triggering the cutscene where the Killer Bees tell you about Mrs. Marie's birthday and the Joy Pendant in the tree.
+; (It can still be manually triggered by talking to any of the Killer Bees, in case you actually want to activate the Joy Pendant in the tree.)
+.open "files/rels/d_a_npc_mk.rel" ; Ivan
+.org 0x2F80
+  b 0x2FD8
+.close
