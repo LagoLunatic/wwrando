@@ -164,7 +164,7 @@ class REL:
     
     return read_callback(data, relative_offset, *args)
   
-  def write_data(self, write_callback, offset, *args):
+  def write_data(self, write_callback, offset, *args, delete_relocations=False):
     # This function allows writing to a REL using the offset from the start of the REL file, instead of needing to know the section index and offset within that section.
     
     data, relative_offset = self.convert_rel_offset_to_section_data_and_relative_offset(offset)
@@ -173,6 +173,20 @@ class REL:
       raise Exception("Offset %04X is not in the data for any of the REL sections" % offset)
     
     write_callback(data, relative_offset, *args)
+  
+  def delete_relocation_in_range(self, offset, length):
+    for module_num, relocations in self.relocation_entries_for_module.items():
+      relocations_to_delete = []
+      
+      for relocation in relocations:
+        curr_section = self.sections[relocation.curr_section_num]
+        relocation_absolute_offset = relocation.relocation_offset + curr_section.offset
+        
+        if relocation_absolute_offset >= offset and relocation_absolute_offset < offset+length:
+          relocations_to_delete.append(relocation)
+      
+      for relocation in relocations_to_delete:
+        relocations.remove(relocation)
   
   def save_to_file(self, file_path, preserve_section_data_offsets=False):
     self.save_changes(preserve_section_data_offsets=preserve_section_data_offsets)

@@ -143,6 +143,8 @@ def apply_patch(self, patch_name):
         else:
           rel.write_data(write_and_pack_bytes, offset, new_bytes, "B"*len(new_bytes))
           
+          rel.delete_relocation_in_range(offset, len(new_bytes))
+          
           if relocations:
             rel_section_index, offset_into_section = rel.convert_rel_offset_to_section_index_and_relative_offset(offset)
             add_relocations_to_rel(self, file_path, rel_section_index, offset_into_section, relocations)
