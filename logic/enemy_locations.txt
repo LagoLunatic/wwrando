@@ -7266,66 +7266,73 @@ sea/Room32.arc:
       Path: sea/Room32.arc/Actor025
 
 
-# TODO
 # Bomb Island
 sea/Room34.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
+    Can Access Other Location "Bomb Island - Lookout Platform - Defeat the Enemies"
+  Has throwable objects: Yes
+  Enemies:
+    -
+      Original enemy: Bokoblin
+      Placement category: Ground:SetsDeathSwitch,HasPit
+      Path: sea/Room34.arc/Actor039
+      Position offset: [0, -200, 0]
+    -
+      Original enemy: Bokoblin
+      Placement category: Ground:SetsDeathSwitch,HasPit
+      Path: sea/Room34.arc/Actor042
+      Position offset: [0, -200, 0]
+-
+  Must defeat enemies: No
+  Original requirements:
     Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Bokoblin
-      Placement category: Ground
-      Path: sea/Room34.arc/Actor039
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
-      Path: sea/Room34.arc/Actor042
-    -
-      Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room34.arc/Actor047
+      Position offset: [0, -200, 0]
 
 
-# TODO
 # Bird's Peak Rock
 sea/Room35.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Kargarocs
   Enemies:
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Air:HasPit
       Path: sea/Room35.arc/Actor002
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Air:HasPit
       Path: sea/Room35.arc/Actor003
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Air:HasPit
       Path: sea/Room35.arc/Actor004
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Air:HasPit
       Path: sea/Room35.arc/Actor007
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room35.arc/Actor017
 
 
-# TODO
 # Five-Eye Reef
 sea/Room37.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Gyorgs
     & Can Defeat Bokoblins
+  Has throwable objects: Yes
   Enemies:
     -
       Original enemy: Gyorg Spawner
@@ -7337,28 +7344,34 @@ sea/Room37.arc:
       Path: sea/Room37.arc/Actor001
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room37.arc/Actor017
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room37.arc/Actor018
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room37.arc/Actor019
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room37.arc/Actor022
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room37.arc/Actor025
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room37.arc/Actor026
+      Position offset: [0, -200, 0]
 
 
 # Shark Island
