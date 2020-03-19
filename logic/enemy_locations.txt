@@ -3232,11 +3232,10 @@ ITest63:
       Path: ITest63/Room0.arc/Actor026
 
 
-# TODO
 # Forsaken Fortress Tower (2nd visit)
 M2tower:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -6060,11 +6059,10 @@ kindan:
       Path: kindan/Room16.arc/Actor014
 
 
-# TODO
 # Forsaken Fortress Interior (2nd visit)
 ma2room:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bombchus
     & Can Defeat Moblins
@@ -6083,7 +6081,7 @@ ma2room:
       Placement category: Ground
       Path: ma2room/Room0.arc/Actor002
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Miniblins
@@ -6097,32 +6095,39 @@ ma2room:
       Original enemy: Miniblin
       Placement category: Ground
       Path: ma2room/Room1.arc/Actor00E
+      Position offset: [-150, 0, -150]
     -
       Original enemy: Miniblin
       Placement category: Ground
       Path: ma2room/Room1.arc/Actor00F
+      Position offset: [-150, 0, -150]
     -
       Original enemy: Miniblin
       Placement category: Ground
       Path: ma2room/Room1.arc/Actor010
+      Position offset: [-150, 0, -150]
     -
       Original enemy: Miniblin
       Placement category: Ground
       Path: ma2room/Room1.arc/Actor011
+      Position offset: [150, 0, 150]
     -
       Original enemy: Miniblin
       Placement category: Ground
       Path: ma2room/Room1.arc/Actor012
+      Position offset: [150, 0, 150]
     -
       Original enemy: Miniblin
       Placement category: Ground
       Path: ma2room/Room1.arc/Actor013
+      Position offset: [150, 0, 150]
     -
       Original enemy: Miniblin
       Placement category: Ground
       Path: ma2room/Room1.arc/Actor014
+      Position offset: [-150, 0, -150]
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bombchus
     & Can Defeat Moblins
@@ -6145,7 +6150,7 @@ ma2room:
       Placement category: Ground
       Path: ma2room/Room2.arc/Actor00C
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Bombchus
@@ -6182,7 +6187,7 @@ ma2room:
       Placement category: Ground
       Path: ma2room/Room3.arc/Actor016
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
   Free memory: 1193888
@@ -6442,11 +6447,10 @@ ma2room:
 #      Path: majroom/Room3.arc/Actor007
 
 
-# TODO
 # Forsaken Fortress
 sea/Room1.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Miniblins
@@ -6480,6 +6484,7 @@ sea/Room1.arc:
       Original enemy: Miniblin
       Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor020
+      Position offset: [-200, -600, 200]
     -
       Original enemy: Miniblin
       Placement category: Ground
@@ -6488,14 +6493,17 @@ sea/Room1.arc:
       Original enemy: Miniblin
       Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor022
+      Position offset: [-200, -700, 200]
     -
       Original enemy: Miniblin
       Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor023
+      Position offset: [0, -700, 0]
     -
       Original enemy: Miniblin
       Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor024
+      Position offset: [-200, -700, 200]
     -
       Original enemy: Miniblin
       Placement category: Ground
@@ -6504,34 +6512,35 @@ sea/Room1.arc:
       Original enemy: Miniblin
       Placement category: Ground
       Path: sea/Room1.arc/Layer1/Actor028
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Rats
-  Free memory: 558464
-  Enemies:
-    -
-      Original enemy: Rat Hole
-      Placement category: Ground
-      Path: sea/Room1.arc/Layer2/Actor005
-    -
-      Original enemy: Rat Hole
-      Placement category: Ground
-      Path: sea/Room1.arc/Layer2/Actor006
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Rats
-  Free memory: 558464
-  Enemies:
-    -
-      Original enemy: Rat Hole
-      Placement category: Ground
-      Path: sea/Room1.arc/Layer3/Actor005
-    -
-      Original enemy: Rat Hole
-      Placement category: Ground
-      Path: sea/Room1.arc/Layer3/Actor006
+      Position offset: [-200, -700, 200]
+#- # Unused layer in rando
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Rats
+#  Free memory: 558464
+#  Enemies:
+#    -
+#      Original enemy: Rat Hole
+#      Placement category: Ground
+#      Path: sea/Room1.arc/Layer2/Actor005
+#    -
+#      Original enemy: Rat Hole
+#      Placement category: Ground
+#      Path: sea/Room1.arc/Layer2/Actor006
+#- # Unused layer in rando
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Rats
+#  Free memory: 558464
+#  Enemies:
+#    -
+#      Original enemy: Rat Hole
+#      Placement category: Ground
+#      Path: sea/Room1.arc/Layer3/Actor005
+#    -
+#      Original enemy: Rat Hole
+#      Placement category: Ground
+#      Path: sea/Room1.arc/Layer3/Actor006
 
 
 # Star Island

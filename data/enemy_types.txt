@@ -349,7 +349,7 @@
   Memory used by first one: 14272
   Memory used by subequent ones: 9664
   Death switch param name: null
-  Allow near pits: True # TODO CHECK
+  Allow near pits: True # TODO CHECK (note that if they fall down a small ledge, they keep trying to return to their spawn point but can't because it's high up now)
   Can be killed with thrown objects: Yes # TODO CHECK
 -
   Pretty name: Sitting ReDead
