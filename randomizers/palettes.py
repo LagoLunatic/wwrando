@@ -11,6 +11,9 @@ def randomize_enemy_palettes(self):
     v_shift = self.rng.randint(-40, 40)
     #print(h_shift, v_shift)
     
+    if self.dry_run:
+      continue
+    
     if randomizable_file_group["Name"] == "Darknut":
       shift_hardcoded_darknut_colors(self, h_shift, v_shift)
     elif randomizable_file_group["Name"] == "Moblin":
