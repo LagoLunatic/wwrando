@@ -23,7 +23,6 @@ else:
   devkitbasepath = os.environ.get("DEVKITPPC") + "/bin"
 
 def get_bin(name):
-  suff = ".exe"
   if not platform == "win32":
     return os.path.join(devkitbasepath, name)
   return os.path.join(devkitbasepath, name + ".exe")
