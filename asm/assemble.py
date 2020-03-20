@@ -8,14 +8,13 @@ from collections import OrderedDict
 import struct
 import yaml
 import traceback
-from sys import platform
 
 import sys
 sys.path.insert(0, "../")
 from fs_helpers import *
 from elf import *
 
-if platform == "win32":
+if sys.platform == "win32":
   devkitbasepath = r"C:\devkitPro\devkitPPC\bin"
 else:
   if not "DEVKITPPC" in os.environ:
@@ -23,7 +22,7 @@ else:
   devkitbasepath = os.environ.get("DEVKITPPC") + "/bin"
 
 def get_bin(name):
-  if not platform == "win32":
+  if not sys.platform == "win32":
     return os.path.join(devkitbasepath, name)
   return os.path.join(devkitbasepath, name + ".exe")
 
