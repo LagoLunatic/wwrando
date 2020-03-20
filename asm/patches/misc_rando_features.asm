@@ -112,9 +112,11 @@
 
 ; Properly force the player model to be either hero's clothes or casual clothes depending on what the user selected, and not whether they're on new game or new game+.
 .open "sys/main.dol"
-.org 0x80125AEC ; In daPy_lk_c::playerInit(void)
+.org 0x80125AD8 ; In daPy_lk_c::playerInit(void)
   bl check_player_in_casual_clothes
-  cmplwi r3, 0 ; Change check on r0 to check on r3
+  cmplwi r3, 0
+  beq 0x80125B04
+  b 0x80125AF8
 .close
 
 
