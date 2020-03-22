@@ -509,6 +509,8 @@ class Logic:
         continue
       if "Expensive Purchase" in types and not options.get("progression_expensive_purchases"):
         continue
+      if "Island Puzzle" in types and not options.get("progression_island_puzzles"):
+        continue
       if ("Other Chest" in types or "Misc" in types) and not options.get("progression_misc"):
         continue
       if "Sunken Treasure" in types and filter_sunken_treasure:

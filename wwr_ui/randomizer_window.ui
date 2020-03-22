@@ -278,6 +278,13 @@
                  </property>
                 </widget>
                </item>
+               <item row="6" column="3">
+                <widget class="QCheckBox" name="progression_island_puzzles">
+                 <property name="text">
+                  <string>Island Puzzles</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </widget>
             </item>

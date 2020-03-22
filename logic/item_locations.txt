@@ -78,14 +78,14 @@ Outset Island - Great Fairy:
 Outset Island - Jabun's Cave:
   Need: Bombs
   Original item: Nayru's Pearl
-  Types: Other Chest
+  Types: Island Puzzle
   Paths:
     - main.dol@358D39
     - Pjavdou/Room0.arc/Chest000
 Outset Island - Dig up Black Soil:
   Need: Bait Bag & Can Buy Bait & Power Bracelets
   Original item: Piece of Heart
-  Types: Misc
+  Types: Island Puzzle
   Paths:
     - sea/Room44.arc/ScalableObject03A
 Outset Island - Savage Labyrinth - Floor 30:
@@ -164,7 +164,7 @@ Windfall Island - Jail - Tingle - Second Gift:
 Windfall Island - Jail - Maze Chest:
   Need: Nothing
   Original item: Picto Box
-  Types: Other Chest
+  Types: Island Puzzle
   Paths:
     - Pnezumi/Stage.arc/Chest000
 #Windfall Island - Chu Jelly Juice Shop - Red Potion Free Sample:
@@ -560,7 +560,7 @@ Dragon Roost Island - Chest on Top of Boulder:
     | Bombs
     # Bombs work by getting in the ship and shooting the cannon up at the bomb flowers.
   Original item: Silver Rupee
-  Types: Other Chest
+  Types: Island Puzzle
   Paths:
     - sea/Room13.arc/Chest000
 Dragon Roost Island - Fly Across Platforms Around Island:
@@ -568,7 +568,7 @@ Dragon Roost Island - Fly Across Platforms Around Island:
     Can Fly With Deku Leaf Outdoors
     & (Can Cut Grass | Magic Meter Upgrade)
   Original item: Orange Rupee
-  Types: Other Chest
+  Types: Island Puzzle
   Paths:
     - sea/Room13.arc/Chest001
 Dragon Roost Island - Rito Aerie - Baito:
@@ -769,7 +769,7 @@ Forest Haven - On Tree Branch:
     & Grappling Hook
   # Note: You can access this without Grappling Hook if you take the lower platform exit out of Forest Haven, fly to the pillar outside, then use the whirlwind to gain height and fly back to Forest Haven taking the middle platform exit. But this requires using glitches (either precise ledge grabbing, leaf pumping, or simply abusing the respawn mechanic to get on the FH ledge without actually reaching it) so it's not in the logic.
   Original item: Deku Leaf
-  Types: Misc
+  Types: Island Puzzle
   Paths:
     - rels/d_a_deku_item.rel@0DC3
     - Omori/Room0.arc/Layer0/Actor000
@@ -786,7 +786,7 @@ Forest Haven - Small Island Chest:
     & Can Fly With Deku Leaf Outdoors
   # Note: You don't need Grappling Hook because you can take the lower platform exit out of Forest Haven, fly to the pillar outside, then fly east to this small island (Noob Skip). You can just barely make it without double magic meter as long as your magic meter is full. But this is not currently in the logic.
   Original item: Treasure Chart 3
-  Types: Other Chest
+  Types: Island Puzzle
   Paths:
     - sea/Room41.arc/Chest000
 #Hollo's Forest Potion Shop:
@@ -973,7 +973,7 @@ Forbidden Woods - Kalle Demos Heart Container:
 Greatfish Isle - Hidden Chest:
   Need: Can Fly With Deku Leaf Outdoors
   Original item: Piece of Heart
-  Types: Other Chest
+  Types: Island Puzzle
   Paths:
     - sea/Room23.arc/Chest000
 
@@ -1275,7 +1275,7 @@ Fire Mountain - Big Octo:
 Ice Ring Isle - Frozen Chest:
   Need: Fire Arrows
   Original item: Treasure Chart 36
-  Types: Other Chest
+  Types: Island Puzzle
   Paths:
     - sea/Room40.arc/Chest000
 Ice Ring Isle - Cave - Chest:
@@ -1300,7 +1300,7 @@ Ice Ring Isle - Inner Cave - Chest:
 Headstone Island - Top of the Island:
   Need: Bait Bag & Can Buy Hyoi Pears
   Original item: Piece of Heart
-  Types: Misc
+  Types: Island Puzzle
   Paths:
     - sea/Room45.arc/Actor013
 Headstone Island - Submarine:
@@ -1975,7 +1975,7 @@ The Great Sea - Ghost Ship:
 Private Oasis - Chest at Top of Waterfall:
   Need: Hookshot | Can Fly With Deku Leaf Outdoors
   Original item: Treasure Chart 27
-  Types: Other Chest
+  Types: Island Puzzle
   Paths:
     - sea/Room33.arc/Chest000
 Private Oasis - Cabana Labyrinth - First Chest:
@@ -2024,7 +2024,7 @@ Needle Rock Isle - Chest:
   Need: Bait Bag & Can Buy Hyoi Pears
     # Note: It might be theoretically possible to hit the switch at the top with a fire arrow's explosion, but it's not easy.
   Original item: Piece of Heart
-  Types: Other Chest
+  Types: Island Puzzle
   Paths:
     - sea/Room29.arc/Chest000
 Needle Rock Isle - Cave:
@@ -2045,7 +2045,7 @@ Needle Rock Isle - Golden Gunboat:
 Angular Isles - Peak:
   Need: Nothing
   Original item: Piece of Heart
-  Types: Other Chest
+  Types: Island Puzzle
   Paths:
     - sea/Room47.arc/Chest000
 Angular Isles - Cave:
@@ -2534,7 +2534,7 @@ Horseshoe Island - Play Golf:
     & (Can Fly With Deku Leaf Outdoors | Hookshot)
     # Need Deku Leaf to play golf, and then need a way to reach the chest.
   Original item: Treasure Chart 28
-  Types: Other Chest
+  Types: Island Puzzle
   Paths:
     - sea/Room43.arc/Chest000
 Horseshoe Island - Cave:

@@ -208,6 +208,11 @@ class Ui_MainWindow(object):
 
         self.gridLayout_2.addWidget(self.progression_tingle_chests, 1, 3, 1, 1)
 
+        self.progression_island_puzzles = QCheckBox(self.groupBox)
+        self.progression_island_puzzles.setObjectName(u"progression_island_puzzles")
+
+        self.gridLayout_2.addWidget(self.progression_island_puzzles, 6, 3, 1, 1)
+
 
         self.verticalLayout_2.addWidget(self.groupBox)
 
@@ -741,6 +746,7 @@ class Ui_MainWindow(object):
         self.progression_eye_reef_chests.setText(QCoreApplication.translate("MainWindow", u"Eye Reef Chests", None))
         self.progression_mail.setText(QCoreApplication.translate("MainWindow", u"Mail", None))
         self.progression_tingle_chests.setText(QCoreApplication.translate("MainWindow", u"Tingle Chests", None))
+        self.progression_island_puzzles.setText(QCoreApplication.translate("MainWindow", u"Island Puzzles", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"Additional Randomization Options", None))
         self.label_for_sword_mode.setText(QCoreApplication.translate("MainWindow", u"Sword Mode", None))
         self.sword_mode.setItemText(0, QCoreApplication.translate("MainWindow", u"Start with Sword", None))

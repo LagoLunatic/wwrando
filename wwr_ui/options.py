@@ -86,6 +86,10 @@ OPTIONS = OrderedDict([
     "progression_savage_labyrinth",
     "This controls whether the Savage Labyrinth can contain progress items.<br><u>If this is not checked, it will still be randomized</u>, but will only contain optional items you don't need to beat the game."
   ),
+  (
+    "progression_island_puzzles",
+    "This controls whether various island puzzles can contain progress items (e.g. chests hidden in unusual places).<br><u>If this is not checked, they will still be randomized</u>, but will only contain optional items you don't need to beat the game."
+  ),
   
   
   (
