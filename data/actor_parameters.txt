@@ -66,25 +66,22 @@ d_a_amiprop:
     Mask: 0x00000F00
 
 d_a_andsw0:
-  unknown_param_1:
+  num_switches_to_check:
     Bitfield name: params
-    Mask: 0x0000000F # (WARNING: overlaps)
-  unknown_param_2:
-    Bitfield name: params
-    Mask: 0x000000FF # (WARNING: overlaps)
-  unknown_param_3:
+    Mask: 0x000000FF
+  behavior_type:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_4:
+  first_switch_to_check:
     Bitfield name: params
     Mask: 0x00FF0000
   switch_to_set:
     Bitfield name: params
     Mask: 0xFF000000
-  unknown_param_6:
+  evnt_index:
     Bitfield name: aux_params_1
     Mask: 0x00FF
-  unknown_param_7:
+  time_limit_in_half_seconds:
     Bitfield name: aux_params_2
     Mask: 0x00FF
 
@@ -723,6 +720,9 @@ d_a_kamome:
     Mask: 0xFF000000
 
 d_a_kanban:
+  message_id:
+    Bitfield name: params
+    Mask: 0x0000FFFF
   unknown_param_1:
     Bitfield name: params
     Mask: 0xFFF00000
@@ -1232,7 +1232,7 @@ d_a_npc_kp1:
     Mask: 0x000000FF
 
 d_a_npc_ls1:
-  unknown_param_1:
+  which_aryll:
     Bitfield name: params
     Mask: 0x000000FF
 
@@ -1454,7 +1454,7 @@ d_a_obj_apzl:
     Mask: 0x0000FF00
 
 d_a_obj_ashut:
-  unknown_param_1:
+  switch_to_check:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
@@ -2209,21 +2209,24 @@ d_a_obj_swlight:
     Mask: 0x00010000
 
 d_a_obj_swpush:
-  unknown_param_1:
+  evnt_index:
     Bitfield name: params
     Mask: 0x000000FF
   switch_to_set:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  uses_alt_model:
     Bitfield name: params
     Mask: 0x00010000
-  unknown_param_4:
+  behavior_type:
     Bitfield name: params
     Mask: 0x07000000
-  unknown_param_5:
+  should_use_disabled_switch:
     Bitfield name: params
     Mask: 0x40000000
+  disabled_switch:
+    Bitfield name: aux_params_2
+    Mask: 0x00FF
 
 d_a_obj_table:
   unknown_param_1:
@@ -2255,7 +2258,7 @@ d_a_obj_tide:
     Mask: 0xFF000000
 
 d_a_obj_timer:
-  unknown_param_1:
+  time_limit_half_seconds:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
@@ -2763,7 +2766,7 @@ d_a_swc00:
   switch_to_set:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  prerequisite_switch:
     Bitfield name: params
     Mask: 0x0000FF00
   behavior_type:
@@ -2849,19 +2852,19 @@ d_a_tag_etc:
     Mask: 0xFF000000
 
 d_a_tag_event:
-  unknown_param_1:
+  behavior_type:
     Bitfield name: params
     Mask: 0x000000FF
   switch_to_set:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0x00FF0000
   evnt_index:
     Bitfield name: params
     Mask: 0xFF000000
-  unknown_param_5:
+  enable_spawn_event_bit:
     Bitfield name: aux_params_2
     Mask: 0xFFFF
 
@@ -3121,7 +3124,7 @@ d_a_tsubo:
   item_id:
     Bitfield name: params
     Mask: 0x0000003F
-  unknown_param_2:
+  behavior_type:
     Bitfield name: params
     Mask: 0x00003F00
   unknown_param_3:
@@ -3130,15 +3133,18 @@ d_a_tsubo:
   item_flag:
     Bitfield name: params
     Mask: 0x007F0000
-  unknown_param_5:
+  type:
     Bitfield name: params
     Mask: 0x0F000000
   unknown_param_6:
     Bitfield name: params
     Mask: 0x70000000
-  unknown_param_7:
+  do_not_ground_on_spawn:
     Bitfield name: params
     Mask: 0x80000000
+  enable_spawn_switch:
+    Bitfield name: aux_params_2
+    Mask: 0x00FF
 
 d_a_wall:
   unknown_param_1:
