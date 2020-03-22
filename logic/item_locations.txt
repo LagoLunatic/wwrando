@@ -361,7 +361,7 @@ Windfall Island - Tott - Teach Rhythm:
 Windfall Island - Pirate Ship:
   Need: Nothing
   Original item: Bombs
-  Types: Other Chest
+  Types: Minigame
   Paths:
     - Asoko/Stage.arc/Layer2/Chest000
     - Asoko/Stage.arc/Layer3/Chest000
