@@ -314,9 +314,10 @@ class ParticleSection:
   
   def save_changes(self):
     if self.magic == "TEX1":
+      self.data.seek(0x20)
       self.bti.save_header_changes()
-      
-      self.data.seek(0x40)
+      header_bytes = read_bytes(self.bti.data, self.bti.header_offset, 0x20)
+      self.data.write(header_bytes)
       
       self.bti.image_data.seek(0)
       self.data.write(self.bti.image_data.read())
