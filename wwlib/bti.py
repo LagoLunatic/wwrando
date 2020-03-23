@@ -24,6 +24,26 @@ class BTI:
     self.data = data
     self.header_offset = header_offset
     
+    self.read_header(data, header_offset=header_offset)
+    
+    blocks_wide = (self.width + (self.block_width-1)) // self.block_width
+    blocks_tall = (self.height + (self.block_height-1)) // self.block_height
+    image_data_size = blocks_wide*blocks_tall*self.block_data_size
+    remaining_mipmaps = self.mipmap_count-1
+    curr_mipmap_size = image_data_size
+    while remaining_mipmaps > 0:
+      # Each mipmap is a quarter the size of the last (half the width and half the height).
+      curr_mipmap_size = curr_mipmap_size//4
+      image_data_size += curr_mipmap_size
+      remaining_mipmaps -= 1
+      # Note: We don't actually read the smaller mipmaps, we only read the normal sized one, and when saving recalculate the others by scaling the normal one down.
+      # This is to simplify things, but a full implementation would allow reading and saving each mipmap individually (since the mipmaps can actually have different contents).
+    self.image_data = BytesIO(read_bytes(data, header_offset+self.image_data_offset, image_data_size))
+    
+    palette_data_size = self.num_colors*2
+    self.palette_data = BytesIO(read_bytes(data, header_offset+self.palette_data_offset, palette_data_size))
+  
+  def read_header(self, data, header_offset=0):
     self.image_format = ImageFormat(read_u8(data, header_offset+0))
     
     self.alpha_setting = read_u8(data, header_offset+1)
@@ -48,23 +68,6 @@ class BTI:
     self.lod_bias = read_u16(data, header_offset+0x1A)
     
     self.image_data_offset = read_u32(data, header_offset+0x1C)
-    
-    blocks_wide = (self.width + (self.block_width-1)) // self.block_width
-    blocks_tall = (self.height + (self.block_height-1)) // self.block_height
-    image_data_size = blocks_wide*blocks_tall*self.block_data_size
-    remaining_mipmaps = self.mipmap_count-1
-    curr_mipmap_size = image_data_size
-    while remaining_mipmaps > 0:
-      # Each mipmap is a quarter the size of the last (half the width and half the height).
-      curr_mipmap_size = curr_mipmap_size//4
-      image_data_size += curr_mipmap_size
-      remaining_mipmaps -= 1
-      # Note: We don't actually read the smaller mipmaps, we only read the normal sized one, and when saving recalculate the others by scaling the normal one down.
-      # This is to simplify things, but a full implementation would allow reading and saving each mipmap individually (since the mipmaps can actually have different contents).
-    self.image_data = BytesIO(read_bytes(data, header_offset+self.image_data_offset, image_data_size))
-    
-    palette_data_size = self.num_colors*2
-    self.palette_data = BytesIO(read_bytes(data, header_offset+self.palette_data_offset, palette_data_size))
   
   def save_header_changes(self):
     write_u8(self.data, self.header_offset+0, self.image_format.value)
