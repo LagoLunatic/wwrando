@@ -8,6 +8,8 @@ from enum import Enum
 
 class REL:
   def __init__(self):
+    self.data = BytesIO()
+    
     self.id = None
     self.sections = []
     self.name_offset = 0
