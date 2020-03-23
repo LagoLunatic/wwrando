@@ -9,6 +9,8 @@ New features:
 * Added an option to remove all music from the game.
 
 Changes:
+* 14 item locations previously under the Miscellaneous category are now under a new Island Puzzles category.
+* The Pirate Ship item location on Windfall is now part of the Minigames category.
 * The trigger for the Phantom Ganon fight at Forsaken Fortress no longer extends infinitely upwards above Phantom Ganon like it did in vanilla. This means you can fight Helmaroc King without first defeating Phantom Ganon (which can now be required by the logic).
 * Removed the minor cutscenes in DRC, FW, TotG, and ET where the camera panned around the hub room.
 * Prevented the cutscene where Ivan tells you about Mrs. Marie's birthday from triggering automatically as you leave the school. (You can still trigger it manually by talking to Ivan, in case you want to get the unrandomized Joy Pendant in the tree.)
@@ -26,6 +28,7 @@ Bug fixes:
 * Fixed Mighty Darknut and Phantom Ganon's capes sometimes being transparent when the enemy palette randomizer was on.
 * Fixed the floor of the roof of Forsaken Fortress's tower being recolored along with Helmaroc King when the enemy palette randomizer was on.
 * Fixed a bug introduced in 1.5.0 where the Grappling Hook's hook would visually appear slightly detached from the rope when Link holds it at his side.
+* Fixed a bug introduced in 1.5.0 where the Grappling Hook used by Salvage Corp would be the wrong color when using a player model that comes with a custom model for the Grappling Hook.
 
 
 
