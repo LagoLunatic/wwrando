@@ -43,6 +43,7 @@ class GCM:
       self.file_entries.append(file_entry)
     
     root_file_entry = self.file_entries[0]
+    root_file_entry.file_path = "files"
     self.read_directory(root_file_entry, "files")
   
   def read_directory(self, directory_file_entry, dir_path):
@@ -61,6 +62,7 @@ class GCM:
       if file_entry.is_dir:
         assert directory_file_entry.file_index == file_entry.parent_fst_index
         subdir_path = dir_path + "/" + file_entry.name
+        file_entry.file_path = subdir_path
         self.read_directory(file_entry, subdir_path)
         i = file_entry.next_fst_index
       else:
