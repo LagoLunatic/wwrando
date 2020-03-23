@@ -293,7 +293,7 @@ def print_actor_info(self):
       actr_name = read_str(dol_data, offset, 8)
       actor_id = read_u16(dol_data, offset+8)
       subtype_index = read_u8(dol_data, offset+0xA)
-      unknown = read_u8(dol_data, offset+0xB)
+      gba_name = read_u8(dol_data, offset+0xB)
       
       if actor_id in actor_id_to_rel_filename:
         rel_filename = actor_id_to_rel_filename[actor_id]
@@ -301,11 +301,11 @@ def print_actor_info(self):
         rel_filename = "[none]"
       
       # Condensed dump format for human readability and searching.
-      f.write("%7s:   ID %04X,   Subtype %02X,   Unknown %02X,   REL %s\n" % (
+      f.write("%7s:   ID %04X,   Subtype %02X,   GBAName %02X,   REL %s\n" % (
         actr_name,
         actor_id,
         subtype_index,
-        unknown,
+        gba_name,
         rel_filename
       ))
       
@@ -315,7 +315,7 @@ def print_actor_info(self):
       #  rel_filename,
       #  actor_id,
       #  subtype_index,
-      #  unknown
+      #  gba_name
       #))
       
       done_actor_ids.append(actor_id)
@@ -323,7 +323,7 @@ def print_actor_info(self):
     for actor_id, rel_filename in actor_id_to_rel_filename.items():
       if actor_id not in done_actor_ids:
         # Print nameless actors
-        f.write(" [none]:   ID %04X,   Subtype [],   Unknown [],   REL %s\n" % (
+        f.write(" [none]:   ID %04X,   Subtype [],   GBAName [],   REL %s\n" % (
           actor_id,
           rel_filename
         ))
