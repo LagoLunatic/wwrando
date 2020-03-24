@@ -152,3 +152,16 @@
   ; Note that the string we're replacing was originally 0x23 bytes long, so this string should not be made any longer than that.
   .string "Missing particle with ID: 0x%04X"
 .close
+
+
+
+
+; Make Aryll always wear her pirate outfit, not just in Second Quest.
+.open "files/rels/d_a_npc_ls1.rel" ; Aryll
+.org 0x4F04
+  ; Remove branch taken when not in Second Quest.
+  nop
+.org 0x3E88
+  ; Prevent her from using her "looking out of the lookout" animation when event bit 0x2A80 (HAS_HEROS_CLOTHES) is set.
+  b 0x3EE8
+.close

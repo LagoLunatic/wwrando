@@ -1349,12 +1349,15 @@ def give_double_magic(self):
   write_u8(dol_data, address_to_offset(starting_magic_address), 32)
 
 def add_pirate_ship_to_windfall(self):
-  windfall_dzx = self.get_arc("files/res/Stage/sea/Room11.arc").get_file("room.dzr")
+  windfall_dzr = self.get_arc("files/res/Stage/sea/Room11.arc").get_file("room.dzr")
+  ship_dzr = self.get_arc("files/res/Stage/Asoko/Room0.arc").get_file("room.dzr")
+  ship_dzs = self.get_arc("files/res/Stage/Asoko/Stage.arc").get_file("stage.dzs")
+  event_list = self.get_arc("files/res/Stage/Asoko/Stage.arc").get_file("event_list.dat")
   
-  windfall_layer_2_actors = windfall_dzx.entries_by_type_and_layer("ACTR", 2)
+  windfall_layer_2_actors = windfall_dzr.entries_by_type_and_layer("ACTR", 2)
   layer_2_pirate_ship = next(x for x in windfall_layer_2_actors if x.name == "Pirates")
   
-  default_layer_pirate_ship = windfall_dzx.add_entity("ACTR", layer=None)
+  default_layer_pirate_ship = windfall_dzr.add_entity("ACTR", layer=None)
   default_layer_pirate_ship.name = layer_2_pirate_ship.name
   default_layer_pirate_ship.params = layer_2_pirate_ship.params
   default_layer_pirate_ship.x_pos = layer_2_pirate_ship.x_pos
@@ -1368,14 +1371,52 @@ def add_pirate_ship_to_windfall(self):
   # Change the door to not require a password.
   default_layer_pirate_ship.pirate_ship_door_type = 0
   
-  windfall_dzx.save_changes()
+  windfall_dzr.save_changes()
   
-  # Remove Niko to get rid of his events.
-  ship_dzx = self.get_arc("files/res/Stage/Asoko/Room0.arc").get_file("room.dzr")
+  # Remove Niko from the ship to get rid of his events.
   for layer_num in [2, 3]:
-    ship_actors_on_this_layer = ship_dzx.entries_by_type_and_layer("ACTR", layer_num)
-    niko = next(x for x in ship_actors_on_this_layer if x.name == "P2b")
-    ship_dzx.remove_entity(niko, "ACTR", layer=layer_num)
+    actors_on_this_layer = ship_dzr.entries_by_type_and_layer("ACTR", layer_num)
+    niko = next(x for x in actors_on_this_layer if x.name == "P2b")
+    ship_dzr.remove_entity(niko, "ACTR", layer=layer_num)
+  
+  # Add Aryll to the ship instead.
+  aryll = ship_dzr.add_entity("ACTR", layer=None)
+  aryll.name = "Ls1"
+  aryll.which_aryll = 0 # Looking out of her lookout (though we change her animation to just stand there via asm).
+  aryll.x_pos = 600
+  aryll.y_pos = -550
+  aryll.z_pos = -200
+  aryll.y_rot = 0xC000
+  
+  # Change Aryll's text when you talk to her.
+  msg = self.bmg.messages_by_id[3008]
+  #msg.initial_sound = 1 # "Ah!"
+  #msg.initial_sound = 2 # "Wah!?"
+  #msg.initial_sound = 7 # "Auhh!?"
+  #msg.initial_sound = 95 # "Hai!"
+  #msg.initial_sound = 104 # "Oyyyy!"
+  #msg.initial_sound = 105 # "Hoyyyy!"
+  msg.initial_sound = 106 # "Haiiii~!"
+  msg.string = "'Hoy! Big Brother!\n"
+  msg.string += "Wanna play a game? It's fun, trust me!"
+  msg.string = pad_string_to_next_4_lines(msg.string)
+  msg.string += word_wrap_string("Just \\{1A 06 FF 00 00 01}step on this button\\{1A 06 FF 00 00 00}, and try to swing across the ropes to reach that door over there before time's up!", max_line_length=43)
+  
+  # We need to make the pirate ship stage (Asoko) load the wave bank with Aryll's voice in it.
+  stage_bgm_info_list_start = 0x8039C30C
+  second_dynamic_scene_waves_list_start = 0x8039C2E4
+  asoko_spot_id = 0xC
+  new_second_scene_wave_index = 0x0E # Second dynamic scene wave indexes 0E-13 are unused free slots, so we use one of them.
+  isle_link_0_aw_index = 0x19 # The index of IsleLink_0.aw, the wave bank containing Aryll's voice.
+  dol_data = self.get_raw_file("sys/main.dol")
+  
+  asoko_bgm_info_ptr = stage_bgm_info_list_start + asoko_spot_id*4
+  new_second_scene_wave_ptr = second_dynamic_scene_waves_list_start + new_second_scene_wave_index*2
+  write_u8(dol_data, address_to_offset(asoko_bgm_info_ptr+3), new_second_scene_wave_index)
+  write_u8(dol_data, address_to_offset(new_second_scene_wave_ptr+0), isle_link_0_aw_index)
+  
+  ship_dzr.save_changes()
+  ship_dzs.save_changes()
 
 WarpPotData = namedtuple("WarpPotData", 'stage_name room_num x y z y_rot event_reg_index')
 INTER_DUNGEON_WARP_DATA = [
