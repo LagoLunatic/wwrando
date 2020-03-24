@@ -140,6 +140,9 @@ try:
   with open("linker.ld") as f:
     linker_script = f.read()
   
+  with open("asm_macros.asm") as f:
+    asm_macros = f.read()
+  
   all_asm_file_paths = glob.glob('./patches/*.asm')
   all_asm_files = [os.path.basename(rel_path) for rel_path in all_asm_file_paths]
   all_asm_files.remove("custom_funcs.asm")
@@ -293,6 +296,8 @@ try:
         
         temp_asm_name = os.path.join(temp_dir, "tmp_" + patch_name + "_%08X.asm" % org_offset)
         with open(temp_asm_name, "w") as f:
+          f.write(asm_macros) # Add our custom asm macros to all asm at the start.
+          f.write("\n")
           f.write(temp_asm)
         
         o_name = os.path.join(temp_dir, "tmp_" + patch_name + "_%08X.o" % org_offset)
