@@ -232,14 +232,6 @@ def convert_color_to_ia8(color):
   ia8 |= (a << 8) & 0xFF00
   return ia8
 
-def convert_color_to_ia8(color):
-  r, g, b, a = get_rgba(color)
-  l = convert_rgb_to_greyscale(r, g, b)
-  ia8 = 0x0000
-  ia8 |= (l & 0xFF)
-  ia8 |= ((a & 0xFF) << 8)
-  return ia8
-
 def convert_i4_to_color(i4):
   r = g = b = a = swizzle_4_bit_to_8_bit(i4)
   
