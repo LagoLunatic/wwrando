@@ -20,7 +20,6 @@ Changes:
 * Drastically improved the performance of recoloring the player model preview image in the randomizer's UI, especially when lots of different color options are changed from the model's defaults.
 * Added more custom color options for the vanilla Link model.
 * The "Generate Spoiler Log" option is now worded as "Do Not Generate Spoiler Log" and unchecked by default. Its effect is the same, just flipped.
-* The "Tingle Chests Require Non-Tingle Bombs" option is now worded as "Tingle Bombs Don't Open Tingle Chests".
 
 Bug fixes:
 * Fixed a bug introduced in 1.7.0 where slightly recoloring certain grey colors on player models would make them appear as extremely saturated colors.

@@ -124,7 +124,9 @@ class WWRandomizerWindow(QMainWindow):
       self.set_option_value("randomize_enemies", False)
       self.update_settings()
     
-    # Hide unfinished options from the GUI (still accessible via settings.txt).
+    # Hide certain options from the GUI (still accessible via settings.txt).
+    if not self.get_option_value("disable_tingle_chests_with_tingle_bombs"):
+      self.ui.disable_tingle_chests_with_tingle_bombs.hide()
     if not self.get_option_value("randomize_music"):
       self.ui.randomize_music.hide()
     if not self.get_option_value("randomize_enemies"):
