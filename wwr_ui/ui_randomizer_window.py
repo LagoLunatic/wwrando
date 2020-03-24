@@ -788,7 +788,7 @@ class Ui_MainWindow(object):
         self.remove_music.setText(QCoreApplication.translate("MainWindow", u"Remove Music", None))
         self.invert_camera_x_axis.setText(QCoreApplication.translate("MainWindow", u"Invert Camera X-Axis", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Advanced Options", None))
-        self.disable_tingle_chests_with_tingle_bombs.setText(QCoreApplication.translate("MainWindow", u"Tingle Chests Require Non-Tingle Bombs", None))
+        self.disable_tingle_chests_with_tingle_bombs.setText(QCoreApplication.translate("MainWindow", u"Tingle Bombs Don't Open Tingle Chests", None))
         self.do_not_generate_spoiler_log.setText(QCoreApplication.translate("MainWindow", u"Do Not Generate Spoiler Log", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Randomizer Settings", None))
         self.label_for_randomized_gear.setText(QCoreApplication.translate("MainWindow", u"Randomized Gear", None))
