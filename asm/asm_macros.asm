@@ -4,7 +4,7 @@
 before_padded_string:
 .ascii "\string"
 after_padded_string:
-.iflt \max - (after_padded_string - before_padded_string)
+.ifle \max - (after_padded_string - before_padded_string)
 .error "String too long"
 .endif
 
