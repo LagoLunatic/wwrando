@@ -165,3 +165,55 @@
   ; Prevent her from using her "looking out of the lookout" animation when event bit 0x2A80 (HAS_HEROS_CLOTHES) is set.
   b 0x3EE8
 .close
+
+
+
+
+; Modify the loops that check the RELs list and actor names list to also check our custom lists, allowing us to add new actors without replacing existing ones.
+.open "sys/main.dol"
+.org 0x800229AC ; In cCc_Init
+  b read_custom_DynamicNameTable_loop
+.org 0x80041598 ; In dStage_searchName
+  b read_custom_l_objectName_loop_for_dStage_searchName
+.org 0x800415FC ; In dStage_getName
+  b read_custom_l_objectName_loop_for_dStage_getName
+
+; Also change references to the original DMC list of all actors to our custom one.
+.org 0x80022818
+  lis r3, custom_DMC@ha
+  addi r3, r3, custom_DMC@l
+.org 0x80022898
+  lis r3, custom_DMC@ha
+  addi r3, r3, custom_DMC@l
+.org 0x800228EC
+  lis r3, custom_DMC@ha
+  addi r24, r3, custom_DMC@l
+.org 0x80022930
+  lis r3, custom_DMC@ha
+  addi r3, r3, custom_DMC@l
+.org 0x80022958
+  lis r3, custom_DMC@ha
+  addi r3, r3, custom_DMC@l
+.org 0x80022990
+  lis r3, custom_DMC@ha
+  addi r3, r3, custom_DMC@l
+.org 0x80022A40
+  lis r3, custom_DMC@ha
+  addi r3, r3, custom_DMC@l
+.org 0x80022B24
+  lis r3, custom_DMC@ha
+  addi r3, r3, custom_DMC@l
+.org 0x80022C30
+  lis r3, custom_DMC@ha
+  addi r3, r3, custom_DMC@l
+
+; Also change references to the original total number of actors (0x1F6) to the number including our custom actors.
+.org 0x80022850
+  cmplwi r0, 0x1F7
+.org 0x80022944
+  cmplwi r23, 0x1F7
+.org 0x80022ADC
+  cmplwi r0, 0x1F7
+.org 0x80022BC8
+  cmplwi r4, 0x1F7
+.close

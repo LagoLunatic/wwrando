@@ -12,7 +12,7 @@ import yaml
 from fs_helpers import *
 from wwlib.yaz0 import Yaz0
 from wwlib.rarc import RARC
-from wwlib.rel import REL
+from wwlib.rel import REL, RELRelocation, RELRelocationType
 from wwlib.gcm import GCM
 from wwlib.jpc import JPC
 import tweaks
@@ -112,6 +112,7 @@ class Randomizer:
     self.rels_by_path = {}
     self.symbol_maps_by_path = {}
     self.raw_files_by_path = {}
+    self.used_actor_ids = list(range(0x1F6))
     
     self.read_text_file_lists()
     
@@ -438,6 +439,7 @@ class Randomizer:
     tweaks.apply_patch(self, "flexible_item_locations")
     tweaks.apply_patch(self, "fix_vanilla_bugs")
     tweaks.apply_patch(self, "misc_rando_features")
+    tweaks.add_custom_actor_rels(self)
     tweaks.skip_wakeup_intro_and_start_at_dock(self)
     tweaks.start_ship_at_outset(self)
     tweaks.fix_deku_leaf_model(self)
@@ -711,6 +713,49 @@ class Randomizer:
     
     self.gcm.add_new_file(file_path, new_data)
     self.raw_files_by_path[file_path] = new_data
+  
+  def add_new_rel(self, rel_path, new_rel, section_index_of_actor_profile, offset_of_actor_profile):
+    if not rel_path.startswith("files/rels/"):
+      raise Exception("Cannot add a new REL to a folder besides files/rels/: " + rel_path)
+    if rel_path.lower() in self.gcm.files_by_path_lowercase:
+      raise Exception("Cannot add a new REL that has the same name as an existing one: " + rel_path)
+    
+    # Read the actor ID out of the actor profile.
+    section_data_actor_profile = new_rel.sections[section_index_of_actor_profile].data
+    new_actor_id = read_u16(section_data_actor_profile, offset_of_actor_profile+8)
+    
+    if new_actor_id in self.used_actor_ids:
+      raise Exception("Cannot add a new REL with an actor ID that is already used:\nActor ID: %03X\nNew REL path: %s" % (new_actor_id, rel_path))
+    
+    # We need to add the new REL to the profile list.
+    profile_list = self.get_rel("files/rels/f_pc_profile_lst.rel")
+    
+    rel_relocation = RELRelocation()
+    rel_relocation.relocation_type = RELRelocationType.R_PPC_ADDR32
+    
+    rel_relocation.curr_section_num = 4 # List section
+    rel_relocation.relocation_offset = new_actor_id*4 # Offset in the list
+    
+    # Write a null placeholder for the pointer to the profile that will be relocated.
+    list_data = profile_list.sections[rel_relocation.curr_section_num].data
+    write_u32(list_data, new_actor_id*4, 0)
+    # For some reason, there's an extra four 0x00 bytes after the last entry in the list, so we put that there just to be safe.
+    write_u32(list_data, new_actor_id*4+4, 0)
+    
+    rel_relocation.section_num_to_relocate_against = section_index_of_actor_profile
+    rel_relocation.symbol_address = offset_of_actor_profile
+    
+    if new_rel.id in profile_list.relocation_entries_for_module:
+      raise Exception("Cannot add a new REL with a unique ID that is already present in the profile list:\nREL ID: %03X\nNew REL path: %s" % (new_rel.id, rel_path))
+    
+    profile_list.relocation_entries_for_module[new_rel.id] = [rel_relocation]
+    
+    # Then add the REL to the game's filesystem.
+    self.gcm.add_new_file(rel_path)
+    self.rels_by_path[rel_path] = new_rel
+    
+    # Don't allow this actor ID to be used again by any more custom RELs we add.
+    self.used_actor_ids.append(new_actor_id)
   
   def save_randomized_iso(self):
     self.bmg.save_changes()

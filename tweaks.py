@@ -11,7 +11,7 @@ from random import Random
 from fs_helpers import *
 from wwlib import texture_utils
 from wwlib.rarc import RARC
-from wwlib.rel import RELSection, RELRelocation, RELRelocationType
+from wwlib.rel import REL, RELSection, RELRelocation, RELRelocationType
 from paths import ASSETS_PATH, ASM_PATH, SEEDGEN_PATH
 import customizer
 
@@ -2309,3 +2309,15 @@ def remove_minor_panning_cutscenes(self):
     for tagev in tagevs:
       if tagev.evnt_index == evnt_index:
         dzx.remove_entity(tagev, "SCOB")
+
+def add_custom_actor_rels(self):
+  # Add the custom switch operator REL to the game.
+  switch_op_rel_path = os.path.join(ASM_PATH, "d_a_switch_op.rel")
+  switch_op_rel = REL()
+  switch_op_rel.read_from_file(switch_op_rel_path)
+  self.add_new_rel(
+    "files/rels/d_a_switch_op.rel",
+    switch_op_rel,
+    section_index_of_actor_profile = 2,
+    offset_of_actor_profile = 0,
+  )

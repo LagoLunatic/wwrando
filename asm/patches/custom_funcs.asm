@@ -3117,4 +3117,132 @@ bctrl
 
 
 
+.global read_custom_DynamicNameTable_loop
+read_custom_DynamicNameTable_loop:
+
+; Index 0x1AE is normally where the loop would end in vanilla.
+; We have it switch to the custom list at this point.
+cmplwi r28, 0x1AE
+beq read_custom_DynamicNameTable_loop_switch_from_vanilla_to_custom
+
+; If we're past even the indexes for our custom list, end the loop.
+cmplwi r28, 0x1AE + 1 ; Num entries in vanilla list + custom list
+bge read_custom_DynamicNameTable_loop_end_loop
+
+; Otherwise, just continue the loop, since we're on a custom entry that is not the first one.
+blt read_custom_DynamicNameTable_loop_switch_continue
+
+read_custom_DynamicNameTable_loop_switch_from_vanilla_to_custom:
+; Replace the pointer to the start of the vanilla DynamicNameTable in r31 with a pointer to the start of our custom one.
+lis r31, custom_DynamicNameTable@ha
+addi r31, r31, custom_DynamicNameTable@l
+; Reset the offset into the list in r26 to 0 since we're now at the start of the custom list instead of the end of the vanilla list.
+li r26, 0
+
+read_custom_DynamicNameTable_loop_switch_continue:
+b 0x8002283C ; Return to the start of the vanilla loop
+
+read_custom_DynamicNameTable_loop_end_loop:
+mr r3, r30 ; Replace a line of code we overwrote to jump here
+b 0x800229B0 ; Return to after the end of the loop
+
+
+
+
+.global read_custom_l_objectName_loop_for_dStage_searchName
+read_custom_l_objectName_loop_for_dStage_searchName:
+
+; Index 0x339 is normally where the loop would end in vanilla.
+; We have it switch to the custom list at this point.
+cmplwi r30, 0x339
+beq read_custom_l_objectName_loop_for_dStage_searchName_switch_from_vanilla_to_custom
+
+; If we're past even the indexes for our custom list, end the loop.
+cmplwi r28, 0x339 + 1 ; Num entries in vanilla list + custom list
+bge read_custom_l_objectName_loop_for_dStage_searchName_end_loop
+
+; Otherwise, just continue the loop, since we're on a custom entry that is not the first one.
+blt read_custom_l_objectName_loop_for_dStage_searchName_continue
+
+read_custom_l_objectName_loop_for_dStage_searchName_switch_from_vanilla_to_custom:
+; Replace the pointer to the current entry of the vanilla l_objectName in r31 with a pointer to the start of our custom one.
+lis r31, custom_l_objectName@ha
+addi r31, r31, custom_l_objectName@l
+
+read_custom_l_objectName_loop_for_dStage_searchName_continue:
+b 0x8004156C ; Return to the start of the vanilla loop
+
+read_custom_l_objectName_loop_for_dStage_searchName_end_loop:
+li r3, 0 ; Replace a line of code we overwrote to jump here
+b 0x8004159C ; Return to after the end of the loop
+
+
+
+
+.global read_custom_l_objectName_loop_for_dStage_getName
+read_custom_l_objectName_loop_for_dStage_getName:
+
+; Check if the current entry pointer is right after the end of our custom list.
+; If so, this means we've exhausted both the entire vanilla list and the custom list, so end the loop.
+lis r7, custom_l_objectName_end@ha
+addi r7, r7, custom_l_objectName_end@l
+cmpw r6, r7
+beq read_custom_l_objectName_loop_for_dStage_getName_end_loop
+
+; Otherwise, we'll only reach this point when exhausting the vanilla list, so switch from the end of the vanilla list to the beginning of the custom list.
+
+read_custom_l_objectName_loop_for_dStage_getName_switch_from_vanilla_to_custom:
+; Replace the pointer to the current entry of the vanilla l_objectName in r6 with a pointer to the start of our custom one.
+lis r6, custom_l_objectName@ha
+addi r6, r6, custom_l_objectName@l
+; Then restart the loop counter so it loops for our custom list.
+li r0, 1 ; Num entries in our custom list
+mtctr r0
+
+read_custom_l_objectName_loop_for_dStage_getName_continue:
+b 0x800415D0 ; Return to the start of the vanilla loop
+
+read_custom_l_objectName_loop_for_dStage_getName_end_loop:
+lis r3, 0x8034EC78@ha ; Replace the line of code we overwrote to jump here
+b 0x80041600 ; Return to after the end of the loop
+
+
+
+
+; This is a list of custom REL files, ot add on to the vanilla DynamicNameTable list.
+.global custom_DynamicNameTable
+custom_DynamicNameTable:
+
+.short 0x01F6 ; Actor ID
+.align 2 ; Align to the next 4 bytes
+.int custom_DynamicNameTable_switch_op_rel_name ; REL name
+
+custom_DynamicNameTable_switch_op_rel_name:
+.string "d_a_switch_op"
+
+.align 2 ; Align to the next 4 bytes
+
+
+; This is a list of custom actor names, to add on to the vanilla l_objectName list.
+.global custom_l_objectName
+custom_l_objectName:
+
+padded_string "SwOp", 8 ; Actor name
+.short 0x01F6 ; Actor ID
+.byte 0xFF ; Subtype
+.byte 0x00 ; GBA name
+
+.global custom_l_objectName_end
+custom_l_objectName_end:
+
+
+; This is a BSS variable (initialized at runtime) that holds pointers to something necessary for each REL.
+; Unlike the above two lists, there's no easy way to trick the code into reading both the vanilla list and our custom list, so instead we just move the entire list into free space we have control over.
+.global custom_DMC
+custom_DMC:
+.space 4 * 0x1F7 ; Total num actors, including our custom ones
+
+
+
+
 .close

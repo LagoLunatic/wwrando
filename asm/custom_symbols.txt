@@ -105,6 +105,13 @@ sys/main.dol:
   get_max_health_for_file_select_screen: 0x803FEB34
   check_player_in_casual_clothes: 0x803FEB58
   check_open_map_select: 0x803FEB94
+  read_custom_DynamicNameTable_loop: 0x803FEBF4
+  read_custom_l_objectName_loop_for_dStage_searchName: 0x803FEC20
+  read_custom_l_objectName_loop_for_dStage_getName: 0x803FEC48
+  custom_DynamicNameTable: 0x803FEC74
+  custom_l_objectName: 0x803FEC8C
+  custom_l_objectName_end: 0x803FEC98
+  custom_DMC: 0x803FEC98
   test_room_stage_name: 0x8022D034
   test_room_starting_items_list: 0x8022D03C
   test_room_spawn_id: 0x800531E3
