@@ -232,6 +232,15 @@ class REL:
       
       next_section_data_offset = pad_offset_to_nearest(next_section_data_offset, 4)
     
+    # We need to reorder the relocations list before writing it so that relocations against this current REL and relocations against main come after relocations against other RELs.
+    # This is because the game assumes those two are always last, and shrinks the size of the imp table to not include those and anything after them upon first relocation (because those two are guaranteed to be complete on first relocation, unlike relocations against any other REL).
+    if self.id in self.relocation_entries_for_module:
+      relocations_against_this_rel = self.relocation_entries_for_module.pop(self.id)
+      self.relocation_entries_for_module[self.id] = relocations_against_this_rel
+    if 0 in self.relocation_entries_for_module:
+      relocations_against_main = self.relocation_entries_for_module.pop(0)
+      self.relocation_entries_for_module[0] = relocations_against_main
+    
     self.imp_table_offset = data_len(data)
     imp_table_size = len(self.relocation_entries_for_module)*8
     imp_table_end = self.imp_table_offset + imp_table_size
