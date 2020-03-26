@@ -4,6 +4,8 @@ from io import BytesIO
 from collections import OrderedDict
 
 class EventList:
+  TOTAL_NUM_FLAGS = 0x2800
+  
   def __init__(self, file_entry):
     self.file_entry = file_entry
     data = self.file_entry.data
@@ -28,7 +30,7 @@ class EventList:
     self.events_by_name = {}
     for event_index in range(0, num_events):
       offset = event_list_offset + event_index * Event.DATA_SIZE
-      event = Event(self.file_entry)
+      event = Event(self)
       event.read(offset)
       self.events.append(event)
       if event.name in self.events_by_name:
@@ -38,14 +40,14 @@ class EventList:
     all_actors = []
     for actor_index in range(0, num_actors):
       offset = actor_list_offset + actor_index * Actor.DATA_SIZE
-      actor = Actor(self.file_entry)
+      actor = Actor(self)
       actor.read(offset)
       all_actors.append(actor)
     
     all_actions = []
     for action_index in range(0, num_actions):
       offset = action_list_offset + action_index * Action.DATA_SIZE
-      action = Action(self.file_entry)
+      action = Action(self)
       action.read(offset)
       all_actions.append(action)
     
@@ -76,7 +78,7 @@ class EventList:
     all_properties = []
     for property_index in range(0, num_properties):
       offset = property_list_offset + property_index * Property.DATA_SIZE
-      property = Property(self.file_entry)
+      property = Property(self)
       property.read(offset)
       all_properties.append(property)
     
@@ -151,6 +153,14 @@ class EventList:
         property.value = all_strings_by_offset[property.data_index]
       else:
         raise Exception("Reading property data type %d not implemented" % property.data_type)
+    
+    # Keep track of which flag IDs haven't been used yet in case we need to add new actors/actions.
+    self.unused_flag_ids = list(range(self.TOTAL_NUM_FLAGS))
+    for event in self.events:
+      for actor in event.actors:
+        self.unused_flag_ids.remove(actor.flag_id_to_set)
+        for action in actor.actions:
+          self.unused_flag_ids.remove(action.flag_id_to_set)
   
   def save_changes(self):
     data = self.file_entry.data
@@ -324,17 +334,23 @@ class EventList:
     write_bytes(data, 0x38, self.header_padding)
   
   def add_event(self, name):
-    event = Event(self.file_entry)
+    event = Event(self)
     event.name = name
     self.events.append(event)
     self.events_by_name[name] = event
     return event
+  
+  def get_unused_flag_id(self):
+    if not self.unused_flag_ids:
+      raise Exception("No unused flags left for adding new actor/action to event_list.dat!")
+    
+    return self.unused_flag_ids.pop(0)
 
 class Event:
   DATA_SIZE = 0xB0
   
-  def __init__(self, file_entry):
-    self.file_entry = file_entry
+  def __init__(self, event_list):
+    self.event_list = event_list
     
     self.name = None
     self.event_index = None
@@ -349,7 +365,7 @@ class Event:
     self.actors = []
   
   def read(self, offset):
-    data = self.file_entry.data
+    data = self.event_list.file_entry.data
     self.offset = offset
     
     self.name = read_str(data, offset, 0x20)
@@ -380,7 +396,7 @@ class Event:
     self.actors = [] # This will be populated by the event list after it reads the actors.
   
   def save_changes(self):
-    data = self.file_entry.data
+    data = self.event_list.file_entry.data
     
     write_str(data, self.offset, self.name, 0x20)
     write_s32(data, self.offset+0x20, self.event_index)
@@ -410,16 +426,17 @@ class Event:
     write_bytes(data, self.offset+0x95, self.zero_initialized_runtime_data)
   
   def add_actor(self, name):
-    actor = Actor(self.file_entry)
+    actor = Actor(self.event_list)
     actor.name = name
+    actor.flag_id_to_set = self.event_list.get_unused_flag_id()
     self.actors.append(actor)
     return actor
 
 class Actor:
   DATA_SIZE = 0x50
   
-  def __init__(self, file_entry):
-    self.file_entry = file_entry
+  def __init__(self, event_list):
+    self.event_list = event_list
     
     self.name = None
     self.staff_identifier = 0
@@ -432,7 +449,7 @@ class Actor:
     self.initial_action = None
   
   def read(self, offset):
-    data = self.file_entry.data
+    data = self.event_list.file_entry.data
     self.offset = offset
     
     self.name = read_str(data, offset, 0x20)
@@ -449,7 +466,7 @@ class Actor:
     self.initial_action = None
   
   def save_changes(self):
-    data = self.file_entry.data
+    data = self.event_list.file_entry.data
     
     if len(self.actions) == 0:
       raise Exception("Cannot save actor with no actions!")
@@ -467,8 +484,9 @@ class Actor:
     write_bytes(data, self.offset+0x34, self.zero_initialized_runtime_data)
   
   def add_action(self, name, properties=[]):
-    action = Action(self.file_entry)
+    action = Action(self.event_list)
     action.name = name
+    action.flag_id_to_set = self.event_list.get_unused_flag_id()
     self.actions.append(action)
     for prop_name, prop_value in properties:
       prop = action.add_property(prop_name)
@@ -478,8 +496,8 @@ class Actor:
 class Action:
   DATA_SIZE = 0x50
   
-  def __init__(self, file_entry):
-    self.file_entry = file_entry
+  def __init__(self, event_list):
+    self.event_list = event_list
     
     self.name = None
     self.duplicate_id = 0
@@ -493,7 +511,7 @@ class Action:
     self.next_action = None
   
   def read(self, offset):
-    data = self.file_entry.data
+    data = self.event_list.file_entry.data
     self.offset = offset
     
     self.name = read_str(data, offset, 0x20)
@@ -516,7 +534,7 @@ class Action:
     self.next_action = None
   
   def save_changes(self):
-    data = self.file_entry.data
+    data = self.event_list.file_entry.data
     
     write_str(data, self.offset, self.name, 0x20)
     write_u32(data, self.offset+0x20, self.duplicate_id)
@@ -546,7 +564,7 @@ class Action:
     return next((prop for prop in self.properties if prop.name == prop_name), None)
    
   def add_property(self, name):
-    prop = Property(self.file_entry)
+    prop = Property(self.event_list)
     prop.name = name
     self.properties.append(prop)
     return prop
@@ -554,8 +572,8 @@ class Action:
 class Property:
   DATA_SIZE = 0x40
   
-  def __init__(self, file_entry):
-    self.file_entry = file_entry
+  def __init__(self, event_list):
+    self.event_list = event_list
     
     self.name = None
     self.property_index = None
@@ -568,7 +586,7 @@ class Property:
     self.value = None
   
   def read(self, offset):
-    data = self.file_entry.data
+    data = self.event_list.file_entry.data
     self.offset = offset
     
     self.name = read_str(data, offset, 0x20)
@@ -586,7 +604,7 @@ class Property:
     self.value = None
   
   def save_changes(self):
-    data = self.file_entry.data
+    data = self.event_list.file_entry.data
     
     write_str(data, self.offset, self.name, 0x20)
     write_s32(data, self.offset+0x20, self.property_index)
