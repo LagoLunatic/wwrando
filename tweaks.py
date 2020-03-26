@@ -1415,8 +1415,172 @@ def add_pirate_ship_to_windfall(self):
   write_u8(dol_data, address_to_offset(asoko_bgm_info_ptr+3), new_second_scene_wave_index)
   write_u8(dol_data, address_to_offset(new_second_scene_wave_ptr+0), isle_link_0_aw_index)
   
+  
+  # Add a custom event where Aryll notices if the player got trapped in the chest room after the timer ran out and opens the door for them.
+  
+  event = event_list.add_event("AryllOpensDoor")
+  new_event_index_in_event_list = event_list.events.index(event)
+  
+  camera = event.add_actor("CAMERA")
+  camera.staff_type = 2
+  
+  aryll_actor = event.add_actor("Ls1")
+  aryll_actor.staff_type = 0
+  
+  link = event.add_actor("Link")
+  link.staff_type = 0
+  
+  act = camera.add_action("FIXEDFRM", properties=[
+    ("Eye", (aryll.x_pos, aryll.y_pos+90, aryll.z_pos-120)),
+    ("Center", (aryll.x_pos, aryll.y_pos+70, aryll.z_pos)),
+    ("Fovy", 60.0),
+    ("Timer", 30),
+  ])
+  
+  # Make Aryll look at the player.
+  act = aryll_actor.add_action("LOK_PLYER", properties=[
+    ("prm_0", 8),
+  ])
+  
+  # Some of Aryll's animations that can be used here (incomplete list):
+  # 2: Arms behind back, lightly moving body
+  # 4: Arms behind back, swaying head back and forth
+  # 5: Idle
+  # 6: Giving present
+  # 8: Looking through telescope
+  # 9: Item get anim
+  act = aryll_actor.add_action("ANM_CHG", properties=[
+    ("AnmNo", 8), # Looking through telescope
+  ])
+  
+  act = aryll_actor.add_action("WAIT", properties=[
+    ("Timer", 30),
+  ])
+  
+  # Set Aryll's text for when you're trapped in the chest room.
+  new_message_id = 849
+  msg = self.bmg.add_new_message(new_message_id)
+  msg.text_box_type = 0 # Dialog
+  msg.initial_draw_type = 0 # Normal
+  msg.text_alignment = 4 # Bottom text box
+  msg.string = "Oh! Did you get stuck in there, Big Brother?"
+  
+  act = aryll_actor.add_action("TALK_MSG", properties=[
+    ("msg_num", new_message_id),
+  ])
+  
+  act = aryll_actor.add_action("ANM_CHG", properties=[
+    ("AnmNo", 4), # Arms behind back, swaying head back and forth
+  ])
+  
+  new_message_id = 850
+  msg = self.bmg.add_new_message(new_message_id)
+  msg.text_box_type = 0 # Dialog
+  msg.initial_draw_type = 0 # Normal
+  msg.text_alignment = 4 # Bottom text box
+  msg.string = "Don't worry, I'll open the door for you."
+  
+  act = aryll_actor.add_action("TALK_MSG", properties=[
+    ("msg_num", new_message_id),
+  ])
+  
+  # Reset Aryll to her idle animation at the end of the event.
+  act = aryll_actor.add_action("ANM_CHG", properties=[
+    ("AnmNo", 5), # Idle
+  ])
+  
+  # Make sure Link still animates during the event instead of freezing.
+  act = link.add_action("001wait")
+  
+  event.ending_flags[0] = aryll_actor.actions[-1].flag_id_to_set
+  
+  event_list.save_changes()
+  
+  new_evnt = ship_dzs.add_entity("EVNT")
+  new_evnt.name = event.name
+  new_event_index_in_evnt = ship_dzs.entries_by_type("EVNT").index(new_evnt)
+  
+  
+  # Change the facial animation used by Aryll animation 4 (arms behind back, swaying back and forth) to be 5 (smug expression).
+  aryll_rel = self.get_rel("files/rels/d_a_npc_ls1.rel")
+  aryll_rel.write_data(write_u8, 0x5D18 + 4*0x10 + 1, 5)
+  
+  
+  # Now that we have a custom event, we must actually detect when the player is trapped in the chest room and trigger it.
+  # To do this, we use a custom switch logic operator actor.
+  
+  # Set up the switches we will use.
+  countdown_happening_switch = 0xC0
+  aryll_opened_door_switch = 0xC1
+  countdown_not_happening_switch = 0xC2
+  inside_chest_room_switch = 0xC3
+  door_should_be_open_switch = 0xC4
+  
+  
+  # Detect when the player is inside the chest room.
+  swc00 = ship_dzr.add_entity("SCOB", layer=None)
+  swc00.name = "SW_C00"
+  swc00.switch_to_set = inside_chest_room_switch
+  swc00.behavior_type = 0 # Unset the switch when leaving the region
+  swc00.prerequisite_switch = 0xFF
+  swc00.x_pos = 0
+  swc00.y_pos = -550
+  swc00.z_pos = -3900
+  swc00.scale_x = 64
+  swc00.scale_y = 36
+  swc00.scale_z = 64
+  
+  
+  # Detect when the countdown is not currently going on.
+  sw_op = ship_dzr.add_entity("ACTR")
+  sw_op.name = "SwOp"
+  sw_op.operation = 3 # NOR
+  sw_op.is_continuous = 1
+  sw_op.num_switches_to_check = 1
+  sw_op.first_switch_to_check = countdown_happening_switch
+  sw_op.switch_to_set = countdown_not_happening_switch
+  sw_op.evnt_index = 0xFF
+  sw_op.x_pos = 0
+  sw_op.y_pos = 0
+  sw_op.z_pos = -4400
+  
+  
+  # Handle starting the event for Aryll noticing the player is trapped.
+  sw_op = ship_dzr.add_entity("ACTR")
+  sw_op.name = "SwOp"
+  sw_op.operation = 0 # AND
+  sw_op.is_continuous = 1
+  sw_op.num_switches_to_check = 2
+  sw_op.first_switch_to_check = countdown_not_happening_switch # && inside_chest_room_switch
+  sw_op.switch_to_set = aryll_opened_door_switch
+  sw_op.evnt_index = new_event_index_in_evnt
+  sw_op.delay = 150
+  sw_op.x_pos = 0
+  sw_op.y_pos = 0
+  sw_op.z_pos = -3900
+  
+  
+  # Handle opening the door.
+  sw_op = ship_dzr.add_entity("ACTR")
+  sw_op.name = "SwOp"
+  sw_op.operation = 2 # OR
+  sw_op.is_continuous = 1
+  sw_op.num_switches_to_check = 2
+  sw_op.first_switch_to_check = countdown_happening_switch # || aryll_opened_door_switch
+  sw_op.switch_to_set = door_should_be_open_switch
+  sw_op.evnt_index = 0xFF
+  sw_op.x_pos = 0
+  sw_op.y_pos = 0
+  sw_op.z_pos = -3400
+  for layer_num in [2, 3]:
+    actors_on_this_layer = ship_dzr.entries_by_type_and_layer("ACTR", layer_num)
+    ashut = next(x for x in actors_on_this_layer if x.name == "Ashut")
+    ashut.switch_to_check = door_should_be_open_switch
+  
+  
   ship_dzr.save_changes()
   ship_dzs.save_changes()
+
 
 WarpPotData = namedtuple("WarpPotData", 'stage_name room_num x y z y_rot event_reg_index')
 INTER_DUNGEON_WARP_DATA = [
