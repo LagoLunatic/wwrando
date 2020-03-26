@@ -3299,3 +3299,30 @@ d_a_npc_fa1: {}
 d_a_obj_search: {}
 
 d_a_spc_item: {}
+
+
+
+### Below this are custom actors added by the randomizer.
+
+d_a_switch_op:
+  operation:
+    Bitfield name: params
+    Mask: 0x0000000F
+  is_continuous:
+    Bitfield name: params
+    Mask: 0x00000010
+  switch_to_set:
+    Bitfield name: params
+    Mask: 0x0000FF00
+  first_switch_to_check:
+    Bitfield name: params
+    Mask: 0x00FF0000
+  num_switches_to_check:
+    Bitfield name: params
+    Mask: 0xFF000000
+  evnt_index:
+    Bitfield name: aux_params_1
+    Mask: 0x00FF
+  delay:
+    Bitfield name: aux_params_2
+    Mask: 0xFFFF

@@ -4123,3 +4123,13 @@ EndCode:
   Actor ID: 0x0007
   Subtype: 0xFF
   GBA Name: 0x00
+
+
+
+### Below this are custom actors added by the randomizer.
+
+SwOp:
+  Class Name: d_a_switch_op
+  Actor ID: 0x01F6
+  Subtype: 0xFF
+  GBA Name: 0x00
