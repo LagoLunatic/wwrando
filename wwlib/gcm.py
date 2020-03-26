@@ -202,7 +202,7 @@ class GCM:
     else:
       return self.read_file_data(file_path)
   
-  def add_new_file(self, file_path, file_data):
+  def add_new_file(self, file_path, file_data=None):
     assert file_path.lower() not in self.files_by_path_lowercase
     
     dirname = os.path.dirname(file_path)
@@ -213,13 +213,17 @@ class GCM:
     new_file.file_path = file_path
     # file_data_offset is used for ordering the files in the new ISO, so we give it a huge value so new files are placed after vanilla files.
     new_file.file_data_offset = (1<<32)
-    new_file.file_size = data_len(file_data)
+    new_file.file_size = None # No original file size.
     
     parent_dir = self.get_dir_file_entry(dirname)
     parent_dir.children.append(new_file)
     new_file.parent = parent_dir
     
-    self.changed_files[file_path] = file_data
+    if file_data is None:
+      self.changed_files[file_path] = None
+    else:
+      self.changed_files[file_path] = file_data
+    
     self.files_by_path[file_path] = new_file
     self.files_by_path_lowercase[file_path.lower()] = new_file
   
