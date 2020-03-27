@@ -3236,7 +3236,7 @@ padded_string "SwOp", 8 ; Actor name
 custom_l_objectName_end:
 
 
-; This is a BSS variable (initialized at runtime) that holds pointers to something necessary for each REL.
+; This is a BSS variable (initialized at runtime) that holds pointers to the DynamicModuleControl struct for each REL.
 ; Unlike the above two lists, there's no easy way to trick the code into reading both the vanilla list and our custom list, so instead we just move the entire list into free space we have control over.
 .global custom_DMC
 custom_DMC:
