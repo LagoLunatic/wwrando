@@ -217,3 +217,26 @@
 .org 0x80022BC8
   cmplwi r4, 0x1F7
 .close
+
+
+
+
+; Change the condition for Outset switching to its alternate BGM theme from checking event bit 0E20 (PIRATES_ON_OUTSET, for Aryll being kidnapped) to instead check if the Pirate Ship chest has been opened (since Aryll is in the Pirate Ship in the randomizer).
+.open "sys/main.dol"
+.org 0x802A2BE4 ; In JAIZelBasic::zeldaGFrameWork
+  li r3, 13 ; Stage info ID that includes the Pirate Ship.
+  li r4, 5 ; Chest open flag for the Pirate Ship chest that originally had Bombs.
+  bl dComIfGs_isStageTbox__Fii
+.org 0x802AA2E4 ; In JAIZelBasic::startIsleBgm
+  li r3, 13 ; Stage info ID that includes the Pirate Ship.
+  li r4, 5 ; Chest open flag for the Pirate Ship chest that originally had Bombs.
+  bl dComIfGs_isStageTbox__Fii
+.org 0x802AA4CC ; In JAIZelBasic::setScene
+  li r3, 13 ; Stage info ID that includes the Pirate Ship.
+  li r4, 5 ; Chest open flag for the Pirate Ship chest that originally had Bombs.
+  bl dComIfGs_isStageTbox__Fii
+.org 0x802AA4E8 ; In JAIZelBasic::setScene
+  li r3, 13 ; Stage info ID that includes the Pirate Ship.
+  li r4, 5 ; Chest open flag for the Pirate Ship chest that originally had Bombs.
+  bl dComIfGs_isStageTbox__Fii
+.close
