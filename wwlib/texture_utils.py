@@ -441,7 +441,7 @@ def generate_new_palettes_from_image(image, image_format, palette_format):
   
   if len(encoded_colors) > MAX_COLORS_FOR_IMAGE_FORMAT[image_format]:
     raise TooManyColorsError(
-      "Maximum number of colors supported by image format %s is %d, but replacement image has %d colors" % (
+      "Maximum number of colors supported by image format %s is %d, but image has %d colors" % (
         image_format.name, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], len(encoded_colors)
       )
     )
@@ -472,7 +472,7 @@ def encode_palette(encoded_colors, palette_format, image_format):
   
   if len(encoded_colors) > MAX_COLORS_FOR_IMAGE_FORMAT[image_format]:
     raise TooManyColorsError(
-      "Maximum number of colors supported by image format %s is %d, but replacement image has %d colors" % (
+      "Maximum number of colors supported by image format %s is %d, but image has %d colors" % (
         image_format.name, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], len(encoded_colors)
       )
     )
