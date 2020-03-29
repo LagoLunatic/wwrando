@@ -3245,4 +3245,30 @@ custom_DMC:
 
 
 
+; Custom function to check if a treasure chest open flag in the save file is set.
+; This function has the benefit of not crashing like isStageTbox when used with test room.
+; The downside is that this function doesn't work right if the player hasn't changed stages in between opening the chest and this check happening, so it should only be used when that is impossible.
+; r3 - The stage info ID
+; r4 - The treasure chest open flag index to check
+.global custom_isTbox_for_unloaded_stage_save_info
+custom_isTbox_for_unloaded_stage_save_info:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+mulli r0, r3, 0x24 ; Use stage info ID as the index, each entry in the list is 0x24 bytes long
+lis r3, 0x803C4F88@ha ; List of all stage info
+addi r3, r3, 0x803C4F88@l
+add r3, r3, r0
+
+bl isTbox__12dSv_memBit_cFi
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 .close

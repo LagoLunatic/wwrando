@@ -112,6 +112,7 @@ sys/main.dol:
   custom_l_objectName: 0x803FEC8C
   custom_l_objectName_end: 0x803FEC98
   custom_DMC: 0x803FEC98
+  custom_isTbox_for_unloaded_stage_save_info: 0x803FF474
   test_room_stage_name: 0x8022D034
   test_room_starting_items_list: 0x8022D03C
   test_room_spawn_id: 0x800531E3

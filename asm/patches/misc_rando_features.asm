@@ -226,17 +226,17 @@
 .org 0x802A2BE4 ; In JAIZelBasic::zeldaGFrameWork
   li r3, 13 ; Stage info ID that includes the Pirate Ship.
   li r4, 5 ; Chest open flag for the Pirate Ship chest that originally had Bombs.
-  bl dComIfGs_isStageTbox__Fii
+  bl custom_isTbox_for_unloaded_stage_save_info
 .org 0x802AA2E4 ; In JAIZelBasic::startIsleBgm
   li r3, 13 ; Stage info ID that includes the Pirate Ship.
   li r4, 5 ; Chest open flag for the Pirate Ship chest that originally had Bombs.
-  bl dComIfGs_isStageTbox__Fii
+  bl custom_isTbox_for_unloaded_stage_save_info
 .org 0x802AA4CC ; In JAIZelBasic::setScene
   li r3, 13 ; Stage info ID that includes the Pirate Ship.
   li r4, 5 ; Chest open flag for the Pirate Ship chest that originally had Bombs.
-  bl dComIfGs_isStageTbox__Fii
+  bl custom_isTbox_for_unloaded_stage_save_info
 .org 0x802AA4E8 ; In JAIZelBasic::setScene
   li r3, 13 ; Stage info ID that includes the Pirate Ship.
   li r4, 5 ; Chest open flag for the Pirate Ship chest that originally had Bombs.
-  bl dComIfGs_isStageTbox__Fii
+  bl custom_isTbox_for_unloaded_stage_save_info
 .close

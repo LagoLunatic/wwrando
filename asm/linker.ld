@@ -42,6 +42,7 @@ onCollect__20dSv_player_collect_cFiUc = 0x8005ace0;
 dComIfGs_isStageBossEnemy__Fi = 0x800539a8;
 getTriforceNum__20dSv_player_collect_cFv = 0x8005b230;
 dComIfGs_isStageTbox__Fii = 0x80053918;
+isTbox__12dSv_memBit_cFi = 0x8005c188;
 
 fopAcM_createItem__FP4cXyziiiiP5csXyziP4cXyz = 0x80026adc;
 fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz = 0x80026118;
