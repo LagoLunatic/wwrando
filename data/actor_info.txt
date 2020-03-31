@@ -399,7 +399,7 @@ NormCam:
   Subtype: 0xFF
   GBA Name: 0x00
 Link:
-  Class Name: null # TODO
+  Class Name: d_a_py_lk
   Actor ID: 0x00A9
   Subtype: 0xFF
   GBA Name: 0x00

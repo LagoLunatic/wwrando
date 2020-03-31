@@ -3277,6 +3277,35 @@ f_pc_profile_lst: {}
 
 ### Below this are non-REL classes.
 
+d_a_py_lk:
+  room_num:
+    Bitfield name: params
+    Mask: 0x0000003F
+  unknown_param_1:
+    Bitfield name: params
+    Mask: 0x00000040
+  unknown_param_2:
+    Bitfield name: params
+    Mask: 0x00000080
+  unknown_param_3:
+    Bitfield name: params
+    Mask: 0x00000F00
+  spawn_type:
+    Bitfield name: params
+    Mask: 0x0000F000
+  unknown_param_4:
+    Bitfield name: params
+    Mask: 0x00FF0000
+  event_index:
+    Bitfield name: params
+    Mask: 0xFF000000
+  unknown_param_5:
+    Bitfield name: aux_params_2
+    Mask: 0xFF00
+  spawn_id:
+    Bitfield name: aux_params_2
+    Mask: 0x00FF
+
 d_a_item:
   item_id:
     Bitfield name: params
