@@ -80,7 +80,7 @@ class DZx: # DZR or DZS, same format
     
     for chunk in self.chunks:
       chunk.offset = offset
-      write_str(data, chunk.offset, chunk.fourcc, 4)
+      write_magic_str(data, chunk.offset, chunk.fourcc, 4)
       write_u32(data, chunk.offset+4, len(chunk.entries))
       write_u32(data, chunk.offset+8, 0) # Placeholder for first entry offset
       offset += 0xC

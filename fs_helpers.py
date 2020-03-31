@@ -79,6 +79,24 @@ def read_str_until_null_character(data, offset):
   return str
 
 def write_str(data, offset, new_string, max_length):
+  # Writes a fixed-length string.
+  # Although it is fixed-length, it still must have a null character terminating it, so the real max length is one less than the passed max_length argument.
+  
+  str_len = len(new_string)
+  if str_len >= max_length:
+    raise Exception("String \"%s\" is too long (max length including null byte: %X)" % (new_string, max_length))
+  
+  padding_length = max_length - str_len
+  null_padding = b"\x00"*padding_length
+  new_value = new_string.encode("shift_jis") + null_padding
+  
+  data.seek(offset)
+  data.write(new_value)
+
+def write_magic_str(data, offset, new_string, max_length):
+  # Writes a fixed-length string that does not have to end with a null byte.
+  # This is for magic file format identifiers.
+  
   str_len = len(new_string)
   if str_len > max_length:
     raise Exception("String %s is too long (max length %X)" % (new_string, max_length))
@@ -91,6 +109,8 @@ def write_str(data, offset, new_string, max_length):
   data.write(new_value)
 
 def write_str_with_null_byte(data, offset, new_string):
+  # Writes a non-fixed length string.
+  
   str_len = len(new_string)
   write_str(data, offset, new_string, str_len+1)
 

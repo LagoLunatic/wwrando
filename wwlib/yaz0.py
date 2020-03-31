@@ -73,7 +73,7 @@ class Yaz0:
   @staticmethod
   def compress(uncomp_data):
     comp_data = BytesIO()
-    write_str(comp_data, 0, "Yaz0", 4)
+    write_magic_str(comp_data, 0, "Yaz0", 4)
     
     uncomp_size = data_len(uncomp_data)
     write_u32(comp_data, 4, uncomp_size)

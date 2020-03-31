@@ -89,7 +89,7 @@ class BMGSection:
     align_data_to_nearest(self.data, 0x20)
     
     self.size = data_len(self.data)
-    write_str(self.data, 0, self.magic, 4)
+    write_magic_str(self.data, 0, self.magic, 4)
     write_u32(self.data, 4, self.size)
   
   def read_inf1(self):

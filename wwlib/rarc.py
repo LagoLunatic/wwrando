@@ -244,7 +244,7 @@ class RARC:
       next_file_data_offset = self.data.tell() - self.file_data_list_offset
     
     # Update the header.
-    write_str(self.data, 0x00, "RARC", 4)
+    write_magic_str(self.data, 0x00, "RARC", 4)
     write_u32(self.data, 0x0C, self.file_data_list_offset-0x20)
     self.num_nodes = len(self.nodes)
     write_u32(self.data, 0x20, self.num_nodes)
@@ -359,7 +359,7 @@ class Node:
     
     self.num_files = len(self.files)
     
-    write_str(self.rarc.data, self.node_offset+0x00, self.type, 4)
+    write_magic_str(self.rarc.data, self.node_offset+0x00, self.type, 4)
     write_u32(self.rarc.data, self.node_offset+0x04, self.name_offset)
     write_u16(self.rarc.data, self.node_offset+0x08, self.name_hash)
     write_u16(self.rarc.data, self.node_offset+0x0A, self.num_files)

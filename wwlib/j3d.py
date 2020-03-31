@@ -74,8 +74,8 @@ class J3DFile:
     self.length = data_len(data)
     self.num_chunks = len(self.chunks)
     
-    write_str(data, 0, self.magic, 4)
-    write_str(data, 4, self.file_type, 4)
+    write_magic_str(data, 0, self.magic, 4)
+    write_magic_str(data, 4, self.file_type, 4)
     write_u32(data, 8, self.length)
     write_u32(data, 0xC, self.num_chunks)
 
@@ -140,7 +140,7 @@ class J3DChunk:
     align_data_to_nearest(self.data, 0x20)
     
     self.size = data_len(self.data)
-    write_str(self.data, 0, self.magic, 4)
+    write_magic_str(self.data, 0, self.magic, 4)
     write_u32(self.data, 4, self.size)
   
   def save_chunk_specific_data(self):
@@ -699,7 +699,7 @@ class TRK1(J3DChunk):
     
     
     # Write the header.
-    write_str(self.data, 0, "TRK1", 4)
+    write_magic_str(self.data, 0, "TRK1", 4)
     
     write_u8(self.data, 0x08, self.loop_mode.value)
     write_u8(self.data, 0x09, 0xFF)

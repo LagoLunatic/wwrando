@@ -148,7 +148,7 @@ class JPC:
   def save_changes(self):
     self.num_particles = len(self.particles)
     self.num_textures = len(self.textures)
-    write_str(self.data, 0, self.magic, 8)
+    write_magic_str(self.data, 0, self.magic, 8)
     write_u16(self.data, 8, self.num_particles)
     write_u16(self.data, 0xA, self.num_textures)
     
@@ -229,7 +229,7 @@ class Particle:
     # We don't recalculate this size field, since this is inaccurate anyway. It's probably not even used.
     #self.size = data_len(self.data)
     
-    write_str(self.data, 0, self.magic, 8)
+    write_magic_str(self.data, 0, self.magic, 8)
     write_u32(self.data, 0x10, self.size)
 
 class ParticleSection:

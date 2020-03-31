@@ -820,11 +820,11 @@ def update_game_name_icon_and_banners(self):
   
   new_game_id = "GZLE99"
   boot_data = self.get_raw_file("sys/boot.bin")
-  write_str(boot_data, 0, new_game_id, 6)
+  write_magic_str(boot_data, 0, new_game_id, 6)
   
   dol_data = self.get_raw_file("sys/main.dol")
   new_memory_card_game_name = "Wind Waker Randomizer"
-  write_str(dol_data, address_to_offset(0x80339690), new_memory_card_game_name, 21)
+  write_magic_str(dol_data, address_to_offset(0x80339690), new_memory_card_game_name, 21)
   
   new_image_file_path = os.path.join(ASSETS_PATH, "banner.png")
   image_format = texture_utils.ImageFormat.RGB5A3
