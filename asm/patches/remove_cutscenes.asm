@@ -184,3 +184,13 @@
 .org 0x2F80
   b 0x2FD8
 .close
+; But because the above cutscene is also what normally allows you to give Joy Pendants to Mrs. Marie, we instead change the event bit she checks to enable that (1E04) to instead check the event bit for her having given you the reward for catching the Killer Bees (1F80).
+; This is so the player doesn't need to manually trigger the above cutscene to do the Joy Pendant trading quests.
+.open "files/rels/d_a_npc_ho.rel" ; Mrs. Marie
+.org 0x15FC ; In daNpc_Ho_c::wait01
+  ; For deciding if she should react to the player presenting an item at all
+  li r4, 0x1F80
+.org 0xDB4 ; In daNpc_Ho_c::getMsg
+  ; For deciding what message to say when reacting to the player presenting a Joy Pendant
+  li r4, 0x1F80
+.close
