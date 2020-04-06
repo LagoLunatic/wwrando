@@ -856,6 +856,13 @@
                   </property>
                  </widget>
                 </item>
+                <item>
+                 <widget class="QCheckBox" name="disable_custom_player_items">
+                  <property name="text">
+                   <string>Disable Custom Items</string>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </item>
              </layout>

@@ -17,6 +17,7 @@ Changes:
 * When the Swift Sail tweak is enabled, the ship's cruising speed is now also increased.
 * When the randomizer runs out of items to place (e.g. because you started with extra gear) it will now place various consumables randomly to fill the locations up, instead of only using red rupees.
 * Hyrule Castle now has Moblins and Darknuts in it. (Killing them is not necessary to progress like in vanilla.)
+* Added an option to the UI to disable custom item models that come with custom player models.
 * Outset will now play its alternate theme once you've opened a certain chest.
 * Drastically improved the performance of recoloring the player model preview image in the randomizer's UI, especially when lots of different color options are changed from the model's defaults.
 * Added more custom color options for the vanilla Link model.

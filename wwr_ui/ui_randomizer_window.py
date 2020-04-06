@@ -595,6 +595,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_7.addWidget(self.disable_custom_player_voice)
 
+        self.disable_custom_player_items = QCheckBox(self.tab_2)
+        self.disable_custom_player_items.setObjectName(u"disable_custom_player_items")
+
+        self.horizontalLayout_7.addWidget(self.disable_custom_player_items)
+
 
         self.gridLayout_5.addLayout(self.horizontalLayout_7, 0, 1, 1, 1)
 
@@ -805,6 +810,7 @@ class Ui_MainWindow(object):
         self.randomize_all_custom_colors_separately.setText(QCoreApplication.translate("MainWindow", u"Randomize Colors Chaotically", None))
         self.player_in_casual_clothes.setText(QCoreApplication.translate("MainWindow", u"Casual Clothes", None))
         self.disable_custom_player_voice.setText(QCoreApplication.translate("MainWindow", u"Disable Custom Voice", None))
+        self.disable_custom_player_items.setText(QCoreApplication.translate("MainWindow", u"Disable Custom Items", None))
         self.custom_model_comment.setText("")
         self.custom_model_preview_label.setText("")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Player Customization", None))

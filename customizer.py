@@ -179,6 +179,9 @@ def replace_link_model(self):
   
   revert_bck_files_in_arc_to_original(orig_link_arc, custom_link_arc)
   
+  if self.options.get("disable_custom_player_items"):
+    revert_item_models_in_arc_to_original(orig_link_arc, custom_link_arc)
+  
   orig_sum_of_changed_arc_sizes += ORIG_LINK_ARC_FILE_SIZE_IN_BYTES
   custom_link_arc.save_changes()
   new_sum_of_changed_arc_sizes += data_len(custom_link_arc.data)
@@ -258,6 +261,14 @@ def revert_bck_files_in_arc_to_original(orig_arc, custom_arc):
   for orig_file_entry in orig_arc.file_entries:
     basename, file_ext = os.path.splitext(orig_file_entry.name)
     if file_ext == ".bck":
+      custom_file_entry = custom_arc.get_file_entry(orig_file_entry.name)
+      custom_file_entry.data = orig_file_entry.data
+
+def revert_item_models_in_arc_to_original(orig_arc, custom_arc):
+  # Optionally revert all item models to the original ones.
+  for orig_file_entry in orig_arc.file_entries:
+    basename, file_ext = os.path.splitext(orig_file_entry.name)
+    if file_ext == ".bdl" and basename not in ["cl", "katsura", "hands"]:
       custom_file_entry = custom_arc.get_file_entry(orig_file_entry.name)
       custom_file_entry.data = orig_file_entry.data
 
