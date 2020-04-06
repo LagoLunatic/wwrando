@@ -401,6 +401,70 @@ def get_color_distance_fast(color_1, color_2):
   return dist
 
 
+# Generates a palette with a certain number of colors or less based on an image (color quantization).
+def create_limited_palette_from_image(image, max_colors):
+  pixels = image.load()
+  
+  # (2**depth) will be max_colors.
+  if max_colors == 16:
+    depth = 4
+  elif max_colors == 256:
+    depth = 8
+  elif max_colors == 16384:
+    depth = 14
+  else:
+    raise Exception("Unsupported maximum number of colors to generate a palette for: %d" % max_colors)
+  
+  all_pixel_colors = []
+  for y in range(0, image.height):
+    for x in range(0, image.width):
+      color = pixels[x, y]
+      all_pixel_colors.append(color)
+  
+  palette = split_colors_into_buckets(all_pixel_colors, depth)
+  
+  return palette
+
+def split_colors_into_buckets(all_pixel_colors, depth):
+  if depth == 0:
+    return [average_colors_together(all_pixel_colors)]
+  
+  r_range = max(r for r,g,b,a in all_pixel_colors) - min(r for r,g,b,a in all_pixel_colors)
+  g_range = max(g for r,g,b,a in all_pixel_colors) - min(g for r,g,b,a in all_pixel_colors)
+  b_range = max(b for r,g,b,a in all_pixel_colors) - min(b for r,g,b,a in all_pixel_colors)
+  
+  channel_index_with_highest_range = 0
+  if g_range >= r_range and g_range >= b_range:
+    channel_index_with_highest_range = 1
+  elif r_range >= g_range and r_range >= b_range:
+    channel_index_with_highest_range = 0
+  elif b_range >= r_range and b_range >= g_range:
+    channel_index_with_highest_range = 2
+  
+  all_pixel_colors.sort(key=lambda color: color[channel_index_with_highest_range])
+  median_index = (len(all_pixel_colors)+1)//2
+  
+  palette = []
+  palette += split_colors_into_buckets(all_pixel_colors[:median_index], depth-1)
+  palette += split_colors_into_buckets(all_pixel_colors[median_index:], depth-1)
+  return palette
+
+def average_colors_together(colors):
+  r_sum = sum(r for r,g,b,a in colors)
+  g_sum = sum(g for r,g,b,a in colors)
+  b_sum = sum(b for r,g,b,a in colors)
+  a_sum = sum(a for r,g,b,a in colors)
+  
+  average_color = (
+    r_sum//len(colors),
+    g_sum//len(colors),
+    b_sum//len(colors),
+    a_sum//len(colors),
+  )
+  
+  return average_color
+
+
 def decode_palettes(palette_data, palette_format, num_colors, image_format):
   if not isinstance(image_format, ImageFormat):
     raise Exception("Invalid image format: %s" % image_format)
@@ -411,16 +475,21 @@ def decode_palettes(palette_data, palette_format, num_colors, image_format):
   offset = 0
   for i in range(num_colors):
     raw_color = read_u16(palette_data, offset)
-    if palette_format == PaletteFormat.IA8:
-      color = convert_ia8_to_color(raw_color)
-    elif palette_format == PaletteFormat.RGB565:
-      color = convert_rgb565_to_color(raw_color)
-    elif palette_format == PaletteFormat.RGB5A3:
-      color = convert_rgb5a3_to_color(raw_color)
+    color = decode_color(raw_color, palette_format)
     colors.append(color)
     offset += 2
   
   return colors
+
+def decode_color(raw_color, palette_format):
+  if palette_format == PaletteFormat.IA8:
+    color = convert_ia8_to_color(raw_color)
+  elif palette_format == PaletteFormat.RGB565:
+    color = convert_rgb565_to_color(raw_color)
+  elif palette_format == PaletteFormat.RGB5A3:
+    color = convert_rgb5a3_to_color(raw_color)
+  
+  return color
 
 def generate_new_palettes_from_image(image, image_format, palette_format):
   if image_format not in IMAGE_FORMATS_THAT_USE_PALETTES:
@@ -440,11 +509,20 @@ def generate_new_palettes_from_image(image, image_format, palette_format):
         colors_to_color_indexes[color] = encoded_colors.index(encoded_color)
   
   if len(encoded_colors) > MAX_COLORS_FOR_IMAGE_FORMAT[image_format]:
-    raise TooManyColorsError(
-      "Maximum number of colors supported by image format %s is %d, but image has %d colors" % (
-        image_format.name, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], len(encoded_colors)
-      )
-    )
+    # If the image has more colors than the selected image format can support, we automatically reduce the number of colors.
+    limited_palette = create_limited_palette_from_image(image, MAX_COLORS_FOR_IMAGE_FORMAT[image_format])
+    
+    encoded_colors = []
+    colors_to_color_indexes = {}
+    for y in range(height):
+      for x in range(width):
+        color = pixels[x,y]
+        new_color = get_nearest_color_fast(color, limited_palette)
+        encoded_color = encode_color(new_color, palette_format)
+        if encoded_color not in encoded_colors:
+          encoded_colors.append(encoded_color)
+        if color not in colors_to_color_indexes:
+          colors_to_color_indexes[color] = encoded_colors.index(encoded_color)
   
   return (encoded_colors, colors_to_color_indexes)
 
@@ -472,7 +550,7 @@ def encode_palette(encoded_colors, palette_format, image_format):
   
   if len(encoded_colors) > MAX_COLORS_FOR_IMAGE_FORMAT[image_format]:
     raise TooManyColorsError(
-      "Maximum number of colors supported by image format %s is %d, but image has %d colors" % (
+      "Maximum number of colors supported by image format %s is %d, but replacement image has %d colors" % (
         image_format.name, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], len(encoded_colors)
       )
     )
