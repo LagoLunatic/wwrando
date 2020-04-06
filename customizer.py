@@ -287,9 +287,10 @@ def revert_bck_files_in_arc_to_original(orig_arc, custom_arc):
 
 def revert_item_models_in_arc_to_original(orig_arc, custom_arc):
   # Optionally revert all item models to the original ones.
+  # Hero's Charm, Power Bracelets, Iron Boots, and Magic Armor shell are excluded, since the vanilla ones wouldn't fit well on custom models.
   for orig_file_entry in orig_arc.file_entries:
     basename, file_ext = os.path.splitext(orig_file_entry.name)
-    if file_ext == ".bdl" and basename not in ["cl", "katsura", "hands"]:
+    if file_ext == ".bdl" and basename not in ["cl", "katsura", "hands", "yamu", "pring", "hboots", "ymgcs00"]:
       custom_file_entry = custom_arc.get_file_entry(orig_file_entry.name)
       custom_file_entry.data = orig_file_entry.data
 
