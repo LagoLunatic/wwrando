@@ -14,6 +14,8 @@ from paths import ASSETS_PATH
 
 ORIG_LINK_ARC_FILE_SIZE_IN_BYTES  = 1308608
 ORIG_LKANM_ARC_FILE_SIZE_IN_BYTES = 1842464
+ORIG_LKD00_ARC_FILE_SIZE_IN_BYTES = 1228256
+ORIG_LKD01_ARC_FILE_SIZE_IN_BYTES = 1149280
 ORIG_SHIP_ARC_FILE_SIZE_IN_BYTES  =  191520
 # Allow the above arcs combined to increase in filesize by at most 0.202 mebibytes.
 # In other words, the same amount of increase as when the 1.24MiB original Link.arc is increased to 1.44MiB.
@@ -188,22 +190,41 @@ def replace_link_model(self):
   checked_arc_names.append("Link.arc")
   check_changed_archives_over_filesize_limit(orig_sum_of_changed_arc_sizes, new_sum_of_changed_arc_sizes, checked_arc_names)
   
-  # Replace Link's animations.
-  lkanm_path = custom_model_path + "LkAnm.arc"
-  if os.path.isfile(lkanm_path):
-    with open(lkanm_path, "rb") as f:
-      custom_lkanm_arc_data = BytesIO(f.read())
-    orig_lkanm_arc = self.get_arc("files/res/Object/LkAnm.arc")
-    self.replace_arc("files/res/Object/LkAnm.arc", custom_lkanm_arc_data)
-    custom_lkanm_arc = self.get_arc("files/res/Object/LkAnm.arc")
+  
+  def replace_animation_arc(anim_arc_name, orig_anim_arc_file_size, revert_totals_after=False):
+    nonlocal orig_sum_of_changed_arc_sizes
+    nonlocal new_sum_of_changed_arc_sizes
     
-    revert_bck_files_in_arc_to_original(orig_lkanm_arc, custom_lkanm_arc)
-    
-    orig_sum_of_changed_arc_sizes += ORIG_LKANM_ARC_FILE_SIZE_IN_BYTES
-    custom_lkanm_arc.save_changes()
-    new_sum_of_changed_arc_sizes += data_len(custom_lkanm_arc.data)
-    checked_arc_names.append("LkAnm.arc")
-    check_changed_archives_over_filesize_limit(orig_sum_of_changed_arc_sizes, new_sum_of_changed_arc_sizes, checked_arc_names)
+    anim_arc_path = custom_model_path + anim_arc_name
+    if os.path.isfile(anim_arc_path):
+      with open(anim_arc_path, "rb") as f:
+        custom_anim_arc_data = BytesIO(f.read())
+      orig_anim_arc = self.get_arc("files/res/Object/" + anim_arc_name)
+      self.replace_arc("files/res/Object/" + anim_arc_name, custom_anim_arc_data)
+      custom_anim_arc = self.get_arc("files/res/Object/" + anim_arc_name)
+      
+      revert_bck_files_in_arc_to_original(orig_anim_arc, custom_anim_arc)
+      
+      orig_sum_of_changed_arc_sizes += orig_anim_arc_file_size
+      custom_anim_arc.save_changes()
+      new_sum_of_changed_arc_sizes += data_len(custom_anim_arc.data)
+      checked_arc_names.append(anim_arc_name)
+      check_changed_archives_over_filesize_limit(orig_sum_of_changed_arc_sizes, new_sum_of_changed_arc_sizes, checked_arc_names)
+      
+      if revert_totals_after:
+        # For LkD00, it's not actually always loaded, since only one of the two Link cutscene animation arcs are ever loaded at a given time.
+        # So we stop including LkD00's size in the total as soon as we've checked its size.
+        # We uncount LkD00 specifically because in the randomizer, LkD01 is always loaded. LkD00 is only relevant for the first half of the vanilla game.
+        orig_sum_of_changed_arc_sizes -= orig_anim_arc_file_size
+        new_sum_of_changed_arc_sizes -= data_len(custom_anim_arc.data)
+        checked_arc_names.remove(anim_arc_name)
+  
+  # Replace Link's gameplay animations.
+  replace_animation_arc("LkAnm.arc", ORIG_LKANM_ARC_FILE_SIZE_IN_BYTES)
+  
+  # Replace Link's cutscene animations.
+  replace_animation_arc("LkD00.arc", ORIG_LKD00_ARC_FILE_SIZE_IN_BYTES, revert_totals_after=True)
+  replace_animation_arc("LkD01.arc", ORIG_LKD01_ARC_FILE_SIZE_IN_BYTES)
   
   # Replace KoRL.
   ship_path = custom_model_path + "Ship.arc"
