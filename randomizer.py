@@ -488,6 +488,7 @@ class Randomizer:
     tweaks.make_rat_holes_visible_from_behind(self)
     tweaks.add_failsafe_id_0_spawns(self)
     tweaks.remove_minor_panning_cutscenes(self)
+    tweaks.fix_message_closing_sound_on_quest_status_screen(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)

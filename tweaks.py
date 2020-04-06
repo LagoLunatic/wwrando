@@ -2485,3 +2485,13 @@ def add_custom_actor_rels(self):
     section_index_of_actor_profile = 2,
     offset_of_actor_profile = 0,
   )
+
+def fix_message_closing_sound_on_quest_status_screen(self):
+  # Fix an issue where the message box closing sound effect would play when opening the quest status pause screen.
+  # This issue is caused by the "Options" button on the quest status screen trying to use message ID 704 for its description when you select it, but there is no message with ID 704, so it returns the last message (the message with the highest index) instead.
+  # If that last message has a Textbox Style of one of: Dialog, Special, Hint, or Wind Waker Song, and the message displays instantly in a single frame, then it would open and close on the frame the quest status screen is loading, causing that sound to be played.
+  # To fix this we simply add a blank message with ID 704 and give it a textbox style that isn't affected by the issue.
+  
+  msg = self.bmg.add_new_message(704)
+  msg.string = ""
+  msg.text_box_type = 9 # Item get message box
