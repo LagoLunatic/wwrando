@@ -97,7 +97,7 @@ class BMD(J3DFileEntry):
     super().__init__(file_entry)
     
     assert self.magic == "J3D2"
-    assert self.file_type == "bmd3"
+    assert self.file_type == "bmd3" or self.file_type == "bmd2"
 
 class BMT(J3DFileEntry):
   def __init__(self, file_entry):
