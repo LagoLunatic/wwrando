@@ -1661,7 +1661,7 @@ def add_inter_dungeon_warp_pots(self):
   totg_jpc = self.get_jpc("files/res/Particle/Pscene050.jpc")
   ff_jpc = self.get_jpc("files/res/Particle/Pscene043.jpc")
   
-  for particle_id in [0x8161, 0x8162, 0x8165, 0x8166]:
+  for particle_id in [0x8161, 0x8162, 0x8165, 0x8166, 0x8112]:
     particle = drc_jpc.particles_by_id[particle_id]
     
     for dest_jpc in [totg_jpc, ff_jpc]:
