@@ -63,6 +63,7 @@ class Logic:
     
     self.remaining_item_locations = list(self.item_locations.keys())
     self.prerandomization_item_locations = OrderedDict()
+    self.requirement_met_cache = {}
     
     self.done_item_locations = OrderedDict()
     for location_name in self.item_locations:
@@ -269,6 +270,8 @@ class Logic:
       self.unplaced_nonprogress_items.remove(item_name)
     elif item_name in self.unplaced_fixed_consumable_items:
       self.unplaced_fixed_consumable_items.remove(item_name)
+
+    self.requirement_met_cache.clear()
   
   def remove_owned_item(self, item_name):
     cleaned_item_name = self.clean_item_name(item_name)
@@ -284,12 +287,15 @@ class Logic:
     else:
       # Removing consumable items doesn't work because we don't know if the item is from the fixed list or the duplicatable list
       raise Exception("Cannot remove item from simulated inventory: %s" % item_name)
+
+    self.requirement_met_cache.clear()
   
   def add_owned_item_or_item_group(self, item_name):
     if item_name in self.progress_item_groups:
       group_name = item_name
       for item_name in self.progress_item_groups[group_name]:
         self.currently_owned_items.append(item_name)
+      self.requirement_met_cache.clear()
     else:
       self.add_owned_item(item_name)
   
@@ -298,6 +304,7 @@ class Logic:
       group_name = item_name
       for item_name in self.progress_item_groups[group_name]:
         self.currently_owned_items.remove(item_name)
+      self.requirement_met_cache.clear()
     else:
       self.remove_owned_item(item_name)
   
@@ -803,25 +810,31 @@ class Logic:
     return stack
   
   def check_requirement_met(self, req_name):
+    if req_name in self.requirement_met_cache:
+      return self.requirement_met_cache[req_name]
+
     if req_name.startswith("Progressive "):
-      return self.check_progressive_item_req(req_name)
+      result = self.check_progressive_item_req(req_name)
     elif " Small Key x" in req_name:
-      return self.check_small_key_req(req_name)
+      result = self.check_small_key_req(req_name)
     elif req_name.startswith("Can Access Other Location \""):
-      return self.check_other_location_requirement(req_name)
+      result = self.check_other_location_requirement(req_name)
     elif req_name.startswith("Option \""):
-      return self.check_option_enabled_requirement(req_name)
+      result = self.check_option_enabled_requirement(req_name)
     elif req_name in self.all_cleaned_item_names:
-      return req_name in self.currently_owned_items
+      result = req_name in self.currently_owned_items
     elif req_name in self.macros:
       logical_expression = self.macros[req_name]
-      return self.check_logical_expression_req(logical_expression)
+      result = self.check_logical_expression_req(logical_expression)
     elif req_name == "Nothing":
-      return True
+      result = True
     elif req_name == "Impossible":
-      return False
+      result = False
     else:
       raise Exception("Unknown requirement name: " + req_name)
+
+    self.requirement_met_cache[req_name] = result
+    return result
   
   def check_logical_expression_req(self, logical_expression):
     expression_type = None
