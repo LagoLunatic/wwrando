@@ -39,7 +39,12 @@ def get_model_metadata(custom_model_name):
     
     try:
       with open(metadata_path) as f:
-        metadata = yaml.load(f, YamlOrderedDictLoader)
+        metadata_str = f.read()
+      
+      # Automatically convert any tabs in the metadata to two spaces since pyyaml doesn't like tabs.
+      metadata_str = metadata_str.replace("\t", "  ")
+      
+      metadata = yaml.load(metadata_str, YamlOrderedDictLoader)
     except Exception as e:
       error_message = str(e)
       return {
