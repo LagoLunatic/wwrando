@@ -3,7 +3,7 @@ from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 
 from wwr_ui.ui_randomizer_window import Ui_MainWindow
-from wwr_ui.options import OPTIONS, NON_PERMALINK_OPTIONS
+from wwr_ui.options import OPTIONS, NON_PERMALINK_OPTIONS, HIDDEN_OPTIONS, POTENTIALLY_UNBEATABLE_OPTIONS
 from wwr_ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
 from wwr_ui.inventory import INVENTORY_ITEMS, REGULAR_ITEMS, PROGRESSIVE_ITEMS
 from wwr_ui.packedbits import PackedBitsReader, PackedBitsWriter
@@ -118,19 +118,6 @@ class WWRandomizerWindow(QMainWindow):
     
     icon_path = os.path.join(ASSETS_PATH, "icon.ico")
     self.setWindowIcon(QIcon(icon_path))
-    
-    # Disable options that produce unbeatable seeds when not running from source.
-    if self.get_option_value("randomize_enemies") and not IS_RUNNING_FROM_SOURCE:
-      self.set_option_value("randomize_enemies", False)
-      self.update_settings()
-    
-    # Hide certain options from the GUI (still accessible via settings.txt).
-    if not self.get_option_value("disable_tingle_chests_with_tingle_bombs"):
-      self.ui.disable_tingle_chests_with_tingle_bombs.hide()
-    if not self.get_option_value("randomize_music"):
-      self.ui.randomize_music.hide()
-    if not self.get_option_value("randomize_enemies"):
-      self.ui.randomize_enemies.hide()
     
     if self.no_ui_test:
       self.randomize()
@@ -966,6 +953,21 @@ class WWRandomizerWindow(QMainWindow):
       else:
         widget.setEnabled(False)
         widget.setChecked(False)
+    
+    # Disable options that produce unbeatable seeds when not running from source.
+    if not IS_RUNNING_FROM_SOURCE:
+      for option_name in POTENTIALLY_UNBEATABLE_OPTIONS:
+        if self.get_option_value(option_name):
+          self.set_option_value(option_name, False)
+          self.update_settings()
+    
+    # Hide certain options from the GUI (still accessible via settings.txt and permalinks).
+    for option_name in HIDDEN_OPTIONS:
+      widget = getattr(self.ui, option_name)
+      if self.get_option_value(option_name):
+        widget.show()
+      else:
+        widget.hide()
   
   def disable_invalid_cosmetic_options(self):
     custom_model_name = self.get_option_value("custom_player_model")

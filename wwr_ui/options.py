@@ -223,3 +223,13 @@ NON_PERMALINK_OPTIONS = [
   "custom_color_preset",
   # Note: Options that affect music must be included in the permalink because music duration affects gameplay in some cases, like not being allowed to close the item get textbox until the item get jingle has finished playing.
 ]
+
+HIDDEN_OPTIONS = [
+  "disable_tingle_chests_with_tingle_bombs",
+  "randomize_music",
+  "randomize_enemies",
+]
+
+POTENTIALLY_UNBEATABLE_OPTIONS = [
+  "randomize_enemies",
+]
