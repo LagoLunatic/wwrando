@@ -161,25 +161,18 @@ class BTI:
       return False
     
     if self.image_format != other.image_format:
-      print("image_format", self.image_format, other.image_format)
       return False
     if self.palette_format != other.palette_format:
-      print("palette_format", self.palette_format, other.palette_format)
       return False
     if self.num_colors != other.num_colors:
-      print("num_colors", self.num_colors, other.num_colors)
       return False
     if self.width != other.width:
-      print("width", self.width, other.width)
       return False
     if self.height != other.height:
-      print("height", self.height, other.height)
       return False
     if read_all_bytes(self.image_data) != read_all_bytes(other.image_data):
-      print("image_data", read_all_bytes(self.image_data), read_all_bytes(other.image_data))
       return False
     if read_all_bytes(self.palette_data) != read_all_bytes(other.palette_data):
-      print("palette_data", read_all_bytes(self.palette_data), read_all_bytes(other.palette_data))
       return False
     
     return True
