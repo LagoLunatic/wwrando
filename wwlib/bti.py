@@ -153,6 +153,36 @@ class BTI:
     encoded_colors = generate_new_palettes_from_colors(new_colors, self.palette_format)
     self.palette_data = encode_palette(encoded_colors, self.palette_format, self.image_format)
     self.num_colors = len(encoded_colors)
+  
+  def is_visually_equal_to(self, other):
+    # Checks if a BTI would result in the exact same rendered PNG image data as another BTI, without actually rendering them both in order to improve performance.
+    
+    if not isinstance(other, BTI):
+      return False
+    
+    if self.image_format != other.image_format:
+      print("image_format", self.image_format, other.image_format)
+      return False
+    if self.palette_format != other.palette_format:
+      print("palette_format", self.palette_format, other.palette_format)
+      return False
+    if self.num_colors != other.num_colors:
+      print("num_colors", self.num_colors, other.num_colors)
+      return False
+    if self.width != other.width:
+      print("width", self.width, other.width)
+      return False
+    if self.height != other.height:
+      print("height", self.height, other.height)
+      return False
+    if read_all_bytes(self.image_data) != read_all_bytes(other.image_data):
+      print("image_data", read_all_bytes(self.image_data), read_all_bytes(other.image_data))
+      return False
+    if read_all_bytes(self.palette_data) != read_all_bytes(other.palette_data):
+      print("palette_data", read_all_bytes(self.palette_data), read_all_bytes(other.palette_data))
+      return False
+    
+    return True
 
 class BTIFile(BTI): # For standalone .bti files (as opposed to textures embedded inside J3D models/animations)
   def __init__(self, data):
