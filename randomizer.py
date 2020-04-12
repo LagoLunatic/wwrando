@@ -367,7 +367,7 @@ class Randomizer:
         tweaks.apply_patch(self, "remove_music")
       if self.map_select:
         tweaks.apply_patch(self, "map_select")
-      if IS_RUNNING_FROM_SOURCE:
+      if IS_RUNNING_FROM_SOURCE or "BETA" in VERSION_WITHOUT_COMMIT:
         tweaks.enable_developer_mode(self)
       if self.heap_display:
         tweaks.enable_heap_display(self)
