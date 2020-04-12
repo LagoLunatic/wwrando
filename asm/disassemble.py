@@ -276,9 +276,19 @@ def add_symbols_to_main(asm_path, main_symbols):
         
         if not check_offset_in_executable_dol_section(offset):
           # Remove the disassembled code for non-executable sections since it will be nonsense, not actually code.
-          before_disassembly_match = re.search(r"^( *[0-9a-f]+:\s(?:[0-9a-f]{2} ){4}).+", line, re.IGNORECASE)
+          before_disassembly_match = re.search(r"^( *[0-9a-f]+:\s((?:[0-9a-f]{2} ){4})).+", line, re.IGNORECASE)
           if before_disassembly_match:
             line = before_disassembly_match.group(1)
+            
+            # Also add symbols if this line is an address.
+            bytes_str = before_disassembly_match.group(2)
+            bytes_strs = bytes_str.split(" ")
+            word_value = int(bytes_strs[0] + bytes_strs[1] + bytes_strs[2] + bytes_strs[3], 16)
+            
+            if word_value in main_symbols:
+              symbol_name = main_symbols[word_value]
+              line += get_padded_comment_string_for_line(line)
+              line += "%X  %s" % (word_value, symbol_name)
       
       branch_match = re.search(r"^(.+ \t(?:bl|b|beq|bne|blt|bgt|ble|bge|bdnz|bdz)\s+0x)([0-9a-f]+)$", line, re.IGNORECASE)
       addi_match = re.search(r"^.+ \t(?:addi)\s+r\d+,(r\d+),(-?\d+)$", line, re.IGNORECASE)
