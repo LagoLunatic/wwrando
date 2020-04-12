@@ -11,7 +11,7 @@ from fs_helpers import *
 from wwlib.yaz0 import Yaz0
 from wwlib.rel import REL
 from paths import ASM_PATH
-from tweaks import offset_to_address
+from tweaks import offset_to_address, offset_to_section_index
 
 def disassemble_all_code(self):
   if not os.path.isfile(r"C:\devkitPro\devkitPPC\bin\powerpc-eabi-objdump.exe"):
@@ -273,6 +273,12 @@ def add_symbols_to_main(asm_path, main_symbols):
           # Convert the displayed main.dol offset to an address in RAM.
           line_after_offset = match.group(2)
           line = "%08X%s" % (address, line_after_offset)
+        
+        if not check_offset_in_executable_dol_section(offset):
+          # Remove the disassembled code for non-executable sections since it will be nonsense, not actually code.
+          before_disassembly_match = re.search(r"^( *[0-9a-f]+:\s(?:[0-9a-f]{2} ){4}).+", line, re.IGNORECASE)
+          if before_disassembly_match:
+            line = before_disassembly_match.group(1)
       
       branch_match = re.search(r"^(.+ \t(?:bl|b|beq|bne|blt|bgt|ble|bge|bdnz|bdz)\s+0x)([0-9a-f]+)$", line, re.IGNORECASE)
       addi_match = re.search(r"^.+ \t(?:addi)\s+r\d+,(r\d+),(-?\d+)$", line, re.IGNORECASE)
@@ -434,6 +440,15 @@ def get_padded_comment_string_for_line(line):
     spaces_needed = 1
   
   return (" "*spaces_needed) + "; "
+
+def check_offset_in_executable_dol_section(offset):
+  section_index = offset_to_section_index(offset)
+  if section_index is None:
+    return False
+  elif section_index <= 2:
+    return True
+  else:
+    return False
 
 def check_offset_in_executable_rel_section(offset, rel):
   for section in rel.sections:

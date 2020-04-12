@@ -102,6 +102,18 @@ def offset_to_address(offset):
   # Return None when the offset is not inside of any section.
   return None
 
+def offset_to_section_index(offset):
+  # Takes an offset in main.dol and converts it to its dol section index, assuming it is part of main.dol that gets loaded into RAM.
+  for section_index in range(len(DOL_SECTION_OFFSETS)):
+    section_offset = DOL_SECTION_OFFSETS[section_index]
+    section_size = DOL_SECTION_SIZES[section_index]
+    
+    if section_offset <= offset < section_offset+section_size:
+      return section_index
+  
+  # Return None when the offset is not inside of any section.
+  return None
+
 def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
   high_halfword = (pointer & 0xFFFF0000) >> 16
   low_halfword = pointer & 0xFFFF
