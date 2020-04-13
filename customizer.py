@@ -21,6 +21,9 @@ ORIG_SHIP_ARC_FILE_SIZE_IN_BYTES  =  191520
 # In other words, the same amount of increase as when the 1.24MiB original Link.arc is increased to 1.44MiB.
 MAX_ALLOWED_TOTAL_ARC_FILE_SIZE_SUM_INCREASE_IN_BYTES = 1525678 - ORIG_LINK_ARC_FILE_SIZE_IN_BYTES
 
+class InvalidColorError(Exception):
+  pass
+
 def get_model_metadata(custom_model_name):
   if custom_model_name == "Random":
     return {}
@@ -37,12 +40,18 @@ def get_model_metadata(custom_model_name):
     if not os.path.isfile(metadata_path):
       return {}
     
+    use_old_color_format = False
     try:
       with open(metadata_path) as f:
         metadata_str = f.read()
       
       # Automatically convert any tabs in the metadata to two spaces since pyyaml doesn't like tabs.
       metadata_str = metadata_str.replace("\t", "  ")
+      
+      old_format_match = re.search(r"^ +\S[^:]*: +[0-9A-F]{6}$", metadata_str, re.IGNORECASE | re.MULTILINE)
+      new_format_match = re.search(r"^ +\S[^:]*: +0x[0-9A-F]{6}$", metadata_str, re.IGNORECASE | re.MULTILINE)
+      if old_format_match and not new_format_match:
+        use_old_color_format = True
       
       metadata = yaml.load(metadata_str, YamlOrderedDictLoader)
     except Exception as e:
@@ -72,22 +81,10 @@ def get_model_metadata(custom_model_name):
         prefix = key.split("_")[0]
         
         for custom_color_name, hex_color in value.items():
-          if isinstance(hex_color, int):
-            hex_color_string = "%06d" % hex_color
-          elif isinstance(hex_color, str):
-            hex_color_string = hex_color
-          else:
-            error_message = "Custom color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (custom_color_name, hex_color)
-            return {
-              "error_message": error_message,
-            }
-          
-          match = re.search(r"^([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})$", hex_color_string, re.IGNORECASE)
-          if match:
-            r, g, b = int(match.group(1), 16), int(match.group(2), 16), int(match.group(3), 16)
-            value[custom_color_name] = [r, g, b]
-          else:
-            error_message = "Custom color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (custom_color_name, hex_color_string)
+          try:
+            value[custom_color_name] = parse_hex_color(hex_color, use_old_color_format)
+          except InvalidColorError as e:
+            error_message = "Custom color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (custom_color_name, repr(hex_color))
             return {
               "error_message": error_message,
             }
@@ -110,27 +107,42 @@ def get_model_metadata(custom_model_name):
         
         for preset_name, preset in value.items():
           for custom_color_name, hex_color in preset.items():
-            if isinstance(hex_color, int):
-              hex_color_string = "%06d" % hex_color
-            elif isinstance(hex_color, str):
-              hex_color_string = hex_color
-            else:
-              error_message = "Color preset \"%s\"'s color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (preset_name, custom_color_name, hex_color)
-              return {
-                "error_message": error_message,
-              }
-            
-            match = re.search(r"^([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})$", hex_color_string, re.IGNORECASE)
-            if match:
-              r, g, b = int(match.group(1), 16), int(match.group(2), 16), int(match.group(3), 16)
-              preset[custom_color_name] = [r, g, b]
-            else:
-              error_message = "Color preset \"%s\"'s color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (preset_name, custom_color_name, hex_color)
+            try:
+              preset[custom_color_name] = parse_hex_color(hex_color, use_old_color_format)
+            except InvalidColorError as e:
+              error_message = "Color preset \"%s\"'s color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (preset_name, custom_color_name, repr(hex_color))
               return {
                 "error_message": error_message,
               }
     
     return metadata
+
+def parse_hex_color(hex_color, use_old_color_format):
+  if use_old_color_format:
+    return parse_hex_color_old_format(hex_color)
+  
+  if isinstance(hex_color, int) and (0x000000 <= hex_color <= 0xFFFFFF):
+    r = (hex_color & 0xFF0000) >> 16
+    g = (hex_color & 0x00FF00) >> 8
+    b = (hex_color & 0x0000FF) >> 0
+    return [r, g, b]
+  else:
+    raise InvalidColorError()
+  
+def parse_hex_color_old_format(hex_color):
+  if isinstance(hex_color, int):
+    hex_color_string = "%06d" % hex_color
+  elif isinstance(hex_color, str):
+    hex_color_string = hex_color
+  else:
+    raise InvalidColorError()
+
+  match = re.search(r"^([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})$", hex_color_string, re.IGNORECASE)
+  if match:
+    r, g, b = int(match.group(1), 16), int(match.group(2), 16), int(match.group(3), 16)
+    return [r, g, b]
+  else:
+    raise InvalidColorError()
 
 def get_all_custom_model_names():
   custom_model_names = []
