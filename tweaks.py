@@ -1702,11 +1702,11 @@ def remove_makar_kidnapping_event(self):
 def increase_player_movement_speeds(self):
   dol_data = self.get_raw_file("sys/main.dol")
   
-  # Double crawling speed
+  # Double crawling speed.
   write_float(dol_data, address_to_offset(0x8035DB94), 3.0*2)
   
   # Change rolling so that it scales from 20.0 to 26.0 speed depending on the player's speed when they roll.
-  # (In vanilla, it scaled from 0.5 to 26.0 instead.)
+  # In vanilla, it scaled from 0.5 to 26.0 instead.
   write_float(dol_data, address_to_offset(0x8035D3D0), 6.0/17.0) # Rolling speed multiplier on walking speed
   write_float(dol_data, address_to_offset(0x8035D3D4), 20.0) # Rolling base speed
 
@@ -1769,27 +1769,20 @@ def increase_block_moving_animation(self):
 def increase_misc_animations(self):
   dol_data = self.get_raw_file("sys/main.dol")
   
-  #increase the animation speed that Link initiates a climb (0.8 -> 1.6)
+  # Increase the animation speed that Link initiates a climb (0.8 -> 1.6)
   write_float(dol_data, address_to_offset(0x8035D738), 1.6)
   
-  #increase speed Link climbs ladders/vines (1.2 -> 1.6)
+  # Increase speed Link climbs ladders/vines (1.2 -> 1.6)
   write_float(dol_data, address_to_offset(0x8035DB38), 1.6)
   
-  #increase speed Link starts climbing a ladder/vine (1.0 -> 1.6)
+  # Increase speed Link starts climbing a ladder/vine (1.0 -> 1.6)
   write_float(dol_data, address_to_offset(0x8035DB18), 1.6)
   
-  #increase speed Links ends climbing a ladder/vine (0.9 -> 1.4)
+  # Increase speed Links ends climbing a ladder/vine (0.9 -> 1.4)
   write_float(dol_data, address_to_offset(0x8035DB20), 1.4)
   
   # Half the number of frames camera takes to focus on an npc for a conversation (from 20 to 10)
   write_u32(dol_data, address_to_offset(0x8016DA2C), 0x3800000A) # li r0,10
-  
-  # Half the number of frames zooming into first person takes (from 10 to 5)
-  #Commented out, doesn't improve speed in which first person items can be used and can cause minor visual oddities
-  #write_u32(dol_data, address_to_offset(0x80170B20), 0x3BA00005) # li r29,5 
-  
-  #increase the rotation speed on ropes (64.0 -> 100.0)
-  write_float(dol_data, address_to_offset(0x803FA2E8), 100.0)
 
 
 def change_starting_clothes(self):

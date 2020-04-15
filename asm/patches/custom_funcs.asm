@@ -1654,7 +1654,7 @@ turn_while_swinging:
 lis r3, 0x803A4DF0@ha
 addi r3, r3, 0x803A4DF0@l
 lfs f0, 0 (r3) ; Control stick horizontal axis (from -1.0 to 1.0)
-lfs f1, -0x5A18 (r2) ; Load the float constant at 803FA2E8 for the base amount of rotational velocity to use (vanilla value is 0x40, this constant is originally used as rotational acceleration by the rope hanging function)
+lfs f1, -0x5B24 (rtoc) ; Load the float constant at 803FA1DC for the base amount of rotational velocity to use (100.0)
 fmuls f0, f1, f0 ; Get the current amount of rotational velocity to use this frame after adjusting for the control stick amount
 
 ; Convert current rotational velocity to an integer.
