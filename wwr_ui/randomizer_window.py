@@ -633,7 +633,7 @@ class WWRandomizerWindow(QMainWindow):
   def set_option_value(self, option_name, new_value):
     widget = getattr(self.ui, option_name)
     if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
-      widget.setChecked(new_value)
+      widget.setChecked(bool(new_value))
     elif isinstance(widget, QComboBox):
       index_of_value = None
       for i in range(widget.count()):
@@ -654,6 +654,9 @@ class WWRandomizerWindow(QMainWindow):
 
       widget.setValue(new_value)
     elif isinstance(widget, QListView):
+      if not isinstance(new_value, list):
+        new_value = self.default_settings[option_name]
+      
       if widget.model() != None:
         model = widget.model()
         if isinstance(model, QSortFilterProxyModel):
