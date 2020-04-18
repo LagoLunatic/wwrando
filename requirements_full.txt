@@ -1,4 +1,4 @@
-PySide2==5.14.1
+PySide2==5.14.2
 PyYAML==5.3
 Pillow==7.0.0
 PyInstaller==3.6
