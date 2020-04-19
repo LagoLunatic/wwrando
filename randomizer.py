@@ -12,6 +12,7 @@ import yaml
 from fs_helpers import *
 from wwlib.yaz0 import Yaz0
 from wwlib.rarc import RARC
+from wwlib.dol import DOL
 from wwlib.rel import REL, RELRelocation, RELRelocationType
 from wwlib.gcm import GCM
 from wwlib.jpc import JPC
@@ -124,6 +125,10 @@ class Randomizer:
       
       self.gcm = GCM(clean_iso_path)
       self.gcm.read_entire_disc()
+      
+      dol_data = self.gcm.read_file_data("sys/main.dol")
+      self.dol = DOL()
+      self.dol.read(dol_data)
       
       try:
         self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").get_file("cmapdat.bin")
@@ -686,6 +691,8 @@ class Randomizer:
     else:
       if file_path.startswith("files/rels/"):
         raise Exception("Cannot read a REL as a raw file.")
+      elif file_path == "sys/main.dol":
+        raise Exception("Cannot read the DOL as a raw file.")
       
       data = self.gcm.read_file_data(file_path)
       
@@ -763,6 +770,9 @@ class Randomizer:
     
     for file_path, data in self.raw_files_by_path.items():
       self.gcm.changed_files[file_path] = data
+    
+    self.dol.save_changes()
+    self.gcm.changed_files["sys/main.dol"] = self.dol.data
     
     for rel_path, rel in self.rels_by_path.items():
       rel.save_changes(preserve_section_data_offsets=True)

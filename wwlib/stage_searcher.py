@@ -259,27 +259,25 @@ def print_item_table(self):
         f.write("  % 6.2f%% %s\n" % (chance/0x10*100, item_name))
 
 def print_actor_info(self):
-  actor_id_to_rel_filename_mapping_offset = tweaks.address_to_offset(0x803398D8) # DynamicNameTable
-  actr_name_to_actor_info_mapping_offset = tweaks.address_to_offset(0x80372818) # l_objectName
-  dol_data = self.get_raw_file("sys/main.dol")
+  actor_id_to_rel_filename_mapping_addr = 0x803398D8 # DynamicNameTable
+  actr_name_to_actor_info_mapping_addr = 0x80372818 # l_objectName
   
   actor_id_to_rel_filename = OrderedDict()
   
   i = 0
   while True:
-    offset = actor_id_to_rel_filename_mapping_offset + i*8
-    actor_id = read_u16(dol_data, offset)
+    address = actor_id_to_rel_filename_mapping_addr + i*8
+    actor_id = self.dol.read_data(read_u16, address)
     if actor_id == 0xFFFF:
       break # End marker
     if actor_id in actor_id_to_rel_filename:
       print("Warning, duplicate actor ID in rel filename list: %04X" % padding)
-    padding = read_u16(dol_data, offset+2)
+    padding = self.dol.read_data(read_u16, address+2)
     if padding != 0:
       print("Warning, nonzero padding: %04X" % padding)
     
-    rel_filename_pointer = read_u32(dol_data, offset+4)
-    rel_filename_offset = tweaks.address_to_offset(rel_filename_pointer)
-    rel_filename = read_str_until_null_character(dol_data, rel_filename_offset)
+    rel_filename_pointer = self.dol.read_data(read_u32, address+4)
+    rel_filename = self.dol.read_data(read_str_until_null_character, rel_filename_pointer)
     
     actor_id_to_rel_filename[actor_id] = rel_filename
     
@@ -288,12 +286,12 @@ def print_actor_info(self):
   with open("Actor Info.txt", "w") as f:
     done_actor_ids = []
     for i in range(0x339):
-      offset = actr_name_to_actor_info_mapping_offset + i*0xC
+      address = actr_name_to_actor_info_mapping_addr + i*0xC
       
-      actr_name = read_str(dol_data, offset, 8)
-      actor_id = read_u16(dol_data, offset+8)
-      subtype_index = read_u8(dol_data, offset+0xA)
-      gba_name = read_u8(dol_data, offset+0xB)
+      actr_name = self.dol.read_data(read_str, address, 8)
+      actor_id = self.dol.read_data(read_u16, address+8)
+      subtype_index = self.dol.read_data(read_u8, address+0xA)
+      gba_name = self.dol.read_data(read_u8, address+0xB)
       
       if actor_id in actor_id_to_rel_filename:
         rel_filename = actor_id_to_rel_filename[actor_id]

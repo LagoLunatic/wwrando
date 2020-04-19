@@ -444,7 +444,7 @@ def change_item(self, path, item_name):
   item_id = self.item_name_to_id[item_name]
   
   rel_match = re.search(r"^(rels/[^.]+\.rel)@([0-9A-F]{4})$", path)
-  main_dol_match = re.search(r"^main.dol@([0-9A-F]{6})$", path)
+  main_dol_match = re.search(r"^main.dol@(8[0-9A-F]{7})$", path)
   custom_symbol_match = re.search(r"^CustomSymbol:(.+)$", path)
   chest_match = re.search(r"^([^/]+/[^/]+\.arc)(?:/Layer([0-9a-b]))?/Chest([0-9A-F]{3})$", path)
   event_match = re.search(r"^([^/]+/[^/]+\.arc)/Event([0-9A-F]{3}):[^/]+/Actor([0-9A-F]{3})/Action([0-9A-F]{3})$", path)
@@ -457,17 +457,14 @@ def change_item(self, path, item_name):
     path = os.path.join("files", rel_path)
     change_hardcoded_item_in_rel(self, path, offset, item_id)
   elif main_dol_match:
-    offset = int(main_dol_match.group(1), 16)
-    path = os.path.join("sys", "main.dol")
-    change_hardcoded_item(self, path, offset, item_id)
+    address = int(main_dol_match.group(1), 16)
+    change_hardcoded_item_in_dol(self, address, item_id)
   elif custom_symbol_match:
     custom_symbol = custom_symbol_match.group(1)
     if custom_symbol not in self.main_custom_symbols:
       raise Exception("Invalid custom symbol: %s" % custom_symbol)
     address = self.main_custom_symbols[custom_symbol]
-    offset = address - tweaks.ORIGINAL_FREE_SPACE_RAM_ADDRESS + tweaks.ORIGINAL_DOL_SIZE
-    path = os.path.join("sys", "main.dol")
-    change_hardcoded_item(self, path, offset, item_id)
+    change_hardcoded_item_in_dol(self, address, item_id)
   elif chest_match:
     arc_path = "files/res/Stage/" + chest_match.group(1)
     if chest_match.group(2):
@@ -501,13 +498,12 @@ def change_item(self, path, item_name):
   else:
     raise Exception("Invalid item path: " + path)
 
+def change_hardcoded_item_in_dol(self, address, item_id):
+  self.dol.write_data(write_u8, address, item_id)
+
 def change_hardcoded_item_in_rel(self, path, offset, item_id):
   rel = self.get_rel(path)
   rel.write_data(write_u8, offset, item_id)
-
-def change_hardcoded_item(self, path, offset, item_id):
-  data = self.get_raw_file(path)
-  write_u8(data, offset, item_id)
 
 def change_chest_item(self, arc_path, chest_index, layer, item_id):
   if arc_path.endswith("Stage.arc"):

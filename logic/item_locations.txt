@@ -29,7 +29,7 @@ Outset Island - Mesa the Grasscutter's House:
 #  Need: 
 #  Original item: Hero's Shield
 #  Paths:
-#    - main.dol@358D3B
+#    - main.dol@8035BD3B
 Outset Island - Orca - Give 10 Knight's Crests:
   Need:
     Spoils Bag
@@ -80,7 +80,7 @@ Outset Island - Jabun's Cave:
   Original item: Nayru's Pearl
   Types: Island Puzzle
   Paths:
-    - main.dol@358D39
+    - main.dol@8035BD39
     - Pjavdou/Room0.arc/Chest000
 Outset Island - Dig up Black Soil:
   Need: Bait Bag & Can Buy Bait & Power Bracelets
@@ -529,7 +529,7 @@ Dragon Roost Island - Wind Shrine:
 #  Need: 
 #  Original item: Delivery Bag
 #  Paths:
-#    - main.dol@358D3A
+#    - main.dol@8035BD3A
 #Dragon Roost Island - Rito Aerie - Letter for Komali:
 #  Need: Nothing
 #  Original item: Father's Letter
@@ -545,7 +545,7 @@ Dragon Roost Island - Wind Shrine:
 #  Need: 
 #  Original item: Din's Pearl
 #  Paths:
-#    - main.dol@358D37
+#    - main.dol@8035BD37
 Dragon Roost Island - Rito Aerie - Give Hoskit 20 Golden Feathers:
   Need: Spoils Bag & Can Farm Golden Feathers
   Original item: Orange Rupee
@@ -778,7 +778,7 @@ Forest Haven - On Tree Branch:
 #  Need: 
 #  Original item: Farore's Pearl
 #  Paths:
-#    - main.dol@358D38
+#    - main.dol@8035BD38
 Forest Haven - Small Island Chest:
   Need:
     Can Access Forest Haven
@@ -1164,7 +1164,7 @@ Hyrule - Master Sword Chamber:
   Original item: Master Sword (Powerless)
   Types: Dungeon
   Paths:
-    - main.dol@358D34
+    - main.dol@8035BD34
     - kenroom/Room0.arc/Chest000
 
 
@@ -1241,7 +1241,7 @@ Mother and Child Isles - Inside Mother Isle:
   Original item: Fire and Ice Arrows
   Types: Other Chest
   Paths:
-    - main.dol@358D3C
+    - main.dol@8035BD3C
     - sea/Room9.arc/Chest000
 
 Fire Mountain - Cave - Chest:
@@ -1554,7 +1554,7 @@ Earth Temple - Jalhalla Heart Container:
 #  Need: 
 #  Original item: Master Sword (Half Power)
 #  Paths:
-#    - main.dol@358D35
+#    - main.dol@8035BD35
 
 
 #Wind Temple - Entrance:
@@ -1769,7 +1769,7 @@ Wind Temple - Molgera Heart Container:
 #  Need: 
 #  Original item: Master Sword (Full Power)
 #  Paths:
-#    - main.dol@358D36
+#    - main.dol@8035BD36
 
 Ganon's Tower - Maze Chest:
   Need:
@@ -1894,7 +1894,7 @@ The Great Sea - Beedle's Shop Ship - 20 Rupee Item:
   Original item: Bait Bag
   Types: Misc
   Paths:
-    - main.dol@372E1F
+    - main.dol@80375E1F
     - rels/d_a_npc_bs1.rel@1CDB
     - rels/d_a_npc_bs1.rel@2DBB
 The Great Sea - Salvage Corp Gift:
@@ -2427,7 +2427,7 @@ Rock Spire Isle - Beedle's Special Shop Ship - 500 Rupee Item:
   Original item: Empty Bottle
   Types: Expensive Purchase
   Paths:
-    - main.dol@372ECF
+    - main.dol@80375ECF
     - rels/d_a_npc_bs1.rel@1E9B
     - rels/d_a_npc_bs1.rel@1ED3
 Rock Spire Isle - Beedle's Special Shop Ship - 950 Rupee Item:
@@ -2435,7 +2435,7 @@ Rock Spire Isle - Beedle's Special Shop Ship - 950 Rupee Item:
   Original item: Piece of Heart
   Types: Expensive Purchase
   Paths:
-    - main.dol@372EDF
+    - main.dol@80375EDF
     - rels/d_a_npc_bs1.rel@1EA3
     - rels/d_a_npc_bs1.rel@1EDF
 Rock Spire Isle - Beedle's Special Shop Ship - 900 Rupee Item:
@@ -2443,7 +2443,7 @@ Rock Spire Isle - Beedle's Special Shop Ship - 900 Rupee Item:
   Original item: Treasure Chart 4
   Types: Expensive Purchase
   Paths:
-    - main.dol@372EEF
+    - main.dol@80375EEF
     - rels/d_a_npc_bs1.rel@1EAB
     - rels/d_a_npc_bs1.rel@1EEB
 Rock Spire Isle - Western Lookout Platform - Destroy the Cannons:

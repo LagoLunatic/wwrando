@@ -11,7 +11,6 @@ from fs_helpers import *
 from wwlib.yaz0 import Yaz0
 from wwlib.rel import REL
 from paths import ASM_PATH
-from tweaks import offset_to_address, offset_to_section_index
 
 def disassemble_all_code(self):
   if not os.path.isfile(r"C:\devkitPro\devkitPPC\bin\powerpc-eabi-objdump.exe"):
@@ -102,7 +101,7 @@ def disassemble_all_code(self):
     if is_rel:
       add_relocations_and_symbols_to_rel(asm_path, bin_path, file_path_in_gcm, main_symbols, all_rel_symbols_by_path, all_rels_by_path)
     else:
-      add_symbols_to_main(asm_path, main_symbols)
+      add_symbols_to_main(self, asm_path, main_symbols)
 
 def disassemble_file(bin_path, asm_path):
   command = [
@@ -250,7 +249,7 @@ ALL_LOAD_OR_STORE_OPCODES = [
   "lfdu",
 ]
 
-def add_symbols_to_main(asm_path, main_symbols):
+def add_symbols_to_main(self, asm_path, main_symbols):
   out_str = ""
   with open(asm_path) as f:
     last_lis_match = None
@@ -264,7 +263,7 @@ def add_symbols_to_main(asm_path, main_symbols):
       #print(match)
       if match:
         offset = int(match.group(1), 16)
-        address = offset_to_address(offset)
+        address = self.dol.convert_offset_to_address(offset)
         if address is not None:
           if address in main_symbols:
             symbol_name = main_symbols[address]
@@ -274,7 +273,7 @@ def add_symbols_to_main(asm_path, main_symbols):
           line_after_offset = match.group(2)
           line = "%08X%s" % (address, line_after_offset)
         
-        if not check_offset_in_executable_dol_section(offset):
+        if not check_offset_in_executable_dol_section(self, offset):
           # Remove the disassembled code for non-executable sections since it will be nonsense, not actually code.
           before_disassembly_match = re.search(r"^( *[0-9a-f]+:\s((?:[0-9a-f]{2} ){4})).+", line, re.IGNORECASE)
           if before_disassembly_match:
@@ -296,7 +295,7 @@ def add_symbols_to_main(asm_path, main_symbols):
       if branch_match:
         line_before_offset = branch_match.group(1)
         offset = int(branch_match.group(2), 16)
-        address = offset_to_address(offset)
+        address = self.dol.convert_offset_to_address(offset)
         if address is not None:
           line = "%s%08X" % (line_before_offset, address)
           out_str += line
@@ -451,8 +450,8 @@ def get_padded_comment_string_for_line(line):
   
   return (" "*spaces_needed) + "; "
 
-def check_offset_in_executable_dol_section(offset):
-  section_index = offset_to_section_index(offset)
+def check_offset_in_executable_dol_section(self, offset):
+  section_index = self.dol.convert_offset_to_section_index(offset)
   if section_index is None:
     return False
   elif section_index <= 2:

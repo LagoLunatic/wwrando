@@ -2,12 +2,10 @@
 from collections import OrderedDict
 
 from fs_helpers import *
-from tweaks import address_to_offset
 
 from randomizers.music_constants import *
 
 def randomize_music(self):
-  dol_data = self.get_raw_file("sys/main.dol")
   stage_bgm_info_list_start = 0x8039C30C
   island_bgm_info_list_start = 0x8039C4F0
   
@@ -60,7 +58,7 @@ def randomize_music(self):
     loc_needed_second_scene_wave,
     hardcoded_bgm_names
   ):
-    orig_default_bgm_id = read_u16(dol_data, address_to_offset(bgm_info_pointer + 0))
+    orig_default_bgm_id = self.dol.read_data(read_u16, bgm_info_pointer + 0)
     
     if orig_default_bgm_id >= 0x0100:
       orig_default_bgm_index = SPECIAL_BGM_ID_TO_BGM_INDEX[orig_default_bgm_id]
@@ -107,8 +105,8 @@ def randomize_music(self):
     if spot_index <= 0:
       stage_name = "[NULL]"
     else:
-      stage_name_address = read_u32(dol_data, address_to_offset(0x8039C5B8 + (spot_index-1)*4))
-      stage_name = read_str_until_null_character(dol_data, address_to_offset(stage_name_address))
+      stage_name_address = self.dol.read_data(read_u32, 0x8039C5B8 + (spot_index-1)*4)
+      stage_name = self.dol.read_data(read_str_until_null_character, stage_name_address)
     
     first_scene_wave = FIRST_SCENE_WAVE_NEEDED_FOR_STAGE.get(stage_name)
     second_scene_wave = SECOND_SCENE_WAVE_NEEDED_FOR_STAGE.get(stage_name)
@@ -268,20 +266,20 @@ def randomize_music(self):
     first_wave_index = decided_first_scene_wave_for_stage[stage_name]
     if first_wave_index is None:
       first_wave_index = 0
-    write_u8(dol_data, address_to_offset(bgm_info_pointer + 2), first_wave_index)
+    self.dol.write_data(write_u8, bgm_info_pointer + 2, first_wave_index)
     
     second_wave_index = decided_second_scene_wave_for_stage[stage_name]
     if second_wave_index is None:
       second_wave_index = 0
-    write_u8(dol_data, address_to_offset(bgm_info_pointer + 3), second_wave_index)
+    self.dol.write_data(write_u8, bgm_info_pointer + 3, second_wave_index)
   
   for island_num, bgm_info_pointer in island_num_to_bgm_info_pointer.items():
     first_wave_index = decided_first_scene_wave_for_island[island_num]
     if first_wave_index is None:
       first_wave_index = 0
-    write_u8(dol_data, address_to_offset(bgm_info_pointer + 2), first_wave_index)
+    self.dol.write_data(write_u8, bgm_info_pointer + 2, first_wave_index)
     
     second_wave_index = decided_second_scene_wave_for_island[island_num]
     if second_wave_index is None:
       second_wave_index = 0
-    write_u8(dol_data, address_to_offset(bgm_info_pointer + 3), second_wave_index)
+    self.dol.write_data(write_u8, bgm_info_pointer + 3, second_wave_index)
