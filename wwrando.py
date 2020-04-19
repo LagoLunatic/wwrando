@@ -1,4 +1,4 @@
-#!/usr/bin/python3.6
+#!/usr/bin/python3.8
 
 from PySide2.QtGui import *
 from PySide2.QtCore import *
