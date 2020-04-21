@@ -1,9 +1,9 @@
 
+import os
 import re
 from collections import OrderedDict
 
 from fs_helpers import *
-import tweaks
 
 def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_name_to_limit_to=None, exclude_unused=True):
   all_filenames = list(self.gcm.files_by_path.keys())
@@ -345,3 +345,58 @@ def print_all_entity_params(self):
               out_str = "% 7s %08X %04X %04X in %s" % (entity.name, entity.params, entity.aux_params_1, entity.aux_params_2, location_identifier)
               #print(out_str)
               f.write(out_str + "\n")
+
+
+def print_all_actor_instance_sizes(self):
+  all_filenames = list(self.gcm.files_by_path.keys())
+  
+  # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
+  try_int_convert = lambda string: int(string) if string.isdigit() else string
+  all_filenames.sort(key=lambda filename: [try_int_convert(c) for c in re.split("([0-9]+)", filename)])
+  
+  rel_paths = []
+  for filename in all_filenames:
+    if not filename.startswith("files/rels/"):
+      continue
+    rel_paths.append(filename)
+  
+  rels_arc = self.get_arc("files/RELS.arc")
+  for file_entry in rels_arc.file_entries:
+    if file_entry.is_dir:
+      continue
+    if file_entry.name == "f_pc_profile_lst.rel":
+      continue
+    rel_paths.append("files/rels/%s" % file_entry.name)
+  
+  profile_name_to_actor_size = []
+  for rel_path in rel_paths:
+    rel = self.get_rel(rel_path)
+    basename = os.path.splitext(os.path.basename(rel_path))[0]
+    #print(basename)
+    
+    symbols = self.get_symbol_map("files/maps/%s.map" % basename)
+    profile_name = None
+    for symbol_name, symbol_address in symbols.items():
+      if symbol_name.startswith("g_profile_"):
+        profile_name = symbol_name
+    
+    #print(profile_name)
+    profile_offset = symbols[profile_name]
+    actor_size = rel.read_data(read_u32, profile_offset+0x10)
+    #print("%X" % actor_size)
+    
+    profile_name_to_actor_size.append((profile_name, actor_size))
+  
+  main_symbols = self.get_symbol_map("files/maps/framework.map")
+  for symbol_name, symbol_address in main_symbols.items():
+    if symbol_name.startswith("g_profile_"):
+      actor_size = self.dol.read_data(read_u32, symbol_address+0x10)
+      profile_name_to_actor_size.append((symbol_name, actor_size))
+  
+  profile_name_to_actor_size.sort(key=lambda x: -x[1])
+  
+  with open("Actor Instance Sizes.txt", "w") as f:
+    for profile_name, actor_size in profile_name_to_actor_size:
+      assert profile_name.startswith("g_profile_")
+      class_name = profile_name[len("g_profile_"):]
+      f.write("%-19s: %5X\n" % (class_name, actor_size))
