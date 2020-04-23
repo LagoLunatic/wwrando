@@ -59,13 +59,37 @@ class RARC:
     
     self.instantiated_object_files = {}
   
-  def add_new_node(self, type, name):
+  def add_new_directory(self, dir_name, node_type, parent_node):
     node = Node(self)
+    node.type = node_type
+    node.name = dir_name
     
-    node.type = type
-    node.name = name
+    dir_entry = FileEntry(self)
+    dir_entry.name = dir_name
+    dir_entry.type = 0x02
+    dir_entry.node_index = len(self.nodes)
+    dir_entry.parent_node = parent_node
     
-    return node
+    dot_entry = FileEntry(self)
+    dot_entry.name = "."
+    dot_entry.type = 0x02
+    dot_entry.node_index = len(self.nodes)
+    dot_entry.parent_node = parent_node
+    
+    dotdot_entry = FileEntry(self)
+    dotdot_entry.name = ".."
+    dotdot_entry.type = 0x02
+    dotdot_entry.node_index = self.nodes.index(parent_node)
+    dotdot_entry.parent_node = parent_node
+    
+    self.nodes.append(node)
+    parent_node.files.append(dir_entry)
+    parent_node.files.append(dot_entry)
+    parent_node.files.append(dotdot_entry)
+    
+    self.regenerate_all_file_entries_list()
+    
+    return dir_entry, node
   
   def add_new_file(self, file_name, file_data, node):
     file_entry = FileEntry(self)
@@ -87,7 +111,6 @@ class RARC:
     file_entry.data_size = data_len(file_entry.data)
     
     file_entry.parent_node = node
-    self.file_entries.append(file_entry)
     node.files.append(file_entry)
     
     self.regenerate_all_file_entries_list()
@@ -372,6 +395,8 @@ class FileEntry:
     self.rarc = rarc
     
     self.parent_node = None
+    self.id = 0xFFFF
+    self.data = None
   
   def read(self, entry_offset):
     self.entry_offset = entry_offset
