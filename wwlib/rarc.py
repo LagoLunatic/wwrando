@@ -50,6 +50,12 @@ class RARC:
       file_entry = FileEntry(self)
       file_entry.read(file_entry_offset)
       self.file_entries.append(file_entry)
+      
+      if file_entry.is_dir and file_entry.node_index != 0xFFFFFFFF:
+        file_entry.node = self.nodes[file_entry.node_index]
+        if file_entry.name not in [".", ".."]:
+          assert file_entry.node.dir_entry is None
+          file_entry.node.dir_entry = file_entry
     
     for node in self.nodes:
       for file_index in range(node.first_file_index, node.first_file_index+node.num_files):
@@ -67,19 +73,19 @@ class RARC:
     dir_entry = FileEntry(self)
     dir_entry.name = dir_name
     dir_entry.type = 0x02
-    dir_entry.node_index = len(self.nodes)
+    dir_entry.node = node
     dir_entry.parent_node = parent_node
     
     dot_entry = FileEntry(self)
     dot_entry.name = "."
     dot_entry.type = 0x02
-    dot_entry.node_index = len(self.nodes)
+    dot_entry.node = node
     dot_entry.parent_node = parent_node
     
     dotdot_entry = FileEntry(self)
     dotdot_entry.name = ".."
     dotdot_entry.type = 0x02
-    dotdot_entry.node_index = self.nodes.index(parent_node)
+    dotdot_entry.node = parent_node
     dotdot_entry.parent_node = parent_node
     
     self.nodes.append(node)
@@ -116,6 +122,20 @@ class RARC:
     self.regenerate_all_file_entries_list()
     
     return file_entry
+  
+  def delete_directory(self, dir_entry):
+    node = dir_entry.node
+    
+    dir_entry.parent_node.files.remove(dir_entry)
+    
+    self.nodes.remove(node)
+    
+    # Recursively delete subdirectories.
+    for file_entry in node.files:
+      if file_entry.is_dir and not file_entry.name in [".", ".."]:
+        self.delete_directory(file_entry)
+    
+    self.regenerate_all_file_entries_list()
   
   def delete_file(self, file_entry):
     file_entry.parent_node.files.remove(file_entry)
@@ -248,6 +268,10 @@ class RARC:
     next_file_data_offset = 0
     for file_entry in self.file_entries:
       if file_entry.is_dir:
+        if file_entry.node is None:
+          file_entry.node_index = 0xFFFFFFFF
+        else:
+          file_entry.node_index = self.nodes.index(file_entry.node)
         file_entry.save_changes()
         continue
       
@@ -360,6 +384,7 @@ class Node:
     self.files = [] # This will be populated after the file entries have been read.
     self.num_files = 0
     self.first_file_index = None
+    self.dir_entry = None # This will be populated when the corresponding directory entry is read.
   
   def read(self, node_offset):
     self.node_offset = node_offset
@@ -422,6 +447,7 @@ class FileEntry:
     if self.is_dir:
       assert self.data_size == 0x10
       self.node_index = data_offset_or_node_index
+      self.node = None # This will be populated later.
       self.data = None
     else:
       self.data_offset = data_offset_or_node_index
