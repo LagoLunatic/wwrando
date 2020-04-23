@@ -627,31 +627,34 @@ class RPAT(ChunkEntry):
     
     self.num_points = 0
     self.next_path_index = 0xFFFF
-    self.unknown = 0xFF
+    self.unknown_1 = 0xFF
     self.is_loop = 0
-    self.padding = 0xFFFF
+    self.unknown_2 = 0xFF
+    self.unknown_3 = 0xFF
     self.first_waypoint_offset = 0
   
   def read(self, offset):
     self.offset = offset
     data = self.file_entry.data
     
-    self.num_points = read_u16(data, self.offset)
-    self.next_path_index = read_u16(data, self.offset+2)
-    self.unknown = read_u8(data, self.offset+4)
-    self.is_loop = read_u8(data, self.offset+5)
-    self.padding = read_u16(data, self.offset+6)
-    self.first_waypoint_offset = read_u32(data, self.offset+8)
+    self.num_points = read_u16(data, self.offset+0x00)
+    self.next_path_index = read_u16(data, self.offset+0x02)
+    self.unknown_1 = read_u8(data, self.offset+0x04)
+    self.is_loop = read_u8(data, self.offset+0x05)
+    self.unknown_2 = read_u8(data, self.offset+0x06)
+    self.unknown_3 = read_u8(data, self.offset+0x07)
+    self.first_waypoint_offset = read_u32(data, self.offset+0x08)
   
   def save_changes(self):
     data = self.file_entry.data
     
-    write_u16(data, self.offset, self.num_points)
-    write_u16(data, self.offset+2, self.next_path_index)
-    write_u8(data, self.offset+4, self.unknown)
-    write_u8(data, self.offset+5, self.is_loop)
-    write_u16(data, self.offset+6, self.padding)
-    write_u32(data, self.offset+8, self.first_waypoint_offset)
+    write_u16(data, self.offset+0x00, self.num_points)
+    write_u16(data, self.offset+0x02, self.next_path_index)
+    write_u8(data, self.offset+0x04, self.unknown_1)
+    write_u8(data, self.offset+0x05, self.is_loop)
+    write_u8(data, self.offset+0x06, self.unknown_2)
+    write_u8(data, self.offset+0x07, self.unknown_3)
+    write_u32(data, self.offset+0x08, self.first_waypoint_offset)
 
 class RPPN(ChunkEntry):
   DATA_SIZE = 0x10
@@ -659,7 +662,10 @@ class RPPN(ChunkEntry):
   def __init__(self, file_entry):
     self.file_entry = file_entry
     
-    self.unknown = 0xFFFFFFFF
+    self.unknown_1 = 0xFF
+    self.unknown_2 = 0xFF
+    self.unknown_3 = 0xFF
+    self.action_type = 0xFF
     self.x_pos = 0
     self.y_pos = 0
     self.z_pos = 0
@@ -668,18 +674,24 @@ class RPPN(ChunkEntry):
     self.offset = offset
     data = self.file_entry.data
     
-    self.unknown = read_u32(data, self.offset)
-    self.x_pos = read_float(data, self.offset+4)
-    self.y_pos = read_float(data, self.offset+8)
-    self.z_pos = read_float(data, self.offset+0xC)
+    self.unknown_1 = read_u8(data, self.offset+0x00)
+    self.unknown_2 = read_u8(data, self.offset+0x01)
+    self.unknown_3 = read_u8(data, self.offset+0x02)
+    self.action_type = read_u8(data, self.offset+0x03)
+    self.x_pos = read_float(data, self.offset+0x04)
+    self.y_pos = read_float(data, self.offset+0x08)
+    self.z_pos = read_float(data, self.offset+0x0C)
   
   def save_changes(self):
     data = self.file_entry.data
     
-    write_u32(data, self.offset, self.unknown)
-    write_float(data, self.offset+4, self.x_pos)
-    write_float(data, self.offset+8, self.y_pos)
-    write_float(data, self.offset+0xC, self.z_pos)
+    write_u8(data, self.offset+0x00, self.unknown_1)
+    write_u8(data, self.offset+0x01, self.unknown_2)
+    write_u8(data, self.offset+0x02, self.unknown_3)
+    write_u8(data, self.offset+0x03, self.action_type)
+    write_float(data, self.offset+0x04, self.x_pos)
+    write_float(data, self.offset+0x08, self.y_pos)
+    write_float(data, self.offset+0x0C, self.z_pos)
 
 class TGOB(ACTR):
   pass
