@@ -337,7 +337,7 @@ class RELSection:
     self.info_offset = info_offset
     
     mult_vals = read_u32(rel_data, info_offset + 0x00)
-    self.offset = mult_vals & 0xFFFFFFFC
+    self.offset = mult_vals & 0xFFFFFFFE
     if mult_vals & 1:
       self.is_executable = True
     else:
@@ -361,7 +361,7 @@ class RELSection:
     if self.is_uninitialized:
       self.offset = 0
     else:
-      self.offset = next_section_data_offset & 0xFFFFFFFC
+      self.offset = next_section_data_offset & 0xFFFFFFFE
     mult_vals = self.offset
     if self.is_executable:
       mult_vals |= 1
