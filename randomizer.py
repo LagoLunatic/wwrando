@@ -621,7 +621,8 @@ class Randomizer:
       return self.arcs_by_path[arc_path]
     else:
       data = self.gcm.read_file_data(arc_path)
-      arc = RARC(data)
+      arc = RARC()
+      arc.read(data)
       self.arcs_by_path[arc_path] = arc
       return arc
   
@@ -706,7 +707,8 @@ class Randomizer:
     if arc_path not in self.gcm.files_by_path:
       raise Exception("Cannot replace RARC that doesn't exist: " + arc_path)
     
-    arc = RARC(new_data)
+    arc = RARC()
+    arc.read(new_data)
     self.arcs_by_path[arc_path] = arc
   
   def replace_raw_file(self, file_path, new_data):

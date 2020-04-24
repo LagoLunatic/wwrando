@@ -1,6 +1,7 @@
 
 import os
 from io import BytesIO
+from enum import IntFlag
 
 from fs_helpers import *
 from wwlib.yaz0 import Yaz0
@@ -13,7 +14,11 @@ from wwlib.j3d import BDL, BMD, BMT, BRK
 from wwlib.bti import BTIFileEntry
 
 class RARC:
-  def __init__(self, data):
+  def __init__(self):
+    self.magic = "RARC"
+    self.size = None
+  
+  def read(self, data):
     self.data = data
     
     if try_read_str(self.data, 0, 4) == "Yaz0":
@@ -21,21 +26,30 @@ class RARC:
     
     data = self.data
     
+    # Read header.
     self.magic = read_str(data, 0, 4)
     assert self.magic == "RARC"
     self.size = read_u32(data, 4)
-    self.node_list_offset = 0x40
-    self.file_data_list_offset = read_u32(data, 0xC) + 0x20
-    self.file_data_total_size = read_u32(data, 0x10)
-    self.file_data_total_size_2 = read_u32(data, 0x14)
-    self.file_data_total_size_3 = read_u32(data, 0x18)
-    self.num_nodes = read_u32(data, 0x20)
-    self.total_num_file_entries = read_u32(data, 0x28)
-    self.file_entries_list_offset = read_u32(data, 0x2C) + 0x20
-    self.string_list_size = read_u32(data, 0x30)
-    self.string_list_offset = read_u32(data, 0x34) + 0x20
-    self.next_free_file_id = read_u16(data, 0x38)
-    self.keep_file_ids_synced_with_indexes = read_u8(data, 0x3A)
+    self.data_header_offset = read_u32(data, 0x8)
+    assert self.data_header_offset == 0x20
+    self.file_data_list_offset = read_u32(data, 0xC) + self.data_header_offset
+    self.total_file_data_size = read_u32(data, 0x10)
+    self.mram_file_data_size = read_u32(data, 0x14)
+    self.aram_file_data_size = read_u32(data, 0x18)
+    self.mram_file_data_list_offset = self.file_data_list_offset
+    self.aram_file_data_list_offset = self.file_data_list_offset + self.mram_file_data_size
+    self.unknown_1 = read_u32(data, 0x1C)
+    assert self.unknown_1 == 0
+    
+    # Read data header.
+    self.num_nodes = read_u32(data, self.data_header_offset + 0x00)
+    self.node_list_offset = read_u32(data, self.data_header_offset + 0x04) + self.data_header_offset
+    self.total_num_file_entries = read_u32(data, self.data_header_offset + 0x08)
+    self.file_entries_list_offset = read_u32(data, self.data_header_offset + 0x0C) + self.data_header_offset
+    self.string_list_size = read_u32(data, self.data_header_offset + 0x10)
+    self.string_list_offset = read_u32(data, self.data_header_offset + 0x14) + self.data_header_offset
+    self.next_free_file_id = read_u16(data, self.data_header_offset + 0x18)
+    self.keep_file_ids_synced_with_indexes = read_u8(data, self.data_header_offset + 0x1A)
     
     self.nodes = []
     for node_index in range(self.num_nodes):
@@ -72,19 +86,19 @@ class RARC:
     
     dir_entry = FileEntry(self)
     dir_entry.name = dir_name
-    dir_entry.type = 0x02
+    dir_entry.type = RARCFileAttrType.DIRECTORY
     dir_entry.node = node
     dir_entry.parent_node = parent_node
     
     dot_entry = FileEntry(self)
     dot_entry.name = "."
-    dot_entry.type = 0x02
+    dot_entry.type = RARCFileAttrType.DIRECTORY
     dot_entry.node = node
     dot_entry.parent_node = parent_node
     
     dotdot_entry = FileEntry(self)
     dotdot_entry.name = ".."
-    dotdot_entry.type = 0x02
+    dotdot_entry.type = RARCFileAttrType.DIRECTORY
     dotdot_entry.node = parent_node
     dotdot_entry.parent_node = parent_node
     
@@ -105,11 +119,11 @@ class RARC:
     file_entry.id = self.next_free_file_id
     self.next_free_file_id += 1
     
-    file_entry.type = 0x01
+    file_entry.type = RARCFileAttrType.FILE
     if file_name.endswith(".rel"):
-      file_entry.type |= 0x20
+      file_entry.type |= RARCFileAttrType.LOAD_TO_ARAM
     else:
-      file_entry.type |= 0x10
+      file_entry.type |= RARCFileAttrType.LOAD_TO_MRAM
     
     file_entry.name = file_name
     
@@ -263,17 +277,29 @@ class RARC:
       node.save_changes()
     
     # Write the file data, and save the file entries as well.
+    # Main RAM file entries must all be in a row before the ARAM file entries.
     align_data_to_nearest(self.data, 0x20)
     self.file_data_list_offset = self.data.tell()
-    next_file_data_offset = 0
+    mram_file_entries = []
+    aram_file_entries = []
     for file_entry in self.file_entries:
       if file_entry.is_dir:
         if file_entry.node is None:
           file_entry.node_index = 0xFFFFFFFF
         else:
           file_entry.node_index = self.nodes.index(file_entry.node)
+        
         file_entry.save_changes()
-        continue
+      else:
+        if file_entry.type & RARCFileAttrType.LOAD_TO_MRAM != 0:
+          mram_file_entries.append(file_entry)
+        elif file_entry.type & RARCFileAttrType.LOAD_TO_ARAM != 0:
+          aram_file_entries.append(file_entry)
+        else:
+          raise Exception("File entry %s is not set as being loaded into main RAM or ARAM." % file_entry.name)
+    
+    def write_file_entry_data(file_entry):
+      nonlocal next_file_data_offset
       
       data_size = data_len(file_entry.data)
       file_entry.data_offset = next_file_data_offset
@@ -290,6 +316,19 @@ class RARC:
       align_data_to_nearest(self.data, 0x20)
       next_file_data_offset = self.data.tell() - self.file_data_list_offset
     
+    next_file_data_offset = 0
+    
+    self.mram_file_data_list_offset = self.file_data_list_offset
+    for file_entry in mram_file_entries:
+      write_file_entry_data(file_entry)
+    self.mram_file_data_size = next_file_data_offset
+  
+    self.aram_file_data_list_offset = self.file_data_list_offset + self.mram_file_data_size
+    for file_entry in aram_file_entries:
+      write_file_entry_data(file_entry)
+    self.total_file_data_size = next_file_data_offset
+    self.aram_file_data_size = self.total_file_data_size - self.mram_file_data_size
+    
     # Update the header.
     write_magic_str(self.data, 0x00, "RARC", 4)
     write_u32(self.data, 0x0C, self.file_data_list_offset-0x20)
@@ -305,18 +344,12 @@ class RARC:
     write_u8(self.data, 0x3A, self.keep_file_ids_synced_with_indexes)
     
     # Update rarc's size fields.
-    self.size = self.file_data_list_offset + next_file_data_offset
+    self.total_file_data_size = self.mram_file_data_size + self.aram_file_data_size
+    self.size = self.file_data_list_offset + self.total_file_data_size
     write_u32(self.data, 4, self.size)
-    self.file_data_total_size = next_file_data_offset
-    write_u32(self.data, 0x10, self.file_data_total_size)
-    if self.file_data_total_size_2 != 0:
-      # Unknown what this is for, but it must be properly set for arcs except for RELS.arc
-      self.file_data_total_size_2 = self.file_data_total_size
-      write_u32(self.data, 0x14, self.file_data_total_size_2)
-    if self.file_data_total_size_3 != 0:
-      # Unknown what this is for, but it must be properly set for RELS.arc
-      self.file_data_total_size_3 = self.file_data_total_size
-      write_u32(self.data, 0x18, self.file_data_total_size_3)
+    write_u32(self.data, 0x10, self.total_file_data_size)
+    write_u32(self.data, 0x14, self.mram_file_data_size)
+    write_u32(self.data, 0x18, self.aram_file_data_size)
   
   def get_file_entry(self, file_name):
     for file_entry in self.file_entries:
@@ -432,14 +465,7 @@ class FileEntry:
     data_offset_or_node_index = read_u32(self.rarc.data, entry_offset + 8)
     self.data_size = read_u32(self.rarc.data, entry_offset + 0xC)
     
-    self.type = ((type_and_name_offset & 0xFF000000) >> 24)
-    # Type is a bitfield. Bits:
-    #   01 - File.
-    #   02 - Directory.
-    #   04 - Compressed.
-    #   10 - Data file (as opposed to a REL file).
-    #   20 - For dynamic link libraries, aka REL files.
-    #   80 - Yaz0 compressed (as opposed to Yay0).
+    self.type = RARCFileAttrType((type_and_name_offset & 0xFF000000) >> 24)
     
     self.name_offset = type_and_name_offset & 0x00FFFFFF
     self.name = read_str_until_null_character(self.rarc.data, self.rarc.string_list_offset + self.name_offset)
@@ -451,24 +477,27 @@ class FileEntry:
       self.data = None
     else:
       self.data_offset = data_offset_or_node_index
-      self.rarc.data.seek(self.rarc.file_data_list_offset + self.data_offset)
+      absolute_data_offset = self.rarc.file_data_list_offset + self.data_offset
+      self.rarc.data.seek(absolute_data_offset)
       self.data = BytesIO(self.rarc.data.read(self.data_size))
   
   @property
   def is_dir(self):
-    return (self.type & 0x02) != 0
+    return (self.type & RARCFileAttrType.DIRECTORY) != 0
   
   @is_dir.setter
   def is_dir(self, value):
     if value:
-      self.type |= 0x02
+      self.type |= RARCFileAttrType.DIRECTORY
     else:
-      self.type &= ~0x02
+      self.type &= ~RARCFileAttrType.DIRECTORY
   
   def decompress_data_if_necessary(self):
     if try_read_str(self.data, 0, 4) == "Yaz0":
       self.data = Yaz0.decompress(self.data)
-      self.type &= ~0x84 # Clear compressed type bits
+      # Clear compressed type bits.
+      self.type &= ~RARCFileAttrType.COMPRESSED
+      self.type &= ~RARCFileAttrType.YAZ0_COMPRESSED
   
   def save_changes(self):
     hash = 0
@@ -478,11 +507,13 @@ class FileEntry:
       hash &= 0xFFFF
     self.name_hash = hash
     
-    # Set or clear compressed type bits
+    # Set or clear compressed type bits.
     if not self.is_dir and Yaz0.check_is_compressed(self.data):
-      self.type |= 0x84
+      self.type |= RARCFileAttrType.COMPRESSED
+      self.type |= RARCFileAttrType.YAZ0_COMPRESSED
     else:
-      self.type &= ~0x84
+      self.type &= ~RARCFileAttrType.COMPRESSED
+      self.type &= ~RARCFileAttrType.YAZ0_COMPRESSED
     
     type_and_name_offset = (self.type << 24) | (self.name_offset & 0x00FFFFFF)
     
@@ -501,4 +532,13 @@ class FileEntry:
     write_u32(self.rarc.data, self.entry_offset+0x04, type_and_name_offset)
     write_u32(self.rarc.data, self.entry_offset+0x08, data_offset_or_node_index)
     write_u32(self.rarc.data, self.entry_offset+0x0C, self.data_size)
-    write_u32(self.rarc.data, self.entry_offset+0x10, 0) # Unused?
+    write_u32(self.rarc.data, self.entry_offset+0x10, 0) # Pointer to the file's data, filled at runtime.
+
+class RARCFileAttrType(IntFlag):
+  FILE            = 0x01
+  DIRECTORY       = 0x02
+  COMPRESSED      = 0x04
+  LOAD_TO_MRAM    = 0x10
+  LOAD_TO_ARAM    = 0x20
+  LOAD_TO_DRAM    = 0x40
+  YAZ0_COMPRESSED = 0x80
