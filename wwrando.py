@@ -34,5 +34,11 @@ for arg in sys.argv[1:]:
     cmd_line_args[arg_parts[0]] = arg_parts[1]
 
 qApp = QApplication(sys.argv)
+
+# Have a timer updated every half a second so keyboard interrupts always work.
+timer = QTimer()
+timer.start(500)
+timer.timeout.connect(lambda: None)
+
 window = WWRandomizerWindow(cmd_line_args=cmd_line_args)
 sys.exit(qApp.exec_())
