@@ -36,8 +36,6 @@ class RARC:
     self.total_file_data_size = read_u32(data, 0x10)
     self.mram_file_data_size = read_u32(data, 0x14)
     self.aram_file_data_size = read_u32(data, 0x18)
-    self.mram_file_data_list_offset = self.file_data_list_offset
-    self.aram_file_data_list_offset = self.file_data_list_offset + self.mram_file_data_size
     self.unknown_1 = read_u32(data, 0x1C)
     assert self.unknown_1 == 0
     
@@ -50,6 +48,10 @@ class RARC:
     self.string_list_offset = read_u32(data, self.data_header_offset + 0x14) + self.data_header_offset
     self.next_free_file_id = read_u16(data, self.data_header_offset + 0x18)
     self.keep_file_ids_synced_with_indexes = read_u8(data, self.data_header_offset + 0x1A)
+    self.unknown_2 = read_u8(data, self.data_header_offset + 0x1B)
+    assert self.unknown_2 == 0
+    self.unknown_3 = read_u32(data, self.data_header_offset + 0x1C)
+    assert self.unknown_3 == 0
     
     self.nodes = []
     for node_index in range(self.num_nodes):
@@ -121,9 +123,9 @@ class RARC:
     
     file_entry.type = RARCFileAttrType.FILE
     if file_name.endswith(".rel"):
-      file_entry.type |= RARCFileAttrType.LOAD_TO_ARAM
+      file_entry.type |= RARCFileAttrType.PRELOAD_TO_ARAM
     else:
-      file_entry.type |= RARCFileAttrType.LOAD_TO_MRAM
+      file_entry.type |= RARCFileAttrType.PRELOAD_TO_MRAM
     
     file_entry.name = file_name
     
@@ -227,6 +229,7 @@ class RARC:
     # Supports files changing size, name, files being added or removed, nodes being added or removed, etc.
     
     # Cut off all the data after the header since we're replacing it entirely.
+    self.node_list_offset = 0x40
     self.data.truncate(self.node_list_offset)
     self.data.seek(self.node_list_offset)
     
@@ -280,8 +283,9 @@ class RARC:
     # Main RAM file entries must all be in a row before the ARAM file entries.
     align_data_to_nearest(self.data, 0x20)
     self.file_data_list_offset = self.data.tell()
-    mram_file_entries = []
-    aram_file_entries = []
+    mram_preload_file_entries = []
+    aram_preload_file_entries = []
+    no_preload_file_entries = []
     for file_entry in self.file_entries:
       if file_entry.is_dir:
         if file_entry.node is None:
@@ -291,12 +295,14 @@ class RARC:
         
         file_entry.save_changes()
       else:
-        if file_entry.type & RARCFileAttrType.LOAD_TO_MRAM != 0:
-          mram_file_entries.append(file_entry)
-        elif file_entry.type & RARCFileAttrType.LOAD_TO_ARAM != 0:
-          aram_file_entries.append(file_entry)
+        if file_entry.type & RARCFileAttrType.PRELOAD_TO_MRAM != 0:
+          mram_preload_file_entries.append(file_entry)
+        elif file_entry.type & RARCFileAttrType.PRELOAD_TO_ARAM != 0:
+          aram_preload_file_entries.append(file_entry)
+        elif file_entry.type & RARCFileAttrType.LOAD_FROM_DVD != 0:
+          no_preload_file_entries.append(file_entry)
         else:
-          raise Exception("File entry %s is not set as being loaded into main RAM or ARAM." % file_entry.name)
+          raise Exception("File entry %s is not set as being loaded into any type of RAM." % file_entry.name)
     
     def write_file_entry_data(file_entry):
       nonlocal next_file_data_offset
@@ -318,38 +324,45 @@ class RARC:
     
     next_file_data_offset = 0
     
-    self.mram_file_data_list_offset = self.file_data_list_offset
-    for file_entry in mram_file_entries:
+    for file_entry in mram_preload_file_entries:
       write_file_entry_data(file_entry)
     self.mram_file_data_size = next_file_data_offset
   
-    self.aram_file_data_list_offset = self.file_data_list_offset + self.mram_file_data_size
-    for file_entry in aram_file_entries:
+    for file_entry in aram_preload_file_entries:
       write_file_entry_data(file_entry)
+    self.aram_file_data_size = next_file_data_offset - self.mram_file_data_size
+    
+    for file_entry in no_preload_file_entries:
+      write_file_entry_data(file_entry)
+    
     self.total_file_data_size = next_file_data_offset
-    self.aram_file_data_size = self.total_file_data_size - self.mram_file_data_size
     
     # Update the header.
-    write_magic_str(self.data, 0x00, "RARC", 4)
-    write_u32(self.data, 0x0C, self.file_data_list_offset-0x20)
-    self.num_nodes = len(self.nodes)
-    write_u32(self.data, 0x20, self.num_nodes)
-    self.total_num_file_entries = len(self.file_entries)
-    write_u32(self.data, 0x28, self.total_num_file_entries)
-    write_u32(self.data, 0x2C, self.file_entries_list_offset-0x20)
-    self.string_list_size = self.file_data_list_offset - self.string_list_offset
-    write_u32(self.data, 0x30, self.string_list_size)
-    write_u32(self.data, 0x34, self.string_list_offset-0x20)
-    write_u16(self.data, 0x38, self.next_free_file_id)
-    write_u8(self.data, 0x3A, self.keep_file_ids_synced_with_indexes)
-    
-    # Update rarc's size fields.
-    self.total_file_data_size = self.mram_file_data_size + self.aram_file_data_size
+    write_magic_str(self.data, 0x00, self.magic, 4)
     self.size = self.file_data_list_offset + self.total_file_data_size
-    write_u32(self.data, 4, self.size)
+    write_u32(self.data, 0x04, self.size)
+    self.data_header_offset = 0x20
+    write_u32(self.data, 0x08, self.data_header_offset)
+    write_u32(self.data, 0x0C, self.file_data_list_offset-0x20)
     write_u32(self.data, 0x10, self.total_file_data_size)
     write_u32(self.data, 0x14, self.mram_file_data_size)
     write_u32(self.data, 0x18, self.aram_file_data_size)
+    write_u32(self.data, 0x1C, 0)
+    
+    # Update the data header.
+    self.num_nodes = len(self.nodes)
+    write_u32(self.data, self.data_header_offset + 0x00, self.num_nodes)
+    self.total_num_file_entries = len(self.file_entries)
+    write_u32(self.data, self.data_header_offset + 0x04, self.node_list_offset - self.data_header_offset)
+    write_u32(self.data, self.data_header_offset + 0x08, self.total_num_file_entries)
+    write_u32(self.data, self.data_header_offset + 0x0C, self.file_entries_list_offset - self.data_header_offset)
+    self.string_list_size = self.file_data_list_offset - self.string_list_offset
+    write_u32(self.data, self.data_header_offset + 0x10, self.string_list_size)
+    write_u32(self.data, self.data_header_offset + 0x14, self.string_list_offset - self.data_header_offset)
+    write_u16(self.data, self.data_header_offset + 0x18, self.next_free_file_id)
+    write_u8(self.data, self.data_header_offset + 0x1A, self.keep_file_ids_synced_with_indexes)
+    write_u8(self.data, self.data_header_offset + 0x1B, 0)
+    write_u32(self.data, self.data_header_offset + 0x1C, 0)
   
   def get_file_entry(self, file_name):
     for file_entry in self.file_entries:
@@ -538,7 +551,7 @@ class RARCFileAttrType(IntFlag):
   FILE            = 0x01
   DIRECTORY       = 0x02
   COMPRESSED      = 0x04
-  LOAD_TO_MRAM    = 0x10
-  LOAD_TO_ARAM    = 0x20
-  LOAD_TO_DRAM    = 0x40
+  PRELOAD_TO_MRAM = 0x10
+  PRELOAD_TO_ARAM = 0x20
+  LOAD_FROM_DVD   = 0x40
   YAZ0_COMPRESSED = 0x80
