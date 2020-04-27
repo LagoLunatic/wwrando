@@ -17,6 +17,7 @@ from wwlib.rel import REL, RELRelocation, RELRelocationType
 from wwlib.gcm import GCM
 from wwlib.jpc import JPC
 import tweaks
+from asm import patcher
 from logic.logic import Logic
 from paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH, IS_RUNNING_FROM_SOURCE
 import customizer
@@ -351,27 +352,27 @@ class Randomizer:
       if self.options.get("instant_text_boxes"):
         tweaks.make_all_text_instant(self)
       if self.options.get("reveal_full_sea_chart"):
-        tweaks.apply_patch(self, "reveal_sea_chart")
+        patcher.apply_patch(self, "reveal_sea_chart")
       if self.options.get("add_shortcut_warps_between_dungeons"):
         tweaks.add_inter_dungeon_warp_pots(self)
       if self.options.get("invert_camera_x_axis"):
-        tweaks.apply_patch(self, "invert_camera_x_axis")
+        patcher.apply_patch(self, "invert_camera_x_axis")
       tweaks.update_skip_rematch_bosses_game_variable(self)
       tweaks.update_sword_mode_game_variable(self)
       if self.options.get("sword_mode") == "Swordless":
-        tweaks.apply_patch(self, "swordless")
+        patcher.apply_patch(self, "swordless")
         tweaks.update_text_for_swordless(self)
       if self.options.get("randomize_entrances") not in ["Disabled", None, "Dungeons"]:
         tweaks.disable_ice_ring_isle_and_fire_mountain_effects_indoors(self)
       tweaks.update_starting_gear(self)
       if self.options.get("disable_tingle_chests_with_tingle_bombs"):
-        tweaks.apply_patch(self, "disable_tingle_bombs_on_tingle_chests")
+        patcher.apply_patch(self, "disable_tingle_bombs_on_tingle_chests")
       if self.options.get("remove_title_and_ending_videos"):
         tweaks.remove_title_and_ending_videos(self)
       if self.options.get("remove_music"):
-        tweaks.apply_patch(self, "remove_music")
+        patcher.apply_patch(self, "remove_music")
       if self.map_select:
-        tweaks.apply_patch(self, "map_select")
+        patcher.apply_patch(self, "map_select")
       if IS_RUNNING_FROM_SOURCE or "BETA" in VERSION_WITHOUT_COMMIT:
         tweaks.enable_developer_mode(self)
       if self.heap_display:
@@ -438,12 +439,12 @@ class Randomizer:
     yield("Done", -1)
   
   def apply_necessary_tweaks(self):
-    tweaks.apply_patch(self, "custom_funcs")
-    tweaks.apply_patch(self, "make_game_nonlinear")
-    tweaks.apply_patch(self, "remove_cutscenes")
-    tweaks.apply_patch(self, "flexible_item_locations")
-    tweaks.apply_patch(self, "fix_vanilla_bugs")
-    tweaks.apply_patch(self, "misc_rando_features")
+    patcher.apply_patch(self, "custom_funcs")
+    patcher.apply_patch(self, "make_game_nonlinear")
+    patcher.apply_patch(self, "remove_cutscenes")
+    patcher.apply_patch(self, "flexible_item_locations")
+    patcher.apply_patch(self, "fix_vanilla_bugs")
+    patcher.apply_patch(self, "misc_rando_features")
     tweaks.add_custom_actor_rels(self)
     tweaks.skip_wakeup_intro_and_start_at_dock(self)
     tweaks.start_ship_at_outset(self)
@@ -478,7 +479,7 @@ class Randomizer:
     tweaks.add_hint_signs(self)
     tweaks.prevent_door_boulder_softlocks(self)
     tweaks.update_tingle_statue_item_get_funcs(self)
-    tweaks.apply_patch(self, "tingle_chests_without_tuner")
+    patcher.apply_patch(self, "tingle_chests_without_tuner")
     tweaks.make_tingle_statue_reward_rupee_rainbow_colored(self)
     tweaks.show_seed_hash_on_name_entry_screen(self)
     tweaks.fix_ghost_ship_chest_crash(self)
