@@ -26,6 +26,7 @@ Changes:
 Bug fixes:
 * Fixed a bug introduced in 1.7.0 where slightly recoloring certain grey colors on player models would make them appear as extremely saturated colors.
 * Fixed a vanilla bug where respawning Magtails that are killed by shooting them in the head with Light Arrows would not respawn.
+* Fixed a vanilla bug where the stone faces in the Tall Basement Room of Wind Temple that spawn Bokoblins wouldn't allow the chest in that room to spawn until you look at the empty spot where the stone face fell and broke apart after you kill its Bokoblin.
 * Fixed Big Octo eyes not changing color very much when destroyed if the enemy palette randomizer was on.
 * Fixed Mighty Darknut and Phantom Ganon's capes sometimes being transparent when the enemy palette randomizer was on.
 * Fixed the floor of the roof of Forsaken Fortress's tower being recolored along with Helmaroc King when the enemy palette randomizer was on.

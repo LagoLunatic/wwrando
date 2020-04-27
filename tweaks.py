@@ -2368,3 +2368,14 @@ def fix_message_closing_sound_on_quest_status_screen(self):
   msg = self.bmg.add_new_message(704)
   msg.string = ""
   msg.text_box_type = 9 # Item get message box
+
+def fix_stone_head_bugs(self):
+  # Unset the actor status bit for stone heads that makes them not execute on frames where they didn't draw because they weren't in view of the camera.
+  # The fact that they don't execute when you're not looking at them can cause various bugs.
+  # One of which is that, for the ones that spawn enemies, they set themselves as being enemy-type actors. They only delete themselves after the enemy they spawn is killed and not at the moment the stone head actually breaks. So "kill all enemies" rooms, you would need to look at the empty spot where the stone head broke apart after killing the enemy it spawned in order for all "enemies" to be considered dead.
+  
+  head_rel = self.get_rel("files/rels/d_a_obj_homen.rel")
+  
+  status_bits = head_rel.read_data(read_u32, 0x3450)
+  status_bits &= ~0x00000080
+  head_rel.write_data(write_u32, 0x3450, status_bits)
