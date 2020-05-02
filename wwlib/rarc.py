@@ -160,6 +160,7 @@ class RARC:
     parent_node.files.append(dir_entry)
     node.files.append(dot_entry)
     node.files.append(dotdot_entry)
+    node.dir_entry = dir_entry
     
     self.regenerate_all_file_entries_list()
     
@@ -214,18 +215,7 @@ class RARC:
   def regenerate_all_file_entries_list(self):
     # Regenerate the list of all file entries so they're all together for the nodes, and update the first_file_index of the nodes.
     self.file_entries = []
-    for node in self.nodes:
-      # Sort the . and .. directory entries to be at the end of the node's file list.
-      rel_dir_entries = []
-      for file_entry in node.files:
-        if file_entry.is_dir and file_entry.name in [".", ".."]:
-          rel_dir_entries.append(file_entry)
-      for rel_dir_entry in rel_dir_entries:
-        node.files.remove(rel_dir_entry)
-        node.files.append(rel_dir_entry)
-      
-      node.first_file_index = len(self.file_entries)
-      self.file_entries += node.files
+    self.regenerate_files_list_for_node(self.nodes[0])
     
     if self.keep_file_ids_synced_with_indexes:
       self.next_free_file_id = len(self.file_entries)
@@ -233,6 +223,24 @@ class RARC:
       for file_entry in self.file_entries:
         if not file_entry.is_dir:
           file_entry.id = self.file_entries.index(file_entry)
+  
+  def regenerate_files_list_for_node(self, node):
+    # Sort the . and .. directory entries to be at the end of the node's file list.
+    rel_dir_entries = []
+    for file_entry in node.files:
+      if file_entry.is_dir and file_entry.name in [".", ".."]:
+        rel_dir_entries.append(file_entry)
+    for rel_dir_entry in rel_dir_entries:
+      node.files.remove(rel_dir_entry)
+      node.files.append(rel_dir_entry)
+    
+    node.first_file_index = len(self.file_entries)
+    self.file_entries += node.files
+    
+    # Recursively add this directory's subdirectory nodes.
+    for file_entry in node.files:
+      if file_entry.is_dir and file_entry.name not in [".", ".."]:
+        self.regenerate_files_list_for_node(file_entry.node)
   
   def extract_all_files_to_disk_flat(self, output_directory):
     # Does not preserve directory structure.
@@ -435,6 +443,24 @@ class RARC:
     write_u8(self.data, self.data_header_offset + 0x1A, self.keep_file_ids_synced_with_indexes)
     write_u8(self.data, self.data_header_offset + 0x1B, 0)
     write_u32(self.data, self.data_header_offset + 0x1C, 0)
+  
+  def get_node_by_path(self, path):
+    if path in ["", "."]:
+      # Root node
+      return self.nodes[0]
+    
+    for node in self.nodes[1:]:
+      curr_path = node.dir_entry.name
+      curr_node = node.dir_entry.parent_node
+      while curr_node is not None:
+        if curr_node == self.nodes[0]:
+          # Root node
+          break
+        curr_path = "%s/%s" % (curr_node.dir_entry.name, curr_path)
+        curr_node = curr_node.dir_entry.parent_node
+      
+      if curr_path == path:
+        return node
   
   def get_file_entry(self, file_name):
     for file_entry in self.file_entries:
