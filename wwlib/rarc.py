@@ -40,11 +40,6 @@ class RARC:
     self.nodes = []
     self.file_entries = []
     self.instantiated_object_files = {}
-    
-    root_node = Node(self)
-    root_node.type = "ROOT"
-    root_node.name = "archive"
-    self.nodes.append(root_node)
   
   def read(self, data):
     self.data = data
@@ -109,6 +104,29 @@ class RARC:
     
     self.instantiated_object_files = {}
   
+  def add_root_directory(self):
+    root_node = Node(self)
+    root_node.type = "ROOT"
+    root_node.name = "archive"
+    self.nodes.append(root_node)
+    
+    dot_entry = FileEntry(self)
+    dot_entry.name = "."
+    dot_entry.type = RARCFileAttrType.DIRECTORY
+    dot_entry.node = root_node
+    dot_entry.parent_node = root_node
+    
+    dotdot_entry = FileEntry(self)
+    dotdot_entry.name = ".."
+    dotdot_entry.type = RARCFileAttrType.DIRECTORY
+    dotdot_entry.node = None
+    dotdot_entry.parent_node = root_node
+    
+    root_node.files.append(dot_entry)
+    root_node.files.append(dotdot_entry)
+    
+    self.regenerate_all_file_entries_list()
+  
   def add_new_directory(self, dir_name, node_type, parent_node):
     if len(node_type) > 4:
       raise Exception("Node type must not be longer than 4 characters: %s" % node_type)
@@ -130,13 +148,13 @@ class RARC:
     dot_entry.name = "."
     dot_entry.type = RARCFileAttrType.DIRECTORY
     dot_entry.node = node
-    dot_entry.parent_node = parent_node
+    dot_entry.parent_node = node
     
     dotdot_entry = FileEntry(self)
     dotdot_entry.name = ".."
     dotdot_entry.type = RARCFileAttrType.DIRECTORY
     dotdot_entry.node = parent_node
-    dotdot_entry.parent_node = parent_node
+    dotdot_entry.parent_node = node
     
     self.nodes.append(node)
     parent_node.files.append(dir_entry)
