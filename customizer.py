@@ -260,11 +260,13 @@ def replace_link_model(self):
     checked_arc_names.append("Ship.arc")
     check_changed_archives_over_filesize_limit(orig_sum_of_changed_arc_sizes, new_sum_of_changed_arc_sizes, checked_arc_names)
     
-    orig_sail_tex_data = orig_ship_arc.get_file_entry("new_ho1.bti").data
-    custom_sail_tex_data = custom_ship_arc.get_file_entry("new_ho1.bti").data
+    orig_sail_tex = orig_ship_arc.get_file_entry("new_ho1.bti")
+    custom_sail_tex = custom_ship_arc.get_file_entry("new_ho1.bti")
+    orig_sail_tex_data = orig_sail_tex.data
+    custom_sail_tex_data = custom_sail_tex.data
     orig_sail_tex_data.seek(0)
     custom_sail_tex_data.seek(0)
-    if custom_sail_tex_data.read() != orig_sail_tex_data.read():
+    if custom_sail_tex_data.read() != orig_sail_tex_data.read() or orig_sail_tex.image_format != custom_sail_tex.image_format:
       # Don't allow the swift sail tweak to replace this custom texture with the swift sail texture.
       self.using_custom_sail_texture = True
   
