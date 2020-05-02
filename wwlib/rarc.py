@@ -15,8 +15,36 @@ from wwlib.bti import BTIFileEntry
 
 class RARC:
   def __init__(self):
+    self.data = BytesIO()
+    
     self.magic = "RARC"
     self.size = None
+    self.data_header_offset = None
+    self.file_data_list_offset = None
+    self.total_file_data_size = None
+    self.mram_file_data_size = None
+    self.aram_file_data_size = None
+    self.unknown_1 = 0
+    
+    self.num_nodes = 0
+    self.node_list_offset = None
+    self.total_num_file_entries = 0
+    self.file_entries_list_offset = None
+    self.string_list_size = None
+    self.string_list_offset = None
+    self.next_free_file_id = 0
+    self.keep_file_ids_synced_with_indexes = 1
+    self.unknown_2 = 0
+    self.unknown_3 = 0
+    
+    self.nodes = []
+    self.file_entries = []
+    self.instantiated_object_files = {}
+    
+    root_node = Node(self)
+    root_node.type = "ROOT"
+    root_node.name = "archive"
+    self.nodes.append(root_node)
   
   def read(self, data):
     self.data = data
@@ -82,6 +110,12 @@ class RARC:
     self.instantiated_object_files = {}
   
   def add_new_directory(self, dir_name, node_type, parent_node):
+    if len(node_type) > 4:
+      raise Exception("Node type must not be longer than 4 characters: %s" % node_type)
+    if len(node_type) < 4:
+      spaces_to_add = 4-len(node_type)
+      node_type += " "*spaces_to_add
+    
     node = Node(self)
     node.type = node_type
     node.name = dir_name
@@ -106,8 +140,8 @@ class RARC:
     
     self.nodes.append(node)
     parent_node.files.append(dir_entry)
-    parent_node.files.append(dot_entry)
-    parent_node.files.append(dotdot_entry)
+    node.files.append(dot_entry)
+    node.files.append(dotdot_entry)
     
     self.regenerate_all_file_entries_list()
     
@@ -116,10 +150,11 @@ class RARC:
   def add_new_file(self, file_name, file_data, node):
     file_entry = FileEntry(self)
     
-    if self.next_free_file_id == 0xFFFF:
-      raise Exception("Next free file ID in RARC is 0xFFFF. Cannot add new file.")
-    file_entry.id = self.next_free_file_id
-    self.next_free_file_id += 1
+    if not self.keep_file_ids_synced_with_indexes:
+      if self.next_free_file_id == 0xFFFF:
+        raise Exception("Next free file ID in RARC is 0xFFFF. Cannot add new file.")
+      file_entry.id = self.next_free_file_id
+      self.next_free_file_id += 1
     
     file_entry.type = RARCFileAttrType.FILE
     if file_name.endswith(".rel"):
@@ -162,8 +197,24 @@ class RARC:
     # Regenerate the list of all file entries so they're all together for the nodes, and update the first_file_index of the nodes.
     self.file_entries = []
     for node in self.nodes:
+      # Sort the . and .. directory entries to be at the end of the node's file list.
+      rel_dir_entries = []
+      for file_entry in node.files:
+        if file_entry.is_dir and file_entry.name in [".", ".."]:
+          rel_dir_entries.append(file_entry)
+      for rel_dir_entry in rel_dir_entries:
+        node.files.remove(rel_dir_entry)
+        node.files.append(rel_dir_entry)
+      
       node.first_file_index = len(self.file_entries)
       self.file_entries += node.files
+    
+    if self.keep_file_ids_synced_with_indexes:
+      self.next_free_file_id = len(self.file_entries)
+      
+      for file_entry in self.file_entries:
+        if not file_entry.is_dir:
+          file_entry.id = self.file_entries.index(file_entry)
   
   def extract_all_files_to_disk_flat(self, output_directory):
     # Does not preserve directory structure.
@@ -228,9 +279,9 @@ class RARC:
     # Repacks the .arc file.
     # Supports files changing size, name, files being added or removed, nodes being added or removed, etc.
     
-    # Cut off all the data after the header since we're replacing it entirely.
+    # Cut off all the data since we're replacing it entirely.
     self.node_list_offset = 0x40
-    self.data.truncate(self.node_list_offset)
+    self.data.truncate(0)
     self.data.seek(self.node_list_offset)
     
     # Assign the node offsets for each node, but don't actually save them yet because we need to write their names first.
@@ -306,6 +357,9 @@ class RARC:
     
     def write_file_entry_data(file_entry):
       nonlocal next_file_data_offset
+      
+      if self.keep_file_ids_synced_with_indexes:
+        file_entry.id = self.file_entries.index(file_entry)
       
       data_size = data_len(file_entry.data)
       file_entry.data_offset = next_file_data_offset
