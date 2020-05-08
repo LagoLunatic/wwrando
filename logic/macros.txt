@@ -461,12 +461,6 @@ Can Defeat Kargarocs:
   | Hero's Bow
   | Skull Hammer
   | Bombs
-Can Defeat Bombchus:
-  Hero's Sword
-  | Grappling Hook
-  | Boomerang
-  | Hero's Bow
-  | Skull Hammer
 Can Defeat Peahats:
   Boomerang
   | (Hookshot & Hero's Sword)
