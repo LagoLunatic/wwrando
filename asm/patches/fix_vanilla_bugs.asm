@@ -146,3 +146,19 @@ phantom_ganon_check_link_within_y_diff:
 phantom_ganon_check_link_within_y_diff_outside_range:
   b 0x5204
 .close
+
+
+
+
+; Reduce Game heap memory fragmentation on the sea by giving a maximum memory estimate for island LoD models.
+.open "files/rels/d_a_lod_bg.rel" ; Background island LoD model actor
+.org 0xDCC
+  ;li r5, 0x4B0 ; For most islands
+  ;li r5, 0x970 ; Forsaken Fortress (before it's destroyed - afterwards it uses 0x4B0)
+  li r5, 0xEF0 ; Windfall
+; Fix useless warnings in the console caused by trying to call JKRHeap::free on a solid heap
+.org 0x478
+  nop
+.org 0x4D0
+  nop
+.close
