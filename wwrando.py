@@ -35,9 +35,10 @@ for arg in sys.argv[1:]:
 
 qApp = QApplication(sys.argv)
 
-# Have a timer updated every half a second so keyboard interrupts always work.
+# Have a timer updated frequently so keyboard interrupts always work.
+# 499 milliseconds seems to be the maximum value that works here, but use 100 to be safe.
 timer = QTimer()
-timer.start(500)
+timer.start(100)
 timer.timeout.connect(lambda: None)
 
 window = WWRandomizerWindow(cmd_line_args=cmd_line_args)
