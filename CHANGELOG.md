@@ -1,5 +1,5 @@
 
-### Next version (in progress, not released yet)
+### Version 1.8.0 (released 2020-05-15)
 
 New features:
 * Implemented color presets for custom player models. The model's author can optionally include sets of colors with the model that can be selected via a dropdown in the randomizer's UI.
@@ -36,7 +36,7 @@ Bug fixes:
 
 
 
-### Version 1.7.0 (released 2019-02-16)
+### Version 1.7.0 (released 2020-02-16)
 
 New features:
 * Added a new Ballad of Gales warp point to the Forsaken Fortress sector.
