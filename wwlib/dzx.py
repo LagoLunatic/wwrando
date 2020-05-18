@@ -779,9 +779,9 @@ class _2DMA(ChunkEntry):
     self.sector_x =  sector_coordinates & 0x0F
     self.sector_y = (sector_coordinates & 0xF0) >> 4
     if self.sector_x >= 8: # Negative
-      self.sector_x = 16 - self.sector_x
+      self.sector_x = self.sector_x - 16
     if self.sector_y >= 8: # Negative
-      self.sector_y = 16 - self.sector_y
+      self.sector_y = self.sector_y - 16
     
     self.padding = read_u8(data, offset+0x37)
   
