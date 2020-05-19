@@ -1,4 +1,9 @@
 
+### Next version (in progress, not released yet)
+
+Bug fixes:
+* Fixed a bug where saving the game inside the Pirate Ship on Windfall would cause you to appear on Southern Fairy Island when you reload the game.
+
 ### Version 1.8.0 (released 2020-05-15)
 
 New features:
