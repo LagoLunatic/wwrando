@@ -509,7 +509,7 @@ def modify_title_screen_logo(self):
 def update_game_name_icon_and_banners(self):
   new_game_name = "Wind Waker Randomized %s" % self.seed
   banner_data = self.get_raw_file("files/opening.bnr")
-  write_str(banner_data, 0x1860, new_game_name, 0x40)
+  write_magic_str(banner_data, 0x1860, new_game_name, 0x40)
   
   new_game_id = "GZLE99"
   boot_data = self.get_raw_file("sys/boot.bin")
