@@ -1277,7 +1277,7 @@ INTER_DUNGEON_WARP_DATA = [
   ],
   [
     WarpPotData("ma2room", 2, 1556, 728.46, -7091, 0xEAA6, 5), # FF
-    WarpPotData("M_Dai", 3, -358, 0, -778, 0x4000, 5), # ET
+    WarpPotData("M_Dai", 1, -8010, 1010, -1610, 0, 5), # ET
     WarpPotData("kaze", 3, -4333, 1100, 48, 0x4000, 5), # WT
   ],
 ]
