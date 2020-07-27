@@ -28,6 +28,8 @@ class DZB:
     
     self.vertices = []
     self.faces = []
+    self.octree_blocks = []
+    self.octree_nodes = []
     self.groups = []
     self.properties = []
   
@@ -124,12 +126,7 @@ class DZB:
     # Populate each octree node's children.
     for node in self.octree_nodes:
       if node.is_leaf:
-        for child_index in node.child_indexes:
-          if child_index == -1:
-            child_block = None
-          else:
-            child_block = self.octree_blocks[child_index]
-          node.child_blocks.append(child_block)
+        node.block = self.octree_blocks[node.child_indexes[0]]
       else:
         for child_index in node.child_indexes:
           if child_index == -1:
@@ -137,22 +134,29 @@ class DZB:
           else:
             child_node = self.octree_nodes[child_index]
           node.child_nodes.append(child_node)
+    
+    # Populate each group's relationships.
+    for group in self.groups:
+      if group.parent_group_index != -1:
+        self.parent_group = self.groups[group.parent_group_index]
+    for group in self.groups:
+      self.children = [g for g in self.groups if g.parent_group == group]
   
   def save_changes(self):
     self.data.truncate(0)
     data = self.data
+    write_bytes(data, 0x00, b'\0'*0x34) # Header placeholder
     
-    # TODO: need to regenerate the octree nodes and blocks completely from scratch!
+    self.regenerate_octree()
     
-    self.vertex_list_offset = 0x34
-    self.data.seek(self.vertex_list_offset)
+    self.vertex_list_offset = data.tell()
     offset = self.vertex_list_offset
     for vertex in self.vertices:
       vertex.offset = offset
       vertex.save_changes()
       offset += Vertex.DATA_SIZE
       
-    self.face_list_offset = self.data.tell()
+    self.face_list_offset = data.tell()
     offset = self.face_list_offset
     for face in self.faces:
       face.offset = offset
@@ -165,17 +169,13 @@ class DZB:
       face.save_changes()
       offset += Face.DATA_SIZE
     
-    self.octree_node_list_offset = self.data.tell()
+    self.octree_node_list_offset = data.tell()
     offset = self.octree_node_list_offset
     for node in self.octree_nodes:
       node.child_indexes = []
       if node.is_leaf:
-        for child_block in node.child_blocks:
-          if child_block is None:
-            child_index = -1
-          else:
-            child_index = self.octree_blocks.index(child_block)
-          node.child_indexes.append(child_index)
+        child_index = self.octree_blocks.index(node.block)
+        node.child_indexes = [child_index] + [-1]*7
       else:
         for child_node in node.child_nodes:
           if child_node is None:
@@ -189,14 +189,14 @@ class DZB:
       offset += OctreeNode.DATA_SIZE
     
     align_data_to_nearest(data, 4, padding_bytes=b'\xFF')
-    self.property_list_offset = self.data.tell()
+    self.property_list_offset = data.tell()
     offset = self.property_list_offset
     for property in self.properties:
       property.offset = offset
       property.save_changes()
       offset += Property.DATA_SIZE
     
-    self.octree_block_list_offset = self.data.tell()
+    self.octree_block_list_offset = data.tell()
     offset = self.octree_block_list_offset
     for block in self.octree_blocks:
       block.first_face_index = self.faces.index(block.faces[0])
@@ -207,16 +207,29 @@ class DZB:
     
     # Assign the group offsets to each group, but don't actually save them yet.
     align_data_to_nearest(data, 4, padding_bytes=b'\xFF')
-    self.group_list_offset = self.data.tell()
+    self.group_list_offset = data.tell()
     offset = self.group_list_offset
     for group in self.groups:
+      group.parent_group_index = -1
+      group.next_sibling_group_index = -1
+      group.first_child_group_index = -1
+      if group.parent_group:
+        group.parent_group_index = self.groups.index(group.parent_group)
+        siblings = group.parent_group.children
+        index_among_siblings_siblings = siblings.index(group)
+        if index_among_siblings_siblings+1 < len(siblings):
+          next_sibling = siblings[index_among_siblings_siblings+1]
+          group.next_sibling_group_index = self.groups.index(next_sibling)
+      if group.children:
+        group.first_child_group_index = self.groups.index(group.children[0])
+      
       group.offset = offset
       offset += Group.DATA_SIZE
     
     # Then write the group names, and save the groups.
     for group in self.groups:
       group.name_offset = offset
-      write_str_with_null_byte(self.data, group.name_offset, group.name)
+      write_str_with_null_byte(data, group.name_offset, group.name)
       group.save_changes()
       offset += len(group.name) + 1
     
@@ -248,6 +261,19 @@ class DZB:
     
     write_u32(data, 0x30, self.unknown_1)
   
+  def add_group(self, name):
+    group = Group(self.data)
+    self.groups.append(group)
+    group.name = name
+    
+    return group
+  
+  def add_property(self):
+    property = Property(self.data)
+    self.properties.append(property)
+    
+    return property
+  
   def add_face(self, vertex_positions, property, group):
     assert len(vertex_positions) == 3
     
@@ -270,6 +296,32 @@ class DZB:
         vertex.z_pos = z
       
       face.vertices.append(vertex)
+    
+    return face
+  
+  def regenerate_octree(self):
+    self.octree_nodes = []
+    self.octree_blocks = []
+    
+    for group in self.groups:
+      faces = [f for f in self.faces if f.group == group]
+      #print([self.faces.index(face) for face in faces])
+      if not faces:
+        continue
+      
+      block = OctreeBlock(self.data)
+      self.octree_blocks.append(block)
+      for face in faces:
+        block.faces.append(face)
+      
+      node = OctreeNode(self.data)
+      self.octree_nodes.append(node)
+      node.is_leaf = True
+      node.block = block
+      
+      group.octree_root_node_index = self.octree_nodes.index(node)
+      
+      # TODO: properly split each group's root octree node into eighths recursively.
 
 class Vertex:
   DATA_SIZE = 0xC
@@ -325,6 +377,9 @@ class OctreeBlock:
   
   def __init__(self, dzb_data):
     self.dzb_data = dzb_data
+    
+    self.first_face_index = 0xFFFF
+    self.faces = []
   
   def read(self, offset):
     self.offset = offset
@@ -342,6 +397,12 @@ class OctreeNode:
   
   def __init__(self, dzb_data):
     self.dzb_data = dzb_data
+    
+    self.is_leaf = False
+    
+    self.parent_node_index = -1
+    
+    self.child_indexes = [-1]*8
   
   def read(self, offset):
     self.offset = offset
@@ -356,10 +417,12 @@ class OctreeNode:
     for i in range(8):
       child_index = read_s16(self.dzb_data, self.offset+0x04 + i*2)
       self.child_indexes.append(child_index)
+      if self.is_leaf and i > 1:
+        assert child_index == -1
     
     # One of these will be populated by the DZB initialization function.
     if self.is_leaf:
-      self.child_blocks = []
+      self.block = None
     else:
       self.child_nodes = []
   
@@ -380,6 +443,41 @@ class Group:
   
   def __init__(self, dzb_data):
     self.dzb_data = dzb_data
+    
+    self.name_offset = None
+    self.name = None
+    
+    self.x_scale = 1.0
+    self.y_scale = 1.0
+    self.z_scale = 1.0
+    
+    self.x_rot = 0
+    self.y_rot = 0
+    self.z_rot = 0
+    
+    self.unknown_1 = 0xFFFF
+    
+    self.x_translation = 0.0
+    self.y_translation = 0.0
+    self.z_translation = 0.0
+    
+    self.parent_group_index       = -1
+    self.next_sibling_group_index = -1
+    self.first_child_group_index  = -1
+    
+    self.parent_group = None
+    self.children = []
+    
+    self.room_index             = -1
+    self.unknown_2              = 0
+    self.octree_root_node_index = -1
+    
+    self.rtbl_index = 0xFF
+    self.is_water   = False
+    self.is_lava    = False
+    self.unused_1   = False
+    self.sound_id   = 0
+    self.unused_2   = 0
   
   def read(self, offset):
     self.offset = offset
@@ -405,9 +503,13 @@ class Group:
     self.next_sibling_group_index = read_s16(self.dzb_data, self.offset+0x26)
     self.first_child_group_index  = read_s16(self.dzb_data, self.offset+0x28)
     
+    # These will be populated by the DZB initialization function.
+    self.parent_group = None
+    self.children = None
+    
     self.room_index             = read_s16(self.dzb_data, self.offset+0x2A)
     self.unknown_2              = read_u16(self.dzb_data, self.offset+0x2C)
-    self.octree_root_node_index = read_u16(self.dzb_data, self.offset+0x2E)
+    self.octree_root_node_index = read_s16(self.dzb_data, self.offset+0x2E)
     
     bitfield = read_u32(self.dzb_data, self.offset+0x30)
     self.rtbl_index = (bitfield & 0x000000FF) >> 0
@@ -440,7 +542,7 @@ class Group:
     
     write_s16(self.dzb_data, self.offset+0x2A, self.room_index)
     write_u16(self.dzb_data, self.offset+0x2C, self.unknown_2)
-    write_u16(self.dzb_data, self.offset+0x2E, self.octree_root_node_index)
+    write_s16(self.dzb_data, self.offset+0x2E, self.octree_root_node_index)
     
     bitfield = 0
     bitfield |= (self.rtbl_index << 0)  & 0x000000FF
@@ -456,6 +558,26 @@ class Property:
   
   def __init__(self, dzb_data):
     self.dzb_data = dzb_data
+    
+    self.cam_id     = 0xFF
+    self.sound_id   = 0
+    self.exit_index = 0x3F
+    self.poly_color = 0xFF
+    self.unknown_1  = 0
+    
+    self.link_no        = 0xFF
+    self.wall_type      = 0
+    self.special_type   = 0
+    self.attribute_type = 0
+    self.ground_type    = 0
+    self.unknown_2      = 0
+    
+    self.cam_move_bg        = 0
+    self.room_cam_id        = 0xFF
+    self.room_path_id       = 0xFF
+    self.room_path_point_no = 0xFF
+    
+    self.camera_behavior = 0
   
   def read(self, offset):
     self.offset = offset
