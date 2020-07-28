@@ -1,6 +1,6 @@
 PySide2==5.14.2
 PyYAML==5.3
-Pillow==7.0.0
+Pillow==7.2.0
 PyInstaller==3.6
 git+git://github.com/LagoLunatic/PyFastBTI.git@44635d298147b58d7b4456692bc93b64b7f74679#egg=PyFastBTI
 git+git://github.com/LagoLunatic/PyFastTextureUtils.git@6561c22bc98852c121850eed2f96b1d8377efc5f#egg=PyFastTextureUtils
