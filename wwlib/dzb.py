@@ -702,7 +702,7 @@ class Property:
     self.room_path_id       = (bitfield_3 & 0x00FF0000) >> 16
     self.room_path_point_no = (bitfield_3 & 0xFF000000) >> 24
     
-    self.camera_behavior = read_u32(self.dzb_data, self.offset+0x0C)
+    self.camera_behavior = read_s32(self.dzb_data, self.offset+0x0C)
   
   def save_changes(self):
     bitfield_1 = 0
@@ -729,4 +729,4 @@ class Property:
     bitfield_3 |= (self.room_path_point_no << 24) & 0xFF000000
     write_u32(self.dzb_data, self.offset+0x08, bitfield_3)
     
-    write_u32(self.dzb_data, self.offset+0x0C, self.camera_behavior)
+    write_s32(self.dzb_data, self.offset+0x0C, self.camera_behavior)
