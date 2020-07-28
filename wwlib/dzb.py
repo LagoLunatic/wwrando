@@ -4,6 +4,8 @@ from io import BytesIO
 from fs_helpers import *
 
 class DZB:
+  MAX_FACES_PER_OCTREE_BLOCK = 10
+  
   def __init__(self):
     self.data = BytesIO()
     
@@ -305,23 +307,120 @@ class DZB:
     
     for group in self.groups:
       faces = [f for f in self.faces if f.group == group]
-      #print([self.faces.index(face) for face in faces])
       if not faces:
         continue
       
+      node = self.generate_octree_node(faces)
+      
+      group.octree_root_node_index = self.octree_nodes.index(node)
+    
+    self.faces = []
+    for group in self.groups:
+      if group.octree_root_node_index == -1:
+        continue
+      root_node = self.octree_nodes[group.octree_root_node_index]
+      self.faces += self.flatten_octree_faces_recursive(root_node)
+  
+  def generate_octree_node(self, faces):
+    node = OctreeNode(self.data)
+    self.octree_nodes.append(node)
+    
+    if len(faces) <= self.MAX_FACES_PER_OCTREE_BLOCK:
       block = OctreeBlock(self.data)
       self.octree_blocks.append(block)
       for face in faces:
         block.faces.append(face)
       
-      node = OctreeNode(self.data)
-      self.octree_nodes.append(node)
       node.is_leaf = True
       node.block = block
+      return node
+    
+    min, center, max = self.get_bounds(faces)
+    octants = []
+    octants.append(((   min[0],    min[1],    min[2]), (center[0], center[1], center[2])))
+    octants.append(((center[0],    min[1],    min[2]), (   max[0], center[1], center[2])))
+    octants.append(((   min[0], center[1],    min[2]), (center[0],    max[1], center[2])))
+    octants.append(((center[0], center[1],    min[2]), (   max[0],    max[1], center[2])))
+    octants.append(((   min[0], center[1], center[2]), (center[0],    max[1],    max[2])))
+    octants.append(((center[0], center[1], center[2]), (   max[0],    max[1],    max[2])))
+    octants.append(((   min[0],    min[1], center[2]), (center[0], center[1],    max[2])))
+    octants.append(((center[0],    min[1], center[2]), (   max[0], center[1],    max[2])))
+    
+    remaining_faces = faces.copy()
+    octant_faces = []
+    for i in range(8):
+      octant_faces.append([])
+      octant_min, octant_max = octants[i]
       
-      group.octree_root_node_index = self.octree_nodes.index(node)
+      for face in remaining_faces:
+        face_center = (
+          (face.vertices[0].x_pos + face.vertices[1].x_pos + face.vertices[2].x_pos) / 3,
+          (face.vertices[0].y_pos + face.vertices[1].y_pos + face.vertices[2].y_pos) / 3,
+          (face.vertices[0].z_pos + face.vertices[1].z_pos + face.vertices[2].z_pos) / 3,
+        )
+        if face_center[0] < octant_min[0] or face_center[1] < octant_min[1] or face_center[2] < octant_min[2]:
+          continue
+        if face_center[0] > octant_max[0] or face_center[1] > octant_max[1] or face_center[2] > octant_max[2]:
+          continue
+        
+        # This face is contained in this octant, so add it.
+        octant_faces[i].append(face)
       
-      # TODO: properly split each group's root octree node into eighths recursively.
+      for face in octant_faces[i]:
+        remaining_faces.remove(face)
+    
+    assert len(remaining_faces) == 0
+    
+    node.child_nodes = []
+    for i in range(8):
+      if len(octant_faces[i]) == 0:
+        node.child_nodes.append(None)
+        continue
+      
+      child_node = self.generate_octree_node(octant_faces[i])
+      node.child_nodes.append(child_node)
+    
+    return node
+  
+  def get_bounds(self, faces):
+    min_x = float("inf")
+    min_y = float("inf")
+    min_z = float("inf")
+    max_x = float("-inf")
+    max_y = float("-inf")
+    max_z = float("-inf")
+    for face in faces:
+      for vertex in face.vertices:
+        if vertex.x_pos < min_x:
+          min_x = vertex.x_pos
+        if vertex.y_pos < min_y:
+          min_y = vertex.y_pos
+        if vertex.z_pos < min_z:
+          min_z = vertex.z_pos
+        if vertex.x_pos > max_x:
+          max_x = vertex.x_pos
+        if vertex.y_pos > max_y:
+          max_y = vertex.y_pos
+        if vertex.z_pos > max_z:
+          max_z = vertex.z_pos
+    
+    center_x = (max_x - min_x) / 2 + min_x
+    center_y = (max_y - min_y) / 2 + min_y
+    center_z = (max_z - min_z) / 2 + min_z
+    
+    return ((min_x, min_y, min_z), (center_x, center_y, center_z), (max_x, max_y, max_z))
+  
+  def flatten_octree_faces_recursive(self, parent_node):
+    if parent_node.is_leaf:
+      return parent_node.block.faces
+    
+    faces = []
+    for child_node in parent_node.child_nodes:
+      if child_node is None:
+        continue
+      faces += self.flatten_octree_faces_recursive(child_node)
+    
+    return faces
 
 class Vertex:
   DATA_SIZE = 0xC
