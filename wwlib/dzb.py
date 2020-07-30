@@ -225,6 +225,17 @@ class DZB:
       if group.children:
         group.first_child_group_index = self.groups.index(group.children[0])
       
+      faces = [f for f in self.faces if f.group == group]
+      if faces:
+        group.first_vertex_index = 0x10000
+        for face in faces:
+          for vertex_index in [face.vertex_1_index, face.vertex_2_index, face.vertex_3_index]:
+            if vertex_index < group.first_vertex_index:
+              group.first_vertex_index = vertex_index
+      else:
+        # 0 is used when the group has no vertices.
+        group.first_vertex_index = 0
+      
       group.offset = offset
       offset += Group.DATA_SIZE
     
@@ -568,7 +579,7 @@ class Group:
     self.children = []
     
     self.room_index             = -1
-    self.unknown_2              = 0
+    self.first_vertex_index     = 0
     self.octree_root_node_index = -1
     
     self.rtbl_index = 0xFF
@@ -607,7 +618,7 @@ class Group:
     self.children = None
     
     self.room_index             = read_s16(self.dzb_data, self.offset+0x2A)
-    self.unknown_2              = read_u16(self.dzb_data, self.offset+0x2C)
+    self.first_vertex_index     = read_u16(self.dzb_data, self.offset+0x2C)
     self.octree_root_node_index = read_s16(self.dzb_data, self.offset+0x2E)
     
     bitfield = read_u32(self.dzb_data, self.offset+0x30)
@@ -640,7 +651,7 @@ class Group:
     write_s16(self.dzb_data, self.offset+0x28, self.first_child_group_index)
     
     write_s16(self.dzb_data, self.offset+0x2A, self.room_index)
-    write_u16(self.dzb_data, self.offset+0x2C, self.unknown_2)
+    write_u16(self.dzb_data, self.offset+0x2C, self.first_vertex_index)
     write_s16(self.dzb_data, self.offset+0x2E, self.octree_root_node_index)
     
     bitfield = 0
