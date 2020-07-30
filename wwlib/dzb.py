@@ -582,12 +582,14 @@ class Group:
     self.first_vertex_index     = 0
     self.octree_root_node_index = -1
     
-    self.rtbl_index = 0xFF
-    self.is_water   = False
-    self.is_lava    = False
-    self.unused_1   = False
-    self.sound_id   = 0
-    self.unused_2   = 0
+    self.rtbl_index              = 0xFF
+    self.is_water                = False
+    self.is_lava                 = False
+    self.unused_1                = False
+    self.sea_floor_room_index    = 0
+    self.is_inner_sea_floor      = False
+    self.is_outer_edge_sea_floor = False
+    self.unused_2                = 0
   
   def read(self, offset):
     self.offset = offset
@@ -622,12 +624,14 @@ class Group:
     self.octree_root_node_index = read_s16(self.dzb_data, self.offset+0x2E)
     
     bitfield = read_u32(self.dzb_data, self.offset+0x30)
-    self.rtbl_index = (bitfield & 0x000000FF) >> 0
-    self.is_water   = (bitfield & 0x00000100) != 0
-    self.is_lava    = (bitfield & 0x00000200) != 0
-    self.unused_1   = (bitfield & 0x00000400) != 0
-    self.sound_id   = (bitfield & 0x0007F800) >> 11
-    self.unused_2   = (bitfield & 0xFFF80000) >> 19
+    self.rtbl_index              = (bitfield & 0x000000FF) >> 0
+    self.is_water                = (bitfield & 0x00000100) != 0
+    self.is_lava                 = (bitfield & 0x00000200) != 0
+    self.unused_1                = (bitfield & 0x00000400) != 0
+    self.sea_floor_room_index    = (bitfield & 0x0001F800) >> 11
+    self.is_inner_sea_floor      = (bitfield & 0x00020000) != 0
+    self.is_outer_edge_sea_floor = (bitfield & 0x00040000) != 0
+    self.unused_2                = (bitfield & 0xFFF80000) >> 19
   
   def save_changes(self):
     write_u32(self.dzb_data, self.offset+0x00, self.name_offset)
@@ -655,12 +659,14 @@ class Group:
     write_s16(self.dzb_data, self.offset+0x2E, self.octree_root_node_index)
     
     bitfield = 0
-    bitfield |= (self.rtbl_index << 0)  & 0x000000FF
-    bitfield |= (self.is_water   << 8)  & 0x00000100
-    bitfield |= (self.is_lava    << 9)  & 0x00000200
-    bitfield |= (self.unused_1   << 10) & 0x00000400
-    bitfield |= (self.sound_id   << 11) & 0x0007F800
-    bitfield |= (self.unused_2   << 19) & 0xFFF80000
+    bitfield |= (self.rtbl_index              << 0)  & 0x000000FF
+    bitfield |= (self.is_water                << 8)  & 0x00000100
+    bitfield |= (self.is_lava                 << 9)  & 0x00000200
+    bitfield |= (self.unused_1                << 10) & 0x00000400
+    bitfield |= (self.sea_floor_room_index    << 11) & 0x0001F800
+    bitfield |= (self.is_inner_sea_floor      << 17) & 0x00020000
+    bitfield |= (self.is_outer_edge_sea_floor << 18) & 0x00040000
+    bitfield |= (self.unused_2                << 19) & 0xFFF80000
     write_u32(self.dzb_data, self.offset+0x30, bitfield)
 
 class Property:
