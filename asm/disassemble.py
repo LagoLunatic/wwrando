@@ -253,11 +253,14 @@ def add_symbols_to_main(self, asm_path, main_symbols):
   out_str = ""
   with open(asm_path) as f:
     last_lis_match = None
+    last_line_loaded_symbol_info = None
     while True:
       line = f.readline()
       if line == "":
         break
       line = line.rstrip("\r\n")
+      
+      this_line_loaded_symbol_info = None
       
       match = re.search(r"^\s+([0-9a-f]+)(:\s.+)$", line, re.IGNORECASE)
       #print(match)
@@ -315,6 +318,7 @@ def add_symbols_to_main(self, asm_path, main_symbols):
           address_offset = int(load_or_store_match.group(1))
         
         address = None
+        loaded_string_address = None
         if source_register == "r2":
           address = 0x803FFD00
         elif source_register == "r13":
@@ -324,6 +328,11 @@ def add_symbols_to_main(self, asm_path, main_symbols):
           if lis_register == source_register:
             upper_halfword = int(last_lis_match.group(2)) & 0xFFFF
             address = (upper_halfword << 16)
+        elif addi_match and last_line_loaded_symbol_info is not None:
+          last_line_address, last_line_symbol_name, last_line_source_register = last_line_loaded_symbol_info
+          if last_line_symbol_name == "@stringBase0":
+            # Loading a pointer to a string.
+            loaded_string_address = last_line_address+address_offset
         
         if address is not None:
           address += address_offset
@@ -339,6 +348,14 @@ def add_symbols_to_main(self, asm_path, main_symbols):
           if address in main_symbols:
             symbol_name = main_symbols[address]
             out_str += "      " + symbol_name
+            this_line_loaded_symbol_info = (address, symbol_name, source_register)
+        elif loaded_string_address is not None:
+          out_str += line
+          out_str += get_padded_comment_string_for_line(line)
+          out_str += "%08X" % loaded_string_address
+          
+          loaded_string = self.dol.read_data(read_str_until_null_character, loaded_string_address)
+          out_str += "      " + repr(loaded_string)
         else:
           out_str += line
           out_str += get_extra_comment_for_asm_line(line)
@@ -351,6 +368,11 @@ def add_symbols_to_main(self, asm_path, main_symbols):
         last_lis_match = lis_match
       else:
         last_lis_match = None
+      
+      if this_line_loaded_symbol_info:
+        last_line_loaded_symbol_info = this_line_loaded_symbol_info
+      else:
+        last_line_loaded_symbol_info = None
       
       out_str += "\n"
       
