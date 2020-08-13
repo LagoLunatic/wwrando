@@ -233,20 +233,27 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, mai
 ALL_LOAD_OR_STORE_OPCODES = [
   "lbz",
   "lbzu",
+  "stb",
   
   "lha",
   "lhau",
   "lhz",
   "lhzu",
+  "sth",
+  "sthu",
   
   "lmw",
   "lwz",
   "lwzu",
+  "stw",
+  "stwu",
   
   "lfs",
   "lfsu",
   "lfd",
   "lfdu",
+  "stfs",
+  "stfd",
 ]
 
 def add_symbols_to_main(self, asm_path, main_symbols):
