@@ -474,6 +474,11 @@ class WWRandomizerWindow(QMainWindow):
       
       value = self.settings[option_name]
       
+      if option_name == "randomize_enemy_palettes" and not self.get_option_value("randomize_enemies"):
+        # Enemy palette randomizer doesn't need to be in the permalink when enemy rando is off.
+        # So just put a 0 bit as a placeholder.
+        value = False
+      
       widget = getattr(self.ui, option_name)
       if isinstance(widget, QAbstractButton):
         bitswriter.write(int(value), 1)
@@ -526,6 +531,8 @@ class WWRandomizerWindow(QMainWindow):
     
     option_bytes = struct.unpack(">" + "B"*len(options_bytes), options_bytes)
     
+    prev_randomize_enemy_palettes_value = self.get_option_value("randomize_enemy_palettes")
+    
     bitsreader = PackedBitsReader(option_bytes)
     for option_name in OPTIONS:
       if option_name in NON_PERMALINK_OPTIONS:
@@ -566,6 +573,11 @@ class WWRandomizerWindow(QMainWindow):
             self.append_row(self.starting_gear_model, item)
           for i in range(randamount):
             self.append_row(self.randomized_gear_model, item)
+    
+    if not self.get_option_value("randomize_enemies"):
+      # If a permalink with enemy rando off was pasted, we don't want to change enemy palette rando to match the permalink.
+      # So revert it to the value from before reading the permalink.
+      self.set_option_value("randomize_enemy_palettes", prev_randomize_enemy_palettes_value)
     
     self.update_settings()
   
