@@ -259,7 +259,7 @@ Can Reach and Defeat Puppet Ganon:
   Can Reach Ganon's Tower Phantom Ganon Room
   & Light Arrows
   & Can Defeat Moblins
-  & Can Defeat Darknuts
+  & Can Defeat Mighty Darknuts
   & Can Defeat Puppet Ganon
 Can Defeat Puppet Ganon:
   Boomerang
@@ -391,6 +391,10 @@ Can Defeat Darknuts:
 Can Defeat Darknuts Easily:
   Hero's Sword
   | Light Arrows
+Can Defeat Mighty Darknuts:
+  Can Defeat Darknuts Easily
+  # The capes Mighty Darknuts have mean the one hit armor removal with the hammer doesn't work.
+  # Destroying the armor the slow way by hitting it repeatedly with spinning hammer attacks is far too hard against Mighty Darknuts, so that's not in logic.
 Can Defeat Miniblins:
   Hero's Sword
   | Grappling Hook
