@@ -2156,7 +2156,7 @@ Pawprint Isle - Chuchu Cave - Chest:
   Types: Puzzle Secret Cave
   Paths:
     - TyuTyu/Stage.arc/Chest003
-Pawprint Isle - Chuchu Cave - Behind First Boulder:
+Pawprint Isle - Chuchu Cave - Behind Left Boulder:
   Need:
     Can Access Pawprint Isle Chuchu Cave
     & Can Move Boulders
@@ -2164,7 +2164,7 @@ Pawprint Isle - Chuchu Cave - Behind First Boulder:
   Types: Puzzle Secret Cave
   Paths:
     - TyuTyu/Stage.arc/Chest001
-Pawprint Isle - Chuchu Cave - Behind Second Boulder:
+Pawprint Isle - Chuchu Cave - Behind Right Boulder:
   Need:
     Can Access Pawprint Isle Chuchu Cave
     & Can Move Boulders
