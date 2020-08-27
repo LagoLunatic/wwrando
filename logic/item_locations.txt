@@ -1978,7 +1978,7 @@ Private Oasis - Chest at Top of Waterfall:
   Types: Island Puzzle
   Paths:
     - sea/Room33.arc/Chest000
-Private Oasis - Cabana Labyrinth - First Chest:
+Private Oasis - Cabana Labyrinth - Lower Floor Chest:
   Need:
     Can Access Cabana Labyrinth
     & Skull Hammer
@@ -1986,7 +1986,7 @@ Private Oasis - Cabana Labyrinth - First Chest:
   Types: Puzzle Secret Cave
   Paths:
     - TF_04/Stage.arc/Chest001
-Private Oasis - Cabana Labyrinth - Second Chest:
+Private Oasis - Cabana Labyrinth - Upper Floor Chest:
   Need:
     Can Access Cabana Labyrinth
     & Skull Hammer
