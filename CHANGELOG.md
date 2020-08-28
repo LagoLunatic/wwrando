@@ -3,6 +3,9 @@
 
 Changes:
 * Moved the inter-dungeon warp pot in Earth Temple from the fourth room to the second room so that it can be accessed with fewer items than before.
+* The option to remove the title/ending videos and the enemy palette randomizer no longer affect the permalink.
+* Defeating the Mighty Darknuts in the Master Sword chamber with no weapon besides Skull Hammer can no longer be required by the logic.
+* Renamed a few item locations to be more clear.
 
 Bug fixes:
 * Fixed a bug where saving the game inside the Pirate Ship on Windfall would cause you to appear on Southern Fairy Island when you reload the game.
