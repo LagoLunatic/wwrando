@@ -3,6 +3,7 @@ from PIL import Image
 from io import BytesIO
 import colorsys
 from enum import Enum
+import operator
 
 from fs_helpers import *
 
@@ -94,6 +95,11 @@ GREYSCALE_IMAGE_FORMATS = [
 
 GREYSCALE_PALETTE_FORMATS = [
   PaletteFormat.IA8,
+]
+
+PALETTE_FORMATS_WITH_ALPHA = [
+  PaletteFormat.IA8,
+  PaletteFormat.RGB5A3,
 ]
 
 MAX_COLORS_FOR_IMAGE_FORMAT = {
@@ -398,11 +404,21 @@ def get_color_distance_fast(color_1, color_2):
   dist  = abs(color_1[0] - color_2[0])
   dist += abs(color_1[1] - color_2[1])
   dist += abs(color_1[2] - color_2[2])
+  dist += abs(color_1[3] - color_2[3])
   return dist
+  
+  # Alternative method. Noticeably slower, while only looking a tiny bit better, so not currently used.
+  #r_diff = color_1[0] - color_2[0]
+  #g_diff = color_1[1] - color_2[1]
+  #b_diff = color_1[2] - color_2[2]
+  #a_diff = color_1[3] - color_2[3]
+  #rgb_dist_sqr = (r_diff*r_diff + g_diff*g_diff + b_diff*b_diff) / 3.0
+  #dist = a_diff*a_diff/2.0 + rgb_dist_sqr*color_1[3]*color_2[3] / (255*255)
+  #return dist
 
 
 # Generates a palette with a certain number of colors or less based on an image (color quantization).
-def create_limited_palette_from_image(image, max_colors):
+def create_limited_palette_from_image(image, max_colors, with_alpha=True):
   pixels = image.load()
   
   # (2**depth) will be max_colors.
@@ -416,9 +432,19 @@ def create_limited_palette_from_image(image, max_colors):
     raise Exception("Unsupported maximum number of colors to generate a palette for: %d" % max_colors)
   
   all_pixel_colors = []
+  already_have_zero_alpha_color = False
   for y in range(0, image.height):
     for x in range(0, image.width):
       color = pixels[x, y]
+      
+      if not with_alpha:
+        color = (color[0], color[1], color[2], 255)
+      elif color[3] == 0:
+        # Avoid putting multiple colors with 0 alpha into the list since they are identical.
+        if already_have_zero_alpha_color:
+          continue
+        already_have_zero_alpha_color = True
+      
       all_pixel_colors.append(color)
   
   palette = split_colors_into_buckets(all_pixel_colors, depth)
@@ -441,7 +467,8 @@ def split_colors_into_buckets(all_pixel_colors, depth):
   elif b_range >= r_range and b_range >= g_range:
     channel_index_with_highest_range = 2
   
-  all_pixel_colors.sort(key=lambda color: color[channel_index_with_highest_range])
+  # Sort by alpha first, then by the RGB channel with the highest range.
+  all_pixel_colors.sort(key=operator.itemgetter(3, channel_index_with_highest_range))
   median_index = (len(all_pixel_colors)+1)//2
   
   palette = []
@@ -450,6 +477,11 @@ def split_colors_into_buckets(all_pixel_colors, depth):
   return palette
 
 def average_colors_together(colors):
+  transparent_color = next(((r,g,b,a) for r,g,b,a in colors if a == 0), None)
+  if transparent_color:
+    # Need to ensure a fully transparent color exists in the final palette if one existed originally.
+    return transparent_color
+  
   r_sum = sum(r for r,g,b,a in colors)
   g_sum = sum(g for r,g,b,a in colors)
   b_sum = sum(b for r,g,b,a in colors)
@@ -510,7 +542,13 @@ def generate_new_palettes_from_image(image, image_format, palette_format):
   
   if len(encoded_colors) > MAX_COLORS_FOR_IMAGE_FORMAT[image_format]:
     # If the image has more colors than the selected image format can support, we automatically reduce the number of colors.
-    limited_palette = create_limited_palette_from_image(image, MAX_COLORS_FOR_IMAGE_FORMAT[image_format])
+    
+    # For C4 and C8, the colors should have already been reduced by Pillow's quantize method.
+    # So the maximum number of colors can only be exceeded for C14X2.
+    assert image_format == ImageFormat.C14X2
+    
+    with_alpha = (palette_format in PALETTE_FORMATS_WITH_ALPHA)
+    limited_palette = create_limited_palette_from_image(image, MAX_COLORS_FOR_IMAGE_FORMAT[image_format], with_alpha=with_alpha)
     
     encoded_colors = []
     colors_to_color_indexes = {}
@@ -794,6 +832,14 @@ def encode_image(image, image_format, palette_format, mipmap_count=1):
   
   if mipmap_count < 1:
     mipmap_count = 1
+  
+  if image_format in IMAGE_FORMATS_THAT_USE_PALETTES:
+    max_colors = MAX_COLORS_FOR_IMAGE_FORMAT[image_format]
+    if max_colors <= 256:
+      # Pillow's quantize method only supports up to 256 max colors.
+      # So for C14X2 the image must be quantized by custom Python code instead (slower).
+      image = image.quantize(max_colors)
+      image = image.convert("RGBA")
   
   encoded_colors, colors_to_color_indexes = generate_new_palettes_from_image(image, image_format, palette_format)
   
