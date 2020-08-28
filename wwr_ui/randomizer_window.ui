@@ -307,12 +307,12 @@
                   <widget class="QComboBox" name="sword_mode">
                    <item>
                     <property name="text">
-                     <string>Start with Sword</string>
+                     <string>Start with Hero's Sword</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>Randomized Sword</string>
+                     <string>No Starting Sword</string>
                     </property>
                    </item>
                    <item>

@@ -162,7 +162,7 @@ class Randomizer:
     ]
     self.starting_items += self.options.get("starting_gear", [])
     
-    if self.options.get("sword_mode") == "Start with Sword":
+    if self.options.get("sword_mode") == "Start with Hero's Sword":
       self.starting_items.append("Progressive Sword")
     # Add starting Triforce Shards.
     num_starting_triforce_shards = int(self.options.get("num_starting_triforce_shards", 0))

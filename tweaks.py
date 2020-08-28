@@ -1506,9 +1506,9 @@ def update_skip_rematch_bosses_game_variable(self):
 
 def update_sword_mode_game_variable(self):
   sword_mode_address = self.main_custom_symbols["sword_mode"]
-  if self.options.get("sword_mode") == "Start with Sword":
+  if self.options.get("sword_mode") == "Start with Hero's Sword":
     self.dol.write_data(write_u8, sword_mode_address, 0)
-  elif self.options.get("sword_mode") == "Randomized Sword":
+  elif self.options.get("sword_mode") == "No Starting Sword":
     self.dol.write_data(write_u8, sword_mode_address, 1)
   elif self.options.get("sword_mode") == "Swordless":
     self.dol.write_data(write_u8, sword_mode_address, 2)

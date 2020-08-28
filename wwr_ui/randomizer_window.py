@@ -110,6 +110,7 @@ class WWRandomizerWindow(QMainWindow):
       label_for_option = getattr(self.ui, "label_for_" + option_name, None)
       if label_for_option:
         label_for_option.installEventFilter(self)
+    self.ui.sword_mode.highlighted.connect(self.update_sword_mode_highlighted_description)
     self.set_option_description(None)
     
     self.update_settings()
@@ -623,6 +624,20 @@ class WWRandomizerWindow(QMainWindow):
     
     return QMainWindow.eventFilter(self, target, event)
   
+  def update_sword_mode_highlighted_description(self, index):
+    option_name = self.ui.sword_mode.itemText(index)
+    
+    if option_name == "Start with Hero's Sword":
+      desc = "Start with Hero's Sword: You will start the game with the basic Hero's Sword already in your inventory (the default)."
+    elif option_name == "No Starting Sword":
+      desc = "No Starting Sword: You will start the game with no sword, and have to find it somewhere in the world like other randomized items."
+    elif option_name == "Swordless":
+      desc = "Swordless: You will start the game with no sword, and won't be able to find it anywhere. You have to beat the entire game using other items as weapons instead of the sword.\n(Note that Phantom Ganon in FF becomes vulnerable to Skull Hammer in this mode.)"
+    else:
+      desc = None
+    
+    self.set_option_description(desc)
+  
   def get_option_value(self, option_name):
     widget = getattr(self.ui, option_name)
     if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
@@ -921,16 +936,16 @@ class WWRandomizerWindow(QMainWindow):
     sword_mode = self.get_option_value("sword_mode")
     if sword_mode == "Swordless":
       items_to_filter_out += ["Hurricane Spin"]
-    if sword_mode == "Swordless" or sword_mode == "Randomized Sword":
+    if sword_mode in ["Swordless", "No Starting Sword"]:
       items_to_filter_out += 3 * ["Progressive Sword"]
     
     if self.get_option_value("race_mode"):
       num_possible_rewards = 8 - int(self.get_option_value("num_starting_triforce_shards"))
       potential_boss_rewards = []
       
-      if sword_mode == "Start with Sword":
+      if sword_mode == "Start with Hero's Sword":
         potential_boss_rewards += 3 * ["Progressive Sword"]
-      elif sword_mode == "Randomized Sword":
+      elif sword_mode == "No Starting Sword":
         num_possible_rewards += 4
       
       potential_boss_rewards += 3 * ["Progressive Bow"] + ["Hookshot"]
