@@ -936,7 +936,7 @@ def encode_image_to_i4_block(pixels, colors_to_color_indexes, block_x, block_y, 
         color_1_i4 = convert_color_to_i4(color_1)
         assert 0 <= color_1_i4 <= 0xF
       
-      if x >= image_width or y >= image_height:
+      if x+1 >= image_width or y >= image_height:
         # This block bleeds past the edge of the image
         color_2_i4 = 0xF
       else:
@@ -1082,7 +1082,7 @@ def encode_image_to_c4_block(pixels, colors_to_color_indexes, block_x, block_y, 
         color_1_index = colors_to_color_indexes[color_1]
         assert 0 <= color_1_index <= 0xF
       
-      if x >= image_width or y >= image_height:
+      if x+1 >= image_width or y >= image_height:
         # This block bleeds past the edge of the image
         color_2_index = 0xF
       else:
