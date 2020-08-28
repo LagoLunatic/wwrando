@@ -3209,7 +3209,7 @@ b 0x80041600 ; Return to after the end of the loop
 
 
 
-; This is a list of custom REL files, ot add on to the vanilla DynamicNameTable list.
+; This is a list of custom REL files, to add on to the vanilla DynamicNameTable list.
 .global custom_DynamicNameTable
 custom_DynamicNameTable:
 
