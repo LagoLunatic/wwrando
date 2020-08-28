@@ -232,7 +232,7 @@ d_a_bk:
   unknown_param_5:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_6:
+  path_index:
     Bitfield name: params
     Mask: 0x00FF0000
   unknown_param_7:
@@ -323,7 +323,7 @@ d_a_bridge:
   unknown_param_2:
     Bitfield name: params
     Mask: 0x0000FF00
-  bridge_rpat_index:
+  path_index:
     Bitfield name: params
     Mask: 0x00FF0000
 
@@ -394,7 +394,7 @@ d_a_daiocta:
 d_a_daiocta_eye: {}
 
 d_a_deku_item:
-  unknown_param_1:
+  item_flag:
     Bitfield name: params
     Mask: 0x000000FF
 
@@ -841,7 +841,7 @@ d_a_kui:
   unknown_param_2:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  switch_to_set:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -1023,7 +1023,7 @@ d_a_mt:
   unknown_param_3:
     Bitfield name: params
     Mask: 0x00008000
-  unknown_param_4:
+  path_index:
     Bitfield name: params
     Mask: 0x00FF0000
   unknown_param_5:
@@ -1494,7 +1494,7 @@ d_a_obj_barrel:
     Mask: 0xFFFF
 
 d_a_obj_barrel2:
-  unknown_param_1:
+  item_id:
     Bitfield name: params
     Mask: 0x0000003F
   unknown_param_2:
@@ -1503,7 +1503,7 @@ d_a_obj_barrel2:
   unknown_param_3:
     Bitfield name: params
     Mask: 0x00000400
-  unknown_param_4:
+  item_flag:
     Bitfield name: params
     Mask: 0x007F0000
   unknown_param_5:
@@ -2512,10 +2512,10 @@ d_a_pz:
     Mask: 0x0000FF00
 
 d_a_race_item:
-  unknown_param_1:
+  item_id:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  item_flag:
     Bitfield name: params
     Mask: 0x00007F00
   unknown_param_3:
@@ -2735,16 +2735,16 @@ d_a_stone:
     Mask: 0x70000000
 
 d_a_stone2:
-  unknown_param_1:
+  item_id:
     Bitfield name: params
     Mask: 0x0000003F
-  unknown_param_2:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  item_pickup_flag:
     Bitfield name: params
     Mask: 0x007F0000
-  unknown_param_4:
+  type:
     Bitfield name: params
     Mask: 0x07000000
   unknown_param_5:
@@ -2797,10 +2797,10 @@ d_a_switem:
   unknown_param_1:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  item_id:
     Bitfield name: params
     Mask: 0x00003F00
-  unknown_param_3:
+  item_flag:
     Bitfield name: params
     Mask: 0x001FC000
 
@@ -2925,7 +2925,7 @@ d_a_tag_kb_item:
   item_id:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  item_flag:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_3:
