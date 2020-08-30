@@ -205,7 +205,8 @@ class GCM:
       
       self.align_output_iso_to_nearest(2048)
       yield("Done", -1)
-    except:
+    except Exception as e:
+      print("Error writing GCM, removing failed ISO.")
       self.output_iso.close()
       os.remove(output_file_path)
       raise

@@ -316,9 +316,11 @@ class WWRandomizerWindow(QMainWindow):
     
     try:
       self.randomizer_thread.randomizer.write_error_log(error_message)
-    except:
-      # If an error happened when writing the error log just ignore it.
-      pass
+    except Exception as e:
+      # If an error happened when writing the error log just print it and then ignore it.
+      stack_trace = traceback.format_exc()
+      error_message = "Failed to parse permalink:\n" + str(e) + "\n\n" + stack_trace
+      print(error_message)
     
     print(error_message)
     QMessageBox.critical(
