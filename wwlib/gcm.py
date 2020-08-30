@@ -153,6 +153,8 @@ class GCM:
     return num_files_overwritten
   
   def export_disc_to_folder_with_changed_files(self, output_folder_path):
+    files_done = 0
+    
     for file_path, file_entry in self.files_by_path.items():
       full_file_path = os.path.join(output_folder_path, file_path)
       dir_name = os.path.dirname(full_file_path)
@@ -178,6 +180,11 @@ class GCM:
             
             size_remaining -= size_to_read
             offset_in_file += size_to_read
+      
+      files_done += 1
+      yield(file_path, files_done)
+    
+    yield("Done", -1)
   
   def export_disc_to_iso_with_changed_files(self, output_file_path):
     if os.path.realpath(self.iso_path) == os.path.realpath(output_file_path):
@@ -186,8 +193,18 @@ class GCM:
     self.output_iso = open(output_file_path, "wb")
     try:
       self.export_system_data_to_iso()
-      self.export_filesystem_to_iso()
+      yield("sys/main.dol", 5) # 5 system files
+      
+      generator = self.export_filesystem_to_iso()
+      while True:
+        # Need to use a while loop to go through the generator instead of a for loop, as a for loop would silently exit if a StopIteration error ever happened for any reason.
+        next_progress_text, files_done = next(generator)
+        if files_done == -1:
+          break
+        yield(next_progress_text, 5+files_done)
+      
       self.align_output_iso_to_nearest(2048)
+      yield("Done", -1)
     except:
       self.output_iso.close()
       os.remove(output_file_path)
@@ -349,6 +366,8 @@ class GCM:
     ]
     file_entries_by_data_order.sort(key=lambda fe: fe.file_data_offset)
     
+    files_done = 0
+    
     for file_entry in file_entries_by_data_order:
       current_file_start_offset = self.output_iso.tell()
       
@@ -385,6 +404,11 @@ class GCM:
       self.output_iso.seek(current_file_start_offset + file_size)
       
       self.align_output_iso_to_nearest(4)
+      
+      files_done += 1
+      yield(file_entry.file_path, files_done)
+    
+    yield("Done", -1)
 
 class FileEntry:
   def __init__(self):

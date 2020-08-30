@@ -427,7 +427,14 @@ class Randomizer:
     
     yield("Saving randomized ISO...", options_completed)
     if not self.dry_run:
-      self.save_randomized_iso()
+      generator = self.save_randomized_iso()
+      while True:
+        # Need to use a while loop to go through the generator instead of a for loop, as a for loop would silently exit if a StopIteration error ever happened for any reason.
+        next_progress_text, files_done = next(generator)
+        if files_done == -1:
+          break
+        percentage_done = files_done/len(self.gcm.files_by_path)
+        yield("Saving randomized ISO...", options_completed+int(percentage_done*9))
     options_completed += 9
     yield("Writing logs...", options_completed)
     
@@ -804,10 +811,18 @@ class Randomizer:
     
     if self.export_disc_to_folder:
       output_folder_path = os.path.join(self.randomized_output_folder, "WW Random %s" % self.seed)
-      self.gcm.export_disc_to_folder_with_changed_files(output_folder_path)
+      generator = self.gcm.export_disc_to_folder_with_changed_files(output_folder_path)
     else:
       output_file_path = os.path.join(self.randomized_output_folder, "WW Random %s.iso" % self.seed)
-      self.gcm.export_disc_to_iso_with_changed_files(output_file_path)
+      generator = self.gcm.export_disc_to_iso_with_changed_files(output_file_path)
+    
+    while True:
+      # Need to use a while loop to go through the generator instead of a for loop, as a for loop would silently exit if a StopIteration error ever happened for any reason.
+      next_progress_text, files_done = next(generator)
+      if files_done == -1:
+        break
+      yield(next_progress_text, files_done)
+    yield("Done", -1)
   
   def convert_string_to_integer_md5(self, string):
     return int(hashlib.md5(string.encode('utf-8')).hexdigest(), 16)
