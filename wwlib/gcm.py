@@ -152,21 +152,27 @@ class GCM:
     
     return num_files_overwritten
   
-  def export_disc_to_folder_with_changed_files(self, output_folder_path):
+  def export_disc_to_folder_with_changed_files(self, output_folder_path, only_changed_files=False):
     files_done = 0
     
     for file_path, file_entry in self.files_by_path.items():
       full_file_path = os.path.join(output_folder_path, file_path)
       dir_name = os.path.dirname(full_file_path)
-      if not os.path.isdir(dir_name):
-        os.makedirs(dir_name)
       
       if file_path in self.changed_files:
+        if not os.path.isdir(dir_name):
+          os.makedirs(dir_name)
+        
         file_data = self.changed_files[file_path]
         with open(full_file_path, "wb") as f:
           file_data.seek(0)
           f.write(file_data.read())
       else:
+        if only_changed_files:
+          continue
+        if not os.path.isdir(dir_name):
+          os.makedirs(dir_name)
+        
         # Need to avoid reading enormous files all at once
         size_remaining = file_entry.file_size
         offset_in_file = 0
