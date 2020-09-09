@@ -679,21 +679,29 @@ class Property:
     self.sound_id   = 0
     self.exit_index = 0x3F
     self.poly_color = 0xFF
-    self.unknown_1  = 0
+    self.no_shadows = False
+    self.unused_1   = 0
     
     self.link_no        = 0xFF
     self.wall_type      = 0
     self.special_type   = 0
     self.attribute_type = 0
     self.ground_type    = 0
-    self.unknown_2      = 0
+    self.unused_2       = 0
     
     self.cam_move_bg        = 0
     self.room_cam_id        = 0xFF
     self.room_path_id       = 0xFF
     self.room_path_point_no = 0xFF
     
-    self.camera_behavior = 0
+    self.pass_1_camera           = False
+    self.pass_0_normal           = False
+    self.pass_2_link             = False
+    self.pass_3_arrows_and_light = False
+    self.hookshottable           = False
+    self.pass_4_bombs            = False
+    self.pass_5_boomerang        = False
+    self.pass_6_hookshot         = False
   
   def read(self, offset):
     self.offset = offset
@@ -703,7 +711,8 @@ class Property:
     self.sound_id   = (bitfield_1 & 0x00001F00) >> 8
     self.exit_index = (bitfield_1 & 0x0007E000) >> 13
     self.poly_color = (bitfield_1 & 0x07F80000) >> 19
-    self.unknown_1  = (bitfield_1 & 0xF8000000) >> 27
+    self.no_shadows = (bitfield_1 & 0x08000000) != 0
+    self.unused_1   = (bitfield_1 & 0xF0000000) >> 28
     
     bitfield_2 = read_u32(self.dzb_data, self.offset+0x04)
     self.link_no        = (bitfield_2 & 0x000000FF) >> 0
@@ -711,7 +720,7 @@ class Property:
     self.special_type   = (bitfield_2 & 0x0000F000) >> 12
     self.attribute_type = (bitfield_2 & 0x001F0000) >> 16
     self.ground_type    = (bitfield_2 & 0x03E00000) >> 21
-    self.unknown_2      = (bitfield_2 & 0xFC000000) >> 26
+    self.unused_2       = (bitfield_2 & 0xFC000000) >> 26
     
     bitfield_3 = read_u32(self.dzb_data, self.offset+0x08)
     self.cam_move_bg        = (bitfield_3 & 0x000000FF) >> 0
@@ -719,7 +728,16 @@ class Property:
     self.room_path_id       = (bitfield_3 & 0x00FF0000) >> 16
     self.room_path_point_no = (bitfield_3 & 0xFF000000) >> 24
     
-    self.camera_behavior = read_s32(self.dzb_data, self.offset+0x0C)
+    # The below are flags that determine what types of objects can pass through faces with this property (except the hookshottable flag).
+    bitfield_4 = read_s32(self.dzb_data, self.offset+0x0C)
+    self.pass_1_camera           = (bitfield_4 & 0x00000001) != 0 # Camera
+    self.pass_0_normal           = (bitfield_4 & 0x00000002) != 0 # Normal, covers most things
+    self.pass_2_link             = (bitfield_4 & 0x00000004) != 0 # Link
+    self.pass_3_arrows_and_light = (bitfield_4 & 0x00000008) != 0 # Link's arrows and reflected lightrays. Also prevents actor shadows from being drawn on this surface.
+    self.hookshottable           = (bitfield_4 & 0x00000010) != 0 # Allows the hookshot to stick to this surface
+    self.pass_4_bombs            = (bitfield_4 & 0x00000020) != 0 # Bombs
+    self.pass_5_boomerang        = (bitfield_4 & 0x00000040) != 0 # Boomerang
+    self.pass_6_hookshot         = (bitfield_4 & 0x00000080) != 0 # Hookshot. Also might cover Link's line of sight...? (mRopeLinChk in daPy_lk_c)
   
   def save_changes(self):
     bitfield_1 = 0
@@ -727,7 +745,8 @@ class Property:
     bitfield_1 |= (self.sound_id   << 8 ) & 0x00001F00
     bitfield_1 |= (self.exit_index << 13) & 0x0007E000
     bitfield_1 |= (self.poly_color << 19) & 0x07F80000
-    bitfield_1 |= (self.unknown_1  << 27) & 0xF8000000
+    bitfield_1 |= (self.no_shadows << 27) & 0x08000000
+    bitfield_1 |= (self.unused_1   << 28) & 0xF0000000
     write_u32(self.dzb_data, self.offset+0x00, bitfield_1)
     
     bitfield_2 = 0
@@ -736,7 +755,7 @@ class Property:
     bitfield_2 |= (self.special_type   << 12) & 0x0000F000
     bitfield_2 |= (self.attribute_type << 16) & 0x001F0000
     bitfield_2 |= (self.ground_type    << 21) & 0x03E00000
-    bitfield_2 |= (self.unknown_2      << 26) & 0xFC000000
+    bitfield_2 |= (self.unused_2       << 26) & 0xFC000000
     write_u32(self.dzb_data, self.offset+0x04, bitfield_2)
     
     bitfield_3 = 0
@@ -746,4 +765,13 @@ class Property:
     bitfield_3 |= (self.room_path_point_no << 24) & 0xFF000000
     write_u32(self.dzb_data, self.offset+0x08, bitfield_3)
     
-    write_s32(self.dzb_data, self.offset+0x0C, self.camera_behavior)
+    bitfield_4 = 0
+    bitfield_4 |= (self.pass_1_camera           << 0) & 0x00000001
+    bitfield_4 |= (self.pass_0_normal           << 1) & 0x00000002
+    bitfield_4 |= (self.pass_2_link             << 2) & 0x00000004
+    bitfield_4 |= (self.pass_3_arrows_and_light << 3) & 0x00000008
+    bitfield_4 |= (self.hookshottable           << 4) & 0x00000010
+    bitfield_4 |= (self.pass_4_bombs            << 5) & 0x00000020
+    bitfield_4 |= (self.pass_5_boomerang        << 6) & 0x00000040
+    bitfield_4 |= (self.pass_6_hookshot         << 7) & 0x00000080
+    write_s32(self.dzb_data, self.offset+0x0C, bitfield_4)
