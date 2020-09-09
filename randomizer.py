@@ -1092,7 +1092,11 @@ class Randomizer:
     if self.no_logs:
       return
     
-    error_log_str = self.get_log_header()
+    error_log_str = ""
+    try:
+      error_log_str += self.get_log_header()
+    except Exception as e:
+      print("Error getting log header for error log: " + str(e))
     
     error_log_str += error_message
     
