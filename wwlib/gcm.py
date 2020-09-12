@@ -207,15 +207,15 @@ class GCM:
         yield(next_progress_text, 5+files_done)
       
       self.align_output_iso_to_nearest(2048)
+      self.output_iso.close()
+      self.output_iso = None
       yield("Done", -1)
     except Exception as e:
       print("Error writing GCM, removing failed ISO.")
       self.output_iso.close()
+      self.output_iso = None
       os.remove(output_file_path)
       raise
-    finally:
-      self.output_iso.close()
-      self.output_iso = None
   
   def get_changed_file_data(self, file_path):
     if file_path in self.changed_files:
