@@ -49,7 +49,6 @@ class GCM:
   def read_directory(self, directory_file_entry, dir_path):
     assert directory_file_entry.is_dir
     self.dirs_by_path[dir_path] = directory_file_entry
-    directory_file_entry.dir_path = dir_path
     
     i = directory_file_entry.file_index + 1
     while i < directory_file_entry.next_fst_index:
@@ -226,6 +225,29 @@ class GCM:
     else:
       return self.read_file_data(file_path)
   
+  def add_new_directory(self, dir_path):
+    assert dir_path.lower() not in self.dirs_by_path_lowercase
+    
+    parent_dir_name = os.path.dirname(dir_path)
+    new_dir_name = os.path.basename(dir_path)
+    
+    new_dir = FileEntry()
+    new_dir.is_dir = True
+    new_dir.name = new_dir_name
+    new_dir.file_path = dir_path
+    new_dir.parent_fst_index = None # Recalculated if needed
+    new_dir.next_fst_index = None # Recalculated if needed
+    new_dir.children = []
+    
+    parent_dir = self.get_dir_file_entry(parent_dir_name)
+    parent_dir.children.append(new_dir)
+    new_dir.parent = parent_dir
+    
+    self.dirs_by_path[dir_path] = new_dir
+    self.dirs_by_path_lowercase[dir_path.lower()] = new_dir
+    
+    return new_dir
+  
   def add_new_file(self, file_path, file_data=None):
     assert file_path.lower() not in self.files_by_path_lowercase
     
@@ -250,6 +272,22 @@ class GCM:
     
     self.files_by_path[file_path] = new_file
     self.files_by_path_lowercase[file_path.lower()] = new_file
+    
+    return new_file
+  
+  def delete_directory(self, dir_entry):
+    # Delete all children first.
+    for child_entry in dir_entry.children:
+      if child_entry.is_dir:
+        self.delete_directory(child_entry)
+      else:
+        self.delete_file(child_entry)
+        
+    parent_dir = dir_entry.parent
+    parent_dir.children.remove(dir_entry)
+    
+    del self.dirs_by_path[dir_entry.file_path]
+    del self.dirs_by_path_lowercase[dir_entry.file_path.lower()]
   
   def delete_file(self, file_entry):
     parent_dir = file_entry.parent
