@@ -131,13 +131,11 @@ class GCM:
     
     return data
   
-  def get_dir_file_entry(self, dir_path):
-    dir_path = dir_path.lower()
-    if dir_path not in self.dirs_by_path_lowercase:
-      raise Exception("Could not find directory: " + dir_path)
-    
-    file_entry = self.dirs_by_path_lowercase[dir_path]
-    return file_entry
+  def get_or_create_dir_file_entry(self, dir_path):
+    if dir_path.lower() in self.dirs_by_path_lowercase:
+      return self.dirs_by_path_lowercase[dir_path.lower()]
+    else:
+      return self.add_new_directory(dir_path)
   
   def import_all_files_from_disk(self, input_directory):
     num_files_overwritten = 0
@@ -239,7 +237,7 @@ class GCM:
     new_dir.next_fst_index = None # Recalculated if needed
     new_dir.children = []
     
-    parent_dir = self.get_dir_file_entry(parent_dir_name)
+    parent_dir = self.get_or_create_dir_file_entry(parent_dir_name)
     parent_dir.children.append(new_dir)
     new_dir.parent = parent_dir
     
@@ -261,7 +259,7 @@ class GCM:
     new_file.file_data_offset = (1<<32)
     new_file.file_size = None # No original file size.
     
-    parent_dir = self.get_dir_file_entry(dirname)
+    parent_dir = self.get_or_create_dir_file_entry(dirname)
     parent_dir.children.append(new_file)
     new_file.parent = parent_dir
     
