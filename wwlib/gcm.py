@@ -275,7 +275,8 @@ class GCM:
   
   def delete_directory(self, dir_entry):
     # Delete all children first.
-    for child_entry in dir_entry.children:
+    # Note that looping over a copy of the children list is necessary because the list gets modified as each child is removed.
+    for child_entry in dir_entry.children.copy():
       if child_entry.is_dir:
         self.delete_directory(child_entry)
       else:
