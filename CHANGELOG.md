@@ -7,6 +7,7 @@ Changes:
 * Defeating the Mighty Darknuts in the Master Sword chamber with no weapon besides Skull Hammer can no longer be required by the logic.
 * Renamed "Randomized Sword" to "No Starting Sword" and "Start with Sword" to "Start with Hero's Sword".
 * Renamed a few item locations to be more clear.
+* The progress bar now updates incrementally as the randomized ISO is being written.
 
 Bug fixes:
 * Fixed a bug where saving the game inside the Pirate Ship on Windfall would cause you to appear on Southern Fairy Island when you reload the game.
