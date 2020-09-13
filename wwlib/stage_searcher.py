@@ -5,6 +5,8 @@ from collections import OrderedDict
 
 from fs_helpers import *
 
+from data_tables import DataTables
+
 def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_name_to_limit_to=None, exclude_unused=True):
   all_filenames = list(self.gcm.files_by_path.keys())
   
@@ -70,41 +72,98 @@ def each_stage_with_rooms(self, exclude_unused=True):
 
 def print_all_used_item_pickup_flags(self):
   used_item_flags_by_stage_id = {}
-  for dzs, stage_arc_path, rooms in each_stage_with_rooms(self):
+  used_item_flags_by_stage_id_unused = {}
+  for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
+    match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
+    stage_name = match.group(1)
     stage_info = dzs.entries_by_type("STAG")[0]
     stage_id = stage_info.stage_id
-    if stage_id not in used_item_flags_by_stage_id:
-      used_item_flags_by_stage_id[stage_id] = []
+    
+    if self.stage_names[stage_name] == "Unused":
+      is_unused = True
+    else:
+      is_unused = False
+    
+    if is_unused:
+      if stage_id not in used_item_flags_by_stage_id_unused:
+        used_item_flags_by_stage_id_unused[stage_id] = []
+    else:
+      if stage_id not in used_item_flags_by_stage_id:
+        used_item_flags_by_stage_id[stage_id] = []
     
     for dzx, arc_path in [(dzs, stage_arc_path)]+rooms:
-      items = [actor for actor in dzx.entries_by_type("ACTR") if actor_class_name in ["d_a_item", "d_a_boss_item"]]
-      pots = [actor for actor in dzx.entries_by_type("ACTR") if actor_class_name == "d_a_tsubo"]
-      
-      for item in items:
-        if item.item_flag == 0xFF:
-          continue
-        item_name = self.item_names[item.item_id]
-        used_item_flags_by_stage_id[stage_id].append((item.item_flag, item_name, arc_path))
-      for pot in pots:
-        if pot.item_flag == 0x7F:
-          continue
-        if pot.item_id < 0x20:
-          item_name = self.item_names[pot.item_id]
-        else:
-          item_name = "Pot drop type 0x%02X" % pot.item_id
-        used_item_flags_by_stage_id[stage_id].append((pot.item_flag, item_name, arc_path))
+      for layer in [None] + list(range(11+1)):
+        actors = []
+        actors += dzx.entries_by_type_and_layer("ACTR", layer)
+        actors += dzx.entries_by_type_and_layer("TGOB", layer)
+        actors += dzx.entries_by_type_and_layer("TRES", layer)
+        actors += dzx.entries_by_type_and_layer("PLYR", layer)
+        actors += dzx.entries_by_type_and_layer("SCOB", layer)
+        actors += dzx.entries_by_type_and_layer("TGSC", layer)
+        actors += dzx.entries_by_type_and_layer("DOOR", layer)
+        actors += dzx.entries_by_type_and_layer("TGDR", layer)
+        
+        for actor in actors:
+          if not hasattr(actor, "item_pickup_flag"):
+            # Some hacky code to try to look for unknown params that are item pickup flags:
+            #if stage_id == 3: # DRC
+            #  for i in range(1, 20):
+            #    param_name = "unknown_param_%d" % i
+            #    if hasattr(actor, param_name):
+            #      class_name = DataTables.actor_name_to_class_name[actor.name]
+            #      param_fields = DataTables.actor_parameters[class_name]
+            #      params_bitfield_name, mask = param_fields[param_name]
+            #      amount_to_shift = actor.get_lowest_set_bit(mask)
+            #      if (mask >> amount_to_shift) < 0x7F: # Need at least 0x7F to hold an item pickup flag
+            #        continue
+            #      if getattr(actor, param_name) == 5:
+            #        print("!!!! %s %s %s" % (actor.name, param_name, arc_path))
+            
+            continue
+          
+          item_flag = actor.item_pickup_flag & 0x7F
+          if item_flag == 0x7F:
+            continue
+          
+          class_name = DataTables.actor_name_to_class_name[actor.name]
+          
+          if class_name in ["d_a_item", "d_a_race_item", "d_a_tag_kb_item"]:
+            item_name = self.item_names[actor.item_id]
+          elif class_name in ["d_a_tsubo", "d_a_switem", "d_a_obj_barrel2", "d_a_obj_movebox", "d_a_obj_bemos", "d_a_obj_homen", "d_a_stone", "d_a_stone2"]:
+            if actor.item_id < 0x20:
+              item_name = self.item_names[actor.item_id]
+            else:
+              item_name = "Random drop type 0x%02X" % actor.item_id
+          elif class_name == "d_a_deku_item":
+            item_name = self.item_names[0x34]
+          else:
+            raise Exception("Unknown actor class: %s" % class_name)
+          
+          location_identifier = " from % 7s" % actor.name
+          location_identifier += "  in " + arc_path[len("files/res/Stage/"):-len(".arc")]
+          if layer is not None:
+            location_identifier += "/Layer%X" % layer
+          
+          if is_unused:
+            used_item_flags_by_stage_id_unused[stage_id].append((item_flag, item_name, location_identifier))
+          else:
+            used_item_flags_by_stage_id[stage_id].append((item_flag, item_name, location_identifier))
   
-  used_item_flags_by_stage_id = OrderedDict(sorted(
-    used_item_flags_by_stage_id.items(), key=lambda x: x[0]
-  ))
-  print()
-  print("Item flags:")
-  for stage_id, item_flags in used_item_flags_by_stage_id.items():
-    print("Stage ID: %02X" % stage_id)
-    item_flags.sort(key=lambda tuple: tuple[0])
-    for item_flag, item_name, arc_path in item_flags:
-      arc_path_short = arc_path[len("files/res/Stage/"):-len(".arc")]
-      print("  %02X (Item: %s) in %s" % (item_flag, item_name, arc_path_short))
+  def write_used_item_flags_to_file(used_item_flags_dict, filename):
+    used_item_flags_dict = OrderedDict(sorted(
+      used_item_flags_dict.items(), key=lambda x: x[0]
+    ))
+    
+    with open(filename, "w") as f:
+      f.write("Item flags:\n")
+      for stage_id, item_flags in used_item_flags_dict.items():
+        f.write("Stage ID: %02X\n" % stage_id)
+        item_flags.sort(key=lambda tuple: tuple[0])
+        for item_flag, item_name, location_identifier in item_flags:
+          f.write("  %02X for  % -21s %s\n" % (item_flag, item_name, location_identifier))
+  
+  write_used_item_flags_to_file(used_item_flags_by_stage_id, "Used item pickup flags by stage ID.txt")
+  write_used_item_flags_to_file(used_item_flags_by_stage_id_unused, "Used item pickup flags by stage ID (unused stages).txt")
 
 def print_all_used_chest_open_flags(self):
   used_chest_flags_by_stage_id = {}
