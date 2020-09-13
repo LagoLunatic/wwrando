@@ -220,11 +220,14 @@ def print_all_event_list_actions(self):
   # Build a list of all actions used by all actors in the game.
   all_actors = OrderedDict()
   
-  for dzs, stage_arc_path, rooms in each_stage_with_rooms(self):
+  for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
     stage_arc = self.get_arc(stage_arc_path)
     event_list = stage_arc.get_file("event_list.dat")
     if event_list is None:
       continue
+    
+    match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
+    stage_name = match.group(1)
     
     for event in event_list.events:
       for actor in event.actors:
@@ -237,10 +240,15 @@ def print_all_event_list_actions(self):
           
           for prop in action.properties:
             if prop.name not in all_actors[actor.name][action.name]:
-              all_actors[actor.name][action.name][prop.name] = []
+              all_actors[actor.name][action.name][prop.name] = OrderedDict()
             
-            if prop.value not in all_actors[actor.name][action.name][prop.name]:
-              all_actors[actor.name][action.name][prop.name].append(prop.value)
+            prop_value_str = repr(prop.value)
+            if prop_value_str not in all_actors[actor.name][action.name][prop.name]:
+              all_actors[actor.name][action.name][prop.name][prop_value_str] = []
+            
+            stage_and_event_name = "%s:%s" % (stage_name, event.name)
+            if stage_and_event_name not in all_actors[actor.name][action.name][prop.name][prop_value_str]:
+              all_actors[actor.name][action.name][prop.name][prop_value_str].append(stage_and_event_name)
   
   # Sort everything alphanumerically instead of by the order they first appeared in the game's files.
   all_actors = OrderedDict(sorted(all_actors.items(), key=lambda x: x[0]))
@@ -250,8 +258,14 @@ def print_all_event_list_actions(self):
     for action_name, props in actions.items():
       props = OrderedDict(sorted(props.items(), key=lambda x: x[0]))
       all_actors[actor_name][action_name] = props
-      #for prop_name, values in props.items():
-      #  values.sort(key=lambda x: repr(x)) # ???
+  
+  with open("All Event List Actions.txt", "w") as f:
+    for actor_name, actions in all_actors.items():
+      f.write("%s:\n" % actor_name)
+      for action_name, props in actions.items():
+        f.write("  %s:\n" % action_name)
+        for prop_name, values in props.items():
+          f.write("    %s\n" % prop_name)
   
   with open("All Event List Actions - With Property Examples.txt", "w") as f:
     for actor_name, actions in all_actors.items():
@@ -261,15 +275,27 @@ def print_all_event_list_actions(self):
         for prop_name, values in props.items():
           f.write("    %s:\n" % prop_name)
           for value in values:
-            f.write("      " + repr(value) + "\n")
+            f.write("      " + str(value) + "\n")
   
-  with open("All Event List Actions.txt", "w") as f:
+  with open("All Event List Actions - With Property Appearances.txt", "w") as f:
     for actor_name, actions in all_actors.items():
       f.write("%s:\n" % actor_name)
       for action_name, props in actions.items():
         f.write("  %s:\n" % action_name)
         for prop_name, values in props.items():
-          f.write("    %s\n" % prop_name)
+          f.write("    %s:\n" % prop_name)
+          max_value_length = max(len(str(val)) for val in values.keys())
+          for value, stage_and_event_names in values.items():
+            line = "      "
+            line += str(value)
+            line += " "*(max_value_length - len(str(value)))
+            stage_and_event_names_str = ", ".join(stage_and_event_names)
+            if len(stage_and_event_names_str) > 250:
+              # Limit crazy lengths
+              stage_and_event_names_str = stage_and_event_names_str[:250]
+              stage_and_event_names_str += " ..."
+            line += " # Appears in: " + stage_and_event_names_str
+            f.write(line + "\n")
 
 def print_stages_for_each_stage_id(self):
   stage_names_by_stage_id = {}
