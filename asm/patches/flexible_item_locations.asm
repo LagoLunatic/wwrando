@@ -42,9 +42,9 @@
 .open "sys/main.dol"
 ; First we modify the createItemForBoss function itself to not hardcode the item ID as 8 (Heart Container).
 ; We nop out the two instructions that load 8 into r4. This way it simply passes whatever it got as argument r4 into the next function call to createItem.
-.org 0x80026A90
+.org 0x80026A90 ; In fopAcM_createItemForBoss
   nop
-.org 0x80026AB0
+.org 0x80026AB0 ; In fopAcM_createItemForBoss
   nop
 ; Second we modify the code for the "disappear" cloud of smoke when the boss dies.
 ; This cloud of smoke is what spawns the item when Gohma, Kalle Demos, Helmaroc King, and Jalhalla die.
@@ -54,10 +54,10 @@
 ; We change it to be a halfword and stored with the mask FFFF0000.
 ; The lower byte is unchanged from vanilla, it's still whatever argument r7 used to be for.
 ; But the upper byte, which used to be unused, now has the item ID in it.
-.org 0x80027AC4
+.org 0x80027AC4 ; In fopAcM_createDisappear
   rlwimi r4, r7, 16, 0, 15
 ; Then we need to read the item ID parameter when the cloud is about to call createItemForBoss.
-.org 0x800E7A1C
+.org 0x800E7A1C ; In daDisappear_Execute
   lbz r4, 0x00B0(r7)
 .close
 ; Third we change how the boss item ACTR calls createItemForBoss.
@@ -67,7 +67,7 @@
 ; This param was unused and just 00 in the original game, but the randomizer will set it to the item ID it randomizes to that location.
 ; Then we will be calling createItemForBoss with the item ID to spawn in argument r4. Which due to the above change, will be used correctly now.
 .open "files/rels/d_a_boss_item.rel"
-.org 0x1C4
+.org 0x1C4 ; In daBossItem_Create
   lbz r4, 0x00B2(r30)
 .close
 ; The final change necessary is for all 6 bosses' code to be modified so that they pass the item ID to spawn to a function call.
