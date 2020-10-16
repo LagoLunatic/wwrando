@@ -1631,7 +1631,7 @@ def show_seed_hash_on_name_entry_screen(self):
   if not self.permalink:
     return
   
-  if self.options.get("generate_spoiler_log"):
+  if not self.options.get("do_not_generate_spoiler_log"):
     integer_seed = self.convert_string_to_integer_md5(self.permalink)
   else:
     # When no spoiler log is generated, the seed key also affects randomization, not just the data in the permalink.
