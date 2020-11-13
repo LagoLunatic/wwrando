@@ -199,20 +199,8 @@ class ChunkEntry:
     if attr_name in ["name"]:
       return super(self.__class__, self).__getattribute__(attr_name)
     
-    if self.IS_ACTOR_CHUNK:
-      if self.name in DataTables.actor_name_to_class_name:
-        class_name = DataTables.actor_name_to_class_name[self.name]
-        if class_name is None:
-          raise Exception("Unknown actor name: \"%s\"" % self.name)
-        else:
-          param_fields = DataTables.actor_parameters[class_name]
-      else:
-        param_fields = {}
-    else:
-      param_fields = self.PARAMS
-    
-    if attr_name in param_fields:
-      params_bitfield_name, mask = param_fields[attr_name]
+    if attr_name in self.param_fields:
+      params_bitfield_name, mask = self.param_fields[attr_name]
       amount_to_shift = self.get_lowest_set_bit(mask)
       return ((getattr(self, params_bitfield_name) & mask) >> amount_to_shift)
     else:
@@ -222,20 +210,8 @@ class ChunkEntry:
     if attr_name in ["name"]:
       self.__dict__[attr_name] = value
     
-    if self.IS_ACTOR_CHUNK and hasattr(self, "name"):
-      if self.name in DataTables.actor_name_to_class_name:
-        class_name = DataTables.actor_name_to_class_name[self.name]
-        if class_name is None:
-          raise Exception("Unknown actor name: \"%s\"" % self.name)
-        else:
-          param_fields = DataTables.actor_parameters[class_name]
-      else:
-        param_fields = {}
-    else:
-      param_fields = self.PARAMS
-    
-    if attr_name in param_fields:
-      params_bitfield_name, mask = param_fields[attr_name]
+    if attr_name in self.param_fields:
+      params_bitfield_name, mask = self.param_fields[attr_name]
       amount_to_shift = self.get_lowest_set_bit(mask)
       new_params_value = (getattr(self, params_bitfield_name) & (~mask)) | ((value << amount_to_shift) & mask)
       super().__setattr__(params_bitfield_name, new_params_value)
@@ -262,6 +238,19 @@ class ChunkEntry:
       raise Exception("Tried to get the actor class name of an entity in a non-actor DZx chunk")
     
     return DataTables.actor_name_to_class_name[self.name]
+  
+  @property
+  def param_fields(self):
+    if self.IS_ACTOR_CHUNK and hasattr(self, "name"):
+      if self.name in DataTables.actor_name_to_class_name:
+        if self.actor_class_name is None:
+          raise Exception("Unknown actor name: \"%s\"" % self.name)
+        else:
+          return DataTables.actor_parameters[self.actor_class_name]
+      else:
+        return {}
+    else:
+      return self.PARAMS
 
 class SCOB(ChunkEntry):
   DATA_SIZE = 0x24
