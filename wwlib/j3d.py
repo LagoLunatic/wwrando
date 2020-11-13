@@ -281,6 +281,9 @@ class MAT3(J3DChunk):
       b = read_u8(self.data, self.tev_konst_colors_offset + i*4 + 2)
       a = read_u8(self.data, self.tev_konst_colors_offset + i*4 + 3)
       self.konst_colors.append((r, g, b, a))
+    
+    self.string_table_offset = read_u32(self.data, 0x14)
+    self.mat_names = self.read_string_table(self.string_table_offset)
   
   def save_chunk_specific_data(self):
     for i in range(self.num_reg_colors):
@@ -310,6 +313,9 @@ class MDL3(J3DChunk):
       entry = MDLEntry(self.data, entry_offset+packet_offset, entry_size)
       self.entries.append(entry)
       packet_offset += 8
+    
+    self.string_table_offset = read_u32(self.data, 0x20)
+    self.mat_names = self.read_string_table(self.string_table_offset)
   
   def save_chunk_specific_data(self):
     for entry in self.entries:
