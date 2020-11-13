@@ -747,9 +747,9 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
     else:
       return "Ground"
   elif enemy.name in ["c_green", "c_red", "c_kiiro", "c_blue", "c_black"]:
-    if enemy.chuchu_behavior_type == 1:
+    if enemy.behavior_type == 1:
       return "Ceiling"
-    elif enemy.chuchu_behavior_type == 4:
+    elif enemy.behavior_type == 4:
       return "Pot"
     else:
       return "Ground"
@@ -824,11 +824,11 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
     ])
   elif enemy.name in ["c_green", "c_red", "c_kiiro", "c_blue", "c_black"]:
     if category == "Ceiling":
-      enemy.chuchu_behavior_type = 1
+      enemy.behavior_type = 1
     elif category == "Pot":
-      enemy.chuchu_behavior_type = 4
+      enemy.behavior_type = 4
     else:
-      enemy.chuchu_behavior_type = 0
+      enemy.behavior_type = 0
   elif enemy.name == "Bb":
     if category == "Air":
       enemy.behavior_type = self.rng.choice([0, 1, 2, 3])

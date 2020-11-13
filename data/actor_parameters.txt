@@ -86,16 +86,16 @@ d_a_andsw0:
     Mask: 0x00FF
 
 d_a_andsw2:
-  unknown_param_1:
+  num_switches_to_check:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  behavior_type:
     Bitfield name: params
     Mask: 0x0000FF00
   switch_to_set:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  first_switch_to_check:
     Bitfield name: params
     Mask: 0xFF000000
   unknown_param_5:
@@ -352,16 +352,16 @@ d_a_canon:
     Mask: 0xFFFF
 
 d_a_cc:
-  chuchu_behavior_type:
+  behavior_type:
     Bitfield name: params
     Mask: 0x000000FF
   chuchu_type:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  sight_range:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -384,7 +384,7 @@ d_a_daiocta:
   unknown_param_3:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  disable_spawn_on_death_switch:
     Bitfield name: params
     Mask: 0xFF000000
   unknown_param_5:
@@ -1577,7 +1577,7 @@ d_a_obj_canon:
   unknown_param_3:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  disable_spawn_on_death_switch:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -1652,7 +1652,7 @@ d_a_obj_eff:
     Mask: 0x000000FF
 
 d_a_obj_ekskz:
-  unknown_param_1:
+  destroyed_switch:
     Bitfield name: params
     Mask: 0x000000FF
 
@@ -2395,7 +2395,7 @@ d_a_obj_wood: {}
 d_a_obj_xfuta: {}
 
 d_a_obj_Yboil:
-  unknown_param_1:
+  disabled_switch:
     Bitfield name: params
     Mask: 0x0000FF00
 
@@ -2438,10 +2438,10 @@ d_a_oship:
   unknown_param_4:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_5:
+  disable_spawn_on_death_switch:
     Bitfield name: params
     Mask: 0xFF000000
-  unknown_param_6:
+  enable_spawn_switch:
     Bitfield name: aux_params_1
     Mask: 0x00FF
   unknown_param_7:
@@ -3038,7 +3038,7 @@ d_a_tag_volcano:
   unknown_param_2:
     Bitfield name: params
     Mask: 0x000000C0
-  unknown_param_3:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_4:
@@ -3229,7 +3229,7 @@ d_a_wind_tag:
   unknown_param_5:
     Bitfield name: params
     Mask: 0x00800000
-  unknown_param_6:
+  disable_spawn_switch:
     Bitfield name: params
     Mask: 0xFF000000
   unknown_param_7:
