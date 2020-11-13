@@ -70,6 +70,120 @@ def each_stage_with_rooms(self, exclude_unused=True):
       rooms.append((dzr, room_arc_path))
     yield(dzs, stage_arc_path, rooms)
 
+def print_all_used_switches(self):
+  used_switches_by_stage_id = {}
+  used_switches_by_stage_id_unused = {}
+  for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
+    match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
+    stage_name = match.group(1)
+    stage_info = dzs.entries_by_type("STAG")[0]
+    stage_id = stage_info.stage_id
+    
+    if self.stage_names[stage_name] == "Unused":
+      is_unused = True
+    else:
+      is_unused = False
+    
+    if is_unused:
+      if stage_id not in used_switches_by_stage_id_unused:
+        used_switches_by_stage_id_unused[stage_id] = []
+    else:
+      if stage_id not in used_switches_by_stage_id:
+        used_switches_by_stage_id[stage_id] = []
+    
+    for dzx, arc_path in [(dzs, stage_arc_path)]+rooms:
+      for evnt in dzx.entries_by_type("EVNT"):
+        switch = evnt.event_seen_switch_index
+        if switch == 0xFF:
+          continue
+        
+        location_identifier = " from % 15s" % evnt.name
+        location_identifier += "  in " + arc_path[len("files/res/Stage/"):-len(".arc")]
+        location_identifier += " (Event)"
+        
+        if is_unused:
+          used_switches_by_stage_id_unused[stage_id].append((switch, location_identifier))
+        else:
+          used_switches_by_stage_id[stage_id].append((switch, location_identifier))
+      
+      for layer in [None] + list(range(11+1)):
+        actors = []
+        actors += dzx.entries_by_type_and_layer("ACTR", layer)
+        actors += dzx.entries_by_type_and_layer("TGOB", layer)
+        actors += dzx.entries_by_type_and_layer("TRES", layer)
+        actors += dzx.entries_by_type_and_layer("PLYR", layer)
+        actors += dzx.entries_by_type_and_layer("SCOB", layer)
+        actors += dzx.entries_by_type_and_layer("TGSC", layer)
+        actors += dzx.entries_by_type_and_layer("DOOR", layer)
+        actors += dzx.entries_by_type_and_layer("TGDR", layer)
+        
+        for actor in actors:
+          for attr_name in actor.param_fields:
+            stage_id_for_param = stage_id
+            
+            params_bitfield_name, mask = actor.param_fields[attr_name]
+            amount_to_shift = actor.get_lowest_set_bit(mask)
+            num_bits = (mask >> amount_to_shift).bit_length()
+            
+            if num_bits < 8:
+              # Too small to hold a switch value.
+              continue
+            
+            if "switch" in attr_name and "num_switches" not in attr_name:
+              switch = getattr(actor, attr_name)
+              if switch == 0xFF:
+                continue
+              
+              class_name = DataTables.actor_name_to_class_name[actor.name]
+              
+              if class_name == "d_a_tbox":
+                if attr_name == "appear_condition_switch" and actor.behavior_type not in [1, 3, 4, 6, 8]:
+                  # Not a type that cares about the appear condition switch
+                  continue
+              elif class_name == "d_a_cc":
+                if attr_name == "enable_spawn_switch" and actor.behavior_type == 3:
+                  # Blue ChuChu's switch to keep track of whether you own its Blue Chu Jelly.
+                  stage_id_for_param = 0xE
+              
+              location_identifier = " from % 15s" % actor.name
+              location_identifier += "  in " + arc_path[len("files/res/Stage/"):-len(".arc")]
+              if layer is not None:
+                location_identifier += "/Layer%X" % layer
+              
+              if is_unused:
+                if stage_id_for_param not in used_switches_by_stage_id_unused:
+                  used_switches_by_stage_id_unused[stage_id_for_param] = []
+              else:
+                if stage_id_for_param not in used_switches_by_stage_id:
+                  used_switches_by_stage_id[stage_id_for_param] = []
+              
+              if is_unused:
+                used_switches_by_stage_id_unused[stage_id_for_param].append((switch, location_identifier))
+              else:
+                used_switches_by_stage_id[stage_id_for_param].append((switch, location_identifier))
+            else:
+              # Some hacky code to try to look for unknown params that are switches:
+              if stage_id_for_param == 0: # Sea
+                if attr_name.startswith("unknown_param_"):
+                  if getattr(actor, attr_name) == 0x18:
+                    print("!!!! %s %s %s" % (actor.name, attr_name, arc_path))
+  
+  def write_used_switches_to_file(used_switches_dict, filename):
+    used_switches_dict = OrderedDict(sorted(
+      used_switches_dict.items(), key=lambda x: x[0]
+    ))
+    
+    with open(filename, "w") as f:
+      f.write("Switches:\n")
+      for stage_id, item_flags in used_switches_dict.items():
+        f.write("Stage ID: %02X\n" % stage_id)
+        item_flags.sort(key=lambda tuple: tuple[0])
+        for item_flag, location_identifier in item_flags:
+          f.write("  %02X %s\n" % (item_flag, location_identifier))
+  
+  write_used_switches_to_file(used_switches_by_stage_id, "Used switches by stage ID.txt")
+  write_used_switches_to_file(used_switches_by_stage_id_unused, "Used switches by stage ID (unused stages).txt")
+
 def print_all_used_item_pickup_flags(self):
   used_item_flags_by_stage_id = {}
   used_item_flags_by_stage_id_unused = {}
