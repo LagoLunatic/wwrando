@@ -148,8 +148,8 @@ class J3DChunk:
   
   def read_string_table(self, string_table_offset):
     num_strings = read_u16(self.data, string_table_offset+0x00)
-    padding = read_u16(self.data, string_table_offset+0x02)
-    assert padding == 0xFFFF
+    #padding = read_u16(self.data, string_table_offset+0x02)
+    #assert padding == 0xFFFF
     
     strings = []
     offset = string_table_offset + 4
