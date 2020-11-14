@@ -144,7 +144,7 @@ try:
     asm_macros = f.read()
   
   all_asm_file_paths = glob.glob('./patches/*.asm')
-  all_asm_files = [os.path.basename(rel_path) for rel_path in all_asm_file_paths]
+  all_asm_files = [os.path.basename(asm_path) for asm_path in all_asm_file_paths]
   all_asm_files.remove("custom_funcs.asm")
   # Always do custom_funcs first so the custom symbols are defined for all the other patches to use.
   all_asm_files = ["custom_funcs.asm"] + all_asm_files
