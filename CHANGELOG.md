@@ -12,6 +12,7 @@ Changes:
 Bug fixes:
 * Fixed a bug where saving the game inside the Pirate Ship on Windfall would cause you to appear on Southern Fairy Island when you reload the game.
 * Fixed an error occurring during randomization if your seed name was exactly 42 characters long (the maximum seed length).
+* Fixed an error occurring when using a custom ship model that uses the same sail texture as the vanilla ship model.
 
 ### Version 1.8.0 (released 2020-05-15)
 
