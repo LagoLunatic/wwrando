@@ -2,6 +2,7 @@
 import os
 
 from wwlib import texture_utils
+from wwlib.j3d import BPRegister
 
 from fs_helpers import *
 
@@ -149,7 +150,10 @@ def shift_all_colors_in_mat3(self, file_name, j3d_file, h_shift, v_shift):
 
 def shift_all_colors_in_mdl3(self, file_name, j3d_file, h_shift, v_shift):
   for entry in j3d_file.mdl3.entries:
-    tev_color_commands = [com for com in entry.bp_commands if com.register >= 0xE0 and com.register <= 0xE7]
+    tev_color_commands = [
+      com for com in entry.bp_commands
+      if com.register >= BPRegister.TEV_REGISTERL_0.value and com.register <= BPRegister.TEV_REGISTERH_3.value
+    ]
     assert len(tev_color_commands) % 2 == 0 # They should come in pairs of low and high
     
     last_hi_command = None
