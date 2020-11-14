@@ -3,7 +3,6 @@ import os
 from enum import Enum
 from io import BytesIO
 from collections import OrderedDict
-from enum import Enum
 
 from wwlib.bti import BTI
 
