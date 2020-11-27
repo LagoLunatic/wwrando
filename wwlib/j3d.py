@@ -208,7 +208,7 @@ class TEX1(J3DChunk):
     # Does not support adding new textures currently.
     assert len(self.textures) == self.num_textures
     
-    next_available_data_offset = self.texture_header_list_offset + self.num_textures*0x20 # Right after the last header ends
+    next_available_data_offset = 0x20 + self.num_textures*0x20 # Right after the last header ends
     self.data.truncate(next_available_data_offset)
     self.data.seek(next_available_data_offset)
     
