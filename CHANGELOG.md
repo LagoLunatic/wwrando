@@ -11,6 +11,7 @@ Changes:
 
 Bug fixes:
 * Fixed a bug where saving the game inside the Pirate Ship on Windfall would cause you to appear on Southern Fairy Island when you reload the game.
+* Fixed a bug where custom player models with tons of color presets built in would cause the randomizer's UI to be very slow when changing custom color options.
 * Fixed an error occurring during randomization if your seed name was exactly 42 characters long (the maximum seed length).
 * Fixed an error occurring when using a custom ship model that uses the same sail texture as the vanilla ship model.
 
