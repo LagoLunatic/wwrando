@@ -6,6 +6,7 @@ from collections import OrderedDict
 from fs_helpers import *
 
 from data_tables import DataTables
+from wwlib.dzb import DZB
 
 def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_name_to_limit_to=None, exclude_unused=True):
   all_filenames = list(self.gcm.files_by_path.keys())
@@ -629,3 +630,44 @@ def print_actor_class_occurrences(self):
   with open("Actor Class Stage Occurrences.txt", "w") as f:
     for k, v in occs:
       f.write("%20s: %d\n" % (k, v))
+
+def search_all_dzb_properties(self):
+  all_filenames = list(self.gcm.files_by_path.keys())
+  
+  # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
+  try_int_convert = lambda string: int(string) if string.isdigit() else string
+  all_filenames.sort(key=lambda filename: [try_int_convert(c) for c in re.split("([0-9]+)", filename)])
+  
+  seen_cam_behavior_vals = []
+  for arc_path in all_filenames:
+    if not arc_path.endswith(".arc"):
+      continue
+    for file_entry in self.get_arc(arc_path).file_entries:
+      if not file_entry.name.endswith(".dzb"):
+        continue
+      
+      dzb = DZB()
+      dzb.read(file_entry.data)
+      
+      for property in dzb.properties:
+        #if property.sound_id in [24]:
+        #  print(arc_path, "Property-%02X" % (dzb.properties.index(property)))
+        #if property.camera_behavior not in seen_cam_behavior_vals:
+        #  seen_cam_behavior_vals.append(property.camera_behavior)
+        #  print("{0:08b}".format(property.camera_behavior))
+        #if property.hookshot_stick:
+        #  face = next(face for face in dzb.faces if face.property_index == dzb.properties.index(property))
+        #  group = dzb.groups[face.group_index]
+        #  print("%02X" % property.camera_behavior, arc_path, group.name, "Property-%02X" % (dzb.properties.index(property)))
+        #if property.camera_behavior > 0xFF:
+        #  print("%08X" % property.camera_behavior)
+        #if property.unknown_1 != 0:
+        #  print("%X" % property.unknown_1)
+        #if property.special_type == 5:
+        #  face = next(face for face in dzb.faces if face.property_index == dzb.properties.index(property))
+        #  group = dzb.groups[face.group_index]
+        #  print("%02X" % property.special_type, arc_path, group.name, "Property-%02X" % (dzb.properties.index(property)))
+        if property.poly_color != 0xFF:
+          face = next(face for face in dzb.faces if face.property_index == dzb.properties.index(property))
+          group = dzb.groups[face.group_index]
+          print("%02X" % property.poly_color, arc_path, group.name, "Property-%02X" % (dzb.properties.index(property)))
