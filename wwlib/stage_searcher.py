@@ -599,3 +599,33 @@ def print_all_actor_instance_sizes(self):
       assert profile_name.startswith("g_profile_")
       class_name = profile_name[len("g_profile_"):]
       f.write("%-19s: %5X\n" % (class_name, actor_size))
+
+def print_actor_class_occurrences(self):
+  occs = {}
+  for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
+    stage_and_rooms = [(dzs, stage_arc_path)] + rooms
+    classes_seen_in_stage = []
+    for dzx, arc_path in stage_and_rooms:
+      #classes_seen_in_room = []
+      for chunk_type in ["ACTR", "SCOB", "TRES", "TGOB", "TGSC", "DOOR", "TGDR"]:
+        for layer in [None] + list(range(11+1)):
+          for i, entity in enumerate(dzx.entries_by_type_and_layer(chunk_type, layer)):
+            if entity.name not in DataTables.actor_name_to_class_name:
+              print("Unknown actor name: %s" % entity.name)
+              continue
+            class_name = DataTables.actor_name_to_class_name[entity.name]
+            if class_name in classes_seen_in_stage:
+              continue
+            #if class_name in classes_seen_in_room:
+            #  continue
+            if class_name not in occs:
+              occs[class_name] = 0
+            occs[class_name] += 1
+            classes_seen_in_stage.append(class_name)
+            #classes_seen_in_room.append(class_name)
+  
+  occs = list(occs.items())
+  occs.sort(key=lambda occ: -occ[1])
+  with open("Actor Class Stage Occurrences.txt", "w") as f:
+    for k, v in occs:
+      f.write("%20s: %d\n" % (k, v))
