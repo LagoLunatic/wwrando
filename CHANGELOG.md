@@ -10,6 +10,7 @@ Changes:
 * The progress bar now updates incrementally as the randomized ISO is being written.
 
 Bug fixes:
+* Fixed a bug where release executables were not properly encrypted, allowing them to be extracted and used to generate spoiler logs for non-spoiler log seeds.
 * Fixed a bug where saving the game inside the Pirate Ship on Windfall would cause you to appear on Southern Fairy Island when you reload the game.
 * Fixed a bug where custom player models with tons of color presets built in would cause the randomizer's UI to be very slow when changing custom color options.
 * Fixed an error occurring during randomization if your seed name was exactly 42 characters long (the maximum seed length).
