@@ -3,16 +3,13 @@
 ################################################################################
 ## Form generated from reading UI file 'randomizer_window.ui'
 ##
-## Created by: Qt User Interface Compiler version 5.14.2
+## Created by: Qt User Interface Compiler version 5.15.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
-    QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
-from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
-    QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter,
-    QPixmap, QRadialGradient)
+from PySide2.QtCore import *
+from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 
@@ -286,12 +283,38 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addWidget(self.widget)
 
 
-        self.gridLayout_3.addLayout(self.horizontalLayout_2, 1, 2, 1, 1)
+        self.gridLayout_3.addLayout(self.horizontalLayout_2, 1, 3, 1, 1)
 
         self.race_mode = QCheckBox(self.groupBox_3)
         self.race_mode.setObjectName(u"race_mode")
 
         self.gridLayout_3.addWidget(self.race_mode, 1, 1, 1, 1)
+
+        self.horizontalLayout_13 = QHBoxLayout()
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.label_for_num_race_mode_dungeons = QLabel(self.groupBox_3)
+        self.label_for_num_race_mode_dungeons.setObjectName(u"label_for_num_race_mode_dungeons")
+        sizePolicy.setHeightForWidth(self.label_for_num_race_mode_dungeons.sizePolicy().hasHeightForWidth())
+        self.label_for_num_race_mode_dungeons.setSizePolicy(sizePolicy)
+
+        self.horizontalLayout_13.addWidget(self.label_for_num_race_mode_dungeons)
+
+        self.num_race_mode_dungeons = QComboBox(self.groupBox_3)
+        self.num_race_mode_dungeons.addItem("")
+        self.num_race_mode_dungeons.addItem("")
+        self.num_race_mode_dungeons.addItem("")
+        self.num_race_mode_dungeons.setObjectName(u"num_race_mode_dungeons")
+        self.num_race_mode_dungeons.setMaximumSize(QSize(40, 16777215))
+
+        self.horizontalLayout_13.addWidget(self.num_race_mode_dungeons)
+
+        self.widget_6 = QWidget(self.groupBox_3)
+        self.widget_6.setObjectName(u"widget_6")
+
+        self.horizontalLayout_13.addWidget(self.widget_6)
+
+
+        self.gridLayout_3.addLayout(self.horizontalLayout_13, 1, 2, 1, 1)
 
         self.horizontalLayout_8 = QHBoxLayout()
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
@@ -332,11 +355,6 @@ class Ui_MainWindow(object):
         self.randomize_enemies.setObjectName(u"randomize_enemies")
 
         self.gridLayout_3.addWidget(self.randomize_enemies, 0, 3, 1, 1)
-
-        self.widget_5 = QWidget(self.groupBox_3)
-        self.widget_5.setObjectName(u"widget_5")
-
-        self.gridLayout_3.addWidget(self.widget_5, 1, 3, 1, 1)
 
 
         self.verticalLayout_2.addWidget(self.groupBox_3)
@@ -773,6 +791,11 @@ class Ui_MainWindow(object):
         self.num_starting_triforce_shards.setItemText(8, QCoreApplication.translate("MainWindow", u"8", None))
 
         self.race_mode.setText(QCoreApplication.translate("MainWindow", u"Race Mode", None))
+        self.label_for_num_race_mode_dungeons.setText(QCoreApplication.translate("MainWindow", u"Required Dungeons", None))
+        self.num_race_mode_dungeons.setItemText(0, QCoreApplication.translate("MainWindow", u"4", None))
+        self.num_race_mode_dungeons.setItemText(1, QCoreApplication.translate("MainWindow", u"5", None))
+        self.num_race_mode_dungeons.setItemText(2, QCoreApplication.translate("MainWindow", u"6", None))
+
         self.label_for_randomize_entrances.setText(QCoreApplication.translate("MainWindow", u"Randomize Entrances", None))
         self.randomize_entrances.setItemText(0, QCoreApplication.translate("MainWindow", u"Disabled", None))
         self.randomize_entrances.setItemText(1, QCoreApplication.translate("MainWindow", u"Dungeons", None))

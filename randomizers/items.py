@@ -54,7 +54,7 @@ def randomize_boss_rewards(self):
     raise Exception("Cannot randomize boss rewards when progress items are not allowed in dungeons.")
   
   boss_reward_items = []
-  total_num_rewards = 4
+  total_num_rewards = int(self.options.get("num_race_mode_dungeons"))
   
   unplaced_progress_items_degrouped = []
   for item_name in self.logic.unplaced_progress_items:
@@ -94,14 +94,20 @@ def randomize_boss_rewards(self):
     boss_reward_items += bow_upgrades[0:num_additional_rewards_needed]
   
   self.rng.shuffle(boss_reward_items)
-  
-  # If we STILL need more rewards, use the hookshot.
+
+  possible_additional_rewards = ["Hookshot", "Mirror Shield", "Boomerang"]
+
+  # If we STILL need more rewards, use the Hookshot, Mirror Shield, and Boomerang.
   num_additional_rewards_needed = total_num_rewards - len(boss_reward_items)
   if num_additional_rewards_needed > 0:
-    assert "Hookshot" in unplaced_progress_items_degrouped
-    # Need to make sure hookshot is at the start of the list since it's more picky about which bosses can drop it.
-    boss_reward_items.insert(0, "Hookshot")
-  
+    additional_rewards = [
+      item_name for item_name in unplaced_progress_items_degrouped
+      if item_name in possible_additional_rewards
+    ]
+    self.rng.shuffle(additional_rewards)
+    # Need to make sure these items are at the start of the list since they're more picky about which bosses can drop them.
+    boss_reward_items = additional_rewards[0:num_additional_rewards_needed] + boss_reward_items
+
   if len(boss_reward_items) != total_num_rewards:
     raise Exception("Number of boss reward items is incorrect: " + ", ".join(boss_reward_items))
   
@@ -128,14 +134,22 @@ def randomize_boss_rewards(self):
   
   if len(possible_boss_locations) != 6:
     raise Exception("Number of boss item locations is incorrect: " + ", ".join(possible_boss_locations))
-  
+
+  banned_additional_reward_locations = []
+  if "Hookshot" in boss_reward_items:
+    banned_additional_reward_locations.append("Wind Temple - Molgera Heart Container")
+  if "Mirror Shield" in boss_reward_items:
+    banned_additional_reward_locations.append("Earth Temple - Jalhalla Heart Container")
+  if "Boomerang" in boss_reward_items:
+    banned_additional_reward_locations.append("Forbidden Woods - Kalle Demos Heart Container")
+
   # Decide what reward item to place in each boss location.
   for item_name in boss_reward_items:
     possible_boss_locations_for_this_item = possible_boss_locations.copy()
-    if item_name == "Hookshot":
+    if item_name in possible_additional_rewards:
       possible_boss_locations_for_this_item = [
         loc for loc in possible_boss_locations_for_this_item
-        if loc not in ["Wind Temple - Molgera Heart Container"]
+        if loc not in banned_additional_reward_locations
       ]
     
     if self.dungeons_only_start and "Dragon Roost Cavern - Gohma Heart Container" in possible_boss_locations_for_this_item:
