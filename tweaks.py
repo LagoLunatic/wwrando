@@ -688,6 +688,10 @@ def get_indefinite_article(string):
   else:
     return "a"
 
+def upper_first_letter(string):
+  first_letter = string[0].upper()
+  return first_letter + string[1:]
+
 def pad_string_to_next_4_lines(string):
   lines = string.split("\n")
   padding_lines_needed = (4 - len(lines) % 4) % 4
@@ -982,7 +986,7 @@ def update_big_octo_great_fairy_item_name_hint(self, hint):
     max_line_length=43
   )
   self.bmg.messages_by_id[12016].string = word_wrap_string(
-    "\\{1A 06 FF 00 00 05}...\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05} which may help you on your quest." % item_hint_name.capitalize(),
+    "\\{1A 06 FF 00 00 05}...\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05} which may help you on your quest." % upper_first_letter(item_hint_name),
     max_line_length=43
   )
   self.bmg.messages_by_id[12017].string = word_wrap_string(
@@ -1644,8 +1648,8 @@ def show_seed_hash_on_name_entry_screen(self):
   valid_names = [name for name in all_names if len(name) <= 5]
   
   name_1, name_2 = temp_rng.sample(valid_names, 2)
-  name_1 = name_1.capitalize()
-  name_2 = name_2.capitalize()
+  name_1 = upper_first_letter(name_1)
+  name_2 = upper_first_letter(name_2)
   
   # Since actually adding new text to the UI would be very difficult, instead hijack the "Name Entry" text, and put the seed hash after several linebreaks.
   # (The three linebreaks we insert before "Name Entry" are so it's still in the correct spot after vertical centering happens.)
