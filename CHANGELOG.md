@@ -5,6 +5,7 @@ Changes:
 * Moved the inter-dungeon warp pot in Earth Temple from the fourth room to the second room so that it can be accessed with fewer items than before.
 * The option to remove the title/ending videos and the enemy palette randomizer no longer affect the permalink.
 * Defeating the Mighty Darknuts in the Master Sword chamber with no weapon besides Skull Hammer can no longer be required by the logic.
+* Defeating Big Octos that have 12 eyes with arrows can now only be required if you have either the 60 arrow quiver or Light Arrows.
 * Renamed "Randomized Sword" to "No Starting Sword" and "Start with Sword" to "Start with Hero's Sword".
 * Renamed a few item locations to be more clear.
 * The progress bar now updates incrementally as the randomized ISO is being written.
