@@ -2365,7 +2365,7 @@ Tingle Island - Ankle - Reward for All Tingle Statues:
 #  Paths:
 #    - rels/d_a_npc_tc.rel@620F
 Tingle Island - Big Octo:
-  Need: Can Defeat Big Octos & Grappling Hook
+  Need: Can Defeat 12 Eye Big Octos & Grappling Hook
   Original item: Piece of Heart
   Types: Big Octo
   Paths:
@@ -2649,7 +2649,7 @@ Seven-Star Isles - Southern Lookout Platform:
   Paths:
     - sea/Room6.arc/Chest002
 Seven-Star Isles - Big Octo:
-  Need: Can Defeat Big Octos & Grappling Hook
+  Need: Can Defeat 12 Eye Big Octos & Grappling Hook
   Original item: Piece of Heart
   Types: Big Octo
   Paths:

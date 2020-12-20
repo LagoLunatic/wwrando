@@ -535,6 +535,13 @@ Can Defeat Big Octos:
   | Bombs
   | Boomerang
   # Hookshot can technically damage Big Octos, but it only reaches at the end when your time limit is almost up.
+Can Defeat 12 Eye Big Octos:
+  (Hero's Bow & 60 Arrow Quiver)
+  | Light Arrows
+  | Bombs
+  | Boomerang
+  # Hookshot can technically damage Big Octos, but it only reaches at the end when your time limit is almost up.
+  # Defeating a 12 eye Big Octo with only 30 normal arrows is too difficult.
 Can Defeat Red Bubbles:
   Hero's Sword
   | Skull Hammer
