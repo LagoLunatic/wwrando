@@ -49,6 +49,10 @@ PROGRESS_ITEMS = [
   "Earth Tingle Statue",
   "Wind Tingle Statue",
   
+  "Progressive Bomb Bag",
+  "Progressive Bomb Bag",
+  "Progressive Quiver",
+  "Progressive Quiver",
   "Magic Meter Upgrade",
   
   "Ghost Ship Chart",
@@ -70,11 +74,6 @@ NONPROGRESS_ITEMS = [
   "Fill-Up Coupon",
   
   "Hurricane Spin",
-  
-  "Progressive Bomb Bag",
-  "Progressive Bomb Bag",
-  "Progressive Quiver",
-  "Progressive Quiver",
   
   "Submarine Chart",
   "Beedle's Chart",

@@ -104,3 +104,7 @@ Earth Tingle Statue:
   a statue of a fairy
 Wind Tingle Statue:
   a statue of a fairy
+Progressive Bomb Bag:
+  an upgrade for your bomb bag
+Progressive Quiver:
+  an upgrade for your quiver

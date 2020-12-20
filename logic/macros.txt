@@ -57,6 +57,14 @@ Picto Box:
   Progressive Picto Box x1
 Deluxe Picto Box:
   Progressive Picto Box x2
+60 Bomb Bomb Bag:
+  Progressive Bomb Bag x1
+99 Bomb Bomb Bag:
+  Progressive Bomb Bag x2
+60 Arrow Quiver:
+  Progressive Quiver x1
+99 Arrow Quiver:
+  Progressive Quiver x2
 All 8 Triforce Shards:
   Triforce Shard 1
   & Triforce Shard 2
