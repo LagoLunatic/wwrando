@@ -983,12 +983,17 @@ class WWRandomizerWindow(QMainWindow):
     
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
+      label_for_option = getattr(self.ui, "label_for_" + option_name, None)
       if should_enable_options[option_name]:
         widget.setEnabled(True)
+        if label_for_option:
+          label_for_option.setEnabled(True)
       else:
         widget.setEnabled(False)
         if isinstance(widget, QAbstractButton):
           widget.setChecked(False)
+        if label_for_option:
+          label_for_option.setEnabled(False)
     
     # Disable options that produce unbeatable seeds when not running from source.
     if not IS_RUNNING_FROM_SOURCE:
