@@ -791,7 +791,7 @@ class Ui_MainWindow(object):
         self.num_starting_triforce_shards.setItemText(8, QCoreApplication.translate("MainWindow", u"8", None))
 
         self.race_mode.setText(QCoreApplication.translate("MainWindow", u"Race Mode", None))
-        self.label_for_num_race_mode_dungeons.setText(QCoreApplication.translate("MainWindow", u"Required Dungeons", None))
+        self.label_for_num_race_mode_dungeons.setText(QCoreApplication.translate("MainWindow", u"Race Mode Required Dungeons", None))
         self.num_race_mode_dungeons.setItemText(0, QCoreApplication.translate("MainWindow", u"4", None))
         self.num_race_mode_dungeons.setItemText(1, QCoreApplication.translate("MainWindow", u"5", None))
         self.num_race_mode_dungeons.setItemText(2, QCoreApplication.translate("MainWindow", u"6", None))

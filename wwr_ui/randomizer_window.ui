@@ -438,7 +438,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>Required Dungeons</string>
+                    <string>Race Mode Required Dungeons</string>
                    </property>
                   </widget>
                  </item>

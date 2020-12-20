@@ -148,11 +148,11 @@ OPTIONS = OrderedDict([
   ),
   (
     "race_mode",
-    "In Race Mode, required dungeon bosses will drop required items (e.g. Triforce Shards). Nothing in the other dungeons will ever be required.\nYou can see which islands have the required dungeons on them by opening the sea chart and checking which islands have blue quest markers.",
+    "In Race Mode, certain randomly chosen dungeon bosses will drop required items (e.g. Triforce Shards). Nothing in the other dungeons will ever be required.\nYou can see which islands have the required dungeons on them by opening the sea chart and checking which islands have blue quest markers.",
   ),
   (
     "num_race_mode_dungeons",
-    "Choose the number of dungeons that are required in Race Mode.\nRequired dungeon bosses will drop required items (e.g. Triforce Shards). Nothing in the other dungeons will ever be required.",
+    "Select the number of dungeons that are required in Race Mode.\nRequired dungeon bosses will drop required items (e.g. Triforce Shards). Nothing in the other dungeons will ever be required.",
   ),
   (
     "randomize_music",
