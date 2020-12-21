@@ -1,6 +1,7 @@
 
 import os
 import re
+from collections import OrderedDict
 
 from fs_helpers import *
 import tweaks
@@ -50,6 +51,13 @@ def randomize_items(self):
     self.logic.set_location_to_item(location_name, item_name)
 
 def randomize_boss_rewards(self):
+  # Try to generate dungeon boss reward locations until a valid set of locations is found.
+  for i in range(1, 50):
+    if try_randomize_boss_rewards(self):
+      return
+  raise Exception("Cannot randomize boss rewards! Please try randomizing with a different seed.")
+
+def try_randomize_boss_rewards(self):
   if not self.options.get("progression_dungeons"):
     raise Exception("Cannot randomize boss rewards when progress items are not allowed in dungeons.")
   
@@ -92,8 +100,6 @@ def randomize_boss_rewards(self):
       if item_name == "Progressive Bow"
     ]
     boss_reward_items += bow_upgrades[0:num_additional_rewards_needed]
-  
-  self.rng.shuffle(boss_reward_items)
 
   possible_additional_rewards = ["Hookshot", "Mirror Shield", "Boomerang"]
 
@@ -104,13 +110,41 @@ def randomize_boss_rewards(self):
       item_name for item_name in unplaced_progress_items_degrouped
       if item_name in possible_additional_rewards
     ]
-    self.rng.shuffle(additional_rewards)
-    # Need to make sure these items are at the start of the list since they're more picky about which bosses can drop them.
-    boss_reward_items = additional_rewards[0:num_additional_rewards_needed] + boss_reward_items
+    boss_reward_items += additional_rewards[0:num_additional_rewards_needed]
+
+  self.rng.shuffle(boss_reward_items)
 
   if len(boss_reward_items) != total_num_rewards:
     raise Exception("Number of boss reward items is incorrect: " + ", ".join(boss_reward_items))
   
+  possible_boss_locations = [
+    loc for loc in self.logic.remaining_item_locations
+    if self.logic.item_locations[loc]["Original item"] == "Heart Container"
+  ]
+  
+  if len(possible_boss_locations) != 6:
+    raise Exception("Number of boss item locations is incorrect: " + ", ".join(possible_boss_locations))
+
+  boss_reward_locations = OrderedDict()
+
+  # Decide what reward item to place in each boss location.
+  for item_name in boss_reward_items:    
+    if self.dungeons_only_start and "Dragon Roost Cavern - Gohma Heart Container" in possible_boss_locations:
+      location_name = "Dragon Roost Cavern - Gohma Heart Container"
+    elif self.dungeons_only_start and "Forbidden Woods - Kalle Demos Heart Container" in possible_boss_locations:
+      location_name = "Forbidden Woods - Kalle Demos Heart Container"
+    else:
+      location_name = self.rng.choice(possible_boss_locations)
+    possible_boss_locations.remove(location_name)
+    boss_reward_locations[location_name] = item_name
+
+  # Verify that the dungeon boss rewards were placed in a way that allows them all to be accessible.
+  locations_valid = validate_boss_reward_locations(self, boss_reward_locations)
+
+  # If the dungeon boss reward locations are not valid, a new set of dungeon boss reward locations will be generated.
+  if not locations_valid:
+    return False
+
   # Remove any Triforce Shards we're about to use from the progress item group, and add them as ungrouped progress items instead.
   for group_name, group_item_names in self.logic.progress_item_groups.items():
     items_to_remove_from_group = [
@@ -126,39 +160,8 @@ def randomize_boss_rewards(self):
     if len(self.logic.progress_item_groups[group_name]) == 0:
       if group_name in self.logic.unplaced_progress_items:
         self.logic.unplaced_progress_items.remove(group_name)
-  
-  possible_boss_locations = [
-    loc for loc in self.logic.remaining_item_locations
-    if self.logic.item_locations[loc]["Original item"] == "Heart Container"
-  ]
-  
-  if len(possible_boss_locations) != 6:
-    raise Exception("Number of boss item locations is incorrect: " + ", ".join(possible_boss_locations))
 
-  banned_additional_reward_locations = []
-  if "Hookshot" in boss_reward_items:
-    banned_additional_reward_locations.append("Wind Temple - Molgera Heart Container")
-  if "Mirror Shield" in boss_reward_items:
-    banned_additional_reward_locations.append("Earth Temple - Jalhalla Heart Container")
-  if "Boomerang" in boss_reward_items:
-    banned_additional_reward_locations.append("Forbidden Woods - Kalle Demos Heart Container")
-
-  # Decide what reward item to place in each boss location.
-  for item_name in boss_reward_items:
-    possible_boss_locations_for_this_item = possible_boss_locations.copy()
-    if item_name in possible_additional_rewards:
-      possible_boss_locations_for_this_item = [
-        loc for loc in possible_boss_locations_for_this_item
-        if loc not in banned_additional_reward_locations
-      ]
-    
-    if self.dungeons_only_start and "Dragon Roost Cavern - Gohma Heart Container" in possible_boss_locations_for_this_item:
-      location_name = "Dragon Roost Cavern - Gohma Heart Container"
-    elif self.dungeons_only_start and "Forbidden Woods - Kalle Demos Heart Container" in possible_boss_locations_for_this_item:
-      location_name = "Forbidden Woods - Kalle Demos Heart Container"
-    else:
-      location_name = self.rng.choice(possible_boss_locations_for_this_item)
-    possible_boss_locations.remove(location_name)
+  for location_name, item_name in boss_reward_locations.items():
     self.logic.set_prerandomization_item_location(location_name, item_name)
     self.race_mode_required_locations.append(location_name)
     
@@ -182,6 +185,62 @@ def randomize_boss_rewards(self):
       self.race_mode_banned_locations.append(location_name)
     elif location_name == "Mailbox - Letter from Tingle" and "Forsaken Fortress" in banned_dungeons:
       self.race_mode_banned_locations.append(location_name)
+
+  return True
+
+def validate_boss_reward_locations(self, boss_reward_locations):
+  boss_reward_items = list(boss_reward_locations.values())
+
+  # Temporarily own every item that is not a dungeon boss reward.
+  items_to_temporarily_add = self.logic.unplaced_progress_items + self.logic.unplaced_nonprogress_items
+  for item_name in boss_reward_items:
+    if item_name in items_to_temporarily_add:
+      items_to_temporarily_add.remove(item_name)
+
+  for item_name in items_to_temporarily_add:
+    self.logic.add_owned_item_or_item_group(item_name)
+
+  locations_valid = True
+  temporary_boss_reward_items = []
+  remaining_boss_reward_items = boss_reward_items
+  remaining_boss_locations = list(boss_reward_locations.keys())
+
+  while remaining_boss_reward_items:
+    # Consider a dungeon boss reward to be accessible when every location in the dungeon is accessible.
+    accessible_undone_locations = self.logic.get_accessible_remaining_locations()    
+    inaccessible_dungeons = []
+    for location_name in self.logic.remaining_item_locations:
+      if self.logic.is_dungeon_location(location_name) and location_name not in accessible_undone_locations:
+        dungeon_name, _ = self.logic.split_location_name_by_zone(location_name)
+        inaccessible_dungeons.append(dungeon_name)
+
+    accessible_boss_locations = []
+    for boss_location in remaining_boss_locations:
+      dungeon_name, _ = self.logic.split_location_name_by_zone(boss_location)
+
+      if dungeon_name not in inaccessible_dungeons:
+        accessible_boss_locations.append(boss_location)
+
+    # If there are no more accessible dungeon boss rewards, consider the dungeon boss locations to be invalid.
+    if not accessible_boss_locations:
+      locations_valid = False
+      break
+
+    # Temporarily own dungeon boss rewards that are now accessible.
+    for location_name in accessible_boss_locations:
+      item_name = boss_reward_locations[location_name]
+      self.logic.add_owned_item_or_item_group(item_name)
+      temporary_boss_reward_items.append(item_name)
+      remaining_boss_reward_items.remove(item_name)
+      remaining_boss_locations.remove(location_name)
+
+  # Remove temporarily owned items.
+  for item_name in items_to_temporarily_add:
+    self.logic.remove_owned_item_or_item_group(item_name)
+  for item_name in temporary_boss_reward_items:
+    self.logic.remove_owned_item_or_item_group(item_name)
+
+  return locations_valid
 
 def randomize_dungeon_items(self):
   # Places dungeon-specific items first so all the dungeon locations don't get used up by other items.
@@ -310,7 +369,7 @@ def randomize_progression_items(self):
       if location not in location_weights:
         location_weights[location] = current_weight
       elif location_weights[location] > 1:
-        location_weights[location] -= 1;
+        location_weights[location] -= 1
     current_weight += 1
     
     possible_items = self.logic.unplaced_progress_items.copy()
