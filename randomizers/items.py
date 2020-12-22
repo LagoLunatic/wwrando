@@ -192,7 +192,8 @@ def validate_boss_reward_locations(self, boss_reward_locations):
   boss_reward_items = list(boss_reward_locations.values())
   
   # Temporarily own every item that is not a dungeon boss reward.
-  items_to_temporarily_add = self.logic.unplaced_progress_items + self.logic.unplaced_nonprogress_items
+  items_to_temporarily_add = self.logic.unplaced_progress_items.copy()
+  
   for item_name in boss_reward_items:
     if item_name in items_to_temporarily_add:
       items_to_temporarily_add.remove(item_name)
