@@ -202,7 +202,7 @@ def validate_boss_reward_locations(self, boss_reward_locations):
   
   locations_valid = True
   temporary_boss_reward_items = []
-  remaining_boss_reward_items = boss_reward_items
+  remaining_boss_reward_items = boss_reward_items.copy()
   remaining_boss_locations = list(boss_reward_locations.keys())
   
   while remaining_boss_reward_items:
