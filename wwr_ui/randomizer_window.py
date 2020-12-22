@@ -951,11 +951,13 @@ class WWRandomizerWindow(QMainWindow):
       elif sword_mode == "No Starting Sword":
         num_possible_rewards += 4
       
-      potential_boss_rewards += 3 * ["Progressive Bow"] + ["Hookshot"]
-      while num_possible_rewards < 4:
+      potential_boss_rewards += 3 * ["Progressive Bow"] + ["Hookshot", "Mirror Shield", "Boomerang"]
+      while num_possible_rewards < int(self.get_option_value("num_race_mode_dungeons")):
         cur_reward = potential_boss_rewards.pop(0)
         items_to_filter_out += [cur_reward]
         num_possible_rewards += 1
+    else:
+      should_enable_options["num_race_mode_dungeons"] = False
     
     self.filtered_rgear.setFilterStrings(items_to_filter_out)
     
@@ -981,11 +983,17 @@ class WWRandomizerWindow(QMainWindow):
     
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
+      label_for_option = getattr(self.ui, "label_for_" + option_name, None)
       if should_enable_options[option_name]:
         widget.setEnabled(True)
+        if label_for_option:
+          label_for_option.setEnabled(True)
       else:
         widget.setEnabled(False)
-        widget.setChecked(False)
+        if isinstance(widget, QAbstractButton):
+          widget.setChecked(False)
+        if label_for_option:
+          label_for_option.setEnabled(False)
     
     # Disable options that produce unbeatable seeds when not running from source.
     if not IS_RUNNING_FROM_SOURCE:
