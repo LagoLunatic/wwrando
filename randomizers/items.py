@@ -215,20 +215,20 @@ def validate_boss_reward_locations(self, boss_reward_locations):
         dungeon_name, _ = self.logic.split_location_name_by_zone(location_name)
         inaccessible_dungeons.append(dungeon_name)
     
-    accessible_boss_locations = []
+    newly_accessible_boss_locations = []
     for boss_location in remaining_boss_locations:
       dungeon_name, _ = self.logic.split_location_name_by_zone(boss_location)
       
       if dungeon_name not in inaccessible_dungeons:
-        accessible_boss_locations.append(boss_location)
+        newly_accessible_boss_locations.append(boss_location)
     
     # If there are no more accessible dungeon boss rewards, consider the dungeon boss locations to be invalid.
-    if not accessible_boss_locations:
+    if not newly_accessible_boss_locations:
       locations_valid = False
       break
     
     # Temporarily own dungeon boss rewards that are now accessible.
-    for location_name in accessible_boss_locations:
+    for location_name in newly_accessible_boss_locations:
       item_name = boss_reward_locations[location_name]
       self.logic.add_owned_item_or_item_group(item_name)
       temporary_boss_reward_items.append(item_name)
