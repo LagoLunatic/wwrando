@@ -2,6 +2,7 @@
 ### Next version (in progress, not released yet)
 
 Changes:
+* When Race Mode is enabled, you can now choose for the number of required dungeons to be 4, 5, or 6, instead of only 4.
 * Moved the inter-dungeon warp pot in Earth Temple from the fourth room to the second room so that it can be accessed with fewer items than before.
 * The option to remove the title/ending videos and the enemy palette randomizer no longer affect the permalink.
 * Defeating the Mighty Darknuts in the Master Sword chamber with no weapon besides Skull Hammer can no longer be required by the logic.
