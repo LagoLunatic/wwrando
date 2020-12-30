@@ -179,7 +179,10 @@ lis r4, 0x8000
 stw r4, 8 (r3)
 ; Also set a switch bit (58) for having seen the short event when you enter Forsaken Fortress 2 for the first time.
 ; Also set a switch (0x50) for having seen the event where the camera pans around the Flight Control Platform.
-lis r4, 0x0101
+; Also set a switch (0x47) for having hit the switch at Forest Haven to open up the hatch to the Nintendo Gallery.
+; Also set a switch (0x5E) for the ladder leading up to the Nintendo Gallery being lowered.
+lis r4, 0x4101
+addi r4, r4, 0x0080
 stw r4, 0xC (r3)
 
 ; Set a switch (21) for having seen the gossip stone event in DRC where KoRL tells you about giving bait to rats.
