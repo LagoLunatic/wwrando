@@ -826,7 +826,7 @@ class WWRandomizerWindow(QMainWindow):
       color_hex_code_input = QLineEdit(self.ui.tab_2)
       color_hex_code_input.setText("")
       color_hex_code_input.setObjectName(option_name + "_hex_code_input")
-      color_hex_code_input.setFixedWidth(46)
+      color_hex_code_input.setFixedWidth(QFontMetrics(QFont()).horizontalAdvance("CCCCCC")+5)
       hlayout.addWidget(color_hex_code_input)
       
       color_randomize_button = QPushButton(self.ui.tab_2)
