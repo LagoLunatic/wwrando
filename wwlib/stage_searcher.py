@@ -441,7 +441,7 @@ def print_item_table(self):
   
   with open("Item Table.txt", "w") as f:
     for i in range(num_entries):
-      drop_chances = OrderedDict()
+      item_occs = OrderedDict()
       offset = 0x10 + i*0x10
       for j in range(0x10):
         item_id = read_u8(item_table_data, offset + j)
@@ -450,13 +450,22 @@ def print_item_table(self):
         else:
           item_name = self.item_names[item_id]
         
-        if item_name not in drop_chances:
-          drop_chances[item_name] = 0
-        drop_chances[item_name] += 1
+        if item_name not in item_occs:
+          item_occs[item_name] = 0
+        item_occs[item_name] += 1
         
       f.write("Drop type 0x%02X:\n" % i)
-      for item_name, chance in drop_chances.items():
-        f.write("  % 6.2f%% %s\n" % (chance/0x10*100, item_name))
+      for item_name, occs in item_occs.items():
+        if i >= 0x0B and i <= 0x14:
+          # For drop types 0B-14, it spawns all of the listed items.
+          # The number of occurrences is the number of the item to spawn.
+          if item_name == "(Nothing)":
+            continue
+          f.write("  % 6dx %s\n" % (occs, item_name))
+        else:
+          # For drop types 00-0A and 15-1E, it picks one of the items at random to spawn.
+          # The number of occurrences is the weighted chance of it being chosen.
+          f.write("  % 6.2f%% %s\n" % (occs/0x10*100, item_name))
 
 def print_actor_info(self):
   actor_id_to_rel_filename_mapping_addr = 0x803398D8 # DynamicNameTable
