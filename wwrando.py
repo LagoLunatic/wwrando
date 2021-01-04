@@ -9,9 +9,13 @@ from collections import OrderedDict
 
 from wwr_ui.randomizer_window import WWRandomizerWindow
 
+def signal_handler(sig, frame):
+  print("Interrupt")
+  sys.exit(0)
+
 # Allow keyboard interrupts on the command line to instantly close the program.
 import signal
-signal.signal(signal.SIGINT, signal.SIG_DFL)
+signal.signal(signal.SIGINT, signal_handler)
 
 try:
   from sys import _MEIPASS
