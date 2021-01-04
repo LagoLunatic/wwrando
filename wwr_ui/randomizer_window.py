@@ -41,6 +41,8 @@ class WWRandomizerWindow(QMainWindow):
     self.ui = Ui_MainWindow()
     self.ui.setupUi(self)
     
+    self.randomizer_thread = None
+    
     self.cmd_line_args = cmd_line_args
     self.bulk_test = ("-bulk" in cmd_line_args)
     self.no_ui_test = ("-noui" in cmd_line_args)
@@ -297,6 +299,8 @@ class WWRandomizerWindow(QMainWindow):
   def randomization_complete(self):
     self.progress_dialog.reset()
     
+    self.randomizer_thread = None
+    
     if self.no_ui_test:
       self.close()
       return
@@ -314,13 +318,16 @@ class WWRandomizerWindow(QMainWindow):
   def randomization_failed(self, error_message):
     self.progress_dialog.reset()
     
-    try:
-      self.randomizer_thread.randomizer.write_error_log(error_message)
-    except Exception as e:
-      # If an error happened when writing the error log just print it and then ignore it.
-      stack_trace = traceback.format_exc()
-      error_message = "Failed to parse permalink:\n" + str(e) + "\n\n" + stack_trace
-      print(error_message)
+    if self.randomizer_thread is not None:
+      try:
+        self.randomizer_thread.randomizer.write_error_log(error_message)
+      except Exception as e:
+        # If an error happened when writing the error log just print it and then ignore it.
+        stack_trace = traceback.format_exc()
+        other_error_message = "Failed to write error log:\n" + str(e) + "\n\n" + stack_trace
+        print(other_error_message)
+    
+    self.randomizer_thread = None
     
     print(error_message)
     QMessageBox.critical(
