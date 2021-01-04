@@ -810,7 +810,7 @@ class MULT(ChunkEntry):
     self.z_pos = 0.0
     self.y_rot = 0
     self.room_index = 0
-    self.unknown_1 = 0
+    self.ocean_height = 0
   
   def read(self, offset):
     self.offset = offset
@@ -820,7 +820,7 @@ class MULT(ChunkEntry):
     self.z_pos = read_float(data, offset+4)
     self.y_rot = read_u16(data, offset+8)
     self.room_index = read_u8(data, offset+0xA)
-    self.unknown_1 = read_u8(data, offset+0xB)
+    self.ocean_height = read_u8(data, offset+0xB)
     
   def save_changes(self):
     data = self.file_entry.data
@@ -829,7 +829,7 @@ class MULT(ChunkEntry):
     write_float(data, self.offset+4, self.z_pos)
     write_u16(data, self.offset+8, self.y_rot)
     write_u8(data, self.offset+0xA, self.room_index)
-    write_u8(data, self.offset+0xB, self.unknown_1)
+    write_u8(data, self.offset+0xB, self.ocean_height)
 
 class DummyEntry(ChunkEntry):
   def __init__(self, file_entry):
