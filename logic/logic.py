@@ -277,7 +277,7 @@ class Logic:
     
     self.currently_owned_items.remove(cleaned_item_name)
     
-    if item_name in self.all_progress_items:
+    if self.all_progress_items.count(item_name) > self.unplaced_progress_items.count(item_name):
       self.unplaced_progress_items.append(item_name)
     elif item_name in self.all_nonprogress_items:
       self.unplaced_nonprogress_items.append(item_name)
@@ -709,11 +709,17 @@ class Logic:
       filter_sunken_treasure=filter_sunken_treasure
     )
     
-    useful_items = []
+    items_needed = OrderedDict()
     for location_name in progress_locations:
       requirement_expression = self.item_locations[location_name]["Need"]
-      useful_items += self.get_item_names_from_logical_expression_req(requirement_expression)
-    useful_items += self.get_item_names_by_req_name("Can Reach and Defeat Ganondorf")
+      sub_items_needed = self.get_items_needed_from_logical_expression_req(requirement_expression)
+      for item_name, num_required in sub_items_needed.items():
+        items_needed[item_name] = max(num_required, items_needed.setdefault(item_name, 0))
+    sub_items_needed = self.get_items_needed_by_req_name("Can Reach and Defeat Ganondorf")
+    for item_name, num_required in sub_items_needed.items():
+      items_needed[item_name] = max(num_required, items_needed.setdefault(item_name, 0))
+    
+    useful_items = self.flatten_items_needed_to_item_names(items_needed)
     
     all_progress_items_filtered = []
     for item_name in useful_items:
@@ -724,20 +730,25 @@ class Logic:
       if item_name not in self.all_progress_items:
         if not (item_name.startswith("Triforce Chart ") or item_name.startswith("Treasure Chart")):
           raise Exception("Item %s opens up progress locations but is not in the list of all progress items." % item_name)
-      if item_name in all_progress_items_filtered:
-        # Avoid duplicates
-        continue
       all_progress_items_filtered.append(item_name)
     
-    items_to_make_nonprogress = [
-      item_name for item_name in self.all_progress_items
-      if item_name not in all_progress_items_filtered
-      and item_name not in self.currently_owned_items
-    ]
-    for item_name in items_to_make_nonprogress:
+    all_items_to_make_nonprogress = self.all_progress_items.copy()
+    starting_items_to_remove = self.rando.starting_items.copy()
+    for item_name in all_progress_items_filtered:
+      all_items_to_make_nonprogress.remove(item_name)
+      if item_name in starting_items_to_remove:
+        starting_items_to_remove.remove(item_name)
+    unplaced_items_to_make_nonprogress = all_items_to_make_nonprogress.copy()
+    for item_name in starting_items_to_remove:
+      if item_name not in self.all_progress_items:
+        continue
+      unplaced_items_to_make_nonprogress.remove(item_name)
+    
+    for item_name in all_items_to_make_nonprogress:
       #print(item_name)
       self.all_progress_items.remove(item_name)
       self.all_nonprogress_items.append(item_name)
+    for item_name in unplaced_items_to_make_nonprogress:
       self.unplaced_progress_items.remove(item_name)
       self.unplaced_nonprogress_items.append(item_name)
     
