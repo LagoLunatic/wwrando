@@ -246,7 +246,7 @@ def validate_boss_reward_locations(self, boss_reward_locations):
 def randomize_dungeon_items(self):
   # Places dungeon-specific items first so all the dungeon locations don't get used up by other items.
   
-  # Temporarily add all progress items except for dungeon keys while we randomize them.
+  # Temporarily add all items except for dungeon keys while we randomize them.
   items_to_temporarily_add = [
     item_name for item_name in (self.logic.unplaced_progress_items + self.logic.unplaced_nonprogress_items)
     if not self.logic.is_dungeon_item(item_name)
