@@ -307,12 +307,15 @@ class Randomizer:
     self.logic = Logic(self)
     
     num_progress_locations = self.logic.get_num_progression_locations()
+    max_race_mode_banned_locations = self.logic.get_max_race_mode_banned_locations()
     num_progress_items = self.logic.get_num_progression_items()
-    if num_progress_locations < num_progress_items: 
+    if num_progress_locations - max_race_mode_banned_locations < num_progress_items: 
       error_message = "Not enough progress locations to place all progress items.\n\n"
       error_message += "Total progress items: %d\n" % num_progress_items
-      error_message += "Progress locations with current options: %d\n\n" % num_progress_locations
-      error_message += "You need to check more of the progress location options in order to give the randomizer enough space to place all the items."
+      error_message += "Progress locations with current options: %d\n" % num_progress_locations
+      if max_race_mode_banned_locations > 0:
+        error_message += "Maximum Race Mode banned locations: %d\n" % max_race_mode_banned_locations
+      error_message += "\nYou need to check more of the progress location options in order to give the randomizer enough space to place all the items."
       raise TooFewProgressionLocationsError(error_message)
     
     # We need to determine if the user's selected options result in a dungeons-only-start.

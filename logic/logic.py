@@ -229,6 +229,44 @@ class Logic:
       num_progress_locations += 41
     
     return num_progress_locations
+
+  def get_max_race_mode_banned_locations(self):
+    if not self.rando.options.get("race_mode"):
+      return 0
+    
+    all_locations = self.item_locations.keys()
+    progress_locations = self.filter_locations_for_progression(all_locations)
+    location_counts_by_dungeon = OrderedDict()
+    
+    for location_name in progress_locations:
+      zone_name, _ = self.split_location_name_by_zone(location_name)
+      
+      dungeon_name = None
+      if self.is_dungeon_location(location_name):
+        dungeon_name = zone_name
+      elif location_name == "Mailbox - Letter from Orca":
+        dungeon_name = "Forbidden Woods"
+      elif location_name == "Mailbox - Letter from Baito":
+        dungeon_name = "Earth Temple"
+      elif location_name == "Mailbox - Letter from Aryll":
+        dungeon_name = "Forsaken Fortress"
+      elif location_name == "Mailbox - Letter from Tingle":
+        dungeon_name = "Forsaken Fortress"
+      
+      if dungeon_name is None:
+        continue
+      
+      if dungeon_name in location_counts_by_dungeon:
+        location_counts_by_dungeon[dungeon_name] += 1
+      else:
+        location_counts_by_dungeon[dungeon_name] = 1
+    
+    dungeon_location_counts = list(location_counts_by_dungeon.values())
+    dungeon_location_counts.sort(reverse=True)
+    num_banned_dungeons = 6 - int(self.rando.options.get("num_race_mode_dungeons"))
+    max_banned_locations = sum(dungeon_location_counts[:num_banned_dungeons])
+    
+    return max_banned_locations
   
   def get_progress_and_non_progress_locations(self):
     all_locations = self.item_locations.keys()

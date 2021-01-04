@@ -303,6 +303,9 @@ class Ui_MainWindow(object):
         self.num_race_mode_dungeons.addItem("")
         self.num_race_mode_dungeons.addItem("")
         self.num_race_mode_dungeons.addItem("")
+        self.num_race_mode_dungeons.addItem("")
+        self.num_race_mode_dungeons.addItem("")
+        self.num_race_mode_dungeons.addItem("")
         self.num_race_mode_dungeons.setObjectName(u"num_race_mode_dungeons")
         self.num_race_mode_dungeons.setMaximumSize(QSize(40, 16777215))
 
@@ -734,6 +737,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.tabWidget.setCurrentIndex(0)
+        self.num_race_mode_dungeons.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -792,9 +796,12 @@ class Ui_MainWindow(object):
 
         self.race_mode.setText(QCoreApplication.translate("MainWindow", u"Race Mode", None))
         self.label_for_num_race_mode_dungeons.setText(QCoreApplication.translate("MainWindow", u"Race Mode Required Dungeons", None))
-        self.num_race_mode_dungeons.setItemText(0, QCoreApplication.translate("MainWindow", u"4", None))
-        self.num_race_mode_dungeons.setItemText(1, QCoreApplication.translate("MainWindow", u"5", None))
-        self.num_race_mode_dungeons.setItemText(2, QCoreApplication.translate("MainWindow", u"6", None))
+        self.num_race_mode_dungeons.setItemText(0, QCoreApplication.translate("MainWindow", u"1", None))
+        self.num_race_mode_dungeons.setItemText(1, QCoreApplication.translate("MainWindow", u"2", None))
+        self.num_race_mode_dungeons.setItemText(2, QCoreApplication.translate("MainWindow", u"3", None))
+        self.num_race_mode_dungeons.setItemText(3, QCoreApplication.translate("MainWindow", u"4", None))
+        self.num_race_mode_dungeons.setItemText(4, QCoreApplication.translate("MainWindow", u"5", None))
+        self.num_race_mode_dungeons.setItemText(5, QCoreApplication.translate("MainWindow", u"6", None))
 
         self.label_for_randomize_entrances.setText(QCoreApplication.translate("MainWindow", u"Randomize Entrances", None))
         self.randomize_entrances.setItemText(0, QCoreApplication.translate("MainWindow", u"Disabled", None))
