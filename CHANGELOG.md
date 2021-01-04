@@ -2,7 +2,7 @@
 ### Next version (in progress, not released yet)
 
 Changes:
-* When Race Mode is enabled, you can now choose for the number of required dungeons to be 4, 5, or 6, instead of only 4.
+* When Race Mode is enabled, you can now choose for the number of required dungeons to be anywhere from 1 to 6, instead of only 4 dungeons.
 * Moved the inter-dungeon warp pot in Earth Temple from the fourth room to the second room so that it can be accessed with fewer items than before.
 * The Nintendo Gallery is now unlocked from the start of the game.
 * The option to remove the title/ending videos and the enemy palette randomizer no longer affect the permalink.
