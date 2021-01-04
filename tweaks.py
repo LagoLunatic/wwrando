@@ -865,7 +865,7 @@ def update_savage_labyrinth_hint_tablet(self):
     max_line_length=43
   )
 
-def update_randomly_chosen_hints(self):
+def randomize_and_update_hints(self):
   hints = []
   unique_items_given_hint_for = []
   possible_item_locations = list(self.logic.done_item_locations.keys())

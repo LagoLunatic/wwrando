@@ -388,15 +388,19 @@ class Randomizer:
     yield("Randomizing...", options_completed)
     
     if self.options.get("randomize_charts"):
+      self.reset_rng()
       charts.randomize_charts(self)
     
     if self.options.get("randomize_starting_island"):
+      self.reset_rng()
       starting_island.randomize_starting_island(self)
     
     if self.options.get("randomize_entrances") not in ["Disabled", None]:
+      self.reset_rng()
       entrances.randomize_entrances(self)
     
     if self.options.get("randomize_music"):
+      self.reset_rng()
       music.randomize_music(self)
     
     options_completed += 1
@@ -404,18 +408,18 @@ class Randomizer:
     # Enemies must be randomized before items in order for the enemy logic to properly take into account what items you do and don't start with.
     if self.options.get("randomize_enemies"):
       yield("Randomizing enemy locations...", options_completed)
+      self.reset_rng()
       enemies.randomize_enemies(self)
     
     if self.options.get("randomize_enemy_palettes"):
       yield("Randomizing enemy colors...", options_completed)
+      self.reset_rng()
       palettes.randomize_enemy_palettes(self)
       options_completed += 10
     
-    # Reset RNG before doing item randomization so other randomization options don't affect item layout.
-    self.rng = self.get_new_rng()
-    
     yield("Randomizing items...", options_completed)
     if self.randomize_items:
+      self.reset_rng()
       items.randomize_items(self)
     
     options_completed += 2
@@ -423,6 +427,7 @@ class Randomizer:
     yield("Saving items...", options_completed)
     if self.randomize_items and not self.dry_run:
       items.write_changed_items(self)
+      tweaks.randomize_and_update_hints(self)
     
     if not self.dry_run:
       self.apply_necessary_post_randomization_tweaks()
@@ -519,7 +524,6 @@ class Randomizer:
       tweaks.update_battlesquid_item_names(self)
       tweaks.update_item_names_in_letter_advertising_rock_spire_shop(self)
       tweaks.update_savage_labyrinth_hint_tablet(self)
-      tweaks.update_randomly_chosen_hints(self)
     tweaks.show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=self.race_mode_required_dungeons)
     tweaks.prevent_fire_mountain_lava_softlock(self)
   
@@ -837,6 +841,9 @@ class Randomizer:
       for i in range(1, 100):
         rng.getrandbits(i)
     return rng
+  
+  def reset_rng(self):
+    self.rng = self.get_new_rng()
   
   def calculate_playthrough_progression_spheres(self):
     progression_spheres = []
