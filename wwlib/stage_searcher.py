@@ -248,7 +248,7 @@ def print_all_used_item_pickup_flags(self):
             if actor.item_id < 0x20:
               item_name = self.item_names[actor.item_id]
             else:
-              item_name = "Random drop type 0x%02X" % actor.item_id
+              item_name = "Random drop type 0x%02X" % (actor.item_id - 0x20)
           elif class_name == "d_a_deku_item":
             item_name = self.item_names[0x34]
           else:
@@ -454,7 +454,7 @@ def print_item_table(self):
           drop_chances[item_name] = 0
         drop_chances[item_name] += 1
         
-      f.write("Drop type 0x%02X:\n" % (0x20+i))
+      f.write("Drop type 0x%02X:\n" % i)
       for item_name, chance in drop_chances.items():
         f.write("  % 6.2f%% %s\n" % (chance/0x10*100, item_name))
 
