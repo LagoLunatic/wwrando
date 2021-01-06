@@ -52,7 +52,7 @@ def randomize_items(self):
 
 def randomize_boss_rewards(self):
   # Try to generate dungeon boss reward locations until a valid set of locations is found.
-  for i in range(1, 50):
+  for i in range(50):
     if try_randomize_boss_rewards(self):
       return
   raise Exception("Cannot randomize boss rewards! Please try randomizing with a different seed.")
