@@ -302,7 +302,7 @@ Can Farm Knight's Crests:
     | (Can Access Other Location "Shark Island - Cave")
     | (Can Access Other Location "Stone Watcher Island - Cave" & Can Defeat Darknuts Easily)
     | (Can Access Other Location "Overlook Island - Cave" & Can Defeat Darknuts Easily)
-    | (Can Access Hyrule)
+    | (Can Access Hyrule & Can Defeat Darknuts)
   )
   # There are respawning Darknuts in:
   # * The inner cave of Ice Ring Isle.
