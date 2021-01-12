@@ -10,6 +10,7 @@ Changes:
 * Defeating Big Octos that have 12 eyes with arrows can now only be required if you have either the 60 arrow quiver or Light Arrows.
 * Renamed "Randomized Sword" to "No Starting Sword" and "Start with Sword" to "Start with Hero's Sword".
 * Renamed a few item locations to be more clear.
+* The item given for hitting Orca 500 times can now only be consumable items such as rupees (previously it could be anything except progress items).
 * The progress bar now updates incrementally as the randomized ISO is being written.
 
 Bug fixes:
