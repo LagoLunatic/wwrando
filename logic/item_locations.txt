@@ -2472,13 +2472,12 @@ Rock Spire Isle - Center Lookout Platform:
   Types: Platform
   Paths:
     - sea/Room16.arc/Chest002
-Rock Spire Isle - Gunboat:
+Rock Spire Isle - Southeast Gunboat:
   Need: Bombs & Grappling Hook
   Original item: Piece of Heart
   Types: Gunboat
   Paths:
     - sea/Room16.arc/ScalableObject000
-# TODO: there's another gunboat here. originally gave orange rupee
 
 Shark Island - Cave:
   Need:
