@@ -1337,13 +1337,14 @@ Earth Temple - Chest Behind Destructible Walls:
   Types: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest00A
-#Earth Temple - Behind Curtain Next to Map Chest:
+#Earth Temple - Behind Curtain In Warp Pot Room: # Too obscure to randomize
 #  Need:
 #    Can Access Earth Temple
 #    & Can Play Command Melody
 #    & Fire Arrows
-#    & Boomerang & TODO # Does boomerang work for items here other than rupees and spoils?
+#    & (Boomerang | Hookshot)
 #  Original item: Joy Pendant
+#  Types: Dungeon
 #  Paths:
 #    - M_Dai/Room2.arc/Actor010
 Earth Temple - Transparent Chest in First Crypt:
@@ -1443,14 +1444,15 @@ Earth Temple - Kill All Floormasters in Foggy Room:
   Types: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest009
-#Earth Temple - Behind Curtains Next to Hammer Button:
+#Earth Temple - Behind Curtain Next to Hammer Button: # Too obscure to randomize
 #  Need:
 #    Can Access Earth Temple
 #    & Can Play Command Melody
 #    & Can Aim Mirror Shield
 #    & Can Play Earth God's Lyric
-#    & Boomerang & TODO # Does boomerang work for items here other than rupees and spoils?
+#    & (Boomerang | Hookshot)
 #  Original item: Joy Pendant
+#  Types: Dungeon
 #  Paths:
 #    - M_Dai/Room13.arc/Actor01A
 Earth Temple - Chest in Third Crypt:
