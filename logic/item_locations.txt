@@ -53,7 +53,7 @@ Outset Island - Orca - Give 10 Knight's Crests:
 Outset Island - Orca - Hit 500 Times:
   Need: Can Sword Fight with Orca
   Original item: Piece of Heart
-  Types: No progression # This is just tedious to do
+  Types: Consumables only # This is just tedious to do
   Paths:
     - rels/d_a_npc_ji1.rel@42F7
 #Outset Island - Orca - Hit 999 Times:
