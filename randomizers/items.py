@@ -230,7 +230,8 @@ def validate_boss_reward_locations(self, boss_reward_locations):
     # Temporarily own dungeon boss rewards that are now accessible.
     for location_name in newly_accessible_boss_locations:
       item_name = boss_reward_locations[location_name]
-      self.logic.add_owned_item_or_item_group(item_name)
+      if item_name in self.logic.unplaced_progress_items:
+        self.logic.add_owned_item_or_item_group(item_name)
       temporary_boss_reward_items.append(item_name)
       remaining_boss_reward_items.remove(item_name)
       remaining_boss_locations.remove(location_name)
@@ -239,7 +240,8 @@ def validate_boss_reward_locations(self, boss_reward_locations):
   for item_name in items_to_temporarily_add:
     self.logic.remove_owned_item_or_item_group(item_name)
   for item_name in temporary_boss_reward_items:
-    self.logic.remove_owned_item_or_item_group(item_name)
+    if item_name in self.logic.currently_owned_items:
+      self.logic.remove_owned_item_or_item_group(item_name)
   
   return locations_valid
 
