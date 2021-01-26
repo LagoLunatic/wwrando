@@ -7,7 +7,7 @@ from io import BytesIO
 import glob
 from PIL import Image
 
-from fs_helpers import data_len
+from fs_helpers import *
 from wwlib.texture_utils import *
 from wwlib import texture_utils
 from paths import ASSETS_PATH
@@ -119,6 +119,11 @@ def get_model_metadata(custom_model_name):
                 "error_message": error_message,
               }
     
+    for key in ["sword_slash_trail_color", "boomerang_trail_color", "arrow_trail_color"]:
+      if key in metadata:
+        hex_color = metadata[key]
+        metadata[key] = parse_hex_color_with_alpha(hex_color)
+    
     cached_model_metadata[custom_model_name] = metadata
     
     return metadata
@@ -134,7 +139,7 @@ def parse_hex_color(hex_color, use_old_color_format):
     return [r, g, b]
   else:
     raise InvalidColorError()
-  
+
 def parse_hex_color_old_format(hex_color):
   if isinstance(hex_color, int):
     hex_color_string = "%06d" % hex_color
@@ -147,6 +152,16 @@ def parse_hex_color_old_format(hex_color):
   if match:
     r, g, b = int(match.group(1), 16), int(match.group(2), 16), int(match.group(3), 16)
     return [r, g, b]
+  else:
+    raise InvalidColorError()
+
+def parse_hex_color_with_alpha(hex_color):
+  if isinstance(hex_color, int) and (0x00000000 <= hex_color <= 0xFFFFFFFF):
+    r = (hex_color & 0xFF000000) >> 24
+    g = (hex_color & 0x00FF0000) >> 16
+    b = (hex_color & 0x0000FF00) >> 8
+    a = (hex_color & 0x000000FF) >> 0
+    return [r, g, b, a]
   else:
     raise InvalidColorError()
 
@@ -328,6 +343,18 @@ def check_changed_archives_over_filesize_limit(orig_sum_of_changed_arc_sizes, ne
 def change_player_custom_colors(self):
   custom_model_metadata = get_model_metadata(self.custom_model_name)
   disable_casual_clothes = custom_model_metadata.get("disable_casual_clothes", False)
+  
+  sword_slash_trail_color = custom_model_metadata.get("sword_slash_trail_color")
+  boomerang_trail_color = custom_model_metadata.get("boomerang_trail_color")
+  arrow_trail_color = custom_model_metadata.get("arrow_trail_color")
+  if sword_slash_trail_color:
+    self.dol.write_data(write_and_pack_bytes, 0x803F62AC, sword_slash_trail_color, "BBBB")
+  if boomerang_trail_color:
+    self.dol.write_data(write_and_pack_bytes, 0x803F6268, boomerang_trail_color, "BBBB")
+  if arrow_trail_color:
+    common_jpc = self.get_jpc("files/res/Particle/common.jpc")
+    particle = common_jpc.particles_by_id[0x48]
+    particle.bsp1.color_prm = tuple(arrow_trail_color)
   
   link_arc = self.get_arc("files/res/Object/Link.arc")
   link_main_model = link_arc.get_file("cl.bdl")
