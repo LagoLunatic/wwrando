@@ -515,7 +515,7 @@ class Randomizer:
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)
     tweaks.check_hide_ship_sail(self)
-    customizer.change_player_clothes_color(self)
+    customizer.change_player_custom_colors(self)
   
   def apply_necessary_post_randomization_tweaks(self):
     if self.randomize_items:

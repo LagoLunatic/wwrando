@@ -325,7 +325,7 @@ def check_changed_archives_over_filesize_limit(orig_sum_of_changed_arc_sizes, ne
     error_message += "Combined size of selected model's archives: %.2fMiB\n" % (new_sum_of_changed_arc_sizes / (1024*1024))
     raise Exception(error_message)
 
-def change_player_clothes_color(self):
+def change_player_custom_colors(self):
   custom_model_metadata = get_model_metadata(self.custom_model_name)
   disable_casual_clothes = custom_model_metadata.get("disable_casual_clothes", False)
   
