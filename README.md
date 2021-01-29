@@ -41,8 +41,8 @@ Hypatia (textures)
 JarheadHME (additional programming)  
 LordNed (file format documentation)  
 MelonSpeedruns (game design suggestions, graphic design)  
-TrogWW (additional programming)  
 nbouteme (additional programming)  
+TrogWW (additional programming)  
 wooferzfg (additional programming)  
 
 ### Running the randomizer from source
