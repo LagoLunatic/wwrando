@@ -1997,21 +1997,30 @@ d_a_obj_movebox:
   item_id:
     Bitfield name: params
     Mask: 0x0000003F
-  unknown_param_2:
+  stay_moved_switch_1:
     Bitfield name: params
     Mask: 0x0000FF00
   item_pickup_flag:
     Bitfield name: params
     Mask: 0x007F0000
-  unknown_param_4:
+  type:
     Bitfield name: params
     Mask: 0x0F000000
-  unknown_param_5:
+  do_not_stay_moved_after_reload:
     Bitfield name: params
     Mask: 0x40000000
-  unknown_param_6:
+  disable_flag_on_top:
     Bitfield name: params
     Mask: 0x80000000
+  unknown_param_7:
+    Bitfield name: aux_params_1
+    Mask: 0x00FF
+  stay_moved_to_path:
+    Bitfield name: aux_params_2
+    Mask: 0x00FF
+  stay_moved_switch_2:
+    Bitfield name: aux_params_2
+    Mask: 0xFF00
 
 d_a_obj_msdan:
   unknown_param_1:
@@ -2541,16 +2550,16 @@ d_a_rectangle: {}
 d_a_sail: {}
 
 d_a_saku:
-  unknown_param_1:
+  height_type:
     Bitfield name: params
     Mask: 0x0000000F
-  unknown_param_2:
+  strength_type:
     Bitfield name: params
     Mask: 0x000000F0
-  unknown_param_3:
+  bottom_destroyed_switch:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_4:
+  top_destroyed_switch:
     Bitfield name: params
     Mask: 0x00FF0000
 
@@ -2894,16 +2903,16 @@ d_a_tag_hint:
   unknown_param_2:
     Bitfield name: params
     Mask: 0x000000C0
-  unknown_param_3:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_4:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_5:
+  evnt_index:
     Bitfield name: params
     Mask: 0xFF000000
-  unknown_param_6:
+  message_id:
     Bitfield name: aux_params_1
     Mask: 0xFFFF
   unknown_param_7:
@@ -3296,7 +3305,7 @@ d_a_py_lk:
   unknown_param_4:
     Bitfield name: params
     Mask: 0x00FF0000
-  event_index:
+  evnt_index:
     Bitfield name: params
     Mask: 0xFF000000
   unknown_param_5:

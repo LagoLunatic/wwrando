@@ -230,7 +230,7 @@ def remove_forsaken_fortress_2_cutscenes(self):
   # Removes the rescuing-Aryll cutscene played by the spawn when you enter the Forsaken Fortress tower.
   dzx = self.get_arc("files/res/Stage/M2tower/Room0.arc").get_file("room.dzr")
   spawn = next(spawn for spawn in dzx.entries_by_type("PLYR") if spawn.spawn_id == 16)
-  spawn.event_index = 0xFF
+  spawn.evnt_index = 0xFF
   spawn.save_changes()
   
   # Removes the Ganon cutscene by making the door to his room lead back to the start of Forsaken Fortress instead.
