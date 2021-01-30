@@ -3,6 +3,7 @@
 
 New features:
 * When Race Mode is enabled, you can now choose for the number of required dungeons to be anywhere from 1 to 6, instead of only 4 dungeons.
+* You can now choose to randomize the Hero's Shield instead of starting the game with it.
 * Custom model authors can now change the colors of the sword's slash trail, the boomerang's trail, and arrow trails.
 * Slightly increased the speed at which Link sidles along walls.
 * The Nintendo Gallery is now unlocked from the start of the game.
