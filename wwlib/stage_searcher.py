@@ -145,6 +145,15 @@ def print_all_used_switches(self):
                 if attr_name == "enable_spawn_switch" and actor.behavior_type == 3:
                   # Blue ChuChu's switch to keep track of whether you own its Blue Chu Jelly.
                   stage_id_for_param = 0xE
+              elif class_name == "d_a_obj_warpt":
+                if actor.type >= 2:
+                  # Cyclic warp pot.
+                  if attr_name.startswith("noncyclic_"):
+                    continue
+                else:
+                  # Noncyclic warp pot.
+                  if attr_name.startswith("cyclic_"):
+                    continue
               
               location_identifier = " from % 15s" % actor.name
               location_identifier += "  in " + arc_path[len("files/res/Stage/"):-len(".arc")]
@@ -164,9 +173,9 @@ def print_all_used_switches(self):
                 used_switches_by_stage_id[stage_id_for_param].append((switch, location_identifier))
             else:
               # Some hacky code to try to look for unknown params that are switches:
-              if stage_id_for_param == 0: # Sea
+              if stage_id_for_param == 3: # DRC
                 if attr_name.startswith("unknown_param_"):
-                  if getattr(actor, attr_name) == 0x18:
+                  if getattr(actor, attr_name) == 0x42:
                     print("!!!! %s %s %s" % (actor.name, attr_name, arc_path))
   
   def write_used_switches_to_file(used_switches_dict, filename):

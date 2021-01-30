@@ -1335,11 +1335,11 @@ def add_inter_dungeon_warp_pots(self):
       # Add the warp pots themselves.
       warp_pot = room_dzx.add_entity("ACTR", layer=None)
       warp_pot.name = "Warpts%d" % (warp_pot_index+1) # Warpts1 Warpts2 or Warpts3
-      warp_pot.warp_pot_type = warp_pot_index + 2 # 2 3 or 4
-      warp_pot.warp_pot_event_reg_index = warp_pot_data.event_reg_index
-      warp_pot.warp_pot_dest_1 = scls_exit_index_1
-      warp_pot.warp_pot_dest_2 = scls_exit_index_2
-      warp_pot.warp_pot_dest_3 = scls_exit_index_3
+      warp_pot.type = warp_pot_index + 2 # 2 3 or 4
+      warp_pot.cyclic_event_reg_index = warp_pot_data.event_reg_index
+      warp_pot.cyclic_dest_1_exit = scls_exit_index_1
+      warp_pot.cyclic_dest_2_exit = scls_exit_index_2
+      warp_pot.cyclic_dest_3_exit = scls_exit_index_3
       warp_pot.x_pos = warp_pot_data.x
       warp_pot.y_pos = warp_pot_data.y
       warp_pot.z_pos = warp_pot_data.z
