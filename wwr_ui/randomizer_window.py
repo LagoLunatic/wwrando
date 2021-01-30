@@ -5,7 +5,7 @@ from PySide2.QtWidgets import *
 from wwr_ui.ui_randomizer_window import Ui_MainWindow
 from wwr_ui.options import OPTIONS, NON_PERMALINK_OPTIONS, HIDDEN_OPTIONS, POTENTIALLY_UNBEATABLE_OPTIONS
 from wwr_ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
-from wwr_ui.inventory import INVENTORY_ITEMS, REGULAR_ITEMS, PROGRESSIVE_ITEMS
+from wwr_ui.inventory import INVENTORY_ITEMS, REGULAR_ITEMS, PROGRESSIVE_ITEMS, DEFAULT_STARTING_ITEMS, DEFAULT_RANDOMIZED_ITEMS
 from wwr_ui.packedbits import PackedBitsReader, PackedBitsWriter
 
 import random
@@ -57,7 +57,7 @@ class WWRandomizerWindow(QMainWindow):
     
     self.ui.add_gear.clicked.connect(self.add_to_starting_gear)
     self.randomized_gear_model = QStringListModel()
-    self.randomized_gear_model.setStringList(INVENTORY_ITEMS.copy())
+    self.randomized_gear_model.setStringList(DEFAULT_RANDOMIZED_ITEMS.copy())
     
     self.filtered_rgear = ModelFilterOut()
     self.filtered_rgear.setSourceModel(self.randomized_gear_model)
@@ -65,6 +65,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.randomized_gear.setModel(self.filtered_rgear)
     self.ui.remove_gear.clicked.connect(self.remove_from_starting_gear)
     self.starting_gear_model = QStringListModel()
+    self.starting_gear_model.setStringList(DEFAULT_STARTING_ITEMS.copy())
     self.ui.starting_gear.setModel(self.starting_gear_model)
     
     self.preserve_default_settings()
@@ -717,6 +718,8 @@ class WWRandomizerWindow(QMainWindow):
     custom_model_names = customizer.get_all_custom_model_names()
     for custom_model_name in custom_model_names:
       self.ui.custom_player_model.addItem(custom_model_name)
+      
+      customizer.get_model_metadata(custom_model_name)
     
     if custom_model_names:
       self.ui.custom_player_model.addItem("Random")
@@ -958,7 +961,7 @@ class WWRandomizerWindow(QMainWindow):
       elif sword_mode == "No Starting Sword":
         num_possible_rewards += 4
       
-      potential_boss_rewards += 3 * ["Progressive Bow"] + ["Hookshot", "Mirror Shield", "Boomerang"]
+      potential_boss_rewards += 3 * ["Progressive Bow"] + ["Hookshot", "Progressive Shield", "Boomerang"]
       while num_possible_rewards < int(self.get_option_value("num_race_mode_dungeons")):
         cur_reward = potential_boss_rewards.pop(0)
         items_to_filter_out += [cur_reward]
@@ -985,6 +988,7 @@ class WWRandomizerWindow(QMainWindow):
     all_gear = self.get_option_value("starting_gear") + self.get_option_value("randomized_gear");
     
     if not compare(all_gear, INVENTORY_ITEMS):
+      print("Gear list invalid, resetting")
       for opt in ["randomized_gear", "starting_gear"]:
         self.set_option_value(opt, self.default_settings[opt])
     

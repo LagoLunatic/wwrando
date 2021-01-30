@@ -157,7 +157,6 @@ class Randomizer:
       "Wind's Requiem",
       "Ballad of Gales",
       "Song of Passing",
-      "Hero's Shield",
       "Boat's Sail",
     ]
     self.starting_items += self.options.get("starting_gear", [])

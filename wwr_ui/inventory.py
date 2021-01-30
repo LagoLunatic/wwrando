@@ -12,7 +12,6 @@ REGULAR_ITEMS = [
   "Bombs",
   "Skull Hammer",
   "Deku Leaf",
-  "Mirror Shield",
   "Hurricane Spin",
   "Din's Pearl",
   "Farore's Pearl",
@@ -39,7 +38,16 @@ PROGRESSIVE_ITEMS = \
   ["Progressive Bomb Bag"]  * 2 + \
   ["Progressive Wallet"]    * 2 + \
   ["Progressive Picto Box"] * 2 + \
-  ["Progressive Sword"]     * 3
+  ["Progressive Sword"]     * 3 + \
+  ["Progressive Shield"]    * 2
 PROGRESSIVE_ITEMS.sort()
 
 INVENTORY_ITEMS = REGULAR_ITEMS + PROGRESSIVE_ITEMS
+
+DEFAULT_STARTING_ITEMS = [
+  "Progressive Shield",
+]
+
+DEFAULT_RANDOMIZED_ITEMS = INVENTORY_ITEMS.copy()
+for item_name in DEFAULT_STARTING_ITEMS:
+  DEFAULT_RANDOMIZED_ITEMS.remove(item_name)

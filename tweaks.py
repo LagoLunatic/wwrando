@@ -253,6 +253,10 @@ def make_items_progressive(self):
     sword_item_get_func_addr = item_get_funcs_list + sword_item_id*4
     self.dol.write_data(write_u32, sword_item_get_func_addr, self.main_custom_symbols["progressive_sword_item_func"])
   
+  for shield_item_id in [0x3B, 0x3C]:
+    shield_item_get_func_addr = item_get_funcs_list + shield_item_id*4
+    self.dol.write_data(write_u32, sword_item_get_func_addr, self.main_custom_symbols["progressive_shield_item_func"])
+  
   for bow_item_id in [0x27, 0x35, 0x36]:
     bow_item_get_func_addr = item_get_funcs_list + bow_item_id*4
     self.dol.write_data(write_u32, bow_item_get_func_addr, self.main_custom_symbols["progressive_bow_func"])
@@ -275,6 +279,7 @@ def make_items_progressive(self):
   
   # Register which item ID is for which progressive item.
   self.item_name_to_id["Progressive Sword"] = 0x38
+  self.item_name_to_id["Progressive Shield"] = 0x3B
   self.item_name_to_id["Progressive Bow"] = 0x27
   self.item_name_to_id["Progressive Wallet"] = 0xAB
   self.item_name_to_id["Progressive Bomb Bag"] = 0xAD

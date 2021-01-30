@@ -13,8 +13,6 @@ PROGRESS_ITEMS = [
   "Bombs",
   "Skull Hammer",
   "Deku Leaf",
-  "Hero's Shield",
-  "Mirror Shield",
   
   "Triforce Shard 1",
   "Triforce Shard 2",
@@ -58,6 +56,7 @@ PROGRESS_ITEMS = [
   "Ghost Ship Chart",
 ] + \
   ["Progressive Sword"]*4 + \
+  ["Progressive Shield"]*2 + \
   ["Progressive Bow"]*3 + \
   ["Progressive Wallet"]*2 + \
   ["Progressive Picto Box"]*2 + \

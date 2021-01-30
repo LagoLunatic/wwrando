@@ -101,7 +101,7 @@ def try_randomize_boss_rewards(self):
     ]
     boss_reward_items += bow_upgrades[0:num_additional_rewards_needed]
   
-  possible_additional_rewards = ["Hookshot", "Mirror Shield", "Boomerang"]
+  possible_additional_rewards = ["Hookshot", "Progressive Shield", "Boomerang"]
   
   # If we STILL need more rewards, use the Hookshot, Mirror Shield, and Boomerang.
   num_additional_rewards_needed = total_num_rewards - len(boss_reward_items)

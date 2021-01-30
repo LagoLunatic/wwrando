@@ -36,7 +36,6 @@ bl onEventBit__11dSv_event_cFUs
 
 after_sword_mode_initialization:
 
-bl item_func_shield__Fv
 bl item_func_normal_sail__Fv
 bl item_func_wind_tact__Fv ; Wind Waker
 bl item_func_tact_song1__Fv ; Wind's Requiem
@@ -385,6 +384,11 @@ beq convert_progressive_sword_id
 cmpwi r3, 0x3E
 beq convert_progressive_sword_id
 
+cmpwi r3, 0x3B
+beq convert_progressive_shield_id
+cmpwi r3, 0x3C
+beq convert_progressive_shield_id
+
 cmpwi r3, 0x27
 beq convert_progressive_bow_id
 cmpwi r3, 0x35
@@ -441,6 +445,25 @@ li r3, 0x3A
 b convert_progressive_item_id_func_end
 convert_progressive_sword_id_to_full_power_master_sword:
 li r3, 0x3E
+b convert_progressive_item_id_func_end
+
+
+convert_progressive_shield_id:
+lis r3, 0x803C4CBD@ha
+addi r3, r3, 0x803C4CBD@l
+lbz r4, 0 (r3) ; Bitfield of swords you own
+cmpwi r4, 0
+beq convert_progressive_shield_id_to_heros_shield
+cmpwi r4, 1
+beq convert_progressive_shield_id_to_mirror_shield
+li r3, 0x3B ; Invalid shield state; this shouldn't happen so just return the base shield ID
+b convert_progressive_item_id_func_end
+
+convert_progressive_shield_id_to_heros_shield:
+li r3, 0x3B
+b convert_progressive_item_id_func_end
+convert_progressive_shield_id_to_mirror_shield:
+li r3, 0x3C
 b convert_progressive_item_id_func_end
 
 
@@ -718,6 +741,31 @@ sword_func_end:
 lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
+blr
+
+
+
+
+.global progressive_shield_item_func
+progressive_shield_item_func:
+
+lis r3, 0x803C4CBD@ha
+addi r3, r3, 0x803C4CBD@l
+lbz r4, 0 (r3) ; Bitfield of shields you own
+cmpwi r4, 0
+beq get_heros_shield
+cmpwi r4, 1
+beq get_mirror_shield
+b shield_func_end
+
+get_heros_shield:
+bl item_func_shield__Fv
+b shield_func_end
+
+get_mirror_shield:
+bl item_func_mirror_shield__Fv
+
+shield_func_end:
 blr
 
 

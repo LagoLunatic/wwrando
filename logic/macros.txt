@@ -43,6 +43,10 @@ Any Master Sword:
   Progressive Sword x2
 Full Power Master Sword:
   Progressive Sword x4
+Hero's Shield:
+  Progressive Shield x1
+Mirror Shield:
+  Progressive Shield x2
 Hero's Bow:
   Progressive Bow x1
 Fire Arrows:
