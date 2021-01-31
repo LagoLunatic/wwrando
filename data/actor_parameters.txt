@@ -876,7 +876,7 @@ d_a_kytag02:
     Mask: 0x00FF0000
 
 d_a_kytag03:
-  unknown_param_1:
+  switch_to_check:
     Bitfield name: params
     Mask: 0x000000FF
 
@@ -2023,16 +2023,16 @@ d_a_obj_movebox:
     Mask: 0xFF00
 
 d_a_obj_msdan:
-  unknown_param_1:
+  switch_to_check:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  staircase_length:
     Bitfield name: params
     Mask: 0x00010000
   unknown_param_3:
     Bitfield name: params
     Mask: 0x00040000
-  unknown_param_4:
+  event_index:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -2042,13 +2042,13 @@ d_a_obj_msdan2:
     Mask: 0x000000FF
 
 d_a_obj_msdan_sub:
-  unknown_param_1:
+  switch_to_check:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  which_stair_index:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  staircase_length:
     Bitfield name: params
     Mask: 0x00010000
 
@@ -2207,13 +2207,13 @@ d_a_obj_swheavy:
     Mask: 0x07000000
 
 d_a_obj_swlight:
-  unknown_param_1:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  other_switch:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  is_paired:
     Bitfield name: params
     Mask: 0x00010000
 
@@ -2327,7 +2327,7 @@ d_a_obj_try:
 d_a_obj_usovmc: {}
 
 d_a_obj_Vds:
-  unknown_param_1:
+  switch_to_check:
     Bitfield name: params
     Mask: 0x000000FF
 
@@ -2978,16 +2978,16 @@ d_a_tag_light:
     Mask: 0xFF000000
 
 d_a_tag_md_cb:
-  unknown_param_1:
+  message_id:
     Bitfield name: params
     Mask: 0x0000FFFF
-  unknown_param_2:
+  first_switch_to_check:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_3:
+  num_switches_to_check:
     Bitfield name: params
     Mask: 0xFF000000
-  unknown_param_4:
+  disable_spawn_switch:
     Bitfield name: aux_params_1
     Mask: 0x00FF
 

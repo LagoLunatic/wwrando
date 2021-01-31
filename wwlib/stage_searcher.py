@@ -119,7 +119,23 @@ def print_all_used_switches(self):
         actors += dzx.entries_by_type_and_layer("TGDR", layer)
         
         for actor in actors:
+          if actor.name not in DataTables.actor_name_to_class_name:
+            continue
+          class_name = DataTables.actor_name_to_class_name[actor.name]
+          
+          location_identifier = " from % 15s" % actor.name
+          location_identifier += "  in " + arc_path[len("files/res/Stage/"):-len(".arc")]
+          if layer is not None:
+            location_identifier += "/Layer%X" % layer
+          
+          switches_to_add_for_actor = []
           for attr_name in actor.param_fields:
+            if attr_name.startswith("unknown_param_"):
+              # Some hacky code to try to look for unknown params that are switches.
+              if stage_id == 3: # DRC
+                if getattr(actor, attr_name) == 0x42:
+                  print("!!!! %s %s %s" % (actor.name, attr_name, arc_path))
+            
             stage_id_for_param = stage_id
             
             params_bitfield_name, mask = actor.param_fields[attr_name]
@@ -135,12 +151,14 @@ def print_all_used_switches(self):
               if switch == 0xFF:
                 continue
               
-              class_name = DataTables.actor_name_to_class_name[actor.name]
-              
               if class_name == "d_a_tbox":
                 if attr_name == "appear_condition_switch" and actor.behavior_type not in [1, 3, 4, 6, 8]:
                   # Not a type that cares about the appear condition switch
                   continue
+              if class_name in ["d_a_andsw0", "d_a_andsw2", "d_a_tag_md_cb"] and attr_name == "first_switch_to_check":
+                for switch in range(actor.first_switch_to_check, actor.first_switch_to_check+actor.num_switches_to_check):
+                  switches_to_add_for_actor.append(switch)
+                continue
               elif class_name == "d_a_cc":
                 if attr_name == "enable_spawn_switch" and actor.behavior_type == 3:
                   # Blue ChuChu's switch to keep track of whether you own its Blue Chu Jelly.
@@ -154,12 +172,13 @@ def print_all_used_switches(self):
                   # Noncyclic warp pot.
                   if attr_name.startswith("cyclic_"):
                     continue
+              elif class_name == "d_a_obj_swlight":
+                if attr_name == "other_switch" and actor.is_paired == 0:
+                  continue
               
-              location_identifier = " from % 15s" % actor.name
-              location_identifier += "  in " + arc_path[len("files/res/Stage/"):-len(".arc")]
-              if layer is not None:
-                location_identifier += "/Layer%X" % layer
-              
+              switches_to_add_for_actor.append(switch)
+          
+          for switch in switches_to_add_for_actor:
               if is_unused:
                 if stage_id_for_param not in used_switches_by_stage_id_unused:
                   used_switches_by_stage_id_unused[stage_id_for_param] = []
@@ -171,12 +190,6 @@ def print_all_used_switches(self):
                 used_switches_by_stage_id_unused[stage_id_for_param].append((switch, location_identifier))
               else:
                 used_switches_by_stage_id[stage_id_for_param].append((switch, location_identifier))
-            else:
-              # Some hacky code to try to look for unknown params that are switches:
-              if stage_id_for_param == 3: # DRC
-                if attr_name.startswith("unknown_param_"):
-                  if getattr(actor, attr_name) == 0x42:
-                    print("!!!! %s %s %s" % (actor.name, attr_name, arc_path))
   
   def write_used_switches_to_file(used_switches_dict, filename):
     used_switches_dict = OrderedDict(sorted(
