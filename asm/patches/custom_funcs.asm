@@ -3005,29 +3005,6 @@ blr
 
 
 
-.global set_next_stage_and_stop_sub_bgm
-set_next_stage_and_stop_sub_bgm:
-stwu sp, -0x10 (sp)
-mflr r0
-stw r0, 0x14 (sp)
-
-; First replace the function call we overwrote to call this custom function.
-bl dComIfGp_setNextStage__FPCcsScScfUliSc
-
-; Then stop the music.
-lis r3, 0x803F7710@ha
-addi r3, r3, 0x803F7710@l
-lwz r3, 0 (r3)
-bl subBgmStop__11JAIZelBasicFv
-
-lwz r0, 0x14 (sp)
-mtlr r0
-addi sp, sp, 0x10
-blr
-
-
-
-
 ; Sets both maximum and active health, and rounds down active health to 4 so that you don't start a new file with 11 and a quarter hearts.
 .global set_starting_health
 set_starting_health:
@@ -3318,6 +3295,23 @@ lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
 blr
+
+
+
+
+.global stop_sub_bgm_when_unloading_stage
+stop_sub_bgm_when_unloading_stage:
+; Stop the music.
+lis r3, 0x803F7710@ha
+addi r3, r3, 0x803F7710@l
+lwz r3, 0 (r3)
+bl subBgmStop__11JAIZelBasicFv
+
+; Replace the line we overwrote to jump here
+mr r3, r30
+
+; Return
+b 0x80235344
 
 
 

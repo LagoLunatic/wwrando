@@ -305,12 +305,3 @@
 .org 0x80052668 ; In getLayerNo
   b 0x80052850 ; Skip checking various event bits and the number of triforce shards owned, just always use the same layer
 .close
-
-
-
-
-; Fix a bug where losing to the Outset whirlpool wouldn't stop the intense music from playing, and would result in both that music and Outset's normal music playing at the same time afterwards.
-.open "files/rels/d_a_ship.rel"
-.org 0x7CB8 ; In daShip_c::procWhirlDown
-  bl set_next_stage_and_stop_sub_bgm
-.close

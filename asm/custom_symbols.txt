@@ -100,20 +100,20 @@ sys/main.dol:
   miniblin_set_death_switch_when_light_arrowed: 0x803FEA00
   poe_fix_light_arrows_bug: 0x803FEA34
   magtail_respawn_when_head_light_arrowed: 0x803FEAF4
-  set_next_stage_and_stop_sub_bgm: 0x803FEB34
-  set_starting_health: 0x803FEB64
-  get_current_health_for_file_select_screen: 0x803FEB80
-  get_max_health_for_file_select_screen: 0x803FEBA8
-  check_player_in_casual_clothes: 0x803FEBCC
-  check_open_map_select: 0x803FEC08
-  read_custom_DynamicNameTable_loop: 0x803FEC68
-  read_custom_l_objectName_loop_for_dStage_searchName: 0x803FEC94
-  read_custom_l_objectName_loop_for_dStage_getName: 0x803FECBC
-  custom_DynamicNameTable: 0x803FECE8
-  custom_l_objectName: 0x803FED00
-  custom_l_objectName_end: 0x803FED0C
-  custom_DMC: 0x803FED0C
-  custom_isTbox_for_unloaded_stage_save_info: 0x803FF4E8
+  set_starting_health: 0x803FEB34
+  get_current_health_for_file_select_screen: 0x803FEB50
+  get_max_health_for_file_select_screen: 0x803FEB78
+  check_player_in_casual_clothes: 0x803FEB9C
+  check_open_map_select: 0x803FEBD8
+  read_custom_DynamicNameTable_loop: 0x803FEC38
+  read_custom_l_objectName_loop_for_dStage_searchName: 0x803FEC64
+  read_custom_l_objectName_loop_for_dStage_getName: 0x803FEC8C
+  custom_DynamicNameTable: 0x803FECB8
+  custom_l_objectName: 0x803FECD0
+  custom_l_objectName_end: 0x803FECDC
+  custom_DMC: 0x803FECDC
+  custom_isTbox_for_unloaded_stage_save_info: 0x803FF4B8
+  stop_sub_bgm_when_unloading_stage: 0x803FF4E8
   test_room_stage_name: 0x8022D034
   test_room_starting_items_list: 0x8022D03C
   test_room_spawn_id: 0x800531E3
