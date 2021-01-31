@@ -278,13 +278,13 @@ def make_items_progressive(self):
     self.dol.write_data(write_u32, picto_box_item_get_func_addr, self.main_custom_symbols["progressive_picto_box_item_func"])
   
   # Register which item ID is for which progressive item.
-  self.item_name_to_id["Progressive Sword"] = 0x38
-  self.item_name_to_id["Progressive Shield"] = 0x3B
-  self.item_name_to_id["Progressive Bow"] = 0x27
-  self.item_name_to_id["Progressive Wallet"] = 0xAB
-  self.item_name_to_id["Progressive Bomb Bag"] = 0xAD
-  self.item_name_to_id["Progressive Quiver"] = 0xAF
-  self.item_name_to_id["Progressive Picto Box"] = 0x23
+  self.register_renamed_item(0x38, "Progressive Sword")
+  self.register_renamed_item(0x3B, "Progressive Shield")
+  self.register_renamed_item(0x27, "Progressive Bow")
+  self.register_renamed_item(0xAB, "Progressive Wallet")
+  self.register_renamed_item(0xAD, "Progressive Bomb Bag")
+  self.register_renamed_item(0xAF, "Progressive Quiver")
+  self.register_renamed_item(0x23, "Progressive Picto Box")
   
   # Modify the item get funcs for bombs and the hero's bow to nop out the code that sets your current and max bombs/arrows to 30.
   # Without this change, getting bombs after a bomb bag upgrade would negate the bomb bag upgrade.
@@ -581,7 +581,7 @@ def allow_dungeon_items_to_appear_anywhere(self):
     dungeon_name = self.logic.DUNGEON_NAMES[short_dungeon_name]
     
     # Register the proper item ID for this item with the randomizer.
-    self.item_name_to_id[item_name] = item_id
+    self.register_renamed_item(item_id, item_name)
     
     # Update the item get funcs for the dungeon items to point to our custom item get funcs instead.
     custom_symbol_name = item_name.lower().replace(" ", "_") + "_item_get_func"
@@ -1628,6 +1628,9 @@ def update_tingle_statue_item_get_funcs(self):
 
 def make_tingle_statue_reward_rupee_rainbow_colored(self):
   # Change the color index of the special 500 rupee to be 7 - this is a special value (originally unused) we use to indicate to our custom code that it's the special rupee, and so it should have its color animated.
+  
+  # Register the proper item name.
+  self.register_renamed_item(0xB8, "Rainbow Rupee")
   
   item_resources_list_start = 0x803842B0
   

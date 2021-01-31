@@ -629,6 +629,10 @@ class Randomizer:
     with open(os.path.join(DATA_PATH, "palette_randomizable_files.txt"), "r") as f:
       self.palette_randomizable_files = yaml.safe_load(f)
   
+  def register_renamed_item(self, item_id, item_name):
+    self.item_name_to_id[item_name] = item_id
+    self.item_names[item_id] = item_name
+  
   def get_arc(self, arc_path):
     arc_path = arc_path.replace("\\", "/")
     

@@ -2322,7 +2322,7 @@ Tingle Island - Ankle - Reward for All Tingle Statues:
     & Goddess Tingle Statue
     & Earth Tingle Statue
     & Wind Tingle Statue
-  Original item: Rainbow Rupee
+  Original item: 500 Rupees, reward for finding all Tingle Statues
   Types: Misc
   Paths:
     - rels/d_a_npc_tc.rel@6143
