@@ -16,6 +16,7 @@ Changes:
 * Renamed "Randomized Sword" to "No Starting Sword" and "Start with Sword" to "Start with Hero's Sword".
 * Renamed a few item locations to be more clear.
 * The item given for hitting Orca 500 times can now only be consumable items such as rupees (previously it could be anything except progress items).
+* The Windfall bomb shop owner now sells bomb refills at reasonable prices from the start of the game, instead of setting the prices to be unaffordable before you own Nayru's Pearl.
 * The progress bar now updates incrementally as the randomized ISO is being written.
 
 Bug fixes:
