@@ -235,7 +235,7 @@ d_a_bk:
   path_index:
     Bitfield name: params
     Mask: 0x00FF0000
-  enable_spawn-switch:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0xFF000000
   disable_spawn_on_death_switch:
