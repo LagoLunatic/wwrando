@@ -689,3 +689,25 @@ def search_all_dzb_properties(self):
           face = next(face for face in dzb.faces if face.property_index == dzb.properties.index(property))
           group = dzb.groups[face.group_index]
           print("%02X" % property.poly_color, arc_path, group.name, "Property-%02X" % (dzb.properties.index(property)))
+
+def print_all_used_particle_banks(self):
+  for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
+    match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
+    stage_name = match.group(1)
+    particle_bank = dzs.entries_by_type("STAG")[0].loaded_particle_bank
+    if particle_bank == 0xFF:
+      for dzr, room_arc_path in rooms:
+        match = re.search(r"files/res/Stage/([^/]+)/([^.]+).arc", room_arc_path, re.IGNORECASE)
+        room_name = match.group(2)
+        particle_bank = dzr.entries_by_type("FILI")[0].loaded_particle_bank
+        if particle_bank == 0xFF:
+          continue
+        jpc_path = "files/res/Particle/Pscene%03d.jpc" % particle_bank
+        print("% 14s: %s" % (stage_name + "/" + room_name, jpc_path))
+        if jpc_path not in self.gcm.files_by_path:
+          raise Exception("%s does not exist" % jpc_path)
+    else:
+      jpc_path = "files/res/Particle/Pscene%03d.jpc" % particle_bank
+      print("% 14s: %s" % (stage_name, jpc_path))
+      if jpc_path not in self.gcm.files_by_path:
+        raise Exception("%s does not exist" % jpc_path)
