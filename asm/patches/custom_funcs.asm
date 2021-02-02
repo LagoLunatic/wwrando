@@ -748,6 +748,10 @@ blr
 
 .global progressive_shield_item_func
 progressive_shield_item_func:
+; Function start stuff
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
 
 lis r3, 0x803C4CBD@ha
 addi r3, r3, 0x803C4CBD@l
@@ -766,6 +770,10 @@ get_mirror_shield:
 bl item_func_mirror_shield__Fv
 
 shield_func_end:
+; Function end stuff
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
 blr
 
 
