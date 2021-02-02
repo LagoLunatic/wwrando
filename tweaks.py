@@ -255,7 +255,7 @@ def make_items_progressive(self):
   
   for shield_item_id in [0x3B, 0x3C]:
     shield_item_get_func_addr = item_get_funcs_list + shield_item_id*4
-    self.dol.write_data(write_u32, sword_item_get_func_addr, self.main_custom_symbols["progressive_shield_item_func"])
+    self.dol.write_data(write_u32, shield_item_get_func_addr, self.main_custom_symbols["progressive_shield_item_func"])
   
   for bow_item_id in [0x27, 0x35, 0x36]:
     bow_item_get_func_addr = item_get_funcs_list + bow_item_id*4
