@@ -718,8 +718,6 @@ class WWRandomizerWindow(QMainWindow):
     custom_model_names = customizer.get_all_custom_model_names()
     for custom_model_name in custom_model_names:
       self.ui.custom_player_model.addItem(custom_model_name)
-      
-      customizer.get_model_metadata(custom_model_name)
     
     if custom_model_names:
       self.ui.custom_player_model.addItem("Random")
