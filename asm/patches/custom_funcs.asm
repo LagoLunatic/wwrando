@@ -451,7 +451,7 @@ b convert_progressive_item_id_func_end
 convert_progressive_shield_id:
 lis r3, 0x803C4CBD@ha
 addi r3, r3, 0x803C4CBD@l
-lbz r4, 0 (r3) ; Bitfield of swords you own
+lbz r4, 0 (r3) ; Bitfield of shields you own
 cmpwi r4, 0
 beq convert_progressive_shield_id_to_heros_shield
 cmpwi r4, 1
