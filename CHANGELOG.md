@@ -27,6 +27,7 @@ Bug fixes:
 * Fixed an error occurring during randomization if your seed name was exactly 42 characters long (the maximum seed length).
 * Fixed an error occurring when using a custom ship model that uses the same sail texture as the vanilla ship model.
 * Fixed a vanilla bug where mini-boss music would continue to play even after leaving the room if you killed the mini-boss with Light Arrows, or left the room without killing the mini-boss at all.
+* Fixed various bugs that could occur when the Fire Mountain and Ice Ring Isle cave entrances were randomized.
 
 ### Version 1.8.0 (released 2020-05-15)
 

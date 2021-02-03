@@ -176,6 +176,23 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
     else:
       possible_remaining_exits = remaining_exits
     
+    # The below is debugging code for testing the caves with timers.
+    #if zone_entrance.entrance_name == "Secret Cave Entrance on Fire Mountain":
+    #  possible_remaining_exits = [
+    #    x for x in remaining_exits
+    #    if x.unique_name == "Ice Ring Isle Secret Cave"
+    #  ]
+    #elif zone_entrance.entrance_name == "Secret Cave Entrance on Ice Ring Isle":
+    #  possible_remaining_exits = [
+    #    x for x in remaining_exits
+    #    if x.unique_name == "Fire Mountain Secret Cave"
+    #  ]
+    #else:
+    #  possible_remaining_exits = [
+    #    x for x in remaining_exits
+    #    if x.unique_name not in ["Fire Mountain Secret Cave", "Ice Ring Isle Secret Cave"]
+    #  ]
+    
     if self.options.get("race_mode"):
       # Prevent two entrances on the same island both leading into dungeons (DRC and Pawprint each have two entrances).
       # This is because Race Mode's dungeon markers only tell you what island required dungeons are on, not which of the two entrances it's in. So if a required dungeon and a non-required dungeon were on the same island there would be no way to tell which is required.
@@ -244,6 +261,38 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
         _2dma.sector_x = sector_x-3
         _2dma.sector_y = sector_y-3
         _2dma.save_changes()
+      
+      if zone_exit.unique_name == "Fire Mountain Secret Cave":
+        actors = exit_dzr.entries_by_type("ACTR")
+        kill_trigger = next(x for x in actors if x.name == "VolTag")
+        if zone_entrance.entrance_name == "Secret Cave Entrance on Fire Mountain":
+          # Unchanged from vanilla, do nothing.
+          pass
+        elif zone_entrance.entrance_name == "Secret Cave Entrance on Ice Ring Isle":
+          # Ice Ring's entrance leads to Fire Mountain's exit.
+          # Change the kill trigger on the inside of Fire Mountain to act like the one inside Ice Ring.
+          kill_trigger.type = 2
+          kill_trigger.save_changes()
+        else:
+          # An entrance without a timer leads into this cave.
+          # Remove the kill trigger actor on the inside, because otherwise it would throw the player out the instant they enter.
+          exit_dzr.remove_entity(kill_trigger, "ACTR")
+      
+      if zone_exit.unique_name == "Ice Ring Isle Secret Cave":
+        actors = exit_dzr.entries_by_type("ACTR")
+        kill_trigger = next(x for x in actors if x.name == "VolTag")
+        if zone_entrance.entrance_name == "Secret Cave Entrance on Ice Ring Isle":
+          # Unchanged from vanilla, do nothing.
+          pass
+        elif zone_entrance.entrance_name == "Secret Cave Entrance on Fire Mountain":
+          # Fire Mountain's entrance leads to Ice Ring's exit.
+          # Change the kill trigger on the inside of Ice Ring to act like the one inside Fire Mountain.
+          kill_trigger.type = 1
+          kill_trigger.save_changes()
+        else:
+          # An entrance without a timer leads into this cave.
+          # Remove the kill trigger actor on the inside, because otherwise it would throw the player out the instant they enter.
+          exit_dzr.remove_entity(kill_trigger, "ACTR")
       
       if zone_exit.unique_name == "Ice Ring Isle Secret Cave":
         # Also update the inner cave of Ice Ring Isle to take you out to the correct entrance as well.

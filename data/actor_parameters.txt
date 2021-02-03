@@ -3044,16 +3044,16 @@ d_a_tag_so:
     Mask: 0x00FF0000
 
 d_a_tag_volcano:
-  unknown_param_1:
+  disable_spawn_chest_open_flag:
     Bitfield name: params
     Mask: 0x0000003F
-  unknown_param_2:
+  type:
     Bitfield name: params
     Mask: 0x000000C0
   switch_to_set:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_4:
+  timer_duration:
     Bitfield name: params
     Mask: 0x00FF0000
 
