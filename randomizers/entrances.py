@@ -196,9 +196,9 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
     
     if not self.dry_run:
       # Update the stage this entrance takes you into.
-      entrance_dzx_path = "files/res/Stage/%s/Room%d.arc" % (zone_entrance.stage_name, zone_entrance.room_num)
-      entrance_dzx = self.get_arc(entrance_dzx_path).get_file("room.dzr")
-      entrance_scls = entrance_dzx.entries_by_type("SCLS")[zone_entrance.scls_exit_index]
+      entrance_dzr_path = "files/res/Stage/%s/Room%d.arc" % (zone_entrance.stage_name, zone_entrance.room_num)
+      entrance_dzr = self.get_arc(entrance_dzr_path).get_file("room.dzr")
+      entrance_scls = entrance_dzr.entries_by_type("SCLS")[zone_entrance.scls_exit_index]
       entrance_scls.dest_stage_name = zone_exit.stage_name
       entrance_scls.room_index = zone_exit.room_num
       entrance_scls.spawn_id = zone_exit.spawn_id
@@ -206,16 +206,16 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
       
       # Update the DRI spawn to not have spawn type 5.
       # If the DRI entrance was connected to the TotG dungeon, then exiting TotG while riding KoRL would crash the game.
-      entrance_spawns = entrance_dzx.entries_by_type("PLYR")
+      entrance_spawns = entrance_dzr.entries_by_type("PLYR")
       entrance_spawn = next(spawn for spawn in entrance_spawns if spawn.spawn_id == zone_entrance.spawn_id)
       if entrance_spawn.spawn_type == 5:
         entrance_spawn.spawn_type = 1
         entrance_spawn.save_changes()
       
       # Update the entrance you're put at when leaving the dungeon.
-      exit_dzx_path = "files/res/Stage/%s/Room%d.arc" % (zone_exit.stage_name, zone_exit.room_num)
-      exit_dzx = self.get_arc(exit_dzx_path).get_file("room.dzr")
-      exit_scls = exit_dzx.entries_by_type("SCLS")[zone_exit.scls_exit_index]
+      exit_dzr_path = "files/res/Stage/%s/Room%d.arc" % (zone_exit.stage_name, zone_exit.room_num)
+      exit_dzr = self.get_arc(exit_dzr_path).get_file("room.dzr")
+      exit_scls = exit_dzr.entries_by_type("SCLS")[zone_exit.scls_exit_index]
       exit_scls.dest_stage_name = zone_entrance.stage_name
       exit_scls.room_index = zone_entrance.room_num
       exit_scls.spawn_id = zone_entrance.spawn_id
@@ -247,9 +247,9 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
       
       if zone_exit.unique_name == "Ice Ring Isle Secret Cave":
         # Also update the inner cave of Ice Ring Isle to take you out to the correct entrance as well.
-        inner_cave_dzx_path = "files/res/Stage/ITest62/Room0.arc"
-        inner_cave_dzx = self.get_arc(inner_cave_dzx_path).get_file("room.dzr")
-        inner_cave_exit_scls = inner_cave_dzx.entries_by_type("SCLS")[0]
+        inner_cave_dzr_path = "files/res/Stage/ITest62/Room0.arc"
+        inner_cave_dzr = self.get_arc(inner_cave_dzr_path).get_file("room.dzr")
+        inner_cave_exit_scls = inner_cave_dzr.entries_by_type("SCLS")[0]
         inner_cave_exit_scls.dest_stage_name = zone_entrance.stage_name
         inner_cave_exit_scls.room_index = zone_entrance.room_num
         inner_cave_exit_scls.spawn_id = zone_entrance.spawn_id
