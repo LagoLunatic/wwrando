@@ -780,6 +780,9 @@ class Logic:
     all_items_to_make_nonprogress = self.all_progress_items.copy()
     starting_items_to_remove = self.rando.starting_items.copy()
     for item_name in all_progress_items_filtered:
+      if item_name not in all_items_to_make_nonprogress:
+        if (item_name.startswith("Triforce Chart ") or item_name.startswith("Treasure Chart")):
+          continue
       all_items_to_make_nonprogress.remove(item_name)
       if item_name in starting_items_to_remove:
         starting_items_to_remove.remove(item_name)
