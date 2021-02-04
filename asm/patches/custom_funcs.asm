@@ -1551,9 +1551,9 @@ medli_possible_et_spawn_positions:
 .short 0xE000
 .float -2371.38, -2000, 8471.54
 ; Inter-dungeon warp pot in ET
-.byte 69, 3
-.short 0x4000
-.float -256.939, 0, -778
+.byte 69, 1
+.short 0
+.float -8010, 1000, -1508.94
 
 
 
