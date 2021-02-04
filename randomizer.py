@@ -885,6 +885,9 @@ class Randomizer:
           continue # Redo this loop iteration with the small key locations no longer being considered 'remaining'.
       
       
+      # Hide duplicated progression items (e.g. Empty Bottles) when they are placed in non-progression locations to avoid confusion and inconsistency.
+      locations_in_this_sphere = logic.filter_locations_for_progression(locations_in_this_sphere)
+      
       for location_name in locations_in_this_sphere:
         item_name = self.logic.done_item_locations[location_name]
         if item_name in logic.all_progress_items:
