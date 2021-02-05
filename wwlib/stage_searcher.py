@@ -155,10 +155,15 @@ def print_all_used_switches(self):
                 if attr_name == "appear_condition_switch" and actor.behavior_type not in [1, 3, 4, 6, 8]:
                   # Not a type that cares about the appear condition switch
                   continue
-              if class_name in ["d_a_andsw0", "d_a_andsw2", "d_a_tag_md_cb"] and attr_name == "first_switch_to_check":
+              if class_name in ["d_a_andsw0", "d_a_andsw2"] and attr_name == "first_switch_to_check":
                 for switch in range(actor.first_switch_to_check, actor.first_switch_to_check+actor.num_switches_to_check):
                   switches_to_add_for_actor.append(switch)
                 continue
+              elif class_name == "d_a_tag_md_cb" and attr_name == "first_switch_to_check":
+                if actor.name in ["TagMd15", "TagMd16", "TagCb13"]:
+                  for switch in range(actor.first_switch_to_check, actor.first_switch_to_check+actor.num_switches_to_check):
+                    switches_to_add_for_actor.append(switch)
+                  continue
               elif class_name == "d_a_cc":
                 if attr_name == "enable_spawn_switch" and actor.behavior_type == 3:
                   # Blue ChuChu's switch to keep track of whether you own its Blue Chu Jelly.
