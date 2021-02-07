@@ -215,8 +215,9 @@ Can Access Star Island Secret Cave:
 
 Can Get Past Forsaken Fortress Gate:
   Bombs
+  | Can Open Ganon's Tower Dark Portal
   # Note: It's also possible to blow up the door without bombs by using the mounted cannons, but this is not required by the logic.
-  # Note: It's also possible to get past the gate by going all the way down to Ganon's Tower, and then activating the warp up to Forsaken Fortress. But this is not currently required by the logic.
+  # Note: It's also possible to get past the gate by going all the way down to Ganon's Tower, and then activating the warp up to Forsaken Fortress.
 Can Get Inside Forsaken Fortress:
   Can Get Past Forsaken Fortress Gate & Skull Hammer
   # Even though you can kill Phantom Ganon without the Skull Hammer, that only lets you access the one chest he spawns.
@@ -267,6 +268,9 @@ Can Unlock Ganon's Tower Four Boss Door:
 Can Reach Ganon's Tower Phantom Ganon Room:
   Can Access Ganon's Tower
   & Can Unlock Ganon's Tower Four Boss Door
+Can Open Ganon's Tower Dark Portal:
+  Can Reach Ganon's Tower Phantom Ganon Room
+  & Boomerang
 Can Reach and Defeat Puppet Ganon:
   Can Reach Ganon's Tower Phantom Ganon Room
   & Light Arrows
