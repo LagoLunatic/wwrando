@@ -442,7 +442,7 @@ class Actor:
     self.staff_identifier = 0
     self.actor_index = None
     self.flag_id_to_set = None
-    self.staff_type = 0 # TODO?
+    self.staff_type = 0
     self.initial_action_index = None
     self.zero_initialized_runtime_data = b"\0"*0x1C
     self.actions = []

@@ -642,10 +642,8 @@ class Logic:
     for location_name in item_locations:
       req_string = item_locations[location_name]["Need"]
       if req_string is None:
-        # TODO, blank reqs should be an error. Temporarily we will just consider them to be impossible.
-        item_locations[location_name]["Need"] = Logic.parse_logic_expression("TODO")
-      else:
-        item_locations[location_name]["Need"] = Logic.parse_logic_expression(req_string)
+        raise Exception("Requirements are blank for location \"%s\"" % location_name)
+      item_locations[location_name]["Need"] = Logic.parse_logic_expression(req_string)
       
       types_string = item_locations[location_name]["Types"]
       types = types_string.split(",")
