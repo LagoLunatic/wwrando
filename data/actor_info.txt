@@ -3789,162 +3789,162 @@ Puti:
   Subtype: 0xFF
   GBA Name: 0x00
 d_act0:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x00
   GBA Name: 0x00
 d_act1:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x01
   GBA Name: 0x00
 d_act2:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x02
   GBA Name: 0x00
 d_act3:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x03
   GBA Name: 0x00
 d_act4:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x04
   GBA Name: 0x00
 d_act5:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x05
   GBA Name: 0x00
 d_act6:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x06
   GBA Name: 0x00
 d_act7:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x07
   GBA Name: 0x00
 d_act8:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x08
   GBA Name: 0x00
 d_act9:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x09
   GBA Name: 0x00
 d_act10:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x0A
   GBA Name: 0x00
 d_act11:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x0B
   GBA Name: 0x00
 d_act12:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x0C
   GBA Name: 0x00
 d_act13:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x0D
   GBA Name: 0x00
 d_act14:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x0E
   GBA Name: 0x00
 d_act15:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x0F
   GBA Name: 0x00
 d_act16:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x10
   GBA Name: 0x00
 d_act17:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x11
   GBA Name: 0x00
 d_act18:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x12
   GBA Name: 0x00
 d_act19:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x13
   GBA Name: 0x00
 d_act20:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x14
   GBA Name: 0x00
 d_act21:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x15
   GBA Name: 0x00
 d_act22:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x16
   GBA Name: 0x00
 d_act23:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x17
   GBA Name: 0x00
 d_act24:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x18
   GBA Name: 0x00
 d_act25:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x19
   GBA Name: 0x00
 d_act26:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x1A
   GBA Name: 0x00
 d_act27:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x1B
   GBA Name: 0x00
 d_act28:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x1C
   GBA Name: 0x00
 d_act29:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x1D
   GBA Name: 0x00
 d_act30:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x1E
   GBA Name: 0x00
 d_act31:
-  Class Name: null # TODO
+  Class Name: d_a_demo00
   Actor ID: 0x0199
   Subtype: 0x1F
   GBA Name: 0x00
@@ -3984,7 +3984,7 @@ STBox:
   Subtype: 0xFF
   GBA Name: 0x00
 Fobj00:
-  Class Name: null # TODO
+  Class Name: d_a_stand_item
   Actor ID: 0x01D4
   Subtype: 0xFF
   GBA Name: 0x00
@@ -3994,22 +3994,22 @@ Tama:
   Subtype: 0xFF
   GBA Name: 0x00
 Agb:
-  Class Name: null # TODO
+  Class Name: d_a_agb
   Actor ID: 0x01B5
   Subtype: 0xFF
   GBA Name: 0x00
 Bg:
-  Class Name: null # TODO
+  Class Name: d_a_bg
   Actor ID: 0x01BC
   Subtype: 0xFF
   GBA Name: 0x00
 Himo2:
-  Class Name: null # TODO
+  Class Name: d_a_himo2
   Actor ID: 0x01C4
   Subtype: 0xFF
   GBA Name: 0x00
 Esa:
-  Class Name: null # TODO
+  Class Name: d_a_esa
   Actor ID: 0x00DE
   Subtype: 0xFF
   GBA Name: 0x00
@@ -4024,22 +4024,22 @@ Kantera:
   Subtype: 0xFF
   GBA Name: 0x00
 HShot:
-  Class Name: null # TODO
+  Class Name: d_a_hookshot
   Actor ID: 0x00AA
   Subtype: 0xFF
   GBA Name: 0x00
 Boom:
-  Class Name: null # TODO
+  Class Name: d_a_boomerang
   Actor ID: 0x01B4
   Subtype: 0xFF
   GBA Name: 0x00
 Bomb:
-  Class Name: null # TODO
+  Class Name: d_a_bomb
   Actor ID: 0x0128
   Subtype: 0xFF
   GBA Name: 0x00
 Bomb2:
-  Class Name: null # TODO
+  Class Name: d_a_bomb2
   Actor ID: 0x0129
   Subtype: 0xFF
   GBA Name: 0x00
@@ -4049,7 +4049,7 @@ Boko:
   Subtype: 0xFF
   GBA Name: 0x00
 Arrow:
-  Class Name: null # TODO
+  Class Name: d_a_arrow
   Actor ID: 0x01DE
   Subtype: 0xFF
   GBA Name: 0x00
@@ -4064,7 +4064,7 @@ Arrow_l:
   Subtype: 0xFF
   GBA Name: 0x00
 Grid:
-  Class Name: null # TODO
+  Class Name: d_a_grid
   Actor ID: 0x00AC
   Subtype: 0xFF
   GBA Name: 0x00
@@ -4099,7 +4099,7 @@ Ditem:
   Subtype: 0xFF
   GBA Name: 0x00
 Iball:
-  Class Name: null # TODO
+  Class Name: d_a_iball
   Actor ID: 0x0192
   Subtype: 0xFF
   GBA Name: 0x00
@@ -4109,12 +4109,12 @@ Grass:
   Subtype: 0xFF
   GBA Name: 0x00
 Vrbox:
-  Class Name: null # TODO
+  Class Name: d_a_vrbox
   Actor ID: 0x01BA
   Subtype: 0xFF
   GBA Name: 0x00
 Vrbox2:
-  Class Name: null # TODO
+  Class Name: d_a_vrbox2
   Actor ID: 0x01BB
   Subtype: 0xFF
   GBA Name: 0x00

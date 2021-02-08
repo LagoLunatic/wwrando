@@ -3341,6 +3341,36 @@ d_a_obj_search: {}
 
 d_a_spc_item: {}
 
+d_a_iball: {}
+
+d_a_arrow: {}
+
+d_a_boomerang: {}
+
+d_a_hookshot: {}
+
+d_a_bomb: {}
+
+d_a_bomb2: {}
+
+d_a_demo00: {}
+
+d_a_agb: {}
+
+d_a_bg: {}
+
+d_a_himo2: {}
+
+d_a_esa: {}
+
+d_a_grid: {}
+
+d_a_stand_item: {}
+
+d_a_vrbox: {}
+
+d_a_vrbox2: {}
+
 
 
 ### Below this are custom actors added by the randomizer.
