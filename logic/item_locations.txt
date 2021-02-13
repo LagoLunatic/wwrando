@@ -394,7 +394,7 @@ Windfall Island - 80 Rupee Auction:
 #  Original item: Boat's Sail
 #  Paths:
 #    - rels/d_a_npc_rsh1.rel@30FB
-#Windfall Island - Zunari - Goron Trading Starter: # Doesn't randomize correctly, he just keeps giving you this item repeatedly
+#Windfall Island - Zunari - Goron Trading Starter: # Doesn't randomize correctly, he just keeps giving you this item repeatedly. And there's no point in randomizing this since he would still sell infinite Town Flowers in the shop anyway.
 #  Need: Rescued Aryll & Delivery Bag
 #  Original item: Town Flower
 #  Paths:
