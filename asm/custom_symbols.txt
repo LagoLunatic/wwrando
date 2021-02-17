@@ -86,34 +86,35 @@ sys/main.dol:
   earth_tingle_statue_item_get_func: 0x803FE74C
   wind_tingle_statue_item_get_func: 0x803FE778
   check_tingle_statue_owned: 0x803FE7A4
-  check_animate_rainbow_rupee_color: 0x803FE82C
-  rainbow_rupee_keyframe: 0x803FE86C
-  doc_bandam_check_new_potion_and_give_free_item: 0x803FE87C
-  doc_bandam_green_potion_slot_item_id: 0x803FE8D8
-  doc_bandam_blue_potion_slot_item_id: 0x803FE8D9
-  hurricane_spin_item_resource_arc_name: 0x803FE8DC
-  deluxe_picto_box_item_func_fix_equipped_picto_box: 0x803FE8E4
-  ballad_of_gales_warp_table: 0x803FE918
-  ballad_of_gales_warp_float_bank: 0x803FE960
-  set_warp_confirm_dialog_message_id_for_custom_warps: 0x803FE9B8
-  stalfos_kill_lower_body_when_upper_body_light_arrowed: 0x803FE9D0
-  miniblin_set_death_switch_when_light_arrowed: 0x803FEA18
-  poe_fix_light_arrows_bug: 0x803FEA4C
-  magtail_respawn_when_head_light_arrowed: 0x803FEB0C
-  set_starting_health: 0x803FEB4C
-  get_current_health_for_file_select_screen: 0x803FEB68
-  get_max_health_for_file_select_screen: 0x803FEB90
-  check_player_in_casual_clothes: 0x803FEBB4
-  check_open_map_select: 0x803FEBF0
-  read_custom_DynamicNameTable_loop: 0x803FEC50
-  read_custom_l_objectName_loop_for_dStage_searchName: 0x803FEC7C
-  read_custom_l_objectName_loop_for_dStage_getName: 0x803FECA4
-  custom_DynamicNameTable: 0x803FECD0
-  custom_l_objectName: 0x803FECE8
-  custom_l_objectName_end: 0x803FECF4
-  custom_DMC: 0x803FECF4
-  custom_isTbox_for_unloaded_stage_save_info: 0x803FF4D0
-  stop_sub_bgm_when_unloading_stage: 0x803FF500
+  get_num_owned_tingle_statues: 0x803FE82C
+  check_animate_rainbow_rupee_color: 0x803FE8A0
+  rainbow_rupee_keyframe: 0x803FE8E0
+  doc_bandam_check_new_potion_and_give_free_item: 0x803FE8F0
+  doc_bandam_green_potion_slot_item_id: 0x803FE94C
+  doc_bandam_blue_potion_slot_item_id: 0x803FE94D
+  hurricane_spin_item_resource_arc_name: 0x803FE950
+  deluxe_picto_box_item_func_fix_equipped_picto_box: 0x803FE958
+  ballad_of_gales_warp_table: 0x803FE98C
+  ballad_of_gales_warp_float_bank: 0x803FE9D4
+  set_warp_confirm_dialog_message_id_for_custom_warps: 0x803FEA2C
+  stalfos_kill_lower_body_when_upper_body_light_arrowed: 0x803FEA44
+  miniblin_set_death_switch_when_light_arrowed: 0x803FEA8C
+  poe_fix_light_arrows_bug: 0x803FEAC0
+  magtail_respawn_when_head_light_arrowed: 0x803FEB80
+  set_starting_health: 0x803FEBC0
+  get_current_health_for_file_select_screen: 0x803FEBDC
+  get_max_health_for_file_select_screen: 0x803FEC04
+  check_player_in_casual_clothes: 0x803FEC28
+  check_open_map_select: 0x803FEC64
+  read_custom_DynamicNameTable_loop: 0x803FECC4
+  read_custom_l_objectName_loop_for_dStage_searchName: 0x803FECF0
+  read_custom_l_objectName_loop_for_dStage_getName: 0x803FED18
+  custom_DynamicNameTable: 0x803FED44
+  custom_l_objectName: 0x803FED5C
+  custom_l_objectName_end: 0x803FED68
+  custom_DMC: 0x803FED68
+  custom_isTbox_for_unloaded_stage_save_info: 0x803FF544
+  stop_sub_bgm_when_unloading_stage: 0x803FF574
   test_room_stage_name: 0x8022D034
   test_room_starting_items_list: 0x8022D03C
   test_room_spawn_id: 0x800531E3

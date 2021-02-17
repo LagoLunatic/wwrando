@@ -7,6 +7,7 @@ New features:
 * Custom model authors can now change the colors of the sword's slash trail, the boomerang's trail, and arrow trails.
 * Slightly increased the speed at which Link sidles along walls.
 * The Nintendo Gallery is now unlocked from the start of the game.
+* Added a counter showing the number of Tingle Statues you own to the Quest Status screen. This allows you to easily check how many you've picked up without going to Tingle Island. (This replaces the Treasure Chart counter on that screen, but you can still view the number of charts you own in the charts menu.)
 
 Changes:
 * Moved the inter-dungeon warp pot in Earth Temple from the fourth room to the second room so that it can be accessed with fewer items than before.

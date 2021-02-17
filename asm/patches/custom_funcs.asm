@@ -2653,6 +2653,49 @@ blr
 
 
 
+.global get_num_owned_tingle_statues
+get_num_owned_tingle_statues:
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+li r6, 0
+
+li r3, 3 ; Dragon Tingle Statue
+li r4, 0xF
+bl check_tingle_statue_owned
+add r6, r6, r3
+
+li r3, 4 ; Forbidden Tingle Statue
+li r4, 0xF
+bl check_tingle_statue_owned
+add r6, r6, r3
+
+li r3, 5 ; Goddess Tingle Statue
+li r4, 0xF
+bl check_tingle_statue_owned
+add r6, r6, r3
+
+li r3, 6 ; Earth Tingle Statue
+li r4, 0xF
+bl check_tingle_statue_owned
+add r6, r6, r3
+
+li r3, 7 ; Wind Tingle Statue
+li r4, 0xF
+bl check_tingle_statue_owned
+add r6, r6, r3
+
+mr r3, r6
+
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
 ; Manually animate rainbow rupees to cycle through all other rupee colors.
 ; In order to avoid an abrupt change from silver to green when it loops, we make the animation play forward and then backwards before looping, so it's always a smooth transition.
 .global check_animate_rainbow_rupee_color

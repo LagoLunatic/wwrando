@@ -240,3 +240,16 @@
   li r4, 5 ; Chest open flag for the Pirate Ship chest that originally had Bombs.
   bl custom_isTbox_for_unloaded_stage_save_info
 .close
+
+
+
+
+; Replace the calls to getCollectMapNum on the quest status screen with a call to a custom function that checks the number of owned tingle statues.
+.open "sys/main.dol"
+.org 0x8019CAC0 ; In dMenu_Collect_c::screenSet(void)
+  ; Handles the tens digit
+  bl get_num_owned_tingle_statues
+.org 0x8019CAFC ; In dMenu_Collect_c::screenSet(void)
+  ; Handles the ones digit
+  bl get_num_owned_tingle_statues
+.close

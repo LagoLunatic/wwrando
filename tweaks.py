@@ -2159,3 +2159,22 @@ def fix_stone_head_bugs(self):
   status_bits = head_rel.read_data(read_u32, 0x3450)
   status_bits &= ~0x00000080
   head_rel.write_data(write_u32, 0x3450, status_bits)
+
+def show_number_of_tingle_statues_on_quest_status_screen(self):
+  # Replaces the visuals of the treasure chart counter on the quest status creen with visuals for a tingle statue counter.
+  # That chart counter is redundant since it shows the same number on the chart screen.
+  # (The actual counter number itself is modified via asm.)
+  
+  # Replace the treasure chart item icon on the quest screen with the tingle statue icon.
+  self.dol.write_data(write_str, 0x8035F469, "tingle_figure.bti", 0x13)
+  
+  # Update the "Treasure Chart" text at the bottom of the screen.
+  msg = self.bmg.messages_by_id[503]
+  msg.string = "Tingle Statues"
+  
+  # Update the treasure chart description with custom text for tingle statues.
+  msg = self.bmg.messages_by_id[703]
+  msg.string = word_wrap_string(
+    "Golden statues of a mysterious dashing figure. They can be traded to \\{1A 06 FF 00 00 01}Ankle\\{1A 06 FF 00 00 00} on \\{1A 06 FF 00 00 01}Tingle Island\\{1A 06 FF 00 00 00} for a reward!",
+    max_line_length=43
+  )
