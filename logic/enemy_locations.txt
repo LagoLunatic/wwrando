@@ -7173,16 +7173,14 @@ sea/Room29.arc:
       Path: sea/Room29.arc/Actor013
 
 
-# TODO
 # Islet of Steel
+# 1177744 free memory for the entire room, but it's split into two groups
 sea/Room30.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Kargarocs
-    & Can Defeat Wizzrobes
-  Free memory: 1177744
   Enemies:
     -
       Original enemy: Bokoblin
@@ -7198,43 +7196,51 @@ sea/Room30.arc:
       Path: sea/Room30.arc/Actor005
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Air:HasPit
       Path: sea/Room30.arc/Actor006
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Air:HasPit
       Path: sea/Room30.arc/Actor007
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Air:HasPit
       Path: sea/Room30.arc/Actor008
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Air:HasPit
       Path: sea/Room30.arc/Actor009
+-
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Defeat Bokoblins
+    & Can Defeat Wizzrobes
+  Has throwable objects: Yes
+  Enemies:
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room30.arc/Actor020
+      Position offset: [0, -300, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room30.arc/Actor021
+      Position offset: [0, -300, 0]
     -
       Original enemy: Wizzrobe
-      Placement category: Ground
+      Placement category: StationaryAir:SetsDeathSwitch,HasPit
       Path: sea/Room30.arc/Actor022
     -
       Original enemy: Wizzrobe
-      Placement category: Ground
+      Placement category: StationaryAir:SetsDeathSwitch,HasPit
       Path: sea/Room30.arc/Actor023
 
 
-# TODO
 # Stone Watcher Island
 sea/Room31.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -7451,49 +7457,49 @@ sea/Room38.arc:
       Path: sea/Room38.arc/Actor018
 
 
-# TODO
 # Southern Fairy Island
 sea/Room39.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
+  Has throwable objects: Yes
   Enemies:
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room39.arc/Actor00F
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room39.arc/Actor018
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room39.arc/Actor01E
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room39.arc/Actor01F
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room39.arc/Actor02F
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room39.arc/Actor038
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room39.arc/Actor03D
 
 
-# TODO
+# TODO: the water here has that property that bugs out some enemies like moblins...
 # Forest Haven
 sea/Room41.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Peahats
     & Can Defeat Boko Babas
@@ -7502,63 +7508,63 @@ sea/Room41.arc:
   Enemies:
     -
       Original enemy: Peahat
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room41.arc/Actor001
     -
       Original enemy: Peahat
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room41.arc/Actor002
     -
       Original enemy: Boko Baba
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room41.arc/Actor042
     -
       Original enemy: Freshwater Octorok
-      Placement category: Water
+      Placement category: Water:HasPit
       Path: sea/Room41.arc/Actor047
     -
       Original enemy: Peahat
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room41.arc/Actor058
     -
       Original enemy: Boko Baba
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room41.arc/Actor098
     -
       Original enemy: Freshwater Octorok
-      Placement category: Water
+      Placement category: Water:HasPit
       Path: sea/Room41.arc/Actor09C
     -
       Original enemy: Boko Baba
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room41.arc/Actor0AD
     -
       Original enemy: Boko Baba
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room41.arc/Actor0C4
     -
       Original enemy: Boko Baba
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room41.arc/Actor0C6
     -
       Original enemy: Boko Baba
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room41.arc/Actor0CF
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Boko Babas
-    & Can Defeat Freshwater Octoroks
-  Free memory: 920752
-  Enemies:
-    -
-      Original enemy: Boko Baba
-      Placement category: Ground
-      Path: sea/Room41.arc/Layer7/Actor001
-    -
-      Original enemy: Freshwater Octorok
-      Placement category: Water
-      Path: sea/Room41.arc/Layer7/Actor003
+#- # Unused layer
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Boko Babas
+#    & Can Defeat Freshwater Octoroks
+#  Free memory: 920752
+#  Enemies:
+#    -
+#      Original enemy: Boko Baba
+#      Placement category: Ground
+#      Path: sea/Room41.arc/Layer7/Actor001
+#    -
+#      Original enemy: Freshwater Octorok
+#      Placement category: Water
+#      Path: sea/Room41.arc/Layer7/Actor003
 
 
 # Cliff Plateau Isles
