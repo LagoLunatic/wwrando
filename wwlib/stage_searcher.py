@@ -76,13 +76,13 @@ def print_all_used_switches(self):
   used_switches_by_stage_id_unused = {}
   def add_used_switch(switch, stage_id, location_identifier, is_unused):
     if is_unused:
-      if stage_id not in used_switches_by_stage_id_unused:
-        used_switches_by_stage_id_unused[stage_id] = []
-      used_switches_by_stage_id_unused[stage_id].append((switch, location_identifier))
+      used_switches_list = used_switches_by_stage_id_unused
     else:
-      if stage_id not in used_switches_by_stage_id:
-        used_switches_by_stage_id[stage_id] = []
-      used_switches_by_stage_id[stage_id].append((switch, location_identifier))
+      used_switches_list = used_switches_by_stage_id
+    
+    if stage_id not in used_switches_list:
+      used_switches_list[stage_id] = []
+    used_switches_list[stage_id].append((switch, location_identifier))
   
   for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
     match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
