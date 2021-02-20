@@ -227,7 +227,7 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, mai
     
     if line.endswith("blr"):
       out_str += "\n" # Separate functions
-  with open(asm_path, "w") as f:
+  with open(asm_path, "w", encoding="shift-jis") as f:
     f.write(out_str)
 
 ALL_LOAD_OR_STORE_OPCODES = [
@@ -385,7 +385,7 @@ def add_symbols_to_main(self, asm_path, main_symbols):
       
       if line.endswith("blr"):
         out_str += "\n" # Separate functions
-  with open(asm_path, "w") as f:
+  with open(asm_path, "w", encoding="shift-jis") as f:
     f.write(out_str)
 
 
