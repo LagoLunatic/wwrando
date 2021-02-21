@@ -158,8 +158,8 @@ def print_all_used_switches(self):
           for attr_name in actor.param_fields:
             if attr_name.startswith("unknown_param_"):
               # Some hacky code to try to look for unknown params that are switches.
-              if stage_id == 5: # TotG
-                if getattr(actor, attr_name) in [5, 6, 7, 9, 0x16]:
+              if stage_id == 0xB:
+                if getattr(actor, attr_name) in [0x3E, 0x3F]:
                   print("!!!! %s %s %s" % (actor.name, attr_name, arc_path))
             
             stage_id_for_param = stage_id
@@ -218,6 +218,10 @@ def print_all_used_switches(self):
               elif class_name == "d_a_hmlif":
                 if attr_name == "eye_shot_switch" and actor.type == 0:
                   # Not a type that has an eye
+                  continue
+              elif class_name == "d_a_obj_bemos":
+                if attr_name == "barrier_deactivated_switch" and actor.type != 2:
+                  # Only the laser barrier type uses this switch
                   continue
               
               add_used_switch(switch, stage_id_for_param, stage_name, room_no_for_param, location_identifier, is_unused)

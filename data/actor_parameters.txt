@@ -20,7 +20,7 @@ d_a_agbsw0:
   unknown_param_5:
     Bitfield name: aux_params_1
     Mask: 0xFFFF
-  unknown_param_6:
+  type:
     Bitfield name: aux_params_2
     Mask: 0x00FF
 
@@ -882,22 +882,22 @@ d_a_kui:
     Mask: 0xFF000000
 
 d_a_kytag00:
-  unknown_param_1:
+  colo_entry_index:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  effect_type:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  fade_radius:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  fade_height:
     Bitfield name: params
     Mask: 0xFF000000
   switch_to_check:
     Bitfield name: aux_params_1
     Mask: 0x00FF
-  unknown_param_6:
+  invert_position_checks:
     Bitfield name: aux_params_1
     Mask: 0xFF00
   unknown_param_7:
@@ -1558,24 +1558,30 @@ d_a_obj_barrier:
     Mask: 0x00010000
 
 d_a_obj_bemos:
-  unknown_param_1:
-    Bitfield name: params
-    Mask: 0x000000FF
-  unknown_param_2:
-    Bitfield name: params
-    Mask: 0x0000FF00
-  unknown_param_3:
-    Bitfield name: params
-    Mask: 0x00FF0000
-  unknown_param_4:
+  type:
     Bitfield name: params
     Mask: 0xF0000000
-  item_id:
+  beamos_sight_range:
+    Bitfield name: params
+    Mask: 0x000000FF
+  beamos_head_rotation_speed:
+    Bitfield name: params
+    Mask: 0x0000FF00
+  beamos_item_id:
     Bitfield name: aux_params_2
     Mask: 0x003F
-  item_pickup_flag:
+  beamos_item_pickup_flag:
     Bitfield name: aux_params_2
     Mask: 0x1FC0
+  barrier_deactivated_switch:
+    Bitfield name: params
+    Mask: 0x000000FF
+  barrier_behavior_type:
+    Bitfield name: params
+    Mask: 0x0000FF00
+  barrier_laser_path_index:
+    Bitfield name: params
+    Mask: 0x00FF0000
 
 d_a_obj_bscurtain:
   unknown_param_1:
@@ -1638,18 +1644,15 @@ d_a_obj_coming:
     Mask: 0x30000000
 
 d_a_obj_correct:
-  unknown_param_1:
+  type:
     Bitfield name: params
     Mask: 0x0000000F
-  unknown_param_2:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  event_index:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
-    Bitfield name: params
-    Mask: 0x40000000
 
 d_a_obj_demo_barrel: {}
 
@@ -2347,18 +2350,15 @@ d_a_obj_tribox:
     Mask: 0x00010000
 
 d_a_obj_try:
-  unknown_param_1:
+  type:
     Bitfield name: params
-    Mask: 0x0000000F # (WARNING: overlaps)
-  unknown_param_2:
+    Mask: 0x0000000F
+  switch_to_check:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  is_placed:
     Bitfield name: params
-    Mask: 0x80000000 # (WARNING: overlaps)
-  unknown_param_4:
-    Bitfield name: params
-    Mask: 0xFFFF00FF # (WARNING: overlaps)
+    Mask: 0x80000000
 
 d_a_obj_usovmc: {}
 
@@ -2882,10 +2882,10 @@ d_a_swtdoor:
 d_a_syan: {}
 
 d_a_tag_attention:
-  unknown_param_1:
+  switch_to_check:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  type:
     Bitfield name: params
     Mask: 0x00000300
 
@@ -3184,7 +3184,7 @@ d_a_tsubo:
   type:
     Bitfield name: params
     Mask: 0x0F000000
-  unknown_param_6:
+  invincible_when_off_camera:
     Bitfield name: params
     Mask: 0x70000000
   do_not_ground_on_spawn:
