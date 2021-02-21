@@ -8,12 +8,20 @@ from fs_helpers import *
 from data_tables import DataTables
 from wwlib.dzb import DZB
 
+def try_int_convert(string):
+  if string.isdigit():
+    return int(string)
+  else:
+    return string
+
+def split_string_for_natural_sort(string):
+  return [try_int_convert(c) for c in re.split("([0-9]+)", string)]
+
 def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_name_to_limit_to=None, exclude_unused=True):
   all_filenames = list(self.gcm.files_by_path.keys())
   
   # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
-  try_int_convert = lambda string: int(string) if string.isdigit() else string
-  all_filenames.sort(key=lambda filename: [try_int_convert(c) for c in re.split("([0-9]+)", filename)])
+  all_filenames.sort(key=lambda filename: split_string_for_natural_sort(filename))
   
   all_stage_arc_paths = []
   all_room_arc_paths = []
@@ -74,15 +82,26 @@ def each_stage_with_rooms(self, exclude_unused=True):
 def print_all_used_switches(self):
   used_switches_by_stage_id = {}
   used_switches_by_stage_id_unused = {}
-  def add_used_switch(switch, stage_id, location_identifier, is_unused):
+  def add_used_switch(switch, stage_id, stage_name, room_no, location_identifier, is_unused):
     if is_unused:
       used_switches_list = used_switches_by_stage_id_unused
     else:
       used_switches_list = used_switches_by_stage_id
     
+    if room_no is None:
+      room_arc_path_short = None
+    else:
+      room_arc_path_short = "%s/Room%d" % (stage_name, room_no)
+    
+    if switch < 0xE0: # Only door-cleared zone bit switches (E0-EF) are local to the room
+      room_arc_path_short = None
+    
     if stage_id not in used_switches_list:
-      used_switches_list[stage_id] = []
-    used_switches_list[stage_id].append((switch, location_identifier))
+      used_switches_list[stage_id] = {}
+    if room_arc_path_short not in used_switches_list[stage_id]:
+      used_switches_list[stage_id][room_arc_path_short] = []
+    
+    used_switches_list[stage_id][room_arc_path_short].append((switch, location_identifier))
   
   for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
     match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
@@ -95,24 +114,25 @@ def print_all_used_switches(self):
     else:
       is_unused = False
     
-    if is_unused:
-      if stage_id not in used_switches_by_stage_id_unused:
-        used_switches_by_stage_id_unused[stage_id] = []
-    else:
-      if stage_id not in used_switches_by_stage_id:
-        used_switches_by_stage_id[stage_id] = []
-    
     for dzx, arc_path in [(dzs, stage_arc_path)]+rooms:
+      arc_path_short = arc_path[len("files/res/Stage/"):-len(".arc")]
+      _, arc_name = arc_path_short.split("/", 1)
+      room_match = re.search(r"^Room(\d+)$", arc_name, re.IGNORECASE)
+      if room_match:
+        room_no = int(room_match.group(1))
+      else: # Stage.arc
+        room_no = None
+      
       for evnt in dzx.entries_by_type("EVNT"):
         switch = evnt.event_seen_switch_index
         if switch == 0xFF:
           continue
         
         location_identifier = " from % 15s" % evnt.name
-        location_identifier += "  in " + arc_path[len("files/res/Stage/"):-len(".arc")]
+        location_identifier += "  in " + arc_path_short
         location_identifier += " (Event)"
         
-        add_used_switch(switch, stage_id, location_identifier, is_unused)
+        add_used_switch(switch, stage_id, stage_name, evnt.room_index, location_identifier, is_unused)
       
       for layer in [None] + list(range(11+1)):
         actors = []
@@ -131,7 +151,7 @@ def print_all_used_switches(self):
           class_name = DataTables.actor_name_to_class_name[actor.name]
           
           location_identifier = " from % 15s" % actor.name
-          location_identifier += "  in " + arc_path[len("files/res/Stage/"):-len(".arc")]
+          location_identifier += "  in " + arc_path_short
           if layer is not None:
             location_identifier += "/Layer%X" % layer
           
@@ -143,6 +163,7 @@ def print_all_used_switches(self):
                   print("!!!! %s %s %s" % (actor.name, attr_name, arc_path))
             
             stage_id_for_param = stage_id
+            room_no_for_param = room_no
             
             params_bitfield_name, mask = actor.param_fields[attr_name]
             amount_to_shift = actor.get_lowest_set_bit(mask)
@@ -161,14 +182,15 @@ def print_all_used_switches(self):
                 if attr_name == "appear_condition_switch" and actor.behavior_type not in [1, 3, 4, 6, 8]:
                   # Not a type that cares about the appear condition switch
                   continue
+                room_no_for_param = actor.room_num
               if class_name in ["d_a_andsw0", "d_a_andsw2"] and attr_name == "first_switch_to_check":
                 for switch in range(actor.first_switch_to_check, actor.first_switch_to_check+actor.num_switches_to_check):
-                  add_used_switch(switch, stage_id_for_param, location_identifier, is_unused)
+                  add_used_switch(switch, stage_id_for_param, stage_name, room_no_for_param, location_identifier, is_unused)
                 continue
               elif class_name == "d_a_tag_md_cb" and attr_name == "first_switch_to_check":
                 if actor.name in ["TagMd15", "TagMd16", "TagCb13"]:
                   for switch in range(actor.first_switch_to_check, actor.first_switch_to_check+actor.num_switches_to_check):
-                    add_used_switch(switch, stage_id_for_param, location_identifier, is_unused)
+                    add_used_switch(switch, stage_id_for_param, stage_name, room_no_for_param, location_identifier, is_unused)
                   continue
               elif class_name == "d_a_cc":
                 if attr_name == "enable_spawn_switch" and actor.behavior_type == 3:
@@ -186,8 +208,11 @@ def print_all_used_switches(self):
               elif class_name == "d_a_obj_swlight":
                 if attr_name == "other_switch" and actor.is_paired == 0:
                   continue
+              elif class_name == "d_a_door10":
+                room_no_for_param = actor.from_room_num
+                # TODO: other doors
               
-              add_used_switch(switch, stage_id_for_param, location_identifier, is_unused)
+              add_used_switch(switch, stage_id_for_param, stage_name, room_no_for_param, location_identifier, is_unused)
   
   def write_used_switches_to_file(used_switches_dict, filename):
     used_switches_dict = OrderedDict(sorted(
@@ -196,11 +221,20 @@ def print_all_used_switches(self):
     
     with open(filename, "w") as f:
       f.write("Switches:\n")
-      for stage_id, item_flags in used_switches_dict.items():
-        f.write("Stage ID: %02X\n" % stage_id)
-        item_flags.sort(key=lambda tuple: tuple[0])
-        for item_flag, location_identifier in item_flags:
-          f.write("  %02X %s\n" % (item_flag, location_identifier))
+      for stage_id, used_switches_for_room in used_switches_dict.items():
+        used_switches_for_room = OrderedDict(sorted(
+          used_switches_for_room.items(),
+          key=lambda x: (x[0] is not None, split_string_for_natural_sort(str(x[0])))
+        ))
+        
+        for room_arc_path_short, used_switches in used_switches_for_room.items():
+          if room_arc_path_short == None:
+            f.write("Stage ID: %02X\n" % stage_id)
+          else:
+            f.write("Room %s\n" % room_arc_path_short)
+          used_switches.sort(key=lambda tuple: tuple[0])
+          for switch, location_identifier in used_switches:
+            f.write("  %02X %s\n" % (switch, location_identifier))
   
   write_used_switches_to_file(used_switches_by_stage_id, "Used switches by stage ID.txt")
   write_used_switches_to_file(used_switches_by_stage_id_unused, "Used switches by stage ID (unused stages).txt")
@@ -580,8 +614,7 @@ def print_all_actor_instance_sizes(self):
   all_filenames = list(self.gcm.files_by_path.keys())
   
   # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
-  try_int_convert = lambda string: int(string) if string.isdigit() else string
-  all_filenames.sort(key=lambda filename: [try_int_convert(c) for c in re.split("([0-9]+)", filename)])
+  all_filenames.sort(key=lambda filename: split_string_for_natural_sort(filename))
   
   rel_paths = []
   for filename in all_filenames:
@@ -664,8 +697,7 @@ def search_all_dzb_properties(self):
   all_filenames = list(self.gcm.files_by_path.keys())
   
   # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
-  try_int_convert = lambda string: int(string) if string.isdigit() else string
-  all_filenames.sort(key=lambda filename: [try_int_convert(c) for c in re.split("([0-9]+)", filename)])
+  all_filenames.sort(key=lambda filename: split_string_for_natural_sort(filename))
   
   seen_cam_behavior_vals = []
   for arc_path in all_filenames:
