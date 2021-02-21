@@ -158,8 +158,8 @@ def print_all_used_switches(self):
           for attr_name in actor.param_fields:
             if attr_name.startswith("unknown_param_"):
               # Some hacky code to try to look for unknown params that are switches.
-              if stage_id == 3: # DRC
-                if getattr(actor, attr_name) == 0x42:
+              if stage_id == 5: # TotG
+                if getattr(actor, attr_name) in [5, 6, 7, 9, 0x16]:
                   print("!!!! %s %s %s" % (actor.name, attr_name, arc_path))
             
             stage_id_for_param = stage_id
@@ -211,6 +211,14 @@ def print_all_used_switches(self):
               elif class_name == "d_a_door10":
                 room_no_for_param = actor.from_room_num
                 # TODO: other doors
+              elif class_name == "d_a_obj_swflat":
+                if attr_name == "disabled_switch" and actor.type != 2:
+                  # Not a type that cares about the disabled switch
+                  continue
+              elif class_name == "d_a_hmlif":
+                if attr_name == "eye_shot_switch" and actor.type == 0:
+                  # Not a type that has an eye
+                  continue
               
               add_used_switch(switch, stage_id_for_param, stage_name, room_no_for_param, location_identifier, is_unused)
   

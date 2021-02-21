@@ -131,13 +131,13 @@ d_a_bb:
   range:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  path_index:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0xFF000000
-  unknown_param_5:
+  disable_spawn_switch:
     Bitfield name: aux_params_2
     Mask: 0x00FF
 
@@ -474,13 +474,13 @@ d_a_dr2: {}
 d_a_dummy: {}
 
 d_a_ep:
-  unknown_param_1:
+  type:
     Bitfield name: params
     Mask: 0x0000003F
-  unknown_param_2:
+  has_fireflies:
     Bitfield name: params
     Mask: 0x00000040
-  unknown_param_3:
+  is_wooden:
     Bitfield name: params
     Mask: 0x00000080
   unknown_param_4:
@@ -489,7 +489,7 @@ d_a_ep:
   unknown_param_5:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_6:
+  on_switch:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -674,10 +674,10 @@ d_a_hitobj:
     Mask: 0x000000FF
 
 d_a_hmlif:
-  unknown_param_1:
+  enable_movement_switch:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  path_index:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_3:
@@ -689,13 +689,13 @@ d_a_hmlif:
   unknown_param_5:
     Bitfield name: params
     Mask: 0x07C00000
-  unknown_param_6:
+  type:
     Bitfield name: params
     Mask: 0x78000000
   unknown_param_7:
     Bitfield name: params
     Mask: 0x80000000
-  unknown_param_8:
+  eye_shot_switch:
     Bitfield name: aux_params_2
     Mask: 0x00FF
 
@@ -848,7 +848,7 @@ d_a_kokiie:
   unknown_param_1:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  fallen_switch:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -2211,18 +2211,18 @@ d_a_obj_smplbg:
     Mask: 0x000000FF
 
 d_a_obj_stair:
-  unknown_param_1:
+  disable_spawn_switch:
     Bitfield name: params
     Mask: 0x000000FF
 
 d_a_obj_swflat:
-  unknown_param_1:
+  type:
     Bitfield name: params
     Mask: 0x00000003
-  unknown_param_2:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  disabled_switch:
     Bitfield name: params
     Mask: 0x00FF0000
 
@@ -2708,13 +2708,13 @@ d_a_spotbox:
     Mask: 0x00000001
 
 d_a_ss:
-  unknown_param_1:
+  type:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  disable_spawn_on_death_switch:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -2917,13 +2917,13 @@ d_a_tag_event:
     Mask: 0xFFFF
 
 d_a_tag_evsw:
-  unknown_param_1:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  event_bit_to_check:
     Bitfield name: params
     Mask: 0x00FFFF00
-  unknown_param_3:
+  type:
     Bitfield name: params
     Mask: 0x03000000
 
@@ -3195,7 +3195,7 @@ d_a_tsubo:
     Mask: 0x00FF
 
 d_a_wall:
-  unknown_param_1:
+  disable_spawn_on_destroyed_switch:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
