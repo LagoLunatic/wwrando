@@ -416,20 +416,56 @@ d_a_dk:
     Mask: 0x000000FF
 
 d_a_door10:
-  open_condition_switch:
+  switch_1:
     Bitfield name: params
     Mask: 0x000000FF
   type:
     Bitfield name: params
     Mask: 0x00000F00
+  event_index:
+    Bitfield name: params
+    Mask: 0x000FF000
+  switch_2:
+    Bitfield name: params
+    Mask: 0x0FF00000
+  from_room_num:
+    Bitfield name: aux_params_1
+    Mask: 0x003F
+  to_room_num:
+    Bitfield name: aux_params_1
+    Mask: 0x0FC0
+  ship_id:
+    Bitfield name: aux_params_2
+    Mask: 0x003F
+  arg_1:
+    Bitfield name: aux_params_2
+    Mask: 0xFF00
 
 d_a_door12:
-  open_condition_switch:
+  switch_1:
     Bitfield name: params
     Mask: 0x000000FF
   type:
     Bitfield name: params
     Mask: 0x00000F00
+  event_index:
+    Bitfield name: params
+    Mask: 0x000FF000
+  switch_2:
+    Bitfield name: params
+    Mask: 0x0FF00000
+  from_room_num:
+    Bitfield name: aux_params_1
+    Mask: 0x003F
+  to_room_num:
+    Bitfield name: aux_params_1
+    Mask: 0x0FC0
+  ship_id:
+    Bitfield name: aux_params_2
+    Mask: 0x003F
+  appearance_type:
+    Bitfield name: aux_params_2
+    Mask: 0xFF00
 
 d_a_dr: {}
 
