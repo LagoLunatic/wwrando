@@ -1,5 +1,5 @@
 
-### Version 1.9.0 (in progress, not released yet)
+### Version 1.9.0 (released 2021-02-23)
 
 New features:
 * When Race Mode is enabled, you can now choose for the number of required dungeons to be anywhere from 1 to 6, instead of only 4 dungeons.
