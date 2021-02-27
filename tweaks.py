@@ -802,14 +802,14 @@ def update_item_names_in_letter_advertising_rock_spire_shop(self):
   unchanged_string_before = "\n".join(lines[0:8]) + "\n"
   unchanged_string_after = "\n".join(lines[12:])
   
-  hint_string = "Do you have need of %s \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}, %s \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}, or %s \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}?\nWe have them at special bargain prices." % (
+  hint_string = "Do you have need of %s \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}, %s \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}, or %s \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}? We have them at special bargain prices." % (
     get_indefinite_article(item_name_1), item_name_1,
     get_indefinite_article(item_name_2), item_name_2,
     get_indefinite_article(item_name_3), item_name_3,
   )
   
-  # Letters have 2 spaces at the start of each line, so word wrap to 41 chars instead of 43, then add 2 spaces to each line.
-  hint_string = word_wrap_string(hint_string, max_line_length=41)
+  # Letters have 2 spaces at the start of each line, so word wrap to 39 chars instead of 43, then add 2 spaces to each line.
+  hint_string = word_wrap_string(hint_string, max_line_length=39)
   hint_string = pad_string_to_next_4_lines(hint_string)
   hint_lines = hint_string.split("\n")
   leading_spaces_hint_lines = []
