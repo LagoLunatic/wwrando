@@ -678,6 +678,8 @@ def print_all_actor_instance_sizes(self):
 def print_actor_class_occurrences(self):
   occs = {}
   for class_name in DataTables.actor_parameters:
+    if class_name in ["d_a_switch_op"]:
+      continue
     occs[class_name] = 0
   for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
     stage_and_rooms = [(dzs, stage_arc_path)] + rooms
