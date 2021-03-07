@@ -677,6 +677,8 @@ def print_all_actor_instance_sizes(self):
 
 def print_actor_class_occurrences(self):
   occs = {}
+  for class_name in DataTables.actor_parameters:
+    occs[class_name] = 0
   for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
     stage_and_rooms = [(dzs, stage_arc_path)] + rooms
     classes_seen_in_stage = []
@@ -700,7 +702,7 @@ def print_actor_class_occurrences(self):
             #classes_seen_in_room.append(class_name)
   
   occs = list(occs.items())
-  occs.sort(key=lambda occ: -occ[1])
+  occs.sort(key=lambda occ: (-occ[1], occ[0]))
   with open("Actor Class Stage Occurrences.txt", "w") as f:
     for k, v in occs:
       f.write("%20s: %d\n" % (k, v))
