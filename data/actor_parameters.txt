@@ -2801,6 +2801,9 @@ d_a_stone2:
   unknown_param_6:
     Bitfield name: params
     Mask: 0x80000000
+  destroyed_event_index:
+    Bitfield name: aux_params_2
+    Mask: 0x00FF
 
 d_a_swattack:
   unknown_param_1:
