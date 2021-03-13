@@ -311,6 +311,9 @@
 
 ; Originally the Windfall bomb shop owner only lowers the price of the bombs he sells to be reasonable after you have obtained Nayru's Pearl.
 ; Remove these checks so he always sells them at the lower prices from the start of the game.
+; Note: Technically this shop owner is not properly coded to refuse to sell bombs to the player if they don't own the bombs upgrade yet.
+; However, this doesn't matter in practice because he will only sell you bombs if you have less than your maximum, and there is no way to use them up and get less than your maximum until you own the bombs upgrade.
+; The only side effect of this is that his purchase error message will be the same as if you were simply full on bombs ("you just can't carry that much"), but that accurate enough that it's fine.
 .open "files/rels/d_a_npc_bms1.rel" ; Bomb-Master Cannon (Windfall bomb shop owner)
 .org 0x1B9C ; In daNpc_Bms1_c::shop_talk(void)
   li r3, 1
