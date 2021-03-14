@@ -570,6 +570,7 @@ class WWRandomizerWindow(QMainWindow):
         # Reset model with only the regular items
         self.randomized_gear_model.setStringList(REGULAR_ITEMS.copy())
         self.starting_gear_model.setStringList([])
+        self.filtered_rgear.setFilterStrings([])
         for i in range(len(REGULAR_ITEMS)):
           starting = bitsreader.read(1)
           if starting == 1:
