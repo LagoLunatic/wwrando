@@ -78,6 +78,7 @@ class Randomizer:
     self.options = options
     self.seed = seed
     self.permalink = permalink
+    self.seed_hash = None
     
     self.dry_run = ("-dry" in cmd_line_args)
     self.disassemble = ("-disassemble" in cmd_line_args)
@@ -931,6 +932,9 @@ class Randomizer:
     if self.permalink:
       header += "Permalink: %s\n" % self.permalink
     
+    if self.seed_hash:
+      header += "Seed Hash: %s\n" % self.seed_hash
+
     header += "Seed: %s\n" % self.seed
     
     header += "Options selected:\n  "
