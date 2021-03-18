@@ -1661,11 +1661,12 @@ def show_seed_hash_on_name_entry_screen(self):
   name_1, name_2 = temp_rng.sample(valid_names, 2)
   name_1 = upper_first_letter(name_1)
   name_2 = upper_first_letter(name_2)
+  self.seed_hash = name_1 + " " + name_2
   
   # Since actually adding new text to the UI would be very difficult, instead hijack the "Name Entry" text, and put the seed hash after several linebreaks.
   # (The three linebreaks we insert before "Name Entry" are so it's still in the correct spot after vertical centering happens.)
   msg = self.bmg.messages_by_id[40]
-  msg.string = "\n\n\n" + msg.string + "\n\n" + "Seed hash:" + "\n" + name_1 + " " + name_2
+  msg.string = "\n\n\n" + msg.string + "\n\n" + "Seed hash:" + "\n" + self.seed_hash
 
 def fix_ghost_ship_chest_crash(self):
   # There's a vanilla crash that happens if you jump attack on top of the chest in the Ghost Ship.
