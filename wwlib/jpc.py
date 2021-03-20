@@ -310,13 +310,14 @@ class BSP1(J3DChunk):
       g = read_u8(self.data, color_data_offset+i*6 + 3)
       b = read_u8(self.data, color_data_offset+i*6 + 4)
       a = read_u8(self.data, color_data_offset+i*6 + 5)
-      color_table.append((keyframe_time, (r, g, b, a)))
+      color_table.append(ColorAnimationKeyframe(keyframe_time, (r, g, b, a)))
     
     return color_table
   
   def save_color_table(self, color_table, color_data_offset):
-    for i, (keyframe_time, (r, g, b, a)) in enumerate(color_table):
-      write_u16(self.data, color_data_offset+i*6 + 0, keyframe_time)
+    for i, keyframe in enumerate(color_table):
+      r, g, b, a = keyframe.color
+      write_u16(self.data, color_data_offset+i*6 + 0, keyframe.time)
       write_u8(self.data, color_data_offset+i*6 + 2, r)
       write_u8(self.data, color_data_offset+i*6 + 3, g)
       write_u8(self.data, color_data_offset+i*6 + 4, b)
@@ -398,3 +399,8 @@ class TEX1(J3DChunk):
     if self.bti.needs_palettes():
       self.bti.palette_data.seek(0)
       self.data.write(self.bti.palette_data.read())
+
+class ColorAnimationKeyframe:
+  def __init__(self, time, color):
+    self.time = time
+    self.color = color

@@ -260,16 +260,16 @@ def shift_all_colors_in_particle(self, particle, h_shift, v_shift):
   particle.bsp1.color_env = (r, g, b, a)
   
   #print(particle.bsp1.color_prm_anm_data_count)
-  for i in range(particle.bsp1.color_prm_anm_data_count):
-    keyframe_time, (r, g, b, a) = particle.bsp1.color_prm_anm_table[i]
+  for keyframe in particle.bsp1.color_prm_anm_table:
+    r, g, b, a = keyframe.color
     r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-    particle.bsp1.color_prm_anm_table[i] = (keyframe_time, (r, g, b, a))
+    keyframe.color = (r, g, b, a)
   
   #print(particle.bsp1.color_env_anm_data_count)
-  for i in range(particle.bsp1.color_env_anm_data_count):
-    keyframe_time, (r, g, b, a) = particle.bsp1.color_env_anm_table[i]
+  for keyframe in particle.bsp1.color_env_anm_table:
+    r, g, b, a = keyframe.color
     r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-    particle.bsp1.color_env_anm_table[i] = (keyframe_time, (r, g, b, a))
+    keyframe.color = (r, g, b, a)
   
   if hasattr(particle, "ssp1"):
     r, g, b, a = particle.ssp1.color_prm
