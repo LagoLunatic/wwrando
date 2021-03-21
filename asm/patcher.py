@@ -127,7 +127,7 @@ def apply_free_space_patchlet_to_rel(self, file_path, offset, new_bytes, relocat
   write_and_pack_bytes(rel_section.data, section_relative_offset, new_bytes, "B"*len(new_bytes))
   
   if relocations:
-    add_relocations_to_rel(self, file_path, rel_section_index, patchlet_offset_into_curr_section, relocations)
+    add_relocations_to_rel(self, file_path, rel_section_index, section_relative_offset, relocations)
 
 def add_free_space_section_to_rel(self, file_path):
   rel = self.get_rel(file_path)
