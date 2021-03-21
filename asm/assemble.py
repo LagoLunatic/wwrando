@@ -278,6 +278,7 @@ try:
           temp_linker_script += "%s = 0x%08X;\n" % (symbol_name, symbol_address)
       
       for org_offset_or_symbol, temp_asm in code_chunks_for_file_sorted:
+        using_free_space = False
         if isinstance(org_offset_or_symbol, int):
           org_offset = org_offset_or_symbol
         else:
@@ -285,6 +286,7 @@ try:
           free_space_match = re.search(r"@FreeSpace_\d+", org_symbol)
           if free_space_match:
             org_offset = next_free_space_offsets[file_path]
+            using_free_space = True
           else:
             if org_symbol not in custom_symbols_for_file:
               raise Exception(".org specified an invalid custom symbol: %s" % org_symbol)
@@ -370,7 +372,9 @@ try:
           binary_data = f.read()
         
         code_chunk_size_in_bytes = len(binary_data)
-        next_free_space_offsets[file_path] += code_chunk_size_in_bytes
+        
+        if using_free_space:
+          next_free_space_offsets[file_path] += code_chunk_size_in_bytes
         
         bytes = list(struct.unpack("B"*code_chunk_size_in_bytes, binary_data))
         diffs[file_path][org_offset] = OrderedDict()
