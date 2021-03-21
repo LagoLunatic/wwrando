@@ -62,21 +62,27 @@ def add_or_extend_main_dol_free_space_section(self, new_bytes, org_address):
     # Can't add a section of size 0.
     return
   
-  if org_address != ORIGINAL_FREE_SPACE_RAM_ADDRESS + dol_section.size:
-    raise Exception("Attempted to add or extend a main.dol free space section at address 0x%08X, when the next main.dol free space address was expected to be at 0x%08X" % (org_address, ORIGINAL_FREE_SPACE_RAM_ADDRESS + dol_section.size))
-  
-  new_total_section_size = dol_section.size + patch_length
+  new_total_section_size = (org_address - ORIGINAL_FREE_SPACE_RAM_ADDRESS) + patch_length
   
   # First add a new text section to the dol (Text2).
   dol_section.offset = ORIGINAL_DOL_SIZE # Set the file offset of new Text2 section (which will be the original end of the file, where we put the new section)
   dol_section.address = ORIGINAL_FREE_SPACE_RAM_ADDRESS # Write loading address of the new Text2 section
-  dol_section.size = new_total_section_size # Write length of the new Text2 section
+  if new_total_section_size > dol_section.size:
+    # Only set the section size if it would be bigger.
+    # We don't want to accidentally shrink the section when applying patches out of order.
+    dol_section.size = new_total_section_size # Write length of the new Text2 section
+  else:
+    # If we're not making the section bigger, we applied patches out of order and are writing into a zeroed-out slot earlier on.
+    # In this case, make sure the bytes we're about to overwrite are actually all zero as they should be.
+    old_bytes = self.dol.read_data(read_and_unpack_bytes, org_address, len(new_bytes), "B"*len(new_bytes))
+    if any(byte != 0 for byte in old_bytes):
+      raise Exception("Attempted to apply main.dol free space patch over nonzero data.")
   
   # Next write our custom code to the end of the dol file.
   self.dol.write_data(write_and_pack_bytes, org_address, new_bytes, "B"*len(new_bytes))
   
   # Next we need to change a hardcoded pointer to where free space begins. Otherwise the game will overwrite the custom code.
-  padded_section_size = ((new_total_section_size + 3) & ~3) # Pad length of new section to next 4 just in case
+  padded_section_size = ((dol_section.size + 3) & ~3) # Pad length of new section to next 4 just in case
   new_start_pointer_for_default_thread = ORIGINAL_FREE_SPACE_RAM_ADDRESS + padded_section_size # New free space pointer after our custom code
   high_halfword, low_halfword = split_pointer_into_high_and_low_half_for_hardcoding(new_start_pointer_for_default_thread)
   # Now update the asm instructions that load this hardcoded pointer.
