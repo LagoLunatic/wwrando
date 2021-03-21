@@ -1277,17 +1277,17 @@ def add_pirate_ship_to_windfall(self):
   ship_dzs.save_changes()
 
 
-WarpPotData = namedtuple("WarpPotData", 'stage_name room_num x y z y_rot event_reg_index')
+CyclicWarpPotData = namedtuple("CyclicWarpPotData", 'stage_name room_num x y z y_rot event_reg_index')
 INTER_DUNGEON_WARP_DATA = [
   [
-    WarpPotData("M_NewD2", 2, 2185, 0, 590, 0xA000, 2), # DRC
-    WarpPotData("kindan", 1, 986, 3956.43, 9588, 0xB929, 2), # FW
-    WarpPotData("Siren", 6, 277, 229.42, -6669, 0xC000, 2), # TotG
+    CyclicWarpPotData("M_NewD2", 2, 2185, 0, 590, 0xA000, 2), # DRC
+    CyclicWarpPotData("kindan", 1, 986, 3956.43, 9588, 0xB929, 2), # FW
+    CyclicWarpPotData("Siren", 6, 277, 229.42, -6669, 0xC000, 2), # TotG
   ],
   [
-    WarpPotData("ma2room", 2, 1556, 728.46, -7091, 0xEAA6, 5), # FF
-    WarpPotData("M_Dai", 1, -8010, 1010, -1610, 0, 5), # ET
-    WarpPotData("kaze", 3, -4333, 1100, 48, 0x4000, 5), # WT
+    CyclicWarpPotData("ma2room", 2, 1556, 728.46, -7091, 0xEAA6, 5), # FF
+    CyclicWarpPotData("M_Dai", 1, -8010, 1010, -1610, 0, 5), # ET
+    CyclicWarpPotData("kaze", 3, -4333, 1100, 48, 0x4000, 5), # WT
   ],
 ]
 
@@ -1320,26 +1320,23 @@ def add_inter_dungeon_warp_pots(self):
       assert len(spawn_id_69s) == 1
       
       # Add new exits.
+      pot_index_to_exit_index = []
       for other_warp_pot_data in warp_pot_datas_in_this_cycle:
         scls_exit = room_dzx.add_entity("SCLS", layer=None)
         scls_exit.dest_stage_name = other_warp_pot_data.stage_name
         scls_exit.spawn_id = 69
         scls_exit.room_index = other_warp_pot_data.room_num
         scls_exit.fade_type = 4 # Warp pot fade out
-      
-      all_scls_exits = room_dzx.entries_by_type_and_layer("SCLS", None)
-      scls_exit_index_1 = len(all_scls_exits)-3
-      scls_exit_index_2 = len(all_scls_exits)-2
-      scls_exit_index_3 = len(all_scls_exits)-1
+        pot_index_to_exit_index.append(len(room_dzx.entries_by_type("SCLS"))-1)
       
       # Add the warp pots themselves.
       warp_pot = room_dzx.add_entity("ACTR", layer=None)
       warp_pot.name = "Warpts%d" % (warp_pot_index+1) # Warpts1 Warpts2 or Warpts3
       warp_pot.type = warp_pot_index + 2 # 2 3 or 4
       warp_pot.cyclic_event_reg_index = warp_pot_data.event_reg_index
-      warp_pot.cyclic_dest_1_exit = scls_exit_index_1
-      warp_pot.cyclic_dest_2_exit = scls_exit_index_2
-      warp_pot.cyclic_dest_3_exit = scls_exit_index_3
+      warp_pot.cyclic_dest_1_exit = pot_index_to_exit_index[0]
+      warp_pot.cyclic_dest_2_exit = pot_index_to_exit_index[1]
+      warp_pot.cyclic_dest_3_exit = pot_index_to_exit_index[2]
       warp_pot.x_pos = warp_pot_data.x
       warp_pot.y_pos = warp_pot_data.y
       warp_pot.z_pos = warp_pot_data.z
