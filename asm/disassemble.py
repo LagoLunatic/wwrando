@@ -411,7 +411,7 @@ def find_rel_by_module_num(all_rels_by_path, module_num):
 
 def get_main_symbols(framework_map_contents):
   main_symbols = {}
-  matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?: +\d+)? (.+?) \t", framework_map_contents, re.IGNORECASE | re.MULTILINE)
+  matches = re.findall(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?: +\d+)? (.+?)(?: \(entry of [^)]+\))? \t", framework_map_contents, re.IGNORECASE | re.MULTILINE)
   for match in matches:
     address, name = match
     address = int(address, 16)
@@ -456,7 +456,7 @@ def get_rel_symbols(rel, rel_map_data):
       else:
         current_section_index = None
         current_section = None
-    symbol_entry_match = re.search(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?: +\d+)? (.+?) \t", line, re.IGNORECASE)
+    symbol_entry_match = re.search(r"^  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?: +\d+)? (.+?)(?: \(entry of [^)]+\))? \t", line, re.IGNORECASE)
     if current_section is not None and symbol_entry_match:
       current_section_offset = current_section.offset
       if current_section_offset == 0:
