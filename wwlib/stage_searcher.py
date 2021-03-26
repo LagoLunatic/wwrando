@@ -285,50 +285,54 @@ def print_all_used_item_pickup_flags(self):
         actors += dzx.entries_by_type_and_layer("TGDR", layer)
         
         for actor in actors:
-          if not hasattr(actor, "item_pickup_flag"):
-            # Some hacky code to try to look for unknown params that are item pickup flags:
-            #if stage_id == 3: # DRC
-            #  for i in range(1, 20):
-            #    param_name = "unknown_param_%d" % i
-            #    if hasattr(actor, param_name):
-            #      class_name = DataTables.actor_name_to_class_name[actor.name]
-            #      param_fields = DataTables.actor_parameters[class_name]
-            #      params_bitfield_name, mask = param_fields[param_name]
-            #      amount_to_shift = actor.get_lowest_set_bit(mask)
-            #      if (mask >> amount_to_shift) < 0x7F: # Need at least 0x7F to hold an item pickup flag
-            #        continue
-            #      if getattr(actor, param_name) == 5:
-            #        print("!!!! %s %s %s" % (actor.name, param_name, arc_path))
+          for attr_name in actor.param_fields:
+            #if attr_name.startswith("unknown_param_"):
+            #  # Some hacky code to try to look for unknown params that are item pickup flags.
+            #  if stage_id == 3:
+            #    class_name = DataTables.actor_name_to_class_name[actor.name]
+            #    param_fields = DataTables.actor_parameters[class_name]
+            #    params_bitfield_name, mask = param_fields[param_name]
+            #    amount_to_shift = actor.get_lowest_set_bit(mask)
+            #    if (mask >> amount_to_shift) < 0x7F: # Need at least 0x7F to hold an item pickup flag
+            #      continue
+            #    if getattr(actor, param_name) == 5:
+            #      print("!!!! %s %s %s" % (actor.name, param_name, arc_path))
+            #  
+            #  continue
             
-            continue
-          
-          item_flag = actor.item_pickup_flag & 0x7F
-          if item_flag == 0x7F:
-            continue
-          
-          class_name = DataTables.actor_name_to_class_name[actor.name]
-          
-          if class_name in ["d_a_item", "d_a_race_item", "d_a_tag_kb_item"]:
-            item_name = self.item_names[actor.item_id]
-          elif class_name in ["d_a_tsubo", "d_a_switem", "d_a_obj_barrel2", "d_a_obj_movebox", "d_a_obj_bemos", "d_a_obj_homen", "d_a_stone", "d_a_stone2"]:
-            if actor.item_id < 0x20:
-              item_name = self.item_names[actor.item_id]
-            else:
-              item_name = "Random drop type 0x%02X" % (actor.item_id - 0x20)
-          elif class_name == "d_a_deku_item":
-            item_name = self.item_names[0x34]
-          else:
-            raise Exception("Unknown actor class: %s" % class_name)
-          
-          location_identifier = " from % 7s" % actor.name
-          location_identifier += "  in " + arc_path[len("files/res/Stage/"):-len(".arc")]
-          if layer is not None:
-            location_identifier += "/Layer%X" % layer
-          
-          if is_unused:
-            used_item_flags_by_stage_id_unused[stage_id].append((item_flag, item_name, location_identifier))
-          else:
-            used_item_flags_by_stage_id[stage_id].append((item_flag, item_name, location_identifier))
+            if "item_pickup_flag" in attr_name:
+              item_flag = getattr(actor, attr_name) & 0x7F
+              if item_flag == 0x7F:
+                continue
+              
+              class_name = DataTables.actor_name_to_class_name[actor.name]
+              
+              if class_name in ["d_a_item", "d_a_race_item", "d_a_tag_kb_item"]:
+                item_name = self.item_names[actor.item_id]
+              elif class_name in ["d_a_tsubo", "d_a_switem", "d_a_obj_barrel2", "d_a_obj_movebox", "d_a_obj_homen", "d_a_stone", "d_a_stone2"]:
+                if actor.item_id < 0x20:
+                  item_name = self.item_names[actor.item_id]
+                else:
+                  item_name = "Random drop type 0x%02X" % (actor.item_id - 0x20)
+              elif class_name == "d_a_obj_bemos":
+                if actor.beamos_item_id < 0x20:
+                  item_name = self.item_names[actor.beamos_item_id]
+                else:
+                  item_name = "Random drop type 0x%02X" % (actor.item_id - 0x20)
+              elif class_name == "d_a_deku_item":
+                item_name = self.item_names[0x34]
+              else:
+                raise Exception("Unknown actor class: %s" % class_name)
+              
+              location_identifier = " from % 7s" % actor.name
+              location_identifier += "  in " + arc_path[len("files/res/Stage/"):-len(".arc")]
+              if layer is not None:
+                location_identifier += "/Layer%X" % layer
+              
+              if is_unused:
+                used_item_flags_by_stage_id_unused[stage_id].append((item_flag, item_name, location_identifier))
+              else:
+                used_item_flags_by_stage_id[stage_id].append((item_flag, item_name, location_identifier))
   
   def write_used_item_flags_to_file(used_item_flags_dict, filename):
     used_item_flags_dict = OrderedDict(sorted(
