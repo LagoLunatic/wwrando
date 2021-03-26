@@ -45,7 +45,7 @@ Cave11
 Comori
   Komali's Room
 DmSpot0
-  Broken
+  Unused
 E3ROOP
   Unused
 Ebesso
@@ -109,7 +109,7 @@ Hyroom
 Hyrule
   Hyrule Castle
 H_test
-  Broken
+  Unused
 ITest61
   Unused
 ITest62
@@ -191,7 +191,7 @@ MiniKaz
 Mjtower
   Forsaken Fortress Tower (1st visit)
 morocam
-  Broken
+  Unused
 Msmoke
   Unused
 Mukao
