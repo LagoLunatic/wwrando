@@ -71,6 +71,10 @@ class DZx: # DZR or DZS, same format
     #chunk_to_remove_entity_from.entries.remove(entity)
   
   def save_changes(self):
+    for chunk in self.chunks:
+      # Make sure all chunk entries are fully loaded before trying to save them.
+      chunk.read_entries()
+    
     data = self.file_entry.data
     data.truncate(0)
     
@@ -80,9 +84,7 @@ class DZx: # DZR or DZS, same format
     
     for chunk in self.chunks:
       chunk.offset = offset
-      write_magic_str(data, chunk.offset, chunk.fourcc, 4)
-      write_u32(data, chunk.offset+4, len(chunk.entries))
-      write_u32(data, chunk.offset+8, 0) # Placeholder for first entry offset
+      chunk.save_changes()
       offset += 0xC
     
     for chunk in self.chunks:
@@ -90,8 +92,8 @@ class DZx: # DZR or DZS, same format
       align_data_to_nearest(data, 4)
       offset = data_len(data)
       
-      first_entry_offset = offset
-      write_u32(data, chunk.offset+8, first_entry_offset)
+      chunk.first_entry_offset = offset
+      write_u32(data, chunk.offset+8, chunk.first_entry_offset)
       
       for entry in chunk.entries:
         if entry is None:
@@ -137,7 +139,11 @@ class Chunk:
   def __init__(self, file_entry):
     self.file_entry = file_entry
     
-    self.entries = []
+    self.chunk_type = None
+    self.num_entries = 0
+    self.first_entry_offset = None
+    
+    self._entries = []
     self.layer = None
   
   def read(self, offset):
@@ -145,8 +151,8 @@ class Chunk:
     data = self.file_entry.data
     
     self.chunk_type = read_str(data, self.offset, 4)
-    num_entries = read_u32(data, self.offset+4)
-    first_entry_offset = read_u32(data, self.offset+8)
+    self.num_entries = read_u32(data, self.offset+4)
+    self.first_entry_offset = read_u32(data, self.offset+8)
     
     # Some types of chunks are conditional and only appear on certain layers. The 4th character of their type determines what letter they appear on.
     if self.chunk_type.startswith("TRE") or self.chunk_type.startswith("ACT") or self.chunk_type.startswith("SCO"):
@@ -160,20 +166,17 @@ class Chunk:
     if self.chunk_type.startswith("SCO"):
       self.chunk_type = "SCOB"
     
-    if self.entry_class is None:
-      #raise Exception("Unknown chunk type: " + self.chunk_type)
-      self.entries = [None]*num_entries
-      return
+    # Lazy load entries to avoid loading old-versioned chunks that would crash the program.
+    self._entries = None
+  
+  def save_changes(self):
+    data = self.file_entry.data
     
-    #print("First entry offset: %X" % first_entry_offset)
+    self.num_entries = len(self.entries)
     
-    entry_size = self.entry_class.DATA_SIZE
-    
-    for entry_index in range(0, num_entries):
-      entry_offset = first_entry_offset + entry_index*entry_size
-      entry = self.entry_class(self.file_entry)
-      entry.read(entry_offset)
-      self.entries.append(entry)
+    write_magic_str(data, self.offset, self.fourcc, 4)
+    write_u32(data, self.offset+4, self.num_entries)
+    write_u32(data, self.offset+8, 0) # Placeholder for first entry offset
   
   @property
   def entry_class(self):
@@ -190,6 +193,35 @@ class Chunk:
       fourcc = fourcc[:3]
       fourcc += "%x" % self.layer
     return fourcc
+  
+  @property
+  def entries(self):
+    self.read_entries()
+    
+    return self._entries
+  
+  @entries.setter
+  def entries(self, value):
+    self._entries = value
+  
+  def read_entries(self):
+    if self._entries is not None:
+      # Already read.
+      return
+    
+    if self.entry_class is None:
+      #raise Exception("Unknown chunk type: " + self.chunk_type)
+      self._entries = [None]*self.num_entries
+      return self._entries
+    
+    entry_size = self.entry_class.DATA_SIZE
+    
+    self._entries = []
+    for entry_index in range(self.num_entries):
+      entry_offset = self.first_entry_offset + entry_index*entry_size
+      entry = self.entry_class(self.file_entry)
+      entry.read(entry_offset)
+      self._entries.append(entry)
 
 class ChunkEntry:
   PARAMS = {}
