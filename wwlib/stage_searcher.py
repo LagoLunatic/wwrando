@@ -123,7 +123,13 @@ def print_all_used_switches(self):
       else: # Stage.arc
         room_no = None
       
-      for evnt in dzx.entries_by_type("EVNT"):
+      if stage_name in ["H_test", "DmSpot0", "morocam"]:
+        # Uses an old EVNT format, cannot be read.
+        evnts = []
+      else:
+        evnts = dzx.entries_by_type("EVNT")
+      
+      for evnt in evnts:
         switch = evnt.event_seen_switch_index
         if switch == 0xFF:
           continue
