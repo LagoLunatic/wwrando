@@ -537,10 +537,19 @@ def change_item(self, path, item_name):
     change_hardcoded_item_in_dol(self, address, item_id)
   elif custom_symbol_match:
     custom_symbol = custom_symbol_match.group(1)
-    if custom_symbol not in self.main_custom_symbols:
+    found_custom_symbol = False
+    for file_path, custom_symbols_for_file in self.custom_symbols.items():
+      if custom_symbol in custom_symbols_for_file:
+        found_custom_symbol = True
+        if file_path == "sys/main.dol":
+          address = custom_symbols_for_file[custom_symbol]
+          change_hardcoded_item_in_dol(self, address, item_id)
+        else:
+          offset = custom_symbols_for_file[custom_symbol]
+          change_hardcoded_item_in_rel(self, file_path, offset, item_id)
+        break
+    if not found_custom_symbol:
       raise Exception("Invalid custom symbol: %s" % custom_symbol)
-    address = self.main_custom_symbols[custom_symbol]
-    change_hardcoded_item_in_dol(self, address, item_id)
   elif chest_match:
     arc_path = "files/res/Stage/" + chest_match.group(1)
     if chest_match.group(2):
