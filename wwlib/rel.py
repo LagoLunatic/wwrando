@@ -131,7 +131,7 @@ class REL:
       if section.is_uninitialized:
         continue
       
-      if section.offset <= offset < section.offset+section.length:
+      if section.offset <= offset < section.offset+data_len(section.data):
         section_index = self.sections.index(section)
         relative_offset = offset - section.offset
         break
@@ -149,7 +149,7 @@ class REL:
       if section.is_uninitialized:
         continue
       
-      if section.offset <= offset < section.offset+section.length:
+      if section.offset <= offset < section.offset+data_len(section.data):
         data = section.data
         relative_offset = offset - section.offset
         break
