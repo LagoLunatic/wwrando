@@ -163,6 +163,9 @@ def add_relocations_to_rel(self, file_path, rel_section_index, offset_into_secti
     relocation_offset = relocation_dict["Offset"]
     relocation_type = relocation_dict["Type"]
     
+    if symbol_name == "":
+      raise Exception("Tried to relocate against a blank symbol name")
+    
     relocation_offset += offset_into_section
     
     rel_relocation = RELRelocation()
