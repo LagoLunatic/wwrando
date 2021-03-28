@@ -12,19 +12,17 @@ class ELF:
     
     self.section_headers_table_offset = read_u32(self.data, 0x20)
     self.num_section_headers = read_u16(self.data, 0x30)
+    self.section_header_string_table_section_index = read_u16(self.data, 0x32)
     
     self.sections = []
-    self.section_header_string_table_offset = None
     for i in range(self.num_section_headers):
       section = ELFSection()
       section.read(self.data, self.section_headers_table_offset + i*ELFSection.ENTRY_SIZE)
       self.sections.append(section)
-      
-      if section.type == ELFSectionType.SHT_STRTAB:
-        self.section_header_string_table_offset = section.section_offset
     
+    section_header_string_table_offset = self.sections[self.section_header_string_table_section_index].section_offset
     for section in self.sections:
-      section.name = read_str_until_null_character(self.data, self.section_header_string_table_offset+section.name_offset)
+      section.name = read_str_until_null_character(self.data, section_header_string_table_offset+section.name_offset)
     
     self.sections_by_name = OrderedDict()
     for section in self.sections:
@@ -68,7 +66,7 @@ class ELFSection:
     self.address = read_u32(elf_data, self.header_offset+0x0C)
     self.section_offset = read_u32(elf_data, self.header_offset+0x10)
     self.size = read_u32(elf_data, self.header_offset+0x14)
-    
+    self.link = read_u32(elf_data, self.header_offset+0x18)
     self.info = read_u32(elf_data, self.header_offset+0x1C)
     
     self.data = BytesIO(read_bytes(elf_data, self.section_offset, self.size))
