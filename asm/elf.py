@@ -68,6 +68,8 @@ class ELFSection:
     self.size = read_u32(elf_data, self.header_offset+0x14)
     self.link = read_u32(elf_data, self.header_offset+0x18)
     self.info = read_u32(elf_data, self.header_offset+0x1C)
+    self.addr_align = read_u32(elf_data, self.header_offset+0x20)
+    self.entry_size = read_u32(elf_data, self.header_offset+0x24)
     
     self.data = BytesIO(read_bytes(elf_data, self.section_offset, self.size))
 
