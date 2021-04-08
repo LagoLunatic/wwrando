@@ -34,4 +34,50 @@ jobs:
     - name: Bundle Linux App
       run: python build.py
 
+  macos:
 
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Add release key
+        run: echo ${{ secrets.RELEASE_KEY }} > keys/build_key.txt
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements_full.txt
+
+      - name: Build MacOS App
+        run: python -m PyInstaller wwrando.spec
+      - name: Bundle MacOS App
+        run: python build.py
+
+  windows:
+
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Add release key
+        run: echo ${{ secrets.RELEASE_KEY }} > keys/build_key.txt
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements_full.txt
+
+      - name: Build Windows App
+        run: python -m PyInstaller wwrando.spec
+      - name: Bundle Windows App
+        run: python build.py
