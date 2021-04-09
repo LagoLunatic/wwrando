@@ -54,7 +54,7 @@ jobs:
           pip install -r requirements_full.txt
 
       - name: Build MacOS App
-        run: python -m PyInstaller wwrando.spec
+        run: python -m PyInstaller --onefile --windowed wwrando.spec
       - name: Bundle MacOS App
         run: python build.py
 
