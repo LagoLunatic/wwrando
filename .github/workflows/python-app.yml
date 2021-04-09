@@ -52,6 +52,11 @@ jobs:
           architecture: x64
           python-version: '3.8'
           miniconda-version: latest
+      - run: |
+          conda create -qyf py38 python=3.8 wheel -c anaconda
+          conda activate py38
+          python setup.py sdist bdist_wheel
+        shell: bash -l {0}
 
       - name: Install dependencies
         run: |
