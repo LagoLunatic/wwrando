@@ -37,6 +37,8 @@ jobs:
   macos:
 
     runs-on: macos-latest
+    env:
+      MACOSX_DEPLOYMENT_TARGET: 10.9
 
     steps:
       - uses: actions/checkout@v2
@@ -60,7 +62,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: wwrando-macos
-          path: dist/Wind_Waker_Randomizer_1.9.0_64bit_mac.zip
+          path: dist/*.zip
 
   windows:
 
