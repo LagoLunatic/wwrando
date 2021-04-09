@@ -43,7 +43,7 @@ shutil.copyfile("./models/About Custom Models.txt", "./dist/release_archive/mode
 if platform.system() == "Darwin":
   shutil.copytree(exe_path, "./dist/release_archive/%s" % base_name + exe_ext)
 else:
-  shutil.copyfile(exe_ext, "./dist/release_archive/%s" % base_name + exe_ext)
+  shutil.copyfile(exe_path, "./dist/release_archive/%s" % base_name + exe_ext)
 
 shutil.make_archive(zip_name, 'zip', "./dist/release_archive")
 shutil.rmtree("./dist/release_archive")
