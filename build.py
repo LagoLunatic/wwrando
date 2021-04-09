@@ -1,7 +1,7 @@
 
-from zipfile import ZipFile
 import os
 import platform
+import shutil
 
 from randomizer import VERSION_WITHOUT_COMMIT
 
@@ -16,16 +16,34 @@ else:
   base_name_with_version += "_32bit"
   base_zip_name = base_name_with_version
 
-zip_name = base_zip_name.replace(" ", "_") + ".zip"
 exe_ext = ""
 if platform.system() == "Windows":
   exe_ext = ".exe"
+  platform_name = "win"
+if platform.system() == "Darwin":
+  exe_ext = ".app"
+  platform_name = "mac"
+if platform.system() == "Linux":
+  platform_name = "linux"
+
+zip_name = os.path.join("./dist/", base_zip_name.replace(" ", "_") + "_" + platform_name)
 
 exe_path = "./dist/%s" % base_name_with_version + exe_ext
-if not os.path.isfile(exe_path):
+if not (os.path.isfile(exe_path) or os.path.isdir(exe_path)):
   raise Exception("Executable not found: %s" % exe_path)
 
-with ZipFile("./dist/" + zip_name, "w") as zip:
-  zip.write(exe_path, arcname=base_name + exe_ext)
-  zip.write("README.md", arcname="README.txt")
-  zip.write("./models/About Custom Models.txt", arcname="./models/About Custom Models.txt")
+if os.path.exists("./dist/release_archive") and os.path.isdir("./dist/release_archive"):
+  shutil.rmtree("./dist/release_archive")
+
+os.mkdir("./dist/release_archive")
+os.mkdir("./dist/release_archive/models")
+shutil.copyfile("README.md", "./dist/release_archive/README.txt")
+shutil.copyfile("./models/About Custom Models.txt", "./dist/release_archive/models/About Custom Models.txt")
+
+if platform.system() == "Darwin":
+  shutil.copytree(exe_path, "./dist/release_archive/%s" % base_name + exe_ext)
+else:
+  shutil.copyfile(exe_ext, "./dist/release_archive/%s" % base_name + exe_ext)
+
+shutil.make_archive(zip_name, 'zip', "./dist/release_archive")
+shutil.rmtree("./dist/release_archive")
