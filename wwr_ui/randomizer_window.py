@@ -27,7 +27,7 @@ except ImportError:
   from yaml import Dumper
 
 from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError, InvalidCleanISOError
-from paths import ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE
+from paths import ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE, CURRENT_PATH
 import customizer
 from logic.logic import Logic
 from wwlib import texture_utils
@@ -374,7 +374,7 @@ class WWRandomizerWindow(QMainWindow):
       )
   
   def load_settings(self):
-    self.settings_path = "settings.txt"
+    self.settings_path = os.path.join(CURRENT_PATH, "settings.txt")
     if os.path.isfile(self.settings_path):
       with open(self.settings_path) as f:
         self.settings = yaml.safe_load(f)

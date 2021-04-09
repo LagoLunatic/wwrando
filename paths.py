@@ -1,5 +1,6 @@
 
 import os
+import sys
 
 try:
   from sys import _MEIPASS
@@ -14,3 +15,8 @@ DATA_PATH = os.path.join(RANDO_ROOT_PATH, "data")
 LOGIC_PATH = os.path.join(RANDO_ROOT_PATH, "logic")
 ASM_PATH = os.path.join(RANDO_ROOT_PATH, "asm")
 SEEDGEN_PATH = os.path.join(RANDO_ROOT_PATH, "seedgen")
+#Needed to correctly place settings.txt when bundled as a macOS app
+if getattr(sys, 'frozen', False):
+  CURRENT_PATH = os.path.dirname(sys.executable)
+else:
+  CURRENT_PATH = str(os.path.dirname(__file__))
