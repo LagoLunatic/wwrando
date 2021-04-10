@@ -57,7 +57,6 @@ jobs:
           conda init bash
           source ~/.bash_profile
           conda activate py38
-          python3 setup.py sdist bdist_wheel -p macosx_10_9_x86_64
 
       - name: Install dependencies
         run: |
