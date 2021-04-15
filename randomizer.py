@@ -452,6 +452,7 @@ class Randomizer:
     yield("Done", -1)
   
   def apply_necessary_tweaks(self):
+    patcher.apply_patch(self, "custom_data")
     patcher.apply_patch(self, "custom_funcs")
     patcher.apply_patch(self, "make_game_nonlinear")
     patcher.apply_patch(self, "remove_cutscenes")

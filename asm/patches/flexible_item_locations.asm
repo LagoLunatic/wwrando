@@ -182,6 +182,43 @@
 .org 0x2DC4
   ; Originally called checkGetItem.
   bl check_shop_item_in_bait_bag_slot_sold_out
+.org @NextFreeSpace
+.global set_shop_item_in_bait_bag_slot_sold_out
+set_shop_item_in_bait_bag_slot_sold_out:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  
+  ; First call the regular SoldOutItem function with the given arguments since we overwrote a call to that in order to call this custom function.
+  bl SoldOutItem__11ShopItems_cFi
+  
+  ; Set event bit 6902 (bit 02 of byte 803C5295).
+  ; This bit was unused in the base game, but we repurpose it to keep track of whether you've purchased whatever item is in the Bait Bag slot of Beedle's shop.
+  lis r3, 0x803C522C@ha
+  addi r3, r3, 0x803C522C@l
+  li r4, 0x6902 ; Unused event bit
+  bl onEventBit__11dSv_event_cFUs
+  
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
+.global check_shop_item_in_bait_bag_slot_sold_out
+check_shop_item_in_bait_bag_slot_sold_out:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  
+  ; Check event bit 6902 (bit 02 of byte 803C5295), which was originally unused but we use it to keep track of whether the item in the Bait Bag slot has been purchased or not.
+  lis r3, 0x803C522C@ha
+  addi r3, r3, 0x803C522C@l
+  li r4, 0x6902 ; Unused event bit
+  bl isEventBit__11dSv_event_cFUs
+  
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
 .close
 
 
@@ -230,6 +267,23 @@
 .org 0x418
   ; Instead of simply calling custom_createItem, we have to call a wrapper function that both calls custom_createItem and sets our custom flag at withered_tree_entity+0x212 on in order to avoid our custom withered tree code setting the speeds to launch the item into the air.
   bl create_item_for_withered_trees_without_setting_speeds
+.org @NextFreeSpace
+.global create_item_for_withered_trees_without_setting_speeds
+create_item_for_withered_trees_without_setting_speeds:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  
+  bl custom_createItem
+  
+  ; We need to set our custom flag at withered_tree_entity+0x212 to 1 to prevent withered_tree_item_try_give_momentum from setting the speeds for this item actor.
+  li r5, 1
+  stb r5, 0x212 (r31)
+  
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
 .org 0x41C
   ; Again, like above we change the check on the return value to check -1 instead of 0.
   cmpwi r3, -1
@@ -243,6 +297,60 @@
   ; The way this function was originally coded already handled its job of detecting if the item was picked up appropriately, even in cases where the item is delayed spawned and doesn't exist for the first few frames. We don't need to modify anything to fix that.
   ; However, we do hijack this function in order to set some speed variables for the item on the frame it spawns, since custom_createItem wasn't able to do that like fastCreateItem was.
   bl withered_tree_item_try_give_momentum
+.org @NextFreeSpace
+.global withered_tree_item_try_give_momentum
+withered_tree_item_try_give_momentum:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  
+  ; First replace the function call we overwrote to call this custom function.
+  bl fopAcM_SearchByID__FUiPP10fopAc_ac_c
+  
+  cmpwi r3, 0
+  beq withered_tree_item_try_give_momentum_end ; Item actor has already been picked up
+  
+  lwz r4, 0x18 (sp) ; Read the item actor pointer (original code used sp+8 but this function's stack offset is +0x10)
+  cmpwi r4, 0
+  beq withered_tree_item_try_give_momentum_end ; Item actor was just created a few frames ago and hasn't actually been properly spawned yet
+  
+  ; Now that we have the item actor pointer in r4, we need to check if the actor was just created this frame or not.
+  ; To do that we store a custom flag to an unused byte in the withered tree actor struct.
+  lbz r5, 0x212 (r31) ; (Bytes +0x212 and +0x213 were originally just padding)
+  cmpwi r5, 0
+  bne withered_tree_item_try_give_momentum_end ; Already set the flag, so this isn't the first frame it spawned on.
+  
+  ; Since this is the first frame since the item actor was properly created, we can set its momentum.
+  lis r10, withered_tree_item_speeds@ha
+  addi r10, r10, withered_tree_item_speeds@l
+  lfs f0, 0 (r10) ; Read forward velocity
+  stfs f0, 0x254 (r4)
+  lfs f0, 4 (r10) ; Read the Y velocity
+  stfs f0, 0x224 (r4)
+  lfs f0, 8 (r10) ; Read gravity
+  stfs f0, 0x258 (r4)
+  
+  ; Also set bit 0x40 in some bitfield for the item actor.
+  ; Apparently this bit is for allowing the actor to still move while events are going on. It doesn't seem to really matter in this specific case, but set it just to be completely safe.
+  lwz r5, 0x1C4 (r4)
+  ori r5, r5, 0x40
+  stw r5, 0x1C4 (r4)
+  
+  ; Now store the custom flag meaning that we've already set the item actor's momentum so we don't do it again.
+  li r5, 1
+  stb r5, 0x212 (r31)
+
+withered_tree_item_try_give_momentum_end:
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
+
+.global withered_tree_item_speeds
+withered_tree_item_speeds:
+  .float 1.75 ; Initial forward velocity
+  .float 30 ; Initial Y velocity
+  .float -2.1 ; Gravity (Y acceleration)
 .close
 
 
@@ -254,12 +362,65 @@
 .open "files/rels/d_a_fganon.rel" ; Phantom Ganon
 .org 0x4D4C ; In standby__FP12fganon_class
   bl check_ganons_tower_chest_opened
+; Custom function that checks if the treasure chest in Ganon's Tower (that originally had the Light Arrows) has been opened.
+; This is to make the Phantom Ganon that appears in the maze still work if you got Light Arrows beforehand.
+.org @NextFreeSpace
+.global check_ganons_tower_chest_opened
+check_ganons_tower_chest_opened:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  
+  li r3, 8 ; Stage ID for Ganon's Tower.
+  li r4, 0 ; Chest open flag for the Light Arrows chest. Just 0 since this is the only chest in the whole dungeon.
+  bl dComIfGs_isStageTbox__Fii
+  
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
 .close
 ; Then there's an issue where killing Phantom Ganon 3 first and using his sword to destroy the door makes the sword dropped by Phantom Ganon 2 also disappear, which is bad because then the player wouldn't know which way to go in the maze.
 .open "files/rels/d_a_boko.rel" ; Weapons lying on the ground
 .org 0x2A90 ; In execute__8daBoko_cFv
   ; Instead of checking if the event flag for having destroyed the door with Phantom Ganon's sword is set, call a custom function.
   bl check_phantom_ganons_sword_should_disappear
+; This function checks if Phantom Ganon's sword should disappear.
+; Normally, both Phantom Ganon 2's and Phantom Ganon 3's swords will disappear once you've used Phantom Ganon 3's sword to destroy the door to Puppet Ganon.
+; We change it so Phantom Ganon 2's sword remains so it can lead the player through the maze.
+.org @NextFreeSpace
+.global check_phantom_ganons_sword_should_disappear
+check_phantom_ganons_sword_should_disappear:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  
+  ; First replace the event flag check we overwrote to call this custom function.
+  bl isEventBit__11dSv_event_cFUs
+  
+  ; If the player hasn't destroyed the door with Phantom Ganon's sword yet, we don't need to do anything different so just return.
+  cmpwi r3, 0
+  beq check_phantom_ganons_sword_should_disappear_end
+  
+  ; If the player has destroyed the door, check if the current stage is the Phantom Ganon maze, where Phantom Ganon 2 is fought.
+  lis r3, 0x803C9D3C@ha ; Current stage name
+  addi r3, r3, 0x803C9D3C@l
+  lis r4, phantom_ganon_maze_stage_name@ha
+  addi r4, r4, phantom_ganon_maze_stage_name@l
+  bl strcmp
+  ; If the stage is the maze, strcmp will return 0, so we return that to tell Phantom Ganon's sword that it should not disappear.
+  ; If the stage is anything else, strcmp will not return 0, so Phantom Ganon's sword should disappear.
+  
+check_phantom_ganons_sword_should_disappear_end:
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
+
+.global phantom_ganon_maze_stage_name
+phantom_ganon_maze_stage_name:
+  .string "GanonJ"
+  .align 2 ; Align to the next 4 bytes
 .close
 
 
@@ -283,6 +444,33 @@
 ; This custom function will both call createItemForPresentDemo and set one of the event bits specified above, by extracting the item ID and event bit separately from argument r4.
 .org 0x4BEC
   bl create_item_and_set_event_bit_for_townsperson
+; Custom function that creates an item given by a Windfall townsperson, and also sets an event bit to keep track of the item being given.
+.org @NextFreeSpace
+.global create_item_and_set_event_bit_for_townsperson
+create_item_and_set_event_bit_for_townsperson:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  stw r31, 0xC (sp)
+  mr r31, r4 ; Preserve argument r4, which has both the item ID and the event bit to set.
+  
+  clrlwi r4,r4,24 ; Get the lowest byte (0x000000FF), which has the item ID
+  bl fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz
+  
+  rlwinm. r4,r31,16,16,31 ; Get the upper halfword (0xFFFF0000), which has the event bit to set
+  beq create_item_and_set_event_bit_for_townsperson_end ; If the event bit specified is 0000, skip to the end of the function instead
+  mr r31, r3 ; Preserve the return value from createItemForPresentDemo so we can still return that
+  lis r3, 0x803C522C@ha
+  addi r3, r3, 0x803C522C@l
+  bl onEventBit__11dSv_event_cFUs ; Otherwise, set that event bit
+  mr r3, r31
+  
+create_item_and_set_event_bit_for_townsperson_end:
+  lwz r31, 0xC (sp)
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
 ; We also need to change the calls to checkGetItem to instead call isEventBit.
 .org 0x8D8
   bl dComIfGs_isEventBit__FUs
@@ -340,6 +528,28 @@
 ; This custom function will set an event bit to keep track of whether you've done this independantly of what the item itself is.
 .org 0x3BDC
   bl lenzo_set_deluxe_picto_box_event_bit
+; Lenzo normally won't let you start his assistant quest if he detects you already have the Deluxe Picto Box, which is bad when that's randomized.
+; So we need to set a custom event bit to keep track of whether you've gotten whatever item is in the Deluxe Picto Box slot.
+.org @NextFreeSpace
+.global lenzo_set_deluxe_picto_box_event_bit
+lenzo_set_deluxe_picto_box_event_bit:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  
+  ; First replace the function call we overwrote to call this custom function.
+  bl setEquipBottleItemEmpty__17dSv_player_item_cFv
+  
+  ; Next set an originally-unused event bit to keep track of whether the player got the item that was the Deluxe Picto Box in vanilla.
+  lis r3, 0x803C522C@ha
+  addi r3, r3, 0x803C522C@l
+  li r4, 0x6920
+  bl onEventBit__11dSv_event_cFUs
+  
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
 ; Then we change the calls to checkGetItem to see if the player owns the Deluxe Picto Box to instead check the event bit we just set (6920).
 ; Change the calls to checkGetItem to instead call isEventBit.
 .org 0x3BB4
@@ -385,6 +595,43 @@
 .org 0x32E8
   ; Change the call to createItemForPresentDemo to instead call our custom function so that it can set the custom event bit if necessary.
   bl zunari_give_item_and_set_magic_armor_event_bit
+; Zunari usually checks if he gave you the Magic Armor by calling checkGetItem on the Magic Armor item ID. This doesn't work properly when the item he gives is randomized.
+; So we need to set a custom event bit to keep track of whether you've gotten whatever item is in the Magic Armor slot.
+.org @NextFreeSpace
+.global zunari_give_item_and_set_magic_armor_event_bit
+zunari_give_item_and_set_magic_armor_event_bit:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  stw r31, 0xC (sp)
+  mr r31, r4 ; Preserve argument r4, which has the item ID
+  
+  bl fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz
+  
+  lis r4, zunari_magic_armor_slot_item_id@ha
+  addi r4, r4, zunari_magic_armor_slot_item_id@l
+  lbz r4, 0 (r4) ; Load what item ID is in the Magic Armor slot. This value is updated by the randomizer when it randomizes that item.
+  
+  cmpw r31, r4 ; Check if the item ID given is the same one from the Magic Armor slot.
+  bne zunari_give_item_and_set_magic_armor_event_bit_end ; If it's not the item in the Magic Armor slot, skip to the end of the function
+  mr r31, r3 ; Preserve the return value from createItemForPresentDemo so we can still return that
+  lis r3, 0x803C522C@ha
+  addi r3, r3, 0x803C522C@l
+  li r4, 0x6940 ; Unused event bit that we use to keep track of whether Zunari has given the Magic Armor item
+  bl onEventBit__11dSv_event_cFUs
+  mr r3, r31
+  
+zunari_give_item_and_set_magic_armor_event_bit_end:
+  lwz r31, 0xC (sp)
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
+
+.global zunari_magic_armor_slot_item_id
+zunari_magic_armor_slot_item_id:
+  .byte 0x2A ; Default item ID is Magic Armor. This value is updated by the randomizer when this item is randomized.
+  .align 2 ; Align to the next 4 bytes
 .close
 
 
@@ -400,6 +647,30 @@
 .org 0x19A8
   ; Change the call to createItemForPresentDemo to instead call our custom function so that it can set the custom event bit if necessary.
   bl salvage_corp_give_item_and_set_event_bit
+; Salvage Corp usually check if they gave you their item by calling checkGetItem. This doesn't work properly when the item is randomized.
+; So we need to set a custom event bit to keep track of whether you've gotten whatever item they give you.
+.org @NextFreeSpace
+.global salvage_corp_give_item_and_set_event_bit
+salvage_corp_give_item_and_set_event_bit:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  stw r31, 0xC (sp)
+  
+  bl fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz
+  
+  mr r31, r3 ; Preserve the return value from createItemForPresentDemo so we can still return that
+  lis r3, 0x803C522C@ha
+  addi r3, r3, 0x803C522C@l
+  li r4, 0x6980 ; Unused event bit that we use to keep track of whether the Salvage Corp has given you their item yet or not
+  bl onEventBit__11dSv_event_cFUs
+  mr r3, r31
+  
+  lwz r31, 0xC (sp)
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
 .close
 
 
@@ -416,6 +687,30 @@
 ; Change the function call when she gives you her first item to a custom function that will set the custom event bit.
 .org 0x17EC
   bl maggie_give_item_and_set_event_bit
+; Maggie usually checks if she's given you her letter by calling isReserve. That doesn't work well when the item is randomized.
+; So we use this function to give her item and then set a custom event bit to keep track of it (6A01).
+.org @NextFreeSpace
+.global maggie_give_item_and_set_event_bit
+maggie_give_item_and_set_event_bit:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  stw r31, 0xC (sp)
+  
+  bl fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz
+  
+  mr r31, r3 ; Preserve the return value from createItemForPresentDemo so we can still return that
+  lis r3, 0x803C522C@ha
+  addi r3, r3, 0x803C522C@l
+  li r4, 0x6A01 ; Unused event bit
+  bl onEventBit__11dSv_event_cFUs
+  mr r3, r31
+  
+  lwz r31, 0xC (sp)
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
 ; Also, normally if you finished her quest and get her second item, it locks you out from ever getting her first item.
 ; So we change it so she never acts like the quest is complete (she thinks you still have Moe's Letter in your inventory).
 .org 0x11D8
@@ -441,6 +736,36 @@
 ; Change the function call when he starts the event that gives you his item to instead call a custom function that will set a custom event bit.
 .org 0x225C
   bl rito_cafe_postman_start_event_and_set_event_bit
+; The Rito postman in the Windfall cafe usually checks if he's given you Moe's letter by calling isReserve. That doesn't work well when the item is randomized.
+; So we use this function to start his item give event and then set a custom event bit to keep track of it (6A02).
+.org @NextFreeSpace
+.global rito_cafe_postman_start_event_and_set_event_bit
+rito_cafe_postman_start_event_and_set_event_bit:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  stw r31, 0xC (sp)
+  mr r31, r3 ; Preserve argument r3, which has the Rito postman entity
+  
+  bl fopAcM_orderOtherEventId__FP10fopAc_ac_csUcUsUsUs
+  
+  lha r31, 0x86A(r31) ; Load the index of this Rito postman from the Rito postman entity
+  cmpwi r31, 0 ; 0 is the one in the Windfall cafe. If it's not that one, we don't want to set the event bit.
+  bne rito_cafe_postman_start_event_and_set_event_bit_end
+  
+  mr r31, r3 ; Preserve the return value from orderOtherEventId so we can still return that (not sure if necessary, but just to be safe)
+  lis r3, 0x803C522C@ha
+  addi r3, r3, 0x803C522C@l
+  li r4, 0x6A02 ; Unused event bit
+  bl onEventBit__11dSv_event_cFUs
+  mr r3, r31
+  
+rito_cafe_postman_start_event_and_set_event_bit_end:
+  lwz r31, 0xC (sp)
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
 .close
 
 
@@ -481,6 +806,44 @@
 .open "sys/main.dol"
 .org 0x8012E3E8 ; In setGetItemSound__9daPy_lk_cFUsi
   b check_play_special_item_get_music
+; Add a check right before playing the item get music to handle playing special item get music (pearls and songs).
+; The vanilla game played the pearl music as part of the .stb cutscenes where you get the pearls, so the regular item get code had no reason to check for pearls originally.
+; In the vanilla game Link only gets songs via 059get_dance actions, so that action would play the song get music, but the 011get_item action had no reason to check for songs.
+.org @NextFreeSpace
+.global check_play_special_item_get_music
+check_play_special_item_get_music:
+  lwz r3, -0x69D0 (r13) ; Replace the line we overwrote to jump here
+  
+  ; Check if the item ID (in r0) matches any of the items with special music.
+  cmplwi r0, 0x69 ; Nayru's Pearl
+  beq play_pearl_item_get_music
+  cmplwi r0, 0x6A ; Din's Pearl
+  beq play_pearl_item_get_music
+  cmplwi r0, 0x6B ; Farore's Pearl
+  beq play_pearl_item_get_music
+  cmplwi r0, 0x6D ; Wind's Requiem
+  beq play_song_get_music
+  cmplwi r0, 0x6E ; Ballad of Gales
+  beq play_song_get_music
+  cmplwi r0, 0x6F ; Command Melody
+  beq play_song_get_music
+  cmplwi r0, 0x70 ; Earth God's Lyric
+  beq play_song_get_music
+  cmplwi r0, 0x71 ; Wind God's Aria
+  beq play_song_get_music
+  cmplwi r0, 0x72 ; Song of Passing
+  beq play_song_get_music
+  b 0x8012E3EC ; If not, return to the code that plays the normal item get music
+
+play_pearl_item_get_music:
+  lis r4, 0x8000004F@ha ; BGM ID for the pearl item get music
+  addi r4, r4, 0x8000004F@l
+  b 0x8012E3F4 ; Jump to the code that plays the normal item get music
+
+play_song_get_music:
+  lis r4, 0x80000027@ha ; BGM ID for the song get music
+  addi r4, r4, 0x80000027@l
+  b 0x8012E3F4 ; Jump to the code that plays the normal item get music
 .close
 
 
@@ -549,6 +912,56 @@
 .org 0x2940
   ; Originally called fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz
   bl doc_bandam_check_new_potion_and_give_free_item
+
+.org @NextFreeSpace
+; Handle giving the two randomized items when Doc Bandam makes Green/Blue Potions for the first time.
+.global doc_bandam_check_new_potion_and_give_free_item
+doc_bandam_check_new_potion_and_give_free_item:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  
+  lwz r0, 0x7C4 (r28) ; Read the current message ID Doc Bandam is on (r28 has the Doc Bandam entity)
+  cmpwi r0, 7627 ; This message ID means he just made a brand new potion for the first time
+  ; Any other message ID means he's either giving you or selling you a type he already made before.
+  ; So do not give a randomized item in those cases.
+  bne doc_bandam_give_item
+  
+  ; If we're on a newly made potion we need to change the item ID in r4 to be the randomized item
+  cmpwi r4, 0x52 ; Green Potion item ID
+  beq doc_bandam_set_randomized_green_potion_item_id
+  cmpwi r4, 0x53 ; Blue Potion item ID
+  beq doc_bandam_set_randomized_blue_potion_item_id
+  ; If it's not either of those something unexpected happened, so just give whatever item ID it was originally supposed to give
+  b doc_bandam_give_item
+  
+  doc_bandam_set_randomized_green_potion_item_id:
+  lis r4, doc_bandam_green_potion_slot_item_id@ha
+  addi r4, r4, doc_bandam_green_potion_slot_item_id@l
+  lbz r4, 0 (r4) ; Load what item ID is in the this slot. This value is updated by the randomizer when it randomizes that item.
+  b doc_bandam_give_item
+  
+  doc_bandam_set_randomized_blue_potion_item_id:
+  lis r4, doc_bandam_blue_potion_slot_item_id@ha
+  addi r4, r4, doc_bandam_blue_potion_slot_item_id@l
+  lbz r4, 0 (r4) ; Load what item ID is in the this slot. This value is updated by the randomizer when it randomizes that item.
+  
+  doc_bandam_give_item:
+  bl fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz
+  
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
+
+.global doc_bandam_green_potion_slot_item_id
+doc_bandam_green_potion_slot_item_id:
+  .byte 0x52 ; Default item ID is Green Potion. This value is updated by the randomizer when this item is randomized.
+.global doc_bandam_blue_potion_slot_item_id
+doc_bandam_blue_potion_slot_item_id:
+  .byte 0x53 ; Default item ID is Blue Potion. This value is updated by the randomizer when this item is randomized.
+  .align 2 ; Align to the next 4 bytes
+
 .org 0x1550 ; When Doc Bandam just made a new potion, this is where it checks if you have an empty bottle
   nop ; Remove the branch here that skips giving the item in this case so the player can't miss this item.
 .close
