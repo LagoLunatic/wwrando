@@ -231,7 +231,7 @@
   Required particle IDs: [0x8184]
   Requirements to defeat: Can Defeat Dexivines
   Allow randomizing from: True
-  Allow randomizing to: True # TODO don't allow in rooms where you need to kill everything
+  Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 7744
   Memory used by subequent ones: 6976

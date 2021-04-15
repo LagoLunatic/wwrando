@@ -66,6 +66,8 @@ def randomize_enemies(self):
     if data["Allow randomizing to"]
     # Ban Morths from being in rooms where you have to kill all enemies, since they don't count as a living enemy, and it would be weird for the player to not be required to kill an enemy placed there.
     and "Morth" not in data["Pretty name"]
+    # Also ban Dexivines because they can't actually be killed.
+    and data["Pretty name"] != "Dexivine"
   ]
   
   self.enemy_datas_by_pretty_name = {}
