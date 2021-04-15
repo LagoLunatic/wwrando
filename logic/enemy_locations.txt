@@ -4709,34 +4709,33 @@ TF_01:
       Path: TF_01/Room5.arc/Actor001
 
 
-# TODO
 # Overlook Island Cave
 TF_02:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Darknuts
+    Can Access Other Location "Overlook Island - Cave"
   Enemies:
     -
       Original enemy: Darknut
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: TF_02/Room1.arc/Actor001
     -
       Original enemy: Darknut
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: TF_02/Room1.arc/Actor002
     -
       Original enemy: Darknut
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: TF_02/Room1.arc/Actor00B
     -
       Original enemy: Darknut
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: TF_02/Room1.arc/Actor00C
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Can Access Other Location "Overlook Island - Cave"
   Enemies:
     -
       Original enemy: Bokoblin
@@ -4761,7 +4760,7 @@ TF_02:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Wizzrobes
+    Can Access Other Location "Overlook Island - Cave"
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -4774,7 +4773,8 @@ TF_02:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Armos Knights
+    Can Access Other Location "Overlook Island - Cave"
+  # TODO: There are bomb flowers in this room. Add a new property noting this, and have the logic take it into account when determining which enemies are killable.
   Enemies:
     -
       Original enemy: Armos Knight
@@ -4791,7 +4791,7 @@ TF_02:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Stalfos
+    Can Access Other Location "Overlook Island - Cave"
   Enemies:
     -
       Original enemy: Stalfos
