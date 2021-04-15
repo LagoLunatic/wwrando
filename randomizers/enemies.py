@@ -357,13 +357,27 @@ def save_changed_enemies_and_randomize_their_params(self):
       last_printed_group_path = group_path
       print("Putting a %s (param:%08X) in %s" % (new_enemy_data["Actor name"], new_enemy_data["Params"], path))
     
+    spawn_switch_to_check = None
     death_switch_to_set = None
     if ":" in placement_category:
       category_string, conditions_string = placement_category.split(":", 1)
       conditions = conditions_string.split(",")
       
+      if "ChecksConditionSwitch" in conditions:
+        # We need to copy the switch ID the original enemy checked before spawning to the randomized enemy.
+        original_enemy_type = get_enemy_data_for_actor(self, enemy)
+        spawn_switch_param_name = original_enemy_type["Enable spawn switch param name"]
+        
+        if spawn_switch_param_name is None:
+          raise Exception("An enemy location specified that it must check a switch before spawning, but the original enemy there is not documented to be able to check a switch before spawning.")
+        
+        spawn_switch_to_check = getattr(enemy, spawn_switch_param_name)
+        if spawn_switch_to_check in [0xFE, 0xFF] or spawn_switch_to_check >= 0xF0:
+          # 0xFE is invalid for Stalfos.
+          raise Exception("Switch index to check before spawning the enemy is not valid for all enemy types: %02X" % spawn_switch_to_check)
+      
       if "SetsDeathSwitch" in conditions:
-        # We need
+        # We need to copy the switch ID the original enemy set on death to the randomized enemy.
         original_enemy_type = get_enemy_data_for_actor(self, enemy)
         death_switch_param_name = original_enemy_type["Death switch param name"]
         
@@ -372,6 +386,8 @@ def save_changed_enemies_and_randomize_their_params(self):
         
         death_switch_to_set = getattr(enemy, death_switch_param_name)
         if death_switch_to_set in [0x00, 0x80, 0xFF] or death_switch_to_set >= 0xF0:
+          # 0x00 is invalid for ???
+          # 0x80 is invalid for ???
           raise Exception("Switch index to set on enemy death is not valid for all enemy types: %02X" % death_switch_to_set)
     
     enemy.name = new_enemy_data["Actor name"]
@@ -397,6 +413,21 @@ def save_changed_enemies_and_randomize_their_params(self):
     
     randomize_enemy_params(self, new_enemy_data, enemy, placement_category, dzx, layer)
     adjust_enemy(self, new_enemy_data, enemy, placement_category, dzx, layer)
+    
+    if spawn_switch_to_check is not None:
+      spawn_switch_param_name = new_enemy_data["Enable spawn switch param name"]
+      if spawn_switch_param_name is None:
+        if DEBUG_ENEMY_NAME_TO_PLACE_EVERYWHERE is None:
+          raise Exception("Tried to place an enemy type that cannot check a switch before spawning in a location that requires a switch to be checked before spawning: %s" % enemy.name)
+      else:
+        setattr(enemy, spawn_switch_param_name, spawn_switch_to_check)
+        
+        if enemy.actor_class_name == "d_a_rd":
+          # Need to manually set this other param to make the enable spawn switch actually be used.
+          enemy.dont_check_enable_spawn_switch = 0
+        elif enemy.actor_class_name == "d_a_st":
+          # Override the type to always be underground so that it uses the enable spawn switch.
+          enemy.stalfos_type = 1
     
     if death_switch_to_set is not None:
       death_switch_param_name = new_enemy_data["Death switch param name"]
@@ -1065,6 +1096,11 @@ class EnemyCategory:
   def __init__(self, category_string, enemy_type):
     self.category_string = category_string
     
+    if enemy_type["Enable spawn switch param name"] is None:
+      self.can_check_switch = False
+    else:
+      self.can_check_switch = True
+    
     if enemy_type["Death switch param name"] is None:
       self.can_set_switch = False
     else:
@@ -1087,7 +1123,10 @@ class EnemyCategory:
       other_conditions = []
     
     for other_condition in other_conditions:
-      if other_condition == "SetsDeathSwitch":
+      if other_condition == "ChecksConditionSwitch":
+        if not self.can_check_switch:
+          return False
+      elif other_condition == "SetsDeathSwitch":
         if not self.can_set_switch:
           return False
       elif other_condition == "HasPit":
@@ -1111,7 +1150,11 @@ class EnemyCategory:
     return False
   
   def __str__(self):
-    return "EnemyCategory(%s, DeathSwitch: %s)" % (self.category_string, self.can_set_switch)
+    return "EnemyCategory(%s, SpawnSwitch: %s, DeathSwitch: %s)" % (
+      self.category_string,
+      self.can_check_switch,
+      self.can_set_switch
+    )
   
   def __repr__(self):
     return self.__str__()
