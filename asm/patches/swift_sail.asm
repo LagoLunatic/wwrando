@@ -1,6 +1,12 @@
 
 .open "files/rels/d_a_ship.rel"
 
+; Double the ship's sailing speed.
+.org 0xDBE8
+  .float 110.0 ; Sailing speed, 55.0 in vanilla
+.org 0xDBC0
+  .float 160.0 ; Initial speed, 80.0 in vanilla
+
 ; Make the wind always be at the players back as long as the sail is out.
 .org 0xB9FC
   bl set_wind_dir_to_ship_dir

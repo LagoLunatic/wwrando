@@ -309,11 +309,6 @@ def make_sail_behave_like_swift_sail(self):
   # Apply the asm patch.
   patcher.apply_patch(self, "swift_sail")
   
-  # Double the speed.
-  ship_rel = self.get_rel("files/rels/d_a_ship.rel")
-  ship_rel.write_data(write_float, 0xDBE8, 55.0*2) # Sailing speed
-  ship_rel.write_data(write_float, 0xDBC0, 80.0*2) # Initial speed
-  
   # Update the pause menu name for the sail.
   msg = self.bmg.messages_by_id[463]
   msg.string = "Swift Sail"

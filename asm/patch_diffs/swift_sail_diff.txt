@@ -26,6 +26,10 @@ files/rels/d_a_ship.rel:
     Relocations: [{SymbolName: ship_idle_deceleration, Offset: 0x0E, Type: R_PPC_ADDR16_HA},
       {SymbolName: ship_idle_deceleration, Offset: 0x12, Type: R_PPC_ADDR16_LO}, {
         SymbolName: cLib_addCalc__FPfffff, Offset: 0x1C, Type: R_PPC_REL24}]
+  0xDBE8:
+    Data: [0x42, 0xDC, 0x00, 0x00]
+  0xDBC0:
+    Data: [0x43, 0x20, 0x00, 0x00]
   0xB9FC:
     Data: [0x48, 0x00, 0x00, 0x01]
     Relocations: [{SymbolName: set_wind_dir_to_ship_dir, Offset: 0x00, Type: R_PPC_REL24}]
