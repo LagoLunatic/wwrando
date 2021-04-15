@@ -123,8 +123,9 @@ def decide_on_enemy_pool_for_stage(self, stage_folder, enemy_locations):
     if enemy_group["Must defeat enemies"]:
       original_req_string = enemy_group["Original requirements"]
       has_throwable_objects = enemy_group.get("Has throwable objects", False)
+      has_bomb_flowers = enemy_group.get("Has bomb flowers", False)
       enemies_logically_allowed_in_this_group = self.logic.filter_out_enemies_that_add_new_requirements(
-        original_req_string, has_throwable_objects,
+        original_req_string, has_throwable_objects, has_bomb_flowers,
         self.enemies_to_randomize_to_when_all_enemies_must_be_killed
       )
     else:
@@ -220,8 +221,9 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
   if enemy_group["Must defeat enemies"]:
     original_req_string = enemy_group["Original requirements"]
     has_throwable_objects = enemy_group.get("Has throwable objects", False)
+    has_bomb_flowers = enemy_group.get("Has bomb flowers", False)
     enemies_logically_allowed_in_this_group = self.logic.filter_out_enemies_that_add_new_requirements(
-      original_req_string, has_throwable_objects,
+      original_req_string, has_throwable_objects, has_bomb_flowers,
       self.enemies_to_randomize_to_when_all_enemies_must_be_killed
     )
   else:

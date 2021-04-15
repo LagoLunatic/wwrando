@@ -165,7 +165,7 @@ class Logic:
         if group_name in self.unplaced_progress_items:
           self.unplaced_progress_items.remove(group_name)
     
-    self.cached_enemies_tested_for_req_string = OrderedDict()
+    self.cached_enemies_tested_for_reqs_tuple = OrderedDict()
   
   def set_location_to_item(self, location_name, item_name):
     #print("Setting %s to %s" % (location_name, item_name))
@@ -1068,7 +1068,7 @@ class Logic:
     
     return enemy_locations
   
-  def filter_out_enemies_that_add_new_requirements(self, original_req_string, has_throwable_objects, possible_new_enemy_datas):
+  def filter_out_enemies_that_add_new_requirements(self, original_req_string, has_throwable_objects, has_bomb_flowers, possible_new_enemy_datas):
     # This function takes a list of enemy types and removes the ones that would add new required items for a room.
     # This is because the enemy randomizer cannot increase the logic requirements compared to when enemies are not randomized, it can only keep them the same or decrease them.
     
@@ -1087,16 +1087,19 @@ class Logic:
     # Default to checking all enemy datas passed to this function.
     possible_new_enemy_datas_to_check = possible_new_enemy_datas.copy()
     
+    # This tuple is the key we'll use into the cache to identify this set of requirement arguments.
+    reqs_tuple_key = (original_req_string, has_throwable_objects, has_bomb_flowers)
+    
     # However, we don't recheck ones that are already in the cache.
-    if original_req_string not in self.cached_enemies_tested_for_req_string:
-      self.cached_enemies_tested_for_req_string[original_req_string] = OrderedDict()
+    if reqs_tuple_key not in self.cached_enemies_tested_for_reqs_tuple:
+      self.cached_enemies_tested_for_reqs_tuple[reqs_tuple_key] = OrderedDict()
     else:
       for possible_new_enemy_data in possible_new_enemy_datas:
         enemy_name = possible_new_enemy_data["Pretty name"]
-        if enemy_name in self.cached_enemies_tested_for_req_string[original_req_string]:
+        if enemy_name in self.cached_enemies_tested_for_reqs_tuple[reqs_tuple_key]:
           # Cached.
           possible_new_enemy_datas_to_check.remove(possible_new_enemy_data)
-          if not self.cached_enemies_tested_for_req_string[original_req_string][enemy_name]:
+          if not self.cached_enemies_tested_for_reqs_tuple[reqs_tuple_key][enemy_name]:
             enemy_datas_allowed_here.remove(possible_new_enemy_data)
     
     if not possible_new_enemy_datas_to_check:
@@ -1143,18 +1146,22 @@ class Logic:
             # Allow enemies that can be killed by throwing stuff at them even if the player doesn't have the weapons to kill them.
             continue
           
+          if has_bomb_flowers and possible_new_enemy_data["Can be killed with bomb flowers"]:
+            # Allow enemies that can be killed by bombs in rooms with bomb flowers even if the player doesn't own the bombs upgrade.
+            continue
+          
           possible_new_enemy_req_expression = Logic.parse_logic_expression(possible_new_enemy_data["Requirements to defeat"])
           new_req_met = self.check_logical_expression_req(possible_new_enemy_req_expression)
           if not new_req_met:
             enemy_datas_allowed_here.remove(possible_new_enemy_data)
-            self.cached_enemies_tested_for_req_string[original_req_string][enemy_name] = False
+            self.cached_enemies_tested_for_reqs_tuple[reqs_tuple_key][enemy_name] = False
       
       for item_name in item_combo:
         self.remove_owned_item_or_item_group(item_name)
     
     for enemy_data in enemy_datas_allowed_here:
       enemy_name = enemy_data["Pretty name"]
-      self.cached_enemies_tested_for_req_string[original_req_string][enemy_name] = True
+      self.cached_enemies_tested_for_reqs_tuple[reqs_tuple_key][enemy_name] = True
     
     return enemy_datas_allowed_here
 

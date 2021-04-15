@@ -4774,7 +4774,7 @@ TF_02:
   Must defeat enemies: Yes
   Original requirements:
     Can Access Other Location "Overlook Island - Cave"
-  # TODO: There are bomb flowers in this room. Add a new property noting this, and have the logic take it into account when determining which enemies are killable.
+  Has bomb flowers: Yes
   Enemies:
     -
       Original enemy: Armos Knight
