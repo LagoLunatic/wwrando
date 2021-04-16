@@ -47,6 +47,7 @@ class WWRandomizerWindow(QMainWindow):
     self.bulk_test = ("-bulk" in cmd_line_args)
     self.no_ui_test = ("-noui" in cmd_line_args)
     self.profiling = ("-profile" in cmd_line_args)
+    self.auto_seed = ("-autoseed" in cmd_line_args)
     
     self.custom_color_selector_buttons = OrderedDict()
     self.custom_color_selector_hex_inputs = OrderedDict()
@@ -123,6 +124,9 @@ class WWRandomizerWindow(QMainWindow):
     
     icon_path = os.path.join(ASSETS_PATH, "icon.ico")
     self.setWindowIcon(QIcon(icon_path))
+    
+    if self.auto_seed:
+      self.generate_seed()
     
     if self.no_ui_test:
       self.randomize()
