@@ -1142,6 +1142,7 @@ class Logic:
           
           enemy_name = possible_new_enemy_data["Pretty name"]
           
+          # TODO: Need to find a way to 100% guarantee the player has enough throwable objects to actually kill all the enemies.
           if has_throwable_objects and possible_new_enemy_data["Can be killed with thrown objects"]:
             # Allow enemies that can be killed by throwing stuff at them even if the player doesn't have the weapons to kill them.
             continue
