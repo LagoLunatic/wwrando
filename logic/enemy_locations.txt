@@ -4736,6 +4736,7 @@ TF_02:
   Must defeat enemies: Yes
   Original requirements:
     Can Access Other Location "Overlook Island - Cave"
+  Has throwable objects: Yes # 5 pots, 5 enemies
   Enemies:
     -
       Original enemy: Bokoblin
@@ -4803,18 +4804,18 @@ TF_02:
       Path: TF_02/Room5.arc/Actor001
 
 
-# TODO
 # Bird's Peak Rock Cave
-TF_03:
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Armos Knights
-  Enemies:
-    -
-      Original enemy: Armos Knight
-      Placement category: Ground
-      Path: TF_03/Room1.arc/Actor001
+#TF_03:
+#- # Unused room
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Armos Knights
+#  Enemies:
+#    -
+#      Original enemy: Armos Knight
+#      Placement category: Ground
+#      Path: TF_03/Room1.arc/Actor001
 #- # Unused room
 #  Must defeat enemies: Yes
 #  Original requirements:
@@ -4914,13 +4915,13 @@ TF_04:
       Path: TF_04/Room0.arc/Actor023
 
 
-# TODO
 # Dragon Roost Island Secret Cave
 TF_06:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Red ChuChus
+    Can Access Other Location "Dragon Roost Island - Secret Cave"
+  #Has throwable objects: Yes # 2 pots, 3 enemies
   Enemies:
     -
       Original enemy: Red ChuChu
@@ -4937,7 +4938,8 @@ TF_06:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Can Access Other Location "Dragon Roost Island - Secret Cave"
+  Has throwable objects: Yes # 4 pots, 3 enemies
   Enemies:
     -
       Original enemy: Bokoblin
@@ -4954,7 +4956,8 @@ TF_06:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Keese
+    Can Access Other Location "Dragon Roost Island - Secret Cave"
+  #Has throwable objects: Yes # 3 pots, 4 enemies
   Enemies:
     -
       Original enemy: Keese
@@ -4975,7 +4978,8 @@ TF_06:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Mothulas
+    Can Access Other Location "Dragon Roost Island - Secret Cave"
+  Has throwable objects: Yes # 5 pots, 2 enemies
   Enemies:
     -
       Original enemy: Wingless Mothula

@@ -14,7 +14,7 @@
   Enable spawn switch param name: spawn_condition_switch
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: True # Dies when falling in pits, but properly sets it death switch, so we allow it.
-  Can be killed with thrown objects: Yes
+  Can be killed with thrown objects: Yes # 3 hits
   Can be killed with bomb flowers: Yes
 -
   Pretty name: Green ChuChu
@@ -285,7 +285,7 @@
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with thrown objects: Yes # 1 hit
   Can be killed with bomb flowers: Yes
 -
   Pretty name: Fire Keese
@@ -485,7 +485,7 @@
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null # TODO irregular_switch acts as this for single miniblins, but it's buggy for permanent switches. perhaps we could make use of it, but replace the switch that's set with a temporary switch...?
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with thrown objects: Yes # 1 hit
   Can be killed with bomb flowers: Yes
 -
   Pretty name: Rat
@@ -629,7 +629,7 @@
   Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with thrown objects: No # Needs 2 hits, but it's not possible to throw the second one fast enough
   Can be killed with bomb flowers: Yes
 -
   Pretty name: Boko Bud Boko Baba
@@ -683,7 +683,7 @@
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with thrown objects: No
   Can be killed with bomb flowers: Yes
 -
   Pretty name: Blue Bubble
