@@ -6701,7 +6701,7 @@ sea/Room12.arc:
       Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room12.arc/Actor02E
       Position offset: [0, -200, 0]
--
+- # Rafts
   Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
@@ -6719,11 +6719,10 @@ sea/Room12.arc:
       Position offset: [0, -200, 0]
 
 
-# TODO
 # Dragon Roost Island
 sea/Room13.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Keese
@@ -6731,22 +6730,22 @@ sea/Room13.arc:
   Enemies:
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room13.arc/Layer0/Actor007
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Air:HasPit
       Path: sea/Room13.arc/Layer0/Actor008
     -
       Original enemy: Keese
-      Placement category: Ceiling
+      Placement category: Ceiling # Technically has a pit, but it's far from the enemy
       Path: sea/Room13.arc/Layer0/Actor009
     -
       Original enemy: Keese
-      Placement category: Ceiling
+      Placement category: Ceiling # Technically has a pit, but it's far from the enemy
       Path: sea/Room13.arc/Layer0/Actor00A
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Keese
@@ -6754,88 +6753,98 @@ sea/Room13.arc:
   Enemies:
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room13.arc/Layer1/Actor000
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Air:HasPit
       Path: sea/Room13.arc/Layer1/Actor001
     -
       Original enemy: Keese
-      Placement category: Ceiling
+      Placement category: Ceiling # Technically has a pit, but it's far from the enemy
       Path: sea/Room13.arc/Layer1/Actor002
     -
       Original enemy: Keese
-      Placement category: Ceiling
+      Placement category: Ceiling # Technically has a pit, but it's far from the enemy
       Path: sea/Room13.arc/Layer1/Actor003
 
 
-# TODO
 # Western Fairy Island
 sea/Room15.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room15.arc/Actor010
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room15.arc/Actor019
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room15.arc/Actor01A
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room15.arc/Actor01B
+      Position offset: [0, -200, 0]
 
 
-# TODO
 # Rock Spire Isle
 sea/Room16.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room16.arc/Actor012
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room16.arc/Actor01B
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room16.arc/Actor022
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room16.arc/Actor029
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room16.arc/Actor02E
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room16.arc/Actor02F
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room16.arc/Actor030
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room16.arc/Actor035
+      Position offset: [0, -200, 0]
 
 
 # Tingle Island
@@ -6864,26 +6873,30 @@ sea/Room18.arc:
       Path: sea/Room18.arc/Actor02B
 
 
-# TODO
 # Eastern Fairy Island
 sea/Room19.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Can Access Other Location "Eastern Fairy Island - Lookout Platform - Defeat the Cannons and Enemies"
+  Has throwable objects: Yes
   Enemies:
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room19.arc/Actor011
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room19.arc/Actor01A
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
+      Position offset: [0, -200, 0]
       Path: sea/Room19.arc/Actor01B
+      Position offset: [0, -200, 0]
 
 
 # TODO
