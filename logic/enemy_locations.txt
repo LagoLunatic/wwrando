@@ -4991,11 +4991,10 @@ TF_06:
       Path: TF_06/Room5.arc/Actor008
 
 
-# TODO
 # Pawprint Isle Chuchu Cave
 TyuTyu:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Red ChuChus
     & Can Defeat Green ChuChus
@@ -5075,11 +5074,10 @@ TyuTyu:
       Path: TyuTyu/Room0.arc/Actor062
 
 
-# TODO
 # Diamond Steppe Island Warp Maze
 WarpD:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Floormasters
   Enemies:
@@ -6899,30 +6897,29 @@ sea/Room19.arc:
       Position offset: [0, -200, 0]
 
 
-# TODO
 # Fire Mountain
 sea/Room20.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room20.arc/Actor006
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room20.arc/Actor01A
+      Position offset: [0, -200, 0]
 
 
-# TODO
 # Star Belt Archipelago
 sea/Room21.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Seahats
     & Can Defeat Kargarocs
@@ -6950,46 +6947,48 @@ sea/Room21.arc:
       Path: sea/Room21.arc/Actor005
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Air:HasPit
       Path: sea/Room21.arc/Actor006
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Air:HasPit
       Path: sea/Room21.arc/Actor007
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room21.arc/Actor008
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room21.arc/Actor009
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room21.arc/Actor012
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room21.arc/Actor01B
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room21.arc/Actor01C
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room21.arc/Actor01D
+      Position offset: [0, -200, 0]
 
 
-# TODO
 # Cyclops Reef
 sea/Room24.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Seahats
-    & Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Seahat
@@ -7031,29 +7030,38 @@ sea/Room24.arc:
       Original enemy: Seahat
       Placement category: Sea
       Path: sea/Room24.arc/Actor009
+-
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Access Other Location "Cyclops Reef - Lookout Platform - Defeat the Enemies"
+  Has throwable objects: Yes
+  Enemies:
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room24.arc/Actor01E
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room24.arc/Actor01F
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room24.arc/Actor020
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room24.arc/Actor029
+      Position offset: [0, -200, 0]
 
 
-# TODO
 # Six-Eye Reef
 sea/Room25.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Saltwater Octoroks
@@ -7062,10 +7070,12 @@ sea/Room25.arc:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room25.arc/Actor009
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room25.arc/Actor00C
+      Position offset: [0, -200, 0]
     -
       Original enemy: Saltwater Octorok Spawner
       Placement category: Sea
@@ -7074,14 +7084,17 @@ sea/Room25.arc:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room25.arc/Actor01D
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room25.arc/Actor020
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room25.arc/Actor029
+      Position offset: [0, -200, 0]
 
 
 # Eastern Triangle Island
