@@ -130,8 +130,8 @@ Abship:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
-    & Can Defeat Keese
+    Can Access Other Location "Five-Star Isles - Submarine"
+  Has throwable objects: Yes # 6 pots # TODO: less objects than enemies
   Actors to replace with ALLdies:
     - Abship/Room0.arc/Actor005
   Enemies:
@@ -174,11 +174,8 @@ Abship:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Moblins
-    & Can Defeat Morths
-    & Can Defeat Green ChuChus
-    & Can Defeat Red ChuChus
-    & Can Defeat Yellow ChuChus
+    Can Access Other Location "Six-Eye Reef - Submarine"
+  Has throwable objects: Yes # 6 barrels # TODO: there's less objects than enemies. how to handle this? guarantee at least one of the placed enemies has a weapon you can steal?
   Actors to replace with ALLdies:
     - Abship/Room1.arc/Actor006
   Enemies:
@@ -223,8 +220,8 @@ Abship:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
-    & Can Defeat Rats
+    Can Access Other Location "Bomb Island - Submarine"
+  Has throwable objects: Yes # 4 barrels and 2 pots # TODO: less objects than enemies
   Actors to replace with ALLdies:
     - Abship/Room2.arc/Actor005
   Enemies:
@@ -2405,6 +2402,7 @@ GanonJ:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
+  Has throwable objects: Yes # 12 pots # TODO: less objects than enemies
   Free memory: 1295088
   Enemies:
     -
@@ -3018,9 +3016,7 @@ ITest62:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
-    & Can Defeat Darknuts
-    & Can Defeat Moblins
+    Can Access Other Location "Ice Ring Isle - Inner Cave - Chest"
   Enemies:
     -
       Original enemy: Bokoblin
@@ -3049,11 +3045,7 @@ ITest63:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Miniblins
-    & Can Defeat Bokoblins
-    & Can Defeat Moblins
-    & Can Defeat Darknuts
-    & Can Defeat Wizzrobes
+    Can Access Other Location "Shark Island - Cave"
   Free memory: 1411392
   Actors to replace with ALLdies:
     - ITest63/Room0.arc/Actor025
@@ -3671,8 +3663,8 @@ M_Dra09:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Kargarocs
-    & Can Defeat Bokoblins
+    Nothing
+  Has throwable objects: Yes # 8 pots
   Enemies:
     -
       Original enemy: Kargaroc # More accurately, a Kargaroc that drops a Moblin
@@ -3821,7 +3813,8 @@ M_NewD2:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Nothing
+  Has throwable objects: Yes # 27 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -3838,8 +3831,9 @@ M_NewD2:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
-    & Can Defeat Fire Keese
+    Nothing
+  Has throwable objects: Yes # 7 pots on the top level, 2 pots on the bottom level
+  # TODO: need a stick to cut the ropes!
   Actors to replace with ALLdies:
     - M_NewD2/Room7.arc/Actor010
   Enemies:
@@ -4516,7 +4510,7 @@ SubD71:
 #  Original requirements:
 #    Can Defeat Red Bubbles
 #    & Can Defeat Wizzrobes
-#    & Can Defeat Poes Without Light Ray
+#    & Can Defeat Poes
 #  Enemies:
 #    -
 #      Original enemy: Red Bubble
@@ -4571,7 +4565,7 @@ SubD71:
 #  Must defeat enemies: Yes
 #  Original requirements:
 #    Can Defeat Stalfos
-#    & Can Defeat Poes Without Light Ray
+#    & Can Defeat Poes
 #    & Can Defeat Wizzrobes
 #  Enemies:
 #    -
@@ -4640,7 +4634,7 @@ TF_01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Darknuts
+    Can Access Other Location "Stone Watcher Island - Cave"
   Existing actors to modify:
     - # Change the Zenshut door leading from the center room to the chest to check for switch 22 being set, instead of checking for all the enemies in the current room being dead and setting switch 22.
       Path: TF_01/Stage.arc/ScalableDoor005
@@ -4666,7 +4660,7 @@ TF_01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Can Access Other Location "Stone Watcher Island - Cave"
   Enemies:
     -
       Original enemy: Bokoblin
@@ -4691,7 +4685,7 @@ TF_01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Wizzrobes
+    Can Access Other Location "Stone Watcher Island - Cave"
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -4708,7 +4702,7 @@ TF_01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Armos
+    Can Access Other Location "Stone Watcher Island - Cave"
   Enemies:
     -
       Original enemy: Armos
@@ -4729,7 +4723,7 @@ TF_01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Moblins
+    Can Access Other Location "Stone Watcher Island - Cave"
   Enemies:
     -
       Original enemy: Blue Moblin
@@ -5720,6 +5714,7 @@ kindan:
   Original requirements:
     Can Defeat Boko Babas
     & Can Defeat Green ChuChus
+  # TODO: how to handle the case of killing the boko babas to take their sticks to light the eye flower on fire? killing enemies is required for that case, but we also need to ensure one enemy which is either a bokoblin with a stick OR a boko baba is placed in the room at the bottom...?
   Free memory: 753072
   Enemies:
     -
@@ -6680,7 +6675,7 @@ sea/Room6.arc:
   Must defeat enemies: Yes
   Original requirements:
     Can Access Other Location "Seven-Star Isles - Northern Lookout Platform"
-  Has throwable objects: Yes
+  Has throwable objects: Yes # 4 (12 objects split over 3 platforms)
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -6691,7 +6686,7 @@ sea/Room6.arc:
   Must defeat enemies: Yes
   Original requirements:
     Can Access Other Location "Seven-Star Isles - Center Lookout Platform"
-  Has throwable objects: Yes
+  Has throwable objects: Yes # 4 (12 objects split over 3 platforms)
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -6701,7 +6696,7 @@ sea/Room6.arc:
   Must defeat enemies: Yes
   Original requirements:
     Can Access Other Location "Seven-Star Isles - Southern Lookout Platform"
-  Has throwable objects: Yes
+  Has throwable objects: Yes # 4 (12 objects split over 3 platforms)
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -6718,8 +6713,8 @@ sea/Room12.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
-  Has throwable objects: Yes
+    Can Access Other Location "Pawprint Isle - Lookout Platform - Defeat the Enemies"
+  Has throwable objects: Yes # 8 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -6735,7 +6730,7 @@ sea/Room12.arc:
   Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
-  Has throwable objects: Yes
+  Has throwable objects: Yes # 1 barrel and 2 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -6909,7 +6904,7 @@ sea/Room19.arc:
   Must defeat enemies: Yes
   Original requirements:
     Can Access Other Location "Eastern Fairy Island - Lookout Platform - Defeat the Cannons and Enemies"
-  Has throwable objects: Yes
+  Has throwable objects: Yes # 4 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -7066,7 +7061,7 @@ sea/Room24.arc:
   Must defeat enemies: Yes
   Original requirements:
     Can Access Other Location "Cyclops Reef - Lookout Platform - Defeat the Enemies"
-  Has throwable objects: Yes
+  Has throwable objects: Yes # 2 barrels and 6 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -7275,9 +7270,8 @@ sea/Room30.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
-    & Can Defeat Wizzrobes
-  Has throwable objects: Yes
+    Can Access Other Location "Islet of Steel - Lookout Platform - Defeat the Enemies"
+  Has throwable objects: Yes # 4 barrels and 8 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -7359,7 +7353,7 @@ sea/Room34.arc:
   Must defeat enemies: Yes
   Original requirements:
     Can Access Other Location "Bomb Island - Lookout Platform - Defeat the Enemies"
-  Has throwable objects: Yes
+  Has throwable objects: Yes # 4 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -7419,7 +7413,7 @@ sea/Room37.arc:
   Original requirements:
     Can Defeat Gyorgs
     & Can Defeat Bokoblins
-  Has throwable objects: Yes
+  Has throwable objects: Yes # 4 barrels and 8 pots
   Enemies:
     -
       Original enemy: Gyorg Spawner
@@ -7525,7 +7519,7 @@ sea/Room39.arc:
   Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
-  Has throwable objects: Yes
+  Has throwable objects: Yes # 31 objects
   Enemies:
     -
       Original enemy: Bokoblin
