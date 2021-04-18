@@ -472,15 +472,12 @@ Cave01:
 #      Path: Cave01/Room1.arc/Layer8/Actor000
 
 
-# TODO
 # Star Island Cave
 Cave02:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Magtails
-    & Can Defeat Bokoblins
-    & Can Defeat Moblins
+    Can Access Other Location "Star Island - Cave"
   Enemies:
     -
       Original enemy: Magtail
@@ -498,26 +495,32 @@ Cave02:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor004
+      Position: [1767, 26, -516]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor005
+      Position: [2233, 26, -516]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor007
+      Position: [1767, 26, 516]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor008
+      Position: [2233, 26, 516]
     -
       Original enemy: Blue Moblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor00A
+      Position: [2516, 26, 233]
     -
       Original enemy: Blue Moblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor00B
+      Position: [2516, 26, -233]
 
 
 # Cliff Plateau Isles Cave
