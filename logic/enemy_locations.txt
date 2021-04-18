@@ -3257,11 +3257,10 @@ M2tower:
       Path: M2tower/Room0.arc/Layer3/Actor008
 
 
-# TODO
 # Earth Temple
 M_Dai:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Moblins
   Enemies:
@@ -3282,7 +3281,20 @@ M_Dai:
   Original requirements:
     Can Defeat Red ChuChus
     & Can Defeat Green ChuChus
+    & Can Defeat Dark ChuChus
   Enemies:
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: M_Dai/Room2.arc/Actor001
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: M_Dai/Room2.arc/Actor002
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: M_Dai/Room2.arc/Actor012
     -
       Original enemy: Red ChuChu
       Placement category: Ground
@@ -3308,7 +3320,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room2.arc/Actor018
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Floormasters
     & Can Defeat Red Bubbles
@@ -3330,10 +3342,12 @@ M_Dai:
       Placement category: Air
       Path: M_Dai/Room4.arc/Actor007
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: Yes # Beating the enemies isn't technically required but they can get in the way of solving the puzzle.
   Original requirements:
     Can Defeat Green ChuChus
     & Can Defeat Red ChuChus
+    & Fire Arrows
+    # Fire Arrows are needed to solve the puzzle.
   Enemies:
     -
       Original enemy: Green ChuChu
@@ -3359,10 +3373,23 @@ M_Dai:
       Original enemy: Red ChuChu
       Placement category: Ceiling
       Path: M_Dai/Room5.arc/Actor010
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ceiling:ChecksConditionSwitch
+      Path: M_Dai/Room5.arc/Actor012
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ceiling:ChecksConditionSwitch
+      Path: M_Dai/Room5.arc/Actor013
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ceiling:ChecksConditionSwitch
+      Path: M_Dai/Room5.arc/Actor014
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: Yes # Not strictly necessary but the enemy can get in the way.
   Original requirements:
-    Can Defeat Floormasters
+    Fire Arrows
+    & Can Defeat Floormasters
   Enemies:
     -
       Original enemy: Floormaster
@@ -3371,8 +3398,8 @@ M_Dai:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Poes Without Light Ray
-    & Can Defeat Moblins
+    Fire Arrows
+    & Can Defeat Floormasters
   Enemies:
     -
       Original enemy: Poe
@@ -3391,9 +3418,11 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room7.arc/Actor00F
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: Yes # Not needed just to get the item, but is necessary to make the ladder fall and escape from the room without saving and reloading.
   Original requirements:
-    Can Defeat ReDeads
+    Fire Arrows
+    & Can Defeat Floormasters
+    & Can Defeat ReDeads
   Enemies:
     -
       Original enemy: ReDead
@@ -3408,7 +3437,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room8.arc/Actor009
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Blue Bubbles
     & Can Defeat Red Bubbles
@@ -3435,7 +3464,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room9.arc/Actor017
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: Yes # Not technically necessary, but some enemies can get in the way of aiming the light reflections.
   Original requirements:
     Can Defeat ReDeads
   Enemies:
@@ -3451,6 +3480,7 @@ M_Dai:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Floormasters
+  #Has throwable objects: Yes # 16 skulls
   Enemies:
     -
       Original enemy: Floormaster
@@ -3477,9 +3507,9 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room11.arc/Actor005
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: Yes # Not technically necessary, but reflecting the light with Medli is basically impossible with any of the enemies in the main part of the room still alive.
   Original requirements:
-    Can Defeat Poes Without Light Ray
+    Can Defeat Poes
     & Can Defeat Floormasters
     & Can Defeat Red Bubbles
   Enemies:
@@ -3516,7 +3546,7 @@ M_Dai:
       Placement category: Air
       Path: M_Dai/Room13.arc/Actor014
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat ReDeads
     & Can Defeat Keese
@@ -3559,7 +3589,7 @@ M_Dai:
       Placement category: Air
       Path: M_Dai/Room14.arc/Actor019
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Floormasters
   Enemies:
@@ -3612,7 +3642,6 @@ M_Dai:
       Path: M_Dai/Room19.arc/Actor007
 
 
-# TODO
 # Earth Temple Stalfos Mini-Boss Room
 M_DaiMB:
 -
@@ -3622,15 +3651,15 @@ M_DaiMB:
   Enemies:
     -
       Original enemy: Stalfos
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch,SetsDeathSwitch
       Path: M_DaiMB/Room12.arc/Actor000
     -
       Original enemy: Stalfos
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch,SetsDeathSwitch
       Path: M_DaiMB/Room12.arc/Actor001
     -
       Original enemy: Stalfos
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch,SetsDeathSwitch
       Path: M_DaiMB/Room12.arc/Actor002
 
 
