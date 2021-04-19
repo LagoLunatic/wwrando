@@ -64,8 +64,6 @@ jobs:
       - name: Install dependencies
         run: |
           conda install pip
-          python3 --version
-          which python3
           python3 -m pip install -r requirements_full.txt
         shell: bash -l {0}
       - name: Build MacOS App
@@ -102,7 +100,7 @@ jobs:
         run: python -m PyInstaller wwrando.spec
       - name: Bundle Windows App
         run: python build.py
-      -uses: actions/upload-artifact@v2
-       with:
+      - uses: actions/upload-artifact@v2
+        with:
          name: wwrando-windows
          path: dist/*.zip
