@@ -61,9 +61,9 @@ jobs:
       - name: Install dependencies
         run: |
           conda install pip
-          python --version
-          which python
-          python -m pip install -r requirements_full.txt
+          python3 --version
+          which python3
+          python3 -m pip install -r requirements_full.txt
       - name: Build MacOS App
         run: python3 -m PyInstaller --onefile --windowed wwrando.spec
       - name: Bundle MacOS App
