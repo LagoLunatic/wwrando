@@ -66,8 +66,10 @@ jobs:
         shell: bash -l {0}
       - name: Build MacOS App
         run: python3 -m PyInstaller --onefile --windowed wwrando.spec
+        shell: bash -l {0}
       - name: Bundle MacOS App
         run: python3 build.py
+        shell: bash -l {0}
       - uses: actions/upload-artifact@v2
         with:
           name: wwrando-macos
