@@ -27,7 +27,7 @@ except ImportError:
   from yaml import Dumper
 
 from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError, InvalidCleanISOError
-from wwrando_paths import ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE
+from wwrando_paths import SETTINGS_PATH, ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE, CUSTOM_MODELS_PATH
 import customizer
 from logic.logic import Logic
 from wwlib import texture_utils
@@ -378,9 +378,8 @@ class WWRandomizerWindow(QMainWindow):
       )
   
   def load_settings(self):
-    self.settings_path = "settings.txt"
-    if os.path.isfile(self.settings_path):
-      with open(self.settings_path) as f:
+    if os.path.isfile(SETTINGS_PATH):
+      with open(SETTINGS_PATH) as f:
         self.settings = yaml.safe_load(f)
       if self.settings is None:
         self.settings = OrderedDict()
@@ -425,7 +424,7 @@ class WWRandomizerWindow(QMainWindow):
     self.update_model_preview()
   
   def save_settings(self):
-    with open(self.settings_path, "w") as f:
+    with open(SETTINGS_PATH, "w") as f:
       yaml.dump(self.settings, f, default_flow_style=False, Dumper=yaml.Dumper)
   
   def update_settings(self):
@@ -892,9 +891,9 @@ class WWRandomizerWindow(QMainWindow):
     if custom_model_name == "Random" or custom_model_name == "Random (exclude Link)":
       self.ui.disable_custom_player_voice.show()
     else:
-      custom_model_path = "./models/%s/" % custom_model_name
-      jaiinit_aaf_path = custom_model_path + "sound/JaiInit.aaf"
-      voice_aw_path = custom_model_path + "sound/voice_0.aw"
+      custom_model_path = os.path.join(CUSTOM_MODELS_PATH, custom_model_name)
+      jaiinit_aaf_path = os.path.join(custom_model_path, "sound", "JaiInit.aaf")
+      voice_aw_path = os.path.join(custom_model_path, "sound", "voice_0.aw")
       if os.path.isfile(jaiinit_aaf_path) and os.path.isfile(voice_aw_path):
         self.ui.disable_custom_player_voice.show()
       else:

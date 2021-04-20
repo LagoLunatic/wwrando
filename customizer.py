@@ -10,7 +10,7 @@ from PIL import Image
 from fs_helpers import *
 from wwlib.texture_utils import *
 from wwlib import texture_utils
-from wwrando_paths import ASSETS_PATH
+from wwrando_paths import ASSETS_PATH, CUSTOM_MODELS_PATH
 
 ORIG_LINK_ARC_FILE_SIZE_IN_BYTES  = 1308608
 ORIG_LKANM_ARC_FILE_SIZE_IN_BYTES = 1842464
@@ -37,9 +37,9 @@ def get_model_metadata(custom_model_name):
       color_masks_path = os.path.join(ASSETS_PATH, "link_color_masks")
       previews_path = os.path.join(ASSETS_PATH, "link_preview")
     else:
-      metadata_path = "./models/%s/metadata.txt" % custom_model_name
-      color_masks_path = os.path.join("models", custom_model_name, "color_masks")
-      previews_path = os.path.join("models", custom_model_name, "preview")
+      metadata_path = os.path.join(CUSTOM_MODELS_PATH, custom_model_name, "metadata.txt")
+      color_masks_path = os.path.join(CUSTOM_MODELS_PATH, custom_model_name, "color_masks")
+      previews_path = os.path.join(CUSTOM_MODELS_PATH, custom_model_name, "preview")
     
     if not os.path.isfile(metadata_path):
       return {}
@@ -167,7 +167,7 @@ def parse_hex_color_with_alpha(hex_color):
 
 def get_all_custom_model_names():
   custom_model_names = []
-  custom_model_paths = glob.glob("./models/*/Link.arc")
+  custom_model_paths = glob.glob(os.path.join(CUSTOM_MODELS_PATH, "*", "Link.arc"))
   for link_arc_path in custom_model_paths:
     folder_name = os.path.basename(os.path.dirname(link_arc_path))
     if folder_name in ["Link", "Random"]:
@@ -201,9 +201,9 @@ def replace_link_model(self):
   if self.custom_model_name == "Link":
     return
   
-  custom_model_path = "./models/%s/" % self.custom_model_name
+  custom_model_path = os.path.join(CUSTOM_MODELS_PATH, self.custom_model_name)
   
-  custom_link_arc_path = custom_model_path + "Link.arc"
+  custom_link_arc_path = os.path.join(custom_model_path, "Link.arc")
   if not os.path.isfile(custom_link_arc_path):
     raise Exception("Custom model is missing Link.arc: %s" % custom_model_path)
   
@@ -233,7 +233,7 @@ def replace_link_model(self):
     nonlocal orig_sum_of_changed_arc_sizes
     nonlocal new_sum_of_changed_arc_sizes
     
-    anim_arc_path = custom_model_path + anim_arc_name
+    anim_arc_path = os.path.join(custom_model_path, anim_arc_name)
     if os.path.isfile(anim_arc_path):
       with open(anim_arc_path, "rb") as f:
         custom_anim_arc_data = BytesIO(f.read())
@@ -265,7 +265,7 @@ def replace_link_model(self):
   replace_animation_arc("LkD01.arc", ORIG_LKD01_ARC_FILE_SIZE_IN_BYTES)
   
   # Replace KoRL.
-  ship_path = custom_model_path + "Ship.arc"
+  ship_path = os.path.join(custom_model_path, "Ship.arc")
   if os.path.isfile(ship_path):
     with open(ship_path, "rb") as f:
       custom_ship_arc_data = BytesIO(f.read())
@@ -288,7 +288,7 @@ def replace_link_model(self):
       self.using_custom_sail_texture = True
   
   # The texture shown on the wall when reflecting light with the mirror shield is separate from Link.arc.
-  mirror_shield_reflection_image_path = custom_model_path + "shmref.bti"
+  mirror_shield_reflection_image_path = os.path.join(custom_model_path, "shmref.bti")
   if os.path.isfile(mirror_shield_reflection_image_path):
     with open(mirror_shield_reflection_image_path, "rb") as f:
       reflection_image_data = BytesIO(f.read())
@@ -297,9 +297,9 @@ def replace_link_model(self):
   
   if not self.options.get("disable_custom_player_voice"):
     # Replace voice sound effects.
-    jaiinit_aaf_path = custom_model_path + "sound/JaiInit.aaf"
-    voice_aw_path = custom_model_path + "sound/voice_0.aw"
-    ganont_aw_path = custom_model_path + "sound/GanonT_0.aw"
+    jaiinit_aaf_path = os.path.join(custom_model_path, "sound/JaiInit.aaf")
+    voice_aw_path = os.path.join(custom_model_path, "sound/voice_0.aw")
+    ganont_aw_path = os.path.join(custom_model_path, "sound/GanonT_0.aw")
     if os.path.isfile(jaiinit_aaf_path) and os.path.isfile(voice_aw_path):
       with open(jaiinit_aaf_path, "rb") as f:
         jaiinit_aaf_data = BytesIO(f.read())
