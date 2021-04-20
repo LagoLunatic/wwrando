@@ -18,6 +18,23 @@
 .open "sys/main.dol"
 .org 0x800F13A8 ; In daHookshot_rockLineCallback
   b hookshot_sight_failsafe_check
+; Part of the code for the hookshot's sight expects entities you look at to have a pointer in a specific place.
+; The broken shards of Helmaroc King's mask don't have that pointer so looking at them with hookshot crashes.
+.org @NextFreeSpace
+.global hookshot_sight_failsafe_check
+hookshot_sight_failsafe_check:
+  cmplwi r30, 0
+  beq hookshot_sight_failsafe
+  b hookshot_sight_return
+  
+  ; If r30 is null skip to the code that hides the hookshot sight.
+  hookshot_sight_failsafe:
+  b 0x800F13C0
+  
+  ; Otherwise we replace the line of code at 800F13A8 we replaced to jump here, then jump back.
+  hookshot_sight_return:
+  lwz r0, 0x01C4 (r30)
+  b 0x800F13AC
 .close
 
 
@@ -51,6 +68,36 @@
 .open "sys/main.dol"
 .org 0x800C3420 ; In item_func_camera2__Fv (Deluxe Picto Box item get func)
   b deluxe_picto_box_item_func_fix_equipped_picto_box
+
+; In vanilla, the Deluxe Picto Box item get func doesn't update the Picto Box equipped on the X/Y/Z button.
+; This causes it to not work correctly until the equipped item is fixed (by reloading the area or manually re-equipping it).
+; This custom code adds a check to fix it automatically into the item get func.
+.org @NextFreeSpace
+.global deluxe_picto_box_item_func_fix_equipped_picto_box
+deluxe_picto_box_item_func_fix_equipped_picto_box:
+  stb r0, 0x44 (r3) ; Replace the line of code we overwrote to jump heree
+  
+  li r4, 0 ; The offset for which button to check next (0/1/2 for X/Y/Z)
+  li r0, 3 ; How many times to loop (3 buttons)
+  mtctr r0
+  
+  deluxe_picto_box_item_func_fix_equipped_picto_box_loop_start:
+  add r5, r3, r4 ; Add the current button offset for this loop to the pointer
+  lbz r0, 0x5BD3 (r5) ; Read the item ID on the current button
+  ; (Note: r3 starts with 803C4C08 in it, so offset 5BD3 is used to get the list of items on the X/Y/Z buttons, at 803CA7DB.)
+  cmplwi r0, 0x23 ; Normal Picto Box ID
+  ; If this button doesn't have the normal Picto Box equipped, continue the loop.
+  bne deluxe_picto_box_item_func_fix_equipped_picto_box_continue_loop
+  
+  ; If this button does have the normal Picto Box equipped, replace it with the Deluxe Picto Box.
+  li r0, 0x26 ; Deluxe Picto Box ID
+  stb r0, 0x5BD3 (r5)
+  
+  deluxe_picto_box_item_func_fix_equipped_picto_box_continue_loop:
+  addi r4, r4, 1
+  bdnz deluxe_picto_box_item_func_fix_equipped_picto_box_loop_start
+  
+  b 0x800C3424 ; Return
 .close
 
 
@@ -71,6 +118,35 @@
 .open "files/rels/d_a_st.rel" ; Stalfos
 .org 0x85CC
   bl stalfos_kill_lower_body_when_upper_body_light_arrowed
+
+; Fix the lower body of a Stalfos not dying when the upper body dies to light arrows.
+.org @NextFreeSpace
+.global stalfos_kill_lower_body_when_upper_body_light_arrowed
+stalfos_kill_lower_body_when_upper_body_light_arrowed:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  
+  bl fopAcIt_Judge__FPFPvPv_PvPv ; Get upper body entity
+  cmplwi r3, 0
+  beq stalfos_kill_lower_body_when_upper_body_light_arrowed_end
+  
+  lbz r0, 0x1FAE (r3) ; Counter for how many frames the upper body has been dying to light arrows
+  cmpwi r0, 0
+  beq stalfos_kill_lower_body_when_upper_body_light_arrowed_end ; The upper body hasn't been hit with light arrows, so don't kill the lower body either
+  
+  lbz r0, 0x1FAE (r31) ; Counter for how many frames the lower body has been dying to light arrows
+  cmpwi r0, 0
+  bne stalfos_kill_lower_body_when_upper_body_light_arrowed_end ; The lower body is already dying to light arrows, so don't reset its counter
+  
+  li r0, 1
+  stb r0, 0x1FAE (r31) ; Start the lower body's counter for dying to light arrows at 1
+  
+  stalfos_kill_lower_body_when_upper_body_light_arrowed_end:
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
 .close
 
 
@@ -81,6 +157,31 @@
 .open "files/rels/d_a_pt.rel" ; Miniblin
 .org 0x4B44
   bl miniblin_set_death_switch_when_light_arrowed
+
+; Fix Miniblins not setting a switch on death if killed with Light Arrows.
+.org @NextFreeSpace
+.global miniblin_set_death_switch_when_light_arrowed
+miniblin_set_death_switch_when_light_arrowed:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  
+  bl Set__8dCcD_SphFRC11dCcD_SrcSph ; Replace the function call we overwrote to call this custom function
+  
+  lbz r0, 0x2B4 (r29) ; Read the behavior type param for the Miniblin
+  cmpwi r0, 0 ; Behavior type 0 is a respawning Miniblin
+  beq miniblin_set_death_switch_when_light_arrowed_end ; Respawning Miniblins should not set a switch when they die, so don't do anything
+  
+  ; Otherwise it's a single Miniblin, so it should set a switch when it dies.
+  lbz r0, 0x2B8 (r29) ; Read the switch index param the non-respawning Miniblin should set on death
+  stb r0, 0x995 (r29) ; Store it into the Miniblin's enemyice struct as the switch index it should set when it dies to Light Arrows.
+  ; Note: The enemy_ice function does not set the switch specified here in the case that it's switch index 0, but the Miniblin itself would even for index 0. This doesn't matter in practice because no Miniblins placed in the game are supposed to set switch index 0 on death.
+  
+  miniblin_set_death_switch_when_light_arrowed_end:
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
 .close
 
 
@@ -94,6 +195,78 @@
   b 0x8D8
 .org 0x900
   bl poe_fix_light_arrows_bug
+; Fix child Poes not telling Jalhalla they died when hit with light arrows.
+.org @NextFreeSpace
+.global poe_fix_light_arrows_bug
+poe_fix_light_arrows_bug:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  
+  lbz r0, 0x285 (r31) ; Read the Poe's current HP
+  extsb. r0,r0
+  ble poe_fix_light_arrows_bug_poe_is_dead ; Consider the Poe dead if its HP is <= 0
+  
+  lbz r0, 0x88A (r31) ; Read the Poe's dying to light arrows counter
+  cmpwi r0, 0
+  bgt poe_fix_light_arrows_bug_poe_is_dead ; Consider the Poe dead if it was hit with light arrows, even if its HP isn't 0 yet
+  
+  b poe_fix_light_arrows_bug_return_false ; Otherwise consider the Poe alive
+  
+  poe_fix_light_arrows_bug_poe_is_dead:
+  bl fopAcM_SearchByID__FUiPP10fopAc_ac_c ; Replace the function call we overwrote to call this custom function
+  
+  ; Then we need to reproduce most of the rest of the original Big_pow_down_check function.
+  ; The reason for this is a weird quirk Poes in the Jalhalla fight have where if they're killed in the last 4 frames before Jalhalla reforms, they will "unkill" themselves so they can join back up with Jalhalla.
+  ; We need to unset the dying to light arrows counter in that case as well.
+  
+  cmpwi r3, 0
+  beq poe_fix_light_arrows_bug_return_false
+  lwz r4, 0x18 (sp) ; Read Jalhalla entity pointer (original code used sp+8 but this function's stack offset is +0x10)
+  cmplwi r4, 0
+  beq poe_fix_light_arrows_bug_return_false
+  lha r0, 8 (r4)
+  cmpwi r0, 0xD4 ; Check to be sure the supposed Jalhalla entity is actually an instance of bpw_class.
+  bne poe_fix_light_arrows_bug_return_false
+  lha r0, 0x446 (r4)
+  cmpwi r0, 0x6F ; Check Jalhalla's state or something, 0x6F is for when the child Poes are running around
+  bne poe_fix_light_arrows_bug_unkill_poe
+  lha r0, 0x44E (r4) ; Read number of frames left until Jalhalla reforms
+  cmpwi r0, 3 ; Poes killed within the last 4 frames before Jalhalla reforms shouldn't actually die
+  ble poe_fix_light_arrows_bug_unkill_poe
+  lbz r3, 0x285 (r4)
+  addi r0, r3, -1 ; Decrement Jalhalla's HP
+  stb r0, 0x285 (r4)
+  lwz r3, 0x18 (sp) ; Read Jalhalla entity pointer again
+  lbz r0, 0x285 (r3) ; Check if Jalhalla's HP is zero, meaning this Poe that just died was the last one
+  extsb. r0,r0
+  bgt poe_fix_light_arrows_bug_not_the_last_poe
+  li r0, 1
+  stb r0, 0x344 (r31)
+  poe_fix_light_arrows_bug_not_the_last_poe:
+  li r0, 1
+  stb r0, 0x345 (r31)
+  b poe_fix_light_arrows_bug_return_false
+  
+  poe_fix_light_arrows_bug_unkill_poe:
+  li r0,4
+  stb r0, 0x285 (r31)
+  
+  ; These 2 lines are the new code:
+  li r0, 0
+  stb r0, 0x88A (r31) ; Set the Poe's dying to light arrows counter to zero to stop it from dying
+  
+  li r3, 1
+  b poe_fix_light_arrows_bug_end
+  
+  poe_fix_light_arrows_bug_return_false:
+  li r3, 0
+  
+  poe_fix_light_arrows_bug_end:
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
 .org 0x904
   ; Our custom function replaces the entire rest of this function, so just return after the custom function finished.
   lwz r31, 0x1C (r1)
@@ -110,6 +283,33 @@
 .open "files/rels/d_a_mt.rel" ; Magtail
 .org 0x6000
   bl magtail_respawn_when_head_light_arrowed
+.org @NextFreeSpace
+.global magtail_respawn_when_head_light_arrowed
+magtail_respawn_when_head_light_arrowed:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  
+  bl GetTgHitObj__12dCcD_GObjInfFv ; Replace the function call we overwrote to call this custom function
+  
+  ; Then we need to reproduce a few lines of code from the original function.
+  stw r3, 0x40 (sp) ; Write the TgHitObj (original code used sp+0x30 but this function's stack offset is +0x10)
+  addi r0, r30, 0x1874
+  stw r0, 0x54 (sp) ; Write something from the Magtail entity (original code used sp+0x44 but this function's stack offset is +0x10)
+  lwz r0, 0x10 (r3) ; Read the bitfield of damage types done by the actor that just damaged this Magtail
+  rlwinm. r0, r0, 0, 11, 11 ; Check the Light Arrows damage type
+  
+  ; Then if the Light Arrows bit was set, we store true to magtail_entity+0x1CBC to signify that the Magtail should respawn.
+  ; (We can't use the original branch on the Light Arrows bit because it's inside the REL.)
+  beq magtail_respawn_when_head_light_arrowed_end
+  li r0, 1
+  stb r0, 0x1CBC (r30)
+  
+  magtail_respawn_when_head_light_arrowed_end:
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
 .org 0x6004
   ; Then remove some lines of code after the function call we had to move into the custom function.
   nop
@@ -172,4 +372,19 @@ phantom_ganon_check_link_within_y_diff_outside_range:
 .open "sys/main.dol"
 .org 0x80235340 ; In dScnPly_Delete(dScnPly_ply_c *)
   b stop_sub_bgm_when_unloading_stage
+
+.org @NextFreeSpace
+.global stop_sub_bgm_when_unloading_stage
+stop_sub_bgm_when_unloading_stage:
+  ; Stop the music.
+  lis r3, 0x803F7710@ha
+  addi r3, r3, 0x803F7710@l
+  lwz r3, 0 (r3)
+  bl subBgmStop__11JAIZelBasicFv
+  
+  ; Replace the line we overwrote to jump here
+  mr r3, r30
+  
+  ; Return
+  b 0x80235344
 .close

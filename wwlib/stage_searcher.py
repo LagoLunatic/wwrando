@@ -180,6 +180,9 @@ def print_all_used_switches(self):
               continue
             
             if "switch" in attr_name and "num_switches" not in attr_name:
+              if attr_name in ["invert_spawn_condition_switch", "dont_check_enable_spawn_switch"]:
+                continue
+              
               switch = getattr(actor, attr_name)
               if switch == 0xFF:
                 continue

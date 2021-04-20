@@ -176,6 +176,17 @@ class REL:
     
     write_callback(data, relative_offset, *args)
   
+  def get_relocation_by_offset(self, offset):
+    for module_num, relocations in self.relocation_entries_for_module.items():
+      for relocation in relocations:
+        curr_section = self.sections[relocation.curr_section_num]
+        relocation_absolute_offset = relocation.relocation_offset + curr_section.offset
+        
+        if relocation_absolute_offset == offset:
+          return relocation
+    
+    return None
+  
   def delete_relocation_in_range(self, offset, length):
     for module_num, relocations in self.relocation_entries_for_module.items():
       relocations_to_delete = []

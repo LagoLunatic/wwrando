@@ -149,9 +149,10 @@ try:
   
   all_asm_file_paths = glob.glob('./patches/*.asm')
   all_asm_files = [os.path.basename(asm_path) for asm_path in all_asm_file_paths]
+  # Always put the custom data and funcs first so their custom symbols are defined for all the other patches to use.
+  all_asm_files.remove("custom_data.asm")
   all_asm_files.remove("custom_funcs.asm")
-  # Always do custom_funcs first so the custom symbols are defined for all the other patches to use.
-  all_asm_files = ["custom_funcs.asm"] + all_asm_files
+  all_asm_files = ["custom_data.asm", "custom_funcs.asm"] + all_asm_files
   
   # First parse all the asm files into code chunks.
   code_chunks = OrderedDict()

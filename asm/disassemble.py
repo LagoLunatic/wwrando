@@ -10,7 +10,7 @@ from collections import OrderedDict
 from fs_helpers import *
 from wwlib.yaz0 import Yaz0
 from wwlib.rel import REL
-from paths import ASM_PATH
+from wwrando_paths import ASM_PATH
 
 def disassemble_all_code(self):
   if not os.path.isfile(r"C:\devkitPro\devkitPPC\bin\powerpc-eabi-objdump.exe"):

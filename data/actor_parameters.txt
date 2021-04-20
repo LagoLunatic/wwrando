@@ -36,10 +36,10 @@ d_a_am:
   guarded_area_range:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  invert_spawn_condition_switch:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  spawn_condition_switch:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -50,10 +50,10 @@ d_a_am2:
   unknown_param_2:
     Bitfield name: params
     Mask: 0x0000FF00
-  switch_type:
+  invert_spawn_condition_switch:
     Bitfield name: params
     Mask: 0x00FF0000
-  switch_index:
+  spawn_condition_switch:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -220,7 +220,7 @@ d_a_bk:
   bokoblin_type:
     Bitfield name: params
     Mask: 0x0000000F
-  switch_spawns_bokoblin:
+  invert_spawn_condition_switch:
     Bitfield name: params
     Mask: 0x00000010
   is_green:
@@ -235,7 +235,7 @@ d_a_bk:
   path_index:
     Bitfield name: params
     Mask: 0x00FF0000
-  enable_spawn_switch:
+  spawn_condition_switch:
     Bitfield name: params
     Mask: 0xFF000000
   disable_spawn_on_death_switch:
@@ -246,10 +246,10 @@ d_a_bl:
   bubble_type:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  path_index:
     Bitfield name: params
     Mask: 0x00FF0000
   bubble_should_float:
@@ -576,13 +576,10 @@ d_a_fm:
   unknown_param_4:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_5:
+  enable_spawn_switch:
     Bitfield name: params
-    Mask: 0x0F000000 # (WARNING: overlaps)
-  unknown_param_6:
-    Bitfield name: params
-    Mask: 0xFF000000 # (WARNING: overlaps)
-  unknown_param_7:
+    Mask: 0xFF000000
+  disable_spawn_switch:
     Bitfield name: aux_params_1
     Mask: 0x00FF
   unknown_param_8:
@@ -647,9 +644,18 @@ d_a_grass:
 d_a_gy: {}
 
 d_a_gy_ctrl:
+  type:
+    Bitfield name: params
+    Mask: 0x0000000F
   num_spawned_gyorgs:
     Bitfield name: params
     Mask: 0x000000F0
+  sight_range:
+    Bitfield name: params
+    Mask: 0x0000FF00
+  enable_spawn_switch:
+    Bitfield name: params
+    Mask: 0xFF000000
 
 d_a_himo3:
   unknown_param_1:
@@ -1030,7 +1036,7 @@ d_a_mo2:
   unknown_param_3:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0xFF000000
   disable_spawn_on_death_switch:
@@ -1062,7 +1068,7 @@ d_a_mt:
   path_index:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_5:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0xFF000000
   disable_spawn_on_death_switch:
@@ -2577,10 +2583,10 @@ d_a_rd:
   unknown_param_2:
     Bitfield name: params
     Mask: 0x000000FE
-  unknown_param_3:
+  dont_check_enable_spawn_switch:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_4:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -2736,7 +2742,7 @@ d_a_sss:
   unknown_param_2:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0x00FF0000
 
@@ -2750,7 +2756,7 @@ d_a_st:
   unknown_param_3:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  ambush_switch:
     Bitfield name: params
     Mask: 0xFF000000
   disable_spawn_on_death_switch:
@@ -3144,7 +3150,7 @@ d_a_tn:
   unknown_param_4:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_5:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0xFF000000
   equipment:

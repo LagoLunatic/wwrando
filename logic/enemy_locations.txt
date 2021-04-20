@@ -130,8 +130,8 @@ Abship:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
-    & Can Defeat Keese
+    Can Access Other Location "Five-Star Isles - Submarine"
+  Has throwable objects: Yes # 6 pots # TODO: less objects than enemies
   Actors to replace with ALLdies:
     - Abship/Room0.arc/Actor005
   Enemies:
@@ -174,11 +174,8 @@ Abship:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Moblins
-    & Can Defeat Morths
-    & Can Defeat Green ChuChus
-    & Can Defeat Red ChuChus
-    & Can Defeat Yellow ChuChus
+    Can Access Other Location "Six-Eye Reef - Submarine"
+  Has throwable objects: Yes # 6 barrels # TODO: there's less objects than enemies. how to handle this? guarantee at least one of the placed enemies has a weapon you can steal?
   Actors to replace with ALLdies:
     - Abship/Room1.arc/Actor006
   Enemies:
@@ -223,8 +220,8 @@ Abship:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
-    & Can Defeat Rats
+    Can Access Other Location "Bomb Island - Submarine"
+  Has throwable objects: Yes # 4 barrels and 2 pots # TODO: less objects than enemies
   Actors to replace with ALLdies:
     - Abship/Room2.arc/Actor005
   Enemies:
@@ -472,15 +469,12 @@ Cave01:
 #      Path: Cave01/Room1.arc/Layer8/Actor000
 
 
-# TODO
 # Star Island Cave
 Cave02:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Magtails
-    & Can Defeat Bokoblins
-    & Can Defeat Moblins
+    Can Access Other Location "Star Island - Cave"
   Enemies:
     -
       Original enemy: Magtail
@@ -498,26 +492,32 @@ Cave02:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor004
+      Position: [1767, 26, -516]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor005
+      Position: [2233, 26, -516]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor007
+      Position: [1767, 26, 516]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor008
+      Position: [2233, 26, 516]
     -
       Original enemy: Blue Moblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor00A
+      Position: [2516, 26, 233]
     -
       Original enemy: Blue Moblin
       Placement category: Ground
       Path: Cave02/Room0.arc/Actor00B
+      Position: [2516, 26, -233]
 
 
 # Cliff Plateau Isles Cave
@@ -2402,6 +2402,7 @@ GanonJ:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Bokoblins
+  Has throwable objects: Yes # 12 pots # TODO: less objects than enemies
   Free memory: 1295088
   Enemies:
     -
@@ -3015,9 +3016,7 @@ ITest62:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
-    & Can Defeat Darknuts
-    & Can Defeat Moblins
+    Can Access Other Location "Ice Ring Isle - Inner Cave - Chest"
   Enemies:
     -
       Original enemy: Bokoblin
@@ -3046,11 +3045,7 @@ ITest63:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Miniblins
-    & Can Defeat Bokoblins
-    & Can Defeat Moblins
-    & Can Defeat Darknuts
-    & Can Defeat Wizzrobes
+    Can Access Other Location "Shark Island - Cave"
   Free memory: 1411392
   Actors to replace with ALLdies:
     - ITest63/Room0.arc/Actor025
@@ -3257,11 +3252,10 @@ M2tower:
       Path: M2tower/Room0.arc/Layer3/Actor008
 
 
-# TODO
 # Earth Temple
 M_Dai:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Moblins
   Enemies:
@@ -3282,7 +3276,20 @@ M_Dai:
   Original requirements:
     Can Defeat Red ChuChus
     & Can Defeat Green ChuChus
+    & Can Defeat Dark ChuChus
   Enemies:
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: M_Dai/Room2.arc/Actor001
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: M_Dai/Room2.arc/Actor002
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ground
+      Path: M_Dai/Room2.arc/Actor012
     -
       Original enemy: Red ChuChu
       Placement category: Ground
@@ -3308,7 +3315,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room2.arc/Actor018
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Floormasters
     & Can Defeat Red Bubbles
@@ -3330,10 +3337,12 @@ M_Dai:
       Placement category: Air
       Path: M_Dai/Room4.arc/Actor007
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: Yes # Beating the enemies isn't technically required but they can get in the way of solving the puzzle.
   Original requirements:
     Can Defeat Green ChuChus
     & Can Defeat Red ChuChus
+    & Fire Arrows
+    # Fire Arrows are needed to solve the puzzle.
   Enemies:
     -
       Original enemy: Green ChuChu
@@ -3359,10 +3368,23 @@ M_Dai:
       Original enemy: Red ChuChu
       Placement category: Ceiling
       Path: M_Dai/Room5.arc/Actor010
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ceiling:ChecksConditionSwitch
+      Path: M_Dai/Room5.arc/Actor012
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ceiling:ChecksConditionSwitch
+      Path: M_Dai/Room5.arc/Actor013
+    -
+      Original enemy: Dark ChuChu
+      Placement category: Ceiling:ChecksConditionSwitch
+      Path: M_Dai/Room5.arc/Actor014
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: Yes # Not strictly necessary but the enemy can get in the way.
   Original requirements:
-    Can Defeat Floormasters
+    Fire Arrows
+    & Can Defeat Floormasters
   Enemies:
     -
       Original enemy: Floormaster
@@ -3371,8 +3393,8 @@ M_Dai:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Poes Without Light Ray
-    & Can Defeat Moblins
+    Fire Arrows
+    & Can Defeat Floormasters
   Enemies:
     -
       Original enemy: Poe
@@ -3391,9 +3413,11 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room7.arc/Actor00F
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: Yes # Not needed just to get the item, but is necessary to make the ladder fall and escape from the room without saving and reloading.
   Original requirements:
-    Can Defeat ReDeads
+    Fire Arrows
+    & Can Defeat Floormasters
+    & Can Defeat ReDeads
   Enemies:
     -
       Original enemy: ReDead
@@ -3408,7 +3432,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room8.arc/Actor009
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Blue Bubbles
     & Can Defeat Red Bubbles
@@ -3435,7 +3459,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room9.arc/Actor017
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: Yes # Not technically necessary, but some enemies can get in the way of aiming the light reflections.
   Original requirements:
     Can Defeat ReDeads
   Enemies:
@@ -3451,6 +3475,7 @@ M_Dai:
   Must defeat enemies: Yes
   Original requirements:
     Can Defeat Floormasters
+  #Has throwable objects: Yes # 16 skulls
   Enemies:
     -
       Original enemy: Floormaster
@@ -3477,9 +3502,9 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room11.arc/Actor005
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: Yes # Not technically necessary, but reflecting the light with Medli is basically impossible with any of the enemies in the main part of the room still alive.
   Original requirements:
-    Can Defeat Poes Without Light Ray
+    Can Defeat Poes
     & Can Defeat Floormasters
     & Can Defeat Red Bubbles
   Enemies:
@@ -3516,7 +3541,7 @@ M_Dai:
       Placement category: Air
       Path: M_Dai/Room13.arc/Actor014
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat ReDeads
     & Can Defeat Keese
@@ -3559,7 +3584,7 @@ M_Dai:
       Placement category: Air
       Path: M_Dai/Room14.arc/Actor019
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Floormasters
   Enemies:
@@ -3612,7 +3637,6 @@ M_Dai:
       Path: M_Dai/Room19.arc/Actor007
 
 
-# TODO
 # Earth Temple Stalfos Mini-Boss Room
 M_DaiMB:
 -
@@ -3622,15 +3646,15 @@ M_DaiMB:
   Enemies:
     -
       Original enemy: Stalfos
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch,SetsDeathSwitch
       Path: M_DaiMB/Room12.arc/Actor000
     -
       Original enemy: Stalfos
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch,SetsDeathSwitch
       Path: M_DaiMB/Room12.arc/Actor001
     -
       Original enemy: Stalfos
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch,SetsDeathSwitch
       Path: M_DaiMB/Room12.arc/Actor002
 
 
@@ -3639,8 +3663,8 @@ M_Dra09:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Kargarocs
-    & Can Defeat Bokoblins
+    Nothing
+  Has throwable objects: Yes # 8 pots
   Enemies:
     -
       Original enemy: Kargaroc # More accurately, a Kargaroc that drops a Moblin
@@ -3789,7 +3813,8 @@ M_NewD2:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Nothing
+  Has throwable objects: Yes # 27 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -3806,8 +3831,9 @@ M_NewD2:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
-    & Can Defeat Fire Keese
+    Nothing
+  Has throwable objects: Yes # 7 pots on the top level, 2 pots on the bottom level
+  # TODO: need a stick to cut the ropes!
   Actors to replace with ALLdies:
     - M_NewD2/Room7.arc/Actor010
   Enemies:
@@ -4484,7 +4510,7 @@ SubD71:
 #  Original requirements:
 #    Can Defeat Red Bubbles
 #    & Can Defeat Wizzrobes
-#    & Can Defeat Poes Without Light Ray
+#    & Can Defeat Poes
 #  Enemies:
 #    -
 #      Original enemy: Red Bubble
@@ -4539,7 +4565,7 @@ SubD71:
 #  Must defeat enemies: Yes
 #  Original requirements:
 #    Can Defeat Stalfos
-#    & Can Defeat Poes Without Light Ray
+#    & Can Defeat Poes
 #    & Can Defeat Wizzrobes
 #  Enemies:
 #    -
@@ -4608,7 +4634,7 @@ TF_01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Darknuts
+    Can Access Other Location "Stone Watcher Island - Cave"
   Existing actors to modify:
     - # Change the Zenshut door leading from the center room to the chest to check for switch 22 being set, instead of checking for all the enemies in the current room being dead and setting switch 22.
       Path: TF_01/Stage.arc/ScalableDoor005
@@ -4634,7 +4660,7 @@ TF_01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Can Access Other Location "Stone Watcher Island - Cave"
   Enemies:
     -
       Original enemy: Bokoblin
@@ -4659,7 +4685,7 @@ TF_01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Wizzrobes
+    Can Access Other Location "Stone Watcher Island - Cave"
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -4676,7 +4702,7 @@ TF_01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Armos
+    Can Access Other Location "Stone Watcher Island - Cave"
   Enemies:
     -
       Original enemy: Armos
@@ -4697,7 +4723,7 @@ TF_01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Moblins
+    Can Access Other Location "Stone Watcher Island - Cave"
   Enemies:
     -
       Original enemy: Blue Moblin
@@ -4709,34 +4735,34 @@ TF_01:
       Path: TF_01/Room5.arc/Actor001
 
 
-# TODO
 # Overlook Island Cave
 TF_02:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Darknuts
+    Can Access Other Location "Overlook Island - Cave"
   Enemies:
     -
       Original enemy: Darknut
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: TF_02/Room1.arc/Actor001
     -
       Original enemy: Darknut
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: TF_02/Room1.arc/Actor002
     -
       Original enemy: Darknut
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: TF_02/Room1.arc/Actor00B
     -
       Original enemy: Darknut
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: TF_02/Room1.arc/Actor00C
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Can Access Other Location "Overlook Island - Cave"
+  Has throwable objects: Yes # 5 pots, 5 enemies
   Enemies:
     -
       Original enemy: Bokoblin
@@ -4761,7 +4787,7 @@ TF_02:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Wizzrobes
+    Can Access Other Location "Overlook Island - Cave"
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -4774,7 +4800,8 @@ TF_02:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Armos Knights
+    Can Access Other Location "Overlook Island - Cave"
+  Has bomb flowers: Yes
   Enemies:
     -
       Original enemy: Armos Knight
@@ -4791,7 +4818,7 @@ TF_02:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Stalfos
+    Can Access Other Location "Overlook Island - Cave"
   Enemies:
     -
       Original enemy: Stalfos
@@ -4803,18 +4830,18 @@ TF_02:
       Path: TF_02/Room5.arc/Actor001
 
 
-# TODO
 # Bird's Peak Rock Cave
-TF_03:
--
-  Must defeat enemies: Yes
-  Original requirements:
-    Can Defeat Armos Knights
-  Enemies:
-    -
-      Original enemy: Armos Knight
-      Placement category: Ground
-      Path: TF_03/Room1.arc/Actor001
+#TF_03:
+#- # Unused room
+#-
+#  Must defeat enemies: Yes
+#  Original requirements:
+#    Can Defeat Armos Knights
+#  Enemies:
+#    -
+#      Original enemy: Armos Knight
+#      Placement category: Ground
+#      Path: TF_03/Room1.arc/Actor001
 #- # Unused room
 #  Must defeat enemies: Yes
 #  Original requirements:
@@ -4914,13 +4941,13 @@ TF_04:
       Path: TF_04/Room0.arc/Actor023
 
 
-# TODO
 # Dragon Roost Island Secret Cave
 TF_06:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Red ChuChus
+    Can Access Other Location "Dragon Roost Island - Secret Cave"
+  #Has throwable objects: Yes # 2 pots, 3 enemies
   Enemies:
     -
       Original enemy: Red ChuChu
@@ -4937,7 +4964,8 @@ TF_06:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Can Access Other Location "Dragon Roost Island - Secret Cave"
+  Has throwable objects: Yes # 4 pots, 3 enemies
   Enemies:
     -
       Original enemy: Bokoblin
@@ -4954,7 +4982,8 @@ TF_06:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Keese
+    Can Access Other Location "Dragon Roost Island - Secret Cave"
+  #Has throwable objects: Yes # 3 pots, 4 enemies
   Enemies:
     -
       Original enemy: Keese
@@ -4975,7 +5004,8 @@ TF_06:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Mothulas
+    Can Access Other Location "Dragon Roost Island - Secret Cave"
+  Has throwable objects: Yes # 5 pots, 2 enemies
   Enemies:
     -
       Original enemy: Wingless Mothula
@@ -4987,11 +5017,10 @@ TF_06:
       Path: TF_06/Room5.arc/Actor008
 
 
-# TODO
 # Pawprint Isle Chuchu Cave
 TyuTyu:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Red ChuChus
     & Can Defeat Green ChuChus
@@ -5071,11 +5100,10 @@ TyuTyu:
       Path: TyuTyu/Room0.arc/Actor062
 
 
-# TODO
 # Diamond Steppe Island Warp Maze
 WarpD:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Floormasters
   Enemies:
@@ -5686,6 +5714,7 @@ kindan:
   Original requirements:
     Can Defeat Boko Babas
     & Can Defeat Green ChuChus
+  # TODO: how to handle the case of killing the boko babas to take their sticks to light the eye flower on fire? killing enemies is required for that case, but we also need to ensure one enemy which is either a bokoblin with a stick OR a boko baba is placed in the room at the bottom...?
   Free memory: 753072
   Enemies:
     -
@@ -6646,7 +6675,7 @@ sea/Room6.arc:
   Must defeat enemies: Yes
   Original requirements:
     Can Access Other Location "Seven-Star Isles - Northern Lookout Platform"
-  Has throwable objects: Yes
+  Has throwable objects: Yes # 4 (12 objects split over 3 platforms)
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -6657,7 +6686,7 @@ sea/Room6.arc:
   Must defeat enemies: Yes
   Original requirements:
     Can Access Other Location "Seven-Star Isles - Center Lookout Platform"
-  Has throwable objects: Yes
+  Has throwable objects: Yes # 4 (12 objects split over 3 platforms)
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -6667,7 +6696,7 @@ sea/Room6.arc:
   Must defeat enemies: Yes
   Original requirements:
     Can Access Other Location "Seven-Star Isles - Southern Lookout Platform"
-  Has throwable objects: Yes
+  Has throwable objects: Yes # 4 (12 objects split over 3 platforms)
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -6684,8 +6713,8 @@ sea/Room12.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
-  Has throwable objects: Yes
+    Can Access Other Location "Pawprint Isle - Lookout Platform - Defeat the Enemies"
+  Has throwable objects: Yes # 8 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -6697,11 +6726,11 @@ sea/Room12.arc:
       Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room12.arc/Actor02E
       Position offset: [0, -200, 0]
--
+- # Rafts
   Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
-  Has throwable objects: Yes
+  Has throwable objects: Yes # 1 barrel and 2 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -6715,11 +6744,10 @@ sea/Room12.arc:
       Position offset: [0, -200, 0]
 
 
-# TODO
 # Dragon Roost Island
 sea/Room13.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Keese
@@ -6727,22 +6755,22 @@ sea/Room13.arc:
   Enemies:
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room13.arc/Layer0/Actor007
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Air:HasPit
       Path: sea/Room13.arc/Layer0/Actor008
     -
       Original enemy: Keese
-      Placement category: Ceiling
+      Placement category: Ceiling # Technically has a pit, but it's far from the enemy
       Path: sea/Room13.arc/Layer0/Actor009
     -
       Original enemy: Keese
-      Placement category: Ceiling
+      Placement category: Ceiling # Technically has a pit, but it's far from the enemy
       Path: sea/Room13.arc/Layer0/Actor00A
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Keese
@@ -6750,88 +6778,98 @@ sea/Room13.arc:
   Enemies:
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room13.arc/Layer1/Actor000
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Air:HasPit
       Path: sea/Room13.arc/Layer1/Actor001
     -
       Original enemy: Keese
-      Placement category: Ceiling
+      Placement category: Ceiling # Technically has a pit, but it's far from the enemy
       Path: sea/Room13.arc/Layer1/Actor002
     -
       Original enemy: Keese
-      Placement category: Ceiling
+      Placement category: Ceiling # Technically has a pit, but it's far from the enemy
       Path: sea/Room13.arc/Layer1/Actor003
 
 
-# TODO
 # Western Fairy Island
 sea/Room15.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room15.arc/Actor010
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room15.arc/Actor019
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room15.arc/Actor01A
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room15.arc/Actor01B
+      Position offset: [0, -200, 0]
 
 
-# TODO
 # Rock Spire Isle
 sea/Room16.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room16.arc/Actor012
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room16.arc/Actor01B
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room16.arc/Actor022
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room16.arc/Actor029
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room16.arc/Actor02E
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room16.arc/Actor02F
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room16.arc/Actor030
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room16.arc/Actor035
+      Position offset: [0, -200, 0]
 
 
 # Tingle Island
@@ -6860,52 +6898,55 @@ sea/Room18.arc:
       Path: sea/Room18.arc/Actor02B
 
 
-# TODO
 # Eastern Fairy Island
 sea/Room19.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
+    Can Access Other Location "Eastern Fairy Island - Lookout Platform - Defeat the Cannons and Enemies"
+  Has throwable objects: Yes # 4 pots
   Enemies:
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room19.arc/Actor011
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room19.arc/Actor01A
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
+      Position offset: [0, -200, 0]
       Path: sea/Room19.arc/Actor01B
+      Position offset: [0, -200, 0]
 
 
-# TODO
 # Fire Mountain
 sea/Room20.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room20.arc/Actor006
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room20.arc/Actor01A
+      Position offset: [0, -200, 0]
 
 
-# TODO
 # Star Belt Archipelago
 sea/Room21.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Seahats
     & Can Defeat Kargarocs
@@ -6933,46 +6974,48 @@ sea/Room21.arc:
       Path: sea/Room21.arc/Actor005
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Air:HasPit
       Path: sea/Room21.arc/Actor006
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Air:HasPit
       Path: sea/Room21.arc/Actor007
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room21.arc/Actor008
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room21.arc/Actor009
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room21.arc/Actor012
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room21.arc/Actor01B
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room21.arc/Actor01C
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room21.arc/Actor01D
+      Position offset: [0, -200, 0]
 
 
-# TODO
 # Cyclops Reef
 sea/Room24.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Seahats
-    & Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Seahat
@@ -7014,29 +7057,38 @@ sea/Room24.arc:
       Original enemy: Seahat
       Placement category: Sea
       Path: sea/Room24.arc/Actor009
+-
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Access Other Location "Cyclops Reef - Lookout Platform - Defeat the Enemies"
+  Has throwable objects: Yes # 2 barrels and 6 pots
+  Enemies:
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room24.arc/Actor01E
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room24.arc/Actor01F
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room24.arc/Actor020
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room24.arc/Actor029
+      Position offset: [0, -200, 0]
 
 
-# TODO
 # Six-Eye Reef
 sea/Room25.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Saltwater Octoroks
@@ -7045,10 +7097,12 @@ sea/Room25.arc:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room25.arc/Actor009
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room25.arc/Actor00C
+      Position offset: [0, -200, 0]
     -
       Original enemy: Saltwater Octorok Spawner
       Placement category: Sea
@@ -7057,14 +7111,17 @@ sea/Room25.arc:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room25.arc/Actor01D
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room25.arc/Actor020
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room25.arc/Actor029
+      Position offset: [0, -200, 0]
 
 
 # Eastern Triangle Island
@@ -7213,9 +7270,8 @@ sea/Room30.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Bokoblins
-    & Can Defeat Wizzrobes
-  Has throwable objects: Yes
+    Can Access Other Location "Islet of Steel - Lookout Platform - Defeat the Enemies"
+  Has throwable objects: Yes # 4 barrels and 8 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -7297,7 +7353,7 @@ sea/Room34.arc:
   Must defeat enemies: Yes
   Original requirements:
     Can Access Other Location "Bomb Island - Lookout Platform - Defeat the Enemies"
-  Has throwable objects: Yes
+  Has throwable objects: Yes # 4 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -7357,7 +7413,7 @@ sea/Room37.arc:
   Original requirements:
     Can Defeat Gyorgs
     & Can Defeat Bokoblins
-  Has throwable objects: Yes
+  Has throwable objects: Yes # 4 barrels and 8 pots
   Enemies:
     -
       Original enemy: Gyorg Spawner
@@ -7463,7 +7519,7 @@ sea/Room39.arc:
   Must defeat enemies: No
   Original requirements:
     Can Defeat Bokoblins
-  Has throwable objects: Yes
+  Has throwable objects: Yes # 31 objects
   Enemies:
     -
       Original enemy: Bokoblin

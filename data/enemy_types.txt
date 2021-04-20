@@ -11,9 +11,11 @@
   Placement categories: [Ground, Pot]
   Memory used by first one: 53280
   Memory used by subequent ones: 23088
+  Enable spawn switch param name: spawn_condition_switch
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: True # Dies when falling in pits, but properly sets it death switch, so we allow it.
-  Can be killed with thrown objects: Yes
+  Can be killed with thrown objects: Yes # 3 hits
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Green ChuChu
   Actor name: c_green
@@ -27,9 +29,11 @@
   Placement categories: [Ground, Pot, Ceiling]
   Memory used by first one: 31904
   Memory used by subequent ones: 18496
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK (they can jump off while trying to attack the player, but don't by themselves. do they die in the pit, or still count as a living enemy?)
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Red ChuChu
   Actor name: c_red
@@ -43,9 +47,11 @@
   Placement categories: [Ground, Pot, Ceiling]
   Memory used by first one: 31904
   Memory used by subequent ones: 18496
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Yellow ChuChu
   Actor name: c_kiiro
@@ -59,9 +65,11 @@
   Placement categories: [Ground, Pot, Ceiling]
   Memory used by first one: 31904
   Memory used by subequent ones: 18496
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Blue ChuChu
   Actor name: c_blue
@@ -75,9 +83,11 @@
   Placement categories: [Ground, Pot, Ceiling]
   Memory used by first one: 31904
   Memory used by subequent ones: 18496
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Dark ChuChu
   Actor name: c_black
@@ -91,9 +101,11 @@
   Placement categories: [Ground, Pot, Ceiling]
   Memory used by first one: 31904
   Memory used by subequent ones: 18496
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
 -
   Pretty name: Kargaroc
   Actor name: Bb
@@ -107,9 +119,11 @@
   Placement categories: [Air, Ground, Ceiling]
   Memory used by first one: 49120
   Memory used by subequent ones: 41024
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Lantern Moblin
   Actor name: mo2
@@ -123,9 +137,11 @@
   Placement categories: [Ground]
   Memory used by first one: 105088
   Memory used by subequent ones: 66400
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: False # Dies instantly when over a pit, and doesn't set its death switch when it does that. TODO: see if that can be fixed so they set their death switch when falling in a pit.
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Blue Moblin
   Actor name: mo2
@@ -139,9 +155,11 @@
   Placement categories: [Ground]
   Memory used by first one: 60512
   Memory used by subequent ones: 36112
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: False # Dies instantly when over a pit, and doesn't set its death switch when it does that. TODO: see if that can be fixed so they set their death switch when falling in a pit.
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Peahat
   Actor name: p_hat
@@ -155,9 +173,11 @@
   Placement categories: [Air, Ceiling]
   Memory used by first one: 14688
   Memory used by subequent ones: 10208
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Seahat
   Actor name: p_hat
@@ -171,13 +191,15 @@
   Placement categories: [Sea]
   Memory used by first one: 23872
   Memory used by subequent ones: 16096
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
 -
   Pretty name: Armos Knight
   Actor name: amos
-  Params: 0xFFFFFF00
+  Params: 0xFF01FF00
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: [0x8127, 0x8128, 0x8156, 0x8157, 0xA125, 0xA126, 0xA154, 0xA155]
@@ -187,13 +209,15 @@
   Placement categories: [Ground]
   Memory used by first one: 13152
   Memory used by subequent ones: 7456
+  Enable spawn switch param name: spawn_condition_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Armos
   Actor name: amos2
-  Params: 0xFF00FFFF
+  Params: 0xFF01FFFF
   Aux params: 0x0000
   Aux params 2: 0x0000
   Required particle IDs: [0x81AE, 0x81AF, 0x81B0, 0xA125]
@@ -203,9 +227,11 @@
   Placement categories: [Ground]
   Memory used by first one: 11840
   Memory used by subequent ones: 6976
+  Enable spawn switch param name: spawn_condition_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Inanimate Armos
   Actor name: amos2
@@ -219,9 +245,11 @@
   Placement categories: [Ground]
   Memory used by first one: 11840
   Memory used by subequent ones: 6976
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
 -
   Pretty name: Dexivine
   Actor name: Sss
@@ -231,13 +259,15 @@
   Required particle IDs: [0x8184]
   Requirements to defeat: Can Defeat Dexivines
   Allow randomizing from: True
-  Allow randomizing to: True # TODO don't allow in rooms where you need to kill everything
+  Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 7744
   Memory used by subequent ones: 6976
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
   # Note: Cannot escape from a Dexivine that catches you without some weapon to cut it down.
 -
   Pretty name: Keese
@@ -252,9 +282,11 @@
   Placement categories: [Air, Ceiling]
   Memory used by first one: 15744
   Memory used by subequent ones: 6016
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with thrown objects: Yes # 1 hit
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Fire Keese
   Actor name: Fkeeth
@@ -268,9 +300,11 @@
   Placement categories: [Air, Ceiling]
   Memory used by first one: 17376
   Memory used by subequent ones: 7648
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Freshwater Octorok
   Actor name: Oq
@@ -284,9 +318,11 @@
   Placement categories: [Water]
   Memory used by first one: 28640
   Memory used by subequent ones: 11936
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
 -
   Pretty name: Saltwater Octorok
   Actor name: Oqw
@@ -300,9 +336,11 @@
   Placement categories: [Sea]
   Memory used by first one: 34784
   Memory used by subequent ones: 18080
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
 -
   Pretty name: Saltwater Octorok Spawner
   Actor name: Oqw
@@ -316,9 +354,11 @@
   Placement categories: [Sea]
   Memory used by first one: 112784
   Memory used by subequent ones: 93888
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
 -
   Pretty name: Wizzrobe
   Actor name: wiz_r
@@ -332,9 +372,11 @@
   Placement categories: [Ground, StationaryAir]
   Memory used by first one: 65712 # 25440 without the fireballs being spawned
   Memory used by subequent ones: 54224 # 13536 without the fireballs being spawned
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: True
   Can be killed with thrown objects: Yes # Takes two pots to kill.
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: ReDead
   Actor name: Rdead1
@@ -348,9 +390,11 @@
   Placement categories: [Ground]
   Memory used by first one: 14272
   Memory used by subequent ones: 9664
+  Enable spawn switch param name: enable_spawn_switch # Also needs dont_check_enable_spawn_switch to be set to 0
   Death switch param name: null
   Allow near pits: True # TODO CHECK (note that if they fall down a small ledge, they keep trying to return to their spawn point but can't because it's high up now)
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Sitting ReDead
   Actor name: Rdead2
@@ -364,9 +408,11 @@
   Placement categories: [Ground]
   Memory used by first one: 14272
   Memory used by subequent ones: 9664
+  Enable spawn switch param name: enable_spawn_switch # Also needs dont_check_enable_spawn_switch to be set to 0
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Poe
   Actor name: pow
@@ -380,9 +426,11 @@
   Placement categories: [Ground]
   Memory used by first one: 59712
   Memory used by subequent ones: 39984
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
 -
   Pretty name: Chasing Morth
   Actor name: kuro_s
@@ -396,9 +444,11 @@
   Placement categories: [Ground, Pot]
   Memory used by first one: 44896 # For 10 Morths.
   Memory used by subequent ones: 43520 # For 10 Morths.
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: False
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
   # Note: These don't count as being alive, if only morths are in a room the room will consider itself completed immediately.
 -
   Pretty name: Morth
@@ -413,9 +463,11 @@
   Placement categories: [Ground, Pot]
   Memory used by first one: 44896 # For 10 Morths.
   Memory used by subequent ones: 43520 # For 10 Morths.
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: False
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
   # Note: These don't count as being alive, if only morths are in a room the room will consider itself completed immediately.
 -
   Pretty name: Miniblin
@@ -430,9 +482,11 @@
   Placement categories: [Ground]
   Memory used by first one: 7904
   Memory used by subequent ones: 5312
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null # TODO irregular_switch acts as this for single miniblins, but it's buggy for permanent switches. perhaps we could make use of it, but replace the switch that's set with a temporary switch...?
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with thrown objects: Yes # 1 hit
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Rat
   Actor name: nezumi
@@ -446,9 +500,11 @@
   Placement categories: [Ground]
   Memory used by first one: 24512
   Memory used by subequent ones: 12960
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: False # Rats run off by themselves, often before the player even sees them.
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Bombchu
   Actor name: nezumi
@@ -462,9 +518,11 @@
   Placement categories: [Ground]
   Memory used by first one: 26944
   Memory used by subequent ones: 15392
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: False # Rats run off by themselves, often before the player even sees them.
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
 -
   Pretty name: Rat Hole
   Actor name: nezuana
@@ -478,9 +536,11 @@
   Placement categories: [Ground]
   Memory used by first one: 99136 # For 5 rats, also includes the rat shopkeeper.
   Memory used by subequent ones: 79040 # For 5 rats, also includes the rat shopkeeper.
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: False # Rats run off by themselves, often before the player even sees them.
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Bombchu Hole
   Actor name: nezuana
@@ -494,9 +554,11 @@
   Placement categories: [Ground]
   Memory used by first one: 92128 # For 5 Bombchus.
   Memory used by subequent ones: 78784 # For 5 Bombchus.
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: False # Rats run off by themselves, often before the player even sees them.
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
 -
   Pretty name: Rat and Bombchu Hole
   Actor name: nezuana
@@ -510,9 +572,11 @@
   Placement categories: [Ground]
   Memory used by first one: 92128 # For 5 rats/Bombchus.
   Memory used by subequent ones: 78784 # For 5 rats/Bombchus.
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: False # Rats run off by themselves, often before the player even sees them.
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
 -
   Pretty name: Stalfos
   Actor name: Stal
@@ -526,9 +590,11 @@
   Placement categories: [Ground]
   Memory used by first one: 93536
   Memory used by subequent ones: 42064
+  Enable spawn switch param name: ambush_switch # Also needs type to be set to 1 for underground (or 2/3 for in a coffin)
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: False # Instantly deletes itself without setting its death switch.
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Darknut
   Actor name: Tn
@@ -542,9 +608,11 @@
   Placement categories: [Ground]
   Memory used by first one: 109296
   Memory used by subequent ones: 73920
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: False # Instantly deletes itself without setting its death switch.
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
 -
   Pretty name: Boko Baba
   Actor name: bbaba
@@ -558,9 +626,11 @@
   Placement categories: [Ground]
   Memory used by first one: 20288
   Memory used by subequent ones: 12704
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with thrown objects: No # Needs 2 hits, but it's not possible to throw the second one fast enough
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Boko Bud Boko Baba
   Actor name: bbaba
@@ -574,9 +644,11 @@
   Placement categories: [Ground]
   Memory used by first one: 20288
   Memory used by subequent ones: 12704
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
 -
   Pretty name: Magtail
   Actor name: magtail
@@ -590,9 +662,11 @@
   Placement categories: [Ground]
   Memory used by first one: 80896
   Memory used by subequent ones: 56512
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: False # If it falls in the sea, it dies, but doesn't set its death switch. TODO: try to code it to set that properly. also TODO: I assume these work in lava pits? if so, I may need to separate lava vs sea pits into separate conditions.
   Can be killed with thrown objects: No # They do take damage from thrown objects, but it's annoying to hit them and just two objects isn't enough to kill it, so don't make this required.
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Red Bubble
   Actor name: bable
@@ -606,9 +680,11 @@
   Placement categories: [Ground, Air, Ceiling]
   Memory used by first one: 7936
   Memory used by subequent ones: 5504
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with thrown objects: No
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Blue Bubble
   Actor name: bable
@@ -622,9 +698,11 @@
   Placement categories: [Ground, Air, Ceiling]
   Memory used by first one: 7936
   Memory used by subequent ones: 5504
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Inanimate Bubble
   Actor name: bable
@@ -638,9 +716,11 @@
   Placement categories: [Ground]
   Memory used by first one: 7936
   Memory used by subequent ones: 5504
+  Enable spawn switch param name: null
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
 -
   Pretty name: Wingless Mothula
   Actor name: gmos
@@ -654,9 +734,11 @@
   Placement categories: [Ground]
   Memory used by first one: 46944
   Memory used by subequent ones: 25312
+  Enable spawn switch param name: null
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: False # They don't die in pits.
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Winged Mothula
   Actor name: gmos
@@ -670,9 +752,11 @@
   Placement categories: [Air, Ceiling]
   Memory used by first one: 46944
   Memory used by subequent ones: 25312
+  Enable spawn switch param name: null
   Death switch param name: disable_spawn_on_death_switch
   Allow near pits: False # They turn into wingless ones, which then don't die in pits.
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: Yes
 -
   Pretty name: Cross-Sector Gyorg Spawner
   Actor name: GyCtrl
@@ -686,9 +770,11 @@
   Placement categories: [Sea]
   Memory used by first one: 106576 # For 5 Gyorgs.
   Memory used by subequent ones: 88736 # For 5 Gyorgs.
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
 -
   Pretty name: Gyorg Spawner
   Actor name: GyCtrlB
@@ -702,9 +788,11 @@
   Placement categories: [Sea]
   Memory used by first one: 106576 # For 5 Gyorgs.
   Memory used by subequent ones: 88736 # For 5 Gyorgs.
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No
 #-
 #  Pretty name: Blue Beamos
 #  Actor name: Hmos1
@@ -762,9 +850,11 @@
   Placement categories: [Ground]
   Memory used by first one: 12608
   Memory used by subequent ones: 8608
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No # Floormasters actually can be killed by bombs but this is annoying to do.
 -
   Pretty name: Floormaster
   Actor name: Fmastr2
@@ -778,6 +868,8 @@
   Placement categories: [Ground]
   Memory used by first one: 12608
   Memory used by subequent ones: 8608
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
+  Can be killed with bomb flowers: No # Floormasters actually can be killed by bombs but this is annoying to do.

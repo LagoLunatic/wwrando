@@ -7,13 +7,14 @@ from collections import namedtuple
 from collections import OrderedDict
 import copy
 from random import Random
+import math
 
 from fs_helpers import *
 from asm import patcher
 from wwlib import texture_utils
 from wwlib.rarc import RARC
 from wwlib.rel import REL, RELSection, RELRelocation, RELRelocationType
-from paths import ASSETS_PATH, ASM_PATH, SEEDGEN_PATH
+from wwrando_paths import ASSETS_PATH, ASM_PATH, SEEDGEN_PATH
 import customizer
 
 try:
@@ -308,11 +309,6 @@ def make_sail_behave_like_swift_sail(self):
   
   # Apply the asm patch.
   patcher.apply_patch(self, "swift_sail")
-  
-  # Double the speed.
-  ship_rel = self.get_rel("files/rels/d_a_ship.rel")
-  ship_rel.write_data(write_float, 0xDBE8, 55.0*2) # Sailing speed
-  ship_rel.write_data(write_float, 0xDBC0, 80.0*2) # Initial speed
   
   # Update the pause menu name for the sail.
   msg = self.bmg.messages_by_id[463]
@@ -2051,9 +2047,10 @@ def enable_heap_display(self):
   self.dol.write_data(write_u32, 0x800084A0, 0x60000000) # nop (in mDoGph_AfterOfDraw)
 
 def add_failsafe_id_0_spawns(self):
-  # Add spawns with spawn ID 0 to any rooms that didn't originally have them, copying an existing spawn from the same room.
+  # Add spawns with spawn ID 0 to any rooms that didn't originally have them.
   # This is so anything that assumes all rooms have a spawn with ID 0 (for example, Floormasters that don't have an explicit exit set for when they capture you) doesn't crash the game.
   
+  # For rooms that already had a spawn in them, copy the existing spawn.
   spawns_to_copy = [
     ("Asoko", 0, 255),
     ("I_TestM", 0, 1),
@@ -2101,6 +2098,58 @@ def add_failsafe_id_0_spawns(self):
     new_spawn.y_pos = spawn_to_copy.y_pos
     new_spawn.z_pos = spawn_to_copy.z_pos
     new_spawn.y_rot = spawn_to_copy.y_rot
+    new_spawn.spawn_id = 0
+    
+    dzr.save_changes()
+  
+  # For rooms that didn't have any existing spawn in them, add a new spawn, automatically placed in front of a door.
+  rooms_to_add_new_spawns_to = [
+    ("TF_01", 1),
+    ("TF_01", 2),
+    ("TF_01", 3),
+    ("TF_01", 4),
+    ("TF_01", 5),
+    ("TF_01", 6),
+    ("TF_02", 1),
+    ("TF_02", 2),
+    ("TF_02", 3),
+    ("TF_02", 4),
+    ("TF_02", 5),
+    ("TF_02", 6),
+  ]
+  
+  for stage_name, room_number in rooms_to_add_new_spawns_to:
+    dzr = self.get_arc("files/res/Stage/%s/Room%d.arc" % (stage_name, room_number)).get_file("room.dzr")
+    spawns = dzr.entries_by_type("PLYR")
+    
+    dzs = self.get_arc("files/res/Stage/%s/Stage.arc" % stage_name).get_file("stage.dzs")
+    doors = dzs.entries_by_type("TGDR")
+    spawn_dist_from_door = 200
+    x_pos = None
+    y_pos = None
+    z_pos = None
+    y_rot = None
+    for door in doors:
+      assert door.actor_class_name == "d_a_door10"
+      if door.from_room_num == room_number or door.to_room_num == room_number:
+        y_rot = door.y_rot
+        if door.from_room_num != room_number:
+          y_rot = (y_rot + 0x8000) % 0x10000
+        y_rot_degrees = y_rot * (90.0 / 0x4000)
+        x_offset = math.sin(math.radians(y_rot_degrees)) * spawn_dist_from_door
+        z_offset = math.cos(math.radians(y_rot_degrees)) * spawn_dist_from_door
+        x_pos = door.x_pos + x_offset
+        y_pos = door.y_pos
+        z_pos = door.z_pos + z_offset
+        break
+    
+    new_spawn = dzr.add_entity("PLYR", layer=None)
+    new_spawn.spawn_type = 0
+    new_spawn.room_num = room_number
+    new_spawn.x_pos = x_pos
+    new_spawn.y_pos = y_pos
+    new_spawn.z_pos = z_pos
+    new_spawn.y_rot = y_rot
     new_spawn.spawn_id = 0
     
     dzr.save_changes()

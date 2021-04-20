@@ -27,7 +27,7 @@ except ImportError:
   from yaml import Dumper
 
 from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError, InvalidCleanISOError
-from paths import ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE, USERDATA_PATH, MODEL_PATH
+from wwrando_paths import SETTINGS_PATH, ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE, CUSTOM_MODELS_PATH
 import customizer
 from logic.logic import Logic
 from wwlib import texture_utils
@@ -47,7 +47,8 @@ class WWRandomizerWindow(QMainWindow):
     self.bulk_test = ("-bulk" in cmd_line_args)
     self.no_ui_test = ("-noui" in cmd_line_args)
     self.profiling = ("-profile" in cmd_line_args)
-    
+    self.auto_seed = ("-autoseed" in cmd_line_args)
+
     self.custom_color_selector_buttons = OrderedDict()
     self.custom_color_selector_hex_inputs = OrderedDict()
     self.custom_color_reset_buttons = OrderedDict()
@@ -124,6 +125,9 @@ class WWRandomizerWindow(QMainWindow):
     icon_path = os.path.join(ASSETS_PATH, "icon.ico")
     self.setWindowIcon(QIcon(icon_path))
     
+    if self.auto_seed:
+      self.generate_seed()
+
     if self.no_ui_test:
       self.randomize()
       return
@@ -374,11 +378,8 @@ class WWRandomizerWindow(QMainWindow):
       )
   
   def load_settings(self):
-    if not os.path.isdir(USERDATA_PATH):
-      os.mkdir(USERDATA_PATH)
-    self.settings_path = os.path.join(USERDATA_PATH, "settings.txt")
-    if os.path.isfile(self.settings_path):
-      with open(self.settings_path) as f:
+    if os.path.isfile(SETTINGS_PATH):
+      with open(SETTINGS_PATH) as f:
         self.settings = yaml.safe_load(f)
       if self.settings is None:
         self.settings = OrderedDict()
@@ -423,7 +424,7 @@ class WWRandomizerWindow(QMainWindow):
     self.update_model_preview()
   
   def save_settings(self):
-    with open(self.settings_path, "w") as f:
+    with open(SETTINGS_PATH, "w") as f:
       yaml.dump(self.settings, f, default_flow_style=False, Dumper=yaml.Dumper)
   
   def update_settings(self):
@@ -831,13 +832,14 @@ class WWRandomizerWindow(QMainWindow):
       option_name = "custom_color_" + custom_color_name
       hlayout = QHBoxLayout()
       label_for_color_selector = QLabel(self.ui.tab_2)
-      label_for_color_selector.setText("Player %s Color" % custom_color_name)
+      label_for_color_selector.setText("%s Color" % custom_color_name)
       hlayout.addWidget(label_for_color_selector)
       
       color_hex_code_input = QLineEdit(self.ui.tab_2)
       color_hex_code_input.setText("")
       color_hex_code_input.setObjectName(option_name + "_hex_code_input")
       color_hex_code_input.setFixedWidth(QFontMetrics(QFont()).horizontalAdvance("CCCCCC")+5)
+      color_hex_code_input.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
       hlayout.addWidget(color_hex_code_input)
       
       color_randomize_button = QPushButton(self.ui.tab_2)
@@ -890,9 +892,9 @@ class WWRandomizerWindow(QMainWindow):
     if custom_model_name == "Random" or custom_model_name == "Random (exclude Link)":
       self.ui.disable_custom_player_voice.show()
     else:
-      custom_model_path = os.path.join(MODEL_PATH, custom_model_name)
-      jaiinit_aaf_path = os.path.join(custom_model_path, "sound/JaiInit.aaf")
-      voice_aw_path = os.path.join(custom_model_path, "sound/voice_0.aw")
+      custom_model_path = os.path.join(CUSTOM_MODELS_PATH, custom_model_name)
+      jaiinit_aaf_path = os.path.join(custom_model_path, "sound", "JaiInit.aaf")
+      voice_aw_path = os.path.join(custom_model_path, "sound", "voice_0.aw")
       if os.path.isfile(jaiinit_aaf_path) and os.path.isfile(voice_aw_path):
         self.ui.disable_custom_player_voice.show()
       else:

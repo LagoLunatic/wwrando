@@ -1,124 +1,147 @@
 sys/main.dol:
-  init_save_with_tweaks: 0x803FCFA8
-  init_starting_gear: 0x803FD32C
-  num_triforce_shards_to_start_with: 0x803FD374
-  should_start_with_heros_clothes: 0x803FD375
-  sword_mode: 0x803FD376
-  skip_rematch_bosses: 0x803FD377
-  starting_gear: 0x803FD378
-  starting_quarter_hearts: 0x803FD3A8
-  starting_magic: 0x803FD3AA
-  convert_progressive_item_id: 0x803FD3AC
-  convert_progressive_item_id_for_createDemoItem: 0x803FD5F8
-  convert_progressive_item_id_for_daItem_create: 0x803FD624
-  convert_progressive_item_id_for_dProcGetItem_init_1: 0x803FD650
-  convert_progressive_item_id_for_dProcGetItem_init_2: 0x803FD678
-  convert_progressive_item_id_for_shop_item: 0x803FD6A0
-  custom_getSelectItemNo_progressive: 0x803FD6D4
-  progressive_sword_item_func: 0x803FD6F8
-  progressive_shield_item_func: 0x803FD760
-  progressive_bow_func: 0x803FD7A8
-  progressive_wallet_item_func: 0x803FD800
-  progressive_bomb_bag_item_func: 0x803FD838
-  progressive_quiver_item_func: 0x803FD878
-  progressive_picto_box_item_func: 0x803FD8B8
-  hurricane_spin_item_func: 0x803FD900
-  set_shop_item_in_bait_bag_slot_sold_out: 0x803FD92C
-  check_shop_item_in_bait_bag_slot_sold_out: 0x803FD95C
-  custom_createItem: 0x803FD988
-  withered_tree_item_try_give_momentum: 0x803FD9D4
-  withered_tree_item_speeds: 0x803FDA48
-  create_item_for_withered_trees_without_setting_speeds: 0x803FDA54
-  check_hyrule_warp_unlocked: 0x803FDA7C
-  set_wind_dir_to_ship_dir: 0x803FDABC
-  check_ganons_tower_chest_opened: 0x803FDB04
-  create_item_and_set_event_bit_for_townsperson: 0x803FDB2C
-  lenzo_set_deluxe_picto_box_event_bit: 0x803FDB78
-  zunari_give_item_and_set_magic_armor_event_bit: 0x803FDBA8
-  zunari_magic_armor_slot_item_id: 0x803FDC00
-  salvage_corp_give_item_and_set_event_bit: 0x803FDC04
-  maggie_give_item_and_set_event_bit: 0x803FDC44
-  rito_cafe_postman_start_event_and_set_event_bit: 0x803FDC84
-  reset_makar_position_to_start_of_dungeon: 0x803FDCD4
-  reset_medli_position_to_start_of_dungeon: 0x803FDDB0
-  give_pearl_and_raise_totg_if_necessary: 0x803FDE8C
-  slow_down_ship_when_stopping: 0x803FDF20
-  slow_down_ship_when_idle: 0x803FDF58
-  hookshot_sight_failsafe_check: 0x803FDF90
-  fully_refill_magic_meter_on_load_save: 0x803FDFA8
-  turn_while_swinging: 0x803FDFC0
-  check_phantom_ganons_sword_should_disappear: 0x803FE020
-  phantom_ganon_maze_stage_name: 0x803FE05C
-  give_temporary_sword_during_ganondorf_fight_in_swordless: 0x803FE064
-  give_temporary_sword_in_orcas_house_in_swordless: 0x803FE080
-  remove_temporary_sword_when_loading_stage_in_swordless: 0x803FE0C8
-  invert_camera_horizontal_axis: 0x803FE0E4
-  check_play_special_item_get_music: 0x803FE0F0
-  check_run_new_text_commands: 0x803FE158
-  exec_curr_num_keys_text_command: 0x803FE198
-  generic_on_dungeon_bit: 0x803FE278
-  generic_small_key_item_get_func: 0x803FE2D4
-  drc_small_key_item_get_func: 0x803FE36C
-  fw_small_key_item_get_func: 0x803FE390
-  totg_small_key_item_get_func: 0x803FE3B4
-  et_small_key_item_get_func: 0x803FE3D8
-  wt_small_key_item_get_func: 0x803FE3FC
-  drc_big_key_item_get_func: 0x803FE420
-  fw_big_key_item_get_func: 0x803FE448
-  totg_big_key_item_get_func: 0x803FE470
-  et_big_key_item_get_func: 0x803FE498
-  wt_big_key_item_get_func: 0x803FE4C0
-  drc_dungeon_map_item_get_func: 0x803FE4E8
-  fw_dungeon_map_item_get_func: 0x803FE510
-  totg_dungeon_map_item_get_func: 0x803FE538
-  ff_dungeon_map_item_get_func: 0x803FE560
-  et_dungeon_map_item_get_func: 0x803FE588
-  wt_dungeon_map_item_get_func: 0x803FE5B0
-  drc_compass_item_get_func: 0x803FE5D8
-  fw_compass_item_get_func: 0x803FE600
-  totg_compass_item_get_func: 0x803FE628
-  ff_compass_item_get_func: 0x803FE650
-  et_compass_item_get_func: 0x803FE678
-  wt_compass_item_get_func: 0x803FE6A0
-  dragon_tingle_statue_item_get_func: 0x803FE6C8
-  forbidden_tingle_statue_item_get_func: 0x803FE6F4
-  goddess_tingle_statue_item_get_func: 0x803FE720
-  earth_tingle_statue_item_get_func: 0x803FE74C
-  wind_tingle_statue_item_get_func: 0x803FE778
-  check_tingle_statue_owned: 0x803FE7A4
-  get_num_owned_tingle_statues: 0x803FE82C
-  check_animate_rainbow_rupee_color: 0x803FE8A0
-  rainbow_rupee_keyframe: 0x803FE8E0
-  doc_bandam_check_new_potion_and_give_free_item: 0x803FE8F0
-  doc_bandam_green_potion_slot_item_id: 0x803FE94C
-  doc_bandam_blue_potion_slot_item_id: 0x803FE94D
-  hurricane_spin_item_resource_arc_name: 0x803FE950
-  deluxe_picto_box_item_func_fix_equipped_picto_box: 0x803FE958
-  ballad_of_gales_warp_table: 0x803FE98C
-  ballad_of_gales_warp_float_bank: 0x803FE9D4
-  set_warp_confirm_dialog_message_id_for_custom_warps: 0x803FEA2C
-  stalfos_kill_lower_body_when_upper_body_light_arrowed: 0x803FEA44
-  miniblin_set_death_switch_when_light_arrowed: 0x803FEA8C
-  poe_fix_light_arrows_bug: 0x803FEAC0
-  magtail_respawn_when_head_light_arrowed: 0x803FEB80
-  set_starting_health: 0x803FEBC0
-  get_current_health_for_file_select_screen: 0x803FEBDC
-  get_max_health_for_file_select_screen: 0x803FEC04
-  check_player_in_casual_clothes: 0x803FEC28
-  check_open_map_select: 0x803FEC64
-  read_custom_DynamicNameTable_loop: 0x803FECC4
-  read_custom_l_objectName_loop_for_dStage_searchName: 0x803FECF0
-  read_custom_l_objectName_loop_for_dStage_getName: 0x803FED18
-  custom_DynamicNameTable: 0x803FED44
-  custom_l_objectName: 0x803FED5C
-  custom_l_objectName_end: 0x803FED68
-  custom_DMC: 0x803FED68
-  custom_isTbox_for_unloaded_stage_save_info: 0x803FF544
-  stop_sub_bgm_when_unloading_stage: 0x803FF574
+  hurricane_spin_item_resource_arc_name: 0x803FCFA8
+  ballad_of_gales_warp_table: 0x803FCFB0
+  ballad_of_gales_warp_float_bank: 0x803FCFF8
+  custom_DynamicNameTable: 0x803FD050
+  custom_l_objectName: 0x803FD066
+  custom_DMC: 0x803FD072
+  custom_l_objectName_end: 0x803FD072
+  init_save_with_tweaks: 0x803FD850
+  init_starting_gear: 0x803FDBD4
+  num_triforce_shards_to_start_with: 0x803FDC1C
+  should_start_with_heros_clothes: 0x803FDC1D
+  sword_mode: 0x803FDC1E
+  skip_rematch_bosses: 0x803FDC1F
+  starting_gear: 0x803FDC20
+  starting_quarter_hearts: 0x803FDC50
+  starting_magic: 0x803FDC52
+  convert_progressive_item_id: 0x803FDC54
+  progressive_sword_item_func: 0x803FDEA0
+  progressive_shield_item_func: 0x803FDF08
+  progressive_bow_func: 0x803FDF50
+  progressive_wallet_item_func: 0x803FDFA8
+  progressive_bomb_bag_item_func: 0x803FDFE0
+  progressive_quiver_item_func: 0x803FE020
+  progressive_picto_box_item_func: 0x803FE060
+  hurricane_spin_item_func: 0x803FE0A8
+  custom_createItem: 0x803FE0D4
+  generic_on_dungeon_bit: 0x803FE120
+  generic_small_key_item_get_func: 0x803FE17C
+  drc_small_key_item_get_func: 0x803FE214
+  fw_small_key_item_get_func: 0x803FE238
+  totg_small_key_item_get_func: 0x803FE25C
+  et_small_key_item_get_func: 0x803FE280
+  wt_small_key_item_get_func: 0x803FE2A4
+  drc_big_key_item_get_func: 0x803FE2C8
+  fw_big_key_item_get_func: 0x803FE2F0
+  totg_big_key_item_get_func: 0x803FE318
+  et_big_key_item_get_func: 0x803FE340
+  wt_big_key_item_get_func: 0x803FE368
+  drc_dungeon_map_item_get_func: 0x803FE390
+  fw_dungeon_map_item_get_func: 0x803FE3B8
+  totg_dungeon_map_item_get_func: 0x803FE3E0
+  ff_dungeon_map_item_get_func: 0x803FE408
+  et_dungeon_map_item_get_func: 0x803FE430
+  wt_dungeon_map_item_get_func: 0x803FE458
+  drc_compass_item_get_func: 0x803FE480
+  fw_compass_item_get_func: 0x803FE4A8
+  totg_compass_item_get_func: 0x803FE4D0
+  ff_compass_item_get_func: 0x803FE4F8
+  et_compass_item_get_func: 0x803FE520
+  wt_compass_item_get_func: 0x803FE548
+  dragon_tingle_statue_item_get_func: 0x803FE570
+  forbidden_tingle_statue_item_get_func: 0x803FE59C
+  goddess_tingle_statue_item_get_func: 0x803FE5C8
+  earth_tingle_statue_item_get_func: 0x803FE5F4
+  wind_tingle_statue_item_get_func: 0x803FE620
+  check_tingle_statue_owned: 0x803FE64C
+  custom_isTbox_for_unloaded_stage_save_info: 0x803FE6D4
+  hookshot_sight_failsafe_check: 0x803FE704
+  deluxe_picto_box_item_func_fix_equipped_picto_box: 0x803FE71C
+  stop_sub_bgm_when_unloading_stage: 0x803FE750
+  check_play_special_item_get_music: 0x803FE768
+  invert_camera_horizontal_axis: 0x803FE7D0
+  convert_progressive_item_id_for_createDemoItem: 0x803FE7DC
+  convert_progressive_item_id_for_daItem_create: 0x803FE808
+  convert_progressive_item_id_for_dProcGetItem_init_1: 0x803FE834
+  convert_progressive_item_id_for_dProcGetItem_init_2: 0x803FE85C
+  check_open_map_select: 0x803FE884
+  set_starting_health: 0x803FE8E4
+  get_current_health_for_file_select_screen: 0x803FE900
+  get_max_health_for_file_select_screen: 0x803FE928
+  fully_refill_magic_meter_on_load_save: 0x803FE94C
+  turn_while_swinging: 0x803FE964
+  check_animate_rainbow_rupee_color: 0x803FE9C4
+  rainbow_rupee_keyframe: 0x803FEA04
+  check_run_new_text_commands: 0x803FEA14
+  exec_curr_num_keys_text_command: 0x803FEA54
+  set_warp_confirm_dialog_message_id_for_custom_warps: 0x803FEB34
+  check_player_in_casual_clothes: 0x803FEB4C
+  read_custom_DynamicNameTable_loop: 0x803FEB88
+  read_custom_l_objectName_loop_for_dStage_searchName: 0x803FEBB4
+  read_custom_l_objectName_loop_for_dStage_getName: 0x803FEBDC
+  get_num_owned_tingle_statues: 0x803FEC08
+  give_pearl_and_raise_totg_if_necessary: 0x803FEC7C
+  give_temporary_sword_during_ganondorf_fight_in_swordless: 0x803FED10
+  give_temporary_sword_in_orcas_house_in_swordless: 0x803FED2C
+  remove_temporary_sword_when_loading_stage_in_swordless: 0x803FED74
   test_room_stage_name: 0x8022D034
   test_room_starting_items_list: 0x8022D03C
   test_room_spawn_id: 0x800531E3
   test_room_room_index: 0x800531E7
   test_room_override_layer_num: 0x800531EB
+files/rels/d_a_npc_bs1.rel:
+  set_shop_item_in_bait_bag_slot_sold_out: 0x61F0
+  check_shop_item_in_bait_bag_slot_sold_out: 0x6220
+  custom_getSelectItemNo_progressive: 0x624C
+files/rels/d_a_st.rel:
+  stalfos_kill_lower_body_when_upper_body_light_arrowed: 0xA778
+files/rels/d_a_pt.rel:
+  miniblin_set_death_switch_when_light_arrowed: 0x60BC
+files/rels/d_a_pw.rel:
+  poe_fix_light_arrows_bug: 0x7FB4
+files/rels/d_a_mt.rel:
+  magtail_respawn_when_head_light_arrowed: 0xA04C
 files/rels/d_a_fganon.rel:
   phantom_ganon_check_link_within_y_diff: 0xB020
+  check_ganons_tower_chest_opened: 0xB03C
+files/rels/d_a_obj_ftree.rel:
+  create_item_for_withered_trees_without_setting_speeds: 0x535C
+  withered_tree_item_try_give_momentum: 0x5384
+  withered_tree_item_speeds: 0x53F8
+files/rels/d_a_boko.rel:
+  check_phantom_ganons_sword_should_disappear: 0x4B88
+  phantom_ganon_maze_stage_name: 0x4BC4
+files/rels/d_a_npc_people.rel:
+  create_item_and_set_event_bit_for_townsperson: 0xCF18
+files/rels/d_a_npc_photo.rel:
+  lenzo_set_deluxe_picto_box_event_bit: 0x5EC8
+files/rels/d_a_npc_rsh1.rel:
+  zunari_give_item_and_set_magic_armor_event_bit: 0x5D18
+  zunari_magic_armor_slot_item_id: 0x5D70
+files/rels/d_a_npc_sv.rel:
+  salvage_corp_give_item_and_set_event_bit: 0x3580
+files/rels/d_a_npc_kp1.rel:
+  maggie_give_item_and_set_event_bit: 0x338C
+files/rels/d_a_npc_bm1.rel:
+  rito_cafe_postman_start_event_and_set_event_bit: 0xAFD0
+files/rels/d_a_npc_ds1.rel:
+  doc_bandam_check_new_potion_and_give_free_item: 0x60F8
+  doc_bandam_green_potion_slot_item_id: 0x6154
+  doc_bandam_blue_potion_slot_item_id: 0x6155
+files/rels/d_a_ship.rel:
+  set_wind_dir_to_ship_dir: 0xE3A8
+  slow_down_ship_when_stopping: 0xE3F0
+  ship_stopping_deceleration: 0xE420
+  slow_down_ship_when_idle: 0xE428
+  ship_idle_deceleration: 0xE458
+files/rels/d_a_npc_md.rel:
+  reset_medli_position_to_start_of_dungeon: 0x15D78
+  medli_possible_et_spawn_positions: 0x15E04
+files/rels/d_a_npc_cb1.rel:
+  reset_makar_position_to_start_of_dungeon: 0xB214
+  makar_possible_wt_spawn_positions: 0xB2A0
+files/rels/d_a_warpdm20.rel:
+  check_hyrule_warp_unlocked: 0x1EBC
+files/rels/d_a_shop_item.rel:
+  convert_progressive_item_id_for_shop_item: 0x1174
