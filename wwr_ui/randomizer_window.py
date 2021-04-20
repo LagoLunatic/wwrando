@@ -832,7 +832,7 @@ class WWRandomizerWindow(QMainWindow):
       option_name = "custom_color_" + custom_color_name
       hlayout = QHBoxLayout()
       label_for_color_selector = QLabel(self.ui.tab_2)
-      label_for_color_selector.setText("Player %s Color" % custom_color_name)
+      label_for_color_selector.setText("%s Color" % custom_color_name)
       hlayout.addWidget(label_for_color_selector)
       
       color_hex_code_input = QLineEdit(self.ui.tab_2)
