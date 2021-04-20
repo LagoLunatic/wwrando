@@ -4,7 +4,7 @@ import yaml
 import re
 
 from fs_helpers import *
-from paths import ASM_PATH
+from wwrando_paths import ASM_PATH
 from wwlib.rel import REL, RELSection, RELRelocation, RELRelocationType
 
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8

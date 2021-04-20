@@ -10,7 +10,7 @@ from PIL import Image
 from fs_helpers import *
 from wwlib.texture_utils import *
 from wwlib import texture_utils
-from paths import ASSETS_PATH
+from wwrando_paths import ASSETS_PATH
 
 ORIG_LINK_ARC_FILE_SIZE_IN_BYTES  = 1308608
 ORIG_LKANM_ARC_FILE_SIZE_IN_BYTES = 1842464

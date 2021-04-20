@@ -27,7 +27,7 @@ except ImportError:
   from yaml import Dumper
 
 from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError, InvalidCleanISOError
-from paths import ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE
+from wwrando_paths import ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE
 import customizer
 from logic.logic import Logic
 from wwlib import texture_utils

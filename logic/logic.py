@@ -7,7 +7,7 @@ import copy
 import os
 
 from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS, DUNGEON_PROGRESS_ITEMS, DUNGEON_NONPROGRESS_ITEMS
-from paths import LOGIC_PATH
+from wwrando_paths import LOGIC_PATH
 from randomizers import entrances
 
 class Logic:

@@ -14,7 +14,7 @@ from asm import patcher
 from wwlib import texture_utils
 from wwlib.rarc import RARC
 from wwlib.rel import REL, RELSection, RELRelocation, RELRelocationType
-from paths import ASSETS_PATH, ASM_PATH, SEEDGEN_PATH
+from wwrando_paths import ASSETS_PATH, ASM_PATH, SEEDGEN_PATH
 import customizer
 
 try:

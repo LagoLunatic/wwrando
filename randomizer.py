@@ -19,7 +19,7 @@ from wwlib.jpc import JPC
 import tweaks
 from asm import patcher
 from logic.logic import Logic
-from paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH, IS_RUNNING_FROM_SOURCE
+from wwrando_paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH, IS_RUNNING_FROM_SOURCE
 import customizer
 from wwlib import stage_searcher
 from asm import disassemble
