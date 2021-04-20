@@ -10,7 +10,7 @@ from PIL import Image
 from fs_helpers import *
 from wwlib.texture_utils import *
 from wwlib import texture_utils
-from paths import ASSETS_PATH
+from paths import ASSETS_PATH, MODEL_PATH
 
 ORIG_LINK_ARC_FILE_SIZE_IN_BYTES  = 1308608
 ORIG_LKANM_ARC_FILE_SIZE_IN_BYTES = 1842464
@@ -37,9 +37,9 @@ def get_model_metadata(custom_model_name):
       color_masks_path = os.path.join(ASSETS_PATH, "link_color_masks")
       previews_path = os.path.join(ASSETS_PATH, "link_preview")
     else:
-      metadata_path = "./models/%s/metadata.txt" % custom_model_name
-      color_masks_path = os.path.join("models", custom_model_name, "color_masks")
-      previews_path = os.path.join("models", custom_model_name, "preview")
+      metadata_path = os.path.join(MODEL_PATH, custom_model_name, "metadata.txt")
+      color_masks_path = os.path.join(MODEL_PATH, custom_model_name, "color_masks")
+      previews_path = os.path.join(MODEL_PATH, custom_model_name, "preview")
     
     if not os.path.isfile(metadata_path):
       return {}
@@ -167,7 +167,7 @@ def parse_hex_color_with_alpha(hex_color):
 
 def get_all_custom_model_names():
   custom_model_names = []
-  custom_model_paths = glob.glob("./models/*/Link.arc")
+  custom_model_paths = glob.glob(MODEL_PATH + "*/Link.arc")
   for link_arc_path in custom_model_paths:
     folder_name = os.path.basename(os.path.dirname(link_arc_path))
     if folder_name in ["Link", "Random"]:
@@ -201,7 +201,7 @@ def replace_link_model(self):
   if self.custom_model_name == "Link":
     return
   
-  custom_model_path = "./models/%s/" % self.custom_model_name
+  custom_model_path = os.join(MODEL_PATH, self.custom_model_name)
   
   custom_link_arc_path = custom_model_path + "Link.arc"
   if not os.path.isfile(custom_link_arc_path):

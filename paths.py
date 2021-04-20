@@ -2,6 +2,8 @@
 import os
 import sys
 
+import appdirs
+
 try:
   from sys import _MEIPASS
   RANDO_ROOT_PATH = _MEIPASS
@@ -15,8 +17,8 @@ DATA_PATH = os.path.join(RANDO_ROOT_PATH, "data")
 LOGIC_PATH = os.path.join(RANDO_ROOT_PATH, "logic")
 ASM_PATH = os.path.join(RANDO_ROOT_PATH, "asm")
 SEEDGEN_PATH = os.path.join(RANDO_ROOT_PATH, "seedgen")
-#Needed to correctly place settings.txt when bundled as a macOS app
-if getattr(sys, 'frozen', False):
-  CURRENT_PATH = os.path.dirname(sys.executable)
+USERDATA_PATH = appdirs.user_data_dir("wwrando", "wwrando")
+if os.path.isdir("./models/"):
+  MODEL_PATH = "./models/"
 else:
-  CURRENT_PATH = str(os.path.dirname(__file__))
+  MODEL_PATH = os.path.join(USERDATA_PATH, "models")
