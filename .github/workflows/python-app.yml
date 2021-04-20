@@ -76,6 +76,10 @@ jobs:
         with:
           name: wwrando-macos
           path: dist/*.zip
+      - uses: actions/upload-artifact@v2
+        with:
+          name: wwrando-macos-unix
+          path: dist/*
 
   windows:
 
