@@ -19,6 +19,7 @@ import struct
 import base64
 import colorsys
 import time
+import shutil
 
 import yaml
 try:
@@ -728,6 +729,11 @@ class WWRandomizerWindow(QMainWindow):
       self.ui.custom_player_model.addItem("Random (exclude Link)")
     else:
       self.ui.custom_player_model.setEnabled(False)
+
+  def update_custom_player_model_list(self):
+    self.ui.custom_player_model.clear()
+    self.initialize_custom_player_model_list()
+
   
   def initialize_color_presets_list(self):
     self.ui.custom_color_preset.addItem("Default")
@@ -1310,7 +1316,14 @@ class WWRandomizerWindow(QMainWindow):
     qimage = QImage(data, preview_image.width, preview_image.height, QImage.Format_ARGB32)
     scaled_pixmap = QPixmap.fromImage(qimage).scaled(225, 350, Qt.KeepAspectRatio, Qt.SmoothTransformation)
     self.ui.custom_model_preview_label.setPixmap(scaled_pixmap)
-  
+
+  def install_custom_model_zip(self):
+    zip_path, selected_filter = QFileDialog.getOpenFileName(self, "Select custom model zip file", CUSTOM_MODELS_PATH, "Zip Files (*.zip)")
+    if not zip_path:
+      return
+    shutil.unpack_archive(zip_path, CUSTOM_MODELS_PATH)
+    self.update_custom_player_model_list()
+
   def open_about(self):
     text = """Wind Waker Randomizer Version %s<br><br>
       Created by LagoLunatic<br><br>
