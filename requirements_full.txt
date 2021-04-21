@@ -4,4 +4,4 @@ Pillow==8.1.1
 PyInstaller==4.1
 tinyaes==1.0.1
 git+git://github.com/LagoLunatic/PyFastBTI.git@da01c14562a4711e031fd0a01c52d2131035e228#egg=PyFastBTI
-git+git://github.com/LagoLunatic/PyFastTextureUtils.git@8fd8558f710c537d852ae407a5b316ab8bbb2337#egg=PyFastTextureUtils
+git+git://github.com/LagoLunatic/PyFastTextureUtils.git@4e6b9db2f7703f016225971f7842f7fd29a1a8a5#egg=PyFastTextureUtils
