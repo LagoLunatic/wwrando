@@ -36,14 +36,15 @@ if os.path.exists("./dist/release_archive") and os.path.isdir("./dist/release_ar
   shutil.rmtree("./dist/release_archive")
 
 os.mkdir("./dist/release_archive")
-os.mkdir("./dist/release_archive/models")
 shutil.copyfile("README.md", "./dist/release_archive/README.txt")
-shutil.copyfile("./models/About Custom Models.txt", "./dist/release_archive/models/About Custom Models.txt")
 
 if platform.system() == "Darwin":
   shutil.copytree(exe_path, "./dist/release_archive/%s" % base_name + exe_ext)
+  shutil.copyfile("./models/About Custom Models.txt", "./dist/release_archive/About Custom Models.txt")
 else:
+  os.mkdir("./dist/release_archive/models")
   shutil.copyfile(exe_path, "./dist/release_archive/%s" % base_name + exe_ext)
+  shutil.copyfile("./models/About Custom Models.txt", "./dist/release_archive/models/About Custom Models.txt")
 
 shutil.make_archive(zip_name, 'zip', "./dist/release_archive")
 shutil.rmtree("./dist/release_archive")
