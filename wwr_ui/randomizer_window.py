@@ -19,7 +19,7 @@ import struct
 import base64
 import colorsys
 import time
-import shutil
+import zipfile
 
 import yaml
 try:
@@ -1318,11 +1318,41 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.custom_model_preview_label.setPixmap(scaled_pixmap)
 
   def install_custom_model_zip(self):
-    zip_path, selected_filter = QFileDialog.getOpenFileName(self, "Select custom model zip file", CUSTOM_MODELS_PATH, "Zip Files (*.zip)")
-    if not zip_path:
-      return
-    shutil.unpack_archive(zip_path, CUSTOM_MODELS_PATH)
-    self.update_custom_player_model_list()
+    try:
+      zip_path, selected_filter = QFileDialog.getOpenFileName(self, "Select custom model zip file", CUSTOM_MODELS_PATH, "Zip Files (*.zip)")
+      if not zip_path:
+        return
+      zip = zipfile.ZipFile(zip_path)
+      try:
+        model_name = zip.namelist()[0]
+      except IndexError:
+        QMessageBox.critical(
+          self, "Incorrect archive structure",
+          "Archive is empty"
+        )
+        return
+      # Verify contents
+      expected_files = ["metadata.txt", "Link.arc"]
+      for f in expected_files:
+        if not os.path.join(model_name, f) in zip.namelist():
+          QMessageBox.critical(
+            self, "Incorrect archive structure",
+            "Missing file: %s" % f
+          )
+          return
+      zip.extractall(CUSTOM_MODELS_PATH)
+      QMessageBox.information(
+        self, "Installation complete",
+        "%s installed successfully" % model_name.strip('/')
+      )
+      self.update_custom_player_model_list()
+    except zipfile.BadZipfile as e:
+      stack_trace = traceback.format_exc()
+      print(stack_trace)
+      QMessageBox.critical(
+        self, "Failed to unpack model archive",
+        stack_trace
+      )
 
   def open_about(self):
     text = """Wind Waker Randomizer Version %s<br><br>
