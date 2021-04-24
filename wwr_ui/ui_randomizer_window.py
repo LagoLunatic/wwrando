@@ -28,10 +28,10 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 908, 546))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 1097, 783))
         self.verticalLayout_4 = QVBoxLayout(self.scrollAreaWidgetContents_3)
-        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.tabWidget = QTabWidget(self.scrollAreaWidgetContents_3)
         self.tabWidget.setObjectName(u"tabWidget")
         self.tabWidget.setEnabled(True)
@@ -523,7 +523,7 @@ class Ui_MainWindow(object):
         self.starting_hcs.setLayoutDirection(Qt.LeftToRight)
         self.starting_hcs.setMaximum(6)
         self.starting_hcs.setValue(0)
-        self.starting_hcs.setProperty("displayIntegerBase", 10)
+        self.starting_hcs.setDisplayIntegerBase(10)
 
         self.horizontalLayout_10.addWidget(self.starting_hcs)
 
@@ -536,7 +536,7 @@ class Ui_MainWindow(object):
         self.starting_pohs.setObjectName(u"starting_pohs")
         self.starting_pohs.setMaximum(44)
         self.starting_pohs.setValue(0)
-        self.starting_pohs.setProperty("displayIntegerBase", 10)
+        self.starting_pohs.setDisplayIntegerBase(10)
 
         self.horizontalLayout_10.addWidget(self.starting_pohs)
 
@@ -559,21 +559,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.gridLayout_5 = QGridLayout()
         self.gridLayout_5.setObjectName(u"gridLayout_5")
-        self.horizontalLayout_3 = QHBoxLayout()
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.label_for_custom_player_model = QLabel(self.tab_2)
-        self.label_for_custom_player_model.setObjectName(u"label_for_custom_player_model")
-
-        self.horizontalLayout_3.addWidget(self.label_for_custom_player_model)
-
-        self.custom_player_model = QComboBox(self.tab_2)
-        self.custom_player_model.setObjectName(u"custom_player_model")
-
-        self.horizontalLayout_3.addWidget(self.custom_player_model)
-
-
-        self.gridLayout_5.addLayout(self.horizontalLayout_3, 0, 0, 1, 1)
-
         self.horizontalLayout_12 = QHBoxLayout()
         self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
         self.label_for_custom_color_preset = QLabel(self.tab_2)
@@ -587,7 +572,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_12.addWidget(self.custom_color_preset)
 
 
-        self.gridLayout_5.addLayout(self.horizontalLayout_12, 1, 0, 1, 1)
+        self.gridLayout_5.addLayout(self.horizontalLayout_12, 2, 0, 1, 1)
 
         self.horizontalLayout_11 = QHBoxLayout()
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
@@ -602,7 +587,22 @@ class Ui_MainWindow(object):
         self.horizontalLayout_11.addWidget(self.randomize_all_custom_colors_separately)
 
 
-        self.gridLayout_5.addLayout(self.horizontalLayout_11, 1, 1, 1, 1)
+        self.gridLayout_5.addLayout(self.horizontalLayout_11, 2, 1, 1, 1)
+
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.label_for_custom_player_model = QLabel(self.tab_2)
+        self.label_for_custom_player_model.setObjectName(u"label_for_custom_player_model")
+
+        self.horizontalLayout_3.addWidget(self.label_for_custom_player_model)
+
+        self.custom_player_model = QComboBox(self.tab_2)
+        self.custom_player_model.setObjectName(u"custom_player_model")
+
+        self.horizontalLayout_3.addWidget(self.custom_player_model)
+
+
+        self.gridLayout_5.addLayout(self.horizontalLayout_3, 1, 0, 1, 1)
 
         self.horizontalLayout_7 = QHBoxLayout()
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
@@ -622,7 +622,12 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.addWidget(self.disable_custom_player_items)
 
 
-        self.gridLayout_5.addLayout(self.horizontalLayout_7, 0, 1, 1, 1)
+        self.gridLayout_5.addLayout(self.horizontalLayout_7, 1, 1, 1, 1)
+
+        self.install_custom_model = QPushButton(self.tab_2)
+        self.install_custom_model.setObjectName(u"install_custom_model")
+
+        self.gridLayout_5.addWidget(self.install_custom_model, 0, 0, 1, 2)
 
 
         self.verticalLayout_3.addLayout(self.gridLayout_5)
@@ -834,13 +839,14 @@ class Ui_MainWindow(object):
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Heart Pieces", None))
         self.current_health.setText(QCoreApplication.translate("MainWindow", u"Current Starting Health: 3 hearts", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"Starting Items", None))
-        self.label_for_custom_player_model.setText(QCoreApplication.translate("MainWindow", u"Player Model", None))
         self.label_for_custom_color_preset.setText(QCoreApplication.translate("MainWindow", u"Color Preset", None))
         self.randomize_all_custom_colors_together.setText(QCoreApplication.translate("MainWindow", u"Randomize Colors Orderly", None))
         self.randomize_all_custom_colors_separately.setText(QCoreApplication.translate("MainWindow", u"Randomize Colors Chaotically", None))
+        self.label_for_custom_player_model.setText(QCoreApplication.translate("MainWindow", u"Player Model", None))
         self.player_in_casual_clothes.setText(QCoreApplication.translate("MainWindow", u"Casual Clothes", None))
         self.disable_custom_player_voice.setText(QCoreApplication.translate("MainWindow", u"Disable Custom Voice", None))
         self.disable_custom_player_items.setText(QCoreApplication.translate("MainWindow", u"Disable Custom Items", None))
+        self.install_custom_model.setText(QCoreApplication.translate("MainWindow", u"Install a Custom Model Pack", None))
         self.custom_model_comment.setText("")
         self.custom_model_preview_label.setText("")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Player Customization", None))
