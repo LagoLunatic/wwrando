@@ -1,5 +1,7 @@
 
 import urllib.request
+import ssl
+import certifi
 import json
 import traceback
 from distutils.version import LooseVersion
@@ -11,7 +13,7 @@ LATEST_RELEASE_API_URL = "https://api.github.com/repos/lagolunatic/wwrando/relea
 
 def check_for_updates():
   try:
-    with urllib.request.urlopen(LATEST_RELEASE_API_URL) as page:
+    with urllib.request.urlopen(LATEST_RELEASE_API_URL, context=ssl.create_default_context(cafile=certifi.where())) as page:
       data = json.loads(page.read().decode())
       
       latest_version_name = data["tag_name"]
