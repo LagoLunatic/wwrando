@@ -1341,12 +1341,12 @@ class WWRandomizerWindow(QMainWindow):
           )
           return
       zip.extractall(CUSTOM_MODELS_PATH)
-      self.update_custom_player_model_list()
-      self.set_option_value("custom_player_model", model_name.strip('/'))
       QMessageBox.information(
         self, "Installation complete",
         "%s installed successfully" % model_name.strip('/')
       )
+      self.update_custom_player_model_list()
+      self.set_option_value("custom_player_model", model_name.strip('/'))
     except zipfile.BadZipfile as e:
       stack_trace = traceback.format_exc()
       print(stack_trace)
