@@ -2648,9 +2648,6 @@ d_a_ship:
   unknown_param_2:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
-    Bitfield name: aux_params_1
-    Mask: 0xFFFF
 
 d_a_shop_item:
   unknown_param_1:
