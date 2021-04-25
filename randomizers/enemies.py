@@ -726,7 +726,7 @@ def get_enemy_data_for_actor(self, enemy):
     elif enemy.peahat_type == 1:
       return enemy_datas_by_pretty_name["Seahat"]
   elif enemy.name == "amos2":
-    if enemy.switch_type == 1 and enemy.switch_index == 0x80:
+    if enemy.invert_spawn_condition_switch == 1 and enemy.spawn_condition_switch == 0x80:
       return enemy_datas_by_pretty_name["Inanimate Armos"]
     else:
       return enemy_datas_by_pretty_name["Armos"]
