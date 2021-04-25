@@ -429,35 +429,42 @@ Abship:
       Path: Abship/Room7.arc/Actor012
 
 
-# TODO
 # Bomb Island Cave
 Cave01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Magtails
+    Can Access Other Location "Bomb Island - Cave"
+  Actors to replace with ALLdies:
+    - Cave01/Room0.arc/Actor000
   Enemies:
     -
       Original enemy: Magtail
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: Cave01/Room0.arc/Actor001
+      Position: [-1700, -200, -800]
     -
       Original enemy: Magtail
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: Cave01/Room0.arc/Actor002
+      Position: [-1700, -200, 700]
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Magtails
+    Can Access Other Location "Bomb Island - Cave"
+  Actors to replace with ALLdies:
+    - Cave01/Room1.arc/Actor00B
   Enemies:
     -
       Original enemy: Magtail
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: Cave01/Room1.arc/Actor009
+      Position: [3100, -50, -300]
     -
       Original enemy: Magtail
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: Cave01/Room1.arc/Actor00A
+      Position: [2500, -50, 800]
 #- # Unused layer
 #  Must defeat enemies: Yes
 #  Original requirements:
@@ -681,38 +688,43 @@ Cave05:
       Path: Cave05/Room0.arc/Actor002
 
 
-# TODO
 # Pawprint Isle Wizzrobe Cave
 Cave07:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Wizzrobes
+    Can Access Other Location "Pawprint Isle - Wizzrobe Cave"
   Enemies:
     -
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: Cave07/Room0.arc/Actor000
+      Position: [1767, 26, -516]
     -
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: Cave07/Room0.arc/Actor001
+      Position: [2233, 26, 516]
     -
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: Cave07/Room0.arc/Actor002
+      Position: [2516, 26, -233]
     -
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: Cave07/Room0.arc/Actor003
+      Position: [2516, 26, 233]
     -
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: Cave07/Room0.arc/Actor004
+      Position: [2233, 26, -516]
     -
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: Cave07/Room0.arc/Actor005
+      Position: [1767, 26, 516]
 
 
 # Savage Labyrinth
@@ -7161,14 +7173,12 @@ sea/Room27.arc:
       Path: sea/Room27.arc/Actor007
 
 
-# TODO
 # Thorned Fairy Island
 sea/Room28.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Seahats
-    & Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Seahat
@@ -7182,51 +7192,60 @@ sea/Room28.arc:
       Original enemy: Seahat
       Placement category: Sea
       Path: sea/Room28.arc/Actor002
+-
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Access Other Location "Thorned Fairy Island - Southwestern Lookout Platform - Defeat the Enemies"
+  Has throwable objects: Yes # 4 barrels and 3 pots
+  Enemies:
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room28.arc/Actor01D
+      Position offset: [0, -300, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room28.arc/Actor01E
+      Position offset: [0, -300, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room28.arc/Actor01F
+      Position offset: [0, -300, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room28.arc/Actor028
+      Position offset: [0, -300, 0]
 
 
-# TODO
 # Needle Rock Isle
 sea/Room29.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Kargarocs
   Enemies:
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room29.arc/Actor005
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room29.arc/Actor006
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room29.arc/Actor007
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room29.arc/Actor012
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room29.arc/Actor013
 
 

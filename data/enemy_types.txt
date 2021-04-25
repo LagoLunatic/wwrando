@@ -428,7 +428,7 @@
   Memory used by subequent ones: 39984
   Enable spawn switch param name: null
   Death switch param name: null
-  Allow near pits: True # TODO CHECK
+  Allow near pits: False # If they happen to go over the edge, they float down into the pit and don't come back up. (e.g. in Cave01/Room1)
   Can be killed with thrown objects: Yes # TODO CHECK
   Can be killed with bomb flowers: No
 -
