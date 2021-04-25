@@ -465,11 +465,7 @@ def add_modify_and_replace_actors_for_enemy_rando(self):
       for actor_path in actor_paths:
         actor = get_actor_by_path(self, actor_path)
         
-        if actor.name == "AND_SW0":
-          switch_to_set = actor.switch_to_set
-        elif actor.name == "AND_SW2":
-          switch_to_set = actor.switch_to_set
-        elif actor.name in ["AND_SW0", "AND_SW2", "Kbota_A", "Kbota_B", "KbotaC"]:
+        if actor.name in ["AND_SW0", "AND_SW2", "Kbota_A", "Kbota_B", "KbotaC"]:
           switch_to_set = actor.switch_to_set
         else:
           raise Exception("Unimplemented switch-setting actor name: %s" % actor.name)
