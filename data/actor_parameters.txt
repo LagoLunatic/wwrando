@@ -1854,16 +1854,16 @@ d_a_obj_homen:
   item_pickup_flag:
     Bitfield name: params
     Mask: 0x0000007F
-  unknown_param_2:
+  type:
     Bitfield name: params
-    Mask: 0x00000F00
+    Mask: 0x00000100
   item_id:
     Bitfield name: params
     Mask: 0x0003F000
-  unknown_param_4:
+  enemy_to_spawn:
     Bitfield name: params
     Mask: 0x003C0000
-  unknown_param_5:
+  destroyed_switch:
     Bitfield name: params
     Mask: 0xFF000000
 
