@@ -846,7 +846,7 @@ class Ui_MainWindow(object):
         self.player_in_casual_clothes.setText(QCoreApplication.translate("MainWindow", u"Casual Clothes", None))
         self.disable_custom_player_voice.setText(QCoreApplication.translate("MainWindow", u"Disable Custom Voice", None))
         self.disable_custom_player_items.setText(QCoreApplication.translate("MainWindow", u"Disable Custom Items", None))
-        self.install_custom_model.setText(QCoreApplication.translate("MainWindow", u"Install a Custom Model Pack", None))
+        self.install_custom_model.setText(QCoreApplication.translate("MainWindow", u"Install a Custom Model or Model Pack", None))
         self.custom_model_comment.setText("")
         self.custom_model_preview_label.setText("")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Player Customization", None))

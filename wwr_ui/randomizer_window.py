@@ -20,6 +20,7 @@ import base64
 import colorsys
 import time
 import zipfile
+import shutil
 
 import yaml
 try:
@@ -1324,7 +1325,7 @@ class WWRandomizerWindow(QMainWindow):
         return
       zip = zipfile.ZipFile(zip_path)
       try:
-        model_name = zip.namelist()[0]
+        top_level_dir = zipfile.Path(zip, zip.namelist()[0])
       except IndexError:
         QMessageBox.critical(
           self, "Incorrect archive structure",
@@ -1332,21 +1333,36 @@ class WWRandomizerWindow(QMainWindow):
         )
         return
       # Verify contents
-      expected_files = ["metadata.txt", "Link.arc"]
-      for f in expected_files:
-        if not os.path.join(model_name, f) in zip.namelist():
-          QMessageBox.critical(
-            self, "Incorrect archive structure",
-            "Missing file: %s" % f
-          )
-          return
+      if top_level_dir.joinpath("models").is_dir():
+        model_path = top_level_dir.joinpath("models")
+        model_dir_list = list(model_path.iterdir())
+        is_model_pack = True
+      else:
+        model_dir_list = [top_level_dir]
+        is_model_pack = False
+      expected_files = ["Link.arc", "metadata.txt"]
+      for model_dir in model_dir_list:
+        for f in expected_files:
+          if not model_dir.joinpath(f).exists():
+            QMessageBox.critical(
+              self, "Incorrect archive structure",
+              "Missing file: %s" % model_dir.joinpath(f).at
+            )
+            return
       zip.extractall(CUSTOM_MODELS_PATH)
+      if not is_model_pack:
+        install_result = model_dir_list[0].name
+      else:
+        for model_dir in model_dir_list:
+          shutil.move(os.path.join(CUSTOM_MODELS_PATH, model_dir.at), os.path.join(CUSTOM_MODELS_PATH, model_dir.name))
+        shutil.rmtree(os.path.join(CUSTOM_MODELS_PATH, top_level_dir.name))
+        install_result = "%s models" % len(model_dir_list)
       QMessageBox.information(
         self, "Installation complete",
-        "%s installed successfully" % model_name.strip('/')
+        "%s installed successfully" % install_result
       )
       self.update_custom_player_model_list()
-      self.set_option_value("custom_player_model", model_name.strip('/'))
+      self.set_option_value("custom_player_model", model_dir_list[0].name)
     except zipfile.BadZipfile as e:
       stack_trace = traceback.format_exc()
       print(stack_trace)
