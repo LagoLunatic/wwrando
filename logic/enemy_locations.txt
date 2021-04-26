@@ -5141,11 +5141,10 @@ WarpD:
       Path: WarpD/Room0.arc/Actor021
 
 
-# TODO
 # Wind Temple
 kaze:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Stalfos
@@ -5159,7 +5158,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room0.arc/Actor014
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Armos
   Enemies:
@@ -5172,7 +5171,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room1.arc/Actor00F
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Armos Knights
     & Can Defeat Peahats
@@ -5210,7 +5209,7 @@ kaze:
       Placement category: Air
       Path: kaze/Room2.arc/Actor037
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Floormasters
@@ -5255,7 +5254,7 @@ kaze:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Armos
+    Can Access Other Location "Wind Temple - Chest Behind Seven Armos"
   Enemies:
     -
       Original enemy: Armos
@@ -5286,7 +5285,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room4.arc/Actor006
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Floormasters
     & Can Defeat Peahats
@@ -5316,7 +5315,7 @@ kaze:
       Placement category: Air
       Path: kaze/Room5.arc/Actor00C
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Peahats
@@ -5386,7 +5385,7 @@ kaze:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Darknuts
+    Can Access Other Location "Wind Temple - Big Key Chest"
   Enemies:
     -
       Original enemy: Darknut
@@ -5401,7 +5400,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room8.arc/Actor002
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No # The enemies can get in the way of the puzzle, but if you start by destroying the cracked floor second from the left, no enemies will be spawned on your first fall.
   Original requirements:
     Can Defeat Floormasters
     & Can Defeat Green ChuChus
@@ -5411,69 +5410,68 @@ kaze:
   Enemies:
     -
       Original enemy: Floormaster
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor01E
     -
       Original enemy: Floormaster
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor01F
     -
       Original enemy: Green ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor020
     -
       Original enemy: Green ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor021
     -
       Original enemy: Green ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor022
     -
       Original enemy: Green ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor023
     -
       Original enemy: Green ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor024
     -
       Original enemy: Red ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor025
     -
       Original enemy: Red ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor026
     -
       Original enemy: Red ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor027
     -
       Original enemy: Red ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor028
     -
       Original enemy: Red ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor029
     -
       Original enemy: Armos
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor02A
     -
       Original enemy: Armos
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor02B
     -
       Original enemy: Armos
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor02C
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Wizzrobes
-    & Can Defeat Stalfos
+    Can Access Other Location "Wind Temple - Kill All Enemies in Tall Basement Room"
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -5488,7 +5486,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room10.arc/Actor014
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Armos Knights
     & Can Defeat Peahats
@@ -5590,9 +5588,13 @@ kaze:
       Placement category: Ground
       Path: kaze/Room11.arc/Actor04F
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: Yes # Not strictly necessary, but the flying enemies get in the way of Makar flying.
   Original requirements:
-    Can Defeat Floormasters
+    Can Access Wind Temple
+    & Can Play Command Melody
+    & Iron Boots
+    & Deku Leaf
+    & Can Defeat Floormasters
     & Can Defeat Blue Bubbles
     & Can Defeat Dexivines
   Enemies:
@@ -5634,18 +5636,18 @@ kaze:
       Path: kaze/Room16.arc/Actor01D
 
 
-# TODO
 # Wind Temple Wizzrobe Mini-Boss Room
 kazeMB:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Wizzrobes
+    Can Access Other Location "Wind Temple - Wizzrobe Mini-Boss Room"
   Enemies:
     -
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: kazeMB/Room6.arc/Actor000
+      Position: [-1000, 0, -800]
     -
       Original enemy: Wizzrobe
       Placement category: Ground
