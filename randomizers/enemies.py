@@ -106,6 +106,8 @@ def randomize_enemies(self):
   
   add_modify_and_replace_actors_for_enemy_rando(self)
   
+  randomize_enemies_spawned_by_objects(self)
+  
   update_loaded_particles(self, self.particles_to_load_for_each_jpc_index)
 
 def decide_on_enemy_pool_for_stage(self, stage_folder, enemy_locations):
@@ -544,6 +546,36 @@ def add_modify_and_replace_actors_for_enemy_rando(self):
         actor = get_actor_by_path(self, actor_path)
         
         dzx.remove_entity(actor, fourcc, layer=layer)
+
+def randomize_enemies_spawned_by_objects(self):
+  # Randomize the enemy spawned by certain stone heads in Wind Temple.
+  # The logic isn't a concern for these because to even reach these locations you need the items to kill them.
+  possible_homen_enemies = [
+     0, # Blue Bokoblin with Unlit Torch
+     1, # Green Bokoblin with Unlit Torch
+     2, # Blue Bokoblin with Machete
+     3, # Green Bokoblin with with Machete
+     4, # Blue Bokoblin with Lit Torch
+     5, # Green Bokoblin with Lit Torch
+     6, # Green ChuChu
+     7, # Red ChuChu
+    # 8, # Blue ChuChu # Blue Chu Jelly has weird hardcoded properties.
+    # 9, # Dark ChuChu # Can't be killed without light rays.
+    10, # Yellow ChuChu
+  ]
+  
+  dzr = self.get_arc("files/res/Stage/kaze/Room2.arc").get_file("room.dzr")
+  homen = dzr.entries_by_type("ACTR")[0x27]
+  homen.enemy_to_spawn = self.rng.choice(possible_homen_enemies)
+  homen.save_changes()
+  
+  dzr = self.get_arc("files/res/Stage/kaze/Room10.arc").get_file("room.dzr")
+  homen = dzr.entries_by_type("ACTR")[0]
+  homen.enemy_to_spawn = self.rng.choice(possible_homen_enemies)
+  homen.save_changes()
+  homen = dzr.entries_by_type("ACTR")[9]
+  homen.enemy_to_spawn = self.rng.choice(possible_homen_enemies)
+  homen.save_changes()
 
 def update_loaded_particles(self, particles_to_load_for_each_jpc_index):
   # Copy particles to stages that need them for the new enemies we placed.
