@@ -22,7 +22,7 @@
   Params: 0xFFFF0000
   Aux params: 0x0000
   Aux params 2: 0x00FF
-  Required particle IDs: [0x82A8, 0x82A9]
+  Required particle IDs: []
   Requirements to defeat: Can Defeat Green ChuChus
   Allow randomizing from: True
   Allow randomizing to: True
@@ -40,7 +40,7 @@
   Params: 0xFFFF0100
   Aux params: 0x0000
   Aux params 2: 0x00FF
-  Required particle IDs: [0x82A8, 0x82A9]
+  Required particle IDs: []
   Requirements to defeat: Can Defeat Red ChuChus
   Allow randomizing from: True
   Allow randomizing to: True
@@ -58,7 +58,7 @@
   Params: 0xFFFF0400
   Aux params: 0x0000
   Aux params 2: 0x00FF
-  Required particle IDs: [0x82A8, 0x82A9]
+  Required particle IDs: []
   Requirements to defeat: Can Defeat Yellow ChuChus
   Allow randomizing from: True
   Allow randomizing to: True
@@ -76,7 +76,7 @@
   Params: 0xFFFF0200
   Aux params: 0x0000
   Aux params 2: 0x00FF
-  Required particle IDs: [0x82A8, 0x82A9]
+  Required particle IDs: []
   Requirements to defeat: Can Defeat Blue ChuChus
   Allow randomizing from: False # Randomizing from them would break the logic for getting the vanilla Blue Chu Jelly locations.
   Allow randomizing to: False # Randomizing to them would allow you to get Blue Chu Jelly more easily than in vanilla.
