@@ -248,7 +248,7 @@ class ChunkEntry:
       new_params_value = (getattr(self, params_bitfield_name) & (~mask)) | ((value << amount_to_shift) & mask)
       super().__setattr__(params_bitfield_name, new_params_value)
     else:
-      if self.IS_ACTOR_CHUNK and attr_name not in ["offset", "file_entry", "name", "params", "x_pos", "y_pos", "z_pos", "aux_params_1", "y_rot", "aux_params_2", "enemy_number", "scale_x", "scale_y", "scale_z", "padding"]:
+      if self.IS_ACTOR_CHUNK and attr_name not in ["offset", "file_entry", "name", "params", "x_pos", "y_pos", "z_pos", "x_rot", "y_rot", "z_rot", "enemy_number", "scale_x", "scale_y", "scale_z", "padding"]:
         raise Exception("Tried to set unknown actor parameter \"%s\" for actor class %s (actor name: %s)" % (attr_name, self.actor_class_name, self.name))
       
       self.__dict__[attr_name] = value
@@ -297,9 +297,9 @@ class SCOB(ChunkEntry):
     self.x_pos = 0
     self.y_pos = 0
     self.z_pos = 0
-    self.aux_params_1 = 0
+    self.x_rot = 0
     self.y_rot = 0
-    self.aux_params_2 = 0
+    self.z_rot = 0
     self.enemy_number = 0xFFFF
     self.scale_x = 10
     self.scale_y = 10
@@ -318,11 +318,10 @@ class SCOB(ChunkEntry):
     self.y_pos = read_float(data, offset + 0x10)
     self.z_pos = read_float(data, offset + 0x14)
     
-    self.aux_params_1 = read_u16(data, offset + 0x18)
-    
+    self.x_rot = read_u16(data, offset + 0x18)
     self.y_rot = read_u16(data, offset + 0x1A)
+    self.z_rot = read_u16(data, offset + 0x1C)
     
-    self.aux_params_2 = read_u16(data, offset + 0x1C)
     self.enemy_number = read_u16(data, offset + 0x1E)
     
     self.scale_x = read_u8(data, offset + 0x20)
@@ -340,9 +339,11 @@ class SCOB(ChunkEntry):
     write_float(data, self.offset+0x0C, self.x_pos)
     write_float(data, self.offset+0x10, self.y_pos)
     write_float(data, self.offset+0x14, self.z_pos)
-    write_u16(data, self.offset+0x18, self.aux_params_1)
+    
+    write_u16(data, self.offset+0x18, self.x_rot)
     write_u16(data, self.offset+0x1A, self.y_rot)
-    write_u16(data, self.offset+0x1C, self.aux_params_2)
+    write_u16(data, self.offset+0x1C, self.z_rot)
+    
     write_u16(data, self.offset+0x1E, self.enemy_number)
     
     write_u8(data, self.offset+0x20, self.scale_x)
@@ -363,9 +364,9 @@ class ACTR(ChunkEntry):
     self.x_pos = 0
     self.y_pos = 0
     self.z_pos = 0
-    self.aux_params_1 = 0
+    self.x_rot = 0
     self.y_rot = 0
-    self.aux_params_2 = 0
+    self.z_rot = 0
     self.enemy_number = 0xFFFF
   
   def read(self, offset):
@@ -380,11 +381,10 @@ class ACTR(ChunkEntry):
     self.y_pos = read_float(data, offset + 0x10)
     self.z_pos = read_float(data, offset + 0x14)
     
-    self.aux_params_1 = read_u16(data, offset + 0x18)
-    
+    self.x_rot = read_u16(data, offset + 0x18)
     self.y_rot = read_u16(data, offset + 0x1A)
+    self.z_rot = read_u16(data, offset + 0x1C)
     
-    self.aux_params_2 = read_u16(data, offset + 0x1C)
     self.enemy_number = read_u16(data, offset + 0x1E)
   
   def save_changes(self):
@@ -398,11 +398,10 @@ class ACTR(ChunkEntry):
     write_float(data, self.offset+0x10, self.y_pos)
     write_float(data, self.offset+0x14, self.z_pos)
     
-    write_u16(data, self.offset+0x18, self.aux_params_1)
-    
+    write_u16(data, self.offset+0x18, self.x_rot)
     write_u16(data, self.offset+0x1A, self.y_rot)
+    write_u16(data, self.offset+0x1C, self.z_rot)
     
-    write_u16(data, self.offset+0x1C, self.aux_params_2)
     write_u16(data, self.offset+0x1E, self.enemy_number)
 
 class TRES(ACTR):

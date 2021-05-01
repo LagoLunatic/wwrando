@@ -630,7 +630,7 @@ def print_all_entity_params(self):
               if layer is not None:
                 location_identifier += "Layer%X/" % layer
               location_identifier += "%03X" % i
-              out_str = "% 7s %08X %04X %04X in %s" % (entity.name, entity.params, entity.aux_params_1, entity.aux_params_2, location_identifier)
+              out_str = "% 7s %08X %04X %04X in %s" % (entity.name, entity.params, entity.x_rot, entity.z_rot, location_identifier)
               #print(out_str)
               f.write(out_str + "\n")
 
