@@ -2,8 +2,8 @@
   Pretty name: Bokoblin
   Actor name: Bk
   Params: 0xFFFFFF00
-  Aux params: 0x001F
-  Aux params 2: 0x00FF
+  X Rotation: 0x001F
+  Z Rotation: 0x00FF
   Required particle IDs: []
   Requirements to defeat: Can Defeat Bokoblins
   Allow randomizing from: True
@@ -20,8 +20,8 @@
   Pretty name: Green ChuChu
   Actor name: c_green
   Params: 0xFFFF0000
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: []
   Requirements to defeat: Can Defeat Green ChuChus
   Allow randomizing from: True
@@ -38,8 +38,8 @@
   Pretty name: Red ChuChu
   Actor name: c_red
   Params: 0xFFFF0100
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: []
   Requirements to defeat: Can Defeat Red ChuChus
   Allow randomizing from: True
@@ -56,8 +56,8 @@
   Pretty name: Yellow ChuChu
   Actor name: c_kiiro
   Params: 0xFFFF0400
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: []
   Requirements to defeat: Can Defeat Yellow ChuChus
   Allow randomizing from: True
@@ -74,8 +74,8 @@
   Pretty name: Blue ChuChu
   Actor name: c_blue
   Params: 0xFFFF0200
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: []
   Requirements to defeat: Can Defeat Blue ChuChus
   Allow randomizing from: False # Randomizing from them would break the logic for getting the vanilla Blue Chu Jelly locations.
@@ -92,8 +92,8 @@
   Pretty name: Dark ChuChu
   Actor name: c_black
   Params: 0xFFFF0300
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: [0x82A8, 0x82A9]
   Requirements to defeat: Can Defeat Dark ChuChus
   Allow randomizing from: False # some rooms need something to place on the switch. for now don't randomize these guys, eventually maybe replace them with magtails?
@@ -110,8 +110,8 @@
   Pretty name: Kargaroc
   Actor name: Bb
   Params: 0xFFFFFF00
-  Aux params: 0x001F
-  Aux params 2: 0x00FF
+  X Rotation: 0x001F
+  Z Rotation: 0x00FF
   Required particle IDs: []
   Requirements to defeat: Can Defeat Kargarocs
   Allow randomizing from: True
@@ -128,8 +128,8 @@
   Pretty name: Lantern Moblin
   Actor name: mo2
   Params: 0xFFFFFF01
-  Aux params: 0x001F
-  Aux params 2: 0x00FF
+  X Rotation: 0x001F
+  Z Rotation: 0x00FF
   Required particle IDs: []
   Requirements to defeat: Can Defeat Moblins
   Allow randomizing from: True
@@ -146,8 +146,8 @@
   Pretty name: Blue Moblin
   Actor name: mo2
   Params: 0xFFFFFF00
-  Aux params: 0x001F
-  Aux params 2: 0x00FF
+  X Rotation: 0x001F
+  Z Rotation: 0x00FF
   Required particle IDs: []
   Requirements to defeat: Can Defeat Moblins
   Allow randomizing from: True
@@ -164,8 +164,8 @@
   Pretty name: Peahat
   Actor name: p_hat
   Params: 0xFFFFFFFF
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: []
   Requirements to defeat: Can Defeat Peahats
   Allow randomizing from: True
@@ -182,8 +182,8 @@
   Pretty name: Seahat
   Actor name: p_hat
   Params: 0xFFFFFF01
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: []
   Requirements to defeat: Can Defeat Seahats
   Allow randomizing from: True
@@ -200,8 +200,8 @@
   Pretty name: Armos Knight
   Actor name: amos
   Params: 0xFF01FF00
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: [0x8127, 0x8128, 0x8156, 0x8157, 0xA125, 0xA126, 0xA154, 0xA155]
   Requirements to defeat: Can Defeat Armos Knights
   Allow randomizing from: True
@@ -218,8 +218,8 @@
   Pretty name: Armos
   Actor name: amos2
   Params: 0xFF01FFFF
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: [0x81AE, 0x81AF, 0x81B0, 0xA125]
   Requirements to defeat: Can Defeat Armos
   Allow randomizing from: True
@@ -236,8 +236,8 @@
   Pretty name: Inanimate Armos
   Actor name: amos2
   Params: 0x8001FFFF
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: [0x81AE, 0x81AF, 0x81B0, 0xA125]
   Requirements to defeat: Impossible
   Allow randomizing from: False
@@ -254,8 +254,8 @@
   Pretty name: Dexivine
   Actor name: Sss
   Params: 0x00FFFFFF
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: [0x8184]
   Requirements to defeat: Can Defeat Dexivines
   Allow randomizing from: True
@@ -273,8 +273,8 @@
   Pretty name: Keese
   Actor name: keeth
   Params: 0xFFFF0101
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: [0x8099, 0x809A, 0x809B]
   Requirements to defeat: Can Defeat Keese
   Allow randomizing from: True
@@ -291,8 +291,8 @@
   Pretty name: Fire Keese
   Actor name: Fkeeth
   Params: 0xFFFF8101
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: [0x8061, 0x8099, 0x809A, 0x809B]
   Requirements to defeat: Can Defeat Fire Keese
   Allow randomizing from: True
@@ -309,8 +309,8 @@
   Pretty name: Freshwater Octorok
   Actor name: Oq
   Params: 0xFFFFFFFF
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: []
   Requirements to defeat: Can Defeat Freshwater Octoroks
   Allow randomizing from: True
@@ -327,8 +327,8 @@
   Pretty name: Saltwater Octorok
   Actor name: Oqw
   Params: 0xFFFFFF01
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: []
   Requirements to defeat: Can Defeat Saltwater Octoroks
   Allow randomizing from: True
@@ -345,8 +345,8 @@
   Pretty name: Saltwater Octorok Spawner
   Actor name: Oqw
   Params: 0xFFFFFF03
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: []
   Requirements to defeat: Can Defeat Saltwater Octoroks
   Allow randomizing from: True
@@ -363,8 +363,8 @@
   Pretty name: Wizzrobe
   Actor name: wiz_r
   Params: 0xFFFFFF00 # Does not follow a path, does not spawn enemies
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: [0x8238, 0x8239, 0x823A, 0x823C, 0x823D, 0x8280, 0x8281, 0x8282, 0x8283, 0x8284, 0x8287, 0x8288, 0x8289]
   Requirements to defeat: Can Defeat Wizzrobes
   Allow randomizing from: True
@@ -381,8 +381,8 @@
   Pretty name: ReDead
   Actor name: Rdead1
   Params: 0xFFFFFFFE
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: []
   Requirements to defeat: Can Defeat ReDeads
   Allow randomizing from: True
@@ -399,8 +399,8 @@
   Pretty name: Sitting ReDead
   Actor name: Rdead2
   Params: 0xFFFFFFFF
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: []
   Requirements to defeat: Can Defeat ReDeads
   Allow randomizing from: True
@@ -417,8 +417,8 @@
   Pretty name: Poe
   Actor name: pow
   Params: 0xFFFFFF00
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: [0x82EE, 0x8445]
   Requirements to defeat: Can Defeat Poes Without Light Ray
   Allow randomizing from: True
@@ -435,8 +435,8 @@
   Pretty name: Chasing Morth
   Actor name: kuro_s
   Params: 0xFFFF0A00
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: []
   Requirements to defeat: Can Defeat Morths
   Allow randomizing from: True
@@ -454,8 +454,8 @@
   Pretty name: Morth
   Actor name: kuro_t
   Params: 0xFFFF0A01
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: []
   Requirements to defeat: Can Defeat Morths
   Allow randomizing from: True
@@ -473,8 +473,8 @@
   Pretty name: Miniblin
   Actor name: Puti
   Params: 0xFFFFFFFF
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: []
   Requirements to defeat: Can Defeat Miniblins
   Allow randomizing from: True
@@ -491,8 +491,8 @@
   Pretty name: Rat
   Actor name: nezumi
   Params: 0xFFFF00FF
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: [0x8188]
   Requirements to defeat: Can Defeat Rats
   Allow randomizing from: True
@@ -509,8 +509,8 @@
   Pretty name: Bombchu
   Actor name: nezumi
   Params: 0xFFFF01FF
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: [0x8188]
   Requirements to defeat: Can Defeat Bombchus
   Allow randomizing from: True
@@ -527,8 +527,8 @@
   Pretty name: Rat Hole
   Actor name: nezuana
   Params: 0xFF0005C8
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: [0x8188]
   Requirements to defeat: Can Defeat Rats
   Allow randomizing from: True
@@ -545,8 +545,8 @@
   Pretty name: Bombchu Hole
   Actor name: nezuana
   Params: 0xFF0105C8
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: [0x8188]
   Requirements to defeat: Can Defeat Bombchus
   Allow randomizing from: True
@@ -563,8 +563,8 @@
   Pretty name: Rat and Bombchu Hole
   Actor name: nezuana
   Params: 0xFF0205C8
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: [0x8188]
   Requirements to defeat: Can Defeat Rats & Can Defeat Bombchus
   Allow randomizing from: True
@@ -581,8 +581,8 @@
   Pretty name: Stalfos
   Actor name: Stal
   Params: 0xFFFFFFFF
-  Aux params: 0x001F
-  Aux params 2: 0x00FF
+  X Rotation: 0x001F
+  Z Rotation: 0x00FF
   Required particle IDs: [0x8179, 0x817A, 0x817B, 0x817E, 0xA17C, 0xA17D]
   Requirements to defeat: Can Defeat Stalfos
   Allow randomizing from: True
@@ -599,8 +599,8 @@
   Pretty name: Darknut
   Actor name: Tn
   Params: 0xFFFF9610
-  Aux params: 0x001F
-  Aux params 2: 0x00FF
+  X Rotation: 0x001F
+  Z Rotation: 0x00FF
   Required particle IDs: [0x81B4, 0x81B5, 0x81B6, 0xA1B3]
   Requirements to defeat: Can Defeat Darknuts
   Allow randomizing from: True
@@ -617,8 +617,8 @@
   Pretty name: Boko Baba
   Actor name: bbaba
   Params: 0xFFFFFFFF
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: [0x8106, 0x8107, 0x8108, 0x8109, 0x810A, 0x810C]
   Requirements to defeat: Can Defeat Boko Babas
   Allow randomizing from: True
@@ -635,8 +635,8 @@
   Pretty name: Boko Bud Boko Baba
   Actor name: bbaba
   Params: 0xFFFF01FF
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: [0x8106, 0x8107, 0x8108, 0x8109, 0x810A, 0x810C]
   Requirements to defeat: Can Defeat Boko Babas
   Allow randomizing from: False # Player would not be able to progress without the Baba Buds left behind by these.
@@ -653,8 +653,8 @@
   Pretty name: Magtail
   Actor name: magtail
   Params: 0xFFFF7FFF
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: [0x8095, 0x8096, 0x80CF, 0xC06C]
   Requirements to defeat: Can Defeat Magtails
   Allow randomizing from: True
@@ -671,8 +671,8 @@
   Pretty name: Red Bubble
   Actor name: bable
   Params: 0x01FFFF02
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: [0x8122, 0x8123, 0x8124, 0x815B]
   Requirements to defeat: Can Defeat Red Bubbles
   Allow randomizing from: True
@@ -689,8 +689,8 @@
   Pretty name: Blue Bubble
   Actor name: bable
   Params: 0x01FFFF03
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: [0x8122, 0x8123, 0x8124, 0x815B]
   Requirements to defeat: Can Defeat Blue Bubbles
   Allow randomizing from: True
@@ -707,8 +707,8 @@
   Pretty name: Inanimate Bubble
   Actor name: bable
   Params: 0xFFFFFF80
-  Aux params: 0x0000
-  Aux params 2: 0x00FF
+  X Rotation: 0x0000
+  Z Rotation: 0x00FF
   Required particle IDs: [0x8122, 0x8123, 0x8124, 0x815B]
   Requirements to defeat: Nothing
   Allow randomizing from: False
@@ -725,8 +725,8 @@
   Pretty name: Wingless Mothula
   Actor name: gmos
   Params: 0xFF010000
-  Aux params: 0x00FF
-  Aux params 2: 0x00FF
+  X Rotation: 0x00FF
+  Z Rotation: 0x00FF
   Required particle IDs: [0x81A1, 0x81A2, 0x81A3]
   Requirements to defeat: Can Defeat Mothulas
   Allow randomizing from: True
@@ -743,8 +743,8 @@
   Pretty name: Winged Mothula
   Actor name: gmos
   Params: 0xFF020000
-  Aux params: 0x00FF
-  Aux params 2: 0x00FF
+  X Rotation: 0x00FF
+  Z Rotation: 0x00FF
   Required particle IDs: [0x81A1, 0x81A2, 0x81A3]
   Requirements to defeat: Can Defeat Winged Mothulas
   Allow randomizing from: True
@@ -761,8 +761,8 @@
   Pretty name: Cross-Sector Gyorg Spawner
   Actor name: GyCtrl
   Params: 0xFFFFFE50
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: []
   Requirements to defeat: Can Defeat Gyorgs
   Allow randomizing from: True
@@ -779,8 +779,8 @@
   Pretty name: Gyorg Spawner
   Actor name: GyCtrlB
   Params: 0xFFFFFE51
-  Aux params: 0x0000
-  Aux params 2: 0x0000
+  X Rotation: 0x0000
+  Z Rotation: 0x0000
   Required particle IDs: []
   Requirements to defeat: Can Defeat Gyorgs
   Allow randomizing from: True
@@ -797,8 +797,8 @@
 #  Pretty name: Blue Beamos
 #  Actor name: Hmos1
 #  Params: 0x00000002
-#  Aux params: 0x0000
-#  Aux params 2: 0x0000
+#  X Rotation: 0x0000
+#  Z Rotation: 0x0000
 #  Required particle IDs: [0x8120, 0x8121, 0x814C, 0x815C, 0x815D, 0x815E, 0x815F, 0x8160]
 #  Requirements to defeat: Can Defeat Beamos
 #  Allow randomizing from: False
@@ -808,8 +808,8 @@
 #  Pretty name: Red Beamos
 #  Actor name: Hmos2
 #  Params: 0x1000FD02
-#  Aux params: 0x0000
-#  Aux params 2: 0x1FFF
+#  X Rotation: 0x0000
+#  Z Rotation: 0x1FFF
 #  Required particle IDs: [0x8120, 0x8121, 0x814C, 0x815C, 0x815D, 0x815E, 0x815F, 0x8160]
 #  Requirements to defeat: Can Defeat Beamos
 #  Allow randomizing from: False
@@ -819,8 +819,8 @@
 #  Pretty name: Laser Forcefield
 #  Actor name: Hmos3
 #  Params: 0x2000FF0F
-#  Aux params: 0x0000
-#  Aux params 2: 0x0000
+#  X Rotation: 0x0000
+#  Z Rotation: 0x0000
 #  Required particle IDs: [0x8120, 0x8121, 0x814C, 0x815C, 0x815D, 0x815E, 0x815F, 0x8160]
 #  Requirements to defeat: Can Defeat Beamos
 #  Allow randomizing from: False
@@ -830,8 +830,8 @@
 #  Pretty name: Floormaster Hole
 #  Actor name: Fmaster
 #  #Params: 0x
-#  #Aux params: 0x
-#  #Aux params 2: 0x
+#  #X Rotation: 0x
+#  #Z Rotation: 0x
 #  Required particle IDs: [0x809E]
 #  Requirements to defeat: Can Defeat Floormasters
 #  Allow randomizing from: False
@@ -841,8 +841,8 @@
   Pretty name: Path-Following Floormaster
   Actor name: Fmastr1
   Params: 0xFFFF01FF
-  Aux params: 0x01FF
-  Aux params 2: 0x00FF
+  X Rotation: 0x01FF
+  Z Rotation: 0x00FF
   Required particle IDs: [0x809E]
   Requirements to defeat: Can Defeat Floormasters
   Allow randomizing from: True
@@ -859,8 +859,8 @@
   Pretty name: Floormaster
   Actor name: Fmastr2
   Params: 0xFFFF02FF # FF for the exit to put Link in when captured means Link will just be brought back to the entrance of the current room.
-  Aux params: 0x01FF
-  Aux params 2: 0x00FF
+  X Rotation: 0x01FF
+  Z Rotation: 0x00FF
   Required particle IDs: [0x809E]
   Requirements to defeat: Can Defeat Floormasters
   Allow randomizing from: True

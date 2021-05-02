@@ -396,8 +396,8 @@ def save_changed_enemies_and_randomize_their_params(self):
     
     enemy.name = new_enemy_data["Actor name"]
     enemy.params = new_enemy_data["Params"]
-    enemy.x_rot = new_enemy_data["Aux params"]
-    enemy.z_rot = new_enemy_data["Aux params 2"]
+    enemy.x_rot = new_enemy_data["X Rotation"]
+    enemy.z_rot = new_enemy_data["Z Rotation"]
     
     if "Position" in enemy_location:
       x, y, z = enemy_location["Position"]
@@ -493,17 +493,17 @@ def add_modify_and_replace_actors_for_enemy_rando(self):
           actor.name = existing_actor_data["Name"]
         if "Params" in existing_actor_data:
           actor.params = existing_actor_data["Params"]
-        if "Aux Params 1" in existing_actor_data:
-          actor.x_rot = existing_actor_data["Aux Params 1"]
-        if "Aux Params 2" in existing_actor_data:
-          actor.z_rot = existing_actor_data["Aux Params 2"]
+        if "X Rotation" in existing_actor_data:
+          actor.x_rot = existing_actor_data["X Rotation"]
+        if "Y Rotation" in existing_actor_data:
+          actor.y_rot = existing_actor_data["Y Rotation"]
+        if "Z Rotation" in existing_actor_data:
+          actor.z_rot = existing_actor_data["Z Rotation"]
         if "Position" in existing_actor_data:
           x, y, z = existing_actor_data["Position"]
           actor.x_pos = x
           actor.y_pos = y
           actor.z_pos = z
-        if "Y Rotation" in existing_actor_data:
-          actor.y_rot = existing_actor_data["Y Rotation"]
         
         actor.save_changes()
   
@@ -520,17 +520,17 @@ def add_modify_and_replace_actors_for_enemy_rando(self):
         
         actor.name = new_actor_data["Name"]
         actor.params = new_actor_data["Params"]
-        if "Aux Params 1" in new_actor_data:
-          actor.x_rot = new_actor_data["Aux Params 1"]
-        if "Aux Params 2" in new_actor_data:
-          actor.z_rot = new_actor_data["Aux Params 2"]
+        if "X Rotation" in new_actor_data:
+          actor.x_rot = new_actor_data["X Rotation"]
+        if "Y Rotation" in new_actor_data:
+          actor.y_rot = new_actor_data["Y Rotation"]
+        if "Z Rotation" in new_actor_data:
+          actor.z_rot = new_actor_data["Z Rotation"]
         if "Position" in new_actor_data:
           x, y, z = new_actor_data["Position"]
           actor.x_pos = x
           actor.y_pos = y
           actor.z_pos = z
-        if "Y Rotation" in new_actor_data:
-          actor.y_rot = new_actor_data["Y Rotation"]
         
         dzx.save_changes()
   
@@ -623,7 +623,7 @@ def print_all_enemy_params(self):
     if data["Actor name"] not in all_enemy_actor_names:
       all_enemy_actor_names.append(data["Actor name"])
   
-  print("% 7s  % 8s  % 4s  % 4s  %s" % ("name", "params", "aux1", "aux2", "path"))
+  print("% 7s  % 8s  % 4s  % 4s  %s" % ("name", "params", "xrot", "yrot", "path"))
   for dzx, arc_path in stage_searcher.each_stage_and_room(self):
     actors = dzx.entries_by_type("ACTR")
     enemies = [actor for actor in actors if actor.name in all_enemy_actor_names]
@@ -797,7 +797,7 @@ def get_enemy_data_for_actor(self, enemy):
     elif enemy.mothula_type in [0, 2]:
       return enemy_datas_by_pretty_name["Winged Mothula"]
   
-  raise Exception("Unknown enemy subspecies: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.x_rot, enemy.z_rot))
+  raise Exception("Unknown enemy subspecies: actor name \"%s\", params %08X, x rot %04X, z rot %04X" % (enemy.name, enemy.params, enemy.x_rot, enemy.z_rot))
 
 def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
   if len(enemy_data["Placement categories"]) == 1:
@@ -842,7 +842,7 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
     else:
       return "Ground"
   
-  raise Exception("Unknown placement category for enemy: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.x_rot, enemy.z_rot))
+  raise Exception("Unknown placement category for enemy: actor name \"%s\", params %08X, x rot %04X, z rot %04X" % (enemy.name, enemy.params, enemy.x_rot, enemy.z_rot))
 
 def is_enemy_allowed_in_placement_category(enemy_data, category):
   enemy_categories = enemy_data["Compiled categories"]

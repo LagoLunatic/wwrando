@@ -3724,17 +3724,17 @@ M_NewD2:
     - # Pot with two unlit sticks in it
       Name: ootubo1
       Params: 0x717FC23F
-      Aux Params 1: 0x0000
-      Aux Params 2: 0x00FF
-      Position: [3886, 450, 3593]
+      X Rotation: 0x0000
       Y Rotation: 0x0000
+      Z Rotation: 0x00FF
+      Position: [3886, 450, 3593]
     - # Torch to light the sticks with
       Name: bonbori
       Params: 0xFFFFFFFF
-      Aux Params 1: 0x0000
-      Aux Params 2: 0x0000
-      Position: [3920, 450, 3430]
+      X Rotation: 0x0000
       Y Rotation: 0x0000
+      Z Rotation: 0x0000
+      Position: [3920, 450, 3430]
   Enemies:
     -
       Original enemy: Bokoblin
@@ -4659,7 +4659,7 @@ TF_01:
     - # Add an AND_SW to detect when both the above switch from our ALLdie is set (switch 99), AND all the side rooms have been completed as well (switch 98), and then set switch 22.
       Name: AND_SW2
       Params: 0x98220002
-      Aux Params 1: 0x00FF
+      X Rotation: 0x00FF
   Enemies:
     -
       Original enemy: Darknut
