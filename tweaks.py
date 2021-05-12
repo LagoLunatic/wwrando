@@ -365,9 +365,9 @@ def add_ganons_tower_warp_to_ff2(self):
 def add_chest_in_place_medli_grappling_hook_gift(self):
   # Add a chest in place of Medli locked in the jail cell at the peak of Dragon Roost Cavern.
   
-  dzx = self.get_arc("files/res/Stage/M_Dra09/Stage.arc").get_file("stage.dzs")
+  dzs = self.get_arc("files/res/Stage/M_Dra09/Stage.arc").get_file("stage.dzs")
   
-  chest_in_jail = dzx.add_entity("TRES", layer=None)
+  chest_in_jail = dzs.add_entity("TRES", layer=None)
   chest_in_jail.name = "takara3"
   chest_in_jail.params = 0xFF000000
   chest_in_jail.switch_to_set = 0xFF
@@ -380,7 +380,24 @@ def add_chest_in_place_medli_grappling_hook_gift(self):
   chest_in_jail.y_rot = 0xCC16
   chest_in_jail.item_id = self.item_name_to_id["Grappling Hook"]
   
-  dzx.save_changes()
+  dzs.save_changes()
+  
+  dzs = self.get_arc("files/res/Stage/M_NewD2/Stage.arc").get_file("stage.dzs")
+  
+  dummy_chest = dzs.add_entity("TRES", layer=None)
+  dummy_chest.name = chest_in_jail.name
+  dummy_chest.params = chest_in_jail.params
+  dummy_chest.switch_to_set = chest_in_jail.switch_to_set
+  dummy_chest.chest_type = chest_in_jail.chest_type
+  dummy_chest.opened_flag = chest_in_jail.opened_flag
+  dummy_chest.x_pos = chest_in_jail.x_pos
+  dummy_chest.y_pos = chest_in_jail.y_pos
+  dummy_chest.z_pos = chest_in_jail.z_pos
+  dummy_chest.room_num = chest_in_jail.room_num
+  dummy_chest.y_rot = chest_in_jail.y_rot
+  dummy_chest.item_id = 0xFF
+  
+  dzs.save_changes()
 
 def add_chest_in_place_queen_fairy_cutscene(self):
   # Add a chest in place of the Queen Fairy cutscene inside Mother Isle.
