@@ -1799,9 +1799,9 @@ Mailbox - Letter from Baito's Mother:
     - rels/d_a_obj_toripost.rel@2564
     - rels/d_a_obj_toripost.rel@25C4
 Mailbox - Letter from Baito:
-  Need: Delivery Bag & Note to Mom & Song of Passing & Can Access Other Location "Earth Temple - Jalhalla Heart Container"
-  # Need to kill Jalhalla and Baito's mom must have sent her letter (doesn't matter if you've read her letter or not).
-  # You do not need to wait for time to pass for this one, but because you did need to wait for time to pass for the one from his mother first, we still require Song of Passing here.
+  Need: Delivery Bag & Note to Mom & Can Access Other Location "Earth Temple - Jalhalla Heart Container"
+  # Need to kill Jalhalla and mail Note to Mom.
+  # Unlike Letter from Baito's Mother, you do not need to wait for time to pass for this letter.
   Original item: Red Rupee
   Types: Mail, Dungeon
   Paths:
