@@ -10,6 +10,8 @@ try:
   IS_RUNNING_FROM_SOURCE = False
   if platform.system() == "Darwin":
     userdata_path = appdirs.user_data_dir("wwrando", "wwrando")
+    if not os.path.isdir(userdata_path):
+      os.mkdir(userdata_path)
     SETTINGS_PATH = os.path.join(userdata_path, "settings.txt")
     CUSTOM_MODELS_PATH = os.path.join(userdata_path, "models")
     if not os.path.isdir(CUSTOM_MODELS_PATH):
