@@ -2177,6 +2177,7 @@ def remove_minor_panning_cutscenes(self):
     ("kindan", "Stage", 2),
     ("Siren", "Room18", 2),
     ("M_Dai", "Room3", 7),
+    ("sea", "Room41", 19),
   ]
   
   for stage_name, arc_name, evnt_index in panning_cutscenes:
@@ -2190,6 +2191,12 @@ def remove_minor_panning_cutscenes(self):
     for tagev in tagevs:
       if tagev.evnt_index == evnt_index:
         dzx.remove_entity(tagev, "SCOB")
+    
+    spawns = dzx.entries_by_type("PLYR")
+    for spawn in spawns:
+      if spawn.evnt_index == evnt_index:
+        spawn.evnt_index = 0xFF
+        spawn.save_changes()
 
 def add_custom_actor_rels(self):
   # Add the custom switch operator REL to the game.
