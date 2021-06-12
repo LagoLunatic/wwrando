@@ -224,6 +224,7 @@ OPTIONS = OrderedDict([
 
 NON_PERMALINK_OPTIONS = [
   "invert_camera_x_axis",
+  "invert_sea_compass_x_axis",
   "custom_player_model",
   "player_in_casual_clothes",
   "disable_custom_player_voice",
