@@ -1,0 +1,2 @@
+# Auto detect text files and perform line ending normalization, for anyone who may not have core.autocrlf set.
+* text=auto
