@@ -59,37 +59,37 @@ sys/main.dol:
   hookshot_sight_failsafe_check: 0x803FE704
   deluxe_picto_box_item_func_fix_equipped_picto_box: 0x803FE71C
   stop_sub_bgm_when_unloading_stage: 0x803FE750
-  set_starting_health: 0x803FE768
-  get_current_health_for_file_select_screen: 0x803FE784
-  get_max_health_for_file_select_screen: 0x803FE7AC
-  fully_refill_magic_meter_on_load_save: 0x803FE7D0
-  turn_while_swinging: 0x803FE7E8
-  check_animate_rainbow_rupee_color: 0x803FE848
-  rainbow_rupee_keyframe: 0x803FE888
-  check_run_new_text_commands: 0x803FE898
-  exec_curr_num_keys_text_command: 0x803FE8D8
-  set_warp_confirm_dialog_message_id_for_custom_warps: 0x803FE9B8
-  check_player_in_casual_clothes: 0x803FE9D0
-  read_custom_DynamicNameTable_loop: 0x803FEA0C
-  read_custom_l_objectName_loop_for_dStage_searchName: 0x803FEA38
-  read_custom_l_objectName_loop_for_dStage_getName: 0x803FEA60
-  get_num_owned_tingle_statues: 0x803FEA8C
-  invert_camera_horizontal_axis: 0x803FEB00
+  check_play_special_item_get_music: 0x803FE768
+  invert_camera_horizontal_axis: 0x803FE7D0
+  convert_progressive_item_id_for_createDemoItem: 0x803FE7DC
+  convert_progressive_item_id_for_daItem_create: 0x803FE808
+  convert_progressive_item_id_for_dProcGetItem_init_1: 0x803FE834
+  convert_progressive_item_id_for_dProcGetItem_init_2: 0x803FE85C
+  check_open_map_select: 0x803FE884
+  set_starting_health: 0x803FE8E4
+  get_current_health_for_file_select_screen: 0x803FE900
+  get_max_health_for_file_select_screen: 0x803FE928
+  fully_refill_magic_meter_on_load_save: 0x803FE94C
+  turn_while_swinging: 0x803FE964
+  check_animate_rainbow_rupee_color: 0x803FE9C4
+  rainbow_rupee_keyframe: 0x803FEA04
+  check_run_new_text_commands: 0x803FEA14
+  exec_curr_num_keys_text_command: 0x803FEA54
+  set_warp_confirm_dialog_message_id_for_custom_warps: 0x803FEB34
+  check_player_in_casual_clothes: 0x803FEB4C
+  read_custom_DynamicNameTable_loop: 0x803FEB88
+  read_custom_l_objectName_loop_for_dStage_searchName: 0x803FEBB4
+  read_custom_l_objectName_loop_for_dStage_getName: 0x803FEBDC
+  get_num_owned_tingle_statues: 0x803FEC08
+  give_pearl_and_raise_totg_if_necessary: 0x803FEC7C
+  give_temporary_sword_during_ganondorf_fight_in_swordless: 0x803FED10
+  give_temporary_sword_in_orcas_house_in_swordless: 0x803FED2C
+  remove_temporary_sword_when_loading_stage_in_swordless: 0x803FED74
   test_room_stage_name: 0x8022D034
   test_room_starting_items_list: 0x8022D03C
   test_room_spawn_id: 0x800531E3
   test_room_room_index: 0x800531E7
   test_room_override_layer_num: 0x800531EB
-  check_open_map_select: 0x803FEB0C
-  give_pearl_and_raise_totg_if_necessary: 0x803FEB6C
-  check_play_special_item_get_music: 0x803FEC00
-  convert_progressive_item_id_for_createDemoItem: 0x803FEC68
-  convert_progressive_item_id_for_daItem_create: 0x803FEC94
-  convert_progressive_item_id_for_dProcGetItem_init_1: 0x803FECC0
-  convert_progressive_item_id_for_dProcGetItem_init_2: 0x803FECE8
-  give_temporary_sword_during_ganondorf_fight_in_swordless: 0x803FED10
-  give_temporary_sword_in_orcas_house_in_swordless: 0x803FED2C
-  remove_temporary_sword_when_loading_stage_in_swordless: 0x803FED74
 files/rels/d_a_npc_bs1.rel:
   set_shop_item_in_bait_bag_slot_sold_out: 0x61F0
   check_shop_item_in_bait_bag_slot_sold_out: 0x6220
@@ -105,24 +105,10 @@ files/rels/d_a_mt.rel:
 files/rels/d_a_fganon.rel:
   phantom_ganon_check_link_within_y_diff: 0xB020
   check_ganons_tower_chest_opened: 0xB03C
-files/rels/d_a_ship.rel:
-  set_wind_dir_to_ship_dir: 0xE3A8
-  slow_down_ship_when_stopping: 0xE3F0
-  ship_stopping_deceleration: 0xE420
-  slow_down_ship_when_idle: 0xE428
-  ship_idle_deceleration: 0xE458
-files/rels/d_a_npc_md.rel:
-  reset_medli_position_to_start_of_dungeon: 0x15D78
-  medli_possible_et_spawn_positions: 0x15E04
-files/rels/d_a_npc_cb1.rel:
-  reset_makar_position_to_start_of_dungeon: 0xB214
-  makar_possible_wt_spawn_positions: 0xB2A0
 files/rels/d_a_obj_ftree.rel:
   create_item_for_withered_trees_without_setting_speeds: 0x535C
   withered_tree_item_try_give_momentum: 0x5384
   withered_tree_item_speeds: 0x53F8
-files/rels/d_a_warpdm20.rel:
-  check_hyrule_warp_unlocked: 0x1EBC
 files/rels/d_a_boko.rel:
   check_phantom_ganons_sword_should_disappear: 0x4B88
   phantom_ganon_maze_stage_name: 0x4BC4
@@ -143,5 +129,19 @@ files/rels/d_a_npc_ds1.rel:
   doc_bandam_check_new_potion_and_give_free_item: 0x60F8
   doc_bandam_green_potion_slot_item_id: 0x6154
   doc_bandam_blue_potion_slot_item_id: 0x6155
+files/rels/d_a_ship.rel:
+  set_wind_dir_to_ship_dir: 0xE3A8
+  slow_down_ship_when_stopping: 0xE3F0
+  ship_stopping_deceleration: 0xE420
+  slow_down_ship_when_idle: 0xE428
+  ship_idle_deceleration: 0xE458
+files/rels/d_a_npc_md.rel:
+  reset_medli_position_to_start_of_dungeon: 0x15D78
+  medli_possible_et_spawn_positions: 0x15E04
+files/rels/d_a_npc_cb1.rel:
+  reset_makar_position_to_start_of_dungeon: 0xB214
+  makar_possible_wt_spawn_positions: 0xB2A0
+files/rels/d_a_warpdm20.rel:
+  check_hyrule_warp_unlocked: 0x1EBC
 files/rels/d_a_shop_item.rel:
   convert_progressive_item_id_for_shop_item: 0x1174
