@@ -147,6 +147,10 @@ OPTIONS = OrderedDict([
     "Inverts the horizontal axis of camera movement.",
   ),
   (
+    "invert_sea_compass_x_axis",
+    "Inverts the east-west direction of the compass that shows while at sea.",
+  ),
+  (
     "race_mode",
     "In Race Mode, certain randomly chosen dungeon bosses will drop required items (e.g. Triforce Shards). Nothing in the other dungeons will ever be required.\nYou can see which islands have the required dungeons on them by opening the sea chart and checking which islands have blue quest markers.",
   ),
@@ -220,6 +224,7 @@ OPTIONS = OrderedDict([
 
 NON_PERMALINK_OPTIONS = [
   "invert_camera_x_axis",
+  "invert_sea_compass_x_axis",
   "custom_player_model",
   "player_in_casual_clothes",
   "disable_custom_player_voice",
