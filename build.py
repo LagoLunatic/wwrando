@@ -26,8 +26,6 @@ if platform.system() == "Darwin":
 if platform.system() == "Linux":
   platform_name = "linux"
 
-zip_name = os.path.join("./dist/", base_zip_name.replace(" ", "_") + "_" + platform_name)
-
 exe_path = "./dist/%s" % base_name_with_version + exe_ext
 if not (os.path.isfile(exe_path) or os.path.isdir(exe_path)):
   raise Exception("Executable not found: %s" % exe_path)
@@ -46,5 +44,3 @@ else:
   shutil.copyfile(exe_path, "./dist/release_archive/%s" % base_name + exe_ext)
   shutil.copyfile("./models/About Custom Models.txt", "./dist/release_archive/models/About Custom Models.txt")
 
-shutil.make_archive(zip_name, 'zip', "./dist/release_archive")
-shutil.rmtree("./dist/release_archive")
