@@ -28,8 +28,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>925</width>
-         <height>570</height>
+         <width>1097</width>
+         <height>783</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -870,21 +870,7 @@
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
              <layout class="QGridLayout" name="gridLayout_5">
-              <item row="0" column="0">
-               <layout class="QHBoxLayout" name="horizontalLayout_3">
-                <item>
-                 <widget class="QLabel" name="label_for_custom_player_model">
-                  <property name="text">
-                   <string>Player Model</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QComboBox" name="custom_player_model"/>
-                </item>
-               </layout>
-              </item>
-              <item row="1" column="0">
+              <item row="2" column="0">
                <layout class="QHBoxLayout" name="horizontalLayout_12">
                 <item>
                  <widget class="QLabel" name="label_for_custom_color_preset">
@@ -898,7 +884,7 @@
                 </item>
                </layout>
               </item>
-              <item row="1" column="1">
+              <item row="2" column="1">
                <layout class="QHBoxLayout" name="horizontalLayout_11">
                 <item>
                  <widget class="QPushButton" name="randomize_all_custom_colors_together">
@@ -916,7 +902,21 @@
                 </item>
                </layout>
               </item>
-              <item row="0" column="1">
+              <item row="1" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <item>
+                 <widget class="QLabel" name="label_for_custom_player_model">
+                  <property name="text">
+                   <string>Player Model</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="custom_player_model"/>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="1">
                <layout class="QHBoxLayout" name="horizontalLayout_7">
                 <item>
                  <widget class="QCheckBox" name="player_in_casual_clothes">
@@ -940,6 +940,13 @@
                  </widget>
                 </item>
                </layout>
+              </item>
+              <item row="0" column="0" colspan="2">
+               <widget class="QPushButton" name="install_custom_model">
+                <property name="text">
+                 <string>Install a Custom Model or Model Pack</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>

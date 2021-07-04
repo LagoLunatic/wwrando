@@ -19,6 +19,8 @@ import struct
 import base64
 import colorsys
 import time
+import zipfile
+import shutil
 
 import yaml
 try:
@@ -48,7 +50,7 @@ class WWRandomizerWindow(QMainWindow):
     self.no_ui_test = ("-noui" in cmd_line_args)
     self.profiling = ("-profile" in cmd_line_args)
     self.auto_seed = ("-autoseed" in cmd_line_args)
-    
+
     self.custom_color_selector_buttons = OrderedDict()
     self.custom_color_selector_hex_inputs = OrderedDict()
     self.custom_color_reset_buttons = OrderedDict()
@@ -84,7 +86,8 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.clean_iso_path_browse_button.clicked.connect(self.browse_for_clean_iso)
     self.ui.output_folder_browse_button.clicked.connect(self.browse_for_output_folder)
     self.ui.permalink.textEdited.connect(self.permalink_modified)
-    
+
+    self.ui.install_custom_model.clicked.connect(self.install_custom_model_zip)
     self.ui.custom_player_model.currentIndexChanged.connect(self.custom_model_changed)
     self.ui.player_in_casual_clothes.clicked.connect(self.in_casual_clothes_changed)
     self.ui.randomize_all_custom_colors_together.clicked.connect(self.randomize_all_custom_colors_together)
@@ -127,7 +130,7 @@ class WWRandomizerWindow(QMainWindow):
     
     if self.auto_seed:
       self.generate_seed()
-    
+
     if self.no_ui_test:
       self.randomize()
       return
@@ -728,7 +731,11 @@ class WWRandomizerWindow(QMainWindow):
       self.ui.custom_player_model.addItem("Random (exclude Link)")
     else:
       self.ui.custom_player_model.setEnabled(False)
-  
+
+  def update_custom_player_model_list(self):
+    self.ui.custom_player_model.clear()
+    self.initialize_custom_player_model_list()
+
   def initialize_color_presets_list(self):
     self.ui.custom_color_preset.addItem("Default")
     self.ui.custom_color_preset.addItem("Custom")
@@ -1310,7 +1317,60 @@ class WWRandomizerWindow(QMainWindow):
     qimage = QImage(data, preview_image.width, preview_image.height, QImage.Format_ARGB32)
     scaled_pixmap = QPixmap.fromImage(qimage).scaled(225, 350, Qt.KeepAspectRatio, Qt.SmoothTransformation)
     self.ui.custom_model_preview_label.setPixmap(scaled_pixmap)
-  
+
+  def install_custom_model_zip(self):
+    try:
+      zip_path, selected_filter = QFileDialog.getOpenFileName(self, "Select custom model zip file", CUSTOM_MODELS_PATH, "Zip Files (*.zip)")
+      if not zip_path:
+        return
+      zip = zipfile.ZipFile(zip_path)
+      try:
+        top_level_dir = zipfile.Path(zip, zip.namelist()[0])
+      except IndexError:
+        QMessageBox.critical(
+          self, "Incorrect archive structure",
+          "Archive is empty"
+        )
+        return
+      # Verify contents
+      if top_level_dir.joinpath("models").is_dir():
+        model_path = top_level_dir.joinpath("models")
+        model_dir_list = list(model_path.iterdir())
+        is_model_pack = True
+      else:
+        model_dir_list = [top_level_dir]
+        is_model_pack = False
+      expected_files = ["Link.arc", "metadata.txt"]
+      for model_dir in model_dir_list:
+        for f in expected_files:
+          if not model_dir.joinpath(f).exists():
+            QMessageBox.critical(
+              self, "Incorrect archive structure",
+              "Missing file: %s" % model_dir.joinpath(f).at
+            )
+            return
+      zip.extractall(CUSTOM_MODELS_PATH)
+      if not is_model_pack:
+        install_result = model_dir_list[0].name
+      else:
+        for model_dir in model_dir_list:
+          shutil.move(os.path.join(CUSTOM_MODELS_PATH, model_dir.at), os.path.join(CUSTOM_MODELS_PATH, model_dir.name))
+        shutil.rmtree(os.path.join(CUSTOM_MODELS_PATH, top_level_dir.name))
+        install_result = "%s models" % len(model_dir_list)
+      QMessageBox.information(
+        self, "Installation complete",
+        "%s installed successfully" % install_result
+      )
+      self.update_custom_player_model_list()
+      self.set_option_value("custom_player_model", model_dir_list[0].name)
+    except zipfile.BadZipfile as e:
+      stack_trace = traceback.format_exc()
+      print(stack_trace)
+      QMessageBox.critical(
+        self, "Failed to unpack model archive",
+        stack_trace
+      )
+
   def open_about(self):
     text = """Wind Waker Randomizer Version %s<br><br>
       Created by LagoLunatic<br><br>
