@@ -27,8 +27,8 @@ jobs:
       - name: Set variables
         id: vars
         run: |
-          echo ::set-output name=version::$(cat version.txt)
-          echo ::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})
+          echo "::set-output name=version::$(cat version.txt)"
+          echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
       - name: Build Linux App
         run: python -m PyInstaller wwrando.spec
       - name: Bundle Linux App
@@ -69,8 +69,8 @@ jobs:
       - name: Set variables
         id: vars
         run: |
-          echo ::set-output name=version::$(cat version.txt)
-          echo ::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})
+          echo "::set-output name=version::$(cat version.txt)"
+          echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
       - name: Build MacOS App
         run: python3 -m PyInstaller --onefile --windowed wwrando.spec
         shell: bash -l {0}
@@ -102,8 +102,8 @@ jobs:
       - name: Set variables
         id: vars
         run: |
-          echo ::set-output name=version::$(type version.txt)
-          echo ::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})
+          echo "::set-output name=version::$(cat version.txt)"
+          echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
       - name: Build Windows App
         run: python -m PyInstaller wwrando.spec
       - name: Bundle Windows App
