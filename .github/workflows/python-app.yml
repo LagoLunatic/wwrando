@@ -97,7 +97,7 @@ jobs:
           pip install -r requirements_full.txt
       - name: Read version.txt
         id: read_version_txt
-        run: echo ::set-output name=version::$(cat version.txt)
+        run: echo ::set-output name=version::$(type version.txt)
       - name: Build Windows App
         run: python -m PyInstaller wwrando.spec
       - name: Bundle Windows App
