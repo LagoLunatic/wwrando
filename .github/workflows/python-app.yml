@@ -9,6 +9,7 @@ on:
 jobs:
   linux:
     runs-on: ubuntu-latest
+
     env:
       SHORT_GITHUB_SHA: ${GITHUB_SHA::8}
 
@@ -40,10 +41,9 @@ jobs:
 
   macos:
     runs-on: macos-latest
-    env:
-      SHORT_GITHUB_SHA: ${GITHUB_SHA::8}
 
     env:
+      SHORT_GITHUB_SHA: ${GITHUB_SHA::8}
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       MACOSX_DEPLOYMENT_TARGET: 10.9
 
@@ -84,6 +84,7 @@ jobs:
 
   windows:
     runs-on: windows-latest
+
     env:
       SHORT_GITHUB_SHA: ${GITHUB_SHA::8}
 
