@@ -9,6 +9,8 @@ on:
 jobs:
   linux:
     runs-on: ubuntu-latest
+    env:
+      SHORT_GITHUB_SHA: ${GITHUB_SHA::8}
 
     steps:
       - uses: actions/checkout@v2
@@ -33,11 +35,13 @@ jobs:
         run: python build.py
       - uses: actions/upload-artifact@v2
         with:
-          name: wwrando-${{ steps.read_version_txt.outputs.version }}-${ GITHUB_SHA::7 }-linux
+          name: wwrando-${{ steps.read_version_txt.outputs.version }}-${{ env.SHORT_GITHUB_SHA }}-linux
           path: dist/release_archive/*
 
   macos:
     runs-on: macos-latest
+    env:
+      SHORT_GITHUB_SHA: ${GITHUB_SHA::8}
 
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
@@ -75,11 +79,13 @@ jobs:
         shell: bash -l {0}
       - uses: actions/upload-artifact@v2
         with:
-          name: wwrando-${{ steps.read_version_txt.outputs.version }}-${ GITHUB_SHA::7 }-macos
+          name: wwrando-${{ steps.read_version_txt.outputs.version }}-${{ env.SHORT_GITHUB_SHA }}-macos
           path: dist/release_archive/*
 
   windows:
     runs-on: windows-latest
+    env:
+      SHORT_GITHUB_SHA: ${GITHUB_SHA::8}
 
     steps:
       - uses: actions/checkout@v2
@@ -104,5 +110,5 @@ jobs:
         run: python build.py
       - uses: actions/upload-artifact@v2
         with:
-         name: wwrando-${{ steps.read_version_txt.outputs.version }}-${ GITHUB_SHA::7 }-windows
+         name: wwrando-${{ steps.read_version_txt.outputs.version }}-${{ env.SHORT_GITHUB_SHA }}-windows
          path: dist/release_archive/*
