@@ -24,13 +24,16 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements_full.txt
+      - name: Read version.txt
+        id: read_version_txt
+        run: echo ::set-output name=version::$(cat version.txt)
       - name: Build Linux App
         run: python -m PyInstaller wwrando.spec
       - name: Bundle Linux App
         run: python build.py
       - uses: actions/upload-artifact@v2
         with:
-          name: wwrando-linux
+          name: wwrando-${{ steps.read_version_txt.outputs.version }}-{{ env.GITHUB_SHA::7 }}-linux
           path: dist/release_archive/*
 
   macos:
@@ -61,6 +64,9 @@ jobs:
           conda install pip
           python3 -m pip install -r requirements_full.txt
         shell: bash -l {0}
+      - name: Read version.txt
+        id: read_version_txt
+        run: echo ::set-output name=version::$(cat version.txt)
       - name: Build MacOS App
         run: python3 -m PyInstaller --onefile --windowed wwrando.spec
         shell: bash -l {0}
@@ -69,7 +75,7 @@ jobs:
         shell: bash -l {0}
       - uses: actions/upload-artifact@v2
         with:
-          name: wwrando-macos
+          name: wwrando-${{ steps.read_version_txt.outputs.version }}-{{ env.GITHUB_SHA::7 }}-macos
           path: dist/release_archive/*
 
   windows:
@@ -89,11 +95,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements_full.txt
+      - name: Read version.txt
+        id: read_version_txt
+        run: echo ::set-output name=version::$(cat version.txt)
       - name: Build Windows App
         run: python -m PyInstaller wwrando.spec
       - name: Bundle Windows App
         run: python build.py
       - uses: actions/upload-artifact@v2
         with:
-         name: wwrando-windows
+         name: wwrando-${{ steps.read_version_txt.outputs.version }}-{{ env.GITHUB_SHA::7 }}-windows
          path: dist/release_archive/*
