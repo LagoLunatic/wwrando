@@ -10,9 +10,6 @@ jobs:
   linux:
     runs-on: ubuntu-latest
 
-    env:
-      SHORT_GITHUB_SHA: ${GITHUB_SHA::8}
-
     steps:
       - uses: actions/checkout@v2
       - name: Add seed key
@@ -27,23 +24,24 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements_full.txt
-      - name: Read version.txt
-        id: read_version_txt
-        run: echo ::set-output name=version::$(cat version.txt)
+      - name: Set variables
+        id: vars
+        run: |
+          echo ::set-output name=version::$(cat version.txt)
+          echo ::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})
       - name: Build Linux App
         run: python -m PyInstaller wwrando.spec
       - name: Bundle Linux App
         run: python build.py
       - uses: actions/upload-artifact@v2
         with:
-          name: wwrando-${{ steps.read_version_txt.outputs.version }}-${{ env.SHORT_GITHUB_SHA }}-linux
+          name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-linux
           path: dist/release_archive/*
 
   macos:
     runs-on: macos-latest
 
     env:
-      SHORT_GITHUB_SHA: ${GITHUB_SHA::8}
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       MACOSX_DEPLOYMENT_TARGET: 10.9
 
@@ -68,9 +66,11 @@ jobs:
           conda install pip
           python3 -m pip install -r requirements_full.txt
         shell: bash -l {0}
-      - name: Read version.txt
-        id: read_version_txt
-        run: echo ::set-output name=version::$(cat version.txt)
+      - name: Set variables
+        id: vars
+        run: |
+          echo ::set-output name=version::$(cat version.txt)
+          echo ::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})
       - name: Build MacOS App
         run: python3 -m PyInstaller --onefile --windowed wwrando.spec
         shell: bash -l {0}
@@ -79,14 +79,11 @@ jobs:
         shell: bash -l {0}
       - uses: actions/upload-artifact@v2
         with:
-          name: wwrando-${{ steps.read_version_txt.outputs.version }}-${{ env.SHORT_GITHUB_SHA }}-macos
+          name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-macos
           path: dist/release_archive/*
 
   windows:
     runs-on: windows-latest
-
-    env:
-      SHORT_GITHUB_SHA: ${GITHUB_SHA::8}
 
     steps:
       - uses: actions/checkout@v2
@@ -102,14 +99,16 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements_full.txt
-      - name: Read version.txt
-        id: read_version_txt
-        run: echo ::set-output name=version::$(type version.txt)
+      - name: Set variables
+        id: vars
+        run: |
+          echo ::set-output name=version::$(type version.txt)
+          echo ::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})
       - name: Build Windows App
         run: python -m PyInstaller wwrando.spec
       - name: Bundle Windows App
         run: python build.py
       - uses: actions/upload-artifact@v2
         with:
-         name: wwrando-${{ steps.read_version_txt.outputs.version }}-${{ env.SHORT_GITHUB_SHA }}-windows
+         name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-windows
          path: dist/release_archive/*
