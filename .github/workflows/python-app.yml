@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Add seed key
-      run: echo ${{ secrets.SEED_KEY }} > keys/seed_key.py
+      run: echo "${{ secrets.SEED_KEY }}" > keys/seed_key.py
     - name: Add release key
       run: echo ${{ secrets.RELEASE_KEY }} > keys/build_key.txt
     - name: Set up Python 3.8
@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Add seed key
-        run: echo ${{ secrets.SEED_KEY }} > keys/seed_key.py
+        run: echo "${{ secrets.SEED_KEY }}" > keys/seed_key.py
       - name: Add release key
         run: echo ${{ secrets.RELEASE_KEY }} > keys/build_key.txt
       - name: Set up Miniconda with Python 3.8
@@ -78,7 +78,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Add seed key
-        run: echo ${{ secrets.SEED_KEY }} > keys/seed_key.py
+        run: echo "${{ secrets.SEED_KEY }}" > keys/seed_key.py
       - name: Add release key
         run: echo ${{ secrets.RELEASE_KEY }} > keys/build_key.txt
       - name: Set up Python 3.8
