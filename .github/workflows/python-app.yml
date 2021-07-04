@@ -33,7 +33,7 @@ jobs:
         run: python build.py
       - uses: actions/upload-artifact@v2
         with:
-          name: wwrando-${{ steps.read_version_txt.outputs.version }}-${{ env.GITHUB_SHA::7 }}-linux
+          name: wwrando-${{ steps.read_version_txt.outputs.version }}-${ GITHUB_SHA::7 }-linux
           path: dist/release_archive/*
 
   macos:
@@ -75,7 +75,7 @@ jobs:
         shell: bash -l {0}
       - uses: actions/upload-artifact@v2
         with:
-          name: wwrando-${{ steps.read_version_txt.outputs.version }}-${{ env.GITHUB_SHA::7 }}-macos
+          name: wwrando-${{ steps.read_version_txt.outputs.version }}-${ GITHUB_SHA::7 }-macos
           path: dist/release_archive/*
 
   windows:
@@ -104,5 +104,5 @@ jobs:
         run: python build.py
       - uses: actions/upload-artifact@v2
         with:
-         name: wwrando-${{ steps.read_version_txt.outputs.version }}-${{ env.GITHUB_SHA::7 }}-windows
+         name: wwrando-${{ steps.read_version_txt.outputs.version }}-${ GITHUB_SHA::7 }-windows
          path: dist/release_archive/*
