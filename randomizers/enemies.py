@@ -106,6 +106,8 @@ def randomize_enemies(self):
   
   add_modify_and_replace_actors_for_enemy_rando(self)
   
+  randomize_enemies_spawned_by_objects(self)
+  
   update_loaded_particles(self, self.particles_to_load_for_each_jpc_index)
 
 def decide_on_enemy_pool_for_stage(self, stage_folder, enemy_locations):
@@ -394,8 +396,8 @@ def save_changed_enemies_and_randomize_their_params(self):
     
     enemy.name = new_enemy_data["Actor name"]
     enemy.params = new_enemy_data["Params"]
-    enemy.aux_params_1 = new_enemy_data["Aux params"]
-    enemy.aux_params_2 = new_enemy_data["Aux params 2"]
+    enemy.x_rot = new_enemy_data["X Rotation"]
+    enemy.z_rot = new_enemy_data["Z Rotation"]
     
     if "Position" in enemy_location:
       x, y, z = enemy_location["Position"]
@@ -465,19 +467,15 @@ def add_modify_and_replace_actors_for_enemy_rando(self):
       for actor_path in actor_paths:
         actor = get_actor_by_path(self, actor_path)
         
-        if actor.name == "AND_SW0":
-          switch_to_set = actor.switch_to_set
-        elif actor.name == "AND_SW2":
-          switch_to_set = actor.switch_to_set
-        elif actor.name in ["AND_SW0", "AND_SW2", "Kbota_A", "Kbota_B", "KbotaC"]:
+        if actor.name in ["AND_SW0", "AND_SW2", "Kbota_A", "Kbota_B", "KbotaC"]:
           switch_to_set = actor.switch_to_set
         else:
           raise Exception("Unimplemented switch-setting actor name: %s" % actor.name)
         
         actor.name = "ALLdie"
         actor.params = 0xFFFFFFFF
-        actor.aux_params_1 = 0
-        actor.aux_params_2 = 0
+        actor.x_rot = 0
+        actor.z_rot = 0
         actor.switch_to_set = switch_to_set
         actor.save_changes()
   
@@ -495,17 +493,17 @@ def add_modify_and_replace_actors_for_enemy_rando(self):
           actor.name = existing_actor_data["Name"]
         if "Params" in existing_actor_data:
           actor.params = existing_actor_data["Params"]
-        if "Aux Params 1" in existing_actor_data:
-          actor.aux_params_1 = existing_actor_data["Aux Params 1"]
-        if "Aux Params 2" in existing_actor_data:
-          actor.aux_params_2 = existing_actor_data["Aux Params 2"]
+        if "X Rotation" in existing_actor_data:
+          actor.x_rot = existing_actor_data["X Rotation"]
+        if "Y Rotation" in existing_actor_data:
+          actor.y_rot = existing_actor_data["Y Rotation"]
+        if "Z Rotation" in existing_actor_data:
+          actor.z_rot = existing_actor_data["Z Rotation"]
         if "Position" in existing_actor_data:
           x, y, z = existing_actor_data["Position"]
           actor.x_pos = x
           actor.y_pos = y
           actor.z_pos = z
-        if "Y Rotation" in existing_actor_data:
-          actor.y_rot = existing_actor_data["Y Rotation"]
         
         actor.save_changes()
   
@@ -522,17 +520,17 @@ def add_modify_and_replace_actors_for_enemy_rando(self):
         
         actor.name = new_actor_data["Name"]
         actor.params = new_actor_data["Params"]
-        if "Aux Params 1" in new_actor_data:
-          actor.aux_params_1 = new_actor_data["Aux Params 1"]
-        if "Aux Params 2" in new_actor_data:
-          actor.aux_params_2 = new_actor_data["Aux Params 2"]
+        if "X Rotation" in new_actor_data:
+          actor.x_rot = new_actor_data["X Rotation"]
+        if "Y Rotation" in new_actor_data:
+          actor.y_rot = new_actor_data["Y Rotation"]
+        if "Z Rotation" in new_actor_data:
+          actor.z_rot = new_actor_data["Z Rotation"]
         if "Position" in new_actor_data:
           x, y, z = new_actor_data["Position"]
           actor.x_pos = x
           actor.y_pos = y
           actor.z_pos = z
-        if "Y Rotation" in new_actor_data:
-          actor.y_rot = new_actor_data["Y Rotation"]
         
         dzx.save_changes()
   
@@ -548,6 +546,36 @@ def add_modify_and_replace_actors_for_enemy_rando(self):
         actor = get_actor_by_path(self, actor_path)
         
         dzx.remove_entity(actor, fourcc, layer=layer)
+
+def randomize_enemies_spawned_by_objects(self):
+  # Randomize the enemy spawned by certain stone heads in Wind Temple.
+  # The logic isn't a concern for these because to even reach these locations you need the items to kill them.
+  possible_homen_enemies = [
+     0, # Blue Bokoblin with Unlit Torch
+     1, # Green Bokoblin with Unlit Torch
+     2, # Blue Bokoblin with Machete
+     3, # Green Bokoblin with with Machete
+     4, # Blue Bokoblin with Lit Torch
+     5, # Green Bokoblin with Lit Torch
+     6, # Green ChuChu
+     7, # Red ChuChu
+    # 8, # Blue ChuChu # Blue Chu Jelly has weird hardcoded properties.
+    # 9, # Dark ChuChu # Can't be killed without light rays.
+    10, # Yellow ChuChu
+  ]
+  
+  dzr = self.get_arc("files/res/Stage/kaze/Room2.arc").get_file("room.dzr")
+  homen = dzr.entries_by_type("ACTR")[0x27]
+  homen.enemy_to_spawn = self.rng.choice(possible_homen_enemies)
+  homen.save_changes()
+  
+  dzr = self.get_arc("files/res/Stage/kaze/Room10.arc").get_file("room.dzr")
+  homen = dzr.entries_by_type("ACTR")[0]
+  homen.enemy_to_spawn = self.rng.choice(possible_homen_enemies)
+  homen.save_changes()
+  homen = dzr.entries_by_type("ACTR")[9]
+  homen.enemy_to_spawn = self.rng.choice(possible_homen_enemies)
+  homen.save_changes()
 
 def update_loaded_particles(self, particles_to_load_for_each_jpc_index):
   # Copy particles to stages that need them for the new enemies we placed.
@@ -595,12 +623,12 @@ def print_all_enemy_params(self):
     if data["Actor name"] not in all_enemy_actor_names:
       all_enemy_actor_names.append(data["Actor name"])
   
-  print("% 7s  % 8s  % 4s  % 4s  %s" % ("name", "params", "aux1", "aux2", "path"))
+  print("% 7s  % 8s  % 4s  % 4s  %s" % ("name", "params", "xrot", "yrot", "path"))
   for dzx, arc_path in stage_searcher.each_stage_and_room(self):
     actors = dzx.entries_by_type("ACTR")
     enemies = [actor for actor in actors if actor.name in all_enemy_actor_names]
     for enemy in enemies:
-      print("% 7s  %08X  %04X  %04X  %s" % (enemy.name, enemy.params, enemy.aux_params_1, enemy.aux_params_2, arc_path))
+      print("% 7s  %08X  %04X  %04X  %s" % (enemy.name, enemy.params, enemy.x_rot, enemy.z_rot, arc_path))
 
 def print_all_enemy_locations(self):
   # Autogenerates an enemy_locations.txt file.
@@ -730,7 +758,7 @@ def get_enemy_data_for_actor(self, enemy):
     elif enemy.peahat_type == 1:
       return enemy_datas_by_pretty_name["Seahat"]
   elif enemy.name == "amos2":
-    if enemy.switch_type == 1 and enemy.switch_index == 0x80:
+    if enemy.invert_spawn_condition_switch == 1 and enemy.spawn_condition_switch == 0x80:
       return enemy_datas_by_pretty_name["Inanimate Armos"]
     else:
       return enemy_datas_by_pretty_name["Armos"]
@@ -769,7 +797,7 @@ def get_enemy_data_for_actor(self, enemy):
     elif enemy.mothula_type in [0, 2]:
       return enemy_datas_by_pretty_name["Winged Mothula"]
   
-  raise Exception("Unknown enemy subspecies: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.aux_params_1, enemy.aux_params_2))
+  raise Exception("Unknown enemy subspecies: actor name \"%s\", params %08X, x rot %04X, z rot %04X" % (enemy.name, enemy.params, enemy.x_rot, enemy.z_rot))
 
 def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
   if len(enemy_data["Placement categories"]) == 1:
@@ -814,7 +842,7 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
     else:
       return "Ground"
   
-  raise Exception("Unknown placement category for enemy: actor name \"%s\", params %08X, aux params %04X, aux params 2 %04X" % (enemy.name, enemy.params, enemy.aux_params_1, enemy.aux_params_2))
+  raise Exception("Unknown placement category for enemy: actor name \"%s\", params %08X, x rot %04X, z rot %04X" % (enemy.name, enemy.params, enemy.x_rot, enemy.z_rot))
 
 def is_enemy_allowed_in_placement_category(enemy_data, category):
   enemy_categories = enemy_data["Compiled categories"]

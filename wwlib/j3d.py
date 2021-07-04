@@ -9,9 +9,11 @@ from wwlib.bti import BTI
 from fs_helpers import *
 
 IMPLEMENTED_CHUNK_TYPES = [
+  "INF1",
   "TEX1",
   "MAT3",
   "MDL3",
+  
   "TRK1",
 ]
 
@@ -184,6 +186,73 @@ class J3DChunk:
       
       offset += 4
       next_string_data_offset += len(string) + 1
+
+class INF1(J3DChunk):
+  def read_chunk_specific_data(self):
+    self.hierarchy_data_offset = read_u32(self.data, 0x14)
+    
+    offset = self.hierarchy_data_offset
+    self.flat_hierarchy = []
+    self.hierarchy = []
+    parent_node = None
+    prev_node = None
+    while True:
+      if offset >= self.size:
+        raise Exception("No INF1 end node found")
+      
+      node = INF1Node(self.data)
+      node.read(offset)
+      self.flat_hierarchy.append(node)
+      offset += INF1Node.DATA_SIZE
+      
+      if node.type == INF1NodeType.FINISH:
+        break
+      elif node.type in [INF1NodeType.JOINT, INF1NodeType.MATERIAL, INF1NodeType.SHAPE]:
+        node.parent = parent_node
+        if parent_node:
+          parent_node.children.append(node)
+        else:
+          self.hierarchy.append(node)
+      elif node.type == INF1NodeType.OPEN_CHILD:
+        parent_node = prev_node
+      elif node.type == INF1NodeType.CLOSE_CHILD:
+        parent_node = parent_node.parent
+      
+      prev_node = node
+    
+    #self.print_hierarchy_recursive(self.hierarchy)
+  
+  def print_hierarchy_recursive(self, nodes, indent=0):
+    for node in nodes:
+      print(("  "*indent) + "%s %X" % (node.type.name, node.index))
+      self.print_hierarchy_recursive(node.children, indent=indent+1)
+  
+  def save_chunk_specific_data(self):
+    pass
+
+class INF1NodeType(Enum):
+  FINISH      = 0x00
+  OPEN_CHILD  = 0x01
+  CLOSE_CHILD = 0x02
+  JOINT       = 0x10
+  MATERIAL    = 0x11
+  SHAPE       = 0x12
+
+class INF1Node:
+  DATA_SIZE = 4
+  
+  def __init__(self, data):
+    self.data = data
+  
+  def read(self, offset):
+    self.type = INF1NodeType(read_u16(self.data, offset+0x00))
+    self.index = read_u16(self.data, offset+0x02)
+    
+    self.parent = None
+    self.children = []
+  
+  def save(self, offset):
+    pass
 
 class TEX1(J3DChunk):
   def read_chunk_specific_data(self):

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>943</width>
-    <height>671</height>
+    <height>704</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -572,40 +572,13 @@
                <string>Convenience Tweaks</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
-               <item row="0" column="1">
-                <widget class="QCheckBox" name="instant_text_boxes">
+               <item row="1" column="2">
+                <widget class="QCheckBox" name="remove_title_and_ending_videos">
                  <property name="text">
-                  <string>Instant Text Boxes</string>
+                  <string>Remove Title and Ending Videos</string>
                  </property>
                  <property name="checked">
                   <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QCheckBox" name="skip_rematch_bosses">
-                 <property name="text">
-                  <string>Skip Boss Rematches</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="2">
-                <widget class="QCheckBox" name="reveal_full_sea_chart">
-                 <property name="text">
-                  <string>Reveal Full Sea Chart</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QCheckBox" name="add_shortcut_warps_between_dungeons">
-                 <property name="text">
-                  <string>Add Shortcut Warps Between Dungeons</string>
                  </property>
                 </widget>
                </item>
@@ -619,10 +592,34 @@
                  </property>
                 </widget>
                </item>
-               <item row="1" column="2">
-                <widget class="QCheckBox" name="remove_title_and_ending_videos">
+               <item row="1" column="1">
+                <widget class="QCheckBox" name="add_shortcut_warps_between_dungeons">
                  <property name="text">
-                  <string>Remove Title and Ending Videos</string>
+                  <string>Add Shortcut Warps Between Dungeons</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QCheckBox" name="instant_text_boxes">
+                 <property name="text">
+                  <string>Instant Text Boxes</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="3">
+                <widget class="QCheckBox" name="invert_camera_x_axis">
+                 <property name="text">
+                  <string>Invert Camera X-Axis</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QCheckBox" name="reveal_full_sea_chart">
+                 <property name="text">
+                  <string>Reveal Full Sea Chart</string>
                  </property>
                  <property name="checked">
                   <bool>true</bool>
@@ -636,10 +633,20 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="3">
-                <widget class="QCheckBox" name="invert_camera_x_axis">
+               <item row="1" column="0">
+                <widget class="QCheckBox" name="skip_rematch_bosses">
                  <property name="text">
-                  <string>Invert Camera X-Axis</string>
+                  <string>Skip Boss Rematches</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QCheckBox" name="invert_sea_compass_x_axis">
+                 <property name="text">
+                  <string>Invert Sea Compass X-Axis</string>
                  </property>
                 </widget>
                </item>

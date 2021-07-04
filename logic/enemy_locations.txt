@@ -429,35 +429,42 @@ Abship:
       Path: Abship/Room7.arc/Actor012
 
 
-# TODO
 # Bomb Island Cave
 Cave01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Magtails
+    Can Access Other Location "Bomb Island - Cave"
+  Actors to replace with ALLdies:
+    - Cave01/Room0.arc/Actor000
   Enemies:
     -
       Original enemy: Magtail
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: Cave01/Room0.arc/Actor001
+      Position: [-1700, -200, -800]
     -
       Original enemy: Magtail
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: Cave01/Room0.arc/Actor002
+      Position: [-1700, -200, 700]
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Magtails
+    Can Access Other Location "Bomb Island - Cave"
+  Actors to replace with ALLdies:
+    - Cave01/Room1.arc/Actor00B
   Enemies:
     -
       Original enemy: Magtail
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: Cave01/Room1.arc/Actor009
+      Position: [3100, -50, -300]
     -
       Original enemy: Magtail
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: Cave01/Room1.arc/Actor00A
+      Position: [2500, -50, 800]
 #- # Unused layer
 #  Must defeat enemies: Yes
 #  Original requirements:
@@ -681,38 +688,43 @@ Cave05:
       Path: Cave05/Room0.arc/Actor002
 
 
-# TODO
 # Pawprint Isle Wizzrobe Cave
 Cave07:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Wizzrobes
+    Can Access Other Location "Pawprint Isle - Wizzrobe Cave"
   Enemies:
     -
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: Cave07/Room0.arc/Actor000
+      Position: [1767, 26, -516]
     -
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: Cave07/Room0.arc/Actor001
+      Position: [2233, 26, 516]
     -
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: Cave07/Room0.arc/Actor002
+      Position: [2516, 26, -233]
     -
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: Cave07/Room0.arc/Actor003
+      Position: [2516, 26, 233]
     -
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: Cave07/Room0.arc/Actor004
+      Position: [2233, 26, -516]
     -
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: Cave07/Room0.arc/Actor005
+      Position: [1767, 26, 516]
 
 
 # Savage Labyrinth
@@ -3712,17 +3724,17 @@ M_NewD2:
     - # Pot with two unlit sticks in it
       Name: ootubo1
       Params: 0x717FC23F
-      Aux Params 1: 0x0000
-      Aux Params 2: 0x00FF
-      Position: [3886, 450, 3593]
+      X Rotation: 0x0000
       Y Rotation: 0x0000
+      Z Rotation: 0x00FF
+      Position: [3886, 450, 3593]
     - # Torch to light the sticks with
       Name: bonbori
       Params: 0xFFFFFFFF
-      Aux Params 1: 0x0000
-      Aux Params 2: 0x0000
-      Position: [3920, 450, 3430]
+      X Rotation: 0x0000
       Y Rotation: 0x0000
+      Z Rotation: 0x0000
+      Position: [3920, 450, 3430]
   Enemies:
     -
       Original enemy: Bokoblin
@@ -4647,7 +4659,7 @@ TF_01:
     - # Add an AND_SW to detect when both the above switch from our ALLdie is set (switch 99), AND all the side rooms have been completed as well (switch 98), and then set switch 22.
       Name: AND_SW2
       Params: 0x98220002
-      Aux Params 1: 0x00FF
+      X Rotation: 0x00FF
   Enemies:
     -
       Original enemy: Darknut
@@ -5129,11 +5141,10 @@ WarpD:
       Path: WarpD/Room0.arc/Actor021
 
 
-# TODO
 # Wind Temple
 kaze:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Stalfos
@@ -5147,7 +5158,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room0.arc/Actor014
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Armos
   Enemies:
@@ -5160,7 +5171,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room1.arc/Actor00F
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Armos Knights
     & Can Defeat Peahats
@@ -5198,7 +5209,7 @@ kaze:
       Placement category: Air
       Path: kaze/Room2.arc/Actor037
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Floormasters
@@ -5243,7 +5254,7 @@ kaze:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Armos
+    Can Access Other Location "Wind Temple - Chest Behind Seven Armos"
   Enemies:
     -
       Original enemy: Armos
@@ -5274,7 +5285,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room4.arc/Actor006
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Floormasters
     & Can Defeat Peahats
@@ -5304,7 +5315,7 @@ kaze:
       Placement category: Air
       Path: kaze/Room5.arc/Actor00C
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Peahats
@@ -5374,7 +5385,7 @@ kaze:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Darknuts
+    Can Access Other Location "Wind Temple - Big Key Chest"
   Enemies:
     -
       Original enemy: Darknut
@@ -5389,7 +5400,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room8.arc/Actor002
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No # The enemies can get in the way of the puzzle, but if you start by destroying the cracked floor second from the left, no enemies will be spawned on your first fall.
   Original requirements:
     Can Defeat Floormasters
     & Can Defeat Green ChuChus
@@ -5399,69 +5410,68 @@ kaze:
   Enemies:
     -
       Original enemy: Floormaster
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor01E
     -
       Original enemy: Floormaster
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor01F
     -
       Original enemy: Green ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor020
     -
       Original enemy: Green ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor021
     -
       Original enemy: Green ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor022
     -
       Original enemy: Green ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor023
     -
       Original enemy: Green ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor024
     -
       Original enemy: Red ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor025
     -
       Original enemy: Red ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor026
     -
       Original enemy: Red ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor027
     -
       Original enemy: Red ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor028
     -
       Original enemy: Red ChuChu
-      Placement category: Ceiling
+      Placement category: Ceiling:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor029
     -
       Original enemy: Armos
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor02A
     -
       Original enemy: Armos
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor02B
     -
       Original enemy: Armos
-      Placement category: Ground
+      Placement category: Ground:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor02C
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Wizzrobes
-    & Can Defeat Stalfos
+    Can Access Other Location "Wind Temple - Kill All Enemies in Tall Basement Room"
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -5476,7 +5486,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room10.arc/Actor014
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Armos Knights
     & Can Defeat Peahats
@@ -5578,9 +5588,13 @@ kaze:
       Placement category: Ground
       Path: kaze/Room11.arc/Actor04F
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: Yes # Not strictly necessary, but the flying enemies get in the way of Makar flying.
   Original requirements:
-    Can Defeat Floormasters
+    Can Access Wind Temple
+    & Can Play Command Melody
+    & Iron Boots
+    & Deku Leaf
+    & Can Defeat Floormasters
     & Can Defeat Blue Bubbles
     & Can Defeat Dexivines
   Enemies:
@@ -5622,18 +5636,18 @@ kaze:
       Path: kaze/Room16.arc/Actor01D
 
 
-# TODO
 # Wind Temple Wizzrobe Mini-Boss Room
 kazeMB:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Defeat Wizzrobes
+    Can Access Other Location "Wind Temple - Wizzrobe Mini-Boss Room"
   Enemies:
     -
       Original enemy: Wizzrobe
       Placement category: Ground
       Path: kazeMB/Room6.arc/Actor000
+      Position: [-1000, 0, -800]
     -
       Original enemy: Wizzrobe
       Placement category: Ground
@@ -7161,14 +7175,12 @@ sea/Room27.arc:
       Path: sea/Room27.arc/Actor007
 
 
-# TODO
 # Thorned Fairy Island
 sea/Room28.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Seahats
-    & Can Defeat Bokoblins
   Enemies:
     -
       Original enemy: Seahat
@@ -7182,51 +7194,60 @@ sea/Room28.arc:
       Original enemy: Seahat
       Placement category: Sea
       Path: sea/Room28.arc/Actor002
+-
+  Must defeat enemies: Yes
+  Original requirements:
+    Can Access Other Location "Thorned Fairy Island - Southwestern Lookout Platform - Defeat the Enemies"
+  Has throwable objects: Yes # 4 barrels and 3 pots
+  Enemies:
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room28.arc/Actor01D
+      Position offset: [0, -300, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room28.arc/Actor01E
+      Position offset: [0, -300, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room28.arc/Actor01F
+      Position offset: [0, -300, 0]
     -
       Original enemy: Bokoblin
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room28.arc/Actor028
+      Position offset: [0, -300, 0]
 
 
-# TODO
 # Needle Rock Isle
 sea/Room29.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: No
   Original requirements:
     Can Defeat Kargarocs
   Enemies:
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room29.arc/Actor005
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room29.arc/Actor006
     -
       Original enemy: Kargaroc
-      Placement category: Air
+      Placement category: Air:HasPit
       Path: sea/Room29.arc/Actor007
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room29.arc/Actor012
     -
       Original enemy: Kargaroc
-      Placement category: Ground
+      Placement category: Ground:HasPit
       Path: sea/Room29.arc/Actor013
 
 

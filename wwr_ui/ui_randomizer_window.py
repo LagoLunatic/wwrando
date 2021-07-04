@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(943, 671)
+        MainWindow.resize(943, 704)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -366,28 +366,11 @@ class Ui_MainWindow(object):
         self.groupBox_2.setObjectName(u"groupBox_2")
         self.gridLayout_4 = QGridLayout(self.groupBox_2)
         self.gridLayout_4.setObjectName(u"gridLayout_4")
-        self.instant_text_boxes = QCheckBox(self.groupBox_2)
-        self.instant_text_boxes.setObjectName(u"instant_text_boxes")
-        self.instant_text_boxes.setChecked(True)
+        self.remove_title_and_ending_videos = QCheckBox(self.groupBox_2)
+        self.remove_title_and_ending_videos.setObjectName(u"remove_title_and_ending_videos")
+        self.remove_title_and_ending_videos.setChecked(True)
 
-        self.gridLayout_4.addWidget(self.instant_text_boxes, 0, 1, 1, 1)
-
-        self.skip_rematch_bosses = QCheckBox(self.groupBox_2)
-        self.skip_rematch_bosses.setObjectName(u"skip_rematch_bosses")
-        self.skip_rematch_bosses.setChecked(True)
-
-        self.gridLayout_4.addWidget(self.skip_rematch_bosses, 1, 0, 1, 1)
-
-        self.reveal_full_sea_chart = QCheckBox(self.groupBox_2)
-        self.reveal_full_sea_chart.setObjectName(u"reveal_full_sea_chart")
-        self.reveal_full_sea_chart.setChecked(True)
-
-        self.gridLayout_4.addWidget(self.reveal_full_sea_chart, 0, 2, 1, 1)
-
-        self.add_shortcut_warps_between_dungeons = QCheckBox(self.groupBox_2)
-        self.add_shortcut_warps_between_dungeons.setObjectName(u"add_shortcut_warps_between_dungeons")
-
-        self.gridLayout_4.addWidget(self.add_shortcut_warps_between_dungeons, 1, 1, 1, 1)
+        self.gridLayout_4.addWidget(self.remove_title_and_ending_videos, 1, 2, 1, 1)
 
         self.swift_sail = QCheckBox(self.groupBox_2)
         self.swift_sail.setObjectName(u"swift_sail")
@@ -395,21 +378,43 @@ class Ui_MainWindow(object):
 
         self.gridLayout_4.addWidget(self.swift_sail, 0, 0, 1, 1)
 
-        self.remove_title_and_ending_videos = QCheckBox(self.groupBox_2)
-        self.remove_title_and_ending_videos.setObjectName(u"remove_title_and_ending_videos")
-        self.remove_title_and_ending_videos.setChecked(True)
+        self.add_shortcut_warps_between_dungeons = QCheckBox(self.groupBox_2)
+        self.add_shortcut_warps_between_dungeons.setObjectName(u"add_shortcut_warps_between_dungeons")
 
-        self.gridLayout_4.addWidget(self.remove_title_and_ending_videos, 1, 2, 1, 1)
+        self.gridLayout_4.addWidget(self.add_shortcut_warps_between_dungeons, 1, 1, 1, 1)
+
+        self.instant_text_boxes = QCheckBox(self.groupBox_2)
+        self.instant_text_boxes.setObjectName(u"instant_text_boxes")
+        self.instant_text_boxes.setChecked(True)
+
+        self.gridLayout_4.addWidget(self.instant_text_boxes, 0, 1, 1, 1)
+
+        self.invert_camera_x_axis = QCheckBox(self.groupBox_2)
+        self.invert_camera_x_axis.setObjectName(u"invert_camera_x_axis")
+
+        self.gridLayout_4.addWidget(self.invert_camera_x_axis, 0, 3, 1, 1)
+
+        self.reveal_full_sea_chart = QCheckBox(self.groupBox_2)
+        self.reveal_full_sea_chart.setObjectName(u"reveal_full_sea_chart")
+        self.reveal_full_sea_chart.setChecked(True)
+
+        self.gridLayout_4.addWidget(self.reveal_full_sea_chart, 0, 2, 1, 1)
 
         self.remove_music = QCheckBox(self.groupBox_2)
         self.remove_music.setObjectName(u"remove_music")
 
         self.gridLayout_4.addWidget(self.remove_music, 1, 3, 1, 1)
 
-        self.invert_camera_x_axis = QCheckBox(self.groupBox_2)
-        self.invert_camera_x_axis.setObjectName(u"invert_camera_x_axis")
+        self.skip_rematch_bosses = QCheckBox(self.groupBox_2)
+        self.skip_rematch_bosses.setObjectName(u"skip_rematch_bosses")
+        self.skip_rematch_bosses.setChecked(True)
 
-        self.gridLayout_4.addWidget(self.invert_camera_x_axis, 0, 3, 1, 1)
+        self.gridLayout_4.addWidget(self.skip_rematch_bosses, 1, 0, 1, 1)
+
+        self.invert_sea_compass_x_axis = QCheckBox(self.groupBox_2)
+        self.invert_sea_compass_x_axis.setObjectName(u"invert_sea_compass_x_axis")
+
+        self.gridLayout_4.addWidget(self.invert_sea_compass_x_axis, 2, 0, 1, 1)
 
 
         self.verticalLayout_2.addWidget(self.groupBox_2)
@@ -819,14 +824,15 @@ class Ui_MainWindow(object):
         self.randomize_enemy_palettes.setText(QCoreApplication.translate("MainWindow", u"Randomize Enemy Palettes", None))
         self.randomize_enemies.setText(QCoreApplication.translate("MainWindow", u"Randomize Enemy Locations", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Convenience Tweaks", None))
-        self.instant_text_boxes.setText(QCoreApplication.translate("MainWindow", u"Instant Text Boxes", None))
-        self.skip_rematch_bosses.setText(QCoreApplication.translate("MainWindow", u"Skip Boss Rematches", None))
-        self.reveal_full_sea_chart.setText(QCoreApplication.translate("MainWindow", u"Reveal Full Sea Chart", None))
-        self.add_shortcut_warps_between_dungeons.setText(QCoreApplication.translate("MainWindow", u"Add Shortcut Warps Between Dungeons", None))
-        self.swift_sail.setText(QCoreApplication.translate("MainWindow", u"Swift Sail", None))
         self.remove_title_and_ending_videos.setText(QCoreApplication.translate("MainWindow", u"Remove Title and Ending Videos", None))
-        self.remove_music.setText(QCoreApplication.translate("MainWindow", u"Remove Music", None))
+        self.swift_sail.setText(QCoreApplication.translate("MainWindow", u"Swift Sail", None))
+        self.add_shortcut_warps_between_dungeons.setText(QCoreApplication.translate("MainWindow", u"Add Shortcut Warps Between Dungeons", None))
+        self.instant_text_boxes.setText(QCoreApplication.translate("MainWindow", u"Instant Text Boxes", None))
         self.invert_camera_x_axis.setText(QCoreApplication.translate("MainWindow", u"Invert Camera X-Axis", None))
+        self.reveal_full_sea_chart.setText(QCoreApplication.translate("MainWindow", u"Reveal Full Sea Chart", None))
+        self.remove_music.setText(QCoreApplication.translate("MainWindow", u"Remove Music", None))
+        self.skip_rematch_bosses.setText(QCoreApplication.translate("MainWindow", u"Skip Boss Rematches", None))
+        self.invert_sea_compass_x_axis.setText(QCoreApplication.translate("MainWindow", u"Invert Sea Compass X-Axis", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Advanced Options", None))
         self.disable_tingle_chests_with_tingle_bombs.setText(QCoreApplication.translate("MainWindow", u"Tingle Bombs Don't Open Tingle Chests", None))
         self.do_not_generate_spoiler_log.setText(QCoreApplication.translate("MainWindow", u"Do Not Generate Spoiler Log", None))

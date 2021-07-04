@@ -18,10 +18,10 @@ d_a_agbsw0:
     Bitfield name: params
     Mask: 0xFFFF0000 # (WARNING: overlaps)
   unknown_param_5:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFFFF
   type:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_alldie:
@@ -79,10 +79,10 @@ d_a_andsw0:
     Bitfield name: params
     Mask: 0xFF000000
   evnt_index:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x00FF
   time_limit_in_half_seconds:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_andsw2:
@@ -99,10 +99,10 @@ d_a_andsw2:
     Bitfield name: params
     Mask: 0xFF000000
   unknown_param_5:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x00FF
   unknown_param_6:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_arrow_iceeff: {}
@@ -138,7 +138,7 @@ d_a_bb:
     Bitfield name: params
     Mask: 0xFF000000
   disable_spawn_switch:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_bdk:
@@ -177,7 +177,7 @@ d_a_beam:
     Bitfield name: params
     Mask: 0xC0000000
   unknown_param_8:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFFFF
 
 d_a_bflower:
@@ -239,7 +239,7 @@ d_a_bk:
     Bitfield name: params
     Mask: 0xFF000000
   disable_spawn_on_death_switch:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_bl:
@@ -290,7 +290,7 @@ d_a_boko:
     Bitfield name: params
     Mask: 0xFFFFFFFF # (WARNING: overlaps)
   unknown_param_3:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFFFF
 
 d_a_boss_item:
@@ -348,7 +348,7 @@ d_a_bwds:
 
 d_a_canon:
   unknown_param_1:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFFFF
 
 d_a_cc:
@@ -388,7 +388,7 @@ d_a_daiocta:
     Bitfield name: params
     Mask: 0xFF000000
   unknown_param_5:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_daiocta_eye: {}
@@ -429,16 +429,16 @@ d_a_door10:
     Bitfield name: params
     Mask: 0x0FF00000
   from_room_num:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x003F
   to_room_num:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x0FC0
   ship_id:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x003F
   arg_1:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0xFF00
 
 d_a_door12:
@@ -455,16 +455,16 @@ d_a_door12:
     Bitfield name: params
     Mask: 0x0FF00000
   from_room_num:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x003F
   to_room_num:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x0FC0
   ship_id:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x003F
   appearance_type:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0xFF00
 
 d_a_dr: {}
@@ -580,13 +580,13 @@ d_a_fm:
     Bitfield name: params
     Mask: 0xFF000000
   disable_spawn_switch:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x00FF
   unknown_param_8:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFF00
   unknown_param_9:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_ghostship:
@@ -611,7 +611,7 @@ d_a_gm:
     Bitfield name: params
     Mask: 0xFF000000
   unknown_param_5:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_gnd:
@@ -702,7 +702,7 @@ d_a_hmlif:
     Bitfield name: params
     Mask: 0x80000000
   eye_shot_switch:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_hot_floor:
@@ -794,7 +794,7 @@ d_a_kb:
     Bitfield name: params
     Mask: 0x00FF0000
   unknown_param_5:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0xFFFF
 
 d_a_kddoor: {}
@@ -832,7 +832,7 @@ d_a_klft:
     Bitfield name: params
     Mask: 0x00FF0000
   unknown_param_3:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_kmon: {}
@@ -901,13 +901,13 @@ d_a_kytag00:
     Bitfield name: params
     Mask: 0xFF000000
   switch_to_check:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x00FF
   invert_position_checks:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFF00
   unknown_param_7:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_kytag01: {}
@@ -930,7 +930,7 @@ d_a_kytag04:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_3:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x00FF
 
 d_a_kytag05:
@@ -997,7 +997,7 @@ d_a_mbdoor:
     Bitfield name: params
     Mask: 0x00000F00
   unknown_param_3:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x003F
 
 d_a_mdoor:
@@ -1040,7 +1040,7 @@ d_a_mo2:
     Bitfield name: params
     Mask: 0xFF000000
   disable_spawn_on_death_switch:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_movie_player: {}
@@ -1072,7 +1072,7 @@ d_a_mt:
     Bitfield name: params
     Mask: 0xFF000000
   disable_spawn_on_death_switch:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_mtoge:
@@ -1205,7 +1205,7 @@ d_a_npc_hr:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_3:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFFFF
 
 d_a_npc_jb1:
@@ -1217,10 +1217,10 @@ d_a_npc_ji1: {}
 
 d_a_npc_kamome:
   unknown_param_1:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFFFF
   unknown_param_2:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0xFFFF
 
 d_a_npc_kf1:
@@ -1532,7 +1532,7 @@ d_a_obj_barrel:
     Bitfield name: params
     Mask: 0x70000000
   unknown_param_2:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0xFFFF
 
 d_a_obj_barrel2:
@@ -1574,10 +1574,10 @@ d_a_obj_bemos:
     Bitfield name: params
     Mask: 0x0000FF00
   beamos_item_id:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x003F
   beamos_item_pickup_flag:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x1FC0
   barrier_deactivated_switch:
     Bitfield name: params
@@ -1854,16 +1854,16 @@ d_a_obj_homen:
   item_pickup_flag:
     Bitfield name: params
     Mask: 0x0000007F
-  unknown_param_2:
+  type:
     Bitfield name: params
-    Mask: 0x00000F00
+    Mask: 0x00000100
   item_id:
     Bitfield name: params
     Mask: 0x0003F000
-  unknown_param_4:
+  enemy_to_spawn:
     Bitfield name: params
     Mask: 0x003C0000
-  unknown_param_5:
+  destroyed_switch:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -1912,10 +1912,10 @@ d_a_obj_ikada:
     Bitfield name: params
     Mask: 0x03FC0000
   unknown_param_6:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x00FF
   path_index:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFF00
   salvage_corp_path_index:
     Bitfield name: params
@@ -2058,13 +2058,13 @@ d_a_obj_movebox:
     Bitfield name: params
     Mask: 0x80000000
   unknown_param_7:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x00FF
   stay_moved_to_path:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
   stay_moved_switch_2:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0xFF00
 
 d_a_obj_msdan:
@@ -2206,7 +2206,7 @@ d_a_obj_shelf:
     Bitfield name: params
     Mask: 0x00000001
   unknown_param_2:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFFFF
 
 d_a_obj_shmrgrd:
@@ -2279,7 +2279,7 @@ d_a_obj_swpush:
     Bitfield name: params
     Mask: 0x40000000
   disabled_switch:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_obj_table:
@@ -2423,13 +2423,13 @@ d_a_obj_warpt:
     Bitfield name: params
     Mask: 0xFF000000
   cyclic_top_unblocked_switch:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x00FF
   cyclic_play_unlocked_sfx:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
   cyclic_is_locked:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0xFF00
   noncyclic_exit_to_this_pot:
     Bitfield name: params
@@ -2438,10 +2438,10 @@ d_a_obj_warpt:
     Bitfield name: params
     Mask: 0x000FF000
   noncyclic_this_unlocked_switch:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x00FF
   noncyclic_dest_unlocked_switch:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFF00
 
 d_a_obj_wood: {}
@@ -2496,10 +2496,10 @@ d_a_oship:
     Bitfield name: params
     Mask: 0xFF000000
   enable_spawn_switch:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x00FF
   is_golden:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFF00
 
 d_a_pedestal:
@@ -2540,7 +2540,7 @@ d_a_pt:
     Bitfield name: params
     Mask: 0xFF000000
   initial_spawn_delay:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFFFF
 
 d_a_pw:
@@ -2619,7 +2619,7 @@ d_a_salvage:
     Bitfield name: params
     Mask: 0xF0000000
   duplicate_id:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x0003
 
 d_a_salvage_tbox:
@@ -2648,9 +2648,6 @@ d_a_ship:
   unknown_param_2:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
-    Bitfield name: aux_params_1
-    Mask: 0xFFFF
 
 d_a_shop_item:
   unknown_param_1:
@@ -2760,7 +2757,7 @@ d_a_st:
     Bitfield name: params
     Mask: 0xFF000000
   disable_spawn_on_death_switch:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_steam_tag:
@@ -2808,7 +2805,7 @@ d_a_stone2:
     Bitfield name: params
     Mask: 0x80000000
   destroyed_event_index:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_swattack:
@@ -2844,10 +2841,10 @@ d_a_swhit0:
     Bitfield name: params
     Mask: 0x0FF00000
   unknown_param_5:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFFFF
   switch_to_check:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_switem:
@@ -2922,7 +2919,7 @@ d_a_tag_event:
     Bitfield name: params
     Mask: 0xFF000000
   enable_spawn_event_bit:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0xFFFF
 
 d_a_tag_evsw:
@@ -2961,10 +2958,10 @@ d_a_tag_hint:
     Bitfield name: params
     Mask: 0xFF000000
   message_id:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFFFF
   unknown_param_7:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0xFFFF
 
 d_a_tag_island:
@@ -3033,7 +3030,7 @@ d_a_tag_md_cb:
     Bitfield name: params
     Mask: 0xFF000000
   disable_spawn_switch:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x00FF
 
 d_a_tag_mk:
@@ -3061,10 +3058,10 @@ d_a_tag_msg:
     Bitfield name: params
     Mask: 0xFF000000
   unknown_param_5:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFFFF
   unknown_param_6:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0xFFFF
 
 d_a_tag_photo:
@@ -3109,7 +3106,7 @@ d_a_tag_waterlevel:
 
 d_a_tama:
   unknown_param_1:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0xFFFF
 
 d_a_tbox:
@@ -3126,13 +3123,13 @@ d_a_tbox:
     Bitfield name: params
     Mask: 0x00F00000
   room_num:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x003F
   switch_to_set:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
   item_id:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0xFF00
 
 d_a_title: {}
@@ -3154,10 +3151,10 @@ d_a_tn:
     Bitfield name: params
     Mask: 0xFF000000
   equipment:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x00E0
   disable_spawn_on_death_switch:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_toge:
@@ -3200,7 +3197,7 @@ d_a_tsubo:
     Bitfield name: params
     Mask: 0x80000000
   enable_spawn_switch:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_wall:
@@ -3290,10 +3287,10 @@ d_a_wind_tag:
     Bitfield name: params
     Mask: 0xFF000000
   unknown_param_7:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x000F
   unknown_param_8:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00F0
 
 d_a_wz:
@@ -3310,7 +3307,7 @@ d_a_wz:
     Bitfield name: params
     Mask: 0xFF000000
   summon_table_index:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_ygcwp:
@@ -3357,10 +3354,10 @@ d_a_py_lk:
     Bitfield name: params
     Mask: 0xFF000000
   unknown_param_5:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0xFF00
   spawn_id:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_item:
@@ -3371,7 +3368,7 @@ d_a_item:
     Bitfield name: params
     Mask: 0x0000FF00
   activation_switch_index:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0x00FF
 
 d_a_sea: {}
@@ -3437,8 +3434,8 @@ d_a_switch_op:
     Bitfield name: params
     Mask: 0xFF000000
   evnt_index:
-    Bitfield name: aux_params_1
+    Bitfield name: x_rot
     Mask: 0x00FF
   delay:
-    Bitfield name: aux_params_2
+    Bitfield name: z_rot
     Mask: 0xFFFF

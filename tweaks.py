@@ -355,9 +355,9 @@ def add_ganons_tower_warp_to_ff2(self):
   layer_1_warp.x_pos = layer_2_warp.x_pos
   layer_1_warp.y_pos = layer_2_warp.y_pos
   layer_1_warp.z_pos = layer_2_warp.z_pos
-  layer_1_warp.aux_params_1 = layer_2_warp.aux_params_1
+  layer_1_warp.x_rot = layer_2_warp.x_rot
   layer_1_warp.y_rot = layer_2_warp.y_rot
-  layer_1_warp.aux_params_2 = layer_2_warp.aux_params_2
+  layer_1_warp.z_rot = layer_2_warp.z_rot
   layer_1_warp.enemy_number = layer_2_warp.enemy_number
   
   dzx.save_changes()
@@ -365,9 +365,9 @@ def add_ganons_tower_warp_to_ff2(self):
 def add_chest_in_place_medli_grappling_hook_gift(self):
   # Add a chest in place of Medli locked in the jail cell at the peak of Dragon Roost Cavern.
   
-  dzx = self.get_arc("files/res/Stage/M_Dra09/Stage.arc").get_file("stage.dzs")
+  dzs = self.get_arc("files/res/Stage/M_Dra09/Stage.arc").get_file("stage.dzs")
   
-  chest_in_jail = dzx.add_entity("TRES", layer=None)
+  chest_in_jail = dzs.add_entity("TRES", layer=None)
   chest_in_jail.name = "takara3"
   chest_in_jail.params = 0xFF000000
   chest_in_jail.switch_to_set = 0xFF
@@ -380,7 +380,24 @@ def add_chest_in_place_medli_grappling_hook_gift(self):
   chest_in_jail.y_rot = 0xCC16
   chest_in_jail.item_id = self.item_name_to_id["Grappling Hook"]
   
-  dzx.save_changes()
+  dzs.save_changes()
+  
+  dzs = self.get_arc("files/res/Stage/M_NewD2/Stage.arc").get_file("stage.dzs")
+  
+  dummy_chest = dzs.add_entity("TRES", layer=None)
+  dummy_chest.name = chest_in_jail.name
+  dummy_chest.params = chest_in_jail.params
+  dummy_chest.switch_to_set = chest_in_jail.switch_to_set
+  dummy_chest.chest_type = chest_in_jail.chest_type
+  dummy_chest.opened_flag = chest_in_jail.opened_flag
+  dummy_chest.x_pos = chest_in_jail.x_pos
+  dummy_chest.y_pos = chest_in_jail.y_pos
+  dummy_chest.z_pos = chest_in_jail.z_pos
+  dummy_chest.room_num = chest_in_jail.room_num
+  dummy_chest.y_rot = chest_in_jail.y_rot
+  dummy_chest.item_id = 0xFF
+  
+  dzs.save_changes()
 
 def add_chest_in_place_queen_fairy_cutscene(self):
   # Add a chest in place of the Queen Fairy cutscene inside Mother Isle.
@@ -1055,9 +1072,9 @@ def add_pirate_ship_to_windfall(self):
   default_layer_pirate_ship.x_pos = layer_2_pirate_ship.x_pos
   default_layer_pirate_ship.y_pos = layer_2_pirate_ship.y_pos
   default_layer_pirate_ship.z_pos = layer_2_pirate_ship.z_pos
-  default_layer_pirate_ship.aux_params_1 = layer_2_pirate_ship.aux_params_1
+  default_layer_pirate_ship.x_rot = layer_2_pirate_ship.x_rot
   default_layer_pirate_ship.y_rot = layer_2_pirate_ship.y_rot
-  default_layer_pirate_ship.aux_params_2 = layer_2_pirate_ship.aux_params_2
+  default_layer_pirate_ship.z_rot = layer_2_pirate_ship.z_rot
   default_layer_pirate_ship.enemy_number = layer_2_pirate_ship.enemy_number
   
   # Change the door to not require a password.
@@ -1337,8 +1354,8 @@ def add_inter_dungeon_warp_pots(self):
       warp_pot.y_pos = warp_pot_data.y
       warp_pot.z_pos = warp_pot_data.z
       warp_pot.y_rot = warp_pot_data.y_rot
-      warp_pot.aux_params_1 = 0xFFFF
-      warp_pot.aux_params_2 = 0xFFFF
+      warp_pot.x_rot = 0xFFFF
+      warp_pot.z_rot = 0xFFFF
       
       room_dzx.save_changes()
       stage_dzx.save_changes()
@@ -1583,9 +1600,9 @@ def prevent_door_boulder_softlocks(self):
   swc00.x_pos = 2635
   swc00.y_pos = 0
   swc00.z_pos = 227
-  swc00.aux_params_1 = 0
+  swc00.x_rot = 0
   swc00.y_rot = 0xC000
-  swc00.aux_params_2 = 0xFFFF
+  swc00.z_rot = 0xFFFF
   swc00.scale_x = 32
   swc00.scale_y = 16
   swc00.scale_z = 16
@@ -1602,9 +1619,9 @@ def prevent_door_boulder_softlocks(self):
   swc00.x_pos = -4002
   swc00.y_pos = 1950
   swc00.z_pos = -2156
-  swc00.aux_params_1 = 0
+  swc00.x_rot = 0
   swc00.y_rot = 0xA000
-  swc00.aux_params_2 = 0xFFFF
+  swc00.z_rot = 0xFFFF
   swc00.scale_x = 32
   swc00.scale_y = 16
   swc00.scale_z = 16
@@ -1798,9 +1815,9 @@ def add_chest_in_place_of_jabun_cutscene(self):
   layer_none_door.x_pos = layer_5_door.x_pos
   layer_none_door.y_pos = layer_5_door.y_pos
   layer_none_door.z_pos = layer_5_door.z_pos
-  layer_none_door.aux_params_1 = layer_5_door.aux_params_1
+  layer_none_door.x_rot = layer_5_door.x_rot
   layer_none_door.y_rot = layer_5_door.y_rot
-  layer_none_door.aux_params_2 = layer_5_door.aux_params_2
+  layer_none_door.z_rot = layer_5_door.z_rot
   layer_none_door.enemy_number = layer_5_door.enemy_number
   
   layer_none_whirlpool = outset_dzr.add_entity("ACTR", layer=None)
@@ -1809,9 +1826,9 @@ def add_chest_in_place_of_jabun_cutscene(self):
   layer_none_whirlpool.x_pos = layer_5_whirlpool.x_pos
   layer_none_whirlpool.y_pos = layer_5_whirlpool.y_pos
   layer_none_whirlpool.z_pos = layer_5_whirlpool.z_pos
-  layer_none_whirlpool.aux_params_1 = layer_5_whirlpool.aux_params_1
+  layer_none_whirlpool.x_rot = layer_5_whirlpool.x_rot
   layer_none_whirlpool.y_rot = layer_5_whirlpool.y_rot
-  layer_none_whirlpool.aux_params_2 = layer_5_whirlpool.aux_params_2
+  layer_none_whirlpool.z_rot = layer_5_whirlpool.z_rot
   layer_none_whirlpool.enemy_number = layer_5_whirlpool.enemy_number
   
   outset_dzr.remove_entity(layer_5_door, "ACTR", layer=5)
@@ -1857,9 +1874,9 @@ def add_chest_in_place_of_master_sword(self):
     new_actor.x_pos = orig_actor.x_pos
     new_actor.y_pos = orig_actor.y_pos
     new_actor.z_pos = orig_actor.z_pos
-    new_actor.aux_params_1 = orig_actor.aux_params_1
+    new_actor.x_rot = orig_actor.x_rot
     new_actor.y_rot = orig_actor.y_rot
-    new_actor.aux_params_2 = orig_actor.aux_params_2
+    new_actor.z_rot = orig_actor.z_rot
     new_actor.enemy_number = orig_actor.enemy_number
   
   # Remove the entities on layer 5 that are no longer necessary.
@@ -1922,8 +1939,8 @@ def remove_phantom_ganon_requirement_from_eye_reefs(self):
         cannon.save_changes()
     gunboats = [x for x in actors if x.name == "Oship"]
     for gunboat in gunboats:
-      if (gunboat.aux_params_1 & 0xFF) == 0x2A: # Switch 2A is Phantom Ganon being dead.
-        gunboat.aux_params_1 = (gunboat.aux_params_1 & 0xFF00) | 0xFF
+      if (gunboat.x_rot & 0xFF) == 0x2A: # Switch 2A is Phantom Ganon being dead.
+        gunboat.x_rot = (gunboat.x_rot & 0xFF00) | 0xFF
         gunboat.save_changes()
 
 def test_room(self):
@@ -2160,6 +2177,7 @@ def remove_minor_panning_cutscenes(self):
     ("kindan", "Stage", 2),
     ("Siren", "Room18", 2),
     ("M_Dai", "Room3", 7),
+    ("sea", "Room41", 19),
   ]
   
   for stage_name, arc_name, evnt_index in panning_cutscenes:
@@ -2173,6 +2191,12 @@ def remove_minor_panning_cutscenes(self):
     for tagev in tagevs:
       if tagev.evnt_index == evnt_index:
         dzx.remove_entity(tagev, "SCOB")
+    
+    spawns = dzx.entries_by_type("PLYR")
+    for spawn in spawns:
+      if spawn.evnt_index == evnt_index:
+        spawn.evnt_index = 0xFF
+        spawn.save_changes()
 
 def add_custom_actor_rels(self):
   # Add the custom switch operator REL to the game.

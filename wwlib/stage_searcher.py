@@ -617,7 +617,7 @@ def print_actor_info(self):
 
 def print_all_entity_params(self):
   with open("All Entity Params.txt", "w") as f:
-    f.write("   name   params aux1 aux2    stage/arc    chunk/index\n")
+    f.write("   name   params xrot zrot    stage/arc    chunk/index\n")
     for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
       stage_and_rooms = [(dzs, stage_arc_path)] + rooms
       for dzx, arc_path in stage_and_rooms:
@@ -630,7 +630,7 @@ def print_all_entity_params(self):
               if layer is not None:
                 location_identifier += "Layer%X/" % layer
               location_identifier += "%03X" % i
-              out_str = "% 7s %08X %04X %04X in %s" % (entity.name, entity.params, entity.aux_params_1, entity.aux_params_2, location_identifier)
+              out_str = "% 7s %08X %04X %04X in %s" % (entity.name, entity.params, entity.x_rot, entity.z_rot, location_identifier)
               #print(out_str)
               f.write(out_str + "\n")
 
