@@ -36,7 +36,7 @@ jobs:
       - name: Set architecture variables
         id: archvars
         run: |
-          echo "::set-output name=bitness::$(python -c "import struct; print(struct.calcsize(\"P\") * 8)")"
+          echo "::set-output name=bitness::$(python -c "import struct; print(struct.calcsize('P') * 8)")"
       - name: Build Windows App
         run: python -m PyInstaller wwrando.spec
       - name: Bundle Windows App
