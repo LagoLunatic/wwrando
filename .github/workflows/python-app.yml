@@ -20,6 +20,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
+          architecture: x64
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -36,7 +37,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
          name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-windows
-         path: dist/release_archive/*
+         path: dist/release_archive_64bit/*
 
   macos:
     runs-on: macos-latest
@@ -54,8 +55,8 @@ jobs:
       - name: Set up Miniconda with Python 3.8
         uses: goanpeca/setup-miniconda@v1
         with:
+          python-version: 3.8
           architecture: x64
-          python-version: '3.8'
           miniconda-version: latest
       - run: |
           conda create -qyf -n py38 python=3.8 wheel -c anaconda
@@ -80,7 +81,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-macos
-          path: dist/release_archive/*
+          path: dist/release_archive_64bit/*
 
   linux:
     runs-on: ubuntu-latest
@@ -95,6 +96,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
+          architecture: x64
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -111,4 +113,4 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-linux
-          path: dist/release_archive/*
+          path: dist/release_archive_64bit/*

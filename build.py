@@ -10,11 +10,9 @@ base_name_with_version = base_name + " " + VERSION_WITHOUT_COMMIT
 
 import struct
 if (struct.calcsize("P") * 8) == 64:
-  base_name_with_version += "_64bit"
-  base_zip_name = base_name_with_version
+  bitness_suffix = "_64bit"
 else:
-  base_name_with_version += "_32bit"
-  base_zip_name = base_name_with_version
+  bitness_suffix = "_32bit"
 
 exe_ext = ""
 if platform.system() == "Windows":
@@ -26,21 +24,22 @@ if platform.system() == "Darwin":
 if platform.system() == "Linux":
   platform_name = "linux"
 
-exe_path = "./dist/%s" % base_name_with_version + exe_ext
+exe_path = os.path.join(".", "dist", base_name_with_version + bitness_suffix + exe_ext)
 if not (os.path.isfile(exe_path) or os.path.isdir(exe_path)):
   raise Exception("Executable not found: %s" % exe_path)
 
-if os.path.exists("./dist/release_archive") and os.path.isdir("./dist/release_archive"):
-  shutil.rmtree("./dist/release_archive")
+release_archive_path = os.path.join(".", "dist", "release_archive" + bitness_suffix)
 
-os.mkdir("./dist/release_archive")
-shutil.copyfile("README.md", "./dist/release_archive/README.txt")
+if os.path.exists(release_archive_path) and os.path.isdir(release_archive_path):
+  shutil.rmtree(release_archive_path)
+
+os.mkdir(release_archive_path)
+shutil.copyfile("README.md", os.path.join(release_archive_path, "README.txt"))
 
 if platform.system() == "Darwin":
-  shutil.copytree(exe_path, "./dist/release_archive/%s" % base_name + exe_ext)
-  shutil.copyfile("./models/About Custom Models.txt", "./dist/release_archive/About Custom Models.txt")
+  shutil.copytree(exe_path, os.path.join(release_archive_path, base_name + exe_ext))
+  shutil.copyfile(os.path.join(".", "models", "About Custom Models.txt"), os.path.join(release_archive_path, "About Custom Models.txt"))
 else:
-  os.mkdir("./dist/release_archive/models")
-  shutil.copyfile(exe_path, "./dist/release_archive/%s" % base_name + exe_ext)
-  shutil.copyfile("./models/About Custom Models.txt", "./dist/release_archive/models/About Custom Models.txt")
-
+  os.mkdir(os.path.join(release_archive_path, "models"))
+  shutil.copyfile(exe_path, os.path.join(release_archive_path, base_name + exe_ext))
+  shutil.copyfile(os.path.join(".", "models", "About Custom Models.txt"), os.path.join(release_archive_path, "models", "About Custom Models.txt"))
