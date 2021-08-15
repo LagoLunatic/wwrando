@@ -7,8 +7,8 @@ on:
     branches: [ master ]
 
 jobs:
-  linux:
-    runs-on: ubuntu-latest
+  windows:
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -29,14 +29,14 @@ jobs:
         run: |
           echo "::set-output name=version::$(cat version.txt)"
           echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
-      - name: Build Linux App
+      - name: Build Windows App
         run: python -m PyInstaller wwrando.spec
-      - name: Bundle Linux App
+      - name: Bundle Windows App
         run: python build.py
       - uses: actions/upload-artifact@v2
         with:
-          name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-linux
-          path: dist/release_archive/*
+         name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-windows
+         path: dist/release_archive/*
 
   macos:
     runs-on: macos-latest
@@ -82,8 +82,8 @@ jobs:
           name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-macos
           path: dist/release_archive/*
 
-  windows:
-    runs-on: windows-latest
+  linux:
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -104,11 +104,11 @@ jobs:
         run: |
           echo "::set-output name=version::$(cat version.txt)"
           echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
-      - name: Build Windows App
+      - name: Build Linux App
         run: python -m PyInstaller wwrando.spec
-      - name: Bundle Windows App
+      - name: Bundle Linux App
         run: python build.py
       - uses: actions/upload-artifact@v2
         with:
-         name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-windows
-         path: dist/release_archive/*
+          name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-linux
+          path: dist/release_archive/*
