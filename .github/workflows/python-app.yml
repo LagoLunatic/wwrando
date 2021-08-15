@@ -9,6 +9,9 @@ on:
 jobs:
   windows:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        architecture: [ x86, x64 ]
 
     steps:
       - uses: actions/checkout@v2
@@ -16,45 +19,33 @@ jobs:
         run: echo "${{ secrets.SEED_KEY }}" > keys/seed_key.py
       - name: Add release key
         run: echo ${{ secrets.RELEASE_KEY }} > keys/build_key.txt
-      - name: Set up Python 3.8 32-bit
+      - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-          architecture: x86
-      - name: Set up Python 3.8 64-bit
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-          architecture: x64
+          architecture: ${{ matrix.architecture }}
       - name: Install dependencies
         run: |
-          python -3.8-32 -m pip install --upgrade pip
-          python -3.8-32 -m pip install -r requirements_full.txt
-          python -3.8-64 -m pip install --upgrade pip
-          python -3.8-64 -m pip install -r requirements_full.txt
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements_full.txt
       - name: Set variables
         id: vars
         run: |
           echo "::set-output name=version::$(cat version.txt)"
           echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
+      - name: Set architecture variables
+        id: archvars
+        run: |
+          echo "::set-output name=bitness::$(python -c \"import struct; print(struct.calcsize(\\"P\\") * 8)\")"
       - name: Build Windows App
-        run: |
-          python -3.8-32 -m PyInstaller wwrando.spec
-          python -3.8-64 -m PyInstaller wwrando.spec
+        run: python -m PyInstaller wwrando.spec
       - name: Bundle Windows App
-        run: |
-          python -3.8-32 build.py
-          python -3.8-64 build.py
-      - name: Upload 32-bit Windows App
+        run: python build.py
+      - name: Upload Windows App
         uses: actions/upload-artifact@v2
         with:
-         name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-windows-32bit
-         path: dist/release_archive_32bit/*
-      - name: Upload 64-bit Windows App
-        uses: actions/upload-artifact@v2
-        with:
-         name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-windows-64bit
-         path: dist/release_archive_64bit/*
+         name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-windows-${{ steps.archvars.outputs.bitness }}bit
+         path: dist/release_archive_${{ steps.archvars.outputs.bitness }}bit/*
 
   macos:
     runs-on: macos-latest
