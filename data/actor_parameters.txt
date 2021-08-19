@@ -98,10 +98,10 @@ d_a_andsw2:
   first_switch_to_check:
     Bitfield name: params
     Mask: 0xFF000000
-  unknown_param_5:
+  event_index:
     Bitfield name: x_rot
     Mask: 0x00FF
-  unknown_param_6:
+  time_limit_half_seconds:
     Bitfield name: z_rot
     Mask: 0x00FF
 
@@ -559,7 +559,7 @@ d_a_fire:
     Mask: 0x00F00000
 
 d_a_floor:
-  unknown_param_1:
+  disable_spawn_on_destroyed_switch:
     Bitfield name: params
     Mask: 0x000000FF
 
@@ -714,7 +714,7 @@ d_a_hot_floor:
     Mask: 0x00000002
 
 d_a_hys:
-  unknown_param_1:
+  switch_to_set_when_shot:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
@@ -728,7 +728,7 @@ d_a_icelift:
   unknown_param_2:
     Bitfield name: params
     Mask: 0x00000FF0
-  unknown_param_3:
+  do_not_freeze_player_switch:
     Bitfield name: params
     Mask: 0x000FF000
 
@@ -1940,7 +1940,7 @@ d_a_obj_kanat:
     Mask: 0x000000FF
 
 d_a_obj_kanoke:
-  unknown_param_1:
+  is_upright:
     Bitfield name: params
     Mask: 0x00000001
   unknown_param_2:
@@ -1949,10 +1949,10 @@ d_a_obj_kanoke:
   unknown_param_3:
     Bitfield name: params
     Mask: 0x00000040
-  unknown_param_4:
+  opened_switch:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_5:
+  unused_switch:
     Bitfield name: params
     Mask: 0x00FF0000
 
@@ -2008,12 +2008,12 @@ d_a_obj_mkie:
   unknown_param_4:
     Bitfield name: params
     Mask: 0x00002000
-  unknown_param_5:
+  destroyed_switch:
     Bitfield name: params
     Mask: 0x00FF0000
 
 d_a_obj_mkiek:
-  unknown_param_1:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
@@ -2021,7 +2021,7 @@ d_a_obj_mkiek:
     Mask: 0x00000100
 
 d_a_obj_mknjd:
-  unknown_param_1:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
@@ -2296,10 +2296,10 @@ d_a_obj_tapestry:
     Mask: 0x0000FF00
 
 d_a_obj_tenmado:
-  unknown_param_1:
+  switch_to_check:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x0000FF00
 
@@ -2381,7 +2381,7 @@ d_a_obj_vfan:
 d_a_obj_vgnfd: {}
 
 d_a_obj_vmc:
-  unknown_param_1:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x0000FF00
 
@@ -2658,7 +2658,7 @@ d_a_shop_item:
     Mask: 0x00000F00
 
 d_a_shutter:
-  unknown_param_1:
+  switch_to_check:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
@@ -2666,7 +2666,7 @@ d_a_shutter:
     Mask: 0x00000F00
 
 d_a_shutter2:
-  unknown_param_1:
+  switch_to_check:
     Bitfield name: params
     Mask: 0x000000FF
 
@@ -2997,7 +2997,7 @@ d_a_tag_kf1:
 d_a_tag_kk1: {}
 
 d_a_tag_light:
-  unknown_param_1:
+  type:
     Bitfield name: params
     Mask: 0x00000003
   unknown_param_2:
@@ -3012,7 +3012,10 @@ d_a_tag_light:
   unknown_param_5:
     Bitfield name: params
     Mask: 0x0000C000
-  unknown_param_6:
+  enable_spawn_switch:
+    Bitfield name: params
+    Mask: 0x00FF0000
+  switch_to_set:
     Bitfield name: params
     Mask: 0x00FF0000
   unknown_param_7:
@@ -3158,7 +3161,7 @@ d_a_tn:
     Mask: 0x00FF
 
 d_a_toge:
-  unknown_param_1:
+  disabled_switch:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
