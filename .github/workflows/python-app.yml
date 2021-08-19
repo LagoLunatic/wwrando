@@ -44,11 +44,14 @@ jobs:
       - name: Upload Windows App
         uses: actions/upload-artifact@v2
         with:
-         name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-windows-${{ steps.archvars.outputs.bitness }}bit
-         path: dist/release_archive_${{ steps.archvars.outputs.bitness }}bit/*
+          name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-windows-${{ steps.archvars.outputs.bitness }}bit
+          path: dist/release_archive_${{ steps.archvars.outputs.bitness }}bit/*
 
   macos:
     runs-on: macos-latest
+    strategy:
+      matrix:
+        architecture: [ x64 ]
 
     env:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
@@ -64,7 +67,7 @@ jobs:
         uses: goanpeca/setup-miniconda@v1
         with:
           python-version: 3.8
-          architecture: x64
+          architecture: ${{ matrix.architecture }}
           miniconda-version: latest
       - run: |
           conda create -qyf -n py38 python=3.8 wheel -c anaconda
@@ -80,6 +83,10 @@ jobs:
         run: |
           echo "::set-output name=version::$(cat version.txt)"
           echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
+      - name: Set architecture variables
+        id: archvars
+        run: |
+          echo "::set-output name=bitness::$(python3 -c "import struct; print(struct.calcsize('P') * 8)")"
       - name: Build MacOS App
         run: python3 -m PyInstaller --onefile --windowed wwrando.spec
         shell: bash -l {0}
@@ -88,11 +95,14 @@ jobs:
         shell: bash -l {0}
       - uses: actions/upload-artifact@v2
         with:
-          name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-macos
-          path: dist/release_archive_64bit/*
+          name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-macos-${{ steps.archvars.outputs.bitness }}bit
+          path: dist/release_archive_${{ steps.archvars.outputs.bitness }}bit/*
 
   linux:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        architecture: [ x64 ]
 
     steps:
       - uses: actions/checkout@v2
@@ -104,21 +114,25 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-          architecture: x64
+          architecture: ${{ matrix.architecture }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements_full.txt
+          python -m pip install -r requirements_full.txt
       - name: Set variables
         id: vars
         run: |
           echo "::set-output name=version::$(cat version.txt)"
           echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
+      - name: Set architecture variables
+        id: archvars
+        run: |
+          echo "::set-output name=bitness::$(python -c "import struct; print(struct.calcsize('P') * 8)")"
       - name: Build Linux App
         run: python -m PyInstaller wwrando.spec
       - name: Bundle Linux App
         run: python build.py
       - uses: actions/upload-artifact@v2
         with:
-          name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-linux
-          path: dist/release_archive_64bit/*
+          name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-linux-${{ steps.archvars.outputs.bitness }}bit
+          path: dist/release_archive_${{ steps.archvars.outputs.bitness }}bit/*
