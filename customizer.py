@@ -21,6 +21,14 @@ ORIG_SHIP_ARC_FILE_SIZE_IN_BYTES  =  191520
 # In other words, the same amount of increase as when the 1.24MiB original Link.arc is increased to 1.44MiB.
 MAX_ALLOWED_TOTAL_ARC_FILE_SIZE_SUM_INCREASE_IN_BYTES = 1525678 - ORIG_LINK_ARC_FILE_SIZE_IN_BYTES
 
+HARDCODED_COLORS_WITH_ALPHA_KEY_NAMES = [
+  "sword_slash_trail_color",
+  "elixir_soup_sword_trail_color",
+  "parrying_sword_trail_color",
+  "boomerang_trail_color",
+  "arrow_trail_color",
+]
+
 class InvalidColorError(Exception):
   pass
 
@@ -119,7 +127,7 @@ def get_model_metadata(custom_model_name):
                 "error_message": error_message,
               }
     
-    for key in ["sword_slash_trail_color", "boomerang_trail_color", "arrow_trail_color"]:
+    for key in HARDCODED_COLORS_WITH_ALPHA_KEY_NAMES:
       if key in metadata:
         hex_color = metadata[key]
         metadata[key] = parse_hex_color_with_alpha(hex_color)
@@ -345,10 +353,16 @@ def change_player_custom_colors(self):
   disable_casual_clothes = custom_model_metadata.get("disable_casual_clothes", False)
   
   sword_slash_trail_color = custom_model_metadata.get("sword_slash_trail_color")
+  elixir_soup_sword_trail_color = custom_model_metadata.get("elixir_soup_sword_trail_color")
+  parrying_sword_trail_color = custom_model_metadata.get("parrying_sword_trail_color")
   boomerang_trail_color = custom_model_metadata.get("boomerang_trail_color")
   arrow_trail_color = custom_model_metadata.get("arrow_trail_color")
   if sword_slash_trail_color:
     self.dol.write_data(write_and_pack_bytes, 0x803F62AC, sword_slash_trail_color, "BBBB")
+  if elixir_soup_sword_trail_color:
+    self.dol.write_data(write_and_pack_bytes, 0x803F62B0, elixir_soup_sword_trail_color, "BBBB")
+  if parrying_sword_trail_color:
+    self.dol.write_data(write_and_pack_bytes, 0x803F62B4, parrying_sword_trail_color, "BBBB")
   if boomerang_trail_color:
     self.dol.write_data(write_and_pack_bytes, 0x803F6268, boomerang_trail_color, "BBBB")
   if arrow_trail_color:
