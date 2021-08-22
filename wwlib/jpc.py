@@ -199,9 +199,9 @@ class Particle:
     self.num_chunks = read_u32(jpc_data, particle_offset+0xC)
     self.size = read_u32(jpc_data, particle_offset+0x10) # Not accurate in some rare cases
     
-    self.unknown_2 = read_u8(jpc_data, particle_offset+0x14)
-    self.unknown_3 = read_u8(jpc_data, particle_offset+0x15)
-    self.unknown_4 = read_u8(jpc_data, particle_offset+0x16)
+    self.num_kfa1_chunks = read_u8(jpc_data, particle_offset+0x14)
+    self.num_fld1_chunks = read_u8(jpc_data, particle_offset+0x15)
+    self.num_textures = read_u8(jpc_data, particle_offset+0x16)
     self.unknown_5 = read_u8(jpc_data, particle_offset+0x17)
     
     self.particle_id = read_u16(jpc_data, particle_offset+0x18)
@@ -227,6 +227,8 @@ class Particle:
       
       chunk_offset += chunk.size
     
+    self.tdb1.read_texture_ids(self.num_textures)
+    
     true_size = (chunk_offset - particle_offset)
     jpc_data.seek(particle_offset)
     self.data = BytesIO(jpc_data.read(true_size))
@@ -235,6 +237,8 @@ class Particle:
     # Cut off the chunk data first since we're replacing this data entirely.
     self.data.truncate(0x20)
     self.data.seek(0x20)
+    
+    self.num_textures = len(self.tdb1.texture_ids)
     
     for chunk in self.chunks:
       chunk.save_changes()
@@ -349,30 +353,17 @@ class SSP1(J3DChunk):
     write_u8(self.data, 0xC + 0x43, a)
   
 class TDB1(J3DChunk):
+  # Texture ID database (list of texture IDs in this JPC file used by this particle)
+  
   def read_chunk_specific_data(self):
-    # Texture ID database (list of texture IDs in this JPC file used by this particle)
-    
-    num_texture_ids = ((self.size - 0xC) // 2)
+    self.texture_ids = None # Can't read these yet, we need the number of textures from the particle header.
+    self.texture_filenames = [] # Leave this list empty for now, it will be populated after the texture list is read.
+  
+  def read_texture_ids(self, num_texture_ids):
     self.texture_ids = []
     for texture_id_index in range(num_texture_ids):
       texture_id = read_u16(self.data, 0xC + texture_id_index*2)
       self.texture_ids.append(texture_id)
-    
-    # There's an issue with reading texture IDs where it can include false positives because the texture ID list pads the end with null bytes, which can be interpreted as the texture with ID 0.
-    # So we use a heuristic to guess when the list really ends and the padding starts.
-    # Simply, we count all texture IDs up until the last nonzero ID, then stop counting zero IDs after that.
-    # However, we always include the texture ID at index 0, even if it's zero.
-    # TODO: This is a bit hacky. A proper way would involve completely implementing all JPC chunk types and reading all the texture ID indexes from them, and then reading only the texture IDs at those indexes. But that would be much more work, and this appears to work fine.
-    last_nonzero_texture_id_index = None
-    for texture_id_index in reversed(range(num_texture_ids)):
-      if self.texture_ids[texture_id_index] != 0:
-        last_nonzero_texture_id_index = texture_id_index
-        break
-    if last_nonzero_texture_id_index is None:
-      last_nonzero_texture_id_index = 0
-    self.texture_ids = self.texture_ids[:last_nonzero_texture_id_index+1]
-    
-    self.texture_filenames = [] # Leave this list empty for now, it will be populated after the texture list is read.
   
   def save_chunk_specific_data(self):
     # Save the texture IDs (which were updated by the JPC's save_changes function).
