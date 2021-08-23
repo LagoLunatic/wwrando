@@ -1,9 +1,9 @@
-py -3.8-32 -m PyInstaller wwrando.spec
+py -3.9-32 -m PyInstaller wwrando.spec
 if %errorlevel% neq 0 exit /b %errorlevel%
-py -3.8-32 build.py
+py -3.9-32 build.py
 if %errorlevel% neq 0 exit /b %errorlevel%
 
-py -3.8 -m PyInstaller wwrando.spec
+py -3.9 -m PyInstaller wwrando.spec
 if %errorlevel% neq 0 exit /b %errorlevel%
-py -3.8 build.py
+py -3.9 build.py
 if %errorlevel% neq 0 exit /b %errorlevel%

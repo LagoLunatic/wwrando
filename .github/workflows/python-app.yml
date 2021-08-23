@@ -19,10 +19,10 @@ jobs:
         run: echo "${{ secrets.SEED_KEY }}" > keys/seed_key.py
       - name: Add release key
         run: echo ${{ secrets.RELEASE_KEY }} > keys/build_key.txt
-      - name: Set up Python 3.8
+      - name: Set up Python 3.9
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.9
           architecture: ${{ matrix.architecture }}
       - name: Install dependencies
         run: |
@@ -63,14 +63,14 @@ jobs:
         run: echo "${{ secrets.SEED_KEY }}" > keys/seed_key.py
       - name: Add release key
         run: echo ${{ secrets.RELEASE_KEY }} > keys/build_key.txt
-      - name: Set up Miniconda with Python 3.8
+      - name: Set up Miniconda with Python 3.9
         uses: goanpeca/setup-miniconda@v1
         with:
-          python-version: 3.8
+          python-version: 3.9
           architecture: ${{ matrix.architecture }}
           miniconda-version: latest
       - run: |
-          conda create -qyf -n py38 python=3.8 wheel -c anaconda
+          conda create -qyf -n py38 python=3.9 wheel -c anaconda
           conda activate py38
         shell: bash -l {0}
       - name: Install dependencies
@@ -110,10 +110,10 @@ jobs:
         run: echo "${{ secrets.SEED_KEY }}" > keys/seed_key.py
       - name: Add release key
         run: echo ${{ secrets.RELEASE_KEY }} > keys/build_key.txt
-      - name: Set up Python 3.8
+      - name: Set up Python 3.9
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.9
           architecture: ${{ matrix.architecture }}
       - name: Install dependencies
         run: |
