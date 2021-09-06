@@ -164,9 +164,10 @@ def print_all_used_switches(self):
           for attr_name in actor.param_fields:
             if attr_name.startswith("unknown_param_"):
               # Some hacky code to try to look for unknown params that are switches.
-              if stage_id == 0xB:
-                if getattr(actor, attr_name) in [0x3E, 0x3F]:
-                  print("!!!! %s %s %s" % (actor.name, attr_name, arc_path))
+              if stage_id == 9:
+                param_val = getattr(actor, attr_name)
+                if param_val in [9]:
+                  print("!!!! %02X %s %s %s" % (param_val, actor.name, attr_name, arc_path))
             
             stage_id_for_param = stage_id
             room_no_for_param = room_no
@@ -188,7 +189,7 @@ def print_all_used_switches(self):
                 continue
               
               if class_name == "d_a_tbox":
-                if attr_name == "appear_condition_switch" and actor.behavior_type not in [1, 3, 4, 6, 8]:
+                if attr_name == "appear_condition_switch" and actor.behavior_type not in [1, 2, 3, 4, 6, 8]:
                   # Not a type that cares about the appear condition switch
                   continue
                 room_no_for_param = actor.room_num

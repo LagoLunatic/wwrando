@@ -181,10 +181,10 @@ d_a_beam:
     Mask: 0xFFFF
 
 d_a_bflower:
-  unknown_param_1:
+  type:
     Bitfield name: params
     Mask: 0x000000F0
-  unknown_param_2:
+  watered_switch:
     Bitfield name: params
     Mask: 0x0000FF00
 
@@ -370,7 +370,7 @@ d_a_coming2: {}
 d_a_coming3: {}
 
 d_a_dai:
-  unknown_param_1:
+  event_reg_index:
     Bitfield name: params
     Mask: 0x000000FF
 
@@ -1030,10 +1030,10 @@ d_a_mo2:
   moblin_type:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  frozen_in_time_pose:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  path_index:
     Bitfield name: params
     Mask: 0x00FF0000
   enable_spawn_switch:
@@ -1687,7 +1687,7 @@ d_a_obj_drift:
 d_a_obj_eayogn: {}
 
 d_a_obj_ebomzo:
-  unknown_param_1:
+  bombed_switch:
     Bitfield name: params
     Mask: 0x000000FF
 
@@ -1712,7 +1712,7 @@ d_a_obj_ferris:
     Mask: 0x000000FF
 
 d_a_obj_figure:
-  unknown_param_1:
+  which_figurine:
     Bitfield name: params
     Mask: 0x000000FF
 
@@ -2320,10 +2320,10 @@ d_a_obj_timer:
     Mask: 0x00FF0000
 
 d_a_obj_tntrap:
-  unknown_param_1:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_3:
@@ -2374,7 +2374,7 @@ d_a_obj_Vds:
     Mask: 0x000000FF
 
 d_a_obj_vfan:
-  unknown_param_1:
+  destroyed_switch:
     Bitfield name: params
     Mask: 0x000000FF
 
