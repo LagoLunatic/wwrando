@@ -474,7 +474,7 @@ class STAG(ChunkEntry):
     
     self.params = read_u16(data, offset+0xA)
     self.property_index = read_u16(data, offset+0xC)
-    self.unknown_5 = read_u8(data, offset+0xE)
+    self.default_time_of_day = read_u8(data, offset+0xE)
     self.unknown_6 = read_u8(data, offset+0xF)
     self.unknown_7 = read_u8(data, offset+0x10)
     self.unknown_8 = read_u8(data, offset+0x11)
@@ -492,7 +492,7 @@ class STAG(ChunkEntry):
     
     write_u16(data, self.offset+0xA, self.params)
     write_u16(data, self.offset+0xC, self.property_index)
-    write_u8(data, self.offset+0xE, self.unknown_5)
+    write_u8(data, self.offset+0xE, self.default_time_of_day)
     write_u8(data, self.offset+0xF, self.unknown_6)
     write_u8(data, self.offset+0x10, self.unknown_7)
     write_u8(data, self.offset+0x11, self.unknown_8)
