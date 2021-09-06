@@ -451,10 +451,18 @@ class STAG(ChunkEntry):
   DATA_SIZE = 0x14
   
   PARAMS = {
-    "unknown_2":            ("params", 0x0003),
-    "unknown_3":            ("params", 0x0004),
-    "loaded_particle_bank": ("params", 0x07F8),
-    "unknown_4":            ("params", 0xF800),
+    "is_dungeon": ("params_1", 0x01),
+    "stage_id":   ("params_1", 0xFE),
+    
+    "minimap_type":         ("params_2", 0x0003),
+    "unknown_3":            ("params_2", 0x0004),
+    "loaded_particle_bank": ("params_2", 0x07F8),
+    "unknown_4":            ("params_2", 0xF800),
+    
+    "default_time_of_day": ("params_3", 0x0000FF00),
+    "stage_type":          ("params_3", 0x00070000),
+    
+    "base_actor_draw_distance": ("params_4", 0x0000FFFF),
   }
   
   def __init__(self, file_entry):
@@ -468,17 +476,10 @@ class STAG(ChunkEntry):
     self.depth_max = read_float(data, offset+4)
     self.unknown_1 = read_u8(data, offset+8)
     
-    is_dungeon_and_stage_id = read_u8(data, offset+9)
-    self.is_dungeon = is_dungeon_and_stage_id & 1
-    self.stage_id = is_dungeon_and_stage_id >> 1
-    
-    self.params = read_u16(data, offset+0xA)
-    self.property_index = read_u16(data, offset+0xC)
-    self.default_time_of_day = read_u8(data, offset+0xE)
-    self.unknown_6 = read_u8(data, offset+0xF)
-    self.unknown_7 = read_u8(data, offset+0x10)
-    self.unknown_8 = read_u8(data, offset+0x11)
-    self.draw_range = read_u16(data, offset+0x12)
+    self.params_1 = read_u8(data, offset+9)
+    self.params_2 = read_u16(data, offset+0xA)
+    self.params_3 = read_u32(data, offset+0xC)
+    self.params_4 = read_u32(data, offset+0x10)
   
   def save_changes(self):
     data = self.file_entry.data
@@ -487,16 +488,10 @@ class STAG(ChunkEntry):
     write_float(data, self.offset+4, self.depth_max)
     write_u8(data, self.offset+8, self.unknown_1)
     
-    is_dungeon_and_stage_id = (self.stage_id << 1) | (self.is_dungeon & 1)
-    write_u16(data, self.offset+8, is_dungeon_and_stage_id)
-    
-    write_u16(data, self.offset+0xA, self.params)
-    write_u16(data, self.offset+0xC, self.property_index)
-    write_u8(data, self.offset+0xE, self.default_time_of_day)
-    write_u8(data, self.offset+0xF, self.unknown_6)
-    write_u8(data, self.offset+0x10, self.unknown_7)
-    write_u8(data, self.offset+0x11, self.unknown_8)
-    write_u16(data, self.offset+0x12, self.draw_range)
+    write_u8(data, self.offset+9, self.params_1)
+    write_u16(data, self.offset+0xA, self.params_2)
+    write_u32(data, self.offset+0xC, self.params_3)
+    write_u32(data, self.offset+0x10, self.params_4)
 
 class FILI(ChunkEntry):
   DATA_SIZE = 8
