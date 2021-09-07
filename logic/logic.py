@@ -1110,6 +1110,13 @@ class Logic:
     
     max_num_of_each_item_to_check = self.get_items_needed_from_logical_expression_req(orig_req_expression)
     
+    # Remove starting items from being checked.
+    for item_name in self.currently_owned_items:
+      if item_name in max_num_of_each_item_to_check:
+        max_num_of_each_item_to_check[item_name] -= 1
+        if max_num_of_each_item_to_check[item_name] == 0:
+          del max_num_of_each_item_to_check[item_name]
+    
     relevant_item_names = list(max_num_of_each_item_to_check.keys())
     if self.rando.options.get("sword_mode") == "Swordless":
       if "Progressive Sword" in relevant_item_names:
