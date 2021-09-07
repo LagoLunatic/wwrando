@@ -1106,7 +1106,6 @@ class Logic:
       # All the enemies we need to check have already been checked and cached. Return early to improve performance.
       return enemy_datas_allowed_here
     
-    orig_enemy_reqs = original_req_string.split(" & ")
     orig_req_expression = Logic.parse_logic_expression(original_req_string)
     
     max_num_of_each_item_to_check = self.get_items_needed_from_logical_expression_req(orig_req_expression)
