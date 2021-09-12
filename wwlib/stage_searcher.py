@@ -161,6 +161,30 @@ def print_all_used_switches(self):
           if layer is not None:
             location_identifier += "/Layer%X" % layer
           
+          #param_bitfield_masks_unused = {}
+          #param_bitfield_values_unused = {}
+          #for field_name in ["params", "x_rot", "z_rot"]:
+          #  if field_name == "params":
+          #    param_bitfield_masks_unused[field_name] = 0xFFFFFFFF
+          #  else:
+          #    param_bitfield_masks_unused[field_name] = 0xFFFF
+          #  param_bitfield_values_unused[field_name] = getattr(actor, field_name)
+          #for attr_name in actor.param_fields:
+          #  params_bitfield_name, mask = actor.param_fields[attr_name]
+          #  param_bitfield_masks_unused[params_bitfield_name] &= ~mask
+          #  param_bitfield_values_unused[params_bitfield_name] &= ~mask
+          #
+          #any_field_is_not_null = False
+          #for field_name in ["params", "x_rot", "z_rot"]:
+          #  if param_bitfield_values_unused[field_name] not in [0, param_bitfield_masks_unused[field_name]]:
+          #    any_field_is_not_null = True
+          #if any_field_is_not_null:
+          #  print(actor.name)
+          #  print("params:       %08X" % param_bitfield_values_unused["params"])
+          #  print("x_rot: %04X" % param_bitfield_values_unused["x_rot"])
+          #  print("z_rot: %04X" % param_bitfield_values_unused["z_rot"])
+          #  print()
+          
           for attr_name in actor.param_fields:
             if attr_name.startswith("unknown_param_"):
               # Some hacky code to try to look for unknown params that are switches.
@@ -741,6 +765,7 @@ def search_all_dzb_properties(self):
       dzb.read(file_entry.data)
       
       for property in dzb.properties:
+        pass
         #if property.sound_id in [24]:
         #  print(arc_path, "Property-%02X" % (dzb.properties.index(property)))
         #if property.camera_behavior not in seen_cam_behavior_vals:
@@ -758,10 +783,18 @@ def search_all_dzb_properties(self):
         #  face = next(face for face in dzb.faces if face.property_index == dzb.properties.index(property))
         #  group = dzb.groups[face.group_index]
         #  print("%02X" % property.special_type, arc_path, group.name, "Property-%02X" % (dzb.properties.index(property)))
-        if property.poly_color != 0xFF:
-          face = next(face for face in dzb.faces if face.property_index == dzb.properties.index(property))
-          group = dzb.groups[face.group_index]
-          print("%02X" % property.poly_color, arc_path, group.name, "Property-%02X" % (dzb.properties.index(property)))
+        #if property.poly_color != 0xFF:
+        #  face = next(face for face in dzb.faces if face.property_index == dzb.properties.index(property))
+        #  group = dzb.groups[face.group_index]
+        #  print("%02X" % property.poly_color, arc_path, group.name, "Property-%02X" % (dzb.properties.index(property)))
+        #if property.room_path_id != 0xFF:
+        #  face = next(face for face in dzb.faces if face.property_index == dzb.properties.index(property))
+        #  group = dzb.groups[face.group_index]
+        #  print("%02X" % property.room_path_id, arc_path, group.name, "Property-%02X" % (dzb.properties.index(property)))
+        #if property.room_path_point_no != 0xFF:
+        #  face = next(face for face in dzb.faces if face.property_index == dzb.properties.index(property))
+        #  group = dzb.groups[face.group_index]
+        #  print("%02X" % property.room_path_point_no, arc_path, group.name, "Property-%02X" % (dzb.properties.index(property)))
 
 def print_all_used_particle_banks(self):
   for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
