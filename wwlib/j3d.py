@@ -34,6 +34,14 @@ class J3DFile:
     self.length = read_u32(data, 8)
     self.num_chunks = read_u32(data, 0x0C)
     
+    self.bck_sound_data_offset = read_u32(data, 0x1C)
+    if self.file_type == "bck1" and self.bck_sound_data_offset != 0xFFFFFFFF:
+      num_bck_sound_data_entries = read_u16(data, self.bck_sound_data_offset)
+      bck_sound_data_length = 8 + num_bck_sound_data_entries*0x20
+      self.bck_sound_data = read_bytes(data, self.bck_sound_data_offset, bck_sound_data_length)
+    else:
+      self.bck_sound_data = None
+    
     self.chunks = []
     self.chunk_by_type = {}
     offset = 0x20
@@ -72,6 +80,13 @@ class J3DFile:
       chunk_data = chunk.data.read()
       data.write(chunk_data)
     
+    if self.bck_sound_data is not None:
+      self.bck_sound_data_offset = data_len(data)
+      write_bytes(data, self.bck_sound_data_offset, self.bck_sound_data)
+      
+      # Pad the size of the whole file to the next 0x20 bytes.
+      align_data_to_nearest(data, 0x20, padding_bytes=b'\0')
+    
     self.length = data_len(data)
     self.num_chunks = len(self.chunks)
     
@@ -79,6 +94,7 @@ class J3DFile:
     write_magic_str(data, 4, self.file_type, 4)
     write_u32(data, 8, self.length)
     write_u32(data, 0xC, self.num_chunks)
+    write_u32(data, 0x1C, self.bck_sound_data_offset)
 
 class J3DFileEntry(J3DFile):
   def __init__(self, file_entry):
