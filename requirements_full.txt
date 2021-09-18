@@ -2,7 +2,7 @@ appdirs==1.4.4
 certifi==2020.12.5
 PySide2==5.15.2
 PyYAML==5.4
-Pillow==8.2.0
+Pillow==8.3.2
 PyInstaller==4.3
 tinyaes==1.0.1
 git+git://github.com/LagoLunatic/PyFastBTI.git@da01c14562a4711e031fd0a01c52d2131035e228#egg=PyFastBTI
