@@ -2178,6 +2178,8 @@ def remove_minor_panning_cutscenes(self):
     ("Siren", "Room18", 2),
     ("M_Dai", "Room3", 7),
     ("sea", "Room41", 19),
+    ("sea", "Room41", 22),
+    ("sea", "Room41", 23),
   ]
   
   for stage_name, arc_name, evnt_index in panning_cutscenes:
