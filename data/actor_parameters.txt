@@ -520,19 +520,19 @@ d_a_ff:
     Mask: 0xFFFF00FF # (WARNING: overlaps)
 
 d_a_fganon:
-  unknown_param_1:
+  behavior_type:
     Bitfield name: params
     Mask: 0x0000000F
-  unknown_param_2:
+  which_clone:
     Bitfield name: params
     Mask: 0x000000F0
-  unknown_param_3:
+  sight_range:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_4:
+  disable_spawn_on_death_switch:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_5:
+  fight_in_progress_switch:
     Bitfield name: params
     Mask: 0xFF000000
 
