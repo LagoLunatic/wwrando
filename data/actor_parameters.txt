@@ -3370,6 +3370,15 @@ d_a_item:
   item_pickup_flag:
     Bitfield name: params
     Mask: 0x0000FF00
+  enable_spawn_switch:
+    Bitfield name: params
+    Mask: 0x00FF0000
+  behavior_type:
+    Bitfield name: params
+    Mask: 0x03000000
+  item_action:
+    Bitfield name: params
+    Mask: 0xFC000000
   activation_switch_index:
     Bitfield name: z_rot
     Mask: 0x00FF
