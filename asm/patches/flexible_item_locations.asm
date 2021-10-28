@@ -903,6 +903,34 @@ play_song_get_music:
 .org 0x5C50
   bl check_tingle_statue_owned
 .close
+; Also fix Tingle Tuner related things to check if you own the Tingle Statues correctly.
+.open "sys/main.dol"
+; Handles telling the GBA which Tingle Statues you own.
+.org 0x800D14D8 ; In daAgb_c::FlagsSend(unsigned long)
+  bl check_tingle_statue_owned
+.org 0x800D1504 ; In daAgb_c::FlagsSend(unsigned long)
+  bl check_tingle_statue_owned
+.org 0x800D1528 ; In daAgb_c::FlagsSend(unsigned long)
+  bl check_tingle_statue_owned
+.org 0x800D154C ; In daAgb_c::FlagsSend(unsigned long)
+  bl check_tingle_statue_owned
+.org 0x800D1570 ; In daAgb_c::FlagsSend(unsigned long)
+  bl check_tingle_statue_owned
+.close
+.open "files/rels/d_a_agbsw0.rel" ; Tingle Tuner region
+; Handles checking various spawn conditions for Tingle Tuner hint regions to appear after a specific Tingle Statue is owned.
+; (I think these conditions are probably unused in the vanilla game, but update them anyway in case they're used for mods.)
+.org 0x359C ; In daAgbsw0_c::MoveCheck(short), condition 9
+  bl check_tingle_statue_owned
+.org 0x35B8 ; In daAgbsw0_c::MoveCheck(short), condition A
+  bl check_tingle_statue_owned
+.org 0x35D4 ; In daAgbsw0_c::MoveCheck(short), condition B
+  bl check_tingle_statue_owned
+.org 0x35F0 ; In daAgbsw0_c::MoveCheck(short), condition C
+  bl check_tingle_statue_owned
+.org 0x360C ; In daAgbsw0_c::MoveCheck(short), condition D
+  bl check_tingle_statue_owned
+.close
 
 
 
