@@ -698,3 +698,59 @@ get_num_owned_tingle_statues:
   addi sp, sp, 0x10
   blr
 .close
+
+
+
+
+; Give the inter-dungeon warp pots a different smoke particle color compared to other warp pots to help distinguish them.
+.open "files/rels/d_a_obj_warpt.rel" ; Warp pots
+.org 0x2050 ; In daObj_Warpt_c::createInit(void), before setting prm_color
+  b set_prm_color_for_warp_pot_particles
+.org 0x2080 ; In daObj_Warpt_c::createInit(void), before setting env_color
+  b set_env_color_for_warp_pot_particles
+
+.org @NextFreeSpace
+
+.global set_prm_color_for_warp_pot_particles
+set_prm_color_for_warp_pot_particles:
+  add r4, r4, r0 ; Replace line overwrote to jump here
+  
+  lwz r0, 0x2B8 (r30) ; Event register index. 2 and 5 are for inter-dungeon warp pots.
+  cmpwi r0, 2
+  beq set_prm_color_for_warp_pot_particles_is_inter_dungeon
+  cmpwi r0, 5
+  bne set_prm_color_for_warp_pot_particles_is_not_inter_dungeon
+  
+  set_prm_color_for_warp_pot_particles_is_inter_dungeon:
+  lis r4, custom_warp_pot_prm_color@ha
+  addi r4, r4, custom_warp_pot_prm_color@l
+  b 0x2054 ; Return
+  
+  set_prm_color_for_warp_pot_particles_is_not_inter_dungeon:
+  b 0x2054 ; Return
+
+.global set_env_color_for_warp_pot_particles
+set_env_color_for_warp_pot_particles:
+  add r4, r4, r0 ; Replace line overwrote to jump here
+  
+  lwz r0, 0x2B8 (r30) ; Event register index. 2 and 5 are for inter-dungeon warp pots.
+  cmpwi r0, 2
+  beq set_env_color_for_warp_pot_particles_is_inter_dungeon
+  cmpwi r0, 5
+  bne set_env_color_for_warp_pot_particles_is_not_inter_dungeon
+  
+  set_env_color_for_warp_pot_particles_is_inter_dungeon:
+  lis r4, custom_warp_pot_env_color@ha
+  addi r4, r4, custom_warp_pot_env_color@l
+  b 0x2084 ; Return
+  
+  set_env_color_for_warp_pot_particles_is_not_inter_dungeon:
+  b 0x2084 ; Return
+
+.global custom_warp_pot_prm_color ; The main color
+custom_warp_pot_prm_color:
+  .int 0xE5101B80 ; Bright red
+.global custom_warp_pot_env_color ; The outline color
+custom_warp_pot_env_color:
+  .int 0x3C379D80 ; Dark purple
+.close

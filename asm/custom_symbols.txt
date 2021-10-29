@@ -145,3 +145,8 @@ files/rels/d_a_warpdm20.rel:
   check_hyrule_warp_unlocked: 0x1EBC
 files/rels/d_a_shop_item.rel:
   convert_progressive_item_id_for_shop_item: 0x1174
+files/rels/d_a_obj_warpt.rel:
+  set_prm_color_for_warp_pot_particles: 0x3280
+  set_env_color_for_warp_pot_particles: 0x32A8
+  custom_warp_pot_prm_color: 0x32D0
+  custom_warp_pot_env_color: 0x32D4
