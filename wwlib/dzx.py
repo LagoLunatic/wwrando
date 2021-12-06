@@ -269,6 +269,9 @@ class ChunkEntry:
     if not self.IS_ACTOR_CHUNK:
       raise Exception("Tried to get the actor class name of an entity in a non-actor DZx chunk")
     
+    if self.name not in DataTables.actor_name_to_class_name:
+      return None
+    
     return DataTables.actor_name_to_class_name[self.name]
   
   @property
