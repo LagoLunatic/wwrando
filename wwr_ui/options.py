@@ -108,6 +108,10 @@ OPTIONS = OrderedDict([
     "randomize_starting_island",
     "Randomizes which island you start the game on."
   ),
+  (
+    "chest_type_matches_contents",
+    "Changes the chest type to reflect its contents. A metal chest has a progression item, a dark wood chest has a dungeon key, and the remaining items use a light wood chest.\nWhen key-lunacy is enabled, dungeon keys will appear in metal chests instead of dark wood chests."
+  ),
   
   
   (

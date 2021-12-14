@@ -555,7 +555,8 @@ def change_item(self, path, item_name):
     else:
       layer = None
     chest_index = int(chest_match.group(3), 16)
-    change_chest_item(self, arc_path, chest_index, layer, item_id)
+    chest_type = get_ctmc_chest_type(self, item_name)
+    change_chest_item(self, arc_path, chest_index, layer, item_id, chest_type)
   elif event_match:
     arc_path = "files/res/Stage/" + event_match.group(1)
     event_index = int(event_match.group(2), 16)
@@ -588,13 +589,27 @@ def change_hardcoded_item_in_rel(self, path, offset, item_id):
   rel = self.get_rel(path)
   rel.write_data(write_u8, offset, item_id)
 
-def change_chest_item(self, arc_path, chest_index, layer, item_id):
+def get_ctmc_chest_type(self, item_name):
+  chest_type = -1
+  if self.options.get("chest_type_matches_contents"):
+    if item_name in self.logic.all_progress_items:
+      if item_name.endswith(" Key") and not self.options.get("keylunacy"):
+        chest_type = 1  # Dark wood chest for Small and Big Keys, unless key-lunacy is on
+      else:
+        chest_type = 2  # Metal chests for progress items
+    else:
+      chest_type = 0    # Light wood chests for non-progress and consumables
+  return chest_type
+
+def change_chest_item(self, arc_path, chest_index, layer, item_id, chest_type):
   if arc_path.endswith("Stage.arc"):
     dzx = self.get_arc(arc_path).get_file("stage.dzs")
   else:
     dzx = self.get_arc(arc_path).get_file("room.dzr")
   chest = dzx.entries_by_type_and_layer("TRES", layer)[chest_index]
   chest.item_id = item_id
+  if chest_type >= 0:
+    chest.chest_type = chest_type
   chest.save_changes()
 
 def change_event_item(self, arc_path, event_index, actor_index, action_index, item_id):
