@@ -295,7 +295,6 @@ def randomize_dungeon_items(self):
     if item_name.endswith(" Dungeon Map")
     or item_name.endswith(" Compass")
   ]
-  assert len(other_dungeon_items_to_place) > 0
   for item_name in other_dungeon_items_to_place:
     place_dungeon_item(self, item_name)
   
