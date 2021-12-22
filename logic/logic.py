@@ -110,12 +110,19 @@ class Logic:
     else:
       self.all_nonprogress_items += self.treasure_chart_names
     
+    # CTMC progress items include all progress items up to this point
+    self.ctmc_progress_items = self.all_progress_items.copy()
+    
     # Add dungeon items to the progress/nonprogress items lists.
     if self.rando.options.get("progression_dungeons"):
       self.all_progress_items += DUNGEON_PROGRESS_ITEMS
     else:
       self.all_nonprogress_items += DUNGEON_PROGRESS_ITEMS
     self.all_nonprogress_items += DUNGEON_NONPROGRESS_ITEMS
+    self.ctmc_progress_items += DUNGEON_PROGRESS_ITEMS
+    
+    # Require only unique names of items
+    self.ctmc_progress_items = set(self.ctmc_progress_items)
     
     # Tell the randomizer to register dungeon-specific item names as the normal items.
     for dungeon_item_name in (DUNGEON_PROGRESS_ITEMS + DUNGEON_NONPROGRESS_ITEMS):
