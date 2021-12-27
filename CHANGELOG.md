@@ -1,4 +1,24 @@
 
+### Next version (in progress, not released yet)
+
+New features:
+* The randomizer now officially supports Mac and Linux and offers release builds for those platforms.
+* Added a button to the top of the Player Customization tab to automatically install a custom player model or pack of multiple custom player models from a .zip file.
+* Added an optional tweak to invert the X axis of the compass on the sea so that it works more intuitively.
+* Custom model authors can now change the colors of the sword's slash trail when parrying and when under the Elixir Soup effect.
+* Added a command line argument `-autoseed` that generates a random seed name instead of loading the last used one from settings.txt.
+
+Changes:
+* The "seed hash" the randomizer adds to the name entry screen is now also be included in log files.
+* Removed several minor cutscenes from Forest Haven where the camera panned around.
+* Inter-dungeon warp pots now have red-colored smoke to differentiate them from other warp pots.
+
+Bug fixes:
+* Fixed permalinks not being properly decoded in some cases when Swordless mode is enabled and starting gear is customized.
+* Fixed the Song of Passing being logically required to for Letter from Baito, even though you do not actually need to wait for time to pass for that letter.
+* Fixed the chest the randomizer adds to the DRC miniboss room not appearing on the compass when in a different room.
+* Fixed the number of Tingle Statues you own being displayed incorrectly on the Tingle Tuner's GBA screen.
+
 ### Version 1.9.0 (released 2021-02-23)
 
 New features:
