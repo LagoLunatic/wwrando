@@ -8,8 +8,8 @@ from collections import OrderedDict
 import struct
 import yaml
 import traceback
-
 import sys
+
 sys.path.insert(0, "../")
 from fs_helpers import *
 from elf import *
@@ -60,6 +60,63 @@ with open("free_space_start_offsets.txt", "r") as f:
 next_free_space_offsets = {}
 for file_path, offset in free_space_start_offsets.items():
   next_free_space_offsets[file_path] = offset
+
+def parse_includes(asm):
+  asm_with_includes = ""
+  for line in asm.splitlines():
+    include_match = re.search(r"^\s*\.include\s+\"([^\"]+)\"\s*$", line, re.IGNORECASE)
+    if include_match:
+      relative_file_path = include_match.group(1)
+      file_path = os.path.join("./asm_patches", relative_file_path)
+      
+      file_ext = os.path.splitext(file_path)[1]
+      if file_ext == ".asm":
+        with open(file_path) as f:
+          included_file_contents = f.read()
+        included_asm = included_file_contents
+        included_asm = parse_includes(included_asm) # Parse recursive includes
+      elif file_ext == ".c":
+        included_asm = compile_c_to_asm(file_path)
+      else:
+        raise Exception("Included file with unknown extension: %s" % relative_file_path)
+      
+      asm_with_includes += included_asm + "\n"
+      asm_with_includes += ".section \".text\"\n"
+    else:
+      asm_with_includes += line + "\n"
+  
+  return asm_with_includes
+
+def compile_c_to_asm(c_src_path):
+  basename = os.path.basename(c_src_path)
+  basename_no_ext = os.path.splitext(basename)[0]
+  asm_path = os.path.join(temp_dir, basename_no_ext + ".asm")
+  command = [
+    get_bin("powerpc-eabi-gcc"),
+    "-mcpu=750",
+    "-fno-inline",
+    "-Wall",
+    "-Og",
+    "-fshort-enums",
+    "-S",
+    "-fno-asynchronous-unwind-tables", # Needed to get rid of unnecessary .eh_frame section from the ELF.
+    "-c", c_src_path,
+    "-o", asm_path,
+  ]
+  print(" ".join(command))
+  print()
+  result = call(command)
+  if result != 0:
+    raise Exception("Compiler call failed")
+  
+  with open(asm_path) as f:
+    compiled_asm = f.read()
+  
+  # Uncomment the below to debug the compiled ASM.
+  #with open("compiled_c_asm.asm", "w") as f:
+  #  f.write(compiled_asm)
+  
+  return compiled_asm
 
 def get_code_and_relocations_from_elf(bin_name):
   elf = ELF()
@@ -165,19 +222,22 @@ try:
     with open(patch_path) as f:
       asm = f.read()
     
+    asm_with_includes = parse_includes(asm)
+    #print(asm_with_includes)
+    
     patch_name = os.path.splitext(patch_filename)[0]
     code_chunks[patch_name] = OrderedDict()
     
     most_recent_file_path = None
     most_recent_org_offset = None
-    for line in asm.splitlines():
+    for line in asm_with_includes.splitlines():
       line = re.sub(r";.+$", "", line)
       line = line.strip()
       
-      open_file_match = re.match(r"\.open\s+\"([^\"]+)\"$", line, re.IGNORECASE)
-      org_match = re.match(r"\.org\s+0x([0-9a-f]+)$", line, re.IGNORECASE)
-      org_symbol_match = re.match(r"\.org\s+([\._a-z][\._a-z0-9]+|@NextFreeSpace)$", line, re.IGNORECASE)
-      branch_match = re.match(r"(?:b|beq|bne|blt|bgt|ble|bge)\s+0x([0-9a-f]+)(?:$|\s)", line, re.IGNORECASE)
+      open_file_match = re.search(r"^\s*\.open\s+\"([^\"]+)\"$", line, re.IGNORECASE)
+      org_match = re.search(r"^\s*\.org\s+0x([0-9a-f]+)$", line, re.IGNORECASE)
+      org_symbol_match = re.search(r"^\s*\.org\s+([\._a-z][\._a-z0-9]+|@NextFreeSpace)$", line, re.IGNORECASE)
+      branch_match = re.search(r"^\s*(?:b|beq|bne|blt|bgt|ble|bge)\s+0x([0-9a-f]+)(?:$|\s)", line, re.IGNORECASE)
       if open_file_match:
         relative_file_path = open_file_match.group(1)
         if most_recent_file_path or most_recent_org_offset is not None:
@@ -322,16 +382,37 @@ try:
         if result != 0:
           raise Exception("Assembler call failed")
         
+        # Determine the org offset for each individual section.
+        elf = ELF()
+        elf.read_from_file(o_name)
+        org_offset_for_section_by_name = OrderedDict()
+        curr_org_offset = org_offset
+        for elf_section in elf.sections:
+          if elf_section.flags & ELFSectionFlags.SHF_ALLOC.value != 0:
+            # Round the section's address up so it's properly aligned.
+            align_size = elf_section.addr_align
+            curr_org_offset = curr_org_offset + (align_size - curr_org_offset % align_size) % align_size
+            
+            org_offset_for_section_by_name[elf_section.name] = curr_org_offset
+            #print("%s %04X %04X" % (elf_section.name, curr_org_offset, elf_section.size))
+            
+            curr_org_offset += elf_section.size
+        code_chunk_size_in_bytes = (curr_org_offset - org_offset)
+        
         bin_name = os.path.join(temp_dir, "tmp_" + patch_name + "_%08X.bin" % org_offset)
         map_name = os.path.join(temp_dir, "tmp_" + patch_name + ".map")
         relocations = []
         command = [
           get_bin("powerpc-eabi-ld"),
-          "-Ttext", "%X" % org_offset,
           "-T", temp_linker_name,
           "-Map=" + map_name,
           o_name,
           "-o", bin_name
+        ]
+        # Set the section start arguments for each section.
+        command += [
+          "--section-start=%s=%X" % (section_name, section_org_offset)
+          for section_name, section_org_offset in org_offset_for_section_by_name.items()
         ]
         if file_path.endswith(".rel"):
           # Output an ELF with relocations for RELs.
@@ -349,18 +430,21 @@ try:
         with open(map_name) as f:
           on_custom_symbols = False
           for line in f.read().splitlines():
-            if line.startswith(" .text          "):
+            if re.search(r"^ .\S+ +0x", line):
               on_custom_symbols = True
               continue
             
             if on_custom_symbols:
-              if not line:
-                break
-              match = re.search(r" +0x(?:00000000)?([0-9a-f]{8}) +(\S+)", line)
+              match = re.search(r"^ +0x(?:00000000)?([0-9a-f]{8}) {16,}(\S+)", line)
+              if not match:
+                continue
               symbol_address = int(match.group(1), 16)
               symbol_name = match.group(2)
               custom_symbols_for_file[symbol_name] = symbol_address
               temp_linker_script += "%s = 0x%08X;\n" % (symbol_name, symbol_address)
+        
+        # Uncomment the below to debug the linker's map file.
+        #shutil.copyfile(map_name, "tmp_" + patch_name + ".map")
         
         if file_path.endswith(".rel"):
           # This is for a REL, so we can't link it.
@@ -377,12 +461,17 @@ try:
         with open(bin_name, "rb") as f:
           binary_data = f.read()
         
-        code_chunk_size_in_bytes = len(binary_data)
+        bin_size = len(binary_data)
+        # The chunk size can be larger than the bin if the last section was a .bss section. But it can't be smaller.
+        assert code_chunk_size_in_bytes >= bin_size
+        
+        if bin_size >= 0x80000000:
+          raise Exception("The assembled code binary is much too large. This is probably a bug in the assembler.")
         
         if using_free_space:
           next_free_space_offsets[file_path] += code_chunk_size_in_bytes
         
-        bytes = list(struct.unpack("B"*code_chunk_size_in_bytes, binary_data))
+        bytes = list(struct.unpack("B"*bin_size, binary_data))
         diffs[file_path][org_offset] = OrderedDict()
         diffs[file_path][org_offset]["Data"] = bytes
         if relocations:
@@ -408,5 +497,6 @@ except Exception as e:
   error_message = str(e) + "\n\n" + stack_trace
   print(error_message)
   input()
+  raise
 finally:
   shutil.rmtree(temp_dir)
