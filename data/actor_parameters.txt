@@ -5,9 +5,12 @@ d_a_acorn_leaf:
     Mask: 0x80000000
 
 d_a_agbsw0:
-  unknown_param_1:
+  bombed_gba_message:
     Bitfield name: params
     Mask: 0x0000FFFF
+  bombed_switch:
+    Bitfield name: params
+    Mask: 0x00FF0000
   unknown_param_2:
     Bitfield name: params
     Mask: 0x00FF0000 # (WARNING: overlaps)
@@ -375,19 +378,19 @@ d_a_dai:
     Mask: 0x000000FF
 
 d_a_daiocta:
-  unknown_param_1:
+  number_of_eyes:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  sight_range:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  post_loss_spawn_id:
     Bitfield name: params
     Mask: 0x00FF0000
   disable_spawn_on_death_switch:
     Bitfield name: params
     Mask: 0xFF000000
-  unknown_param_5:
+  death_event_waits_for_great_fairy:
     Bitfield name: z_rot
     Mask: 0x00FF
 
@@ -877,6 +880,9 @@ d_a_kt:
     Mask: 0xFFFFFFFF
 
 d_a_kui:
+  model_type:
+    Bitfield name: params
+    Mask: 0x0000000F
   unknown_param_1:
     Bitfield name: params
     Mask: 0x000000F0
@@ -2722,13 +2728,13 @@ d_a_ss:
     Mask: 0xFF000000
 
 d_a_ssk:
-  unknown_param_1:
+  type:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  sight_range:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  disable_spawn_switch:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -3237,16 +3243,16 @@ d_a_warphr:
     Mask: 0xF0000000
 
 d_a_warpls:
-  unknown_param_1:
+  activation_switch:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  exit_index:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  activated_event_index:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  type:
     Bitfield name: params
     Mask: 0xF0000000
 
