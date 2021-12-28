@@ -67,7 +67,7 @@ def parse_includes(asm):
     include_match = re.search(r"^\s*\.include\s+\"([^\"]+)\"\s*$", line, re.IGNORECASE)
     if include_match:
       relative_file_path = include_match.group(1)
-      file_path = os.path.join("./asm_patches", relative_file_path)
+      file_path = os.path.join(".", relative_file_path)
       
       file_ext = os.path.splitext(file_path)[1]
       if file_ext == ".asm":
