@@ -301,7 +301,7 @@ class Randomizer:
     # If race mode is not on, this list will remain empty.
     self.race_mode_banned_locations = []
     
-    self.custom_model_name = "Link"
+    self.custom_model_name = self.options.get("custom_player_model", "Link")
     self.using_custom_sail_texture = False
     
     self.logic = Logic(self)
