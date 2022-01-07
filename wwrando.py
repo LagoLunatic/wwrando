@@ -1,8 +1,8 @@
 #!/usr/bin/python3.9
 
-from PySide2.QtGui import *
-from PySide2.QtCore import *
-from PySide2.QtWidgets import *
+from PySide6.QtGui import *
+from PySide6.QtCore import *
+from PySide6.QtWidgets import *
 
 import sys
 from collections import OrderedDict
@@ -46,4 +46,4 @@ timer.start(100)
 timer.timeout.connect(lambda: None)
 
 window = WWRandomizerWindow(cmd_line_args=cmd_line_args)
-sys.exit(qApp.exec_())
+sys.exit(qApp.exec())

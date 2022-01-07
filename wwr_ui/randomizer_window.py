@@ -1,6 +1,6 @@
-from PySide2.QtGui import *
-from PySide2.QtCore import *
-from PySide2.QtWidgets import *
+from PySide6.QtGui import *
+from PySide6.QtCore import *
+from PySide6.QtWidgets import *
 
 from wwr_ui.ui_randomizer_window import Ui_MainWindow
 from wwr_ui.options import OPTIONS, NON_PERMALINK_OPTIONS, HIDDEN_OPTIONS, POTENTIALLY_UNBEATABLE_OPTIONS
@@ -852,7 +852,7 @@ class WWRandomizerWindow(QMainWindow):
       color_randomize_button = QPushButton(self.ui.tab_2)
       color_randomize_button.setText("Random")
       color_randomize_button.setObjectName(option_name + "_randomize_color")
-      color_randomize_button.setFixedWidth(48)
+      color_randomize_button.setFixedWidth(QFontMetrics(QFont()).horizontalAdvance("Random")+11)
       hlayout.addWidget(color_randomize_button)
       
       color_selector_button = QPushButton(self.ui.tab_2)
@@ -863,7 +863,7 @@ class WWRandomizerWindow(QMainWindow):
       color_reset_button = QPushButton(self.ui.tab_2)
       color_reset_button.setText("X")
       color_reset_button.setObjectName(option_name + "_reset_color")
-      color_reset_button.setFixedWidth(18)
+      color_reset_button.setFixedWidth(QFontMetrics(QFont()).horizontalAdvance("X")+11)
       size_policy = color_reset_button.sizePolicy()
       size_policy.setRetainSizeWhenHidden(True)
       color_reset_button.setSizePolicy(size_policy)
