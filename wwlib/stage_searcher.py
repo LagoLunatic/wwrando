@@ -7,6 +7,7 @@ from fs_helpers import *
 
 from data_tables import DataTables
 from wwlib.dzb import DZB
+from wwlib.j3d import BMD, BDL, BPRegister, XFRegister
 
 def try_int_convert(string):
   if string.isdigit():
@@ -751,6 +752,40 @@ def print_actor_class_occurrences(self):
   with open("Actor Class Stage Occurrences.txt", "w") as f:
     for k, v in occs:
       f.write("%20s: %d\n" % (k, v))
+
+def search_all_bmds(self):
+  all_filenames = list(self.gcm.files_by_path.keys())
+  
+  # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
+  all_filenames.sort(key=lambda filename: split_string_for_natural_sort(filename))
+  
+  seen_cam_behavior_vals = []
+  for arc_path in all_filenames:
+    if not arc_path.endswith(".arc"):
+      continue
+    for file_entry in self.get_arc(arc_path).file_entries:
+      if not file_entry.name.endswith(".bmd") and not file_entry.name.endswith(".bdl"):
+        continue
+      if arc_path == "files/res/Stage/A_R00/Room0.arc" and file_entry.name == "model.bmd":
+        # Text file incorrectly given .bmd extension.
+        continue
+      
+      print(arc_path)
+      print(file_entry.name)
+      if file_entry.name.endswith(".bmd"):
+        bmd = BMD(file_entry)
+      else:
+        bmd = BDL(file_entry)
+      
+      if not "MDL3" in bmd.chunk_by_type:
+        continue
+      
+      for i, mdl_entry in enumerate(bmd.mdl3.entries):
+        print(bmd.mat3.mat_names[i])
+        for bp_command in mdl_entry.bp_commands:
+          print(BPRegister(bp_command.register))
+        for xf_command in mdl_entry.xf_commands:
+          print(XFRegister(xf_command.register))
 
 def search_all_dzb_properties(self):
   all_filenames = list(self.gcm.files_by_path.keys())
