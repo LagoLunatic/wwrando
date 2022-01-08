@@ -8,12 +8,6 @@ block_cipher = pyi_crypto.PyiBlockCipher(key=cipher_key)
 with open("./version.txt") as f:
   randomizer_version = f.read().strip()
 
-import struct
-if (struct.calcsize("P") * 8) == 64:
-  randomizer_version += "_64bit"
-else:
-  randomizer_version += "_32bit"
-
 import os
 import glob
 def build_datas_recursive(paths):
@@ -73,7 +67,7 @@ app = BUNDLE(exe,
           info_plist={
               "LSBackgroundOnly": False,
               "CFBundleDisplayName": "Wind Waker Randomizer",
-              "CFBundleName": "Wind Waker Randomizer",
+              "CFBundleName": "WW Randomizer",
               "CFBundleShortVersionString": randomizer_version,
           }
           )
