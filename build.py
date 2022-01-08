@@ -27,7 +27,7 @@ exe_path = os.path.join(".", "dist", base_name + exe_ext)
 if not (os.path.isfile(exe_path) or os.path.isdir(exe_path)):
   raise Exception("Executable not found: %s" % exe_path)
 
-release_archive_path = os.path.join(".", "dist", "release_archive" + bitness_suffix)
+release_archive_path = os.path.join(".", "dist", "release_archive_" + VERSION_WITHOUT_COMMIT + bitness_suffix)
 
 if os.path.exists(release_archive_path) and os.path.isdir(release_archive_path):
   shutil.rmtree(release_archive_path)

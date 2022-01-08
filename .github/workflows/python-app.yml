@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-windows-${{ steps.archvars.outputs.bitness }}bit
-          path: dist/release_archive_${{ steps.archvars.outputs.bitness }}bit/*
+          path: dist/release_archive_${{ steps.vars.outputs.version }}_${{ steps.archvars.outputs.bitness }}bit/*
 
   macos:
     runs-on: macos-latest
@@ -96,7 +96,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-macos-${{ steps.archvars.outputs.bitness }}bit
-          path: dist/release_archive_${{ steps.archvars.outputs.bitness }}bit/*
+          path: dist/release_archive_${{ steps.vars.outputs.version }}_${{ steps.archvars.outputs.bitness }}bit/*
 
   linux:
     runs-on: ubuntu-latest
@@ -135,4 +135,4 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: wwrando-${{ steps.vars.outputs.version }}-${{ steps.vars.outputs.sha_short }}-linux-${{ steps.archvars.outputs.bitness }}bit
-          path: dist/release_archive_${{ steps.archvars.outputs.bitness }}bit/*
+          path: dist/release_archive_${{ steps.vars.outputs.version }}_${{ steps.archvars.outputs.bitness }}bit/*
