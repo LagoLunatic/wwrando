@@ -58,7 +58,7 @@ exe = EXE(pyz,
           a.binaries,
           a.zipfiles,
           a.datas,
-          name='Wind Waker Randomizer ' + randomizer_version,
+          name='Wind Waker Randomizer',
           debug=False,
           strip=False,
           upx=True,
@@ -67,7 +67,7 @@ exe = EXE(pyz,
           icon="assets/icon.ico" )
 
 app = BUNDLE(exe,
-          name='Wind Waker Randomizer ' + randomizer_version + '.app',
+          name='Wind Waker Randomizer.app',
           icon="assets/icon.icns",
           bundle_identifier=None,
           info_plist={

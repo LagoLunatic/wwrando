@@ -6,7 +6,6 @@ import shutil
 from randomizer import VERSION_WITHOUT_COMMIT
 
 base_name = "Wind Waker Randomizer"
-base_name_with_version = base_name + " " + VERSION_WITHOUT_COMMIT
 
 import struct
 if (struct.calcsize("P") * 8) == 64:
@@ -24,7 +23,7 @@ if platform.system() == "Darwin":
 if platform.system() == "Linux":
   platform_name = "linux"
 
-exe_path = os.path.join(".", "dist", base_name_with_version + bitness_suffix + exe_ext)
+exe_path = os.path.join(".", "dist", base_name + exe_ext)
 if not (os.path.isfile(exe_path) or os.path.isdir(exe_path)):
   raise Exception("Executable not found: %s" % exe_path)
 
@@ -43,3 +42,5 @@ else:
   os.mkdir(os.path.join(release_archive_path, "models"))
   shutil.copyfile(exe_path, os.path.join(release_archive_path, base_name + exe_ext))
   shutil.copyfile(os.path.join(".", "models", "About Custom Models.txt"), os.path.join(release_archive_path, "models", "About Custom Models.txt"))
+
+os.remove(exe_path)
