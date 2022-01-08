@@ -577,9 +577,9 @@ Can Defeat Poes Without Light Ray:
   | Hookshot
   | Skull Hammer
   | Grappling Hook
-  | Bombs
   # You can knock the lantern out of its hands, then let it possess you and eventually it will disappear.
   # Or you can just shoot it with Light Arrows which is easier - but that doesn't need to be in logic since if you have the bow you can knock the lantern out of its hands instead.
+  # Note: Knocking the lantern out of its hands is also possible with bombs, but this is not required by the logic as the hitbox is surprisingly precise and you would need the Poe to stay almost right on top of the bomb until it explodes, which is not feasible in all locations a Poe may appear in enemy rando.
 Can Defeat Jalhalla Poes:
   Hero's Sword
   | Hero's Bow
