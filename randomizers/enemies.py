@@ -12,6 +12,10 @@ from logic.logic import Logic
 # Set it to the name of a specific enemy type and it will handle putting that enemy type in every single enemy location throughout the game - ignoring memory and logic limits.
 DEBUG_ENEMY_NAME_TO_PLACE_EVERYWHERE = None
 
+# This variable is for removing all randomizable enemies from the game.
+# This helps with figuring out how much free memory each room has, not counting memory used by the enemies themselves.
+DEBUG_REMOVE_ALL_ENEMIES = False
+
 # Limit the number of species that appear in a given stage to prevent issues loading too many particles and to prevent stages from feeling too chaotic.
 # (This limit does not apply to the sea.)
 MAX_ENEMY_SPECIES_PER_STAGE = 10
@@ -103,6 +107,9 @@ def randomize_enemies(self):
   
   # Now that all randomized enemy locations have been decided successfully, actually save the changed enemies.
   save_changed_enemies_and_randomize_their_params(self)
+  
+  if DEBUG_REMOVE_ALL_ENEMIES:
+    return
   
   add_modify_and_replace_actors_for_enemy_rando(self)
   
@@ -353,6 +360,10 @@ def save_changed_enemies_and_randomize_their_params(self):
     placement_category = enemy_location["Placement category"]
     enemy, arc_name, dzx, layer = get_enemy_instance_by_path(self, path)
     stage_folder, room_arc_name = arc_name.split("/")
+    
+    if DEBUG_REMOVE_ALL_ENEMIES:
+      dzx.remove_entity(enemy, "ACTR", layer=layer)
+      continue
     
     if False:
       group_path = "/".join(path.split("/")[0:-1])
