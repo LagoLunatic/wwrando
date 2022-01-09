@@ -132,7 +132,7 @@ OPTIONS = OrderedDict([
   ),
   (
     "do_not_generate_spoiler_log",
-    "This options prevents the randomizer from generating a text file listing out the location of every single item for this seed. (This being checked also changes where items are placed in this seed.)<br><u>Generating a spoiler log is highly recommended even if you don't intend to use it</u>, just in case you get completely stuck."
+    "Prevents the randomizer from generating a text file listing out the location of every single item for this seed. (This also changes where items are placed in this seed.)<br><u>Generating a spoiler log is highly recommended even if you don't intend to use it</u>, just in case you get completely stuck."
   ),
   (
     "sword_mode",
