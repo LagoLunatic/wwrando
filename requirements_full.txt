@@ -5,5 +5,5 @@ appdirs==1.4.4
 certifi==2020.12.5
 PyInstaller==4.7
 tinyaes==1.0.1
-git+git://github.com/LagoLunatic/PyFastBTI.git@da01c14562a4711e031fd0a01c52d2131035e228#egg=PyFastBTI
-git+git://github.com/LagoLunatic/PyFastTextureUtils.git@4e6b9db2f7703f016225971f7842f7fd29a1a8a5#egg=PyFastTextureUtils
+git+https://github.com/LagoLunatic/PyFastBTI.git@da01c14562a4711e031fd0a01c52d2131035e228#egg=PyFastBTI
+git+https://github.com/LagoLunatic/PyFastTextureUtils.git@4e6b9db2f7703f016225971f7842f7fd29a1a8a5#egg=PyFastTextureUtils
