@@ -1908,10 +1908,10 @@ d_a_obj_ikada:
   type:
     Bitfield name: params
     Mask: 0x0000000F
-  unknown_param_2:
+  interior_room_number:
     Bitfield name: params
     Mask: 0x000003F0
-  unknown_param_3:
+  interior_spawn_id:
     Bitfield name: params
     Mask: 0x0003FC00
   unknown_param_5:
