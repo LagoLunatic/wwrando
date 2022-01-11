@@ -9,13 +9,13 @@ New features:
 * Added a command line argument `-autoseed` that generates a random seed name instead of loading the last used one from settings.txt.
 
 Changes:
-* The "seed hash" the randomizer adds to the name entry screen is now also be included in log files.
+* The "seed hash" the randomizer adds to the name entry screen is now also included in log files.
 * Removed several minor cutscenes from Forest Haven where the camera panned around.
 * Inter-dungeon warp pots now have red-colored smoke to differentiate them from other warp pots.
 
 Bug fixes:
 * Fixed permalinks not being properly decoded in some cases when Swordless mode is enabled and starting gear is customized.
-* Fixed the Song of Passing being logically required to for Letter from Baito, even though you do not actually need to wait for time to pass for that letter.
+* Fixed the Song of Passing being logically required for Letter from Baito, even though you do not actually need to wait for time to pass for that letter.
 * Fixed the chest the randomizer adds to the DRC miniboss room not appearing on the compass when in a different room.
 * Fixed the number of Tingle Statues you own being displayed incorrectly on the Tingle Tuner's GBA screen.
 
