@@ -372,15 +372,18 @@ def save_changed_enemies_and_randomize_their_params(self):
       last_printed_group_path = group_path
       print("Putting a %s (param:%08X) in %s" % (new_enemy_data["Actor name"], new_enemy_data["Params"], path))
     
+    original_enemy_type = get_enemy_data_for_actor(self, enemy)
+    
     spawn_switch_to_check = None
     death_switch_to_set = None
+    path_index_to_follow = None
+    
     if ":" in placement_category:
       category_string, conditions_string = placement_category.split(":", 1)
       conditions = conditions_string.split(",")
       
       if "ChecksConditionSwitch" in conditions:
         # We need to copy the switch ID the original enemy checked before spawning to the randomized enemy.
-        original_enemy_type = get_enemy_data_for_actor(self, enemy)
         spawn_switch_param_name = original_enemy_type["Enable spawn switch param name"]
         
         if spawn_switch_param_name is None:
@@ -393,7 +396,6 @@ def save_changed_enemies_and_randomize_their_params(self):
       
       if "SetsDeathSwitch" in conditions:
         # We need to copy the switch ID the original enemy set on death to the randomized enemy.
-        original_enemy_type = get_enemy_data_for_actor(self, enemy)
         death_switch_param_name = original_enemy_type["Death switch param name"]
         
         if death_switch_param_name is None:
@@ -404,6 +406,15 @@ def save_changed_enemies_and_randomize_their_params(self):
           # 0x00 is invalid for ???
           # 0x80 is invalid for ???
           raise Exception("Switch index to set on enemy death is not valid for all enemy types: %02X" % death_switch_to_set)
+    
+    # We attempt to copy the path the original enemy followed to the randomized enemy.
+    path_index_param_name = original_enemy_type["Path param name"]
+    if path_index_param_name is not None:
+      path_index_to_follow = getattr(enemy, path_index_param_name)
+      if path_index_to_follow == 0xFF:
+        path_index_to_follow = None
+      else:
+        assert path_index_to_follow < len(dzx.entries_by_type("RPAT"))
     
     enemy.name = new_enemy_data["Actor name"]
     enemy.params = new_enemy_data["Params"]
@@ -451,6 +462,18 @@ def save_changed_enemies_and_randomize_their_params(self):
           raise Exception("Tried to place an enemy type that cannot set a switch on death in a location that requires a switch be set on death: %s" % enemy.name)
       else:
         setattr(enemy, death_switch_param_name, death_switch_to_set)
+    
+    if path_index_to_follow is not None:
+      path_index_param_name = new_enemy_data["Path param name"]
+      if path_index_param_name is None:
+        # If the new enemy doesn't have a parameter to follow a path it's fine, we don't enforce this.
+        pass
+      else:
+        setattr(enemy, path_index_param_name, path_index_to_follow)
+        
+        if enemy.actor_class_name == "d_a_fm":
+          # Override the Floormaster type to always be the type capable of following a path.
+          enemy.type = 1
     
     enemy.save_changes()
     
@@ -791,7 +814,7 @@ def get_enemy_data_for_actor(self, enemy):
     elif enemy.rat_hole_type == 2:
       return enemy_datas_by_pretty_name["Rat and Bombchu Hole"]
   elif enemy.name == "bbaba":
-    if enemy.boko_bud_type in [0, 0xFF]:
+    if enemy.leave_behind_baba_bud in [0, 0xFF]:
       return enemy_datas_by_pretty_name["Boko Baba"]
     else:
       return enemy_datas_by_pretty_name["Boko Bud Boko Baba"]

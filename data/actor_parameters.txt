@@ -278,10 +278,10 @@ d_a_bmdhand:
     Mask: 0x0000001F # (WARNING: overlaps)
 
 d_a_bo:
-  unknown_param_1:
+  type:
     Bitfield name: params
     Mask: 0x000000FF
-  boko_bud_type:
+  leave_behind_baba_bud:
     Bitfield name: params
     Mask: 0x0000FF00
 
@@ -567,16 +567,16 @@ d_a_floor:
     Mask: 0x000000FF
 
 d_a_fm:
-  unknown_param_1:
+  link_captured_exit:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  type:
     Bitfield name: params
     Mask: 0x00000300
   targeting_behavior_type:
     Bitfield name: params
     Mask: 0x00000C00
-  unknown_param_4:
+  path_index:
     Bitfield name: params
     Mask: 0x00FF0000
   enable_spawn_switch:
@@ -585,10 +585,10 @@ d_a_fm:
   disable_spawn_switch:
     Bitfield name: x_rot
     Mask: 0x00FF
-  unknown_param_8:
+  partner_captured_exit:
     Bitfield name: x_rot
     Mask: 0xFF00
-  unknown_param_9:
+  sight_range:
     Bitfield name: z_rot
     Mask: 0x00FF
 
@@ -604,7 +604,7 @@ d_a_gm:
   mothula_initially_missing_wings:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  type:
     Bitfield name: params
     Mask: 0x0000FF00
   mothula_type:
@@ -2559,10 +2559,10 @@ d_a_pw:
   poe_color:
     Bitfield name: params
     Mask: 0x0000FE00
-  unknown_param_4:
+  sight_range:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_5:
+  path_index:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -2753,10 +2753,10 @@ d_a_st:
   stalfos_type:
     Bitfield name: params
     Mask: 0x0000000F
-  unknown_param_2:
+  sight_range:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  unused_param:
     Bitfield name: params
     Mask: 0x00FF0000
   ambush_switch:
@@ -3150,10 +3150,10 @@ d_a_tn:
   color:
     Bitfield name: params
     Mask: 0x000000F0
-  unknown_param_3:
+  frozen_in_time_pose:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_4:
+  path_index:
     Bitfield name: params
     Mask: 0x00FF0000
   enable_spawn_switch:
