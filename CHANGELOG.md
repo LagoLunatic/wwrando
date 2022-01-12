@@ -19,6 +19,9 @@ Bug fixes:
 * Fixed the chest the randomizer adds to the DRC miniboss room not appearing on the compass when in a different room.
 * Fixed the number of Tingle Statues you own being displayed incorrectly on the Tingle Tuner's GBA screen.
 
+Removed:
+* 32-bit builds of the randomizer are no longer offered.
+
 ### Version 1.9.0 (released 2021-02-23)
 
 New features:
