@@ -2595,6 +2595,10 @@ d_a_rd:
   enable_spawn_switch:
     Bitfield name: params
     Mask: 0xFF000000
+  # The below disable_spawn_on_death_switch parameter is added by the randomizer.
+  disable_spawn_on_death_switch:
+    Bitfield name: params
+    Mask: 0x00FF0000
 
 d_a_rectangle: {}
 

@@ -90,6 +90,9 @@ sys/main.dol:
   test_room_spawn_id: 0x800531E3
   test_room_room_index: 0x800531E7
   test_room_override_layer_num: 0x800531EB
+files/rels/d_a_rd.rel:
+  redead_check_spawn_switch: 0x61E4
+  redead_set_death_switch: 0x621C
 files/rels/d_a_npc_bs1.rel:
   set_shop_item_in_bait_bag_slot_sold_out: 0x61F0
   check_shop_item_in_bait_bag_slot_sold_out: 0x6220

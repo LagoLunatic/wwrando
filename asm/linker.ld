@@ -36,6 +36,7 @@ getEventReg__11dSv_event_cFUs = 0x8005cb7c;
 setEventReg__11dSv_event_cFUsUc = 0x8005cb58;
 dComIfGs_isEventBit__FUs = 0x800f0c8c;
 isSwitch__10dSv_info_cFii = 0x8005de98;
+onSwitch__10dSv_info_cFii = 0x8005db24;
 onDungeonItem__12dSv_memBit_cFi = 0x8005c7a4;
 onSymbol__20dSv_player_collect_cFUc = 0x8005b104;
 isCollect__20dSv_player_collect_cFiUc = 0x8005ae10;
