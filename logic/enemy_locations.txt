@@ -4043,8 +4043,6 @@ MiniKaz:
   Original requirements:
     Can Defeat Magtails
   Free memory: 1200304
-  Actors to replace with ALLdies:
-    - MiniKaz/Room0.arc/Actor00F
   Enemies:
     -
       Original enemy: Fire Keese
@@ -4056,11 +4054,11 @@ MiniKaz:
       Path: MiniKaz/Room0.arc/Actor003
     -
       Original enemy: Magtail
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch
       Path: MiniKaz/Room0.arc/Actor009
     -
       Original enemy: Magtail
-      Placement category: Ground
+      Placement category: Ground:SetsDeathSwitch
       Path: MiniKaz/Room0.arc/Actor00A
     -
       Original enemy: Fire Keese
