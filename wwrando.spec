@@ -21,7 +21,7 @@ def build_datas_recursive(paths):
       
       data_entry = (filename, dest_dirname)
       datas.append(data_entry)
-      print(data_entry)
+      #print(data_entry)
   
   return datas
 
