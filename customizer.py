@@ -95,7 +95,7 @@ def get_model_metadata(custom_model_name):
         for custom_color_name, hex_color in value.items():
           try:
             value[custom_color_name] = parse_hex_color(hex_color, use_old_color_format)
-          except InvalidColorError as e:
+          except InvalidColorError:
             error_message = "Custom color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (custom_color_name, repr(hex_color))
             return {
               "error_message": error_message,
@@ -121,7 +121,7 @@ def get_model_metadata(custom_model_name):
           for custom_color_name, hex_color in preset.items():
             try:
               preset[custom_color_name] = parse_hex_color(hex_color, use_old_color_format)
-            except InvalidColorError as e:
+            except InvalidColorError:
               error_message = "Color preset \"%s\"'s color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (preset_name, custom_color_name, repr(hex_color))
               return {
                 "error_message": error_message,

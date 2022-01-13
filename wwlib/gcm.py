@@ -210,7 +210,7 @@ class GCM:
       self.output_iso.close()
       self.output_iso = None
       yield("Done", -1)
-    except Exception as e:
+    except Exception:
       print("Error writing GCM, removing failed ISO.")
       self.output_iso.close()
       self.output_iso = None

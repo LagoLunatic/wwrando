@@ -759,7 +759,6 @@ def search_all_bmds(self):
   # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
   all_filenames.sort(key=lambda filename: split_string_for_natural_sort(filename))
   
-  seen_cam_behavior_vals = []
   for arc_path in all_filenames:
     if not arc_path.endswith(".arc"):
       continue

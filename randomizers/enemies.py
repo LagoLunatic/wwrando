@@ -197,7 +197,6 @@ def randomize_enemy_groups_for_stage(self, stage_folder, enemy_locations):
   enemy_pool_for_stage = decide_on_enemy_pool_for_stage(self, stage_folder, enemy_locations)
   for enemy_group in enemy_locations:
     room_attempts = 0
-    room_failures = 0
     max_room_attempts = MAX_RANDOMIZATION_REDOS_PER_ROOM
     if stage_folder == "sea":
       max_room_attempts *= 5 # Give sea rooms more attempts to compensate for the lack of stage attempts.

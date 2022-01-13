@@ -843,10 +843,6 @@ def encode_image(image, image_format, palette_format, mipmap_count=1):
   
   encoded_colors, colors_to_color_indexes = generate_new_palettes_from_image(image, image_format, palette_format)
   
-  block_width = BLOCK_WIDTHS[image_format]
-  block_height = BLOCK_HEIGHTS[image_format]
-  block_data_size = BLOCK_DATA_SIZES[image_format]
-  
   new_image_data = BytesIO()
   mipmap_image = image
   mipmap_width = image_width
@@ -860,7 +856,6 @@ def encode_image(image, image_format, palette_format, mipmap_count=1):
     mipmap_image_data = encode_mipmap_image(
       mipmap_image, image_format,
       colors_to_color_indexes,
-      block_width, block_height,
       mipmap_width, mipmap_height
     )
     
@@ -871,12 +866,15 @@ def encode_image(image, image_format, palette_format, mipmap_count=1):
   
   return (new_image_data, new_palette_data, encoded_colors)
 
-def encode_mipmap_image(image, image_format, colors_to_color_indexes, block_width, block_height, image_width, image_height):
+def encode_mipmap_image(image, image_format, colors_to_color_indexes, image_width, image_height):
   pixels = image.load()
   offset_in_image_data = 0
   block_x = 0
   block_y = 0
   mipmap_image_data = BytesIO()
+  block_width = BLOCK_WIDTHS[image_format]
+  block_height = BLOCK_HEIGHTS[image_format]
+  block_data_size = BLOCK_DATA_SIZES[image_format]
   while block_y < image_height:
     block_data = encode_image_to_block(
       image_format,
@@ -884,11 +882,11 @@ def encode_mipmap_image(image, image_format, colors_to_color_indexes, block_widt
       block_x, block_y, block_width, block_height, image_width, image_height
     )
     
-    assert len(block_data) == BLOCK_DATA_SIZES[image_format]
+    assert len(block_data) == block_data_size
     
     write_bytes(mipmap_image_data, offset_in_image_data, block_data)
     
-    offset_in_image_data += BLOCK_DATA_SIZES[image_format]
+    offset_in_image_data += block_data_size
     block_x += BLOCK_WIDTHS[image_format]
     if block_x >= image_width:
       block_x = 0

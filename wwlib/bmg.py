@@ -1,5 +1,4 @@
 
-import os
 from io import BytesIO
 import re
 
@@ -247,8 +246,6 @@ class Message:
     self.encoded_string_length = byte_offset - initial_byte_offset
   
   def write_string(self):
-    data = self.data
-    
     is_escaped_char = False
     index_in_str = 0
     bytes_to_write = []

@@ -1,6 +1,5 @@
 
 import re
-import yaml
 import os
 from io import BytesIO
 from collections import namedtuple
@@ -12,8 +11,7 @@ import math
 from fs_helpers import *
 from asm import patcher
 from wwlib import texture_utils
-from wwlib.rarc import RARC
-from wwlib.rel import REL, RELSection, RELRelocation, RELRelocationType
+from wwlib.rel import REL
 from wwrando_paths import ASSETS_PATH, ASM_PATH, SEEDGEN_PATH
 import customizer
 
@@ -1127,7 +1125,6 @@ def add_pirate_ship_to_windfall(self):
   # Add a custom event where Aryll notices if the player got trapped in the chest room after the timer ran out and opens the door for them.
   
   event = event_list.add_event("AryllOpensDoor")
-  new_event_index_in_event_list = event_list.events.index(event)
   
   camera = event.add_actor("CAMERA")
   camera.staff_type = 2
@@ -1499,7 +1496,7 @@ def shorten_auction_intro_event(self):
   wind_shrine_event = event_list.events_by_name["AUCTION_START"]
   camera = next(actor for actor in wind_shrine_event.actors if actor.name == "CAMERA")
   
-  pre_pan_delay = camera.actions[2]
+  #pre_pan_delay = camera.actions[2]
   pan_action = camera.actions[3]
   post_pan_delay = camera.actions[4]
   
@@ -1548,7 +1545,6 @@ def update_starting_gear(self):
   if len(starting_gear) > MAXIMUM_ADDITIONAL_STARTING_ITEMS:
     raise Exception("Tried to start with more starting items than the maximum number that was allocated")
   starting_gear_array_address = self.main_custom_symbols["starting_gear"]
-  normal_items = 0
   for i in range(len(starting_gear)):
     item_id = self.item_name_to_id[starting_gear[i]]
     self.dol.write_data(write_u8, starting_gear_array_address+i, item_id)

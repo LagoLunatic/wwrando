@@ -1,5 +1,4 @@
 
-import os
 from enum import Enum
 from io import BytesIO
 from collections import OrderedDict
@@ -171,7 +170,7 @@ class J3DChunk:
     strings = []
     offset = string_table_offset + 4
     for i in range(num_strings):
-      string_hash = read_u16(self.data, offset+0x00)
+      #string_hash = read_u16(self.data, offset+0x00)
       string_data_offset = read_u16(self.data, offset+0x02)
       
       string = read_str_until_null_character(self.data, string_table_offset + string_data_offset)

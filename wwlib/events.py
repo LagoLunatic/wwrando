@@ -1,7 +1,7 @@
 
-from fs_helpers import *
-from io import BytesIO
 from collections import OrderedDict
+
+from fs_helpers import *
 
 class EventList:
   TOTAL_NUM_FLAGS = 0x2800

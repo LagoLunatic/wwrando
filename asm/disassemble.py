@@ -1,7 +1,6 @@
 
 from subprocess import call
 from subprocess import DEVNULL
-import tempfile
 import os
 import re
 from io import BytesIO

@@ -13,6 +13,7 @@ import collections
 from collections import OrderedDict
 
 import os
+import yaml
 import traceback
 import string
 import struct
@@ -21,12 +22,6 @@ import colorsys
 import time
 import zipfile
 import shutil
-
-import yaml
-try:
-  from yaml import CDumper as Dumper
-except ImportError:
-  from yaml import Dumper
 
 from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError, InvalidCleanISOError
 from wwrando_paths import SETTINGS_PATH, ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE, CUSTOM_MODELS_PATH
@@ -750,7 +745,6 @@ class WWRandomizerWindow(QMainWindow):
     prev_selected_preset_type = self.get_option_value("custom_color_preset")
     
     # Remove everything except "Default" and "Custom".
-    indexes_to_remove = []
     for i in reversed(range(self.ui.custom_color_preset.count())):
       if self.ui.custom_color_preset.itemText(i) in ["Default", "Custom"]:
         continue
@@ -914,7 +908,6 @@ class WWRandomizerWindow(QMainWindow):
       self.ui.disable_custom_player_items.show()
   
   def reload_colors(self, update_preview=True):
-    preset_name = self.get_option_value("custom_color_preset")
     for color_name in self.get_default_custom_colors_for_current_model():
       color = self.get_color(color_name)
       self.set_color("custom_color_" + color_name, color, update_preview=False, save_color_as_custom=False)
@@ -1363,7 +1356,7 @@ class WWRandomizerWindow(QMainWindow):
       )
       self.update_custom_player_model_list()
       self.set_option_value("custom_player_model", model_dir_list[0].name)
-    except zipfile.BadZipfile as e:
+    except zipfile.BadZipfile:
       stack_trace = traceback.format_exc()
       print(stack_trace)
       QMessageBox.critical(

@@ -1,7 +1,7 @@
 
 ; Inverts camera horizontal movement.
 .open "sys/main.dol"
-.org 0x80162488 ; In updatePad__9dCamera_cFv
+.org 0x80162488 ; In dCamera_c::updatePad(void)
   b invert_camera_horizontal_axis
 ; Read the C-stick's horizontal axis and negate the value in order to invert the camera's movement.
 .org @NextFreeSpace

@@ -4,7 +4,6 @@ import re
 from collections import OrderedDict
 
 from fs_helpers import *
-import tweaks
 
 def randomize_items(self):
   print("Randomizing items...")
