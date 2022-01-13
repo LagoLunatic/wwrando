@@ -38,7 +38,7 @@ jobs:
         run: |
           echo "::set-output name=bitness::$(python -c "import struct; print(struct.calcsize('P') * 8)")"
       - name: Build Windows App
-        run: python -m PyInstaller wwrando.spec
+        run: python -m PyInstaller --log-level=WARN wwrando.spec
       - name: Bundle Windows App
         run: python build.py
       - name: Upload Windows App
@@ -88,7 +88,7 @@ jobs:
         run: |
           echo "::set-output name=bitness::$(python3 -c "import struct; print(struct.calcsize('P') * 8)")"
       - name: Build MacOS App
-        run: python3 -m PyInstaller --onefile --windowed wwrando.spec
+        run: python3 -m PyInstaller --log-level=WARN --onefile --windowed wwrando.spec
         shell: bash -l {0}
       - name: Bundle MacOS App
         run: python3 build.py
@@ -129,7 +129,7 @@ jobs:
         run: |
           echo "::set-output name=bitness::$(python -c "import struct; print(struct.calcsize('P') * 8)")"
       - name: Build Linux App
-        run: python -m PyInstaller wwrando.spec
+        run: python -m PyInstaller --log-level=WARN wwrando.spec
       - name: Bundle Linux App
         run: python build.py
       - uses: actions/upload-artifact@v2
