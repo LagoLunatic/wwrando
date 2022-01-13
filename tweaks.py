@@ -2251,3 +2251,41 @@ def show_number_of_tingle_statues_on_quest_status_screen(self):
     "Golden statues of a mysterious dashing figure. They can be traded to \\{1A 06 FF 00 00 01}Ankle\\{1A 06 FF 00 00 00} on \\{1A 06 FF 00 00 01}Tingle Island\\{1A 06 FF 00 00 00} for a reward!",
     max_line_length=43
   )
+
+def add_shortcut_warps_into_dungeons(self):
+  # Add shortcut warps to more quickly re-enter dungeons from the shore after you've already entered them once.
+  
+  fh_entrance_touched_switch = 0x7F # This switch on the sea should be unused in the vanilla game.
+  fh_entrance_scls_exit_index = 6
+  
+  fh_dzr = self.get_arc("files/res/Stage/sea/Room41.arc").get_file("room.dzr")
+  
+  # Add a white light beam warp to the shore of Forest Haven that takes you into the dungeon.
+  # This is disabled at first, it becomes active after a switch is set when you've entered the dungeon once normally.
+  # (Looks kinda weird since the model doesn't reach all the way up to the sky. Scaling it scales the model, but not the cull box.)
+  # This will take the player into whatever the entrance is randomized to lead to, not just Forbidden Woods.
+  warp = fh_dzr.add_entity("SCOB", layer=None)
+  warp.name = "Ysdls00"
+  warp.type = 1 # White warp
+  warp.activation_switch = fh_entrance_touched_switch
+  warp.exit_index = fh_entrance_scls_exit_index
+  warp.activated_event_index = 0xFF
+  warp.x_pos = 217178.1
+  warp.y_pos = 34.99997
+  warp.z_pos = 195407.7
+  
+  # Add a SW_C00 (switch setting trigger region) around the entrance to the dungeon.
+  # This will set the switch when the player enters the dungeon, enabling the warp for later use.
+  swc00 = fh_dzr.add_entity("SCOB", layer=None)
+  swc00.name = "SW_C00"
+  swc00.switch_to_set = fh_entrance_touched_switch
+  swc00.behavior_type = 3 # Don't unset the switch when leaving the region
+  swc00.prerequisite_switch = 0xFF
+  swc00.x_pos = 196755.7
+  swc00.y_pos = 2952.929
+  swc00.z_pos = 198147.1
+  swc00.scale_x = 3 * 0x10
+  swc00.scale_y = 3 * 0x10
+  swc00.scale_z = 3 * 0x10
+  
+  fh_dzr.save_changes()

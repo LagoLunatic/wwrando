@@ -514,6 +514,7 @@ class Randomizer:
     tweaks.fix_stone_head_bugs(self)
     tweaks.show_number_of_tingle_statues_on_quest_status_screen(self)
     patcher.apply_patch(self, "add_new_enemy_rando_params")
+    tweaks.add_shortcut_warps_into_dungeons(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)

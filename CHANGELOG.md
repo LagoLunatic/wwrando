@@ -5,6 +5,7 @@ New features:
 * The randomizer now officially supports Mac and Linux and offers release builds for those platforms.
 * Added a button to the top of the Player Customization tab to automatically install a custom player model or pack of multiple custom player models from a .zip file.
 * Added an optional tweak to invert the X axis of the compass on the sea so that it works more intuitively.
+* Forest Haven's shore now has a warp which acts as a shortcut allowing you to quickly re-enter the dungeon entrance from the sea after you've already reached it the normal way once.
 * Custom model authors can now change the colors of the sword's slash trail when parrying and when under the Elixir Soup effect.
 * Added a command line argument `-autoseed` that generates a random seed name instead of loading the last used one from settings.txt.
 
