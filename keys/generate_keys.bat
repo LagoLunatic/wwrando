@@ -16,4 +16,4 @@ del temp_key
 
 echo SEED_KEY=str(0X%key_1%-(0X%key_2%+0X%key_3%)//0X%key_4%) > seed_key.py
 
-py -3.9 generate_key.py > build_key.txt
+py -3.9 generate_key.py 8 > build_key.txt
