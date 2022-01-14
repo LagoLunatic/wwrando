@@ -16,11 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Add seed key
-        run: echo "%SEED_KEY%" > keys/seed_key.py
+        run: echo "$env:SEED_KEY" > keys/seed_key.py
         env:
           SEED_KEY: ${{ secrets.SEED_KEY }}
       - name: Add release key
-        run: echo "%RELEASE_KEY%" > keys/build_key.txt
+        run: echo "$env:RELEASE_KEY" > keys/build_key.txt
         env:
           RELEASE_KEY: ${{ secrets.RELEASE_KEY }}
       - name: Set up Python 3.9
