@@ -7,15 +7,15 @@
 .open "files/rels/d_a_rd.rel" ; ReDead
 
 .org 0x4874 ; In daRd_c::_create(void)
-  b redead_check_spawn_switch
+  b redead_check_disable_spawn_switch
 
 .org @NextFreeSpace
-.global redead_check_spawn_switch
-redead_check_spawn_switch:
+.global redead_check_disable_spawn_switch
+redead_check_disable_spawn_switch:
   lwz r4, 0xB0 (r30) ; Parameters bitfield
   rlwinm r4, r4, 16, 24, 31 ; Extract byte 0x00FF0000 from the parameters (unused in vanilla)
   cmplwi r4, 0xFF
-  beq redead_check_spawn_switch_return ; Return if the switch parameter is null
+  beq redead_check_disable_spawn_switch_return ; Return if the switch parameter is null
   
   ; Store the disable spawn on death switch to the ReDead's enemyice's death switch.
   ; This is necessary so that the enemy_ice function knows what switch to set when the enemy dies to Light Arrows.
@@ -27,10 +27,10 @@ redead_check_spawn_switch:
   bl isSwitch__10dSv_info_cFii
   
   cmpwi r3, 0
-  beq redead_check_spawn_switch_return
+  beq redead_check_disable_spawn_switch_return
   b 0x4890 ; Return to where the ReDead will cancel its initialization and despawn itself
   
-redead_check_spawn_switch_return:
+redead_check_disable_spawn_switch_return:
   mr r3, r30 ; Replace line we overwrote to jump here
   b 0x4878 ; Return to where the ReDead will continue its initialization as normal
 
