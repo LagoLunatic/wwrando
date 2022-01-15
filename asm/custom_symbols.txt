@@ -3,9 +3,9 @@ sys/main.dol:
   ballad_of_gales_warp_table: 0x803FCFB0
   ballad_of_gales_warp_float_bank: 0x803FCFF8
   custom_DynamicNameTable: 0x803FD050
-  custom_l_objectName: 0x803FD066
-  custom_DMC: 0x803FD072
-  custom_l_objectName_end: 0x803FD072
+  custom_l_objectName: 0x803FD068
+  custom_DMC: 0x803FD074
+  custom_l_objectName_end: 0x803FD074
   init_save_with_tweaks: 0x803FD850
   init_starting_gear: 0x803FDBD4
   num_triforce_shards_to_start_with: 0x803FDC1C

@@ -58,6 +58,7 @@ custom_DynamicNameTable:
 
 custom_DynamicNameTable_switch_op_rel_name:
   .string "d_a_switch_op"
+  .align 2 ; Align to the next 4 bytes
 
 ; This is a list of custom actor names, to add on to the vanilla l_objectName list.
 .global custom_l_objectName
