@@ -69,7 +69,12 @@ redead_set_death_switch_return:
 .global peahat_check_disable_spawn_switch
 peahat_check_disable_spawn_switch:
   lha r4, 0x20C (r29) ; X rotation
-  rlwinm r4, r4, 0, 24, 31 ; Extract byte 0x000000FF from the X rotation (unused in vanilla)
+  rlwinm r4, r4, 0, 24, 31 ; Extract byte 0x00FF from the X rotation (unused in vanilla)
+  
+  ; Zero out the X rotation field, as this will be used by the Peahat for rotation when executing.
+  li r0, 0
+  sth r0, 0x20C (r29)
+  
   cmplwi r4, 0xFF
   beq peahat_check_disable_spawn_switch_return ; Return if the switch parameter is null
   cmplwi r4, 0x00
@@ -79,10 +84,6 @@ peahat_check_disable_spawn_switch:
   ; This is necessary so that the enemy_ice function knows what switch to set when the enemy dies to Light Arrows.
   ; Also, we use this to store the switch even for non-enemyice-related deaths, as the X rotation field is used for rotation.
   stb r4, 0xB49 (r29) ; The enemyice is at 998 in the Peahat struct, and the switch is at 1B1 in the enemyice struct.
-  
-  ; Zero out the X rotation field, as this will be used by the Peahat for rotation when executing.
-  li r0, 0
-  sth r0, 0x20C (r29)
   
   lis r3, g_dComIfG_gameInfo@ha
   addi r3, r3, g_dComIfG_gameInfo@l
