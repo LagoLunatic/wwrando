@@ -55,3 +55,67 @@ redead_set_death_switch_return:
   b 0x1FC0 ; Return
 
 .close
+
+
+
+
+; Give Peahats a new "Disable spawn on death switch" parameter (x_rot & 0x00FF).
+.open "files/rels/d_a_ph.rel" ; Peahats and Seahats
+
+.org 0x68B0 ; In daPH_Create(fopAc_ac_c *)
+  b peahat_check_disable_spawn_switch
+
+.org @NextFreeSpace
+.global peahat_check_disable_spawn_switch
+peahat_check_disable_spawn_switch:
+  lha r4, 0x20C (r29) ; X rotation
+  rlwinm r4, r4, 0, 24, 31 ; Extract byte 0x000000FF from the X rotation (unused in vanilla)
+  cmplwi r4, 0xFF
+  beq peahat_check_disable_spawn_switch_return ; Return if the switch parameter is null
+  cmplwi r4, 0x00
+  beq peahat_check_disable_spawn_switch_return ; Return if the switch parameter is zero
+  
+  ; Store the disable spawn on death switch to the Peahat's enemyice's death switch.
+  ; This is necessary so that the enemy_ice function knows what switch to set when the enemy dies to Light Arrows.
+  ; Also, we use this to store the switch even for non-enemyice-related deaths, as the X rotation field is used for rotation.
+  stb r4, 0xB49 (r29) ; The enemyice is at 998 in the Peahat struct, and the switch is at 1B1 in the enemyice struct.
+  
+  ; Zero out the X rotation field, as this will be used by the Peahat for rotation when executing.
+  li r0, 0
+  sth r0, 0x20C (r29)
+  
+  lis r3, g_dComIfG_gameInfo@ha
+  addi r3, r3, g_dComIfG_gameInfo@l
+  lbz r5, 0x20A (r29) ; Current room number
+  bl isSwitch__10dSv_info_cFii
+  
+  cmpwi r3, 0
+  beq peahat_check_disable_spawn_switch_return
+  b 0x68CC ; Return to where the Peahat will cancel its initialization and despawn itself
+  
+peahat_check_disable_spawn_switch_return:
+  mr r3, r29 ; Replace line we overwrote to jump here
+  b 0x68B4 ; Return to where the Peahat will continue its initialization as normal
+
+.org 0x4118 ; In dead_item(ph_class *)
+  b peahat_set_death_switch
+
+.org @NextFreeSpace
+.global peahat_set_death_switch
+peahat_set_death_switch:
+  lbz r4, 0xB49 (r30) ; Load the death switch from the enemyice struct (998 + 1B1)
+  cmplwi r4, 0xFF
+  beq peahat_set_death_switch_return ; Return if the switch parameter is null
+  cmplwi r4, 0x00
+  beq peahat_set_death_switch_return ; Return if the switch parameter is zero
+  
+  lis r3, g_dComIfG_gameInfo@ha
+  addi r3, r3, g_dComIfG_gameInfo@l
+  lbz r5, 0x20A (r30) ; Current room number
+  bl onSwitch__10dSv_info_cFii
+  
+peahat_set_death_switch_return:
+  mr r3, r30 ; Replace line we overwrote to jump here
+  b 0x411C ; Return
+
+.close
