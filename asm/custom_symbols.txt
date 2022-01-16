@@ -96,6 +96,8 @@ files/rels/d_a_rd.rel:
 files/rels/d_a_ph.rel:
   peahat_check_disable_spawn_switch: 0x7F70
   peahat_set_death_switch: 0x7FB8
+  peahat_check_enable_spawn_switch: 0x7FE4
+  peahat_check_enable_spawn_switch_for_draw: 0x803C
 files/rels/d_a_npc_bs1.rel:
   set_shop_item_in_bait_bag_slot_sold_out: 0x61F0
   check_shop_item_in_bait_bag_slot_sold_out: 0x6220

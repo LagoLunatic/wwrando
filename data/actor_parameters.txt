@@ -2523,10 +2523,13 @@ d_a_ph:
   vertical_range:
     Bitfield name: params
     Mask: 0x00FF0000
-  # The below disable_spawn_on_death_switch parameter is added by the randomizer.
+  # The below parameters are added by the randomizer.
   disable_spawn_on_death_switch:
     Bitfield name: x_rot
     Mask: 0x00FF
+  enable_spawn_switch:
+    Bitfield name: params
+    Mask: 0xFF000000
 
 d_a_pirate_flag: {}
 
@@ -2599,7 +2602,7 @@ d_a_rd:
   enable_spawn_switch:
     Bitfield name: params
     Mask: 0xFF000000
-  # The below disable_spawn_on_death_switch parameter is added by the randomizer.
+  # The below parameter is added by the randomizer.
   disable_spawn_on_death_switch:
     Bitfield name: params
     Mask: 0x00FF0000

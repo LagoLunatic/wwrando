@@ -182,7 +182,7 @@
   Placement categories: [Air, Ceiling]
   Memory used by first one: 14688
   Memory used by subequent ones: 10208
-  Enable spawn switch param name: null
+  Enable spawn switch param name: enable_spawn_switch
   Death switch param name: disable_spawn_on_death_switch
   Path param name: null
   Allow near pits: True # TODO CHECK

@@ -120,3 +120,72 @@ peahat_set_death_switch_return:
   b 0x411C ; Return
 
 .close
+
+
+
+
+; Give Peahats a new "Enable spawn switch" parameter (params & 0xFF000000).
+.open "files/rels/d_a_ph.rel" ; Peahats and Seahats
+
+.org 0x5B2C ; In daPH_Execute(ph_class *)
+  b peahat_check_enable_spawn_switch
+
+.org @NextFreeSpace
+.global peahat_check_enable_spawn_switch
+peahat_check_enable_spawn_switch:
+  lwz r4, 0xB0 (r30) ; Parameters bitfield
+  rlwinm r4, r4, 8, 24, 31 ; Extract byte 0xFF000000 from the parameters (unused in vanilla)
+  cmplwi r4, 0xFF
+  beq peahat_check_enable_spawn_switch_return ; Return if the switch parameter is null
+  cmplwi r4, 0x00
+  beq peahat_check_enable_spawn_switch_return ; Return if the switch parameter is zero
+  
+  lis r3, g_dComIfG_gameInfo@ha
+  addi r3, r3, g_dComIfG_gameInfo@l
+  lbz r5, 0x20A (r30) ; Current room number
+  bl isSwitch__10dSv_info_cFii
+  
+  cmpwi r3, 0
+  bne peahat_check_enable_spawn_switch_return
+  
+  ; Clear the actor's attention flags. This removes the lockon target and enemy music.
+  li r0, 0
+  stw r0, 0x280 (r30)
+  
+  b 0x625C ; Return to where the Peahat will skip the rest of its execute code for this frame
+  
+peahat_check_enable_spawn_switch_return:
+  ; Set the actor's attention flags to 4 (LockOn_Enemy).
+  li r0, 4
+  stw r0, 0x280 (r30)
+  
+  ; Set the switch parameter to 0xFF so that the draw function knows the actor should be enabled now.
+  lwz r4, 0xB0 (r30) ; Parameters bitfield
+  oris r4, r4, 0xFF00 ; OR with 0xFF000000
+  stw r4, 0xB0 (r30)
+  
+  lfs f0, 0x2C0 (r30) ; Replace line we overwrote to jump here
+  b 0x5B30 ; Return
+
+.org 0x358 ; daPH_Draw(ph_class *)
+  b peahat_check_enable_spawn_switch_for_draw
+
+.org @NextFreeSpace
+.global peahat_check_enable_spawn_switch_for_draw
+peahat_check_enable_spawn_switch_for_draw:
+  lwz r4, 0xB0 (r31) ; Parameters bitfield
+  rlwinm r4, r4, 8, 24, 31 ; Extract byte 0xFF000000 from the parameters (unused in vanilla)
+  cmplwi r4, 0xFF
+  beq peahat_check_enable_spawn_switch_for_draw_return ; Return if the switch parameter is null
+  cmplwi r4, 0x00
+  beq peahat_check_enable_spawn_switch_for_draw_return ; Return if the switch parameter is zero
+  
+  ; We don't need to check the switch here because the execute function will have set it to 0xFF once the switch is set.
+  
+  b 0x4BC ; Return to where the Peahat will skip the rest of its draw code for this frame
+
+peahat_check_enable_spawn_switch_for_draw_return:
+  lwz r3, 0x2BC (r31) ; Replace line we overwrote to jump here
+  b 0x35C ; Return
+
+.close
