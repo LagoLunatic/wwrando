@@ -293,12 +293,18 @@ try:
         if line[0] == ";":
           # Comment
           continue
-        raise Exception("Found code when no file was open")
+        if line == ".section \".text\"":
+          # Ignore the failsafe section reset after an include
+          continue
+        raise Exception("Found code when no file was open:\n%s" % line)
       if most_recent_org_offset is None:
         if line[0] == ";":
           # Comment
           continue
-        raise Exception("Found code before any .org directive")
+        if line == ".section \".text\"":
+          # Ignore the failsafe section reset after an include
+          continue
+        raise Exception("Found code before any .org directive:\n%s" % line)
       
       code_chunks[patch_name][most_recent_file_path][most_recent_org_offset] += line + "\n"
     
