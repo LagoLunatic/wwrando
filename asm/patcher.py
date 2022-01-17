@@ -196,11 +196,11 @@ def add_relocations_to_rel(self, file_path, rel_section_index, offset_into_secti
       
       rel_relocation.section_num_to_relocate_against = other_rel_section_index
       rel_relocation.symbol_address = relative_offset
-    elif ":" in symbol_name:
+    elif "$$" in symbol_name:
       # Vanilla symbol located in a REL.
-      # We use a colon to signify rel_name:symbol_name.
+      # We use double dollar signs to denote rel_name$$symbol_name.
       # (This is because we don't necessarily know for sure that the REL is calling a function inside of itself, it's possible to call a function in another REL.)
-      rel_name, symbol_name = symbol_name.split(":", 1)
+      rel_name, symbol_name = symbol_name.split("$$", 1)
       other_rel = self.get_rel("files/rels/%s.rel" % rel_name)
       other_rel_symbols = self.get_symbol_map("files/maps/%s.map" % rel_name)
       
