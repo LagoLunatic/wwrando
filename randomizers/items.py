@@ -591,11 +591,20 @@ def change_hardcoded_item_in_rel(self, path, offset, item_id):
 def get_ctmc_chest_type(self, item_name):
   if item_name in self.logic.all_progress_items:
     if item_name.endswith(" Key"):
-      return 1  # Dark wood chest for Small and Big Keys
+      # In race mode, only put the dungeon keys for required dungeons in dark wood chests.
+      # The other keys go into light wood chests.
+      if self.options.get("race_mode"):
+        dungeon_short_name = item_name.split()[0]
+        if self.logic.DUNGEON_NAMES[dungeon_short_name] in self.race_mode_required_dungeons:
+          return 1
+        else:
+          return 0
+      else:
+        return 1    # Dark wood chest for Small and Big Keys
     else:
-      return 2  # Metal chests for progress items
+      return 2      # Metal chests for progress items
   else:
-    return 0    # Light wood chests for non-progress items and consumables
+    return 0        # Light wood chests for non-progress items and consumables
 
 def change_chest_item(self, arc_path, chest_index, layer, item_id, item_name):
   if arc_path.endswith("Stage.arc"):
