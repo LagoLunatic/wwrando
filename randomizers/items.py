@@ -590,8 +590,8 @@ def change_hardcoded_item_in_rel(self, path, offset, item_id):
 
 def get_ctmc_chest_type(self, item_name):
   if item_name in self.logic.all_progress_items:
-    if item_name.endswith(" Key") and not self.options.get("keylunacy"):
-      return 1  # Dark wood chest for Small and Big Keys, unless key-lunacy is on
+    if item_name.endswith(" Key"):
+      return 1  # Dark wood chest for Small and Big Keys
     else:
       return 2  # Metal chests for progress items
   else:
