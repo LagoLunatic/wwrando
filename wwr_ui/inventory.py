@@ -30,6 +30,16 @@ REGULAR_ITEMS = [
   "Empty Bottle",
   "Magic Meter Upgrade",
 ]
+
+DUNGEON_NONPROGRESS_ITEMS = \
+  ["DRC Dungeon Map", "DRC Compass"] + \
+  ["FW Dungeon Map", "FW Compass"] + \
+  ["TotG Dungeon Map", "TotG Compass"] + \
+  ["FF Dungeon Map", "FF Compass"] + \
+  ["ET Dungeon Map", "ET Compass"] + \
+  ["WT Dungeon Map", "WT Compass"]
+
+REGULAR_ITEMS = REGULAR_ITEMS + DUNGEON_NONPROGRESS_ITEMS
 REGULAR_ITEMS.sort()
 
 PROGRESSIVE_ITEMS = \
