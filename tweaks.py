@@ -2285,3 +2285,15 @@ def add_shortcut_warps_into_dungeons(self):
   swc00.scale_z = 3 * 0x10
   
   fh_dzr.save_changes()
+
+def replace_dark_wood_chest_texture(self):
+  # Replaces the texture of the dark wood chest texture with a custom texture based on the Big Key chest texture.
+  # This is used when chest type matches its contents and dungeon keys are placed into dark wood chests.
+  # It can be challenging to distinguish light wood from dark wood chests, so this custom texture is used instead.
+  # We use the color palette of the Big Key chest to create the association with this chest type and dungeon keys.
+  
+  dark_wood_chest_arc = self.get_arc("files/res/Object/Dalways.arc")
+  dark_wood_chest_model = dark_wood_chest_arc.get_file("boxb.bdl")
+  dark_wood_chest_tex_image = dark_wood_chest_model.tex1.textures_by_name["Ktakara_001"][0]
+  dark_wood_chest_tex_image.replace_image_from_path(os.path.join(ASSETS_PATH, "key chest.png"))
+  dark_wood_chest_model.save_changes()
