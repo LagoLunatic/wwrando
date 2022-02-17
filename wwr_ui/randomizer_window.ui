@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>943</width>
-    <height>764</height>
+    <height>780</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,8 +28,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>925</width>
-         <height>624</height>
+         <width>908</width>
+         <height>650</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -303,6 +303,90 @@
                <string>Additional Randomization Options</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_3">
+               <item row="1" column="1">
+                <widget class="QCheckBox" name="race_mode">
+                 <property name="text">
+                  <string>Race Mode</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QCheckBox" name="randomize_starting_island">
+                 <property name="text">
+                  <string>Randomize Starting Island</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QCheckBox" name="keylunacy">
+                 <property name="text">
+                  <string>Key-Lunacy</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <layout class="QHBoxLayout" name="horizontalLayout_13">
+                 <item>
+                  <widget class="QLabel" name="label_for_num_race_mode_dungeons">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Race Mode Required Dungeons</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="num_race_mode_dungeons">
+                   <property name="maximumSize">
+                    <size>
+                     <width>40</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="currentIndex">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>1</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>2</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>3</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>4</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>5</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>6</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="widget_6" native="true"/>
+                 </item>
+                </layout>
+               </item>
                <item row="0" column="0">
                 <layout class="QHBoxLayout" name="horizontalLayout_5">
                  <item>
@@ -333,6 +417,13 @@
                  </item>
                 </layout>
                </item>
+               <item row="2" column="3">
+                <widget class="QCheckBox" name="randomize_music">
+                 <property name="text">
+                  <string>Randomize Music</string>
+                 </property>
+                </widget>
+               </item>
                <item row="2" column="0">
                 <widget class="QCheckBox" name="randomize_charts">
                  <property name="text">
@@ -340,19 +431,48 @@
                  </property>
                 </widget>
                </item>
-               <item row="2" column="1">
-                <widget class="QCheckBox" name="randomize_starting_island">
-                 <property name="text">
-                  <string>Randomize Starting Island</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QCheckBox" name="keylunacy">
-                 <property name="text">
-                  <string>Key-Lunacy</string>
-                 </property>
-                </widget>
+               <item row="0" column="1" colspan="2">
+                <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <item>
+                  <widget class="QLabel" name="label_for_randomize_entrances">
+                   <property name="text">
+                    <string>Randomize Entrances</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="randomize_entrances">
+                   <item>
+                    <property name="text">
+                     <string>Disabled</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Dungeons</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Secret Caves</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Dungeons &amp; Secret Caves (Separately)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Dungeons &amp; Secret Caves (Together)</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="widget_2" native="true"/>
+                 </item>
+                </layout>
                </item>
                <item row="1" column="3">
                 <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -429,126 +549,6 @@
                  </item>
                 </layout>
                </item>
-               <item row="1" column="1">
-                <widget class="QCheckBox" name="race_mode">
-                 <property name="text">
-                  <string>Race Mode</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="2">
-                <layout class="QHBoxLayout" name="horizontalLayout_13">
-                 <item>
-                  <widget class="QLabel" name="label_for_num_race_mode_dungeons">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>Race Mode Required Dungeons</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QComboBox" name="num_race_mode_dungeons">
-                   <property name="maximumSize">
-                    <size>
-                     <width>40</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="currentIndex">
-                    <number>3</number>
-                   </property>
-                   <item>
-                    <property name="text">
-                     <string>1</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>2</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>3</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>4</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>5</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>6</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QWidget" name="widget_6" native="true"/>
-                 </item>
-                </layout>
-               </item>
-               <item row="0" column="1" colspan="2">
-                <layout class="QHBoxLayout" name="horizontalLayout_8">
-                 <item>
-                  <widget class="QLabel" name="label_for_randomize_entrances">
-                   <property name="text">
-                    <string>Randomize Entrances</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QComboBox" name="randomize_entrances">
-                   <item>
-                    <property name="text">
-                     <string>Disabled</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Dungeons</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Secret Caves</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Dungeons &amp; Secret Caves (Separately)</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Dungeons &amp; Secret Caves (Together)</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QWidget" name="widget_2" native="true"/>
-                 </item>
-                </layout>
-               </item>
-               <item row="2" column="3">
-                <widget class="QCheckBox" name="randomize_music">
-                 <property name="text">
-                  <string>Randomize Music</string>
-                 </property>
-                </widget>
-               </item>
                <item row="2" column="2">
                 <widget class="QCheckBox" name="randomize_enemy_palettes">
                  <property name="text">
@@ -560,6 +560,13 @@
                 <widget class="QCheckBox" name="randomize_enemies">
                  <property name="text">
                   <string>Randomize Enemy Locations</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QCheckBox" name="chest_type_matches_contents">
+                 <property name="text">
+                  <string>Chest Type Matches Contents</string>
                  </property>
                 </widget>
                </item>

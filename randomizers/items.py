@@ -555,7 +555,7 @@ def change_item(self, path, item_name):
     else:
       layer = None
     chest_index = int(chest_match.group(3), 16)
-    change_chest_item(self, arc_path, chest_index, layer, item_id)
+    change_chest_item(self, arc_path, chest_index, layer, item_id, item_name)
   elif event_match:
     arc_path = "files/res/Stage/" + event_match.group(1)
     event_index = int(event_match.group(2), 16)
@@ -588,14 +588,32 @@ def change_hardcoded_item_in_rel(self, path, offset, item_id):
   rel = self.get_rel(path)
   rel.write_data(write_u8, offset, item_id)
 
-def change_chest_item(self, arc_path, chest_index, layer, item_id):
+def change_chest_item(self, arc_path, chest_index, layer, item_id, item_name):
   if arc_path.endswith("Stage.arc"):
     dzx = self.get_arc(arc_path).get_file("stage.dzs")
   else:
     dzx = self.get_arc(arc_path).get_file("room.dzr")
   chest = dzx.entries_by_type_and_layer("TRES", layer)[chest_index]
   chest.item_id = item_id
+  if self.options.get("chest_type_matches_contents"):
+    chest.chest_type = get_ctmc_chest_type_for_item(self, item_name)
   chest.save_changes()
+
+def get_ctmc_chest_type_for_item(self, item_name):
+  if item_name not in self.logic.all_progress_items:
+    return 0 # Light wood chests for non-progress items and consumables
+  if not item_name.endswith(" Key"):
+    return 2 # Metal chests for progress items
+  if not self.options.get("race_mode"):
+    return 1 # Dark wood chest for Small and Big Keys
+  
+  # In race mode, only put the dungeon keys for required dungeons in dark wood chests.
+  # The other keys go into light wood chests.
+  dungeon_short_name = item_name.split()[0]
+  if self.logic.DUNGEON_NAMES[dungeon_short_name] in self.race_mode_required_dungeons:
+    return 1
+  else:
+    return 0
 
 def change_event_item(self, arc_path, event_index, actor_index, action_index, item_id):
   event_list = self.get_arc(arc_path).get_file("event_list.dat")
