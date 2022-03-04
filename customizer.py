@@ -332,9 +332,20 @@ def revert_bck_files_in_arc_to_original(orig_arc, custom_arc):
 def revert_item_models_in_arc_to_original(orig_arc, custom_arc):
   # Optionally revert all item models to the original ones.
   # Hero's Charm, Power Bracelets, Iron Boots, and Magic Armor shell are excluded, since the vanilla ones wouldn't fit well on custom models.
+  # Also revert blur.bti (sword/boomerang afterimage texture) and rock_mark.bti (hookshot ready reticule).
+  # Also revert the BRK/BTK animations for reverted items. (All BCK animations are already reverted separately.)
   for orig_file_entry in orig_arc.file_entries:
     basename, file_ext = os.path.splitext(orig_file_entry.name)
+    revert = False
     if file_ext == ".bdl" and basename not in ["cl", "katsura", "hands", "yamu", "pring", "hboots", "ymgcs00"]:
+      revert = True
+    if file_ext == ".bti" and basename not in ["linktexbci4"]:
+      revert = True
+    if file_ext == ".brk" and basename not in ["ymgcs00_ms", "ymgcs00_ts"]:
+      revert = True
+    if file_ext == ".btk" and basename not in ["ymgcs00"]:
+      revert = True
+    if revert:
       custom_file_entry = custom_arc.get_file_entry(orig_file_entry.name)
       custom_file_entry.data = orig_file_entry.data
 
