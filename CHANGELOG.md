@@ -2,6 +2,7 @@
 ### Next version (in progress, not released yet)
 
 New features:
+* Added a "Chest Type Matches Contents" option that changes the appearance of each treasure chest depending on the importance of the item randomized into the chest (progress items, dungeon keys, and non-progress items).
 * The randomizer now officially supports Mac and Linux and offers release builds for those platforms.
 * Added a button to the top of the Player Customization tab to automatically install a custom player model or pack of multiple custom player models from a .zip file.
 * Added an optional tweak to invert the X axis of the compass on the sea so that it works more intuitively.
@@ -19,6 +20,7 @@ Bug fixes:
 * Fixed the Song of Passing being logically required for Letter from Baito, even though you do not actually need to wait for time to pass for that letter.
 * Fixed the chest the randomizer adds to the DRC miniboss room not appearing on the compass when in a different room.
 * Fixed the number of Tingle Statues you own being displayed incorrectly on the Tingle Tuner's GBA screen.
+* Fixed "Disable Custom Items" in the Player Customization tab not also disabling some details of custom item models, like custom Hookshot targetting reticules and custom gem colors for the Master Sword.
 
 Removed:
 * 32-bit builds of the randomizer are no longer offered.
