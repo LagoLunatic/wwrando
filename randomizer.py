@@ -402,6 +402,17 @@ class Randomizer:
       self.reset_rng()
       music.randomize_music(self)
     
+    if True:
+      # Randomize the color of the big pig on Outset by setting the bitfield of which pigs were captured in the prologue.
+      self.reset_rng()
+      captured_pigs_bitfield = self.rng.choice([
+        0x01, # Pink only
+        0x02, # Speckled only
+        0x04, # Black only
+      ])
+      captured_prologue_pigs_bitfield_address = self.main_custom_symbols["captured_prologue_pigs_bitfield"]
+      self.dol.write_data(write_u8, captured_prologue_pigs_bitfield_address, captured_pigs_bitfield)
+    
     options_completed += 1
     
     # Enemies must be randomized before items in order for the enemy logic to properly take into account what items you do and don't start with.

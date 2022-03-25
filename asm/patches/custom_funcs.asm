@@ -146,6 +146,13 @@ bl onEventBit__11dSv_event_cFUs
 li r4, 0x4002 ; Saw cutscene before Ganondorf fight
 bl onEventBit__11dSv_event_cFUs
 
+li r4, 0
+ori r4, r4, 0xBFFF ; Bitfield of which pigs you brough to Rose during the prologue (Pink, Speckled, Black)
+lis r5, captured_prologue_pigs_bitfield@ha 
+addi r5, r5, captured_prologue_pigs_bitfield@l
+lbz r5, 0 (r5) ; Load the randomized value to set the bitfield to
+bl setEventReg__11dSv_event_cFUsUc
+
 lis r3, 0x803C5D60@ha
 addi r3, r3, 0x803C5D60@l
 li r4, 0x0310 ; Saw event where Grandma gives you the Hero's Clothes
@@ -361,6 +368,9 @@ starting_quarter_hearts:
 .global starting_magic
 starting_magic:
 .byte 16 ; By default start with 16 units of magic (small magic meter)
+.global captured_prologue_pigs_bitfield
+captured_prologue_pigs_bitfield:
+.byte 0x04 ; By default, only have the black pig captured so that it becomes the big pig
 
 .align 2 ; Align to the next 4 bytes
 
