@@ -9,6 +9,7 @@ New features:
 * Forest Haven's shore now has a warp which acts as a shortcut allowing you to quickly re-enter the dungeon entrance from the sea after you've already reached it the normal way once.
 * Custom model authors can now change the colors of the sword's slash trail when parrying and when under the Elixir Soup effect.
 * Added a command line argument `-autoseed` that generates a random seed name instead of loading the last used one from settings.txt.
+* The big pig on Outset now has its color randomized.
 
 Changes:
 * The "seed hash" the randomizer adds to the name entry screen is now also included in log files.
