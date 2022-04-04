@@ -38,6 +38,7 @@ shutil.copyfile("README.md", os.path.join(release_archive_path, "README.txt"))
 if platform.system() == "Darwin":
   shutil.move(exe_path, os.path.join(release_archive_path, base_name + exe_ext))
   shutil.copyfile(os.path.join(".", "models", "About Custom Models.txt"), os.path.join(release_archive_path, "About Custom Models.txt"))
+  shutil.make_archive(release_archive_path, 'zip', release_archive_path)
 else:
   os.mkdir(os.path.join(release_archive_path, "models"))
   shutil.move(exe_path, os.path.join(release_archive_path, base_name + exe_ext))
