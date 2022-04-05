@@ -181,6 +181,8 @@ class Logic:
   def set_multiple_locations_to_group(self, available_locations, group_name):
     items_in_group = self.progress_item_groups[group_name]
     
+    #print("Placing group: %s (size: %d)" % (group_name, len(items_in_group)))
+    
     if len(available_locations) < len(items_in_group):
       raise Exception("Not enough locations to place all items in group %s" % group_name)
     
