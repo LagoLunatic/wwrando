@@ -15,6 +15,15 @@ DEBUG_ENEMY_NAME_TO_PLACE_EVERYWHERE = None
 # This variable is for removing all randomizable enemies from the game.
 # This helps with figuring out how much free memory each room has, not counting memory used by the enemies themselves.
 DEBUG_REMOVE_ALL_ENEMIES = False
+DEBUG_REMOVAL_EXCLUDED_PATHS = [
+  "sea/Room49.arc/Actor029",
+  "sea/Room6.arc/Actor024",
+  "sea/Room6.arc/Actor025",
+  "sea/Room6.arc/Actor029",
+  "sea/Room6.arc/Actor02B",
+  "MiniKaz/Room0.arc/Actor001",
+  "M_NewD2/Room2.arc/Actor022"
+]
 
 # Limit the number of species that appear in a given stage to prevent issues loading too many particles and to prevent stages from feeling too chaotic.
 # (This limit does not apply to the sea.)
@@ -108,7 +117,7 @@ def randomize_enemies(self):
   # Now that all randomized enemy locations have been decided successfully, actually save the changed enemies.
   save_changed_enemies_and_randomize_their_params(self)
   
-  if DEBUG_REMOVE_ALL_ENEMIES:
+  if DEBUG_REMOVE_ALL_ENEMIES and not DEBUG_REMOVAL_EXCLUDED_PATHS:
     return
   
   add_modify_and_replace_actors_for_enemy_rando(self)
@@ -241,6 +250,10 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
   for enemy_location in enemy_group["Enemies"]:
     if enemy_location["Placement category"] not in unique_categories_in_this_group:
       unique_categories_in_this_group.append(enemy_location["Placement category"])
+    
+    # Debugging:
+    #if "TF_02/Room1.arc" in enemy_location["Path"]:
+    #  print([x["Pretty name"] for x in self.enemies_to_randomize_to if is_enemy_allowed_in_placement_category(x, enemy_location["Placement category"])])
   
   # First build a minimum list of enemies to allow in this group to make sure every location in it can have at least one possible enemy there.
   enemy_pool_for_group = []
@@ -268,6 +281,13 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
     
     chosen_enemy = self.rng.choice(enemies_allowed)
     enemy_pool_for_group.append(chosen_enemy)
+  
+  # Debugging:
+  #if "sea/Room6.arc" in enemy_group["Enemies"][0]["Path"]:
+  #if "TF_02/Room1.arc" in enemy_group["Enemies"][0]["Path"]:
+  #  print([x["Pretty name"] for x in all_enemies_possible_for_this_group])
+  #if "TF_02/Room1.arc" in enemy_group["Enemies"][0]["Path"]:
+  #  print([x["Pretty name"] for x in enemies_logically_allowed_in_this_group])
   
   num_species_chosen = len(enemy_pool_for_group)
   if num_species_chosen > MAX_ENEMY_SPECIES_PER_GROUP:
@@ -360,7 +380,7 @@ def save_changed_enemies_and_randomize_their_params(self):
     enemy, arc_name, dzx, layer = get_enemy_instance_by_path(self, path)
     stage_folder, room_arc_name = arc_name.split("/")
     
-    if DEBUG_REMOVE_ALL_ENEMIES:
+    if DEBUG_REMOVE_ALL_ENEMIES and path not in DEBUG_REMOVAL_EXCLUDED_PATHS:
       dzx.remove_entity(enemy, "ACTR", layer=layer)
       continue
     
