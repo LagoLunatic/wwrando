@@ -8,7 +8,7 @@ from wwlib.bti import BTI
 from fs_helpers import *
 
 IMPLEMENTED_CHUNK_TYPES = [
-  "INF1",
+  #"INF1",
   "TEX1",
   "MAT3",
   "MDL3",
@@ -203,6 +203,7 @@ class J3DChunk:
       next_string_data_offset += len(string) + 1
 
 class INF1(J3DChunk):
+  # TODO: this does not properly read the hierarchy. test on tetra player model for an error.
   def read_chunk_specific_data(self):
     self.hierarchy_data_offset = read_u32(self.data, 0x14)
     
