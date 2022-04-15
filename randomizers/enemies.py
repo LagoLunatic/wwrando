@@ -1027,6 +1027,9 @@ def randomize_enemy_params(self, enemy_data, enemy, category, dzx, layer):
   elif enemy.name == "Stal":
     enemy.stalfos_type = self.rng.choice([
       0, # Normal
+      0, # Normal
+      0, # Normal
+      1, # Underground
       1, # Underground
       0xE, # Upper half of body only
     ])
