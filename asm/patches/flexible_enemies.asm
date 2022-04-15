@@ -192,3 +192,34 @@ peahat_check_enable_spawn_switch_for_draw_return:
   b 0x35C ; Return
 
 .close
+
+
+
+
+; Make sure Moblins always set their death switch and temporary actor death flag when dying.
+; In vanilla they didn't set these flags when dying from falling a large distance, only when dying to the player or to lava.
+.open "files/rels/d_a_mo2.rel" ; Moblin
+.org 0xAB28 ; In daMo2_Execute(mo2_class *)
+  b moblin_set_death_switch
+.org @NextFreeSpace
+.global moblin_set_death_switch
+moblin_set_death_switch:
+  lhz r4, 0x1BC (r31) ; Set ID (actor temporary death flag)
+  lis r3, g_dComIfG_gameInfo@ha
+  addi r3, r3, g_dComIfG_gameInfo@l
+  lbz r5, 0x1E2 (r31) ; Orig room number
+  bl onActor__10dSv_info_cFii
+  
+  lbz r4, 0x2C0 (r31) ; Switch
+  cmplwi r4, 0x00
+  beq moblin_set_death_switch_return ; Return if the switch parameter is zero
+  
+  lis r3, g_dComIfG_gameInfo@ha
+  addi r3, r3, g_dComIfG_gameInfo@l
+  lbz r5, 0x20A (r31) ; Current room number
+  bl onSwitch__10dSv_info_cFii
+
+moblin_set_death_switch_return:
+  li r3, 1 ; Replace the line we overwrote to jump here
+  b 0xAB2C ; Return
+.close
