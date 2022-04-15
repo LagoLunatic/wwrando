@@ -405,8 +405,17 @@ try:
             curr_org_offset += elf_section.size
         code_chunk_size_in_bytes = (curr_org_offset - org_offset)
         
-        bin_name = os.path.join(temp_dir, "tmp_" + patch_name + "_%08X.bin" % org_offset)
-        map_name = os.path.join(temp_dir, "tmp_" + patch_name + ".map")
+        # Check to be sure that the code we just assembled didn't redefine any already defined global custom symbols.
+        # If it does raise an error so the user can fix the duplicate name in their code.
+        for elf_symbol in elf.symbols[".symtab"]:
+          if elf.sections[elf_symbol.section_index].name == ".text":
+            if elf_symbol.binding == ElfSymbolBinding.STB_GLOBAL:
+              if elf_symbol.name in custom_symbols_for_file:
+                raise Exception("Duplicate symbol %s in %s (org offset: %X)" % (elf_symbol.name, file_path, org_offset))
+        
+        code_chunk_filename = "tmp_%s_%08X" % (patch_name, org_offset)
+        bin_name = os.path.join(temp_dir, code_chunk_filename + ".bin")
+        map_name = os.path.join(temp_dir, code_chunk_filename + ".map")
         relocations = []
         command = [
           get_bin("powerpc-eabi-ld"),
@@ -450,7 +459,7 @@ try:
               temp_linker_script += "%s = 0x%08X;\n" % (symbol_name, symbol_address)
         
         # Uncomment the below to debug the linker's map file.
-        #shutil.copyfile(map_name, "tmp_" + patch_name + ".map")
+        #shutil.copyfile(map_name, code_chunk_filename + ".map")
         
         if file_path.endswith(".rel"):
           # This is for a REL, so we can't link it.

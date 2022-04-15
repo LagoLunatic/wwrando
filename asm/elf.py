@@ -94,7 +94,9 @@ class ELFSymbol:
     self.name_offset = read_u32(elf_data, self.offset + 0x00)
     self.address = read_u32(elf_data, self.offset + 0x04)
     self.size = read_u32(elf_data, self.offset + 0x08)
-    self.info = read_u8(elf_data, self.offset + 0x0C) # lower nibble is type, upper is binding
+    info = read_u8(elf_data, self.offset + 0x0C)
+    self.type = ElfSymbolType(info & 0x0F)
+    self.binding = ElfSymbolBinding((info & 0xF0) >> 4)
     self.other = read_u8(elf_data, self.offset + 0x0D)
     self.section_index = read_u16(elf_data, self.offset + 0x0E)
 
@@ -165,3 +167,26 @@ class ELFSymbolSpecialSection(Enum):
   SHN_COMMON    = 0xFFF2
   SHN_XINDEX    = 0xFFFF
   SHN_HIRESERVE = 0xFFFF
+
+class ElfSymbolType(Enum):
+  STT_NOTYPE         = 0
+  STT_OBJECT         = 1
+  STT_FUNC           = 2
+  STT_SECTION        = 3
+  STT_FILE           = 4
+  STT_COMMON         = 5
+  STT_TLS            = 6
+  STT_LOOS           = 10
+  STT_HIOS           = 12
+  STT_LOPROC         = 13
+  STT_SPARC_REGISTER = 13
+  STT_HIPROC         = 15
+
+class ElfSymbolBinding(Enum):
+  STB_LOCAL  = 0
+  STB_GLOBAL = 1
+  STB_WEAK   = 2
+  STB_LOOS   = 10
+  STB_HIOS   = 12
+  STB_LOPROC = 13
+  STB_HIPROC = 15
