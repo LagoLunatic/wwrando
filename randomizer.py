@@ -523,7 +523,7 @@ class Randomizer:
     tweaks.fix_message_closing_sound_on_quest_status_screen(self)
     tweaks.fix_stone_head_bugs(self)
     tweaks.show_number_of_tingle_statues_on_quest_status_screen(self)
-    patcher.apply_patch(self, "add_new_enemy_rando_params")
+    patcher.apply_patch(self, "flexible_enemies")
     tweaks.add_shortcut_warps_into_dungeons(self)
     
     customizer.replace_link_model(self)

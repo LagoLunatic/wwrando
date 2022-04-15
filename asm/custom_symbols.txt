@@ -91,14 +91,6 @@ sys/main.dol:
   test_room_spawn_id: 0x800531E3
   test_room_room_index: 0x800531E7
   test_room_override_layer_num: 0x800531EB
-files/rels/d_a_rd.rel:
-  redead_check_disable_spawn_switch: 0x61E4
-  redead_set_death_switch: 0x621C
-files/rels/d_a_ph.rel:
-  peahat_check_disable_spawn_switch: 0x7F70
-  peahat_set_death_switch: 0x7FB8
-  peahat_check_enable_spawn_switch: 0x7FE4
-  peahat_check_enable_spawn_switch_for_draw: 0x803C
 files/rels/d_a_npc_bs1.rel:
   set_shop_item_in_bait_bag_slot_sold_out: 0x61F0
   check_shop_item_in_bait_bag_slot_sold_out: 0x6220
@@ -114,6 +106,14 @@ files/rels/d_a_mt.rel:
 files/rels/d_a_fganon.rel:
   phantom_ganon_check_link_within_y_diff: 0xB020
   check_ganons_tower_chest_opened: 0xB03C
+files/rels/d_a_rd.rel:
+  redead_check_disable_spawn_switch: 0x61E4
+  redead_set_death_switch: 0x6224
+files/rels/d_a_ph.rel:
+  peahat_check_disable_spawn_switch: 0x7F70
+  peahat_set_death_switch: 0x7FB8
+  peahat_check_enable_spawn_switch: 0x7FE4
+  peahat_check_enable_spawn_switch_for_draw: 0x803C
 files/rels/d_a_obj_ftree.rel:
   create_item_for_withered_trees_without_setting_speeds: 0x535C
   withered_tree_item_try_give_momentum: 0x5384

@@ -1,6 +1,5 @@
 
-; This patch adds brand new parameters to certain enemies in order to increase their flexibility.
-; This increases enemy variety in enemy randomizer.
+; This patch modifies various enemies to increase their flexibility, allowing more enemy variety in enemy randomizer.
 
 
 ; Give ReDeads a new "Disable spawn on death switch" parameter (params & 0x00FF0000).
