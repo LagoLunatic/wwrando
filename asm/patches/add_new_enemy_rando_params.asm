@@ -16,6 +16,8 @@ redead_check_disable_spawn_switch:
   rlwinm r4, r4, 16, 24, 31 ; Extract byte 0x00FF0000 from the parameters (unused in vanilla)
   cmplwi r4, 0xFF
   beq redead_check_disable_spawn_switch_return ; Return if the switch parameter is null
+  cmplwi r4, 0x00
+  beq redead_check_disable_spawn_switch_return ; Return if the switch parameter is zero
   
   ; Store the disable spawn on death switch to the ReDead's enemyice's death switch.
   ; This is necessary so that the enemy_ice function knows what switch to set when the enemy dies to Light Arrows.
@@ -44,6 +46,8 @@ redead_set_death_switch:
   rlwinm r4, r4, 16, 24, 31 ; Extract byte 0x00FF0000 from the parameters (unused in vanilla)
   cmplwi r4, 0xFF
   beq redead_set_death_switch_return ; Return if the switch parameter is null
+  cmplwi r4, 0x00
+  beq redead_set_death_switch_return ; Return if the switch parameter is zero
   
   lis r3, g_dComIfG_gameInfo@ha
   addi r3, r3, g_dComIfG_gameInfo@l
