@@ -197,7 +197,7 @@ peahat_check_enable_spawn_switch_for_draw_return:
 
 
 ; Make sure Moblins always set their death switch and temporary actor death flag when dying.
-; In vanilla they didn't set these flags when dying from falling a large distance, only when dying to the player or to lava.
+; In vanilla they didn't set these flags when dying from falling a large distance (4000+ units).
 .open "files/rels/d_a_mo2.rel" ; Moblin
 .org 0xAB28 ; In daMo2_Execute(mo2_class *)
   b moblin_set_death_switch
@@ -222,4 +222,58 @@ moblin_set_death_switch:
 moblin_set_death_switch_return:
   li r3, 1 ; Replace the line we overwrote to jump here
   b 0xAB2C ; Return
+.close
+
+
+
+
+; Make sure Stalfos always set their death switch and temporary actor death flag when dying.
+; In vanilla they didn't set these flags when dying from falling a large distance (4000+ units).
+.open "files/rels/d_a_st.rel" ; Stalfos
+.org 0x845C ; In daSt_Execute(st_class *)
+  b stalfos_set_death_switch
+.org @NextFreeSpace
+.global stalfos_set_death_switch
+stalfos_set_death_switch:
+  ; Instead of deleting the actor right away, we set this counter variable to 5 frames.
+  ; During that 5 frame countdown, if this is an upper body half, the lower body half will notice the counter and disappear.
+  ; (In vanilla I think this variable is only set when the Stalfos' head falls below the world origin.)
+  li r0, 5
+  stb r0, 0x1E85 (r31)
+  
+  ; Check if this Stalfos is just the lower body and skip setting the flags, since we don't want to set them twice.
+  lha r0, 0x2C6 (r31) ; Read the Stalfos actor's current action state
+  cmpwi r0, 0x21 ; The state for the lower body without an upper body (sita_move)
+  beq stalfos_set_death_switch_return ; Don't set the flags for the lower body, just return
+  
+  ; This is either the full body or the upper body, so set the flags.
+  lhz r4, 0x1BC (r31) ; Set ID (actor temporary death flag)
+  lis r3, g_dComIfG_gameInfo@ha
+  addi r3, r3, g_dComIfG_gameInfo@l
+  lbz r5, 0x1E2 (r31) ; Orig room number
+  bl onActor__10dSv_info_cFii
+  
+  lbz r4, 0x2B8 (r31) ; Switch
+  cmplwi r4, 0x00
+  beq stalfos_set_death_switch_after_switch ; Don't set the switch if it's zero
+  
+  lis r3, g_dComIfG_gameInfo@ha
+  addi r3, r3, g_dComIfG_gameInfo@l
+  lbz r5, 0x20A (r31) ; Current room number
+  bl onSwitch__10dSv_info_cFii
+stalfos_set_death_switch_after_switch:
+  
+  ; Drop the mace the Stalfos is carrying, if it is carrying one
+  lwz r0, 0x1DCC (r31) ; Read the unique ID of the Stalfos' held weapon entity
+  stw r0, 0x1C (r1)
+  lis r3, fpcSch_JudgeByID__FPvPv@ha
+  addi r3, r3, fpcSch_JudgeByID__FPvPv@l
+  addi r4, r1, 0x1C
+  bl fopAcIt_Judge__FPFPvPv_PvPv ; Get upper body entity
+  cmplwi r3, 0
+  beq stalfos_set_death_switch_return
+  bl fopAcM_cancelCarryNow__FP10fopAc_ac_c
+  
+stalfos_set_death_switch_return:
+  b 0x8460
 .close

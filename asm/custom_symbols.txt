@@ -97,6 +97,7 @@ files/rels/d_a_npc_bs1.rel:
   custom_getSelectItemNo_progressive: 0x624C
 files/rels/d_a_st.rel:
   stalfos_kill_lower_body_when_upper_body_light_arrowed: 0xA778
+  stalfos_set_death_switch: 0xA7C0
 files/rels/d_a_pt.rel:
   miniblin_set_death_switch_when_light_arrowed: 0x60BC
 files/rels/d_a_pw.rel:

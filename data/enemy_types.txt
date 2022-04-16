@@ -625,7 +625,7 @@
   Enable spawn switch param name: ambush_switch # Also needs type to be set to 1 for underground (or 2/3 for in a coffin)
   Death switch param name: disable_spawn_on_death_switch
   Path param name: null
-  Allow near pits: False # Instantly deletes itself without setting its death switch.
+  Allow near pits: True # Dies instantly when over a pit. In vanilla it didn't set its death switch but this was fixed. TODO: Still doesn't die in lava pits though.
   Can be killed with thrown objects: Yes # TODO CHECK
   Can be killed with bomb flowers: Yes
 -
