@@ -644,7 +644,7 @@
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: disable_spawn_on_death_switch
   Path param name: path_index
-  Allow near pits: False # Instantly deletes itself without setting its death switch.
+  Allow near pits: True # Dies instantly when over a pit. In vanilla it didn't set its death switch but this was fixed.
   Can be killed with thrown objects: Yes # TODO CHECK
   Can be killed with bomb flowers: No
 -

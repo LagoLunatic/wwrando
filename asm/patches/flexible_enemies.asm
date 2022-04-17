@@ -277,3 +277,35 @@ stalfos_set_death_switch_after_switch:
 stalfos_set_death_switch_return:
   b 0x8460
 .close
+
+
+
+
+
+; Make sure Darknuts always set their death switch and temporary actor death flag when dying.
+; In vanilla they didn't set these flags when dying from falling a large distance (4000+ units).
+.open "files/rels/d_a_tn.rel" ; Darknut
+.org 0xB17C ; In daTn_Execute(tn_class *)
+  b darknut_set_death_switch
+.org @NextFreeSpace
+.global darknut_set_death_switch
+darknut_set_death_switch:
+  lhz r4, 0x1BC (r31) ; Set ID (actor temporary death flag)
+  lis r3, g_dComIfG_gameInfo@ha
+  addi r3, r3, g_dComIfG_gameInfo@l
+  lbz r5, 0x1E2 (r31) ; Orig room number
+  bl onActor__10dSv_info_cFii
+  
+  lbz r4, 0x2C0 (r31) ; Switch
+  cmplwi r4, 0x00
+  beq darknut_set_death_switch_return ; Return if the switch parameter is zero
+  
+  lis r3, g_dComIfG_gameInfo@ha
+  addi r3, r3, g_dComIfG_gameInfo@l
+  lbz r5, 0x20A (r31) ; Current room number
+  bl onSwitch__10dSv_info_cFii
+
+darknut_set_death_switch_return:
+  li r3, 1 ; Replace the line we overwrote to jump here
+  b 0xB180 ; Return
+.close
