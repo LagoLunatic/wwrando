@@ -133,7 +133,9 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements_full.txt
       - name: Install any missing Qt dependencies
-        run: sudo apt-get install -y qtbase5-dev
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qtbase5-dev
       - name: Set variables
         id: vars
         run: |
