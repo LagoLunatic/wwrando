@@ -87,6 +87,24 @@ def parse_includes(asm):
   
   return asm_with_includes
 
+def make_compiled_c_asm_more_readable(compiled_asm):
+  # Change the formatting of ASM output by GCC to match my ASM style (register names, hex numbers, spacing, etc).
+  readable_asm = ""
+  for line in compiled_asm.splitlines():
+    pieces = []
+    for piece in re.split(r"(\s|,|\(|\)|\"[^\"]+\")", line):
+      if piece and not piece[0] in ['"', "'"]: # Don't modify strings
+        piece = re.sub(r"%((?:r|f|cr)\d+)", "\\1", piece)
+        piece = re.sub(r"\b(\d+)\b", lambda match: "0x%X" % int(match.group(1)), piece)
+        piece = re.sub(r",", ", ", piece)
+        piece = re.sub(r"\(", " (", piece)
+        if piece == "r1":
+          piece = "sp"
+      pieces.append(piece)
+    line = ''.join(pieces)
+    readable_asm += line + "\n"
+  return readable_asm
+
 def compile_c_to_asm(c_src_path):
   basename = os.path.basename(c_src_path)
   basename_no_ext = os.path.splitext(basename)[0]
@@ -96,8 +114,10 @@ def compile_c_to_asm(c_src_path):
     "-mcpu=750",
     "-fno-inline",
     "-Wall",
+    "-Werror",
     "-Og",
     "-fshort-enums",
+    "-mregnames",
     "-S",
     "-fno-asynchronous-unwind-tables", # Needed to get rid of unnecessary .eh_frame section from the ELF.
     "-c", c_src_path,
@@ -113,8 +133,9 @@ def compile_c_to_asm(c_src_path):
     compiled_asm = f.read()
   
   # Uncomment the below to debug the compiled ASM.
-  #with open("compiled_c_asm.asm", "w") as f:
-  #  f.write(compiled_asm)
+  #readable_asm = make_compiled_c_asm_more_readable(compiled_asm)
+  #with open("compiled_c_asm - %s.asm" % basename_no_ext, "w") as f:
+  #  f.write(readable_asm)
   
   return compiled_asm
 
@@ -408,6 +429,9 @@ try:
         # Check to be sure that the code we just assembled didn't redefine any already defined global custom symbols.
         # If it does raise an error so the user can fix the duplicate name in their code.
         for elf_symbol in elf.symbols[".symtab"]:
+          if elf_symbol.section_index >= 0xFF00:
+            # Special section index (e.g. FFF1 is a filename).
+            continue
           if elf.sections[elf_symbol.section_index].name == ".text":
             if elf_symbol.binding == ElfSymbolBinding.STB_GLOBAL:
               if elf_symbol.name in custom_symbols_for_file:
