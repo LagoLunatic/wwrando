@@ -772,8 +772,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Ground]
-  Memory used by first one: 46944
-  Memory used by subequent ones: 25312
+  Memory used by first one: 133200 # This includes the maximum of 10 spawned morths
+  Memory used by subequent ones: 68896
   Enable spawn switch param name: null
   Death switch param name: disable_spawn_on_death_switch
   Path param name: null
@@ -791,8 +791,8 @@
   Allow randomizing from: True
   Allow randomizing to: True
   Placement categories: [Air, Ceiling]
-  Memory used by first one: 46944
-  Memory used by subequent ones: 25312
+  Memory used by first one: 148272 # This includes the maximum of 20 spawned morths + 1 falling wing
+  Memory used by subequent ones: 111792
   Enable spawn switch param name: null
   Death switch param name: disable_spawn_on_death_switch
   Path param name: null
