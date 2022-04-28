@@ -119,6 +119,8 @@ files/rels/d_a_mo2.rel:
   moblin_set_death_switch: 0xE2D4
 files/rels/d_a_tn.rel:
   darknut_set_death_switch: 0xEA24
+files/rels/d_a_nzg.rel:
+  rat_hole_all_rats_dead: 0xE00
 files/rels/d_a_obj_ftree.rel:
   create_item_for_withered_trees_without_setting_speeds: 0x535C
   withered_tree_item_try_give_momentum: 0x5384

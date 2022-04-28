@@ -309,3 +309,25 @@ darknut_set_death_switch_return:
   li r3, 1 ; Replace the line we overwrote to jump here
   b 0xB180 ; Return
 .close
+
+
+
+
+; Fixes an issue where a room where you need to kill all the enemies to complete would auto-complete while entering it via a dungeon door if the only enemies in the room were rat spawning holes.
+; The hole itself does not count as an enemy because its actor type is 0 instead of 2.
+; The rats count as enemies, but do not spawn instantly when walking through a dungeon door.
+; Yet actors like ALLdies do get to check if there are any enemies in the room while you're walking through the door.
+; We fix this by changing the hole's actor type to 2 so it counts as an enemy.
+; Then, once it hits its maximum rats spawned limit, we change its type back to normal so it doesn't continue counting as a living enemy.
+.open "files/rels/d_a_nzg.rel" ; Rat/Bombchu hole
+.org 0xD08 ; In g_profile_NZG
+  .byte 0x02 ; Set the actor type to 2 (enemy)
+.org 0x1FC ; In nzg_00_move(nzg_class *)
+  b rat_hole_all_rats_dead
+.org @NextFreeSpace
+.global rat_hole_all_rats_dead
+rat_hole_all_rats_dead:
+  li r0, 0 ; Normal (non-enemy) actor type
+  stb r0, 0x1BE (r30) ; Store to the rat hole's actor type
+  b 0x40C ; Return
+.close
