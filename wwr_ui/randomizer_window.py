@@ -937,8 +937,6 @@ class WWRandomizerWindow(QMainWindow):
     self.reload_colors()
   
   def reset_color_selectors_to_model_default_colors(self):
-    self.reload_custom_model()
-    
     default_colors = self.get_default_custom_colors_for_current_model()
     
     any_color_changed = False
