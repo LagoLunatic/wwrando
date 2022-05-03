@@ -754,3 +754,23 @@ custom_warp_pot_prm_color:
 custom_warp_pot_env_color:
   .int 0x3C379D80 ; Dark purple
 .close
+
+
+
+
+
+; Stop Old man Ho-Ho from disappearing under some conditions.
+.open "files/rels/d_a_npc_ah.rel" ; Old Man Ho-Ho
+.org 0x1044 ; Don't check if Cabana Octo is defeated
+  li r3, 0
+.org 0x1018 ; Don't check if the stone head above Savage Labyrinth is destroyed
+  li r3, 0
+.org 0x1078 ; Don't check if the Two-Eye Reef Octo is defeated
+  li r3, 0
+.org 0x8A8 ; Don't check if Cabana Octo is defeated
+  li r3, 0
+.org 0x85C ; Don't check if the stone head above Savage Labyrinth is destroyed
+  li r3, 0
+.org 0x8D8 ; Don't check if the Two-Eye Reef Octo is defeated
+  li r3, 0
+.close

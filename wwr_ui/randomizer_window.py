@@ -844,29 +844,29 @@ class WWRandomizerWindow(QMainWindow):
     for custom_color_name, default_color in custom_colors.items():
       option_name = "custom_color_" + custom_color_name
       hlayout = QHBoxLayout()
-      label_for_color_selector = QLabel(self.ui.tab_2)
+      label_for_color_selector = QLabel(self.ui.tab_player_customization)
       label_for_color_selector.setText("%s Color" % custom_color_name)
       hlayout.addWidget(label_for_color_selector)
       
-      color_hex_code_input = QLineEdit(self.ui.tab_2)
+      color_hex_code_input = QLineEdit(self.ui.tab_player_customization)
       color_hex_code_input.setText("")
       color_hex_code_input.setObjectName(option_name + "_hex_code_input")
       color_hex_code_input.setFixedWidth(QFontMetrics(QFont()).horizontalAdvance("CCCCCC")+5)
       color_hex_code_input.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
       hlayout.addWidget(color_hex_code_input)
       
-      color_randomize_button = QPushButton(self.ui.tab_2)
+      color_randomize_button = QPushButton(self.ui.tab_player_customization)
       color_randomize_button.setText("Random")
       color_randomize_button.setObjectName(option_name + "_randomize_color")
       color_randomize_button.setFixedWidth(QFontMetrics(QFont()).horizontalAdvance("Random")+11)
       hlayout.addWidget(color_randomize_button)
       
-      color_selector_button = QPushButton(self.ui.tab_2)
+      color_selector_button = QPushButton(self.ui.tab_player_customization)
       color_selector_button.setText("Click to set color")
       color_selector_button.setObjectName(option_name)
       hlayout.addWidget(color_selector_button)
       
-      color_reset_button = QPushButton(self.ui.tab_2)
+      color_reset_button = QPushButton(self.ui.tab_player_customization)
       color_reset_button.setText("X")
       color_reset_button.setObjectName(option_name + "_reset_color")
       color_reset_button.setFixedWidth(QFontMetrics(QFont()).horizontalAdvance("X")+11)
@@ -937,6 +937,8 @@ class WWRandomizerWindow(QMainWindow):
     self.reload_colors()
   
   def reset_color_selectors_to_model_default_colors(self):
+    self.reload_custom_model()
+    
     default_colors = self.get_default_custom_colors_for_current_model()
     
     any_color_changed = False

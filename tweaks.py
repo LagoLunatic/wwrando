@@ -9,6 +9,7 @@ from random import Random
 import math
 
 from fs_helpers import *
+import hints
 from asm import patcher
 from wwlib import texture_utils
 from wwlib.rel import REL
@@ -844,8 +845,8 @@ def update_savage_labyrinth_hint_tablet(self):
   floor_30_is_progress = (floor_30_item_name in self.logic.all_progress_items)
   floor_50_is_progress = (floor_50_item_name in self.logic.all_progress_items)
   
-  floor_30_item_name = get_hint_item_name(floor_30_item_name)
-  floor_50_item_name = get_hint_item_name(floor_50_item_name)
+  floor_30_item_name = hints.get_hint_item_name(floor_30_item_name)
+  floor_50_item_name = hints.get_hint_item_name(floor_50_item_name)
   
   if floor_30_is_progress and not floor_30_item_name in self.progress_item_hints:
     raise Exception("Could not find progress item hint for item: %s" % floor_30_item_name)
@@ -882,106 +883,31 @@ def update_savage_labyrinth_hint_tablet(self):
   )
 
 def randomize_and_update_hints(self):
-  hints = []
-  unique_items_given_hint_for = []
-  possible_item_locations = list(self.logic.done_item_locations.keys())
-  self.rng.shuffle(possible_item_locations)
-  num_fishman_hints = 15
-  desired_num_hints = 1 + num_fishman_hints
-  min_num_hints_needed = 1 + 1
-  while True:
-    if not possible_item_locations:
-      if len(hints) >= min_num_hints_needed:
-        break
-      elif len(hints) >= 1:
-        # Succeeded at making at least 1 hint but not enough to reach the minimum.
-        # So duplicate the hint(s) we DID make to fill up the missing slots.
-        unique_hints = hints.copy()
-        while len(hints) < min_num_hints_needed:
-          hints += unique_hints
-        hints = hints[:min_num_hints_needed]
-        break
-      else:
-        raise Exception("No valid items to give hints for")
-    
-    location_name = possible_item_locations.pop()
-    if location_name in self.race_mode_required_locations:
-      # You already know which boss locations have a required item and which don't in race mode by looking at the sea chart.
-      continue
-    if location_name == "Two-Eye Reef - Big Octo Great Fairy":
-      # We don't want this Great Fairy to hint at her own item.
-      continue
-    
-    item_name = self.logic.done_item_locations[location_name]
-    if item_name not in self.logic.all_progress_items:
-      continue
-    if self.logic.is_dungeon_item(item_name) and not self.options.get("keylunacy"):
-      continue
-    
-    item_name = get_hint_item_name(item_name)
-    if item_name == "Bait Bag":
-      # Can't access fishmen hints until you already have the bait bag
-      continue
-    if len(hints) >= desired_num_hints:
-      break
-    
-    zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
-    
-    # Distinguish between the two Pawprint Isle entrances when secret cave entrances are randomized
-    if self.options.get("randomize_entrances") not in ["Disabled", "Dungeons", None] and location_name == "Pawprint Isle - Wizzrobe Cave":
-      zone_name = "Pawprint Isle Side Isle"
-    
-    if zone_name in self.dungeon_and_cave_island_locations and self.logic.is_dungeon_or_cave(location_name):
-      # If the location is in a dungeon or cave, use the hint for whatever island the dungeon/cave is located on.
-      island_name = self.dungeon_and_cave_island_locations[zone_name]
-      island_hint_name = self.island_name_hints[island_name]
-    elif zone_name in self.island_name_hints:
-      island_name = zone_name
-      island_hint_name = self.island_name_hints[island_name]
-    elif zone_name in self.logic.DUNGEON_NAMES.values():
-      continue
-    else:
-      continue
-    
-    if (item_name, island_name) in unique_items_given_hint_for: # Don't give hint for same type of item in same zone
-      continue
-    
-    item_hint_name = self.progress_item_hints[item_name]
-    
-    hints.append((item_hint_name, island_hint_name))
-    
-    unique_items_given_hint_for.append((item_name, island_name))
-    
-  update_big_octo_great_fairy_item_name_hint(self, hints[0])
-  update_fishmen_hints(self, hints[1:])
+  # Generate item hints
+  item_hints = hints.generate_item_hints(self, 1+15)
+  
+  # Give the Big Octo Great Fairy a unique item hint
+  update_big_octo_great_fairy_item_name_hint(self, item_hints[0])
+  
+  # Place hints into the game
+  if self.options.get("hint_placement") == "Fishmen":
+    update_fishmen_hints(self, item_hints[1:])
+  elif self.options.get("hint_placement") == "Old Man Ho Ho":
+    update_hoho_hints(self, item_hints[1:])
+  else:
+    raise Exception("Invalid hint placement: %s" % self.options.get("hint_placement"))
 
-def get_hint_item_name(item_name):
-  if item_name.startswith("Triforce Chart"):
-    return "Triforce Chart"
-  if item_name.startswith("Treasure Chart"):
-    return "Treasure Chart"
-  if item_name.endswith("Small Key"):
-    return "Small Key"
-  if item_name.endswith("Big Key"):
-    return "Big Key"
-  return item_name
-
-def update_fishmen_hints(self, hints):
+def update_fishmen_hints(self, item_hints):
   islands = list(range(1, 49+1))
-  for fishman_hint_number in range(len(islands)):
-    item_hint_name, island_hint_name = hints[fishman_hint_number % len(hints)]
-    
-    fishman_island_number = self.rng.choice(islands)
-    islands.remove(fishman_island_number)
+  self.rng.shuffle(islands)
+  
+  for fishman_hint_number, fishman_island_number in enumerate(islands):
+    hint = item_hints[fishman_hint_number % len(item_hints)]
     
     hint_lines = []
-    hint_lines.append(
-      "I've heard from my sources that \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} is located in \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}." % (item_hint_name, island_hint_name)
-    )
-    # Add a two-second wait command (delay) to prevent the player from skipping over the hint accidentally.
-    hint_lines[-1] += "\\{1A 07 00 00 07 00 3C}"
-    
+    hint_lines.append(hints.get_formatted_hint_text(hint, prefix="I've heard from my sources that ", suffix=".", delay=60))
     hint_lines.append("Could be worth a try checking that place out. If you know where it is, of course.")
+    
     if self.options.get("instant_text_boxes"):
       # If instant text mode is on, we need to reset the text speed to instant after the wait command messed it up.
       hint_lines[-1] = "\\{1A 05 00 00 01}" + hint_lines[-1]
@@ -993,6 +919,33 @@ def update_fishmen_hints(self, hints):
       hint += hint_line
     
     msg_id = 13026 + fishman_island_number
+    msg = self.bmg.messages_by_id[msg_id]
+    msg.string = hint
+
+def update_hoho_hints(self, item_hints):
+  # Take the hints and distribute them among the Old Man Ho Ho
+  hoho_hints = hints.distribute_hints_on_hohos(self, item_hints)
+  
+  for hoho_hint_number, hints_for_hoho in enumerate(hoho_hints):
+    hint_lines = []
+    for i, hint in enumerate(hints_for_hoho):
+      # Determine the prefix and suffix for the hint
+      hint_prefix = "\\{1A 05 01 01 03}Ho ho! They say that " if i == 0 else "and that "
+      hint_suffix = "." if i == len(hints_for_hoho) - 1 else ""
+      
+      hint_lines.append(hints.get_formatted_hint_text(hint, prefix=hint_prefix, suffix=hint_suffix))
+      
+      if self.options.get("instant_text_boxes") and i > 0:
+        # If instant text mode is on, we need to reset the text speed to instant after the wait command messed it up.
+        hint_lines[-1] = "\\{1A 05 00 00 01}" + hint_lines[-1]
+    
+    hint = ""
+    for hint_line in hint_lines:
+      hint_line = word_wrap_string(hint_line)
+      hint_line = pad_string_to_next_4_lines(hint_line)
+      hint += hint_line
+    
+    msg_id = 14001 + hoho_hint_number
     msg = self.bmg.messages_by_id[msg_id]
     msg.string = hint
 
