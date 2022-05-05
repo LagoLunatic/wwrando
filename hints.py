@@ -102,6 +102,8 @@ def generate_item_hints(self, num_hints):
       hoho_hints.append(item_hint)
     
     # Move the next valid hint placement
+    if not all(hint_placements):
+      break
     while True:
       hint_placement_index = (hint_placement_index + 1) % len(hint_placements)
       if hint_placements[hint_placement_index]:
