@@ -1,3 +1,4 @@
+from wwr_ui.options import RNG_CHANGING_OPTIONS
 
 import os
 import re
@@ -857,9 +858,13 @@ class Randomizer:
   def get_new_rng(self):
     rng = Random()
     rng.seed(self.integer_seed)
-    if self.options.get("do_not_generate_spoiler_log"):
-      for i in range(1, 100):
-        rng.getrandbits(i)
+    
+    # Further change the RNG based on which RNG-changing options are enabled
+    for i, option in enumerate(RNG_CHANGING_OPTIONS):
+      n = 100 * self.options.get(option) * (1 << i)
+      for j in range(1, n):
+        rng.getrandbits(j)
+    
     return rng
   
   def reset_rng(self):
