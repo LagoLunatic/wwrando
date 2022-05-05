@@ -883,19 +883,20 @@ def update_savage_labyrinth_hint_tablet(self):
   )
 
 def randomize_and_update_hints(self):
+  # Determine the number of hints to distribute in the game
+  num_hints = int(self.options.get("num_hints", 0))
+  
   # Generate item hints
-  item_hints = hints.generate_item_hints(self, 1+15)
+  octo_fairy_hint, fishmen_hints, hoho_hints = hints.generate_item_hints(self, 1+num_hints)
   
   # Give the Big Octo Great Fairy a unique item hint
-  update_big_octo_great_fairy_item_name_hint(self, item_hints[0])
+  update_big_octo_great_fairy_item_name_hint(self, octo_fairy_hint)
   
   # Place hints into the game
-  if self.options.get("hint_placement") == "Fishmen":
-    update_fishmen_hints(self, item_hints[1:])
-  elif self.options.get("hint_placement") == "Old Man Ho Ho":
-    update_hoho_hints(self, item_hints[1:])
-  else:
-    raise Exception("Invalid hint placement: %s" % self.options.get("hint_placement"))
+  if self.options.get("fishmen_hints"):
+    update_fishmen_hints(self, fishmen_hints)
+  if self.options.get("hoho_hints"):
+    update_hoho_hints(self, hoho_hints)
 
 def update_fishmen_hints(self, item_hints):
   islands = list(range(1, 49+1))
