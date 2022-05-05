@@ -33,30 +33,47 @@ def generate_item_hints(self, num_hints):
   unique_items_given_hint_for = []
   
   # Identify where the user wishes hints to be located
-  hint_placements = [self.options.get("fishmen_hints"), self.options.get("hoho_hints")]
-
-  # Counter variable to keep track of which hint placement we are currently considering
-  # We so this because some hint placements have restrictions on item/locations that can be hinted
-  #
-  # -1 = Big Octo Great Fairy
-  #  0 = Fishmen
-  #  1 = Old Man Ho Ho
-  hint_placement_index = -1
+  variable_hint_placement_options = ["fishmen_hints", "hoho_hints"]
+  num_hint_placements = sum(self.options.get(option) for option in variable_hint_placement_options)
+  
+  # Always assign one hint to the Big Octo Great Fairy
+  hints_remaining_per_placement = {"octo_fairy": 1}
+  num_hints -= 1
+  
+  # Distribute the remaining hints among the enabled hint placement options
+  for option in variable_hint_placement_options:
+    if self.options.get(option):
+      hints_remaining_per_placement[option] = num_hints // num_hint_placements
+  num_hints_remaining = num_hints % num_hint_placements
+  for option in variable_hint_placement_options:
+    if num_hints_remaining == 0:
+      break
+    if self.options.get(option):
+      hints_remaining_per_placement[option] += 1
+      num_hints_remaining -= 1
   
   # Create and shuffle a list of randomized item locations
   possible_item_locations = list(self.logic.done_item_locations.keys())
   self.rng.shuffle(possible_item_locations)
   
+  current_placement_index = 0
+  hints_placement_options = list(hints_remaining_per_placement.keys())
   while True:
-    # We've run out of items at which to hint, so break.
-    if not possible_item_locations or int(octo_fairy_hint is not None) + len(fishmen_hints) + len(hoho_hints) >= num_hints:
+    # We've run out of items at which to hint, or we've made the sufficient amount of hints, so break.
+    if not possible_item_locations or sum(hints_remaining_per_placement.values()) == 0:
       break
+    
+    # Check if we need to distribute any more hints for this placement option
+    current_hint_placement = hints_placement_options[current_placement_index]
+    if hints_remaining_per_placement[current_hint_placement] == 0:
+      current_placement_index = (current_placement_index + 1) % len(hints_placement_options)
+      continue
     
     location_name = possible_item_locations.pop()
     if location_name in self.race_mode_required_locations:
       # You already know which boss locations have a required item and which don't in race mode by looking at the sea chart.
       continue
-    if hint_placement_index == -1 and location_name == "Two-Eye Reef - Big Octo Great Fairy":
+    if current_hint_placement == "octo_fairy" and location_name == "Two-Eye Reef - Big Octo Great Fairy":
       # We don't want this Great Fairy to hint at her own item.
       continue
     
@@ -67,7 +84,7 @@ def generate_item_hints(self, num_hints):
     if self.logic.is_dungeon_item(item_name) and not self.options.get("keylunacy"):
       # Don't hint at dungeon maps and compasses, and don't hint at dungeon keys when key-lunacy is not enabled
       continue
-    if hint_placement_index == 0 and item_name == "Bait Bag":
+    if current_hint_placement == "fishmen_hints" and item_name == "Bait Bag":
       # Can't access fishmen hints until you already have the bait bag
       continue
     
@@ -94,20 +111,16 @@ def generate_item_hints(self, num_hints):
     unique_items_given_hint_for.append(item_hint)
     
     # Assign the hint to the appropriate hint placement
-    if hint_placement_index == -1:
+    if current_hint_placement == "octo_fairy":
       octo_fairy_hint = item_hint
-    elif hint_placement_index == 0:
+    elif current_hint_placement == "fishmen_hints":
       fishmen_hints.append(item_hint)
-    elif hint_placement_index == 1:
+    elif current_hint_placement == "hoho_hints":
       hoho_hints.append(item_hint)
     
-    # Move the next valid hint placement
-    if not all(hint_placements):
-      break
-    while True:
-      hint_placement_index = (hint_placement_index + 1) % len(hint_placements)
-      if hint_placements[hint_placement_index]:
-        break
+    # Move the next hint placement
+    hints_remaining_per_placement[current_hint_placement] -= 1
+    current_placement_index = (current_placement_index + 1) % len(hints_placement_options)
   
   if octo_fairy_hint is None:
     # Failed at making a hint for the Big Octo Great Fairy.
