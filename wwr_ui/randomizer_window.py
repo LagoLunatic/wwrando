@@ -84,7 +84,7 @@ class WWRandomizerWindow(QMainWindow):
 
     self.ui.install_custom_model.clicked.connect(self.install_custom_model_zip)
     self.ui.custom_player_model.currentIndexChanged.connect(self.custom_model_changed)
-    self.ui.player_in_casual_clothes.clicked.connect(self.in_casual_clothes_changed)
+    self.ui.player_in_casual_clothes.toggled.connect(self.in_casual_clothes_changed)
     self.ui.randomize_all_custom_colors_together.clicked.connect(self.randomize_all_custom_colors_together)
     self.ui.randomize_all_custom_colors_separately.clicked.connect(self.randomize_all_custom_colors_separately)
     self.ui.custom_color_preset.currentIndexChanged.connect(self.color_preset_changed)
