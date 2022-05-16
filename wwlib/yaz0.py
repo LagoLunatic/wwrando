@@ -4,6 +4,12 @@ from io import BytesIO
 
 from fs_helpers import *
 
+try:
+  import pyfastyaz0
+  PY_FAST_YAZ0_INSTALLED = True
+except ImportError:
+  PY_FAST_YAZ0_INSTALLED = False
+
 class Yaz0:
   MAX_RUN_LENGTH = 0xFF + 0x12
   
@@ -77,6 +83,14 @@ class Yaz0:
   
   @staticmethod
   def compress(uncomp_data, search_depth=DEFAULT_SEARCH_DEPTH, should_pad_data=False):
+    if PY_FAST_YAZ0_INSTALLED:
+      uncomp_data = read_all_bytes(uncomp_data)
+      comp_data = pyfastyaz0.compress(uncomp_data, search_depth)
+      comp_data = BytesIO(comp_data)
+      if should_pad_data:
+        align_data_to_nearest(comp_data, 0x20, padding_bytes=b'\0')
+      return comp_data
+    
     comp_data = BytesIO()
     write_magic_str(comp_data, 0, "Yaz0", 4)
     
