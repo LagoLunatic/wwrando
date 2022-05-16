@@ -731,7 +731,7 @@ class Randomizer:
       
       data = self.gcm.read_file_data(file_path)
       
-      if try_read_str(data, 0, 4) == "Yaz0":
+      if Yaz0.check_is_compressed(data):
         data = Yaz0.decompress(data)
       
       self.raw_files_by_path[file_path] = data

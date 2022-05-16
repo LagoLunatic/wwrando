@@ -44,7 +44,7 @@ class RARC:
   def read(self, data):
     self.data = data
     
-    if try_read_str(self.data, 0, 4) == "Yaz0":
+    if Yaz0.check_is_compressed(self.data):
       self.data = Yaz0.decompress(self.data)
     
     data = self.data
@@ -604,7 +604,7 @@ class FileEntry:
       self.type &= ~RARCFileAttrType.DIRECTORY
   
   def decompress_data_if_necessary(self):
-    if try_read_str(self.data, 0, 4) == "Yaz0":
+    if Yaz0.check_is_compressed(self.data):
       self.data = Yaz0.decompress(self.data)
       # Clear compressed type bits.
       self.type &= ~RARCFileAttrType.COMPRESSED

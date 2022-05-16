@@ -44,7 +44,7 @@ def disassemble_all_code(self):
       data = rel_file_entry.data
     else:
       data = self.gcm.read_file_data(file_path_in_gcm)
-      if try_read_str(data, 0, 4) == "Yaz0":
+      if Yaz0.check_is_compressed(data):
         data = Yaz0.decompress(data)
     
     basename, file_ext = os.path.splitext(basename_with_ext)

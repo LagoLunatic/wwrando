@@ -6,6 +6,7 @@ from collections import OrderedDict
 from wwlib.bti import BTI
 
 from fs_helpers import *
+from wwlib.yaz0 import Yaz0
 
 IMPLEMENTED_CHUNK_TYPES = [
   #"INF1",
@@ -18,7 +19,7 @@ IMPLEMENTED_CHUNK_TYPES = [
 
 class J3DFile:
   def __init__(self, data):
-    if try_read_str(data, 0, 4) == "Yaz0":
+    if Yaz0.check_is_compressed(data):
       data = Yaz0.decompress(data)
     self.data = data
     

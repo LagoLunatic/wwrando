@@ -179,7 +179,7 @@ class BTI:
 
 class BTIFile(BTI): # For standalone .bti files (as opposed to textures embedded inside J3D models/animations)
   def __init__(self, data):
-    if try_read_str(data, 0, 4) == "Yaz0":
+    if Yaz0.check_is_compressed(data):
       data = Yaz0.decompress(data)
     super(BTIFile, self).__init__(data)
   
