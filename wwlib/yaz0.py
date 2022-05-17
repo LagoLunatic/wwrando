@@ -35,6 +35,12 @@ class Yaz0:
       print("File is not compressed.")
       return comp_data
     
+    if PY_FAST_YAZ0_INSTALLED:
+      comp_data = read_all_bytes(comp_data)
+      uncomp_data = pyfastyaz0.decompress(comp_data)
+      uncomp_data = BytesIO(uncomp_data)
+      return uncomp_data
+    
     uncomp_size = read_u32(comp_data, 4)
     comp_size = comp_data.seek(0, 2)
     
