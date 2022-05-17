@@ -402,7 +402,7 @@ class Randomizer:
       self.reset_rng()
       music.randomize_music(self)
     
-    if True:
+    if not self.dry_run:
       # Randomize the color of the big pig on Outset by setting the bitfield of which pigs were captured in the prologue.
       self.reset_rng()
       captured_pigs_bitfield = self.rng.choice([
