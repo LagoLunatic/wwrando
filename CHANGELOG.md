@@ -15,6 +15,7 @@ Changes:
 * The "seed hash" the randomizer adds to the name entry screen is now also included in log files.
 * Removed several minor cutscenes from Forest Haven where the camera panned around.
 * Inter-dungeon warp pots now have red-colored smoke to differentiate them from other warp pots.
+* Randomization is now faster, taking a few seconds less to run.
 
 Bug fixes:
 * Fixed permalinks not being properly decoded in some cases when Swordless mode is enabled and starting gear is customized.
@@ -22,6 +23,7 @@ Bug fixes:
 * Fixed the chest the randomizer adds to the DRC miniboss room not appearing on the compass when in a different room.
 * Fixed the number of Tingle Statues you own being displayed incorrectly on the Tingle Tuner's GBA screen.
 * Fixed "Disable Custom Items" in the Player Customization tab not also disabling some details of custom item models, like custom Hookshot targetting reticules and custom gem colors for the Master Sword.
+* Fixed "Reset All Settings to Default" not properly resetting the custom model colors if the casual clothes checkbox was checked.
 
 Removed:
 * 32-bit builds of the randomizer are no longer offered.
