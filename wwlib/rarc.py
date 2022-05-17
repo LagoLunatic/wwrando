@@ -387,16 +387,14 @@ class RARC:
       if self.keep_file_ids_synced_with_indexes:
         file_entry.id = self.file_entries.index(file_entry)
       
-      data_size = data_len(file_entry.data)
       file_entry.data_offset = next_file_data_offset
-      file_entry.data_size = data_size
       file_entry.save_changes()
       
       self.data.seek(self.file_data_list_offset + file_entry.data_offset)
       file_entry.data.seek(0)
       self.data.write(file_entry.data.read())
       
-      next_file_data_offset += data_size
+      next_file_data_offset += file_entry.data_size
       
       # Pad start of the next file to the next 0x20 bytes.
       align_data_to_nearest(self.data, 0x20)
@@ -606,7 +604,21 @@ class FileEntry:
   def decompress_data_if_necessary(self):
     if Yaz0.check_is_compressed(self.data):
       self.data = Yaz0.decompress(self.data)
-      # Clear compressed type bits.
+      self.update_compression_flags_from_data()
+  
+  def update_compression_flags_from_data(self):
+    if self.is_dir:
+      self.type &= ~RARCFileAttrType.COMPRESSED
+      self.type &= ~RARCFileAttrType.YAZ0_COMPRESSED
+      return
+    
+    if Yaz0.check_is_compressed(self.data):
+      self.type |= RARCFileAttrType.COMPRESSED
+      self.type |= RARCFileAttrType.YAZ0_COMPRESSED
+    elif try_read_str(self.data, 0, 4) == "Yay0":
+      self.type |= RARCFileAttrType.COMPRESSED
+      self.type &= ~RARCFileAttrType.YAZ0_COMPRESSED
+    else:
       self.type &= ~RARCFileAttrType.COMPRESSED
       self.type &= ~RARCFileAttrType.YAZ0_COMPRESSED
   
@@ -618,24 +630,15 @@ class FileEntry:
       hash &= 0xFFFF
     self.name_hash = hash
     
-    # Set or clear compressed type bits.
-    if not self.is_dir and Yaz0.check_is_compressed(self.data):
-      self.type |= RARCFileAttrType.COMPRESSED
-      self.type |= RARCFileAttrType.YAZ0_COMPRESSED
-    else:
-      self.type &= ~RARCFileAttrType.COMPRESSED
-      self.type &= ~RARCFileAttrType.YAZ0_COMPRESSED
+    self.update_compression_flags_from_data()
     
     type_and_name_offset = (self.type << 24) | (self.name_offset & 0x00FFFFFF)
     
     if self.is_dir:
       data_offset_or_node_index = self.node_index
-    else:
-      data_offset_or_node_index = self.data_offset
-    
-    if self.is_dir:
       self.data_size = 0x10
     else:
+      data_offset_or_node_index = self.data_offset
       self.data_size = data_len(self.data)
     
     write_u16(self.rarc.data, self.entry_offset+0x00, self.id)
