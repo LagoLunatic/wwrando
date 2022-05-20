@@ -438,9 +438,7 @@ class Randomizer:
     yield("Saving items...", options_completed)
     if self.randomize_items and not self.dry_run:
       items.write_changed_items(self)
-      
-      if self.options.get("hint_placement") != "None":
-        tweaks.randomize_and_update_hints(self)
+      tweaks.randomize_and_update_hints(self)
     
     if not self.dry_run:
       self.apply_necessary_post_randomization_tweaks()
