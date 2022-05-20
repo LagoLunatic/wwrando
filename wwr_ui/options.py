@@ -114,11 +114,11 @@ OPTIONS = OrderedDict([
   ),
   (
     "fishmen_hints",
-    "Places hints on the fishmen. There is one fishman at each of the 49 islands of the Great Sea. The fishmen must be fed All-Purpose Bait before getting a hint.",
+    "Places hints on the fishmen. There is one fishman at each of the 49 islands of the Great Sea. Each fishman must be fed an All-Purpose Bait before he will give a hint.",
   ),
   (
     "hoho_hints",
-    "Places hints on Old Man Ho Ho. Old Man Ho Ho appears at 10 different places in the game. Simply talk to Old Man Ho Ho to get hints.",
+    "Places hints on Old Man Ho Ho. Old Man Ho Ho appears at 10 different islands in the game. Simply talk to Old Man Ho Ho to get a hint.",
   ),
   (
     "num_hints",
