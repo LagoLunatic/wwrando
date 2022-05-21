@@ -251,15 +251,6 @@ NON_PERMALINK_OPTIONS = [
   # Note: randomize_enemy_palettes has special logic to be in the permalink when enemy rando is on, but otherwise just have an unused placeholder in the permalink.
 ]
 
-# Some options change the permalink, but do not affect how entrances, charts, items, etc. are randomized.
-# In some cases, we want such options to still affect the randomization of the seed.
-RNG_CHANGING_OPTIONS = [
-  "fishmen_hints",
-  "hoho_hints",
-  "num_hints",
-  "do_not_generate_spoiler_log",
-]
-
 HIDDEN_OPTIONS = [
   "disable_tingle_chests_with_tingle_bombs",
   "randomize_music",

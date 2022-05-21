@@ -1,4 +1,3 @@
-from wwr_ui.options import RNG_CHANGING_OPTIONS
 
 import os
 import re
@@ -63,6 +62,17 @@ if IS_RUNNING_FROM_SOURCE:
   VERSION += version_suffix
 
 CLEAN_WIND_WAKER_ISO_MD5 = 0xd8e4d45af2032a081a0f446384e9261b
+
+# The below are options that could be used to cheat in races.
+# They do not naturally change algorithmic item distribution, but do change the availability of information on item distribution.
+# To prevent this possibility, we change the RNG seed itself for each one of these options that is selected.
+# This ensures that item distribution is different between people with the same seed but different hints, for example.
+RNG_CHANGING_OPTIONS = [
+  "fishmen_hints",
+  "hoho_hints",
+  "num_hints",
+  "do_not_generate_spoiler_log",
+]
 
 class TooFewProgressionLocationsError(Exception):
   pass
