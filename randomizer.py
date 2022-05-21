@@ -869,9 +869,9 @@ class Randomizer:
     
     # Further change the RNG based on which RNG-changing options are enabled
     for i, option in enumerate(RNG_CHANGING_OPTIONS):
-      n = 100 * self.options.get(option) * (1 << i)
-      for j in range(1, n):
-        rng.getrandbits(j)
+      value = self.options.get(option)
+      for j in range(1, 100 + i):
+        rng.getrandbits(value + 20 * i + j)
     
     return rng
   
