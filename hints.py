@@ -153,10 +153,10 @@ def distribute_hints_on_hohos(self, item_hints, n_attempts=100):
     return item_hints
   
   # Determine the number of times we need to replicate the hints to distribute them evenly among the Old Man Hohos
-  n_replicates = 10 // gcd(len(item_hints), 10)
+  n_replicates = (10 - (len(item_hints) % 10)) % 10
   
   # Determine the number of hints each Old Man Hoho will provide
-  n_hints_per_hoho = (len(item_hints) * n_replicates) // 10
+  n_hints_per_hoho = (len(item_hints) + n_replicates) // 10
   
   # Attempt to assign hints to the Old Man Hoho without duplicates on a single Old Man Hoho
   all_hint_indices = []
@@ -173,7 +173,7 @@ def distribute_hints_on_hohos(self, item_hints, n_attempts=100):
       break
     
     # Shuffle which hints are assigned to which Old Man Hoho
-    hint_indices = list(range(len(item_hints))) * n_replicates
+    hint_indices = list(range(len(item_hints))) + list(range(n_replicates))
     self.rng.shuffle(hint_indices)
     
     # Split the list into 10 groups, sorting the hints internally for each Old Man Hoho by their index
