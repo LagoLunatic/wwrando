@@ -159,9 +159,19 @@ def distribute_hints_on_hohos(self, item_hints, n_attempts=100):
   n_hints_per_hoho = (len(item_hints) * n_replicates) // 10
   
   # Attempt to assign hints to the Old Man Hoho without duplicates on a single Old Man Hoho
-  # If we fail to find a valid assignment after 100 tries, we will just go with the most recent assignment
   all_hint_indices = []
-  for i in range(n_attempts):
+  for n_tries in range(0, n_attempts + 1):
+    if n_tries == n_attempts:
+      # If we fail to find a valid assignment after `n_attempts` tries, we will just iteratively assign hints to the Old Man Hoho
+      starting_hint_index = 0
+      all_hint_indices = []
+      for i in range(10):
+        hints_for_hoho = list(range(starting_hint_index, starting_hint_index + n_hints_per_hoho))
+        hints_for_hoho = [hint_index % len(item_hints) for hint_index in hints_for_hoho]
+        all_hint_indices.append(hints_for_hoho)
+        starting_hint_index = (starting_hint_index + n_hints_per_hoho) % len(item_hints)
+      break
+    
     # Shuffle which hints are assigned to which Old Man Hoho
     hint_indices = list(range(len(item_hints))) * n_replicates
     self.rng.shuffle(hint_indices)
