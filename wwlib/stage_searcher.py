@@ -186,6 +186,13 @@ def print_all_used_switches(self):
           #  print("z_rot: %04X" % param_bitfield_values_unused["z_rot"])
           #  print()
           
+          # Hardcoded switches.
+          if class_name == "d_a_npc_ah":
+            if actor.message_id == 2: # Message ID 14003
+              add_used_switch(0x6C, stage_id, stage_name, room_no, location_identifier, is_unused)
+            elif actor.message_id == 5: # Message ID 14006
+              add_used_switch(0x10, stage_id, stage_name, room_no, location_identifier, is_unused)
+          
           for attr_name in actor.param_fields:
             stage_id_for_param = stage_id
             room_no_for_param = room_no
@@ -198,12 +205,12 @@ def print_all_used_switches(self):
               # Too small to hold a switch value.
               continue
             
-            if attr_name.startswith("unknown_param_"):
-              # Some hacky code to try to look for unknown params that are switches.
-              if stage_id == 0:
-                param_val = getattr(actor, attr_name)
-                if param_val in [2]:
-                  print("!!!! %02X %s %s %s" % (param_val, actor.name, attr_name, arc_path))
+            #if attr_name.startswith("unknown_param_"):
+            #  # Some hacky code to try to look for unknown params that are switches.
+            #  if stage_id == 0:
+            #    param_val = getattr(actor, attr_name)
+            #    if param_val in [2]:
+            #      print("!!!! %02X %s %s %s" % (param_val, actor.name, attr_name, arc_path))
             
             if "switch" in attr_name and "num_switches" not in attr_name:
               if attr_name in ["invert_spawn_condition_switch", "dont_check_enable_spawn_switch"]:
@@ -258,11 +265,21 @@ def print_all_used_switches(self):
                 if attr_name == "barrier_deactivated_switch" and actor.type != 2:
                   # Only the laser barrier type uses this switch
                   continue
+              elif class_name == "d_a_npc_ah":
+                if actor.message_id != 9: # Message ID 14010
+                  # Other types don't use the switch param.
+                  continue
               elif class_name == "d_a_agbsw0":
                 if attr_name == "bombed_switch" and actor.type != 6:
                   # Only the Tingle Bomb Trigger type uses this switch
                   continue
                 # TODO: other agbsw types
+              elif class_name == "d_a_rd" and attr_name in ["disable_spawn_on_death_switch"]:
+                # Added by the randomizer.
+                continue
+              elif class_name == "d_a_ph" and attr_name in ["disable_spawn_on_death_switch", "enable_spawn_switch"]:
+                # Added by the randomizer.
+                continue
               
               add_used_switch(switch, stage_id_for_param, stage_name, room_no_for_param, location_identifier, is_unused)
   
