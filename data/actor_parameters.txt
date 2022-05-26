@@ -1095,10 +1095,10 @@ d_a_npc_ac1:
     Mask: 0x00FF0000
 
 d_a_npc_ah:
-  unknown_param_1:
+  message_id:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  disable_spawn_switch:
     Bitfield name: params
     Mask: 0x0000FF00
 
