@@ -6596,14 +6596,17 @@ sea/Room2.arc:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room2.arc/Actor020
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room2.arc/Actor029
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room2.arc/Actor02A
+      Position offset: [0, -200, 0]
     -
       Original enemy: Miniblin
       Placement category: Ground
@@ -7323,10 +7326,12 @@ sea/Room31.arc:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room31.arc/Actor027
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room31.arc/Actor02F
+      Position offset: [0, -200, 0]
 
 
 # Southern Triangle Island
@@ -7544,30 +7549,37 @@ sea/Room39.arc:
       Original enemy: Bokoblin
       Placement category: Ground:HasPit
       Path: sea/Room39.arc/Actor00F
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground:HasPit
       Path: sea/Room39.arc/Actor018
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground:HasPit
       Path: sea/Room39.arc/Actor01E
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground:HasPit
       Path: sea/Room39.arc/Actor01F
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground:HasPit
       Path: sea/Room39.arc/Actor02F
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground:HasPit
       Path: sea/Room39.arc/Actor038
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground:HasPit
       Path: sea/Room39.arc/Actor03D
+      Position offset: [0, -200, 0]
 
 
 # TODO: the water here has that property that bugs out some enemies like moblins...
@@ -7659,10 +7671,12 @@ sea/Room42.arc:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room42.arc/Actor02D
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room42.arc/Actor032
+      Position offset: [0, -200, 0]
     -
       Original enemy: Wizzrobe
       Placement category: Ground
@@ -7675,10 +7689,12 @@ sea/Room42.arc:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room42.arc/Actor036
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room42.arc/Actor037
+      Position offset: [0, -200, 0]
     -
       Original enemy: Wizzrobe
       Placement category: Ground
@@ -7719,18 +7735,22 @@ sea/Room43.arc:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room43.arc/Actor034
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room43.arc/Actor03D
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room43.arc/Actor043
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room43.arc/Actor04C
+      Position offset: [0, -200, 0]
     -
       Original enemy: Kargaroc
       Placement category: Ground
@@ -7943,14 +7963,17 @@ sea/Room46.arc:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room46.arc/Actor017
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room46.arc/Actor018
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room46.arc/Actor01D
+      Position offset: [0, -200, 0]
     -
       Original enemy: Kargaroc
       Placement category: Ground
@@ -7967,22 +7990,27 @@ sea/Room46.arc:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room46.arc/Actor022
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room46.arc/Actor023
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room46.arc/Actor024
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room46.arc/Actor025
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room46.arc/Actor026
+      Position offset: [0, -200, 0]
 
 
 # Angular Isles
@@ -8099,10 +8127,12 @@ sea/Room49.arc:
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room49.arc/Actor01F
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
       Path: sea/Room49.arc/Actor024
+      Position offset: [0, -200, 0]
     -
       Original enemy: Bokoblin
       Placement category: Ground
