@@ -22,8 +22,10 @@ DEBUG_REMOVAL_EXCLUDED_PATHS = [
   "sea/Room6.arc/Actor029",
   "sea/Room6.arc/Actor02B",
   "MiniKaz/Room0.arc/Actor001",
-  "M_NewD2/Room2.arc/Actor022"
+  "M_NewD2/Room2.arc/Actor022",
 ]
+
+DEBUG_PRINT_FREE_MEMORY_ESTIMATES = False
 
 # Limit the number of species that appear in a given stage to prevent issues loading too many particles and to prevent stages from feeling too chaotic.
 # (This limit does not apply to the sea.)
@@ -231,9 +233,9 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
     # In stages where there can be two rooms loaded at once, consider the real amount of free space half of the documented amount.
     # This probably isn't a very accurate way to emulate this, but it will have to do since we don't know how much memory enemies in the rooms connected to this room take up, since the other rooms may not be randomized yet.
     free_memory = free_memory / 2
-  if False:
+  if DEBUG_PRINT_FREE_MEMORY_ESTIMATES:
     print("/".join(enemy_group["Enemies"][0]["Path"].split("/")[0:-1]))
-    print("Initial free memory: %d" % free_memory)
+    print("  Initial free memory: %d" % free_memory)
   
   if enemy_group["Must defeat enemies"]:
     original_req_string = enemy_group["Original requirements"]
@@ -284,9 +286,9 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
   
   # Debugging:
   #if "sea/Room6.arc" in enemy_group["Enemies"][0]["Path"]:
-  #if "TF_02/Room1.arc" in enemy_group["Enemies"][0]["Path"]:
+  #if "TyuTyu/Room0.arc" in enemy_group["Enemies"][0]["Path"]:
   #  print([x["Pretty name"] for x in all_enemies_possible_for_this_group])
-  #if "TF_02/Room1.arc" in enemy_group["Enemies"][0]["Path"]:
+  #if "TyuTyu/Room0.arc" in enemy_group["Enemies"][0]["Path"]:
   #  print([x["Pretty name"] for x in enemies_logically_allowed_in_this_group])
   
   num_species_chosen = len(enemy_pool_for_group)
@@ -368,6 +370,9 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
       enemy_actor_names_already_placed_in_room.append(new_enemy_data["Actor name"])
     
     done_enemy_locations_for_room.append((enemy_location, new_enemy_data))
+  
+  if DEBUG_PRINT_FREE_MEMORY_ESTIMATES:
+    print("  Leftover free memory: %d" % free_memory)
   
   return done_enemy_locations_for_room
 
