@@ -187,9 +187,9 @@ def distribute_hints_on_hohos(self, item_hints, n_attempts=100):
   # Replace the indices of the hints with actual hints
   hoho_hints = []
   for hoho_indices in all_hint_indices:
-    hints_for_hoho = []
+    hints_for_hoho = set()
     for hint_index in hoho_indices:
-      hints_for_hoho.append(item_hints[hint_index])
-    hoho_hints.append(hints_for_hoho)
+      hints_for_hoho.add(item_hints[hint_index])
+    hoho_hints.append(list(hints_for_hoho))
   
   return hoho_hints
