@@ -167,6 +167,15 @@ class Logic:
     
     self.cached_enemies_tested_for_reqs_tuple = OrderedDict()
   
+  def is_dungeon_or_cave(self, location_name):
+    # Look up the setting that the location name is under
+    is_dungeon = "Dungeon" in self.item_locations[location_name]["Types"]
+    is_puzzle_cave = "Puzzle Secret Cave" in self.item_locations[location_name]["Types"]
+    is_combat_cave = "Combat Secret Cave" in self.item_locations[location_name]["Types"]
+    is_savage = "Savage Labyrinth" in self.item_locations[location_name]["Types"]
+    
+    return (is_dungeon or is_puzzle_cave or is_combat_cave or is_savage)
+  
   def set_location_to_item(self, location_name, item_name):
     #print("Setting %s to %s" % (location_name, item_name))
     
