@@ -208,7 +208,10 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
     remaining_exits.remove(zone_exit)
     
     self.entrance_connections[zone_entrance.entrance_name] = zone_exit.unique_name
-    self.dungeon_and_cave_island_locations[zone_exit.zone_name] = zone_entrance.island_name
+    if zone_exit.unique_name == "Pawprint Isle Wizzrobe Cave":
+      self.dungeon_and_cave_island_locations["Pawprint Isle Side Isle"] = zone_entrance.island_name
+    else:
+      self.dungeon_and_cave_island_locations[zone_exit.zone_name] = zone_entrance.island_name
     done_entrances_to_exits[zone_entrance] = zone_exit
     
     if not self.dry_run:
