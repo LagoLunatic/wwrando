@@ -758,7 +758,6 @@ custom_warp_pot_env_color:
 
 
 
-
 ; Stop Old man Ho-Ho from disappearing under some conditions.
 .open "files/rels/d_a_npc_ah.rel" ; Old Man Ho-Ho
 .org 0x1044 ; Don't check if Cabana Octo is defeated
