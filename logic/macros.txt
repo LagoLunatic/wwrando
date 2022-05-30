@@ -649,6 +649,8 @@ Can Defeat Gyorgs:
   Boomerang
   | Hero's Bow
   | Hookshot
+Can Defeat Gunboats:
+  Bombs
 
 Can Defeat Gohma:
   Grappling Hook
