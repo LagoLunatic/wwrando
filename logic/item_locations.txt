@@ -343,6 +343,7 @@ Windfall Island - Kreeb - Light Up Lighthouse:
 Windfall Island - Transparent Chest:
   Need:
     # Need to activate the windmill, light up the lighthouse, and then get to the chest either by flying or with hookshot.
+    # Note: This chest is only there at night.
     Can Play Wind's Requiem
     & Fire Arrows
     & (Can Fly With Deku Leaf Outdoors | Hookshot)
