@@ -41,16 +41,17 @@ def generate_item_hints(self, num_hints):
   num_hints -= 1
   
   # Distribute the remaining hints among the enabled hint placement options
-  for option in variable_hint_placement_options:
-    if self.options.get(option):
-      hints_remaining_per_placement[option] = num_hints // num_hint_placements
-  num_hints_remaining = num_hints % num_hint_placements
-  for option in variable_hint_placement_options:
-    if num_hints_remaining == 0:
-      break
-    if self.options.get(option):
-      hints_remaining_per_placement[option] += 1
-      num_hints_remaining -= 1
+  if num_hint_placements > 0:
+    for option in variable_hint_placement_options:
+      if self.options.get(option):
+        hints_remaining_per_placement[option] = num_hints // num_hint_placements
+    num_hints_remaining = num_hints % num_hint_placements
+    for option in variable_hint_placement_options:
+      if num_hints_remaining == 0:
+        break
+      if self.options.get(option):
+        hints_remaining_per_placement[option] += 1
+        num_hints_remaining -= 1
   
   # Create and shuffle a list of randomized item locations
   possible_item_locations = list(self.logic.done_item_locations.keys())
