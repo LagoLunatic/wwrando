@@ -926,11 +926,12 @@ def randomize_and_update_hints(self):
       break
     
     zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
-    is_dungeon = "Dungeon" in self.logic.item_locations[location_name]["Types"]
-    is_puzzle_cave = "Puzzle Secret Cave" in self.logic.item_locations[location_name]["Types"]
-    is_combat_cave = "Combat Secret Cave" in self.logic.item_locations[location_name]["Types"]
-    is_savage = "Savage Labyrinth" in self.logic.item_locations[location_name]["Types"]
-    if zone_name in self.dungeon_and_cave_island_locations and (is_dungeon or is_puzzle_cave or is_combat_cave or is_savage):
+    
+    # Distinguish between the two Pawprint Isle entrances when secret cave entrances are randomized
+    if self.options.get("randomize_entrances") not in ["Disabled", "Dungeons", None] and location_name == "Pawprint Isle - Wizzrobe Cave":
+      zone_name = "Pawprint Isle Side Isle"
+    
+    if zone_name in self.dungeon_and_cave_island_locations and self.logic.is_dungeon_or_cave(location_name):
       # If the location is in a dungeon or cave, use the hint for whatever island the dungeon/cave is located on.
       island_name = self.dungeon_and_cave_island_locations[zone_name]
       island_hint_name = self.island_name_hints[island_name]
