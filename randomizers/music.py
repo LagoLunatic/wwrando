@@ -222,7 +222,7 @@ def randomize_music(self):
     if new_bgm_name not in used_bgm_names:
       used_bgm_names.append(new_bgm_name)
     
-    print("%s -> %s" % (orig_bgm_name, new_bgm_name))
+    #print("%s -> %s" % (orig_bgm_name, new_bgm_name))
     
     sound_index = first_bgm_sound_index + orig_bgm_index
     new_sound_info_bytes = orig_sound_infos[new_bgm_index]
