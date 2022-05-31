@@ -17,12 +17,10 @@ def get_formatted_hint_text(hint, prefix="", suffix="", delay=30):
   # Create formatted hint string
   hint_string = "%s\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} is located in \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s" % (prefix, item_hint_name, island_hint_name, suffix)
   
-  # Cap delay to "FF"
-  delay = min(delay, 255)
-  
   # Add a wait command (delay) to prevent the player from skipping over the hint accidentally.
+  delay = max(0, min(0xFFFF, delay)) # Clamp within valid range.
   if delay > 0:
-    hint_string += "\\{1A 07 00 00 07 00 %02X}" % delay
+    hint_string += "\\{1A 07 00 00 07 %02X %02X}" % (delay >> 8, delay & 0xFF)
   
   return hint_string
 
