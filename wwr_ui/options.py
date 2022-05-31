@@ -118,7 +118,7 @@ OPTIONS = OrderedDict([
   ),
   (
     "hoho_hints",
-    "Places hints on Old Man Ho Ho. Old Man Ho Ho appears at 10 different islands in the game. Simply talk to Old Man Ho Ho to get a hint.",
+    "Places hints on Old Man Ho Ho. Old Man Ho Ho appears at 10 different islands in the game. Simply talk to Old Man Ho Ho to get hints.",
   ),
   (
     "num_hints",
