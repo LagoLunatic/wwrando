@@ -112,6 +112,18 @@ OPTIONS = OrderedDict([
     "chest_type_matches_contents",
     "Changes the chest type to reflect its contents. A metal chest has a progress item, a key chest has a dungeon key, and a wooden chest has a non-progress item or a consumable.\nKey chests are dark wood chests that use a custom texture based on Big Key chests. Keys for non-required dungeons in race mode will be in wooden chests."
   ),
+  (
+    "fishmen_hints",
+    "Places hints on the fishmen. There is one fishman at each of the 49 islands of the Great Sea. Each fishman must be fed an All-Purpose Bait before he will give a hint.",
+  ),
+  (
+    "hoho_hints",
+    "Places hints on Old Man Ho Ho. Old Man Ho Ho appears at 10 different islands in the game. Simply talk to Old Man Ho Ho to get hints.",
+  ),
+  (
+    "num_hints",
+    "Determines the number of hints that will be placed in the game. This option does not affect Wallet mail, Big Octo Great Fairy, or Savage Labyrinth hints.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+  ),
   
   
   (

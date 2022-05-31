@@ -63,6 +63,17 @@ if IS_RUNNING_FROM_SOURCE:
 
 CLEAN_WIND_WAKER_ISO_MD5 = 0xd8e4d45af2032a081a0f446384e9261b
 
+# The below are options that could be used to cheat in races.
+# They do not naturally change algorithmic item distribution, but do change the availability of information on item distribution.
+# To prevent this possibility, we change the RNG seed itself for each one of these options that is selected.
+# This ensures that item distribution is different between people with the same seed but different hints, for example.
+RNG_CHANGING_OPTIONS = [
+  "fishmen_hints",
+  "hoho_hints",
+  "num_hints",
+  "do_not_generate_spoiler_log",
+]
+
 class TooFewProgressionLocationsError(Exception):
   pass
 
@@ -855,9 +866,13 @@ class Randomizer:
   def get_new_rng(self):
     rng = Random()
     rng.seed(self.integer_seed)
-    if self.options.get("do_not_generate_spoiler_log"):
-      for i in range(1, 100):
-        rng.getrandbits(i)
+    
+    # Further change the RNG based on which RNG-changing options are enabled
+    for i, option in enumerate(RNG_CHANGING_OPTIONS):
+      value = self.options.get(option)
+      for j in range(1, 100 + i):
+        rng.getrandbits(value + 20 * i + j)
+    
     return rng
   
   def reset_rng(self):
