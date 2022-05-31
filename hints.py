@@ -1,4 +1,3 @@
-from math import gcd
 
 def get_hint_item_name(item_name):
   if item_name.startswith("Triforce Chart"):
@@ -77,26 +76,27 @@ def generate_item_hints(self, num_hints):
       continue
     
     item_name = self.logic.done_item_locations[location_name]
+    item_name = get_hint_item_name(item_name)
     if item_name not in self.logic.all_progress_items:
-      # Don't hint at non-progress items
+      # Don't hint at non-progress items.
       continue
     if self.logic.is_dungeon_item(item_name) and not self.options.get("keylunacy"):
-      # Don't hint at dungeon maps and compasses, and don't hint at dungeon keys when key-lunacy is not enabled
+      # Don't hint at dungeon keys when key-lunacy is disabled.
       continue
     if current_hint_placement == "fishmen_hints" and item_name == "Bait Bag":
-      # Can't access fishmen hints until you already have the bait bag
+      # Can't access fishmen hints until you already have the bait bag.
       continue
     
     zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
+    
     if self.options.get("randomize_entrances") not in ["Disabled", "Dungeons", None] and location_name == "Pawprint Isle - Wizzrobe Cave":
-      # Distinguish between the two Pawprint Isle entrances
+      # Distinguish between the two Pawprint Isle entrances when secret cave entrances are randomized.
       zone_name = "Pawprint Isle Side Isle"
+    
     if zone_name in self.dungeon_and_cave_island_locations and self.logic.is_dungeon_or_cave(location_name):
       # If the location is in a dungeon or cave, use the hint for whatever island the dungeon/cave is located on.
-      item_name = get_hint_item_name(item_name)
       island_name = self.dungeon_and_cave_island_locations[zone_name]
     elif zone_name in self.island_name_hints:
-      item_name = get_hint_item_name(item_name)
       island_name = zone_name
     elif zone_name in self.logic.DUNGEON_NAMES.values():
       continue
@@ -159,9 +159,9 @@ def distribute_hints_on_hohos(self, item_hints, n_attempts=100):
   
   # Attempt to assign hints to the Old Man Hoho without duplicates on a single Old Man Hoho
   all_hint_indices = []
-  for n_tries in range(0, n_attempts + 1):
+  for n_tries in range(0, n_attempts+1):
     if n_tries == n_attempts:
-      # If we fail to find a valid assignment after `n_attempts` tries, we will just iteratively assign hints to the Old Man Hoho
+      # If we fail to find a valid assignment after n_attempts tries, we will just iteratively assign hints to the Old Man Hoho
       starting_hint_index = 0
       all_hint_indices = []
       for i in range(10):
