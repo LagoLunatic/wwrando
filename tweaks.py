@@ -924,10 +924,23 @@ def update_fishmen_hints(self, item_hints):
     msg.string = hint
 
 def update_hoho_hints(self, item_hints):
-  # Take the hints and distribute them among the Old Man Ho Ho
-  hoho_hints = hints.distribute_hints_on_hohos(self, item_hints)
+  hohos = list(range(10))
+  self.rng.shuffle(hohos)
   
-  for hoho_hint_number, hints_for_hoho in enumerate(hoho_hints):
+  hoho_hints = []
+  for i in range(10):
+    hoho_hints.append([])
+  
+  # Distribute the hints to each Hoho.
+  # We want each hint to be duplicated as few times as possible, while still ensuring all Hohos give the same number of hints.
+  hint_index = 0
+  while hint_index < len(item_hints):
+    for hoho_index in hohos:
+      hint = item_hints[hint_index % len(item_hints)]
+      hoho_hints[hoho_index].append(hint)
+      hint_index += 1
+  
+  for hoho_index, hints_for_hoho in enumerate(hoho_hints):
     hint_lines = []
     for i, hint in enumerate(hints_for_hoho):
       # Determine the prefix and suffix for the hint
@@ -946,7 +959,7 @@ def update_hoho_hints(self, item_hints):
       hint_line = pad_string_to_next_4_lines(hint_line)
       hint += hint_line
     
-    msg_id = 14001 + hoho_hint_number
+    msg_id = 14001 + hoho_index
     msg = self.bmg.messages_by_id[msg_id]
     msg.string = hint
 
