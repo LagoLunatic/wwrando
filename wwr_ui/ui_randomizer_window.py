@@ -36,10 +36,10 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 908, 716))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 925, 710))
         self.verticalLayout_4 = QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.tabWidget = QTabWidget(self.scrollAreaWidgetContents)
         self.tabWidget.setObjectName(u"tabWidget")
         self.tabWidget.setEnabled(True)
@@ -398,6 +398,7 @@ class Ui_MainWindow(object):
 
         self.hoho_hints = QCheckBox(self.groupBox_3)
         self.hoho_hints.setObjectName(u"hoho_hints")
+        self.hoho_hints.setChecked(True)
 
         self.gridLayout_7.addWidget(self.hoho_hints, 0, 1, 1, 1)
 
@@ -412,7 +413,7 @@ class Ui_MainWindow(object):
         self.num_hints.setObjectName(u"num_hints")
         self.num_hints.setMinimum(1)
         self.num_hints.setMaximum(32)
-        self.num_hints.setValue(15)
+        self.num_hints.setValue(20)
 
         self.horizontalLayout_7.addWidget(self.num_hints)
 
@@ -598,7 +599,7 @@ class Ui_MainWindow(object):
         self.starting_hcs.setLayoutDirection(Qt.LeftToRight)
         self.starting_hcs.setMaximum(6)
         self.starting_hcs.setValue(0)
-        self.starting_hcs.setDisplayIntegerBase(10)
+        self.starting_hcs.setProperty("displayIntegerBase", 10)
 
         self.horizontalLayout_9.addWidget(self.starting_hcs)
 
@@ -611,7 +612,7 @@ class Ui_MainWindow(object):
         self.starting_pohs.setObjectName(u"starting_pohs")
         self.starting_pohs.setMaximum(44)
         self.starting_pohs.setValue(0)
-        self.starting_pohs.setDisplayIntegerBase(10)
+        self.starting_pohs.setProperty("displayIntegerBase", 10)
 
         self.horizontalLayout_9.addWidget(self.starting_pohs)
 
