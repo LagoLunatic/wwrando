@@ -932,7 +932,7 @@ def update_hoho_hints(self, item_hints):
     for i, hint in enumerate(hints_for_hoho):
       # Determine the prefix and suffix for the hint
       hint_prefix = "\\{1A 05 01 01 03}Ho ho! They say that " if i == 0 else "and that "
-      hint_suffix = "." if i == len(hints_for_hoho) - 1 else ""
+      hint_suffix = "." if i == len(hints_for_hoho) - 1 else ","
       
       hint_lines.append(hints.get_formatted_hint_text(hint, prefix=hint_prefix, suffix=hint_suffix))
       
