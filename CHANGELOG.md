@@ -3,15 +3,17 @@
 
 New features:
 * Added a "Chest Type Matches Contents" option that changes the appearance of each treasure chest depending on the importance of the item randomized into the chest (progress items, dungeon keys, and non-progress items).
+* Old Man Ho Ho now gives hints as to which island progress items are on, in addition to fishmen giving hints.
+* The number progress item hints is now customizable in the randomizer's settings, as is where hints will appear.
 * The randomizer now officially supports Mac and Linux and offers release builds for those platforms.
 * Added a button to the top of the Player Customization tab to automatically install a custom player model or pack of multiple custom player models from a .zip file.
 * Added an optional tweak to invert the X axis of the compass on the sea so that it works more intuitively.
 * Forest Haven's shore now has a warp which acts as a shortcut allowing you to quickly re-enter the dungeon entrance from the sea after you've already reached it the normal way once.
 * Custom model authors can now change the colors of the sword's slash trail when parrying and when under the Elixir Soup effect.
-* Added a command line argument `-autoseed` that generates a random seed name instead of loading the last used one from settings.txt.
 * The big pig on Outset now has its color randomized.
 
 Changes:
+* Added a command line argument `-autoseed` that generates a random seed name instead of loading the last used one from settings.txt.
 * The "seed hash" the randomizer adds to the name entry screen is now also included in log files.
 * Removed several minor cutscenes from Forest Haven where the camera panned around.
 * Inter-dungeon warp pots now have red-colored smoke to differentiate them from other warp pots.
@@ -24,6 +26,7 @@ Bug fixes:
 * Fixed the number of Tingle Statues you own being displayed incorrectly on the Tingle Tuner's GBA screen.
 * Fixed "Disable Custom Items" in the Player Customization tab not also disabling some details of custom item models, like custom Hookshot targetting reticules and custom gem colors for the Master Sword.
 * Fixed "Reset All Settings to Default" not properly resetting the custom model colors if the casual clothes checkbox was checked.
+* Fixed a bug when secret cave entrances were randomized where hints for the item in the Pawprint Isle Wizzrobe Cave would direct you to the island containing the Pawprint Isle Chuchu Cave instead.
 
 Removed:
 * 32-bit builds of the randomizer are no longer offered.
