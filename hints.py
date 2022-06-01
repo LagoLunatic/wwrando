@@ -76,7 +76,6 @@ def generate_item_hints(self, num_hints):
       continue
     
     item_name = self.logic.done_item_locations[location_name]
-    item_name = get_hint_item_name(item_name)
     if item_name not in self.logic.all_progress_items:
       # Don't hint at non-progress items.
       continue
@@ -86,6 +85,8 @@ def generate_item_hints(self, num_hints):
     if current_hint_placement == "fishmen_hints" and item_name == "Bait Bag":
       # Can't access fishmen hints until you already have the bait bag.
       continue
+    
+    item_name = get_hint_item_name(item_name)
     
     zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
     
