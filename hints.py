@@ -2,8 +2,12 @@
 def get_hint_item_name(item_name):
   if item_name.startswith("Triforce Chart"):
     return "Triforce Chart"
+  if item_name.startswith("Triforce Shard"):
+    return "Triforce Shard"
   if item_name.startswith("Treasure Chart"):
     return "Treasure Chart"
+  if item_name.endswith("Tingle Statue"):
+    return "Tingle Statue"
   if item_name.endswith("Small Key"):
     return "Small Key"
   if item_name.endswith("Big Key"):

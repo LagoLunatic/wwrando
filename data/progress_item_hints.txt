@@ -26,21 +26,7 @@ Deku Leaf:
   a magic leaf
 Progressive Shield:
   a defensive item
-Triforce Shard 1:
-  a piece of the power of the gods
-Triforce Shard 2:
-  a piece of the power of the gods
-Triforce Shard 3:
-  a piece of the power of the gods
-Triforce Shard 4:
-  a piece of the power of the gods
-Triforce Shard 5:
-  a piece of the power of the gods
-Triforce Shard 6:
-  a piece of the power of the gods
-Triforce Shard 7:
-  a piece of the power of the gods
-Triforce Shard 8:
+Triforce Shard:
   a piece of the power of the gods
 Nayru's Pearl:
   a blue jewel
@@ -92,15 +78,7 @@ Treasure Chart:
   a blue map
 Triforce Chart:
   a purple map
-Dragon Tingle Statue:
-  a statue of a fairy
-Forbidden Tingle Statue:
-  a statue of a fairy
-Goddess Tingle Statue:
-  a statue of a fairy
-Earth Tingle Statue:
-  a statue of a fairy
-Wind Tingle Statue:
+Tingle Statue:
   a statue of a fairy
 Progressive Bomb Bag:
   an upgrade for your bomb bag
