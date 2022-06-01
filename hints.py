@@ -27,7 +27,7 @@ def generate_item_hints(self, num_hints):
   octo_fairy_hint = None
   fishmen_hints = []
   hoho_hints = []
-  unique_items_given_hint_for = []
+  unique_hints = []
   
   # Identify where the user wishes hints to be located
   variable_hint_placement_options = ["fishmen_hints", "hoho_hints"]
@@ -105,9 +105,9 @@ def generate_item_hints(self, num_hints):
     
     # Don't give hint for same type of item in same zone
     item_hint = (item_name, island_name)
-    if item_hint in unique_items_given_hint_for:
+    if item_hint in unique_hints:
       continue
-    unique_items_given_hint_for.append(item_hint)
+    unique_hints.append(item_hint)
     
     # Assign the hint to the appropriate hint placement
     if current_hint_placement == "octo_fairy":
