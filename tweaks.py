@@ -887,7 +887,7 @@ def randomize_and_update_hints(self):
   num_hints = int(self.options.get("num_hints", 0))
   
   # Generate item hints
-  octo_fairy_hint, fishmen_hints, hoho_hints = hints.generate_item_hints(self, 1+num_hints)
+  octo_fairy_hint, fishmen_hints, hoho_hints, korl_hints = hints.generate_item_hints(self, 1+num_hints)
   
   # Give the Big Octo Great Fairy a unique item hint
   update_big_octo_great_fairy_item_name_hint(self, octo_fairy_hint)
@@ -897,6 +897,8 @@ def randomize_and_update_hints(self):
     update_fishmen_hints(self, fishmen_hints)
   if self.options.get("hoho_hints"):
     update_hoho_hints(self, hoho_hints)
+  if self.options.get("korl_hints"):
+    update_korl_hints(self, korl_hints)
 
 def update_fishmen_hints(self, item_hints):
   islands = list(range(1, 49+1))
@@ -960,6 +962,22 @@ def update_hoho_hints(self, item_hints):
       hint += hint_line
     
     msg_id = 14001 + hoho_index
+    msg = self.bmg.messages_by_id[msg_id]
+    msg.string = hint
+
+def update_korl_hints(self, item_hints):
+  hint_lines = []
+  for i, hint in enumerate(item_hints):
+    # Have no delay with KoRL text since he potentially has a lot of textboxes
+    hint_lines.append(hints.get_formatted_hint_text(hint, prefix="They say that ", suffix=".", delay=0))
+  
+  hint = ""
+  for hint_line in hint_lines:
+    hint_line = word_wrap_string(hint_line)
+    hint_line = pad_string_to_next_4_lines(hint_line)
+    hint += hint_line
+  
+  for msg_id in (3443, 3444, 3445, 3446, 3447, 3448):
     msg = self.bmg.messages_by_id[msg_id]
     msg.string = hint
 

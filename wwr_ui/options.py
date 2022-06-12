@@ -121,6 +121,10 @@ OPTIONS = OrderedDict([
     "Places hints on Old Man Ho Ho. Old Man Ho Ho appears at 10 different islands in the game. Simply talk to Old Man Ho Ho to get hints.",
   ),
   (
+    "korl_hints",
+    "Places hints on King of Red Lions. Talk to King of Red Lions to get all of the hints.",
+  ),
+  (
     "num_hints",
     "Determines the number of hints that will be placed in the game. This option does not affect Wallet mail, Big Octo Great Fairy, or Savage Labyrinth hints.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
   ),

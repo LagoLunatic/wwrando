@@ -36,7 +36,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 925, 710))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 908, 716))
         self.verticalLayout_4 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
@@ -423,12 +423,12 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.addWidget(self.widget_3)
 
 
-        self.gridLayout_7.addLayout(self.horizontalLayout_7, 0, 2, 1, 1)
+        self.gridLayout_7.addLayout(self.horizontalLayout_7, 0, 3, 1, 1)
 
-        self.widget_4 = QWidget(self.groupBox_3)
-        self.widget_4.setObjectName(u"widget_4")
+        self.korl_hints = QCheckBox(self.groupBox_3)
+        self.korl_hints.setObjectName(u"korl_hints")
 
-        self.gridLayout_7.addWidget(self.widget_4, 0, 3, 1, 1)
+        self.gridLayout_7.addWidget(self.korl_hints, 0, 2, 1, 1)
 
 
         self.verticalLayout_2.addWidget(self.groupBox_3)
@@ -599,7 +599,7 @@ class Ui_MainWindow(object):
         self.starting_hcs.setLayoutDirection(Qt.LeftToRight)
         self.starting_hcs.setMaximum(6)
         self.starting_hcs.setValue(0)
-        self.starting_hcs.setProperty("displayIntegerBase", 10)
+        self.starting_hcs.setDisplayIntegerBase(10)
 
         self.horizontalLayout_9.addWidget(self.starting_hcs)
 
@@ -612,7 +612,7 @@ class Ui_MainWindow(object):
         self.starting_pohs.setObjectName(u"starting_pohs")
         self.starting_pohs.setMaximum(44)
         self.starting_pohs.setValue(0)
-        self.starting_pohs.setProperty("displayIntegerBase", 10)
+        self.starting_pohs.setDisplayIntegerBase(10)
 
         self.horizontalLayout_9.addWidget(self.starting_pohs)
 
@@ -899,6 +899,7 @@ class Ui_MainWindow(object):
         self.fishmen_hints.setText(QCoreApplication.translate("MainWindow", u"Place Hints on Fishmen", None))
         self.hoho_hints.setText(QCoreApplication.translate("MainWindow", u"Place Hints on Old Man Ho Ho", None))
         self.label_for_num_hints.setText(QCoreApplication.translate("MainWindow", u"Hint Count", None))
+        self.korl_hints.setText(QCoreApplication.translate("MainWindow", u"Place Hints on King of Red Lions", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Convenience Tweaks", None))
         self.remove_title_and_ending_videos.setText(QCoreApplication.translate("MainWindow", u"Remove Title and Ending Videos", None))
         self.instant_text_boxes.setText(QCoreApplication.translate("MainWindow", u"Instant Text Boxes", None))
