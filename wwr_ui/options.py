@@ -122,7 +122,7 @@ OPTIONS = OrderedDict([
   ),
   (
     "korl_hints",
-    "Places hints on King of Red Lions. Talk to King of Red Lions to get all of the hints.",
+    "Places hints on the King of Red Lions. Talk to the King of Red Lions to get hints.",
   ),
   (
     "num_hints",
