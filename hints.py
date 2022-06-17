@@ -31,10 +31,11 @@ def generate_item_hints(self, num_hints):
   octo_fairy_hint = None
   fishmen_hints = []
   hoho_hints = []
+  korl_hints = []
   unique_hints = []
   
   # Identify where the user wishes hints to be located
-  variable_hint_placement_options = ["fishmen_hints", "hoho_hints"]
+  variable_hint_placement_options = ["fishmen_hints", "hoho_hints", "korl_hints"]
   num_hint_placements = sum(self.options.get(option) for option in variable_hint_placement_options)
   
   # Always assign one hint to the Big Octo Great Fairy
@@ -121,6 +122,8 @@ def generate_item_hints(self, num_hints):
       fishmen_hints.append(item_hint)
     elif current_hint_placement == "hoho_hints":
       hoho_hints.append(item_hint)
+    elif current_hint_placement == "korl_hints":
+      korl_hints.append(item_hint)
     
     # Move the next hint placement
     hints_remaining_per_placement[current_hint_placement] -= 1
@@ -143,11 +146,18 @@ def generate_item_hints(self, num_hints):
     # Duplicate a hint that we've already made.
     hoho_hints.append(self.rng.choice([octo_fairy_hint] + fishmen_hints))
   
+  if self.options.get("korl_hints") and len(korl_hints) == 0:
+    # Unable to make a hint for King of Red Lions, but was able to make one for the Big Octo Great Fairy and the fishmen.
+    # Duplicate a hint that we've already made.
+    korl_hints.append(self.rng.choice([octo_fairy_hint] + fishmen_hints))
+  
   # Loop through the hints, converting the item and location names to hint strings
   octo_fairy_hint = (self.progress_item_hints[octo_fairy_hint[0]], self.island_name_hints[octo_fairy_hint[1]])
   for i, hint in enumerate(fishmen_hints):
     fishmen_hints[i] = (self.progress_item_hints[hint[0]], self.island_name_hints[hint[1]])
   for i, hint in enumerate(hoho_hints):
     hoho_hints[i] = (self.progress_item_hints[hint[0]], self.island_name_hints[hint[1]])
+  for i, hint in enumerate(korl_hints):
+    korl_hints[i] = (self.progress_item_hints[hint[0]], self.island_name_hints[hint[1]])
   
-  return octo_fairy_hint, fishmen_hints, hoho_hints
+  return octo_fairy_hint, fishmen_hints, hoho_hints, korl_hints

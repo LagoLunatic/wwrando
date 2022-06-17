@@ -70,6 +70,7 @@ CLEAN_WIND_WAKER_ISO_MD5 = 0xd8e4d45af2032a081a0f446384e9261b
 RNG_CHANGING_OPTIONS = [
   "fishmen_hints",
   "hoho_hints",
+  "korl_hints",
   "num_hints",
   "do_not_generate_spoiler_log",
 ]
