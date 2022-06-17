@@ -969,7 +969,9 @@ def update_korl_hints(self, item_hints):
   hint_lines = []
   for i, hint in enumerate(item_hints):
     # Have no delay with KoRL text since he potentially has a lot of textboxes
-    hint_lines.append(hints.get_formatted_hint_text(hint, prefix="They say that ", suffix=".", delay=0))
+    hint_prefix = "They say that " if i == 0 else "and that "
+    hint_suffix = "." if i == len(item_hints) - 1 else ","
+    hint_lines.append(hints.get_formatted_hint_text(hint, prefix=hint_prefix, suffix=hint_suffix, delay=0))
   
   hint = ""
   for hint_line in hint_lines:
