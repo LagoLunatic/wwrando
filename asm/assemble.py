@@ -30,19 +30,19 @@ if not os.path.isfile(get_bin("powerpc-eabi-as")):
   raise Exception(r"Failed to assemble code: Could not find devkitPPC. devkitPPC should be installed to: C:\devkitPro\devkitPPC")
 
 # Allow yaml to dump OrderedDicts for the diffs.
-yaml.CDumper.add_representer(
+yaml.Dumper.add_representer(
   OrderedDict,
   lambda dumper, data: dumper.represent_dict(data.items())
 )
 
 # Change how yaml dumps lists so each element isn't on a separate line.
-yaml.CDumper.add_representer(
+yaml.Dumper.add_representer(
   list,
   lambda dumper, data: dumper.represent_sequence(u'tag:yaml.org,2002:seq', data, flow_style=True)
 )
 
 # Output integers as hexadecimal.
-yaml.CDumper.add_representer(
+yaml.Dumper.add_representer(
   int,
   lambda dumper, data: yaml.ScalarNode('tag:yaml.org,2002:int', "0x%02X" % data)
 )
@@ -518,7 +518,7 @@ try:
     
     diff_path = os.path.join(".", "patch_diffs", patch_name + "_diff.txt")
     with open(diff_path, "w") as f:
-      f.write(yaml.dump(diffs, Dumper=yaml.CDumper, default_flow_style=False))
+      f.write(yaml.dump(diffs, Dumper=yaml.Dumper, default_flow_style=False))
   
   # Write the custom symbols to a text file.
   # Delete any entries in custom_symbols that have no custom symbols to avoid clutter.
@@ -530,7 +530,7 @@ try:
     output_custom_symbols[file_path] = custom_symbols_for_file
   
   with open("./custom_symbols.txt", "w") as f:
-    f.write(yaml.dump(output_custom_symbols, Dumper=yaml.CDumper, default_flow_style=False))
+    f.write(yaml.dump(output_custom_symbols, Dumper=yaml.Dumper, default_flow_style=False))
 except Exception as e:
   stack_trace = traceback.format_exc()
   error_message = str(e) + "\n\n" + stack_trace
