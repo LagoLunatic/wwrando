@@ -428,7 +428,7 @@ try:
         
         # Check to be sure that the code we just assembled didn't redefine any already defined global custom symbols.
         # If it does raise an error so the user can fix the duplicate name in their code.
-        for elf_symbol in elf.symbols[".symtab"]:
+        for elf_symbol in elf.symbols.get(".symtab", []):
           if elf_symbol.section_index >= 0xFF00:
             # Special section index (e.g. FFF1 is a filename).
             continue
