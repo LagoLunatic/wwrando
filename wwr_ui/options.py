@@ -183,10 +183,6 @@ OPTIONS = OrderedDict([
     "Shuffles around all the music in the game. This affects background music, combat music, fanfares, etc.",
   ),
   (
-    "disable_tingle_chests_with_tingle_bombs",
-    "This prevents the Tingle Tuner's bombs from revealing Tingle Chests, meaning the only way to access these chests is to find the normal bombs item.\n(The randomizer makes normal bombs work on Tingle Chests regardless of this option.)",
-  ),
-  (
     "randomize_enemy_palettes",
     "Gives all the enemies in the game random colors.",
   ),
@@ -256,7 +252,6 @@ NON_PERMALINK_OPTIONS = [
 ]
 
 HIDDEN_OPTIONS = [
-  "disable_tingle_chests_with_tingle_bombs",
   "randomize_music",
   "randomize_enemies",
 ]

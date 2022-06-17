@@ -379,8 +379,6 @@ class Randomizer:
       tweaks.update_starting_gear(self)
       if self.options.get("chest_type_matches_contents"):
         tweaks.replace_dark_wood_chest_texture(self)
-      if self.options.get("disable_tingle_chests_with_tingle_bombs"):
-        patcher.apply_patch(self, "disable_tingle_bombs_on_tingle_chests")
       if self.options.get("remove_title_and_ending_videos"):
         tweaks.remove_title_and_ending_videos(self)
       if self.options.get("remove_music"):

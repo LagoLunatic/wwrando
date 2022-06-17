@@ -632,11 +632,6 @@ class Ui_MainWindow(object):
 
         self.gridLayout_8.addWidget(self.widget_7, 0, 3, 1, 1)
 
-        self.disable_tingle_chests_with_tingle_bombs = QCheckBox(self.groupBox_6)
-        self.disable_tingle_chests_with_tingle_bombs.setObjectName(u"disable_tingle_chests_with_tingle_bombs")
-
-        self.gridLayout_8.addWidget(self.disable_tingle_chests_with_tingle_bombs, 0, 1, 1, 1)
-
         self.do_not_generate_spoiler_log = QCheckBox(self.groupBox_6)
         self.do_not_generate_spoiler_log.setObjectName(u"do_not_generate_spoiler_log")
 
@@ -646,6 +641,11 @@ class Ui_MainWindow(object):
         self.widget_8.setObjectName(u"widget_8")
 
         self.gridLayout_8.addWidget(self.widget_8, 0, 2, 1, 1)
+
+        self.widget_9 = QWidget(self.groupBox_6)
+        self.widget_9.setObjectName(u"widget_9")
+
+        self.gridLayout_8.addWidget(self.widget_9, 0, 4, 1, 1)
 
 
         self.verticalLayout_8.addWidget(self.groupBox_6)
@@ -947,7 +947,6 @@ class Ui_MainWindow(object):
         self.label_for_num_hints.setText(QCoreApplication.translate("MainWindow", u"Hint Count", None))
         self.korl_hints.setText(QCoreApplication.translate("MainWindow", u"Place Hints on King of Red Lions", None))
         self.groupBox_6.setTitle(QCoreApplication.translate("MainWindow", u"Additional Advanced Options", None))
-        self.disable_tingle_chests_with_tingle_bombs.setText(QCoreApplication.translate("MainWindow", u"Tingle Bombs Don't Open Tingle Chests", None))
         self.do_not_generate_spoiler_log.setText(QCoreApplication.translate("MainWindow", u"Do Not Generate Spoiler Log", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Advanced Options", None))
         self.label_for_custom_color_preset.setText(QCoreApplication.translate("MainWindow", u"Color Preset", None))
