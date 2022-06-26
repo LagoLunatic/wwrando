@@ -1,4 +1,6 @@
 sys/main.dol: 0x803FCFA8
+sys/boot.bin: 0x440
+sys/bi2.bin: 0x2000
 files/rels/d_a_acorn_leaf.rel: 0x11F8
 files/rels/d_a_atdoor.rel: 0x8B4
 files/rels/d_a_auction.rel: 0x49F8

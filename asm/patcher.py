@@ -37,8 +37,7 @@ def apply_patch(self, patch_name):
           continue
         else:
           self.dol.write_data(write_and_pack_bytes, org_address, new_bytes, "B"*len(new_bytes))
-      else:
-        assert file_path.endswith(".rel")
+      elif file_path.endswith(".rel"):
         offset = org_address
         relocations = patchlet.get("Relocations", [])
         
@@ -53,6 +52,13 @@ def apply_patch(self, patch_name):
           if relocations:
             rel_section_index, offset_into_section = rel.convert_rel_offset_to_section_index_and_relative_offset(offset)
             add_relocations_to_rel(self, file_path, rel_section_index, offset_into_section, relocations)
+      else:
+        assert file_path.startswith("sys/")
+        assert "Relocations" not in patchlet
+        assert org_address < free_space_start
+        
+        file_data = self.get_raw_file(file_path)
+        write_and_pack_bytes(file_data, org_address, new_bytes, "B"*len(new_bytes))
 
 def add_or_extend_main_dol_free_space_section(self, new_bytes, org_address):
   dol_section = self.dol.sections[2]
