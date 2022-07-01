@@ -1,3 +1,4 @@
+
 # Can't use logic's PROGRESS_ITEMS because there's some items that we can't start with, and also because progressive items require special handling.
 REGULAR_ITEMS = [
   "Telescope",
@@ -16,6 +17,8 @@ REGULAR_ITEMS = [
   "Din's Pearl",
   "Farore's Pearl",
   "Nayru's Pearl",
+  "Ballad of Gales",
+  "Song of Passing",
   "Command Melody",
   "Earth God's Lyric",
   "Wind God's Aria",
@@ -56,6 +59,8 @@ INVENTORY_ITEMS = REGULAR_ITEMS + PROGRESSIVE_ITEMS
 
 DEFAULT_STARTING_ITEMS = [
   "Progressive Shield",
+  "Ballad of Gales",
+  "Song of Passing",
 ]
 
 DEFAULT_RANDOMIZED_ITEMS = INVENTORY_ITEMS.copy()

@@ -165,8 +165,6 @@ class Randomizer:
     self.starting_items = [
       "Wind Waker",
       "Wind's Requiem",
-      "Ballad of Gales",
-      "Song of Passing",
       "Boat's Sail",
     ]
     self.starting_items += self.options.get("starting_gear", [])
