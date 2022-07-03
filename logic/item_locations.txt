@@ -35,6 +35,7 @@ Outset Island - Orca - Give 10 Knight's Crests:
     Spoils Bag
     & Can Farm Knight's Crests
     & Can Sword Fight with Orca
+    & Magic Meter
   Original item: Hurricane Spin
   Types: Spoils Trading
   Paths:
