@@ -24,7 +24,8 @@ except ImportError:
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
 ORIGINAL_DOL_SIZE = 0x3A52C0
 
-MAXIMUM_ADDITIONAL_STARTING_ITEMS = 47
+# Number of slots allocated for starting items (when changing this also update the code in custom_funcs.asm)
+MAXIMUM_ADDITIONAL_STARTING_ITEMS = 60
 
 
 def set_new_game_starting_spawn_id(self, spawn_id):
@@ -1545,7 +1546,7 @@ def update_starting_gear(self):
     starting_gear.remove("Progressive Magic Meter")
   
   if len(starting_gear) > MAXIMUM_ADDITIONAL_STARTING_ITEMS:
-    raise Exception("Tried to start with more starting items than the maximum number that was allocated")
+    raise Exception("Tried to start with more starting items (%d) than the maximum number that was allocated (%d)" % (len(starting_gear), MAXIMUM_ADDITIONAL_STARTING_ITEMS))
   starting_gear_array_address = self.main_custom_symbols["starting_gear"]
   for i in range(len(starting_gear)):
     item_id = self.item_name_to_id[starting_gear[i]]
