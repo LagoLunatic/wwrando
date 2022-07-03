@@ -8,8 +8,16 @@ Can Play Earth God's Lyric:
   Wind Waker & Earth God's Lyric
 Can Play Wind God's Aria:
   Wind Waker & Wind God's Aria
+Can Fan With Deku Leaf:
+  Deku Leaf & Magic Meter
+Can Fly With Deku Leaf Indoors:
+  Deku Leaf & Magic Meter
 Can Fly With Deku Leaf Outdoors:
-  Deku Leaf & Can Play Wind's Requiem
+  Deku Leaf & Magic Meter & Can Play Wind's Requiem
+Can Use Magic Armor:
+  Magic Armor & Magic Meter
+Can Use Hurricane Spin:
+  Hurricane Spin & Magic Meter
 Can Aim Mirror Shield:
   Mirror Shield
   & (
@@ -50,11 +58,11 @@ Mirror Shield:
 Hero's Bow:
   Progressive Bow x1
 Fire Arrows:
-  Progressive Bow x2
+  Progressive Bow x2 & Magic Meter
 Ice Arrows:
-  Progressive Bow x2
+  Progressive Bow x2 & Magic Meter
 Light Arrows:
-  Progressive Bow x3
+  Progressive Bow x3 & Magic Meter
 Any Wallet Upgrade:
   Progressive Wallet x1
 Picto Box:
@@ -69,6 +77,10 @@ Deluxe Picto Box:
   Progressive Quiver x1
 99 Arrow Quiver:
   Progressive Quiver x2
+Magic Meter:
+  Progressive Magic Meter x1
+Magic Meter Upgrade:
+  Progressive Magic Meter x2
 All 8 Triforce Shards:
   Triforce Shard 1
   & Triforce Shard 2
@@ -166,7 +178,7 @@ Can Access Secret Cave Entrance on Cliff Plateau Isles:
   Nothing
 Can Access Secret Cave Entrance on Horseshoe Island:
   # Need Deku Leaf to play golf.
-  Deku Leaf
+  Can Fan With Deku Leaf
 Can Access Secret Cave Entrance on Star Island:
   Can Move Boulders
 
@@ -238,23 +250,23 @@ Can Get Past Hyrule Barrier:
   & (Full Power Master Sword | In Swordless Mode)
 Can Access Ganon's Tower:
   Can Get Past Hyrule Barrier
-  & (Hookshot | Deku Leaf)
+  & (Hookshot | Can Fly With Deku Leaf Indoors)
 
 Can Complete Memory Dragon Roost Cavern and Gohma:
   Grappling Hook
-  & Deku Leaf
+  & Can Fly With Deku Leaf Indoors
   & Can Defeat Gohma
 Can Complete Memory Forbidden Woods and Kalle Demos:
-  Deku Leaf
+  Can Fly With Deku Leaf Indoors
   & Can Defeat Kalle Demos
 Can Complete Memory Earth Temple and Jalhalla:
   Can Defeat Jalhalla
   # Mirror Shield is not needed in the hallway leading up to Jalhalla because you can lure the Purple Chuchus into the light.
   # It's not needed for Jalhalla because Light Arrows work in their place.
 Can Complete Memory Wind Temple and Molgera:
-  Deku Leaf
+  Can Fly With Deku Leaf Indoors
   & Can Defeat Molgera
-  # You're intended to use iron boots here, but you can simply fly across the gap with deku leaf instead. No damage boosting off spikes or leaf pumping required.
+  # You're intended to use iron boots here, but you can simply fly across the gap with Deku Leaf instead. No damage boosting off spikes or leaf pumping required.
 Can Complete All Memory Dungeons and Bosses:
   Can Complete Memory Dragon Roost Cavern and Gohma
   & Can Complete Memory Forbidden Woods and Kalle Demos
@@ -344,7 +356,7 @@ Can Obtain 15 Blue Chu Jelly:
     | Hookshot
     | (Can Access Secret Cave Entrance on Shark Island & Can Fly With Deku Leaf Outdoors)
     | Can Access Other Location "Cliff Plateau Isles - Highest Isle"
-    | Deku Leaf
+    | Can Fan With Deku Leaf
     | Can Access Secret Cave Entrance on Boating Course
   )
   & Spoils Bag
@@ -432,7 +444,7 @@ Can Defeat Yellow ChuChus:
   (Boomerang & Hero's Sword)
   | Hero's Bow
   | Bombs
-  | (Deku Leaf & Hero's Sword)
+  | (Can Fan With Deku Leaf & Hero's Sword)
   | Skull Hammer
   # Note: Skull Hammer can stun them without taking damage if you hit the ground near them instead of hitting them directly.
   # Note: Grappling Hook does stun it just barely long enough for you to kill it with your sword.
@@ -480,14 +492,14 @@ Can Defeat Kargarocs:
 Can Defeat Peahats:
   Boomerang
   | (Hookshot & Hero's Sword)
-  | (Deku Leaf & Hero's Sword)
+  | (Can Fan With Deku Leaf & Hero's Sword)
   | Skull Hammer
   | Hero's Bow
   | Bombs
 Can Remove Peahat Armor:
   Boomerang
   | Hookshot
-  | Deku Leaf
+  | Can Fan With Deku Leaf
   | Skull Hammer
   | Hero's Bow
   | Bombs
@@ -503,7 +515,7 @@ Can Defeat Boko Babas:
   | Hero's Bow
   | Hookshot
   | Bombs
-  | (Deku Leaf & Grappling Hook)
+  | (Can Fan With Deku Leaf & Grappling Hook)
   # Note: Killing Boko Babas with the Skull Hammer does not yield a stick if you squish them, but if you stun it first then kill it while it's stunned, it will yield a stick as normal.
 Can Defeat Mothulas:
   Hero's Sword
@@ -552,14 +564,14 @@ Can Defeat Red Bubbles:
   | Hero's Bow
   | Bombs
   | (
-    (Deku Leaf | Hookshot)
+    (Can Fan With Deku Leaf | Hookshot)
     & Grappling Hook
   )
 Can Defeat Blue Bubbles:
   Ice Arrows
   | Bombs
   | (
-    (Deku Leaf | Hookshot)
+    (Can Fan With Deku Leaf | Hookshot)
     & (Hero's Sword | Hero's Bow | Grappling Hook | Skull Hammer)
   )
 Can Defeat ReDeads:

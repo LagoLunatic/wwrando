@@ -24,6 +24,7 @@ item_func_max_arrow_up1__Fv = 0x800c4cd8;
 item_func_max_arrow_up2__Fv = 0x800c4cf0;
 item_func_camera__Fv = 0x800c3324;
 item_func_camera2__Fv = 0x800c33f0;
+item_func_max_mp_up1__Fv = 0x800c4d0c;
 item_func_pirates_omamori__Fv = 0x800c3c94;
 item_func_small_key__Fv = 0x800c31b0;
 item_func_boss_key__Fv = 0x800c3fc8;

@@ -52,7 +52,7 @@ stb r4, 1 (r3) ; Current bombs
 stb r4, 6 (r3) ; Max arrows
 stb r4, 7 (r3) ; Max bombs
 
-; Start the player with a magic meter so items that use it work correctly.
+; Set the player's magic meter size based on the value of a custom symbol.
 lis r3, 0x803C4C1B@ha
 addi r3, r3, 0x803C4C1B@l
 lis r4, starting_magic@ha 
@@ -424,6 +424,11 @@ beq convert_progressive_picto_box_id
 cmpwi r3, 0x26
 beq convert_progressive_picto_box_id
 
+cmpwi r3, 0xB1
+beq convert_progressive_magic_meter_id
+cmpwi r3, 0xB2
+beq convert_progressive_magic_meter_id
+
 b convert_progressive_item_id_func_end
 
 
@@ -572,6 +577,25 @@ li r3, 0x23
 b convert_progressive_item_id_func_end
 convert_progressive_picto_box_id_to_deluxe_picto_box:
 li r3, 0x26
+b convert_progressive_item_id_func_end
+
+
+convert_progressive_magic_meter_id:
+lis r3, 0x803C4C1B@ha
+addi r3, r3, 0x803C4C1B@l
+lbz r4, 0 (r3) ; Max magic meter
+cmpwi r4, 0
+beq convert_progressive_magic_meter_id_to_normal_magic_meter
+cmpwi r4, 16
+beq convert_progressive_magic_meter_id_to_magic_meter_upgrade
+li r3, 0xB1 ; Invalid magic meter state; this shouldn't happen so just return the base magic meter ID
+b convert_progressive_item_id_func_end
+
+convert_progressive_magic_meter_id_to_normal_magic_meter:
+li r3, 0xB1
+b convert_progressive_item_id_func_end
+convert_progressive_magic_meter_id_to_magic_meter_upgrade:
+li r3, 0xB2
 b convert_progressive_item_id_func_end
 
 
@@ -819,6 +843,54 @@ picto_box_func_end:
 lwz r0, 0x14 (sp)
 mtlr r0
 addi sp, sp, 0x10
+blr
+
+
+
+
+.global progressive_magic_meter_item_func
+progressive_magic_meter_item_func:
+; Function start stuff
+stwu sp, -0x10 (sp)
+mflr r0
+stw r0, 0x14 (sp)
+
+
+lis r3, 0x803C4C1B@ha
+addi r3, r3, 0x803C4C1B@l
+lbz r4, 0 (r3) ; Max magic meter
+cmpwi r4, 0
+beq progressive_magic_meter_item_func_get_normal_magic_meter
+cmpwi r4, 16
+beq progressive_magic_meter_item_func_get_magic_meter_upgrade
+b progressive_magic_meter_item_func_end
+
+progressive_magic_meter_item_func_get_normal_magic_meter:
+bl normal_magic_meter_item_func
+b progressive_magic_meter_item_func_end
+
+progressive_magic_meter_item_func_get_magic_meter_upgrade:
+bl item_func_max_mp_up1__Fv
+
+
+progressive_magic_meter_item_func_end:
+; Function end stuff
+lwz r0, 0x14 (sp)
+mtlr r0
+addi sp, sp, 0x10
+blr
+
+
+
+
+; Write our own base magic meter item get function because the vanilla one (item_func_magic_power__Fv) was just a placeholder.
+.global normal_magic_meter_item_func
+normal_magic_meter_item_func:
+lis r3, 0x803C4C08@ha
+addi r4, r3, 0x803C4C08@l
+li r0, 16
+sth r0, 0x5B78 (r4) ;  0x803CA780 (MP to gradually add to the current meter)
+sth r0, 0x5B7C (r4) ;  0x803CA784 (MP to gradually add to the max meter)
 blr
 
 

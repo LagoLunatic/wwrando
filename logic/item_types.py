@@ -51,7 +51,6 @@ PROGRESS_ITEMS = [
   "Progressive Bomb Bag",
   "Progressive Quiver",
   "Progressive Quiver",
-  "Magic Meter Upgrade",
   
   "Ghost Ship Chart",
 ] + \
@@ -60,6 +59,7 @@ PROGRESS_ITEMS = [
   ["Progressive Bow"]*3 + \
   ["Progressive Wallet"]*2 + \
   ["Progressive Picto Box"]*2 + \
+  ["Progressive Magic Meter"]*2 + \
   ["Empty Bottle"]*4
 
 NONPROGRESS_ITEMS = [

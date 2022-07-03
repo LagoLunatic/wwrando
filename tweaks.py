@@ -125,8 +125,8 @@ def allow_all_items_to_be_field_items(self):
       item_id_to_copy_from = 0x22
       # We also change the item get model too, not just the field model.
       item_resources_addr_to_fix = item_resources_list_start + item_id*0x24
-    elif item_id == 0xB2:
-      # The Magic Meter Upgrade has no model, so we have to copy the Green Potion model.
+    elif item_id in [0xB1, 0xB2]:
+      # The Magic Meter and Magic Meter Upgrade have no models, so we have to copy the Green Potion model.
       item_id_to_copy_from = 0x52
       # We also change the item get model too, not just the field model.
       item_resources_addr_to_fix = item_resources_list_start + item_id*0x24
@@ -277,6 +277,10 @@ def make_items_progressive(self):
     picto_box_item_get_func_addr = item_get_funcs_list + picto_box_item_id*4
     self.dol.write_data(write_u32, picto_box_item_get_func_addr, self.main_custom_symbols["progressive_picto_box_item_func"])
   
+  for magic_meter_item_id in [0xB1, 0xB2]:
+    magic_meter_item_get_func_addr = item_get_funcs_list + magic_meter_item_id*4
+    self.dol.write_data(write_u32, magic_meter_item_get_func_addr, self.main_custom_symbols["progressive_magic_meter_item_func"])
+  
   # Register which item ID is for which progressive item.
   self.register_renamed_item(0x38, "Progressive Sword")
   self.register_renamed_item(0x3B, "Progressive Shield")
@@ -285,6 +289,7 @@ def make_items_progressive(self):
   self.register_renamed_item(0xAD, "Progressive Bomb Bag")
   self.register_renamed_item(0xAF, "Progressive Quiver")
   self.register_renamed_item(0x23, "Progressive Picto Box")
+  self.register_renamed_item(0xB1, "Progressive Magic Meter")
   
   # Modify the item get funcs for bombs and the hero's bow to nop out the code that sets your current and max bombs/arrows to 30.
   # Without this change, getting bombs after a bomb bag upgrade would negate the bomb bag upgrade.
@@ -296,10 +301,19 @@ def make_items_progressive(self):
   self.dol.write_data(write_u32, 0x800C3470, 0x60000000) # Don't set max arrows
   
   # Modify the item get func for deku leaf to nop out the part where it adds to your magic meter.
-  # Instead we start the player with a magic meter when they start a new game.
+  # Instead we make the magic meter a seperate item that the player starts with by default.
   # This way other items can use the magic meter before the player gets deku leaf.
   self.dol.write_data(write_u32, 0x800C375C, 0x60000000) # Don't set max magic meter
   self.dol.write_data(write_u32, 0x800C3768, 0x60000000) # Don't set current magic meter
+  
+  # Add an item get message for the normal magic meter since it didn't have one in vanilla.
+  magic_meter_item_id = 0xB1
+  description = "\\{1A 05 00 00 01}You got \\{1A 06 FF 00 00 01}magic power\\{1A 06 FF 00 00 00}!\nNow you can use magic items!"
+  msg = self.bmg.add_new_message(101 + magic_meter_item_id)
+  msg.string = description
+  msg.text_box_type = 9 # Item get message box
+  msg.initial_draw_type = 2 # Slow initial message speed
+  msg.display_item_id = magic_meter_item_id
 
 def make_sail_behave_like_swift_sail(self):
   # Causes the wind direction to always change to face the direction KoRL is facing as long as the sail is out.
@@ -1039,9 +1053,9 @@ def set_starting_health(self):
 
   self.dol.write_data(write_u16, starting_quarter_hearts_address, starting_health)
 
-def give_double_magic(self):
+def set_starting_magic(self, starting_magic):
   starting_magic_address = self.main_custom_symbols["starting_magic"]
-  self.dol.write_data(write_u8, starting_magic_address, 32)
+  self.dol.write_data(write_u8, starting_magic_address, starting_magic)
 
 def add_pirate_ship_to_windfall(self):
   windfall_dzr = self.get_arc("files/res/Stage/sea/Room11.arc").get_file("room.dzr")
@@ -1525,10 +1539,10 @@ def update_sword_mode_game_variable(self):
 def update_starting_gear(self):
   starting_gear = self.options.get("starting_gear").copy()
   
-  if "Magic Meter Upgrade" in starting_gear:
-    # Double magic doesn't work when given via our normal starting items initialization code, so we need to handle it specially.
-    give_double_magic(self)
-    starting_gear.remove("Magic Meter Upgrade")
+  # Changing starting magic doesn't work when done via our normal starting items initialization code, so we need to handle it specially.
+  set_starting_magic(self, 16*starting_gear.count("Progressive Magic Meter"))
+  while "Progressive Magic Meter" in starting_gear:
+    starting_gear.remove("Progressive Magic Meter")
   
   if len(starting_gear) > MAXIMUM_ADDITIONAL_STARTING_ITEMS:
     raise Exception("Tried to start with more starting items than the maximum number that was allocated")

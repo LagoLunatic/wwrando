@@ -5591,7 +5591,7 @@ kaze:
     Can Access Wind Temple
     & Can Play Command Melody
     & Iron Boots
-    & Deku Leaf
+    & Can Fly With Deku Leaf Indoors
     & Can Defeat Floormasters
     & Can Defeat Blue Bubbles
     & Can Defeat Dexivines

@@ -3,7 +3,7 @@
 ; (Note that most of the modifications for this are in the make_items_progressive function of tweaks.py, not here.)
 
 
-; Swap out the item ID of progressive items for item get events as well as for field items so that their model and item get text change depending on what the next progressive tier of that item you should get is.
+; Swap out the item ID of progressive items for item get events as well as for field items so that their model and item get message change depending on what the next progressive tier of that item you should get is.
 .open "sys/main.dol"
 .org 0x80026A24 ; In createDemoItem (for item get events)
   ; Convert progressive item ID before storing in params

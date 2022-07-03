@@ -56,7 +56,7 @@ Moblin's Letter:
   the writings of a creature
 Cabana Deed:
   a pass for a private residence
-Magic Meter Upgrade:
+Progressive Magic Meter:
   an upgrade for your magic
 Ghost Ship Chart:
   the chart of fears
