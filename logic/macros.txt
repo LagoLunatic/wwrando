@@ -257,7 +257,8 @@ Can Complete Memory Dragon Roost Cavern and Gohma:
   & Can Fly With Deku Leaf Indoors
   & Can Defeat Gohma
 Can Complete Memory Forbidden Woods and Kalle Demos:
-  Can Fly With Deku Leaf Indoors
+  Can Fan With Deku Leaf
+  & Can Fly With Deku Leaf Indoors
   & Can Defeat Kalle Demos
 Can Complete Memory Earth Temple and Jalhalla:
   Can Defeat Jalhalla
