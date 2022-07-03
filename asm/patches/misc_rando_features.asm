@@ -773,3 +773,16 @@ custom_warp_pot_env_color:
 .org 0x8D8 ; Don't check if the Two-Eye Reef Octo is defeated
   li r3, 0
 .close
+
+
+
+
+; Change the Deku Leaf so that you can still fan it to create a gust of air when you have zero magic.
+; In vanilla, you needed at least one magic to fan it, but it didn't consume any magic.
+; This is done so that the Deku Leaf still has some usefulness when starting without a magic meter.
+; It also allows the fan ability (which allows accessing Horseshoe Island's golf) to be separated from the flying ability.
+.open "sys/main.dol"
+.org 0x8014BDF8 ; In daPy_lk_c::setShapeFanLeaf(void)
+  ; Remove branch taken when having less than 1 magic.
+  nop
+.close
