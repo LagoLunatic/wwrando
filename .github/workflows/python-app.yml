@@ -43,6 +43,7 @@ jobs:
           TXT_VERSION=$(cat version.txt)
           GIT_SHA_SHORT=$(git rev-parse --short=7 ${{ github.sha }})
           echo "::set-output name=full_version::${USER_INPUT_VERSION:-$TXT_VERSION-$GIT_SHA_SHORT}"
+        shell: bash
       - name: Set architecture variables
         id: archvars
         run: |
