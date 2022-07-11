@@ -125,7 +125,8 @@ class JPC:
       while True:
         if offset == data_len(data):
           break
-        texture = J3DChunk(data, offset)
+        texture = TEX1()
+        texture.read(data, offset)
         new_textures.append(texture)
         new_textures_for_particle_id[particle.particle_id].append(texture)
         offset += texture.size
