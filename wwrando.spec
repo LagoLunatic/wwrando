@@ -67,7 +67,7 @@ app = BUNDLE(exe,
           info_plist={
               "LSBackgroundOnly": False,
               "CFBundleDisplayName": "Wind Waker Randomizer",
-              "CFBundleName": "WW Randomizer",
+              "CFBundleName": "WW Randomizer", # 15 character maximum
               "CFBundleShortVersionString": randomizer_version,
           }
           )
