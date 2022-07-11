@@ -114,7 +114,7 @@ jobs:
         run: |
           echo ${{ steps.vars.outputs.full_version }} > version.txt
       - name: Build MacOS App
-        run: python3 -m PyInstaller --log-level=WARN --onefile --windowed wwrando.spec
+        run: python3 -m PyInstaller --log-level=WARN wwrando.spec
         shell: bash -l {0}
       - name: Bundle MacOS App
         run: python3 build.py
