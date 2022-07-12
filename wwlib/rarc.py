@@ -514,6 +514,11 @@ class RARC:
       chart_list = ChartList(file_entry)
       self.instantiated_object_files[file_name] = chart_list
       return chart_list
+    elif file_name.endswith(".arc"):
+      inner_rarc = RARC()
+      inner_rarc.read(file_entry.data)
+      self.instantiated_object_files[file_name] = inner_rarc
+      return inner_rarc
     else:
       raise Exception("Unknown file type: %s" % file_name)
 
