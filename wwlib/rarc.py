@@ -10,7 +10,7 @@ from wwlib.dzx import DZx
 from wwlib.events import EventList
 from wwlib.bmg import BMG
 from wwlib.charts import ChartList
-from wwlib.j3d import BDL, BMD, BMT, BRK
+from wwlib.j3d import BDL, BMD, BMT, BRK, BTK
 from wwlib.bti import BTIFileEntry
 
 class RARC:
@@ -506,6 +506,10 @@ class RARC:
       brk = BRK(file_entry)
       self.instantiated_object_files[file_name] = brk
       return brk
+    elif file_name.endswith(".btk"):
+      btk = BTK(file_entry)
+      self.instantiated_object_files[file_name] = btk
+      return btk
     elif file_name.endswith(".bti"):
       bti = BTIFileEntry(file_entry)
       self.instantiated_object_files[file_name] = bti

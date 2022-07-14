@@ -15,6 +15,7 @@ IMPLEMENTED_CHUNK_TYPES = [
   "MDL3",
   
   "TRK1",
+  "TTK1",
 ]
 
 class J3DFile:
@@ -129,6 +130,13 @@ class BRK(J3DFileEntry):
     
     assert self.magic == "J3D1"
     assert self.file_type == "brk1"
+
+class BTK(J3DFileEntry):
+  def __init__(self, file_entry):
+    super().__init__(file_entry)
+    
+    assert self.magic == "J3D1"
+    assert self.file_type == "btk1"
 
 
 
@@ -1023,7 +1031,7 @@ class TRK1(J3DChunk):
     align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     
-    # Remaps tables always written as identity, remapping not supported.
+    # Remap tables always written as identity, remapping not supported.
     reg_remap_table_offset = offset
     if not reg_animations:
       reg_remap_table_offset = 0
@@ -1088,12 +1096,219 @@ class TRK1(J3DChunk):
     write_u32(self.data, 0x50, konst_b_offset)
     write_u32(self.data, 0x54, konst_a_offset)
 
+class TTK1(J3DChunk):
+  def read_chunk_specific_data(self):
+    assert read_str(self.data, 0, 4) == "TTK1"
+    
+    self.loop_mode = LoopMode(read_u8(self.data, 0x08))
+    self.rotation_frac = read_u8(self.data, 0x09)
+    self.duration = read_u16(self.data, 0x0A)
+    
+    keyframe_count = read_u16(self.data, 0x0C)
+    anims_count = keyframe_count//3
+    
+    scale_table_count = read_u16(self.data, 0x0E)
+    rotation_table_count = read_u16(self.data, 0x10)
+    translation_table_count = read_u16(self.data, 0x12)
+    
+    anims_offset = read_u32(self.data, 0x14)
+    
+    remap_table_offset = read_u32(self.data, 0x18)
+    
+    mat_names_table_offset = read_u32(self.data, 0x1C)
+    
+    tex_gen_index_table_offset = read_u32(self.data, 0x20)
+    center_coord_table_offset = read_u32(self.data, 0x24)
+    scale_table_offset = read_u32(self.data, 0x28)
+    rotation_table_offset = read_u32(self.data, 0x2C)
+    translation_table_offset = read_u32(self.data, 0x30)
+    
+    self.post_matrix_data = read_bytes(self.data, 0x34, 0x28)
+    
+    if read_u32(self.data, 0x5C) == 1:
+      self.matrix_mode = MatrixMode.MAYA_MODE
+    else:
+      self.matrix_mode = MatrixMode.BASIC_MODE
+    
+    # Ensure the remap tables are identity.
+    # Actual remapping not currently supported by this implementation.
+    for i in range(anims_count):
+      assert i == read_u16(self.data, remap_table_offset+i*2)
+    
+    mat_names = self.read_string_table(mat_names_table_offset)
+    
+    tex_gen_indexes = []
+    for i in range(anims_count):
+      tex_gen_index = read_u8(self.data, tex_gen_index_table_offset+i)
+      tex_gen_indexes.append(tex_gen_index)
+    center_coords_data = []
+    for i in range(anims_count):
+      center_s = read_float(self.data, center_coord_table_offset+i*0xC+0)
+      center_t = read_float(self.data, center_coord_table_offset+i*0xC+4)
+      center_q = read_float(self.data, center_coord_table_offset+i*0xC+8)
+      center_coords_data.append((center_s, center_t, center_q))
+    scale_track_data = []
+    for i in range(scale_table_count):
+      scale = read_float(self.data, scale_table_offset+i*4)
+      scale_track_data.append(scale)
+    rotation_track_data = []
+    for i in range(rotation_table_count):
+      rotation = read_s16(self.data, rotation_table_offset+i*2)
+      rotation_track_data.append(rotation)
+    translation_track_data = []
+    for i in range(translation_table_count):
+      translation = read_float(self.data, translation_table_offset+i*4)
+      translation_track_data.append(translation)
+    
+    animations = []
+    self.mat_name_to_anims = OrderedDict()
+    
+    offset = anims_offset
+    for i in range(anims_count):
+      anim = UVAnimation()
+      anim.read(self.data, offset, tex_gen_indexes, center_coords_data, scale_track_data, rotation_track_data, translation_track_data)
+      offset += UVAnimation.DATA_SIZE
+      
+      animations.append(anim)
+      
+      mat_name = mat_names[i]
+      if mat_name not in self.mat_name_to_anims:
+        self.mat_name_to_anims[mat_name] = []
+      self.mat_name_to_anims[mat_name].append(anim)
+  
+  def save_chunk_specific_data(self):
+    # Cut off all the data, we're rewriting it entirely.
+    self.data.truncate(0)
+    
+    # Placeholder for the header.
+    self.data.seek(0)
+    self.data.write(b"\0"*0x60)
+    
+    align_data_to_nearest(self.data, 0x20)
+    offset = self.data.tell()
+    
+    animations = []
+    mat_names = []
+    for mat_name, anims in self.mat_name_to_anims.items():
+      for anim in anims:
+        animations.append(anim)
+        mat_names.append(mat_name)
+    
+    tex_gen_indexes = []
+    center_coords_data = []
+    scale_track_data = []
+    rotation_track_data = []
+    translation_track_data = []
+    anims_offset = offset
+    if not animations:
+      anims_offset = 0
+    for anim in animations:
+      anim.save_changes(self.data, offset, tex_gen_indexes, center_coords_data, scale_track_data, rotation_track_data, translation_track_data)
+      offset += UVAnimation.DATA_SIZE
+    
+    align_data_to_nearest(self.data, 4)
+    offset = self.data.tell()
+    
+    # Remap tables always written as identity, remapping not supported.
+    remap_table_offset = offset
+    if not animations:
+      remap_table_offset = 0
+    for i in range(len(animations)):
+      write_u16(self.data, offset, i)
+      offset += 2
+    
+    align_data_to_nearest(self.data, 4)
+    offset = self.data.tell()
+    
+    mat_names_table_offset = offset
+    self.write_string_table(mat_names_table_offset, mat_names)
+    
+    align_data_to_nearest(self.data, 4)
+    offset = self.data.tell()
+    tex_gen_index_table_offset = offset
+    if not tex_gen_indexes:
+      tex_gen_index_table_offset = 0
+    for tex_gen_index in tex_gen_indexes:
+      write_u8(self.data, offset, tex_gen_index)
+      offset += 1
+    
+    align_data_to_nearest(self.data, 4)
+    offset = self.data.tell()
+    center_coord_table_offset = offset
+    if not center_coords_data:
+      center_coord_table_offset = 0
+    for center_coords in center_coords_data:
+      write_float(self.data, offset+0, center_coords[0])
+      write_float(self.data, offset+4, center_coords[1])
+      write_float(self.data, offset+8, center_coords[2])
+      offset += 0xC
+    
+    align_data_to_nearest(self.data, 4)
+    offset = self.data.tell()
+    scale_table_offset = offset
+    if not scale_track_data:
+      scale_table_offset = 0
+    for scale in scale_track_data:
+      write_float(self.data, offset, scale)
+      offset += 4
+    
+    align_data_to_nearest(self.data, 4)
+    offset = self.data.tell()
+    rotation_table_offset = offset
+    if not rotation_track_data:
+      rotation_table_offset = 0
+    for rotation in rotation_track_data:
+      write_s16(self.data, offset, rotation)
+      offset += 2
+    
+    align_data_to_nearest(self.data, 4)
+    offset = self.data.tell()
+    translation_table_offset = offset
+    if not translation_track_data:
+      translation_table_offset = 0
+    for translation in translation_track_data:
+      write_float(self.data, offset, translation)
+      offset += 4
+    
+    
+    # Write the header.
+    write_magic_str(self.data, 0, "TTK1", 4)
+    
+    write_u8(self.data, 0x08, self.loop_mode.value)
+    write_u8(self.data, 0x09, self.rotation_frac)
+    write_u16(self.data, 0x0A, self.duration)
+    
+    write_u16(self.data, 0x0C, len(animations)*3)
+    
+    write_s16(self.data, 0x0E, len(scale_track_data))
+    write_s16(self.data, 0x10, len(rotation_track_data))
+    write_s16(self.data, 0x12, len(translation_track_data))
+    
+    write_u32(self.data, 0x14, anims_offset)
+    
+    write_u32(self.data, 0x18, remap_table_offset)
+    
+    write_u32(self.data, 0x1C, mat_names_table_offset)
+    
+    write_u32(self.data, 0x20, tex_gen_index_table_offset)
+    write_u32(self.data, 0x24, center_coord_table_offset)
+    write_u32(self.data, 0x28, scale_table_offset)
+    write_u32(self.data, 0x2C, rotation_table_offset)
+    write_u32(self.data, 0x30, translation_table_offset)
+    
+    assert len(self.post_matrix_data) == 0x28
+    write_bytes(self.data, 0x34, self.post_matrix_data)
+  
 class LoopMode(Enum):
   ONCE = 0
   ONCE_AND_RESET = 1
   REPEAT = 2
   MIRRORED_ONCE = 3
   MIRRORED_REPEAT = 4
+
+class MatrixMode(Enum):
+  BASIC_MODE = 0
+  MAYA_MODE = 1
 
 class TangentType(Enum):
   IN     =   0
@@ -1149,8 +1364,11 @@ class AnimationTrack:
       else:
         raise Exception("Invalid tangent type")
     
-    # Try to find if this track's data is already in the full track list to avoid duplicating data.
     self.index = None
+    # Try to find if this track's data is already in the full track list to avoid duplicating data.
+    # Note: This deduplication is not entirely accurate to how the vanilla files deduplicated data.
+    # Vanilla files did deduplicate data somewhat, but not all of it, resulting in repacked files being smaller than vanilla.
+    # It's not currently known exactly how Nintendo's tools determined which data should be deduplicated.
     for i in range(len(track_data) - len(this_track_data) + 1):
       found_match = True
       
@@ -1179,44 +1397,75 @@ class AnimationKeyframe:
     self.tangent_in = tangent_in
     self.tangent_out = tangent_out
 
-class ColorAnimation:
+class Animation:
+  def __init__(self):
+    self.tracks = OrderedDict()
+  
+  def read_track(self, track_name, data, offset, track_data):
+    self.tracks[track_name] = AnimationTrack()
+    self.tracks[track_name].read(data, offset, track_data)
+    offset += AnimationTrack.DATA_SIZE
+    return offset
+  
+  def save_track(self, track_name, data, offset, track_data):
+    self.tracks[track_name].save_changes(data, offset, track_data)
+    offset += AnimationTrack.DATA_SIZE
+    return offset
+  
+  def __getattr__(self, attr_name):
+    if attr_name != "tracks" and attr_name in self.tracks:
+      return self.tracks[attr_name]
+    else:
+      return super(self.__class__, self).__getattribute__(attr_name)
+
+class UVAnimation(Animation):
+  DATA_SIZE = 3*3*AnimationTrack.DATA_SIZE
+  
+  def read(self, data, offset, tex_gen_indexes, center_coords_data, scale_track_data, rotation_track_data, translation_track_data):
+    self.tex_gen_index = tex_gen_indexes.pop(0)
+    self.center_coords = center_coords_data.pop(0)
+    
+    offset = self.read_track("scale_s",       data, offset, scale_track_data)
+    offset = self.read_track("rotation_s",    data, offset, rotation_track_data)
+    offset = self.read_track("translation_s", data, offset, translation_track_data)
+    offset = self.read_track("scale_t",       data, offset, scale_track_data)
+    offset = self.read_track("rotation_t",    data, offset, rotation_track_data)
+    offset = self.read_track("translation_t", data, offset, translation_track_data)
+    offset = self.read_track("scale_q",       data, offset, scale_track_data)
+    offset = self.read_track("rotation_q",    data, offset, rotation_track_data)
+    offset = self.read_track("translation_q", data, offset, translation_track_data)
+  
+  def save_changes(self, data, offset, tex_gen_indexes, center_coords_data, scale_track_data, rotation_track_data, translation_track_data):
+    tex_gen_indexes.append(self.tex_gen_index)
+    center_coords_data.append(self.center_coords)
+    
+    offset = self.save_track("scale_s",       data, offset, scale_track_data)
+    offset = self.save_track("rotation_s",    data, offset, rotation_track_data)
+    offset = self.save_track("translation_s", data, offset, translation_track_data)
+    offset = self.save_track("scale_t",       data, offset, scale_track_data)
+    offset = self.save_track("rotation_t",    data, offset, rotation_track_data)
+    offset = self.save_track("translation_t", data, offset, translation_track_data)
+    offset = self.save_track("scale_q",       data, offset, scale_track_data)
+    offset = self.save_track("rotation_q",    data, offset, rotation_track_data)
+    offset = self.save_track("translation_q", data, offset, translation_track_data)
+
+class ColorAnimation(Animation):
   DATA_SIZE = 4*AnimationTrack.DATA_SIZE + 4
   
-  def __init__(self):
-    pass
-  
   def read(self, data, offset, r_track_data, g_track_data, b_track_data, a_track_data):
-    self.r = AnimationTrack()
-    self.r.read(data, offset, r_track_data)
-    offset += AnimationTrack.DATA_SIZE
-    
-    self.g = AnimationTrack()
-    self.g.read(data, offset, g_track_data)
-    offset += AnimationTrack.DATA_SIZE
-    
-    self.b = AnimationTrack()
-    self.b.read(data, offset, b_track_data)
-    offset += AnimationTrack.DATA_SIZE
-    
-    self.a = AnimationTrack()
-    self.a.read(data, offset, a_track_data)
-    offset += AnimationTrack.DATA_SIZE
+    offset = self.read_track("r", data, offset, r_track_data)
+    offset = self.read_track("g", data, offset, g_track_data)
+    offset = self.read_track("b", data, offset, b_track_data)
+    offset = self.read_track("a", data, offset, a_track_data)
     
     self.color_id = read_u8(data, offset)
     offset += 4
   
   def save_changes(self, data, offset, r_track_data, g_track_data, b_track_data, a_track_data):
-    self.r.save_changes(data, offset, r_track_data)
-    offset += AnimationTrack.DATA_SIZE
-    
-    self.g.save_changes(data, offset, g_track_data)
-    offset += AnimationTrack.DATA_SIZE
-    
-    self.b.save_changes(data, offset, b_track_data)
-    offset += AnimationTrack.DATA_SIZE
-    
-    self.a.save_changes(data, offset, a_track_data)
-    offset += AnimationTrack.DATA_SIZE
+    offset = self.save_track("r", data, offset, r_track_data)
+    offset = self.save_track("g", data, offset, g_track_data)
+    offset = self.save_track("b", data, offset, b_track_data)
+    offset = self.save_track("a", data, offset, a_track_data)
     
     write_u8(data, offset, self.color_id)
     write_u8(data, offset+1, 0xFF)
