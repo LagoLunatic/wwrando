@@ -1370,6 +1370,9 @@ def add_inter_dungeon_warp_pots(self):
     particle = drc_jpc.particles_by_id[particle_id]
     
     for dest_jpc in [totg_jpc, ff_jpc]:
+      if particle_id in dest_jpc.particles_by_id:
+        continue
+      
       copied_particle = copy.deepcopy(particle)
       dest_jpc.add_particle(copied_particle)
       
