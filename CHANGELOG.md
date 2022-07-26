@@ -2,10 +2,11 @@
 ### Next version (in progress, not released yet)
 
 New features:
-* Added a "Chest Type Matches Contents" option that changes the appearance of each treasure chest depending on the importance of the item randomized into the chest (progress items, dungeon keys, and non-progress items).
-* Old Man Ho Ho now gives hints as to which island progress items are on, in addition to fishmen giving hints.
-* The number progress item hints is now customizable in the randomizer's settings, as is where hints will appear.
 * The randomizer now officially supports Mac and Linux and offers release builds for those platforms.
+* Added a "Chest Type Matches Contents" option that changes the appearance of each treasure chest depending on the importance of the item randomized into the chest (progress items, dungeon keys, and non-progress items).
+* In addition to fishmen giving hints as to which island progress items are on, Old Man Ho Ho and King of Red Lions can now also give hints.
+* The number progress item hints is now customizable in the randomizer's settings, as is where hints will appear.
+* You can now choose to randomize the following items instead of always starting the game with them: Ballad of Gales, Song of Passing, Magic Meter.
 * Added a button to the top of the Player Customization tab to automatically install a custom player model or pack of multiple custom player models from a .zip file.
 * Added an optional tweak to invert the X axis of the compass on the sea so that it works more intuitively.
 * Forest Haven's shore now has a warp which acts as a shortcut allowing you to quickly re-enter the dungeon entrance from the sea after you've already reached it the normal way once.
@@ -13,11 +14,12 @@ New features:
 * The big pig on Outset now has its color randomized.
 
 Changes:
-* Added a command line argument `-autoseed` that generates a random seed name instead of loading the last used one from settings.txt.
-* The "seed hash" the randomizer adds to the name entry screen is now also included in log files.
+* Fanning with the Deku Leaf no longer requires you to have magic in your Magic Meter like it did in vanilla. (Flying with the Deku Leaf still consumes magic.)
 * Removed several minor cutscenes from Forest Haven where the camera panned around.
 * Inter-dungeon warp pots now have red-colored smoke to differentiate them from other warp pots.
 * Randomization is now faster, taking a few seconds less to run.
+* Added a command line argument `-autoseed` that generates a random seed name instead of loading the last used one from settings.txt.
+* The "seed hash" the randomizer adds to the name entry screen is now also included in log files.
 
 Bug fixes:
 * Fixed permalinks not being properly decoded in some cases when Swordless mode is enabled and starting gear is customized.
