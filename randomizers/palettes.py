@@ -1,4 +1,3 @@
-
 import os
 
 from wwlib import texture_utils
@@ -11,29 +10,25 @@ def randomize_enemy_palettes(self):
     h_shift = self.rng.randint(20, 340)
     v_shift = self.rng.randint(-40, 40)
     #print(h_shift, v_shift)
-
+    
     if self.dry_run:
       continue
-
-    grpName = randomizable_file_group["Name"]
-
-    if grpName in ["Darknut", "Moblin", "Stalfos", "Rat", "ChuChu", "Puppet Ganon", "Ganondorf"]:
-        match grpName:
-          case "Darknut":
-            shift_hardcoded_darknut_colors(self, h_shift, v_shift)
-          case "Moblin":
-            shift_hardcoded_moblin_colors(self, h_shift, v_shift)
-          case "Stalfos":
-            shift_hardcoded_stalfos_colors(self, h_shift, v_shift)
-          case "Rat":
-            shift_hardcoded_rat_colors(self, h_shift, v_shift)
-          case "ChuChu":
-            shift_hardcoded_chuchu_colors(self, h_shift, v_shift)
-          case "Puppet Ganon":
-            shift_hardcoded_puppet_ganon_colors(self, h_shift, v_shift)
-          case "Ganondorf":
-            shift_hardcoded_ganondorf_colors(self, h_shift, v_shift)
-
+    
+    if randomizable_file_group["Name"] == "Darknut":
+      shift_hardcoded_darknut_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "Moblin":
+      shift_hardcoded_moblin_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "Stalfos":
+      shift_hardcoded_stalfos_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "Rat":
+      shift_hardcoded_rat_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "ChuChu":
+      shift_hardcoded_chuchu_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "Puppet Ganon":
+      shift_hardcoded_puppet_ganon_colors(self, h_shift, v_shift)
+    elif randomizable_file_group["Name"] == "Ganondorf":
+      shift_hardcoded_ganondorf_colors(self, h_shift, v_shift)
+    
     if randomizable_file_group["Particle IDs"]:
       particle_ids = randomizable_file_group["Particle IDs"]
       for i in range(255):
@@ -41,49 +36,49 @@ def randomize_enemy_palettes(self):
         if jpc_path.lower() not in self.gcm.files_by_path_lowercase:
           continue
         jpc = self.get_jpc(jpc_path)
-
+        
         particle_ids_for_enemy_in_jpc = [particle_id for particle_id in jpc.particles_by_id if particle_id in particle_ids]
         if not particle_ids_for_enemy_in_jpc:
           continue
-
+        
         for particle_id in particle_ids_for_enemy_in_jpc:
           particle = jpc.particles_by_id[particle_id]
           shift_all_colors_in_particle(self, particle, h_shift, v_shift)
-
+    
     for rarc_data in randomizable_file_group["RARCs"]:
       rarc_name = rarc_data["Name"]
       #print(rarc_name)
       rarc = self.get_arc("files/res/Object/%s.arc" % rarc_name)
-
+      
       for file_entry in rarc.file_entries:
         file_name = file_entry.name
-
+        
         basename, file_ext = os.path.splitext(file_name)
         if file_ext not in [".bdl", ".bti", ".bmd", ".bmt", ".brk"]:
           continue
-
+      
         if file_name in rarc_data["Excluded files"]:
           continue
-
+        
         #print(file_name)
-
+        
         j3d_file = rarc.get_file(file_name)
-
+        
         if hasattr(j3d_file, "tex1"):
           shift_all_colors_in_tex1(self, file_name, j3d_file, h_shift, v_shift)
-
+        
         if file_name.endswith(".bti"):
           shift_all_colors_in_bti(self, file_name, j3d_file, h_shift, v_shift)
-
+        
         if hasattr(j3d_file, "mat3"):
           shift_all_colors_in_mat3(self, file_name, j3d_file, h_shift, v_shift)
-
+        
         if hasattr(j3d_file, "mdl3"):
           shift_all_colors_in_mdl3(self, file_name, j3d_file, h_shift, v_shift)
-
+        
         if hasattr(j3d_file, "trk1"):
           shift_all_colors_in_trk1(self, file_name, j3d_file, h_shift, v_shift)
-
+        
         j3d_file.save_changes()
 
 def shift_all_colors_in_tex1(self, file_name, j3d_file, h_shift, v_shift):
@@ -91,21 +86,21 @@ def shift_all_colors_in_tex1(self, file_name, j3d_file, h_shift, v_shift):
     if "toon" in texture_name:
       # Special texture related to lighting
       continue
-
+    
     textures = j3d_file.tex1.textures_by_name[texture_name]
     first_texture = textures[0]
-
+    
     if first_texture.image_format in texture_utils.GREYSCALE_IMAGE_FORMATS:
       continue
-
+    
     #if not os.path.isdir("./wip/enemy recolors/%s" % file_name):
     #  os.mkdir("./wip/enemy recolors/%s" % file_name)
     #first_texture.render().save("./wip/enemy recolors/%s/%s orig.png" % (file_name, texture_name))
-
+    
     if first_texture.image_format in texture_utils.IMAGE_FORMATS_THAT_USE_PALETTES:
       if first_texture.palette_format in texture_utils.GREYSCALE_PALETTE_FORMATS:
         continue
-
+      
       # Only modify the palette data without touching the image data.
       colors = first_texture.render_palette()
       colors = texture_utils.hsv_shift_palette(colors, h_shift, v_shift)
@@ -117,17 +112,17 @@ def shift_all_colors_in_tex1(self, file_name, j3d_file, h_shift, v_shift):
       image = texture_utils.hsv_shift_image(image, h_shift, v_shift)
       for texture in textures:
         texture.replace_image(image)
-
+    
     #first_texture.render().save("./wip/enemy recolors/%s/%s %d %d.png" % (file_name, texture_name, h_shift, v_shift))
 
 def shift_all_colors_in_bti(self, texture_name, texture, h_shift, v_shift):
   if texture.image_format in texture_utils.GREYSCALE_IMAGE_FORMATS:
     return
-
+  
   if texture.image_format in texture_utils.IMAGE_FORMATS_THAT_USE_PALETTES:
     if texture.palette_format in texture_utils.GREYSCALE_PALETTE_FORMATS:
       return
-
+    
     # Only modify the palette data without touching the image data.
     colors = texture.render_palette()
     colors = texture_utils.hsv_shift_palette(colors, h_shift, v_shift)
@@ -143,7 +138,7 @@ def shift_all_colors_in_mat3(self, file_name, j3d_file, h_shift, v_shift):
     r, g, b, a = color
     r, g, b = texture_utils.hsv_shift_color((abs(r), abs(g), abs(b)), h_shift, v_shift)
     j3d_file.mat3.reg_colors[i] = (r, g, b, a)
-
+  
   for i, color in enumerate(j3d_file.mat3.konst_colors):
     r, g, b, a = color
     r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
@@ -156,35 +151,35 @@ def shift_all_colors_in_mdl3(self, file_name, j3d_file, h_shift, v_shift):
       if com.register >= BPRegister.TEV_REGISTERL_0.value and com.register <= BPRegister.TEV_REGISTERH_3.value
     ]
     assert len(tev_color_commands) % 2 == 0 # They should come in pairs of low and high
-
+    
     last_hi_command = None
     last_hi_command_orig_value = None
     for i in range(0, len(tev_color_commands), 2):
       lo_command = tev_color_commands[i+0]
       hi_command = tev_color_commands[i+1]
-
+      
       if hi_command.register != lo_command.register+1:
         # The only time they're not properly paired is when the hi command gets duplicated an additional 2 times.
         assert last_hi_command is not None
         assert last_hi_command.register == hi_command.register == lo_command.register
         assert last_hi_command_orig_value == hi_command.value == lo_command.value
-
+        
         # Update the color here too
         hi_command.value = last_hi_command.value
         lo_command.value = last_hi_command.value
-
+        
         continue
-
+      
       last_hi_command = hi_command
       last_hi_command_orig_value = hi_command.value
-
+      
       r = (lo_command.value & 0x0007FF)
       g = (hi_command.value & 0x7FF000) >> 12
       b = (hi_command.value & 0x0007FF)
       a = (lo_command.value & 0x7FF000) >> 12
-
+      
       r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-
+      
       lo_command.value &= ~0x7FF7FF
       hi_command.value &= ~0x7FF7FF
       lo_command.value |= ((r <<  0) & 0x0007FF)
@@ -198,29 +193,29 @@ def shift_all_colors_in_trk1(self, file_name, j3d_file, h_shift, v_shift):
     animations += anims
   for mat_name, anims in j3d_file.trk1.mat_name_to_konst_anims.items():
     animations += anims
-
+  
   for anim_index, anim in enumerate(animations):
     if file_name == "cc.brk" and anim_index == 1:
       # ChuChu eyes material animation, doesn't look right recolored so we just recolor the texture instead
       continue
-
+    
     assert len(anim.r.keyframes) > 0 and len(anim.g.keyframes) > 0 and len(anim.b.keyframes) > 0
-
+    
     # In some cases (specifically Gohma), there won't be an equal number of keyframes for R G and B, so we can't simply iterate over the list.
-
+    
     # First make a list of what times are present on the timeline for this animation.
     unique_keyframe_times = []
     for keyframe in (anim.r.keyframes + anim.g.keyframes + anim.b.keyframes):
       if keyframe.time not in unique_keyframe_times:
         unique_keyframe_times.append(keyframe.time)
     unique_keyframe_times.sort()
-
+    
     def get_keyframe_by_closest_time(keyframes, keyframe_time):
       return min(keyframes, key=lambda kf: abs(kf.time-keyframe_time))
-
+    
     def get_keyframe_by_exact_time(keyframes, keyframe_time):
       return next((kf for kf in keyframes if kf.time == keyframe_time), None)
-
+    
     # Then make a list of what the modified colors at each time will be, but don't actually modify them yet since we may need to re-read the values of previous times if the next time is missing a channel.
     modified_colors_by_time = {}
     for keyframe_time in unique_keyframe_times:
@@ -231,7 +226,7 @@ def shift_all_colors_in_trk1(self, file_name, j3d_file, h_shift, v_shift):
       #print("    %d %d %d" % (r, g, b))
       r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
       modified_colors_by_time[keyframe_time] = (r, g, b)
-
+    
     # Then actually modify the colors.
     for keyframe_time in unique_keyframe_times:
       r, g, b = modified_colors_by_time[keyframe_time]
@@ -248,35 +243,35 @@ def shift_all_colors_in_trk1(self, file_name, j3d_file, h_shift, v_shift):
 def shift_all_colors_in_particle(self, particle, h_shift, v_shift):
   #print("%04X" % particle_id)
   #print(particle.tdb1.texture_filenames)
-
+  
   # Changing value/saturation of particle colors can sometimes make them disappear or be bigger/smaller than in vanilla if the changes are too extreme, so limit to hue shifting only for particles.
   v_shift = 0
-
+  
   r, g, b, a = particle.bsp1.color_prm
   r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
   particle.bsp1.color_prm = (r, g, b, a)
-
+  
   r, g, b, a = particle.bsp1.color_env
   r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
   particle.bsp1.color_env = (r, g, b, a)
-
+  
   #print(particle.bsp1.color_prm_anm_data_count)
   for keyframe in particle.bsp1.color_prm_anm_table:
     r, g, b, a = keyframe.color
     r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
     keyframe.color = (r, g, b, a)
-
+  
   #print(particle.bsp1.color_env_anm_data_count)
   for keyframe in particle.bsp1.color_env_anm_table:
     r, g, b, a = keyframe.color
     r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
     keyframe.color = (r, g, b, a)
-
+  
   if hasattr(particle, "ssp1"):
     r, g, b, a = particle.ssp1.color_prm
     r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
     particle.ssp1.color_prm = (r, g, b, a)
-
+    
     r, g, b, a = particle.ssp1.color_env
     r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
     particle.ssp1.color_env = (r, g, b, a)
@@ -296,7 +291,7 @@ def shift_hardcoded_darknut_colors(self, h_shift, v_shift):
   offset = 0xE2AC
   for i in range(12):
     shift_hardcoded_color_in_rel(rel, offset+i*4, h_shift, v_shift)
-
+  
   # Update the Darknut's cape colors
   rel = self.get_rel("files/rels/d_a_mant.rel")
   for palette_offset in [0x4540, 0x6560, 0x8580, 0xA5A0, 0xC5C0]:
@@ -305,9 +300,9 @@ def shift_hardcoded_darknut_colors(self, h_shift, v_shift):
       palette_data, texture_utils.PaletteFormat.RGB5A3,
       16, texture_utils.ImageFormat.C4
     )
-
+    
     colors = texture_utils.hsv_shift_palette(colors, h_shift, v_shift)
-
+    
     encoded_colors = texture_utils.generate_new_palettes_from_colors(colors, texture_utils.PaletteFormat.RGB5A3)
     palette_data = texture_utils.encode_palette(encoded_colors, texture_utils.PaletteFormat.RGB5A3, texture_utils.ImageFormat.C4)
     assert data_len(palette_data) == 0x20
@@ -330,7 +325,7 @@ def shift_hardcoded_rat_colors(self, h_shift, v_shift):
   rel = self.get_rel("files/rels/d_a_nz.rel")
   offset = 0x8FB8
   shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift)
-
+  
   rel = self.get_rel("files/rels/d_a_npc_nz.rel")
   offset = 0x48C0
   shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift)
@@ -341,7 +336,7 @@ def shift_hardcoded_chuchu_colors(self, h_shift, v_shift):
   offset = 0x7F88
   for i in range(5):
     shift_hardcoded_color_in_rel(rel, offset+i*4, h_shift, v_shift)
-
+  
   # The particles that come off of Dark ChuChus when attacked where they temporarily break apart and reform are tricky.
   # That RGB value is stored as three multiplier floats instead of three bytes, and the red multiplier in the float constant bank is coincidentally reused by other things in the ChuChu code unrelated to color so we can't change that.
   # So we change the asm code to read the red multiplier from elsewhere, and then modify that instead.
@@ -361,7 +356,7 @@ def shift_hardcoded_puppet_ganon_colors(self, h_shift, v_shift):
   shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift)
   offset = 0xF0B0
   shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift)
-
+  
   rel = self.get_rel("files/rels/d_a_bgn3.rel")
   r = rel.read_data(read_u8, 0x2CF)
   g = rel.read_data(read_u8, 0x2D7)

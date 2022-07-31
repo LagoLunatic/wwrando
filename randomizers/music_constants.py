@@ -107,14 +107,14 @@ FIRST_SCENE_WAVE_NEEDED_FOR_BGM = {
   "i_ryu.bms":        0x19,
   "i_mori.bms":       0x0F,
   "i_moridk.bms":     0x0F,
-
+  
   "jaboo.bms":        0x22, # There's quite a few possibilities that would work here
   "subdun.bms":       0x26, # Many possibilities
   "elf.bms":          0x24,
-
+  
   "store.bms":        0x10,
   "drug.bms":         0x16,
-
+  
   #"d_ryumt.bms":      0x01, # test
   "d_forest.bms":     0x03,
   "kaminoto.bms":     0x06,
@@ -123,22 +123,22 @@ FIRST_SCENE_WAVE_NEEDED_FOR_BGM = {
   "d_wind.bms":       0x08,
   "d_ganon1.bms":     0x17,
   "d_ganon2.bms":     0x18,
-
+  
   "p_goma_a.bms":     0x1C,
   "p_goma_b.bms":     0x1C,
   "p_rane.bms":       0x1F,
   "taraba_intro.bms": 0x2A,
-
+  
   "hyrul_of.bms":     0x14,
   "hyrul_on.bms":     0x14,
   #"death_vl.bms":     0x25, # doesn't sound necessary? hard to tell with how quiet it is
-
+  
   "next_dry.bms":     0x0F,
   "takt_mcl.bms":     0x08,
   "tak8_mcl.bms":     0x08,
   "takt_mdr.bms":     0x12,
   "tak8_mdr.bms":     0x12,
-
+  
   # TODO
 }
 
@@ -150,15 +150,15 @@ SECOND_SCENE_WAVE_NEEDED_FOR_BGM = {
   "e_dioct2.bms":     0x06,
   "p_ganon1.bms":     0x0A,
   "p_ganon2.bms":     0x0A,
-
+  
   "rane.bms":         0x09,
   "bigpow.bms":       0x0B,
-
+  
   # not sure if this is necessary...?
   #"goma_b.bms":       0x01,
-
+  
   "tetra_meet.bms":   0x03,
-
+  
   # TODO
 }
 
@@ -166,14 +166,14 @@ FIRST_SCENE_WAVE_NEEDED_FOR_STAGE = {
   "M_DragB": 0x01, # Gohma and Valoo's noises
   "GanonM":  0x18, # Ganon's Tower Phantom Ganon fight needs Phantom Ganon's voice
   "GanonJ":  0x18, # Ganon's Tower maze needs Phantom Ganon's voice
-
+  
   # TODO
 }
 
 FIRST_SCENE_WAVE_NEEDED_FOR_ISLAND = {
    1: 0x02, # FF needs Phantom Ganon's voice
   11: 0x0B, # Windfall needs NPC voices
-
+  
   # TODO
 }
 
@@ -188,21 +188,21 @@ SECOND_SCENE_WAVE_NEEDED_FOR_ISLAND = {
 BGMS_HARDCODED_TO_PLAY_FOR_STAGE = {
   "M_Dra09": ["mboss.bms", "mboss_s.bms"],
   "M_DragB": ["goma_a.bms", "goma_b.bms"],
-
+  
   "kinMB": ["mboss.bms", "mboss_s.bms"],
   "kinBOSS": ["boco.bms"],
-
+  
   "SirenMB": ["mboss.bms", "mboss_s.bms"],
   "SirenB": ["d_amosu.bms"],
-
+  
   "M2tower": ["bird.bms", "tower.bms"],
-
+  
   "M_DaiMB": ["mboss.bms", "mboss_s.bms"],
   "M_DaiB": ["bigpow.bms"],
-
+  
   "kazeMB": ["mboss.bms", "mboss_s.bms"],
   "kazeB": ["rane.bms"],
-
+  
   "Xboss0": ["p_goma_a.bms", "p_goma_b.bms"],
   "Xboss1": ["p_boco.bms"],
   "Xboss2": ["p_bigpow.bms"],
@@ -211,14 +211,14 @@ BGMS_HARDCODED_TO_PLAY_FOR_STAGE = {
   "GanonJ": ["p_ganon2.bms"],
   "GanonK": ["kugutu1.bms", "kugutu2.bms", "kugutu3.bms", "taraba_intro.bms"],
   "GTower": ["e_ganon.bms"],
-
+  
   # TODO non-boss stuff
   # e.g. playing songs with medli/makar to destroy song stones in earth/wind temple.
 }
 
 BGMS_HARDCODED_TO_PLAY_FOR_ISLAND = {
    1: ["p_ganon1.bms", "p_ganon2.bms"],
-
+  
   # TODO
 }
 
@@ -231,13 +231,13 @@ BGMS_HARDCODED_TO_PLAY_FOR_ISLAND = {
 #[
 #  "mboss.bms",
 #  "mboss_s.bms",
-#
+#  
 #  "e_diocta.bms"
 #  "e_dioct2.bms"
-#
+#  
 #  "p_ganon1.bms"
 #  "p_ganon2.bms"
-#
+#  
 #  "get_perl.bms",
 #  "get_box.bms",
 #  "open_box.bms",
@@ -245,7 +245,7 @@ BGMS_HARDCODED_TO_PLAY_FOR_ISLAND = {
 #  "get_s.bms",
 #  "get.bms",
 #  "get_song.bms",
-#
+#  
 #  "takt_dn.bms",
 #  "takt_wnd.bms",
 #  "takt_wrp.bms",
@@ -263,25 +263,25 @@ BGM_RANDOMIZATION_GROUPS = [
     "get_s.bms",
     "get_song.bms",
     "get_perl.bms",
-
+    
     "open_box.bms",
     "get_box.bms",
     "mastersword.bms",
-
+    
     "takt_wnd.bms",
     "takt_wrp.bms",
     "takt_dn.bms",
   ],
-
+  
   # Long, but non-looping sounds
   [
     "die_link.bms",
     "enemy_comes.bms",
     "sea_dawn.bms",
-
+    
     "sea_goal.bms",
     "sea_fail.bms",
-
+    
     "okmedori.bms",
     "okmacole.bms",
     "takt_mcl.bms",
@@ -290,57 +290,57 @@ BGM_RANDOMIZATION_GROUPS = [
     "tak8_mdr.bms",
     "next_dry.bms",
     "next_wet.bms",
-
+    
     "find_ttr.bms",
   ],
-
+  
   # Common enemy combat music
   [
     "enemy2.bms",
     "sea_enemy.bms",
   ],
-
+  
   # Miniboss combat music
   [
     "mboss.bms",
     "mboss_s.bms",
-
+    
     "e_diocta.bms",
     "e_dioct2.bms",
-
+    
     "p_ganon1.bms",
     "p_ganon2.bms",
   ],
-
+  
   # Boss/miniboss combat music
   [
     "goma_a.bms",
     "goma_b.bms",
     "p_goma_a.bms",
     "p_goma_b.bms",
-
+    
     "boco.bms",
     "p_boco.bms",
-
+    
     "d_amosu.bms",
-
+    
     "bird.bms",
     "tower.bms",
-
+    
     "bigpow.bms",
     "p_bigpow.bms",
-
+    
     "rane.bms",
     "p_rane.bms",
-
+    
     "kugutu1.bms",
     "kugutu2.bms",
     "kugutu3.bms",
     "taraba_intro.bms",
-
+    
     "e_ganon.bms",
   ],
-
+  
   # Normal background music
   [
     # Islands
@@ -351,7 +351,7 @@ BGM_RANDOMIZATION_GROUPS = [
     "i_taura.bms",
     "i_ryu.bms",
     "i_mori.bms",
-
+    
     # Inside places
     "house.bms",
     "store.bms",
@@ -366,20 +366,20 @@ BGM_RANDOMIZATION_GROUPS = [
     "house_t.bms",
     "house_t2.bms",
     "i_linkf.bms",
-
+    
     # Pirates
     "pirate.bms",
     "pirate_c.bms",
     "pirate_5.bms",
     "tetra_meet.bms",
     "tetra_meet_b.bms",
-
+    
     # Hyrule
     "hyrul_of.bms",
     "hyrul_on.bms",
     "death_vl.bms",
     # TODO: try to raise the volume of hyrul_of.bms and death_vl.bms
-
+    
     # Dungeons
     "d_ryumt.bms",
     "d_forest.bms",
@@ -390,7 +390,7 @@ BGM_RANDOMIZATION_GROUPS = [
     "d_wind.bms",
     "d_ganon1.bms",
     "d_ganon2.bms",
-
+    
     # Sea music
     "sea.bms",
     "sea_strm.bms",
