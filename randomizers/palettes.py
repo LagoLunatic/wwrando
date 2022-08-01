@@ -136,7 +136,11 @@ def shift_all_colors_in_bti(self, texture_name, texture, h_shift, v_shift):
 def shift_all_colors_in_mat3(self, file_name, j3d_file, h_shift, v_shift):
   for i, color in enumerate(j3d_file.mat3.reg_colors):
     r, g, b, a = color
-    r, g, b = texture_utils.hsv_shift_color((abs(r), abs(g), abs(b)), h_shift, v_shift)
+    if r < 0 or g < 0 or b < 0:
+      # Negative color? Take absolute.
+      continue
+      # r, g, b = abs(r), abs(g), abs(b) # TODO: Investigate negative values
+    r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
     j3d_file.mat3.reg_colors[i] = (r, g, b, a)
   
   for i, color in enumerate(j3d_file.mat3.konst_colors):
