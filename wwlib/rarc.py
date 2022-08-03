@@ -93,7 +93,7 @@ class RARC:
       if file_entry.is_dir and file_entry.node_index != 0xFFFFFFFF:
         file_entry.node = self.nodes[file_entry.node_index]
         if file_entry.name not in [".", ".."]:
-          assert file_entry.node.dir_entry is None
+          assert file_entry.node.dir_entry is None, "Duplicate node index 0x%02X (%s)." % (file_entry.node_index, file_entry.node.name)
           file_entry.node.dir_entry = file_entry
     
     for node in self.nodes:
