@@ -225,7 +225,11 @@ def print_all_used_switches(self):
                   # Not a type that cares about the appear condition switch
                   continue
                 room_no_for_param = actor.room_num
-              if class_name in ["d_a_andsw0", "d_a_andsw2"] and attr_name == "first_switch_to_check":
+              elif class_name == "d_a_salvage":
+                if attr_name == "switch_to_check" and actor.salvage_type != 2:
+                  # Not the type that checks the switch
+                  continue
+              elif class_name in ["d_a_andsw0", "d_a_andsw2"] and attr_name == "first_switch_to_check":
                 for switch in range(actor.first_switch_to_check, actor.first_switch_to_check+actor.num_switches_to_check):
                   add_used_switch(switch, stage_id_for_param, stage_name, room_no_for_param, location_identifier, is_unused)
                 continue

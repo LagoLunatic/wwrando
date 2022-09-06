@@ -99,7 +99,7 @@ def fix_deku_leaf_model(self):
     actor.params = 0x01FF0000 # Misc params, one of which makes the item not fade out over time
     actor.item_id = 0x34 # Deku Leaf
     actor.item_pickup_flag = 2 # This is the same item pickup flag that itemDek originally had in its params.
-    actor.activation_switch_index = 0xFF # Necessary for the item to be pickupable.
+    actor.enable_activation_switch = 0xFF # Necessary for the item to be pickupable.
     actor.save_changes()
 
 def allow_all_items_to_be_field_items(self):
@@ -1519,7 +1519,7 @@ def disable_invisible_walls(self):
   # Remove an invisible wall in the second room of DRC.
   dzx = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr")
   invisible_wall = next(x for x in dzx.entries_by_type("SCOB") if x.name == "Akabe")
-  invisible_wall.switch_index = 0xFF
+  invisible_wall.disable_spawn_switch = 0xFF
   invisible_wall.save_changes()
 
 def update_skip_rematch_bosses_game_variable(self):

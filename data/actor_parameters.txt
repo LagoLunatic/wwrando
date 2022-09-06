@@ -831,10 +831,10 @@ d_a_klft:
   unknown_param_1:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  path_index:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_3:
+  at_point_1_switch:
     Bitfield name: z_rot
     Mask: 0x00FF
 
@@ -1103,10 +1103,10 @@ d_a_npc_ah:
     Mask: 0x0000FF00
 
 d_a_npc_aj1:
-  unknown_param_1:
+  type:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  unknown_switch:
     Bitfield name: params
     Mask: 0x0000FF00
 
@@ -1233,7 +1233,7 @@ d_a_npc_kf1:
   unknown_param_1:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  player_is_near_exit_switch:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_3:
@@ -1483,7 +1483,7 @@ d_a_obj_ajav:
 d_a_obj_ajavw: {}
 
 d_a_obj_akabe:
-  switch_index:
+  disable_spawn_switch:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
@@ -1708,7 +1708,7 @@ d_a_obj_ekskz:
     Mask: 0x000000FF
 
 d_a_obj_eskban:
-  unknown_param_1:
+  destroyed_switch:
     Bitfield name: params
     Mask: 0x000000FF
 
@@ -1770,7 +1770,7 @@ d_a_obj_gnndemotakis: {}
 d_a_obj_gong: {}
 
 d_a_obj_gryw00:
-  unknown_param_1:
+  activation_switch:
     Bitfield name: params
     Mask: 0x000000FF
 
@@ -1882,10 +1882,10 @@ d_a_obj_homensmoke:
     Mask: 0x00000002
 
 d_a_obj_hsehi1:
-  unknown_param_1:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  message_id:
     Bitfield name: params
     Mask: 0x00FFFF00
 
@@ -1895,7 +1895,7 @@ d_a_obj_htetu1:
     Mask: 0x000000FF
 
 d_a_obj_ice:
-  unknown_param_1:
+  melted_switch:
     Bitfield name: params
     Mask: 0x000000FF
 
@@ -2120,7 +2120,7 @@ d_a_obj_mtest:
   unknown_param_1:
     Bitfield name: params
     Mask: 0x00000007
-  unknown_param_2:
+  switch_to_check:
     Bitfield name: params
     Mask: 0x0000FF00
   unknown_param_3:
@@ -2133,7 +2133,7 @@ d_a_obj_mtest:
 d_a_obj_nest: {}
 
 d_a_obj_ohatch:
-  unknown_param_1:
+  opened_switch:
     Bitfield name: params
     Mask: 0x000000FF
 
@@ -2216,7 +2216,7 @@ d_a_obj_shelf:
     Mask: 0xFFFF
 
 d_a_obj_shmrgrd:
-  unknown_param_1:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x000000FF
 
@@ -2321,7 +2321,7 @@ d_a_obj_timer:
   time_limit_half_seconds:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  switch_to_unset:
     Bitfield name: params
     Mask: 0x00FF0000
 
@@ -2626,16 +2626,28 @@ d_a_saku:
     Mask: 0x00FF0000
 
 d_a_salvage:
+  unknown_salvaged_object_type:
+    Bitfield name: params
+    Mask: 0x0000000F
   item_id:
     Bitfield name: params
     Mask: 0x00000FF0
   chart_index_plus_1:
     Bitfield name: params
     Mask: 0x0FF00000
+  salvage_flag:
+    Bitfield name: params
+    Mask: 0x0FF00000
+  salvaged_event_bit_index:
+    Bitfield name: params
+    Mask: 0x0FF00000
   salvage_type:
     Bitfield name: params
     Mask: 0xF0000000
   duplicate_id:
+    Bitfield name: z_rot
+    Mask: 0x0003
+  switch_to_check:
     Bitfield name: z_rot
     Mask: 0x0003
 
@@ -2884,7 +2896,7 @@ d_a_swpropeller:
     Mask: 0x00000F00
 
 d_a_swtact:
-  unknown_param_1:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
@@ -2999,10 +3011,10 @@ d_a_tag_kb_item:
   item_pickup_flag:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  should_set_switch:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  switch_to_set:
     Bitfield name: params
     Mask: 0xFF000000
 
@@ -3068,10 +3080,10 @@ d_a_tag_msg:
   unknown_param_1:
     Bitfield name: params
     Mask: 0x000000C0
-  unknown_param_2:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  enable_spawn_switch:
     Bitfield name: params
     Mask: 0x00FF0000
   unknown_param_4:
@@ -3396,7 +3408,7 @@ d_a_item:
   item_action:
     Bitfield name: params
     Mask: 0xFC000000
-  activation_switch_index:
+  enable_activation_switch:
     Bitfield name: z_rot
     Mask: 0x00FF
 
