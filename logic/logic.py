@@ -839,7 +839,7 @@ class Logic:
   
   @staticmethod
   def parse_logic_expression(string):
-    tokens = [str.strip() for str in re.split("([&|()])", string)]
+    tokens = [substring.strip() for substring in re.split("([&|()])", string)]
     tokens = [token for token in tokens if token != ""]
     
     stack = []

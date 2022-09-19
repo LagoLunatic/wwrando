@@ -1702,14 +1702,14 @@ def implement_key_bag(self):
   # To do this new text commands are implemented to show the dynamic numbers. There are 5 new commands, 0x4B to 0x4F, one for each dungeon. (Forsaken Fortress and Ganon's Tower are not included as they have no keys.)
   
   self.bmg.messages_by_id[403].string = "Key Bag"
-  str = "A handy bag for holding your keys!\n"
-  str += "Here's how many you've got with you:\n"
-  str += "DRC: \\{1A 05 00 00 4B}    "
-  str += "FW: \\{1A 05 00 00 4C}    "
-  str += "TotG: \\{1A 05 00 00 4D}\n"
-  str += "ET: \\{1A 05 00 00 4E}      "
-  str += "WT: \\{1A 05 00 00 4F}"
-  self.bmg.messages_by_id[603].string = str
+  description = "A handy bag for holding your keys!\n"
+  description += "Here's how many you've got with you:\n"
+  description += "DRC: \\{1A 05 00 00 4B}    "
+  description += "FW: \\{1A 05 00 00 4C}    "
+  description += "TotG: \\{1A 05 00 00 4D}\n"
+  description += "ET: \\{1A 05 00 00 4E}      "
+  description += "WT: \\{1A 05 00 00 4F}"
+  self.bmg.messages_by_id[603].string = description
   
   itemicons_arc = self.get_arc("files/res/Msg/itemicon.arc")
   pirate_charm_icon = itemicons_arc.get_file("amulet_00.bti")

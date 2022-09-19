@@ -74,9 +74,9 @@ def read_str_until_null_character(data, offset):
     temp_offset += 1
   
   data.seek(offset)
-  str = data.read(str_length).decode("shift_jis")
+  string = data.read(str_length).decode("shift_jis")
   
-  return str
+  return string
 
 def write_str(data, offset, new_string, max_length):
   # Writes a fixed-length string.
