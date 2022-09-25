@@ -298,7 +298,7 @@
   Can be killed with thrown objects: Yes # TODO CHECK
   Can be killed with bomb flowers: Yes
   # Note: Cannot escape from a Dexivine that catches you without some weapon to cut it down.
-  Difficulty: [Very Hard Enemies, Fully Random Enemies]
+  Difficulty: [Very Hard Enemies, Fully Random Enemies] # Very Hard due to potential to softlock the player, requiring a restart to escape.
 -
   Pretty name: Keese
   Actor name: keeth
@@ -398,7 +398,7 @@
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
   Can be killed with bomb flowers: No
-  Difficulty: [Very Hard Enemies, Fully Random Enemies]
+  Difficulty: [Very Hard Enemies, Fully Random Enemies] # Very Hard due to becoming spammy when replacing a group of single enemies
 -
   Pretty name: Wizzrobe
   Actor name: wiz_r
@@ -680,7 +680,7 @@
   Allow near pits: True # Dies instantly when over a pit. In vanilla it didn't set its death switch but this was fixed.
   Can be killed with thrown objects: Yes # TODO CHECK
   Can be killed with bomb flowers: No
-  Difficulty: [Very Hard Enemies, Fully Random Enemies]
+  Difficulty: [Very Hard Enemies, Fully Random Enemies] # Very Hard due to high damage, high hp, and difficulty in close quarters/with a lot of them
 -
   Pretty name: Boko Baba
   Actor name: bbaba
@@ -780,7 +780,7 @@
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
   Can be killed with bomb flowers: Yes
-  Difficulty: [Very Hard Enemies, Fully Random Enemies]
+  Difficulty: [Very Hard Enemies, Fully Random Enemies] # Very Hard due to combo with other enemies by preventing your sword, and high requirements to kill.
 -
   Pretty name: Inanimate Bubble
   Actor name: bable
@@ -800,7 +800,7 @@
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
   Can be killed with bomb flowers: No
-  Difficulty: [Easy Enemies, Medium Enemies, Hard Enemies, Very Hard Enemies, Fully Random Enemies]
+  Difficulty: [Easy Enemies, Medium Enemies, Fully Random Enemies]
 -
   Pretty name: Wingless Mothula
   Actor name: gmos
@@ -944,7 +944,7 @@
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
   Can be killed with bomb flowers: No # Floormasters actually can be killed by bombs but this is annoying to do.
-  Difficulty: [Very Hard Enemies, Fully Random Enemies]
+  Difficulty: [Very Hard Enemies, Fully Random Enemies] # Very Hard due to how punishing it is of mistakes - it forces a room restart.
 -
   Pretty name: Floormaster
   Actor name: Fmastr2
@@ -964,4 +964,4 @@
   Allow near pits: True # TODO CHECK
   Can be killed with thrown objects: Yes # TODO CHECK
   Can be killed with bomb flowers: No # Floormasters actually can be killed by bombs but this is annoying to do.
-  Difficulty: [Very Hard Enemies, Fully Random Enemies]
+  Difficulty: [Very Hard Enemies, Fully Random Enemies] # Very Hard due to how punishing it is of mistakes - it forces a room restart.
