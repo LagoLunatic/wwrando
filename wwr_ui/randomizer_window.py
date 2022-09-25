@@ -3,7 +3,7 @@ from PySide6.QtCore import *
 from PySide6.QtWidgets import *
 
 from wwr_ui.ui_randomizer_window import Ui_MainWindow
-from wwr_ui.options import OPTIONS, NON_PERMALINK_OPTIONS, HIDDEN_OPTIONS, POTENTIALLY_UNBEATABLE_OPTIONS
+from wwr_ui.options import OPTIONS, NON_PERMALINK_OPTIONS, HIDDEN_OPTIONS, POTENTIALLY_UNBEATABLE_OPTIONS, LINKED_HIDDEN_OPTIONS
 from wwr_ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
 from wwr_ui.inventory import INVENTORY_ITEMS, REGULAR_ITEMS, PROGRESSIVE_ITEMS, DEFAULT_STARTING_ITEMS, DEFAULT_RANDOMIZED_ITEMS
 from wwr_ui.packedbits import PackedBitsReader, PackedBitsWriter
@@ -1035,6 +1035,14 @@ class WWRandomizerWindow(QMainWindow):
         widget.show()
       else:
         widget.hide()
+
+    # Hide certain options that rely on another option
+    for option_group in LINKED_HIDDEN_OPTIONS:
+      otherWidget = getattr(self.ui, option_group[1])
+      if(self.get_option_value(option_group[0])):
+        otherWidget.show()
+      else:
+        otherWidget.hide()
   
   def disable_invalid_cosmetic_options(self):
     custom_model_name = self.get_option_value("custom_player_model")

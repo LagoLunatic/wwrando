@@ -236,6 +236,10 @@ OPTIONS = OrderedDict([
     "randomize_enemies",
     "Randomizes the placement of non-boss enemies."
   ),
+  (
+    "randomize_enemies_difficulty",
+    "How hard the random enemies will be."
+  ),
 ])
 
 NON_PERMALINK_OPTIONS = [
@@ -256,6 +260,12 @@ HIDDEN_OPTIONS = [
   "randomize_enemies",
 ]
 
+# Controls options that rely on another option being checked to be shown
+LINKED_HIDDEN_OPTIONS = [
+  ["randomize_enemies", "randomize_enemies_difficulty"]
+]
+
 POTENTIALLY_UNBEATABLE_OPTIONS = [
   "randomize_enemies",
+  "randomize_enemies_difficulty",
 ]

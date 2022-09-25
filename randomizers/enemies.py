@@ -62,7 +62,7 @@ STAGE_NAMES_WHERE_MULTIPLE_ROOMS_CAN_BE_LOADED_AT_ONCE = [
   "TF_06",
 ]
 
-def randomize_enemies(self):
+def randomize_enemies(self, difficulty):
   self.enemy_locations = Logic.load_and_parse_enemy_locations()
   
   # We must compile the human-written placement categories each enemy type is allowed in to account for extra category limitations (like locations where the enemy is required to set a switch on death).
@@ -75,6 +75,7 @@ def randomize_enemies(self):
   self.enemies_to_randomize_to = [
     data for data in self.enemy_types
     if data["Allow randomizing to"]
+    and difficulty in data["Difficulty"]
   ]
   self.enemies_to_randomize_to_when_all_enemies_must_be_killed = [
     data for data in self.enemy_types
@@ -83,6 +84,7 @@ def randomize_enemies(self):
     and "Morth" not in data["Pretty name"]
     # Also ban Dexivines because they can't actually be killed.
     and data["Pretty name"] != "Dexivine"
+    and difficulty in data["Difficulty"]
   ]
   
   self.enemy_datas_by_pretty_name = {}
@@ -910,7 +912,7 @@ def is_enemy_allowed_in_placement_category(enemy_data, category):
 def get_amount_of_memory_for_enemy(enemy_data, enemy_actor_names_already_placed_in_room):
   # The first enemy of a species placed in a room uses more than the subsequent ones.
   if enemy_data["Actor name"] in enemy_actor_names_already_placed_in_room:
-    return enemy_data["Memory used by subequent ones"]
+    return enemy_data["Memory used by subsequent ones"]
   else:
     return enemy_data["Memory used by first one"]
 

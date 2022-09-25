@@ -337,6 +337,17 @@ class Ui_MainWindow(object):
 
         self.gridLayout_3.addWidget(self.randomize_enemies, 2, 2, 1, 1)
 
+        self.randomize_enemies_difficulty = QComboBox(self.groupBox_2)
+        self.randomize_enemies_difficulty.addItem("Fully Random Enemies")
+        self.randomize_enemies_difficulty.addItem("Easy Enemies")
+        self.randomize_enemies_difficulty.addItem("Medium Enemies")
+        self.randomize_enemies_difficulty.addItem("Hard Enemies")
+        self.randomize_enemies_difficulty.addItem("Very Hard Enemies")
+        self.randomize_enemies_difficulty.setObjectName(u"randomize_enemies_difficulty")
+        self.randomize_enemies_difficulty.setLayoutDirection(Qt.LeftToRight)
+
+        self.gridLayout_3.addWidget(self.randomize_enemies_difficulty, 2, 3, 1, 1)
+
         self.randomize_starting_island = QCheckBox(self.groupBox_2)
         self.randomize_starting_island.setObjectName(u"randomize_starting_island")
 

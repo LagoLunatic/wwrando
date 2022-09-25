@@ -425,9 +425,11 @@ class Randomizer:
     
     # Enemies must be randomized before items in order for the enemy logic to properly take into account what items you do and don't start with.
     if self.options.get("randomize_enemies"):
-      yield("Randomizing enemy locations...", options_completed)
+      if self.options.get("randomize_enemies_difficulty") != "Fully Random Enemies" and self.options.get("progression_spoils_trading"):
+        raise Exception("Enemy randomizer difficulty (besides \"Fully Random Enemies\") is incompatible with Spoils Trading in logic.")
+      yield ("Randomizing enemy locations...", options_completed)
       self.reset_rng()
-      enemies.randomize_enemies(self)
+      enemies.randomize_enemies(self, self.options.get("randomize_enemies_difficulty"))
     
     if self.options.get("randomize_enemy_palettes"):
       yield("Randomizing enemy colors...", options_completed)
