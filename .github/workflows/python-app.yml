@@ -30,7 +30,7 @@ jobs:
       - name: Set up Python 3.10
         uses: actions/setup-python@v2
         with:
-          python-version: 3.10
+          python-version: '3.10'
           architecture: ${{ matrix.architecture }}
       - name: Install dependencies
         run: |
@@ -85,7 +85,7 @@ jobs:
       - name: Set up Miniconda with Python 3.10
         uses: goanpeca/setup-miniconda@v1
         with:
-          python-version: 3.10
+          python-version: '3.10'
           architecture: ${{ matrix.architecture }}
           miniconda-version: latest
           auto-update-conda: true
@@ -143,7 +143,7 @@ jobs:
       - name: Set up Python 3.10
         uses: actions/setup-python@v2
         with:
-          python-version: 3.10
+          python-version: '3.10'
           architecture: ${{ matrix.architecture }}
       - name: Install dependencies
         run: |
