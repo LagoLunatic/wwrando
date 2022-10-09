@@ -1,3 +1,5 @@
+#!/usr/bin/python3.10
+
 import glob
 import re
 from subprocess import call

@@ -27,10 +27,10 @@ jobs:
         run: echo "$env:RELEASE_KEY" > keys/build_key.txt
         env:
           RELEASE_KEY: ${{ secrets.RELEASE_KEY }}
-      - name: Set up Python 3.9
+      - name: Set up Python 3.10
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: 3.10
           architecture: ${{ matrix.architecture }}
       - name: Install dependencies
         run: |
@@ -82,16 +82,16 @@ jobs:
         run: echo "$RELEASE_KEY" > keys/build_key.txt
         env:
           RELEASE_KEY: ${{ secrets.RELEASE_KEY }}
-      - name: Set up Miniconda with Python 3.9
+      - name: Set up Miniconda with Python 3.10
         uses: goanpeca/setup-miniconda@v1
         with:
-          python-version: 3.9
+          python-version: 3.10
           architecture: ${{ matrix.architecture }}
           miniconda-version: latest
           auto-update-conda: true
       - run: |
-          conda create -qyf -n py39 python=3.9 wheel -c anaconda
-          conda activate py39
+          conda create -qyf -n py310 python=3.10 wheel -c anaconda
+          conda activate py310
         shell: bash -l {0}
       - name: Install dependencies
         run: |
@@ -140,10 +140,10 @@ jobs:
         run: echo "$RELEASE_KEY" > keys/build_key.txt
         env:
           RELEASE_KEY: ${{ secrets.RELEASE_KEY }}
-      - name: Set up Python 3.9
+      - name: Set up Python 3.10
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: 3.10
           architecture: ${{ matrix.architecture }}
       - name: Install dependencies
         run: |

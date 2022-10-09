@@ -1,3 +1,5 @@
+#!/usr/bin/python3.10
+
 import secrets
 import sys
 
