@@ -71,7 +71,7 @@ Open the wwrando folder in a command prompt and install dependencies by running:
 `python3 -m pip install $(cat requirements.txt) --user` (on Linux)  
 
 Then run the randomizer with:  
-`py -3.10 wwrando.py` (on Windows)  
+`py wwrando.py` (on Windows)  
 `python3 wwrando.py` (on Mac)  
 `python3 wwrando.py` (on Linux)  
 
