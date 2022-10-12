@@ -1,5 +1,5 @@
-PySide6==6.2.2.1
+PySide6==6.3.2
 PyYAML==5.4
-Pillow==9.0.1
+Pillow==9.2.0
 appdirs==1.4.4
 certifi==2020.12.5
