@@ -175,7 +175,7 @@ def parse_hex_color_with_alpha(hex_color):
 
 def get_all_custom_model_names():
   custom_model_names = []
-  custom_model_paths = glob.glob(os.path.join(CUSTOM_MODELS_PATH, "*", "Link.arc"))
+  custom_model_paths = glob.glob(os.path.join(glob.escape(CUSTOM_MODELS_PATH), "*", "Link.arc"))
   for link_arc_path in custom_model_paths:
     folder_name = os.path.basename(os.path.dirname(link_arc_path))
     if folder_name in ["Link", "Random"]:

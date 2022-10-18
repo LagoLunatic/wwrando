@@ -108,7 +108,7 @@ class JPC:
           f.write(texture.data.read())
   
   def import_particles_from_disk(self, input_directory):
-    all_jpa_file_paths = glob.glob(os.path.join(input_directory, "*.jpa"))
+    all_jpa_file_paths = glob.glob(glob.escape(input_directory) + "/*.jpa")
     new_particles = []
     new_textures = []
     new_textures_for_particle_id = OrderedDict()
