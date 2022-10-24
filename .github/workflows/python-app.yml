@@ -42,12 +42,12 @@ jobs:
           USER_INPUT_VERSION=${{ github.event.inputs.version }}
           TXT_VERSION=$(cat version.txt)
           GIT_SHA_SHORT=$(git rev-parse --short=7 ${{ github.sha }})
-          echo "::set-output name=full_version::${USER_INPUT_VERSION:-$TXT_VERSION-$GIT_SHA_SHORT}"
+          echo "full_version=${USER_INPUT_VERSION:-$TXT_VERSION-$GIT_SHA_SHORT}" >> $GITHUB_OUTPUT
         shell: bash
       - name: Set architecture variables
         id: archvars
         run: |
-          echo "::set-output name=bitness::$(python -c "import struct; print(struct.calcsize('P') * 8)")"
+          echo "bitness=$(python -c "import struct; print(struct.calcsize('P') * 8)")" >> $GITHUB_OUTPUT
       - name: Set version
         id: version
         run: |
@@ -104,11 +104,11 @@ jobs:
           USER_INPUT_VERSION=${{ github.event.inputs.version }}
           TXT_VERSION=$(cat version.txt)
           GIT_SHA_SHORT=$(git rev-parse --short=7 ${{ github.sha }})
-          echo "::set-output name=full_version::${USER_INPUT_VERSION:-$TXT_VERSION-$GIT_SHA_SHORT}"
+          echo "full_version=${USER_INPUT_VERSION:-$TXT_VERSION-$GIT_SHA_SHORT}" >> $GITHUB_OUTPUT
       - name: Set architecture variables
         id: archvars
         run: |
-          echo "::set-output name=bitness::$(python3 -c "import struct; print(struct.calcsize('P') * 8)")"
+          echo "bitness=$(python3 -c "import struct; print(struct.calcsize('P') * 8)")" >> $GITHUB_OUTPUT
       - name: Set version
         id: version
         run: |
@@ -159,11 +159,11 @@ jobs:
           USER_INPUT_VERSION=${{ github.event.inputs.version }}
           TXT_VERSION=$(cat version.txt)
           GIT_SHA_SHORT=$(git rev-parse --short=7 ${{ github.sha }})
-          echo "::set-output name=full_version::${USER_INPUT_VERSION:-$TXT_VERSION-$GIT_SHA_SHORT}"
+          echo "full_version=${USER_INPUT_VERSION:-$TXT_VERSION-$GIT_SHA_SHORT}" >> $GITHUB_OUTPUT
       - name: Set architecture variables
         id: archvars
         run: |
-          echo "::set-output name=bitness::$(python -c "import struct; print(struct.calcsize('P') * 8)")"
+          echo "bitness=$(python -c "import struct; print(struct.calcsize('P') * 8)")" >> $GITHUB_OUTPUT
       - name: Set version
         id: version
         run: |
