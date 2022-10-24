@@ -306,6 +306,7 @@ class WWRandomizerWindow(QMainWindow):
     
     if self.no_ui_test:
       self.close()
+      QCoreApplication.quit()
       return
     
     text = """Randomization complete.<br><br>
