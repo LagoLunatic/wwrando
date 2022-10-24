@@ -83,7 +83,7 @@ jobs:
         env:
           RELEASE_KEY: ${{ secrets.RELEASE_KEY }}
       - name: Set up Miniconda with Python 3.10
-        uses: goanpeca/setup-miniconda@v1
+        uses: goanpeca/setup-miniconda@v2
         with:
           python-version: '3.10'
           architecture: ${{ matrix.architecture }}
