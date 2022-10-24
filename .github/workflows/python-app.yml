@@ -47,7 +47,10 @@ jobs:
       - name: Set architecture variables
         id: archvars
         run: |
+          echo "bitness=$(python -c "import struct; print(struct.calcsize('P') * 8)")"
           echo "bitness=$(python -c "import struct; print(struct.calcsize('P') * 8)")" >> $GITHUB_OUTPUT
+          cat $GITHUB_OUTPUT
+          echo ${{ steps.archvars.outputs.bitness }}
       - name: Set version
         id: version
         run: |
