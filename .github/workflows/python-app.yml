@@ -44,10 +44,6 @@ jobs:
           GIT_SHA_SHORT=$(git rev-parse --short=7 ${{ github.sha }})
           echo "full_version=${USER_INPUT_VERSION:-$TXT_VERSION-$GIT_SHA_SHORT}" >> $GITHUB_OUTPUT
         shell: bash
-      - name: Set architecture variables
-        id: archvars
-        run: |
-          echo "bitness=$(python -c "import struct; print(struct.calcsize('P') * 8)")" >> $GITHUB_OUTPUT
       - name: Set version
         id: version
         run: |
@@ -59,8 +55,8 @@ jobs:
       - name: Upload Windows App
         uses: actions/upload-artifact@v3
         with:
-          name: wwrando-${{ steps.vars.outputs.full_version }}-windows-${{ steps.archvars.outputs.bitness }}bit
-          path: dist/release_archive_${{ steps.vars.outputs.full_version }}_${{ steps.archvars.outputs.bitness }}bit/*
+          name: wwrando-${{ steps.vars.outputs.full_version }}-windows-${{ matrix.architecture }}
+          path: dist/release_archive_${{ steps.vars.outputs.full_version }}_${{ matrix.architecture }}/*
 
   macos:
     runs-on: macos-latest
@@ -105,10 +101,6 @@ jobs:
           TXT_VERSION=$(cat version.txt)
           GIT_SHA_SHORT=$(git rev-parse --short=7 ${{ github.sha }})
           echo "full_version=${USER_INPUT_VERSION:-$TXT_VERSION-$GIT_SHA_SHORT}" >> $GITHUB_OUTPUT
-      - name: Set architecture variables
-        id: archvars
-        run: |
-          echo "bitness=$(python3 -c "import struct; print(struct.calcsize('P') * 8)")" >> $GITHUB_OUTPUT
       - name: Set version
         id: version
         run: |
@@ -122,8 +114,8 @@ jobs:
       - name: Upload MacOS App
         uses: actions/upload-artifact@v3
         with:
-          name: wwrando-${{ steps.vars.outputs.full_version }}-macos-${{ steps.archvars.outputs.bitness }}bit
-          path: dist/release_archive_${{ steps.vars.outputs.full_version }}_${{ steps.archvars.outputs.bitness }}bit.zip
+          name: wwrando-${{ steps.vars.outputs.full_version }}-macos-${{ matrix.architecture }}
+          path: dist/release_archive_${{ steps.vars.outputs.full_version }}_${{ matrix.architecture }}.zip
 
   linux:
     runs-on: ubuntu-latest
@@ -161,10 +153,6 @@ jobs:
           TXT_VERSION=$(cat version.txt)
           GIT_SHA_SHORT=$(git rev-parse --short=7 ${{ github.sha }})
           echo "full_version=${USER_INPUT_VERSION:-$TXT_VERSION-$GIT_SHA_SHORT}" >> $GITHUB_OUTPUT
-      - name: Set architecture variables
-        id: archvars
-        run: |
-          echo "bitness=$(python -c "import struct; print(struct.calcsize('P') * 8)")" >> $GITHUB_OUTPUT
       - name: Set version
         id: version
         run: |
@@ -176,5 +164,5 @@ jobs:
       - name: Upload Linux App
         uses: actions/upload-artifact@v3
         with:
-          name: wwrando-${{ steps.vars.outputs.full_version }}-linux-${{ steps.archvars.outputs.bitness }}bit
-          path: dist/release_archive_${{ steps.vars.outputs.full_version }}_${{ steps.archvars.outputs.bitness }}bit/*
+          name: wwrando-${{ steps.vars.outputs.full_version }}-linux-${{ matrix.architecture }}
+          path: dist/release_archive_${{ steps.vars.outputs.full_version }}_${{ matrix.architecture }}/*
