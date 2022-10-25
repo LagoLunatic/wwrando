@@ -33,6 +33,7 @@ In the bug report be sure to include the permalink for the seed you encountered 
 ### Playing on emulator
 
 If you're going to play on emulator, you should use a recent beta or development version of Dolphin, which can be found on this page: https://dolphin-emu.org/download/  
+RetroArch is not recommended and you may experience crashes if you use it.  
 Note that the GameCube boot up animation in Dolphin doesn't work with the randomizer and will cause the game to crash before reaching the main menu. If you have previously set Dolphin up to play that animation you will need to disable it before launching the randomized game by going to Config -> GameCube in Dolphin and checking "Skip Main Menu".  
 
 ## Discord Server
