@@ -381,7 +381,7 @@ class Randomizer:
         tweaks.remove_title_and_ending_videos(self)
       if self.options.get("remove_music"):
         patcher.apply_patch(self, "remove_music")
-      if self.map_select:
+      if self.map_select and not self.options.get("do_not_generate_spoiler_log"):
         patcher.apply_patch(self, "map_select")
       if IS_RUNNING_FROM_SOURCE or "BETA" in VERSION_WITHOUT_COMMIT:
         tweaks.enable_developer_mode(self)
