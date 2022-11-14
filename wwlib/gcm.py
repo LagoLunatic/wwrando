@@ -149,6 +149,54 @@ class GCM:
     
     return num_files_overwritten
   
+  def collect_files_to_replace_and_add_from_disk(self, input_directory):
+    # Creates lists of files in a folder, separated by ones that would replace existing files in the GCM and ones that are new.
+    
+    replace_paths = []
+    add_paths = []
+    for dir_path, subdir_names, file_names in os.walk(input_directory):
+      for file_name in file_names:
+        file_path = os.path.join(dir_path, file_name)
+        relative_file_path = os.path.relpath(file_path, input_directory)
+        relative_file_path = relative_file_path.replace("\\", "/")
+        if relative_file_path.startswith("sys/"):
+          sys_rel_file_path = os.path.relpath(relative_file_path, "sys")
+          if sys_rel_file_path not in ["apploader.img", "bi2.bin", "boot.bin", "fst.bin", "main.dol"]:
+            raise Exception("Tried to add an invalid system file: %s" % relative_file_path)
+        if relative_file_path.lower() in self.files_by_path_lowercase:
+          replace_paths.append(relative_file_path)
+        else:
+          add_paths.append(relative_file_path)
+    
+    return (replace_paths, add_paths)
+  
+  def import_files_from_disk_by_paths(self, input_directory, replace_paths, add_paths):
+    files_done = 0
+    
+    for relative_file_path in replace_paths:
+      file_path = os.path.join(input_directory, relative_file_path)
+      if os.path.isfile(file_path):
+        with open(file_path, "rb") as f:
+          self.changed_files[relative_file_path] = BytesIO(f.read())
+      else:
+        raise Exception("File appears to have been deleted or moved: %s" % relative_file_path)
+      
+      files_done += 1
+      yield(relative_file_path, files_done)
+    
+    for relative_file_path in add_paths:
+      file_path = os.path.join(input_directory, relative_file_path)
+      if os.path.isfile(file_path):
+        with open(file_path, "rb") as f:
+          self.add_new_file(relative_file_path, BytesIO(f.read()))
+      else:
+        raise Exception("File appears to have been deleted or moved: %s" % relative_file_path)
+      
+      files_done += 1
+      yield(relative_file_path, files_done)
+    
+    yield("Done", -1)
+  
   def export_disc_to_folder_with_changed_files(self, output_folder_path, only_changed_files=False):
     files_done = 0
     
