@@ -223,6 +223,16 @@ class GCM:
     else:
       return self.read_file_data(file_path)
   
+  def get_changed_file_size(self, file_path):
+    if file_path in self.changed_files:
+      return data_len(self.changed_files[file_path])
+    else:
+      file_path = file_path.lower()
+      if file_path not in self.files_by_path_lowercase:
+        raise Exception("Could not find file: " + file_path)
+      file_entry = self.files_by_path_lowercase[file_path]
+      return file_entry.file_size
+  
   def add_new_directory(self, dir_path):
     assert dir_path.lower() not in self.dirs_by_path_lowercase
     
