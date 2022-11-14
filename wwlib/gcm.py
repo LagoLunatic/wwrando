@@ -229,6 +229,11 @@ class GCM:
     parent_dir_name = os.path.dirname(dir_path)
     new_dir_name = os.path.basename(dir_path)
     
+    if parent_dir_name == "sys":
+      raise Exception("Cannot add a new directory to the system directory: %s" % dir_path)
+    if not parent_dir_name:
+      raise Exception("Cannot add a new directory to the root directory: %s" % dir_path)
+    
     new_dir = FileEntry()
     new_dir.is_dir = True
     new_dir.name = new_dir_name
