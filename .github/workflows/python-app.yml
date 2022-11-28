@@ -34,11 +34,11 @@ jobs:
       - name: Add override seed key
         if: "${{ github.event.inputs.seed_key != '' }}"
         run: |
-            echo ${{ github.event.inputs.seed_key }} > keys/seed_key.py
+            echo "${{ github.event.inputs.seed_key }}" > keys/seed_key.py
       - name: Add override release key
         if: "${{ github.event.inputs.release_key != '' }}"
         run: |
-            echo ${{ github.event.inputs.release_key }} > keys/build_key.txt
+            echo "${{ github.event.inputs.release_key }}" > keys/build_key.txt
       - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
@@ -59,7 +59,7 @@ jobs:
       - name: Set version
         id: version
         run: |
-          echo ${{ steps.vars.outputs.full_version }} > version.txt
+          echo "${{ steps.vars.outputs.full_version }}" > version.txt
       - name: Build Windows App
         run: python -m PyInstaller --log-level=WARN wwrando.spec
       - name: Bundle Windows App
@@ -93,11 +93,11 @@ jobs:
       - name: Add override seed key
         if: "${{ github.event.inputs.seed_key != '' }}"
         run: |
-            echo ${{ github.event.inputs.seed_key }} > keys/seed_key.py
+            echo "${{ github.event.inputs.seed_key }}" > keys/seed_key.py
       - name: Add override release key
         if: "${{ github.event.inputs.release_key != '' }}"
         run: |
-            echo ${{ github.event.inputs.release_key }} > keys/build_key.txt
+            echo "${{ github.event.inputs.release_key }}" > keys/build_key.txt
       - name: Set up Miniconda with Python 3.10
         uses: conda-incubator/setup-miniconda@v2
         with:
@@ -124,7 +124,7 @@ jobs:
       - name: Set version
         id: version
         run: |
-          echo ${{ steps.vars.outputs.full_version }} > version.txt
+          echo "${{ steps.vars.outputs.full_version }}" > version.txt
       - name: Build MacOS App
         run: python3 -m PyInstaller --log-level=WARN wwrando.spec
         shell: bash -l {0}
@@ -156,11 +156,11 @@ jobs:
       - name: Add override seed key
         if: "${{ github.event.inputs.seed_key != '' }}"
         run: |
-            echo ${{ github.event.inputs.seed_key }} > keys/seed_key.py
+            echo "${{ github.event.inputs.seed_key }}" > keys/seed_key.py
       - name: Add override release key
         if: "${{ github.event.inputs.release_key != '' }}"
         run: |
-            echo ${{ github.event.inputs.release_key }} > keys/build_key.txt
+            echo "${{ github.event.inputs.release_key }}" > keys/build_key.txt
       - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
@@ -184,7 +184,7 @@ jobs:
       - name: Set version
         id: version
         run: |
-          echo ${{ steps.vars.outputs.full_version }} > version.txt
+          echo "${{ steps.vars.outputs.full_version }}" > version.txt
       - name: Build Linux App
         run: python -m PyInstaller --log-level=WARN wwrando.spec
       - name: Bundle Linux App
