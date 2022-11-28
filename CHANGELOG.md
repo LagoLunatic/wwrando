@@ -20,6 +20,7 @@ Changes:
 * Randomization is now faster, taking a few seconds less to run.
 * Added a command line argument `-autoseed` that generates a random seed name instead of loading the last used one from settings.txt.
 * The "seed hash" the randomizer adds to the name entry screen is now also included in log files.
+* Improved the randomizer's custom Hurricane Spin item model.
 
 Bug fixes:
 * Fixed permalinks not being properly decoded in some cases when Swordless mode is enabled and starting gear is customized.
@@ -29,6 +30,7 @@ Bug fixes:
 * Fixed "Disable Custom Items" in the Player Customization tab not also disabling some details of custom item models, like custom Hookshot targetting reticules and custom gem colors for the Master Sword.
 * Fixed "Reset All Settings to Default" not properly resetting the custom model colors if the casual clothes checkbox was checked.
 * Fixed a bug when secret cave entrances were randomized where hints for the item in the Pawprint Isle Wizzrobe Cave would direct you to the island containing the Pawprint Isle Chuchu Cave instead.
+* Fixed a vanilla crash that could rarely occur when an arrow hits two different things at once (e.g. a Big Octo's body and its eye).
 
 Removed:
 * 32-bit builds of the randomizer are no longer offered.
