@@ -9,36 +9,30 @@ on:
     inputs:
       version:
         description: Version
-      release_key:
-        description: Release Key
-      seed_key:
-        description: Seed Key
+      env:
+        description: Environment
+        type: environment
+        required: true
+        default: "Production"
 
 jobs:
   windows:
     runs-on: windows-latest
+    environment: ${{ github.event.inputs.env || "Development" }}
     strategy:
       matrix:
         architecture: [ x64 ]
 
     steps:
       - uses: actions/checkout@v3
-      - name: Add seed key
-        run: echo "$env:SEED_KEY" > keys/seed_key.py
+      - name: Add keys
+        if: "${{ github.event.inputs.key_env != 'release' }}"
+        run: |
+            echo "$env:SEED_KEY" > keys/seed_key.py
+            echo "$env:BUILD_KEY" > keys/build_key.txt
         env:
           SEED_KEY: ${{ secrets.SEED_KEY }}
-      - name: Add release key
-        run: echo "$env:RELEASE_KEY" > keys/build_key.txt
-        env:
-          RELEASE_KEY: ${{ secrets.RELEASE_KEY }}
-      - name: Add override seed key
-        if: "${{ github.event.inputs.seed_key != '' }}"
-        run: |
-            echo "${{ github.event.inputs.seed_key }}" > keys/seed_key.py
-      - name: Add override release key
-        if: "${{ github.event.inputs.release_key != '' }}"
-        run: |
-            echo "${{ github.event.inputs.release_key }}" > keys/build_key.txt
+          BUILD_KEY: ${{ secrets.BUILD_KEY }}
       - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
@@ -72,6 +66,7 @@ jobs:
 
   macos:
     runs-on: macos-latest
+    environment: ${{ github.event.inputs.env || "Development" }}
     strategy:
       matrix:
         architecture: [ x64 ]
@@ -82,22 +77,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Add seed key
-        run: echo "$SEED_KEY" > keys/seed_key.py
+      - name: Add keys
+        if: "${{ github.event.inputs.key_env != 'release' }}"
+        run: |
+            echo "$env:SEED_KEY" > keys/seed_key.py
+            echo "$env:BUILD_KEY" > keys/build_key.txt
         env:
           SEED_KEY: ${{ secrets.SEED_KEY }}
-      - name: Add release key
-        run: echo "$RELEASE_KEY" > keys/build_key.txt
-        env:
-          RELEASE_KEY: ${{ secrets.RELEASE_KEY }}
-      - name: Add override seed key
-        if: "${{ github.event.inputs.seed_key != '' }}"
-        run: |
-            echo "${{ github.event.inputs.seed_key }}" > keys/seed_key.py
-      - name: Add override release key
-        if: "${{ github.event.inputs.release_key != '' }}"
-        run: |
-            echo "${{ github.event.inputs.release_key }}" > keys/build_key.txt
+          BUILD_KEY: ${{ secrets.BUILD_KEY }}
       - name: Set up Miniconda with Python 3.10
         uses: conda-incubator/setup-miniconda@v2
         with:
@@ -139,28 +126,21 @@ jobs:
 
   linux:
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.env || "Development" }}
     strategy:
       matrix:
         architecture: [ x64 ]
 
     steps:
       - uses: actions/checkout@v3
-      - name: Add seed key
-        run: echo "$SEED_KEY" > keys/seed_key.py
+      - name: Add keys
+        if: "${{ github.event.inputs.key_env != 'release' }}"
+        run: |
+            echo "$env:SEED_KEY" > keys/seed_key.py
+            echo "$env:BUILD_KEY" > keys/build_key.txt
         env:
           SEED_KEY: ${{ secrets.SEED_KEY }}
-      - name: Add release key
-        run: echo "$RELEASE_KEY" > keys/build_key.txt
-        env:
-          RELEASE_KEY: ${{ secrets.RELEASE_KEY }}
-      - name: Add override seed key
-        if: "${{ github.event.inputs.seed_key != '' }}"
-        run: |
-            echo "${{ github.event.inputs.seed_key }}" > keys/seed_key.py
-      - name: Add override release key
-        if: "${{ github.event.inputs.release_key != '' }}"
-        run: |
-            echo "${{ github.event.inputs.release_key }}" > keys/build_key.txt
+          BUILD_KEY: ${{ secrets.BUILD_KEY }}
       - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
