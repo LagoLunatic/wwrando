@@ -411,7 +411,7 @@ zero_out_arrow_on_hit_callback:
   li r0, 0
   stw r0, 0x3F4 (r31)
   
-  ; Replace the line we overwrote to jump here (preparing to to update the arrow's state to 2, stopped).
+  ; Replace the line we overwrote to jump here (preparing to update the arrow's state to 2, stopped).
   li r0, 2
   
   ; Return
