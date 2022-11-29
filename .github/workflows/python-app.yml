@@ -18,7 +18,7 @@ on:
 jobs:
   windows:
     runs-on: windows-latest
-    environment: ${{ github.event.inputs.env || "Development" }}
+    environment: ${{ github.event.inputs.env || 'Development' }}
     strategy:
       matrix:
         architecture: [ x64 ]
@@ -26,7 +26,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Add keys
-        if: "${{ github.event.inputs.key_env != 'release' }}"
         run: |
             echo "$env:SEED_KEY" > keys/seed_key.py
             echo "$env:BUILD_KEY" > keys/build_key.txt
@@ -66,7 +65,7 @@ jobs:
 
   macos:
     runs-on: macos-latest
-    environment: ${{ github.event.inputs.env || "Development" }}
+    environment: ${{ github.event.inputs.env || 'Development' }}
     strategy:
       matrix:
         architecture: [ x64 ]
@@ -78,7 +77,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Add keys
-        if: "${{ github.event.inputs.key_env != 'release' }}"
         run: |
             echo "$env:SEED_KEY" > keys/seed_key.py
             echo "$env:BUILD_KEY" > keys/build_key.txt
@@ -126,7 +124,7 @@ jobs:
 
   linux:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.env || "Development" }}
+    environment: ${{ github.event.inputs.env || 'Development' }}
     strategy:
       matrix:
         architecture: [ x64 ]
@@ -134,7 +132,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Add keys
-        if: "${{ github.event.inputs.key_env != 'release' }}"
         run: |
             echo "$env:SEED_KEY" > keys/seed_key.py
             echo "$env:BUILD_KEY" > keys/build_key.txt
