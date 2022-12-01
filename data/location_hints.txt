@@ -1,0 +1,303 @@
+sOutset Island - Orca - Give 10 Knight's Crests:
+  Type: Sometimes
+  Text: giving a fellow swordsman crests of honor
+Outset Island - Great Fairy:
+  Type: Sometimes
+  Text: visiting the Great Fairy atop Outset
+Outset Island - Jabun's Cave:
+  Type: Sometimes
+  Text: entering the cave at the back of Outset
+Outset Island - Dig up Black Soil:
+  Type: Sometimes
+  Text: teaching a pig to dig for treasure
+
+Windfall Island - Chu Jelly Juice Shop - Give 15 Green Chu Jelly:
+  Type: Sometimes
+  Text: giving a potion master green jelly
+Windfall Island - Chu Jelly Juice Shop - Give 15 Blue Chu Jelly:
+  Type: Always
+  Text: giving a potion master blue jelly
+Windfall Island - Mrs. Marie - Give 40 Joy Pendants:
+  Type: Sometimes
+  Text: giving a schoolteacher forty pendants
+Windfall Island - Lenzo's House - Become Lenzo's Assistant:
+  Type: Sometimes
+  Text: undertaking a photography apprenticeship
+Windfall Island - Lenzo's House - Bring Forest Firefly:
+  Type: Sometimes
+  Text: catching a firefly in a bottle
+Windfall Island - Maggie's Father - Give 20 Skull Necklaces:
+  Type: Sometimes
+  Text: giving a wealthy man twenty necklaces
+Windfall Island - Zunari - Stock Exotic Flower in Zunari's Shop:
+  Type: Sometimes
+  Text: stocking Zunari's shop with three flowers
+Windfall Island - Sam - Decorate the Town:
+  Type: Sometimes
+  Text: volunteering to decorate Windfall
+Windfall Island - Mila - Follow the Thief:
+  Type: Sometimes
+  Text: stopping a burglary of Zunari's safe
+Windfall Island - Battlesquid - Under 20 Shots Prize:
+  Type: Always
+  Text: setting a new high score in Battlesquid
+Windfall Island - Pompie and Vera - Secret Meeting Photo:
+  Type: Sometimes
+  Text: showing a photo to two gossiping ladies
+Windfall Island - Kamo - Full Moon Photo:
+  Type: Sometimes
+  Text: snapping a colorful picture of the full moon
+Windfall Island - Minenco - Miss Windfall Photo:
+  Type: Sometimes
+  Text: showing Minenco a photo of herself
+Windfall Island - Linda and Anton:
+  Type: Sometimes
+  Text: uniting a young couple with the power of photography
+
+Dragon Roost Island - Rito Aerie - Give Hoskit 20 Golden Feathers:
+  Type: Sometimes
+  Text: gathering feathers for a charitable lover
+Dragon Roost Island - Fly Across Platforms Around Island:
+  Type: Sometimes
+  Text: gliding around the home of the Rito
+Dragon Roost Island - Rito Aerie - Baito:
+  Type: Sometimes
+  Text: mastering the art of letter throwing
+Dragon Roost Island - Secret Cave:
+  Type: Sometimes
+  Text: besting the cavern at the home of the Rito
+
+Dragon Roost Cavern - Mini-Boss:
+  Type: Sometimes
+  Text: freeing the chest in an arena at the summit of a volcanic cavern
+Dragon Roost Cavern - Under Rope Bridge:
+  Type: Sometimes
+  Text: defeating two Bokoblins near a fragile bridge in a volcanic cavern
+Dragon Roost Cavern - Big Key Chest:
+  Type: Sometimes
+  Text: placing a Magtail on a switch in a volcanic cavern
+
+Forest Haven - On Tree Branch:
+  Type: Sometimes
+  Text: receiving a gift from the Great Deku Tree
+Forest Haven - Small Island Chest:
+  Type: Sometimes
+  Text: gliding to a remote island near a safe haven
+
+Forbidden Woods - Mothula Mini-Boss Room:
+  Type: Sometimes
+  Text: exterminating a flying bug in its arena in a forbidden dungeon
+Forbidden Woods - Chest in Locked Tree Trunk:
+  Type: Sometimes
+  Text: dropping a bomb flower into a tree trunk in a forbidden dungeon
+Forbidden Woods - Big Key Chest:
+  Type: Sometimes
+  Text: hitting five switches at once in a forbidden dungeon
+
+Tower of the Gods - Hop Across Floating Boxes:
+  Type: Sometimes
+  Text: hopping across boxes in a godly tower
+Tower of the Gods - First Chest Guarded by Armos Knights:
+  Type: Sometimes
+  Text: defeating two bomb-hungry foes in a godly tower
+Tower of the Gods - Darknut Mini-Boss Room:
+  Type: Sometimes
+  Text: defeating a sworded foe in its arena in a godly tower
+
+Forsaken Fortress - Phantom Ganon:
+  Type: Sometimes
+  Text: playing tennis with an apparition in an arena at a forsaken fortress
+
+Fire Mountain - Cave - Chest:
+  Type: Sometimes
+  Text: jumping across dried magma to Magtails
+
+Ice Ring Isle - Inner Cave - Chest:
+  Type: Sometimes
+  Text: awakening foes from an icy slumber
+
+Earth Temple - Stalfos Mini-Boss Room:
+  Type: Sometimes
+  Text: defeating three Stalfos in an earthen dungeon's arena
+Earth Temple - Kill All Floormasters in Foggy Room:
+  Type: Sometimes
+  Text: defeating an army of Floormasters in an earthen dungeon
+Earth Temple - Stalfos Crypt Room:
+  Type: Sometimes
+  Text: defeating three Stalfos in a crypt deep in an earthen dungeon
+Earth Temple - Big Key Chest:
+  Type: Sometimes
+  Text: defeating a sworded foe in an earthen dungeon
+
+Wind Temple - Big Key Chest:
+  Type: Sometimes
+  Text: defeating three sworded foes in a windy dungeon
+Wind Temple - Wizzrobe Mini-Boss Room:
+  Type: Sometimes
+  Text: defeating the Wizzrobe mini-boss in a windy dungeon's arena
+Wind Temple - Chest Behind Seven Armos:
+  Type: Sometimes
+  Text: defeating seven mechanical foes near the top of a windy dungeon
+Wind Temple - Kill All Enemies in Tall Basement Room:
+  Type: Sometimes
+  Text: defeating every enemy in the lowest room of a windy dungeon
+
+Ganon's Tower - Maze Chest:
+  Type: Always
+  Text: navigating the labyrinth in Ganon's Tower
+
+Mailbox - Letter from Hoskit's Girlfriend:
+  Type: Sometimes
+  Text: the writings of a grateful girlfriend
+Mailbox - Letter from Baito:
+  Type: Sometimes
+  Text: the writings of a bewildered letter sorter
+Mailbox - Letter from Orca:
+  Type: Sometimes
+  Text: the writings of your hometown swordsman
+Mailbox - Letter from Aryll:
+  Type: Sometimes
+  Text: the writings of your beloved sister
+Mailbox - Letter from Tingle:
+  Type: Sometimes
+  Text: the writings of a rupee-hungry fairy
+
+The Great Sea - Cyclos:
+  Type: Sometimes
+  Text: using a frog in a cyclone as target practice
+The Great Sea - Goron Trading Reward:
+  Type: Always
+  Text: showing a golden statuette to a Goron merchant
+The Great Sea - Withered Trees:
+  Type: Always
+  Text: restoring life to the trees of the Koroks
+The Great Sea - Ghost Ship:
+  Type: Sometimes
+  Text: plundering the haunted ship
+
+Needle Rock Isle - Chest:
+  Type: Sometimes
+  Text: activating a switch upon the needle
+Needle Rock Isle - Cave:
+  Type: Sometimes
+  Text: lighting torches in a cave of sunken ships
+Needle Rock Isle - Golden Gunboat:
+  Type: Sometimes
+  Text: sinking a warship made of gold
+
+Angular Isles - Cave:
+  Type: Sometimes
+  Text: pushing blocks inside an island made of blocks
+
+Boating Course - Cave:
+  Type: Sometimes
+  Text: lighting three switches at the mercy of Miniblins
+
+Stone Watcher Island - Cave:
+  Type: Sometimes
+  Text: besting the trial at the home of the stone watcher
+Stone Watcher Island - Lookout Platform - Destroy the Cannons:
+  Type: Sometimes
+  Text: destroying cannons on the lookout platform at the home of the stone watcher
+
+Islet of Steel - Interior:
+  Type: Sometimes
+  Text: infiltrating a fort made of steel
+Islet of Steel - Lookout Platform - Defeat the Enemies:
+  Type: Sometimes
+  Text: clearing the platform near a fort made of steel
+
+Overlook Island - Cave:
+  Type: Sometimes
+  Text: besting the trial at Overlook
+
+Bird's Peak Rock - Cave:
+  Type: Sometimes
+  Text: playing the song of winds in Bird's Peak Rock
+
+Pawprint Isle - Chuchu Cave - Scale the Wall:
+  Type: Sometimes
+  Text: climbing up pegs in the cave where Chuchus roam
+Pawprint Isle - Wizzrobe Cave:
+  Type: Sometimes
+  Text: defeating Wizzrobes in their cave
+
+Thorned Fairy Island - Great Fairy:
+  Type: Sometimes
+  Text: visiting the domain of a thorned fairy
+
+Eastern Fairy Island - Lookout Platform - Defeat the Cannons and Enemies:
+  Type: Sometimes
+  Text: defending the platform at the domain of an eastern fairy
+
+Tingle Island - Ankle - Reward for All Tingle Statues:
+  Type: Sometimes
+  Text: collecting five glistening fairy figurines
+Tingle Island - Big Octo:
+  Type: Sometimes
+  Text: defeating the sea monstrosity at Tingle's Island
+
+Bomb Island - Cave:
+  Type: Sometimes
+  Text: besting the trial at an island shaped like an explosive
+
+Rock Spire Isle - Southeast Gunboat:
+  Type: Sometimes
+  Text: sinking the warship near the home of the masked shop seller
+
+Shark Island - Cave:
+  Type: Always
+  Text: fending off waves in a crimson cave
+
+Horseshoe Island - Play Golf:
+  Type: Sometimes
+  Text: playing three holes under par
+Horseshoe Island - Cave:
+  Type: Sometimes
+  Text: clearing out Mothulas in an overgrown cave
+
+Flight Control Platform - Bird-Man Contest - First Prize:
+  Type: Sometimes
+  Text: gliding to the Flight Control finish line
+Flight Control Platform - Submarine:
+  Type: Sometimes
+  Text: defeating Wizzrobes in a dimly-lit submarine
+
+Star Island - Cave:
+  Type: Sometimes
+  Text: besting the cavern at an island shaped like a star
+
+Five-Star Isles - Lookout Platform - Destroy the Cannons:
+  Type: Sometimes
+  Text: making quick work of cannons at the remains of five isles
+Five-Star Isles - Submarine:
+  Type: Sometimes
+  Text: defeating Bokoblins in a dimly-lit submarine
+
+Seven-Star Isles - Big Octo:
+  Type: Sometimes
+  Text: defeating the sea monstrosity near the remains of seven isles
+
+Cyclops Reef - Destroy the Cannons and Gunboats:
+  Type: Sometimes
+  Text: ravaging the one-eyed reef
+
+Two-Eye Reef - Destroy the Cannons and Gunboats:
+  Type: Sometimes
+  Text: ravaging the two-eyed reef
+
+Three-Eye Reef - Destroy the Cannons and Gunboats:
+  Type: Sometimes
+  Text: ravaging the three-eyed reef
+
+Four-Eye Reef - Destroy the Cannons and Gunboats:
+  Type: Sometimes
+  Text: ravaging the four-eyed reef
+
+Five-Eye Reef - Destroy the Cannons:
+  Type: Sometimes
+  Text: ravaging the five-eyed reef
+
+Six-Eye Reef - Destroy the Cannons and Gunboats:
+  Type: Sometimes
+  Text: ravaging the six-eyed reef

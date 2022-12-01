@@ -881,8 +881,45 @@
               <property name="title">
                <string>Hint Options</string>
               </property>
-              <layout class="QGridLayout" name="gridLayout_9">
-               <item row="0" column="0">
+              <layout class="QGridLayout" name="gridLayout_7">
+               <item row="5" column="2">
+                <layout class="QHBoxLayout" name="horizontalLayout_17">
+                 <item>
+                  <widget class="QLabel" name="label_for_num_location_hints">
+                   <property name="text">
+                    <string>Location Hints</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="num_location_hints">
+                   <property name="correctionMode">
+                    <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+                   </property>
+                   <property name="minimum">
+                    <number>0</number>
+                   </property>
+                   <property name="maximum">
+                    <number>15</number>
+                   </property>
+                   <property name="value">
+                    <number>0</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="widget_8" native="true"/>
+                 </item>
+                </layout>
+               </item>
+               <item row="4" column="2">
+                <widget class="QCheckBox" name="korl_hints">
+                 <property name="text">
+                  <string>Place Hints on King of Red Lions</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
                 <widget class="QCheckBox" name="fishmen_hints">
                  <property name="text">
                   <string>Place Hints on Fishmen</string>
@@ -892,7 +929,37 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
+               <item row="5" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout_16">
+                 <item>
+                  <widget class="QLabel" name="label_for_num_barren_hints">
+                   <property name="text">
+                    <string>Barren Hints</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="num_barren_hints">
+                   <property name="correctionMode">
+                    <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+                   </property>
+                   <property name="minimum">
+                    <number>0</number>
+                   </property>
+                   <property name="maximum">
+                    <number>15</number>
+                   </property>
+                   <property name="value">
+                    <number>0</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="widget_7" native="true"/>
+                 </item>
+                </layout>
+               </item>
+               <item row="4" column="1">
                 <widget class="QCheckBox" name="hoho_hints">
                  <property name="text">
                   <string>Place Hints on Old Man Ho Ho</string>
@@ -902,28 +969,28 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="3">
-                <layout class="QHBoxLayout" name="horizontalLayout_9">
+               <item row="5" column="0">
+                <layout class="QHBoxLayout" name="horizontalLayout_15">
                  <item>
-                  <widget class="QLabel" name="label_for_num_hints">
+                  <widget class="QLabel" name="label_for_num_path_hints">
                    <property name="text">
-                    <string>Hint Count</string>
+                    <string>Path Hints</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QSpinBox" name="num_hints">
+                  <widget class="QSpinBox" name="num_path_hints">
                    <property name="correctionMode">
                     <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
                    </property>
                    <property name="minimum">
-                    <number>1</number>
+                    <number>0</number>
                    </property>
                    <property name="maximum">
-                    <number>32</number>
+                    <number>15</number>
                    </property>
                    <property name="value">
-                    <number>20</number>
+                    <number>0</number>
                    </property>
                   </widget>
                  </item>
@@ -932,10 +999,47 @@
                  </item>
                 </layout>
                </item>
-               <item row="0" column="2">
-                <widget class="QCheckBox" name="korl_hints">
+               <item row="5" column="3">
+                <layout class="QHBoxLayout" name="horizontalLayout_9">
+                 <item>
+                  <widget class="QLabel" name="label_for_num_item_hints">
+                   <property name="text">
+                    <string>Item Hints</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="num_item_hints">
+                   <property name="correctionMode">
+                    <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+                   </property>
+                   <property name="minimum">
+                    <number>0</number>
+                   </property>
+                   <property name="maximum">
+                    <number>15</number>
+                   </property>
+                   <property name="value">
+                    <number>15</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="widget_9" native="true"/>
+                 </item>
+                </layout>
+               </item>
+               <item row="6" column="1">
+                <widget class="QCheckBox" name="use_always_hints">
                  <property name="text">
-                  <string>Place Hints on King of Red Lions</string>
+                  <string>Use Always Hints</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0">
+                <widget class="QCheckBox" name="clearer_hints">
+                 <property name="text">
+                  <string>Clearer Hints</string>
                  </property>
                 </widget>
                </item>
@@ -949,7 +1053,7 @@
               </property>
               <layout class="QGridLayout" name="gridLayout_8">
                <item row="0" column="3">
-                <widget class="QWidget" name="widget_7" native="true"/>
+                <widget class="QWidget" name="widget_11" native="true"/>
                </item>
                <item row="0" column="0">
                 <widget class="QCheckBox" name="do_not_generate_spoiler_log">
@@ -959,10 +1063,10 @@
                 </widget>
                </item>
                <item row="0" column="2">
-                <widget class="QWidget" name="widget_8" native="true"/>
+                <widget class="QWidget" name="widget_10" native="true"/>
                </item>
                <item row="0" column="4">
-                <widget class="QWidget" name="widget_9" native="true"/>
+                <widget class="QWidget" name="widget_12" native="true"/>
                </item>
               </layout>
              </widget>

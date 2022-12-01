@@ -125,8 +125,28 @@ OPTIONS = OrderedDict([
     "Places hints on the King of Red Lions. Talk to the King of Red Lions to get hints.",
   ),
   (
-    "num_hints",
-    "Determines the number of hints that will be placed in the game. This option does not affect Wallet mail, Big Octo Great Fairy, or Savage Labyrinth hints.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+    "num_path_hints",
+    "Determines the number of path hints that will be placed in the game, distributed among the selected hint placement options.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+  ),
+  (
+    "num_barren_hints",
+    "Determines the number of barren hints that will be placed in the game, distributed among the selected hint placement options.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+  ),
+  (
+    "num_location_hints",
+    "Determines the number of location hints that will be placed in the game, distributed among the selected hint placement options.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+  ),
+  (
+    "num_item_hints",
+    "Determines the number of item hints that will be placed in the game, distributed among the selected hint placement options.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+  ),
+  (
+    "clearer_hints",
+    "When this option is selected, location and item hints will use the standard check or item name, instead of using cryptic hints.",
+  ),
+  (
+    "use_always_hints",
+    "When the number of location hints is nonzero, certain locations that will always be hinted at will take precedence over normal location hints.",
   ),
   
   
