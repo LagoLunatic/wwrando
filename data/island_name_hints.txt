@@ -96,3 +96,11 @@ Boating Course:
   the island with a boat race
 Five-Star Isles:
   the remains of five isles
+Mailbox:
+  the mail
+The Great Sea:
+  a location on the open seas
+Hyrule:
+  the submerged castle
+Ganon's Tower:
+  the stronghold of the evil king
