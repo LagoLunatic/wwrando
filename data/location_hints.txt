@@ -1,4 +1,4 @@
-sOutset Island - Orca - Give 10 Knight's Crests:
+Outset Island - Orca - Give 10 Knight's Crests:
   Type: Sometimes
   Text: giving a fellow swordsman crests of honor
 Outset Island - Great Fairy:

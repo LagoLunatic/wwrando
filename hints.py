@@ -122,6 +122,10 @@ class Hints:
     with open(os.path.join(DATA_PATH, "location_hints.txt"), "r") as f:
       self.location_hints = yaml.safe_load(f)
     
+    # Validate location names in location hints file.
+    for location_name in self.location_hints:
+      assert location_name in rando.logic.item_locations
+    
     # Define a dictionary mapping charts to their sunken treasure.
     # This will be used to check whether or not the chart leads to a junk item. If so, the chart itself can be
     # considered junk.
