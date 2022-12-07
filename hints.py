@@ -104,15 +104,15 @@ class Hints:
     self.logic = rando.logic
     self.options = rando.options
     
-    # Define constants for hint distribution.
-    self.MAX_PATH_HINTS = int(self.options.get("num_path_hints", 0))
-    self.MAX_BARREN_HINTS = int(self.options.get("num_barren_hints", 0))
-    self.MAX_LOCATION_HINTS = int(self.options.get("num_location_hints", 0))
-    self.MAX_ITEM_HINTS = int(self.options.get("num_item_hints", 0))
-    self.TOTAL_NUM_HINTS = self.MAX_PATH_HINTS + self.MAX_BARREN_HINTS + self.MAX_LOCATION_HINTS + self.MAX_ITEM_HINTS
+    # Define instance variable shortcuts for hint distribution options.
+    self.max_path_hints = int(self.options.get("num_path_hints", 0))
+    self.max_barren_hints = int(self.options.get("num_barren_hints", 0))
+    self.max_location_hints = int(self.options.get("num_location_hints", 0))
+    self.max_item_hints = int(self.options.get("num_item_hints", 0))
+    self.total_num_hints = self.max_path_hints + self.max_barren_hints + self.max_location_hints + self.max_item_hints
     
-    self.CLEARER_HINTS = self.options.get("clearer_hints")
-    self.USE_ALWAYS_HINTS = self.options.get("use_always_hints")
+    self.clearer_hints = self.options.get("clearer_hints")
+    self.use_always_hints = self.options.get("use_always_hints")
     
     # Import dictionaries used to build hints from files.
     with open(os.path.join(DATA_PATH, "progress_item_hints.txt"), "r") as f:
@@ -482,7 +482,7 @@ class Hints:
     # effectively the same hint. However, if there's a Blue Chu Jelly hint, a Windfall barren hint would still be
     # helpful since Green Chu Jelly is at least another check on Windfall.
     always_hint_locations = []
-    if self.USE_ALWAYS_HINTS:
+    if self.use_always_hints:
       always_hint_locations = list(filter(
         lambda location_name: location_name in self.location_hints
         and self.location_hints[location_name]["Type"] == "Always",
@@ -680,7 +680,7 @@ class Hints:
     hintable_locations = list(filter(lambda loc: self.location_hints[loc]["Type"] == "Sometimes", hintable_locations))
     
     # If we're not using always hints, consider them as sometimes hints instead.
-    if not self.USE_ALWAYS_HINTS:
+    if not self.use_always_hints:
       hintable_locations += always_hintable_locations
       always_hintable_locations = []
     
@@ -726,7 +726,7 @@ class Hints:
     
     # Apply cryptic text to the location name, unless the clearer hints option is selected.
     item_name = self.logic.done_item_locations[location_name]
-    if not self.CLEARER_HINTS:
+    if not self.clearer_hints:
       location_name = self.location_hints[location_name]["Text"]
     
     return Hint(HintType.LOCATION, location_name, item_name)
@@ -801,11 +801,11 @@ class Hints:
     # small keys). Basically, we remove the item from that location and see if the path goal is still achievable. If
     # not, then we consider the item as required.
     required_locations_for_paths = {}
-    if self.MAX_PATH_HINTS > 0:
+    if self.max_path_hints > 0:
       required_locations_for_paths = self.get_required_locations_for_paths()
     
     # Generate path hints.
-    # We hint at max `self.MAX_PATH_HINTS` zones at random. We start by hinted each of the race mode dungeons once.
+    # We hint at max `self.max_path_hints` zones at random. We start by hinted each of the race mode dungeons once.
     # After that, we repeatedly select a path goal at random and use that to form another hint. Zones are weighted by
     # the number of required locations at that zone. The more required locations, the more likely that zone will be
     # chosen.
@@ -814,7 +814,7 @@ class Hints:
     
     # If race mode is on, then remove items that are hinted on the path to a race mode dungeon from paths to Hyrule and
     # Ganondorf. This way, the path to the race mode dungeon takes hint priority for that item.
-    if self.MAX_PATH_HINTS > 0:
+    if self.max_path_hints > 0:
       for dungeon_name in dungeon_paths:
         for item_tuple in required_locations_for_paths[dungeon_name]:
           if item_tuple in required_locations_for_paths["Hyrule"]:
@@ -824,7 +824,7 @@ class Hints:
     
     # Likewise, remove items that are hinted on the path to Hyrule from the path to Ganondorf. This way, the path to
     # Hyrule takes hint priority over the path to Ganondorf for that item.
-    if self.MAX_PATH_HINTS > 0:
+    if self.max_path_hints > 0:
       for item_tuple in required_locations_for_paths["Hyrule"]:
         if item_tuple in required_locations_for_paths["Ganon's Tower"]:
           required_locations_for_paths["Ganon's Tower"].remove(item_tuple)
@@ -838,7 +838,7 @@ class Hints:
       if len(required_locations_for_paths) == 0:
         break
       
-      if len(hinted_path_zones) < self.MAX_PATH_HINTS:
+      if len(hinted_path_zones) < self.max_path_hints:
         path_hint, location_name = self.get_path_hint(required_locations_for_paths[dungeon_name], previously_hinted_locations, dungeon_name)
         
         # Unable to generate a path hint for the dungeon, so remove path goal and move on to the next.
@@ -847,11 +847,11 @@ class Hints:
           continue
         
         # Remove locations that are hinted in always hints from being hinted path.
-        if not self.USE_ALWAYS_HINTS or (location_name not in self.location_hints or self.location_hints[location_name]["Type"] != "Always"):
+        if not self.use_always_hints or (location_name not in self.location_hints or self.location_hints[location_name]["Type"] != "Always"):
           hinted_path_zones.append(path_hint)
           previously_hinted_locations.append(location_name)
     
-    while len(required_locations_for_paths) > 0 and len(hinted_path_zones) < self.MAX_PATH_HINTS:
+    while len(required_locations_for_paths) > 0 and len(hinted_path_zones) < self.max_path_hints:
       path_name = self.rando.rng.choice(list(required_locations_for_paths.keys()))
       path_hint, location_name = self.get_path_hint(required_locations_for_paths[path_name], previously_hinted_locations, path_name)
       
@@ -860,16 +860,16 @@ class Hints:
         del required_locations_for_paths[path_name]
       else:
         # Remove locations that are hinted in always hints from being hinted path.
-        if not self.USE_ALWAYS_HINTS or (location_name not in self.location_hints or self.location_hints[location_name]["Type"] != "Always"):
+        if not self.use_always_hints or (location_name not in self.location_hints or self.location_hints[location_name]["Type"] != "Always"):
           hinted_path_zones.append(path_hint)
           previously_hinted_locations.append(location_name)
     
     # Generate barren hints.
-    # We select at most `self.MAX_BARREN_HINTS` zones at random to hint as barren. Barren zones are weighted by the
+    # We select at most `self.max_barren_hints` zones at random to hint as barren. Barren zones are weighted by the
     # square root of the number of locations at that zone.
     unhinted_barren_zones = self.get_barren_zones(progress_locations)
     hinted_barren_zones = []
-    while len(unhinted_barren_zones) > 0 and len(hinted_barren_zones) < self.MAX_BARREN_HINTS:
+    while len(unhinted_barren_zones) > 0 and len(hinted_barren_zones) < self.max_barren_hints:
       # Weigh each barren zone by the square root of the number of locations there.
       zone_weights = [sqrt(location_counter[zone]) for zone in unhinted_barren_zones]
       
@@ -878,16 +878,16 @@ class Hints:
         hinted_barren_zones.append(barren_hint)
     
     # Generate item hints.
-    # We select at most `self.MAX_ITEM_HINTS` items at random to hint at. We do not want to hint at items already
+    # We select at most `self.max_item_hints` items at random to hint at. We do not want to hint at items already
     # covered by the path hints, nor do we want to hint at items in barren-hinted locations.
     hintable_locations = self.get_legal_item_hints(progress_locations, hinted_barren_zones, previously_hinted_locations)
     
     hinted_item_locations = []
-    while len(hintable_locations) > 0 and len(hinted_item_locations) < self.MAX_ITEM_HINTS:
+    while len(hintable_locations) > 0 and len(hinted_item_locations) < self.max_item_hints:
       item_hint, location_name = self.get_item_hint(hintable_locations)
       
       # Apply cryptic text, unless the clearer hints option is selected.
-      if not self.CLEARER_HINTS:
+      if not self.clearer_hints:
         item_hint.info1 = self.progress_item_hints[Hints.get_hint_item_name_static(item_hint.info1)]
         item_hint.info2 = self.island_name_hints[item_hint.info2]
       
@@ -895,11 +895,11 @@ class Hints:
       previously_hinted_locations.append(location_name)
     
     # Generate location hints.
-    # We try to generate location hints until we get to `self.TOTAL_NUM_HINTS` total hints, but if there are not enough
+    # We try to generate location hints until we get to `self.total_num_hints` total hints, but if there are not enough
     # valid hintable locations, then we have no choice but to return less than the desired amount of hints.
     always_hintable_locations, sometimes_hintable_locations = self.get_legal_location_hints(progress_locations, hinted_barren_zones, previously_hinted_locations)
     hinted_locations = []
-    remaining_hints_desired = self.TOTAL_NUM_HINTS - len(hinted_path_zones) - len(hinted_barren_zones) - len(hinted_item_locations)
+    remaining_hints_desired = self.total_num_hints - len(hinted_path_zones) - len(hinted_barren_zones) - len(hinted_item_locations)
     
     # Start by exhausting the list of always hints.
     while len(always_hintable_locations) > 0 and remaining_hints_desired > 0:

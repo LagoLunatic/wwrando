@@ -898,7 +898,7 @@ def randomize_and_update_hints(self):
       hints_per_placement[option] = []
   
   hint_placement_options = list(hints_per_placement.keys())
-  if hints_manager.TOTAL_NUM_HINTS == 0 or len(hint_placement_options) == 0:
+  if hints_manager.total_num_hints == 0 or len(hint_placement_options) == 0:
     return
   
   # Generate the hints that will be distributed over the hint placement options
