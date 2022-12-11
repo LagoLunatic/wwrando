@@ -1,0 +1,47 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug WWRando",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/wwrando.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-exportfolder",
+                "-mapselect",
+            ],
+        },
+        {
+            "name": "Debug WWRando (No UI)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/wwrando.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-exportfolder",
+                "-mapselect",
+                "-noui",
+            ],
+        },
+        {
+            "name": "Debug WWRando (No UI) (No item rando)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/wwrando.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-exportfolder",
+                "-mapselect",
+                "-noui",
+                "-noitemrando",
+            ],
+        }
+    ]
+}

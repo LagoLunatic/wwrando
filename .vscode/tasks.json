@@ -1,0 +1,19 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Assemble Patches",
+            "type": "shell",
+            "command": "python ${workspaceFolder}/asm/assemble.py",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build UI",
+            "type": "shell",
+            "command": "python ${workspaceFolder}/wwr_ui/build_ui.py",
+            "problemMatcher": []
+        }
+    ]
+}

@@ -12,7 +12,9 @@ import yaml
 import traceback
 import sys
 
-sys.path.insert(0, "../")
+asm_dir = os.path.dirname(__file__)
+
+sys.path.insert(0, asm_dir + "/../")
 from fs_helpers import *
 from elf import *
 
@@ -56,7 +58,7 @@ print()
 custom_symbols = OrderedDict()
 custom_symbols["sys/main.dol"] = OrderedDict()
 
-with open("free_space_start_offsets.txt", "r") as f:
+with open(asm_dir + "/free_space_start_offsets.txt", "r") as f:
   free_space_start_offsets = yaml.safe_load(f)
 
 next_free_space_offsets = {}
@@ -69,7 +71,7 @@ def parse_includes(asm):
     include_match = re.search(r"^\s*\.include\s+\"([^\"]+)\"\s*$", line, re.IGNORECASE)
     if include_match:
       relative_file_path = include_match.group(1)
-      file_path = os.path.join(".", relative_file_path)
+      file_path = os.path.join(asm_dir, relative_file_path)
       
       file_ext = os.path.splitext(file_path)[1]
       if file_ext == ".asm":
@@ -218,16 +220,16 @@ def try_apply_local_relocation(bin_name, elf_relocation, elf_symbol):
 
 try:
   # First delete any old patch diffs.
-  for diff_path in glob.glob('./patch_diffs/*_diff.txt'):
+  for diff_path in glob.glob(glob.escape(asm_dir) + "/asm/patch_diffs/*_diff.txt"):
     os.remove(diff_path)
   
-  with open("linker.ld") as f:
+  with open(asm_dir + "/linker.ld") as f:
     linker_script = f.read()
   
-  with open("asm_macros.asm") as f:
+  with open(asm_dir + "/asm_macros.asm") as f:
     asm_macros = f.read()
   
-  all_asm_file_paths = glob.glob('./patches/*.asm')
+  all_asm_file_paths = glob.glob(glob.escape(asm_dir) + "/patches/*.asm")
   all_asm_files = [os.path.basename(asm_path) for asm_path in all_asm_file_paths]
   all_asm_files.sort()
   # Always put the custom data and funcs first so their custom symbols are defined for all the other patches to use.
@@ -241,7 +243,7 @@ try:
   next_free_space_id_for_file = {}
   for patch_filename in all_asm_files:
     print("Assembling " + patch_filename)
-    patch_path = os.path.join(".", "patches", patch_filename)
+    patch_path = os.path.join(asm_dir, "patches", patch_filename)
     with open(patch_path) as f:
       asm = f.read()
     
@@ -518,7 +520,7 @@ try:
         if relocations:
           diffs[file_path][org_offset]["Relocations"] = relocations
     
-    diff_path = os.path.join(".", "patch_diffs", patch_name + "_diff.txt")
+    diff_path = os.path.join(asm_dir, "patch_diffs", patch_name + "_diff.txt")
     with open(diff_path, "w") as f:
       f.write(yaml.dump(diffs, Dumper=yaml.Dumper, default_flow_style=False))
   
@@ -531,7 +533,7 @@ try:
     
     output_custom_symbols[file_path] = custom_symbols_for_file
   
-  with open("./custom_symbols.txt", "w") as f:
+  with open(asm_dir + "/custom_symbols.txt", "w") as f:
     f.write(yaml.dump(output_custom_symbols, Dumper=yaml.Dumper, default_flow_style=False))
 except Exception as e:
   stack_trace = traceback.format_exc()
