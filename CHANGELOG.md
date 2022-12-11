@@ -5,7 +5,7 @@ New features:
 * The randomizer now officially supports Mac and Linux and offers release builds for those platforms.
 * Added a "Chest Type Matches Contents" option that changes the appearance of each treasure chest depending on the importance of the item randomized into the chest (progress items, dungeon keys, and non-progress items).
 * In addition to fishmen giving hints as to which island progress items are on, Old Man Ho Ho and King of Red Lions can now also give hints.
-* The number progress item hints is now customizable in the randomizer's settings, as is where hints will appear.
+* The number of progress item hints is now customizable in the randomizer's settings, as is where hints will appear.
 * You can now choose to randomize the following items instead of always starting the game with them: Ballad of Gales, Song of Passing, Magic Meter.
 * Added a button to the top of the Player Customization tab to automatically install a custom player model or pack of multiple custom player models from a .zip file.
 * Added an optional tweak to invert the X axis of the compass on the sea so that it works more intuitively.

@@ -395,7 +395,7 @@ stop_sub_bgm_when_unloading_stage:
 ; Zero out the arrow actor's on-hit callback function when it enters the stopped state.
 ; This is to fix a vanilla crash that could happen if the arrow hit two different actors at the same time.
 ; The arrow actor keeps track of both the proc ID of the actor it hit and which joint index within that actor it hit.
-; The joint index variable is only updating while the arrow is moving, while the proc ID is updated by the callback function.
+; The joint index variable is only updated while the arrow is moving, while the proc ID is updated by the callback function.
 ; If the arrow hit something with more joints first (e.g. Big Octo) and then something with fewer joints (e.g. Big Octo eye), the joint index could wind up higher than the size of the joints array for the second actor.
 ; So when the actor tries to stop on that joint, it would wind up copying invalid joint data as matrix data.
 ; Invalid data can sometimes be NaN floats, and storing those as the arrow actor's position would cause an assertion error as positions are supposed to be valid numbers.
