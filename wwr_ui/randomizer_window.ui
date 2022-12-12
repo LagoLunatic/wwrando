@@ -913,6 +913,9 @@
                  </item>
                  <item>
                   <widget class="QSpinBox" name="num_hints">
+                   <property name="correctionMode">
+                    <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+                   </property>
                    <property name="minimum">
                     <number>1</number>
                    </property>
