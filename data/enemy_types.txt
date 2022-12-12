@@ -10,7 +10,7 @@
   Allow randomizing to: True
   Placement categories: [Ground, Pot]
   Memory used by first one: 53280
-  Memory used by subequent ones: 23088
+  Memory used by subsequent ones: 23088
   Enable spawn switch param name: spawn_condition_switch
   Death switch param name: disable_spawn_on_death_switch
   Path param name: path_index
@@ -29,7 +29,7 @@
   Allow randomizing to: True
   Placement categories: [Ground, Pot, Ceiling]
   Memory used by first one: 31904
-  Memory used by subequent ones: 18496
+  Memory used by subsequent ones: 18496
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Path param name: null
@@ -48,7 +48,7 @@
   Allow randomizing to: True
   Placement categories: [Ground, Pot, Ceiling]
   Memory used by first one: 31904
-  Memory used by subequent ones: 18496
+  Memory used by subsequent ones: 18496
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Path param name: null
@@ -67,7 +67,7 @@
   Allow randomizing to: True
   Placement categories: [Ground, Pot, Ceiling]
   Memory used by first one: 31904
-  Memory used by subequent ones: 18496
+  Memory used by subsequent ones: 18496
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Path param name: null
@@ -86,7 +86,7 @@
   Allow randomizing to: False # Randomizing to them would allow you to get Blue Chu Jelly more easily than in vanilla.
   Placement categories: [Ground, Pot, Ceiling]
   Memory used by first one: 31904
-  Memory used by subequent ones: 18496
+  Memory used by subsequent ones: 18496
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Path param name: null
@@ -105,7 +105,7 @@
   Allow randomizing to: False # Can't be randomized since there would be no light ray to petrify it.
   Placement categories: [Ground, Pot, Ceiling]
   Memory used by first one: 31904
-  Memory used by subequent ones: 18496
+  Memory used by subsequent ones: 18496
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Path param name: null
@@ -124,7 +124,7 @@
   Allow randomizing to: True
   Placement categories: [Air, Ground, Ceiling]
   Memory used by first one: 49120
-  Memory used by subequent ones: 41024
+  Memory used by subsequent ones: 41024
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Path param name: path_index
@@ -143,7 +143,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 105088
-  Memory used by subequent ones: 66400
+  Memory used by subsequent ones: 66400
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: disable_spawn_on_death_switch
   Path param name: path_index
@@ -162,7 +162,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 60512
-  Memory used by subequent ones: 36112
+  Memory used by subsequent ones: 36112
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: disable_spawn_on_death_switch
   Path param name: path_index
@@ -181,7 +181,7 @@
   Allow randomizing to: True
   Placement categories: [Air, Ceiling]
   Memory used by first one: 14688
-  Memory used by subequent ones: 10208
+  Memory used by subsequent ones: 10208
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: disable_spawn_on_death_switch
   Path param name: null
@@ -200,7 +200,7 @@
   Allow randomizing to: True
   Placement categories: [Sea]
   Memory used by first one: 23872
-  Memory used by subequent ones: 16096
+  Memory used by subsequent ones: 16096
   Enable spawn switch param name: null
   Death switch param name: null
   Path param name: null
@@ -219,7 +219,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 13152
-  Memory used by subequent ones: 7456
+  Memory used by subsequent ones: 7456
   Enable spawn switch param name: spawn_condition_switch
   Death switch param name: null
   Path param name: null
@@ -238,7 +238,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 11840
-  Memory used by subequent ones: 6976
+  Memory used by subsequent ones: 6976
   Enable spawn switch param name: spawn_condition_switch
   Death switch param name: null
   Path param name: null
@@ -257,7 +257,7 @@
   Allow randomizing to: False
   Placement categories: [Ground]
   Memory used by first one: 11840
-  Memory used by subequent ones: 6976
+  Memory used by subsequent ones: 6976
   Enable spawn switch param name: null
   Death switch param name: null
   Path param name: null
@@ -276,7 +276,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 7744
-  Memory used by subequent ones: 6976
+  Memory used by subsequent ones: 6976
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Path param name: null
@@ -296,7 +296,7 @@
   Allow randomizing to: True
   Placement categories: [Air, Ceiling]
   Memory used by first one: 15744
-  Memory used by subequent ones: 6016
+  Memory used by subsequent ones: 6016
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Path param name: path_index
@@ -315,7 +315,7 @@
   Allow randomizing to: False # We will place these, but just by randomizing the parameters on regular Keese instead.
   Placement categories: [Air, Ceiling]
   Memory used by first one: 17376
-  Memory used by subequent ones: 7648
+  Memory used by subsequent ones: 7648
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Path param name: path_index
@@ -334,7 +334,7 @@
   Allow randomizing to: True
   Placement categories: [Water]
   Memory used by first one: 28640
-  Memory used by subequent ones: 11936
+  Memory used by subsequent ones: 11936
   Enable spawn switch param name: null
   Death switch param name: null
   Path param name: null
@@ -353,7 +353,7 @@
   Allow randomizing to: True
   Placement categories: [Sea]
   Memory used by first one: 34784
-  Memory used by subequent ones: 18080
+  Memory used by subsequent ones: 18080
   Enable spawn switch param name: null
   Death switch param name: null
   Path param name: null
@@ -372,7 +372,7 @@
   Allow randomizing to: True
   Placement categories: [Sea]
   Memory used by first one: 112784
-  Memory used by subequent ones: 93888
+  Memory used by subsequent ones: 93888
   Enable spawn switch param name: null
   Death switch param name: null
   Path param name: null
@@ -391,7 +391,7 @@
   Allow randomizing to: True
   Placement categories: [Ground, StationaryAir]
   Memory used by first one: 65712 # 25440 without the fireballs being spawned
-  Memory used by subequent ones: 54224 # 13536 without the fireballs being spawned
+  Memory used by subsequent ones: 54224 # 13536 without the fireballs being spawned
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: disable_spawn_on_death_switch
   Path param name: path_index
@@ -410,7 +410,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 14272
-  Memory used by subequent ones: 9664
+  Memory used by subsequent ones: 9664
   Enable spawn switch param name: enable_spawn_switch # Also needs dont_check_enable_spawn_switch to be set to 0
   Death switch param name: disable_spawn_on_death_switch # Param added by the randomizer
   Path param name: null
@@ -429,7 +429,7 @@
   Allow randomizing to: False # We will place these, but just by randomizing the parameters on regular ReDeads instead.
   Placement categories: [Ground]
   Memory used by first one: 14272
-  Memory used by subequent ones: 9664
+  Memory used by subsequent ones: 9664
   Enable spawn switch param name: enable_spawn_switch # Also needs dont_check_enable_spawn_switch to be set to 0
   Death switch param name: disable_spawn_on_death_switch # Param added by the randomizer
   Path param name: null
@@ -448,7 +448,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 59712
-  Memory used by subequent ones: 39984
+  Memory used by subsequent ones: 39984
   Enable spawn switch param name: null
   Death switch param name: null
   Path param name: path_index
@@ -467,7 +467,7 @@
   Allow randomizing to: True
   Placement categories: [Ground, Pot]
   Memory used by first one: 44896 # For 10 Morths.
-  Memory used by subequent ones: 43520 # For 10 Morths.
+  Memory used by subsequent ones: 43520 # For 10 Morths.
   Enable spawn switch param name: null
   Death switch param name: null
   Path param name: null
@@ -487,7 +487,7 @@
   Allow randomizing to: True
   Placement categories: [Ground, Pot]
   Memory used by first one: 44896 # For 10 Morths.
-  Memory used by subequent ones: 43520 # For 10 Morths.
+  Memory used by subsequent ones: 43520 # For 10 Morths.
   Enable spawn switch param name: null
   Death switch param name: null
   Path param name: null
@@ -507,7 +507,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 7904
-  Memory used by subequent ones: 5312
+  Memory used by subsequent ones: 5312
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null # TODO irregular_switch acts as this for single miniblins, but it's buggy for permanent switches. perhaps we could make use of it, but replace the switch that's set with a temporary switch...?
   Path param name: null
@@ -526,7 +526,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 24512
-  Memory used by subequent ones: 12960
+  Memory used by subsequent ones: 12960
   Enable spawn switch param name: null
   Death switch param name: null
   Path param name: null
@@ -545,7 +545,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 26944
-  Memory used by subequent ones: 15392
+  Memory used by subsequent ones: 15392
   Enable spawn switch param name: null
   Death switch param name: null
   Path param name: null
@@ -564,7 +564,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 99136 # For 5 rats, also includes the rat shopkeeper.
-  Memory used by subequent ones: 79040 # For 5 rats, also includes the rat shopkeeper.
+  Memory used by subsequent ones: 79040 # For 5 rats, also includes the rat shopkeeper.
   Enable spawn switch param name: null
   Death switch param name: null
   Path param name: null
@@ -583,7 +583,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 92128 # For 5 Bombchus.
-  Memory used by subequent ones: 78784 # For 5 Bombchus.
+  Memory used by subsequent ones: 78784 # For 5 Bombchus.
   Enable spawn switch param name: null
   Death switch param name: null
   Path param name: null
@@ -602,7 +602,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 92128 # For 5 rats/Bombchus.
-  Memory used by subequent ones: 78784 # For 5 rats/Bombchus.
+  Memory used by subsequent ones: 78784 # For 5 rats/Bombchus.
   Enable spawn switch param name: null
   Death switch param name: null
   Path param name: null
@@ -621,7 +621,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 93536
-  Memory used by subequent ones: 42064
+  Memory used by subsequent ones: 42064
   Enable spawn switch param name: ambush_switch # Also needs type to be set to 1 for underground (or 2/3 for in a coffin)
   Death switch param name: disable_spawn_on_death_switch
   Path param name: null
@@ -640,7 +640,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 109296
-  Memory used by subequent ones: 73920
+  Memory used by subsequent ones: 73920
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: disable_spawn_on_death_switch
   Path param name: path_index
@@ -659,7 +659,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 20288
-  Memory used by subequent ones: 12704
+  Memory used by subsequent ones: 12704
   Enable spawn switch param name: null
   Death switch param name: null
   Path param name: null
@@ -678,7 +678,7 @@
   Allow randomizing to: False
   Placement categories: [Ground]
   Memory used by first one: 20288
-  Memory used by subequent ones: 12704
+  Memory used by subsequent ones: 12704
   Enable spawn switch param name: null
   Death switch param name: null
   Path param name: null
@@ -697,7 +697,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 80896
-  Memory used by subequent ones: 56512
+  Memory used by subsequent ones: 56512
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: disable_spawn_on_death_switch
   Path param name: path_index
@@ -716,7 +716,7 @@
   Allow randomizing to: True
   Placement categories: [Ground, Air, Ceiling]
   Memory used by first one: 7936
-  Memory used by subequent ones: 5504
+  Memory used by subsequent ones: 5504
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Path param name: path_index
@@ -735,7 +735,7 @@
   Allow randomizing to: True
   Placement categories: [Ground, Air, Ceiling]
   Memory used by first one: 7936
-  Memory used by subequent ones: 5504
+  Memory used by subsequent ones: 5504
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Path param name: path_index
@@ -754,7 +754,7 @@
   Allow randomizing to: False
   Placement categories: [Ground]
   Memory used by first one: 7936
-  Memory used by subequent ones: 5504
+  Memory used by subsequent ones: 5504
   Enable spawn switch param name: null
   Death switch param name: null
   Path param name: null
@@ -773,7 +773,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 133200 # This includes the maximum of 10 spawned morths
-  Memory used by subequent ones: 68896
+  Memory used by subsequent ones: 68896
   Enable spawn switch param name: null
   Death switch param name: disable_spawn_on_death_switch
   Path param name: null
@@ -792,7 +792,7 @@
   Allow randomizing to: True
   Placement categories: [Air, Ceiling]
   Memory used by first one: 148272 # This includes the maximum of 20 spawned morths + 1 falling wing
-  Memory used by subequent ones: 111792
+  Memory used by subsequent ones: 111792
   Enable spawn switch param name: null
   Death switch param name: disable_spawn_on_death_switch
   Path param name: null
@@ -811,7 +811,7 @@
   Allow randomizing to: False # Don't risk memory issues by letting enemies go across sectors.
   Placement categories: [Sea]
   Memory used by first one: 106576 # For 5 Gyorgs.
-  Memory used by subequent ones: 88736 # For 5 Gyorgs.
+  Memory used by subsequent ones: 88736 # For 5 Gyorgs.
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Path param name: null
@@ -830,7 +830,7 @@
   Allow randomizing to: True
   Placement categories: [Sea]
   Memory used by first one: 106576 # For 5 Gyorgs.
-  Memory used by subequent ones: 88736 # For 5 Gyorgs.
+  Memory used by subsequent ones: 88736 # For 5 Gyorgs.
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Path param name: null
@@ -893,7 +893,7 @@
   Allow randomizing to: False # It wouldn't have a path to follow so it would go to some weird spot
   Placement categories: [Ground]
   Memory used by first one: 12608
-  Memory used by subequent ones: 8608
+  Memory used by subsequent ones: 8608
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Path param name: path_index
@@ -912,7 +912,7 @@
   Allow randomizing to: True
   Placement categories: [Ground]
   Memory used by first one: 12608
-  Memory used by subequent ones: 8608
+  Memory used by subsequent ones: 8608
   Enable spawn switch param name: enable_spawn_switch
   Death switch param name: null
   Path param name: path_index

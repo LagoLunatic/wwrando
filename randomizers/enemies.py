@@ -910,7 +910,7 @@ def is_enemy_allowed_in_placement_category(enemy_data, category):
 def get_amount_of_memory_for_enemy(enemy_data, enemy_actor_names_already_placed_in_room):
   # The first enemy of a species placed in a room uses more than the subsequent ones.
   if enemy_data["Actor name"] in enemy_actor_names_already_placed_in_room:
-    return enemy_data["Memory used by subequent ones"]
+    return enemy_data["Memory used by subsequent ones"]
   else:
     return enemy_data["Memory used by first one"]
 
