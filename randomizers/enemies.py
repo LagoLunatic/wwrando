@@ -886,10 +886,10 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
     else:
       return "Air"
   elif enemy.name == "wiz_r":
-    return "Ground"
     # Wizzrobes can appear on the ground or in the air, but we can't detect this by their params.
     # Will need to manually set air locations in enemy_locations.txt.
     # When doing this, will also need to change the logic from "Can Defeat Wizzrobes" to "Can Defeat Wizzrobes at Range".
+    return "Ground"
   elif enemy.name in ["kuro_s", "kuro_t"]:
     if enemy.behavior_type == 6:
       return "Pot"
@@ -900,6 +900,12 @@ def get_placement_category_for_vanilla_enemy_location(self, enemy_data, enemy):
       return "Air"
     else:
       return "Ground"
+  elif enemy.name == "gmos" and enemy_data["Pretty name"] == "Winged Mothula":
+    # Never placed on the ceiling in vanilla.
+    return "Air"
+  elif enemy.name == "p_hat" and enemy_data["Pretty name"] == "Peahat":
+    # Never placed on the ceiling in vanilla.
+    return "Air"
   
   raise Exception("Unknown placement category for enemy: actor name \"%s\", params %08X, x rot %04X, z rot %04X" % (enemy.name, enemy.params, enemy.x_rot, enemy.z_rot))
 
