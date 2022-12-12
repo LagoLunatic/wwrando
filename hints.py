@@ -1,4 +1,8 @@
 
+ITEM_LOCATION_NAME_TO_EXIT_ZONE_NAME_OVERRIDES = {
+  "Pawprint Isle - Wizzrobe Cave": "Pawprint Isle Side Isle",
+}
+
 def get_hint_item_name(item_name):
   if item_name.startswith("Triforce Chart"):
     return "Triforce Chart"
@@ -95,9 +99,8 @@ def generate_item_hints(self, num_hints):
     
     zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
     
-    if location_name == "Pawprint Isle - Wizzrobe Cave":
-      # Distinguish between the two Pawprint Isle entrances.
-      zone_name = "Pawprint Isle Side Isle"
+    if location_name in ITEM_LOCATION_NAME_TO_EXIT_ZONE_NAME_OVERRIDES:
+      zone_name = ITEM_LOCATION_NAME_TO_EXIT_ZONE_NAME_OVERRIDES[location_name]
     
     if zone_name in self.dungeon_and_cave_island_locations and self.logic.is_dungeon_or_cave(location_name):
       # If the location is in a dungeon or cave, use the hint for whatever island the dungeon/cave is located on.

@@ -60,7 +60,7 @@ SECRET_CAVE_EXITS = [
   ZoneExit("TF_02", 0, 0, 0, "Overlook Island", "Overlook Island Secret Cave", None),
   ZoneExit("TF_03", 0, 0, 0, "Bird's Peak Rock", "Bird's Peak Rock Secret Cave", None),
   ZoneExit("TyuTyu", 0, 0, 0, "Pawprint Isle", "Pawprint Isle Chuchu Cave", None),
-  ZoneExit("Cave07", 0, 0, 0, "Pawprint Isle", "Pawprint Isle Wizzrobe Cave", None),
+  ZoneExit("Cave07", 0, 0, 0, "Pawprint Isle Side Isle", "Pawprint Isle Wizzrobe Cave", None),
   ZoneExit("WarpD", 0, 0, 0, "Diamond Steppe Island", "Diamond Steppe Island Warp Maze Cave", None),
   ZoneExit("Cave01", 0, 0, 0, "Bomb Island", "Bomb Island Secret Cave", None),
   ZoneExit("Cave04", 0, 0, 0, "Rock Spire Isle", "Rock Spire Isle Secret Cave", None),
@@ -208,10 +208,7 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
     remaining_exits.remove(zone_exit)
     
     self.entrance_connections[zone_entrance.entrance_name] = zone_exit.unique_name
-    if zone_exit.unique_name == "Pawprint Isle Wizzrobe Cave":
-      self.dungeon_and_cave_island_locations["Pawprint Isle Side Isle"] = zone_entrance.island_name
-    else:
-      self.dungeon_and_cave_island_locations[zone_exit.zone_name] = zone_entrance.island_name
+    self.dungeon_and_cave_island_locations[zone_exit.zone_name] = zone_entrance.island_name
     done_entrances_to_exits[zone_entrance] = zone_exit
     
     if not self.dry_run:
