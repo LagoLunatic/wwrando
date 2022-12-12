@@ -355,11 +355,12 @@ def randomize_enemy_group(self, stage_folder, enemy_group, enemy_pool_for_stage)
       new_enemy_data = self.enemy_datas_by_pretty_name[DEBUG_ENEMY_NAME_TO_PLACE_EVERYWHERE]
     
     # Account for the amount of memory used up by this enemy instance.
-    free_memory -= get_amount_of_memory_for_enemy(new_enemy_data, enemy_actor_names_already_placed_in_room)
+    memory_for_enemy = get_amount_of_memory_for_enemy(new_enemy_data, enemy_actor_names_already_placed_in_room)
+    free_memory -= memory_for_enemy
     if False:
       print("Enemy placed: %s" % new_enemy_data["Pretty name"])
       print("Free memory: %d" % free_memory)
-      print("Subtracted: %d" % get_amount_of_memory_for_enemy(new_enemy_data, enemy_actor_names_already_placed_in_room))
+      print("Subtracted: %d" % memory_for_enemy)
     
     if free_memory < MIN_FREE_SPACE_TO_LEAVE_PER_ROOM and DEBUG_ENEMY_NAME_TO_PLACE_EVERYWHERE is None:
       # Not enough memory left in this room. Give up early.
