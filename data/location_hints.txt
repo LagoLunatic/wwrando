@@ -31,25 +31,25 @@ Windfall Island - Maggie's Father - Give 20 Skull Necklaces:
   Text: giving a wealthy man twenty necklaces
 Windfall Island - Zunari - Stock Exotic Flower in Zunari's Shop:
   Type: Sometimes
-  Text: stocking Zunari's shop with three flowers
+  Text: stocking a shop with three flowers
 Windfall Island - Sam - Decorate the Town:
   Type: Sometimes
   Text: volunteering to decorate Windfall
 Windfall Island - Mila - Follow the Thief:
   Type: Sometimes
-  Text: stopping a burglary of Zunari's safe
+  Text: preventing a burglary
 Windfall Island - Battlesquid - Under 20 Shots Prize:
   Type: Always
-  Text: setting a new high score in Battlesquid
+  Text: setting a new record in squid-shooting
 Windfall Island - Pompie and Vera - Secret Meeting Photo:
   Type: Sometimes
   Text: showing a photo to two gossiping ladies
 Windfall Island - Kamo - Full Moon Photo:
   Type: Sometimes
-  Text: snapping a colorful picture of the full moon
+  Text: showing a picture of the moon to a romantic
 Windfall Island - Minenco - Miss Windfall Photo:
   Type: Sometimes
-  Text: showing Minenco a photo of herself
+  Text: showing a lady a photo of herself
 Windfall Island - Linda and Anton:
   Type: Sometimes
   Text: uniting a young couple with the power of photography
@@ -148,19 +148,19 @@ Ganon's Tower - Maze Chest:
 
 Mailbox - Letter from Hoskit's Girlfriend:
   Type: Sometimes
-  Text: the writings of a grateful girlfriend
+  Text: the writing of a grateful girlfriend
 Mailbox - Letter from Baito:
   Type: Sometimes
-  Text: the writings of a bewildered letter sorter
+  Text: the writing of a bewildered letter sorter
 Mailbox - Letter from Orca:
   Type: Sometimes
-  Text: the writings of your hometown swordsman
+  Text: the writing of your hometown swordsman
 Mailbox - Letter from Aryll:
   Type: Sometimes
-  Text: the writings of your beloved sister
+  Text: the writing of your beloved sister
 Mailbox - Letter from Tingle:
   Type: Sometimes
-  Text: the writings of a rupee-hungry fairy
+  Text: the writing of a rupee-hungry fairy
 
 The Great Sea - Cyclos:
   Type: Sometimes
@@ -235,7 +235,7 @@ Tingle Island - Ankle - Reward for All Tingle Statues:
   Text: collecting five glistening fairy figurines
 Tingle Island - Big Octo:
   Type: Sometimes
-  Text: defeating the sea monstrosity at Tingle's Island
+  Text: defeating the sea monstrosity near the island of greed
 
 Bomb Island - Cave:
   Type: Sometimes
