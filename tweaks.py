@@ -929,7 +929,7 @@ def update_fishmen_hints(self, hints):
     hint = hints[fishman_hint_number % len(hints)]
     
     hint_lines = []
-    hint_lines.append(Hints.get_formatted_hint_text_static(hint, prefix="I've heard from my sources that ", suffix=".", delay=60))
+    hint_lines.append(Hints.get_formatted_hint_text(hint, prefix="I've heard from my sources that ", suffix=".", delay=60))
     
     if not self.options.get("clearer_hints") and (hint.type == HintType.ITEM or hint.type == HintType.LOCATION):
       hint_lines.append("Could be worth a try checking that place out. If you know where it is, of course.")
@@ -972,7 +972,7 @@ def update_hoho_hints(self, hints):
       hint_prefix = "\\{1A 05 01 01 03}Ho ho! They say that " if i == 0 else "and that "
       hint_suffix = "." if i == len(hints_for_hoho) - 1 else ","
       
-      hint_lines.append(Hints.get_formatted_hint_text_static(hint, prefix=hint_prefix, suffix=hint_suffix))
+      hint_lines.append(Hints.get_formatted_hint_text(hint, prefix=hint_prefix, suffix=hint_suffix))
       
       if self.options.get("instant_text_boxes") and i > 0:
         # If instant text mode is on, we need to reset the text speed to instant after the wait command messed it up.
@@ -994,7 +994,7 @@ def update_korl_hints(self, hints):
     # Have no delay with KoRL text since he potentially has a lot of textboxes
     hint_prefix = "They say that " if i == 0 else "and that "
     hint_suffix = "." if i == len(hints) - 1 else ","
-    hint_lines.append(Hints.get_formatted_hint_text_static(hint, prefix=hint_prefix, suffix=hint_suffix, delay=0))
+    hint_lines.append(Hints.get_formatted_hint_text(hint, prefix=hint_prefix, suffix=hint_suffix, delay=0))
   
   hint = ""
   for hint_line in hint_lines:

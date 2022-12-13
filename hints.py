@@ -132,7 +132,7 @@ class Hints:
     self.chart_name_to_sunken_treasure = {}
   
   @staticmethod
-  def get_hint_item_name_static(item_name):
+  def get_hint_item_name(item_name):
     if item_name.startswith("Triforce Chart"):
       return "Triforce Chart"
     if item_name.startswith("Triforce Shard"):
@@ -148,7 +148,7 @@ class Hints:
     return item_name
   
   @staticmethod
-  def get_formatted_hint_text_static(hint, prefix="They say that ", suffix=".", delay=30):
+  def get_formatted_hint_text(hint, prefix="They say that ", suffix=".", delay=30):
     if hint.type == HintType.PATH:
       hint_string = (
         "%san item found at \\{1A 06 FF 00 00 05}%s\\{1A 06 FF 00 00 00} is on the path to \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
@@ -746,7 +746,7 @@ class Hints:
       item_hint, location_name = self.get_item_hint(hintable_locations)
     
     # Always use cryptic text for the octo fairy hint
-    item_hint.info1 = self.progress_item_hints[Hints.get_hint_item_name_static(item_hint.info1)]
+    item_hint.info1 = self.progress_item_hints[Hints.get_hint_item_name(item_hint.info1)]
     item_hint.info2 = self.island_name_hints[item_hint.info2]
     
     return item_hint
@@ -759,8 +759,8 @@ class Hints:
     floor_30_is_progress = (floor_30_item_name in self.logic.all_progress_items)
     floor_50_is_progress = (floor_50_item_name in self.logic.all_progress_items)
     
-    floor_30_item_name = Hints.get_hint_item_name_static(floor_30_item_name)
-    floor_50_item_name = Hints.get_hint_item_name_static(floor_50_item_name)
+    floor_30_item_name = Hints.get_hint_item_name(floor_30_item_name)
+    floor_50_item_name = Hints.get_hint_item_name(floor_50_item_name)
     
     if floor_30_is_progress and not floor_30_item_name in self.progress_item_hints:
       raise Exception("Could not find progress item hint for item: %s" % floor_30_item_name)
@@ -888,7 +888,7 @@ class Hints:
       
       # Apply cryptic text, unless the clearer hints option is selected.
       if not self.clearer_hints:
-        item_hint.info1 = self.progress_item_hints[Hints.get_hint_item_name_static(item_hint.info1)]
+        item_hint.info1 = self.progress_item_hints[Hints.get_hint_item_name(item_hint.info1)]
         item_hint.info2 = self.island_name_hints[item_hint.info2]
       
       hinted_item_locations.append(item_hint)
