@@ -854,6 +854,9 @@ def update_item_names_in_letter_advertising_rock_spire_shop(self):
 def update_savage_labyrinth_hint_tablet(self, floor_30_hint, floor_50_hint):
   # Update the tablet on the first floor of savage labyrinth to give hints as to the items inside the labyrinth.
   
+  if self.dry_run:
+    return
+  
   if floor_30_hint and floor_50_hint:
     hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_30_hint.info1
     hint += " and "
@@ -922,6 +925,9 @@ def randomize_and_update_hints(self):
       print("Invalid hint placement option: %s" % hint_placement)
 
 def update_fishmen_hints(self, hints):
+  if self.dry_run:
+    return
+  
   islands = list(range(1, 49+1))
   self.rng.shuffle(islands)
   
@@ -949,6 +955,9 @@ def update_fishmen_hints(self, hints):
     msg.string = hint
 
 def update_hoho_hints(self, hints):
+  if self.dry_run:
+    return
+  
   hohos = list(range(10))
   self.rng.shuffle(hohos)
   
@@ -989,6 +998,9 @@ def update_hoho_hints(self, hints):
     msg.string = hint
 
 def update_korl_hints(self, hints):
+  if self.dry_run:
+    return
+  
   hint_lines = []
   for i, hint in enumerate(hints):
     # Have no delay with KoRL text since he potentially has a lot of textboxes
@@ -1007,6 +1019,9 @@ def update_korl_hints(self, hints):
     msg.string = hint
 
 def update_big_octo_great_fairy_item_name_hint(self, hint):
+  if self.dry_run:
+    return
+  
   self.bmg.messages_by_id[12015].string = word_wrap_string(
     "\\{1A 06 FF 00 00 05}In \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05}, you will find an item." % hint.info2,
     max_line_length=43

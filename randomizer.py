@@ -453,7 +453,7 @@ class Randomizer:
     options_completed += 1
     
     yield("Generating hints...", options_completed)
-    if self.randomize_items and not self.dry_run:
+    if self.randomize_items:
       self.reset_rng()
       tweaks.randomize_and_update_hints(self)
     options_completed += 5
