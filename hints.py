@@ -23,13 +23,13 @@ class HintType(Enum):
 
 
 class Hint:
-  def __init__(self, type: HintType, info1, info2=None):
+  def __init__(self, type: HintType, place, reward=None):
     self.type = type
-    self.info1 = info1
-    self.info2 = info2
+    self.place = place
+    self.reward = reward
   
   def __str__(self):
-    return "<HINT: %s, (%s, %s)>" % (str(self.type), self.info1, self.info2)
+    return "<HINT: %s, (%s, %s)>" % (str(self.type), self.place, self.reward)
 
 
 class Hints:
@@ -112,22 +112,22 @@ class Hints:
     if hint.type == HintType.PATH:
       hint_string = (
         "%san item found at \\{1A 06 FF 00 00 05}%s\\{1A 06 FF 00 00 00} is on the path to \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
-        % (prefix, hint.info1, hint.info2, suffix)
+        % (prefix, hint.place, hint.reward, suffix)
       )
     elif hint.type == HintType.BARREN:
       hint_string = (
         "%svisiting \\{1A 06 FF 00 00 03}%s\\{1A 06 FF 00 00 00} is a foolish choice%s"
-        % (prefix, hint.info1, suffix)
+        % (prefix, hint.place, suffix)
       )
     elif hint.type == HintType.LOCATION:
       hint_string = (
         "%s\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} rewards \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
-        % (prefix, hint.info1, hint.info2, suffix)
+        % (prefix, hint.place, hint.reward, suffix)
       )
     elif hint.type == HintType.ITEM:
       hint_string = (
         "%s\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} is located in \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
-        % (prefix, hint.info1, hint.info2, suffix)
+        % (prefix, hint.reward, hint.place, suffix)
       )
     else:
       hint_string = ""
@@ -587,7 +587,7 @@ class Hints:
     
     # Remove locations in hinted barren areas.
     new_hintable_locations = []
-    barrens = [hint.info1 for hint in hinted_barren_zones]
+    barrens = [hint.place for hint in hinted_barren_zones]
     for location_name in hintable_locations:
       # Catch Mailbox cases.
       if (
@@ -626,7 +626,7 @@ class Hints:
     if entrance_zone == "Tower of the Gods Sector":
       entrance_zone = "Tower of the Gods"
     
-    return Hint(HintType.ITEM, item_name, entrance_zone), location_name
+    return Hint(HintType.ITEM, entrance_zone, item_name), location_name
   
   
   def get_legal_location_hints(self, progress_locations, hinted_barren_zones, previously_hinted_locations):
@@ -652,7 +652,7 @@ class Hints:
     
     # Remove locations in hinted barren areas.
     sometimes_hintable_locations = []
-    barrens = [hint.info1 for hint in hinted_barren_zones]
+    barrens = [hint.place for hint in hinted_barren_zones]
     for location_name in hintable_locations:
       # Catch Mailbox cases.
       if (
@@ -708,8 +708,8 @@ class Hints:
       item_hint, location_name = self.get_item_hint(hintable_locations)
     
     # Always use cryptic text for the octo fairy hint
-    item_hint.info1 = self.progress_item_hints[Hints.get_hint_item_name(item_hint.info1)]
-    item_hint.info2 = self.island_name_hints[item_hint.info2]
+    item_hint.reward = self.progress_item_hints[Hints.get_hint_item_name(item_hint.reward)]
+    item_hint.place = self.island_name_hints[item_hint.place]
     
     return item_hint
   
@@ -732,10 +732,10 @@ class Hints:
     # Always use cryptic text for the Savage Labyrinth hints
     floor_30_hint = None
     if floor_30_is_progress:
-      floor_30_hint = Hint(HintType.ITEM, self.progress_item_hints[floor_30_item_name])
+      floor_30_hint = Hint(HintType.ITEM, None, self.progress_item_hints[floor_30_item_name])
     floor_50_hint = None
     if floor_50_is_progress:
-      floor_50_hint = Hint(HintType.ITEM, self.progress_item_hints[floor_50_item_name])
+      floor_50_hint = Hint(HintType.ITEM, None, self.progress_item_hints[floor_50_item_name])
     
     return floor_30_hint, floor_50_hint
   
@@ -850,10 +850,10 @@ class Hints:
       
       # Apply cryptic text, unless the clearer hints option is selected.
       if self.clearer_hints:
-        item_hint.info1 = tweaks.add_article_before_item_name(item_hint.info1)
+        item_hint.reward = tweaks.add_article_before_item_name(item_hint.reward)
       else:
-        item_hint.info1 = self.progress_item_hints[Hints.get_hint_item_name(item_hint.info1)]
-        item_hint.info2 = self.island_name_hints[item_hint.info2]
+        item_hint.reward = self.progress_item_hints[Hints.get_hint_item_name(item_hint.reward)]
+        item_hint.place = self.island_name_hints[item_hint.place]
       
       hinted_item_locations.append(item_hint)
       previously_hinted_locations.append(location_name)
