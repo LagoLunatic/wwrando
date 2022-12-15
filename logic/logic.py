@@ -145,6 +145,8 @@ class Logic:
     for item_name in self.rando.starting_items:
       self.add_owned_item(item_name)
     
+    # Decide what will count as a progress item on these settings.
+    self.requirement_met_cache.clear()
     self.make_useless_progress_items_nonprogress()
     
     # Replace progress items that are part of a group with the group name instead.
@@ -166,6 +168,7 @@ class Logic:
         if group_name in self.unplaced_progress_items:
           self.unplaced_progress_items.remove(group_name)
     
+    self.requirement_met_cache.clear()
     self.cached_enemies_tested_for_reqs_tuple = OrderedDict()
   
   def is_dungeon_or_cave(self, location_name):
