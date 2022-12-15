@@ -20,11 +20,6 @@ class HintType(Enum):
   ITEM = 2
   LOCATION = 3
   
-  def __lt__(self, other):
-    if isinstance(other, self.__class__):
-      return self.value < other.value
-    return NotImplemented
-
 
 class Hint:
   def __init__(self, type: HintType, info1, info2=None):
@@ -35,44 +30,8 @@ class Hint:
   def __str__(self):
     return "<HINT: %s, (%s, %s)>" % (str(self.type), self.info1, self.info2)
   
-  def __hash__(self):
-    return hash(str(self))
-  
-  def __lt__(self, other):
-    if isinstance(other, self.__class__):
-      return self.type < other.type
-    return NotImplemented
-  
-  def __eq__(self, other):
-    if isinstance(other, self.__class__):
-      return (
-        (self.type == other.type)
-        and (self.info1 == other.info1)
-        and (self.info2 == other.info2)
-      )
-    else:
-      return False
-
 
 class Hints:
-  # For hinting purposes, these item names can refer to multiple items at multiple locations.
-  PROGRESSIVE_ITEMS = [
-    "Progressive Bow",
-    "Progressive Quiver",
-    "Progressive Bomb Bag",
-    "Progressive Wallet",
-    "Progressive Picto Box",
-    "Progressive Sword",
-    "Progressive Shield",
-    "Progressive Magic Meter",
-    "Empty Bottle",
-
-    "DRC Small Key",
-    "TotG Small Key",
-    "ET Small Key",
-    "WT Small Key",
-  ]
-  
   # A dictionary mapping dungeon name to the dungeon boss.
   # The boss name is used as the path goal in the hint text.
   DUNGEON_NAME_TO_BOSS_NAME = {
@@ -870,7 +829,7 @@ class Hints:
     unhinted_barren_zones = self.get_barren_zones(progress_locations)
     hinted_barren_zones = []
     while len(unhinted_barren_zones) > 0 and len(hinted_barren_zones) < self.max_barren_hints:
-      # Weigh each barren zone by the square root of the number of locations there.
+      # Weight each barren zone by the square root of the number of locations there.
       zone_weights = [sqrt(location_counter[zone]) for zone in unhinted_barren_zones]
       
       barren_hint = self.get_barren_hint(unhinted_barren_zones, zone_weights)
