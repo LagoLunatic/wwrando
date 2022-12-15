@@ -15,6 +15,7 @@ from wwlib import texture_utils
 from wwlib.rel import REL
 from wwrando_paths import ASSETS_PATH, ASM_PATH, SEEDGEN_PATH
 import customizer
+from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS
 
 try:
   from keys.seed_key import SEED_KEY
@@ -719,6 +720,31 @@ def get_indefinite_article(string):
     return "an"
   else:
     return "a"
+
+def add_article_before_item_name(item_name):
+  # Adds a grammatical article ("a", "an", "the", or nothing) in front an item's name.
+  article = None
+  if re.search(r"\d$", item_name):
+    article = None
+  elif (PROGRESS_ITEMS + NONPROGRESS_ITEMS).count(item_name) > 1:
+    article = get_indefinite_article(item_name)
+  elif item_name in CONSUMABLE_ITEMS:
+    article = get_indefinite_article(item_name)
+  elif item_name in DUPLICATABLE_CONSUMABLE_ITEMS:
+    article = get_indefinite_article(item_name)
+  elif item_name.endswith(" Key"):
+    article = get_indefinite_article(item_name)
+  elif item_name in ["Beedle's Chart", "Tingle's Chart", "Maggie's Letter"]:
+    article = None
+  elif item_name.endswith("'s Pearl"):
+    article = None
+  elif item_name in ["Father's Letter", "Moblin's Letter"]:
+    article = get_indefinite_article(item_name)
+  else:
+    article = "the"
+  if article:
+    item_name = article + " " + item_name
+  return item_name
 
 def upper_first_letter(string):
   first_letter = string[0].upper()

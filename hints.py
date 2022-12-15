@@ -8,6 +8,7 @@ import yaml
 from logic.item_types import CONSUMABLE_ITEMS, DUNGEON_NONPROGRESS_ITEMS, DUNGEON_PROGRESS_ITEMS
 from logic.logic import Logic
 from wwrando_paths import DATA_PATH
+import tweaks
 
 ITEM_LOCATION_NAME_TO_EXIT_ZONE_NAME_OVERRIDES = {
   "Pawprint Isle - Wizzrobe Cave": "Pawprint Isle Side Isle",
@@ -19,7 +20,7 @@ class HintType(Enum):
   BARREN = 1
   ITEM = 2
   LOCATION = 3
-  
+
 
 class Hint:
   def __init__(self, type: HintType, info1, info2=None):
@@ -29,7 +30,7 @@ class Hint:
   
   def __str__(self):
     return "<HINT: %s, (%s, %s)>" % (str(self.type), self.info1, self.info2)
-  
+
 
 class Hints:
   # A dictionary mapping dungeon name to the dungeon boss.
@@ -685,7 +686,9 @@ class Hints:
     
     # Apply cryptic text to the location name, unless the clearer hints option is selected.
     item_name = self.logic.done_item_locations[location_name]
-    if not self.clearer_hints:
+    if self.clearer_hints:
+      item_name = tweaks.add_article_before_item_name(item_name)
+    else:
       location_name = self.location_hints[location_name]["Text"]
     
     return Hint(HintType.LOCATION, location_name, item_name)
@@ -846,7 +849,9 @@ class Hints:
       item_hint, location_name = self.get_item_hint(hintable_locations)
       
       # Apply cryptic text, unless the clearer hints option is selected.
-      if not self.clearer_hints:
+      if self.clearer_hints:
+        item_hint.info1 = tweaks.add_article_before_item_name(item_hint.info1)
+      else:
         item_hint.info1 = self.progress_item_hints[Hints.get_hint_item_name(item_hint.info1)]
         item_hint.info2 = self.island_name_hints[item_hint.info2]
       
