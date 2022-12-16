@@ -126,11 +126,11 @@ OPTIONS = OrderedDict([
   ),
   (
     "num_path_hints",
-    "The number of path hints that will be placed. Path hints tell you when an area contains an item that is definitely required to reach a particular destination in this seed.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+    "The number of path hints that will be placed. Path hints tell you that an area contains an item that is logically required to reach a particular goal in this seed.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
   ),
   (
     "num_barren_hints",
-    "The number of barren hints that will be placed. Barren hints tell you when an area does not contain any required items in this seed.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+    "The number of barren hints that will be placed. Barren hints tell you that an area does not contain any required items in this seed.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
   ),
   (
     "num_location_hints",
@@ -142,11 +142,11 @@ OPTIONS = OrderedDict([
   ),
   (
     "clearer_hints",
-    "When this option is selected, location and item hints will use the standard location or item name, instead of using cryptic hints.",
+    "When this option is selected, location and item hints will use the standard location names and item names, instead of using cryptic hints.",
   ),
   (
     "use_always_hints",
-    "When the number of location hints selected is set high enough, certain time-consuming locations will always be hinted at, taking precedence over normal location hints.",
+    "When this option is selected, certain time-consuming locations will take precedence over normal location hints.",
   ),
   
   
