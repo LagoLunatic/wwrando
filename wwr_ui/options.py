@@ -126,27 +126,27 @@ OPTIONS = OrderedDict([
   ),
   (
     "num_path_hints",
-    "Determines the number of path hints that will be placed in the game, distributed among the selected hint placement options.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+    "The number of path hints that will be placed. Path hints tell you when an area contains an item that is definitely required to reach a particular destination in this seed.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
   ),
   (
     "num_barren_hints",
-    "Determines the number of barren hints that will be placed in the game, distributed among the selected hint placement options.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+    "The number of barren hints that will be placed. Barren hints tell you when an area does not contain any required items in this seed.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
   ),
   (
     "num_location_hints",
-    "Determines the number of location hints that will be placed in the game, distributed among the selected hint placement options.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+    "The number of location hints that will be placed. Location hints tell you what item is at a specific location in this seed.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
   ),
   (
     "num_item_hints",
-    "Determines the number of item hints that will be placed in the game, distributed among the selected hint placement options.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+    "The number of item hints that will be placed. Item hints tell you which area contains a particular progression item in this seed.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
   ),
   (
     "clearer_hints",
-    "When this option is selected, location and item hints will use the standard check or item name, instead of using cryptic hints.",
+    "When this option is selected, location and item hints will use the standard location or item name, instead of using cryptic hints.",
   ),
   (
     "use_always_hints",
-    "When the number of location hints is nonzero, certain locations that will always be hinted at will take precedence over normal location hints.",
+    "When the number of location hints selected is set high enough, certain time-consuming locations will always be hinted at, taking precedence over normal location hints.",
   ),
   
   
