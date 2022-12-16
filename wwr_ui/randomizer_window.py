@@ -985,6 +985,9 @@ class WWRandomizerWindow(QMainWindow):
     else:
       should_enable_options["num_race_mode_dungeons"] = False
     
+    if self.get_option_value("num_location_hints") == 0:
+      should_enable_options["use_always_hints"] = False
+    
     self.filtered_rgear.setFilterStrings(items_to_filter_out)
     
     starting_gear = self.get_option_value("starting_gear")
