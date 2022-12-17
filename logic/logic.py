@@ -46,6 +46,9 @@ class Logic:
     ]),
   ])
   
+  initial_item_locations = None
+  initial_macros = None
+  
   def __init__(self, rando):
     self.rando = rando
     self.requirement_met_cache = {}
@@ -657,6 +660,9 @@ class Logic:
   
   @staticmethod
   def load_and_parse_item_locations():
+    if Logic.initial_item_locations is not None:
+      return Logic.initial_item_locations.copy()
+    
     with open(os.path.join(LOGIC_PATH, "item_locations.txt")) as f:
       item_locations = yaml.load(f, YamlOrderedDictLoader)
     
@@ -671,14 +677,23 @@ class Logic:
       types = [type.strip() for type in types]
       item_locations[location_name]["Types"] = types
     
+    Logic.initial_item_locations = item_locations.copy()
     return item_locations
     
   def load_and_parse_macros(self):
+    if Logic.initial_macros is not None:
+      self.macros = Logic.initial_macros.copy()
+      return self.macros
+    
     with open(os.path.join(LOGIC_PATH, "macros.txt")) as f:
       macro_strings = yaml.safe_load(f)
+    
     self.macros = {}
     for macro_name, req_string in macro_strings.items():
       self.set_macro(macro_name, req_string)
+    
+    Logic.initial_macros = self.macros.copy()
+    return self.macros
   
   def set_macro(self, macro_name, req_string):
     self.macros[macro_name] = Logic.parse_logic_expression(req_string)
