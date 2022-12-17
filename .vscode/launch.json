@@ -42,6 +42,18 @@
                 "-noui",
                 "-noitemrando",
             ],
+        },
+        {
+            "name": "Profile WWRando (No UI)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/wwrando.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-noui",
+                "-profile",
+            ]
         }
     ]
 }
