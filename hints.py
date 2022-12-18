@@ -239,7 +239,7 @@ class Hints:
             self.path_logic.add_owned_item(item_name)
             # Remove small key from owned items if it was from the location we want to check
             if small_key_location_name == location_to_check:
-              self.path_logic.currently_owned_items.remove(self.path_logic.clean_item_name(item_name))
+              self.path_logic.remove_owned_item(item_name)
           
           previously_accessible_locations += newly_accessible_small_key_locations
           continue # Redo this loop iteration with the small key locations no longer being considered 'remaining'.
@@ -257,7 +257,7 @@ class Hints:
         self.path_logic.add_owned_item(item_name)
         # Remove item from owned items if it was from the location we want to check.
         if location_name == location_to_check:
-          self.path_logic.currently_owned_items.remove(self.path_logic.clean_item_name(item_name))
+          self.path_logic.remove_owned_item(item_name)
       for group_name, item_names in self.path_logic.progress_item_groups.items():
         entire_group_is_owned = all(item_name in self.path_logic.currently_owned_items for item_name in item_names)
         if entire_group_is_owned and group_name in self.path_logic.unplaced_progress_items:
