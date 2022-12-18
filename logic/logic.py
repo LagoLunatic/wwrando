@@ -174,6 +174,22 @@ class Logic:
     self.requirement_met_cache.clear()
     self.cached_enemies_tested_for_reqs_tuple = OrderedDict()
   
+  def save_simulated_playthrough_state(self):
+    vars_backup = {}
+    for attr_name in [
+      "currently_owned_items",
+      "unplaced_progress_items",
+      "unplaced_nonprogress_items",
+      "unplaced_fixed_consumable_items",
+      "requirement_met_cache",
+    ]:
+      vars_backup[attr_name] = getattr(self, attr_name).copy()
+    return vars_backup
+  
+  def load_simulated_playthrough_state(self, vars_backup):
+    for attr_name, value in vars_backup.items():
+      setattr(self, attr_name, value.copy())
+  
   def is_dungeon_or_cave(self, location_name):
     # Look up the setting that the location name is under
     is_dungeon = "Dungeon" in self.item_locations[location_name]["Types"]

@@ -64,6 +64,9 @@ class Hints:
     self.logic = rando.logic
     self.options = rando.options
     
+    self.path_logic = Logic(self.rando)
+    self.path_logic_initial_state = self.path_logic.save_simulated_playthrough_state()
+    
     # Define instance variable shortcuts for hint distribution options.
     self.max_path_hints = int(self.options.get("num_path_hints", 0))
     self.max_barren_hints = int(self.options.get("num_barren_hints", 0))
@@ -193,27 +196,29 @@ class Hints:
     return chart_name_to_sunken_treasure
   
   def check_location_required_for_paths(self, location_to_check, paths_to_check):
+    # To check whether the location is required or not, we simulate a playthrough and remove the item the player would
+    # receive at that location immediately after they receive it. If the player can still fulfill the requirement 
+    # despite not having this item, the location is not required.
+    
     # If the item is not a progress item, there's no way it's required.
     item_name = self.logic.done_item_locations[location_to_check]
     if item_name not in self.logic.all_progress_items:
       return False
     
-    # Effectively, to check whether the location is required or not, we simulate a playthrough and remove the item the
-    # player would receive at that location immediately after they receive it. If the player can still fulfill the
-    # requirement despite not having this item, the location is not required.
-    logic = Logic(self.rando)
+    # Reuse a single Logic instance over multiple calls to this function for performance reasons.
+    self.path_logic.load_simulated_playthrough_state(self.path_logic_initial_state)
     previously_accessible_locations = []
     
-    while logic.unplaced_progress_items:
+    while self.path_logic.unplaced_progress_items:
       progress_items_in_this_sphere = OrderedDict()
       
-      accessible_locations = logic.get_accessible_remaining_locations()
+      accessible_locations = self.path_logic.get_accessible_remaining_locations()
       locations_in_this_sphere = [
         loc for loc in accessible_locations
         if loc not in previously_accessible_locations
       ]
       if not locations_in_this_sphere:
-        return {path_name: not logic.check_requirement_met(self.DUNGEON_NAME_TO_REQUIREMENT_NAME[path_name]) for path_name in paths_to_check}
+        break
       
       
       if not self.options.get("keylunacy"):
@@ -231,36 +236,40 @@ class Hints:
             item_name = self.logic.prerandomization_item_locations[small_key_location_name]
             assert item_name.endswith(" Small Key")
             
-            logic.add_owned_item(item_name)
+            self.path_logic.add_owned_item(item_name)
             # Remove small key from owned items if it was from the location we want to check
             if small_key_location_name == location_to_check:
-              logic.currently_owned_items.remove(logic.clean_item_name(item_name))
+              self.path_logic.currently_owned_items.remove(self.path_logic.clean_item_name(item_name))
           
           previously_accessible_locations += newly_accessible_small_key_locations
           continue # Redo this loop iteration with the small key locations no longer being considered 'remaining'.
       
       
       # Hide duplicated progression items (e.g. Empty Bottles) when they are placed in non-progression locations to avoid confusion and inconsistency.
-      locations_in_this_sphere = logic.filter_locations_for_progression(locations_in_this_sphere)
+      locations_in_this_sphere = self.path_logic.filter_locations_for_progression(locations_in_this_sphere)
       
       for location_name in locations_in_this_sphere:
         item_name = self.logic.done_item_locations[location_name]
-        if item_name in logic.all_progress_items:
+        if item_name in self.path_logic.all_progress_items:
           progress_items_in_this_sphere[location_name] = item_name
       
       for location_name, item_name in progress_items_in_this_sphere.items():
-        logic.add_owned_item(item_name)
+        self.path_logic.add_owned_item(item_name)
         # Remove item from owned items if it was from the location we want to check.
         if location_name == location_to_check:
-          logic.currently_owned_items.remove(logic.clean_item_name(item_name))
-      for group_name, item_names in logic.progress_item_groups.items():
-        entire_group_is_owned = all(item_name in logic.currently_owned_items for item_name in item_names)
-        if entire_group_is_owned and group_name in logic.unplaced_progress_items:
-          logic.unplaced_progress_items.remove(group_name)
+          self.path_logic.currently_owned_items.remove(self.path_logic.clean_item_name(item_name))
+      for group_name, item_names in self.path_logic.progress_item_groups.items():
+        entire_group_is_owned = all(item_name in self.path_logic.currently_owned_items for item_name in item_names)
+        if entire_group_is_owned and group_name in self.path_logic.unplaced_progress_items:
+          self.path_logic.unplaced_progress_items.remove(group_name)
       
       previously_accessible_locations = accessible_locations
     
-    return {path_name: not logic.check_requirement_met(self.DUNGEON_NAME_TO_REQUIREMENT_NAME[path_name]) for path_name in paths_to_check}
+    requirements_met = {
+      path_name: not self.path_logic.check_requirement_met(self.DUNGEON_NAME_TO_REQUIREMENT_NAME[path_name])
+      for path_name in paths_to_check
+    }
+    return requirements_met
   
   def get_required_locations_for_paths(self):
     # Add all race-mode dungeons as paths, in addition to Hyrule and Ganon's Tower.
