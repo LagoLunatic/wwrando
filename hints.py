@@ -203,7 +203,7 @@ class Hints:
     # If the item is not a progress item, there's no way it's required.
     item_name = self.logic.done_item_locations[location_to_check]
     if item_name not in self.logic.all_progress_items:
-      return False
+      return {}
     
     # Reuse a single Logic instance over multiple calls to this function for performance reasons.
     self.path_logic.load_simulated_playthrough_state(self.path_logic_initial_state)
