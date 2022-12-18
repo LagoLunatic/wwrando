@@ -183,12 +183,12 @@ class Logic:
       "unplaced_fixed_consumable_items",
       "requirement_met_cache",
     ]:
-      vars_backup[attr_name] = getattr(self, attr_name).copy()
+      vars_backup[attr_name] = copy.deepcopy(getattr(self, attr_name))
     return vars_backup
   
   def load_simulated_playthrough_state(self, vars_backup):
     for attr_name, value in vars_backup.items():
-      setattr(self, attr_name, value.copy())
+      setattr(self, attr_name, copy.deepcopy(value))
   
   def is_dungeon_or_cave(self, location_name):
     # Look up the setting that the location name is under
@@ -677,7 +677,7 @@ class Logic:
   @staticmethod
   def load_and_parse_item_locations():
     if Logic.initial_item_locations is not None:
-      return Logic.initial_item_locations.copy()
+      return copy.deepcopy(Logic.initial_item_locations)
     
     with open(os.path.join(LOGIC_PATH, "item_locations.txt")) as f:
       item_locations = yaml.load(f, YamlOrderedDictLoader)
@@ -693,12 +693,12 @@ class Logic:
       types = [type.strip() for type in types]
       item_locations[location_name]["Types"] = types
     
-    Logic.initial_item_locations = item_locations.copy()
+    Logic.initial_item_locations = copy.deepcopy(item_locations)
     return item_locations
     
   def load_and_parse_macros(self):
     if Logic.initial_macros is not None:
-      self.macros = Logic.initial_macros.copy()
+      self.macros = copy.deepcopy(Logic.initial_macros)
       return self.macros
     
     with open(os.path.join(LOGIC_PATH, "macros.txt")) as f:
@@ -708,7 +708,7 @@ class Logic:
     for macro_name, req_string in macro_strings.items():
       self.set_macro(macro_name, req_string)
     
-    Logic.initial_macros = self.macros.copy()
+    Logic.initial_macros = copy.deepcopy(self.macros)
     return self.macros
   
   def set_macro(self, macro_name, req_string):
