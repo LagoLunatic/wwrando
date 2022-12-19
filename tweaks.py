@@ -933,6 +933,13 @@ def randomize_and_update_hints(self):
   # Generate the hints that will be distributed over the hint placement options
   hints = hints_manager.generate_hints()
   
+  # If there are less hints than placement options, duplicate the hints so that all selected placement options have at
+  # least one hint.
+  duplicated_hints = []
+  while len(hints) + len(duplicated_hints) < len(hint_placement_options):
+    duplicated_hints += self.rng.sample(hints, len(hints))
+  hints += duplicated_hints[:(len(hint_placement_options) - len(hints))]
+  
   # Distribute the hints among the enabled hint placement options
   self.rng.shuffle(hint_placement_options)
   for i, hint in enumerate(hints):
