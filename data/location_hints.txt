@@ -3,10 +3,10 @@ Outset Island - Orca - Give 10 Knight's Crests:
   Text: giving a fellow swordsman crests of honor
 Outset Island - Great Fairy:
   Type: Sometimes
-  Text: visiting the Great Fairy atop Outset
+  Text: visiting the fairy atop the place of all beginnings
 Outset Island - Jabun's Cave:
   Type: Sometimes
-  Text: entering the cave at the back of Outset
+  Text: entering the cave at the back of the place of all beginnings
 Outset Island - Dig up Black Soil:
   Type: Sometimes
   Text: teaching a pig to dig for treasure
@@ -34,7 +34,7 @@ Windfall Island - Zunari - Stock Exotic Flower in Zunari's Shop:
   Text: stocking a shop with three flowers
 Windfall Island - Sam - Decorate the Town:
   Type: Sometimes
-  Text: volunteering to decorate Windfall
+  Text: volunteering to decorate a very populated place
 Windfall Island - Mila - Follow the Thief:
   Type: Sometimes
   Text: preventing a burglary
@@ -144,7 +144,7 @@ Wind Temple - Kill All Enemies in Tall Basement Room:
 
 Ganon's Tower - Maze Chest:
   Type: Always
-  Text: navigating the labyrinth in Ganon's Tower
+  Text: navigating the labyrinth in the stronghold of the evil king
 
 Mailbox - Letter from Hoskit's Girlfriend:
   Type: Sometimes
@@ -209,11 +209,11 @@ Islet of Steel - Lookout Platform - Defeat the Enemies:
 
 Overlook Island - Cave:
   Type: Sometimes
-  Text: besting the trial at Overlook
+  Text: besting the trial at an island made of brick structures
 
 Bird's Peak Rock - Cave:
   Type: Sometimes
-  Text: playing the song of winds in Bird's Peak Rock
+  Text: playing the song of winds in a place where a fruit is required to progress
 
 Pawprint Isle - Chuchu Cave - Scale the Wall:
   Type: Sometimes
