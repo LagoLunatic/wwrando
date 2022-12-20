@@ -142,6 +142,25 @@ class Hints:
     
     return hint_string
   
+  def get_clearer_item_name(self, item_name):
+    if item_name.endswith("Small Key"):
+      short_dungeon_name = item_name.split(" Small Key")[0]
+      dungeon_name = self.logic.DUNGEON_NAMES[short_dungeon_name]
+      return "%s small key" % dungeon_name
+    if item_name.endswith("Big Key"):
+      short_dungeon_name = item_name.split(" Big Key")[0]
+      dungeon_name = self.logic.DUNGEON_NAMES[short_dungeon_name]
+      return "%s Big Key" % dungeon_name
+    if item_name.endswith("Dungeon Map"):
+      short_dungeon_name = item_name.split(" Dungeon Map")[0]
+      dungeon_name = self.logic.DUNGEON_NAMES[short_dungeon_name]
+      return "%s Dungeon Map" % dungeon_name
+    if item_name.endswith("Compass"):
+      short_dungeon_name = item_name.split(" Compass")[0]
+      dungeon_name = self.logic.DUNGEON_NAMES[short_dungeon_name]
+      return "%s Compass" % dungeon_name
+    return item_name
+  
   
   def get_entrance_zone(self, location_name):
     # Helper function to return the entrance zone name for the location.
@@ -695,9 +714,9 @@ class Hints:
     
     # Apply cryptic text to the location name, unless the clearer hints option is selected.
     item_name = self.logic.done_item_locations[location_name]
-    if self.clearer_hints:
-      item_name = tweaks.add_article_before_item_name(item_name)
-    else:
+    item_name = self.get_clearer_item_name(item_name)
+    item_name = tweaks.add_article_before_item_name(item_name)
+    if not self.clearer_hints:
       location_name = self.location_hints[location_name]["Text"]
     
     return Hint(HintType.LOCATION, location_name, item_name)
@@ -859,6 +878,7 @@ class Hints:
       
       # Apply cryptic text, unless the clearer hints option is selected.
       if self.clearer_hints:
+        item_hint.reward = self.get_clearer_item_name(item_hint.reward)
         item_hint.reward = tweaks.add_article_before_item_name(item_hint.reward)
       else:
         item_hint.reward = self.progress_item_hints[Hints.get_hint_item_name(item_hint.reward)]

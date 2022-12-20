@@ -732,7 +732,7 @@ def add_article_before_item_name(item_name):
     article = get_indefinite_article(item_name)
   elif item_name in DUPLICATABLE_CONSUMABLE_ITEMS:
     article = get_indefinite_article(item_name)
-  elif item_name.endswith(" Key"):
+  elif item_name.lower().endswith(" small key"):
     article = get_indefinite_article(item_name)
   elif item_name in ["Beedle's Chart", "Tingle's Chart", "Maggie's Letter"]:
     article = None
