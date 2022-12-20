@@ -258,7 +258,7 @@ Horseshoe Island - Cave:
 
 Flight Control Platform - Bird-Man Contest - First Prize:
   Type: Sometimes
-  Text: gliding to the Flight Control finish line
+  Text: gliding to the finish line of a contest
 Flight Control Platform - Submarine:
   Type: Sometimes
   Text: defeating Wizzrobes in a dimly-lit submarine
