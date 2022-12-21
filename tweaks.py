@@ -692,11 +692,17 @@ def word_wrap_string(string, max_line_length=34):
       index_in_str += 1
     elif char == " ":
       wordwrapped_str += current_word
-      wordwrapped_str += char
-      length_of_curr_line += current_word_length + len(char)
+      length_of_curr_line += current_word_length
       current_word = ""
       current_word_length = 0
       index_in_str += 1
+      
+      if length_of_curr_line + len(char) >= max_line_length:
+        wordwrapped_str += "\n"
+        length_of_curr_line = 0
+      else:
+        wordwrapped_str += char
+        length_of_curr_line += len(char)
     else:
       current_word += char
       current_word_length += 1
