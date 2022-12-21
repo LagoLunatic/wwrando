@@ -986,7 +986,7 @@ def update_fishmen_hints(self, hints):
     
     hint = ""
     for hint_line in hint_lines:
-      hint_line = word_wrap_string(hint_line, max_line_length=43)
+      hint_line = word_wrap_string(hint_line, max_line_length=42)
       hint_line = pad_string_to_next_4_lines(hint_line)
       hint += hint_line
     
@@ -1030,7 +1030,7 @@ def update_hoho_hints(self, hints):
     
     hint = ""
     for hint_line in hint_lines:
-      hint_line = word_wrap_string(hint_line, max_line_length=43)
+      hint_line = word_wrap_string(hint_line, max_line_length=42)
       hint_line = pad_string_to_next_4_lines(hint_line)
       hint += hint_line
     
@@ -1052,7 +1052,7 @@ def update_korl_hints(self, hints):
   
   hint = ""
   for hint_line in hint_lines:
-    hint_line = word_wrap_string(hint_line, max_line_length=43)
+    hint_line = word_wrap_string(hint_line, max_line_length=42)
     hint_line = pad_string_to_next_4_lines(hint_line)
     hint += hint_line
   
