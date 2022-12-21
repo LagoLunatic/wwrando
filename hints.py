@@ -115,25 +115,39 @@ class Hints:
   
   @staticmethod
   def get_formatted_hint_text(hint, prefix="They say that ", suffix=".", delay=30):
+    place = hint.place
+    if place == "Mailbox":
+      place = "the mail"
+    elif place == "The Great Sea":
+      place = "a location on the open seas"
+    elif place == "Tower of the Gods Sector":
+      place = "the Tower of the Gods sector"
+    
     if hint.type == HintType.PATH:
+      place_preposition = "at"
+      if place in ["the mail", "the Tower of the Gods sector"]:
+        place_preposition = "in"
       hint_string = (
-        "%san item found at \\{1A 06 FF 00 00 05}%s\\{1A 06 FF 00 00 00} is on the path to \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
-        % (prefix, hint.place, hint.reward, suffix)
+        "%san item found %s \\{1A 06 FF 00 00 05}%s\\{1A 06 FF 00 00 00} is on the path to \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
+        % (prefix, place_preposition, place, hint.reward, suffix)
       )
     elif hint.type == HintType.BARREN:
+      verb = "visiting"
+      if place == "the mail":
+        verb = "checking"
       hint_string = (
-        "%svisiting \\{1A 06 FF 00 00 03}%s\\{1A 06 FF 00 00 00} is a foolish choice%s"
-        % (prefix, hint.place, suffix)
+        "%s%s \\{1A 06 FF 00 00 03}%s\\{1A 06 FF 00 00 00} is a foolish choice%s"
+        % (prefix, verb, place, suffix)
       )
     elif hint.type == HintType.LOCATION:
       hint_string = (
         "%s\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} rewards \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
-        % (prefix, hint.place, hint.reward, suffix)
+        % (prefix, place, hint.reward, suffix)
       )
     elif hint.type == HintType.ITEM:
       hint_string = (
         "%s\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} is located in \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
-        % (prefix, hint.reward, hint.place, suffix)
+        % (prefix, hint.reward, place, suffix)
       )
     else:
       hint_string = ""
