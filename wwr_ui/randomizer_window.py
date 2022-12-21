@@ -269,6 +269,10 @@ class WWRandomizerWindow(QMainWindow):
             next_option_description, options_finished = next(randomizer_generator)
             if options_finished == -1:
               break
+        except (TooFewProgressionLocationsError, InvalidCleanISOError) as e:
+          error_message = str(e)
+          self.randomization_failed(error_message)
+          return
         except Exception as e:
           stack_trace = traceback.format_exc()
           error_message = "Error on seed " + temp_seed + ":\n" + str(e) + "\n\n" + stack_trace
