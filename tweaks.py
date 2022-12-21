@@ -958,6 +958,7 @@ def randomize_and_update_hints(self):
       print("Invalid hint placement option: %s" % hint_placement)
 
 def update_fishmen_hints(self, hints):
+  assert hints
   if self.dry_run:
     return
   
@@ -988,6 +989,7 @@ def update_fishmen_hints(self, hints):
     msg.string = hint
 
 def update_hoho_hints(self, hints):
+  assert hints
   if self.dry_run:
     return
   
@@ -1031,6 +1033,7 @@ def update_hoho_hints(self, hints):
     msg.string = hint
 
 def update_korl_hints(self, hints):
+  assert hints
   if self.dry_run:
     return
   

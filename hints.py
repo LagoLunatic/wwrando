@@ -30,6 +30,9 @@ class Hint:
   
   def __str__(self):
     return "<HINT: %s, (%s, %s)>" % (str(self.type), self.place, self.reward)
+  
+  def __repr__(self):
+    return "Hint(%s, %s, %s)" % (str(self.type), repr(self.place), repr(self.reward))
 
 
 class Hints:
