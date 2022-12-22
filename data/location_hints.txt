@@ -106,7 +106,7 @@ Tower of the Gods - Darknut Mini-Boss Room:
 
 Forsaken Fortress - Phantom Ganon:
   Type: Sometimes
-  Text: playing tennis with an apparition in an arena at a forsaken fortress
+  Text: playing tennis with an apparition in the rubble of the evil's lair
 
 Fire Mountain - Cave - Chest:
   Type: Sometimes
