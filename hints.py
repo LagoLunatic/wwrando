@@ -856,6 +856,10 @@ class Hints:
         
         # Remove locations that are hinted in always hints from being hinted path.
         if not self.use_always_hints or (location_name not in self.location_hints or self.location_hints[location_name]["Type"] != "Always"):
+          # Apply cryptic text, unless the clearer hints option is selected.
+          if not self.clearer_hints:
+            path_hint.place = self.zone_name_hints[path_hint.place]
+          
           hinted_path_zones.append(path_hint)
           previously_hinted_locations.append(location_name)
     
@@ -869,6 +873,10 @@ class Hints:
       else:
         # Remove locations that are hinted in always hints from being hinted path.
         if not self.use_always_hints or (location_name not in self.location_hints or self.location_hints[location_name]["Type"] != "Always"):
+          # Apply cryptic text, unless the clearer hints option is selected.
+          if not self.clearer_hints:
+            path_hint.place = self.zone_name_hints[path_hint.place]
+          
           hinted_path_zones.append(path_hint)
           previously_hinted_locations.append(location_name)
     
