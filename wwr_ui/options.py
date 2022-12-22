@@ -142,7 +142,7 @@ OPTIONS = OrderedDict([
   ),
   (
     "clearer_hints",
-    "When this option is selected, location and item hints will use the standard location names and item names, instead of using cryptic hints.",
+    "When this option is selected, all hints will use the standard location names and item names, instead of using cryptic hints.",
   ),
   (
     "use_always_hints",

@@ -753,9 +753,13 @@ class Hints:
     if location_name == "Two-Eye Reef - Big Octo Great Fairy":
       item_hint, location_name = self.get_item_hint(hintable_locations)
     
-    # Always use cryptic text for the octo fairy hint
-    item_hint.reward = self.progress_item_hints[Hints.get_hint_item_name(item_hint.reward)]
-    item_hint.place = self.zone_name_hints[item_hint.place]
+    # Apply cryptic text, unless the clearer hints option is selected.
+    if self.clearer_hints:
+      item_hint.reward = Hints.get_clearer_item_name(item_hint.reward)
+      item_hint.reward = tweaks.add_article_before_item_name(item_hint.reward)
+    else:
+      item_hint.reward = self.progress_item_hints[Hints.get_hint_item_name(item_hint.reward)]
+      item_hint.place = self.zone_name_hints[item_hint.place]
     
     return item_hint
   
@@ -767,21 +771,31 @@ class Hints:
     floor_30_is_progress = (floor_30_item_name in self.logic.all_progress_items)
     floor_50_is_progress = (floor_50_item_name in self.logic.all_progress_items)
     
-    floor_30_item_name = Hints.get_hint_item_name(floor_30_item_name)
-    floor_50_item_name = Hints.get_hint_item_name(floor_50_item_name)
-    
-    if floor_30_is_progress and not floor_30_item_name in self.progress_item_hints:
-      raise Exception("Could not find progress item hint for item: %s" % floor_30_item_name)
-    if floor_50_is_progress and not floor_50_item_name in self.progress_item_hints:
-      raise Exception("Could not find progress item hint for item: %s" % floor_50_item_name)
-    
-    # Always use cryptic text for the Savage Labyrinth hints
     floor_30_hint = None
     if floor_30_is_progress:
-      floor_30_hint = Hint(HintType.ITEM, None, self.progress_item_hints[floor_30_item_name])
+      # Apply cryptic text, unless the clearer hints option is selected.
+      if self.clearer_hints:
+        floor_30_item_name = Hints.get_clearer_item_name(floor_30_item_name)
+        floor_30_item_name = tweaks.add_article_before_item_name(floor_30_item_name)
+      else:
+        if not floor_30_item_name in self.progress_item_hints:
+          raise Exception("Could not find progress item hint for item: %s" % floor_30_item_name)
+        floor_30_item_name = self.progress_item_hints[Hints.get_hint_item_name(floor_30_item_name)]
+      
+      floor_30_hint = Hint(HintType.ITEM, None, floor_30_item_name)
+    
     floor_50_hint = None
     if floor_50_is_progress:
-      floor_50_hint = Hint(HintType.ITEM, None, self.progress_item_hints[floor_50_item_name])
+      # Apply cryptic text, unless the clearer hints option is selected.
+      if self.clearer_hints:
+        floor_50_item_name = Hints.get_clearer_item_name(floor_50_item_name)
+        floor_50_item_name = tweaks.add_article_before_item_name(floor_50_item_name)
+      else:
+        if not floor_50_item_name in self.progress_item_hints:
+          raise Exception("Could not find progress item hint for item: %s" % floor_50_item_name)
+        floor_50_item_name = self.progress_item_hints[Hints.get_hint_item_name(floor_50_item_name)]
+      
+      floor_50_hint = Hint(HintType.ITEM, None, floor_50_item_name)
     
     return floor_30_hint, floor_50_hint
   
