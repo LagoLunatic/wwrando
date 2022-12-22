@@ -83,8 +83,8 @@ class Hints:
     # Import dictionaries used to build hints from files.
     with open(os.path.join(DATA_PATH, "progress_item_hints.txt"), "r") as f:
       self.progress_item_hints = yaml.safe_load(f)
-    with open(os.path.join(DATA_PATH, "island_name_hints.txt"), "r") as f:
-      self.island_name_hints = yaml.safe_load(f)
+    with open(os.path.join(DATA_PATH, "zone_name_hints.txt"), "r") as f:
+      self.zone_name_hints = yaml.safe_load(f)
     with open(os.path.join(DATA_PATH, "location_hints.txt"), "r") as f:
       self.location_hints = yaml.safe_load(f)
     
@@ -755,7 +755,7 @@ class Hints:
     
     # Always use cryptic text for the octo fairy hint
     item_hint.reward = self.progress_item_hints[Hints.get_hint_item_name(item_hint.reward)]
-    item_hint.place = self.island_name_hints[item_hint.place]
+    item_hint.place = self.zone_name_hints[item_hint.place]
     
     return item_hint
   
@@ -883,6 +883,10 @@ class Hints:
       
       barren_hint = self.get_barren_hint(unhinted_barren_zones, zone_weights)
       if barren_hint is not None:
+        # Apply cryptic text, unless the clearer hints option is selected.
+        if not self.clearer_hints:
+          barren_hint.place = self.zone_name_hints[barren_hint.place]
+        
         hinted_barren_zones.append(barren_hint)
     
     # Generate item hints.
@@ -900,7 +904,7 @@ class Hints:
         item_hint.reward = tweaks.add_article_before_item_name(item_hint.reward)
       else:
         item_hint.reward = self.progress_item_hints[Hints.get_hint_item_name(item_hint.reward)]
-        item_hint.place = self.island_name_hints[item_hint.place]
+        item_hint.place = self.zone_name_hints[item_hint.place]
       
       hinted_item_locations.append(item_hint)
       previously_hinted_locations.append(location_name)

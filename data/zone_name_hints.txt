@@ -48,8 +48,8 @@ Cyclops Reef:
   the one-eyed demon
 Six-Eye Reef:
   the six-eyed demon
-Tower of the Gods:
-  a tower created to test the hero
+Tower of the Gods Sector:
+  where a tower created to test the hero lies
 Eastern Triangle Island:
   the green triangle island
 Thorned Fairy Island:
@@ -100,6 +100,16 @@ Mailbox:
   the mail
 The Great Sea:
   a location on the open seas
+Dragon Roost Cavern:
+  a volcanic cavern
+Forbidden Woods:
+  a forbidden dungeon
+Tower of the Gods:
+  a tower created to test the hero
+Earth Temple:
+  an earthen dungeon
+Wind Temple:
+  a windy dungeon
 Hyrule:
   the submerged castle
 Ganon's Tower:
