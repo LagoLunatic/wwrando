@@ -96,13 +96,13 @@ Forbidden Woods - Big Key Chest:
 
 Tower of the Gods - Hop Across Floating Boxes:
   Type: Sometimes
-  Text: hopping across boxes in a godly tower
+  Text: hopping across boxes in a tower created to test the hero
 Tower of the Gods - First Chest Guarded by Armos Knights:
   Type: Sometimes
-  Text: defeating two bomb-hungry foes in a godly tower
+  Text: defeating two bomb-hungry foes in a tower created to test the hero
 Tower of the Gods - Darknut Mini-Boss Room:
   Type: Sometimes
-  Text: defeating a sworded foe in its arena in a godly tower
+  Text: defeating a sworded foe in its arena in a tower created to test the hero
 
 Forsaken Fortress - Phantom Ganon:
   Type: Sometimes
