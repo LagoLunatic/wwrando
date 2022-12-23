@@ -778,9 +778,10 @@ class Hints:
       if self.clearer_hints:
         floor_30_item_name = Hints.get_formatted_item_name(floor_30_item_name)
       else:
+        floor_30_item_name = Hints.get_hint_item_name(floor_30_item_name)
         if not floor_30_item_name in self.progress_item_hints:
           raise Exception("Could not find progress item hint for item: %s" % floor_30_item_name)
-        floor_30_item_name = self.progress_item_hints[Hints.get_hint_item_name(floor_30_item_name)]
+        floor_30_item_name = self.progress_item_hints[floor_30_item_name]
       
       floor_30_hint = Hint(HintType.ITEM, None, floor_30_item_name)
     
@@ -790,9 +791,10 @@ class Hints:
       if self.clearer_hints:
         floor_50_item_name = Hints.get_formatted_item_name(floor_50_item_name)
       else:
+        floor_50_item_name = Hints.get_hint_item_name(floor_50_item_name)
         if not floor_50_item_name in self.progress_item_hints:
           raise Exception("Could not find progress item hint for item: %s" % floor_50_item_name)
-        floor_50_item_name = self.progress_item_hints[Hints.get_hint_item_name(floor_50_item_name)]
+        floor_50_item_name = self.progress_item_hints[floor_50_item_name]
       
       floor_50_hint = Hint(HintType.ITEM, None, floor_50_item_name)
     
