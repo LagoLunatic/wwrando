@@ -145,9 +145,12 @@ class Hints:
         % (prefix, place, hint.reward, suffix)
       )
     elif hint.type == HintType.ITEM:
+      copula = "is"
+      if hint.reward in ["the Power Bracelets", "the Iron Boots", "Bombs"]:
+        copula = "are"
       hint_string = (
-        "%s\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} is located in \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
-        % (prefix, hint.reward, place, suffix)
+        "%s\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} %s located in \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
+        % (prefix, hint.reward, copula, place, suffix)
       )
     else:
       hint_string = ""
