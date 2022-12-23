@@ -160,23 +160,25 @@ class Hints:
     return hint_string
   
   @staticmethod
-  def get_clearer_item_name(item_name):
+  def get_formatted_item_name(item_name):
     if item_name.endswith("Small Key"):
       short_dungeon_name = item_name.split(" Small Key")[0]
       dungeon_name = Logic.DUNGEON_NAMES[short_dungeon_name]
-      return "%s small key" % dungeon_name
-    if item_name.endswith("Big Key"):
+      item_name = "%s small key" % dungeon_name
+    elif item_name.endswith("Big Key"):
       short_dungeon_name = item_name.split(" Big Key")[0]
       dungeon_name = Logic.DUNGEON_NAMES[short_dungeon_name]
-      return "%s Big Key" % dungeon_name
-    if item_name.endswith("Dungeon Map"):
+      item_name = "%s Big Key" % dungeon_name
+    elif item_name.endswith("Dungeon Map"):
       short_dungeon_name = item_name.split(" Dungeon Map")[0]
       dungeon_name = Logic.DUNGEON_NAMES[short_dungeon_name]
-      return "%s Dungeon Map" % dungeon_name
-    if item_name.endswith("Compass"):
+      item_name = "%s Dungeon Map" % dungeon_name
+    elif item_name.endswith("Compass"):
       short_dungeon_name = item_name.split(" Compass")[0]
       dungeon_name = Logic.DUNGEON_NAMES[short_dungeon_name]
-      return "%s Compass" % dungeon_name
+      item_name = "%s Compass" % dungeon_name
+    
+    item_name = tweaks.add_article_before_item_name(item_name)
     return item_name
   
   
@@ -730,10 +732,10 @@ class Hints:
     location_name = self.rando.rng.choice(hintable_locations)
     hintable_locations.remove(location_name)
     
-    # Apply cryptic text to the location name, unless the clearer hints option is selected.
     item_name = self.logic.done_item_locations[location_name]
-    item_name = Hints.get_clearer_item_name(item_name)
-    item_name = tweaks.add_article_before_item_name(item_name)
+    item_name = Hints.get_formatted_item_name(item_name)
+    
+    # Apply cryptic text to the location name, unless the clearer hints option is selected.
     if not self.clearer_hints:
       location_name = self.location_hints[location_name]["Text"]
     
@@ -755,8 +757,7 @@ class Hints:
     
     # Apply cryptic text, unless the clearer hints option is selected.
     if self.clearer_hints:
-      item_hint.reward = Hints.get_clearer_item_name(item_hint.reward)
-      item_hint.reward = tweaks.add_article_before_item_name(item_hint.reward)
+      item_hint.reward = Hints.get_formatted_item_name(item_hint.reward)
     else:
       item_hint.reward = self.progress_item_hints[Hints.get_hint_item_name(item_hint.reward)]
       item_hint.place = self.zone_name_hints[item_hint.place]
@@ -775,8 +776,7 @@ class Hints:
     if floor_30_is_progress:
       # Apply cryptic text, unless the clearer hints option is selected.
       if self.clearer_hints:
-        floor_30_item_name = Hints.get_clearer_item_name(floor_30_item_name)
-        floor_30_item_name = tweaks.add_article_before_item_name(floor_30_item_name)
+        floor_30_item_name = Hints.get_formatted_item_name(floor_30_item_name)
       else:
         if not floor_30_item_name in self.progress_item_hints:
           raise Exception("Could not find progress item hint for item: %s" % floor_30_item_name)
@@ -788,8 +788,7 @@ class Hints:
     if floor_50_is_progress:
       # Apply cryptic text, unless the clearer hints option is selected.
       if self.clearer_hints:
-        floor_50_item_name = Hints.get_clearer_item_name(floor_50_item_name)
-        floor_50_item_name = tweaks.add_article_before_item_name(floor_50_item_name)
+        floor_50_item_name = Hints.get_formatted_item_name(floor_50_item_name)
       else:
         if not floor_50_item_name in self.progress_item_hints:
           raise Exception("Could not find progress item hint for item: %s" % floor_50_item_name)
@@ -922,8 +921,7 @@ class Hints:
       
       # Apply cryptic text, unless the clearer hints option is selected.
       if self.clearer_hints:
-        item_hint.reward = Hints.get_clearer_item_name(item_hint.reward)
-        item_hint.reward = tweaks.add_article_before_item_name(item_hint.reward)
+        item_hint.reward = Hints.get_formatted_item_name(item_hint.reward)
       else:
         item_hint.reward = self.progress_item_hints[Hints.get_hint_item_name(item_hint.reward)]
         item_hint.place = self.zone_name_hints[item_hint.place]
