@@ -644,7 +644,7 @@ class Ui_MainWindow(object):
         self.num_location_hints.setCorrectionMode(QAbstractSpinBox.CorrectToNearestValue)
         self.num_location_hints.setMinimum(0)
         self.num_location_hints.setMaximum(15)
-        self.num_location_hints.setValue(0)
+        self.num_location_hints.setValue(5)
 
         self.horizontalLayout_17.addWidget(self.num_location_hints)
 
