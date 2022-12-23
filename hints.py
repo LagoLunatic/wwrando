@@ -674,6 +674,13 @@ class Hints:
     if entrance_zone == "Tower of the Gods Sector":
       entrance_zone = "Tower of the Gods"
     
+    # Apply cryptic text, unless the clearer hints option is selected.
+    if self.clearer_hints:
+      item_name = Hints.get_formatted_item_name(item_name)
+    else:
+      item_name = self.progress_item_hints[Hints.get_hint_item_name(item_name)]
+      entrance_zone = self.zone_name_hints[entrance_zone]
+    
     return Hint(HintType.ITEM, entrance_zone, item_name), location_name
   
   
@@ -754,13 +761,6 @@ class Hints:
     # We don't want this Great Fairy to hint at her own item.
     if location_name == "Two-Eye Reef - Big Octo Great Fairy":
       item_hint, location_name = self.get_item_hint(hintable_locations)
-    
-    # Apply cryptic text, unless the clearer hints option is selected.
-    if self.clearer_hints:
-      item_hint.reward = Hints.get_formatted_item_name(item_hint.reward)
-    else:
-      item_hint.reward = self.progress_item_hints[Hints.get_hint_item_name(item_hint.reward)]
-      item_hint.place = self.zone_name_hints[item_hint.place]
     
     return item_hint
   
@@ -918,13 +918,6 @@ class Hints:
     hinted_item_locations = []
     while len(hintable_locations) > 0 and len(hinted_item_locations) < self.max_item_hints:
       item_hint, location_name = self.get_item_hint(hintable_locations)
-      
-      # Apply cryptic text, unless the clearer hints option is selected.
-      if self.clearer_hints:
-        item_hint.reward = Hints.get_formatted_item_name(item_hint.reward)
-      else:
-        item_hint.reward = self.progress_item_hints[Hints.get_hint_item_name(item_hint.reward)]
-        item_hint.place = self.zone_name_hints[item_hint.place]
       
       hinted_item_locations.append(item_hint)
       previously_hinted_locations.append(location_name)
