@@ -360,7 +360,6 @@ class Hints:
   def get_path_hint(self, unhinted_locations, hinted_locations, path_name):
     valid_path_hint = False
     while not valid_path_hint:
-      # If there are no hintable locations, return `None`.
       if len(unhinted_locations) == 0:
         return None, None
       
@@ -380,11 +379,17 @@ class Hints:
     if zone_name in self.logic.DUNGEON_NAMES.values():
       if zone_name == "Tower of the Gods" and specific_location_name == "Sunken Treasure":
         # Special case: if location is Tower of the Gods - Sunken Treasure, use "Tower of the Gods Sector" as the hint.
-        return Hint(HintType.PATH, "Tower of the Gods Sector", self.DUNGEON_NAME_TO_BOSS_NAME[path_name]), hinted_location
+        hint_zone = "Tower of the Gods Sector"
       else:
-        return Hint(HintType.PATH, zone_name, self.DUNGEON_NAME_TO_BOSS_NAME[path_name]), hinted_location
+        hint_zone = zone_name
     else:
-      return Hint(HintType.PATH, entrance_zone, self.DUNGEON_NAME_TO_BOSS_NAME[path_name]), hinted_location
+      hint_zone = entrance_zone
+    
+    # Apply cryptic text, unless the clearer hints option is selected.
+    if not self.clearer_hints:
+      hint_zone = self.zone_name_hints[hint_zone]
+    
+    return Hint(HintType.PATH, hint_zone, self.DUNGEON_NAME_TO_BOSS_NAME[path_name]), hinted_location
   
   
   def determine_junk_items(self):
@@ -594,13 +599,16 @@ class Hints:
     return list(sorted(barren_zones))
   
   def get_barren_hint(self, unhinted_zones, zone_weights):
-    # If there are no hintable locations, return `None`.
     if len(unhinted_zones) == 0:
       return None
     
     # Remove a barren zone at random from the list, using the weights provided.
     zone_name = self.rando.rng.choices(unhinted_zones, weights=zone_weights)[0]
     unhinted_zones.remove(zone_name)
+    
+    # Apply cryptic text, unless the clearer hints option is selected.
+    if not self.clearer_hints:
+      zone_name = self.zone_name_hints[zone_name]
     
     return Hint(HintType.BARREN, zone_name)
   
@@ -662,9 +670,8 @@ class Hints:
     return new_hintable_locations
   
   def get_item_hint(self, hintable_locations):
-    # If there are no hintable locations, return `None`.
     if len(hintable_locations) == 0:
-      return None
+      return None, None
     
     # Pick a location at which to hint at random.
     location_name = self.rando.rng.choice(hintable_locations)
@@ -734,7 +741,6 @@ class Hints:
     return always_hintable_locations, sometimes_hintable_locations
   
   def get_location_hint(self, hintable_locations):
-    # If there are no hintable locations, return `None`.
     if len(hintable_locations) == 0:
       return None
     
@@ -874,10 +880,6 @@ class Hints:
         
         # Remove locations that are hinted in always hints from being hinted path.
         if not self.use_always_hints or (location_name not in self.location_hints or self.location_hints[location_name]["Type"] != "Always"):
-          # Apply cryptic text, unless the clearer hints option is selected.
-          if not self.clearer_hints:
-            path_hint.place = self.zone_name_hints[path_hint.place]
-          
           hinted_path_zones.append(path_hint)
           previously_hinted_locations.append(location_name)
     
@@ -891,10 +893,6 @@ class Hints:
       else:
         # Remove locations that are hinted in always hints from being hinted path.
         if not self.use_always_hints or (location_name not in self.location_hints or self.location_hints[location_name]["Type"] != "Always"):
-          # Apply cryptic text, unless the clearer hints option is selected.
-          if not self.clearer_hints:
-            path_hint.place = self.zone_name_hints[path_hint.place]
-          
           hinted_path_zones.append(path_hint)
           previously_hinted_locations.append(location_name)
     
@@ -909,10 +907,6 @@ class Hints:
       
       barren_hint = self.get_barren_hint(unhinted_barren_zones, zone_weights)
       if barren_hint is not None:
-        # Apply cryptic text, unless the clearer hints option is selected.
-        if not self.clearer_hints:
-          barren_hint.place = self.zone_name_hints[barren_hint.place]
-        
         hinted_barren_zones.append(barren_hint)
     
     # Generate item hints.
