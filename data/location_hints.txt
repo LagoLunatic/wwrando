@@ -59,23 +59,23 @@ Dragon Roost Island - Rito Aerie - Give Hoskit 20 Golden Feathers:
   Text: gathering feathers for a charitable lover
 Dragon Roost Island - Fly Across Platforms Around Island:
   Type: Sometimes
-  Text: gliding around the home of the Rito
+  Text: gliding around the home of bird people
 Dragon Roost Island - Rito Aerie - Baito:
   Type: Sometimes
   Text: mastering the art of letter throwing
 Dragon Roost Island - Secret Cave:
   Type: Sometimes
-  Text: besting the cavern at the home of the Rito
+  Text: besting the cavern at the home of bird people
 
 Dragon Roost Cavern - Mini-Boss:
   Type: Sometimes
-  Text: freeing the chest in an arena at the summit of a volcanic cavern
+  Text: freeing the chest in an arena at the summit of a large volcanic den
 Dragon Roost Cavern - Under Rope Bridge:
   Type: Sometimes
-  Text: defeating two Bokoblins near a fragile bridge in a volcanic cavern
+  Text: defeating two Bokoblins near a fragile bridge in a large volcanic den
 Dragon Roost Cavern - Big Key Chest:
   Type: Sometimes
-  Text: placing a Magtail on a switch in a volcanic cavern
+  Text: placing a Magtail on a switch in a large volcanic den
 
 Forest Haven - On Tree Branch:
   Type: Sometimes
@@ -86,13 +86,13 @@ Forest Haven - Small Island Chest:
 
 Forbidden Woods - Mothula Mini-Boss Room:
   Type: Sometimes
-  Text: exterminating a flying bug in its arena in a forbidden dungeon
+  Text: exterminating a flying bug in its arena in a dungeon with overgrown vegetation
 Forbidden Woods - Chest in Locked Tree Trunk:
   Type: Sometimes
-  Text: dropping a bomb flower into a tree trunk in a forbidden dungeon
+  Text: dropping a bomb flower into a tree trunk in a dungeon with overgrown vegetation
 Forbidden Woods - Big Key Chest:
   Type: Sometimes
-  Text: hitting five switches at once in a forbidden dungeon
+  Text: hitting five switches at once in a dungeon with overgrown vegetation
 
 Tower of the Gods - Hop Across Floating Boxes:
   Type: Sometimes
@@ -118,29 +118,29 @@ Ice Ring Isle - Inner Cave - Chest:
 
 Earth Temple - Stalfos Mini-Boss Room:
   Type: Sometimes
-  Text: defeating three Stalfos in an earthen dungeon's arena
+  Text: defeating three Stalfos in a haunted dungeon's arena
 Earth Temple - Kill All Floormasters in Foggy Room:
   Type: Sometimes
-  Text: defeating an army of Floormasters in an earthen dungeon
+  Text: defeating an army of Floormasters in a haunted dungeon
 Earth Temple - Stalfos Crypt Room:
   Type: Sometimes
-  Text: defeating three Stalfos in a crypt deep in an earthen dungeon
+  Text: defeating three Stalfos in a crypt deep in a haunted dungeon
 Earth Temple - Big Key Chest:
   Type: Sometimes
-  Text: defeating a sworded foe in an earthen dungeon
+  Text: defeating a sworded foe in a haunted dungeon
 
 Wind Temple - Big Key Chest:
   Type: Sometimes
-  Text: defeating three sworded foes in a windy dungeon
+  Text: defeating three sworded foes in a a trap-filled dungeon
 Wind Temple - Wizzrobe Mini-Boss Room:
   Type: Sometimes
-  Text: defeating the Wizzrobe mini-boss in a windy dungeon's arena
+  Text: defeating the Wizzrobe mini-boss in a a trap-filled dungeon's arena
 Wind Temple - Chest Behind Seven Armos:
   Type: Sometimes
-  Text: defeating seven mechanical foes near the top of a windy dungeon
+  Text: defeating seven mechanical foes near the top of a a trap-filled dungeon
 Wind Temple - Kill All Enemies in Tall Basement Room:
   Type: Sometimes
-  Text: defeating every enemy in the lowest room of a windy dungeon
+  Text: defeating every enemy in the lowest room of a a trap-filled dungeon
 
 Ganon's Tower - Maze Chest:
   Type: Always
