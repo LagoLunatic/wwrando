@@ -79,7 +79,7 @@ Southern Fairy Island:
 Ice Ring Isle:
   an island ravaged by ice
 Forest Haven:
-  a place where the vegetation is abundant
+  the home of the Koroks
 Cliff Plateau Isles:
   the remains of a wooden plateau
 Horseshoe Island:
@@ -101,15 +101,15 @@ Mailbox:
 The Great Sea:
   a location on the open seas
 Dragon Roost Cavern:
-  a volcanic cavern
+  a large volcanic den
 Forbidden Woods:
-  a forbidden dungeon
+  a dungeon with overgrown vegetation
 Tower of the Gods:
   a tower created to test the hero
 Earth Temple:
-  an earthen dungeon
+  a haunted dungeon
 Wind Temple:
-  a windy dungeon
+  a trap-filled dungeon
 Hyrule:
   the submerged castle
 Ganon's Tower:
