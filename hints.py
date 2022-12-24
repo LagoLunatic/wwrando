@@ -78,7 +78,7 @@ class Hints:
     self.total_num_hints = self.max_path_hints + self.max_barren_hints + self.max_location_hints + self.max_item_hints
     
     self.cryptic_hints = self.options.get("cryptic_hints")
-    self.use_always_hints = self.options.get("use_always_hints")
+    self.prioritize_remote_hints = self.options.get("prioritize_remote_hints")
     
     # Import dictionaries used to build hints from files.
     with open(os.path.join(DATA_PATH, "progress_item_hints.txt"), "r") as f:
@@ -492,23 +492,23 @@ class Hints:
     # Technically, this is an overestimate (a superset) of actual barren locations, but it should suffice.
     junk_items = self.determine_junk_items()
     
-    # We don't want to have barren/always hints overlap if hints are on.
-    # For instance, consider a Ganon's Tower always hint. If you get that hint and a barren hint for Ganon's Tower, it's
+    # We don't want to have barren/remote hints overlap if hints are on.
+    # For instance, consider a Ganon's Tower remote hint. If you get that hint and a barren hint for Ganon's Tower, it's
     # effectively the same hint. However, if there's a Blue Chu Jelly hint, a Windfall barren hint would still be
     # helpful since Green Chu Jelly is at least another check on Windfall.
-    always_hint_locations = []
-    if self.use_always_hints:
-      always_hint_locations = list(filter(
+    remote_locations = []
+    if self.prioritize_remote_hints:
+      remote_locations = list(filter(
         lambda location_name: location_name in self.location_hints
-        and self.location_hints[location_name]["Type"] == "Always",
+        and self.location_hints[location_name]["Type"] == "Remote",
         progress_locations,
       ))
     
     # Initialize possibly-required zones to all logical zones in this seed.
     # `possibly_required_zones` contains a mapping of zones -> possibly-required items.
-    # `possibly_required_zones_no_always` contains a mapping of zones with always locations ignored -> possibly-required items.
+    # `possibly_required_zones_no_remote` contains a mapping of zones with remote locations ignored -> possibly-required items.
     possibly_required_zones = {}
-    possibly_required_zones_no_always = {}
+    possibly_required_zones_no_remote = {}
     for location_name in progress_locations:
       zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
       
@@ -524,8 +524,8 @@ class Hints:
         key_name = entrance_zone
       
       possibly_required_zones[key_name] = set()
-      if location_name not in always_hint_locations:
-        possibly_required_zones_no_always[key_name] = set()
+      if location_name not in remote_locations:
+        possibly_required_zones_no_remote[key_name] = set()
     
     # Loop through all progress locations, recording only possibly-required items in our dictionary.
     for location_name in progress_locations:
@@ -558,10 +558,10 @@ class Hints:
           possibly_required_zones["Forsaken Fortress"].add(item_name)
     
     # The zones with zero possibly-required items makes up our initial set of barren zones.
-    # We also check whether there are any non-always hinted locations there. If not, then don't hint at that zone since
-    # it'd be covered already by the always hint(s).
+    # We also check whether there are any non-remote hinted locations there. If not, then 
+    # don't hint at that zone since it'd be covered already by the remote hint(s).
     barren_zones = list(filter(
-      lambda x: x[0] in possibly_required_zones_no_always and len(x[1]) == 0,
+      lambda x: x[0] in possibly_required_zones_no_remote and len(x[1]) == 0,
       possibly_required_zones.items()
     ))
     barren_zones = set(zone_name for zone_name, empty_set in barren_zones)
@@ -625,8 +625,8 @@ class Hints:
       # You already know which boss locations have a required item and which don't in race mode by looking at the sea chart.
       location_name not in self.rando.race_mode_required_locations and
       
-      # Remove locations that are included in always hints.
-      not (location_name in self.location_hints and self.location_hints[location_name]["Type"] == "Always") and
+      # Remove locations that are included in remote hints.
+      not (location_name in self.location_hints and self.location_hints[location_name]["Type"] == "Remote") and
       
       # Remove locations in race-mode banned dungeons.
       location_name not in self.rando.race_mode_banned_locations and
@@ -696,15 +696,15 @@ class Hints:
     
     hintable_locations = list(filter(lambda loc: loc in self.location_hints.keys(), progress_locations))
     
-    # Identify valid always hints for this seed.
-    always_hintable_locations = list(filter(lambda loc: self.location_hints[loc]["Type"] == "Always", hintable_locations))
-    # The remaining locations are potential sometimes hints.
-    hintable_locations = list(filter(lambda loc: self.location_hints[loc]["Type"] == "Sometimes", hintable_locations))
+    # Identify valid remote hints for this seed.
+    remote_hintable_locations = list(filter(lambda loc: self.location_hints[loc]["Type"] == "Remote", hintable_locations))
+    # The remaining locations are potential standard location hints.
+    hintable_locations = list(filter(lambda loc: self.location_hints[loc]["Type"] == "Standard", hintable_locations))
     
-    # If we're not using always hints, consider them as sometimes hints instead.
-    if not self.use_always_hints:
-      hintable_locations += always_hintable_locations
-      always_hintable_locations = []
+    # If we're not prioritizing remote hints, consider them as standard location hints instead.
+    if not self.prioritize_remote_hints:
+      hintable_locations += remote_hintable_locations
+      remote_hintable_locations = []
     
     # Remove locations in race-mode banned dungeons.
     hintable_locations = list(filter(lambda location_name: location_name not in self.rando.race_mode_banned_locations, hintable_locations))
@@ -713,7 +713,7 @@ class Hints:
     hintable_locations = list(filter(lambda loc: loc not in previously_hinted_locations, hintable_locations))
     
     # Remove locations in hinted barren areas.
-    sometimes_hintable_locations = []
+    standard_hintable_locations = []
     barrens = [hint.place for hint in hinted_barren_zones]
     for location_name in hintable_locations:
       # Catch Mailbox cases.
@@ -733,9 +733,9 @@ class Hints:
       # Catch locations which are hinted at in barren zones.
       entrance_zone = self.get_entrance_zone(location_name)
       if entrance_zone not in barrens:
-        sometimes_hintable_locations.append(location_name)
+        standard_hintable_locations.append(location_name)
     
-    return always_hintable_locations, sometimes_hintable_locations
+    return remote_hintable_locations, standard_hintable_locations
   
   def get_location_hint(self, hintable_locations):
     if len(hintable_locations) == 0:
@@ -872,8 +872,8 @@ class Hints:
           del required_locations_for_paths[dungeon_name]
           continue
         
-        # Remove locations that are hinted in always hints from being hinted path.
-        if not self.use_always_hints or (location_name not in self.location_hints or self.location_hints[location_name]["Type"] != "Always"):
+        # Remove locations that are hinted in remote hints from being hinted path.
+        if not self.prioritize_remote_hints or (location_name not in self.location_hints or self.location_hints[location_name]["Type"] != "Remote"):
           hinted_path_zones.append(path_hint)
           previously_hinted_locations.append(location_name)
     
@@ -885,8 +885,8 @@ class Hints:
       if path_hint is None:
         del required_locations_for_paths[path_name]
       else:
-        # Remove locations that are hinted in always hints from being hinted path.
-        if not self.use_always_hints or (location_name not in self.location_hints or self.location_hints[location_name]["Type"] != "Always"):
+        # Remove locations that are hinted in remote hints from being hinted path.
+        if not self.prioritize_remote_hints or (location_name not in self.location_hints or self.location_hints[location_name]["Type"] != "Remote"):
           hinted_path_zones.append(path_hint)
           previously_hinted_locations.append(location_name)
     
@@ -918,20 +918,20 @@ class Hints:
     # Generate location hints.
     # We try to generate location hints until we get to `self.total_num_hints` total hints, but if there are not enough
     # valid hintable locations, then we have no choice but to return less than the desired amount of hints.
-    always_hintable_locations, sometimes_hintable_locations = self.get_legal_location_hints(progress_locations, hinted_barren_zones, previously_hinted_locations)
+    remote_hintable_locations, standard_hintable_locations = self.get_legal_location_hints(progress_locations, hinted_barren_zones, previously_hinted_locations)
     hinted_locations = []
     remaining_hints_desired = self.total_num_hints - len(hinted_path_zones) - len(hinted_barren_zones) - len(hinted_item_locations)
     
-    # Start by exhausting the list of always hints.
-    while len(always_hintable_locations) > 0 and remaining_hints_desired > 0:
+    # Start by exhausting the list of remote hints.
+    while len(remote_hintable_locations) > 0 and remaining_hints_desired > 0:
       remaining_hints_desired -= 1
-      location_hint = self.get_location_hint(always_hintable_locations)
+      location_hint = self.get_location_hint(remote_hintable_locations)
       hinted_locations.append(location_hint)
     
-    # Fill out the remaining hint slots with sometimes hints.
-    while len(sometimes_hintable_locations) > 0 and remaining_hints_desired > 0:
+    # Fill out the remaining hint slots with standard location hints.
+    while len(standard_hintable_locations) > 0 and remaining_hints_desired > 0:
       remaining_hints_desired -= 1
-      location_hint = self.get_location_hint(sometimes_hintable_locations)
+      location_hint = self.get_location_hint(standard_hintable_locations)
       hinted_locations.append(location_hint)
     
     return hinted_path_zones + hinted_barren_zones + hinted_item_locations + hinted_locations

@@ -145,8 +145,8 @@ OPTIONS = OrderedDict([
     "When this option is selected, all hints will be phrased cryptically instead of telling you the names of locations and items directly.",
   ),
   (
-    "use_always_hints",
-    "When this option is selected, certain time-consuming locations will take precedence over normal location hints.",
+    "prioritize_remote_hints",
+    "When this option is selected, certain locations that are out of the way and time-consuming to complete will take precedence over normal location hints.",
   ),
   
   

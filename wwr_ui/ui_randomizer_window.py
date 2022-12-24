@@ -587,10 +587,10 @@ class Ui_MainWindow(object):
 
         self.gridLayout_7.addWidget(self.hoho_hints, 4, 0, 1, 1)
 
-        self.use_always_hints = QCheckBox(self.groupBox_5)
-        self.use_always_hints.setObjectName(u"use_always_hints")
+        self.prioritize_remote_hints = QCheckBox(self.groupBox_5)
+        self.prioritize_remote_hints.setObjectName(u"prioritize_remote_hints")
 
-        self.gridLayout_7.addWidget(self.use_always_hints, 6, 1, 1, 1)
+        self.gridLayout_7.addWidget(self.prioritize_remote_hints, 6, 1, 1, 1)
 
         self.korl_hints = QCheckBox(self.groupBox_5)
         self.korl_hints.setObjectName(u"korl_hints")
@@ -1028,7 +1028,7 @@ class Ui_MainWindow(object):
 
         self.groupBox_5.setTitle(QCoreApplication.translate("MainWindow", u"Hint Options", None))
         self.hoho_hints.setText(QCoreApplication.translate("MainWindow", u"Place Hints on Old Man Ho Ho", None))
-        self.use_always_hints.setText(QCoreApplication.translate("MainWindow", u"Use Always Hints", None))
+        self.prioritize_remote_hints.setText(QCoreApplication.translate("MainWindow", u"Prioritize Remote Location Hints", None))
         self.korl_hints.setText(QCoreApplication.translate("MainWindow", u"Place Hints on King of Red Lions", None))
         self.label_for_num_barren_hints.setText(QCoreApplication.translate("MainWindow", u"Barren Hints", None))
         self.cryptic_hints.setText(QCoreApplication.translate("MainWindow", u"Use Cryptic Text for Hints", None))

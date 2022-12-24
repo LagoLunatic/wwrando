@@ -1,303 +1,303 @@
 Outset Island - Orca - Give 10 Knight's Crests:
-  Type: Sometimes
+  Type: Standard
   Text: giving a fellow swordsman crests of honor
 Outset Island - Great Fairy:
-  Type: Sometimes
+  Type: Standard
   Text: visiting the fairy atop the place of all beginnings
 Outset Island - Jabun's Cave:
-  Type: Sometimes
+  Type: Standard
   Text: entering the cave at the back of the place of all beginnings
 Outset Island - Dig up Black Soil:
-  Type: Sometimes
+  Type: Standard
   Text: teaching a pig to dig for treasure
 
 Windfall Island - Chu Jelly Juice Shop - Give 15 Green Chu Jelly:
-  Type: Sometimes
+  Type: Standard
   Text: giving a potion master green jelly
 Windfall Island - Chu Jelly Juice Shop - Give 15 Blue Chu Jelly:
-  Type: Always
+  Type: Remote
   Text: giving a potion master blue jelly
 Windfall Island - Mrs. Marie - Give 40 Joy Pendants:
-  Type: Sometimes
+  Type: Standard
   Text: giving a schoolteacher forty pendants
 Windfall Island - Lenzo's House - Become Lenzo's Assistant:
-  Type: Sometimes
+  Type: Standard
   Text: undertaking a photography apprenticeship
 Windfall Island - Lenzo's House - Bring Forest Firefly:
-  Type: Sometimes
+  Type: Standard
   Text: catching a firefly in a bottle
 Windfall Island - Maggie's Father - Give 20 Skull Necklaces:
-  Type: Sometimes
+  Type: Standard
   Text: giving a wealthy man twenty necklaces
 Windfall Island - Zunari - Stock Exotic Flower in Zunari's Shop:
-  Type: Sometimes
+  Type: Standard
   Text: stocking a shop with three flowers
 Windfall Island - Sam - Decorate the Town:
-  Type: Sometimes
+  Type: Standard
   Text: volunteering to decorate a very populated place
 Windfall Island - Mila - Follow the Thief:
-  Type: Sometimes
+  Type: Standard
   Text: preventing a burglary
 Windfall Island - Battlesquid - Under 20 Shots Prize:
-  Type: Always
+  Type: Remote
   Text: setting a new record in squid-shooting
 Windfall Island - Pompie and Vera - Secret Meeting Photo:
-  Type: Sometimes
+  Type: Standard
   Text: showing a photo to two gossiping ladies
 Windfall Island - Kamo - Full Moon Photo:
-  Type: Sometimes
+  Type: Standard
   Text: showing a picture of the moon to a romantic
 Windfall Island - Minenco - Miss Windfall Photo:
-  Type: Sometimes
+  Type: Standard
   Text: showing a lady a photo of herself
 Windfall Island - Linda and Anton:
-  Type: Sometimes
+  Type: Standard
   Text: uniting a young couple with the power of photography
 
 Dragon Roost Island - Rito Aerie - Give Hoskit 20 Golden Feathers:
-  Type: Sometimes
+  Type: Standard
   Text: gathering feathers for a charitable lover
 Dragon Roost Island - Fly Across Platforms Around Island:
-  Type: Sometimes
+  Type: Standard
   Text: gliding around the home of bird people
 Dragon Roost Island - Rito Aerie - Baito:
-  Type: Sometimes
+  Type: Standard
   Text: mastering the art of letter throwing
 Dragon Roost Island - Secret Cave:
-  Type: Sometimes
+  Type: Standard
   Text: besting the cavern at the home of bird people
 
 Dragon Roost Cavern - Mini-Boss:
-  Type: Sometimes
+  Type: Standard
   Text: freeing the chest in an arena at the summit of a large volcanic den
 Dragon Roost Cavern - Under Rope Bridge:
-  Type: Sometimes
+  Type: Standard
   Text: defeating two Bokoblins near a fragile bridge in a large volcanic den
 Dragon Roost Cavern - Big Key Chest:
-  Type: Sometimes
+  Type: Standard
   Text: placing a Magtail on a switch in a large volcanic den
 
 Forest Haven - On Tree Branch:
-  Type: Sometimes
+  Type: Standard
   Text: receiving a gift from the Great Deku Tree
 Forest Haven - Small Island Chest:
-  Type: Sometimes
+  Type: Standard
   Text: gliding to a remote island near a safe haven
 
 Forbidden Woods - Mothula Mini-Boss Room:
-  Type: Sometimes
+  Type: Standard
   Text: exterminating a flying bug in its arena in a dungeon with overgrown vegetation
 Forbidden Woods - Chest in Locked Tree Trunk:
-  Type: Sometimes
+  Type: Standard
   Text: dropping a bomb flower into a tree trunk in a dungeon with overgrown vegetation
 Forbidden Woods - Big Key Chest:
-  Type: Sometimes
+  Type: Standard
   Text: hitting five switches at once in a dungeon with overgrown vegetation
 
 Tower of the Gods - Hop Across Floating Boxes:
-  Type: Sometimes
+  Type: Standard
   Text: hopping across boxes in a tower created to test the hero
 Tower of the Gods - First Chest Guarded by Armos Knights:
-  Type: Sometimes
+  Type: Standard
   Text: defeating two bomb-hungry foes in a tower created to test the hero
 Tower of the Gods - Darknut Mini-Boss Room:
-  Type: Sometimes
+  Type: Standard
   Text: defeating a sworded foe in its arena in a tower created to test the hero
 
 Forsaken Fortress - Phantom Ganon:
-  Type: Sometimes
+  Type: Standard
   Text: playing tennis with an apparition in the rubble of the evil's lair
 
 Fire Mountain - Cave - Chest:
-  Type: Sometimes
+  Type: Standard
   Text: jumping across dried magma to Magtails
 
 Ice Ring Isle - Inner Cave - Chest:
-  Type: Sometimes
+  Type: Standard
   Text: awakening foes from an icy slumber
 
 Earth Temple - Stalfos Mini-Boss Room:
-  Type: Sometimes
+  Type: Standard
   Text: defeating three Stalfos in a haunted dungeon's arena
 Earth Temple - Kill All Floormasters in Foggy Room:
-  Type: Sometimes
+  Type: Standard
   Text: defeating an army of Floormasters in a haunted dungeon
 Earth Temple - Stalfos Crypt Room:
-  Type: Sometimes
+  Type: Standard
   Text: defeating three Stalfos in a crypt deep in a haunted dungeon
 Earth Temple - Big Key Chest:
-  Type: Sometimes
+  Type: Standard
   Text: defeating a sworded foe in a haunted dungeon
 
 Wind Temple - Big Key Chest:
-  Type: Sometimes
+  Type: Standard
   Text: defeating three sworded foes in a a trap-filled dungeon
 Wind Temple - Wizzrobe Mini-Boss Room:
-  Type: Sometimes
+  Type: Standard
   Text: defeating the Wizzrobe mini-boss in a a trap-filled dungeon's arena
 Wind Temple - Chest Behind Seven Armos:
-  Type: Sometimes
+  Type: Standard
   Text: defeating seven mechanical foes near the top of a a trap-filled dungeon
 Wind Temple - Kill All Enemies in Tall Basement Room:
-  Type: Sometimes
+  Type: Standard
   Text: defeating every enemy in the lowest room of a a trap-filled dungeon
 
 Ganon's Tower - Maze Chest:
-  Type: Always
+  Type: Remote
   Text: navigating the labyrinth in the stronghold of the evil king
 
 Mailbox - Letter from Hoskit's Girlfriend:
-  Type: Sometimes
+  Type: Standard
   Text: the writing of a grateful girlfriend
 Mailbox - Letter from Baito:
-  Type: Sometimes
+  Type: Standard
   Text: the writing of a bewildered letter sorter
 Mailbox - Letter from Orca:
-  Type: Sometimes
+  Type: Standard
   Text: the writing of your hometown swordsman
 Mailbox - Letter from Aryll:
-  Type: Sometimes
+  Type: Standard
   Text: the writing of your beloved sister
 Mailbox - Letter from Tingle:
-  Type: Sometimes
+  Type: Standard
   Text: the writing of a rupee-hungry fairy
 
 The Great Sea - Cyclos:
-  Type: Sometimes
+  Type: Standard
   Text: using a frog in a cyclone as target practice
 The Great Sea - Goron Trading Reward:
-  Type: Always
+  Type: Remote
   Text: showing a golden statuette to a Goron merchant
 The Great Sea - Withered Trees:
-  Type: Always
+  Type: Remote
   Text: restoring life to the trees of the Koroks
 The Great Sea - Ghost Ship:
-  Type: Sometimes
+  Type: Standard
   Text: plundering the haunted ship
 
 Needle Rock Isle - Chest:
-  Type: Sometimes
+  Type: Standard
   Text: activating a switch upon the needle
 Needle Rock Isle - Cave:
-  Type: Sometimes
+  Type: Standard
   Text: lighting torches in a cave of sunken ships
 Needle Rock Isle - Golden Gunboat:
-  Type: Sometimes
+  Type: Standard
   Text: sinking a warship made of gold
 
 Angular Isles - Cave:
-  Type: Sometimes
+  Type: Standard
   Text: pushing blocks inside an island made of blocks
 
 Boating Course - Cave:
-  Type: Sometimes
+  Type: Standard
   Text: lighting three switches at the mercy of Miniblins
 
 Stone Watcher Island - Cave:
-  Type: Sometimes
+  Type: Standard
   Text: besting the trial at the home of the stone watcher
 Stone Watcher Island - Lookout Platform - Destroy the Cannons:
-  Type: Sometimes
+  Type: Standard
   Text: destroying cannons on the lookout platform at the home of the stone watcher
 
 Islet of Steel - Interior:
-  Type: Sometimes
+  Type: Standard
   Text: infiltrating a fort made of steel
 Islet of Steel - Lookout Platform - Defeat the Enemies:
-  Type: Sometimes
+  Type: Standard
   Text: clearing the platform near a fort made of steel
 
 Overlook Island - Cave:
-  Type: Sometimes
+  Type: Standard
   Text: besting the trial at an island made of brick structures
 
 Bird's Peak Rock - Cave:
-  Type: Sometimes
+  Type: Standard
   Text: playing the song of winds in a place where a fruit is required to progress
 
 Pawprint Isle - Chuchu Cave - Scale the Wall:
-  Type: Sometimes
+  Type: Standard
   Text: climbing up pegs in the cave where Chuchus roam
 Pawprint Isle - Wizzrobe Cave:
-  Type: Sometimes
+  Type: Standard
   Text: defeating Wizzrobes in their cave
 
 Thorned Fairy Island - Great Fairy:
-  Type: Sometimes
+  Type: Standard
   Text: visiting the domain of a thorned fairy
 
 Eastern Fairy Island - Lookout Platform - Defeat the Cannons and Enemies:
-  Type: Sometimes
+  Type: Standard
   Text: defending the platform at the domain of an eastern fairy
 
 Tingle Island - Ankle - Reward for All Tingle Statues:
-  Type: Sometimes
+  Type: Standard
   Text: collecting five glistening fairy figurines
 Tingle Island - Big Octo:
-  Type: Sometimes
+  Type: Standard
   Text: defeating the sea monstrosity near the island of greed
 
 Bomb Island - Cave:
-  Type: Sometimes
+  Type: Standard
   Text: besting the trial at an island shaped like an explosive
 
 Rock Spire Isle - Southeast Gunboat:
-  Type: Sometimes
+  Type: Standard
   Text: sinking the warship near the home of the masked shop seller
 
 Shark Island - Cave:
-  Type: Always
+  Type: Remote
   Text: fending off waves in a crimson cave
 
 Horseshoe Island - Play Golf:
-  Type: Sometimes
+  Type: Standard
   Text: playing three holes under par
 Horseshoe Island - Cave:
-  Type: Sometimes
+  Type: Standard
   Text: clearing out Mothulas in an overgrown cave
 
 Flight Control Platform - Bird-Man Contest - First Prize:
-  Type: Sometimes
+  Type: Standard
   Text: gliding to the finish line of a contest
 Flight Control Platform - Submarine:
-  Type: Sometimes
+  Type: Standard
   Text: defeating Wizzrobes in a dimly-lit submarine
 
 Star Island - Cave:
-  Type: Sometimes
+  Type: Standard
   Text: besting the cavern at an island shaped like a star
 
 Five-Star Isles - Lookout Platform - Destroy the Cannons:
-  Type: Sometimes
+  Type: Standard
   Text: making quick work of cannons at the remains of five isles
 Five-Star Isles - Submarine:
-  Type: Sometimes
+  Type: Standard
   Text: defeating Bokoblins in a dimly-lit submarine
 
 Seven-Star Isles - Big Octo:
-  Type: Sometimes
+  Type: Standard
   Text: defeating the sea monstrosity near the remains of seven isles
 
 Cyclops Reef - Destroy the Cannons and Gunboats:
-  Type: Sometimes
+  Type: Standard
   Text: ravaging the one-eyed reef
 
 Two-Eye Reef - Destroy the Cannons and Gunboats:
-  Type: Sometimes
+  Type: Standard
   Text: ravaging the two-eyed reef
 
 Three-Eye Reef - Destroy the Cannons and Gunboats:
-  Type: Sometimes
+  Type: Standard
   Text: ravaging the three-eyed reef
 
 Four-Eye Reef - Destroy the Cannons and Gunboats:
-  Type: Sometimes
+  Type: Standard
   Text: ravaging the four-eyed reef
 
 Five-Eye Reef - Destroy the Cannons:
-  Type: Sometimes
+  Type: Standard
   Text: ravaging the five-eyed reef
 
 Six-Eye Reef - Destroy the Cannons and Gunboats:
-  Type: Sometimes
+  Type: Standard
   Text: ravaging the six-eyed reef

@@ -990,7 +990,7 @@ class WWRandomizerWindow(QMainWindow):
       should_enable_options["num_race_mode_dungeons"] = False
     
     if self.get_option_value("num_location_hints") == 0:
-      should_enable_options["use_always_hints"] = False
+      should_enable_options["prioritize_remote_hints"] = False
     
     self.filtered_rgear.setFilterStrings(items_to_filter_out)
     
