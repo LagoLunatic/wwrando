@@ -498,11 +498,11 @@ class Hints:
     # helpful since Green Chu Jelly is at least another check on Windfall.
     remote_locations = []
     if self.prioritize_remote_hints:
-      remote_locations = list(filter(
-        lambda location_name: location_name in self.location_hints
-        and self.location_hints[location_name]["Type"] == "Remote",
-        progress_locations,
-      ))
+      remote_locations = [
+        loc for loc in progress_locations
+        if loc in self.location_hints
+        and self.location_hints[loc]["Type"] == "Remote"
+      ]
     
     # Initialize possibly-required zones to all logical zones in this seed.
     # `possibly_required_zones` contains a mapping of zones -> possibly-required items.
@@ -560,19 +560,19 @@ class Hints:
     # The zones with zero possibly-required items makes up our initial set of barren zones.
     # We also check whether there are any non-remote hinted locations there. If not, then 
     # don't hint at that zone since it'd be covered already by the remote hint(s).
-    barren_zones = list(filter(
-      lambda x: x[0] in possibly_required_zones_no_remote and len(x[1]) == 0,
-      possibly_required_zones.items()
-    ))
-    barren_zones = set(zone_name for zone_name, empty_set in barren_zones)
+    barren_zones = set(
+      zone_name for zone_name, item_names in possibly_required_zones.items()
+      if zone_name in possibly_required_zones_no_remote
+      and len(item_names) == 0
+    )
     
     # Prevent the entrances of possibly-required dungeons from being hinted at as barren.
-    possibly_required_dungeons = list(filter(
-      lambda x: len(x[1]) != 0
-      and x[0] in self.logic.DUNGEON_NAMES.values(),
-      possibly_required_zones.items(),
-    ))
-    for dungeon_name, items_set in possibly_required_dungeons:
+    possibly_required_dungeons = [
+      zone_name for zone_name, item_names in possibly_required_zones.items()
+      if zone_name in self.logic.DUNGEON_NAMES.values()
+      and len(item_names) != 0
+    ]
+    for dungeon_name in possibly_required_dungeons:
       if dungeon_name == "Dragon Roost Cavern":
         entrance_zone = self.get_entrance_zone("Dragon Roost Cavern - Gohma Heart Container")
         barren_zones.discard(entrance_zone)
@@ -639,8 +639,10 @@ class Hints:
     # Helper function to build a list of locations which may be hinted as item hints in this seed.
     
     # Filter out locations which are invalid to be hinted at for item hints.
-    hintable_locations = list(filter(lambda location_name: self.filter_legal_item_hint(
-      location_name, progress_locations, previously_hinted_locations), self.logic.done_item_locations.keys()))
+    hintable_locations = [
+      loc for loc in self.logic.done_item_locations
+      if self.filter_legal_item_hint(loc, progress_locations, previously_hinted_locations)
+    ]
     
     # Remove locations in hinted barren areas.
     new_hintable_locations = []
@@ -694,12 +696,12 @@ class Hints:
   def get_legal_location_hints(self, progress_locations, hinted_barren_zones, previously_hinted_locations):
     # Helper function to build a list of locations which may be hinted as location hints in this seed.
     
-    hintable_locations = list(filter(lambda loc: loc in self.location_hints.keys(), progress_locations))
+    hintable_locations = [loc for loc in progress_locations if loc in self.location_hints]
     
     # Identify valid remote hints for this seed.
-    remote_hintable_locations = list(filter(lambda loc: self.location_hints[loc]["Type"] == "Remote", hintable_locations))
+    remote_hintable_locations = [loc for loc in hintable_locations if self.location_hints[loc]["Type"] == "Remote"]
     # The remaining locations are potential standard location hints.
-    hintable_locations = list(filter(lambda loc: self.location_hints[loc]["Type"] == "Standard", hintable_locations))
+    hintable_locations = [loc for loc in hintable_locations if self.location_hints[loc]["Type"] == "Standard"]
     
     # If we're not prioritizing remote hints, consider them as standard location hints instead.
     if not self.prioritize_remote_hints:
@@ -707,10 +709,10 @@ class Hints:
       remote_hintable_locations = []
     
     # Remove locations in race-mode banned dungeons.
-    hintable_locations = list(filter(lambda location_name: location_name not in self.rando.race_mode_banned_locations, hintable_locations))
+    hintable_locations = [loc for loc in hintable_locations if loc not in self.rando.race_mode_banned_locations]
     
     # Remove locations for items that were previously hinted.
-    hintable_locations = list(filter(lambda loc: loc not in previously_hinted_locations, hintable_locations))
+    hintable_locations = [loc for loc in hintable_locations if loc not in previously_hinted_locations]
     
     # Remove locations in hinted barren areas.
     standard_hintable_locations = []
