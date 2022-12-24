@@ -977,7 +977,7 @@ def update_fishmen_hints(self, hints):
     hint_lines = []
     hint_lines.append(Hints.get_formatted_hint_text(hint, prefix="I've heard from my sources that ", suffix=".", delay=60))
     
-    if not self.options.get("clearer_hints") and (hint.type == HintType.ITEM or hint.type == HintType.LOCATION):
+    if self.options.get("cryptic_hints") and (hint.type == HintType.ITEM or hint.type == HintType.LOCATION):
       hint_lines.append("Could be worth a try checking that place out. If you know where it is, of course.")
     
       if self.options.get("instant_text_boxes"):

@@ -75,7 +75,7 @@ RNG_CHANGING_OPTIONS = [
   "num_barren_hints",
   "num_location_hints",
   "num_item_hints",
-  "clearer_hints",
+  "cryptic_hints",
   "use_always_hints",
   "do_not_generate_spoiler_log",
 ]

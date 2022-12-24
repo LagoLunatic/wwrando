@@ -77,7 +77,7 @@ class Hints:
     self.max_item_hints = int(self.options.get("num_item_hints", 0))
     self.total_num_hints = self.max_path_hints + self.max_barren_hints + self.max_location_hints + self.max_item_hints
     
-    self.clearer_hints = self.options.get("clearer_hints")
+    self.cryptic_hints = self.options.get("cryptic_hints")
     self.use_always_hints = self.options.get("use_always_hints")
     
     # Import dictionaries used to build hints from files.
@@ -385,8 +385,7 @@ class Hints:
     else:
       hint_zone = entrance_zone
     
-    # Apply cryptic text, unless the clearer hints option is selected.
-    if not self.clearer_hints:
+    if self.cryptic_hints:
       hint_zone = self.zone_name_hints[hint_zone]
     
     return Hint(HintType.PATH, hint_zone, self.DUNGEON_NAME_TO_BOSS_NAME[path_name]), hinted_location
@@ -606,8 +605,7 @@ class Hints:
     zone_name = self.rando.rng.choices(unhinted_zones, weights=zone_weights)[0]
     unhinted_zones.remove(zone_name)
     
-    # Apply cryptic text, unless the clearer hints option is selected.
-    if not self.clearer_hints:
+    if self.cryptic_hints:
       zone_name = self.zone_name_hints[zone_name]
     
     return Hint(HintType.BARREN, zone_name)
@@ -684,12 +682,11 @@ class Hints:
     if entrance_zone == "Tower of the Gods Sector":
       entrance_zone = "Tower of the Gods"
     
-    # Apply cryptic text, unless the clearer hints option is selected.
-    if self.clearer_hints:
-      item_name = Hints.get_formatted_item_name(item_name)
-    else:
+    if self.cryptic_hints:
       item_name = self.progress_item_hints[Hints.get_hint_item_name(item_name)]
       entrance_zone = self.zone_name_hints[entrance_zone]
+    else:
+      item_name = Hints.get_formatted_item_name(item_name)
     
     return Hint(HintType.ITEM, entrance_zone, item_name), location_name
   
@@ -751,8 +748,7 @@ class Hints:
     item_name = self.logic.done_item_locations[location_name]
     item_name = Hints.get_formatted_item_name(item_name)
     
-    # Apply cryptic text to the location name, unless the clearer hints option is selected.
-    if not self.clearer_hints:
+    if self.cryptic_hints:
       location_name = self.location_hints[location_name]["Text"]
     
     return Hint(HintType.LOCATION, location_name, item_name)
@@ -783,27 +779,25 @@ class Hints:
     
     floor_30_hint = None
     if floor_30_is_progress:
-      # Apply cryptic text, unless the clearer hints option is selected.
-      if self.clearer_hints:
-        floor_30_item_name = Hints.get_formatted_item_name(floor_30_item_name)
-      else:
+      if self.cryptic_hints:
         floor_30_item_name = Hints.get_hint_item_name(floor_30_item_name)
         if not floor_30_item_name in self.progress_item_hints:
           raise Exception("Could not find progress item hint for item: %s" % floor_30_item_name)
         floor_30_item_name = self.progress_item_hints[floor_30_item_name]
+      else:
+        floor_30_item_name = Hints.get_formatted_item_name(floor_30_item_name)
       
       floor_30_hint = Hint(HintType.ITEM, None, floor_30_item_name)
     
     floor_50_hint = None
     if floor_50_is_progress:
-      # Apply cryptic text, unless the clearer hints option is selected.
-      if self.clearer_hints:
-        floor_50_item_name = Hints.get_formatted_item_name(floor_50_item_name)
-      else:
+      if self.cryptic_hints:
         floor_50_item_name = Hints.get_hint_item_name(floor_50_item_name)
         if not floor_50_item_name in self.progress_item_hints:
           raise Exception("Could not find progress item hint for item: %s" % floor_50_item_name)
         floor_50_item_name = self.progress_item_hints[floor_50_item_name]
+      else:
+        floor_50_item_name = Hints.get_formatted_item_name(floor_50_item_name)
       
       floor_50_hint = Hint(HintType.ITEM, None, floor_50_item_name)
     

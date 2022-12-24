@@ -621,10 +621,11 @@ class Ui_MainWindow(object):
 
         self.gridLayout_7.addLayout(self.horizontalLayout_16, 5, 2, 1, 1)
 
-        self.clearer_hints = QCheckBox(self.groupBox_5)
-        self.clearer_hints.setObjectName(u"clearer_hints")
+        self.cryptic_hints = QCheckBox(self.groupBox_5)
+        self.cryptic_hints.setObjectName(u"cryptic_hints")
+        self.cryptic_hints.setChecked(True)
 
-        self.gridLayout_7.addWidget(self.clearer_hints, 6, 0, 1, 1)
+        self.gridLayout_7.addWidget(self.cryptic_hints, 6, 0, 1, 1)
 
         self.fishmen_hints = QCheckBox(self.groupBox_5)
         self.fishmen_hints.setObjectName(u"fishmen_hints")
@@ -1030,7 +1031,7 @@ class Ui_MainWindow(object):
         self.use_always_hints.setText(QCoreApplication.translate("MainWindow", u"Use Always Hints", None))
         self.korl_hints.setText(QCoreApplication.translate("MainWindow", u"Place Hints on King of Red Lions", None))
         self.label_for_num_barren_hints.setText(QCoreApplication.translate("MainWindow", u"Barren Hints", None))
-        self.clearer_hints.setText(QCoreApplication.translate("MainWindow", u"Clearer Hints", None))
+        self.cryptic_hints.setText(QCoreApplication.translate("MainWindow", u"Use Cryptic Text for Hints", None))
         self.fishmen_hints.setText(QCoreApplication.translate("MainWindow", u"Place Hints on Fishmen", None))
         self.label_for_num_location_hints.setText(QCoreApplication.translate("MainWindow", u"Location Hints", None))
         self.label_for_num_item_hints.setText(QCoreApplication.translate("MainWindow", u"Item Hints", None))

@@ -141,8 +141,8 @@ OPTIONS = OrderedDict([
     "The number of item hints that will be placed. Item hints tell you which area contains a particular progression item in this seed.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
   ),
   (
-    "clearer_hints",
-    "When this option is selected, all hints will use the standard location names and item names, instead of using cryptic hints.",
+    "cryptic_hints",
+    "When this option is selected, all hints will be phrased cryptically instead of telling you the names of locations and items directly.",
   ),
   (
     "use_always_hints",
