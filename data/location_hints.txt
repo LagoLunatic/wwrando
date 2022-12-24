@@ -82,7 +82,7 @@ Forest Haven - On Tree Branch:
   Text: receiving a gift from the Great Deku Tree
 Forest Haven - Small Island Chest:
   Type: Standard
-  Text: gliding to a remote island near a safe haven
+  Text: gliding to an isle behind the home of the woodland spirits
 
 Forbidden Woods - Mothula Mini-Boss Room:
   Type: Standard
