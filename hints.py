@@ -481,7 +481,7 @@ class Hints:
         
     return junk_items
   
-  def get_barren_zones(self, progress_locations):
+  def get_barren_zones(self, progress_locations, hinted_remote_locations):
     # Helper function to build a list of barren zones in this seed.
     # The list includes only zones which are allowed to be hinted at as barren.
     
@@ -492,23 +492,9 @@ class Hints:
     # Technically, this is an overestimate (a superset) of actual barren locations, but it should suffice.
     junk_items = self.determine_junk_items()
     
-    # We don't want to have barren/remote hints overlap if hints are on.
-    # For instance, consider a Ganon's Tower remote hint. If you get that hint and a barren hint for Ganon's Tower, it's
-    # effectively the same hint. However, if there's a Blue Chu Jelly hint, a Windfall barren hint would still be
-    # helpful since Green Chu Jelly is at least another check on Windfall.
-    remote_locations = []
-    if self.prioritize_remote_hints:
-      remote_locations = [
-        loc for loc in progress_locations
-        if loc in self.location_hints
-        and self.location_hints[loc]["Type"] == "Remote"
-      ]
-    
     # Initialize possibly-required zones to all logical zones in this seed.
     # `possibly_required_zones` contains a mapping of zones -> possibly-required items.
-    # `possibly_required_zones_no_remote` contains a mapping of zones with remote locations ignored -> possibly-required items.
     possibly_required_zones = {}
-    possibly_required_zones_no_remote = {}
     for location_name in progress_locations:
       zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
       
@@ -523,9 +509,13 @@ class Hints:
         entrance_zone = self.get_entrance_zone(location_name)
         key_name = entrance_zone
       
-      possibly_required_zones[key_name] = set()
-      if location_name not in remote_locations:
-        possibly_required_zones_no_remote[key_name] = set()
+      # Don't consider barren locations hinted through remote location hints.
+      if location_name in hinted_remote_locations:
+        item_name = self.logic.done_item_locations[location_name]
+        if item_name not in junk_items:
+          possibly_required_zones[key_name] = set()
+      else:
+        possibly_required_zones[key_name] = set()
     
     # Loop through all progress locations, recording only possibly-required items in our dictionary.
     for location_name in progress_locations:
@@ -562,7 +552,7 @@ class Hints:
     # don't hint at that zone since it'd be covered already by the remote hint(s).
     barren_zones = set(
       zone_name for zone_name, item_names in possibly_required_zones.items()
-      if zone_name in possibly_required_zones_no_remote
+      if zone_name in possibly_required_zones
       and len(item_names) == 0
     )
     
@@ -744,9 +734,11 @@ class Hints:
     item_name = Hints.get_formatted_item_name(item_name)
     
     if self.cryptic_hints:
-      location_name = self.location_hints[location_name]["Text"]
+      hint_location_name = self.location_hints[location_name]["Text"]
+    else:
+      hint_location_name = location_name
     
-    return Hint(HintType.LOCATION, location_name, item_name)
+    return Hint(HintType.LOCATION, hint_location_name, item_name), location_name
   
   
   def generate_octo_fairy_hint(self):
@@ -799,6 +791,8 @@ class Hints:
     return floor_30_hint, floor_50_hint
   
   def generate_hints(self):
+    previously_hinted_locations = []
+    
     # Create a mapping for chart name -> sunken treasure
     self.chart_name_to_sunken_treasure = self.build_sunken_treasure_mapping()
     
@@ -816,6 +810,19 @@ class Hints:
     
     # Get a counter for the number of locations associated with each zone, used for weighing.
     location_counter = Counter(all_world_areas)
+    
+    # Generate remote location hints.
+    # First, we generate remote location hints, up to the total amount that can be generated based on the settings, and
+    # based on the number of location hints the user wishes to generate. We need to generate these first before any
+    # other hint type.
+    hinted_remote_locations = []
+    if self.prioritize_remote_hints:
+      remote_hintable_locations, standard_hintable_locations = self.get_legal_location_hints(progress_locations, [], [])
+      while len(remote_hintable_locations) > 0 and len(hinted_remote_locations) < self.max_location_hints:
+        location_hint, location_name = self.get_location_hint(remote_hintable_locations)
+        
+        hinted_remote_locations.append(location_hint)
+        previously_hinted_locations.append(location_name)
     
     # Determine which locations are required for each path goal.
     # Items are implicitly referred to by their location to handle duplicate item names (i.e., progressive items and
@@ -850,10 +857,8 @@ class Hints:
         if item_tuple in required_locations_for_paths["Ganon's Tower"]:
           required_locations_for_paths["Ganon's Tower"].remove(item_tuple)
     
-    hinted_path_zones = []
-    previously_hinted_locations = []
-    
     # Generate a path hint for each race-mode dungeon.
+    hinted_path_zones = []
     for dungeon_name in dungeon_paths:
       # If there are no hintable locations for path hints, skip to barren hints.
       if len(required_locations_for_paths) == 0:
@@ -867,8 +872,8 @@ class Hints:
           del required_locations_for_paths[dungeon_name]
           continue
         
-        # Remove locations that are hinted in remote hints from being hinted path.
-        if not self.prioritize_remote_hints or (location_name not in self.location_hints or self.location_hints[location_name]["Type"] != "Remote"):
+        # Remove locations that have already been hinted.
+        if location_name not in previously_hinted_locations:
           hinted_path_zones.append(path_hint)
           previously_hinted_locations.append(location_name)
     
@@ -880,15 +885,15 @@ class Hints:
       if path_hint is None:
         del required_locations_for_paths[path_name]
       else:
-        # Remove locations that are hinted in remote hints from being hinted path.
-        if not self.prioritize_remote_hints or (location_name not in self.location_hints or self.location_hints[location_name]["Type"] != "Remote"):
+        # Remove locations that have already been hinted.
+        if location_name not in previously_hinted_locations:
           hinted_path_zones.append(path_hint)
           previously_hinted_locations.append(location_name)
     
     # Generate barren hints.
     # We select at most `self.max_barren_hints` zones at random to hint as barren. Barren zones are weighted by the
     # square root of the number of locations at that zone.
-    unhinted_barren_zones = self.get_barren_zones(progress_locations)
+    unhinted_barren_zones = self.get_barren_zones(progress_locations, [hint.place for hint in hinted_remote_locations])
     hinted_barren_zones = []
     while len(unhinted_barren_zones) > 0 and len(hinted_barren_zones) < self.max_barren_hints:
       # Weight each barren zone by the square root of the number of locations there.
@@ -910,23 +915,19 @@ class Hints:
       hinted_item_locations.append(item_hint)
       previously_hinted_locations.append(location_name)
     
-    # Generate location hints.
+    # Generate standard location hints.
     # We try to generate location hints until we get to `self.total_num_hints` total hints, but if there are not enough
     # valid hintable locations, then we have no choice but to return less than the desired amount of hints.
     remote_hintable_locations, standard_hintable_locations = self.get_legal_location_hints(progress_locations, hinted_barren_zones, previously_hinted_locations)
-    hinted_locations = []
-    remaining_hints_desired = self.total_num_hints - len(hinted_path_zones) - len(hinted_barren_zones) - len(hinted_item_locations)
-    
-    # Start by exhausting the list of remote hints.
-    while len(remote_hintable_locations) > 0 and remaining_hints_desired > 0:
-      remaining_hints_desired -= 1
-      location_hint = self.get_location_hint(remote_hintable_locations)
-      hinted_locations.append(location_hint)
+    hinted_standard_locations = []
+    remaining_hints_desired = self.total_num_hints - len(hinted_path_zones) - len(hinted_barren_zones) - len(hinted_item_locations) - len(hinted_remote_locations)
     
     # Fill out the remaining hint slots with standard location hints.
     while len(standard_hintable_locations) > 0 and remaining_hints_desired > 0:
       remaining_hints_desired -= 1
-      location_hint = self.get_location_hint(standard_hintable_locations)
-      hinted_locations.append(location_hint)
+      location_hint, location_name = self.get_location_hint(standard_hintable_locations)
+      
+      hinted_standard_locations.append(location_hint)
+      previously_hinted_locations.append(location_name)
     
-    return hinted_path_zones + hinted_barren_zones + hinted_item_locations + hinted_locations
+    return hinted_path_zones + hinted_barren_zones + hinted_item_locations + hinted_remote_locations + hinted_standard_locations
