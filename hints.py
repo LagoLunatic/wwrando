@@ -612,28 +612,37 @@ class Hints:
   
   
   def filter_legal_item_hint(self, location_name, progress_locations, previously_hinted_locations):
-    return (
-      # Don't hint at non-progress items.
-      self.logic.done_item_locations[location_name] in self.logic.all_progress_items and
-      
-      # Don't hint at item in non-progress locations.
-      location_name in progress_locations and
-      
-      # Don't hint at dungeon maps and compasses, and don't hint at dungeon keys when key-lunacy is not enabled.
-      (self.options.get("keylunacy") or not self.logic.is_dungeon_item(self.logic.done_item_locations[location_name])) and
-      
-      # You already know which boss locations have a required item and which don't in race mode by looking at the sea chart.
-      location_name not in self.rando.race_mode_required_locations and
-      
-      # Remove locations that are included in remote hints.
-      not (location_name in self.location_hints and self.location_hints[location_name]["Type"] == "Remote") and
-      
-      # Remove locations in race-mode banned dungeons.
-      location_name not in self.rando.race_mode_banned_locations and
-      
-      # Remove locations for items that were previously hinted.
-      location_name not in previously_hinted_locations
-    )
+    item_name = self.logic.done_item_locations[location_name]
+    
+    # Don't hint at non-progress items.
+    if item_name not in self.logic.all_progress_items:
+      return False
+    
+    # Don't hint at item in non-progress locations.
+    if location_name not in progress_locations:
+      return False
+    
+    # Don't hint at dungeon keys when key-lunacy is not enabled.
+    if self.logic.is_dungeon_item(item_name) and not self.options.get("keylunacy"):
+      return False
+    
+    # You already know which boss locations have a required item and which don't in race mode by looking at the sea chart.
+    if location_name in self.rando.race_mode_required_locations:
+      return False
+    
+    # Remove locations that are included in remote hints.
+    if location_name in self.location_hints and self.location_hints[location_name]["Type"] == "Remote":
+      return False
+    
+    # Remove locations in race-mode banned dungeons.
+    if location_name in self.rando.race_mode_banned_locations:
+      return False
+    
+    # Remove locations for items that were previously hinted.
+    if location_name in previously_hinted_locations:
+      return False
+    
+    return True
   
   def get_legal_item_hints(self, progress_locations, hinted_barren_zones, previously_hinted_locations):
     # Helper function to build a list of locations which may be hinted as item hints in this seed.
