@@ -611,7 +611,33 @@ class Hints:
     return Hint(HintType.BARREN, zone_name)
   
   
-  def filter_legal_item_hint(self, location_name, progress_locations, previously_hinted_locations):
+  def filter_out_hinted_barren_locations(self, hintable_locations, hinted_barren_zones):
+    # Remove locations in hinted barren areas.
+    new_hintable_locations = []
+    barrens = [hint.place for hint in hinted_barren_zones]
+    for location_name in hintable_locations:
+      # Catch Mailbox cases.
+      if (
+          (location_name == "Mailbox - Letter from Baito" and "Earth Temple" in barrens)
+          or (location_name == "Mailbox - Letter from Orca" and "Forbidden Woods" in barrens)
+          or (location_name == "Mailbox - Letter from Aryll" and "Forsaken Fortress" in barrens)
+          or (location_name == "Mailbox - Letter from Tingle" and "Forsaken Fortress" in barrens)
+      ):
+        continue
+      
+      # Catch locations which are hinted at in barren dungeons.
+      zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
+      if zone_name in self.logic.DUNGEON_NAMES.values() and zone_name in barrens:
+        continue
+      
+      # Catch locations which are hinted at in barren zones.
+      entrance_zone = self.get_entrance_zone(location_name)
+      if entrance_zone not in barrens:
+        new_hintable_locations.append(location_name)
+    
+    return new_hintable_locations
+  
+  def check_is_legal_item_hint(self, location_name, progress_locations, previously_hinted_locations):
     item_name = self.logic.done_item_locations[location_name]
     
     # Don't hint at non-progress items.
@@ -650,31 +676,10 @@ class Hints:
     # Filter out locations which are invalid to be hinted at for item hints.
     hintable_locations = [
       loc for loc in self.logic.done_item_locations
-      if self.filter_legal_item_hint(loc, progress_locations, previously_hinted_locations)
+      if self.check_is_legal_item_hint(loc, progress_locations, previously_hinted_locations)
     ]
     
-    # Remove locations in hinted barren areas.
-    new_hintable_locations = []
-    barrens = [hint.place for hint in hinted_barren_zones]
-    for location_name in hintable_locations:
-      # Catch Mailbox cases.
-      if (
-          (location_name == "Mailbox - Letter from Baito" and "Earth Temple" in barrens)
-          or (location_name == "Mailbox - Letter from Orca" and "Forbidden Woods" in barrens)
-          or (location_name == "Mailbox - Letter from Aryll" and "Forsaken Fortress" in barrens)
-          or (location_name == "Mailbox - Letter from Tingle" and "Forsaken Fortress" in barrens)
-      ):
-        continue
-      
-      # Catch locations which are hinted at in barren dungeons.
-      zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
-      if zone_name in self.logic.DUNGEON_NAMES.values() and zone_name in barrens:
-        continue
-      
-      # Catch locations which are hinted at in barren zones.
-      entrance_zone = self.get_entrance_zone(location_name)
-      if entrance_zone not in barrens:
-        new_hintable_locations.append(location_name)
+    new_hintable_locations = self.filter_out_hinted_barren_locations(hintable_locations, hinted_barren_zones)
     
     return new_hintable_locations
   
@@ -723,28 +728,7 @@ class Hints:
     # Remove locations for items that were previously hinted.
     hintable_locations = [loc for loc in hintable_locations if loc not in previously_hinted_locations]
     
-    # Remove locations in hinted barren areas.
-    standard_hintable_locations = []
-    barrens = [hint.place for hint in hinted_barren_zones]
-    for location_name in hintable_locations:
-      # Catch Mailbox cases.
-      if (
-          (location_name == "Mailbox - Letter from Baito" and "Earth Temple" in barrens)
-          or (location_name == "Mailbox - Letter from Orca" and "Forbidden Woods" in barrens)
-          or (location_name == "Mailbox - Letter from Aryll" and "Forsaken Fortress" in barrens)
-          or (location_name == "Mailbox - Letter from Tingle" and "Forsaken Fortress" in barrens)
-      ):
-        continue
-      
-      # Catch locations which are hinted at in barren dungeons.
-      zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
-      if zone_name in self.logic.DUNGEON_NAMES.values() and zone_name in barrens:
-        continue
-      
-      # Catch locations which are hinted at in barren zones.
-      entrance_zone = self.get_entrance_zone(location_name)
-      if entrance_zone not in barrens:
-        standard_hintable_locations.append(location_name)
+    standard_hintable_locations = self.filter_out_hinted_barren_locations(hintable_locations, hinted_barren_zones)
     
     return remote_hintable_locations, standard_hintable_locations
   
