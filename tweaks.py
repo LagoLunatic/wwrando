@@ -915,14 +915,14 @@ def update_savage_labyrinth_hint_tablet(self, floor_30_hint, floor_50_hint):
   )
 
 def randomize_and_update_hints(self):
-  hints_manager = HintManager(self)
+  hint_manager = HintManager(self)
   
   # Give the Big Octo Great Fairy a unique item hint
-  octo_fairy_hint = hints_manager.generate_octo_fairy_hint()
+  octo_fairy_hint = hint_manager.generate_octo_fairy_hint()
   update_big_octo_great_fairy_item_name_hint(self, octo_fairy_hint)
   
   # Update the hint tablet in Savage Labyrinth
-  floor_30_hint, floor_50_hint = hints_manager.generate_savage_labyrinth_hints()
+  floor_30_hint, floor_50_hint = hint_manager.generate_savage_labyrinth_hints()
   update_savage_labyrinth_hint_tablet(self, floor_30_hint, floor_50_hint)
   
   # Identify where the user wishes hints to be located
@@ -933,11 +933,11 @@ def randomize_and_update_hints(self):
       hints_per_placement[option] = []
   
   hint_placement_options = list(hints_per_placement.keys())
-  if hints_manager.total_num_hints == 0 or len(hint_placement_options) == 0:
+  if hint_manager.total_num_hints == 0 or len(hint_placement_options) == 0:
     return
   
   # Generate the hints that will be distributed over the hint placement options
-  hints = hints_manager.generate_hints()
+  hints = hint_manager.generate_hints()
   
   # If there are less hints than placement options, duplicate the hints so that all selected placement options have at
   # least one hint.
