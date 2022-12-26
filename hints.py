@@ -497,6 +497,16 @@ class HintManager:
       if self.logic.is_dungeon_location(location_name):
         zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
         zones_with_useful_locations.add(zone_name)
+      
+      # Include dungeon-related mail with its dungeon, in addition to Mailbox.
+      if location_name == "Mailbox - Letter from Baito":
+        zones_with_useful_locations.add("Earth Temple")
+        zones_with_useful_locations.add(self.get_entrance_zone("Earth Temple - Jalhalla Heart Container"))
+      if location_name == "Mailbox - Letter from Orca":
+        zones_with_useful_locations.add("Forbidden Woods")
+        zones_with_useful_locations.add(self.get_entrance_zone("Forbidden Woods - Kalle Demos Heart Container"))
+      if location_name == "Mailbox - Letter from Aryll" or location_name == "Mailbox - Letter from Tingle":
+        zones_with_useful_locations.add("Forsaken Fortress")
     
     # Now, we do the same with barren locations, identifying which zones have barren locations.
     zones_with_barren_locations = set()
@@ -510,6 +520,16 @@ class HintManager:
       if self.logic.is_dungeon_location(location_name):
         zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
         zones_with_barren_locations.add(zone_name)
+      
+      # Include dungeon-related mail with its dungeon, in addition to Mailbox.
+      if location_name == "Mailbox - Letter from Baito":
+        zones_with_barren_locations.add("Earth Temple")
+        zones_with_barren_locations.add(self.get_entrance_zone("Earth Temple - Jalhalla Heart Container"))
+      if location_name == "Mailbox - Letter from Orca":
+        zones_with_barren_locations.add("Forbidden Woods")
+        zones_with_barren_locations.add(self.get_entrance_zone("Forbidden Woods - Kalle Demos Heart Container"))
+      if location_name == "Mailbox - Letter from Aryll" or location_name == "Mailbox - Letter from Tingle":
+        zones_with_barren_locations.add("Forsaken Fortress")
     
     # Finally, the difference between the zones with barren locations and the zones with useful locations gives us our
     # set of hintable barren zones.
