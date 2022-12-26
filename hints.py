@@ -83,13 +83,9 @@ class HintManager:
     self.cryptic_hints = self.options.get("cryptic_hints")
     self.prioritize_remote_hints = self.options.get("prioritize_remote_hints")
     
-    # Import dictionaries used to build hints from files.
-    with open(os.path.join(DATA_PATH, "progress_item_hints.txt"), "r") as f:
-      self.progress_item_hints = yaml.safe_load(f)
-    with open(os.path.join(DATA_PATH, "zone_name_hints.txt"), "r") as f:
-      self.zone_name_hints = yaml.safe_load(f)
-    with open(os.path.join(DATA_PATH, "location_hints.txt"), "r") as f:
-      self.location_hints = yaml.safe_load(f)
+    self.progress_item_hints = rando.progress_item_hints
+    self.zone_name_hints = rando.zone_name_hints
+    self.location_hints = rando.location_hints
     
     # Validate location names in location hints file.
     for location_name in self.location_hints:
