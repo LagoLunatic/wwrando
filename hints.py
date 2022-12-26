@@ -27,9 +27,12 @@ class Hint:
     self.type = type
     self.place = place
     self.reward = reward
+    
+    self.formatted_place = place
+    self.formatted_reward = reward
   
   def __str__(self):
-    return "<HINT: %s, (%s, %s)>" % (str(self.type), self.place, self.reward)
+    return "<HINT: %s, (%s, %s)>" % (str(self.type), self.formatted_place, self.formatted_reward)
   
   def __repr__(self):
     return "Hint(%s, %s, %s)" % (str(self.type), repr(self.place), repr(self.reward))
@@ -114,8 +117,8 @@ class Hints:
     return item_name
   
   @staticmethod
-  def get_formatted_hint_text(hint, prefix="They say that ", suffix=".", delay=30):
-    place = hint.place
+  def get_formatted_hint_text(hint: Hint, prefix="They say that ", suffix=".", delay=30):
+    place = hint.formatted_place
     if place == "Mailbox":
       place = "the mail"
     elif place == "The Great Sea":
@@ -129,7 +132,7 @@ class Hints:
         place_preposition = "in"
       hint_string = (
         "%san item found %s \\{1A 06 FF 00 00 05}%s\\{1A 06 FF 00 00 00} is on the path to \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
-        % (prefix, place_preposition, place, hint.reward, suffix)
+        % (prefix, place_preposition, place, hint.formatted_reward, suffix)
       )
     elif hint.type == HintType.BARREN:
       verb = "visiting"
@@ -142,15 +145,15 @@ class Hints:
     elif hint.type == HintType.LOCATION:
       hint_string = (
         "%s\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} rewards \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
-        % (prefix, place, hint.reward, suffix)
+        % (prefix, place, hint.formatted_reward, suffix)
       )
     elif hint.type == HintType.ITEM:
       copula = "is"
-      if hint.reward in ["the Power Bracelets", "the Iron Boots", "Bombs"]:
+      if hint.reward in ["Power Bracelets", "Iron Boots", "Bombs"]:
         copula = "are"
       hint_string = (
         "%s\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} %s located in \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
-        % (prefix, hint.reward, copula, place, suffix)
+        % (prefix, hint.formatted_reward, copula, place, suffix)
       )
     else:
       hint_string = ""
@@ -385,10 +388,12 @@ class Hints:
     else:
       hint_zone = entrance_zone
     
-    if self.cryptic_hints:
-      hint_zone = self.zone_name_hints[hint_zone]
+    path_hint = Hint(HintType.PATH, hint_zone, self.DUNGEON_NAME_TO_BOSS_NAME[path_name])
     
-    return Hint(HintType.PATH, hint_zone, self.DUNGEON_NAME_TO_BOSS_NAME[path_name]), hinted_location
+    if self.cryptic_hints:
+      path_hint.formatted_place = self.zone_name_hints[hint_zone]
+    
+    return path_hint, hinted_location
   
   
   def determine_junk_items(self):
@@ -595,10 +600,12 @@ class Hints:
     zone_name = self.rando.rng.choices(unhinted_zones, weights=zone_weights)[0]
     unhinted_zones.remove(zone_name)
     
-    if self.cryptic_hints:
-      zone_name = self.zone_name_hints[zone_name]
+    barren_hint = Hint(HintType.BARREN, zone_name)
     
-    return Hint(HintType.BARREN, zone_name)
+    if self.cryptic_hints:
+      barren_hint.formatted_place = self.zone_name_hints[zone_name]
+    
+    return barren_hint
   
   
   def filter_out_hinted_barren_locations(self, hintable_locations, hinted_barren_zones):
@@ -684,13 +691,15 @@ class Hints:
     if entrance_zone == "Tower of the Gods Sector":
       entrance_zone = "Tower of the Gods"
     
-    if self.cryptic_hints:
-      item_name = self.progress_item_hints[Hints.get_hint_item_name(item_name)]
-      entrance_zone = self.zone_name_hints[entrance_zone]
-    else:
-      item_name = Hints.get_formatted_item_name(item_name)
+    item_hint = Hint(HintType.ITEM, entrance_zone, item_name)
     
-    return Hint(HintType.ITEM, entrance_zone, item_name), location_name
+    if self.cryptic_hints:
+      item_hint.formatted_reward = self.progress_item_hints[Hints.get_hint_item_name(item_name)]
+      item_hint.formatted_place = self.zone_name_hints[entrance_zone]
+    else:
+      item_hint.formatted_reward = Hints.get_formatted_item_name(item_name)
+    
+    return item_hint, location_name
   
   
   def get_legal_location_hints(self, progress_locations, hinted_barren_zones, previously_hinted_locations):
@@ -729,12 +738,12 @@ class Hints:
     item_name = self.logic.done_item_locations[location_name]
     item_name = Hints.get_formatted_item_name(item_name)
     
-    if self.cryptic_hints:
-      hint_location_name = self.location_hints[location_name]["Text"]
-    else:
-      hint_location_name = location_name
+    location_hint = Hint(HintType.LOCATION, location_name, item_name)
     
-    return Hint(HintType.LOCATION, hint_location_name, item_name), location_name
+    if self.cryptic_hints:
+      location_hint.formatted_place = self.location_hints[location_name]["Text"]
+    
+    return location_hint, location_name
   
   
   def generate_octo_fairy_hint(self):
@@ -762,27 +771,22 @@ class Hints:
     
     floor_30_hint = None
     if floor_30_is_progress:
-      if self.cryptic_hints:
-        floor_30_item_name = Hints.get_hint_item_name(floor_30_item_name)
-        if not floor_30_item_name in self.progress_item_hints:
-          raise Exception("Could not find progress item hint for item: %s" % floor_30_item_name)
-        floor_30_item_name = self.progress_item_hints[floor_30_item_name]
-      else:
-        floor_30_item_name = Hints.get_formatted_item_name(floor_30_item_name)
-      
       floor_30_hint = Hint(HintType.ITEM, None, floor_30_item_name)
     
     floor_50_hint = None
     if floor_50_is_progress:
-      if self.cryptic_hints:
-        floor_50_item_name = Hints.get_hint_item_name(floor_50_item_name)
-        if not floor_50_item_name in self.progress_item_hints:
-          raise Exception("Could not find progress item hint for item: %s" % floor_50_item_name)
-        floor_50_item_name = self.progress_item_hints[floor_50_item_name]
-      else:
-        floor_50_item_name = Hints.get_formatted_item_name(floor_50_item_name)
-      
       floor_50_hint = Hint(HintType.ITEM, None, floor_50_item_name)
+    
+    for hint in [floor_30_hint, floor_50_hint]:
+      if hint is None:
+        continue
+      if self.cryptic_hints:
+        hint.formatted_reward = Hints.get_hint_item_name(hint.reward)
+        if not hint.formatted_reward in self.progress_item_hints:
+          raise Exception("Could not find progress item hint for item: %s" % hint.reward)
+        hint.formatted_reward = self.progress_item_hints[hint.formatted_reward]
+      else:
+        hint.formatted_reward = Hints.get_formatted_item_name(hint.reward)
     
     return floor_30_hint, floor_50_hint
   
