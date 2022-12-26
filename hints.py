@@ -415,14 +415,14 @@ class HintManager:
         valid_path_hint = True
     
     # Record hinted zone, item, and path goal.
-    # If it's a dungeon, use the dungeon name. If it's a cave, use the entrance zone name.
-    if zone_name in self.logic.DUNGEON_NAMES.values():
-      if zone_name == "Tower of the Gods" and specific_location_name == "Sunken Treasure":
-        # Special case: if location is Tower of the Gods - Sunken Treasure, use "Tower of the Gods Sector" as the hint.
-        hint_zone = "Tower of the Gods Sector"
-      else:
-        hint_zone = zone_name
+    if hinted_location == "Tower of the Gods - Sunken Treasure":
+      # Special case: if location is Tower of the Gods - Sunken Treasure, use "Tower of the Gods Sector" as the hint.
+      hint_zone = "Tower of the Gods Sector"
+    elif self.logic.is_dungeon_location(hinted_location):
+      # If it's a dungeon, use the dungeon name.
+      hint_zone = zone_name
     else:
+      # Otherwise, use the entrance zone name.
       hint_zone = entrance_zone
     
     path_hint = Hint(HintType.PATH, self.cryptic_hints, hint_zone, self.DUNGEON_NAME_TO_BOSS_NAME[path_name])
@@ -494,10 +494,9 @@ class HintManager:
       
       zones_with_useful_locations.add(self.get_entrance_zone(location_name))
       # For dungeon locations, both the dungeon and its entrance should be considered useful.
-      zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
-      if zone_name in self.logic.DUNGEON_NAMES.values():
-        if location_name != "Tower of the Gods - Sunken Treasure":
-          zones_with_useful_locations.add(zone_name)
+      if self.logic.is_dungeon_location(location_name):
+        zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
+        zones_with_useful_locations.add(zone_name)
     
     # Now, we do the same with barren locations, identifying which zones have barren locations.
     zones_with_barren_locations = set()
@@ -508,10 +507,9 @@ class HintManager:
       
       zones_with_barren_locations.add(self.get_entrance_zone(location_name))
       # For dungeon locations, both the dungeon and its entrance should be considered barren.
-      zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
-      if zone_name in self.logic.DUNGEON_NAMES.values():
-        if location_name != "Tower of the Gods - Sunken Treasure":
-          zones_with_barren_locations.add(zone_name)
+      if self.logic.is_dungeon_location(location_name):
+        zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
+        zones_with_barren_locations.add(zone_name)
     
     # Finally, the difference between the zones with barren locations and the zones with useful locations gives us our
     # set of hintable barren zones.
