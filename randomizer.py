@@ -649,13 +649,6 @@ class Randomizer:
     with open(os.path.join(ASM_PATH, "free_space_start_offsets.txt"), "r") as f:
       self.free_space_start_offsets = yaml.safe_load(f)
     
-    with open(os.path.join(DATA_PATH, "progress_item_hints.txt"), "r") as f:
-      self.progress_item_hints = yaml.safe_load(f)
-    with open(os.path.join(DATA_PATH, "zone_name_hints.txt"), "r") as f:
-      self.zone_name_hints = yaml.safe_load(f)
-    with open(os.path.join(DATA_PATH, "location_hints.txt"), "r") as f:
-      self.location_hints = yaml.safe_load(f)
-    
     with open(os.path.join(DATA_PATH, "enemy_types.txt"), "r") as f:
       self.enemy_types = yaml.safe_load(f)
     

@@ -23,19 +23,47 @@ class HintType(Enum):
 
 
 class Hint:
-  def __init__(self, type: HintType, place, reward=None):
+  def __init__(self, type: HintType, is_cryptic, place, reward=None):
     self.type = type
+    self.is_cryptic = is_cryptic
     self.place = place
     self.reward = reward
+  
+  @property
+  def formatted_place(self):
+    if not self.is_cryptic:
+      return self.place
     
-    self.formatted_place = place
-    self.formatted_reward = reward
+    match self.type:
+      case HintType.PATH | HintType.BARREN | HintType.ITEM:
+        return HintManager.cryptic_zone_hints[self.place]
+      case HintType.LOCATION:
+        return HintManager.location_hints[self.place]["Text"]
+      case _:
+        raise NotImplementedError
+  
+  @property
+  def formatted_reward(self):
+    match self.type:
+      case HintType.PATH:
+        return self.reward
+      case HintType.ITEM:
+        if self.is_cryptic:
+          return HintManager.cryptic_item_hints[HintManager.get_hint_item_name(self.reward)]
+        else:
+          return HintManager.get_formatted_item_name(self.reward)
+      case HintType.LOCATION:
+        # Never use cryptic item names for location hints.
+        return HintManager.get_formatted_item_name(self.reward)
+      case _:
+        raise NotImplementedError
   
   def __str__(self):
-    return "<HINT: %s, (%s, %s)>" % (str(self.type), self.formatted_place, self.formatted_reward)
+    suffix = ", (CRYPTIC)" if self.is_cryptic else ""
+    return "<HINT: %s, (%s, %s)%s>" % (self.type.name, self.formatted_place, self.formatted_reward, suffix)
   
   def __repr__(self):
-    return "Hint(%s, %s, %s)" % (str(self.type), repr(self.place), repr(self.reward))
+    return "Hint(%s, %s, %s, %s)" % (str(self.type), repr(self.is_cryptic), repr(self.place), repr(self.reward))
 
 
 class HintManager:
@@ -65,6 +93,10 @@ class HintManager:
     "Ganon's Tower": "Can Reach and Defeat Ganondorf",
   }
   
+  cryptic_item_hints = None
+  cryptic_zone_hints = None
+  location_hints = None
+  
   def __init__(self, rando):
     self.rando = rando
     self.logic = rando.logic
@@ -83,9 +115,7 @@ class HintManager:
     self.cryptic_hints = self.options.get("cryptic_hints")
     self.prioritize_remote_hints = self.options.get("prioritize_remote_hints")
     
-    self.progress_item_hints = rando.progress_item_hints
-    self.zone_name_hints = rando.zone_name_hints
-    self.location_hints = rando.location_hints
+    HintManager.load_hint_text_files()
     
     # Validate location names in location hints file.
     for location_name in self.location_hints:
@@ -95,6 +125,17 @@ class HintManager:
     # This will be used to check whether or not the chart leads to a junk item. If so, the chart itself can be
     # considered junk.
     self.chart_name_to_sunken_treasure = {}
+  
+  @staticmethod
+  def load_hint_text_files():
+    if HintManager.cryptic_item_hints and HintManager.cryptic_zone_hints and HintManager.location_hints:
+      return
+    with open(os.path.join(DATA_PATH, "progress_item_hints.txt"), "r") as f:
+      HintManager.cryptic_item_hints = yaml.safe_load(f)
+    with open(os.path.join(DATA_PATH, "zone_name_hints.txt"), "r") as f:
+      HintManager.cryptic_zone_hints = yaml.safe_load(f)
+    with open(os.path.join(DATA_PATH, "location_hints.txt"), "r") as f:
+      HintManager.location_hints = yaml.safe_load(f)
   
   @staticmethod
   def get_hint_item_name(item_name):
@@ -384,10 +425,7 @@ class HintManager:
     else:
       hint_zone = entrance_zone
     
-    path_hint = Hint(HintType.PATH, hint_zone, self.DUNGEON_NAME_TO_BOSS_NAME[path_name])
-    
-    if self.cryptic_hints:
-      path_hint.formatted_place = self.zone_name_hints[hint_zone]
+    path_hint = Hint(HintType.PATH, self.cryptic_hints, hint_zone, self.DUNGEON_NAME_TO_BOSS_NAME[path_name])
     
     return path_hint, hinted_location
   
@@ -596,10 +634,7 @@ class HintManager:
     zone_name = self.rando.rng.choices(unhinted_zones, weights=zone_weights)[0]
     unhinted_zones.remove(zone_name)
     
-    barren_hint = Hint(HintType.BARREN, zone_name)
-    
-    if self.cryptic_hints:
-      barren_hint.formatted_place = self.zone_name_hints[zone_name]
+    barren_hint = Hint(HintType.BARREN, self.cryptic_hints, zone_name)
     
     return barren_hint
   
@@ -687,13 +722,7 @@ class HintManager:
     if entrance_zone == "Tower of the Gods Sector":
       entrance_zone = "Tower of the Gods"
     
-    item_hint = Hint(HintType.ITEM, entrance_zone, item_name)
-    
-    if self.cryptic_hints:
-      item_hint.formatted_reward = self.progress_item_hints[HintManager.get_hint_item_name(item_name)]
-      item_hint.formatted_place = self.zone_name_hints[entrance_zone]
-    else:
-      item_hint.formatted_reward = HintManager.get_formatted_item_name(item_name)
+    item_hint = Hint(HintType.ITEM, self.cryptic_hints, entrance_zone, item_name)
     
     return item_hint, location_name
   
@@ -733,13 +762,7 @@ class HintManager:
     
     item_name = self.logic.done_item_locations[location_name]
     
-    location_hint = Hint(HintType.LOCATION, location_name, item_name)
-    
-    # Never use cryptic item names for location hints.
-    location_hint.formatted_reward = HintManager.get_formatted_item_name(item_name)
-    
-    if self.cryptic_hints:
-      location_hint.formatted_place = self.location_hints[location_name]["Text"]
+    location_hint = Hint(HintType.LOCATION, self.cryptic_hints, location_name, item_name)
     
     return location_hint, location_name
   
@@ -769,22 +792,11 @@ class HintManager:
     
     floor_30_hint = None
     if floor_30_is_progress:
-      floor_30_hint = Hint(HintType.ITEM, None, floor_30_item_name)
+      floor_30_hint = Hint(HintType.ITEM, self.cryptic_hints, None, floor_30_item_name)
     
     floor_50_hint = None
     if floor_50_is_progress:
-      floor_50_hint = Hint(HintType.ITEM, None, floor_50_item_name)
-    
-    for hint in [floor_30_hint, floor_50_hint]:
-      if hint is None:
-        continue
-      if self.cryptic_hints:
-        hint.formatted_reward = HintManager.get_hint_item_name(hint.reward)
-        if not hint.formatted_reward in self.progress_item_hints:
-          raise Exception("Could not find progress item hint for item: %s" % hint.reward)
-        hint.formatted_reward = self.progress_item_hints[hint.formatted_reward]
-      else:
-        hint.formatted_reward = HintManager.get_formatted_item_name(hint.reward)
+      floor_50_hint = Hint(HintType.ITEM, self.cryptic_hints, None, floor_50_item_name)
     
     return floor_30_hint, floor_50_hint
   
