@@ -646,10 +646,6 @@ class Hints:
     if location_name in self.rando.race_mode_required_locations:
       return False
     
-    # Remove locations that are included in remote hints.
-    if location_name in self.location_hints and self.location_hints[location_name]["Type"] == "Remote":
-      return False
-    
     # Remove locations in race-mode banned dungeons.
     if location_name in self.rando.race_mode_banned_locations:
       return False
