@@ -732,9 +732,11 @@ class HintManager:
     hintable_locations.remove(location_name)
     
     item_name = self.logic.done_item_locations[location_name]
-    item_name = HintManager.get_formatted_item_name(item_name)
     
     location_hint = Hint(HintType.LOCATION, location_name, item_name)
+    
+    # Never use cryptic item names for location hints.
+    location_hint.formatted_reward = HintManager.get_formatted_item_name(item_name)
     
     if self.cryptic_hints:
       location_hint.formatted_place = self.location_hints[location_name]["Text"]
