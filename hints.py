@@ -45,7 +45,7 @@ class Hint:
   @property
   def formatted_reward(self):
     match self.type:
-      case HintType.PATH:
+      case HintType.PATH | HintType.BARREN:
         return self.reward
       case HintType.ITEM:
         if self.is_cryptic:
@@ -759,6 +759,10 @@ class HintManager:
         if item_tuple in required_locations_for_paths["Ganon's Tower"]:
           required_locations_for_paths["Ganon's Tower"].remove(item_tuple)
     
+    hinted_path_zones = []
+    previously_hinted_locations = []
+    cached_path_items = []
+    
     # Generate a path hint for each race-mode dungeon.
     hinted_path_zones = []
     for dungeon_name in dungeon_paths:
@@ -777,6 +781,7 @@ class HintManager:
         # Remove locations that have already been hinted.
         if location_name not in previously_hinted_locations:
           hinted_path_zones.append(path_hint)
+          cached_path_items.append(self.logic.done_item_locations[location_name])
           previously_hinted_locations.append(location_name)
     
     while len(required_locations_for_paths) > 0 and len(hinted_path_zones) < self.max_path_hints:
@@ -790,6 +795,7 @@ class HintManager:
         # Remove locations that have already been hinted.
         if location_name not in previously_hinted_locations:
           hinted_path_zones.append(path_hint)
+          cached_path_items.append(self.logic.done_item_locations[location_name])
           previously_hinted_locations.append(location_name)
     
     # Generate barren hints.
@@ -832,4 +838,4 @@ class HintManager:
       hinted_standard_locations.append(location_hint)
       previously_hinted_locations.append(location_name)
     
-    return hinted_path_zones + hinted_barren_zones + hinted_item_locations + hinted_remote_locations + hinted_standard_locations
+    return hinted_path_zones + hinted_barren_zones + hinted_item_locations + hinted_remote_locations + hinted_standard_locations, cached_path_items
