@@ -1,5 +1,5 @@
 import os
-from collections import Counter, OrderedDict
+from collections import Counter, deque, OrderedDict
 from enum import Enum
 from math import sqrt
 
@@ -430,198 +430,92 @@ class HintManager:
     return path_hint, hinted_location
   
   
-  def determine_junk_items(self):
-    # Helper method which returns a set of guaranteed unrequired items in the seed.
-    
-    junk_items = set(self.logic.all_nonprogress_items)  # Start with all non-progress items in the seed.
-    junk_items |= set(CONSUMABLE_ITEMS)                 # Add consumables like Heart Containers and Rupees.
-    junk_items |= set(DUNGEON_NONPROGRESS_ITEMS)        # Add dungeon items (Dungeon Maps and Compasses).
-    if not self.options.get("keylunacy"):
-      junk_items |= set(DUNGEON_PROGRESS_ITEMS)         # Consider Small and Big Keys junk when key-lunacy is off.
-    
-    # Consider Empty Bottles junk only if none are logical.
-    if "Empty Bottle" in self.rando.logic.all_progress_items and "Empty Bottle" in junk_items:
-      junk_items.remove("Empty Bottle")
-    # Consider Progressive Quiver junk only if none are logical.
-    if "Progressive Quiver" in self.rando.logic.all_progress_items and "Progressive Quiver" in junk_items:
-      junk_items.remove("Progressive Quiver")
-    # Consider Progressive Wallet junk only if none are logical.
-    if "Progressive Wallet" in self.rando.logic.all_progress_items and "Progressive Wallet" in junk_items:
-      junk_items.remove("Progressive Wallet")
-    
-    # Consider Small and Big Keys for non-required race mode dungeons as junk when key-lunacy is on.
-    if self.options.get("race_mode") and self.options.get("keylunacy"):
-      race_mode_banned_dungeons = set(self.logic.DUNGEON_NAMES.values()) - set(self.rando.race_mode_required_dungeons)
-      if "Dragon Roost Cavern" in race_mode_banned_dungeons:
-        junk_items.add("DRC Small Key")
-        junk_items.add("DRC Big Key")
-      if "Forbidden Woods" in race_mode_banned_dungeons:
-        junk_items.add("FW Small Key")
-        junk_items.add("FW Big Key")
-      if "Tower of the Gods" in race_mode_banned_dungeons:
-        junk_items.add("TotG Small Key")
-        junk_items.add("TotG Big Key")
-      if "Earth Temple" in race_mode_banned_dungeons:
-        junk_items.add("ET Small Key")
-        junk_items.add("ET Big Key")
-      if "Wind Temple" in race_mode_banned_dungeons:
-        junk_items.add("WT Small Key")
-        junk_items.add("WT Big Key")
-    
-    # Special cases: Loop here until the list of junk items stops changing.
-    junk_items_changed = True
-    while junk_items_changed:
-      junk_items_changed = False
-      
-      # Loop through charts when sunken treasure on and consider any charts that lead to immediately to junk as junk.
-      if self.options.get("progression_triforce_charts") or self.options.get("progression_treasure_charts"):
-        for chart_name, sunken_treasure in self.chart_name_to_sunken_treasure.items():
-          if chart_name not in junk_items:
-            item_name = self.logic.done_item_locations[sunken_treasure]
-            if item_name in junk_items:
-              junk_items.add(chart_name)
-              junk_items_changed = True
-      
-      # Check Maggie's and Moblin's Letters and if they lead to junk, consider them junk as well.
-      if self.options.get("progression_short_sidequests"):
-        item_name = self.logic.done_item_locations["Windfall Island - Cafe Bar - Postman"]
-        if "Maggie's Letter" not in junk_items and item_name in junk_items:
-          junk_items.add("Maggie's Letter")
-          junk_items_changed = True
-        item_name = self.logic.done_item_locations["Windfall Island - Maggie - Delivery Reward"]
-        if "Moblin's Letter" not in junk_items and item_name in junk_items:
-          junk_items.add("Moblin's Letter")
-          junk_items_changed = True
-      
-      # Check the two 12-eye octos and if both lead to junk, consider both quivers as junk.
-      if self.options.get("progression_big_octos_gunboats"):
-        octo1_item_name = self.logic.done_item_locations["Tingle Island - Big Octo"]
-        octo2_item_name = self.logic.done_item_locations["Seven-Star Isles - Big Octo"]
-        if "Progressive Quiver" not in junk_items and octo1_item_name in junk_items and octo2_item_name in junk_items:
-          junk_items.add("Progressive Quiver")
-          junk_items_changed = True
-      
-      if self.options.get("progression_misc"):
-        # Check Tingle statues.
-        item_name = self.logic.done_item_locations["Tingle Island - Ankle - Reward for All Tingle Statues"]
-        if "Dragon Tingle Statue" not in junk_items and item_name in junk_items:
-          junk_items.add("Dragon Tingle Statue")
-          junk_items.add("Forbidden Tingle Statue")
-          junk_items.add("Goddess Tingle Statue")
-          junk_items.add("Earth Tingle Statue")
-          junk_items.add("Wind Tingle Statue")
-          junk_items_changed = True
-        
-        # Check Ghost Ship Chart.
-        item_name = self.logic.done_item_locations["The Great Sea - Ghost Ship"]
-        if "Ghost Ship Chart" not in junk_items and item_name in junk_items:
-          junk_items.add("Ghost Ship Chart")
-          junk_items_changed = True
-        
-    return junk_items
-  
   def get_barren_zones(self, progress_locations, hinted_remote_locations):
     # Helper function to build a list of barren zones in this seed.
     # The list includes only zones which are allowed to be hinted at as barren.
     
-    # To determine a list of candidate barren zones, we first construct a list of guaranteed junk items. The remaining
-    # set of items may or may not be required, so the zones that contain them won't be hinted barren. We do this because
-    # the player may have multiple paths to beat the seed. So if we only used non-path locations, we may hint at all
-    # paths as barren (since one particular path is not strictly required).
-    # Technically, this is an overestimate (a superset) of actual barren locations, but it should suffice.
-    junk_items = self.determine_junk_items()
+    # To start, exclude locations in non race mode dungeons from being considered as a progress location.
+    progress_locations = set(progress_locations) - set(self.rando.race_mode_banned_locations)
     
-    # Initialize possibly-required zones to all logical zones in this seed.
-    # `possibly_required_zones` contains a mapping of zones -> possibly-required items.
-    possibly_required_zones = {}
-    for location_name in progress_locations:
-      zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
-      
-      # Consider dungeons as a separate zone.
-      key_name = ""
-      if zone_name in self.logic.DUNGEON_NAMES.values():
-        if location_name == "Tower of the Gods - Sunken Treasure":
-          key_name = "Tower of the Gods Sector"
-        else:
-          key_name = zone_name
-      else:
-        entrance_zone = self.get_entrance_zone(location_name)
-        key_name = entrance_zone
-      
-      # Don't consider barren locations hinted through remote location hints.
-      if location_name in hinted_remote_locations:
-        item_name = self.logic.done_item_locations[location_name]
-        if item_name not in junk_items:
-          possibly_required_zones[key_name] = set()
-      else:
-        possibly_required_zones[key_name] = set()
-    
-    # Loop through all progress locations, recording only possibly-required items in our dictionary.
+    # Next, create a dictionary mapping all progress items to their randomized locations. The values in this dictionary
+    # will be lists since an item can be in multiple locations if it is progressive or a small key.
+    progress_items = {}
     for location_name in progress_locations:
       item_name = self.logic.done_item_locations[location_name]
-      if location_name not in self.rando.race_mode_required_locations and item_name not in junk_items:
-        zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
-        
-        # Consider dungeons as a separate zone.
-        if zone_name in self.logic.DUNGEON_NAMES.values():
-          if location_name == "Tower of the Gods - Sunken Treasure":
-            possibly_required_zones["Tower of the Gods Sector"].add(item_name)
-          else:
-            possibly_required_zones[zone_name].add(item_name)
+      if item_name in self.rando.logic.all_progress_items:
+        if item_name in progress_items:
+          progress_items[item_name].append(location_name)
         else:
-          entrance_zone = self.get_entrance_zone(location_name)
-          possibly_required_zones[entrance_zone].add(item_name)
-        
-        # Include dungeon-related mail with its dungeon, in addition to Mailbox.
-        if location_name == "Mailbox - Letter from Baito":
-          possibly_required_zones["Earth Temple"].add(item_name)
-          entrance_zone = self.get_entrance_zone("Earth Temple - Jalhalla Heart Container")
-          if entrance_zone in possibly_required_zones:
-            possibly_required_zones[entrance_zone].add(item_name)
-        if location_name == "Mailbox - Letter from Orca":
-          possibly_required_zones["Forbidden Woods"].add(item_name)
-          entrance_zone = self.get_entrance_zone("Forbidden Woods - Kalle Demos Heart Container")
-          if entrance_zone in possibly_required_zones:
-            possibly_required_zones[entrance_zone].add(item_name)
-        if location_name == "Mailbox - Letter from Aryll" or location_name == "Mailbox - Letter from Tingle":
-          possibly_required_zones["Forsaken Fortress"].add(item_name)
+          progress_items[item_name] = [location_name]
     
-    # The zones with zero possibly-required items makes up our initial set of barren zones.
-    # We also check whether there are any non-remote hinted locations there. If not, then 
-    # don't hint at that zone since it'd be covered already by the remote hint(s).
-    barren_zones = set(
-      zone_name for zone_name, item_names in possibly_required_zones.items()
-      if zone_name in possibly_required_zones
-      and len(item_names) == 0
-    )
+    # Next, we build a list of items that may be used to beat the seed. These items include hard-required items, such as
+    # Triforce shards, but also items that might be used. For example, if there is a choice between which wallet to get,
+    # both will be included in this list. As another example, if there is a choice between getting Bombs or Power
+    # Bracelets to beat the seed, both will be included in this list. We do this by going backward from the 'Can Reach
+    # and Defeat Ganondorf" requirement and checking items needed to fulfill that requirement. We then use a queue to
+    # check item requirements to get those items, and so on.
+    self.path_logic.load_simulated_playthrough_state(self.path_logic_initial_state)
+    items_needed = deque(self.path_logic.get_item_names_by_req_name("Can Reach and Defeat Ganondorf"))
+    items_checked = []
+    useful_locations = set()
+    while len(items_needed) > 0:
+      # Dequeue one item from the queue.
+      item_name = items_needed.popleft()
+      
+      # Don't consider the same item more than once or items which are not in the list of randomized progress items.
+      if item_name in items_checked or item_name not in progress_items:
+        continue
+      
+      # Don't consider dungeon keys when keylunacy is not enabled.
+      if self.logic.is_dungeon_item(item_name) and not self.options.get("keylunacy"):
+          continue
+      
+      items_checked.append(item_name)
+      
+      # Consider all instances of this item, even if those extra copies might not be required.
+      item_locations = progress_items[item_name]
+      for location_name in item_locations:
+        requirement_name = "Can Access Other Location \"%s\"" % location_name
+        other_items_needed = self.path_logic.get_item_names_by_req_name(requirement_name)
+        items_needed.extend(other_items_needed)
+      
+      # The set of "useful locations" is the set of all locations which contain these "useful" items.
+      useful_locations |= set(item_locations)
     
-    # Prevent the entrances of possibly-required dungeons from being hinted at as barren.
-    possibly_required_dungeons = [
-      zone_name for zone_name, item_names in possibly_required_zones.items()
-      if zone_name in self.logic.DUNGEON_NAMES.values()
-      and len(item_names) != 0
-    ]
-    for dungeon_name in possibly_required_dungeons:
-      if dungeon_name == "Dragon Roost Cavern":
-        entrance_zone = self.get_entrance_zone("Dragon Roost Cavern - Gohma Heart Container")
-        barren_zones.discard(entrance_zone)
-      if dungeon_name == "Forbidden Woods":
-        entrance_zone = self.get_entrance_zone("Forbidden Woods - Kalle Demos Heart Container")
-        barren_zones.discard(entrance_zone)
-      if dungeon_name == "Tower of the Gods":
-        entrance_zone = self.get_entrance_zone("Tower of the Gods - Gohdan Heart Container")
-        barren_zones.discard(entrance_zone)
-      if dungeon_name == "Earth Temple":
-        entrance_zone = self.get_entrance_zone("Earth Temple - Jalhalla Heart Container")
-        barren_zones.discard(entrance_zone)
-      if dungeon_name == "Wind Temple":
-        entrance_zone = self.get_entrance_zone("Wind Temple - Molgera Heart Container")
-        barren_zones.discard(entrance_zone)
+    # Subtracting the set of useful locations from the set of progress locations gives us our set of barren locations.
+    barren_locations = set(progress_locations) - useful_locations
     
-    # Remove race-mode banned dungeons from being hinted at as barren.
-    if self.options.get("race_mode"):
-      race_mode_banned_dungeons = set(self.logic.DUNGEON_NAMES.values()) - set(self.rando.race_mode_required_dungeons)
-      barren_zones = barren_zones - race_mode_banned_dungeons
+    # Since we hint at zones as barren, we next construct a set of zones which contain at least one useful item.
+    zones_with_useful_locations = set()
+    for location_name in useful_locations:
+      # Don't consider race mode dungeon bosses, as those are implicity required.
+      if location_name in self.rando.race_mode_required_locations:
+        continue
+      
+      zones_with_useful_locations.add(self.get_entrance_zone(location_name))
+      # For dungeon locations, both the dungeon and its entrance should be considered useful.
+      zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
+      if zone_name in self.logic.DUNGEON_NAMES.values():
+        if location_name != "Tower of the Gods - Sunken Treasure":
+          zones_with_useful_locations.add(zone_name)
+    
+    # Now, we do the same with barren locations, identifying which zones have barren locations.
+    zones_with_barren_locations = set()
+    for location_name in barren_locations:
+      # Don't consider locations hinted through remote location hints, as those are explicity barren.
+      if location_name in hinted_remote_locations:
+        continue
+      
+      zones_with_barren_locations.add(self.get_entrance_zone(location_name))
+      # For dungeon locations, both the dungeon and its entrance should be considered barren.
+      zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
+      if zone_name in self.logic.DUNGEON_NAMES.values():
+        if location_name != "Tower of the Gods - Sunken Treasure":
+          zones_with_barren_locations.add(zone_name)
+    
+    # Finally, the difference between the zones with barren locations and the zones with useful locations gives us our
+    # set of hintable barren zones.
+    barren_zones = zones_with_barren_locations - zones_with_useful_locations
     
     # Return the list of barren zones sorted to maintain consistent ordering.
     return list(sorted(barren_zones))
