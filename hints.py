@@ -38,7 +38,7 @@ class Hint:
     return "Hint(%s, %s, %s)" % (str(self.type), repr(self.place), repr(self.reward))
 
 
-class Hints:
+class HintManager:
   # A dictionary mapping dungeon name to the dungeon boss.
   # The boss name is used as the path goal in the hint text.
   DUNGEON_NAME_TO_BOSS_NAME = {
@@ -694,10 +694,10 @@ class Hints:
     item_hint = Hint(HintType.ITEM, entrance_zone, item_name)
     
     if self.cryptic_hints:
-      item_hint.formatted_reward = self.progress_item_hints[Hints.get_hint_item_name(item_name)]
+      item_hint.formatted_reward = self.progress_item_hints[HintManager.get_hint_item_name(item_name)]
       item_hint.formatted_place = self.zone_name_hints[entrance_zone]
     else:
-      item_hint.formatted_reward = Hints.get_formatted_item_name(item_name)
+      item_hint.formatted_reward = HintManager.get_formatted_item_name(item_name)
     
     return item_hint, location_name
   
@@ -736,7 +736,7 @@ class Hints:
     hintable_locations.remove(location_name)
     
     item_name = self.logic.done_item_locations[location_name]
-    item_name = Hints.get_formatted_item_name(item_name)
+    item_name = HintManager.get_formatted_item_name(item_name)
     
     location_hint = Hint(HintType.LOCATION, location_name, item_name)
     
@@ -781,12 +781,12 @@ class Hints:
       if hint is None:
         continue
       if self.cryptic_hints:
-        hint.formatted_reward = Hints.get_hint_item_name(hint.reward)
+        hint.formatted_reward = HintManager.get_hint_item_name(hint.reward)
         if not hint.formatted_reward in self.progress_item_hints:
           raise Exception("Could not find progress item hint for item: %s" % hint.reward)
         hint.formatted_reward = self.progress_item_hints[hint.formatted_reward]
       else:
-        hint.formatted_reward = Hints.get_formatted_item_name(hint.reward)
+        hint.formatted_reward = HintManager.get_formatted_item_name(hint.reward)
     
     return floor_30_hint, floor_50_hint
   
