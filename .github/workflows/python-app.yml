@@ -32,10 +32,10 @@ jobs:
         env:
           SEED_KEY: ${{ secrets.SEED_KEY }}
           BUILD_KEY: ${{ secrets.BUILD_KEY }}
-      - name: Set up Python 3.10
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
           architecture: ${{ matrix.architecture }}
       - name: Install dependencies
         run: |
@@ -83,16 +83,16 @@ jobs:
         env:
           SEED_KEY: ${{ secrets.SEED_KEY }}
           BUILD_KEY: ${{ secrets.BUILD_KEY }}
-      - name: Set up Miniconda with Python 3.10
+      - name: Set up Miniconda with Python 3.11
         uses: conda-incubator/setup-miniconda@v2
         with:
-          python-version: '3.10'
+          python-version: '3.11'
           architecture: ${{ matrix.architecture }}
           miniconda-version: latest
           auto-update-conda: true
       - run: |
-          conda create -qyf -n py310 python=3.10 wheel -c anaconda
-          conda activate py310
+          conda create -qyf -n py311 python=3.11 wheel -c anaconda
+          conda activate py311
         shell: bash -l {0}
       - name: Install dependencies
         run: |
@@ -138,10 +138,10 @@ jobs:
         env:
           SEED_KEY: ${{ secrets.SEED_KEY }}
           BUILD_KEY: ${{ secrets.BUILD_KEY }}
-      - name: Set up Python 3.10
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
           architecture: ${{ matrix.architecture }}
       - name: Install dependencies
         run: |
