@@ -536,7 +536,7 @@ class HintManager:
     barren_zones = zones_with_barren_locations - zones_with_useful_locations
     
     # Return the list of barren zones sorted to maintain consistent ordering.
-    return list(sorted(barren_zones))
+    return sorted(barren_zones)
   
   def get_barren_hint(self, unhinted_zones, zone_weights):
     if len(unhinted_zones) == 0:
