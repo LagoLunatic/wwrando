@@ -566,9 +566,10 @@ class HintManager:
         continue
       
       # Catch locations which are hinted at in barren dungeons.
-      zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
-      if zone_name in self.logic.DUNGEON_NAMES.values() and zone_name in barrens:
-        continue
+      if self.logic.is_dungeon_location(location_name):
+        zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
+        if zone_name in barrens:
+          continue
       
       # Catch locations which are hinted at in barren zones.
       entrance_zone = self.get_entrance_zone(location_name)
