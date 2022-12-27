@@ -46,8 +46,12 @@ class Logic:
     ]),
   ])
   
+  initial_item_locations = None
+  initial_macros = None
+  
   def __init__(self, rando):
     self.rando = rando
+    self.requirement_met_cache = {}
     
     
     # Initialize location related attributes.
@@ -144,6 +148,8 @@ class Logic:
     for item_name in self.rando.starting_items:
       self.add_owned_item(item_name)
     
+    # Decide what will count as a progress item on these settings.
+    self.requirement_met_cache.clear()
     self.make_useless_progress_items_nonprogress()
     
     # Replace progress items that are part of a group with the group name instead.
@@ -165,7 +171,24 @@ class Logic:
         if group_name in self.unplaced_progress_items:
           self.unplaced_progress_items.remove(group_name)
     
+    self.requirement_met_cache.clear()
     self.cached_enemies_tested_for_reqs_tuple = OrderedDict()
+  
+  def save_simulated_playthrough_state(self):
+    vars_backup = {}
+    for attr_name in [
+      "currently_owned_items",
+      "unplaced_progress_items",
+      "unplaced_nonprogress_items",
+      "unplaced_fixed_consumable_items",
+      "requirement_met_cache",
+    ]:
+      vars_backup[attr_name] = copy.deepcopy(getattr(self, attr_name))
+    return vars_backup
+  
+  def load_simulated_playthrough_state(self, vars_backup):
+    for attr_name, value in vars_backup.items():
+      setattr(self, attr_name, copy.deepcopy(value))
   
   def is_dungeon_or_cave(self, location_name):
     # Look up the setting that the location name is under
@@ -318,6 +341,8 @@ class Logic:
       self.unplaced_nonprogress_items.remove(item_name)
     elif item_name in self.unplaced_fixed_consumable_items:
       self.unplaced_fixed_consumable_items.remove(item_name)
+    
+    self.requirement_met_cache.clear()
   
   def remove_owned_item(self, item_name):
     cleaned_item_name = self.clean_item_name(item_name)
@@ -333,12 +358,15 @@ class Logic:
     else:
       # Removing consumable items doesn't work because we don't know if the item is from the fixed list or the duplicatable list
       raise Exception("Cannot remove item from simulated inventory: %s" % item_name)
+    
+    self.requirement_met_cache.clear()
   
   def add_owned_item_or_item_group(self, item_name):
     if item_name in self.progress_item_groups:
       group_name = item_name
       for item_name in self.progress_item_groups[group_name]:
         self.currently_owned_items.append(item_name)
+      self.requirement_met_cache.clear()
     else:
       self.add_owned_item(item_name)
   
@@ -347,6 +375,7 @@ class Logic:
       group_name = item_name
       for item_name in self.progress_item_groups[group_name]:
         self.currently_owned_items.remove(item_name)
+      self.requirement_met_cache.clear()
     else:
       self.remove_owned_item(item_name)
   
@@ -647,6 +676,9 @@ class Logic:
   
   @staticmethod
   def load_and_parse_item_locations():
+    if Logic.initial_item_locations is not None:
+      return copy.deepcopy(Logic.initial_item_locations)
+    
     with open(os.path.join(LOGIC_PATH, "item_locations.txt")) as f:
       item_locations = yaml.load(f, YamlOrderedDictLoader)
     
@@ -661,17 +693,27 @@ class Logic:
       types = [type.strip() for type in types]
       item_locations[location_name]["Types"] = types
     
+    Logic.initial_item_locations = copy.deepcopy(item_locations)
     return item_locations
     
   def load_and_parse_macros(self):
+    if Logic.initial_macros is not None:
+      self.macros = copy.deepcopy(Logic.initial_macros)
+      return self.macros
+    
     with open(os.path.join(LOGIC_PATH, "macros.txt")) as f:
       macro_strings = yaml.safe_load(f)
+    
     self.macros = {}
     for macro_name, req_string in macro_strings.items():
       self.set_macro(macro_name, req_string)
+    
+    Logic.initial_macros = copy.deepcopy(self.macros)
+    return self.macros
   
   def set_macro(self, macro_name, req_string):
     self.macros[macro_name] = Logic.parse_logic_expression(req_string)
+    self.requirement_met_cache.clear()
   
   def update_entrance_connection_macros(self):
     # Update all the macros to take randomized entrances into account.
@@ -871,25 +913,31 @@ class Logic:
     return stack
   
   def check_requirement_met(self, req_name):
+    if req_name in self.requirement_met_cache:
+      return self.requirement_met_cache[req_name]
+    
     if req_name.startswith("Progressive "):
-      return self.check_progressive_item_req(req_name)
+      result = self.check_progressive_item_req(req_name)
     elif " Small Key x" in req_name:
-      return self.check_small_key_req(req_name)
+      result = self.check_small_key_req(req_name)
     elif req_name.startswith("Can Access Other Location \""):
-      return self.check_other_location_requirement(req_name)
+      result = self.check_other_location_requirement(req_name)
     elif req_name.startswith("Option \""):
-      return self.check_option_enabled_requirement(req_name)
+      result = self.check_option_enabled_requirement(req_name)
     elif req_name in self.all_cleaned_item_names:
-      return req_name in self.currently_owned_items
+      result = req_name in self.currently_owned_items
     elif req_name in self.macros:
       logical_expression = self.macros[req_name]
-      return self.check_logical_expression_req(logical_expression)
+      result = self.check_logical_expression_req(logical_expression)
     elif req_name == "Nothing":
-      return True
+      result = True
     elif req_name == "Impossible":
-      return False
+      result = False
     else:
       raise Exception("Unknown requirement name: " + req_name)
+    
+    self.requirement_met_cache[req_name] = result
+    return result
   
   def check_logical_expression_req(self, logical_expression):
     expression_type = None

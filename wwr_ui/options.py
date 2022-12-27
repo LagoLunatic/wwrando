@@ -125,8 +125,28 @@ OPTIONS = OrderedDict([
     "Places hints on the King of Red Lions. Talk to the King of Red Lions to get hints.",
   ),
   (
-    "num_hints",
-    "Determines the number of hints that will be placed in the game. This option does not affect Wallet mail, Big Octo Great Fairy, or Savage Labyrinth hints.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+    "num_path_hints",
+    "The number of path hints that will be placed. Path hints tell you that an area contains an item that is logically required to reach a particular goal in this seed.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+  ),
+  (
+    "num_barren_hints",
+    "The number of barren hints that will be placed. Barren hints tell you that an area does not contain any required items in this seed.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+  ),
+  (
+    "num_location_hints",
+    "The number of location hints that will be placed. Location hints tell you what item is at a specific location in this seed.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+  ),
+  (
+    "num_item_hints",
+    "The number of item hints that will be placed. Item hints tell you which area contains a particular progression item in this seed.\nIf multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
+  ),
+  (
+    "cryptic_hints",
+    "When this option is selected, all hints will be phrased cryptically instead of telling you the names of locations and items directly.",
+  ),
+  (
+    "prioritize_remote_hints",
+    "When this option is selected, certain locations that are out of the way and time-consuming to complete will take precedence over normal location hints.",
   ),
   
   

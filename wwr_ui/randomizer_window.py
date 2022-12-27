@@ -269,6 +269,10 @@ class WWRandomizerWindow(QMainWindow):
             next_option_description, options_finished = next(randomizer_generator)
             if options_finished == -1:
               break
+        except (TooFewProgressionLocationsError, InvalidCleanISOError) as e:
+          error_message = str(e)
+          self.randomization_failed(error_message)
+          return
         except Exception as e:
           stack_trace = traceback.format_exc()
           error_message = "Error on seed " + temp_seed + ":\n" + str(e) + "\n\n" + stack_trace
@@ -984,6 +988,9 @@ class WWRandomizerWindow(QMainWindow):
         num_possible_rewards += 1
     else:
       should_enable_options["num_race_mode_dungeons"] = False
+    
+    if self.get_option_value("num_location_hints") == 0:
+      should_enable_options["prioritize_remote_hints"] = False
     
     self.filtered_rgear.setFilterStrings(items_to_filter_out)
     

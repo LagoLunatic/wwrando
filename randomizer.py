@@ -71,7 +71,12 @@ RNG_CHANGING_OPTIONS = [
   "fishmen_hints",
   "hoho_hints",
   "korl_hints",
-  "num_hints",
+  "num_path_hints",
+  "num_barren_hints",
+  "num_location_hints",
+  "num_item_hints",
+  "cryptic_hints",
+  "prioritize_remote_hints",
   "do_not_generate_spoiler_log",
 ]
 
@@ -445,11 +450,17 @@ class Randomizer:
     yield("Saving items...", options_completed)
     if self.randomize_items and not self.dry_run:
       items.write_changed_items(self)
+    options_completed += 1
+    
+    yield("Generating hints...", options_completed)
+    if self.randomize_items:
+      self.reset_rng()
       tweaks.randomize_and_update_hints(self)
+    options_completed += 5
     
     if not self.dry_run:
       self.apply_necessary_post_randomization_tweaks()
-    options_completed += 7
+    options_completed += 1
     
     yield("Saving randomized ISO...", options_completed)
     if not self.dry_run:
@@ -545,7 +556,6 @@ class Randomizer:
       tweaks.update_auction_item_names(self)
       tweaks.update_battlesquid_item_names(self)
       tweaks.update_item_names_in_letter_advertising_rock_spire_shop(self)
-      tweaks.update_savage_labyrinth_hint_tablet(self)
     tweaks.show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=self.race_mode_required_dungeons)
     tweaks.prevent_fire_mountain_lava_softlock(self)
   
@@ -636,15 +646,8 @@ class Randomizer:
     with open(os.path.join(ASM_PATH, "custom_symbols.txt"), "r") as f:
       self.custom_symbols = yaml.safe_load(f)
     self.main_custom_symbols = self.custom_symbols["sys/main.dol"]
-    
     with open(os.path.join(ASM_PATH, "free_space_start_offsets.txt"), "r") as f:
       self.free_space_start_offsets = yaml.safe_load(f)
-    
-    with open(os.path.join(DATA_PATH, "progress_item_hints.txt"), "r") as f:
-      self.progress_item_hints = yaml.safe_load(f)
-    
-    with open(os.path.join(DATA_PATH, "island_name_hints.txt"), "r") as f:
-      self.island_name_hints = yaml.safe_load(f)
     
     with open(os.path.join(DATA_PATH, "enemy_types.txt"), "r") as f:
       self.enemy_types = yaml.safe_load(f)

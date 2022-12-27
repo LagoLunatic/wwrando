@@ -48,8 +48,8 @@ Cyclops Reef:
   the one-eyed demon
 Six-Eye Reef:
   the six-eyed demon
-Tower of the Gods:
-  a tower created to test the hero
+Tower of the Gods Sector:
+  where a tower created to test the hero lies
 Eastern Triangle Island:
   the green triangle island
 Thorned Fairy Island:
@@ -79,7 +79,7 @@ Southern Fairy Island:
 Ice Ring Isle:
   an island ravaged by ice
 Forest Haven:
-  a place where the vegetation is abundant
+  the home of the woodland spirits
 Cliff Plateau Isles:
   the remains of a wooden plateau
 Horseshoe Island:
@@ -96,3 +96,21 @@ Boating Course:
   the island with a boat race
 Five-Star Isles:
   the remains of five isles
+Mailbox:
+  the mail
+The Great Sea:
+  a location on the open seas
+Dragon Roost Cavern:
+  a large volcanic den
+Forbidden Woods:
+  a dungeon with overgrown vegetation
+Tower of the Gods:
+  a tower created to test the hero
+Earth Temple:
+  a haunted dungeon
+Wind Temple:
+  a trap-filled dungeon
+Hyrule:
+  the submerged castle
+Ganon's Tower:
+  the stronghold of the evil king

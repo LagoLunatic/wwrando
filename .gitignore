@@ -6,6 +6,6 @@ settings.txt
 /models/*
 !/models/About Custom Models.txt
 /asm/maps-out
-profileresults.txt
+profileresults*.txt
 /keys/seed_key.py
 /keys/build_key.txt

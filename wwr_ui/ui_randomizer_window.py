@@ -579,48 +579,131 @@ class Ui_MainWindow(object):
 
         self.groupBox_5 = QGroupBox(self.tab)
         self.groupBox_5.setObjectName(u"groupBox_5")
-        self.gridLayout_9 = QGridLayout(self.groupBox_5)
-        self.gridLayout_9.setObjectName(u"gridLayout_9")
-        self.fishmen_hints = QCheckBox(self.groupBox_5)
-        self.fishmen_hints.setObjectName(u"fishmen_hints")
-        self.fishmen_hints.setChecked(True)
-
-        self.gridLayout_9.addWidget(self.fishmen_hints, 0, 0, 1, 1)
-
+        self.gridLayout_7 = QGridLayout(self.groupBox_5)
+        self.gridLayout_7.setObjectName(u"gridLayout_7")
         self.hoho_hints = QCheckBox(self.groupBox_5)
         self.hoho_hints.setObjectName(u"hoho_hints")
         self.hoho_hints.setChecked(True)
 
-        self.gridLayout_9.addWidget(self.hoho_hints, 0, 1, 1, 1)
+        self.gridLayout_7.addWidget(self.hoho_hints, 4, 0, 1, 1)
 
-        self.horizontalLayout_9 = QHBoxLayout()
-        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.label_for_num_hints = QLabel(self.groupBox_5)
-        self.label_for_num_hints.setObjectName(u"label_for_num_hints")
+        self.prioritize_remote_hints = QCheckBox(self.groupBox_5)
+        self.prioritize_remote_hints.setObjectName(u"prioritize_remote_hints")
 
-        self.horizontalLayout_9.addWidget(self.label_for_num_hints)
-
-        self.num_hints = QSpinBox(self.groupBox_5)
-        self.num_hints.setObjectName(u"num_hints")
-        self.num_hints.setCorrectionMode(QAbstractSpinBox.CorrectToNearestValue)
-        self.num_hints.setMinimum(1)
-        self.num_hints.setMaximum(32)
-        self.num_hints.setValue(20)
-
-        self.horizontalLayout_9.addWidget(self.num_hints)
-
-        self.widget_6 = QWidget(self.groupBox_5)
-        self.widget_6.setObjectName(u"widget_6")
-
-        self.horizontalLayout_9.addWidget(self.widget_6)
-
-
-        self.gridLayout_9.addLayout(self.horizontalLayout_9, 0, 3, 1, 1)
+        self.gridLayout_7.addWidget(self.prioritize_remote_hints, 6, 1, 1, 1)
 
         self.korl_hints = QCheckBox(self.groupBox_5)
         self.korl_hints.setObjectName(u"korl_hints")
 
-        self.gridLayout_9.addWidget(self.korl_hints, 0, 2, 1, 1)
+        self.gridLayout_7.addWidget(self.korl_hints, 4, 2, 1, 1)
+
+        self.horizontalLayout_16 = QHBoxLayout()
+        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
+        self.label_for_num_barren_hints = QLabel(self.groupBox_5)
+        self.label_for_num_barren_hints.setObjectName(u"label_for_num_barren_hints")
+
+        self.horizontalLayout_16.addWidget(self.label_for_num_barren_hints)
+
+        self.num_barren_hints = QSpinBox(self.groupBox_5)
+        self.num_barren_hints.setObjectName(u"num_barren_hints")
+        self.num_barren_hints.setCorrectionMode(QAbstractSpinBox.CorrectToNearestValue)
+        self.num_barren_hints.setMinimum(0)
+        self.num_barren_hints.setMaximum(15)
+        self.num_barren_hints.setValue(0)
+
+        self.horizontalLayout_16.addWidget(self.num_barren_hints)
+
+        self.widget_7 = QWidget(self.groupBox_5)
+        self.widget_7.setObjectName(u"widget_7")
+
+        self.horizontalLayout_16.addWidget(self.widget_7)
+
+
+        self.gridLayout_7.addLayout(self.horizontalLayout_16, 5, 2, 1, 1)
+
+        self.cryptic_hints = QCheckBox(self.groupBox_5)
+        self.cryptic_hints.setObjectName(u"cryptic_hints")
+        self.cryptic_hints.setChecked(True)
+
+        self.gridLayout_7.addWidget(self.cryptic_hints, 6, 0, 1, 1)
+
+        self.fishmen_hints = QCheckBox(self.groupBox_5)
+        self.fishmen_hints.setObjectName(u"fishmen_hints")
+        self.fishmen_hints.setChecked(True)
+
+        self.gridLayout_7.addWidget(self.fishmen_hints, 4, 1, 1, 1)
+
+        self.horizontalLayout_17 = QHBoxLayout()
+        self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
+        self.label_for_num_location_hints = QLabel(self.groupBox_5)
+        self.label_for_num_location_hints.setObjectName(u"label_for_num_location_hints")
+
+        self.horizontalLayout_17.addWidget(self.label_for_num_location_hints)
+
+        self.num_location_hints = QSpinBox(self.groupBox_5)
+        self.num_location_hints.setObjectName(u"num_location_hints")
+        self.num_location_hints.setCorrectionMode(QAbstractSpinBox.CorrectToNearestValue)
+        self.num_location_hints.setMinimum(0)
+        self.num_location_hints.setMaximum(15)
+        self.num_location_hints.setValue(5)
+
+        self.horizontalLayout_17.addWidget(self.num_location_hints)
+
+        self.widget_8 = QWidget(self.groupBox_5)
+        self.widget_8.setObjectName(u"widget_8")
+
+        self.horizontalLayout_17.addWidget(self.widget_8)
+
+
+        self.gridLayout_7.addLayout(self.horizontalLayout_17, 5, 1, 1, 1)
+
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.label_for_num_item_hints = QLabel(self.groupBox_5)
+        self.label_for_num_item_hints.setObjectName(u"label_for_num_item_hints")
+
+        self.horizontalLayout_9.addWidget(self.label_for_num_item_hints)
+
+        self.num_item_hints = QSpinBox(self.groupBox_5)
+        self.num_item_hints.setObjectName(u"num_item_hints")
+        self.num_item_hints.setCorrectionMode(QAbstractSpinBox.CorrectToNearestValue)
+        self.num_item_hints.setMinimum(0)
+        self.num_item_hints.setMaximum(15)
+        self.num_item_hints.setValue(15)
+
+        self.horizontalLayout_9.addWidget(self.num_item_hints)
+
+        self.widget_9 = QWidget(self.groupBox_5)
+        self.widget_9.setObjectName(u"widget_9")
+
+        self.horizontalLayout_9.addWidget(self.widget_9)
+
+
+        self.gridLayout_7.addLayout(self.horizontalLayout_9, 5, 0, 1, 1)
+
+        self.horizontalLayout_15 = QHBoxLayout()
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+        self.label_for_num_path_hints = QLabel(self.groupBox_5)
+        self.label_for_num_path_hints.setObjectName(u"label_for_num_path_hints")
+
+        self.horizontalLayout_15.addWidget(self.label_for_num_path_hints)
+
+        self.num_path_hints = QSpinBox(self.groupBox_5)
+        self.num_path_hints.setObjectName(u"num_path_hints")
+        self.num_path_hints.setCorrectionMode(QAbstractSpinBox.CorrectToNearestValue)
+        self.num_path_hints.setMinimum(0)
+        self.num_path_hints.setMaximum(15)
+        self.num_path_hints.setValue(0)
+
+        self.horizontalLayout_15.addWidget(self.num_path_hints)
+
+        self.widget_6 = QWidget(self.groupBox_5)
+        self.widget_6.setObjectName(u"widget_6")
+
+        self.horizontalLayout_15.addWidget(self.widget_6)
+
+
+        self.gridLayout_7.addLayout(self.horizontalLayout_15, 5, 3, 1, 1)
 
 
         self.verticalLayout_8.addWidget(self.groupBox_5)
@@ -629,25 +712,25 @@ class Ui_MainWindow(object):
         self.groupBox_6.setObjectName(u"groupBox_6")
         self.gridLayout_8 = QGridLayout(self.groupBox_6)
         self.gridLayout_8.setObjectName(u"gridLayout_8")
-        self.widget_7 = QWidget(self.groupBox_6)
-        self.widget_7.setObjectName(u"widget_7")
+        self.widget_11 = QWidget(self.groupBox_6)
+        self.widget_11.setObjectName(u"widget_11")
 
-        self.gridLayout_8.addWidget(self.widget_7, 0, 3, 1, 1)
+        self.gridLayout_8.addWidget(self.widget_11, 0, 3, 1, 1)
 
         self.do_not_generate_spoiler_log = QCheckBox(self.groupBox_6)
         self.do_not_generate_spoiler_log.setObjectName(u"do_not_generate_spoiler_log")
 
         self.gridLayout_8.addWidget(self.do_not_generate_spoiler_log, 0, 0, 1, 1)
 
-        self.widget_8 = QWidget(self.groupBox_6)
-        self.widget_8.setObjectName(u"widget_8")
+        self.widget_10 = QWidget(self.groupBox_6)
+        self.widget_10.setObjectName(u"widget_10")
 
-        self.gridLayout_8.addWidget(self.widget_8, 0, 2, 1, 1)
+        self.gridLayout_8.addWidget(self.widget_10, 0, 2, 1, 1)
 
-        self.widget_9 = QWidget(self.groupBox_6)
-        self.widget_9.setObjectName(u"widget_9")
+        self.widget_12 = QWidget(self.groupBox_6)
+        self.widget_12.setObjectName(u"widget_12")
 
-        self.gridLayout_8.addWidget(self.widget_9, 0, 4, 1, 1)
+        self.gridLayout_8.addWidget(self.widget_12, 0, 4, 1, 1)
 
 
         self.verticalLayout_8.addWidget(self.groupBox_6)
@@ -944,10 +1027,15 @@ class Ui_MainWindow(object):
         self.num_race_mode_dungeons.setItemText(5, QCoreApplication.translate("MainWindow", u"6", None))
 
         self.groupBox_5.setTitle(QCoreApplication.translate("MainWindow", u"Hint Options", None))
-        self.fishmen_hints.setText(QCoreApplication.translate("MainWindow", u"Place Hints on Fishmen", None))
         self.hoho_hints.setText(QCoreApplication.translate("MainWindow", u"Place Hints on Old Man Ho Ho", None))
-        self.label_for_num_hints.setText(QCoreApplication.translate("MainWindow", u"Hint Count", None))
+        self.prioritize_remote_hints.setText(QCoreApplication.translate("MainWindow", u"Prioritize Remote Location Hints", None))
         self.korl_hints.setText(QCoreApplication.translate("MainWindow", u"Place Hints on King of Red Lions", None))
+        self.label_for_num_barren_hints.setText(QCoreApplication.translate("MainWindow", u"Barren Hints", None))
+        self.cryptic_hints.setText(QCoreApplication.translate("MainWindow", u"Use Cryptic Text for Hints", None))
+        self.fishmen_hints.setText(QCoreApplication.translate("MainWindow", u"Place Hints on Fishmen", None))
+        self.label_for_num_location_hints.setText(QCoreApplication.translate("MainWindow", u"Location Hints", None))
+        self.label_for_num_item_hints.setText(QCoreApplication.translate("MainWindow", u"Item Hints", None))
+        self.label_for_num_path_hints.setText(QCoreApplication.translate("MainWindow", u"Path Hints", None))
         self.groupBox_6.setTitle(QCoreApplication.translate("MainWindow", u"Additional Advanced Options", None))
         self.do_not_generate_spoiler_log.setText(QCoreApplication.translate("MainWindow", u"Do Not Generate Spoiler Log", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Advanced Options", None))
