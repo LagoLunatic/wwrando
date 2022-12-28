@@ -1,10 +1,22 @@
 
 ### Next version (in progress, not released yet)
 
-New features:
+Supported operating systems:
 * The randomizer now officially supports Mac and Linux and offers release builds for those platforms.
+* 32-bit release builds are no longer offered. If you have a 32-bit operating system you must run the randomizer from source.
+
+New features:
 * Added a "Chest Type Matches Contents" option that changes the appearance of each treasure chest depending on the importance of the item randomized into the chest (progress items, dungeon keys, and non-progress items).
-* In addition to fishmen giving hints as to which island progress items are on, Old Man Ho Ho and King of Red Lions can now also give hints.
+* The progression hints system has been significantly reworked:
+  * You can now select who you want to give hints: fishmen, Old Man Ho Ho, King of Red Lions, or any combination of them. (In previous versions all hints were given by fishmen.)
+  * There are now four different types of hints you can select to appear instead of one type:
+    * Item hints tell you which area contains a particular progression item in this seed. (In previous versions all hints were item hints.)
+    * Location hints tell you what item is at a specific location in this seed.
+    * Barren hints tell you that an area does not contain any required items in this seed.
+    * Path hints tell you that an area contains an item that is logically required to reach a particular goal in this seed.
+  * The exact number of hints of each type you want to appear throughout the seed can now be customized.
+  * The cryptic text of hints can now be optionally disabled to make the meaning of hints more obvious.
+  * Location hints for remote locations that would be time-consuming to check manually can optionally be prioritized over locations that are less out of the way.
 * The number of progress item hints is now customizable in the randomizer's settings, as is where hints will appear.
 * You can now choose to randomize the following items instead of always starting the game with them: Ballad of Gales, Song of Passing, Magic Meter.
 * Added a button to the top of the Player Customization tab to automatically install a custom player model or pack of multiple custom player models from a .zip file.
@@ -31,9 +43,6 @@ Bug fixes:
 * Fixed "Reset All Settings to Default" not properly resetting the custom model colors if the casual clothes checkbox was checked.
 * Fixed a bug when secret cave entrances were randomized where hints for the item in the Pawprint Isle Wizzrobe Cave would direct you to the island containing the Pawprint Isle Chuchu Cave instead.
 * Fixed a vanilla crash that could rarely occur when an arrow hits two different things at once (e.g. a Big Octo's body and its eye).
-
-Removed:
-* 32-bit builds of the randomizer are no longer offered.
 
 ### Version 1.9.0 (released 2021-02-23)
 
