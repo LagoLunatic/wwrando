@@ -1615,6 +1615,13 @@ def update_starting_gear(self):
   if len(starting_gear) > MAXIMUM_ADDITIONAL_STARTING_ITEMS:
     raise Exception("Tried to start with more starting items (%d) than the maximum number that was allocated (%d)" % (len(starting_gear), MAXIMUM_ADDITIONAL_STARTING_ITEMS))
   starting_gear_array_address = self.main_custom_symbols["starting_gear"]
+  
+  # Ensure that the max items constant isn't larger than the actual space we have available.
+  # We don't want to go past the end of the allocated space and overwrite other memory.
+  next_symbol_addr = min(addr for addr in self.main_custom_symbols.values() if addr > starting_gear_array_address)
+  gear_slots_available = (next_symbol_addr - starting_gear_array_address) - 1
+  assert gear_slots_available >= MAXIMUM_ADDITIONAL_STARTING_ITEMS, "Max starting items constant is too large"
+  
   for i in range(len(starting_gear)):
     item_id = self.item_name_to_id[starting_gear[i]]
     self.dol.write_data(write_u8, starting_gear_array_address+i, item_id)
