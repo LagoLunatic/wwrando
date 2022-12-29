@@ -13,6 +13,7 @@ from hints import HintManager, HintType
 from asm import patcher
 from wwlib import texture_utils
 from wwlib.rel import REL
+from wwlib.bmg import TextBoxType
 from wwrando_paths import ASSETS_PATH, ASM_PATH, SEEDGEN_PATH
 import customizer
 from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS
@@ -313,7 +314,7 @@ def make_items_progressive(self):
   description = "\\{1A 05 00 00 01}You got \\{1A 06 FF 00 00 01}magic power\\{1A 06 FF 00 00 00}!\nNow you can use magic items!"
   msg = self.bmg.add_new_message(101 + magic_meter_item_id)
   msg.string = description
-  msg.text_box_type = 9 # Item get message box
+  msg.text_box_type = TextBoxType.ITEM_GET
   msg.initial_draw_type = 2 # Slow initial message speed
   msg.display_item_id = magic_meter_item_id
 
@@ -632,7 +633,7 @@ def allow_dungeon_items_to_appear_anywhere(self):
     
     msg = self.bmg.add_new_message(101 + item_id)
     msg.string = description
-    msg.text_box_type = 9 # Item get message box
+    msg.text_box_type = TextBoxType.ITEM_GET
     msg.initial_draw_type = 2 # Slow initial message speed
     msg.display_item_id = item_id
     
@@ -1232,7 +1233,7 @@ def add_pirate_ship_to_windfall(self):
   # Set Aryll's text for when you're trapped in the chest room.
   new_message_id = 849
   msg = self.bmg.add_new_message(new_message_id)
-  msg.text_box_type = 0 # Dialog
+  msg.text_box_type = TextBoxType.DIALOG
   msg.initial_draw_type = 0 # Normal
   msg.text_alignment = 4 # Bottom text box
   msg.string = "Oh! Did you get stuck in there, Big Brother?"
@@ -1247,7 +1248,7 @@ def add_pirate_ship_to_windfall(self):
   
   new_message_id = 850
   msg = self.bmg.add_new_message(new_message_id)
-  msg.text_box_type = 0 # Dialog
+  msg.text_box_type = TextBoxType.DIALOG
   msg.initial_draw_type = 0 # Normal
   msg.text_alignment = 4 # Bottom text box
   msg.string = "Don't worry, I'll open the door for you."
@@ -1645,7 +1646,7 @@ def add_hint_signs(self):
   new_message_id = 847
   msg = self.bmg.add_new_message(new_message_id)
   msg.string = "\\{1A 05 00 00 15}" # Right arrow
-  msg.text_box_type = 2 # Wooden sign message box
+  msg.text_box_type = TextBoxType.WOOD
   msg.initial_draw_type = 1 # Instant initial message speed
   msg.text_alignment = 3 # Centered text alignment
   
@@ -2102,7 +2103,7 @@ def add_new_bog_warp(self):
   # Add a new message for the text in the confirmation dialog when selecting the new warp.
   msg = self.bmg.add_new_message(848)
   msg.string = "Warp to \\{1A 06 FF 00 00 01}Forsaken Fortress\\{1A 06 FF 00 00 00}?"
-  msg.text_box_type = 0 # Dialog
+  msg.text_box_type = TextBoxType.DIALOG
   msg.initial_draw_type = 1 # Instant message speed
   msg.text_box_position = 2 # Centered
   msg.num_lines_per_box = 2
@@ -2293,7 +2294,7 @@ def fix_message_closing_sound_on_quest_status_screen(self):
   
   msg = self.bmg.add_new_message(704)
   msg.string = ""
-  msg.text_box_type = 9 # Item get message box
+  msg.text_box_type = TextBoxType.ITEM_GET
 
 def fix_stone_head_bugs(self):
   # Unset the actor status bit for stone heads that makes them not execute on frames where they didn't draw because they weren't in view of the camera.

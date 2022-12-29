@@ -1,4 +1,4 @@
-
+from enum import Enum
 from io import BytesIO
 import re
 
@@ -133,7 +133,45 @@ class BMGSection:
     self.messages_by_id[message.message_id] = message
     
     return message
-  
+
+class TextBoxType(Enum):
+  DIALOG          = 0x0
+  SPECIAL         = 0x1
+  WOOD            = 0x2
+  UNKNOWN_3       = 0x3
+  UNKNOWN_4       = 0x4
+  NONE            = 0x5
+  STONE           = 0x6
+  PARCHMENT       = 0x7
+  UNKNOWN_8       = 0x8
+  ITEM_GET        = 0x9
+  HINT            = 0xA
+  UNKNOWN_11      = 0xB
+  UNKNOWN_12      = 0xC
+  CENTERED_TEXT   = 0xD
+  WIND_WAKER_SONG = 0xE
+
+# Specify the wordwrap width of each type of text box.
+# There's a switch statement on the box type at 80214048 that decides which function to call.
+# The functions then hardcode what the maximum line length will be.
+TEXT_BOX_TYPE_TO_MAX_LINE_LENGTH = {
+  TextBoxType.DIALOG         : 503, # dMsg_ScreenDataValueInitTalk
+  TextBoxType.SPECIAL        : 419, # dMsg_ScreenDataValueInitItem
+  TextBoxType.WOOD           : 503, # dMsg_ScreenDataValueInitTalk
+  TextBoxType.UNKNOWN_3      : 503, # dMsg_ScreenDataValueInitTalk
+  TextBoxType.UNKNOWN_4      : 503, # dMsg_ScreenDataValueInitTalk
+  TextBoxType.NONE           : 503, # dMsg_ScreenDataValueInitDemo
+  TextBoxType.STONE          : 503, # dMsg_ScreenDataValueInitTalk
+  TextBoxType.PARCHMENT      : 503, # dMsg_ScreenDataValueInitTalk
+  TextBoxType.UNKNOWN_8      : 503, # dMsg_ScreenDataValueInitTalk
+  TextBoxType.ITEM_GET       : 419, # dMsg_ScreenDataValueInitItem
+  TextBoxType.HINT           : 503, # dMsg_ScreenDataValueInitTalk
+  TextBoxType.UNKNOWN_11     : 503, # dMsg_ScreenDataValueInitTalk
+  TextBoxType.UNKNOWN_12     : 503, # dMsg_ScreenDataValueInitTalk
+  TextBoxType.CENTERED_TEXT  : 503, # dMsg_ScreenDataValueInitTalk
+  TextBoxType.WIND_WAKER_SONG: 419, # dMsg_ScreenDataValueInitTact
+}
+
 class Message:
   def __init__(self, data, bmg):
     self.data = data
@@ -146,7 +184,7 @@ class Message:
     
     self.unknown_1 = 0x60
     
-    self.text_box_type = 0
+    self.text_box_type = TextBoxType.DIALOG
     self.initial_draw_type = 0
     self.text_box_position = 3
     self.display_item_id = 0xFF
@@ -173,7 +211,7 @@ class Message:
     self.next_message_id = read_u16(data, offset+8)
     self.unknown_1 = read_u16(data, offset+0x0A)
     
-    self.text_box_type = read_u8(data, offset+0x0C)
+    self.text_box_type = TextBoxType(read_u8(data, offset+0x0C))
     self.initial_draw_type = read_u8(data, offset+0x0D)
     self.text_box_position = read_u8(data, offset+0x0E)
     self.display_item_id = read_u8(data, offset+0x0F)
@@ -198,7 +236,7 @@ class Message:
     write_u16(data, self.offset+8, self.next_message_id)
     write_u16(data, self.offset+0x0A, self.unknown_1)
     
-    write_u8(data, self.offset+0x0C, self.text_box_type)
+    write_u8(data, self.offset+0x0C, self.text_box_type.value)
     write_u8(data, self.offset+0x0D, self.initial_draw_type)
     write_u8(data, self.offset+0x0E, self.text_box_position)
     write_u8(data, self.offset+0x0F, self.display_item_id)
