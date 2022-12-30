@@ -31,6 +31,15 @@ REGULAR_ITEMS = [
   "Cabana Deed",
   "Ghost Ship Chart",
   "Empty Bottle",
+  "Fill-Up Coupon",
+  "Submarine Chart",
+  "Beedle's Chart",
+  "Platform Chart",
+  "Light Ring Chart",
+  "Secret Cave Chart",
+  "Great Fairy Chart",
+  "Octo Chart",
+  "Tingle's Chart",
 ]
 
 DUNGEON_NONPROGRESS_ITEMS = \

@@ -19,6 +19,7 @@ New features:
   * Location hints for remote locations that would be time-consuming to check manually can optionally be prioritized over locations that are less out of the way.
 * The number of progress item hints is now customizable in the randomizer's settings, as is where hints will appear.
 * You can now choose to randomize the following items instead of always starting the game with them: Ballad of Gales, Song of Passing, Magic Meter.
+* You can now choose to start the game with the non-progress charts such as the Submarine Chart and Secret Cave Chart.
 * Added a button to the top of the Player Customization tab to automatically install a custom player model or pack of multiple custom player models from a .zip file.
 * Added an optional tweak to invert the X axis of the compass on the sea so that it works more intuitively.
 * Forest Haven's shore now has a warp which acts as a shortcut allowing you to quickly re-enter the dungeon entrance from the sea after you've already reached it the normal way once.

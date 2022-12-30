@@ -28,7 +28,7 @@ ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
 ORIGINAL_DOL_SIZE = 0x3A52C0
 
 # Number of slots allocated for starting items (when changing this also update the code in custom_funcs.asm)
-MAXIMUM_ADDITIONAL_STARTING_ITEMS = 60
+MAXIMUM_ADDITIONAL_STARTING_ITEMS = 70
 
 
 def set_new_game_starting_spawn_id(self, spawn_id):
