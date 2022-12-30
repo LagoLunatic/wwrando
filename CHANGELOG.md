@@ -24,6 +24,7 @@ New features:
 * Forest Haven's shore now has a warp which acts as a shortcut allowing you to quickly re-enter the dungeon entrance from the sea after you've already reached it the normal way once.
 * Custom model authors can now change the colors of the sword's slash trail when parrying and when under the Elixir Soup effect.
 * The big pig on Outset now has its color randomized.
+* You can now customize the color of Link's hat and tunic separately from one another.
 
 Changes:
 * Fanning with the Deku Leaf no longer requires you to have magic in your Magic Meter like it did in vanilla. (Flying with the Deku Leaf still consumes magic.)
