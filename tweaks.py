@@ -10,6 +10,7 @@ import math
 
 from fs_helpers import *
 from randomizers.hints import HintManager, HintType
+from randomizers import entrances
 from asm import patcher
 from wwlib import texture_utils
 from wwlib.rel import REL
@@ -968,6 +969,62 @@ def update_hoho_hints(self, hints):
     msg_id = 14001 + hoho_index
     msg = self.bmg.messages_by_id[msg_id]
     msg.construct_string_from_parts(self.bfn, hint_lines)
+    
+    rotate_hoho_to_face_hint(self, hoho_index, hints_for_hoho)
+
+HOHO_INDEX_TO_ISLAND_NUM = {
+  0: 34,
+  1: 14,
+  2: 44, # On multiple layers
+  3: 1,
+  4: 5,
+  5: 33,
+  6: 3,
+  7: 43,
+  8: 31,
+  9: 46,
+}
+
+def rotate_hoho_to_face_hint(self, hoho_index, hints_for_hoho):
+  """Attempt to rotate the Hoho of a particular index to look towards the island he is hinting at.
+  Will make him face the first hint in his list that corresponds to an island."""
+  
+  sea_dzs = self.get_arc("files/res/Stage/sea/Stage.arc").get_file("stage.dzs")
+  mults = sea_dzs.entries_by_type("MULT")
+  
+  island_num_to_look_towards = None
+  for hint in hints_for_hoho:
+    if hint.type in [HintType.PATH, HintType.BARREN, HintType.ITEM]:
+      zone_name = hint.place
+    elif hint.type == HintType.LOCATION:
+      zone_name = entrances.get_entrance_zone_for_item_location(self, hint.place)
+    
+    if zone_name in ["Tower of the Gods Sector", "Ganon's Tower"]:
+      zone_name = "Tower of the Gods"
+    if zone_name in self.island_name_to_number:
+      island_num_to_look_towards = self.island_name_to_number[zone_name]
+      break
+  
+  if island_num_to_look_towards is None:
+    # Some hints, such as mail, don't correspond to any particular island.
+    # If all of this Hoho's hints are of that type, don't rotate him. Leave his vanilla rotation.
+    return
+  
+  island_num = HOHO_INDEX_TO_ISLAND_NUM[hoho_index]
+  island_dzr = self.get_arc("files/res/Stage/sea/Room%d.arc" % island_num).get_file("room.dzr")
+  island_actors = island_dzr.entries_by_type("ACTR")
+  hoho_actors = [x for x in island_actors if x.name == "Ah"]
+  assert len(hoho_actors) > 0
+  
+  dest_sector_mult = next(mult for mult in mults if mult.room_index == island_num_to_look_towards)
+  
+  for hoho_actor in hoho_actors:
+    assert hoho_actor.which_hoho == hoho_index
+    angle_rad = math.atan2(dest_sector_mult.x_pos - hoho_actor.x_pos, dest_sector_mult.z_pos - hoho_actor.z_pos)
+    angle_u16 = int(angle_rad * (0x8000 / math.pi)) % 0x10000
+    hoho_actor.y_rot = angle_u16
+  
+  island_dzr.save_changes()
 
 def update_korl_hints(self, hints):
   assert hints
