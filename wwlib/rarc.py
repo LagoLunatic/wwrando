@@ -9,6 +9,7 @@ from wwlib.yaz0 import Yaz0
 from wwlib.dzx import DZx
 from wwlib.events import EventList
 from wwlib.bmg import BMG
+from wwlib.bfn import BFN
 from wwlib.charts import ChartList
 from wwlib.j3d import BDL, BMD, BMT, BRK, BTK
 from wwlib.bti import BTIFileEntry
@@ -490,6 +491,10 @@ class RARC:
       bmg = BMG(file_entry)
       self.instantiated_object_files[file_name] = bmg
       return bmg
+    elif file_name.endswith(".bfn"):
+      bfn = BFN(file_entry.data)
+      bfn.read()
+      return bfn
     elif file_name.endswith(".bdl"):
       bdl = BDL(file_entry)
       self.instantiated_object_files[file_name] = bdl

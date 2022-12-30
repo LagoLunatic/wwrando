@@ -43,6 +43,7 @@ Bug fixes:
 * Fixed "Reset All Settings to Default" not properly resetting the custom model colors if the casual clothes checkbox was checked.
 * Fixed a bug when secret cave entrances were randomized where hints for the item in the Pawprint Isle Wizzrobe Cave would direct you to the island containing the Pawprint Isle Chuchu Cave instead.
 * Fixed a vanilla crash that could rarely occur when an arrow hits two different things at once (e.g. a Big Octo's body and its eye).
+* Fixed a bug where text added to the game by the randomizer (such as hints) could sometimes be word-wrapped incorrectly.
 
 ### Version 1.9.0 (released 2021-02-23)
 

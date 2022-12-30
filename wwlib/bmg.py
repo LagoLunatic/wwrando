@@ -3,6 +3,7 @@ from io import BytesIO
 import re
 
 from fs_helpers import *
+from wwlib.bfn import BFN
 
 class BMG:
   def __init__(self, file_entry):
@@ -319,3 +320,28 @@ class Message:
     string_pool_data = self.bmg.dat1.data
     str_start_offset = 8 + self.string_offset
     write_and_pack_bytes(string_pool_data, str_start_offset, bytes_to_write, "B"*len(bytes_to_write))
+  
+  def word_wrap_string_part(self, font: BFN, string: str, extra_line_length=0):
+    max_line_length = TEXT_BOX_TYPE_TO_MAX_LINE_LENGTH[self.text_box_type]
+    max_line_length += extra_line_length
+    return font.word_wrap_string(string, max_line_length)
+  
+  def word_wrap_string(self, font: BFN, extra_line_length=0):
+    self.string = self.word_wrap_string_part(font, self.string, extra_line_length)
+  
+  def pad_string_to_next_4_lines(self, string: str):
+    lines = string.split("\n")
+    padding_lines_needed = (4 - len(lines) % 4) % 4
+    for i in range(padding_lines_needed):
+      lines.append("")
+    return "\n".join(lines) + "\n"
+  
+  def construct_string_from_parts(self, font: BFN,  parts: list[str], extra_line_length=0):
+    """Constructs a new string from a list of parts.
+    Each part will be guaranteed to take up at least one entire text box (4 lines).
+    """
+    self.string = ""
+    for part in parts:
+      part = self.word_wrap_string_part(font, part, extra_line_length)
+      part = self.pad_string_to_next_4_lines(part)
+      self.string += part

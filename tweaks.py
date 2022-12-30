@@ -620,22 +620,23 @@ def allow_dungeon_items_to_appear_anywhere(self):
     # Add item get messages for the items.
     if base_item_name == "Small Key":
       description_format_string = "\\{1A 05 00 00 01}You got %s \\{1A 06 FF 00 00 01}%s small key\\{1A 06 FF 00 00 00}!"
-      description = word_wrap_string(description_format_string % (get_indefinite_article(dungeon_name), dungeon_name))
+      description = description_format_string % (get_indefinite_article(dungeon_name), dungeon_name)
     elif base_item_name == "Big Key":
       description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Big Key\\{1A 06 FF 00 00 00}!"
-      description = word_wrap_string(description_format_string % dungeon_name)
+      description = description_format_string % dungeon_name
     elif base_item_name == "Dungeon Map":
       description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Dungeon Map\\{1A 06 FF 00 00 00}!"
-      description = word_wrap_string(description_format_string % dungeon_name)
+      description = description_format_string % dungeon_name
     elif base_item_name == "Compass":
       description_format_string = "\\{1A 05 00 00 01}You got the \\{1A 06 FF 00 00 01}%s Compass\\{1A 06 FF 00 00 00}!"
-      description = word_wrap_string(description_format_string % dungeon_name)
+      description = description_format_string % dungeon_name
     
     msg = self.bmg.add_new_message(101 + item_id)
-    msg.string = description
     msg.text_box_type = TextBoxType.ITEM_GET
     msg.initial_draw_type = 2 # Slow initial message speed
     msg.display_item_id = item_id
+    msg.string = description
+    msg.word_wrap_string(self.bfn)
     
     # Update item resources and field item resources so the models/icons show correctly for these items.
     item_resources_addr_to_copy_from = item_resources_list_start + base_item_id*0x24
@@ -667,59 +668,6 @@ def allow_dungeon_items_to_appear_anywhere(self):
     self.dol.write_data(write_bytes, field_item_resources_addr+0x11, data5)
     data6 = self.dol.read_data(read_bytes, field_item_resources_addr_to_copy_from+0x18, 4)
     self.dol.write_data(write_bytes, field_item_resources_addr+0x18, data6)
-
-def word_wrap_string(string, max_line_length=34):
-  index_in_str = 0
-  wordwrapped_str = ""
-  current_word = ""
-  current_word_length = 0
-  length_of_curr_line = 0
-  while index_in_str < len(string):
-    char = string[index_in_str]
-    
-    if char == "\\":
-      assert string[index_in_str+1] == "{"
-      substr = string[index_in_str:]
-      control_code_str_len = substr.index("}") + 1
-      substr = substr[:control_code_str_len]
-      current_word += substr
-      index_in_str += control_code_str_len
-    elif char == "\n":
-      wordwrapped_str += current_word
-      wordwrapped_str += char
-      length_of_curr_line = 0
-      current_word = ""
-      current_word_length = 0
-      index_in_str += 1
-    elif char == " ":
-      wordwrapped_str += current_word
-      length_of_curr_line += current_word_length
-      current_word = ""
-      current_word_length = 0
-      index_in_str += 1
-      
-      if length_of_curr_line + len(char) >= max_line_length:
-        wordwrapped_str += "\n"
-        length_of_curr_line = 0
-      else:
-        wordwrapped_str += char
-        length_of_curr_line += len(char)
-    else:
-      current_word += char
-      current_word_length += 1
-      index_in_str += 1
-      
-      if length_of_curr_line + current_word_length > max_line_length:
-        wordwrapped_str += "\n"
-        length_of_curr_line = 0
-        
-        if current_word_length > max_line_length:
-          wordwrapped_str += current_word + "\n"
-          current_word = ""
-  
-  wordwrapped_str += current_word
-  
-  return wordwrapped_str
 
 def get_indefinite_article(string):
   first_letter = string.strip()[0].lower()
@@ -756,13 +704,6 @@ def add_article_before_item_name(item_name):
 def upper_first_letter(string):
   first_letter = string[0].upper()
   return first_letter + string[1:]
-
-def pad_string_to_next_4_lines(string):
-  lines = string.split("\n")
-  padding_lines_needed = (4 - len(lines) % 4) % 4
-  for i in range(padding_lines_needed):
-    lines.append("")
-  return "\n".join(lines) + "\n"
 
 def remove_ballad_of_gales_warp_in_cutscene(self):
   for island_index in range(1, 49+1):
@@ -834,19 +775,20 @@ def update_auction_item_names(self):
 def update_battlesquid_item_names(self):
   item_name = self.logic.done_item_locations["Windfall Island - Battlesquid - First Prize"]
   msg = self.bmg.messages_by_id[7520]
-  msg.string = "\\{1A 05 01 00 8E}Hoorayyy! Yayyy! Yayyy!\nOh, thank you, Mr. Sailor!\n\n\n"
-  msg.string += word_wrap_string(
-    "Please take this \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} as a sign of our gratitude. You are soooooo GREAT!" % item_name,
-    max_line_length=43
+  msg.string = (
+    "\\{1A 05 01 00 8E}Hoorayyy! Yayyy! Yayyy!\nOh, thank you, Mr. Sailor!\n\n\n"
+    "Please take this \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} as a sign of our gratitude. You are soooooo GREAT!" % item_name
   )
+  msg.word_wrap_string(self.bfn)
   
   item_name = self.logic.done_item_locations["Windfall Island - Battlesquid - Second Prize"]
   msg = self.bmg.messages_by_id[7521]
-  msg.string = "\\{1A 05 01 00 8E}Hoorayyy! Yayyy! Yayyy!\nOh, thank you so much, Mr. Sailor!\n\n\n"
-  msg.string += word_wrap_string(
-    "This is our thanks to you! It's been passed down on our island for many years, so don't tell the island elder, OK? Here...\\{1A 06 FF 00 00 01}\\{1A 05 00 00 39} \\{1A 06 FF 00 00 00}Please accept this \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}!" % item_name,
-    max_line_length=43
+  msg.string = (
+    "\\{1A 05 01 00 8E}Hoorayyy! Yayyy! Yayyy!\nOh, thank you so much, Mr. Sailor!\n\n\n"
+    "This is our thanks to you! It's been passed down on our island for many years, so don't tell the island elder, OK? "
+    "Here...\\{1A 06 FF 00 00 01}\\{1A 05 00 00 39} \\{1A 06 FF 00 00 00}Please accept this \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}!" % item_name
   )
+  msg.word_wrap_string(self.bfn)
   
   # The high score one doesn't say the item name in text anywhere, so no need to update it.
   #item_name = self.logic.done_item_locations["Windfall Island - Battlesquid - 20 Shots or Less Prize"]
@@ -862,15 +804,17 @@ def update_item_names_in_letter_advertising_rock_spire_shop(self):
   unchanged_string_before = "\n".join(lines[0:8]) + "\n"
   unchanged_string_after = "\n".join(lines[12:])
   
-  hint_string = "Do you have need of %s \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}, %s \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}, or %s \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}? We have them at special bargain prices." % (
-    get_indefinite_article(item_name_1), item_name_1,
-    get_indefinite_article(item_name_2), item_name_2,
-    get_indefinite_article(item_name_3), item_name_3,
+  hint_string = (
+    "Do you have need of %s \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}, " % (get_indefinite_article(item_name_1), item_name_1) +
+    "%s \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}, " % (get_indefinite_article(item_name_2), item_name_2) +
+    "or %s \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}? " % (get_indefinite_article(item_name_3), item_name_3) +
+    "We have them at special bargain prices."
   )
   
   # Letters have 2 spaces at the start of each line, so word wrap to 39 chars instead of 43, then add 2 spaces to each line.
-  hint_string = word_wrap_string(hint_string, max_line_length=39)
-  hint_string = pad_string_to_next_4_lines(hint_string)
+  space_width = self.bfn.get_char_width(" ")
+  hint_string = msg.word_wrap_string_part(self.bfn, hint_string, extra_line_length=-2*space_width)
+  hint_string = msg.pad_string_to_next_4_lines(hint_string)
   hint_lines = hint_string.split("\n")
   leading_spaces_hint_lines = []
   for hint_line in hint_lines:
@@ -910,10 +854,8 @@ def update_savage_labyrinth_hint_tablet(self, floor_30_hint, floor_50_hint):
     hint += " awaits"
   msg = self.bmg.messages_by_id[837]
   msg.string = "\\{1A 07 FF 00 01 00 96}\\{1A 06 FF 00 00 01}The Savage Labyrinth\n\\{1A 07 FF 00 01 00 64}\n\n\n"
-  msg.string += word_wrap_string(
-    "\\{1A 06 FF 00 00 00}Deep in the never-ending darkness, the way to %s." % hint,
-    max_line_length=43
-  )
+  msg.string += "\\{1A 06 FF 00 00 00}Deep in the never-ending darkness, the way to %s." % hint
+  msg.word_wrap_string(self.bfn)
 
 def randomize_and_update_hints(self):
   hint_manager = HintManager(self)
@@ -985,15 +927,9 @@ def update_fishmen_hints(self, hints):
         # If instant text mode is on, we need to reset the text speed to instant after the wait command messed it up.
         hint_lines[-1] = "\\{1A 05 00 00 01}" + hint_lines[-1]
     
-    hint = ""
-    for hint_line in hint_lines:
-      hint_line = word_wrap_string(hint_line, max_line_length=42)
-      hint_line = pad_string_to_next_4_lines(hint_line)
-      hint += hint_line
-    
     msg_id = 13026 + fishman_island_number
     msg = self.bmg.messages_by_id[msg_id]
-    msg.string = hint
+    msg.construct_string_from_parts(self.bfn, hint_lines)
 
 def update_hoho_hints(self, hints):
   assert hints
@@ -1029,15 +965,9 @@ def update_hoho_hints(self, hints):
         # If instant text mode is on, we need to reset the text speed to instant after the wait command messed it up.
         hint_lines[-1] = "\\{1A 05 00 00 01}" + hint_lines[-1]
     
-    hint = ""
-    for hint_line in hint_lines:
-      hint_line = word_wrap_string(hint_line, max_line_length=42)
-      hint_line = pad_string_to_next_4_lines(hint_line)
-      hint += hint_line
-    
     msg_id = 14001 + hoho_index
     msg = self.bmg.messages_by_id[msg_id]
-    msg.string = hint
+    msg.construct_string_from_parts(self.bfn, hint_lines)
 
 def update_korl_hints(self, hints):
   assert hints
@@ -1051,32 +981,23 @@ def update_korl_hints(self, hints):
     hint_suffix = "." if i == len(hints) - 1 else ","
     hint_lines.append(HintManager.get_formatted_hint_text(hint, prefix=hint_prefix, suffix=hint_suffix, delay=0))
   
-  hint = ""
-  for hint_line in hint_lines:
-    hint_line = word_wrap_string(hint_line, max_line_length=42)
-    hint_line = pad_string_to_next_4_lines(hint_line)
-    hint += hint_line
-  
   for msg_id in (3443, 3444, 3445, 3446, 3447, 3448):
     msg = self.bmg.messages_by_id[msg_id]
-    msg.string = hint
+    msg.construct_string_from_parts(self.bfn, hint_lines)
 
 def update_big_octo_great_fairy_item_name_hint(self, hint):
   if self.dry_run:
     return
   
-  self.bmg.messages_by_id[12015].string = word_wrap_string(
-    "\\{1A 06 FF 00 00 05}In \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05}, you will find an item." % hint.place,
-    max_line_length=43
-  )
-  self.bmg.messages_by_id[12016].string = word_wrap_string(
-    "\\{1A 06 FF 00 00 05}...\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05} which may help you on your quest." % upper_first_letter(hint.reward),
-    max_line_length=43
-  )
-  self.bmg.messages_by_id[12017].string = word_wrap_string(
-    "\\{1A 06 FF 00 00 05}When you find you have need of such an item, you must journey to that place.",
-    max_line_length=43
-  )
+  msg = self.bmg.messages_by_id[12015]
+  msg.string = "\\{1A 06 FF 00 00 05}In \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05}, you will find an item." % hint.place
+  msg.word_wrap_string(self.bfn)
+  msg = self.bmg.messages_by_id[12016]
+  msg.string = "\\{1A 06 FF 00 00 05}...\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05} which may help you on your quest." % upper_first_letter(hint.reward)
+  msg.word_wrap_string(self.bfn)
+  msg = self.bmg.messages_by_id[12017]
+  msg.string = "\\{1A 06 FF 00 00 05}When you find you have need of such an item, you must journey to that place."
+  msg.word_wrap_string(self.bfn)
 
 def shorten_zephos_event(self):
   # Make the Zephos event end when the player gets the item from the shrine, before Zephos actually appears.
@@ -1172,10 +1093,11 @@ def add_pirate_ship_to_windfall(self):
   #msg.initial_sound = 104 # "Oyyyy!"
   #msg.initial_sound = 105 # "Hoyyyy!"
   msg.initial_sound = 106 # "Haiiii~!"
-  msg.string = "'Hoy! Big Brother!\n"
-  msg.string += "Wanna play a game? It's fun, trust me!"
-  msg.string = pad_string_to_next_4_lines(msg.string)
-  msg.string += word_wrap_string("Just \\{1A 06 FF 00 00 01}step on this button\\{1A 06 FF 00 00 00}, and try to swing across the ropes to reach that door over there before time's up!", max_line_length=43)
+  msg.construct_string_from_parts(self.bfn, [
+    "'Hoy! Big Brother!\n" + "Wanna play a game? It's fun, trust me!",
+    "Just \\{1A 06 FF 00 00 01}step on this button\\{1A 06 FF 00 00 00}, "
+    "and try to swing across the ropes to reach that door over there before time's up!"
+  ])
   
   # We need to make the pirate ship stage (Asoko) load the wave bank with Aryll's voice in it.
   stage_bgm_info_list_start = 0x8039C30C
@@ -2321,10 +2243,11 @@ def show_number_of_tingle_statues_on_quest_status_screen(self):
   
   # Update the treasure chart description with custom text for tingle statues.
   msg = self.bmg.messages_by_id[703]
-  msg.string = word_wrap_string(
-    "Golden statues of a mysterious dashing figure. They can be traded to \\{1A 06 FF 00 00 01}Ankle\\{1A 06 FF 00 00 00} on \\{1A 06 FF 00 00 01}Tingle Island\\{1A 06 FF 00 00 00} for a reward!",
-    max_line_length=43
+  msg.string = (
+    "Golden statues of a mysterious dashing figure. "
+    "They can be traded to \\{1A 06 FF 00 00 01}Ankle\\{1A 06 FF 00 00 00} on \\{1A 06 FF 00 00 01}Tingle Island\\{1A 06 FF 00 00 00} for a reward!"
   )
+  msg.word_wrap_string(self.bfn)
 
 def add_shortcut_warps_into_dungeons(self):
   # Add shortcut warps to more quickly re-enter dungeons from the shore after you've already entered them once.

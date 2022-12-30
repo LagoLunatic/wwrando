@@ -158,6 +158,7 @@ class Randomizer:
         raise
       
       self.bmg = self.get_arc("files/res/Msg/bmgres.arc").get_file("zel_00.bmg")
+      self.bfn = self.get_arc("files/res/Msg/fontres.arc").get_file("rock_24_20_4i_usa.bfn")
       
       if self.disassemble:
         self.disassemble_all_code()
