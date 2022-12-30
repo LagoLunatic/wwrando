@@ -14,7 +14,7 @@ from asm import patcher
 from wwlib import texture_utils
 from wwlib.rel import REL
 from wwlib.bmg import TextBoxType
-from wwrando_paths import ASSETS_PATH, ASM_PATH, SEEDGEN_PATH
+from wwrando_paths import ASSETS_PATH, ASM_PATH
 import customizer
 from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS
 
@@ -1648,27 +1648,6 @@ def make_tingle_statue_reward_rupee_rainbow_colored(self):
 def show_seed_hash_on_name_entry_screen(self):
   # Add some text to the name entry screen which has two random character names that vary based on the permalink (so the seed and settings both change it).
   # This is so two players intending to play the same seed can verify if they really are on the same seed or not.
-  
-  if not self.permalink:
-    return
-  
-  if not self.options.get("do_not_generate_spoiler_log"):
-    integer_seed = self.convert_string_to_integer_md5(self.permalink)
-  else:
-    # When no spoiler log is generated, the seed key also affects randomization, not just the data in the permalink.
-    integer_seed = self.convert_string_to_integer_md5(self.permalink + SEED_KEY)
-  temp_rng = Random()
-  temp_rng.seed(integer_seed)
-  
-  with open(os.path.join(SEEDGEN_PATH, "names.txt")) as f:
-    all_names = f.read().splitlines()
-  valid_names = [name for name in all_names if len(name) <= 5]
-  
-  name_1, name_2 = temp_rng.sample(valid_names, 2)
-  name_1 = upper_first_letter(name_1)
-  name_2 = upper_first_letter(name_2)
-  self.seed_hash = name_1 + " " + name_2
-  
   # Since actually adding new text to the UI would be very difficult, instead hijack the "Name Entry" text, and put the seed hash after several linebreaks.
   # (The three linebreaks we insert before "Name Entry" are so it's still in the correct spot after vertical centering happens.)
   msg = self.bmg.messages_by_id[40]

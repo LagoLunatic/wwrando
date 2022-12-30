@@ -16,7 +16,7 @@ from wwlib.jpc import JPC
 import tweaks
 from asm import patcher
 from logic.logic import Logic
-from wwrando_paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH, IS_RUNNING_FROM_SOURCE
+from wwrando_paths import DATA_PATH, ASM_PATH, RANDO_ROOT_PATH, IS_RUNNING_FROM_SOURCE, SEEDGEN_PATH
 import customizer
 from wwlib import stage_searcher
 from asm import disassemble
@@ -92,7 +92,7 @@ class Randomizer:
     self.options = options
     self.seed = seed
     self.permalink = permalink
-    self.seed_hash = None
+    self.seed_hash = self.get_seed_hash()
     
     self.dry_run = ("-dry" in cmd_line_args)
     self.disassemble = ("-disassemble" in cmd_line_args)
@@ -954,7 +954,31 @@ class Randomizer:
         progression_spheres.append(final_progression_sphere)
     
     return progression_spheres
-  
+
+  def get_seed_hash(self):
+    # Generate some text that will be shown on the name entry screen which has two random character names that vary based on the permalink (so the seed and settings both change it).
+    # This is so two players intending to play the same seed can verify if they really are on the same seed or not.
+
+    if not self.permalink:
+      return None
+
+    if not self.options.get("do_not_generate_spoiler_log"):
+      integer_seed = self.convert_string_to_integer_md5(self.permalink)
+    else:
+      # When no spoiler log is generated, the seed key also affects randomization, not just the data in the permalink.
+      integer_seed = self.convert_string_to_integer_md5(self.permalink + SEED_KEY)
+    temp_rng = Random()
+    temp_rng.seed(integer_seed)
+
+    with open(os.path.join(SEEDGEN_PATH, "names.txt")) as f:
+      all_names = f.read().splitlines()
+    valid_names = [name for name in all_names if len(name) <= 5]
+
+    name_1, name_2 = temp_rng.sample(valid_names, 2)
+    name_1 = tweaks.upper_first_letter(name_1)
+    name_2 = tweaks.upper_first_letter(name_2)
+    return name_1 + " " + name_2
+
   def get_log_header(self):
     header = ""
     
