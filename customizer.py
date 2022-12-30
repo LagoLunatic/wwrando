@@ -8,8 +8,9 @@ import glob
 from PIL import Image
 
 from fs_helpers import *
-from wwlib.texture_utils import *
 from wwlib import texture_utils
+from wwlib.texture_utils import ImageFormat, PaletteFormat
+from wwlib.gx_enums import GXAttr
 from wwrando_paths import ASSETS_PATH, CUSTOM_MODELS_PATH
 
 ORIG_LINK_ARC_FILE_SIZE_IN_BYTES  = 1308608
@@ -517,6 +518,18 @@ def change_player_custom_colors(self):
   
   if not replaced_any:
     return
+  
+  if self.custom_model_name == "Link":
+    # The vanilla Link model UV-mapped Link's hat and tunic to the same part of the texture.
+    # We want the hat and tunic colors to be customizable separately, so we modify the UVs.
+    # We edit the VTX1 section to move the hat UV coords to a vertical column on the right.
+    texcoords = link_main_model.vtx1.attributes[GXAttr.Tex0]
+    # Make sure this is the vanilla Link VTX1 section by checking the number of UV coords.
+    # If the number of coords doesn't match this is probably a custom model, so skip it.
+    if len(texcoords) == 816:
+      hat_uv_indexes = slice(226, 293)
+      for i, (u, v) in enumerate(texcoords[hat_uv_indexes]):
+        texcoords[hat_uv_indexes.start+i] = (0.995, v)
   
   for texture in link_main_textures:
     if self.custom_model_name == "Link" and is_casual and texture.image_format == ImageFormat.C4:

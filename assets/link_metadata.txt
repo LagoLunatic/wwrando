@@ -4,7 +4,8 @@ hero_custom_colors:
   Mouth: 0xF74963
   Eyes: 0x10514A
   Sclera: 0xFFFFFF
-  Shirt: 0x5AB24A
+  Hat: 0x5AB24A
+  Tunic: 0x5AB24A
   Undershirt: 0xADE342
   Pants: 0xFFFFFF
   Boots: 0x944908
@@ -29,7 +30,8 @@ hero_color_presets:
     Mouth: 0x000000
     Eyes: 0xFF0000
     Sclera: 0x000000
-    Shirt: 0x000000
+    Hat: 0x000000
+    Tunic: 0x000000
     Undershirt: 0x000000
     Pants: 0x000000
     Boots: 0x000000
@@ -41,7 +43,8 @@ hero_color_presets:
     Mouth: 0x736B69
     Eyes: 0xFF0000
     Sclera: 0x000000
-    Shirt: 0x333333
+    Hat: 0x333333
+    Tunic: 0x333333
     Undershirt: 0x62656A
     Pants: 0x898E91
     Boots: 0x464646
@@ -51,19 +54,23 @@ hero_color_presets:
     Hair: 0x9CF543
   Red Link:
     Hair: 0xFF532E
-    Shirt: 0xE52B36
+    Hat: 0xE52B36
+    Tunic: 0xE52B36
     Undershirt: 0xE38981
   Blue Link:
     Hair: 0x3F64DB
-    Shirt: 0x698DB9
+    Hat: 0x698DB9
+    Tunic: 0x698DB9
     Undershirt: 0xAAD3E0
   Purple Link:
     Hair: 0xD649FD
-    Shirt: 0x9A4F9F
+    Hat: 0x9A4F9F
+    Tunic: 0x9A4F9F
     Undershirt: 0xCC8FB1
   Shadow Link:
     Hair: 0xA3338D
-    Shirt: 0x444444
+    Hat: 0x444444
+    Tunic: 0x444444
     Undershirt: 0xFFFFFF
     Boots: 0x392437
     Belt: 0x791009
