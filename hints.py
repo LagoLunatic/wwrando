@@ -186,7 +186,7 @@ class HintManager:
       )
     elif hint.type == HintType.ITEM:
       copula = "is"
-      if hint.reward in ["Power Bracelets", "Iron Boots", "Bombs"]:
+      if hint.formatted_reward in ["Power Bracelets", "Iron Boots", "Bombs"]:
         copula = "are"
       hint_string = (
         "%s\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} %s located in \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
