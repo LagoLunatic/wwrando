@@ -328,6 +328,7 @@ class WWRandomizerWindow(QMainWindow):
     self.progress_dialog.reset()
     
     if self.randomizer_thread is not None:
+      self.randomizer_thread.terminate()
       try:
         self.randomizer_thread.randomizer.write_error_log(error_message)
       except Exception as e:
