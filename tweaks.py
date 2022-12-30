@@ -9,7 +9,7 @@ from random import Random
 import math
 
 from fs_helpers import *
-from hints import HintManager, HintType
+from randomizers.hints import HintManager, HintType
 from asm import patcher
 from wwlib import texture_utils
 from wwlib.rel import REL
