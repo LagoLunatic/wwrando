@@ -41,6 +41,7 @@ class WWRandomizerWindow(QMainWindow):
     self.randomizer_thread = None
     
     self.cmd_line_args = cmd_line_args
+    self.dry_run = ("-dry" in cmd_line_args)
     self.bulk_test = ("-bulk" in cmd_line_args)
     self.no_ui_test = ("-noui" in cmd_line_args)
     self.profiling = ("-profile" in cmd_line_args)
@@ -223,7 +224,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.clean_iso_path.setText(clean_iso_path)
     self.ui.output_folder.setText(output_folder)
     
-    if not os.path.isfile(clean_iso_path):
+    if not self.dry_run and not os.path.isfile(clean_iso_path):
       QMessageBox.warning(self, "Clean ISO path not specified", "Must specify path to your clean Wind Waker ISO (USA).")
       return
     if not os.path.isdir(output_folder):
