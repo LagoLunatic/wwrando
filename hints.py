@@ -9,10 +9,7 @@ from logic.item_types import CONSUMABLE_ITEMS, DUNGEON_NONPROGRESS_ITEMS, DUNGEO
 from logic.logic import Logic
 from wwrando_paths import DATA_PATH
 import tweaks
-
-ITEM_LOCATION_NAME_TO_EXIT_ZONE_NAME_OVERRIDES = {
-  "Pawprint Isle - Wizzrobe Cave": "Pawprint Isle Side Isle",
-}
+from randomizers import entrances, charts
 
 
 class HintType(Enum):
@@ -225,58 +222,6 @@ class HintManager:
     return item_name
   
   
-  def get_entrance_zone(self, location_name):
-    # Helper function to return the entrance zone name for the location.
-    #
-    # For non-dungeon and non-cave locations, the entrance zone name is simply the zone (island) name. However, when
-    # entrances are randomized, the entrance zone name may differ from the zone name for dungeons and caves.
-    # As a special case, if the entrance zone is Tower of the Gods or the location name is "Tower of the Gods - Sunken
-    # Treasure", the entrance zone name is "Tower of the Gods Sector" to differentiate between the dungeon and the
-    # entrance.
-    
-    zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
-    
-    if location_name in ITEM_LOCATION_NAME_TO_EXIT_ZONE_NAME_OVERRIDES:
-      zone_name = ITEM_LOCATION_NAME_TO_EXIT_ZONE_NAME_OVERRIDES[location_name]
-    
-    if zone_name in self.rando.dungeon_and_cave_island_locations and self.logic.is_dungeon_or_cave(location_name):
-      # If the location is in a dungeon or cave, use the hint for whatever island the dungeon/cave is located on.
-      entrance_zone = self.rando.dungeon_and_cave_island_locations[zone_name]
-      
-      # Special case for Tower of the Gods to use Tower of the Gods Sector when refering to the entrance, not the dungeon
-      if entrance_zone == "Tower of the Gods":
-        entrance_zone = "Tower of the Gods Sector"
-    else:
-      # Otherwise, for non-dungeon and non-cave locations, just use the zone name.
-      entrance_zone = zone_name
-      
-      # Special case for Tower of the Gods to use Tower of the Gods Sector when refering to the Sunken Treasure
-      if location_name == "Tower of the Gods - Sunken Treasure":
-        entrance_zone = "Tower of the Gods Sector"
-      # Note that Forsaken Fortress - Sunken Treasure has a similar issue, but there are no randomized entrances on
-      # Forsaken Fortress, so we won't make that distinction here.
-    return entrance_zone
-  
-  def build_sunken_treasure_mapping(self):
-    # Helper function to create a mapping of treasure charts to their respective sunken treasure.
-    
-    chart_name_to_island_number = {}
-    for island_number in range(1, 49+1):
-      chart_name = self.logic.macros["Chart for Island %d" % island_number][0]
-      chart_name_to_island_number[chart_name] = island_number
-    
-    chart_name_to_sunken_treasure = {}
-    for chart_number in range(1, 49+1):
-      if chart_number <= 8:
-        chart_name = "Triforce Chart %d" % chart_number
-      else:
-        chart_name = "Treasure Chart %d" % (chart_number-8)
-      island_number = chart_name_to_island_number[chart_name]
-      island_name = self.rando.island_number_to_name[island_number]
-      chart_name_to_sunken_treasure[chart_name] = "%s - Sunken Treasure" % island_name
-    
-    return chart_name_to_sunken_treasure
-  
   def check_location_required_for_paths(self, location_to_check, paths_to_check):
     # To check whether the location is required or not, we simulate a playthrough and remove the item the player would
     # receive at that location immediately after they receive it. If the player can still fulfill the requirement 
@@ -379,7 +324,7 @@ class HintManager:
       ):
         # Determine the item name for the given location.
         zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
-        entrance_zone = self.get_entrance_zone(location_name)
+        entrance_zone = entrances.get_entrance_zone_for_item_location(self.rando, location_name)
         item_tuple = (zone_name, entrance_zone, specific_location_name, item_name)
         
         # Check and record if the location is required for path goals.
@@ -492,7 +437,7 @@ class HintManager:
       if location_name in self.rando.race_mode_required_locations:
         continue
       
-      zones_with_useful_locations.add(self.get_entrance_zone(location_name))
+      zones_with_useful_locations.add(entrances.get_entrance_zone_for_item_location(self.rando, location_name))
       # For dungeon locations, both the dungeon and its entrance should be considered useful.
       if self.logic.is_dungeon_location(location_name):
         zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
@@ -501,10 +446,10 @@ class HintManager:
       # Include dungeon-related mail with its dungeon, in addition to Mailbox.
       if location_name == "Mailbox - Letter from Baito":
         zones_with_useful_locations.add("Earth Temple")
-        zones_with_useful_locations.add(self.get_entrance_zone("Earth Temple - Jalhalla Heart Container"))
+        zones_with_useful_locations.add(entrances.get_entrance_zone_for_item_location(self.rando, "Earth Temple - Jalhalla Heart Container"))
       if location_name == "Mailbox - Letter from Orca":
         zones_with_useful_locations.add("Forbidden Woods")
-        zones_with_useful_locations.add(self.get_entrance_zone("Forbidden Woods - Kalle Demos Heart Container"))
+        zones_with_useful_locations.add(entrances.get_entrance_zone_for_item_location(self.rando, "Forbidden Woods - Kalle Demos Heart Container"))
       if location_name == "Mailbox - Letter from Aryll" or location_name == "Mailbox - Letter from Tingle":
         zones_with_useful_locations.add("Forsaken Fortress")
     
@@ -515,7 +460,7 @@ class HintManager:
       if location_name in hinted_remote_locations:
         continue
       
-      zones_with_barren_locations.add(self.get_entrance_zone(location_name))
+      zones_with_barren_locations.add(entrances.get_entrance_zone_for_item_location(self.rando, location_name))
       # For dungeon locations, both the dungeon and its entrance should be considered barren.
       if self.logic.is_dungeon_location(location_name):
         zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
@@ -524,10 +469,10 @@ class HintManager:
       # Include dungeon-related mail with its dungeon, in addition to Mailbox.
       if location_name == "Mailbox - Letter from Baito":
         zones_with_barren_locations.add("Earth Temple")
-        zones_with_barren_locations.add(self.get_entrance_zone("Earth Temple - Jalhalla Heart Container"))
+        zones_with_barren_locations.add(entrances.get_entrance_zone_for_item_location(self.rando, "Earth Temple - Jalhalla Heart Container"))
       if location_name == "Mailbox - Letter from Orca":
         zones_with_barren_locations.add("Forbidden Woods")
-        zones_with_barren_locations.add(self.get_entrance_zone("Forbidden Woods - Kalle Demos Heart Container"))
+        zones_with_barren_locations.add(entrances.get_entrance_zone_for_item_location(self.rando, "Forbidden Woods - Kalle Demos Heart Container"))
       if location_name == "Mailbox - Letter from Aryll" or location_name == "Mailbox - Letter from Tingle":
         zones_with_barren_locations.add("Forsaken Fortress")
     
@@ -572,7 +517,7 @@ class HintManager:
           continue
       
       # Catch locations which are hinted at in barren zones.
-      entrance_zone = self.get_entrance_zone(location_name)
+      entrance_zone = entrances.get_entrance_zone_for_item_location(self.rando, location_name)
       if entrance_zone not in barrens:
         new_hintable_locations.append(location_name)
     
@@ -629,7 +574,7 @@ class HintManager:
     hintable_locations.remove(location_name)
     
     item_name = self.logic.done_item_locations[location_name]
-    entrance_zone = self.get_entrance_zone(location_name)
+    entrance_zone = entrances.get_entrance_zone_for_item_location(self.rando, location_name)
     
     # Simplify entrance zone name
     if entrance_zone == "Tower of the Gods Sector":
@@ -717,7 +662,7 @@ class HintManager:
     previously_hinted_locations = []
     
     # Create a mapping for chart name -> sunken treasure
-    self.chart_name_to_sunken_treasure = self.build_sunken_treasure_mapping()
+    self.chart_name_to_sunken_treasure = charts.build_chart_to_sunken_treasure_location_mapping(self.rando)
     
     # Build of list of progress locations for this seed.
     progress_locations, non_progress_locations = self.logic.get_progress_and_non_progress_locations()
@@ -729,7 +674,7 @@ class HintManager:
         zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
         all_world_areas.append(zone_name)
       else:
-        all_world_areas.append(self.get_entrance_zone(location_name))
+        all_world_areas.append(entrances.get_entrance_zone_for_item_location(self.rando, location_name))
     
     # Get a counter for the number of locations associated with each zone, used for weighing.
     location_counter = Counter(all_world_areas)

@@ -91,6 +91,10 @@ COMBAT_SECRET_CAVE_EXIT_NAMES_WITH_NO_REQUIREMENTS = [
   "Rock Spire Isle Secret Cave",
 ]
 
+ITEM_LOCATION_NAME_TO_EXIT_ZONE_NAME_OVERRIDES = {
+  "Pawprint Isle - Wizzrobe Cave": "Pawprint Isle Side Isle",
+}
+
 # TODO: Maybe make a separate list of entrances and exits that have no requirements when you start with a sword. (e.g. Cliff Plateau Isles Secret Cave.) Probably not necessary though.
 
 def randomize_entrances(self):
@@ -327,3 +331,36 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
         spawn_id_prop.value = zone_entrance.warp_out_spawn_id
   
   self.logic.update_entrance_connection_macros()
+
+def get_entrance_zone_for_item_location(self, location_name):
+  # Helper function to return the entrance zone name for the location.
+  #
+  # For non-dungeon and non-cave locations, the entrance zone name is simply the zone (island) name. However, when
+  # entrances are randomized, the entrance zone name may differ from the zone name for dungeons and caves.
+  # As a special case, if the entrance zone is Tower of the Gods or the location name is "Tower of the Gods - Sunken
+  # Treasure", the entrance zone name is "Tower of the Gods Sector" to differentiate between the dungeon and the
+  # entrance.
+  
+  zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
+  
+  if location_name in ITEM_LOCATION_NAME_TO_EXIT_ZONE_NAME_OVERRIDES:
+    zone_name = ITEM_LOCATION_NAME_TO_EXIT_ZONE_NAME_OVERRIDES[location_name]
+  
+  if zone_name in self.dungeon_and_cave_island_locations and self.logic.is_dungeon_or_cave(location_name):
+    # If the location is in a dungeon or cave, use the hint for whatever island the dungeon/cave is located on.
+    entrance_zone = self.dungeon_and_cave_island_locations[zone_name]
+    
+    # Special case for Tower of the Gods to use Tower of the Gods Sector when refering to the entrance, not the dungeon
+    if entrance_zone == "Tower of the Gods":
+      entrance_zone = "Tower of the Gods Sector"
+  else:
+    # Otherwise, for non-dungeon and non-cave locations, just use the zone name.
+    entrance_zone = zone_name
+    
+    # Special case for Tower of the Gods to use Tower of the Gods Sector when refering to the Sunken Treasure
+    if location_name == "Tower of the Gods - Sunken Treasure":
+      entrance_zone = "Tower of the Gods Sector"
+    # Note that Forsaken Fortress - Sunken Treasure has a similar issue, but there are no randomized entrances on
+    # Forsaken Fortress, so we won't make that distinction here.
+  
+  return entrance_zone

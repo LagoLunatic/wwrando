@@ -48,3 +48,23 @@ def randomize_charts(self):
     self.island_number_to_chart_name[shuffled_island_number] = original_item_name
   
   self.logic.update_chart_macros()
+
+def build_chart_to_sunken_treasure_location_mapping(self):
+  # Helper function to create a mapping of treasure charts to their respective sunken treasure.
+  
+  chart_name_to_island_number = {}
+  for island_number in range(1, 49+1):
+    chart_name = self.logic.macros["Chart for Island %d" % island_number][0]
+    chart_name_to_island_number[chart_name] = island_number
+  
+  chart_name_to_sunken_treasure = {}
+  for chart_number in range(1, 49+1):
+    if chart_number <= 8:
+      chart_name = "Triforce Chart %d" % chart_number
+    else:
+      chart_name = "Treasure Chart %d" % (chart_number-8)
+    island_number = chart_name_to_island_number[chart_name]
+    island_name = self.island_number_to_name[island_number]
+    chart_name_to_sunken_treasure[chart_name] = "%s - Sunken Treasure" % island_name
+  
+  return chart_name_to_sunken_treasure
