@@ -1095,7 +1095,7 @@ d_a_npc_ac1:
     Mask: 0x00FF0000
 
 d_a_npc_ah:
-  message_id:
+  which_hoho:
     Bitfield name: params
     Mask: 0x000000FF
   disable_spawn_switch:

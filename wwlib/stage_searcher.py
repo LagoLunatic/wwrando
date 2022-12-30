@@ -188,9 +188,9 @@ def print_all_used_switches(self):
           
           # Hardcoded switches.
           if class_name == "d_a_npc_ah":
-            if actor.message_id == 2: # Message ID 14003
+            if actor.which_hoho == 2: # Message ID 14003
               add_used_switch(0x6C, stage_id, stage_name, room_no, location_identifier, is_unused)
-            elif actor.message_id == 5: # Message ID 14006
+            elif actor.which_hoho == 5: # Message ID 14006
               add_used_switch(0x10, stage_id, stage_name, room_no, location_identifier, is_unused)
           
           for attr_name in actor.param_fields:
@@ -270,7 +270,7 @@ def print_all_used_switches(self):
                   # Only the laser barrier type uses this switch
                   continue
               elif class_name == "d_a_npc_ah":
-                if actor.message_id != 9: # Message ID 14010
+                if actor.which_hoho != 9: # Message ID 14010
                   # Other types don't use the switch param.
                   continue
               elif class_name == "d_a_agbsw0":
