@@ -1,15 +1,17 @@
 
-from enum import Enum
+from enum import Enum, IntEnum
 from io import BytesIO
 from collections import OrderedDict
-
-from wwlib.bti import BTI
+from dataclasses import dataclass, field
 
 from fs_helpers import *
+from wwlib.bti import BTI
 from wwlib.yaz0 import Yaz0
+from wwlib.gx_enums import GXAttr, GXComponentCount, GXCompType
 
 IMPLEMENTED_CHUNK_TYPES = [
   #"INF1",
+  "VTX1",
   "TEX1",
   "MAT3",
   "MDL3",
@@ -43,7 +45,7 @@ class J3DFile:
     else:
       self.bck_sound_data = None
     
-    self.chunks = []
+    self.chunks: list[J3DChunk] = []
     self.chunk_by_type = {}
     offset = 0x20
     for chunk_index in range(self.num_chunks):
@@ -279,9 +281,237 @@ class INF1Node:
   def save(self, offset):
     pass
 
+
+class VTX1DataOffsetIndex(IntEnum):
+  PositionData  = 0x0
+  NormalData    = 0x1
+  NBTData       = 0x2
+  Color0Data    = 0x3
+  Color1Data    = 0x4
+  TexCoord0Data = 0x5
+  TexCoord1Data = 0x6
+  TexCoord2Data = 0x7
+  TexCoord3Data = 0x8
+  TexCoord4Data = 0x9
+  TexCoord5Data = 0xA
+  TexCoord6Data = 0xB
+  TexCoord7Data = 0xC
+
+GXAttr_TO_VTX1DataOffsetIndex = {
+  GXAttr.Position: VTX1DataOffsetIndex.PositionData,
+  GXAttr.Normal  : VTX1DataOffsetIndex.NormalData,
+  GXAttr.Color0  : VTX1DataOffsetIndex.Color0Data,
+  GXAttr.Color1  : VTX1DataOffsetIndex.Color1Data,
+  GXAttr.Tex0    : VTX1DataOffsetIndex.TexCoord0Data,
+  GXAttr.Tex1    : VTX1DataOffsetIndex.TexCoord1Data,
+  GXAttr.Tex2    : VTX1DataOffsetIndex.TexCoord2Data,
+  GXAttr.Tex3    : VTX1DataOffsetIndex.TexCoord3Data,
+  GXAttr.Tex4    : VTX1DataOffsetIndex.TexCoord4Data,
+  GXAttr.Tex5    : VTX1DataOffsetIndex.TexCoord5Data,
+  GXAttr.Tex6    : VTX1DataOffsetIndex.TexCoord6Data,
+  GXAttr.Tex7    : VTX1DataOffsetIndex.TexCoord7Data,
+}
+
+GXCompType_TO_COMPONENT_BYTE_SIZE = {
+  GXCompType.Unsigned8 : 1,
+  GXCompType.Signed8   : 1,
+  GXCompType.Unsigned16: 2,
+  GXCompType.Signed16  : 2,
+  GXCompType.Float32   : 4,
+}
+
+@dataclass
+class VertexFormat:
+  DATA_SIZE = 0x10
+  
+  data: BytesIO = field(repr=False)
+  attribute_type: GXAttr
+  component_count_type: GXComponentCount
+  component_type: GXCompType
+  component_shift: int
+  
+  def __init__(self, data):
+    self.data = data
+  
+  def read(self, offset):
+    self.attribute_type = GXAttr(read_u32(self.data, offset))
+    self.component_count_type = GXComponentCount(read_u32(self.data, offset+4))
+    self.component_type = GXCompType(read_u32(self.data, offset+8))
+    self.component_shift = read_u8(self.data, offset+0xC)
+  
+  def save(self, offset):
+    write_u32(self.data, offset+0x0, self.attribute_type.value)
+    write_u32(self.data, offset+0x4, self.component_count_type.value)
+    write_u32(self.data, offset+0x8, self.component_type.value)
+    write_u8(self.data, offset+0xC, self.component_shift)
+    align_data_to_nearest(self.data, 0x10, b'\xff')
+  
+  @property
+  def data_offset_index(self):
+    return GXAttr_TO_VTX1DataOffsetIndex[self.attribute_type]
+  
+  @property
+  def component_count(self):
+    match self.attribute_type:
+      case GXAttr.Position:
+        match self.component_count_type:
+          case GXComponentCount.Position_XY:
+            return 2
+          case GXComponentCount.Position_XYZ:
+            return 3
+      case GXAttr.Normal:
+        match self.component_count_type:
+          case GXComponentCount.Normal_XYZ:
+            return 3
+      case GXAttr.Tex0|GXAttr.Tex1|GXAttr.Tex2|GXAttr.Tex3|GXAttr.Tex4|GXAttr.Tex5|GXAttr.Tex6|GXAttr.Tex7:
+        match self.component_count_type:
+          case GXComponentCount.TexCoord_S:
+            return 1
+          case GXComponentCount.TexCoord_ST:
+            return 2
+    
+    raise NotImplementedError
+
+class VTX1(J3DChunk):
+  def read_chunk_specific_data(self):
+    self.vertex_formats_start_offset = read_u32(self.data, 0x08)
+    
+    self.vertex_data_offsets = []
+    for i in range(13):
+      vertex_data_offset = read_u32(self.data, 0x0C+i*4)
+      self.vertex_data_offsets.append(vertex_data_offset)
+    
+    self.vertex_formats: list[VertexFormat] = []
+    current_vertex_format_offset = self.vertex_formats_start_offset
+    while True:
+      vertex_format = VertexFormat(self.data)
+      vertex_format.read(current_vertex_format_offset)
+      current_vertex_format_offset += VertexFormat.DATA_SIZE
+      self.vertex_formats.append(vertex_format)
+      if vertex_format.attribute_type == GXAttr.NULL:
+        break
+    
+    self.attributes: dict[GXAttr, list] = {}
+    for vertex_format in self.vertex_formats:
+      if vertex_format.attribute_type == GXAttr.NULL:
+        break
+      
+      self.load_attribute_data(vertex_format)
+  
+  def get_attribute_data_count(self, offset_index, component_count, component_size):
+    data_start_offset = self.vertex_data_offsets[offset_index]
+    
+    data_end_offset_index = offset_index + 1
+    data_end_offset = 0
+    while data_end_offset == 0:
+      if data_end_offset_index == len(self.vertex_data_offsets):
+        data_end_offset = self.size
+        break
+      data_end_offset = self.vertex_data_offsets[data_end_offset_index]
+      data_end_offset_index += 1
+    
+    data_size = (data_end_offset - data_start_offset)
+    
+    return data_size // (component_count * component_size)
+  
+  def load_attribute_data(self, vertex_format: VertexFormat):
+    self.attributes[vertex_format.attribute_type] = self.load_attribute_list(
+      vertex_format.data_offset_index,
+      vertex_format.component_count,
+      vertex_format.component_type,
+      vertex_format.component_shift,
+    )
+  
+  def load_attribute_list(self, offset_index, component_count, component_type, comp_shift):
+    data_offset = self.vertex_data_offsets[offset_index]
+    component_size = GXCompType_TO_COMPONENT_BYTE_SIZE[component_type]
+    attrib_count = self.get_attribute_data_count(offset_index, component_count, component_size)
+    attr_data = []
+    for i in range(0, attrib_count):
+      components = self.read_components(component_count, component_type, comp_shift, data_offset)
+      attr_data.append(components)
+      data_offset += component_count * component_size
+    return attr_data
+  
+  def read_components(self, component_count, component_type, component_shift, data_offset):
+    divisor = (1 << component_shift)
+    components = []
+    for i in range(component_count):
+      match component_type:
+        case GXCompType.Signed16:
+          components.append(read_s16(self.data, data_offset) / divisor)
+        case GXCompType.Float32:
+          components.append(read_float(self.data, data_offset) / divisor)
+        case _:
+          raise NotImplementedError
+      data_offset += GXCompType_TO_COMPONENT_BYTE_SIZE[component_type]
+    return tuple(components)
+  
+  def save_chunk_specific_data(self):
+    # Cut off all the data, we're rewriting it entirely.
+    self.data.truncate(0)
+    
+    # Placeholder for the header.
+    self.data.seek(0)
+    self.data.write(b"\0"*0x40)
+    
+    offset = self.data.tell()
+    self.vertex_formats_start_offset = offset
+    
+    for vertex_format in self.vertex_formats:
+      vertex_format.save(offset)
+      offset += VertexFormat.DATA_SIZE
+    
+    self.vertex_data_offsets = [0]*13
+    
+    for vertex_format in self.vertex_formats:
+      if vertex_format.attribute_type == GXAttr.NULL:
+        break
+      
+      offset = self.save_attribute_data(vertex_format, offset)
+      align_data_to_nearest(self.data, 0x20)
+      offset = data_len(self.data)
+  
+    # Write the header.
+    write_magic_str(self.data, 0, "VTX1", 4)
+    
+    write_u32(self.data, 0x08, self.vertex_formats_start_offset)
+    for i, vertex_data_offset in enumerate(self.vertex_data_offsets):
+      write_u32(self.data, 0x0C+i*4, vertex_data_offset)
+  
+  def save_attribute_data(self, vertex_format: VertexFormat, data_offset):
+    self.vertex_data_offsets[vertex_format.data_offset_index] = data_offset
+    data_offset = self.save_attribute_list(
+      self.attributes[vertex_format.attribute_type],
+      vertex_format.component_count,
+      vertex_format.component_type,
+      vertex_format.component_shift,
+      data_offset,
+    )
+    return data_offset
+  
+  def save_attribute_list(self, attr_data, component_count, component_type: GXCompType, component_shift, data_offset):
+    for components in attr_data:
+      assert len(components) == component_count
+      data_offset = self.save_components(component_type, component_shift, components, data_offset)
+    return data_offset
+  
+  def save_components(self, component_type: GXCompType, component_shift, components, data_offset):
+    divisor = (1 << component_shift)
+    for component in components:
+      match component_type:
+        case GXCompType.Signed16:
+          write_s16(self.data, data_offset, round(component*divisor))
+        case GXCompType.Float32:
+          write_float(self.data, data_offset, component*divisor)
+        case _:
+          raise NotImplementedError
+      data_offset += GXCompType_TO_COMPONENT_BYTE_SIZE[component_type]
+    return data_offset
+
 class TEX1(J3DChunk):
   def read_chunk_specific_data(self):
-    self.textures = []
+    self.textures: list[BTI] = []
     self.num_textures = read_u16(self.data, 8)
     self.texture_header_list_offset = read_u32(self.data, 0x0C)
     for texture_index in range(self.num_textures):
@@ -400,7 +630,7 @@ class MDL3(J3DChunk):
     self.num_entries = read_u16(self.data, 0x08)
     self.packets_offset = read_u32(self.data, 0x0C)
     
-    self.entries = []
+    self.entries: list[MDLEntry] = []
     packet_offset = self.packets_offset
     for i in range(self.num_entries):
       entry_offset = read_u32(self.data, packet_offset + 0x00)
@@ -432,8 +662,8 @@ class MDLEntry:
     self.read()
   
   def read(self):
-    self.bp_commands = []
-    self.xf_commands = []
+    self.bp_commands: list[BPCommand] = []
+    self.xf_commands: list[XFCommand] = []
     offset = 0
     while offset < self.size:
       command_type = read_u8(self.data, offset)
@@ -918,8 +1148,8 @@ class TRK1(J3DChunk):
     align_data_to_nearest(self.data, 0x20)
     offset = self.data.tell()
     
-    reg_animations = []
-    konst_animations = []
+    reg_animations: list[ColorAnimation] = []
+    konst_animations: list[ColorAnimation] = []
     reg_mat_names = []
     konst_mat_names = []
     for mat_name, anims in self.mat_name_to_reg_anims.items():
@@ -1187,7 +1417,7 @@ class TTK1(J3DChunk):
     align_data_to_nearest(self.data, 0x20)
     offset = self.data.tell()
     
-    animations = []
+    animations: list[UVAnimation] = []
     mat_names = []
     for mat_name, anims in self.mat_name_to_anims.items():
       for anim in anims:
