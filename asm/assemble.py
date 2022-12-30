@@ -16,7 +16,7 @@ asm_dir = os.path.dirname(__file__)
 
 sys.path.insert(0, asm_dir + "/../")
 from fs_helpers import *
-from elf import *
+from elf import ELF, ELFSectionType, ELFRelocationType, ELFSectionFlags, ElfSymbolBinding
 
 if sys.platform == "win32":
   devkitbasepath = r"C:\devkitPro\devkitPPC\bin"

@@ -3,7 +3,10 @@ from io import BytesIO
 from enum import Enum
 
 from fs_helpers import *
-from wwlib.texture_utils import *
+from wwlib import texture_utils
+from wwlib.texture_utils import ImageFormat, PaletteFormat
+from wwlib.texture_utils import BLOCK_WIDTHS, BLOCK_HEIGHTS, BLOCK_DATA_SIZES
+from wwlib.texture_utils import IMAGE_FORMATS_THAT_USE_PALETTES, GREYSCALE_IMAGE_FORMATS, GREYSCALE_PALETTE_FORMATS
 from wwlib.yaz0 import Yaz0
 
 class WrapMode(Enum):
@@ -118,7 +121,7 @@ class BTI:
       return self.image_format in GREYSCALE_IMAGE_FORMATS
   
   def render(self):
-    image = decode_image(
+    image = texture_utils.decode_image(
       self.image_data, self.palette_data,
       self.image_format, self.palette_format,
       self.num_colors,
@@ -127,21 +130,21 @@ class BTI:
     return image
   
   def render_palette(self):
-    colors = decode_palettes(
+    colors = texture_utils.decode_palettes(
       self.palette_data, self.palette_format,
       self.num_colors, self.image_format
     )
     return colors
   
   def replace_image_from_path(self, new_image_file_path):
-    self.image_data, self.palette_data, encoded_colors, self.width, self.height = encode_image_from_path(
+    self.image_data, self.palette_data, encoded_colors, self.width, self.height = texture_utils.encode_image_from_path(
       new_image_file_path, self.image_format, self.palette_format,
       mipmap_count=self.mipmap_count
     )
     self.num_colors = len(encoded_colors)
   
   def replace_image(self, new_image):
-    self.image_data, self.palette_data, encoded_colors = encode_image(
+    self.image_data, self.palette_data, encoded_colors = texture_utils.encode_image(
       new_image, self.image_format, self.palette_format,
       mipmap_count=self.mipmap_count
     )
@@ -150,8 +153,8 @@ class BTI:
     self.height = new_image.height
   
   def replace_palette(self, new_colors):
-    encoded_colors = generate_new_palettes_from_colors(new_colors, self.palette_format)
-    self.palette_data = encode_palette(encoded_colors, self.palette_format, self.image_format)
+    encoded_colors = texture_utils.generate_new_palettes_from_colors(new_colors, self.palette_format)
+    self.palette_data = texture_utils.encode_palette(encoded_colors, self.palette_format, self.image_format)
     self.num_colors = len(encoded_colors)
   
   def is_visually_equal_to(self, other):

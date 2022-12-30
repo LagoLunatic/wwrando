@@ -93,8 +93,8 @@ class BMGSection:
     write_u32(self.data, 4, self.size)
   
   def read_inf1(self):
-    self.messages = []
-    self.messages_by_id = {}
+    self.messages: list[Message] = []
+    self.messages_by_id: dict[int, Message] = {}
     
     num_messages = read_u16(self.data, 8)
     message_length = read_u16(self.data, 0x0A)
