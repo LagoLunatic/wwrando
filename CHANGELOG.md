@@ -6,7 +6,7 @@ Supported operating systems:
 * 32-bit release builds are no longer offered. If you have a 32-bit operating system you must run the randomizer from source.
 
 New features:
-* Added a "Chest Type Matches Contents" option that changes the appearance of each treasure chest depending on the importance of the item randomized into the chest (progress items, dungeon keys, and non-progress items).
+* Added a "Chest Type Matches Contents" (CTMC) option that changes the appearance of each treasure chest depending on the importance of the item randomized into the chest (progress items, dungeon keys, and non-progress items).
 * The progression hints system has been significantly reworked:
   * You can now select who you want to give hints: fishmen, Old Man Ho Ho, King of Red Lions, or any combination of them. (In previous versions all hints were given by fishmen.)
   * There are now four different types of hints you can select to appear instead of one type:
@@ -17,7 +17,7 @@ New features:
   * The exact number of hints of each type you want to appear throughout the seed can now be customized.
   * The cryptic text of hints can now be optionally disabled to make the meaning of hints more obvious.
   * Location hints for remote locations that would be time-consuming to check manually can optionally be prioritized over locations that are less out of the way.
-* The number of progress item hints is now customizable in the randomizer's settings, as is where hints will appear.
+  * The number of progress item hints is now customizable in the randomizer's settings, as is where hints will appear.
 * You can now choose to randomize the following items instead of always starting the game with them: Ballad of Gales, Song of Passing, Magic Meter.
 * You can now choose to start the game with the non-progress charts such as the Submarine Chart and Secret Cave Chart.
 * Added a button to the top of the Player Customization tab to automatically install a custom player model or pack of multiple custom player models from a .zip file.
