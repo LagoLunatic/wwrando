@@ -17,7 +17,6 @@ New features:
   * The exact number of hints of each type you want to appear throughout the seed can now be customized.
   * The cryptic text of hints can now be optionally disabled to make the meaning of hints more obvious.
   * Location hints for remote locations that would be time-consuming to check manually can optionally be prioritized over locations that are less out of the way.
-  * The number of progress item hints is now customizable in the randomizer's settings, as is where hints will appear.
 * You can now choose to randomize the following items instead of always starting the game with them: Ballad of Gales, Song of Passing, Magic Meter.
 * You can now choose to start the game with the non-progress charts such as the Submarine Chart and Secret Cave Chart.
 * Added a button to the top of the Player Customization tab to automatically install a custom player model or pack of multiple custom player models from a .zip file.
