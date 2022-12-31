@@ -870,7 +870,8 @@ def randomize_and_update_hints(self):
     # Therefore we leave all the hint location text as the vanilla text, except Savage Labyrinth's hint tablet.
     return
   
-  patcher.apply_patch(self, "flexible_hint_locations")
+  if not self.dry_run:
+    patcher.apply_patch(self, "flexible_hint_locations")
   
   # Give the Big Octo Great Fairy a unique item hint
   octo_fairy_hint = hint_manager.generate_octo_fairy_hint()
