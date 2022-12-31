@@ -1057,7 +1057,7 @@ def update_big_octo_great_fairy_item_name_hint(self, hint):
   msg.string = "\\{1A 06 FF 00 00 05}In \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05}, you will find an item." % hint.place
   msg.word_wrap_string(self.bfn)
   msg = self.bmg.messages_by_id[12016]
-  msg.string = "\\{1A 06 FF 00 00 05}...\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05} which may help you on your quest." % upper_first_letter(hint.reward)
+  msg.string = "\\{1A 06 FF 00 00 05}...\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05}, which may help you on your quest." % upper_first_letter(hint.reward)
   msg.word_wrap_string(self.bfn)
   msg = self.bmg.messages_by_id[12017]
   msg.string = "\\{1A 06 FF 00 00 05}When you find you have need of such an item, you must journey to that place."
