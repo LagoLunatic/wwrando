@@ -766,6 +766,8 @@ class HintManager:
     while len(unhinted_barren_zones) > 0 and len(hinted_barren_zones) < self.max_barren_hints:
       # Weight each barren zone by the square root of the number of locations there.
       zone_weights = [sqrt(location_counter[zone]) for zone in unhinted_barren_zones]
+      if sum(zone_weights) == 0:
+        break
       
       barren_hint = self.get_barren_hint(unhinted_barren_zones, zone_weights)
       if barren_hint is not None:
