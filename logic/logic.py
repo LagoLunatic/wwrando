@@ -233,7 +233,7 @@ class Logic:
     assert location_name in self.item_locations
     self.prerandomization_item_locations[location_name] = item_name
   
-  def get_num_progression_items(self):
+  def get_num_unplaced_progression_items(self):
     num_progress_items = 0
     for item_name in self.unplaced_progress_items:
       if item_name in self.progress_item_groups:

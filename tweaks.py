@@ -861,13 +861,20 @@ def update_savage_labyrinth_hint_tablet(self, floor_30_hint, floor_50_hint):
 def randomize_and_update_hints(self):
   hint_manager = HintManager(self)
   
-  # Give the Big Octo Great Fairy a unique item hint
-  octo_fairy_hint = hint_manager.generate_octo_fairy_hint()
-  update_big_octo_great_fairy_item_name_hint(self, octo_fairy_hint)
-  
   # Update the hint tablet in Savage Labyrinth
   floor_30_hint, floor_50_hint = hint_manager.generate_savage_labyrinth_hints()
   update_savage_labyrinth_hint_tablet(self, floor_30_hint, floor_50_hint)
+  
+  if self.num_randomized_progress_items == 0:
+    # If the player chose to start the game with every single progress item, there will be no way to generate any hints.
+    # Therefore we leave all the hint location text as the vanilla text, except Savage Labyrinth's hint tablet.
+    return
+  
+  patcher.apply_patch(self, "flexible_hint_locations")
+  
+  # Give the Big Octo Great Fairy a unique item hint
+  octo_fairy_hint = hint_manager.generate_octo_fairy_hint()
+  update_big_octo_great_fairy_item_name_hint(self, octo_fairy_hint)
   
   # Identify where the user wishes hints to be located
   variable_hint_placement_options = ("fishmen_hints", "hoho_hints", "korl_hints")
