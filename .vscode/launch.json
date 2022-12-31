@@ -52,6 +52,20 @@
             ],
         },
         {
+            "name": "Bulk Test WWRando",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/wwrando.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-exportfolder",
+                "-mapselect",
+                "-noui",
+                "-bulk",
+            ],
+        },
+        {
             "name": "Profile WWRando (No UI)",
             "type": "python",
             "request": "launch",
