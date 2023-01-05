@@ -399,6 +399,10 @@ class VTX1(J3DChunk):
       self.load_attribute_data(vertex_format)
   
   def get_attribute_data_count(self, offset_index, component_count, component_size):
+    """Attempts to guess at the number of entries this VTX1 section has for a particular attribute."""
+    
+    entry_size = component_count * component_size
+    
     data_start_offset = self.vertex_data_offsets[offset_index]
     
     data_end_offset_index = offset_index + 1
@@ -412,7 +416,32 @@ class VTX1(J3DChunk):
     
     data_size = (data_end_offset - data_start_offset)
     
-    return data_size // (component_count * component_size)
+    # Floor-divide to remove any bytes at the end that can't possibly be data and must be padding.
+    data_count = data_size // entry_size
+    
+    if entry_size <= 0x10:
+      # Attempt to remove more bytes that are very likely to be padding by checking if they match known padding strings.
+      # If each entry in the list is half the padding size (0x20) or less, there's a possible problem that can occur.
+      # We can't tell for sure if the data_count we currently have is accurate or if the padding at the end is giving
+      # the illusion that there are more entries than there really are.
+      # For example, if each entry is 0xC bytes, and the total data size is 0x40, we don't know if that means the number
+      # of entries is 3, 4, or 5, as all of those would pad up to 0x40 bytes.
+      # So we check all of the possible entry counts we're unsure of to see if the data from that point to the end
+      # happens to match the padding bytes. If it does, it is extremely likely (though not 100% certain) to be padding.
+      # In testing, this results in all VTX1 sections in vanilla Wind Waker repacking correctly (including padding).
+      KNOWN_PADDING_BYTES = [b"This is padding data to alignme", b"Model made with SuperBMD by Gamma."]
+      first_unsure_index = ((data_size-0x20) // entry_size) + 1
+      for i in range(first_unsure_index, data_count):
+        check_offset = data_start_offset + i*entry_size
+        maybe_pad = read_bytes(self.data, check_offset, data_end_offset-check_offset)
+        if maybe_pad is None:
+          continue
+        if any(padding_bytes.startswith(maybe_pad) for padding_bytes in KNOWN_PADDING_BYTES):
+          data_size = (check_offset - data_start_offset)
+          data_count = data_size // entry_size
+          break
+    
+    return data_count
   
   def load_attribute_data(self, vertex_format: VertexFormat):
     self.attributes[vertex_format.attribute_type] = self.load_attribute_list(
