@@ -461,6 +461,8 @@ class VTX1(J3DChunk):
     for vertex_format in self.vertex_formats:
       vertex_format.save(offset)
       offset += VertexFormat.DATA_SIZE
+    align_data_to_nearest(self.data, 0x20)
+    offset = self.data.tell()
     
     self.vertex_data_offsets = [0]*13
     
