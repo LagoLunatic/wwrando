@@ -562,7 +562,10 @@ class Randomizer:
   
   def verify_supported_version(self, clean_iso_path):
     with open(clean_iso_path, "rb") as f:
+      magic = try_read_str(f, 0, 4)
       game_id = try_read_str(f, 0, 6)
+    if magic == "CISO":
+      raise InvalidCleanISOError("This ISO is in CISO format. The randomizer only supports ISOs in GCM format.")
     if game_id != "GZLE01":
       if game_id and game_id.startswith("GZL"):
         raise InvalidCleanISOError("Invalid version of Wind Waker. Only the USA version is supported by this randomizer.")
