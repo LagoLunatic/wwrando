@@ -15,7 +15,7 @@ from asm import patcher
 from wwlib import texture_utils
 from wwlib.rel import REL
 from wwlib.bmg import TextBoxType
-from wwrando_paths import ASSETS_PATH, ASM_PATH
+from wwrando_paths import ASSETS_PATH, ASM_PATH, DATA_PATH
 import customizer
 from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS
 
@@ -2342,3 +2342,9 @@ def replace_dark_wood_chest_texture(self):
   dark_wood_chest_tex_image = dark_wood_chest_model.tex1.textures_by_name["Ktakara_001"][0]
   dark_wood_chest_tex_image.replace_image_from_path(os.path.join(ASSETS_PATH, "key chest.png"))
   dark_wood_chest_model.save_changes()
+
+def use_english_debug_menu(self):
+  english_menu_path = os.path.join(DATA_PATH, "Menu1.dat")
+  with open(english_menu_path, "rb") as f:
+    english_menu = BytesIO(f.read())
+  self.replace_raw_file("files/res/Menu/Menu1.dat", english_menu)
