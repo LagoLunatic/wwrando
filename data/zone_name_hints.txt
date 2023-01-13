@@ -63,7 +63,7 @@ Stone Watcher Island:
 Southern Triangle Island:
   the blue triangle island
 Private Oasis:
-  your island
+  a deserted luxury abode with a pool
 Bomb Island:
   an island shaped like an explosive
 Bird's Peak Rock:
