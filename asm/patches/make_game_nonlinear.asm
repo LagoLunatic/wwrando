@@ -480,3 +480,16 @@ medli_possible_et_spawn_positions:
 .org 0x3E3C ; In daNpc_Bms1_c::CreateHeap(void)
   li r3, 1
 .close
+
+
+
+
+; Make it easier to have the Great Deku Tree mark the Koroks on your sea chart.
+; In vanilla you would have to exit Forest Haven while you own Farore's Pearl, then re-enter and
+; talk to the Deku Tree, specifically choosing the option to ask about the Island Koroks.
+; We skip a couple of checks and go straight to the dialogue tree so that just talking to the Deku
+; Tree and asking about the Island Koroks is enough.
+.open "files/rels/d_a_npc_de1.rel" ; Great Deku Tree
+.org 0xDB0 ; In daNpc_De1_c::getMsg
+  b 0xE18
+.close
