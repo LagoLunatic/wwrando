@@ -129,6 +129,62 @@ Can Access Earth Temple:
 Can Access Wind Temple:
   Can Access Dungeon Entrance On Gale Isle
 
+Can Access Boss Entrance in Dragon Roost Cavern:
+  Can Access Dragon Roost Cavern
+  & DRC Small Key x4
+  & Grappling Hook
+  & DRC Big Key
+Can Access Boss Entrance in Forbidden Woods:
+  Can Access Forbidden Woods
+  & Can Fly With Deku Leaf Indoors
+  & Can Defeat Boko Babas
+  & (Can Defeat Door Flowers | Grappling Hook)
+  & Can Defeat Mothulas
+  & FW Big Key
+Can Access Boss Entrance in Tower of the Gods:
+  Can Access Tower of the Gods
+  & Bombs
+  & Can Defeat Yellow ChuChus
+  & Wind Waker
+  & (Grappling Hook | Can Fly With Deku Leaf Indoors)
+  & Can Play Command Melody
+  & Hero's Bow
+  & TotG Small Key x2
+  & Can Fly With Deku Leaf Indoors
+  & Can Defeat Armos
+  & TotG Big Key
+Can Access Boss Entrance in Earth Temple:
+  Can Access Earth Temple
+  & Can Play Command Melody
+  & Can Aim Mirror Shield
+  & Can Play Earth God's Lyric
+  & Power Bracelets
+  & Skull Hammer
+  & ET Small Key x3
+  & Can Defeat Red Bubbles
+  & ET Big Key
+Can Access Boss Entrance in Wind Temple:
+  Can Access Wind Temple
+  & Can Play Command Melody
+  & Iron Boots
+  & Can Fly With Deku Leaf Indoors
+  & Hookshot
+  & Can Defeat Blue Bubbles
+  & WT Small Key x2
+  & Can Play Wind God's Aria
+  & WT Big Key
+
+Can Access Gohma Boss Arena:
+  Can Access Boss Entrance in Dragon Roost Cavern
+Can Access Kalle Demos Boss Arena:
+  Can Access Boss Entrance in Forbidden Woods
+Can Access Gohdan Boss Arena:
+  Can Access Boss Entrance in Tower of the Gods
+Can Access Jalhalla Boss Arena:
+  Can Access Boss Entrance in Earth Temple
+Can Access Molgera Boss Arena:
+  Can Access Boss Entrance in Wind Temple
+
 Can Access Secret Cave Entrance on Outset Island:
   (
     (Can Cut Down Outset Trees & Can Fly With Deku Leaf Outdoors)

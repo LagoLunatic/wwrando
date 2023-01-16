@@ -753,10 +753,7 @@ Dragon Roost Cavern - Boss Stairs Left Chest:
     - M_NewD2/Stage.arc/Chest002
 Dragon Roost Cavern - Gohma Heart Container:
   Need:
-    Can Access Dragon Roost Cavern
-    & DRC Small Key x4
-    & Grappling Hook
-    & DRC Big Key
+    Can Access Gohma Boss Arena
     & Can Defeat Gohma
   Original item: Heart Container
   Types: Dungeon
@@ -958,12 +955,7 @@ Forbidden Woods - Double Mothula Room:
     - kindan/Stage.arc/Chest00A
 Forbidden Woods - Kalle Demos Heart Container:
   Need:
-    Can Access Forbidden Woods
-    & Can Fly With Deku Leaf Indoors
-    & Can Defeat Boko Babas
-    & (Can Defeat Door Flowers | Grappling Hook)
-    & Can Defeat Mothulas
-    & FW Big Key
+    Can Access Kalle Demos Boss Arena
     & Can Defeat Kalle Demos
   Original item: Heart Container
   Types: Dungeon
@@ -1141,17 +1133,7 @@ Tower of the Gods - Big Key Chest:
 #    - rels/d_a_bst.rel@5CD3
 Tower of the Gods - Gohdan Heart Container:
   Need:
-    Can Access Tower of the Gods
-    & Bombs
-    & Can Defeat Yellow ChuChus
-    & Wind Waker
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors)
-    & Can Play Command Melody
-    & Hero's Bow
-    & TotG Small Key x2
-    & Can Fly With Deku Leaf Indoors
-    & Can Defeat Armos
-    & TotG Big Key
+    Can Access Gohdan Boss Arena
     & Can Defeat Gohdan
   Original item: Heart Container
   Types: Dungeon
@@ -1539,15 +1521,7 @@ Earth Temple - Big Key Chest:
 #    - M_Dai/Stage.arc/Event050:MKNJD_D_LESSON/Actor003/Action006
 Earth Temple - Jalhalla Heart Container:
   Need:
-    Can Access Earth Temple
-    & Can Play Command Melody
-    & Can Aim Mirror Shield
-    & Can Play Earth God's Lyric
-    & Power Bracelets
-    & Skull Hammer
-    & ET Small Key x3
-    & Can Defeat Red Bubbles
-    & ET Big Key
+    Can Access Jalhalla Boss Arena
     & Can Defeat Jalhalla
   Original item: Heart Container
   Types: Dungeon
@@ -1754,15 +1728,7 @@ Wind Temple - Kill All Enemies in Tall Basement Room:
 #    - kaze/Stage.arc/Event04F:MKNJD_K_LESSON/Actor003/Action006
 Wind Temple - Molgera Heart Container:
   Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Can Fly With Deku Leaf Indoors
-    & Hookshot
-    & Can Defeat Blue Bubbles
-    & WT Small Key x2
-    & Can Play Wind God's Aria
-    & WT Big Key
+    Can Access Molgera Boss Arena
     & Can Defeat Molgera
   Original item: Heart Container
   Types: Dungeon
