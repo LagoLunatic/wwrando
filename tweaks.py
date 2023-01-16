@@ -2178,7 +2178,7 @@ def add_failsafe_id_0_spawns(self):
   for stage_name, room_number in rooms_to_add_new_spawns_to:
     dzr = self.get_arc("files/res/Stage/%s/Room%d.arc" % (stage_name, room_number)).get_file("room.dzr")
     spawns = dzr.entries_by_type("PLYR")
-    
+        
     dzs = self.get_arc("files/res/Stage/%s/Stage.arc" % stage_name).get_file("stage.dzs")
     doors = dzs.entries_by_type("TGDR")
     spawn_dist_from_door = 200
@@ -2210,6 +2210,61 @@ def add_failsafe_id_0_spawns(self):
     new_spawn.spawn_id = 0
     
     dzr.save_changes()
+
+def add_spawns_outside_boss_doors(self):
+  """Creates new spawns in dungeons for use when exiting the boss doors."""
+  
+  rooms_to_add_new_spawns_to = [
+    ("M_NewD2", 10, "TGDR", None, 11),
+    #("kindan", 16, "TGDR", None, 13), # Already has a spawn, ID 1.
+    ("Siren", 18, "TGDR", None, 13),
+    ("sea", 1, "ACTR", 1, 56),
+    ("M_Dai", 15, "TGDR", None, 17),
+    ("kaze", 12, "TGDR", None, 13),
+  ]
+  
+  for stage_name, room_number, chunk, layer, boss_door_index in rooms_to_add_new_spawns_to:
+    new_spawn_id = 27
+    
+    dzs = self.get_arc("files/res/Stage/%s/Stage.arc" % stage_name).get_file("stage.dzs")
+    dzr = self.get_arc("files/res/Stage/%s/Room%d.arc" % (stage_name, room_number)).get_file("room.dzr")
+    
+    if chunk == "TGDR":
+      dzx_for_door = dzs
+    else:
+      dzx_for_door = dzr
+    
+    door = dzx_for_door.entries_by_type_and_layer(chunk, layer)[boss_door_index]
+    spawn_dist_from_door = 200
+    y_rot = door.y_rot
+    if door.from_room_num != room_number and door.from_room_num != 63:
+      y_rot = (y_rot + 0x8000) % 0x10000
+    y_rot_degrees = y_rot * (90.0 / 0x4000)
+    x_offset = math.sin(math.radians(y_rot_degrees)) * spawn_dist_from_door
+    z_offset = math.cos(math.radians(y_rot_degrees)) * spawn_dist_from_door
+    x_pos = door.x_pos + x_offset
+    y_pos = door.y_pos
+    z_pos = door.z_pos + z_offset
+    
+    if stage_name in ["M_Dai", "kaze"]:
+      # Earth and Wind temple spawns must be in the stage instead of the room or the game will crash.
+      dzx_for_spawn = dzs
+    else:
+      dzx_for_spawn = dzr
+    
+    spawns = dzx_for_spawn.entries_by_type("PLYR")
+    assert len([spawn for spawn in spawns if spawn.spawn_id == new_spawn_id]) == 0
+    
+    new_spawn = dzx_for_spawn.add_entity("PLYR", layer=None)
+    new_spawn.spawn_type = 0
+    new_spawn.room_num = room_number
+    new_spawn.x_pos = x_pos
+    new_spawn.y_pos = y_pos
+    new_spawn.z_pos = z_pos
+    new_spawn.y_rot = y_rot
+    new_spawn.spawn_id = new_spawn_id
+    
+    dzx_for_spawn.save_changes()
 
 def remove_minor_panning_cutscenes(self):
   panning_cutscenes = [

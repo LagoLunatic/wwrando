@@ -539,6 +539,7 @@ class Randomizer:
     tweaks.add_new_bog_warp(self)
     tweaks.make_rat_holes_visible_from_behind(self)
     tweaks.add_failsafe_id_0_spawns(self)
+    tweaks.add_spawns_outside_boss_doors(self)
     tweaks.remove_minor_panning_cutscenes(self)
     tweaks.fix_message_closing_sound_on_quest_status_screen(self)
     tweaks.fix_stone_head_bugs(self)

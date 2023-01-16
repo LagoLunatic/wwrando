@@ -1002,6 +1002,12 @@ d_a_mbdoor:
   unknown_param_2:
     Bitfield name: params
     Mask: 0x00000F00
+  from_room_num:
+    Bitfield name: x_rot
+    Mask: 0x003F
+  to_room_num:
+    Bitfield name: x_rot
+    Mask: 0x0FC0
   unknown_param_3:
     Bitfield name: z_rot
     Mask: 0x003F
