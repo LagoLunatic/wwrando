@@ -255,6 +255,10 @@ def randomize_dungeon_items(self):
   for item_name in items_to_temporarily_add:
     self.logic.add_owned_item_or_item_group(item_name)
   
+  # Temporarily remove all requirements for entering all dungeons while we randomize them.
+  # This is for when dungeons are nested. Simply having all items except keys isn't enough if a dungeon is locked behind another dungeon.
+  self.logic.temporarily_make_dungeon_entrance_macros_accessible()
+  
   if self.dungeons_only_start:
     # Choose a random location out of the 6 easiest locations to access in DRC.
     # This location will not have the big key, dungeon map, or compass on this seed. (But can still have small keys/non-dungeon items.)
@@ -304,6 +308,9 @@ def randomize_dungeon_items(self):
     self.logic.remove_owned_item(item_name)
   for item_name in big_keys_to_place:
     self.logic.remove_owned_item(item_name)
+  
+  # Reset the dungeon entrance macros.
+  self.logic.update_entrance_connection_macros()
 
 def place_dungeon_item(self, item_name):
   accessible_undone_locations = self.logic.get_accessible_remaining_locations()

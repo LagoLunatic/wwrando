@@ -12,6 +12,13 @@ DUNGEON_ENTRANCES = [
   ZoneEntrance("Edaichi", 0, 0, 1, "Dungeon Entrance On Headstone Island", "Headstone Island", "sea", 45, 229),
   ZoneEntrance("Ekaze", 0, 0, 1, "Dungeon Entrance On Gale Isle", "Gale Isle", "sea", 4, 232),
 ]
+BOSS_ENTRANCES = [
+  ZoneEntrance("M_NewD2", 10, 1, 27, "Boss Entrance in Dragon Roost Cavern", None, None, None, None),
+  ZoneEntrance("kindan", 16, 0, 1, "Boss Entrance in Forbidden Woods", None, None, None, None),
+  ZoneEntrance("Siren", 18, 0, 27, "Boss Entrance in Tower of the Gods", None, None, None, None),
+  ZoneEntrance("M_Dai", 15, 0, 27, "Boss Entrance in Earth Temple", None, None, None, None),
+  ZoneEntrance("kaze", 12, 0, 27, "Boss Entrance in Wind Temple", None, None, None, None),
+]
 SECRET_CAVE_ENTRANCES = [
   ZoneEntrance("sea", 44, 8, 10, "Secret Cave Entrance on Outset Island", "Outset Island", "sea", 44, 10),
   ZoneEntrance("sea", 13, 2, 5, "Secret Cave Entrance on Dragon Roost Island", "Dragon Roost Island", "sea", 13, 5),
@@ -46,6 +53,13 @@ DUNGEON_EXITS = [
   ZoneExit("Siren", 0, 1, 0, "Tower of the Gods", "Tower of the Gods", "SirenB"),
   ZoneExit("M_Dai", 0, 0, 0, "Earth Temple", "Earth Temple", "M_DaiB"),
   ZoneExit("kaze", 15, 0, 15, "Wind Temple", "Wind Temple", "kazeB"),
+]
+BOSS_EXITS = [
+  ZoneExit("M_DragB", 0, 0, 0, "Gohma Boss Arena", "Gohma Boss Arena", None),
+  ZoneExit("kinBOSS", 0, 0, 0, "Kalle Demos Boss Arena", "Kalle Demos Boss Arena", None),
+  ZoneExit("SirenB", 0, 0, 0, "Gohdan Boss Arena", "Gohdan Boss Arena", None),
+  ZoneExit("M_DaiB", 0, 0, 0, "Jalhalla Boss Arena", "Jalhalla Boss Arena", None),
+  ZoneExit("kazeB", 0, 0, 0, "Molgera Boss Arena", "Molgera Boss Arena", None),
 ]
 SECRET_CAVE_EXITS = [
   ZoneExit("Cave09", 0, 1, 0, "Outset Island", "Savage Labyrinth", None),
@@ -93,32 +107,47 @@ COMBAT_SECRET_CAVE_EXIT_NAMES_WITH_NO_REQUIREMENTS = [
 
 ITEM_LOCATION_NAME_TO_EXIT_ZONE_NAME_OVERRIDES = {
   "Pawprint Isle - Wizzrobe Cave": "Pawprint Isle Side Isle",
+  "Dragon Roost Cavern - Gohma Heart Container": "Gohma Boss Arena",
+  "Forbidden Woods - Kalle Demos Heart Container": "Kalle Demos Boss Arena",
+  "Tower of the Gods - Gohdan Heart Container": "Gohdan Boss Arena",
+  "Earth Temple - Jalhalla Heart Container": "Jalhalla Boss Arena",
+  "Wind Temple - Molgera Heart Container": "Molgera Boss Arena",
 }
 
 # TODO: Maybe make a separate list of entrances and exits that have no requirements when you start with a sword. (e.g. Cliff Plateau Isles Secret Cave.) Probably not necessary though.
 
 def randomize_entrances(self):
   if self.options.get("randomize_entrances") == "Dungeons":
-    randomize_one_set_of_entrances(self, include_dungeons=True, include_caves=False)
+    randomize_one_set_of_entrances(self, include_dungeons=True)
+  elif self.options.get("randomize_entrances") == "Nested Dungeons":
+    randomize_one_set_of_entrances(self, include_dungeons=True, include_bosses=True)
   elif self.options.get("randomize_entrances") == "Secret Caves":
-    randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=True)
+    randomize_one_set_of_entrances(self, include_caves=True)
   elif self.options.get("randomize_entrances") == "Dungeons & Secret Caves (Separately)":
-    randomize_one_set_of_entrances(self, include_dungeons=True, include_caves=False)
-    randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=True)
+    randomize_one_set_of_entrances(self, include_dungeons=True)
+    randomize_one_set_of_entrances(self, include_caves=True)
+  elif self.options.get("randomize_entrances") == "Nested Dungeons & Secret Caves (Separately)":
+    randomize_one_set_of_entrances(self, include_dungeons=True, include_bosses=True)
+    randomize_one_set_of_entrances(self, include_caves=True)
   elif self.options.get("randomize_entrances") == "Dungeons & Secret Caves (Together)":
     randomize_one_set_of_entrances(self, include_dungeons=True, include_caves=True)
   else:
     raise Exception("Invalid entrance randomizer option: %s" % self.options.get("randomize_entrances"))
 
-def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=False):
-  relevant_entrances = []
-  remaining_exits = []
+def randomize_one_set_of_entrances(self, include_dungeons=False, include_bosses=False, include_caves=False):
+  relevant_entrances: list[ZoneEntrance] = []
+  remaining_exits: list[ZoneExit] = []
   if include_dungeons:
     relevant_entrances += DUNGEON_ENTRANCES
     remaining_exits += DUNGEON_EXITS
+  if include_bosses:
+    relevant_entrances += BOSS_ENTRANCES
+    remaining_exits += BOSS_EXITS
   if include_caves:
     relevant_entrances += SECRET_CAVE_ENTRANCES
     remaining_exits += SECRET_CAVE_EXITS
+  
+  self.rng.shuffle(relevant_entrances)
   
   doing_progress_entrances_for_dungeons_and_caves_only_start = False
   if self.dungeons_and_caves_only_start:
@@ -173,12 +202,26 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
     relevant_entrances.remove(safety_entrance)
     relevant_entrances.insert(0, safety_entrance)
   
-  done_entrances_to_exits = {}
-  for zone_entrance in relevant_entrances:
+  done_entrances_to_exits: dict[ZoneEntrance, ZoneExit] = {}
+  done_exits_to_entrances: dict[ZoneExit, ZoneEntrance] = {}
+  while relevant_entrances:
+    zone_entrance = relevant_entrances.pop(0)
+    outermost_entrance = get_outermost_entrance_for_entrance(zone_entrance, done_exits_to_entrances)
+    if outermost_entrance is None:
+      # Boss entrance that isn't yet accessible from the sea in any way.
+      # We don't want to connect this to anything yet or we risk creating an infinite loop.
+      # So postpone it until the end.
+      relevant_entrances.append(zone_entrance)
+      continue
+    
     if doing_progress_entrances_for_dungeons_and_caves_only_start and zone_entrance == safety_entrance:
       possible_remaining_exits = [e for e in remaining_exits if e.unique_name in exit_names_with_no_requirements]
     else:
       possible_remaining_exits = remaining_exits
+    
+    if any(e for e in possible_remaining_exits if e in DUNGEON_EXITS):
+      # Only start placing boss exits after all dungeon exits have been placed.
+      possible_remaining_exits = [e for e in remaining_exits if e not in BOSS_EXITS]
     
     # The below is debugging code for testing the caves with timers.
     #if zone_entrance.entrance_name == "Secret Cave Entrance on Fire Mountain":
@@ -206,131 +249,219 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_caves=F
         and done_entrances_to_exits[entr] in DUNGEON_EXITS
       ]
       if done_entrances_on_same_island_leading_to_a_dungeon:
-        possible_remaining_exits = [x for x in possible_remaining_exits if x not in DUNGEON_EXITS]
+        possible_remaining_exits = [
+          ex for ex in possible_remaining_exits
+          if ex not in DUNGEON_EXITS + BOSS_EXITS
+        ]
     
+    if not possible_remaining_exits:
+      raise Exception(f"No valid exits to place for entrance: {zone_entrance.entrance_name}")
     zone_exit = self.rng.choice(possible_remaining_exits)
     remaining_exits.remove(zone_exit)
     
     self.entrance_connections[zone_entrance.entrance_name] = zone_exit.unique_name
-    self.dungeon_and_cave_island_locations[zone_exit.zone_name] = zone_entrance.island_name
     done_entrances_to_exits[zone_entrance] = zone_exit
+    done_exits_to_entrances[zone_exit] = zone_entrance
+  
+  self.logic.update_entrance_connection_macros()
+  
+  for zone_exit, zone_entrance in done_exits_to_entrances.items():
+    outermost_entrance = get_outermost_entrance_for_exit(zone_exit, done_exits_to_entrances)
+    
+    self.dungeon_and_cave_island_locations[zone_exit.zone_name] = outermost_entrance.island_name
     
     if not self.dry_run:
-      # Update the stage this entrance takes you into.
-      entrance_dzr_path = "files/res/Stage/%s/Room%d.arc" % (zone_entrance.stage_name, zone_entrance.room_num)
-      entrance_dzr = self.get_arc(entrance_dzr_path).get_file("room.dzr")
-      entrance_scls = entrance_dzr.entries_by_type("SCLS")[zone_entrance.scls_exit_index]
-      entrance_scls.dest_stage_name = zone_exit.stage_name
-      entrance_scls.room_index = zone_exit.room_num
-      entrance_scls.spawn_id = zone_exit.spawn_id
-      entrance_scls.save_changes()
+      update_entrance_to_lead_to_exit(self, zone_entrance, zone_exit, outermost_entrance)
+  
+  if include_bosses:
+    for boss_exit in BOSS_EXITS:
+      if not self.dry_run:
+        outermost_entrance = get_outermost_entrance_for_exit(boss_exit, done_exits_to_entrances)
+        update_boss_warp_out_destination(self, boss_exit.stage_name, outermost_entrance)
+  elif include_dungeons:
+    for dungeon_exit in DUNGEON_EXITS:
+      outermost_entrance = done_exits_to_entrances[dungeon_exit]
       
-      # Update the DRI spawn to not have spawn type 5.
-      # If the DRI entrance was connected to the TotG dungeon, then exiting TotG while riding KoRL would crash the game.
-      entrance_spawns = entrance_dzr.entries_by_type("PLYR")
-      entrance_spawn = next(spawn for spawn in entrance_spawns if spawn.spawn_id == zone_entrance.spawn_id)
-      if entrance_spawn.spawn_type == 5:
-        entrance_spawn.spawn_type = 1
-        entrance_spawn.save_changes()
+      if not self.dry_run:
+        update_boss_warp_out_destination(self, dungeon_exit.boss_stage_name, outermost_entrance)
       
-      # Update the entrance you're put at when leaving the dungeon.
-      exit_dzr_path = "files/res/Stage/%s/Room%d.arc" % (zone_exit.stage_name, zone_exit.room_num)
-      exit_dzr = self.get_arc(exit_dzr_path).get_file("room.dzr")
-      exit_scls = exit_dzr.entries_by_type("SCLS")[zone_exit.scls_exit_index]
+      # Update the boss exit's island even when nested dungeon randomization is disabled.
+      boss_exit = next(
+        zone_exit for zone_exit in BOSS_EXITS
+        if zone_exit.stage_name == dungeon_exit.boss_stage_name
+      )
+      self.dungeon_and_cave_island_locations[boss_exit.zone_name] = outermost_entrance.island_name
+
+def get_outermost_entrance_for_exit(zone_exit: ZoneExit, done_exits_to_entrances):
+  """ Unrecurses nested dungeons to determine what the outermost (island) entrance is for a given exit."""
+  zone_entrance = done_exits_to_entrances[zone_exit]
+  return get_outermost_entrance_for_entrance(zone_entrance, done_exits_to_entrances)
+
+def get_outermost_entrance_for_entrance(zone_entrance: ZoneEntrance, done_exits_to_entrances):
+  """ Unrecurses nested dungeons to determine what the outermost (island) entrance is for a given entrance."""
+  seen_entrances = get_all_entrances_on_path_to_entrance(zone_entrance, done_exits_to_entrances)
+  if seen_entrances is None:
+    return None
+  outermost_entrance = seen_entrances[-1]
+  return outermost_entrance
+
+def get_all_entrances_on_path_to_entrance(zone_entrance: ZoneEntrance, done_exits_to_entrances):
+  """ Unrecurses nested dungeons to build a list of all entrances leading to a given entrance."""
+  seen_entrances = []
+  while zone_entrance.island_name is None:
+    if zone_entrance in seen_entrances:
+      raise Exception("Entrances are in an infinite loop: %s" % ", ".join([e.entrance_name for e in seen_entrances]))
+    seen_entrances.append(zone_entrance)
+    assert zone_entrance.entrance_name.startswith("Boss Entrance in ")
+    dungeon_name = zone_entrance.entrance_name[len("Boss Entrance in "):]
+    dungeon_start_exit = next(ex for ex in DUNGEON_EXITS if ex.unique_name == dungeon_name)
+    if dungeon_start_exit not in done_exits_to_entrances:
+      return None
+    zone_entrance = done_exits_to_entrances[dungeon_start_exit]
+  seen_entrances.append(zone_entrance)
+  return seen_entrances
+
+def update_entrance_to_lead_to_exit(self, zone_entrance: ZoneEntrance, zone_exit: ZoneExit, outermost_entrance: ZoneEntrance):
+  # Update the stage this entrance takes you into.
+  entrance_dzr_path = "files/res/Stage/%s/Room%d.arc" % (zone_entrance.stage_name, zone_entrance.room_num)
+  entrance_dzs_path = "files/res/Stage/%s/Stage.arc" % (zone_entrance.stage_name)
+  entrance_dzr = self.get_arc(entrance_dzr_path).get_file("room.dzr")
+  entrance_dzs = self.get_arc(entrance_dzs_path).get_file("stage.dzs")
+  entrance_scls = entrance_dzr.entries_by_type("SCLS")[zone_entrance.scls_exit_index]
+  entrance_scls.dest_stage_name = zone_exit.stage_name
+  entrance_scls.room_index = zone_exit.room_num
+  entrance_scls.spawn_id = zone_exit.spawn_id
+  entrance_scls.save_changes()
+  
+  exit_dzr_path = "files/res/Stage/%s/Room%d.arc" % (zone_exit.stage_name, zone_exit.room_num)
+  exit_dzs_path = "files/res/Stage/%s/Stage.arc" % zone_exit.stage_name
+  
+  # Update the DRI spawn to not have spawn type 5.
+  # If the DRI entrance was connected to the TotG dungeon, then exiting TotG while riding KoRL would crash the game.
+  if len(entrance_dzs.entries_by_type("PLYR")) > 0:
+    entrance_spawns = entrance_dzs.entries_by_type("PLYR")
+  else:
+    entrance_spawns = entrance_dzr.entries_by_type("PLYR")
+  entrance_spawn = next(spawn for spawn in entrance_spawns if spawn.spawn_id == zone_entrance.spawn_id)
+  if entrance_spawn.spawn_type == 5:
+    entrance_spawn.spawn_type = 1
+    entrance_spawn.save_changes()
+  
+  if zone_exit in BOSS_EXITS:
+    # Update the spawn you're placed at when saving and reloading inside a boss room.
+    exit_dzs = self.get_arc(exit_dzs_path).get_file("stage.dzs")
+    exit_scls = exit_dzs.entries_by_type("SCLS")[zone_exit.scls_exit_index]
+    if zone_entrance in BOSS_ENTRANCES:
+      # If the end of a dungeon connects to a boss, saving and reloading inside the boss
+      # room should put you at the beginning of that dungeon, not the end.
+      # But if multiple dungeons are nested we don't take the player all the way back to the
+      # beginning of the chain, just to the beginning of the last dungeon.
+      dungeon_start_exit = entrance_dzs.entries_by_type("SCLS")[0]
+      exit_scls.dest_stage_name = dungeon_start_exit.dest_stage_name
+      exit_scls.room_index = dungeon_start_exit.room_index
+      exit_scls.spawn_id = dungeon_start_exit.spawn_id
+      exit_scls.save_changes()
+    else:
+      # If a sea entrance connects directly to a boss we put you right outside that entrance.
       exit_scls.dest_stage_name = zone_entrance.stage_name
       exit_scls.room_index = zone_entrance.room_num
       exit_scls.spawn_id = zone_entrance.spawn_id
       exit_scls.save_changes()
-      
-      # Also update the extra exits when leaving Savage Labyrinth to put you on the correct entrance when leaving.
-      if zone_exit.unique_name == "Savage Labyrinth":
-        for stage_and_room_name in ["Cave10/Room0", "Cave10/Room20", "Cave11/Room0"]:
-          savage_dzr_path = "files/res/Stage/%s.arc" % stage_and_room_name
-          savage_dzr = self.get_arc(savage_dzr_path).get_file("room.dzr")
-          exit_sclses = [x for x in savage_dzr.entries_by_type("SCLS") if x.dest_stage_name == "sea"]
-          for exit_scls in exit_sclses:
-            exit_scls.dest_stage_name = zone_entrance.stage_name
-            exit_scls.room_index = zone_entrance.room_num
-            exit_scls.spawn_id = zone_entrance.spawn_id
-            exit_scls.save_changes()
-      
-      if zone_exit in SECRET_CAVE_EXITS:
-        # Update the sector coordinates in the 2DMA chunk so that save-and-quitting in a secret cave puts you on the correct island.
-        exit_dzs_path = "files/res/Stage/%s/Stage.arc" % zone_exit.stage_name
-        exit_dzs = self.get_arc(exit_dzs_path).get_file("stage.dzs")
-        _2dma = exit_dzs.entries_by_type("2DMA")[0]
-        island_number = self.island_name_to_number[zone_entrance.island_name]
-        sector_x = (island_number-1) % 7
-        sector_y = (island_number-1) // 7
-        _2dma.sector_x = sector_x-3
-        _2dma.sector_y = sector_y-3
-        _2dma.save_changes()
-      
-      if zone_exit.unique_name == "Fire Mountain Secret Cave":
-        actors = exit_dzr.entries_by_type("ACTR")
-        kill_trigger = next(x for x in actors if x.name == "VolTag")
-        if zone_entrance.entrance_name == "Secret Cave Entrance on Fire Mountain":
-          # Unchanged from vanilla, do nothing.
-          pass
-        elif zone_entrance.entrance_name == "Secret Cave Entrance on Ice Ring Isle":
-          # Ice Ring's entrance leads to Fire Mountain's exit.
-          # Change the kill trigger on the inside of Fire Mountain to act like the one inside Ice Ring.
-          kill_trigger.type = 2
-          kill_trigger.save_changes()
-        else:
-          # An entrance without a timer leads into this cave.
-          # Remove the kill trigger actor on the inside, because otherwise it would throw the player out the instant they enter.
-          exit_dzr.remove_entity(kill_trigger, "ACTR")
-      
-      if zone_exit.unique_name == "Ice Ring Isle Secret Cave":
-        actors = exit_dzr.entries_by_type("ACTR")
-        kill_trigger = next(x for x in actors if x.name == "VolTag")
-        if zone_entrance.entrance_name == "Secret Cave Entrance on Ice Ring Isle":
-          # Unchanged from vanilla, do nothing.
-          pass
-        elif zone_entrance.entrance_name == "Secret Cave Entrance on Fire Mountain":
-          # Fire Mountain's entrance leads to Ice Ring's exit.
-          # Change the kill trigger on the inside of Ice Ring to act like the one inside Fire Mountain.
-          kill_trigger.type = 1
-          kill_trigger.save_changes()
-        else:
-          # An entrance without a timer leads into this cave.
-          # Remove the kill trigger actor on the inside, because otherwise it would throw the player out the instant they enter.
-          exit_dzr.remove_entity(kill_trigger, "ACTR")
-      
-      if zone_exit.unique_name == "Ice Ring Isle Secret Cave":
-        # Also update the inner cave of Ice Ring Isle to take you out to the correct entrance as well.
-        inner_cave_dzr_path = "files/res/Stage/ITest62/Room0.arc"
-        inner_cave_dzr = self.get_arc(inner_cave_dzr_path).get_file("room.dzr")
-        inner_cave_exit_scls = inner_cave_dzr.entries_by_type("SCLS")[0]
-        inner_cave_exit_scls.dest_stage_name = zone_entrance.stage_name
-        inner_cave_exit_scls.room_index = zone_entrance.room_num
-        inner_cave_exit_scls.spawn_id = zone_entrance.spawn_id
-        inner_cave_exit_scls.save_changes()
-        
-        # Also update the sector coordinates in the 2DMA chunk of the inner cave of Ice Ring Isle so save-and-quitting works properly there.
-        inner_cave_dzs_path = "files/res/Stage/ITest62/Stage.arc"
-        inner_cave_dzs = self.get_arc(inner_cave_dzs_path).get_file("stage.dzs")
-        inner_cave_2dma = inner_cave_dzs.entries_by_type("2DMA")[0]
-        inner_cave_2dma.sector_x = sector_x-3
-        inner_cave_2dma.sector_y = sector_y-3
-        inner_cave_2dma.save_changes()
-      
-      if zone_exit.boss_stage_name is not None:
-        # Update the wind warp out event to take you to the correct island.
-        boss_stage_arc_path = "files/res/Stage/%s/Stage.arc" % zone_exit.boss_stage_name
-        event_list = self.get_arc(boss_stage_arc_path).get_file("event_list.dat")
-        warp_out_event = event_list.events_by_name["WARP_WIND_AFTER"]
-        director = next(actor for actor in warp_out_event.actors if actor.name == "DIRECTOR")
-        stage_change_action = next(action for action in director.actions if action.name == "NEXT")
-        stage_name_prop = next(prop for prop in stage_change_action.properties if prop.name == "Stage")
-        stage_name_prop.value = zone_entrance.warp_out_stage_name
-        room_num_prop = next(prop for prop in stage_change_action.properties if prop.name == "RoomNo")
-        room_num_prop.value = zone_entrance.warp_out_room_num
-        spawn_id_prop = next(prop for prop in stage_change_action.properties if prop.name == "StartCode")
-        spawn_id_prop.value = zone_entrance.warp_out_spawn_id
+  else:
+    # Update the entrance you're put at when leaving the dungeon/secret cave.
+    exit_dzr = self.get_arc(exit_dzr_path).get_file("room.dzr")
+    exit_scls = exit_dzr.entries_by_type("SCLS")[zone_exit.scls_exit_index]
+    exit_scls.dest_stage_name = zone_entrance.stage_name
+    exit_scls.room_index = zone_entrance.room_num
+    exit_scls.spawn_id = zone_entrance.spawn_id
+    exit_scls.save_changes()
   
-  self.logic.update_entrance_connection_macros()
+  # Also update the extra exits when leaving Savage Labyrinth to put you on the correct entrance when leaving.
+  if zone_exit.unique_name == "Savage Labyrinth":
+    for stage_and_room_name in ["Cave10/Room0", "Cave10/Room20", "Cave11/Room0"]:
+      savage_dzr_path = "files/res/Stage/%s.arc" % stage_and_room_name
+      savage_dzr = self.get_arc(savage_dzr_path).get_file("room.dzr")
+      exit_sclses = [x for x in savage_dzr.entries_by_type("SCLS") if x.dest_stage_name == "sea"]
+      for exit_scls in exit_sclses:
+        exit_scls.dest_stage_name = zone_entrance.stage_name
+        exit_scls.room_index = zone_entrance.room_num
+        exit_scls.spawn_id = zone_entrance.spawn_id
+        exit_scls.save_changes()
+  
+  if zone_exit in SECRET_CAVE_EXITS:
+    # Update the sector coordinates in the 2DMA chunk so that save-and-quitting in a secret cave puts you on the correct island.
+    exit_dzs = self.get_arc(exit_dzs_path).get_file("stage.dzs")
+    _2dma = exit_dzs.entries_by_type("2DMA")[0]
+    island_number = self.island_name_to_number[outermost_entrance.island_name]
+    sector_x = (island_number-1) % 7
+    sector_y = (island_number-1) // 7
+    _2dma.sector_x = sector_x-3
+    _2dma.sector_y = sector_y-3
+    _2dma.save_changes()
+  
+  if zone_exit.unique_name == "Fire Mountain Secret Cave":
+    actors = exit_dzr.entries_by_type("ACTR")
+    kill_trigger = next(x for x in actors if x.name == "VolTag")
+    if zone_entrance.entrance_name == "Secret Cave Entrance on Fire Mountain":
+      # Unchanged from vanilla, do nothing.
+      pass
+    elif zone_entrance.entrance_name == "Secret Cave Entrance on Ice Ring Isle":
+      # Ice Ring's entrance leads to Fire Mountain's exit.
+      # Change the kill trigger on the inside of Fire Mountain to act like the one inside Ice Ring.
+      kill_trigger.type = 2
+      kill_trigger.save_changes()
+    else:
+      # An entrance without a timer leads into this cave.
+      # Remove the kill trigger actor on the inside, because otherwise it would throw the player out the instant they enter.
+      exit_dzr.remove_entity(kill_trigger, "ACTR")
+  
+  if zone_exit.unique_name == "Ice Ring Isle Secret Cave":
+    actors = exit_dzr.entries_by_type("ACTR")
+    kill_trigger = next(x for x in actors if x.name == "VolTag")
+    if zone_entrance.entrance_name == "Secret Cave Entrance on Ice Ring Isle":
+      # Unchanged from vanilla, do nothing.
+      pass
+    elif zone_entrance.entrance_name == "Secret Cave Entrance on Fire Mountain":
+      # Fire Mountain's entrance leads to Ice Ring's exit.
+      # Change the kill trigger on the inside of Ice Ring to act like the one inside Fire Mountain.
+      kill_trigger.type = 1
+      kill_trigger.save_changes()
+    else:
+      # An entrance without a timer leads into this cave.
+      # Remove the kill trigger actor on the inside, because otherwise it would throw the player out the instant they enter.
+      exit_dzr.remove_entity(kill_trigger, "ACTR")
+  
+  if zone_exit.unique_name == "Ice Ring Isle Secret Cave":
+    # Also update the inner cave of Ice Ring Isle to take you out to the correct entrance as well.
+    inner_cave_dzr_path = "files/res/Stage/ITest62/Room0.arc"
+    inner_cave_dzr = self.get_arc(inner_cave_dzr_path).get_file("room.dzr")
+    inner_cave_exit_scls = inner_cave_dzr.entries_by_type("SCLS")[0]
+    inner_cave_exit_scls.dest_stage_name = zone_entrance.stage_name
+    inner_cave_exit_scls.room_index = zone_entrance.room_num
+    inner_cave_exit_scls.spawn_id = zone_entrance.spawn_id
+    inner_cave_exit_scls.save_changes()
+    
+    # Also update the sector coordinates in the 2DMA chunk of the inner cave of Ice Ring Isle so save-and-quitting works properly there.
+    inner_cave_dzs_path = "files/res/Stage/ITest62/Stage.arc"
+    inner_cave_dzs = self.get_arc(inner_cave_dzs_path).get_file("stage.dzs")
+    inner_cave_2dma = inner_cave_dzs.entries_by_type("2DMA")[0]
+    inner_cave_2dma.sector_x = sector_x-3
+    inner_cave_2dma.sector_y = sector_y-3
+    inner_cave_2dma.save_changes()
+
+def update_boss_warp_out_destination(self, boss_stage_name, outermost_entrance):
+  # Update the wind warp out event to take you to the correct island.
+  boss_stage_arc_path = "files/res/Stage/%s/Stage.arc" % boss_stage_name
+  event_list = self.get_arc(boss_stage_arc_path).get_file("event_list.dat")
+  warp_out_event = event_list.events_by_name["WARP_WIND_AFTER"]
+  director = next(actor for actor in warp_out_event.actors if actor.name == "DIRECTOR")
+  stage_change_action = next(action for action in director.actions if action.name == "NEXT")
+  stage_name_prop = next(prop for prop in stage_change_action.properties if prop.name == "Stage")
+  stage_name_prop.value = outermost_entrance.warp_out_stage_name
+  room_num_prop = next(prop for prop in stage_change_action.properties if prop.name == "RoomNo")
+  room_num_prop.value = outermost_entrance.warp_out_room_num
+  spawn_id_prop = next(prop for prop in stage_change_action.properties if prop.name == "StartCode")
+  spawn_id_prop.value = outermost_entrance.warp_out_spawn_id
 
 def get_entrance_zone_for_item_location(self, location_name):
   # Helper function to return the entrance zone name for the location.

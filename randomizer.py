@@ -198,6 +198,12 @@ class Randomizer:
       ("Dungeon Entrance On Headstone Island", "Earth Temple"),
       ("Dungeon Entrance On Gale Isle", "Wind Temple"),
       
+      ("Boss Entrance in Dragon Roost Cavern", "Gohma Boss Arena"),
+      ("Boss Entrance in Forbidden Woods", "Kalle Demos Boss Arena"),
+      ("Boss Entrance in Tower of the Gods", "Gohdan Boss Arena"),
+      ("Boss Entrance in Earth Temple", "Jalhalla Boss Arena"),
+      ("Boss Entrance in Wind Temple", "Molgera Boss Arena"),
+      
       ("Secret Cave Entrance on Outset Island", "Savage Labyrinth"),
       ("Secret Cave Entrance on Dragon Roost Island", "Dragon Roost Island Secret Cave"),
       ("Secret Cave Entrance on Fire Mountain", "Fire Mountain Secret Cave"),
@@ -225,6 +231,12 @@ class Randomizer:
       ("Tower of the Gods", "Tower of the Gods"),
       ("Earth Temple", "Headstone Island"),
       ("Wind Temple", "Gale Isle"),
+      
+      ("Gohma Boss Arena", "Dragon Roost Island"),
+      ("Kalle Demos Boss Arena", "Forest Haven"),
+      ("Gohdan Boss Arena", "Tower of the Gods"),
+      ("Jalhalla Boss Arena", "Headstone Island"),
+      ("Molgera Boss Arena", "Gale Isle"),
       
       ("Outset Island", "Outset Island"),
       ("Dragon Roost Island", "Dragon Roost Island"),

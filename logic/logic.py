@@ -58,6 +58,15 @@ class Logic:
     self.item_locations = Logic.load_and_parse_item_locations()
     self.load_and_parse_macros()
     
+    self.all_dynamic_access_macros = []
+    for entrance_name, zone_name in self.rando.entrance_connections.items():
+      zone_access_macro_name = "Can Access " + zone_name
+      entrance_access_macro_name = "Can Access " + entrance_name
+      assert zone_access_macro_name in self.macros
+      assert entrance_access_macro_name in self.macros
+      self.all_dynamic_access_macros.append(zone_access_macro_name)
+      self.all_dynamic_access_macros.append(entrance_access_macro_name)
+    
     self.locations_by_zone_name = OrderedDict()
     for location_name in self.item_locations:
       zone_name, specific_location_name = self.split_location_name_by_zone(location_name)
@@ -729,6 +738,13 @@ class Logic:
       dungeon_access_macro_name = "Can Access " + zone_exit.unique_name
       self.set_macro(dungeon_access_macro_name, "Impossible")
   
+  def temporarily_make_dungeon_entrance_macros_accessible(self):
+    # Update all the dungeon access macros to be considered "Nothing".
+    # Useful when the item randomizer is deciding how to place keys and the dungeons are nested.
+    for zone_exit in entrances.DUNGEON_EXITS:
+      dungeon_access_macro_name = "Can Access " + zone_exit.unique_name
+      self.set_macro(dungeon_access_macro_name, "Nothing")
+  
   def temporarily_make_entrance_macros_impossible(self):
     # Update all the dungeon/secret cave access macros to be considered "Impossible".
     # Useful when the entrance randomizer is selecting which dungeons/secret caves should be allowed where.
@@ -740,23 +756,31 @@ class Logic:
     # Update all the dungeon/secret cave access macros to be a combination of all the macros for accessing dungeons/secret caves that can have their entrance randomized.
     
     if self.rando.options.get("randomize_entrances") == "Dungeons":
-      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_caves=False)
+      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True)
+    elif self.rando.options.get("randomize_entrances") == "Nested Dungeons":
+      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_bosses=True)
     elif self.rando.options.get("randomize_entrances") == "Secret Caves":
-      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=False, include_caves=True)
+      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_caves=True)
     elif self.rando.options.get("randomize_entrances") == "Dungeons & Secret Caves (Separately)":
-      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_caves=False)
-      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=False, include_caves=True)
+      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True)
+      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_caves=True)
+    elif self.rando.options.get("randomize_entrances") == "Nested Dungeons & Secret Caves (Separately)":
+      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_bosses=True)
+      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_caves=True)
     elif self.rando.options.get("randomize_entrances") == "Dungeons & Secret Caves (Together)":
       self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_caves=True)
     else:
       raise Exception("Invalid entrance randomizer option: %s" % self.rando.options.get("randomize_entrances"))
   
-  def temporarily_make_one_set_of_entrance_macros_worst_case_scenario(self, include_dungeons=False, include_caves=False):
+  def temporarily_make_one_set_of_entrance_macros_worst_case_scenario(self, include_dungeons=False, include_bosses=False, include_caves=False):
     relevant_entrances = []
     zones = []
     if include_dungeons:
       relevant_entrances += entrances.DUNGEON_ENTRANCES
       zones += entrances.DUNGEON_EXITS
+    if include_bosses:
+      relevant_entrances += entrances.BOSS_ENTRANCES
+      zones += entrances.BOSS_EXITS
     if include_caves:
       relevant_entrances += entrances.SECRET_CAVE_ENTRANCES
       zones += entrances.SECRET_CAVE_EXITS
@@ -912,9 +936,18 @@ class Logic:
     
     return stack
   
-  def check_requirement_met(self, req_name):
+  def check_requirement_met(self, req_name, reqs_being_checked=None):
     if req_name in self.requirement_met_cache:
       return self.requirement_met_cache[req_name]
+    
+    # Prevent infinite recursion for cases where requirements depend on themselves.
+    # (e.g. temporarily_make_entrance_macros_worst_case_scenario)
+    if reqs_being_checked is None:
+      reqs_being_checked = set()
+    if req_name in reqs_being_checked:
+      assert req_name in self.all_dynamic_access_macros, "Recursive requirement check on non-entrance macro"
+      return True
+    reqs_being_checked.add(req_name)
     
     if req_name.startswith("Progressive "):
       result = self.check_progressive_item_req(req_name)
@@ -928,7 +961,7 @@ class Logic:
       result = req_name in self.currently_owned_items
     elif req_name in self.macros:
       logical_expression = self.macros[req_name]
-      result = self.check_logical_expression_req(logical_expression)
+      result = self.check_logical_expression_req(logical_expression, reqs_being_checked=reqs_being_checked)
     elif req_name == "Nothing":
       result = True
     elif req_name == "Impossible":
@@ -936,10 +969,12 @@ class Logic:
     else:
       raise Exception("Unknown requirement name: " + req_name)
     
+    reqs_being_checked.remove(req_name)
+    
     self.requirement_met_cache[req_name] = result
     return result
   
-  def check_logical_expression_req(self, logical_expression):
+  def check_logical_expression_req(self, logical_expression, reqs_being_checked=None):
     expression_type = None
     subexpression_results = []
     tokens = logical_expression.copy()
@@ -959,12 +994,12 @@ class Logic:
         if nested_expression == "(":
           # Nested parentheses
           nested_expression = ["("] + tokens.pop()
-        result = self.check_logical_expression_req(nested_expression)
+        result = self.check_logical_expression_req(nested_expression, reqs_being_checked=reqs_being_checked)
         subexpression_results.append(result)
         assert tokens.pop() == ")"
       else:
         # Subexpression.
-        result = self.check_requirement_met(token)
+        result = self.check_requirement_met(token, reqs_being_checked=reqs_being_checked)
         subexpression_results.append(result)
     
     if expression_type == "OR":
@@ -986,8 +1021,18 @@ class Logic:
       item_names += [item_name]*num_required
     return item_names
   
-  def get_items_needed_by_req_name(self, req_name):
+  def get_items_needed_by_req_name(self, req_name, reqs_being_checked=None):
     items_needed = OrderedDict()
+    
+    # Prevent infinite recursion for cases where requirements depend on themselves.
+    # (e.g. temporarily_make_entrance_macros_worst_case_scenario)
+    if reqs_being_checked is None:
+      reqs_being_checked = set()
+    if req_name in reqs_being_checked:
+      assert req_name in self.all_dynamic_access_macros, "Recursive requirement check on non-entrance macro"
+      return items_needed
+    reqs_being_checked.add(req_name)
+    
     if req_name.startswith("Progressive "):
       match = re.search(r"^(Progressive .+) x(\d+)$", req_name)
       item_name = match.group(1)
@@ -1002,7 +1047,7 @@ class Logic:
       match = re.search(r"^Can Access Other Location \"([^\"]+)\"$", req_name)
       other_location_name = match.group(1)
       requirement_expression = self.item_locations[other_location_name]["Need"]
-      sub_items_needed = self.get_items_needed_from_logical_expression_req(requirement_expression)
+      sub_items_needed = self.get_items_needed_from_logical_expression_req(requirement_expression, reqs_being_checked=reqs_being_checked)
       for item_name, num_required in sub_items_needed.items():
         items_needed[item_name] = max(num_required, items_needed.setdefault(item_name, 0))
     elif req_name.startswith("Option \""):
@@ -1011,7 +1056,7 @@ class Logic:
       items_needed[req_name] = max(1, items_needed.setdefault(req_name, 0))
     elif req_name in self.macros:
       logical_expression = self.macros[req_name]
-      sub_items_needed = self.get_items_needed_from_logical_expression_req(logical_expression)
+      sub_items_needed = self.get_items_needed_from_logical_expression_req(logical_expression, reqs_being_checked=reqs_being_checked)
       for item_name, num_required in sub_items_needed.items():
         items_needed[item_name] = max(num_required, items_needed.setdefault(item_name, 0))
     elif req_name == "Nothing":
@@ -1021,9 +1066,11 @@ class Logic:
     else:
       raise Exception("Unknown requirement name: " + req_name)
     
+    reqs_being_checked.remove(req_name)
+    
     return items_needed
   
-  def get_items_needed_from_logical_expression_req(self, logical_expression):
+  def get_items_needed_from_logical_expression_req(self, logical_expression, reqs_being_checked=None):
     if self.check_logical_expression_req(logical_expression):
       # If this expression is already satisfied, we don't want to include any other items in the OR statement.
       return OrderedDict()
@@ -1042,13 +1089,13 @@ class Logic:
         if nested_expression == "(":
           # Nested parentheses
           nested_expression = ["("] + tokens.pop()
-        sub_items_needed = self.get_items_needed_from_logical_expression_req(nested_expression)
+        sub_items_needed = self.get_items_needed_from_logical_expression_req(nested_expression, reqs_being_checked=reqs_being_checked)
         for item_name, num_required in sub_items_needed.items():
           items_needed[item_name] = max(num_required, items_needed.setdefault(item_name, 0))
         assert tokens.pop() == ")"
       else:
         # Subexpression.
-        sub_items_needed = self.get_items_needed_by_req_name(token)
+        sub_items_needed = self.get_items_needed_by_req_name(token, reqs_being_checked=reqs_being_checked)
         for item_name, num_required in sub_items_needed.items():
           items_needed[item_name] = max(num_required, items_needed.setdefault(item_name, 0))
     
