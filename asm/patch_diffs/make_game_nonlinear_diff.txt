@@ -174,3 +174,6 @@ files/rels/d_a_npc_bms1.rel:
 files/rels/d_a_npc_de1.rel:
   0xDB0:
     Data: [0x48, 0x00, 0x00, 0x68]
+files/rels/d_a_npc_bm1.rel:
+  0x1150:
+    Data: [0x48, 0x00, 0x00, 0x0C]
