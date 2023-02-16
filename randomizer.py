@@ -545,6 +545,7 @@ class Randomizer:
     tweaks.show_number_of_tingle_statues_on_quest_status_screen(self)
     patcher.apply_patch(self, "flexible_enemies")
     tweaks.add_shortcut_warps_into_dungeons(self)
+    tweaks.fix_needle_rock_island_salvage_flags(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)

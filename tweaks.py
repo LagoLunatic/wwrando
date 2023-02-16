@@ -18,6 +18,7 @@ from wwlib.bmg import TextBoxType
 from wwrando_paths import ASSETS_PATH, ASM_PATH
 import customizer
 from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS
+from data_tables import DataTables
 
 try:
   from keys.seed_key import SEED_KEY
@@ -2342,3 +2343,25 @@ def replace_dark_wood_chest_texture(self):
   dark_wood_chest_tex_image = dark_wood_chest_model.tex1.textures_by_name["Ktakara_001"][0]
   dark_wood_chest_tex_image.replace_image_from_path(os.path.join(ASSETS_PATH, "key chest.png"))
   dark_wood_chest_model.save_changes()
+
+def fix_needle_rock_island_salvage_flags(self):
+  # Salvage flags 0 and 1 for Needle Rock Island are each duplicated in the vanilla game.
+  # There are two light ring salvages, using flags 0 and 1.
+  # There are three gunboat salvages, using flags 0, 1, and 2. 2 is for the golden gunboat.
+  # This causes a bug where you can't get all of these sunken treasures if you salvage the light
+  # rings first, or if you salvage the gunboats first and then reload the room.
+  # So we have to change the flags used by the two light ring salvages so that they don't conflict
+  # with the two non-golden gunboat salvages.
+  
+  nri_dzr = self.get_arc("files/res/Stage/sea/Room29.arc").get_file("room.dzr")
+  salvages = [
+    actor for actor in nri_dzr.entries_by_type("SCOB")
+    if DataTables.actor_name_to_class_name[actor.name] == "d_a_salvage"
+    and actor.salvage_type in [2, 3, 4]
+    and actor.salvage_flag in [0, 1]
+  ]
+  
+  salvages[0].salvage_flag = 8 # Unused in vanilla
+  salvages[0].save_changes()
+  salvages[1].salvage_flag = 9 # Unused in vanilla
+  salvages[1].save_changes()
