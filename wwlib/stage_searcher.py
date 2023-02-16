@@ -487,6 +487,8 @@ def print_all_event_list_actions(self):
     stage_name = match.group(1)
     
     for event in event_list.events:
+      stage_and_event_name = "%s:%s" % (stage_name, event.name)
+      
       for actor in event.actors:
         if actor.name not in all_actors:
           all_actors[actor.name] = OrderedDict()
@@ -494,6 +496,12 @@ def print_all_event_list_actions(self):
         for action in actor.actions:
           if action.name not in all_actors[actor.name]:
             all_actors[actor.name][action.name] = OrderedDict()
+          
+          if len(action.properties) == 0:
+            if None not in all_actors[actor.name][action.name]:
+              all_actors[actor.name][action.name][None] = []
+            
+            all_actors[actor.name][action.name][None].append(stage_and_event_name)
           
           for prop in action.properties:
             if prop.name not in all_actors[actor.name][action.name]:
@@ -503,7 +511,6 @@ def print_all_event_list_actions(self):
             if prop_value_str not in all_actors[actor.name][action.name][prop.name]:
               all_actors[actor.name][action.name][prop.name][prop_value_str] = []
             
-            stage_and_event_name = "%s:%s" % (stage_name, event.name)
             if stage_and_event_name not in all_actors[actor.name][action.name][prop.name][prop_value_str]:
               all_actors[actor.name][action.name][prop.name][prop_value_str].append(stage_and_event_name)
   
@@ -513,8 +520,12 @@ def print_all_event_list_actions(self):
     actions = OrderedDict(sorted(actions.items(), key=lambda x: x[0]))
     all_actors[actor_name] = actions
     for action_name, props in actions.items():
-      props = OrderedDict(sorted(props.items(), key=lambda x: x[0]))
-      all_actors[actor_name][action_name] = props
+      sorted_props = OrderedDict()
+      if None in props:
+        sorted_props[None] = props[None]
+        del props[None]
+      sorted_props |= OrderedDict(sorted(props.items(), key=lambda x: x[0]))
+      all_actors[actor_name][action_name] = sorted_props
   
   with open("All Event List Actions.txt", "w") as f:
     for actor_name, actions in all_actors.items():
@@ -522,6 +533,9 @@ def print_all_event_list_actions(self):
       for action_name, props in actions.items():
         f.write("  %s:\n" % action_name)
         for prop_name, values in props.items():
+          if prop_name is None:
+            continue
+          
           f.write("    %s\n" % prop_name)
   
   with open("All Event List Actions - With Property Examples.txt", "w") as f:
@@ -530,6 +544,9 @@ def print_all_event_list_actions(self):
       for action_name, props in actions.items():
         f.write("  %s:\n" % action_name)
         for prop_name, values in props.items():
+          if prop_name is None:
+            continue
+          
           f.write("    %s:\n" % prop_name)
           for value in values:
             f.write("      " + str(value) + "\n")
@@ -540,6 +557,17 @@ def print_all_event_list_actions(self):
       for action_name, props in actions.items():
         f.write("  %s:\n" % action_name)
         for prop_name, values in props.items():
+          if prop_name is None:
+            line = "    [none]:"
+            stage_and_event_names_str = ", ".join(values)
+            if len(stage_and_event_names_str) > 250:
+              # Limit crazy lengths
+              stage_and_event_names_str = stage_and_event_names_str[:250]
+              stage_and_event_names_str += " ..."
+            line += " # Appears in: " + stage_and_event_names_str
+            f.write(line + "\n")
+            continue
+          
           f.write("    %s:\n" % prop_name)
           max_value_length = max(len(str(val)) for val in values.keys())
           for value, stage_and_event_names in values.items():
