@@ -1,7 +1,7 @@
 
 import os
 import re
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 
 from fs_helpers import *
 
@@ -456,6 +456,37 @@ def print_all_used_chest_open_flags(self):
     for chest_flag, item_name, arc_path in chest_flags:
       arc_path_short = arc_path[len("files/res/Stage/"):-len(".arc")]
       print("  %02X (Item: %s) in %s" % (chest_flag, item_name, arc_path_short))
+
+def print_all_used_salvage_flags(self):
+  used_salvage_flags_by_room_num = defaultdict(list)
+  for island_index in range(50):
+    arc_path = rf"files/res/Stage/sea/Room{island_index}.arc"
+    dzr = self.get_arc(arc_path).get_file("room.dzr")
+    
+    for actor in dzr.entries_by_type("SCOB"):
+      class_name = DataTables.actor_name_to_class_name[actor.name]
+      if class_name != 'd_a_salvage':
+        continue
+      if actor.salvage_type not in [2, 3, 4]:
+        # Only these types use salvage flags.
+        # The others keep track of it in different ways.
+        continue
+      
+      if actor.item_id in self.item_names:
+        item_name = self.item_names[actor.item_id]
+      else:
+        item_name = "INVALID ID 0x%02X" % actor.item_id
+      
+      used_salvage_flags_by_room_num[island_index].append((actor.salvage_flag, item_name, arc_path))
+  
+  with open("Used salvage flags by island.txt", "w") as f:
+    f.write("Salvage flags:\n")
+    for island_index, salvage_flags in used_salvage_flags_by_room_num.items():
+      f.write(f"Island: {island_index}\n")
+      salvage_flags.sort(key=lambda tuple: tuple[0])
+      for salvage_flag, item_name, arc_path in salvage_flags:
+        arc_path_short = arc_path[len("files/res/Stage/"):-len(".arc")]
+        f.write(f"  {salvage_flag:02X} (Item: {item_name}) in {arc_path_short}\n")
 
 def print_all_event_flags_used_by_stb_cutscenes(self):
   print()
