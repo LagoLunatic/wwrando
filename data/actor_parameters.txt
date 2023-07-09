@@ -1245,15 +1245,12 @@ d_a_npc_kk1:
   unknown_param_1:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  enable_path_follow_switch:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_3:
+  path_index:
     Bitfield name: params
-    Mask: 0x00030000 # (WARNING: overlaps)
-  unknown_param_4:
-    Bitfield name: params
-    Mask: 0x00FF0000 # (WARNING: overlaps)
+    Mask: 0x00FF0000
 
 d_a_npc_km1:
   unknown_param_1:
