@@ -259,6 +259,7 @@ class Randomizer:
       ("Horseshoe Island", "Horseshoe Island"),
       ("Star Island", "Star Island"),
     ])
+    self.nested_entrance_paths = []
     
     # Default starting island (Outset) if the starting island randomizer is not on.
     self.starting_island_index = 44
@@ -1153,6 +1154,25 @@ class Randomizer:
     spoiler_log += "Entrances:\n"
     for entrance_name, dungeon_or_cave_name in self.entrance_connections.items():
       spoiler_log += "  %-48s %s\n" % (entrance_name+":", dungeon_or_cave_name)
+    
+    def shorten_path_name(name):
+      if name == "Dungeon Entrance on Dragon Roost Island":
+        return "Dragon Roost Island (Main)"
+      elif name == "Secret Cave Entrance on Dragon Roost Island":
+        return "Dragon Roost Island (Pit)"
+      elif re.search(r"^(Dungeon|Boss|Secret Cave) Entrance (on|in) ", name):
+        _, short_name = re.split(r" (?:on|in) ", name, 1)
+        return short_name
+      else:
+        return name
+    
+    if self.nested_entrance_paths:
+      spoiler_log += "\n"
+      
+      spoiler_log += "Nested entrance paths:\n"
+      for path in self.nested_entrance_paths:
+        shortened_path = [shorten_path_name(name) for name in path[:-1]] + [path[-1]]
+        spoiler_log += "  " + " -> ".join(shortened_path) + "\n"
     
     spoiler_log += "\n\n\n"
     

@@ -291,6 +291,19 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_bosses=
         if zone_exit.stage_name == dungeon_exit.boss_stage_name
       )
       self.dungeon_and_cave_island_locations[boss_exit.zone_name] = outermost_entrance.island_name
+  
+  # Prepare some data so the spoiler log can display the nesting in terms of paths.
+  if include_bosses:
+    self.nested_entrance_paths = []
+    for boss_exit in BOSS_EXITS:
+      assert boss_exit.unique_name.endswith(" Boss Arena")
+      zone_entrance = done_exits_to_entrances[boss_exit]
+      seen_entrances = get_all_entrances_on_path_to_entrance(zone_entrance, done_exits_to_entrances)
+      path = [boss_exit.unique_name]
+      for entr in seen_entrances:
+        path.append(entr.entrance_name)
+      path.reverse()
+      self.nested_entrance_paths.append(path)
 
 def get_outermost_entrance_for_exit(zone_exit: ZoneExit, done_exits_to_entrances):
   """ Unrecurses nested dungeons to determine what the outermost (island) entrance is for a given exit."""
