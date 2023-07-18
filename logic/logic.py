@@ -614,11 +614,16 @@ class Logic:
     return filtered_locations
   
   def check_item_valid_in_location(self, item_name, location_name):
+    types = self.item_locations[location_name]["Types"]
+    
     # Don't allow dungeon items to appear outside their proper dungeon when Key-Lunacy is off.
     if self.is_dungeon_item(item_name) and not self.rando.options.get("keylunacy"):
       short_dungeon_name = item_name.split(" ")[0]
       dungeon_name = self.DUNGEON_NAMES[short_dungeon_name]
       if not self.is_dungeon_location(location_name, dungeon_name_to_match=dungeon_name):
+        return False
+      if "Boss" in types:
+        # Don't allow dungeon items to be placed on the dungeon boss.
         return False
     
     # Beedle's shop does not work properly if the same item is in multiple slots of the same shop.
@@ -641,7 +646,6 @@ class Logic:
     if location_name == "Windfall Island - Zunari - Stock Exotic Flower in Zunari's Shop" and item_name in ["Town Flower", "Boat's Sail"]:
       return False
     
-    types = self.item_locations[location_name]["Types"]
     if "Consumables only" in types:
       if item_name not in self.all_fixed_consumable_items and item_name not in self.duplicatable_consumable_items:
         return False

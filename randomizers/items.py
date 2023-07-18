@@ -118,7 +118,7 @@ def try_randomize_boss_rewards(self):
   
   possible_boss_locations = [
     loc for loc in self.logic.remaining_item_locations
-    if self.logic.item_locations[loc]["Original item"] == "Heart Container"
+    if "Boss" in self.logic.item_locations[loc]["Types"]
   ]
   
   if len(possible_boss_locations) != 6:

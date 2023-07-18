@@ -756,7 +756,7 @@ Dragon Roost Cavern - Gohma Heart Container:
     Can Access Gohma Boss Arena
     & Can Defeat Gohma
   Original item: Heart Container
-  Types: Dungeon
+  Types: Dungeon, Boss
   Paths:
     - rels/d_a_btd.rel@36FE
     - M_DragB/Room0.arc/Actor015
@@ -958,7 +958,7 @@ Forbidden Woods - Kalle Demos Heart Container:
     Can Access Kalle Demos Boss Arena
     & Can Defeat Kalle Demos
   Original item: Heart Container
-  Types: Dungeon
+  Types: Dungeon, Boss
   Paths:
     - rels/d_a_bmd.rel@2B2E
     - kinBOSS/Room0.arc/Actor002
@@ -1136,7 +1136,7 @@ Tower of the Gods - Gohdan Heart Container:
     Can Access Gohdan Boss Arena
     & Can Defeat Gohdan
   Original item: Heart Container
-  Types: Dungeon
+  Types: Dungeon, Boss
   Paths:
     - rels/d_a_bst.rel@9D43
     - SirenB/Room0.arc/Actor003
@@ -1212,7 +1212,7 @@ Forsaken Fortress - Helmaroc King Heart Container:
     # There's a cannon that makes sidling across a gap difficult, but you don't need bombs because you can just kill the searchlight operator Bokoblin instead to get rid of the cannon simultaneously.
     # In vanilla, you also would have needed to be able to defeat Phantom Ganon because his fight triggers even if you're way above him trying to get to Helmaroc. But the randomizer fixes this so the fight won't start in that case.
   Original item: Heart Container
-  Types: Dungeon
+  Types: Dungeon, Boss
   Paths:
     - rels/d_a_bdk.rel@5CCE
     - M2tower/Room0.arc/Layer3/Actor01B
@@ -1524,7 +1524,7 @@ Earth Temple - Jalhalla Heart Container:
     Can Access Jalhalla Boss Arena
     & Can Defeat Jalhalla
   Original item: Heart Container
-  Types: Dungeon
+  Types: Dungeon, Boss
   Paths:
     - rels/d_a_bpw.rel@877E
     - M_DaiB/Room0.arc/Actor001
@@ -1731,7 +1731,7 @@ Wind Temple - Molgera Heart Container:
     Can Access Molgera Boss Arena
     & Can Defeat Molgera
   Original item: Heart Container
-  Types: Dungeon
+  Types: Dungeon, Boss
   Paths:
     - rels/d_a_bwd.rel@6D83
     - kazeB/Room0.arc/Actor001
