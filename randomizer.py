@@ -192,11 +192,11 @@ class Randomizer:
     
     # Default entrances connections to be used if the entrance randomizer is not on.
     self.entrance_connections = OrderedDict([
-      ("Dungeon Entrance On Dragon Roost Island", "Dragon Roost Cavern"),
-      ("Dungeon Entrance In Forest Haven Sector", "Forbidden Woods"),
-      ("Dungeon Entrance In Tower of the Gods Sector", "Tower of the Gods"),
-      ("Dungeon Entrance On Headstone Island", "Earth Temple"),
-      ("Dungeon Entrance On Gale Isle", "Wind Temple"),
+      ("Dungeon Entrance on Dragon Roost Island", "Dragon Roost Cavern"),
+      ("Dungeon Entrance in Forest Haven Sector", "Forbidden Woods"),
+      ("Dungeon Entrance in Tower of the Gods Sector", "Tower of the Gods"),
+      ("Dungeon Entrance on Headstone Island", "Earth Temple"),
+      ("Dungeon Entrance on Gale Isle", "Wind Temple"),
       
       ("Boss Entrance in Dragon Roost Cavern", "Gohma Boss Arena"),
       ("Boss Entrance in Forbidden Woods", "Kalle Demos Boss Arena"),

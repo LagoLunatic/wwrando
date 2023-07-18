@@ -95,39 +95,39 @@ Tingle Tuner Bombs:
   Bombs
   # Note: If an option to require Tingle Tuner is added, this macro should have Bombs replaced with Tingle Tuner when that option is on.
 
-Can Access Dungeon Entrance On Dragon Roost Island:
+Can Access Dungeon Entrance on Dragon Roost Island:
   Nothing
 Can Access Forest Haven:
   Grappling Hook | Can Fly With Deku Leaf Outdoors
   # Grappling over the waterfall is very difficult without killing the Boko Baba there - but only if you start grappling from the top. You can grapple from the bottom up to avoid that Boko Baba entirely, so there's no extra requirement here for swordless.
-Can Access Dungeon Entrance In Forest Haven Sector:
+Can Access Dungeon Entrance in Forest Haven Sector:
   Can Access Forest Haven
   & Grappling Hook
   & Can Fly With Deku Leaf Outdoors
   & (Can Cut Grass | Magic Meter Upgrade)
   # You either need double magic or the ability to refill your magic by cutting grass to make it all the way across.
   # Note: You don't need Grappling Hook because you can take the lower platform exit out of Forest Haven (Noob Skip), but this is not currently in the logic.
-Can Access Dungeon Entrance In Tower of the Gods Sector:
+Can Access Dungeon Entrance in Tower of the Gods Sector:
   Din's Pearl
   & Farore's Pearl
   & Nayru's Pearl
-Can Access Dungeon Entrance On Headstone Island:
+Can Access Dungeon Entrance on Headstone Island:
   Power Bracelets
-Can Access Dungeon Entrance On Gale Isle:
+Can Access Dungeon Entrance on Gale Isle:
   Iron Boots & Skull Hammer
 
 # The below macros are used when dungeon entrances are not randomized.
 # When dungeon entrances are randomized, these macros are shuffled around by the randomizer logic.
 Can Access Dragon Roost Cavern:
-  Can Access Dungeon Entrance On Dragon Roost Island
+  Can Access Dungeon Entrance on Dragon Roost Island
 Can Access Forbidden Woods:
-  Can Access Dungeon Entrance In Forest Haven Sector
+  Can Access Dungeon Entrance in Forest Haven Sector
 Can Access Tower of the Gods:
-  Can Access Dungeon Entrance In Tower of the Gods Sector
+  Can Access Dungeon Entrance in Tower of the Gods Sector
 Can Access Earth Temple:
-  Can Access Dungeon Entrance On Headstone Island
+  Can Access Dungeon Entrance on Headstone Island
 Can Access Wind Temple:
-  Can Access Dungeon Entrance On Gale Isle
+  Can Access Dungeon Entrance on Gale Isle
 
 Can Access Boss Entrance in Dragon Roost Cavern:
   Can Access Dragon Roost Cavern

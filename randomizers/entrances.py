@@ -6,11 +6,11 @@ ZoneEntrance = namedtuple(
   "stage_name room_num scls_exit_index spawn_id entrance_name island_name warp_out_stage_name warp_out_room_num warp_out_spawn_id"
 )
 DUNGEON_ENTRANCES = [
-  ZoneEntrance("Adanmae", 0, 2, 2, "Dungeon Entrance On Dragon Roost Island", "Dragon Roost Island", "sea", 13, 211),
-  ZoneEntrance("sea", 41, 6, 6, "Dungeon Entrance In Forest Haven Sector", "Forest Haven", "Omori", 0, 215),
-  ZoneEntrance("sea", 26, 0, 2, "Dungeon Entrance In Tower of the Gods Sector", "Tower of the Gods", "sea", 26, 1),
-  ZoneEntrance("Edaichi", 0, 0, 1, "Dungeon Entrance On Headstone Island", "Headstone Island", "sea", 45, 229),
-  ZoneEntrance("Ekaze", 0, 0, 1, "Dungeon Entrance On Gale Isle", "Gale Isle", "sea", 4, 232),
+  ZoneEntrance("Adanmae", 0, 2, 2, "Dungeon Entrance on Dragon Roost Island", "Dragon Roost Island", "sea", 13, 211),
+  ZoneEntrance("sea", 41, 6, 6, "Dungeon Entrance in Forest Haven Sector", "Forest Haven", "Omori", 0, 215),
+  ZoneEntrance("sea", 26, 0, 2, "Dungeon Entrance in Tower of the Gods Sector", "Tower of the Gods", "sea", 26, 1),
+  ZoneEntrance("Edaichi", 0, 0, 1, "Dungeon Entrance on Headstone Island", "Headstone Island", "sea", 45, 229),
+  ZoneEntrance("Ekaze", 0, 0, 1, "Dungeon Entrance on Gale Isle", "Gale Isle", "sea", 4, 232),
 ]
 BOSS_ENTRANCES = [
   ZoneEntrance("M_NewD2", 10, 1, 27, "Boss Entrance in Dragon Roost Cavern", None, None, None, None),
@@ -85,7 +85,7 @@ SECRET_CAVE_EXITS = [
 ]
 
 DUNGEON_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS = [
-  "Dungeon Entrance On Dragon Roost Island",
+  "Dungeon Entrance on Dragon Roost Island",
 ]
 SECRET_CAVE_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS = [
   "Secret Cave Entrance on Pawprint Isle",
