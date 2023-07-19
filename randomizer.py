@@ -1171,6 +1171,9 @@ class Randomizer:
       
       spoiler_log += "Nested entrance paths:\n"
       for path in self.nested_entrance_paths:
+        if len(path) < 3:
+          # Don't include non-nested short paths (e.g. DRI -> Molgera).
+          continue
         shortened_path = [shorten_path_name(name) for name in path[:-1]] + [path[-1]]
         spoiler_log += "  " + " -> ".join(shortened_path) + "\n"
     

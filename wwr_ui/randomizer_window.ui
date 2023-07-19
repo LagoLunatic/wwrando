@@ -382,6 +382,11 @@
                      <string>Dungeons &amp; Secret Caves (Together)</string>
                     </property>
                    </item>
+                   <item>
+                    <property name="text">
+                     <string>Nested Dungeons &amp; Secret Caves (Together)</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                  <item>

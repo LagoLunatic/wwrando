@@ -264,6 +264,7 @@ class Ui_MainWindow(object):
         self.randomize_entrances.addItem("")
         self.randomize_entrances.addItem("")
         self.randomize_entrances.addItem("")
+        self.randomize_entrances.addItem("")
         self.randomize_entrances.setObjectName(u"randomize_entrances")
         sizePolicy.setHeightForWidth(self.randomize_entrances.sizePolicy().hasHeightForWidth())
         self.randomize_entrances.setSizePolicy(sizePolicy)
@@ -1060,6 +1061,7 @@ class Ui_MainWindow(object):
         self.randomize_entrances.setItemText(4, QCoreApplication.translate("MainWindow", u"Dungeons & Secret Caves (Separately)", None))
         self.randomize_entrances.setItemText(5, QCoreApplication.translate("MainWindow", u"Nested Dungeons & Secret Caves (Separately)", None))
         self.randomize_entrances.setItemText(6, QCoreApplication.translate("MainWindow", u"Dungeons & Secret Caves (Together)", None))
+        self.randomize_entrances.setItemText(7, QCoreApplication.translate("MainWindow", u"Nested Dungeons & Secret Caves (Together)", None))
 
         self.keylunacy.setText(QCoreApplication.translate("MainWindow", u"Key-Lunacy", None))
         self.chest_type_matches_contents.setText(QCoreApplication.translate("MainWindow", u"Chest Type Matches Contents", None))

@@ -131,22 +131,25 @@ def randomize_entrances(self):
     randomize_one_set_of_entrances(self, include_caves=True)
   elif self.options.get("randomize_entrances") == "Dungeons & Secret Caves (Together)":
     randomize_one_set_of_entrances(self, include_dungeons=True, include_caves=True)
+  elif self.options.get("randomize_entrances") == "Nested Dungeons & Secret Caves (Together)":
+    randomize_one_set_of_entrances(self, include_dungeons=True, include_bosses=True, include_caves=True)
   else:
     raise Exception("Invalid entrance randomizer option: %s" % self.options.get("randomize_entrances"))
 
 def randomize_one_set_of_entrances(self, include_dungeons=False, include_bosses=False, include_caves=False):
   relevant_entrances: list[ZoneEntrance] = []
-  remaining_exits: list[ZoneExit] = []
+  relevant_exits: list[ZoneExit] = []
   if include_dungeons:
     relevant_entrances += DUNGEON_ENTRANCES
-    remaining_exits += DUNGEON_EXITS
+    relevant_exits += DUNGEON_EXITS
   if include_bosses:
     relevant_entrances += BOSS_ENTRANCES
-    remaining_exits += BOSS_EXITS
+    relevant_exits += BOSS_EXITS
   if include_caves:
     relevant_entrances += SECRET_CAVE_ENTRANCES
-    remaining_exits += SECRET_CAVE_EXITS
+    relevant_exits += SECRET_CAVE_EXITS
   
+  remaining_exits = relevant_exits.copy()
   self.rng.shuffle(relevant_entrances)
   
   doing_progress_entrances_for_dungeons_and_caves_only_start = False
@@ -295,11 +298,11 @@ def randomize_one_set_of_entrances(self, include_dungeons=False, include_bosses=
   # Prepare some data so the spoiler log can display the nesting in terms of paths.
   if include_bosses:
     self.nested_entrance_paths = []
-    for boss_exit in BOSS_EXITS:
-      assert boss_exit.unique_name.endswith(" Boss Arena")
-      zone_entrance = done_exits_to_entrances[boss_exit]
+    terminal_exits = [ex for ex in relevant_exits if ex not in DUNGEON_EXITS]
+    for terminal_exit in terminal_exits:
+      zone_entrance = done_exits_to_entrances[terminal_exit]
       seen_entrances = get_all_entrances_on_path_to_entrance(zone_entrance, done_exits_to_entrances)
-      path = [boss_exit.unique_name]
+      path = [terminal_exit.unique_name]
       for entr in seen_entrances:
         path.append(entr.entrance_name)
       path.reverse()

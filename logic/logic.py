@@ -773,6 +773,8 @@ class Logic:
       self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_caves=True)
     elif self.rando.options.get("randomize_entrances") == "Dungeons & Secret Caves (Together)":
       self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_caves=True)
+    elif self.rando.options.get("randomize_entrances") == "Nested Dungeons & Secret Caves (Together)":
+      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_bosses=True, include_caves=True)
     else:
       raise Exception("Invalid entrance randomizer option: %s" % self.rando.options.get("randomize_entrances"))
   
