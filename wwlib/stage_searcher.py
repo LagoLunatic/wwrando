@@ -1,7 +1,7 @@
 
 import os
 import re
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 
 from fs_helpers import *
 
@@ -187,12 +187,15 @@ def print_all_used_switches(self):
           #  print()
           
           # Hardcoded switches.
-          if class_name == "d_a_npc_ah":
+          if class_name == "d_a_npc_ah": # Old Man Hoho
             if actor.which_hoho == 2: # Message ID 14003
               add_used_switch(0x6C, stage_id, stage_name, room_no, location_identifier, is_unused)
             elif actor.which_hoho == 5: # Message ID 14006
               add_used_switch(0x10, stage_id, stage_name, room_no, location_identifier, is_unused)
-          
+          elif class_name == "d_a_agbsw0": # Tingle Tuner Trigger
+            if actor.behavior_type in [0, 1, 3, 4, 5, 12] and actor.tingle_tuner_trigger_extra_param == 125:
+              add_used_switch(0x7C, stage_id, stage_name, room_no, location_identifier, is_unused)
+      
           for attr_name in actor.param_fields:
             stage_id_for_param = stage_id
             room_no_for_param = room_no
@@ -273,11 +276,19 @@ def print_all_used_switches(self):
                 if actor.which_hoho != 9: # Message ID 14010
                   # Other types don't use the switch param.
                   continue
-              elif class_name == "d_a_agbsw0":
-                if attr_name == "bombed_switch" and actor.type != 6:
-                  # Only the Tingle Bomb Trigger type uses this switch
+              elif class_name == "d_a_agbsw0": # Tingle Tuner Trigger
+                if actor.behavior_type >= 13 or actor.behavior_type < 0:
                   continue
-                # TODO: other agbsw types
+                if attr_name == "condition_switch":
+                  if actor.behavior_type in [1]:
+                    continue
+                  if actor.behavior_type == 2 and actor.tingle_tuner_trigger_extra_param >= 26: # M2/M3
+                    continue
+                  if actor.behavior_type == 10 and actor.tingle_tuner_trigger_extra_param not in [1, 3]:
+                    continue
+                elif attr_name == "activated_switch":
+                  if actor.behavior_type in [2, 6, 7, 9, 10]:
+                    continue
               elif class_name == "d_a_rd" and attr_name in ["disable_spawn_on_death_switch"]:
                 # Added by the randomizer.
                 continue
@@ -446,6 +457,37 @@ def print_all_used_chest_open_flags(self):
       arc_path_short = arc_path[len("files/res/Stage/"):-len(".arc")]
       print("  %02X (Item: %s) in %s" % (chest_flag, item_name, arc_path_short))
 
+def print_all_used_salvage_flags(self):
+  used_salvage_flags_by_room_num = defaultdict(list)
+  for island_index in range(50):
+    arc_path = rf"files/res/Stage/sea/Room{island_index}.arc"
+    dzr = self.get_arc(arc_path).get_file("room.dzr")
+    
+    for actor in dzr.entries_by_type("SCOB"):
+      class_name = DataTables.actor_name_to_class_name[actor.name]
+      if class_name != 'd_a_salvage':
+        continue
+      if actor.salvage_type not in [2, 3, 4]:
+        # Only these types use salvage flags.
+        # The others keep track of it in different ways.
+        continue
+      
+      if actor.item_id in self.item_names:
+        item_name = self.item_names[actor.item_id]
+      else:
+        item_name = "INVALID ID 0x%02X" % actor.item_id
+      
+      used_salvage_flags_by_room_num[island_index].append((actor.salvage_flag, item_name, arc_path))
+  
+  with open("Used salvage flags by island.txt", "w") as f:
+    f.write("Salvage flags:\n")
+    for island_index, salvage_flags in used_salvage_flags_by_room_num.items():
+      f.write(f"Island: {island_index}\n")
+      salvage_flags.sort(key=lambda tuple: tuple[0])
+      for salvage_flag, item_name, arc_path in salvage_flags:
+        arc_path_short = arc_path[len("files/res/Stage/"):-len(".arc")]
+        f.write(f"  {salvage_flag:02X} (Item: {item_name}) in {arc_path_short}\n")
+
 def print_all_event_flags_used_by_stb_cutscenes(self):
   print()
   print("Event flags:")
@@ -476,6 +518,8 @@ def print_all_event_list_actions(self):
     stage_name = match.group(1)
     
     for event in event_list.events:
+      stage_and_event_name = "%s:%s" % (stage_name, event.name)
+      
       for actor in event.actors:
         if actor.name not in all_actors:
           all_actors[actor.name] = OrderedDict()
@@ -483,6 +527,12 @@ def print_all_event_list_actions(self):
         for action in actor.actions:
           if action.name not in all_actors[actor.name]:
             all_actors[actor.name][action.name] = OrderedDict()
+          
+          if len(action.properties) == 0:
+            if None not in all_actors[actor.name][action.name]:
+              all_actors[actor.name][action.name][None] = []
+            
+            all_actors[actor.name][action.name][None].append(stage_and_event_name)
           
           for prop in action.properties:
             if prop.name not in all_actors[actor.name][action.name]:
@@ -492,7 +542,6 @@ def print_all_event_list_actions(self):
             if prop_value_str not in all_actors[actor.name][action.name][prop.name]:
               all_actors[actor.name][action.name][prop.name][prop_value_str] = []
             
-            stage_and_event_name = "%s:%s" % (stage_name, event.name)
             if stage_and_event_name not in all_actors[actor.name][action.name][prop.name][prop_value_str]:
               all_actors[actor.name][action.name][prop.name][prop_value_str].append(stage_and_event_name)
   
@@ -502,8 +551,12 @@ def print_all_event_list_actions(self):
     actions = OrderedDict(sorted(actions.items(), key=lambda x: x[0]))
     all_actors[actor_name] = actions
     for action_name, props in actions.items():
-      props = OrderedDict(sorted(props.items(), key=lambda x: x[0]))
-      all_actors[actor_name][action_name] = props
+      sorted_props = OrderedDict()
+      if None in props:
+        sorted_props[None] = props[None]
+        del props[None]
+      sorted_props |= OrderedDict(sorted(props.items(), key=lambda x: x[0]))
+      all_actors[actor_name][action_name] = sorted_props
   
   with open("All Event List Actions.txt", "w") as f:
     for actor_name, actions in all_actors.items():
@@ -511,6 +564,9 @@ def print_all_event_list_actions(self):
       for action_name, props in actions.items():
         f.write("  %s:\n" % action_name)
         for prop_name, values in props.items():
+          if prop_name is None:
+            continue
+          
           f.write("    %s\n" % prop_name)
   
   with open("All Event List Actions - With Property Examples.txt", "w") as f:
@@ -519,6 +575,9 @@ def print_all_event_list_actions(self):
       for action_name, props in actions.items():
         f.write("  %s:\n" % action_name)
         for prop_name, values in props.items():
+          if prop_name is None:
+            continue
+          
           f.write("    %s:\n" % prop_name)
           for value in values:
             f.write("      " + str(value) + "\n")
@@ -529,6 +588,17 @@ def print_all_event_list_actions(self):
       for action_name, props in actions.items():
         f.write("  %s:\n" % action_name)
         for prop_name, values in props.items():
+          if prop_name is None:
+            line = "    [none]:"
+            stage_and_event_names_str = ", ".join(values)
+            if len(stage_and_event_names_str) > 250:
+              # Limit crazy lengths
+              stage_and_event_names_str = stage_and_event_names_str[:250]
+              stage_and_event_names_str += " ..."
+            line += " # Appears in: " + stage_and_event_names_str
+            f.write(line + "\n")
+            continue
+          
           f.write("    %s:\n" % prop_name)
           max_value_length = max(len(str(val)) for val in values.keys())
           for value, stage_and_event_names in values.items():

@@ -1,5 +1,5 @@
 
-### Next version (in progress, not released yet)
+### Version 1.10.0 (released 2023-01-06)
 
 Supported operating systems:
 * The randomizer now officially supports Mac and Linux and offers release builds for those platforms.

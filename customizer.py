@@ -526,7 +526,8 @@ def change_player_custom_colors(self):
     texcoords = link_main_model.vtx1.attributes[GXAttr.Tex0]
     # Make sure this is the vanilla Link VTX1 section by checking the number of UV coords.
     # If the number of coords doesn't match this is probably a custom model, so skip it.
-    if len(texcoords) == 816:
+    # 810 is the correct number of coords, 816 is if you count padding too. Check both.
+    if len(texcoords) in [810, 816]:
       hat_uv_indexes = slice(226, 293)
       for i, (u, v) in enumerate(texcoords[hat_uv_indexes]):
         texcoords[hat_uv_indexes.start+i] = (0.995, v)

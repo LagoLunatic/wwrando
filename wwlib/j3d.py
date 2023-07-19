@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 from fs_helpers import *
 from wwlib.bti import BTI
 from wwlib.yaz0 import Yaz0
-from wwlib.gx_enums import GXAttr, GXComponentCount, GXCompType
+from wwlib.gx_enums import GXAttr, GXComponentCount, GXCompType, GXCompTypeNumber, GXCompTypeColor
 
 IMPLEMENTED_CHUNK_TYPES = [
   #"INF1",
@@ -312,12 +312,21 @@ GXAttr_TO_VTX1DataOffsetIndex = {
   GXAttr.Tex7    : VTX1DataOffsetIndex.TexCoord7Data,
 }
 
-GXCompType_TO_COMPONENT_BYTE_SIZE = {
-  GXCompType.Unsigned8 : 1,
-  GXCompType.Signed8   : 1,
-  GXCompType.Unsigned16: 2,
-  GXCompType.Signed16  : 2,
-  GXCompType.Float32   : 4,
+GXCompTypeNumber_TO_COMPONENT_BYTE_SIZE = {
+  GXCompTypeNumber.Unsigned8 : 1,
+  GXCompTypeNumber.Signed8   : 1,
+  GXCompTypeNumber.Unsigned16: 2,
+  GXCompTypeNumber.Signed16  : 2,
+  GXCompTypeNumber.Float32   : 4,
+}
+
+GXCompTypeColor_TO_COMPONENT_BYTE_SIZE = {
+  GXCompTypeColor.RGB565: 2,
+  GXCompTypeColor.RGB8  : 1,
+  GXCompTypeColor.RGBX8 : 1,
+  GXCompTypeColor.RGBA4 : 2,
+  GXCompTypeColor.RGBA6 : 1,
+  GXCompTypeColor.RGBA8 : 1,
 }
 
 @dataclass
@@ -336,8 +345,13 @@ class VertexFormat:
   def read(self, offset):
     self.attribute_type = GXAttr(read_u32(self.data, offset))
     self.component_count_type = GXComponentCount(read_u32(self.data, offset+4))
-    self.component_type = GXCompType(read_u32(self.data, offset+8))
+    comp_type_raw = read_u32(self.data, offset+8)
     self.component_shift = read_u8(self.data, offset+0xC)
+    
+    if self.is_color_attr:
+      self.component_type = GXCompTypeColor(comp_type_raw)
+    else:
+      self.component_type = GXCompTypeNumber(comp_type_raw)
   
   def save(self, offset):
     write_u32(self.data, offset+0x0, self.attribute_type.value)
@@ -351,26 +365,50 @@ class VertexFormat:
     return GXAttr_TO_VTX1DataOffsetIndex[self.attribute_type]
   
   @property
+  def is_color_attr(self):
+    return self.attribute_type in [GXAttr.Color0, GXAttr.Color1]
+  
+  @property
   def component_count(self):
-    match self.attribute_type:
-      case GXAttr.Position:
-        match self.component_count_type:
-          case GXComponentCount.Position_XY:
-            return 2
-          case GXComponentCount.Position_XYZ:
-            return 3
-      case GXAttr.Normal:
-        match self.component_count_type:
-          case GXComponentCount.Normal_XYZ:
-            return 3
-      case GXAttr.Tex0|GXAttr.Tex1|GXAttr.Tex2|GXAttr.Tex3|GXAttr.Tex4|GXAttr.Tex5|GXAttr.Tex6|GXAttr.Tex7:
-        match self.component_count_type:
-          case GXComponentCount.TexCoord_S:
-            return 1
-          case GXComponentCount.TexCoord_ST:
-            return 2
+    if self.is_color_attr:
+      if self.component_type in [GXCompTypeColor.RGB565, GXCompTypeColor.RGBA4]:
+        return 1
+      elif self.component_type in [GXCompTypeColor.RGB8, GXCompTypeColor.RGBX8, GXCompTypeColor.RGBA6, GXCompTypeColor.RGBA8]:
+        return 4
+      else:
+        raise NotImplementedError
+    
+    if self.attribute_type == GXAttr.Position:
+      if self.component_count_type == GXComponentCount.Position_XY:
+        return 2
+      elif self.component_count_type == GXComponentCount.Position_XYZ:
+        return 3
+    elif self.attribute_type == GXAttr.Normal:
+      if self.component_count_type == GXComponentCount.Normal_XYZ:
+        return 3
+    elif self.attribute_type in [
+      GXAttr.Tex0,
+      GXAttr.Tex1,
+      GXAttr.Tex2,
+      GXAttr.Tex3,
+      GXAttr.Tex4,
+      GXAttr.Tex5,
+      GXAttr.Tex6,
+      GXAttr.Tex7,
+    ]:
+      if self.component_count_type == GXComponentCount.TexCoord_S:
+        return 1
+      elif self.component_count_type == GXComponentCount.TexCoord_ST:
+        return 2
     
     raise NotImplementedError
+  
+  @property
+  def component_size(self):
+    if self.is_color_attr:
+      return GXCompTypeColor_TO_COMPONENT_BYTE_SIZE[self.component_type]
+    else:
+      return GXCompTypeNumber_TO_COMPONENT_BYTE_SIZE[self.component_type]
 
 class VTX1(J3DChunk):
   def read_chunk_specific_data(self):
@@ -399,6 +437,10 @@ class VTX1(J3DChunk):
       self.load_attribute_data(vertex_format)
   
   def get_attribute_data_count(self, offset_index, component_count, component_size):
+    """Attempts to guess at the number of entries this VTX1 section has for a particular attribute."""
+    
+    entry_size = component_count * component_size
+    
     data_start_offset = self.vertex_data_offsets[offset_index]
     
     data_end_offset_index = offset_index + 1
@@ -412,39 +454,66 @@ class VTX1(J3DChunk):
     
     data_size = (data_end_offset - data_start_offset)
     
-    return data_size // (component_count * component_size)
+    # Floor-divide to remove any bytes at the end that can't possibly be data and must be padding.
+    data_count = data_size // entry_size
+    
+    if entry_size <= 0x10:
+      # Attempt to remove more bytes that are very likely to be padding by checking if they match known padding strings.
+      # If each entry in the list is half the padding size (0x20) or less, there's a possible problem that can occur.
+      # We can't tell for sure if the data_count we currently have is accurate or if the padding at the end is giving
+      # the illusion that there are more entries than there really are.
+      # For example, if each entry is 0xC bytes, and the total data size is 0x40, we don't know if that means the number
+      # of entries is 3, 4, or 5, as all of those would pad up to 0x40 bytes.
+      # So we check all of the possible entry counts we're unsure of to see if the data from that point to the end
+      # happens to match the padding bytes. If it does, it is extremely likely (though not 100% certain) to be padding.
+      # In testing, this results in all VTX1 sections in vanilla Wind Waker repacking correctly (including padding).
+      KNOWN_PADDING_BYTES = [b"This is padding data to alignme", b"Model made with SuperBMD by Gamma."]
+      first_unsure_index = ((data_size-0x20) // entry_size) + 1
+      for i in range(first_unsure_index, data_count):
+        check_offset = data_start_offset + i*entry_size
+        maybe_pad = read_bytes(self.data, check_offset, data_end_offset-check_offset)
+        if maybe_pad is None:
+          continue
+        if any(padding_bytes.startswith(maybe_pad) for padding_bytes in KNOWN_PADDING_BYTES):
+          data_size = (check_offset - data_start_offset)
+          data_count = data_size // entry_size
+          break
+    
+    return data_count
   
   def load_attribute_data(self, vertex_format: VertexFormat):
     self.attributes[vertex_format.attribute_type] = self.load_attribute_list(
       vertex_format.data_offset_index,
       vertex_format.component_count,
       vertex_format.component_type,
+      vertex_format.component_size,
       vertex_format.component_shift,
     )
   
-  def load_attribute_list(self, offset_index, component_count, component_type, comp_shift):
+  def load_attribute_list(self, offset_index, component_count, comp_type, comp_size, comp_shift):
     data_offset = self.vertex_data_offsets[offset_index]
-    component_size = GXCompType_TO_COMPONENT_BYTE_SIZE[component_type]
-    attrib_count = self.get_attribute_data_count(offset_index, component_count, component_size)
+    attrib_count = self.get_attribute_data_count(offset_index, component_count, comp_size)
     attr_data = []
     for i in range(0, attrib_count):
-      components = self.read_components(component_count, component_type, comp_shift, data_offset)
+      components = self.read_components(component_count, comp_type, comp_size, comp_shift, data_offset)
       attr_data.append(components)
-      data_offset += component_count * component_size
+      data_offset += component_count * comp_size
     return attr_data
   
-  def read_components(self, component_count, component_type, component_shift, data_offset):
-    divisor = (1 << component_shift)
+  def read_components(self, component_count, comp_type, comp_size, comp_shift, data_offset):
+    divisor = (1 << comp_shift)
     components = []
     for i in range(component_count):
-      match component_type:
-        case GXCompType.Signed16:
+      match comp_type:
+        case GXCompTypeNumber.Signed16:
           components.append(read_s16(self.data, data_offset) / divisor)
-        case GXCompType.Float32:
+        case GXCompTypeNumber.Float32:
           components.append(read_float(self.data, data_offset) / divisor)
+        case GXCompTypeColor.RGBA8:
+          components.append(read_u8(self.data, data_offset) / 255)
         case _:
           raise NotImplementedError
-      data_offset += GXCompType_TO_COMPONENT_BYTE_SIZE[component_type]
+      data_offset += comp_size
     return tuple(components)
   
   def save_chunk_specific_data(self):
@@ -461,6 +530,8 @@ class VTX1(J3DChunk):
     for vertex_format in self.vertex_formats:
       vertex_format.save(offset)
       offset += VertexFormat.DATA_SIZE
+    align_data_to_nearest(self.data, 0x20)
+    offset = self.data.tell()
     
     self.vertex_data_offsets = [0]*13
     
@@ -471,7 +542,7 @@ class VTX1(J3DChunk):
       offset = self.save_attribute_data(vertex_format, offset)
       align_data_to_nearest(self.data, 0x20)
       offset = data_len(self.data)
-  
+    
     # Write the header.
     write_magic_str(self.data, 0, "VTX1", 4)
     
@@ -485,28 +556,31 @@ class VTX1(J3DChunk):
       self.attributes[vertex_format.attribute_type],
       vertex_format.component_count,
       vertex_format.component_type,
+      vertex_format.component_size,
       vertex_format.component_shift,
       data_offset,
     )
     return data_offset
   
-  def save_attribute_list(self, attr_data, component_count, component_type: GXCompType, component_shift, data_offset):
+  def save_attribute_list(self, attr_data, component_count, comp_type: GXCompType, comp_size, comp_shift, data_offset):
     for components in attr_data:
       assert len(components) == component_count
-      data_offset = self.save_components(component_type, component_shift, components, data_offset)
+      data_offset = self.save_components(comp_type, comp_size, comp_shift, components, data_offset)
     return data_offset
   
-  def save_components(self, component_type: GXCompType, component_shift, components, data_offset):
-    divisor = (1 << component_shift)
+  def save_components(self, comp_type: GXCompType, comp_size, comp_shift, components, data_offset):
+    divisor = (1 << comp_shift)
     for component in components:
-      match component_type:
-        case GXCompType.Signed16:
+      match comp_type:
+        case GXCompTypeNumber.Signed16:
           write_s16(self.data, data_offset, round(component*divisor))
-        case GXCompType.Float32:
+        case GXCompTypeNumber.Float32:
           write_float(self.data, data_offset, component*divisor)
+        case GXCompTypeColor.RGBA8:
+          write_u8(self.data, data_offset, round(component*255))
         case _:
           raise NotImplementedError
-      data_offset += GXCompType_TO_COMPONENT_BYTE_SIZE[component_type]
+      data_offset += comp_size
     return data_offset
 
 class TEX1(J3DChunk):

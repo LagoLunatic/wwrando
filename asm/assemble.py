@@ -521,7 +521,7 @@ try:
           diffs[file_path][org_offset]["Relocations"] = relocations
     
     diff_path = os.path.join(asm_dir, "patch_diffs", patch_name + "_diff.txt")
-    with open(diff_path, "w") as f:
+    with open(diff_path, "w", newline='\n') as f:
       f.write(yaml.dump(diffs, Dumper=yaml.Dumper, default_flow_style=False))
   
   # Write the custom symbols to a text file.
@@ -533,7 +533,7 @@ try:
     
     output_custom_symbols[file_path] = custom_symbols_for_file
   
-  with open(asm_dir + "/custom_symbols.txt", "w") as f:
+  with open(asm_dir + "/custom_symbols.txt", "w", newline='\n') as f:
     f.write(yaml.dump(output_custom_symbols, Dumper=yaml.Dumper, default_flow_style=False))
 except Exception as e:
   stack_trace = traceback.format_exc()

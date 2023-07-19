@@ -131,16 +131,16 @@ Earth Temple - Big Key Chest:
 
 Wind Temple - Big Key Chest:
   Type: Standard
-  Text: defeating three sworded foes in a a trap-filled dungeon
+  Text: defeating three sworded foes in a trap-filled dungeon
 Wind Temple - Wizzrobe Mini-Boss Room:
   Type: Standard
-  Text: defeating the Wizzrobe mini-boss in a a trap-filled dungeon's arena
+  Text: defeating the Wizzrobe mini-boss in a trap-filled dungeon's arena
 Wind Temple - Chest Behind Seven Armos:
   Type: Standard
-  Text: defeating seven mechanical foes near the top of a a trap-filled dungeon
+  Text: defeating seven mechanical foes near the top of a trap-filled dungeon
 Wind Temple - Kill All Enemies in Tall Basement Room:
   Type: Standard
-  Text: defeating every enemy in the lowest room of a a trap-filled dungeon
+  Text: defeating every enemy in the lowest room of a trap-filled dungeon
 
 Ganon's Tower - Maze Chest:
   Type: Remote

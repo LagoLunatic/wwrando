@@ -558,6 +558,7 @@ class Randomizer:
     tweaks.show_number_of_tingle_statues_on_quest_status_screen(self)
     patcher.apply_patch(self, "flexible_enemies")
     tweaks.add_shortcut_warps_into_dungeons(self)
+    tweaks.fix_needle_rock_island_salvage_flags(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)
@@ -575,7 +576,10 @@ class Randomizer:
   
   def verify_supported_version(self, clean_iso_path):
     with open(clean_iso_path, "rb") as f:
+      magic = try_read_str(f, 0, 4)
       game_id = try_read_str(f, 0, 6)
+    if magic == "CISO":
+      raise InvalidCleanISOError("This ISO is in CISO format. The randomizer only supports ISOs in GCM format.")
     if game_id != "GZLE01":
       if game_id and game_id.startswith("GZL"):
         raise InvalidCleanISOError("Invalid version of Wind Waker. Only the USA version is supported by this randomizer.")

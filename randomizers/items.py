@@ -349,7 +349,7 @@ def place_dungeon_item(self, item_name):
 
 def randomize_progression_items(self):
   accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
-  if len(accessible_undone_locations) == 0:
+  if self.logic.unplaced_progress_items and len(accessible_undone_locations) == 0:
     raise Exception("No progress locations are accessible at the very start of the game!")
   
   # Place progress items.

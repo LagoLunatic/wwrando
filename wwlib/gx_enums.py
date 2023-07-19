@@ -44,8 +44,19 @@ class GXComponentCount(Enum):
   TexCoord_ST = 0x01
 
 class GXCompType(Enum):
+  pass
+
+class GXCompTypeNumber(GXCompType):
   Unsigned8  = 0x00
   Signed8    = 0x01
   Unsigned16 = 0x02
   Signed16   = 0x03
   Float32    = 0x04
+  
+class GXCompTypeColor(GXCompType):
+  RGB565 = 0x00
+  RGB8   = 0x01
+  RGBX8  = 0x02
+  RGBA4  = 0x03
+  RGBA6  = 0x04
+  RGBA8  = 0x05
