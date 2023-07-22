@@ -1,4 +1,20 @@
 
+### Next version (in progress, not released yet)
+
+Changes:
+* Dungeon bosses can no longer drop dungeon items when Key-Lunacy mode is disabled.
+* It is now easier to get the Great Deku Tree to mark the location of the Koroks on your sea chart.
+* Adjusted the text of a few hints.
+* Kogoli now appears in the randomizer.
+
+Bug fixes:
+* Fixed the feature introduced in 1.10.0 to customize vanilla Link's hat and tunic colors separately not actually working.
+* Fixed a vanilla bug where some of the sunken treasures around Needle Rock Island could be permanently missable depending on the order you collected them in (these only reward rupees and are not randomized).
+* Fixed a vanilla bug where the sun rising BGM would interrupt the miniboss BGM if you were in the middle of fighting a Big Octo at 5:59AM ingame time.
+
+Supported operating systems:
+* The Linux release builds now support systems with at least glibc version 2.31 (e.g. Ubuntu 20.04 is now supported).
+
 ### Version 1.10.0 (released 2023-01-06)
 
 Supported operating systems:
@@ -301,7 +317,7 @@ Changes:
 * Separated Phantom Ganon 2 from Phantom Ganon 3 - so if you have Light Arrows, you can skip doing the maze entirely.
 * Your magic meter is now refilled to full when you load a save.
 * Made all chests open quickly, without the dramatic dark room animation.
-* Dungeon maps and compasses can now be dropped by the dungeon boss even when key-lunacy is off.
+* Dungeon maps and compasses can now be dropped by the dungeon boss even when Key-Lunacy is off.
 * Removed the camera panning around the bidders at the start of each auction.
 * Removed Outset and DRC invisible walls that arbitrarily prevented sequence breaking.
 * Removed the blue main quest markers from the sea chart.
@@ -313,7 +329,7 @@ Bug fixes:
 * Greatly reduced the filesize of custom player models and recolored player textures, hopefully fixing crashes that could occur sometimes.
 * Fixed most items shooting out of Gohdan's nose too far.
 * Fixed many randomized items on the ground not being picked up properly when you grab them with the boomerang.
-* Fixed small keys dropped by a boss in key-lunacy not being added to your inventory if the small key was for the same dungeon as the one you're in.
+* Fixed small keys dropped by a boss in Key-Lunacy not being added to your inventory if the small key was for the same dungeon as the one you're in.
 * Fixed Picto Box related things acting already completed in New Game+.
 
 
