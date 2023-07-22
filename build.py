@@ -4,7 +4,7 @@ import os
 import platform
 import shutil
 
-from randomizer import VERSION_WITHOUT_COMMIT
+from version import VERSION_WITHOUT_COMMIT
 
 base_name = "Wind Waker Randomizer"
 

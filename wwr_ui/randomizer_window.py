@@ -23,7 +23,8 @@ import time
 import zipfile
 import shutil
 
-from randomizer import Randomizer, VERSION, TooFewProgressionLocationsError, InvalidCleanISOError
+from randomizer import Randomizer, TooFewProgressionLocationsError, InvalidCleanISOError
+from version import VERSION
 from wwrando_paths import SETTINGS_PATH, ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE, CUSTOM_MODELS_PATH
 import customizer
 from logic.logic import Logic
