@@ -359,11 +359,6 @@
                    </item>
                    <item>
                     <property name="text">
-                     <string>Nested Dungeons</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
                      <string>Secret Caves</string>
                     </property>
                    </item>
@@ -374,12 +369,17 @@
                    </item>
                    <item>
                     <property name="text">
-                     <string>Nested Dungeons &amp; Secret Caves (Separately)</string>
+                     <string>Dungeons &amp; Secret Caves (Together)</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>Dungeons &amp; Secret Caves (Together)</string>
+                     <string>Nested Dungeons</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Nested Dungeons &amp; Secret Caves (Separately)</string>
                     </property>
                    </item>
                    <item>
