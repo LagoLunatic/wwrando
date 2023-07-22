@@ -12,9 +12,9 @@ from fs_helpers import *
 from randomizers.hints import HintManager, HintType
 from randomizers import entrances
 from asm import patcher
-from wwlib import texture_utils
-from wwlib.rel import REL
-from wwlib.bmg import TextBoxType
+from gclib import texture_utils
+from gclib.rel import REL
+from gclib.bmg import TextBoxType
 from wwrando_paths import ASSETS_PATH, ASM_PATH
 import customizer
 from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS

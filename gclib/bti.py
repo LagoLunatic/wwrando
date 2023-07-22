@@ -3,11 +3,11 @@ from io import BytesIO
 from enum import Enum
 
 from fs_helpers import *
-from wwlib import texture_utils
-from wwlib.texture_utils import ImageFormat, PaletteFormat
-from wwlib.texture_utils import BLOCK_WIDTHS, BLOCK_HEIGHTS, BLOCK_DATA_SIZES
-from wwlib.texture_utils import IMAGE_FORMATS_THAT_USE_PALETTES, GREYSCALE_IMAGE_FORMATS, GREYSCALE_PALETTE_FORMATS
-from wwlib.yaz0 import Yaz0
+from gclib import texture_utils
+from gclib.texture_utils import ImageFormat, PaletteFormat
+from gclib.texture_utils import BLOCK_WIDTHS, BLOCK_HEIGHTS, BLOCK_DATA_SIZES
+from gclib.texture_utils import IMAGE_FORMATS_THAT_USE_PALETTES, GREYSCALE_IMAGE_FORMATS, GREYSCALE_PALETTE_FORMATS
+from gclib.yaz0 import Yaz0
 
 class WrapMode(Enum):
   ClampToEdge    = 0

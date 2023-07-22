@@ -3,7 +3,7 @@ from io import BytesIO
 import re
 
 from fs_helpers import *
-from wwlib.bfn import BFN
+from gclib.bfn import BFN
 
 class BMG:
   def __init__(self, file_entry):

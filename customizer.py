@@ -8,9 +8,9 @@ import glob
 from PIL import Image
 
 from fs_helpers import *
-from wwlib import texture_utils
-from wwlib.texture_utils import ImageFormat, PaletteFormat
-from wwlib.gx_enums import GXAttr
+from gclib import texture_utils
+from gclib.texture_utils import ImageFormat, PaletteFormat
+from gclib.gx_enums import GXAttr
 from wwrando_paths import ASSETS_PATH, CUSTOM_MODELS_PATH
 
 ORIG_LINK_ARC_FILE_SIZE_IN_BYTES  = 1308608

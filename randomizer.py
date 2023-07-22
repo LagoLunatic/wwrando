@@ -7,12 +7,12 @@ import hashlib
 import yaml
 
 from fs_helpers import *
-from wwlib.yaz0 import Yaz0
-from wwlib.rarc import RARC
-from wwlib.dol import DOL
-from wwlib.rel import REL, RELRelocation, RELRelocationType
-from wwlib.gcm import GCM
-from wwlib.jpc import JPC
+from gclib.yaz0 import Yaz0
+from gclib.rarc import RARC
+from gclib.dol import DOL
+from gclib.rel import REL, RELRelocation, RELRelocationType
+from gclib.gcm import GCM
+from gclib.jpc import JPC
 import tweaks
 from asm import patcher
 from logic.logic import Logic

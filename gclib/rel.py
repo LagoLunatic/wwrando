@@ -1,6 +1,6 @@
 
 from fs_helpers import *
-from wwlib.yaz0 import Yaz0
+from gclib.yaz0 import Yaz0
 
 from io import BytesIO
 from collections import OrderedDict

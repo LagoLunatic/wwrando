@@ -5,7 +5,7 @@ import re
 
 from fs_helpers import *
 from wwrando_paths import ASM_PATH
-from wwlib.rel import RELRelocation, RELRelocationType
+from gclib.rel import RELRelocation, RELRelocationType
 
 ORIGINAL_FREE_SPACE_RAM_ADDRESS = 0x803FCFA8
 ORIGINAL_DOL_SIZE = 0x3A52C0

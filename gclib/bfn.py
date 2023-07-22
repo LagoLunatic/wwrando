@@ -5,8 +5,8 @@ from PIL import Image
 import struct
 
 from fs_helpers import *
-from wwlib.j3d import J3DChunk
-from wwlib.texture_utils import ImageFormat, IMAGE_FORMATS_THAT_USE_PALETTES, decode_image
+from gclib.j3d import J3DChunk
+from gclib.texture_utils import ImageFormat, IMAGE_FORMATS_THAT_USE_PALETTES, decode_image
 
 class BFN:
   IMPLEMENTED_CHUNK_TYPES = [

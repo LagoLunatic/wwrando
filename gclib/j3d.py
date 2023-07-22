@@ -5,9 +5,9 @@ from collections import OrderedDict
 from dataclasses import dataclass, field
 
 from fs_helpers import *
-from wwlib.bti import BTI
-from wwlib.yaz0 import Yaz0
-from wwlib.gx_enums import GXAttr, GXComponentCount, GXCompType, GXCompTypeNumber, GXCompTypeColor
+from gclib.bti import BTI
+from gclib.yaz0 import Yaz0
+from gclib.gx_enums import GXAttr, GXComponentCount, GXCompType, GXCompTypeNumber, GXCompTypeColor
 
 IMPLEMENTED_CHUNK_TYPES = [
   #"INF1",

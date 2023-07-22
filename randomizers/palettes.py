@@ -1,8 +1,8 @@
 
 import os
 
-from wwlib import texture_utils
-from wwlib.j3d import BPRegister
+from gclib import texture_utils
+from gclib.j3d import BPRegister
 
 from fs_helpers import *
 

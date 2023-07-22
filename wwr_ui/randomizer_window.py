@@ -28,7 +28,7 @@ from version import VERSION
 from wwrando_paths import SETTINGS_PATH, ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE, CUSTOM_MODELS_PATH
 import customizer
 from logic.logic import Logic
-from wwlib import texture_utils
+from gclib import texture_utils
 
 class WWRandomizerWindow(QMainWindow):
   VALID_SEED_CHARACTERS = "-_'%%.%s%s" % (string.ascii_letters, string.digits)

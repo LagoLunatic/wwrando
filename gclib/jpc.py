@@ -6,8 +6,8 @@ from collections import OrderedDict
 
 from fs_helpers import *
 
-from wwlib.bti import BTI
-from wwlib.j3d import J3DChunk
+from gclib.bti import BTI
+from gclib.j3d import J3DChunk
 
 IMPLEMENTED_CHUNK_TYPES = [
   "BSP1",

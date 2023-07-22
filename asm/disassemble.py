@@ -7,8 +7,8 @@ from io import BytesIO
 from collections import OrderedDict
 
 from fs_helpers import *
-from wwlib.yaz0 import Yaz0
-from wwlib.rel import REL
+from gclib.yaz0 import Yaz0
+from gclib.rel import REL
 from wwrando_paths import ASM_PATH
 
 def disassemble_all_code(self):

@@ -7,7 +7,7 @@ from fs_helpers import *
 
 from data_tables import DataTables
 from wwlib.dzb import DZB
-from wwlib.j3d import BMD, BDL, BPRegister, XFRegister
+from gclib.j3d import BMD, BDL, BPRegister, XFRegister
 
 def try_int_convert(string):
   if string.isdigit():
