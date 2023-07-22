@@ -401,7 +401,7 @@ stop_sub_bgm_when_unloading_stage:
 ; Invalid data can sometimes be NaN floats, and storing those as the arrow actor's position would cause an assertion error as positions are supposed to be valid numbers.
 ; Zeroing out the on-hit callback fixes the crash as the proc ID will no longer be desynced from the joint index.
 .open "sys/main.dol"
-.org 0x800D6194
+.org 0x800D6194 ; In daArrow_c::procMove(void)
   b zero_out_arrow_on_hit_callback
 .org @NextFreeSpace
 .global zero_out_arrow_on_hit_callback
@@ -416,4 +416,18 @@ zero_out_arrow_on_hit_callback:
   
   ; Return
   b 0x800D6198
+.close
+
+
+
+
+; Do not cancel the currently playing BGM when playing the sun rising tune at 5:59AM (sea_dawn.bms).
+; This is to fix a vanilla bug where if you are fighting a Big Octo when the sun rises, the sea 
+; miniboss music will be interrupted and replaced by the regular sea enemy music.
+; In theory this change shouldn't cause any issues, since a similar function, processMorningToNormal,
+; which handles changing the sun rising tune to the regular sea BGM shortly afterwards, already
+; calls bgmStart in this way without interrupting the previous BGM.
+.open "sys/main.dol"
+.org 0x802ABEF8 ; In JAIZelBasic::processTime(void)
+  li r6, 1 ; Argument r6 to bgmStart seems to prevent stoping the existing BGM, if one is playing.
 .close
