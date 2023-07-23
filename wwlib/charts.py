@@ -105,3 +105,9 @@ class ChartPossibleRandomPosition:
     fs.write_u16(data, self.offset+2, self.chart_texture_y_offset)
     fs.write_u16(data, self.offset+4, self.salvage_x_pos)
     fs.write_u16(data, self.offset+6, self.salvage_y_pos)
+
+try:
+  from gclib.rarc import RARC
+  RARC.FILE_NAME_TO_CLASS["cmapdat.bin"] = ChartList
+except ImportError:
+  print(f"Could not register file name with RARC in file {__file__}")

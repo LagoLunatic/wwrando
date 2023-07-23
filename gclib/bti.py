@@ -209,3 +209,9 @@ class BTIFileEntry(BTIFile):
     self.file_entry = file_entry
     self.file_entry.decompress_data_if_necessary()
     super(BTIFileEntry, self).__init__(self.file_entry.data)
+
+try:
+  from gclib.rarc import RARC
+  RARC.FILE_EXT_TO_CLASS[".bti"] = BTIFileEntry
+except ImportError:
+  print(f"Could not register file extension with RARC in file {__file__}")

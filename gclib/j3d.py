@@ -1776,3 +1776,13 @@ class ColorAnimation(Animation):
     fs.write_u8(data, offset+2, 0xFF)
     fs.write_u8(data, offset+3, 0xFF)
     offset += 4
+
+try:
+  from gclib.rarc import RARC
+  RARC.FILE_EXT_TO_CLASS[".bdl"] = BDL
+  RARC.FILE_EXT_TO_CLASS[".bmd"] = BMD
+  RARC.FILE_EXT_TO_CLASS[".bmt"] = BMT
+  RARC.FILE_EXT_TO_CLASS[".brk"] = BRK
+  RARC.FILE_EXT_TO_CLASS[".btk"] = BTK
+except ImportError:
+  print(f"Could not register file extension with RARC in file {__file__}")

@@ -928,3 +928,10 @@ class CAMR(DummyEntry):
 
 class AROB(DummyEntry):
   DATA_SIZE = 0x14
+
+try:
+  from gclib.rarc import RARC
+  RARC.FILE_EXT_TO_CLASS[".dzs"] = DZx
+  RARC.FILE_EXT_TO_CLASS[".dzr"] = DZx
+except ImportError:
+  print(f"Could not register file extension with RARC in file {__file__}")

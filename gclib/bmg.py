@@ -345,3 +345,9 @@ class Message:
       part = self.word_wrap_string_part(font, part, extra_line_length)
       part = self.pad_string_to_next_4_lines(part)
       self.string += part
+
+try:
+  from gclib.rarc import RARC
+  RARC.FILE_EXT_TO_CLASS[".bmg"] = BMG
+except ImportError:
+  print(f"Could not register file extension with RARC in file {__file__}")

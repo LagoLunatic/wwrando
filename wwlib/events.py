@@ -619,3 +619,9 @@ class Property:
     fs.write_s32(data, self.offset+0x30, self.next_property_index)
     
     fs.write_bytes(data, self.offset+0x34, self.zero_initialized_runtime_data)
+
+try:
+  from gclib.rarc import RARC
+  RARC.FILE_NAME_TO_CLASS["event_list.dat"] = EventList
+except ImportError:
+  print(f"Could not register file name with RARC in file {__file__}")

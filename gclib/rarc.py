@@ -6,15 +6,11 @@ from enum import IntFlag
 from gclib import fs_helpers as fs
 from gclib.yaz0 import Yaz0
 
-from wwlib.dzx import DZx
-from wwlib.events import EventList
-from gclib.bmg import BMG
-from gclib.bfn import BFN
-from wwlib.charts import ChartList
-from gclib.j3d import BDL, BMD, BMT, BRK, BTK
-from gclib.bti import BTIFileEntry
 
 class RARC:
+  FILE_EXT_TO_CLASS = {}
+  FILE_NAME_TO_CLASS = {}
+  
   def __init__(self):
     self.data = BytesIO()
     
@@ -475,61 +471,20 @@ class RARC:
     if file_entry is None:
       return None
     
-    if file_name.endswith(".dzs"):
-      dzx = DZx(file_entry)
-      self.instantiated_object_files[file_name] = dzx
-      return dzx
-    elif file_name.endswith(".dzr"):
-      dzx = DZx(file_entry)
-      self.instantiated_object_files[file_name] = dzx
-      return dzx
-    elif file_name == "event_list.dat":
-      event_list = EventList(file_entry)
-      self.instantiated_object_files[file_name] = event_list
-      return event_list
-    elif file_name.endswith(".bmg"):
-      bmg = BMG(file_entry)
-      self.instantiated_object_files[file_name] = bmg
-      return bmg
-    elif file_name.endswith(".bfn"):
-      bfn = BFN(file_entry.data)
-      bfn.read()
-      return bfn
-    elif file_name.endswith(".bdl"):
-      bdl = BDL(file_entry)
-      self.instantiated_object_files[file_name] = bdl
-      return bdl
-    elif file_name.endswith(".bmd"):
-      bmd = BMD(file_entry)
-      self.instantiated_object_files[file_name] = bmd
-      return bmd
-    elif file_name.endswith(".bmt"):
-      bmt = BMT(file_entry)
-      self.instantiated_object_files[file_name] = bmt
-      return bmt
-    elif file_name.endswith(".brk"):
-      brk = BRK(file_entry)
-      self.instantiated_object_files[file_name] = brk
-      return brk
-    elif file_name.endswith(".btk"):
-      btk = BTK(file_entry)
-      self.instantiated_object_files[file_name] = btk
-      return btk
-    elif file_name.endswith(".bti"):
-      bti = BTIFileEntry(file_entry)
-      self.instantiated_object_files[file_name] = bti
-      return bti
-    elif file_name == "cmapdat.bin":
-      chart_list = ChartList(file_entry)
-      self.instantiated_object_files[file_name] = chart_list
-      return chart_list
-    elif file_name.endswith(".arc"):
-      inner_rarc = RARC()
-      inner_rarc.read(file_entry.data)
-      self.instantiated_object_files[file_name] = inner_rarc
-      return inner_rarc
-    else:
-      raise Exception("Unknown file type: %s" % file_name)
+    for other_file_name, klass in self.FILE_NAME_TO_CLASS.items():
+      if other_file_name == file_name:
+        instance = klass(file_entry)
+        self.instantiated_object_files[file_name] = instance
+        return instance
+    
+    _, file_ext = os.path.splitext(file_name)
+    for other_file_ext, klass in self.FILE_EXT_TO_CLASS.items():
+      if other_file_ext == file_ext:
+        instance = klass(file_entry)
+        self.instantiated_object_files[file_name] = instance
+        return instance
+    
+    raise Exception("Unknown file type: %s" % file_name)
 
 class Node:
   ENTRY_SIZE = 0x10
@@ -670,3 +625,5 @@ class RARCFileAttrType(IntFlag):
   PRELOAD_TO_ARAM = 0x20
   LOAD_FROM_DVD   = 0x40
   YAZ0_COMPRESSED = 0x80
+
+RARC.FILE_EXT_TO_CLASS[".arc"] = RARC

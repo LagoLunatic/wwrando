@@ -353,3 +353,16 @@ class WID1(J3DChunk):
       width_info.read(offset)
       self.code_to_width_info[self.first_code+i] = width_info
       offset += CodeWidthInfo.DATA_SIZE
+
+class BFNFileEntry(BFN):
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+    self.file_entry.decompress_data_if_necessary()
+    super(BFNFileEntry, self).__init__(self.file_entry.data)
+    self.read()
+
+try:
+  from gclib.rarc import RARC
+  RARC.FILE_EXT_TO_CLASS[".bfn"] = BFNFileEntry
+except ImportError:
+  print(f"Could not register file extension with RARC in file {__file__}")
