@@ -261,7 +261,7 @@ class ChunkEntry:
         lowest_set_bit_index = bit_index
         break
     if lowest_set_bit_index is None:
-      raise Exception("Invalid mask: %08X" % mask)
+      raise Exception("Invalid value, must be a 32-bit integer: %08X" % integer)
     return lowest_set_bit_index
   
   @property
