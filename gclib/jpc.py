@@ -4,7 +4,7 @@ import os
 import glob
 from collections import OrderedDict
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 
 from gclib.bti import BTI
 from gclib.j3d import J3DChunk
@@ -20,10 +20,10 @@ class JPC:
   def __init__(self, data):
     self.data = data
     
-    self.magic = read_str(data, 0, 8)
+    self.magic = fs.read_str(data, 0, 8)
     assert self.magic == "JPAC1-00"
-    self.num_particles = read_u16(data, 8)
-    self.num_textures = read_u16(data, 0xA)
+    self.num_particles = fs.read_u16(data, 8)
+    self.num_textures = fs.read_u16(data, 0xA)
     
     self.particles = []
     self.particles_by_id = {}
@@ -45,7 +45,7 @@ class JPC:
     self.textures = []
     self.textures_by_filename = {}
     for texture_index in range(self.num_textures):
-      chunk_magic = read_str(data, offset, 4)
+      chunk_magic = fs.read_str(data, offset, 4)
       assert chunk_magic == "TEX1"
       texture = TEX1()
       texture.read(data, offset)
@@ -121,9 +121,9 @@ class JPC:
       new_textures_for_particle_id[particle.particle_id] = []
       
       # Read the textures.
-      offset = data_len(particle.data)
+      offset = fs.data_len(particle.data)
       while True:
-        if offset == data_len(data):
+        if offset == fs.data_len(data):
           break
         texture = TEX1()
         texture.read(data, offset)
@@ -162,9 +162,9 @@ class JPC:
   def save_changes(self):
     self.num_particles = len(self.particles)
     self.num_textures = len(self.textures)
-    write_magic_str(self.data, 0, self.magic, 8)
-    write_u16(self.data, 8, self.num_particles)
-    write_u16(self.data, 0xA, self.num_textures)
+    fs.write_magic_str(self.data, 0, self.magic, 8)
+    fs.write_u16(self.data, 8, self.num_particles)
+    fs.write_u16(self.data, 0xA, self.num_textures)
     
     # Cut off the particle list and texture list since we're replacing this data entirely.
     self.data.truncate(0x20)
@@ -193,27 +193,27 @@ class JPC:
 
 class Particle:
   def __init__(self, jpc_data, particle_offset):
-    self.magic = read_str(jpc_data, particle_offset, 8)
+    self.magic = fs.read_str(jpc_data, particle_offset, 8)
     assert self.magic == "JEFFjpa1"
     
-    self.unknown_1 = read_u32(jpc_data, particle_offset+8)
-    self.num_chunks = read_u32(jpc_data, particle_offset+0xC)
-    self.size = read_u32(jpc_data, particle_offset+0x10) # Not accurate in some rare cases
+    self.unknown_1 = fs.read_u32(jpc_data, particle_offset+8)
+    self.num_chunks = fs.read_u32(jpc_data, particle_offset+0xC)
+    self.size = fs.read_u32(jpc_data, particle_offset+0x10) # Not accurate in some rare cases
     
-    self.num_kfa1_chunks = read_u8(jpc_data, particle_offset+0x14)
-    self.num_fld1_chunks = read_u8(jpc_data, particle_offset+0x15)
-    self.num_textures = read_u8(jpc_data, particle_offset+0x16)
-    self.unknown_5 = read_u8(jpc_data, particle_offset+0x17)
+    self.num_kfa1_chunks = fs.read_u8(jpc_data, particle_offset+0x14)
+    self.num_fld1_chunks = fs.read_u8(jpc_data, particle_offset+0x15)
+    self.num_textures = fs.read_u8(jpc_data, particle_offset+0x16)
+    self.unknown_5 = fs.read_u8(jpc_data, particle_offset+0x17)
     
-    self.particle_id = read_u16(jpc_data, particle_offset+0x18)
+    self.particle_id = fs.read_u16(jpc_data, particle_offset+0x18)
     
-    self.unknown_6 = read_bytes(jpc_data, particle_offset+0x1A, 6)
+    self.unknown_6 = fs.read_bytes(jpc_data, particle_offset+0x1A, 6)
     
     self.chunks = []
     self.chunk_by_type = {}
     chunk_offset = particle_offset + 0x20
     for chunk_index in range(0, self.num_chunks):
-      chunk_magic = read_str(jpc_data, chunk_offset, 4)
+      chunk_magic = fs.read_str(jpc_data, chunk_offset, 4)
       if chunk_magic in IMPLEMENTED_CHUNK_TYPES:
         chunk_class = globals().get(chunk_magic, None)
       else:
@@ -249,53 +249,53 @@ class Particle:
       self.data.write(chunk_data)
     
     # We don't recalculate this size field, since this is inaccurate anyway. It's probably not even used.
-    #self.size = data_len(self.data)
+    #self.size = fs.data_len(self.data)
     
-    write_magic_str(self.data, 0, self.magic, 8)
-    write_u32(self.data, 0x10, self.size)
+    fs.write_magic_str(self.data, 0, self.magic, 8)
+    fs.write_u32(self.data, 0x10, self.size)
 
 class BSP1(J3DChunk):
   def read_chunk_specific_data(self):
-    self.color_flags = read_u8(self.data, 0xC + 0x1B)
+    self.color_flags = fs.read_u8(self.data, 0xC + 0x1B)
     
-    r = read_u8(self.data, 0xC + 0x20)
-    g = read_u8(self.data, 0xC + 0x21)
-    b = read_u8(self.data, 0xC + 0x22)
-    a = read_u8(self.data, 0xC + 0x23)
+    r = fs.read_u8(self.data, 0xC + 0x20)
+    g = fs.read_u8(self.data, 0xC + 0x21)
+    b = fs.read_u8(self.data, 0xC + 0x22)
+    a = fs.read_u8(self.data, 0xC + 0x23)
     self.color_prm = (r, g, b, a)
-    r = read_u8(self.data, 0xC + 0x24)
-    g = read_u8(self.data, 0xC + 0x25)
-    b = read_u8(self.data, 0xC + 0x26)
-    a = read_u8(self.data, 0xC + 0x27)
+    r = fs.read_u8(self.data, 0xC + 0x24)
+    g = fs.read_u8(self.data, 0xC + 0x25)
+    b = fs.read_u8(self.data, 0xC + 0x26)
+    a = fs.read_u8(self.data, 0xC + 0x27)
     self.color_env = (r, g, b, a)
     
     self.color_prm_anm_data_count = 0
     self.color_prm_anm_table = []
     if self.color_flags & 0x02 != 0:
-      self.color_prm_anm_data_offset = read_u16(self.data, 0xC + 0x4)
-      self.color_prm_anm_data_count = read_u8(self.data, 0xC + 0x1C)
+      self.color_prm_anm_data_offset = fs.read_u16(self.data, 0xC + 0x4)
+      self.color_prm_anm_data_count = fs.read_u8(self.data, 0xC + 0x1C)
       self.color_prm_anm_table = self.read_color_table(self.color_prm_anm_data_offset, self.color_prm_anm_data_count)
     
     self.color_env_anm_data_count = 0
     self.color_env_anm_table = []
     if self.color_flags & 0x08 != 0:
-      self.color_env_anm_data_offset = read_u16(self.data, 0xC + 0x6)
-      self.color_env_anm_data_count = read_u8(self.data, 0xC + 0x1D)
+      self.color_env_anm_data_offset = fs.read_u16(self.data, 0xC + 0x6)
+      self.color_env_anm_data_count = fs.read_u8(self.data, 0xC + 0x1D)
       self.color_env_anm_table = self.read_color_table(self.color_env_anm_data_offset, self.color_env_anm_data_count)
   
   def save_chunk_specific_data(self):
-    write_u8(self.data, 0xC + 0x1B, self.color_flags)
+    fs.write_u8(self.data, 0xC + 0x1B, self.color_flags)
     
     r, g, b, a = self.color_prm
-    write_u8(self.data, 0xC + 0x20, r)
-    write_u8(self.data, 0xC + 0x21, g)
-    write_u8(self.data, 0xC + 0x22, b)
-    write_u8(self.data, 0xC + 0x23, a)
+    fs.write_u8(self.data, 0xC + 0x20, r)
+    fs.write_u8(self.data, 0xC + 0x21, g)
+    fs.write_u8(self.data, 0xC + 0x22, b)
+    fs.write_u8(self.data, 0xC + 0x23, a)
     r, g, b, a = self.color_env
-    write_u8(self.data, 0xC + 0x24, r)
-    write_u8(self.data, 0xC + 0x25, g)
-    write_u8(self.data, 0xC + 0x26, b)
-    write_u8(self.data, 0xC + 0x27, a)
+    fs.write_u8(self.data, 0xC + 0x24, r)
+    fs.write_u8(self.data, 0xC + 0x25, g)
+    fs.write_u8(self.data, 0xC + 0x26, b)
+    fs.write_u8(self.data, 0xC + 0x27, a)
     
     if self.color_flags & 0x02 != 0:
       # Changing size not implemented.
@@ -310,11 +310,11 @@ class BSP1(J3DChunk):
   def read_color_table(self, color_data_offset, color_data_count):
     color_table = []
     for i in range(color_data_count):
-      keyframe_time = read_u16(self.data, color_data_offset+i*6 + 0)
-      r = read_u8(self.data, color_data_offset+i*6 + 2)
-      g = read_u8(self.data, color_data_offset+i*6 + 3)
-      b = read_u8(self.data, color_data_offset+i*6 + 4)
-      a = read_u8(self.data, color_data_offset+i*6 + 5)
+      keyframe_time = fs.read_u16(self.data, color_data_offset+i*6 + 0)
+      r = fs.read_u8(self.data, color_data_offset+i*6 + 2)
+      g = fs.read_u8(self.data, color_data_offset+i*6 + 3)
+      b = fs.read_u8(self.data, color_data_offset+i*6 + 4)
+      a = fs.read_u8(self.data, color_data_offset+i*6 + 5)
       color_table.append(ColorAnimationKeyframe(keyframe_time, (r, g, b, a)))
     
     return color_table
@@ -322,36 +322,36 @@ class BSP1(J3DChunk):
   def save_color_table(self, color_table, color_data_offset):
     for i, keyframe in enumerate(color_table):
       r, g, b, a = keyframe.color
-      write_u16(self.data, color_data_offset+i*6 + 0, keyframe.time)
-      write_u8(self.data, color_data_offset+i*6 + 2, r)
-      write_u8(self.data, color_data_offset+i*6 + 3, g)
-      write_u8(self.data, color_data_offset+i*6 + 4, b)
-      write_u8(self.data, color_data_offset+i*6 + 5, a)
+      fs.write_u16(self.data, color_data_offset+i*6 + 0, keyframe.time)
+      fs.write_u8(self.data, color_data_offset+i*6 + 2, r)
+      fs.write_u8(self.data, color_data_offset+i*6 + 3, g)
+      fs.write_u8(self.data, color_data_offset+i*6 + 4, b)
+      fs.write_u8(self.data, color_data_offset+i*6 + 5, a)
 
 class SSP1(J3DChunk):
   def read_chunk_specific_data(self):
-    r = read_u8(self.data, 0xC + 0x3C)
-    g = read_u8(self.data, 0xC + 0x3D)
-    b = read_u8(self.data, 0xC + 0x3E)
-    a = read_u8(self.data, 0xC + 0x3F)
+    r = fs.read_u8(self.data, 0xC + 0x3C)
+    g = fs.read_u8(self.data, 0xC + 0x3D)
+    b = fs.read_u8(self.data, 0xC + 0x3E)
+    a = fs.read_u8(self.data, 0xC + 0x3F)
     self.color_prm = (r, g, b, a)
-    r = read_u8(self.data, 0xC + 0x40)
-    g = read_u8(self.data, 0xC + 0x41)
-    b = read_u8(self.data, 0xC + 0x42)
-    a = read_u8(self.data, 0xC + 0x43)
+    r = fs.read_u8(self.data, 0xC + 0x40)
+    g = fs.read_u8(self.data, 0xC + 0x41)
+    b = fs.read_u8(self.data, 0xC + 0x42)
+    a = fs.read_u8(self.data, 0xC + 0x43)
     self.color_env = (r, g, b, a)
   
   def save_chunk_specific_data(self):
     r, g, b, a = self.color_prm
-    write_u8(self.data, 0xC + 0x3C, r)
-    write_u8(self.data, 0xC + 0x3D, g)
-    write_u8(self.data, 0xC + 0x3E, b)
-    write_u8(self.data, 0xC + 0x3F, a)
+    fs.write_u8(self.data, 0xC + 0x3C, r)
+    fs.write_u8(self.data, 0xC + 0x3D, g)
+    fs.write_u8(self.data, 0xC + 0x3E, b)
+    fs.write_u8(self.data, 0xC + 0x3F, a)
     r, g, b, a = self.color_env
-    write_u8(self.data, 0xC + 0x40, r)
-    write_u8(self.data, 0xC + 0x41, g)
-    write_u8(self.data, 0xC + 0x42, b)
-    write_u8(self.data, 0xC + 0x43, a)
+    fs.write_u8(self.data, 0xC + 0x40, r)
+    fs.write_u8(self.data, 0xC + 0x41, g)
+    fs.write_u8(self.data, 0xC + 0x42, b)
+    fs.write_u8(self.data, 0xC + 0x43, a)
   
 class TDB1(J3DChunk):
   # Texture ID database (list of texture IDs in this JPC file used by this particle)
@@ -363,26 +363,26 @@ class TDB1(J3DChunk):
   def read_texture_ids(self, num_texture_ids):
     self.texture_ids = []
     for texture_id_index in range(num_texture_ids):
-      texture_id = read_u16(self.data, 0xC + texture_id_index*2)
+      texture_id = fs.read_u16(self.data, 0xC + texture_id_index*2)
       self.texture_ids.append(texture_id)
   
   def save_chunk_specific_data(self):
     # Save the texture IDs (which were updated by the JPC's save_changes function).
     for texture_id_index, texture_id in enumerate(self.texture_ids):
-      write_u16(self.data, 0xC + texture_id_index*2, texture_id)
+      fs.write_u16(self.data, 0xC + texture_id_index*2, texture_id)
 
 class TEX1(J3DChunk):
   def read_chunk_specific_data(self):
     # This string is 0x14 bytes long, but sometimes there are random garbage bytes after the null byte.
-    self.filename = read_str_until_null_character(self.data, 0xC)
+    self.filename = fs.read_str_until_null_character(self.data, 0xC)
     
-    bti_data = BytesIO(read_bytes(self.data, 0x20, self.size - 0x20))
+    bti_data = BytesIO(fs.read_bytes(self.data, 0x20, self.size - 0x20))
     self.bti = BTI(bti_data)
   
   def save_chunk_specific_data(self):
     self.data.seek(0x20)
     self.bti.save_header_changes()
-    header_bytes = read_bytes(self.bti.data, self.bti.header_offset, 0x20)
+    header_bytes = fs.read_bytes(self.bti.data, self.bti.header_offset, 0x20)
     self.data.write(header_bytes)
     
     self.bti.image_data.seek(0)

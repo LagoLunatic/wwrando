@@ -1,7 +1,7 @@
 
 from collections import OrderedDict
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 
 from randomizers.music_constants import *
 
@@ -24,16 +24,16 @@ def randomize_music(self):
   aaf_data = self.get_raw_file("files/Audiores/JaiInit.aaf")
   bgm_category_index = 0x10
   
-  sound_categories_offset = read_u32(aaf_data, 4)
-  num_bgms = read_u16(aaf_data, sound_categories_offset+6 + bgm_category_index*4 + 0)
-  first_bgm_sound_index = read_u16(aaf_data, sound_categories_offset+6 + bgm_category_index*4 + 2)
+  sound_categories_offset = fs.read_u32(aaf_data, 4)
+  num_bgms = fs.read_u16(aaf_data, sound_categories_offset+6 + bgm_category_index*4 + 0)
+  first_bgm_sound_index = fs.read_u16(aaf_data, sound_categories_offset+6 + bgm_category_index*4 + 2)
   first_sound_info_offset = sound_categories_offset + 0x50
   
   bgm_index_to_name = {}
   bgm_name_to_index = {}
   for bgm_index in range(num_bgms):
     sound_index = first_bgm_sound_index + bgm_index
-    file_id = read_u16(aaf_data, first_sound_info_offset + sound_index*0x10 + 6)
+    file_id = fs.read_u16(aaf_data, first_sound_info_offset + sound_index*0x10 + 6)
     bgm_name = bgm_file_id_to_name[file_id]
     bgm_index_to_name[bgm_index] = bgm_name
     bgm_name_to_index[bgm_name] = bgm_index
@@ -58,7 +58,7 @@ def randomize_music(self):
     loc_needed_second_scene_wave,
     hardcoded_bgm_names
   ):
-    orig_default_bgm_id = self.dol.read_data(read_u16, bgm_info_pointer + 0)
+    orig_default_bgm_id = self.dol.read_data(fs.read_u16, bgm_info_pointer + 0)
     
     if orig_default_bgm_id >= 0x0100:
       orig_default_bgm_index = SPECIAL_BGM_ID_TO_BGM_INDEX[orig_default_bgm_id]
@@ -105,8 +105,8 @@ def randomize_music(self):
     if spot_index <= 0:
       stage_name = "[NULL]"
     else:
-      stage_name_address = self.dol.read_data(read_u32, 0x8039C5B8 + (spot_index-1)*4)
-      stage_name = self.dol.read_data(read_str_until_null_character, stage_name_address)
+      stage_name_address = self.dol.read_data(fs.read_u32, 0x8039C5B8 + (spot_index-1)*4)
+      stage_name = self.dol.read_data(fs.read_str_until_null_character, stage_name_address)
     
     first_scene_wave = FIRST_SCENE_WAVE_NEEDED_FOR_STAGE.get(stage_name)
     second_scene_wave = SECOND_SCENE_WAVE_NEEDED_FOR_STAGE.get(stage_name)
@@ -180,7 +180,7 @@ def randomize_music(self):
   orig_sound_infos = []
   for bgm_index in range(num_bgms):
     sound_index = first_bgm_sound_index + bgm_index
-    sound_info_bytes = read_bytes(aaf_data, first_sound_info_offset + sound_index*0x10, 0x10)
+    sound_info_bytes = fs.read_bytes(aaf_data, first_sound_info_offset + sound_index*0x10, 0x10)
     orig_sound_infos.append(sound_info_bytes)
   
   # TODO: don't allow replacing BGMs that can happen anywhere (like item get, common enemy fight, sailing, etc) with BGMs that require specific scene waves to work
@@ -226,7 +226,7 @@ def randomize_music(self):
     
     sound_index = first_bgm_sound_index + orig_bgm_index
     new_sound_info_bytes = orig_sound_infos[new_bgm_index]
-    write_bytes(aaf_data, first_sound_info_offset + sound_index*0x10, new_sound_info_bytes)
+    fs.write_bytes(aaf_data, first_sound_info_offset + sound_index*0x10, new_sound_info_bytes)
     
     
     # Assign the first/second waves to load for all stages/islands that use this BGM.
@@ -266,20 +266,20 @@ def randomize_music(self):
     first_wave_index = decided_first_scene_wave_for_stage[stage_name]
     if first_wave_index is None:
       first_wave_index = 0
-    self.dol.write_data(write_u8, bgm_info_pointer + 2, first_wave_index)
+    self.dol.write_data(fs.write_u8, bgm_info_pointer + 2, first_wave_index)
     
     second_wave_index = decided_second_scene_wave_for_stage[stage_name]
     if second_wave_index is None:
       second_wave_index = 0
-    self.dol.write_data(write_u8, bgm_info_pointer + 3, second_wave_index)
+    self.dol.write_data(fs.write_u8, bgm_info_pointer + 3, second_wave_index)
   
   for island_num, bgm_info_pointer in island_num_to_bgm_info_pointer.items():
     first_wave_index = decided_first_scene_wave_for_island[island_num]
     if first_wave_index is None:
       first_wave_index = 0
-    self.dol.write_data(write_u8, bgm_info_pointer + 2, first_wave_index)
+    self.dol.write_data(fs.write_u8, bgm_info_pointer + 2, first_wave_index)
     
     second_wave_index = decided_second_scene_wave_for_island[island_num]
     if second_wave_index is None:
       second_wave_index = 0
-    self.dol.write_data(write_u8, bgm_info_pointer + 3, second_wave_index)
+    self.dol.write_data(fs.write_u8, bgm_info_pointer + 3, second_wave_index)

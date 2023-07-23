@@ -4,7 +4,8 @@ from collections import defaultdict
 from PIL import Image
 import struct
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
+from io import BytesIO
 from gclib.j3d import J3DChunk
 from gclib.texture_utils import ImageFormat, IMAGE_FORMATS_THAT_USE_PALETTES, decode_image
 
@@ -25,18 +26,18 @@ class BFN:
     self.wid1s: list[WID1] = []
   
   def read(self):
-    self.magic = read_str(self.data, 0, 4)
+    self.magic = fs.read_str(self.data, 0, 4)
     assert self.magic == "FONT"
-    self.format_version = read_str(self.data, 4, 4)
+    self.format_version = fs.read_str(self.data, 4, 4)
     assert self.format_version == "bfn1"
-    self.length = read_u32(self.data, 8)
-    self.num_chunks = read_u32(self.data, 0x0C)
+    self.length = fs.read_u32(self.data, 8)
+    self.num_chunks = fs.read_u32(self.data, 0x0C)
     
     self.chunks = []
     self.chunks_by_type = defaultdict(list)
     offset = 0x20
     for chunk_index in range(self.num_chunks):
-      chunk_magic = read_str(self.data, offset, 4)
+      chunk_magic = fs.read_str(self.data, offset, 4)
       if chunk_magic in BFN.IMPLEMENTED_CHUNK_TYPES:
         chunk_class = globals().get(chunk_magic, None)
       else:
@@ -202,12 +203,12 @@ class INF1(J3DChunk):
   replacement_code: int = None
   
   def read_chunk_specific_data(self):
-    self.encoding_type = EncodingType(read_u16(self.data, 0x08))
-    self.ascent = read_u16(self.data, 0x0A)
-    self.descent = read_u16(self.data, 0x0C)
-    self.char_width = read_u16(self.data, 0x0E)
-    self.leading = read_u16(self.data, 0x10) # Line height (seems to be ascent + descent)
-    self.replacement_code = read_u16(self.data, 0x12)
+    self.encoding_type = EncodingType(fs.read_u16(self.data, 0x08))
+    self.ascent = fs.read_u16(self.data, 0x0A)
+    self.descent = fs.read_u16(self.data, 0x0C)
+    self.char_width = fs.read_u16(self.data, 0x0E)
+    self.leading = fs.read_u16(self.data, 0x10) # Line height (seems to be ascent + descent)
+    self.replacement_code = fs.read_u16(self.data, 0x12)
 
 class BFNMappingType(Enum):
   LINEAR_MAPPED = 0
@@ -230,16 +231,16 @@ class GLY1(J3DChunk):
   sheet_images: list[Image.Image] = None
   
   def read_chunk_specific_data(self):
-    self.first_code = read_u16(self.data, 0x08)
-    self.last_code = read_u16(self.data, 0x0A)
-    self.cell_width = read_u16(self.data, 0x0C)
-    self.cell_height = read_u16(self.data, 0x0E)
-    self.sheet_byte_size = read_u32(self.data, 0x10)
-    self.image_format = ImageFormat(read_u16(self.data, 0x14))
-    self.rows_per_sheet = read_u16(self.data, 0x16)
-    self.cols_per_sheet = read_u16(self.data, 0x18)
-    self.sheet_width = read_u16(self.data, 0x1A)
-    self.sheet_height = read_u16(self.data, 0x1C)
+    self.first_code = fs.read_u16(self.data, 0x08)
+    self.last_code = fs.read_u16(self.data, 0x0A)
+    self.cell_width = fs.read_u16(self.data, 0x0C)
+    self.cell_height = fs.read_u16(self.data, 0x0E)
+    self.sheet_byte_size = fs.read_u32(self.data, 0x10)
+    self.image_format = ImageFormat(fs.read_u16(self.data, 0x14))
+    self.rows_per_sheet = fs.read_u16(self.data, 0x16)
+    self.cols_per_sheet = fs.read_u16(self.data, 0x18)
+    self.sheet_width = fs.read_u16(self.data, 0x1A)
+    self.sheet_height = fs.read_u16(self.data, 0x1C)
     
     assert self.image_format not in IMAGE_FORMATS_THAT_USE_PALETTES
   
@@ -257,7 +258,7 @@ class GLY1(J3DChunk):
     self.sheet_images = []
     offset = 0x20
     for i in range(sheet_count):
-      image_data = BytesIO(read_bytes(self.data, offset, self.sheet_byte_size))
+      image_data = BytesIO(fs.read_bytes(self.data, offset, self.sheet_byte_size))
       sheet_image = decode_image(
         image_data, BytesIO(),
         self.image_format, None, None,
@@ -274,10 +275,10 @@ class MAP1(J3DChunk):
   entry_count: int = None
   
   def read_chunk_specific_data(self):
-    self.mapping_type = BFNMappingType(read_u16(self.data, 0x08))
-    self.first_character = read_u16(self.data, 0x0A)
-    self.last_character = read_u16(self.data, 0x0C)
-    self.entry_count = read_u16(self.data, 0x0E)
+    self.mapping_type = BFNMappingType(fs.read_u16(self.data, 0x08))
+    self.first_character = fs.read_u16(self.data, 0x0A)
+    self.last_character = fs.read_u16(self.data, 0x0C)
+    self.entry_count = fs.read_u16(self.data, 0x0E)
     
     self.read_char_code_mapping()
   
@@ -308,14 +309,14 @@ class MAP1(J3DChunk):
         table_offset = 0x10
         for index in range(self.entry_count):
           char_ord = self.first_character + index
-          code = read_u16(self.data, table_offset+index*2)
+          code = fs.read_u16(self.data, table_offset+index*2)
           self.char_ord_to_code[char_ord] = code
           self.code_to_char_ord[code] = char_ord
       case BFNMappingType.MAP_MAPPED:
         table_offset = 0x10
         for index in range(self.entry_count):
-          char_ord = read_u16(self.data, table_offset+index*4+0)
-          code = read_u16(self.data, table_offset+index*4+2)
+          char_ord = fs.read_u16(self.data, table_offset+index*4+0)
+          code = fs.read_u16(self.data, table_offset+index*4+2)
           self.char_ord_to_code[char_ord] = code
           self.code_to_char_ord[code] = char_ord
       case _:
@@ -332,8 +333,8 @@ class CodeWidthInfo:
     self.data = data
   
   def read(self, offset):
-    self.kerning = read_u8(self.data, offset+0)
-    self.width = read_u8(self.data, offset+1)
+    self.kerning = fs.read_u8(self.data, offset+0)
+    self.width = fs.read_u8(self.data, offset+1)
 
 @dataclass
 class WID1(J3DChunk):
@@ -342,8 +343,8 @@ class WID1(J3DChunk):
   code_to_width_info: dict[int, CodeWidthInfo] = None
   
   def read_chunk_specific_data(self):
-    self.first_code = read_u16(self.data, 0x08)
-    self.last_code = read_u16(self.data, 0x0A)
+    self.first_code = fs.read_u16(self.data, 0x08)
+    self.last_code = fs.read_u16(self.data, 0x0A)
     
     self.code_to_width_info = {}
     offset = 0x0C

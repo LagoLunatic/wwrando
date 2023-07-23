@@ -15,7 +15,7 @@ import sys
 asm_dir = os.path.dirname(__file__)
 
 sys.path.insert(0, asm_dir + "/../")
-from fs_helpers import *
+from gclib import fs_helpers as fs
 from elf import ELF, ELFSectionType, ELFRelocationType, ELFSectionFlags, ElfSymbolBinding
 
 if sys.platform == "win32":
@@ -157,7 +157,7 @@ def get_code_and_relocations_from_elf(bin_name):
       found_text_section = True
       # Get the code and overwrite the ELF file with just the raw binary code.
       with open(bin_name, "wb") as f:
-        f.write(read_all_bytes(elf_section.data))
+        f.write(fs.read_all_bytes(elf_section.data))
     elif elf_section.type == ELFSectionType.SHT_RELA:
       # Get the relocations.
       assert elf_section.name.startswith(".rela")
@@ -190,10 +190,10 @@ def try_apply_local_relocation(bin_name, elf_relocation, elf_symbol):
         raise Exception("Relocation failed: Cannot branch from %X to %X with a 24-bit relative offset." % (branch_src_offset, branch_dest_offset))
       
       with open(bin_name, "r+b") as f:
-        instruction = read_u32(f, elf_relocation.relocation_offset)
+        instruction = fs.read_u32(f, elf_relocation.relocation_offset)
         instruction &= ~0x03FFFFFC
         instruction |= relative_branch_offset & 0x03FFFFFC
-        write_u32(f, elf_relocation.relocation_offset, instruction)
+        fs.write_u32(f, elf_relocation.relocation_offset, instruction)
       
       return True
     elif elf_relocation.type == ELFRelocationType.R_PPC_REL14:
@@ -201,10 +201,10 @@ def try_apply_local_relocation(bin_name, elf_relocation, elf_symbol):
         raise Exception("Relocation failed: Cannot branch from %X to %X with a 14-bit relative offset." % (branch_src_offset, branch_dest_offset))
       
       with open(bin_name, "r+b") as f:
-        instruction = read_u32(f, elf_relocation.relocation_offset)
+        instruction = fs.read_u32(f, elf_relocation.relocation_offset)
         instruction &= ~0x0000FFFC
         instruction |= relative_branch_offset & 0x0000FFFC
-        write_u32(f, elf_relocation.relocation_offset, instruction)
+        fs.write_u32(f, elf_relocation.relocation_offset, instruction)
       
       return True
   
@@ -212,7 +212,7 @@ def try_apply_local_relocation(bin_name, elf_relocation, elf_symbol):
     # Also relocate absolute pointers into main.dol.
     
     with open(bin_name, "r+b") as f:
-      write_u32(f, elf_relocation.relocation_offset, elf_symbol.address)
+      fs.write_u32(f, elf_relocation.relocation_offset, elf_symbol.address)
     
     return True
   

@@ -3,7 +3,7 @@ import os
 from io import BytesIO
 from enum import IntFlag
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 from gclib.yaz0 import Yaz0
 
 from wwlib.dzx import DZx
@@ -51,30 +51,30 @@ class RARC:
     data = self.data
     
     # Read header.
-    self.magic = read_str(data, 0, 4)
+    self.magic = fs.read_str(data, 0, 4)
     assert self.magic == "RARC"
-    self.size = read_u32(data, 4)
-    self.data_header_offset = read_u32(data, 0x8)
+    self.size = fs.read_u32(data, 4)
+    self.data_header_offset = fs.read_u32(data, 0x8)
     assert self.data_header_offset == 0x20
-    self.file_data_list_offset = read_u32(data, 0xC) + self.data_header_offset
-    self.total_file_data_size = read_u32(data, 0x10)
-    self.mram_file_data_size = read_u32(data, 0x14)
-    self.aram_file_data_size = read_u32(data, 0x18)
-    self.unknown_1 = read_u32(data, 0x1C)
+    self.file_data_list_offset = fs.read_u32(data, 0xC) + self.data_header_offset
+    self.total_file_data_size = fs.read_u32(data, 0x10)
+    self.mram_file_data_size = fs.read_u32(data, 0x14)
+    self.aram_file_data_size = fs.read_u32(data, 0x18)
+    self.unknown_1 = fs.read_u32(data, 0x1C)
     assert self.unknown_1 == 0
     
     # Read data header.
-    self.num_nodes = read_u32(data, self.data_header_offset + 0x00)
-    self.node_list_offset = read_u32(data, self.data_header_offset + 0x04) + self.data_header_offset
-    self.total_num_file_entries = read_u32(data, self.data_header_offset + 0x08)
-    self.file_entries_list_offset = read_u32(data, self.data_header_offset + 0x0C) + self.data_header_offset
-    self.string_list_size = read_u32(data, self.data_header_offset + 0x10)
-    self.string_list_offset = read_u32(data, self.data_header_offset + 0x14) + self.data_header_offset
-    self.next_free_file_id = read_u16(data, self.data_header_offset + 0x18)
-    self.keep_file_ids_synced_with_indexes = read_u8(data, self.data_header_offset + 0x1A)
-    self.unknown_2 = read_u8(data, self.data_header_offset + 0x1B)
+    self.num_nodes = fs.read_u32(data, self.data_header_offset + 0x00)
+    self.node_list_offset = fs.read_u32(data, self.data_header_offset + 0x04) + self.data_header_offset
+    self.total_num_file_entries = fs.read_u32(data, self.data_header_offset + 0x08)
+    self.file_entries_list_offset = fs.read_u32(data, self.data_header_offset + 0x0C) + self.data_header_offset
+    self.string_list_size = fs.read_u32(data, self.data_header_offset + 0x10)
+    self.string_list_offset = fs.read_u32(data, self.data_header_offset + 0x14) + self.data_header_offset
+    self.next_free_file_id = fs.read_u16(data, self.data_header_offset + 0x18)
+    self.keep_file_ids_synced_with_indexes = fs.read_u8(data, self.data_header_offset + 0x1A)
+    self.unknown_2 = fs.read_u8(data, self.data_header_offset + 0x1B)
     assert self.unknown_2 == 0
-    self.unknown_3 = read_u32(data, self.data_header_offset + 0x1C)
+    self.unknown_3 = fs.read_u32(data, self.data_header_offset + 0x1C)
     assert self.unknown_3 == 0
     
     self.nodes = []
@@ -185,7 +185,7 @@ class RARC:
     file_entry.name = file_name
     
     file_entry.data = file_data
-    file_entry.data_size = data_len(file_entry.data)
+    file_entry.data_size = fs.data_len(file_entry.data)
     
     file_entry.parent_node = node
     node.files.append(file_entry)
@@ -323,7 +323,7 @@ class RARC:
     self.regenerate_all_file_entries_list()
     
     # Assign the entry offsets for each file entry, but don't actually save them yet because we need to write their data and names first.
-    align_data_to_nearest(self.data, 0x20, padding_bytes=b'\0')
+    fs.align_data_to_nearest(self.data, 0x20, padding_bytes=b'\0')
     self.file_entries_list_offset = self.data.tell()
     next_file_entry_offset = self.file_entries_list_offset
     for file_entry in self.file_entries:
@@ -333,13 +333,13 @@ class RARC:
       next_file_entry_offset += FileEntry.ENTRY_SIZE
     
     # Write the strings for the node names and file entry names.
-    align_data_to_nearest(self.data, 0x20)
+    fs.align_data_to_nearest(self.data, 0x20)
     self.string_list_offset = self.data.tell()
     offsets_for_already_written_strings = {}
     # The dots for the current and parent directories are always written first.
-    write_str_with_null_byte(self.data, self.string_list_offset+0, ".")
+    fs.write_str_with_null_byte(self.data, self.string_list_offset+0, ".")
     offsets_for_already_written_strings["."] = 0
-    write_str_with_null_byte(self.data, self.string_list_offset+2, "..")
+    fs.write_str_with_null_byte(self.data, self.string_list_offset+2, "..")
     offsets_for_already_written_strings[".."] = 2
     next_string_offset = 5
     for file_entry in self.nodes + self.file_entries:
@@ -348,7 +348,7 @@ class RARC:
         offset = offsets_for_already_written_strings[string]
       else:
         offset = next_string_offset
-        write_str_with_null_byte(self.data, self.string_list_offset+offset, string)
+        fs.write_str_with_null_byte(self.data, self.string_list_offset+offset, string)
         next_string_offset += len(string) + 1
         offsets_for_already_written_strings[string] = offset
       file_entry.name_offset = offset
@@ -359,7 +359,7 @@ class RARC:
     
     # Write the file data, and save the file entries as well.
     # Main RAM file entries must all be in a row before the ARAM file entries.
-    align_data_to_nearest(self.data, 0x20)
+    fs.align_data_to_nearest(self.data, 0x20)
     self.file_data_list_offset = self.data.tell()
     mram_preload_file_entries = []
     aram_preload_file_entries = []
@@ -398,7 +398,7 @@ class RARC:
       next_file_data_offset += file_entry.data_size
       
       # Pad start of the next file to the next 0x20 bytes.
-      align_data_to_nearest(self.data, 0x20)
+      fs.align_data_to_nearest(self.data, 0x20)
       next_file_data_offset = self.data.tell() - self.file_data_list_offset
     
     next_file_data_offset = 0
@@ -417,31 +417,31 @@ class RARC:
     self.total_file_data_size = next_file_data_offset
     
     # Update the header.
-    write_magic_str(self.data, 0x00, self.magic, 4)
+    fs.write_magic_str(self.data, 0x00, self.magic, 4)
     self.size = self.file_data_list_offset + self.total_file_data_size
-    write_u32(self.data, 0x04, self.size)
+    fs.write_u32(self.data, 0x04, self.size)
     self.data_header_offset = 0x20
-    write_u32(self.data, 0x08, self.data_header_offset)
-    write_u32(self.data, 0x0C, self.file_data_list_offset-0x20)
-    write_u32(self.data, 0x10, self.total_file_data_size)
-    write_u32(self.data, 0x14, self.mram_file_data_size)
-    write_u32(self.data, 0x18, self.aram_file_data_size)
-    write_u32(self.data, 0x1C, 0)
+    fs.write_u32(self.data, 0x08, self.data_header_offset)
+    fs.write_u32(self.data, 0x0C, self.file_data_list_offset-0x20)
+    fs.write_u32(self.data, 0x10, self.total_file_data_size)
+    fs.write_u32(self.data, 0x14, self.mram_file_data_size)
+    fs.write_u32(self.data, 0x18, self.aram_file_data_size)
+    fs.write_u32(self.data, 0x1C, 0)
     
     # Update the data header.
     self.num_nodes = len(self.nodes)
-    write_u32(self.data, self.data_header_offset + 0x00, self.num_nodes)
+    fs.write_u32(self.data, self.data_header_offset + 0x00, self.num_nodes)
     self.total_num_file_entries = len(self.file_entries)
-    write_u32(self.data, self.data_header_offset + 0x04, self.node_list_offset - self.data_header_offset)
-    write_u32(self.data, self.data_header_offset + 0x08, self.total_num_file_entries)
-    write_u32(self.data, self.data_header_offset + 0x0C, self.file_entries_list_offset - self.data_header_offset)
+    fs.write_u32(self.data, self.data_header_offset + 0x04, self.node_list_offset - self.data_header_offset)
+    fs.write_u32(self.data, self.data_header_offset + 0x08, self.total_num_file_entries)
+    fs.write_u32(self.data, self.data_header_offset + 0x0C, self.file_entries_list_offset - self.data_header_offset)
     self.string_list_size = self.file_data_list_offset - self.string_list_offset
-    write_u32(self.data, self.data_header_offset + 0x10, self.string_list_size)
-    write_u32(self.data, self.data_header_offset + 0x14, self.string_list_offset - self.data_header_offset)
-    write_u16(self.data, self.data_header_offset + 0x18, self.next_free_file_id)
-    write_u8(self.data, self.data_header_offset + 0x1A, self.keep_file_ids_synced_with_indexes)
-    write_u8(self.data, self.data_header_offset + 0x1B, 0)
-    write_u32(self.data, self.data_header_offset + 0x1C, 0)
+    fs.write_u32(self.data, self.data_header_offset + 0x10, self.string_list_size)
+    fs.write_u32(self.data, self.data_header_offset + 0x14, self.string_list_offset - self.data_header_offset)
+    fs.write_u16(self.data, self.data_header_offset + 0x18, self.next_free_file_id)
+    fs.write_u8(self.data, self.data_header_offset + 0x1A, self.keep_file_ids_synced_with_indexes)
+    fs.write_u8(self.data, self.data_header_offset + 0x1B, 0)
+    fs.write_u32(self.data, self.data_header_offset + 0x1C, 0)
   
   def get_node_by_path(self, path):
     if path in ["", "."]:
@@ -545,13 +545,13 @@ class Node:
   def read(self, node_offset):
     self.node_offset = node_offset
     
-    self.type = read_str(self.rarc.data, self.node_offset+0x00, 4)
-    self.name_offset = read_u32(self.rarc.data, self.node_offset+0x04)
-    self.name_hash = read_u16(self.rarc.data, self.node_offset+0x08)
-    self.num_files = read_u16(self.rarc.data, self.node_offset+0x0A)
-    self.first_file_index = read_u32(self.rarc.data, self.node_offset+0x0C)
+    self.type = fs.read_str(self.rarc.data, self.node_offset+0x00, 4)
+    self.name_offset = fs.read_u32(self.rarc.data, self.node_offset+0x04)
+    self.name_hash = fs.read_u16(self.rarc.data, self.node_offset+0x08)
+    self.num_files = fs.read_u16(self.rarc.data, self.node_offset+0x0A)
+    self.first_file_index = fs.read_u32(self.rarc.data, self.node_offset+0x0C)
     
-    self.name = read_str_until_null_character(self.rarc.data, self.rarc.string_list_offset + self.name_offset)
+    self.name = fs.read_str_until_null_character(self.rarc.data, self.rarc.string_list_offset + self.name_offset)
   
   def save_changes(self):
     hash = 0
@@ -563,11 +563,11 @@ class Node:
     
     self.num_files = len(self.files)
     
-    write_magic_str(self.rarc.data, self.node_offset+0x00, self.type, 4)
-    write_u32(self.rarc.data, self.node_offset+0x04, self.name_offset)
-    write_u16(self.rarc.data, self.node_offset+0x08, self.name_hash)
-    write_u16(self.rarc.data, self.node_offset+0x0A, self.num_files)
-    write_u32(self.rarc.data, self.node_offset+0x0C, self.first_file_index)
+    fs.write_magic_str(self.rarc.data, self.node_offset+0x00, self.type, 4)
+    fs.write_u32(self.rarc.data, self.node_offset+0x04, self.name_offset)
+    fs.write_u16(self.rarc.data, self.node_offset+0x08, self.name_hash)
+    fs.write_u16(self.rarc.data, self.node_offset+0x0A, self.num_files)
+    fs.write_u32(self.rarc.data, self.node_offset+0x0C, self.first_file_index)
 
 class FileEntry:
   ENTRY_SIZE = 0x14
@@ -582,16 +582,16 @@ class FileEntry:
   def read(self, entry_offset):
     self.entry_offset = entry_offset
     
-    self.id = read_u16(self.rarc.data, entry_offset)
-    self.name_hash = read_u16(self.rarc.data, entry_offset + 2)
-    type_and_name_offset = read_u32(self.rarc.data, entry_offset + 4)
-    data_offset_or_node_index = read_u32(self.rarc.data, entry_offset + 8)
-    self.data_size = read_u32(self.rarc.data, entry_offset + 0xC)
+    self.id = fs.read_u16(self.rarc.data, entry_offset)
+    self.name_hash = fs.read_u16(self.rarc.data, entry_offset + 2)
+    type_and_name_offset = fs.read_u32(self.rarc.data, entry_offset + 4)
+    data_offset_or_node_index = fs.read_u32(self.rarc.data, entry_offset + 8)
+    self.data_size = fs.read_u32(self.rarc.data, entry_offset + 0xC)
     
     self.type = RARCFileAttrType((type_and_name_offset & 0xFF000000) >> 24)
     
     self.name_offset = type_and_name_offset & 0x00FFFFFF
-    self.name = read_str_until_null_character(self.rarc.data, self.rarc.string_list_offset + self.name_offset)
+    self.name = fs.read_str_until_null_character(self.rarc.data, self.rarc.string_list_offset + self.name_offset)
     
     if self.is_dir:
       assert self.data_size == 0x10
@@ -629,7 +629,7 @@ class FileEntry:
     if Yaz0.check_is_compressed(self.data):
       self.type |= RARCFileAttrType.COMPRESSED
       self.type |= RARCFileAttrType.YAZ0_COMPRESSED
-    elif try_read_str(self.data, 0, 4) == "Yay0":
+    elif fs.try_read_str(self.data, 0, 4) == "Yay0":
       self.type |= RARCFileAttrType.COMPRESSED
       self.type &= ~RARCFileAttrType.YAZ0_COMPRESSED
     else:
@@ -653,14 +653,14 @@ class FileEntry:
       self.data_size = 0x10
     else:
       data_offset_or_node_index = self.data_offset
-      self.data_size = data_len(self.data)
+      self.data_size = fs.data_len(self.data)
     
-    write_u16(self.rarc.data, self.entry_offset+0x00, self.id)
-    write_u16(self.rarc.data, self.entry_offset+0x02, self.name_hash)
-    write_u32(self.rarc.data, self.entry_offset+0x04, type_and_name_offset)
-    write_u32(self.rarc.data, self.entry_offset+0x08, data_offset_or_node_index)
-    write_u32(self.rarc.data, self.entry_offset+0x0C, self.data_size)
-    write_u32(self.rarc.data, self.entry_offset+0x10, 0) # Pointer to the file's data, filled at runtime.
+    fs.write_u16(self.rarc.data, self.entry_offset+0x00, self.id)
+    fs.write_u16(self.rarc.data, self.entry_offset+0x02, self.name_hash)
+    fs.write_u32(self.rarc.data, self.entry_offset+0x04, type_and_name_offset)
+    fs.write_u32(self.rarc.data, self.entry_offset+0x08, data_offset_or_node_index)
+    fs.write_u32(self.rarc.data, self.entry_offset+0x0C, self.data_size)
+    fs.write_u32(self.rarc.data, self.entry_offset+0x10, 0) # Pointer to the file's data, filled at runtime.
 
 class RARCFileAttrType(IntFlag):
   FILE            = 0x01

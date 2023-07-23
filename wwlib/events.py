@@ -1,7 +1,7 @@
 
 from collections import OrderedDict
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 
 class EventList:
   TOTAL_NUM_FLAGS = 0x2800
@@ -10,21 +10,21 @@ class EventList:
     self.file_entry = file_entry
     data = self.file_entry.data
     
-    event_list_offset = read_u32(data, 0x00)
-    num_events = read_u32(data, 0x04)
-    actor_list_offset = read_u32(data, 0x08)
-    num_actors = read_u32(data, 0x0C)
-    action_list_offset = read_u32(data, 0x10)
-    num_actions = read_u32(data, 0x14)
-    property_list_offset = read_u32(data, 0x18)
-    num_properties = read_u32(data, 0x1C)
-    self.float_list_offset = read_u32(data, 0x20)
-    num_floats = read_u32(data, 0x24)
-    self.integer_list_offset = read_u32(data, 0x28)
-    num_integers = read_u32(data, 0x2C)
-    self.string_list_offset = read_u32(data, 0x30)
-    string_list_total_size = read_u32(data, 0x34)
-    self.header_padding = read_bytes(data, 0x38, 8)
+    event_list_offset = fs.read_u32(data, 0x00)
+    num_events = fs.read_u32(data, 0x04)
+    actor_list_offset = fs.read_u32(data, 0x08)
+    num_actors = fs.read_u32(data, 0x0C)
+    action_list_offset = fs.read_u32(data, 0x10)
+    num_actions = fs.read_u32(data, 0x14)
+    property_list_offset = fs.read_u32(data, 0x18)
+    num_properties = fs.read_u32(data, 0x1C)
+    self.float_list_offset = fs.read_u32(data, 0x20)
+    num_floats = fs.read_u32(data, 0x24)
+    self.integer_list_offset = fs.read_u32(data, 0x28)
+    num_integers = fs.read_u32(data, 0x2C)
+    self.string_list_offset = fs.read_u32(data, 0x30)
+    string_list_total_size = fs.read_u32(data, 0x34)
+    self.header_padding = fs.read_bytes(data, 0x38, 8)
     
     self.events = []
     self.events_by_name = {}
@@ -98,19 +98,19 @@ class EventList:
     all_floats = []
     for float_index in range(0, num_floats):
       offset = self.float_list_offset + float_index * 4
-      float_val = read_float(data, offset)
+      float_val = fs.read_float(data, offset)
       all_floats.append(float_val)
     
     all_integers = []
     for integer_index in range(0, num_integers):
       offset = self.integer_list_offset + integer_index * 4
-      integer = read_s32(data, offset)
+      integer = fs.read_s32(data, offset)
       all_integers.append(integer)
     
     all_strings_by_offset = OrderedDict()
     offset = self.string_list_offset
     while offset < self.string_list_offset+string_list_total_size:
-      string = read_str_until_null_character(data, offset)
+      string = fs.read_str_until_null_character(data, offset)
       all_strings_by_offset[offset-self.string_list_offset] = string
       string_length_with_null = len(string)+1
       offset += string_length_with_null
@@ -121,7 +121,7 @@ class EventList:
         
         # To be safe ensure that the bytes we skip are actually all null bytes.
         for i in range(padding_bytes_to_skip):
-          padding_byte = read_u8(data, offset+i)
+          padding_byte = fs.read_u8(data, offset+i)
           assert padding_byte == 0
         
         offset += padding_bytes_to_skip
@@ -275,20 +275,20 @@ class EventList:
     self.float_list_offset = offset
     num_floats = len(all_floats)
     for float_val in all_floats:
-      write_float(data, offset, float_val)
+      fs.write_float(data, offset, float_val)
       offset += 4
     
     self.integer_list_offset = offset
     num_integers = len(all_integers)
     for integer in all_integers:
-      write_s32(data, offset, integer)
+      fs.write_s32(data, offset, integer)
       offset += 4
     
     self.string_list_offset = offset
     for property in all_properties:
       if property.data_type == 4:
         string = property.value
-        write_str_with_null_byte(data, offset, string)
+        fs.write_str_with_null_byte(data, offset, string)
         new_relative_string_offset = offset-self.string_list_offset
         
         string_length_with_null = len(string)+1
@@ -298,7 +298,7 @@ class EventList:
         if string_length_with_null % 8 != 0:
           padding_bytes_needed = (8 - (string_length_with_null % 8))
           padding = b"\0"*padding_bytes_needed
-          write_bytes(data, offset, padding)
+          fs.write_bytes(data, offset, padding)
           offset += padding_bytes_needed
           string_length_with_padding = string_length_with_null + padding_bytes_needed
         else:
@@ -317,21 +317,21 @@ class EventList:
     for property in all_properties:
       property.save_changes()
     
-    write_u32(data, 0x00, event_list_offset)
-    write_u32(data, 0x04, num_events)
-    write_u32(data, 0x08, actor_list_offset)
-    write_u32(data, 0x0C, num_actors)
-    write_u32(data, 0x10, action_list_offset)
-    write_u32(data, 0x14, num_actions)
-    write_u32(data, 0x18, property_list_offset)
-    write_u32(data, 0x1C, num_properties)
-    write_u32(data, 0x20, self.float_list_offset)
-    write_u32(data, 0x24, num_floats)
-    write_u32(data, 0x28, self.integer_list_offset)
-    write_u32(data, 0x2C, num_integers)
-    write_u32(data, 0x30, self.string_list_offset)
-    write_u32(data, 0x34, string_list_total_size)
-    write_bytes(data, 0x38, self.header_padding)
+    fs.write_u32(data, 0x00, event_list_offset)
+    fs.write_u32(data, 0x04, num_events)
+    fs.write_u32(data, 0x08, actor_list_offset)
+    fs.write_u32(data, 0x0C, num_actors)
+    fs.write_u32(data, 0x10, action_list_offset)
+    fs.write_u32(data, 0x14, num_actions)
+    fs.write_u32(data, 0x18, property_list_offset)
+    fs.write_u32(data, 0x1C, num_properties)
+    fs.write_u32(data, 0x20, self.float_list_offset)
+    fs.write_u32(data, 0x24, num_floats)
+    fs.write_u32(data, 0x28, self.integer_list_offset)
+    fs.write_u32(data, 0x2C, num_integers)
+    fs.write_u32(data, 0x30, self.string_list_offset)
+    fs.write_u32(data, 0x34, string_list_total_size)
+    fs.write_bytes(data, 0x38, self.header_padding)
   
   def add_event(self, name):
     event = Event(self)
@@ -368,40 +368,40 @@ class Event:
     data = self.event_list.file_entry.data
     self.offset = offset
     
-    self.name = read_str(data, offset, 0x20)
-    self.event_index = read_s32(data, offset+0x20)
-    self.unknown1 = read_u32(data, offset+0x24)
-    self.priority = read_u32(data, offset+0x28)
+    self.name = fs.read_str(data, offset, 0x20)
+    self.event_index = fs.read_s32(data, offset+0x20)
+    self.unknown1 = fs.read_u32(data, offset+0x24)
+    self.priority = fs.read_u32(data, offset+0x28)
     
     self.actor_indexes = []
     for i in range(0x14):
-      actor_index = read_s32(data, offset+0x2C+i*4)
+      actor_index = fs.read_s32(data, offset+0x2C+i*4)
       self.actor_indexes.append(actor_index)
-    self.num_actors = read_u32(data, offset+0x7C)
+    self.num_actors = fs.read_u32(data, offset+0x7C)
     
     self.starting_flags = []
     for i in range(2):
-      flag_id = read_s32(data, offset+0x80+i*4)
+      flag_id = fs.read_s32(data, offset+0x80+i*4)
       self.starting_flags.append(flag_id)
     
     self.ending_flags = []
     for i in range(3):
-      flag_id = read_s32(data, offset+0x88+i*4)
+      flag_id = fs.read_s32(data, offset+0x88+i*4)
       self.ending_flags.append(flag_id)
     
-    self.play_jingle = bool(read_u8(data, offset+0x94))
+    self.play_jingle = bool(fs.read_u8(data, offset+0x94))
     
-    self.zero_initialized_runtime_data = read_bytes(data, offset+0x95, 0x1B)
+    self.zero_initialized_runtime_data = fs.read_bytes(data, offset+0x95, 0x1B)
     
     self.actors = [] # This will be populated by the event list after it reads the actors.
   
   def save_changes(self):
     data = self.event_list.file_entry.data
     
-    write_str(data, self.offset, self.name, 0x20)
-    write_s32(data, self.offset+0x20, self.event_index)
-    write_u32(data, self.offset+0x24, self.unknown1)
-    write_u32(data, self.offset+0x28, self.priority)
+    fs.write_str(data, self.offset, self.name, 0x20)
+    fs.write_s32(data, self.offset+0x20, self.event_index)
+    fs.write_u32(data, self.offset+0x24, self.unknown1)
+    fs.write_u32(data, self.offset+0x28, self.priority)
     
     for i in range(0x14):
       if i >= len(self.actors):
@@ -409,21 +409,21 @@ class Event:
       else:
         actor_index = self.actors[i].actor_index
       self.actor_indexes[i] = actor_index
-      write_s32(data, self.offset+0x2C+i*4, actor_index)
+      fs.write_s32(data, self.offset+0x2C+i*4, actor_index)
     self.num_actors = len(self.actors)
-    write_u32(data, self.offset+0x7C, self.num_actors)
+    fs.write_u32(data, self.offset+0x7C, self.num_actors)
     
     for i in range(2):
       flag_id = self.starting_flags[i]
-      write_s32(data, self.offset+0x80+i*4, flag_id)
+      fs.write_s32(data, self.offset+0x80+i*4, flag_id)
     
     for i in range(3):
       flag_id = self.ending_flags[i]
-      write_s32(data, self.offset+0x88+i*4, flag_id)
+      fs.write_s32(data, self.offset+0x88+i*4, flag_id)
     
-    write_u8(data, self.offset+0x94, int(self.play_jingle))
+    fs.write_u8(data, self.offset+0x94, int(self.play_jingle))
     
-    write_bytes(data, self.offset+0x95, self.zero_initialized_runtime_data)
+    fs.write_bytes(data, self.offset+0x95, self.zero_initialized_runtime_data)
   
   def add_actor(self, name):
     actor = Actor(self.event_list)
@@ -452,14 +452,14 @@ class Actor:
     data = self.event_list.file_entry.data
     self.offset = offset
     
-    self.name = read_str(data, offset, 0x20)
-    self.staff_identifier = read_u32(data, offset+0x20)
-    self.actor_index = read_s32(data, offset+0x24)
-    self.flag_id_to_set = read_s32(data, offset+0x28)
-    self.staff_type = read_u32(data, offset+0x2C)
-    self.initial_action_index = read_s32(data, offset+0x30)
+    self.name = fs.read_str(data, offset, 0x20)
+    self.staff_identifier = fs.read_u32(data, offset+0x20)
+    self.actor_index = fs.read_s32(data, offset+0x24)
+    self.flag_id_to_set = fs.read_s32(data, offset+0x28)
+    self.staff_type = fs.read_u32(data, offset+0x2C)
+    self.initial_action_index = fs.read_s32(data, offset+0x30)
     
-    self.zero_initialized_runtime_data = read_bytes(data, offset+0x34, 0x1C)
+    self.zero_initialized_runtime_data = fs.read_bytes(data, offset+0x34, 0x1C)
     
     # These will be populated by the event list initialization function.
     self.actions = []
@@ -471,17 +471,17 @@ class Actor:
     if len(self.actions) == 0:
       raise Exception("Cannot save actor with no actions!")
     
-    write_str(data, self.offset, self.name, 0x20)
-    write_u32(data, self.offset+0x20, self.staff_identifier)
-    write_s32(data, self.offset+0x24, self.actor_index)
-    write_s32(data, self.offset+0x28, self.flag_id_to_set)
-    write_u32(data, self.offset+0x2C, self.staff_type)
+    fs.write_str(data, self.offset, self.name, 0x20)
+    fs.write_u32(data, self.offset+0x20, self.staff_identifier)
+    fs.write_s32(data, self.offset+0x24, self.actor_index)
+    fs.write_s32(data, self.offset+0x28, self.flag_id_to_set)
+    fs.write_u32(data, self.offset+0x2C, self.staff_type)
     
     self.initial_action = self.actions[0]
     self.initial_action_index = self.initial_action.action_index
-    write_s32(data, self.offset+0x30, self.initial_action_index)
+    fs.write_s32(data, self.offset+0x30, self.initial_action_index)
     
-    write_bytes(data, self.offset+0x34, self.zero_initialized_runtime_data)
+    fs.write_bytes(data, self.offset+0x34, self.zero_initialized_runtime_data)
   
   def add_action(self, name, properties=[]):
     action = Action(self.event_list)
@@ -514,20 +514,20 @@ class Action:
     data = self.event_list.file_entry.data
     self.offset = offset
     
-    self.name = read_str(data, offset, 0x20)
-    self.duplicate_id = read_u32(data, offset+0x20)
-    self.action_index = read_s32(data, offset+0x24)
+    self.name = fs.read_str(data, offset, 0x20)
+    self.duplicate_id = fs.read_u32(data, offset+0x20)
+    self.action_index = fs.read_s32(data, offset+0x24)
     
     self.starting_flags = []
     for i in range(3):
-      flag_id = read_s32(data, offset+0x28+i*4)
+      flag_id = fs.read_s32(data, offset+0x28+i*4)
       self.starting_flags.append(flag_id)
     
-    self.flag_id_to_set = read_s32(data, offset+0x34)
-    self.first_property_index = read_s32(data, offset+0x38)
-    self.next_action_index = read_s32(data, offset+0x3C)
+    self.flag_id_to_set = fs.read_s32(data, offset+0x34)
+    self.first_property_index = fs.read_s32(data, offset+0x38)
+    self.next_action_index = fs.read_s32(data, offset+0x3C)
     
-    self.zero_initialized_runtime_data = read_bytes(data, offset+0x40, 0x10)
+    self.zero_initialized_runtime_data = fs.read_bytes(data, offset+0x40, 0x10)
     
     # These will be populated by the event list initialization function.
     self.properties = []
@@ -536,29 +536,29 @@ class Action:
   def save_changes(self):
     data = self.event_list.file_entry.data
     
-    write_str(data, self.offset, self.name, 0x20)
-    write_u32(data, self.offset+0x20, self.duplicate_id)
-    write_s32(data, self.offset+0x24, self.action_index)
+    fs.write_str(data, self.offset, self.name, 0x20)
+    fs.write_u32(data, self.offset+0x20, self.duplicate_id)
+    fs.write_s32(data, self.offset+0x24, self.action_index)
     
     for i in range(3):
       flag_id = self.starting_flags[i]
-      write_s32(data, self.offset+0x28+i*4, flag_id)
+      fs.write_s32(data, self.offset+0x28+i*4, flag_id)
     
-    write_s32(data, self.offset+0x34, self.flag_id_to_set)
+    fs.write_s32(data, self.offset+0x34, self.flag_id_to_set)
     
     if len(self.properties) == 0:
       self.first_property_index = -1
     else:
       self.first_property_index = self.properties[0].property_index
-    write_s32(data, self.offset+0x38, self.first_property_index)
+    fs.write_s32(data, self.offset+0x38, self.first_property_index)
     
     if self.next_action is None:
       self.next_action_index = -1
     else:
       self.next_action_index = self.next_action.action_index
-    write_s32(data, self.offset+0x3C, self.next_action_index)
+    fs.write_s32(data, self.offset+0x3C, self.next_action_index)
     
-    write_bytes(data, self.offset+0x40, self.zero_initialized_runtime_data)
+    fs.write_bytes(data, self.offset+0x40, self.zero_initialized_runtime_data)
   
   def get_prop(self, prop_name):
     return next((prop for prop in self.properties if prop.name == prop_name), None)
@@ -589,15 +589,15 @@ class Property:
     data = self.event_list.file_entry.data
     self.offset = offset
     
-    self.name = read_str(data, offset, 0x20)
+    self.name = fs.read_str(data, offset, 0x20)
     
-    self.property_index = read_s32(data, offset+0x20)
-    self.data_type = read_u32(data, offset+0x24)
-    self.data_index = read_u32(data, offset+0x28)
-    self.data_size = read_u32(data, offset+0x2C)
-    self.next_property_index = read_s32(data, offset+0x30)
+    self.property_index = fs.read_s32(data, offset+0x20)
+    self.data_type = fs.read_u32(data, offset+0x24)
+    self.data_index = fs.read_u32(data, offset+0x28)
+    self.data_size = fs.read_u32(data, offset+0x2C)
+    self.next_property_index = fs.read_s32(data, offset+0x30)
     
-    self.zero_initialized_runtime_data = read_bytes(data, offset+0x34, 0xC)
+    self.zero_initialized_runtime_data = fs.read_bytes(data, offset+0x34, 0xC)
     
     # These will be populated by the event list initialization function.
     self.next_property = None
@@ -606,16 +606,16 @@ class Property:
   def save_changes(self):
     data = self.event_list.file_entry.data
     
-    write_str(data, self.offset, self.name, 0x20)
-    write_s32(data, self.offset+0x20, self.property_index)
-    write_u32(data, self.offset+0x24, self.data_type)
-    write_u32(data, self.offset+0x28, self.data_index)
-    write_u32(data, self.offset+0x2C, self.data_size)
+    fs.write_str(data, self.offset, self.name, 0x20)
+    fs.write_s32(data, self.offset+0x20, self.property_index)
+    fs.write_u32(data, self.offset+0x24, self.data_type)
+    fs.write_u32(data, self.offset+0x28, self.data_index)
+    fs.write_u32(data, self.offset+0x2C, self.data_size)
     
     if self.next_property is None:
       self.next_property_index = -1
     else:
       self.next_property_index = self.next_property.property_index
-    write_s32(data, self.offset+0x30, self.next_property_index)
+    fs.write_s32(data, self.offset+0x30, self.next_property_index)
     
-    write_bytes(data, self.offset+0x34, self.zero_initialized_runtime_data)
+    fs.write_bytes(data, self.offset+0x34, self.zero_initialized_runtime_data)

@@ -4,7 +4,8 @@ import os
 from gclib import texture_utils
 from gclib.j3d import BPRegister
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
+from io import BytesIO
 
 def randomize_enemy_palettes(self):
   for randomizable_file_group in self.palette_randomizable_files:
@@ -281,13 +282,13 @@ def shift_all_colors_in_particle(self, particle, h_shift, v_shift):
     particle.ssp1.color_env = (r, g, b, a)
 
 def shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift):
-  r = rel.read_data(read_u8, offset + 0)
-  g = rel.read_data(read_u8, offset + 1)
-  b = rel.read_data(read_u8, offset + 2)
+  r = rel.read_data(fs.read_u8, offset + 0)
+  g = rel.read_data(fs.read_u8, offset + 1)
+  b = rel.read_data(fs.read_u8, offset + 2)
   r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-  rel.write_data(write_u8, offset + 0, r)
-  rel.write_data(write_u8, offset + 1, g)
-  rel.write_data(write_u8, offset + 2, b)
+  rel.write_data(fs.write_u8, offset + 0, r)
+  rel.write_data(fs.write_u8, offset + 1, g)
+  rel.write_data(fs.write_u8, offset + 2, b)
 
 def shift_hardcoded_darknut_colors(self, h_shift, v_shift):
   # Update the RGB values for Darknut armor destroyed particles.
@@ -299,7 +300,7 @@ def shift_hardcoded_darknut_colors(self, h_shift, v_shift):
   # Update the Darknut's cape colors
   rel = self.get_rel("files/rels/d_a_mant.rel")
   for palette_offset in [0x4540, 0x6560, 0x8580, 0xA5A0, 0xC5C0]:
-    palette_data = BytesIO(rel.read_data(read_bytes, palette_offset, 0x20))
+    palette_data = BytesIO(rel.read_data(fs.read_bytes, palette_offset, 0x20))
     colors = texture_utils.decode_palettes(
       palette_data, texture_utils.PaletteFormat.RGB5A3,
       16, texture_utils.ImageFormat.C4
@@ -309,8 +310,8 @@ def shift_hardcoded_darknut_colors(self, h_shift, v_shift):
     
     encoded_colors = texture_utils.generate_new_palettes_from_colors(colors, texture_utils.PaletteFormat.RGB5A3)
     palette_data = texture_utils.encode_palette(encoded_colors, texture_utils.PaletteFormat.RGB5A3, texture_utils.ImageFormat.C4)
-    assert data_len(palette_data) == 0x20
-    rel.write_data(write_bytes, palette_offset, read_all_bytes(palette_data))
+    assert fs.data_len(palette_data) == 0x20
+    rel.write_data(fs.write_bytes, palette_offset, fs.read_all_bytes(palette_data))
 
 def shift_hardcoded_moblin_colors(self, h_shift, v_shift):
   # Update the thread colors for the Moblin's spear
@@ -344,14 +345,14 @@ def shift_hardcoded_chuchu_colors(self, h_shift, v_shift):
   # The particles that come off of Dark ChuChus when attacked where they temporarily break apart and reform are tricky.
   # That RGB value is stored as three multiplier floats instead of three bytes, and the red multiplier in the float constant bank is coincidentally reused by other things in the ChuChu code unrelated to color so we can't change that.
   # So we change the asm code to read the red multiplier from elsewhere, and then modify that instead.
-  r = int(rel.read_data(read_float, 0x7E9C))
-  g = int(rel.read_data(read_float, 0x7EBC))
-  b = int(rel.read_data(read_float, 0x7EC0))
+  r = int(rel.read_data(fs.read_float, 0x7E9C))
+  g = int(rel.read_data(fs.read_float, 0x7EBC))
+  b = int(rel.read_data(fs.read_float, 0x7EC0))
   assert r != 0 # Make sure the asm patch was applied
   r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-  rel.write_data(write_float, 0x7E9C, r)
-  rel.write_data(write_float, 0x7EBC, g)
-  rel.write_data(write_float, 0x7EC0, b)
+  rel.write_data(fs.write_float, 0x7E9C, r)
+  rel.write_data(fs.write_float, 0x7EBC, g)
+  rel.write_data(fs.write_float, 0x7EC0, b)
 
 def shift_hardcoded_puppet_ganon_colors(self, h_shift, v_shift):
   # Puppet ganon's strings
@@ -362,13 +363,13 @@ def shift_hardcoded_puppet_ganon_colors(self, h_shift, v_shift):
   shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift)
   
   rel = self.get_rel("files/rels/d_a_bgn3.rel")
-  r = rel.read_data(read_u8, 0x2CF)
-  g = rel.read_data(read_u8, 0x2D7)
-  b = rel.read_data(read_u8, 0x2DF)
+  r = rel.read_data(fs.read_u8, 0x2CF)
+  g = rel.read_data(fs.read_u8, 0x2D7)
+  b = rel.read_data(fs.read_u8, 0x2DF)
   r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-  rel.write_data(write_u8, 0x2CF, r)
-  rel.write_data(write_u8, 0x2D7, g)
-  rel.write_data(write_u8, 0x2DF, b)
+  rel.write_data(fs.write_u8, 0x2CF, r)
+  rel.write_data(fs.write_u8, 0x2D7, g)
+  rel.write_data(fs.write_u8, 0x2DF, b)
 
 def shift_hardcoded_ganondorf_colors(self, h_shift, v_shift):
   # Ganondorf's fancy threads

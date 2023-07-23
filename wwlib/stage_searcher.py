@@ -3,7 +3,7 @@ import os
 import re
 from collections import OrderedDict, defaultdict
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 
 from data_tables import DataTables
 from wwlib.dzb import DZB
@@ -638,14 +638,14 @@ def print_stages_for_each_stage_id(self):
 
 def print_item_table(self):
   item_table_data = self.get_raw_file("files/res/ItemTable/item_table.bin")
-  num_entries = read_u16(item_table_data, 0xA)
+  num_entries = fs.read_u16(item_table_data, 0xA)
   
   with open("Item Table.txt", "w") as f:
     for i in range(num_entries):
       item_occs = OrderedDict()
       offset = 0x10 + i*0x10
       for j in range(0x10):
-        item_id = read_u8(item_table_data, offset + j)
+        item_id = fs.read_u8(item_table_data, offset + j)
         if item_id == 0xFF:
           item_name = "(Nothing)"
         else:
@@ -677,17 +677,17 @@ def print_actor_info(self):
   i = 0
   while True:
     address = actor_id_to_rel_filename_mapping_addr + i*8
-    actor_id = self.dol.read_data(read_u16, address)
+    actor_id = self.dol.read_data(fs.read_u16, address)
     if actor_id == 0xFFFF:
       break # End marker
     if actor_id in actor_id_to_rel_filename:
       print("Warning, duplicate actor ID in rel filename list: %04X" % padding)
-    padding = self.dol.read_data(read_u16, address+2)
+    padding = self.dol.read_data(fs.read_u16, address+2)
     if padding != 0:
       print("Warning, nonzero padding: %04X" % padding)
     
-    rel_filename_pointer = self.dol.read_data(read_u32, address+4)
-    rel_filename = self.dol.read_data(read_str_until_null_character, rel_filename_pointer)
+    rel_filename_pointer = self.dol.read_data(fs.read_u32, address+4)
+    rel_filename = self.dol.read_data(fs.read_str_until_null_character, rel_filename_pointer)
     
     actor_id_to_rel_filename[actor_id] = rel_filename
     
@@ -698,10 +698,10 @@ def print_actor_info(self):
     for i in range(0x339):
       address = actr_name_to_actor_info_mapping_addr + i*0xC
       
-      actr_name = self.dol.read_data(read_str, address, 8)
-      actor_id = self.dol.read_data(read_u16, address+8)
-      subtype_index = self.dol.read_data(read_u8, address+0xA)
-      gba_name = self.dol.read_data(read_u8, address+0xB)
+      actr_name = self.dol.read_data(fs.read_str, address, 8)
+      actor_id = self.dol.read_data(fs.read_u16, address+8)
+      subtype_index = self.dol.read_data(fs.read_u8, address+0xA)
+      gba_name = self.dol.read_data(fs.read_u8, address+0xB)
       
       if actor_id in actor_id_to_rel_filename:
         rel_filename = actor_id_to_rel_filename[actor_id]
@@ -791,7 +791,7 @@ def print_all_actor_instance_sizes(self):
     
     #print(profile_name)
     profile_offset = symbols[profile_name]
-    actor_size = rel.read_data(read_u32, profile_offset+0x10)
+    actor_size = rel.read_data(fs.read_u32, profile_offset+0x10)
     #print("%X" % actor_size)
     
     profile_name_to_actor_size.append((profile_name, actor_size))
@@ -799,7 +799,7 @@ def print_all_actor_instance_sizes(self):
   main_symbols = self.get_symbol_map("files/maps/framework.map")
   for symbol_name, symbol_address in main_symbols.items():
     if symbol_name.startswith("g_profile_"):
-      actor_size = self.dol.read_data(read_u32, symbol_address+0x10)
+      actor_size = self.dol.read_data(fs.read_u32, symbol_address+0x10)
       profile_name_to_actor_size.append((symbol_name, actor_size))
   
   profile_name_to_actor_size.sort(key=lambda x: -x[1])

@@ -1,5 +1,5 @@
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 
 from data_tables import DataTables
 
@@ -8,7 +8,7 @@ class DZx: # DZR or DZS, same format
     self.file_entry = file_entry
     data = self.file_entry.data
     
-    num_chunks = read_u32(data, 0)
+    num_chunks = fs.read_u32(data, 0)
     
     self.chunks = []
     for chunk_index in range(0, num_chunks):
@@ -79,7 +79,7 @@ class DZx: # DZR or DZS, same format
     data.truncate(0)
     
     offset = 0
-    write_u32(data, offset, len(self.chunks))
+    fs.write_u32(data, offset, len(self.chunks))
     offset += 4
     
     for chunk in self.chunks:
@@ -89,11 +89,11 @@ class DZx: # DZR or DZS, same format
     
     for chunk in self.chunks:
       # Pad the start of each chunk to the nearest 4 bytes.
-      align_data_to_nearest(data, 4)
-      offset = data_len(data)
+      fs.align_data_to_nearest(data, 4)
+      offset = fs.data_len(data)
       
       chunk.first_entry_offset = offset
-      write_u32(data, chunk.offset+8, chunk.first_entry_offset)
+      fs.write_u32(data, chunk.offset+8, chunk.first_entry_offset)
       
       for entry in chunk.entries:
         if entry is None:
@@ -120,7 +120,7 @@ class DZx: # DZR or DZS, same format
         file_size = offset
         padded_file_size = (file_size + 3) & ~3
         padding_size_needed = padded_file_size - file_size
-        write_bytes(data, offset, b"\xFF"*padding_size_needed)
+        fs.write_bytes(data, offset, b"\xFF"*padding_size_needed)
         offset += padding_size_needed
       
       for entry in chunk.entries:
@@ -130,7 +130,7 @@ class DZx: # DZR or DZS, same format
     file_size = offset
     padded_file_size = (file_size + 0x1F) & ~0x1F
     padding_size_needed = padded_file_size - file_size
-    write_bytes(data, offset, b"\xFF"*padding_size_needed)
+    fs.write_bytes(data, offset, b"\xFF"*padding_size_needed)
 
 class Chunk:
   LAYER_CHAR_TO_LAYER_INDEX = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'a': 10, 'b': 11}
@@ -150,9 +150,9 @@ class Chunk:
     self.offset = offset
     data = self.file_entry.data
     
-    self.chunk_type = read_str(data, self.offset, 4)
-    self.num_entries = read_u32(data, self.offset+4)
-    self.first_entry_offset = read_u32(data, self.offset+8)
+    self.chunk_type = fs.read_str(data, self.offset, 4)
+    self.num_entries = fs.read_u32(data, self.offset+4)
+    self.first_entry_offset = fs.read_u32(data, self.offset+8)
     
     # Some types of chunks are conditional and only appear on certain layers. The 4th character of their type determines what letter they appear on.
     if self.chunk_type.startswith("TRE") or self.chunk_type.startswith("ACT") or self.chunk_type.startswith("SCO"):
@@ -174,9 +174,9 @@ class Chunk:
     
     self.num_entries = len(self.entries)
     
-    write_magic_str(data, self.offset, self.fourcc, 4)
-    write_u32(data, self.offset+4, self.num_entries)
-    write_u32(data, self.offset+8, 0) # Placeholder for first entry offset
+    fs.write_magic_str(data, self.offset, self.fourcc, 4)
+    fs.write_u32(data, self.offset+4, self.num_entries)
+    fs.write_u32(data, self.offset+8, 0) # Placeholder for first entry offset
   
   @property
   def entry_class(self):
@@ -313,46 +313,46 @@ class SCOB(ChunkEntry):
     self.offset = offset
     data = self.file_entry.data
     
-    self.name = read_str(data, offset, 8)
+    self.name = fs.read_str(data, offset, 8)
     
-    self.params = read_u32(data, offset + 8)
+    self.params = fs.read_u32(data, offset + 8)
     
-    self.x_pos = read_float(data, offset + 0x0C)
-    self.y_pos = read_float(data, offset + 0x10)
-    self.z_pos = read_float(data, offset + 0x14)
+    self.x_pos = fs.read_float(data, offset + 0x0C)
+    self.y_pos = fs.read_float(data, offset + 0x10)
+    self.z_pos = fs.read_float(data, offset + 0x14)
     
-    self.x_rot = read_u16(data, offset + 0x18)
-    self.y_rot = read_u16(data, offset + 0x1A)
-    self.z_rot = read_u16(data, offset + 0x1C)
+    self.x_rot = fs.read_u16(data, offset + 0x18)
+    self.y_rot = fs.read_u16(data, offset + 0x1A)
+    self.z_rot = fs.read_u16(data, offset + 0x1C)
     
-    self.enemy_number = read_u16(data, offset + 0x1E)
+    self.enemy_number = fs.read_u16(data, offset + 0x1E)
     
-    self.scale_x = read_u8(data, offset + 0x20)
-    self.scale_y = read_u8(data, offset + 0x21)
-    self.scale_z = read_u8(data, offset + 0x22)
-    self.padding = read_u8(data, offset + 0x23)
+    self.scale_x = fs.read_u8(data, offset + 0x20)
+    self.scale_y = fs.read_u8(data, offset + 0x21)
+    self.scale_z = fs.read_u8(data, offset + 0x22)
+    self.padding = fs.read_u8(data, offset + 0x23)
     
   def save_changes(self):
     data = self.file_entry.data
     
-    write_str(data, self.offset, self.name, 8)
+    fs.write_str(data, self.offset, self.name, 8)
     
-    write_u32(data, self.offset+0x08, self.params)
+    fs.write_u32(data, self.offset+0x08, self.params)
     
-    write_float(data, self.offset+0x0C, self.x_pos)
-    write_float(data, self.offset+0x10, self.y_pos)
-    write_float(data, self.offset+0x14, self.z_pos)
+    fs.write_float(data, self.offset+0x0C, self.x_pos)
+    fs.write_float(data, self.offset+0x10, self.y_pos)
+    fs.write_float(data, self.offset+0x14, self.z_pos)
     
-    write_u16(data, self.offset+0x18, self.x_rot)
-    write_u16(data, self.offset+0x1A, self.y_rot)
-    write_u16(data, self.offset+0x1C, self.z_rot)
+    fs.write_u16(data, self.offset+0x18, self.x_rot)
+    fs.write_u16(data, self.offset+0x1A, self.y_rot)
+    fs.write_u16(data, self.offset+0x1C, self.z_rot)
     
-    write_u16(data, self.offset+0x1E, self.enemy_number)
+    fs.write_u16(data, self.offset+0x1E, self.enemy_number)
     
-    write_u8(data, self.offset+0x20, self.scale_x)
-    write_u8(data, self.offset+0x21, self.scale_y)
-    write_u8(data, self.offset+0x22, self.scale_z)
-    write_u8(data, self.offset+0x23, self.padding)
+    fs.write_u8(data, self.offset+0x20, self.scale_x)
+    fs.write_u8(data, self.offset+0x21, self.scale_y)
+    fs.write_u8(data, self.offset+0x22, self.scale_z)
+    fs.write_u8(data, self.offset+0x23, self.padding)
 
 class ACTR(ChunkEntry):
   DATA_SIZE = 0x20
@@ -376,36 +376,36 @@ class ACTR(ChunkEntry):
     self.offset = offset
     data = self.file_entry.data
     
-    self.name = read_str(data, offset, 8)
+    self.name = fs.read_str(data, offset, 8)
     
-    self.params = read_u32(data, offset + 8)
+    self.params = fs.read_u32(data, offset + 8)
     
-    self.x_pos = read_float(data, offset + 0x0C)
-    self.y_pos = read_float(data, offset + 0x10)
-    self.z_pos = read_float(data, offset + 0x14)
+    self.x_pos = fs.read_float(data, offset + 0x0C)
+    self.y_pos = fs.read_float(data, offset + 0x10)
+    self.z_pos = fs.read_float(data, offset + 0x14)
     
-    self.x_rot = read_u16(data, offset + 0x18)
-    self.y_rot = read_u16(data, offset + 0x1A)
-    self.z_rot = read_u16(data, offset + 0x1C)
+    self.x_rot = fs.read_u16(data, offset + 0x18)
+    self.y_rot = fs.read_u16(data, offset + 0x1A)
+    self.z_rot = fs.read_u16(data, offset + 0x1C)
     
-    self.enemy_number = read_u16(data, offset + 0x1E)
+    self.enemy_number = fs.read_u16(data, offset + 0x1E)
   
   def save_changes(self):
     data = self.file_entry.data
     
-    write_str(data, self.offset, self.name, 8)
+    fs.write_str(data, self.offset, self.name, 8)
     
-    write_u32(data, self.offset+0x08, self.params)
+    fs.write_u32(data, self.offset+0x08, self.params)
     
-    write_float(data, self.offset+0x0C, self.x_pos)
-    write_float(data, self.offset+0x10, self.y_pos)
-    write_float(data, self.offset+0x14, self.z_pos)
+    fs.write_float(data, self.offset+0x0C, self.x_pos)
+    fs.write_float(data, self.offset+0x10, self.y_pos)
+    fs.write_float(data, self.offset+0x14, self.z_pos)
     
-    write_u16(data, self.offset+0x18, self.x_rot)
-    write_u16(data, self.offset+0x1A, self.y_rot)
-    write_u16(data, self.offset+0x1C, self.z_rot)
+    fs.write_u16(data, self.offset+0x18, self.x_rot)
+    fs.write_u16(data, self.offset+0x1A, self.y_rot)
+    fs.write_u16(data, self.offset+0x1C, self.z_rot)
     
-    write_u16(data, self.offset+0x1E, self.enemy_number)
+    fs.write_u16(data, self.offset+0x1E, self.enemy_number)
 
 class TRES(ACTR):
   pass
@@ -435,20 +435,20 @@ class SCLS(ChunkEntry):
     self.offset = offset
     data = self.file_entry.data
     
-    self.dest_stage_name = read_str(data, offset, 8)
-    self.spawn_id = read_u8(data, offset+8)
-    self.room_index = read_u8(data, offset+9)
-    self.fade_type = read_u8(data, offset+0xA)
-    self.padding = read_u8(data, offset+0xB)
+    self.dest_stage_name = fs.read_str(data, offset, 8)
+    self.spawn_id = fs.read_u8(data, offset+8)
+    self.room_index = fs.read_u8(data, offset+9)
+    self.fade_type = fs.read_u8(data, offset+0xA)
+    self.padding = fs.read_u8(data, offset+0xB)
   
   def save_changes(self):
     data = self.file_entry.data
     
-    write_str(data, self.offset, self.dest_stage_name, 8)
-    write_u8(data, self.offset+0x8, self.spawn_id)
-    write_u8(data, self.offset+0x9, self.room_index)
-    write_u8(data, self.offset+0xA, self.fade_type)
-    write_u8(data, self.offset+0xB, self.padding)
+    fs.write_str(data, self.offset, self.dest_stage_name, 8)
+    fs.write_u8(data, self.offset+0x8, self.spawn_id)
+    fs.write_u8(data, self.offset+0x9, self.room_index)
+    fs.write_u8(data, self.offset+0xA, self.fade_type)
+    fs.write_u8(data, self.offset+0xB, self.padding)
 
 class STAG(ChunkEntry):
   DATA_SIZE = 0x14
@@ -475,26 +475,26 @@ class STAG(ChunkEntry):
     self.offset = offset
     data = self.file_entry.data
     
-    self.depth_min = read_float(data, offset)
-    self.depth_max = read_float(data, offset+4)
-    self.unknown_1 = read_u8(data, offset+8)
+    self.depth_min = fs.read_float(data, offset)
+    self.depth_max = fs.read_float(data, offset+4)
+    self.unknown_1 = fs.read_u8(data, offset+8)
     
-    self.params_1 = read_u8(data, offset+9)
-    self.params_2 = read_u16(data, offset+0xA)
-    self.params_3 = read_u32(data, offset+0xC)
-    self.params_4 = read_u32(data, offset+0x10)
+    self.params_1 = fs.read_u8(data, offset+9)
+    self.params_2 = fs.read_u16(data, offset+0xA)
+    self.params_3 = fs.read_u32(data, offset+0xC)
+    self.params_4 = fs.read_u32(data, offset+0x10)
   
   def save_changes(self):
     data = self.file_entry.data
     
-    write_float(data, self.offset, self.depth_min)
-    write_float(data, self.offset+4, self.depth_max)
-    write_u8(data, self.offset+8, self.unknown_1)
+    fs.write_float(data, self.offset, self.depth_min)
+    fs.write_float(data, self.offset+4, self.depth_max)
+    fs.write_u8(data, self.offset+8, self.unknown_1)
     
-    write_u8(data, self.offset+9, self.params_1)
-    write_u16(data, self.offset+0xA, self.params_2)
-    write_u32(data, self.offset+0xC, self.params_3)
-    write_u32(data, self.offset+0x10, self.params_4)
+    fs.write_u8(data, self.offset+9, self.params_1)
+    fs.write_u16(data, self.offset+0xA, self.params_2)
+    fs.write_u32(data, self.offset+0xC, self.params_3)
+    fs.write_u32(data, self.offset+0x10, self.params_4)
 
 class FILI(ChunkEntry):
   DATA_SIZE = 8
@@ -518,14 +518,14 @@ class FILI(ChunkEntry):
     self.offset = offset
     data = self.file_entry.data
     
-    self.params = read_u32(data, offset)
-    self.skybox_y_origin = read_float(data, offset+0x04)
+    self.params = fs.read_u32(data, offset)
+    self.skybox_y_origin = fs.read_float(data, offset+0x04)
   
   def save_changes(self):
     data = self.file_entry.data
     
-    write_u32(data, self.offset, self.params)
-    write_float(data, self.offset+0x04, self.skybox_y_origin)
+    fs.write_u32(data, self.offset, self.params)
+    fs.write_float(data, self.offset+0x04, self.skybox_y_origin)
 
 class SHIP(ChunkEntry):
   DATA_SIZE = 0x10
@@ -537,22 +537,22 @@ class SHIP(ChunkEntry):
     self.offset = offset
     data = self.file_entry.data
     
-    self.x_pos = read_float(data, offset + 0x00)
-    self.y_pos = read_float(data, offset + 0x04)
-    self.z_pos = read_float(data, offset + 0x08)
-    self.y_rot = read_u16(data, offset + 0x0C)
-    self.ship_id = read_u8(data, offset + 0x0E)
-    self.unknown = read_u8(data, offset + 0x0F)
+    self.x_pos = fs.read_float(data, offset + 0x00)
+    self.y_pos = fs.read_float(data, offset + 0x04)
+    self.z_pos = fs.read_float(data, offset + 0x08)
+    self.y_rot = fs.read_u16(data, offset + 0x0C)
+    self.ship_id = fs.read_u8(data, offset + 0x0E)
+    self.unknown = fs.read_u8(data, offset + 0x0F)
   
   def save_changes(self):
     data = self.file_entry.data
     
-    write_float(data, self.offset+0x00, self.x_pos)
-    write_float(data, self.offset+0x04, self.y_pos)
-    write_float(data, self.offset+0x08, self.z_pos)
-    write_u16(data, self.offset+0x0C, self.y_rot)
-    write_u8(data, self.offset+0x0E, self.ship_id)
-    write_u8(data, self.offset+0x0F, self.unknown)
+    fs.write_float(data, self.offset+0x00, self.x_pos)
+    fs.write_float(data, self.offset+0x04, self.y_pos)
+    fs.write_float(data, self.offset+0x08, self.z_pos)
+    fs.write_u16(data, self.offset+0x0C, self.y_rot)
+    fs.write_u8(data, self.offset+0x0E, self.ship_id)
+    fs.write_u8(data, self.offset+0x0F, self.unknown)
 
 class RTBL(ChunkEntry):
   DATA_SIZE = 0x4
@@ -564,14 +564,14 @@ class RTBL(ChunkEntry):
     self.offset = offset
     data = self.file_entry.data
     
-    sub_entry_offset = read_u32(data, offset)
+    sub_entry_offset = fs.read_u32(data, offset)
     self.sub_entry = RTBL_SubEntry(self.file_entry)
     self.sub_entry.read(sub_entry_offset)
   
   def save_changes(self):
     data = self.file_entry.data
     
-    write_u32(data, self.offset, self.sub_entry.offset)
+    fs.write_u32(data, self.offset, self.sub_entry.offset)
     
     self.sub_entry.save_changes()
 
@@ -585,12 +585,12 @@ class RTBL_SubEntry:
     self.offset = offset
     data = self.file_entry.data
     
-    num_rooms = read_u8(data, offset)
-    self.reverb_amount = read_u8(data, offset+1)
-    self.does_time_pass = read_u8(data, offset+2)
-    self.unknown = read_u8(data, offset+3)
+    num_rooms = fs.read_u8(data, offset)
+    self.reverb_amount = fs.read_u8(data, offset+1)
+    self.does_time_pass = fs.read_u8(data, offset+2)
+    self.unknown = fs.read_u8(data, offset+3)
     
-    self.adjacent_rooms_list_offset = read_u32(data, offset+4)
+    self.adjacent_rooms_list_offset = fs.read_u32(data, offset+4)
     self.adjacent_rooms = []
     for i in range(num_rooms):
       adjacent_room = RTBL_AdjacentRoom(self.file_entry)
@@ -601,12 +601,12 @@ class RTBL_SubEntry:
     data = self.file_entry.data
     
     num_rooms = len(self.adjacent_rooms)
-    write_u8(data, self.offset, num_rooms)
-    write_u8(data, self.offset+1, self.reverb_amount)
-    write_u8(data, self.offset+2, self.does_time_pass)
-    write_u8(data, self.offset+3, self.unknown)
+    fs.write_u8(data, self.offset, num_rooms)
+    fs.write_u8(data, self.offset+1, self.reverb_amount)
+    fs.write_u8(data, self.offset+2, self.does_time_pass)
+    fs.write_u8(data, self.offset+3, self.unknown)
     
-    write_u32(data, self.offset+4, self.adjacent_rooms_list_offset)
+    fs.write_u32(data, self.offset+4, self.adjacent_rooms_list_offset)
     
     for adjacent_room in self.adjacent_rooms:
       adjacent_room.save_changes()
@@ -621,7 +621,7 @@ class RTBL_AdjacentRoom:
     self.offset = offset
     data = self.file_entry.data
     
-    byte = read_u8(data, offset)
+    byte = fs.read_u8(data, offset)
     self.should_load_room = ((byte & 0x80) != 0)
     self.unknown = ((byte & 0x40) != 0)
     self.room_index = (byte & 0x3F)
@@ -635,7 +635,7 @@ class RTBL_AdjacentRoom:
     if self.unknown:
       byte |= 0x40
     
-    write_u8(data, self.offset, byte)
+    fs.write_u8(data, self.offset, byte)
 
 class RPAT(ChunkEntry):
   DATA_SIZE = 0xC
@@ -655,24 +655,24 @@ class RPAT(ChunkEntry):
     self.offset = offset
     data = self.file_entry.data
     
-    self.num_points = read_u16(data, self.offset+0x00)
-    self.next_path_index = read_u16(data, self.offset+0x02)
-    self.unknown_1 = read_u8(data, self.offset+0x04)
-    self.is_loop = read_u8(data, self.offset+0x05)
-    self.unknown_2 = read_u8(data, self.offset+0x06)
-    self.unknown_3 = read_u8(data, self.offset+0x07)
-    self.first_waypoint_offset = read_u32(data, self.offset+0x08)
+    self.num_points = fs.read_u16(data, self.offset+0x00)
+    self.next_path_index = fs.read_u16(data, self.offset+0x02)
+    self.unknown_1 = fs.read_u8(data, self.offset+0x04)
+    self.is_loop = fs.read_u8(data, self.offset+0x05)
+    self.unknown_2 = fs.read_u8(data, self.offset+0x06)
+    self.unknown_3 = fs.read_u8(data, self.offset+0x07)
+    self.first_waypoint_offset = fs.read_u32(data, self.offset+0x08)
   
   def save_changes(self):
     data = self.file_entry.data
     
-    write_u16(data, self.offset+0x00, self.num_points)
-    write_u16(data, self.offset+0x02, self.next_path_index)
-    write_u8(data, self.offset+0x04, self.unknown_1)
-    write_u8(data, self.offset+0x05, self.is_loop)
-    write_u8(data, self.offset+0x06, self.unknown_2)
-    write_u8(data, self.offset+0x07, self.unknown_3)
-    write_u32(data, self.offset+0x08, self.first_waypoint_offset)
+    fs.write_u16(data, self.offset+0x00, self.num_points)
+    fs.write_u16(data, self.offset+0x02, self.next_path_index)
+    fs.write_u8(data, self.offset+0x04, self.unknown_1)
+    fs.write_u8(data, self.offset+0x05, self.is_loop)
+    fs.write_u8(data, self.offset+0x06, self.unknown_2)
+    fs.write_u8(data, self.offset+0x07, self.unknown_3)
+    fs.write_u32(data, self.offset+0x08, self.first_waypoint_offset)
 
 class RPPN(ChunkEntry):
   DATA_SIZE = 0x10
@@ -692,24 +692,24 @@ class RPPN(ChunkEntry):
     self.offset = offset
     data = self.file_entry.data
     
-    self.unknown_1 = read_u8(data, self.offset+0x00)
-    self.unknown_2 = read_u8(data, self.offset+0x01)
-    self.unknown_3 = read_u8(data, self.offset+0x02)
-    self.action_type = read_u8(data, self.offset+0x03)
-    self.x_pos = read_float(data, self.offset+0x04)
-    self.y_pos = read_float(data, self.offset+0x08)
-    self.z_pos = read_float(data, self.offset+0x0C)
+    self.unknown_1 = fs.read_u8(data, self.offset+0x00)
+    self.unknown_2 = fs.read_u8(data, self.offset+0x01)
+    self.unknown_3 = fs.read_u8(data, self.offset+0x02)
+    self.action_type = fs.read_u8(data, self.offset+0x03)
+    self.x_pos = fs.read_float(data, self.offset+0x04)
+    self.y_pos = fs.read_float(data, self.offset+0x08)
+    self.z_pos = fs.read_float(data, self.offset+0x0C)
   
   def save_changes(self):
     data = self.file_entry.data
     
-    write_u8(data, self.offset+0x00, self.unknown_1)
-    write_u8(data, self.offset+0x01, self.unknown_2)
-    write_u8(data, self.offset+0x02, self.unknown_3)
-    write_u8(data, self.offset+0x03, self.action_type)
-    write_float(data, self.offset+0x04, self.x_pos)
-    write_float(data, self.offset+0x08, self.y_pos)
-    write_float(data, self.offset+0x0C, self.z_pos)
+    fs.write_u8(data, self.offset+0x00, self.unknown_1)
+    fs.write_u8(data, self.offset+0x01, self.unknown_2)
+    fs.write_u8(data, self.offset+0x02, self.unknown_3)
+    fs.write_u8(data, self.offset+0x03, self.action_type)
+    fs.write_float(data, self.offset+0x04, self.x_pos)
+    fs.write_float(data, self.offset+0x08, self.y_pos)
+    fs.write_float(data, self.offset+0x0C, self.z_pos)
 
 class TGOB(ACTR):
   pass
@@ -742,28 +742,28 @@ class EVNT(ChunkEntry):
     self.offset = offset
     data = self.file_entry.data
     
-    self.unknown_1 = read_u8(data, offset)
-    self.name = read_str(data, offset+1, 0xF)
-    self.unknown_2 = read_u8(data, offset+0x10)
-    self.unknown_3 = read_u8(data, offset+0x11)
-    self.unknown_4 = read_u8(data, offset+0x12)
-    self.event_seen_switch_index = read_u8(data, offset+0x13)
-    self.room_index = read_u8(data, offset+0x14)
+    self.unknown_1 = fs.read_u8(data, offset)
+    self.name = fs.read_str(data, offset+1, 0xF)
+    self.unknown_2 = fs.read_u8(data, offset+0x10)
+    self.unknown_3 = fs.read_u8(data, offset+0x11)
+    self.unknown_4 = fs.read_u8(data, offset+0x12)
+    self.event_seen_switch_index = fs.read_u8(data, offset+0x13)
+    self.room_index = fs.read_u8(data, offset+0x14)
     
-    self.padding = read_bytes(data, offset+0x15, 3)
+    self.padding = fs.read_bytes(data, offset+0x15, 3)
   
   def save_changes(self):
     data = self.file_entry.data
     
-    write_u8(data, self.offset, self.unknown_1)
-    write_str(data, self.offset+1, self.name, 0xF)
-    write_u8(data, self.offset+0x10, self.unknown_2)
-    write_u8(data, self.offset+0x11, self.unknown_3)
-    write_u8(data, self.offset+0x12, self.unknown_4)
-    write_u8(data, self.offset+0x13, self.event_seen_switch_index)
-    write_u8(data, self.offset+0x14, self.room_index)
+    fs.write_u8(data, self.offset, self.unknown_1)
+    fs.write_str(data, self.offset+1, self.name, 0xF)
+    fs.write_u8(data, self.offset+0x10, self.unknown_2)
+    fs.write_u8(data, self.offset+0x11, self.unknown_3)
+    fs.write_u8(data, self.offset+0x12, self.unknown_4)
+    fs.write_u8(data, self.offset+0x13, self.event_seen_switch_index)
+    fs.write_u8(data, self.offset+0x14, self.room_index)
     
-    write_bytes(data, self.offset+0x15, self.padding)
+    fs.write_bytes(data, self.offset+0x15, self.padding)
 
 class _2DMA(ChunkEntry):
   DATA_SIZE = 0x38
@@ -775,25 +775,25 @@ class _2DMA(ChunkEntry):
     self.offset = offset
     data = self.file_entry.data
     
-    self.full_map_image_scale_x = read_float(data, offset)
-    self.full_map_image_scale_y = read_float(data, offset+4)
-    self.full_map_space_scale_x = read_float(data, offset+8)
-    self.full_map_space_scale_y = read_float(data, offset+0xC)
-    self.full_map_x_coord = read_float(data, offset+0x10)
-    self.full_map_y_coord = read_float(data, offset+0x14)
+    self.full_map_image_scale_x = fs.read_float(data, offset)
+    self.full_map_image_scale_y = fs.read_float(data, offset+4)
+    self.full_map_space_scale_x = fs.read_float(data, offset+8)
+    self.full_map_space_scale_y = fs.read_float(data, offset+0xC)
+    self.full_map_x_coord = fs.read_float(data, offset+0x10)
+    self.full_map_y_coord = fs.read_float(data, offset+0x14)
     
-    self.zoomed_map_x_scrolling_1 = read_float(data, offset+0x18)
-    self.zoomed_map_y_scrolling_1 = read_float(data, offset+0x1C)
-    self.zoomed_map_x_scrolling_2 = read_float(data, offset+0x20)
-    self.zoomed_map_y_scrolling_2 = read_float(data, offset+0x24)
-    self.zoomed_map_x_coord = read_float(data, offset+0x28)
-    self.zoomed_map_y_coord = read_float(data, offset+0x2C)
-    self.zoomed_map_scale = read_float(data, offset+0x30)
+    self.zoomed_map_x_scrolling_1 = fs.read_float(data, offset+0x18)
+    self.zoomed_map_y_scrolling_1 = fs.read_float(data, offset+0x1C)
+    self.zoomed_map_x_scrolling_2 = fs.read_float(data, offset+0x20)
+    self.zoomed_map_y_scrolling_2 = fs.read_float(data, offset+0x24)
+    self.zoomed_map_x_coord = fs.read_float(data, offset+0x28)
+    self.zoomed_map_y_coord = fs.read_float(data, offset+0x2C)
+    self.zoomed_map_scale = fs.read_float(data, offset+0x30)
     
-    self.unknown_1 = read_u8(data, offset+0x34)
-    self.unknown_2 = read_u8(data, offset+0x35)
+    self.unknown_1 = fs.read_u8(data, offset+0x34)
+    self.unknown_2 = fs.read_u8(data, offset+0x35)
     
-    sector_coordinates = read_u8(data, offset+0x36)
+    sector_coordinates = fs.read_u8(data, offset+0x36)
     self.sector_x =  sector_coordinates & 0x0F
     self.sector_y = (sector_coordinates & 0xF0) >> 4
     if self.sector_x >= 8: # Negative
@@ -801,33 +801,33 @@ class _2DMA(ChunkEntry):
     if self.sector_y >= 8: # Negative
       self.sector_y = self.sector_y - 16
     
-    self.padding = read_u8(data, offset+0x37)
+    self.padding = fs.read_u8(data, offset+0x37)
   
   def save_changes(self):
     data = self.file_entry.data
     
-    write_float(data, self.offset+0x00, self.full_map_image_scale_x)
-    write_float(data, self.offset+0x04, self.full_map_image_scale_y)
-    write_float(data, self.offset+0x08, self.full_map_space_scale_x)
-    write_float(data, self.offset+0x0C, self.full_map_space_scale_y)
-    write_float(data, self.offset+0x10, self.full_map_x_coord)
-    write_float(data, self.offset+0x14, self.full_map_y_coord)
+    fs.write_float(data, self.offset+0x00, self.full_map_image_scale_x)
+    fs.write_float(data, self.offset+0x04, self.full_map_image_scale_y)
+    fs.write_float(data, self.offset+0x08, self.full_map_space_scale_x)
+    fs.write_float(data, self.offset+0x0C, self.full_map_space_scale_y)
+    fs.write_float(data, self.offset+0x10, self.full_map_x_coord)
+    fs.write_float(data, self.offset+0x14, self.full_map_y_coord)
     
-    write_float(data, self.offset+0x18, self.zoomed_map_x_scrolling_1)
-    write_float(data, self.offset+0x1C, self.zoomed_map_y_scrolling_1)
-    write_float(data, self.offset+0x20, self.zoomed_map_x_scrolling_2)
-    write_float(data, self.offset+0x24, self.zoomed_map_y_scrolling_2)
-    write_float(data, self.offset+0x28, self.zoomed_map_x_coord)
-    write_float(data, self.offset+0x2C, self.zoomed_map_y_coord)
-    write_float(data, self.offset+0x30, self.zoomed_map_scale)
+    fs.write_float(data, self.offset+0x18, self.zoomed_map_x_scrolling_1)
+    fs.write_float(data, self.offset+0x1C, self.zoomed_map_y_scrolling_1)
+    fs.write_float(data, self.offset+0x20, self.zoomed_map_x_scrolling_2)
+    fs.write_float(data, self.offset+0x24, self.zoomed_map_y_scrolling_2)
+    fs.write_float(data, self.offset+0x28, self.zoomed_map_x_coord)
+    fs.write_float(data, self.offset+0x2C, self.zoomed_map_y_coord)
+    fs.write_float(data, self.offset+0x30, self.zoomed_map_scale)
     
-    write_u8(data, self.offset+0x34, self.unknown_1)
-    write_u8(data, self.offset+0x35, self.unknown_2)
+    fs.write_u8(data, self.offset+0x34, self.unknown_1)
+    fs.write_u8(data, self.offset+0x35, self.unknown_2)
     
     sector_coordinates = (self.sector_x & 0xF) | ((self.sector_y & 0xF) << 4)
-    write_u8(data, self.offset+0x36, sector_coordinates)
+    fs.write_u8(data, self.offset+0x36, sector_coordinates)
     
-    write_u8(data, self.offset+0x37, self.padding)
+    fs.write_u8(data, self.offset+0x37, self.padding)
 
 class MULT(ChunkEntry):
   DATA_SIZE = 0xC
@@ -845,20 +845,20 @@ class MULT(ChunkEntry):
     self.offset = offset
     data = self.file_entry.data
     
-    self.x_pos = read_float(data, offset)
-    self.z_pos = read_float(data, offset+4)
-    self.y_rot = read_u16(data, offset+8)
-    self.room_index = read_u8(data, offset+0xA)
-    self.ocean_height = read_u8(data, offset+0xB)
+    self.x_pos = fs.read_float(data, offset)
+    self.z_pos = fs.read_float(data, offset+4)
+    self.y_rot = fs.read_u16(data, offset+8)
+    self.room_index = fs.read_u8(data, offset+0xA)
+    self.ocean_height = fs.read_u8(data, offset+0xB)
     
   def save_changes(self):
     data = self.file_entry.data
     
-    write_float(data, self.offset, self.x_pos)
-    write_float(data, self.offset+4, self.z_pos)
-    write_u16(data, self.offset+8, self.y_rot)
-    write_u8(data, self.offset+0xA, self.room_index)
-    write_u8(data, self.offset+0xB, self.ocean_height)
+    fs.write_float(data, self.offset, self.x_pos)
+    fs.write_float(data, self.offset+4, self.z_pos)
+    fs.write_u16(data, self.offset+8, self.y_rot)
+    fs.write_u8(data, self.offset+0xA, self.room_index)
+    fs.write_u8(data, self.offset+0xB, self.ocean_height)
 
 class DummyEntry(ChunkEntry):
   def __init__(self, file_entry):
@@ -868,12 +868,12 @@ class DummyEntry(ChunkEntry):
     self.offset = offset
     data = self.file_entry.data
     
-    self.raw_data_bytes = read_bytes(data, self.offset, self.DATA_SIZE)
+    self.raw_data_bytes = fs.read_bytes(data, self.offset, self.DATA_SIZE)
   
   def save_changes(self):
     data = self.file_entry.data
     
-    write_bytes(data, self.offset, self.raw_data_bytes)
+    fs.write_bytes(data, self.offset, self.raw_data_bytes)
 
 class FLOR(DummyEntry):
   DATA_SIZE = 0x14

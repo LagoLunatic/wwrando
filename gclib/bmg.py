@@ -2,7 +2,7 @@ from enum import Enum
 from io import BytesIO
 import re
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 from gclib.bfn import BFN
 
 class BMG:
@@ -10,10 +10,10 @@ class BMG:
     self.file_entry = file_entry
     data = self.file_entry.data
     
-    self.magic = read_str(data, 0, 8)
+    self.magic = fs.read_str(data, 0, 8)
     assert self.magic == "MESGbmg1"
-    self.length = read_u32(data, 8)
-    self.num_sections = read_u32(data, 0x0C)
+    self.length = fs.read_u32(data, 8)
+    self.num_sections = fs.read_u32(data, 0x0C)
     
     self.sections = []
     offset = 0x20
@@ -72,8 +72,8 @@ class BMGSection:
   def __init__(self, bmg_data, section_offset, bmg):
     self.bmg = bmg
     
-    self.magic = read_str(bmg_data, section_offset, 4)
-    self.size = read_u32(bmg_data, section_offset+4)
+    self.magic = fs.read_str(bmg_data, section_offset, 4)
+    self.size = fs.read_u32(bmg_data, section_offset+4)
     
     bmg_data.seek(section_offset)
     self.data = BytesIO(bmg_data.read(self.size))
@@ -86,18 +86,18 @@ class BMGSection:
       self.save_inf1()
     
     # Pad the size of this section to the next 0x20 bytes.
-    align_data_to_nearest(self.data, 0x20)
+    fs.align_data_to_nearest(self.data, 0x20)
     
-    self.size = data_len(self.data)
-    write_magic_str(self.data, 0, self.magic, 4)
-    write_u32(self.data, 4, self.size)
+    self.size = fs.data_len(self.data)
+    fs.write_magic_str(self.data, 0, self.magic, 4)
+    fs.write_u32(self.data, 4, self.size)
   
   def read_inf1(self):
     self.messages: list[Message] = []
     self.messages_by_id: dict[int, Message] = {}
     
-    num_messages = read_u16(self.data, 8)
-    message_length = read_u16(self.data, 0x0A)
+    num_messages = fs.read_u16(self.data, 8)
+    message_length = fs.read_u16(self.data, 0x0A)
     for message_index in range(num_messages):
       message = Message(self.data, self.bmg)
       message.read(0x10+message_index*message_length)
@@ -106,9 +106,9 @@ class BMGSection:
   
   def save_inf1(self):
     num_messages = len(self.messages)
-    write_u16(self.data, 8, num_messages)
+    fs.write_u16(self.data, 8, num_messages)
     
-    message_length = read_u16(self.data, 0x0A)
+    message_length = fs.read_u16(self.data, 0x0A)
     next_message_offset = 0x10
     next_string_offset = 9
     self.data.truncate(next_message_offset)
@@ -206,50 +206,50 @@ class Message:
     
     data = self.data
     
-    self.string_offset = read_u32(data, offset)
-    self.message_id = read_u16(data, offset+4)
-    self.item_price = read_u16(data, offset+6)
-    self.next_message_id = read_u16(data, offset+8)
-    self.unknown_1 = read_u16(data, offset+0x0A)
+    self.string_offset = fs.read_u32(data, offset)
+    self.message_id = fs.read_u16(data, offset+4)
+    self.item_price = fs.read_u16(data, offset+6)
+    self.next_message_id = fs.read_u16(data, offset+8)
+    self.unknown_1 = fs.read_u16(data, offset+0x0A)
     
-    self.text_box_type = TextBoxType(read_u8(data, offset+0x0C))
-    self.initial_draw_type = read_u8(data, offset+0x0D)
-    self.text_box_position = read_u8(data, offset+0x0E)
-    self.display_item_id = read_u8(data, offset+0x0F)
+    self.text_box_type = TextBoxType(fs.read_u8(data, offset+0x0C))
+    self.initial_draw_type = fs.read_u8(data, offset+0x0D)
+    self.text_box_position = fs.read_u8(data, offset+0x0E)
+    self.display_item_id = fs.read_u8(data, offset+0x0F)
     
-    self.text_alignment = read_u8(data, offset+0x10)
-    self.initial_sound = read_u8(data, offset+0x11)
-    self.initial_camera_behavior = read_u8(data, offset+0x12)
-    self.initial_speaker_anim = read_u8(data, offset+0x13)
+    self.text_alignment = fs.read_u8(data, offset+0x10)
+    self.initial_sound = fs.read_u8(data, offset+0x11)
+    self.initial_camera_behavior = fs.read_u8(data, offset+0x12)
+    self.initial_speaker_anim = fs.read_u8(data, offset+0x13)
     
-    self.unknown_3 = read_u8(data, offset+0x14)
-    self.num_lines_per_box = read_u16(data, offset+0x15)
-    self.unknown_4 = read_u8(data, offset+0x17)
+    self.unknown_3 = fs.read_u8(data, offset+0x14)
+    self.num_lines_per_box = fs.read_u16(data, offset+0x15)
+    self.unknown_4 = fs.read_u8(data, offset+0x17)
     
     self.string = None # Will be set after all messages are read.
   
   def save_changes(self):
     data = self.data
     
-    write_u32(data, self.offset, self.string_offset)
-    write_u16(data, self.offset+4, self.message_id)
-    write_u16(data, self.offset+6, self.item_price)
-    write_u16(data, self.offset+8, self.next_message_id)
-    write_u16(data, self.offset+0x0A, self.unknown_1)
+    fs.write_u32(data, self.offset, self.string_offset)
+    fs.write_u16(data, self.offset+4, self.message_id)
+    fs.write_u16(data, self.offset+6, self.item_price)
+    fs.write_u16(data, self.offset+8, self.next_message_id)
+    fs.write_u16(data, self.offset+0x0A, self.unknown_1)
     
-    write_u8(data, self.offset+0x0C, self.text_box_type.value)
-    write_u8(data, self.offset+0x0D, self.initial_draw_type)
-    write_u8(data, self.offset+0x0E, self.text_box_position)
-    write_u8(data, self.offset+0x0F, self.display_item_id)
+    fs.write_u8(data, self.offset+0x0C, self.text_box_type.value)
+    fs.write_u8(data, self.offset+0x0D, self.initial_draw_type)
+    fs.write_u8(data, self.offset+0x0E, self.text_box_position)
+    fs.write_u8(data, self.offset+0x0F, self.display_item_id)
     
-    write_u8(data, self.offset+0x10, self.text_alignment)
-    write_u8(data, self.offset+0x11, self.initial_sound)
-    write_u8(data, self.offset+0x12, self.initial_camera_behavior)
-    write_u8(data, self.offset+0x13, self.initial_speaker_anim)
+    fs.write_u8(data, self.offset+0x10, self.text_alignment)
+    fs.write_u8(data, self.offset+0x11, self.initial_sound)
+    fs.write_u8(data, self.offset+0x12, self.initial_camera_behavior)
+    fs.write_u8(data, self.offset+0x13, self.initial_speaker_anim)
     
-    write_u8(data, self.offset+0x14, self.unknown_3)
-    write_u16(data, self.offset+0x15, self.num_lines_per_box)
-    write_u8(data, self.offset+0x17, self.unknown_4)
+    fs.write_u8(data, self.offset+0x14, self.unknown_3)
+    fs.write_u16(data, self.offset+0x15, self.num_lines_per_box)
+    fs.write_u8(data, self.offset+0x17, self.unknown_4)
     
     self.write_string()
   
@@ -260,18 +260,18 @@ class Message:
     initial_byte_offset = 8 + self.string_offset
     byte_offset = initial_byte_offset
     
-    byte = read_u8(string_pool_data, byte_offset)
+    byte = fs.read_u8(string_pool_data, byte_offset)
     byte_offset += 1
     while byte != 0:
       if byte == 0x1A:
         # Control code.
-        control_code_size = read_u8(string_pool_data, byte_offset)
+        control_code_size = fs.read_u8(string_pool_data, byte_offset)
         byte_offset += 1
         
         self.string += "\\{%02X %02X" % (byte, control_code_size)
         
         for i in range(control_code_size-2):
-          control_code_data_byte = read_u8(string_pool_data, byte_offset)
+          control_code_data_byte = fs.read_u8(string_pool_data, byte_offset)
           byte_offset += 1
           self.string += " %02X" % control_code_data_byte
         self.string += "}"
@@ -279,7 +279,7 @@ class Message:
         # Normal character.
         self.string += chr(byte)
       
-      byte = read_u8(string_pool_data, byte_offset)
+      byte = fs.read_u8(string_pool_data, byte_offset)
       byte_offset += 1
     
     self.encoded_string_length = byte_offset - initial_byte_offset
@@ -319,7 +319,7 @@ class Message:
     
     string_pool_data = self.bmg.dat1.data
     str_start_offset = 8 + self.string_offset
-    write_and_pack_bytes(string_pool_data, str_start_offset, bytes_to_write, "B"*len(bytes_to_write))
+    fs.write_and_pack_bytes(string_pool_data, str_start_offset, bytes_to_write, "B"*len(bytes_to_write))
   
   def word_wrap_string_part(self, font: BFN, string: str, extra_line_length=0):
     max_line_length = TEXT_BOX_TYPE_TO_MAX_LINE_LENGTH[self.text_box_type]

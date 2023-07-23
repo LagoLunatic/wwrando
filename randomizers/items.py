@@ -3,7 +3,7 @@ import os
 import re
 from collections import OrderedDict
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 
 def randomize_items(self):
   print("Randomizing items...")
@@ -589,11 +589,11 @@ def change_item(self, path, item_name):
     raise Exception("Invalid item path: " + path)
 
 def change_hardcoded_item_in_dol(self, address, item_id):
-  self.dol.write_data(write_u8, address, item_id)
+  self.dol.write_data(fs.write_u8, address, item_id)
 
 def change_hardcoded_item_in_rel(self, path, offset, item_id):
   rel = self.get_rel(path)
-  rel.write_data(write_u8, offset, item_id)
+  rel.write_data(fs.write_u8, offset, item_id)
 
 def change_chest_item(self, arc_path, chest_index, layer, item_id, item_name):
   if arc_path.endswith("Stage.arc"):

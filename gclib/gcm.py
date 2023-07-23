@@ -2,7 +2,7 @@
 import os
 from io import BytesIO
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 
 MAX_DATA_SIZE_TO_READ_AT_ONCE = 64*1024*1024 # 64MB
 
@@ -19,8 +19,8 @@ class GCM:
     self.iso_file = open(self.iso_path, "rb")
     
     try:
-      self.fst_offset = read_u32(self.iso_file, 0x424)
-      self.fst_size = read_u32(self.iso_file, 0x428)
+      self.fst_offset = fs.read_u32(self.iso_file, 0x424)
+      self.fst_size = fs.read_u32(self.iso_file, 0x428)
       self.read_filesystem()
       self.read_system_data()
     finally:
@@ -34,7 +34,7 @@ class GCM:
   
   def read_filesystem(self):
     self.file_entries = []
-    num_file_entries = read_u32(self.iso_file, self.fst_offset + 8)
+    num_file_entries = fs.read_u32(self.iso_file, self.fst_offset + 8)
     self.fnt_offset = self.fst_offset + num_file_entries*0xC
     for file_index in range(num_file_entries):
       file_entry_offset = self.fst_offset + file_index * 0xC
@@ -75,22 +75,22 @@ class GCM:
     self.files_by_path["sys/bi2.bin"] = SystemFile(0x440, 0x2000, "bi2.bin")
     
     apploader_header_size = 0x20
-    apploader_size = read_u32(self.iso_file, 0x2440 + 0x14)
-    apploader_trailer_size = read_u32(self.iso_file, 0x2440 + 0x18)
+    apploader_size = fs.read_u32(self.iso_file, 0x2440 + 0x14)
+    apploader_trailer_size = fs.read_u32(self.iso_file, 0x2440 + 0x18)
     apploader_full_size = apploader_header_size + apploader_size + apploader_trailer_size
     self.files_by_path["sys/apploader.img"] = SystemFile(0x2440, apploader_full_size, "apploader.img")
     
-    dol_offset = read_u32(self.iso_file, 0x420)
+    dol_offset = fs.read_u32(self.iso_file, 0x420)
     main_dol_size = 0
     for i in range(7): # Text sections
-      section_offset = read_u32(self.iso_file, dol_offset + 0x00 + i*4)
-      section_size = read_u32(self.iso_file, dol_offset + 0x90 + i*4)
+      section_offset = fs.read_u32(self.iso_file, dol_offset + 0x00 + i*4)
+      section_size = fs.read_u32(self.iso_file, dol_offset + 0x90 + i*4)
       section_end_offset = section_offset + section_size
       if section_end_offset > main_dol_size:
         main_dol_size = section_end_offset
     for i in range(11): # Data sections
-      section_offset = read_u32(self.iso_file, dol_offset + 0x1C + i*4)
-      section_size = read_u32(self.iso_file, dol_offset + 0xAC + i*4)
+      section_offset = fs.read_u32(self.iso_file, dol_offset + 0x1C + i*4)
+      section_size = fs.read_u32(self.iso_file, dol_offset + 0xAC + i*4)
       section_end_offset = section_offset + section_size
       if section_end_offset > main_dol_size:
         main_dol_size = section_end_offset
@@ -115,7 +115,7 @@ class GCM:
     if file_entry.file_size > MAX_DATA_SIZE_TO_READ_AT_ONCE:
       raise Exception("Tried to read a very large file all at once")
     with open(self.iso_path, "rb") as iso_file:
-      data = read_bytes(iso_file, file_entry.file_data_offset, file_entry.file_size)
+      data = fs.read_bytes(iso_file, file_entry.file_data_offset, file_entry.file_size)
     data = BytesIO(data)
     
     return data
@@ -127,7 +127,7 @@ class GCM:
     
     file_entry = self.files_by_path_lowercase[file_path]
     with open(self.iso_path, "rb") as iso_file:
-      data = read_bytes(iso_file, file_entry.file_data_offset, file_entry.file_size)
+      data = fs.read_bytes(iso_file, file_entry.file_data_offset, file_entry.file_size)
     
     return data
   
@@ -226,7 +226,7 @@ class GCM:
             size_to_read = min(size_remaining, MAX_DATA_SIZE_TO_READ_AT_ONCE)
             
             with open(self.iso_path, "rb") as iso_file:
-              data = read_bytes(iso_file, file_entry.file_data_offset + offset_in_file, size_to_read)
+              data = fs.read_bytes(iso_file, file_entry.file_data_offset + offset_in_file, size_to_read)
             f.write(data)
             
             size_remaining -= size_to_read
@@ -273,7 +273,7 @@ class GCM:
   
   def get_changed_file_size(self, file_path):
     if file_path in self.changed_files:
-      return data_len(self.changed_files[file_path])
+      return fs.data_len(self.changed_files[file_path])
     else:
       file_path = file_path.lower()
       if file_path not in self.files_by_path_lowercase:
@@ -371,23 +371,23 @@ class GCM:
   
   def export_system_data_to_iso(self):
     boot_bin_data = self.get_changed_file_data("sys/boot.bin")
-    assert data_len(boot_bin_data) == 0x440
+    assert fs.data_len(boot_bin_data) == 0x440
     self.output_iso.seek(0)
     boot_bin_data.seek(0)
     self.output_iso.write(boot_bin_data.read())
     
     bi2_data = self.get_changed_file_data("sys/bi2.bin")
-    assert data_len(bi2_data) == 0x2000
+    assert fs.data_len(bi2_data) == 0x2000
     self.output_iso.seek(0x440)
     bi2_data.seek(0)
     self.output_iso.write(bi2_data.read())
     
     apploader_data = self.get_changed_file_data("sys/apploader.img")
     apploader_header_size = 0x20
-    apploader_size = read_u32(apploader_data, 0x14)
-    apploader_trailer_size = read_u32(apploader_data, 0x18)
+    apploader_size = fs.read_u32(apploader_data, 0x14)
+    apploader_trailer_size = fs.read_u32(apploader_data, 0x18)
     apploader_full_size = apploader_header_size + apploader_size + apploader_trailer_size
-    assert data_len(apploader_data) == apploader_full_size
+    assert fs.data_len(apploader_data) == apploader_full_size
     self.output_iso.seek(0x2440)
     apploader_data.seek(0)
     self.output_iso.write(apploader_data.read())
@@ -397,10 +397,10 @@ class GCM:
     
     dol_offset = self.output_iso.tell()
     dol_data = self.get_changed_file_data("sys/main.dol")
-    dol_size = data_len(dol_data)
+    dol_size = fs.data_len(dol_data)
     dol_data.seek(0)
     self.output_iso.write(dol_data.read())
-    write_u32(self.output_iso, 0x420, dol_offset)
+    fs.write_u32(self.output_iso, 0x420, dol_offset)
     self.output_iso.seek(dol_offset + dol_size)
     
     self.pad_output_iso_by(0x20)
@@ -411,7 +411,7 @@ class GCM:
     # File offsets and file sizes are left at 0, they will be filled in as the actual file data is written to the ISO.
     self.recalculate_file_entry_indexes()
     self.fst_offset = self.output_iso.tell()
-    write_u32(self.output_iso, 0x424, self.fst_offset)
+    fs.write_u32(self.output_iso, 0x424, self.fst_offset)
     self.fnt_offset = self.fst_offset + len(self.file_entries)*0xC
     
     file_entry_offset = self.fst_offset
@@ -423,21 +423,21 @@ class GCM:
       if file_entry.is_dir:
         is_dir_and_name_offset |= 0x01000000
       is_dir_and_name_offset |= (file_entry.name_offset & 0x00FFFFFF)
-      write_u32(self.output_iso, file_entry_offset, is_dir_and_name_offset)
+      fs.write_u32(self.output_iso, file_entry_offset, is_dir_and_name_offset)
       
       if file_entry.is_dir:
-        write_u32(self.output_iso, file_entry_offset+4, file_entry.parent_fst_index)
-        write_u32(self.output_iso, file_entry_offset+8, file_entry.next_fst_index)
+        fs.write_u32(self.output_iso, file_entry_offset+4, file_entry.parent_fst_index)
+        fs.write_u32(self.output_iso, file_entry_offset+8, file_entry.next_fst_index)
       
       file_entry_offset += 0xC
       
       if file_index != 0: # Root doesn't have a name
-        write_str_with_null_byte(self.output_iso, next_name_offset, file_entry.name)
+        fs.write_str_with_null_byte(self.output_iso, next_name_offset, file_entry.name)
         next_name_offset += len(file_entry.name)+1
     
     self.fst_size = self.output_iso.tell() - self.fst_offset
-    write_u32(self.output_iso, 0x428, self.fst_size)
-    write_u32(self.output_iso, 0x42C, self.fst_size) # Seems to be a duplicate size field that must also be updated
+    fs.write_u32(self.output_iso, 0x428, self.fst_size)
+    fs.write_u32(self.output_iso, 0x42C, self.fst_size) # Seems to be a duplicate size field that must also be updated
     self.output_iso.seek(self.fst_offset + self.fst_size)
   
   def recalculate_file_entry_indexes(self):
@@ -492,19 +492,19 @@ class GCM:
           size_to_read = min(size_remaining, MAX_DATA_SIZE_TO_READ_AT_ONCE)
           
           with open(self.iso_path, "rb") as iso_file:
-            data = read_bytes(iso_file, file_entry.file_data_offset + offset_in_file, size_to_read)
+            data = fs.read_bytes(iso_file, file_entry.file_data_offset + offset_in_file, size_to_read)
           self.output_iso.write(data)
           
           size_remaining -= size_to_read
           offset_in_file += size_to_read
       
       file_entry_offset = self.fst_offset + file_entry.file_index*0xC
-      write_u32(self.output_iso, file_entry_offset+4, current_file_start_offset)
+      fs.write_u32(self.output_iso, file_entry_offset+4, current_file_start_offset)
       if file_entry.file_path in self.changed_files:
-        file_size = data_len(self.changed_files[file_entry.file_path])
+        file_size = fs.data_len(self.changed_files[file_entry.file_path])
       else:
         file_size = file_entry.file_size
-      write_u32(self.output_iso, file_entry_offset+8, file_size)
+      fs.write_u32(self.output_iso, file_entry_offset+8, file_size)
       
       # Note: The file_data_offset and file_size fields of the FileEntry must not be updated, they refer only to the offset and size of the file data in the input ISO, not this output ISO.
       
@@ -527,9 +527,9 @@ class FileEntry:
   def read(self, file_index, iso_file, file_entry_offset, fnt_offset):
     self.file_index = file_index
     
-    is_dir_and_name_offset = read_u32(iso_file, file_entry_offset)
-    file_data_offset_or_parent_fst_index = read_u32(iso_file, file_entry_offset+4)
-    file_size_or_next_fst_index = read_u32(iso_file, file_entry_offset+8)
+    is_dir_and_name_offset = fs.read_u32(iso_file, file_entry_offset)
+    file_data_offset_or_parent_fst_index = fs.read_u32(iso_file, file_entry_offset+4)
+    file_size_or_next_fst_index = fs.read_u32(iso_file, file_entry_offset+8)
     
     self.is_dir = ((is_dir_and_name_offset & 0xFF000000) != 0)
     self.name_offset = (is_dir_and_name_offset & 0x00FFFFFF)
@@ -546,7 +546,7 @@ class FileEntry:
     if file_index == 0:
       self.name = "" # Root
     else:
-      self.name = read_str_until_null_character(iso_file, fnt_offset + self.name_offset)
+      self.name = fs.read_str_until_null_character(iso_file, fnt_offset + self.name_offset)
 
 class SystemFile:
   def __init__(self, file_data_offset, file_size, name):

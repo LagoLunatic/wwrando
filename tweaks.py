@@ -8,7 +8,7 @@ import copy
 from random import Random
 import math
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 from randomizers.hints import HintManager, HintType
 from randomizers import entrances
 from asm import patcher
@@ -33,10 +33,10 @@ MAXIMUM_ADDITIONAL_STARTING_ITEMS = 70
 
 
 def set_new_game_starting_spawn_id(self, spawn_id):
-  self.dol.write_data(write_u8, 0x80058BAF, spawn_id)
+  self.dol.write_data(fs.write_u8, 0x80058BAF, spawn_id)
 
 def set_new_game_starting_room_index(self, room_index):
-  self.dol.write_data(write_u8, 0x80058BA7, room_index)
+  self.dol.write_data(fs.write_u8, 0x80058BA7, room_index)
 
 def change_ship_starting_island(self, starting_island_room_index):
   island_dzx = self.get_arc("files/res/Stage/sea/Room%d.arc" % starting_island_room_index).get_file("room.dzr")
@@ -149,22 +149,22 @@ def allow_all_items_to_be_field_items(self):
       arc_name_pointer = self.main_custom_symbols["hurricane_spin_item_resource_arc_name"]
       item_resources_addr_to_fix = item_resources_list_start + item_id*0x24
     
-    self.dol.write_data(write_u32, field_item_resources_addr, arc_name_pointer)
+    self.dol.write_data(fs.write_u32, field_item_resources_addr, arc_name_pointer)
     if item_resources_addr_to_fix:
-      self.dol.write_data(write_u32, item_resources_addr_to_fix, arc_name_pointer)
+      self.dol.write_data(fs.write_u32, item_resources_addr_to_fix, arc_name_pointer)
     
-    data1 = self.dol.read_data(read_bytes, item_resources_addr_to_copy_from+8, 0xD)
-    data2 = self.dol.read_data(read_bytes, item_resources_addr_to_copy_from+0x1C, 4)
-    self.dol.write_data(write_bytes, field_item_resources_addr+4, data1)
-    self.dol.write_data(write_bytes, field_item_resources_addr+0x14, data2)
+    data1 = self.dol.read_data(fs.read_bytes, item_resources_addr_to_copy_from+8, 0xD)
+    data2 = self.dol.read_data(fs.read_bytes, item_resources_addr_to_copy_from+0x1C, 4)
+    self.dol.write_data(fs.write_bytes, field_item_resources_addr+4, data1)
+    self.dol.write_data(fs.write_bytes, field_item_resources_addr+0x14, data2)
     if item_resources_addr_to_fix:
-      self.dol.write_data(write_bytes, item_resources_addr_to_fix+8, data1)
-      self.dol.write_data(write_bytes, item_resources_addr_to_fix+0x1C, data2)
+      self.dol.write_data(fs.write_bytes, item_resources_addr_to_fix+8, data1)
+      self.dol.write_data(fs.write_bytes, item_resources_addr_to_fix+0x1C, data2)
   
   # Also nop out the 7 lines of code that initialize the arc filename pointer for the 6 songs and the Hurricane Spin.
   # These lines would overwrite the changes we made to their arc names.
   for address in [0x800C1970, 0x800C1978, 0x800C1980, 0x800C1988, 0x800C1990, 0x800C1998, 0x800C1BA8]:
-    self.dol.write_data(write_u32, address, 0x60000000) # nop
+    self.dol.write_data(fs.write_u32, address, 0x60000000) # nop
   
   
   # Fix which code runs when the player touches the field item to pick the item up.
@@ -173,19 +173,19 @@ def allow_all_items_to_be_field_items(self):
     # This default case wouldn't give the player the item. It would just appear above the player's head for a moment like a Rupee and not be added to the player's inventory.
     # We switch it to case 0x800F675C, which will use the proper item get event with all the animations, text, etc.
     location_of_items_switch_statement_case = itemGetExecute_switch_statement_entries_list_start + item_id*4
-    original_switch_case = self.dol.read_data(read_u32, location_of_items_switch_statement_case)
+    original_switch_case = self.dol.read_data(fs.read_u32, location_of_items_switch_statement_case)
     if original_switch_case == 0x800F6C8C:
-      self.dol.write_data(write_u32, location_of_items_switch_statement_case, 0x800F675C)
+      self.dol.write_data(fs.write_u32, location_of_items_switch_statement_case, 0x800F675C)
   
   # Also change the switch case in itemGetExecute used by items with IDs 0x84+ to go to 800F675C as well.
-  self.dol.write_data(write_u32, 0x800F6468, 0x418102F4) # bgt 0x800F675C
+  self.dol.write_data(fs.write_u32, 0x800F6468, 0x418102F4) # bgt 0x800F675C
   
   
   # Update the visual Y offsets so the item doesn't look like it's halfway inside the floor and difficult to see.
   # First update the default case of the switch statement in the function getYOffset so that it reads from 803F9E84 (value: 23.0), instead of 803F9E80 (value: 0.0).
-  self.dol.write_data(write_u32, 0x800F4CD0, 0xC022A184) # lfs f1, -0x5E7C(rtoc)
+  self.dol.write_data(fs.write_u32, 0x800F4CD0, 0xC022A184) # lfs f1, -0x5E7C(rtoc)
   # And fix then Big Key so it uses the default case with the 23.0 offset, instead of using the 0.0 offset. (Other items already use the default case, so we don't need to fix any besides Big Key.)
-  self.dol.write_data(write_u32, 0x8038C8B8 + 0x4E*4, 0x800F4CD0)
+  self.dol.write_data(fs.write_u32, 0x8038C8B8 + 0x4E*4, 0x800F4CD0)
   
   
   # We also change the Y offset of the hitbox for any items that have 0 for the Y offset.
@@ -194,12 +194,12 @@ def allow_all_items_to_be_field_items(self):
   extra_item_data_list_start = 0x803882B0
   for item_id in range(0, 0xFF+1):
     item_extra_data_entry_addr = extra_item_data_list_start+4*item_id
-    original_y_offset = self.dol.read_data(read_u8, item_extra_data_entry_addr+1)
+    original_y_offset = self.dol.read_data(fs.read_u8, item_extra_data_entry_addr+1)
     if original_y_offset == 0:
-      self.dol.write_data(write_u8, item_extra_data_entry_addr+1, 0x28) # Y offset of 0x28
-    original_radius = self.dol.read_data(read_u8, item_extra_data_entry_addr+2)
+      self.dol.write_data(fs.write_u8, item_extra_data_entry_addr+1, 0x28) # Y offset of 0x28
+    original_radius = self.dol.read_data(fs.read_u8, item_extra_data_entry_addr+2)
     if original_radius == 0:
-      self.dol.write_data(write_u8, item_extra_data_entry_addr+2, 0x28) # Radius of 0x28
+      self.dol.write_data(fs.write_u8, item_extra_data_entry_addr+2, 0x28) # Radius of 0x28
   
   
   for item_id in range(0x20, 0x44+1):
@@ -207,9 +207,9 @@ def allow_all_items_to_be_field_items(self):
     # This default case caused items to have the physics of rupees, which causes them to shoot out too far from Gohdan's nose.
     # We switch it to case 0x800F8160 (itemActionForArrow), which is what heart containers and heart pieces use.
     location_of_items_switch_statement_case = mode_wait_switch_statement_entries_list_start + item_id*4
-    self.dol.write_data(write_u32, location_of_items_switch_statement_case, 0x800F8160)
+    self.dol.write_data(fs.write_u32, location_of_items_switch_statement_case, 0x800F8160)
   # Also change the switch case used by items with IDs 0x4C+ to go to 800F8160 as well.
-  self.dol.write_data(write_u32, 0x800F8138, 0x41810028) # bgt 0x800F8160
+  self.dol.write_data(fs.write_u32, 0x800F8138, 0x41810028) # bgt 0x800F8160
   
   
   # Also add the Vscroll.arc containing the Hurricane Spin's custom model to the GCM's filesystem.
@@ -227,9 +227,9 @@ def remove_shop_item_forced_uniqueness_bit(self):
   
   for shop_item_index in [0, 0xB, 0xC, 0xD]: # Bait Bag, Empty Bottle, Piece of Heart, and Treasure Chart 4 in Beedle's shops
     shop_item_data_addr = shop_item_data_list_start + shop_item_index*0x10
-    buy_requirements_bitfield = self.dol.read_data(read_u8, shop_item_data_addr+0xC)
+    buy_requirements_bitfield = self.dol.read_data(fs.read_u8, shop_item_data_addr+0xC)
     buy_requirements_bitfield = (buy_requirements_bitfield & (~2)) # Bit 02 specifies that the player must not already own this item
-    self.dol.write_data(write_u8, shop_item_data_addr+0xC, buy_requirements_bitfield)
+    self.dol.write_data(fs.write_u8, shop_item_data_addr+0xC, buy_requirements_bitfield)
 
 def remove_forsaken_fortress_2_cutscenes(self):
   # Removes the rescuing-Aryll cutscene played by the spawn when you enter the Forsaken Fortress tower.
@@ -256,35 +256,35 @@ def make_items_progressive(self):
   
   for sword_item_id in [0x38, 0x39, 0x3A, 0x3D, 0x3E]:
     sword_item_get_func_addr = item_get_funcs_list + sword_item_id*4
-    self.dol.write_data(write_u32, sword_item_get_func_addr, self.main_custom_symbols["progressive_sword_item_func"])
+    self.dol.write_data(fs.write_u32, sword_item_get_func_addr, self.main_custom_symbols["progressive_sword_item_func"])
   
   for shield_item_id in [0x3B, 0x3C]:
     shield_item_get_func_addr = item_get_funcs_list + shield_item_id*4
-    self.dol.write_data(write_u32, shield_item_get_func_addr, self.main_custom_symbols["progressive_shield_item_func"])
+    self.dol.write_data(fs.write_u32, shield_item_get_func_addr, self.main_custom_symbols["progressive_shield_item_func"])
   
   for bow_item_id in [0x27, 0x35, 0x36]:
     bow_item_get_func_addr = item_get_funcs_list + bow_item_id*4
-    self.dol.write_data(write_u32, bow_item_get_func_addr, self.main_custom_symbols["progressive_bow_func"])
+    self.dol.write_data(fs.write_u32, bow_item_get_func_addr, self.main_custom_symbols["progressive_bow_func"])
   
   for wallet_item_id in [0xAB, 0xAC]:
     wallet_item_get_func_addr = item_get_funcs_list + wallet_item_id*4
-    self.dol.write_data(write_u32, wallet_item_get_func_addr, self.main_custom_symbols["progressive_wallet_item_func"])
+    self.dol.write_data(fs.write_u32, wallet_item_get_func_addr, self.main_custom_symbols["progressive_wallet_item_func"])
   
   for bomb_bag_item_id in [0xAD, 0xAE]:
     bomb_bag_item_get_func_addr = item_get_funcs_list + bomb_bag_item_id*4
-    self.dol.write_data(write_u32, bomb_bag_item_get_func_addr, self.main_custom_symbols["progressive_bomb_bag_item_func"])
+    self.dol.write_data(fs.write_u32, bomb_bag_item_get_func_addr, self.main_custom_symbols["progressive_bomb_bag_item_func"])
   
   for quiver_item_id in [0xAF, 0xB0]:
     quiver_item_get_func_addr = item_get_funcs_list + quiver_item_id*4
-    self.dol.write_data(write_u32, quiver_item_get_func_addr, self.main_custom_symbols["progressive_quiver_item_func"])
+    self.dol.write_data(fs.write_u32, quiver_item_get_func_addr, self.main_custom_symbols["progressive_quiver_item_func"])
   
   for picto_box_item_id in [0x23, 0x26]:
     picto_box_item_get_func_addr = item_get_funcs_list + picto_box_item_id*4
-    self.dol.write_data(write_u32, picto_box_item_get_func_addr, self.main_custom_symbols["progressive_picto_box_item_func"])
+    self.dol.write_data(fs.write_u32, picto_box_item_get_func_addr, self.main_custom_symbols["progressive_picto_box_item_func"])
   
   for magic_meter_item_id in [0xB1, 0xB2]:
     magic_meter_item_get_func_addr = item_get_funcs_list + magic_meter_item_id*4
-    self.dol.write_data(write_u32, magic_meter_item_get_func_addr, self.main_custom_symbols["progressive_magic_meter_item_func"])
+    self.dol.write_data(fs.write_u32, magic_meter_item_get_func_addr, self.main_custom_symbols["progressive_magic_meter_item_func"])
   
   # Register which item ID is for which progressive item.
   self.register_renamed_item(0x38, "Progressive Sword")
@@ -300,16 +300,16 @@ def make_items_progressive(self):
   # Without this change, getting bombs after a bomb bag upgrade would negate the bomb bag upgrade.
   # Note that normally making this change would cause the player to have 0 max bombs/arrows if they get bombs/bow before any bomb bag/quiver upgrades.
   # But in the new game start code, we set the player's current and max bombs and arrows to 30, so that is no longer an issue.
-  self.dol.write_data(write_u32, 0x800C36C0, 0x60000000) # Don't set current bombs
-  self.dol.write_data(write_u32, 0x800C36C4, 0x60000000) # Don't set max bombs
-  self.dol.write_data(write_u32, 0x800C346C, 0x60000000) # Don't set current arrows
-  self.dol.write_data(write_u32, 0x800C3470, 0x60000000) # Don't set max arrows
+  self.dol.write_data(fs.write_u32, 0x800C36C0, 0x60000000) # Don't set current bombs
+  self.dol.write_data(fs.write_u32, 0x800C36C4, 0x60000000) # Don't set max bombs
+  self.dol.write_data(fs.write_u32, 0x800C346C, 0x60000000) # Don't set current arrows
+  self.dol.write_data(fs.write_u32, 0x800C3470, 0x60000000) # Don't set max arrows
   
   # Modify the item get func for deku leaf to nop out the part where it adds to your magic meter.
   # Instead we make the magic meter a seperate item that the player starts with by default.
   # This way other items can use the magic meter before the player gets deku leaf.
-  self.dol.write_data(write_u32, 0x800C375C, 0x60000000) # Don't set max magic meter
-  self.dol.write_data(write_u32, 0x800C3768, 0x60000000) # Don't set current magic meter
+  self.dol.write_data(fs.write_u32, 0x800C375C, 0x60000000) # Don't set max magic meter
+  self.dol.write_data(fs.write_u32, 0x800C3768, 0x60000000) # Don't set current magic meter
   
   # Add an item get message for the normal magic meter since it didn't have one in vanilla.
   magic_meter_item_id = 0xB1
@@ -533,26 +533,26 @@ def modify_title_screen_logo(self):
   
   # Move where the subtitle is drawn downwards a bit so the word "the" doesn't get covered up by the main logo.
   title_rel = self.get_rel("files/rels/d_a_title.rel")
-  y_pos = title_rel.read_data(read_float, 0x1F44)
+  y_pos = title_rel.read_data(fs.read_float, 0x1F44)
   y_pos -= 13.0
-  title_rel.write_data(write_float, 0x1F44, y_pos)
+  title_rel.write_data(fs.write_float, 0x1F44, y_pos)
   
   # Move the sparkle particle effect down a bit to fit the taller logo better.
   # (This has the side effect of also moving down the clouds below the ship, but this is not noticeable.)
   data = tlogoe_arc.get_file_entry("title_logo_e.blo").data
-  write_u16(data, 0x162, 0x106) # Increase Y pos by 16 pixels (0xF6 -> 0x106)
+  fs.write_u16(data, 0x162, 0x106) # Increase Y pos by 16 pixels (0xF6 -> 0x106)
 
 def update_game_name_icon_and_banners(self):
   new_game_name = "Wind Waker Randomized %s" % self.seed
   banner_data = self.get_raw_file("files/opening.bnr")
-  write_magic_str(banner_data, 0x1860, new_game_name, 0x40)
+  fs.write_magic_str(banner_data, 0x1860, new_game_name, 0x40)
   
   new_game_id = "GZLE99"
   boot_data = self.get_raw_file("sys/boot.bin")
-  write_magic_str(boot_data, 0, new_game_id, 6)
+  fs.write_magic_str(boot_data, 0, new_game_id, 6)
   
   new_memory_card_game_name = "Wind Waker Randomizer"
-  self.dol.write_data(write_magic_str, 0x80339690, new_memory_card_game_name, 21)
+  self.dol.write_data(fs.write_magic_str, 0x80339690, new_memory_card_game_name, 21)
   
   new_image_file_path = os.path.join(ASSETS_PATH, "banner.png")
   image_format = texture_utils.ImageFormat.RGB5A3
@@ -560,9 +560,9 @@ def update_game_name_icon_and_banners(self):
   image_data, _, _, image_width, image_height = texture_utils.encode_image_from_path(new_image_file_path, image_format, palette_format)
   assert image_width == 96
   assert image_height == 32
-  assert data_len(image_data) == 0x1800
+  assert fs.data_len(image_data) == 0x1800
   image_data.seek(0)
-  write_bytes(banner_data, 0x20, image_data.read())
+  fs.write_bytes(banner_data, 0x20, image_data.read())
   
   cardicon_arc = self.get_arc("files/res/CardIcon/cardicon.arc")
   
@@ -617,7 +617,7 @@ def allow_dungeon_items_to_appear_anywhere(self):
     # Update the item get funcs for the dungeon items to point to our custom item get funcs instead.
     custom_symbol_name = item_name.lower().replace(" ", "_") + "_item_get_func"
     item_get_func_addr = item_get_funcs_list + item_id*4
-    self.dol.write_data(write_u32, item_get_func_addr, self.main_custom_symbols[custom_symbol_name])
+    self.dol.write_data(fs.write_u32, item_get_func_addr, self.main_custom_symbols[custom_symbol_name])
     
     # Add item get messages for the items.
     if base_item_name == "Small Key":
@@ -648,28 +648,28 @@ def allow_dungeon_items_to_appear_anywhere(self):
     
     arc_name_pointer = self.arc_name_pointers[base_item_id]
     
-    self.dol.write_data(write_u32, field_item_resources_addr, arc_name_pointer)
-    self.dol.write_data(write_u32, item_resources_addr, arc_name_pointer)
+    self.dol.write_data(fs.write_u32, field_item_resources_addr, arc_name_pointer)
+    self.dol.write_data(fs.write_u32, item_resources_addr, arc_name_pointer)
     
     item_icon_filename_pointer = self.icon_name_pointer[base_item_id]
-    self.dol.write_data(write_u32, item_resources_addr+4, item_icon_filename_pointer)
+    self.dol.write_data(fs.write_u32, item_resources_addr+4, item_icon_filename_pointer)
     
-    data1 = self.dol.read_data(read_bytes, item_resources_addr_to_copy_from+8, 0xD)
-    self.dol.write_data(write_bytes, item_resources_addr+8, data1)
-    self.dol.write_data(write_bytes, field_item_resources_addr+4, data1)
-    data2 = self.dol.read_data(read_bytes, item_resources_addr_to_copy_from+0x1C, 4)
-    self.dol.write_data(write_bytes, item_resources_addr+0x1C, data2)
-    self.dol.write_data(write_bytes, field_item_resources_addr+0x14, data2)
+    data1 = self.dol.read_data(fs.read_bytes, item_resources_addr_to_copy_from+8, 0xD)
+    self.dol.write_data(fs.write_bytes, item_resources_addr+8, data1)
+    self.dol.write_data(fs.write_bytes, field_item_resources_addr+4, data1)
+    data2 = self.dol.read_data(fs.read_bytes, item_resources_addr_to_copy_from+0x1C, 4)
+    self.dol.write_data(fs.write_bytes, item_resources_addr+0x1C, data2)
+    self.dol.write_data(fs.write_bytes, field_item_resources_addr+0x14, data2)
     
-    data3 = self.dol.read_data(read_bytes, item_resources_addr_to_copy_from+0x15, 7)
-    self.dol.write_data(write_bytes, item_resources_addr+0x15, data3)
-    data4 = self.dol.read_data(read_bytes, item_resources_addr_to_copy_from+0x20, 4)
-    self.dol.write_data(write_bytes, item_resources_addr+0x20, data4)
+    data3 = self.dol.read_data(fs.read_bytes, item_resources_addr_to_copy_from+0x15, 7)
+    self.dol.write_data(fs.write_bytes, item_resources_addr+0x15, data3)
+    data4 = self.dol.read_data(fs.read_bytes, item_resources_addr_to_copy_from+0x20, 4)
+    self.dol.write_data(fs.write_bytes, item_resources_addr+0x20, data4)
     
-    data5 = self.dol.read_data(read_bytes, field_item_resources_addr_to_copy_from+0x11, 3)
-    self.dol.write_data(write_bytes, field_item_resources_addr+0x11, data5)
-    data6 = self.dol.read_data(read_bytes, field_item_resources_addr_to_copy_from+0x18, 4)
-    self.dol.write_data(write_bytes, field_item_resources_addr+0x18, data6)
+    data5 = self.dol.read_data(fs.read_bytes, field_item_resources_addr_to_copy_from+0x11, 3)
+    self.dol.write_data(fs.write_bytes, field_item_resources_addr+0x11, data5)
+    data6 = self.dol.read_data(fs.read_bytes, field_item_resources_addr_to_copy_from+0x18, 4)
+    self.dol.write_data(fs.write_bytes, field_item_resources_addr+0x18, data6)
 
 def get_indefinite_article(string):
   first_letter = string.strip()[0].lower()
@@ -720,13 +720,13 @@ def fix_shop_item_y_offsets(self):
   
   for item_id in range(0, 0xFE+1):
     display_data_addr = shop_item_display_data_list_start + item_id*0x20
-    y_offset = self.dol.read_data(read_float, display_data_addr+0x10)
+    y_offset = self.dol.read_data(fs.read_float, display_data_addr+0x10)
     
     if y_offset == 0 and item_id not in [0x10, 0x11, 0x12]:
       # If the item didn't originally have a Y offset we need to give it one so it's not sunken into the pedestal.
       # Only exception are for items 10 11 and 12 - arrow refill pickups. Those have no Y offset but look fine already.
       new_y_offset = 20.0
-      self.dol.write_data(write_float, display_data_addr+0x10, new_y_offset)
+      self.dol.write_data(fs.write_float, display_data_addr+0x10, new_y_offset)
 
 def update_shop_item_descriptions(self):
   item_name = self.logic.done_item_locations["The Great Sea - Beedle's Shop Ship - 20 Rupee Item"]
@@ -1093,7 +1093,7 @@ def update_korl_dialogue(self):
 def set_num_starting_triforce_shards(self):
   num_starting_triforce_shards = int(self.options.get("num_starting_triforce_shards", 0))
   num_shards_address = self.main_custom_symbols["num_triforce_shards_to_start_with"]
-  self.dol.write_data(write_u8, num_shards_address, num_starting_triforce_shards)
+  self.dol.write_data(fs.write_u8, num_shards_address, num_starting_triforce_shards)
 
 def set_starting_health(self):
   heart_pieces = self.options.get("starting_pohs")
@@ -1104,11 +1104,11 @@ def set_starting_health(self):
   
   starting_quarter_hearts_address = self.main_custom_symbols["starting_quarter_hearts"]
 
-  self.dol.write_data(write_u16, starting_quarter_hearts_address, starting_health)
+  self.dol.write_data(fs.write_u16, starting_quarter_hearts_address, starting_health)
 
 def set_starting_magic(self, starting_magic):
   starting_magic_address = self.main_custom_symbols["starting_magic"]
-  self.dol.write_data(write_u8, starting_magic_address, starting_magic)
+  self.dol.write_data(fs.write_u8, starting_magic_address, starting_magic)
 
 def add_pirate_ship_to_windfall(self):
   windfall_dzr = self.get_arc("files/res/Stage/sea/Room11.arc").get_file("room.dzr")
@@ -1174,8 +1174,8 @@ def add_pirate_ship_to_windfall(self):
   
   asoko_bgm_info_ptr = stage_bgm_info_list_start + asoko_spot_id*4
   new_second_scene_wave_ptr = second_dynamic_scene_waves_list_start + new_second_scene_wave_index*2
-  self.dol.write_data(write_u8, asoko_bgm_info_ptr+3, new_second_scene_wave_index)
-  self.dol.write_data(write_u8, new_second_scene_wave_ptr+0, isle_link_0_aw_index)
+  self.dol.write_data(fs.write_u8, asoko_bgm_info_ptr+3, new_second_scene_wave_index)
+  self.dol.write_data(fs.write_u8, new_second_scene_wave_ptr+0, isle_link_0_aw_index)
   
   
   # Add a custom event where Aryll notices if the player got trapped in the chest room after the timer ran out and opens the door for them.
@@ -1264,7 +1264,7 @@ def add_pirate_ship_to_windfall(self):
   
   # Change the facial animation used by Aryll animation 4 (arms behind back, swaying back and forth) to be 5 (smug expression).
   aryll_rel = self.get_rel("files/rels/d_a_npc_ls1.rel")
-  aryll_rel.write_data(write_u8, 0x5D18 + 4*0x10 + 1, 5)
+  aryll_rel.write_data(fs.write_u8, 0x5D18 + 4*0x10 + 1, 5)
   
   
   # Now that we have a custom event, we must actually detect when the player is trapped in the chest room and trigger it.
@@ -1450,12 +1450,12 @@ def remove_makar_kidnapping_event(self):
 
 def increase_player_movement_speeds(self):
   # Double crawling speed.
-  self.dol.write_data(write_float, 0x8035DB94, 3.0*2)
+  self.dol.write_data(fs.write_float, 0x8035DB94, 3.0*2)
   
   # Change rolling so that it scales from 20.0 to 26.0 speed depending on the player's speed when they roll.
   # In vanilla, it scaled from 0.5 to 26.0 instead.
-  self.dol.write_data(write_float, 0x8035D3D0, 6.0/17.0) # Rolling speed multiplier on walking speed
-  self.dol.write_data(write_float, 0x8035D3D4, 20.0) # Rolling base speed
+  self.dol.write_data(fs.write_float, 0x8035D3D0, 6.0/17.0) # Rolling speed multiplier on walking speed
+  self.dol.write_data(fs.write_float, 0x8035D3D4, 20.0) # Rolling base speed
 
 def add_chart_number_to_item_get_messages(self):
   for item_id, item_name in self.item_names.items():
@@ -1472,61 +1472,61 @@ def increase_grapple_animation_speed(self):
   # Double the velocity the grappling hook is thrown out (from 20.0 to 40.0)
   # Instead of reading 20.0 from 803F9D28, read 40.0 from 803F9DAC.
   # (We can't just change the float value itself because it's used for multiple things.)
-  self.dol.write_data(write_s16, 0x800EE0E4+2, 0x803F9DAC-0x803FFD00)
+  self.dol.write_data(fs.write_s16, 0x800EE0E4+2, 0x803F9DAC-0x803FFD00)
   
   # Half the number of frames grappling hook extends outward in 1st person (from 40 to 20 frames)
-  self.dol.write_data(write_u32, 0x800EDB74, 0x38030014) # addi r0,r3,20
+  self.dol.write_data(fs.write_u32, 0x800EDB74, 0x38030014) # addi r0,r3,20
   
   # Half the number of frames grappling hook extends outward in 3rd person (from 20 to 10)
-  self.dol.write_data(write_u32, 0x800EDEA4, 0x3803000A) # addi r0,r3,10
+  self.dol.write_data(fs.write_u32, 0x800EDEA4, 0x3803000A) # addi r0,r3,10
   
   # Increase the speed in which the grappling hook falls onto it's target (from 10.0 to 20.0)
   # Instead of reading 10.0 from 803F9C44, read 20.0 from 803F9D28.
   # (We can't just change the float value itself because it's used for multiple things.)
-  self.dol.write_data(write_s16, 0x800EEC40+2, 0x803F9D28-0x803FFD00)
+  self.dol.write_data(fs.write_s16, 0x800EEC40+2, 0x803F9D28-0x803FFD00)
   
   # Increase grappling hook speed as it wraps around its target (from 17.0 to 25.0)
   # (Only read in one spot, so we can change the value directly.)
-  self.dol.write_data(write_float, 0x803F9D60, 25.0)
+  self.dol.write_data(fs.write_float, 0x803F9D60, 25.0)
   
   # Increase the counter that determines how fast to end the wrap around animation. (From +1 each frame to +6 each frame)
-  self.dol.write_data(write_u32, 0x800EECA8, 0x38A30006) # addi r5,r3,6
+  self.dol.write_data(fs.write_u32, 0x800EECA8, 0x38A30006) # addi r5,r3,6
 
 # Speeds up the rate in which blocks move when pushed/pulled
 def increase_block_moving_animation(self):
   # Increase Link's pushing animation speed from 1.0 to 1.4
   # Note that this causes a softlock when opening a specific door in Forsaken Fortress - see fix_forsaken_fortress_door_softlock for more details.
-  self.dol.write_data(write_float, 0x8035DBB0, 1.4)
+  self.dol.write_data(fs.write_float, 0x8035DBB0, 1.4)
   
   # Increase Link's pulling animation speed from 1.0 to 1.4
-  self.dol.write_data(write_float, 0x8035DBB8, 1.4)
+  self.dol.write_data(fs.write_float, 0x8035DBB8, 1.4)
   
   block_rel = self.get_rel("files/rels/d_a_obj_movebox.rel")
   
   offset = 0x54B0 # M_attr__Q212daObjMovebox5Act_c. List of various data for each type of block.
   for i in range(13): # 13 types of blocks total.
-    block_rel.write_data(write_u16, offset + 0x04, 12) # Reduce number frames for pushing to last from 20 to 12
-    block_rel.write_data(write_u16, offset + 0x0A, 12) # Reduce number frames for pulling to last from 20 to 12
+    block_rel.write_data(fs.write_u16, offset + 0x04, 12) # Reduce number frames for pushing to last from 20 to 12
+    block_rel.write_data(fs.write_u16, offset + 0x0A, 12) # Reduce number frames for pulling to last from 20 to 12
     offset += 0x9C
 
 def increase_misc_animations(self):
   # Increase the animation speed that Link initiates a climb (0.8 -> 1.6)
-  self.dol.write_data(write_float, 0x8035D738, 1.6)
+  self.dol.write_data(fs.write_float, 0x8035D738, 1.6)
   
   # Increase speed Link climbs ladders/vines (1.2 -> 1.6)
-  self.dol.write_data(write_float, 0x8035DB38, 1.6)
+  self.dol.write_data(fs.write_float, 0x8035DB38, 1.6)
   
   # Increase speed Link starts climbing a ladder/vine (1.0 -> 1.6)
-  self.dol.write_data(write_float, 0x8035DB18, 1.6)
+  self.dol.write_data(fs.write_float, 0x8035DB18, 1.6)
   
   # Increase speed Link ends climbing a ladder/vine (0.9 -> 1.4)
-  self.dol.write_data(write_float, 0x8035DB20, 1.4)
+  self.dol.write_data(fs.write_float, 0x8035DB20, 1.4)
   
   # Increase Link's sidle animation speed (1.6 -> 2.0)
-  self.dol.write_data(write_float, 0x8035D6AC, 2.0)
+  self.dol.write_data(fs.write_float, 0x8035D6AC, 2.0)
   
   # Half the number of frames camera takes to focus on an npc for a conversation (from 20 to 10)
-  self.dol.write_data(write_u32, 0x8016DA2C, 0x3800000A) # li r0,10
+  self.dol.write_data(fs.write_u32, 0x8016DA2C, 0x3800000A) # li r0,10
 
 
 def change_starting_clothes(self):
@@ -1535,9 +1535,9 @@ def change_starting_clothes(self):
   
   should_start_with_heros_clothes_address = self.main_custom_symbols["should_start_with_heros_clothes"]
   if self.options.get("player_in_casual_clothes") and not disable_casual_clothes:
-    self.dol.write_data(write_u8, should_start_with_heros_clothes_address, 0)
+    self.dol.write_data(fs.write_u8, should_start_with_heros_clothes_address, 0)
   else:
-    self.dol.write_data(write_u8, should_start_with_heros_clothes_address, 1)
+    self.dol.write_data(fs.write_u8, should_start_with_heros_clothes_address, 1)
 
 def check_hide_ship_sail(self):
   # Allow the custom model author to specify if they want the ship's sail to be hidden.
@@ -1548,7 +1548,7 @@ def check_hide_ship_sail(self):
   if hide_ship_sail:
     # Make the sail's draw function return immediately to hide it.
     sail_draw_func_address = 0x800E93B8 # daHo_packet_c::draw(void)
-    self.dol.write_data(write_u32, sail_draw_func_address, 0x4E800020) # blr
+    self.dol.write_data(fs.write_u32, sail_draw_func_address, 0x4E800020) # blr
 
 def shorten_auction_intro_event(self):
   event_list = self.get_arc("files/res/Stage/Orichh/Stage.arc").get_file("event_list.dat")
@@ -1578,18 +1578,18 @@ def disable_invisible_walls(self):
 def update_skip_rematch_bosses_game_variable(self):
   skip_rematch_bosses_address = self.main_custom_symbols["skip_rematch_bosses"]
   if self.options.get("skip_rematch_bosses"):
-    self.dol.write_data(write_u8, skip_rematch_bosses_address, 1)
+    self.dol.write_data(fs.write_u8, skip_rematch_bosses_address, 1)
   else:
-    self.dol.write_data(write_u8, skip_rematch_bosses_address, 0)
+    self.dol.write_data(fs.write_u8, skip_rematch_bosses_address, 0)
 
 def update_sword_mode_game_variable(self):
   sword_mode_address = self.main_custom_symbols["sword_mode"]
   if self.options.get("sword_mode") == "Start with Hero's Sword":
-    self.dol.write_data(write_u8, sword_mode_address, 0)
+    self.dol.write_data(fs.write_u8, sword_mode_address, 0)
   elif self.options.get("sword_mode") == "No Starting Sword":
-    self.dol.write_data(write_u8, sword_mode_address, 1)
+    self.dol.write_data(fs.write_u8, sword_mode_address, 1)
   elif self.options.get("sword_mode") == "Swordless":
-    self.dol.write_data(write_u8, sword_mode_address, 2)
+    self.dol.write_data(fs.write_u8, sword_mode_address, 2)
   else:
     raise Exception("Unknown sword mode: %s" % self.options.get("sword_mode"))
 
@@ -1613,10 +1613,10 @@ def update_starting_gear(self):
   
   for i in range(len(starting_gear)):
     item_id = self.item_name_to_id[starting_gear[i]]
-    self.dol.write_data(write_u8, starting_gear_array_address+i, item_id)
+    self.dol.write_data(fs.write_u8, starting_gear_array_address+i, item_id)
   
   # Write end marker.
-  self.dol.write_data(write_u8, starting_gear_array_address+len(starting_gear), 0xFF)
+  self.dol.write_data(fs.write_u8, starting_gear_array_address+len(starting_gear), 0xFF)
 
 def update_text_for_swordless(self):
   msg = self.bmg.messages_by_id[1128]
@@ -1696,7 +1696,7 @@ def update_tingle_statue_item_get_funcs(self):
     item_get_func_addr = item_get_funcs_list + tingle_statue_item_id*4
     item_name = self.item_names[tingle_statue_item_id]
     custom_symbol_name = item_name.lower().replace(" ", "_") + "_item_get_func"
-    self.dol.write_data(write_u32, item_get_func_addr, self.main_custom_symbols[custom_symbol_name])
+    self.dol.write_data(fs.write_u32, item_get_func_addr, self.main_custom_symbols[custom_symbol_name])
 
 def make_tingle_statue_reward_rupee_rainbow_colored(self):
   # Change the color index of the special 500 rupee to be 7 - this is a special value (originally unused) we use to indicate to our custom code that it's the special rupee, and so it should have its color animated.
@@ -1709,7 +1709,7 @@ def make_tingle_statue_reward_rupee_rainbow_colored(self):
   item_id = self.item_name_to_id["Rainbow Rupee"]
   rainbow_rupee_item_resource_addr = item_resources_list_start + item_id*0x24
   
-  self.dol.write_data(write_u8, rainbow_rupee_item_resource_addr+0x14, 7)
+  self.dol.write_data(fs.write_u8, rainbow_rupee_item_resource_addr+0x14, 7)
 
 def show_seed_hash_on_name_entry_screen(self):
   # Add some text to the name entry screen which has two random character names that vary based on the permalink (so the seed and settings both change it).
@@ -1781,7 +1781,7 @@ def show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=[]):
     offset = first_quest_marker_pic1_offset + quest_marker_index*0x40
     
     # Make the quest marker icon be visible.
-    write_u8(sea_chart_ui.data, offset+9, 1)
+    fs.write_u8(sea_chart_ui.data, offset+9, 1)
     
     if dungeon_name == "Forsaken Fortress":
       island_name = "Forsaken Fortress"
@@ -1791,8 +1791,8 @@ def show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=[]):
     sector_x = (island_number-1) % 7
     sector_y = (island_number-1) // 7
     
-    write_s16(sea_chart_ui.data, offset+0x10, sector_x*0x37-0xFA)
-    write_s16(sea_chart_ui.data, offset+0x12, sector_y*0x38-0xBC)
+    fs.write_s16(sea_chart_ui.data, offset+0x10, sector_x*0x37-0xFA)
+    fs.write_s16(sea_chart_ui.data, offset+0x12, sector_y*0x38-0xBC)
 
 def prevent_fire_mountain_lava_softlock(self):
   # Sometimes when spawning from spawn ID 0 outside fire mountain, the player will get stuck in an infinite loop of taking damage from lava.
@@ -1991,9 +1991,9 @@ def test_room(self):
   room_index_ptr = self.main_custom_symbols["test_room_room_index"]
   spawn_id_ptr = self.main_custom_symbols["test_room_spawn_id"]
   
-  self.dol.write_data(write_str, stage_name_ptr, self.test_room_args["stage"], 8)
-  self.dol.write_data(write_u8, room_index_ptr, self.test_room_args["room"])
-  self.dol.write_data(write_u8, spawn_id_ptr, self.test_room_args["spawn"])
+  self.dol.write_data(fs.write_str, stage_name_ptr, self.test_room_args["stage"], 8)
+  self.dol.write_data(fs.write_u8, room_index_ptr, self.test_room_args["room"])
+  self.dol.write_data(fs.write_u8, spawn_id_ptr, self.test_room_args["spawn"])
 
 def fix_forsaken_fortress_door_softlock(self):
   # Fix a bug where entering Forsaken Fortress via the left half of the big door on the second floor (the one you'd normally only exit from and not go back through) would softlock the game.
@@ -2006,9 +2006,9 @@ def fix_forsaken_fortress_door_softlock(self):
   
   ff_dzb = self.get_arc("files/res/Stage/sea/Room1.arc").get_file_entry("room.dzb")
   ff_dzb.decompress_data_if_necessary()
-  face_list_offset = read_u32(ff_dzb.data, 0xC)
+  face_list_offset = fs.read_u32(ff_dzb.data, 0xC)
   face_offset = face_list_offset + face_index*0xA
-  write_u16(ff_dzb.data, face_offset+6, new_property_index)
+  fs.write_u16(ff_dzb.data, face_offset+6, new_property_index)
 
 def add_new_bog_warp(self):
   # Adds a new Ballad of Gales warp point destination to Forsaken Fortress.
@@ -2022,47 +2022,47 @@ def add_new_bog_warp(self):
   custom_warp_table_address = self.main_custom_symbols["ballad_of_gales_warp_table"]
   high_halfword, low_halfword = patcher.split_pointer_into_high_and_low_half_for_hardcoding(custom_warp_table_address)
   for code_address in [0x801B96DC, 0x801B96F0, 0x801B9790]:
-    self.dol.write_data(write_u16, code_address+2, high_halfword)
-    self.dol.write_data(write_u16, code_address+6, low_halfword)
+    self.dol.write_data(fs.write_u16, code_address+2, high_halfword)
+    self.dol.write_data(fs.write_u16, code_address+6, low_halfword)
   
   # Update the pointers to the float bank of X/Y positions for the warp icons to point to a custom one.
   custom_warp_float_bank_address = self.main_custom_symbols["ballad_of_gales_warp_float_bank"]
   high_halfword, low_halfword = patcher.split_pointer_into_high_and_low_half_for_hardcoding(custom_warp_float_bank_address)
   for code_address in [0x801B9360, 0x801B7C28]:
-    self.dol.write_data(write_u16, code_address+2, high_halfword)
-    self.dol.write_data(write_u16, code_address+6, low_halfword)
+    self.dol.write_data(fs.write_u16, code_address+2, high_halfword)
+    self.dol.write_data(fs.write_u16, code_address+6, low_halfword)
   
   # Update the offsets relative to the float bank symbol since they're all going to be completely different in the custom float bank compared to the original one.
-  self.dol.write_data(write_u16, 0x801B7C3C+2, 0) # Reading X positions in dMenu_Fmap_c::init_warpMode
-  self.dol.write_data(write_u16, 0x801B7C44+2, new_num_warps*4) # Reading Y positions in dMenu_Fmap_c::init_warpMode
-  self.dol.write_data(write_u16, 0x801B9378+2, 0) # Reading X positions in dMenu_Fmap_c::warpAreaAnime0
-  self.dol.write_data(write_u16, 0x801B9380+2, new_num_warps*4) # Reading Y positions in dMenu_Fmap_c::warpAreaAnime0
-  self.dol.write_data(write_u16, 0x801B93A4+2, new_num_warps*2*4) # Reading unknown value in dMenu_Fmap_c::warpAreaAnime0
-  self.dol.write_data(write_u16, 0x801B93C8+2, new_num_warps*2*4 + 4) # Reading unknown value in dMenu_Fmap_c::warpAreaAnime0
+  self.dol.write_data(fs.write_u16, 0x801B7C3C+2, 0) # Reading X positions in dMenu_Fmap_c::init_warpMode
+  self.dol.write_data(fs.write_u16, 0x801B7C44+2, new_num_warps*4) # Reading Y positions in dMenu_Fmap_c::init_warpMode
+  self.dol.write_data(fs.write_u16, 0x801B9378+2, 0) # Reading X positions in dMenu_Fmap_c::warpAreaAnime0
+  self.dol.write_data(fs.write_u16, 0x801B9380+2, new_num_warps*4) # Reading Y positions in dMenu_Fmap_c::warpAreaAnime0
+  self.dol.write_data(fs.write_u16, 0x801B93A4+2, new_num_warps*2*4) # Reading unknown value in dMenu_Fmap_c::warpAreaAnime0
+  self.dol.write_data(fs.write_u16, 0x801B93C8+2, new_num_warps*2*4 + 4) # Reading unknown value in dMenu_Fmap_c::warpAreaAnime0
   
   # These handle displaying the spinning warp icons on the warp select screen.
-  self.dol.write_data(write_u16, 0x801B7988+2, new_num_warps) # dMenu_Fmap_c::_open_warpMode
-  self.dol.write_data(write_u16, 0x801B7C80+2, new_num_warps) # dMenu_Fmap_c::init_warpMode
+  self.dol.write_data(fs.write_u16, 0x801B7988+2, new_num_warps) # dMenu_Fmap_c::_open_warpMode
+  self.dol.write_data(fs.write_u16, 0x801B7C80+2, new_num_warps) # dMenu_Fmap_c::init_warpMode
   
   # These handle moving the cursor on the currently selected warp on the warp select screen.
   # They also seem to handle deleting the spinning warp icons when you exit the screen.
-  self.dol.write_data(write_u16, 0x801B8414+2, new_num_warps) # dMenu_Fmap_c::wrapMove
-  self.dol.write_data(write_u16, 0x801B84D0+2, new_num_warps) # dMenu_Fmap_c::wrapMove
+  self.dol.write_data(fs.write_u16, 0x801B8414+2, new_num_warps) # dMenu_Fmap_c::wrapMove
+  self.dol.write_data(fs.write_u16, 0x801B84D0+2, new_num_warps) # dMenu_Fmap_c::wrapMove
   
   # Necessary for the 10th warp to work correctly.
-  self.dol.write_data(write_u16, 0x801B979C+2, new_num_warps) # dMenu_Fmap_c::getWarpAreaTablePtr
+  self.dol.write_data(fs.write_u16, 0x801B979C+2, new_num_warps) # dMenu_Fmap_c::getWarpAreaTablePtr
   
   # Handles something when you open the warp select screen.
-  self.dol.write_data(write_u16, 0x801B6E6C+2, new_num_warps) # dMenu_Fmap_c::paneTranceZoomMap
+  self.dol.write_data(fs.write_u16, 0x801B6E6C+2, new_num_warps) # dMenu_Fmap_c::paneTranceZoomMap
   
   # Handles something when you cancel a warp at the confirmation prompt.
-  self.dol.write_data(write_u16, 0x801B9020+2, new_num_warps) # dMenu_Fmap_c::wrapSelWinFadeOut
+  self.dol.write_data(fs.write_u16, 0x801B9020+2, new_num_warps) # dMenu_Fmap_c::wrapSelWinFadeOut
   
   # Handles something when you confirm a warp at the confirmation prompt.
-  self.dol.write_data(write_u16, 0x801B9230+2, new_num_warps) # dMenu_Fmap_c::wrapSelWarp
+  self.dol.write_data(fs.write_u16, 0x801B9230+2, new_num_warps) # dMenu_Fmap_c::wrapSelWarp
   
   # Handles highlighting the currently selected warp icon.
-  self.dol.write_data(write_u16, 0x801B936C+2, new_num_warps) # dMenu_Fmap_c::warpAreaAnime0
+  self.dol.write_data(fs.write_u16, 0x801B936C+2, new_num_warps) # dMenu_Fmap_c::warpAreaAnime0
   
   # Note: The place in memory that stores pointers to the spinning warp icon particle emitter seems to have room for 12 warps total. So we could theoretically add 3 new warps without issue instead of just 1. But any more than that won't work.
   # Example of code dealing with this list: 801BA0F4 stores the emitter pointer to that list.
@@ -2079,13 +2079,13 @@ def make_rat_holes_visible_from_behind(self):
   # Change the cull mode on the rat hole model from backface culling to none.
   # This is so the hole is visible from behind in enemy rando.
   data = self.get_arc("files/res/Object/Nzg.arc").get_file_entry("kana_00.bdl").data
-  write_u32(data, 0xC80, 0x00) # Change cull mode in the MAT3 section
-  write_u8(data, 0xFCE, 0x04) # Change cull mode in the MDL3 section
+  fs.write_u32(data, 0xC80, 0x00) # Change cull mode in the MAT3 section
+  fs.write_u8(data, 0xFCE, 0x04) # Change cull mode in the MDL3 section
 
 def enable_developer_mode(self):
   # This enables the developer mode left in the game's code.
   
-  self.dol.write_data(write_u8, 0x803F60E0, 1) # mDoMain::developmentMode(void)
+  self.dol.write_data(fs.write_u8, 0x803F60E0, 1) # mDoMain::developmentMode(void)
 
 def enable_heap_display(self):
   # Enables the heap display left in the game's code for viewing how much memory is free in real time.
@@ -2093,16 +2093,16 @@ def enable_heap_display(self):
   boot_data = self.get_raw_file("sys/boot.bin")
   
   # Change a variable in the ISO header to allow the heap display to be used.
-  write_u8(boot_data, 0x07, 0x91)
+  fs.write_u8(boot_data, 0x07, 0x91)
   
   # Default the heap display to on when booting up the game so it doesn't need to be toggled on with R+Z on controller 3.
-  self.dol.write_data(write_u8, 0x800063E7, 1) # Hardcoded default value for mDisplayHeapSize (in func main01)
+  self.dol.write_data(fs.write_u8, 0x800063E7, 1) # Hardcoded default value for mDisplayHeapSize (in func main01)
   
   # Default tab of the heap display to 1 instead of 4 so it doesn't need to be changed with L+Z on controller 3.
-  self.dol.write_data(write_u8, 0x803F60E8, 1) # mHeapBriefType
+  self.dol.write_data(fs.write_u8, 0x803F60E8, 1) # mHeapBriefType
   
   # Remove a check that a controller must be connected to port 3 for the heap display to be shown.
-  self.dol.write_data(write_u32, 0x800084A0, 0x60000000) # nop (in mDoGph_AfterOfDraw)
+  self.dol.write_data(fs.write_u32, 0x800084A0, 0x60000000) # nop (in mDoGph_AfterOfDraw)
 
 def add_failsafe_id_0_spawns(self):
   # Add spawns with spawn ID 0 to any rooms that didn't originally have them.
@@ -2325,9 +2325,9 @@ def fix_stone_head_bugs(self):
   
   head_rel = self.get_rel("files/rels/d_a_obj_homen.rel")
   
-  status_bits = head_rel.read_data(read_u32, 0x3450)
+  status_bits = head_rel.read_data(fs.read_u32, 0x3450)
   status_bits &= ~0x00000080
-  head_rel.write_data(write_u32, 0x3450, status_bits)
+  head_rel.write_data(fs.write_u32, 0x3450, status_bits)
 
 def show_number_of_tingle_statues_on_quest_status_screen(self):
   # Replaces the visuals of the treasure chart counter on the quest status creen with visuals for a tingle statue counter.
@@ -2335,7 +2335,7 @@ def show_number_of_tingle_statues_on_quest_status_screen(self):
   # (The actual counter number itself is modified via asm.)
   
   # Replace the treasure chart item icon on the quest screen with the tingle statue icon.
-  self.dol.write_data(write_str, 0x8035F469, "tingle_figure.bti", 0x13)
+  self.dol.write_data(fs.write_str, 0x8035F469, "tingle_figure.bti", 0x13)
   
   # Update the "Treasure Chart" text at the bottom of the screen.
   msg = self.bmg.messages_by_id[503]

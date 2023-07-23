@@ -6,7 +6,7 @@ import re
 from io import BytesIO
 from collections import OrderedDict
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 from gclib.yaz0 import Yaz0
 from gclib.rel import REL
 from wwrando_paths import ASM_PATH
@@ -27,7 +27,7 @@ def disassemble_all_code(self):
       framework_map_contents = BytesIO(f.read())
   else:
     framework_map_contents = self.gcm.read_file_data("files/maps/framework.map")
-  framework_map_contents = read_all_bytes(framework_map_contents).decode("ascii")
+  framework_map_contents = fs.read_all_bytes(framework_map_contents).decode("ascii")
   main_symbols = get_main_symbols(framework_map_contents)
   
   
@@ -360,7 +360,7 @@ def add_symbols_to_main(self, asm_path, main_symbols):
           out_str += get_padded_comment_string_for_line(line)
           out_str += "%08X" % loaded_string_address
           
-          loaded_string = self.dol.read_data(read_str_until_null_character, loaded_string_address)
+          loaded_string = self.dol.read_data(fs.read_str_until_null_character, loaded_string_address)
           out_str += "      " + repr(loaded_string)
         else:
           out_str += line

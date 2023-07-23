@@ -7,7 +7,7 @@ from io import BytesIO
 import glob
 from PIL import Image
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 from gclib import texture_utils
 from gclib.texture_utils import ImageFormat, PaletteFormat
 from gclib.gx_enums import GXAttr
@@ -233,7 +233,7 @@ def replace_link_model(self):
   
   orig_sum_of_changed_arc_sizes += ORIG_LINK_ARC_FILE_SIZE_IN_BYTES
   custom_link_arc.save_changes()
-  new_sum_of_changed_arc_sizes += data_len(custom_link_arc.data)
+  new_sum_of_changed_arc_sizes += fs.data_len(custom_link_arc.data)
   checked_arc_names.append("Link.arc")
   check_changed_archives_over_filesize_limit(orig_sum_of_changed_arc_sizes, new_sum_of_changed_arc_sizes, checked_arc_names)
   
@@ -254,7 +254,7 @@ def replace_link_model(self):
       
       orig_sum_of_changed_arc_sizes += orig_anim_arc_file_size
       custom_anim_arc.save_changes()
-      new_sum_of_changed_arc_sizes += data_len(custom_anim_arc.data)
+      new_sum_of_changed_arc_sizes += fs.data_len(custom_anim_arc.data)
       checked_arc_names.append(anim_arc_name)
       check_changed_archives_over_filesize_limit(orig_sum_of_changed_arc_sizes, new_sum_of_changed_arc_sizes, checked_arc_names)
       
@@ -263,7 +263,7 @@ def replace_link_model(self):
         # So we stop including LkD00's size in the total as soon as we've checked its size.
         # We uncount LkD00 specifically because in the randomizer, LkD01 is always loaded. LkD00 is only relevant for the first half of the vanilla game.
         orig_sum_of_changed_arc_sizes -= orig_anim_arc_file_size
-        new_sum_of_changed_arc_sizes -= data_len(custom_anim_arc.data)
+        new_sum_of_changed_arc_sizes -= fs.data_len(custom_anim_arc.data)
         checked_arc_names.remove(anim_arc_name)
   
   # Replace Link's gameplay animations.
@@ -286,13 +286,13 @@ def replace_link_model(self):
     
     orig_sum_of_changed_arc_sizes += ORIG_SHIP_ARC_FILE_SIZE_IN_BYTES
     custom_ship_arc.save_changes()
-    new_sum_of_changed_arc_sizes += data_len(custom_ship_arc.data)
+    new_sum_of_changed_arc_sizes += fs.data_len(custom_ship_arc.data)
     checked_arc_names.append("Ship.arc")
     check_changed_archives_over_filesize_limit(orig_sum_of_changed_arc_sizes, new_sum_of_changed_arc_sizes, checked_arc_names)
     
     orig_sail_tex = orig_ship_arc.get_file("new_ho1.bti")
     custom_sail_tex = custom_ship_arc.get_file("new_ho1.bti")
-    if read_all_bytes(custom_sail_tex.data) != read_all_bytes(orig_sail_tex.data) or orig_sail_tex.image_format != custom_sail_tex.image_format:
+    if fs.read_all_bytes(custom_sail_tex.data) != fs.read_all_bytes(orig_sail_tex.data) or orig_sail_tex.image_format != custom_sail_tex.image_format:
       # Don't allow the swift sail tweak to replace this custom texture with the swift sail texture.
       self.using_custom_sail_texture = True
   
@@ -370,13 +370,13 @@ def change_player_custom_colors(self):
   boomerang_trail_color = custom_model_metadata.get("boomerang_trail_color")
   arrow_trail_color = custom_model_metadata.get("arrow_trail_color")
   if sword_slash_trail_color:
-    self.dol.write_data(write_and_pack_bytes, 0x803F62AC, sword_slash_trail_color, "BBBB")
+    self.dol.write_data(fs.write_and_pack_bytes, 0x803F62AC, sword_slash_trail_color, "BBBB")
   if elixir_soup_sword_trail_color:
-    self.dol.write_data(write_and_pack_bytes, 0x803F62B0, elixir_soup_sword_trail_color, "BBBB")
+    self.dol.write_data(fs.write_and_pack_bytes, 0x803F62B0, elixir_soup_sword_trail_color, "BBBB")
   if parrying_sword_trail_color:
-    self.dol.write_data(write_and_pack_bytes, 0x803F62B4, parrying_sword_trail_color, "BBBB")
+    self.dol.write_data(fs.write_and_pack_bytes, 0x803F62B4, parrying_sword_trail_color, "BBBB")
   if boomerang_trail_color:
-    self.dol.write_data(write_and_pack_bytes, 0x803F6268, boomerang_trail_color, "BBBB")
+    self.dol.write_data(fs.write_and_pack_bytes, 0x803F6268, boomerang_trail_color, "BBBB")
   if arrow_trail_color:
     common_jpc = self.get_jpc("files/res/Particle/common.jpc")
     particle = common_jpc.particles_by_id[0x48]

@@ -4,7 +4,7 @@ from io import BytesIO
 from collections import OrderedDict
 from dataclasses import dataclass, field
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 from gclib.bti import BTI
 from gclib.yaz0 import Yaz0
 from gclib.gx_enums import GXAttr, GXComponentCount, GXCompType, GXCompTypeNumber, GXCompTypeColor
@@ -31,17 +31,17 @@ class J3DFile:
   def read(self):
     data = self.data
     
-    self.magic = read_str(data, 0, 4)
+    self.magic = fs.read_str(data, 0, 4)
     assert self.magic.startswith("J3D")
-    self.file_type = read_str(data, 4, 4)
-    self.length = read_u32(data, 8)
-    self.num_chunks = read_u32(data, 0x0C)
+    self.file_type = fs.read_str(data, 4, 4)
+    self.length = fs.read_u32(data, 8)
+    self.num_chunks = fs.read_u32(data, 0x0C)
     
-    self.bck_sound_data_offset = read_u32(data, 0x1C)
+    self.bck_sound_data_offset = fs.read_u32(data, 0x1C)
     if self.file_type == "bck1" and self.bck_sound_data_offset != 0xFFFFFFFF:
-      num_bck_sound_data_entries = read_u16(data, self.bck_sound_data_offset)
+      num_bck_sound_data_entries = fs.read_u16(data, self.bck_sound_data_offset)
       bck_sound_data_length = 8 + num_bck_sound_data_entries*0x20
-      self.bck_sound_data = read_bytes(data, self.bck_sound_data_offset, bck_sound_data_length)
+      self.bck_sound_data = fs.read_bytes(data, self.bck_sound_data_offset, bck_sound_data_length)
     else:
       self.bck_sound_data = None
     
@@ -49,12 +49,12 @@ class J3DFile:
     self.chunk_by_type = {}
     offset = 0x20
     for chunk_index in range(self.num_chunks):
-      if offset == data_len(data):
+      if offset == fs.data_len(data):
         # Normally the number of chunks tells us when to stop reading.
         # But in rare cases like Bk.arc/bk_boko.bmt, the number of chunks can be greater than how many chunks are actually in the file, so we need to detect when we've reached the end of the file manually.
         break
       
-      chunk_magic = read_str(data, offset, 4)
+      chunk_magic = fs.read_str(data, offset, 4)
       if chunk_magic in IMPLEMENTED_CHUNK_TYPES:
         chunk_class = globals().get(chunk_magic, None)
       else:
@@ -84,20 +84,20 @@ class J3DFile:
       data.write(chunk_data)
     
     if self.bck_sound_data is not None:
-      self.bck_sound_data_offset = data_len(data)
-      write_bytes(data, self.bck_sound_data_offset, self.bck_sound_data)
+      self.bck_sound_data_offset = fs.data_len(data)
+      fs.write_bytes(data, self.bck_sound_data_offset, self.bck_sound_data)
       
       # Pad the size of the whole file to the next 0x20 bytes.
-      align_data_to_nearest(data, 0x20, padding_bytes=b'\0')
+      fs.align_data_to_nearest(data, 0x20, padding_bytes=b'\0')
     
-    self.length = data_len(data)
+    self.length = fs.data_len(data)
     self.num_chunks = len(self.chunks)
     
-    write_magic_str(data, 0, self.magic, 4)
-    write_magic_str(data, 4, self.file_type, 4)
-    write_u32(data, 8, self.length)
-    write_u32(data, 0xC, self.num_chunks)
-    write_u32(data, 0x1C, self.bck_sound_data_offset)
+    fs.write_magic_str(data, 0, self.magic, 4)
+    fs.write_magic_str(data, 4, self.file_type, 4)
+    fs.write_u32(data, 8, self.length)
+    fs.write_u32(data, 0xC, self.num_chunks)
+    fs.write_u32(data, 0x1C, self.bck_sound_data_offset)
 
 class J3DFileEntry(J3DFile):
   def __init__(self, file_entry):
@@ -149,8 +149,8 @@ class J3DChunk:
     self.data = None
   
   def read(self, file_data, chunk_offset):
-    self.magic = read_str(file_data, chunk_offset, 4)
-    self.size = read_u32(file_data, chunk_offset+4)
+    self.magic = fs.read_str(file_data, chunk_offset, 4)
+    self.size = fs.read_u32(file_data, chunk_offset+4)
     
     file_data.seek(chunk_offset)
     self.data = BytesIO(file_data.read(self.size))
@@ -164,27 +164,27 @@ class J3DChunk:
     self.save_chunk_specific_data()
     
     # Pad the size of this chunk to the next 0x20 bytes.
-    align_data_to_nearest(self.data, 0x20)
+    fs.align_data_to_nearest(self.data, 0x20)
     
-    self.size = data_len(self.data)
-    write_magic_str(self.data, 0, self.magic, 4)
-    write_u32(self.data, 4, self.size)
+    self.size = fs.data_len(self.data)
+    fs.write_magic_str(self.data, 0, self.magic, 4)
+    fs.write_u32(self.data, 4, self.size)
   
   def save_chunk_specific_data(self):
     pass
   
   def read_string_table(self, string_table_offset):
-    num_strings = read_u16(self.data, string_table_offset+0x00)
-    #padding = read_u16(self.data, string_table_offset+0x02)
+    num_strings = fs.read_u16(self.data, string_table_offset+0x00)
+    #padding = fs.read_u16(self.data, string_table_offset+0x02)
     #assert padding == 0xFFFF
     
     strings = []
     offset = string_table_offset + 4
     for i in range(num_strings):
-      #string_hash = read_u16(self.data, offset+0x00)
-      string_data_offset = read_u16(self.data, offset+0x02)
+      #string_hash = fs.read_u16(self.data, offset+0x00)
+      string_data_offset = fs.read_u16(self.data, offset+0x02)
       
-      string = read_str_until_null_character(self.data, string_table_offset + string_data_offset)
+      string = fs.read_str_until_null_character(self.data, string_table_offset + string_data_offset)
       strings.append(string)
       
       offset += 4
@@ -193,8 +193,8 @@ class J3DChunk:
   
   def write_string_table(self, string_table_offset, strings):
     num_strings = len(strings)
-    write_u16(self.data, string_table_offset+0x00, num_strings)
-    write_u16(self.data, string_table_offset+0x02, 0xFFFF)
+    fs.write_u16(self.data, string_table_offset+0x00, num_strings)
+    fs.write_u16(self.data, string_table_offset+0x02, 0xFFFF)
     
     offset = string_table_offset + 4
     next_string_data_offset = 4 + num_strings*4
@@ -205,10 +205,10 @@ class J3DChunk:
         hash += ord(char)
         hash &= 0xFFFF
       
-      write_u16(self.data, offset+0x00, hash)
-      write_u16(self.data, offset+0x02, next_string_data_offset)
+      fs.write_u16(self.data, offset+0x00, hash)
+      fs.write_u16(self.data, offset+0x02, next_string_data_offset)
       
-      write_str_with_null_byte(self.data, string_table_offset+next_string_data_offset, string)
+      fs.write_str_with_null_byte(self.data, string_table_offset+next_string_data_offset, string)
       
       offset += 4
       next_string_data_offset += len(string) + 1
@@ -216,7 +216,7 @@ class J3DChunk:
 class INF1(J3DChunk):
   # TODO: this does not properly read the hierarchy. test on tetra player model for an error.
   def read_chunk_specific_data(self):
-    self.hierarchy_data_offset = read_u32(self.data, 0x14)
+    self.hierarchy_data_offset = fs.read_u32(self.data, 0x14)
     
     offset = self.hierarchy_data_offset
     self.flat_hierarchy = []
@@ -272,8 +272,8 @@ class INF1Node:
     self.data = data
   
   def read(self, offset):
-    self.type = INF1NodeType(read_u16(self.data, offset+0x00))
-    self.index = read_u16(self.data, offset+0x02)
+    self.type = INF1NodeType(fs.read_u16(self.data, offset+0x00))
+    self.index = fs.read_u16(self.data, offset+0x02)
     
     self.parent = None
     self.children = []
@@ -343,10 +343,10 @@ class VertexFormat:
     self.data = data
   
   def read(self, offset):
-    self.attribute_type = GXAttr(read_u32(self.data, offset))
-    self.component_count_type = GXComponentCount(read_u32(self.data, offset+4))
-    comp_type_raw = read_u32(self.data, offset+8)
-    self.component_shift = read_u8(self.data, offset+0xC)
+    self.attribute_type = GXAttr(fs.read_u32(self.data, offset))
+    self.component_count_type = GXComponentCount(fs.read_u32(self.data, offset+4))
+    comp_type_raw = fs.read_u32(self.data, offset+8)
+    self.component_shift = fs.read_u8(self.data, offset+0xC)
     
     if self.is_color_attr:
       self.component_type = GXCompTypeColor(comp_type_raw)
@@ -354,11 +354,11 @@ class VertexFormat:
       self.component_type = GXCompTypeNumber(comp_type_raw)
   
   def save(self, offset):
-    write_u32(self.data, offset+0x0, self.attribute_type.value)
-    write_u32(self.data, offset+0x4, self.component_count_type.value)
-    write_u32(self.data, offset+0x8, self.component_type.value)
-    write_u8(self.data, offset+0xC, self.component_shift)
-    align_data_to_nearest(self.data, 0x10, b'\xff')
+    fs.write_u32(self.data, offset+0x0, self.attribute_type.value)
+    fs.write_u32(self.data, offset+0x4, self.component_count_type.value)
+    fs.write_u32(self.data, offset+0x8, self.component_type.value)
+    fs.write_u8(self.data, offset+0xC, self.component_shift)
+    fs.align_data_to_nearest(self.data, 0x10, b'\xff')
   
   @property
   def data_offset_index(self):
@@ -412,11 +412,11 @@ class VertexFormat:
 
 class VTX1(J3DChunk):
   def read_chunk_specific_data(self):
-    self.vertex_formats_start_offset = read_u32(self.data, 0x08)
+    self.vertex_formats_start_offset = fs.read_u32(self.data, 0x08)
     
     self.vertex_data_offsets = []
     for i in range(13):
-      vertex_data_offset = read_u32(self.data, 0x0C+i*4)
+      vertex_data_offset = fs.read_u32(self.data, 0x0C+i*4)
       self.vertex_data_offsets.append(vertex_data_offset)
     
     self.vertex_formats: list[VertexFormat] = []
@@ -471,7 +471,7 @@ class VTX1(J3DChunk):
       first_unsure_index = ((data_size-0x20) // entry_size) + 1
       for i in range(first_unsure_index, data_count):
         check_offset = data_start_offset + i*entry_size
-        maybe_pad = read_bytes(self.data, check_offset, data_end_offset-check_offset)
+        maybe_pad = fs.read_bytes(self.data, check_offset, data_end_offset-check_offset)
         if maybe_pad is None:
           continue
         if any(padding_bytes.startswith(maybe_pad) for padding_bytes in KNOWN_PADDING_BYTES):
@@ -506,11 +506,11 @@ class VTX1(J3DChunk):
     for i in range(component_count):
       match comp_type:
         case GXCompTypeNumber.Signed16:
-          components.append(read_s16(self.data, data_offset) / divisor)
+          components.append(fs.read_s16(self.data, data_offset) / divisor)
         case GXCompTypeNumber.Float32:
-          components.append(read_float(self.data, data_offset) / divisor)
+          components.append(fs.read_float(self.data, data_offset) / divisor)
         case GXCompTypeColor.RGBA8:
-          components.append(read_u8(self.data, data_offset) / 255)
+          components.append(fs.read_u8(self.data, data_offset) / 255)
         case _:
           raise NotImplementedError
       data_offset += comp_size
@@ -530,7 +530,7 @@ class VTX1(J3DChunk):
     for vertex_format in self.vertex_formats:
       vertex_format.save(offset)
       offset += VertexFormat.DATA_SIZE
-    align_data_to_nearest(self.data, 0x20)
+    fs.align_data_to_nearest(self.data, 0x20)
     offset = self.data.tell()
     
     self.vertex_data_offsets = [0]*13
@@ -540,15 +540,15 @@ class VTX1(J3DChunk):
         break
       
       offset = self.save_attribute_data(vertex_format, offset)
-      align_data_to_nearest(self.data, 0x20)
-      offset = data_len(self.data)
+      fs.align_data_to_nearest(self.data, 0x20)
+      offset = fs.data_len(self.data)
     
     # Write the header.
-    write_magic_str(self.data, 0, "VTX1", 4)
+    fs.write_magic_str(self.data, 0, "VTX1", 4)
     
-    write_u32(self.data, 0x08, self.vertex_formats_start_offset)
+    fs.write_u32(self.data, 0x08, self.vertex_formats_start_offset)
     for i, vertex_data_offset in enumerate(self.vertex_data_offsets):
-      write_u32(self.data, 0x0C+i*4, vertex_data_offset)
+      fs.write_u32(self.data, 0x0C+i*4, vertex_data_offset)
   
   def save_attribute_data(self, vertex_format: VertexFormat, data_offset):
     self.vertex_data_offsets[vertex_format.data_offset_index] = data_offset
@@ -573,11 +573,11 @@ class VTX1(J3DChunk):
     for component in components:
       match comp_type:
         case GXCompTypeNumber.Signed16:
-          write_s16(self.data, data_offset, round(component*divisor))
+          fs.write_s16(self.data, data_offset, round(component*divisor))
         case GXCompTypeNumber.Float32:
-          write_float(self.data, data_offset, component*divisor)
+          fs.write_float(self.data, data_offset, component*divisor)
         case GXCompTypeColor.RGBA8:
-          write_u8(self.data, data_offset, round(component*255))
+          fs.write_u8(self.data, data_offset, round(component*255))
         case _:
           raise NotImplementedError
       data_offset += comp_size
@@ -586,14 +586,14 @@ class VTX1(J3DChunk):
 class TEX1(J3DChunk):
   def read_chunk_specific_data(self):
     self.textures: list[BTI] = []
-    self.num_textures = read_u16(self.data, 8)
-    self.texture_header_list_offset = read_u32(self.data, 0x0C)
+    self.num_textures = fs.read_u16(self.data, 8)
+    self.texture_header_list_offset = fs.read_u32(self.data, 0x0C)
     for texture_index in range(self.num_textures):
       bti_header_offset = self.texture_header_list_offset + texture_index*0x20
       texture = BTI(self.data, bti_header_offset)
       self.textures.append(texture)
     
-    self.string_table_offset = read_u32(self.data, 0x10)
+    self.string_table_offset = fs.read_u32(self.data, 0x10)
     self.texture_names = self.read_string_table(self.string_table_offset)
     self.textures_by_name = OrderedDict()
     for i, texture in enumerate(self.textures):
@@ -624,8 +624,8 @@ class TEX1(J3DChunk):
       image_data_offsets[format_and_filename] = next_available_data_offset
       texture.image_data.seek(0)
       self.data.write(texture.image_data.read())
-      align_data_to_nearest(self.data, 0x20)
-      next_available_data_offset = data_len(self.data)
+      fs.align_data_to_nearest(self.data, 0x20)
+      next_available_data_offset = fs.data_len(self.data)
     
     palette_data_offsets = {}
     for i, texture in enumerate(self.textures):
@@ -642,8 +642,8 @@ class TEX1(J3DChunk):
         palette_data_offsets[format_and_filename] = next_available_data_offset
         texture.palette_data.seek(0)
         self.data.write(texture.palette_data.read())
-        align_data_to_nearest(self.data, 0x20)
-        next_available_data_offset = data_len(self.data)
+        fs.align_data_to_nearest(self.data, 0x20)
+        next_available_data_offset = fs.data_len(self.data)
       else:
         # If the image doesn't use palettes its palette offset is just the same as the first texture's image offset.
         first_texture = self.textures[0]
@@ -654,66 +654,66 @@ class TEX1(J3DChunk):
       texture.save_header_changes()
     
     self.string_table_offset = next_available_data_offset
-    write_u32(self.data, 0x10, self.string_table_offset)
+    fs.write_u32(self.data, 0x10, self.string_table_offset)
     self.write_string_table(self.string_table_offset, self.texture_names)
 
 class MAT3(J3DChunk):
   def read_chunk_specific_data(self):
-    self.tev_reg_colors_offset = read_u32(self.data, 0x50)
-    self.tev_konst_colors_offset = read_u32(self.data, 0x54)
-    self.tev_stages_offset = read_u32(self.data, 0x58)
+    self.tev_reg_colors_offset = fs.read_u32(self.data, 0x50)
+    self.tev_konst_colors_offset = fs.read_u32(self.data, 0x54)
+    self.tev_stages_offset = fs.read_u32(self.data, 0x58)
     
     self.num_reg_colors = (self.tev_konst_colors_offset - self.tev_reg_colors_offset) // 8
     self.reg_colors = []
     for i in range(self.num_reg_colors):
-      r = read_s16(self.data, self.tev_reg_colors_offset + i*8 + 0)
-      g = read_s16(self.data, self.tev_reg_colors_offset + i*8 + 2)
-      b = read_s16(self.data, self.tev_reg_colors_offset + i*8 + 4)
-      a = read_s16(self.data, self.tev_reg_colors_offset + i*8 + 6)
+      r = fs.read_s16(self.data, self.tev_reg_colors_offset + i*8 + 0)
+      g = fs.read_s16(self.data, self.tev_reg_colors_offset + i*8 + 2)
+      b = fs.read_s16(self.data, self.tev_reg_colors_offset + i*8 + 4)
+      a = fs.read_s16(self.data, self.tev_reg_colors_offset + i*8 + 6)
       self.reg_colors.append((r, g, b, a))
     
     self.num_konst_colors = (self.tev_stages_offset - self.tev_konst_colors_offset) // 4
     self.konst_colors = []
     for i in range(self.num_konst_colors):
-      r = read_u8(self.data, self.tev_konst_colors_offset + i*4 + 0)
-      g = read_u8(self.data, self.tev_konst_colors_offset + i*4 + 1)
-      b = read_u8(self.data, self.tev_konst_colors_offset + i*4 + 2)
-      a = read_u8(self.data, self.tev_konst_colors_offset + i*4 + 3)
+      r = fs.read_u8(self.data, self.tev_konst_colors_offset + i*4 + 0)
+      g = fs.read_u8(self.data, self.tev_konst_colors_offset + i*4 + 1)
+      b = fs.read_u8(self.data, self.tev_konst_colors_offset + i*4 + 2)
+      a = fs.read_u8(self.data, self.tev_konst_colors_offset + i*4 + 3)
       self.konst_colors.append((r, g, b, a))
     
-    self.string_table_offset = read_u32(self.data, 0x14)
+    self.string_table_offset = fs.read_u32(self.data, 0x14)
     self.mat_names = self.read_string_table(self.string_table_offset)
   
   def save_chunk_specific_data(self):
     for i in range(self.num_reg_colors):
       r, g, b, a = self.reg_colors[i]
-      write_s16(self.data, self.tev_reg_colors_offset + i*8 + 0, r)
-      write_s16(self.data, self.tev_reg_colors_offset + i*8 + 2, g)
-      write_s16(self.data, self.tev_reg_colors_offset + i*8 + 4, b)
-      write_s16(self.data, self.tev_reg_colors_offset + i*8 + 6, a)
+      fs.write_s16(self.data, self.tev_reg_colors_offset + i*8 + 0, r)
+      fs.write_s16(self.data, self.tev_reg_colors_offset + i*8 + 2, g)
+      fs.write_s16(self.data, self.tev_reg_colors_offset + i*8 + 4, b)
+      fs.write_s16(self.data, self.tev_reg_colors_offset + i*8 + 6, a)
     
     for i in range(self.num_konst_colors):
       r, g, b, a = self.konst_colors[i]
-      write_u8(self.data, self.tev_konst_colors_offset + i*4 + 0, r)
-      write_u8(self.data, self.tev_konst_colors_offset + i*4 + 1, g)
-      write_u8(self.data, self.tev_konst_colors_offset + i*4 + 2, b)
-      write_u8(self.data, self.tev_konst_colors_offset + i*4 + 3, a)
+      fs.write_u8(self.data, self.tev_konst_colors_offset + i*4 + 0, r)
+      fs.write_u8(self.data, self.tev_konst_colors_offset + i*4 + 1, g)
+      fs.write_u8(self.data, self.tev_konst_colors_offset + i*4 + 2, b)
+      fs.write_u8(self.data, self.tev_konst_colors_offset + i*4 + 3, a)
 
 class MDL3(J3DChunk):
   def read_chunk_specific_data(self):
-    self.num_entries = read_u16(self.data, 0x08)
-    self.packets_offset = read_u32(self.data, 0x0C)
+    self.num_entries = fs.read_u16(self.data, 0x08)
+    self.packets_offset = fs.read_u32(self.data, 0x0C)
     
     self.entries: list[MDLEntry] = []
     packet_offset = self.packets_offset
     for i in range(self.num_entries):
-      entry_offset = read_u32(self.data, packet_offset + 0x00)
-      entry_size = read_u32(self.data, packet_offset + 0x04)
+      entry_offset = fs.read_u32(self.data, packet_offset + 0x00)
+      entry_size = fs.read_u32(self.data, packet_offset + 0x04)
       entry = MDLEntry(self.data, entry_offset+packet_offset, entry_size)
       self.entries.append(entry)
       packet_offset += 8
     
-    self.string_table_offset = read_u32(self.data, 0x20)
+    self.string_table_offset = fs.read_u32(self.data, 0x20)
     self.mat_names = self.read_string_table(self.string_table_offset)
   
   def save_chunk_specific_data(self):
@@ -740,7 +740,7 @@ class MDLEntry:
     self.xf_commands: list[XFCommand] = []
     offset = 0
     while offset < self.size:
-      command_type = read_u8(self.data, offset)
+      command_type = fs.read_u8(self.data, offset)
       if command_type == MDLCommandType.BP.value:
         command = BPCommand(self.data)
         offset = command.read(offset)
@@ -764,7 +764,7 @@ class MDLEntry:
     if offset % 0x20 != 0:
       padding_bytes_needed = (0x20 - (offset % 0x20))
       padding = b"\0"*padding_bytes_needed
-      write_bytes(self.data, offset, padding)
+      fs.write_bytes(self.data, offset, padding)
       offset += padding_bytes_needed
     
     # Adding new commands not supported.
@@ -1005,10 +1005,10 @@ class BPCommand:
     self.data = data
   
   def read(self, offset):
-    assert read_u8(self.data, offset) == MDLCommandType.BP.value
+    assert fs.read_u8(self.data, offset) == MDLCommandType.BP.value
     offset += 1
     
-    bitfield = read_u32(self.data, offset)
+    bitfield = fs.read_u32(self.data, offset)
     offset += 4
     self.register = (bitfield & 0xFF000000) >> 24
     self.value = (bitfield & 0x00FFFFFF)
@@ -1016,12 +1016,12 @@ class BPCommand:
     return offset
   
   def save(self, offset):
-    write_u8(self.data, offset, MDLCommandType.BP.value)
+    fs.write_u8(self.data, offset, MDLCommandType.BP.value)
     offset += 1
     
     bitfield = (self.register << 24) & 0xFF000000
     bitfield |= self.value & 0x00FFFFFF
-    write_u32(self.data, offset, bitfield)
+    fs.write_u32(self.data, offset, bitfield)
     offset += 4
     
     return offset
@@ -1066,118 +1066,118 @@ class XFCommand:
     self.data = data
   
   def read(self, offset):
-    assert read_u8(self.data, offset) == MDLCommandType.XF.value
+    assert fs.read_u8(self.data, offset) == MDLCommandType.XF.value
     offset += 1
     
-    num_args = read_u16(self.data, offset) + 1
+    num_args = fs.read_u16(self.data, offset) + 1
     offset += 2
-    self.register = read_u16(self.data, offset)
+    self.register = fs.read_u16(self.data, offset)
     offset += 2
     
     self.args = []
     for i in range(num_args):
-      arg = read_u32(self.data, offset)
+      arg = fs.read_u32(self.data, offset)
       offset += 4
       self.args.append(arg)
     
     return offset
   
   def save(self, offset):
-    write_u8(self.data, offset, MDLCommandType.XF.value)
+    fs.write_u8(self.data, offset, MDLCommandType.XF.value)
     offset += 1
     
     num_args = len(self.args)
     
-    write_u16(self.data, offset, num_args-1)
+    fs.write_u16(self.data, offset, num_args-1)
     offset += 2
-    write_u16(self.data, offset, self.register)
+    fs.write_u16(self.data, offset, self.register)
     offset += 2
     
     for arg in self.args:
-      write_u32(self.data, offset, arg)
+      fs.write_u32(self.data, offset, arg)
       offset += 4
     
     return offset
 
 class TRK1(J3DChunk):
   def read_chunk_specific_data(self):
-    assert read_str(self.data, 0, 4) == "TRK1"
+    assert fs.read_str(self.data, 0, 4) == "TRK1"
     
-    self.loop_mode = LoopMode(read_u8(self.data, 0x08))
-    assert read_u8(self.data, 0x09) == 0xFF
-    self.duration = read_u16(self.data, 0x0A)
+    self.loop_mode = LoopMode(fs.read_u8(self.data, 0x08))
+    assert fs.read_u8(self.data, 0x09) == 0xFF
+    self.duration = fs.read_u16(self.data, 0x0A)
     
-    reg_color_anims_count = read_u16(self.data, 0x0C)
-    konst_color_anims_count = read_u16(self.data, 0x0E)
+    reg_color_anims_count = fs.read_u16(self.data, 0x0C)
+    konst_color_anims_count = fs.read_u16(self.data, 0x0E)
     
-    reg_r_count = read_u16(self.data, 0x10)
-    reg_g_count = read_u16(self.data, 0x12)
-    reg_b_count = read_u16(self.data, 0x14)
-    reg_a_count = read_u16(self.data, 0x16)
-    konst_r_count = read_u16(self.data, 0x18)
-    konst_g_count = read_u16(self.data, 0x1A)
-    konst_b_count = read_u16(self.data, 0x1C)
-    konst_a_count = read_u16(self.data, 0x1E)
+    reg_r_count = fs.read_u16(self.data, 0x10)
+    reg_g_count = fs.read_u16(self.data, 0x12)
+    reg_b_count = fs.read_u16(self.data, 0x14)
+    reg_a_count = fs.read_u16(self.data, 0x16)
+    konst_r_count = fs.read_u16(self.data, 0x18)
+    konst_g_count = fs.read_u16(self.data, 0x1A)
+    konst_b_count = fs.read_u16(self.data, 0x1C)
+    konst_a_count = fs.read_u16(self.data, 0x1E)
     
-    reg_color_anims_offset = read_u32(self.data, 0x20)
-    konst_color_anims_offset = read_u32(self.data, 0x24)
+    reg_color_anims_offset = fs.read_u32(self.data, 0x20)
+    konst_color_anims_offset = fs.read_u32(self.data, 0x24)
     
-    reg_remap_table_offset = read_u32(self.data, 0x28)
-    konst_remap_table_offset = read_u32(self.data, 0x2C)
+    reg_remap_table_offset = fs.read_u32(self.data, 0x28)
+    konst_remap_table_offset = fs.read_u32(self.data, 0x2C)
     
-    reg_mat_names_table_offset = read_u32(self.data, 0x30)
-    konst_mat_names_table_offset = read_u32(self.data, 0x34)
+    reg_mat_names_table_offset = fs.read_u32(self.data, 0x30)
+    konst_mat_names_table_offset = fs.read_u32(self.data, 0x34)
     
-    reg_r_offset = read_u32(self.data, 0x38)
-    reg_g_offset = read_u32(self.data, 0x3C)
-    reg_b_offset = read_u32(self.data, 0x40)
-    reg_a_offset = read_u32(self.data, 0x44)
-    konst_r_offset = read_u32(self.data, 0x48)
-    konst_g_offset = read_u32(self.data, 0x4C)
-    konst_b_offset = read_u32(self.data, 0x50)
-    konst_a_offset = read_u32(self.data, 0x54)
+    reg_r_offset = fs.read_u32(self.data, 0x38)
+    reg_g_offset = fs.read_u32(self.data, 0x3C)
+    reg_b_offset = fs.read_u32(self.data, 0x40)
+    reg_a_offset = fs.read_u32(self.data, 0x44)
+    konst_r_offset = fs.read_u32(self.data, 0x48)
+    konst_g_offset = fs.read_u32(self.data, 0x4C)
+    konst_b_offset = fs.read_u32(self.data, 0x50)
+    konst_a_offset = fs.read_u32(self.data, 0x54)
     
     # Ensure the remap tables are identity.
     # Actual remapping not currently supported by this implementation.
     for i in range(reg_color_anims_count):
-      assert i == read_u16(self.data, reg_remap_table_offset+i*2)
+      assert i == fs.read_u16(self.data, reg_remap_table_offset+i*2)
     for i in range(konst_color_anims_count):
-      assert i == read_u16(self.data, konst_remap_table_offset+i*2)
+      assert i == fs.read_u16(self.data, konst_remap_table_offset+i*2)
     
     reg_mat_names = self.read_string_table(reg_mat_names_table_offset)
     konst_mat_names = self.read_string_table(konst_mat_names_table_offset)
     
     reg_r_track_data = []
     for i in range(reg_r_count):
-      r = read_s16(self.data, reg_r_offset+i*2)
+      r = fs.read_s16(self.data, reg_r_offset+i*2)
       reg_r_track_data.append(r)
     reg_g_track_data = []
     for i in range(reg_g_count):
-      g = read_s16(self.data, reg_g_offset+i*2)
+      g = fs.read_s16(self.data, reg_g_offset+i*2)
       reg_g_track_data.append(g)
     reg_b_track_data = []
     for i in range(reg_b_count):
-      b = read_s16(self.data, reg_b_offset+i*2)
+      b = fs.read_s16(self.data, reg_b_offset+i*2)
       reg_b_track_data.append(b)
     reg_a_track_data = []
     for i in range(reg_a_count):
-      a = read_s16(self.data, reg_a_offset+i*2)
+      a = fs.read_s16(self.data, reg_a_offset+i*2)
       reg_a_track_data.append(a)
     konst_r_track_data = []
     for i in range(konst_r_count):
-      r = read_s16(self.data, konst_r_offset+i*2)
+      r = fs.read_s16(self.data, konst_r_offset+i*2)
       konst_r_track_data.append(r)
     konst_g_track_data = []
     for i in range(konst_g_count):
-      g = read_s16(self.data, konst_g_offset+i*2)
+      g = fs.read_s16(self.data, konst_g_offset+i*2)
       konst_g_track_data.append(g)
     konst_b_track_data = []
     for i in range(konst_b_count):
-      b = read_s16(self.data, konst_b_offset+i*2)
+      b = fs.read_s16(self.data, konst_b_offset+i*2)
       konst_b_track_data.append(b)
     konst_a_track_data = []
     for i in range(konst_a_count):
-      a = read_s16(self.data, konst_a_offset+i*2)
+      a = fs.read_s16(self.data, konst_a_offset+i*2)
       konst_a_track_data.append(a)
     
     reg_animations = []
@@ -1219,7 +1219,7 @@ class TRK1(J3DChunk):
     self.data.seek(0)
     self.data.write(b"\0"*0x58)
     
-    align_data_to_nearest(self.data, 0x20)
+    fs.align_data_to_nearest(self.data, 0x20)
     offset = self.data.tell()
     
     reg_animations: list[ColorAnimation] = []
@@ -1246,7 +1246,7 @@ class TRK1(J3DChunk):
       anim.save_changes(self.data, offset, reg_r_track_data, reg_g_track_data, reg_b_track_data, reg_a_track_data)
       offset += ColorAnimation.DATA_SIZE
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     
     konst_r_track_data = []
@@ -1260,79 +1260,79 @@ class TRK1(J3DChunk):
       anim.save_changes(self.data, offset, konst_r_track_data, konst_g_track_data, konst_b_track_data, konst_a_track_data)
       offset += ColorAnimation.DATA_SIZE
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     reg_r_offset = offset
     if not reg_r_track_data:
       reg_r_offset = 0
     for r in reg_r_track_data:
-      write_s16(self.data, offset, r)
+      fs.write_s16(self.data, offset, r)
       offset += 2
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     reg_g_offset = offset
     if not reg_g_track_data:
       reg_g_offset = 0
     for g in reg_g_track_data:
-      write_s16(self.data, offset, g)
+      fs.write_s16(self.data, offset, g)
       offset += 2
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     reg_b_offset = offset
     if not reg_b_track_data:
       reg_b_offset = 0
     for b in reg_b_track_data:
-      write_s16(self.data, offset, b)
+      fs.write_s16(self.data, offset, b)
       offset += 2
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     reg_a_offset = offset
     if not reg_a_track_data:
       reg_a_offset = 0
     for a in reg_a_track_data:
-      write_s16(self.data, offset, a)
+      fs.write_s16(self.data, offset, a)
       offset += 2
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     konst_r_offset = offset
     if not konst_r_track_data:
       konst_r_offset = 0
     for r in konst_r_track_data:
-      write_s16(self.data, offset, r)
+      fs.write_s16(self.data, offset, r)
       offset += 2
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     konst_g_offset = offset
     if not konst_g_track_data:
       konst_g_offset = 0
     for g in konst_g_track_data:
-      write_s16(self.data, offset, g)
+      fs.write_s16(self.data, offset, g)
       offset += 2
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     konst_b_offset = offset
     if not konst_b_track_data:
       konst_b_offset = 0
     for b in konst_b_track_data:
-      write_s16(self.data, offset, b)
+      fs.write_s16(self.data, offset, b)
       offset += 2
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     konst_a_offset = offset
     if not konst_a_track_data:
       konst_a_offset = 0
     for a in konst_a_track_data:
-      write_s16(self.data, offset, a)
+      fs.write_s16(self.data, offset, a)
       offset += 2
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     
     # Remap tables always written as identity, remapping not supported.
@@ -1340,23 +1340,23 @@ class TRK1(J3DChunk):
     if not reg_animations:
       reg_remap_table_offset = 0
     for i in range(len(reg_animations)):
-      write_u16(self.data, offset, i)
+      fs.write_u16(self.data, offset, i)
       offset += 2
     
     konst_remap_table_offset = offset
     if not konst_animations:
       konst_remap_table_offset = 0
     for i in range(len(konst_animations)):
-      write_u16(self.data, offset, i)
+      fs.write_u16(self.data, offset, i)
       offset += 2
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     
     reg_mat_names_table_offset = offset
     self.write_string_table(reg_mat_names_table_offset, reg_mat_names)
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     
     konst_mat_names_table_offset = offset
@@ -1364,72 +1364,72 @@ class TRK1(J3DChunk):
     
     
     # Write the header.
-    write_magic_str(self.data, 0, "TRK1", 4)
+    fs.write_magic_str(self.data, 0, "TRK1", 4)
     
-    write_u8(self.data, 0x08, self.loop_mode.value)
-    write_u8(self.data, 0x09, 0xFF)
-    write_u16(self.data, 0x0A, self.duration)
+    fs.write_u8(self.data, 0x08, self.loop_mode.value)
+    fs.write_u8(self.data, 0x09, 0xFF)
+    fs.write_u16(self.data, 0x0A, self.duration)
     
-    write_u16(self.data, 0x0C, len(reg_animations))
-    write_u16(self.data, 0x0E, len(konst_animations))
+    fs.write_u16(self.data, 0x0C, len(reg_animations))
+    fs.write_u16(self.data, 0x0E, len(konst_animations))
     
-    write_s16(self.data, 0x10, len(reg_r_track_data))
-    write_s16(self.data, 0x12, len(reg_g_track_data))
-    write_s16(self.data, 0x14, len(reg_b_track_data))
-    write_s16(self.data, 0x16, len(reg_a_track_data))
-    write_s16(self.data, 0x18, len(konst_r_track_data))
-    write_s16(self.data, 0x1A, len(konst_g_track_data))
-    write_s16(self.data, 0x1C, len(konst_b_track_data))
-    write_s16(self.data, 0x1E, len(konst_a_track_data))
+    fs.write_s16(self.data, 0x10, len(reg_r_track_data))
+    fs.write_s16(self.data, 0x12, len(reg_g_track_data))
+    fs.write_s16(self.data, 0x14, len(reg_b_track_data))
+    fs.write_s16(self.data, 0x16, len(reg_a_track_data))
+    fs.write_s16(self.data, 0x18, len(konst_r_track_data))
+    fs.write_s16(self.data, 0x1A, len(konst_g_track_data))
+    fs.write_s16(self.data, 0x1C, len(konst_b_track_data))
+    fs.write_s16(self.data, 0x1E, len(konst_a_track_data))
     
-    write_u32(self.data, 0x20, reg_color_anims_offset)
-    write_u32(self.data, 0x24, konst_color_anims_offset)
+    fs.write_u32(self.data, 0x20, reg_color_anims_offset)
+    fs.write_u32(self.data, 0x24, konst_color_anims_offset)
     
-    write_u32(self.data, 0x28, reg_remap_table_offset)
-    write_u32(self.data, 0x2C, konst_remap_table_offset)
+    fs.write_u32(self.data, 0x28, reg_remap_table_offset)
+    fs.write_u32(self.data, 0x2C, konst_remap_table_offset)
     
-    write_u32(self.data, 0x30, reg_mat_names_table_offset)
-    write_u32(self.data, 0x34, konst_mat_names_table_offset)
+    fs.write_u32(self.data, 0x30, reg_mat_names_table_offset)
+    fs.write_u32(self.data, 0x34, konst_mat_names_table_offset)
     
-    write_u32(self.data, 0x38, reg_r_offset)
-    write_u32(self.data, 0x3C, reg_g_offset)
-    write_u32(self.data, 0x40, reg_b_offset)
-    write_u32(self.data, 0x44, reg_a_offset)
-    write_u32(self.data, 0x48, konst_r_offset)
-    write_u32(self.data, 0x4C, konst_g_offset)
-    write_u32(self.data, 0x50, konst_b_offset)
-    write_u32(self.data, 0x54, konst_a_offset)
+    fs.write_u32(self.data, 0x38, reg_r_offset)
+    fs.write_u32(self.data, 0x3C, reg_g_offset)
+    fs.write_u32(self.data, 0x40, reg_b_offset)
+    fs.write_u32(self.data, 0x44, reg_a_offset)
+    fs.write_u32(self.data, 0x48, konst_r_offset)
+    fs.write_u32(self.data, 0x4C, konst_g_offset)
+    fs.write_u32(self.data, 0x50, konst_b_offset)
+    fs.write_u32(self.data, 0x54, konst_a_offset)
 
 class TTK1(J3DChunk):
   def read_chunk_specific_data(self):
-    assert read_str(self.data, 0, 4) == "TTK1"
+    assert fs.read_str(self.data, 0, 4) == "TTK1"
     
-    self.loop_mode = LoopMode(read_u8(self.data, 0x08))
-    self.rotation_frac = read_u8(self.data, 0x09)
-    self.duration = read_u16(self.data, 0x0A)
+    self.loop_mode = LoopMode(fs.read_u8(self.data, 0x08))
+    self.rotation_frac = fs.read_u8(self.data, 0x09)
+    self.duration = fs.read_u16(self.data, 0x0A)
     
-    keyframe_count = read_u16(self.data, 0x0C)
+    keyframe_count = fs.read_u16(self.data, 0x0C)
     anims_count = keyframe_count//3
     
-    scale_table_count = read_u16(self.data, 0x0E)
-    rotation_table_count = read_u16(self.data, 0x10)
-    translation_table_count = read_u16(self.data, 0x12)
+    scale_table_count = fs.read_u16(self.data, 0x0E)
+    rotation_table_count = fs.read_u16(self.data, 0x10)
+    translation_table_count = fs.read_u16(self.data, 0x12)
     
-    anims_offset = read_u32(self.data, 0x14)
+    anims_offset = fs.read_u32(self.data, 0x14)
     
-    remap_table_offset = read_u32(self.data, 0x18)
+    remap_table_offset = fs.read_u32(self.data, 0x18)
     
-    mat_names_table_offset = read_u32(self.data, 0x1C)
+    mat_names_table_offset = fs.read_u32(self.data, 0x1C)
     
-    tex_gen_index_table_offset = read_u32(self.data, 0x20)
-    center_coord_table_offset = read_u32(self.data, 0x24)
-    scale_table_offset = read_u32(self.data, 0x28)
-    rotation_table_offset = read_u32(self.data, 0x2C)
-    translation_table_offset = read_u32(self.data, 0x30)
+    tex_gen_index_table_offset = fs.read_u32(self.data, 0x20)
+    center_coord_table_offset = fs.read_u32(self.data, 0x24)
+    scale_table_offset = fs.read_u32(self.data, 0x28)
+    rotation_table_offset = fs.read_u32(self.data, 0x2C)
+    translation_table_offset = fs.read_u32(self.data, 0x30)
     
-    self.post_matrix_data = read_bytes(self.data, 0x34, 0x28)
+    self.post_matrix_data = fs.read_bytes(self.data, 0x34, 0x28)
     
-    if read_u32(self.data, 0x5C) == 1:
+    if fs.read_u32(self.data, 0x5C) == 1:
       self.matrix_mode = MatrixMode.MAYA_MODE
     else:
       self.matrix_mode = MatrixMode.BASIC_MODE
@@ -1437,31 +1437,31 @@ class TTK1(J3DChunk):
     # Ensure the remap tables are identity.
     # Actual remapping not currently supported by this implementation.
     for i in range(anims_count):
-      assert i == read_u16(self.data, remap_table_offset+i*2)
+      assert i == fs.read_u16(self.data, remap_table_offset+i*2)
     
     mat_names = self.read_string_table(mat_names_table_offset)
     
     tex_gen_indexes = []
     for i in range(anims_count):
-      tex_gen_index = read_u8(self.data, tex_gen_index_table_offset+i)
+      tex_gen_index = fs.read_u8(self.data, tex_gen_index_table_offset+i)
       tex_gen_indexes.append(tex_gen_index)
     center_coords_data = []
     for i in range(anims_count):
-      center_s = read_float(self.data, center_coord_table_offset+i*0xC+0)
-      center_t = read_float(self.data, center_coord_table_offset+i*0xC+4)
-      center_q = read_float(self.data, center_coord_table_offset+i*0xC+8)
+      center_s = fs.read_float(self.data, center_coord_table_offset+i*0xC+0)
+      center_t = fs.read_float(self.data, center_coord_table_offset+i*0xC+4)
+      center_q = fs.read_float(self.data, center_coord_table_offset+i*0xC+8)
       center_coords_data.append((center_s, center_t, center_q))
     scale_track_data = []
     for i in range(scale_table_count):
-      scale = read_float(self.data, scale_table_offset+i*4)
+      scale = fs.read_float(self.data, scale_table_offset+i*4)
       scale_track_data.append(scale)
     rotation_track_data = []
     for i in range(rotation_table_count):
-      rotation = read_s16(self.data, rotation_table_offset+i*2)
+      rotation = fs.read_s16(self.data, rotation_table_offset+i*2)
       rotation_track_data.append(rotation)
     translation_track_data = []
     for i in range(translation_table_count):
-      translation = read_float(self.data, translation_table_offset+i*4)
+      translation = fs.read_float(self.data, translation_table_offset+i*4)
       translation_track_data.append(translation)
     
     animations = []
@@ -1488,7 +1488,7 @@ class TTK1(J3DChunk):
     self.data.seek(0)
     self.data.write(b"\0"*0x60)
     
-    align_data_to_nearest(self.data, 0x20)
+    fs.align_data_to_nearest(self.data, 0x20)
     offset = self.data.tell()
     
     animations: list[UVAnimation] = []
@@ -1510,7 +1510,7 @@ class TTK1(J3DChunk):
       anim.save_changes(self.data, offset, tex_gen_indexes, center_coords_data, scale_track_data, rotation_track_data, translation_track_data)
       offset += UVAnimation.DATA_SIZE
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     
     # Remap tables always written as identity, remapping not supported.
@@ -1518,90 +1518,90 @@ class TTK1(J3DChunk):
     if not animations:
       remap_table_offset = 0
     for i in range(len(animations)):
-      write_u16(self.data, offset, i)
+      fs.write_u16(self.data, offset, i)
       offset += 2
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     
     mat_names_table_offset = offset
     self.write_string_table(mat_names_table_offset, mat_names)
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     tex_gen_index_table_offset = offset
     if not tex_gen_indexes:
       tex_gen_index_table_offset = 0
     for tex_gen_index in tex_gen_indexes:
-      write_u8(self.data, offset, tex_gen_index)
+      fs.write_u8(self.data, offset, tex_gen_index)
       offset += 1
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     center_coord_table_offset = offset
     if not center_coords_data:
       center_coord_table_offset = 0
     for center_coords in center_coords_data:
-      write_float(self.data, offset+0, center_coords[0])
-      write_float(self.data, offset+4, center_coords[1])
-      write_float(self.data, offset+8, center_coords[2])
+      fs.write_float(self.data, offset+0, center_coords[0])
+      fs.write_float(self.data, offset+4, center_coords[1])
+      fs.write_float(self.data, offset+8, center_coords[2])
       offset += 0xC
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     scale_table_offset = offset
     if not scale_track_data:
       scale_table_offset = 0
     for scale in scale_track_data:
-      write_float(self.data, offset, scale)
+      fs.write_float(self.data, offset, scale)
       offset += 4
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     rotation_table_offset = offset
     if not rotation_track_data:
       rotation_table_offset = 0
     for rotation in rotation_track_data:
-      write_s16(self.data, offset, rotation)
+      fs.write_s16(self.data, offset, rotation)
       offset += 2
     
-    align_data_to_nearest(self.data, 4)
+    fs.align_data_to_nearest(self.data, 4)
     offset = self.data.tell()
     translation_table_offset = offset
     if not translation_track_data:
       translation_table_offset = 0
     for translation in translation_track_data:
-      write_float(self.data, offset, translation)
+      fs.write_float(self.data, offset, translation)
       offset += 4
     
     
     # Write the header.
-    write_magic_str(self.data, 0, "TTK1", 4)
+    fs.write_magic_str(self.data, 0, "TTK1", 4)
     
-    write_u8(self.data, 0x08, self.loop_mode.value)
-    write_u8(self.data, 0x09, self.rotation_frac)
-    write_u16(self.data, 0x0A, self.duration)
+    fs.write_u8(self.data, 0x08, self.loop_mode.value)
+    fs.write_u8(self.data, 0x09, self.rotation_frac)
+    fs.write_u16(self.data, 0x0A, self.duration)
     
-    write_u16(self.data, 0x0C, len(animations)*3)
+    fs.write_u16(self.data, 0x0C, len(animations)*3)
     
-    write_s16(self.data, 0x0E, len(scale_track_data))
-    write_s16(self.data, 0x10, len(rotation_track_data))
-    write_s16(self.data, 0x12, len(translation_track_data))
+    fs.write_s16(self.data, 0x0E, len(scale_track_data))
+    fs.write_s16(self.data, 0x10, len(rotation_track_data))
+    fs.write_s16(self.data, 0x12, len(translation_track_data))
     
-    write_u32(self.data, 0x14, anims_offset)
+    fs.write_u32(self.data, 0x14, anims_offset)
     
-    write_u32(self.data, 0x18, remap_table_offset)
+    fs.write_u32(self.data, 0x18, remap_table_offset)
     
-    write_u32(self.data, 0x1C, mat_names_table_offset)
+    fs.write_u32(self.data, 0x1C, mat_names_table_offset)
     
-    write_u32(self.data, 0x20, tex_gen_index_table_offset)
-    write_u32(self.data, 0x24, center_coord_table_offset)
-    write_u32(self.data, 0x28, scale_table_offset)
-    write_u32(self.data, 0x2C, rotation_table_offset)
-    write_u32(self.data, 0x30, translation_table_offset)
+    fs.write_u32(self.data, 0x20, tex_gen_index_table_offset)
+    fs.write_u32(self.data, 0x24, center_coord_table_offset)
+    fs.write_u32(self.data, 0x28, scale_table_offset)
+    fs.write_u32(self.data, 0x2C, rotation_table_offset)
+    fs.write_u32(self.data, 0x30, translation_table_offset)
     
     assert len(self.post_matrix_data) == 0x28
-    write_bytes(self.data, 0x34, self.post_matrix_data)
+    fs.write_bytes(self.data, 0x34, self.post_matrix_data)
   
 class LoopMode(Enum):
   ONCE = 0
@@ -1626,9 +1626,9 @@ class AnimationTrack:
     self.keyframes = []
   
   def read(self, data, offset, track_data):
-    self.count = read_u16(data, offset+0)
-    self.index = read_u16(data, offset+2)
-    self.tangent_type = TangentType(read_u16(data, offset+4))
+    self.count = fs.read_u16(data, offset+0)
+    self.index = fs.read_u16(data, offset+2)
+    self.tangent_type = TangentType(fs.read_u16(data, offset+4))
     
     self.keyframes = []
     if self.count == 1:
@@ -1690,9 +1690,9 @@ class AnimationTrack:
       self.index = len(track_data)
       track_data += this_track_data
     
-    write_u16(data, offset+0, self.count)
-    write_u16(data, offset+2, self.index)
-    write_u16(data, offset+4, self.tangent_type.value)
+    fs.write_u16(data, offset+0, self.count)
+    fs.write_u16(data, offset+2, self.index)
+    fs.write_u16(data, offset+4, self.tangent_type.value)
 
 class AnimationKeyframe:
   def __init__(self, time, value, tangent_in, tangent_out):
@@ -1762,7 +1762,7 @@ class ColorAnimation(Animation):
     offset = self.read_track("b", data, offset, b_track_data)
     offset = self.read_track("a", data, offset, a_track_data)
     
-    self.color_id = read_u8(data, offset)
+    self.color_id = fs.read_u8(data, offset)
     offset += 4
   
   def save_changes(self, data, offset, r_track_data, g_track_data, b_track_data, a_track_data):
@@ -1771,8 +1771,8 @@ class ColorAnimation(Animation):
     offset = self.save_track("b", data, offset, b_track_data)
     offset = self.save_track("a", data, offset, a_track_data)
     
-    write_u8(data, offset, self.color_id)
-    write_u8(data, offset+1, 0xFF)
-    write_u8(data, offset+2, 0xFF)
-    write_u8(data, offset+3, 0xFF)
+    fs.write_u8(data, offset, self.color_id)
+    fs.write_u8(data, offset+1, 0xFF)
+    fs.write_u8(data, offset+2, 0xFF)
+    fs.write_u8(data, offset+3, 0xFF)
     offset += 4

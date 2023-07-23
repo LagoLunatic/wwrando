@@ -5,7 +5,7 @@ import colorsys
 from enum import Enum
 import operator
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 
 try:
   import pyfastbti
@@ -506,7 +506,7 @@ def decode_palettes(palette_data, palette_format, num_colors, image_format):
   colors = []
   offset = 0
   for i in range(num_colors):
-    raw_color = read_u16(palette_data, offset)
+    raw_color = fs.read_u16(palette_data, offset)
     color = decode_color(raw_color, palette_format)
     colors.append(color)
     offset += 2
@@ -596,7 +596,7 @@ def encode_palette(encoded_colors, palette_format, image_format):
   offset = 0
   new_palette_data = BytesIO()
   for raw_color in encoded_colors:
-    write_u16(new_palette_data, offset, raw_color)
+    fs.write_u16(new_palette_data, offset, raw_color)
     offset += 2
   
   return new_palette_data
@@ -666,7 +666,7 @@ def decode_i4_block(image_format, image_data, offset, block_data_size, colors):
   pixel_color_data = []
   
   for byte_index in range(block_data_size):
-    byte = read_u8(image_data, offset+byte_index)
+    byte = fs.read_u8(image_data, offset+byte_index)
     for nibble_index in range(2):
       i4 = (byte >> (1-nibble_index)*4) & 0xF
       color = convert_i4_to_color(i4)
@@ -679,7 +679,7 @@ def decode_i8_block(image_format, image_data, offset, block_data_size, colors):
   pixel_color_data = []
   
   for i in range(block_data_size):
-    i8 = read_u8(image_data, offset+i)
+    i8 = fs.read_u8(image_data, offset+i)
     color = convert_i8_to_color(i8)
     
     pixel_color_data.append(color)
@@ -690,7 +690,7 @@ def decode_ia4_block(image_format, image_data, offset, block_data_size, colors):
   pixel_color_data = []
   
   for i in range(block_data_size):
-    ia4 = read_u8(image_data, offset+i)
+    ia4 = fs.read_u8(image_data, offset+i)
     color = convert_ia4_to_color(ia4)
     
     pixel_color_data.append(color)
@@ -701,7 +701,7 @@ def decode_ia8_block(image_format, image_data, offset, block_data_size, colors):
   pixel_color_data = []
   
   for i in range(block_data_size//2):
-    ia8 = read_u16(image_data, offset+i*2)
+    ia8 = fs.read_u16(image_data, offset+i*2)
     color = convert_ia8_to_color(ia8)
     
     pixel_color_data.append(color)
@@ -712,7 +712,7 @@ def decode_rgb565_block(image_format, image_data, offset, block_data_size, color
   pixel_color_data = []
   
   for i in range(block_data_size//2):
-    rgb565 = read_u16(image_data, offset+i*2)
+    rgb565 = fs.read_u16(image_data, offset+i*2)
     color = convert_rgb565_to_color(rgb565)
     
     pixel_color_data.append(color)
@@ -723,7 +723,7 @@ def decode_rgb5a3_block(image_format, image_data, offset, block_data_size, color
   pixel_color_data = []
   
   for i in range(block_data_size//2):
-    rgb5a3 = read_u16(image_data, offset+i*2)
+    rgb5a3 = fs.read_u16(image_data, offset+i*2)
     color = convert_rgb5a3_to_color(rgb5a3)
     
     pixel_color_data.append(color)
@@ -734,10 +734,10 @@ def decode_rgba32_block(image_format, image_data, offset, block_data_size, color
   pixel_color_data = []
   
   for i in range(16):
-    a = read_u8(image_data, offset+(i*2))
-    r = read_u8(image_data, offset+(i*2)+1)
-    g = read_u8(image_data, offset+(i*2)+32)
-    b = read_u8(image_data, offset+(i*2)+33)
+    a = fs.read_u8(image_data, offset+(i*2))
+    r = fs.read_u8(image_data, offset+(i*2)+1)
+    g = fs.read_u8(image_data, offset+(i*2)+32)
+    b = fs.read_u8(image_data, offset+(i*2)+33)
     color = (r, g, b, a)
     
     pixel_color_data.append(color)
@@ -748,7 +748,7 @@ def decode_c4_block(image_format, image_data, offset, block_data_size, colors):
   pixel_color_data = []
   
   for byte_index in range(block_data_size):
-    byte = read_u8(image_data, offset+byte_index)
+    byte = fs.read_u8(image_data, offset+byte_index)
     for nibble_index in range(2):
       color_index = (byte >> (1-nibble_index)*4) & 0xF
       if color_index >= len(colors):
@@ -765,7 +765,7 @@ def decode_c8_block(image_format, image_data, offset, block_data_size, colors):
   pixel_color_data = []
   
   for i in range(block_data_size):
-    color_index = read_u8(image_data, offset+i)
+    color_index = fs.read_u8(image_data, offset+i)
     if color_index >= len(colors):
       # This block bleeds past the edge of the image
       color = None
@@ -780,7 +780,7 @@ def decode_c14x2_block(image_format, image_data, offset, block_data_size, colors
   pixel_color_data = []
   
   for i in range(block_data_size//2):
-    color_index = read_u16(image_data, offset+i*2) & 0x3FFF
+    color_index = fs.read_u16(image_data, offset+i*2) & 0x3FFF
     if color_index >= len(colors):
       # This block bleeds past the edge of the image
       color = None
@@ -799,11 +799,11 @@ def decode_cmpr_block(image_format, image_data, offset, block_data_size, colors)
     subblock_x = (subblock_index%2)*4
     subblock_y = (subblock_index//2)*4
     
-    color_0_rgb565 = read_u16(image_data, subblock_offset)
-    color_1_rgb565 = read_u16(image_data, subblock_offset+2)
+    color_0_rgb565 = fs.read_u16(image_data, subblock_offset)
+    color_1_rgb565 = fs.read_u16(image_data, subblock_offset+2)
     colors = get_interpolated_cmpr_colors(color_0_rgb565, color_1_rgb565)
     
-    color_indexes = read_u32(image_data, subblock_offset+4)
+    color_indexes = fs.read_u32(image_data, subblock_offset+4)
     for i in range(16):
       color_index = ((color_indexes >> ((15-i)*2)) & 3)
       color = colors[color_index]
@@ -884,7 +884,7 @@ def encode_mipmap_image(image, image_format, colors_to_color_indexes, image_widt
     
     assert len(block_data) == block_data_size
     
-    write_bytes(mipmap_image_data, offset_in_image_data, block_data)
+    fs.write_bytes(mipmap_image_data, offset_in_image_data, block_data)
     
     offset_in_image_data += block_data_size
     block_x += BLOCK_WIDTHS[image_format]
@@ -944,7 +944,7 @@ def encode_image_to_i4_block(pixels, colors_to_color_indexes, block_x, block_y, 
       
       byte = ((color_1_i4 & 0xF) << 4) | (color_2_i4 & 0xF)
       
-      write_u8(new_data, offset, byte)
+      fs.write_u8(new_data, offset, byte)
       offset += 1
   
   new_data.seek(0)
@@ -964,7 +964,7 @@ def encode_image_to_i8_block(pixels, colors_to_color_indexes, block_x, block_y, 
         i8 = convert_color_to_i8(color)
         assert 0 <= i8 <= 0xFF
       
-      write_u8(new_data, offset, i8)
+      fs.write_u8(new_data, offset, i8)
       offset += 1
   
   new_data.seek(0)
@@ -984,7 +984,7 @@ def encode_image_to_ia4_block(pixels, colors_to_color_indexes, block_x, block_y,
         ia4 = convert_color_to_ia4(color)
         assert 0 <= ia4 <= 0xFF
       
-      write_u8(new_data, offset, ia4)
+      fs.write_u8(new_data, offset, ia4)
       offset += 1
   
   new_data.seek(0)
@@ -1004,7 +1004,7 @@ def encode_image_to_ia8_block(pixels, colors_to_color_indexes, block_x, block_y,
         ia8 = convert_color_to_ia8(color)
         assert 0 <= ia8 <= 0xFFFF
       
-      write_u16(new_data, offset, ia8)
+      fs.write_u16(new_data, offset, ia8)
       offset += 2
   
   new_data.seek(0)
@@ -1022,7 +1022,7 @@ def encode_image_to_rgb563_block(pixels, colors_to_color_indexes, block_x, block
         color = pixels[x,y]
         rgb565 = convert_color_to_rgb565(color)
       
-      write_u16(new_data, offset, rgb565)
+      fs.write_u16(new_data, offset, rgb565)
       offset += 2
   
   new_data.seek(0)
@@ -1040,7 +1040,7 @@ def encode_image_to_rgb5a3_block(pixels, colors_to_color_indexes, block_x, block
         color = pixels[x,y]
         rgb5a3 = convert_color_to_rgb5a3(color)
       
-      write_u16(new_data, offset, rgb5a3)
+      fs.write_u16(new_data, offset, rgb5a3)
       offset += 2
   
   new_data.seek(0)
@@ -1058,10 +1058,10 @@ def encode_image_to_rgba32_block(pixels, colors_to_color_indexes, block_x, block
       color = pixels[x, y]
       r, g, b, a = color
     
-    write_u8(new_data, (i*2), a)
-    write_u8(new_data, (i*2)+1, r)
-    write_u8(new_data, (i*2)+32, g)
-    write_u8(new_data, (i*2)+33, b)
+    fs.write_u8(new_data, (i*2), a)
+    fs.write_u8(new_data, (i*2)+1, r)
+    fs.write_u8(new_data, (i*2)+32, g)
+    fs.write_u8(new_data, (i*2)+33, b)
   
   new_data.seek(0)
   return new_data.read()
@@ -1090,7 +1090,7 @@ def encode_image_to_c4_block(pixels, colors_to_color_indexes, block_x, block_y, 
       
       byte = ((color_1_index & 0xF) << 4) | (color_2_index & 0xF)
       
-      write_u8(new_data, offset, byte)
+      fs.write_u8(new_data, offset, byte)
       offset += 1
   
   new_data.seek(0)
@@ -1109,7 +1109,7 @@ def encode_image_to_c8_block(pixels, colors_to_color_indexes, block_x, block_y, 
         color = pixels[x,y]
         color_index = colors_to_color_indexes[color]
       
-      write_u8(new_data, offset, color_index)
+      fs.write_u8(new_data, offset, color_index)
       offset += 1
   
   new_data.seek(0)
@@ -1128,7 +1128,7 @@ def encode_image_to_c14x2_block(pixels, colors_to_color_indexes, block_x, block_
         color = pixels[x,y]
         color_index = colors_to_color_indexes[color]
       
-      write_u16(new_data, offset, color_index)
+      fs.write_u16(new_data, offset, color_index)
       offset += 2
   
   new_data.seek(0)
@@ -1174,8 +1174,8 @@ def encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y
     colors[0] = color_0
     colors[1] = color_1
     
-    write_u16(new_data, subblock_offset, color_0_rgb565)
-    write_u16(new_data, subblock_offset+2, color_1_rgb565)
+    fs.write_u16(new_data, subblock_offset, color_0_rgb565)
+    fs.write_u16(new_data, subblock_offset+2, color_1_rgb565)
     
     color_indexes = 0
     for i in range(16):
@@ -1195,7 +1195,7 @@ def encode_image_to_cmpr_block(pixels, colors_to_color_indexes, block_x, block_y
         new_color = get_nearest_color_fast(color, colors)
         color_index = colors.index(new_color)
       color_indexes |= (color_index << ((15-i)*2))
-    write_u32(new_data, subblock_offset+4, color_indexes)
+    fs.write_u32(new_data, subblock_offset+4, color_indexes)
     
     subblock_offset += 8
   

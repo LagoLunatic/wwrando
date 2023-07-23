@@ -3,7 +3,8 @@ import os
 import yaml
 import re
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
+from io import BytesIO
 from wwrando_paths import ASM_PATH
 from gclib.rel import RELRelocation, RELRelocationType
 
@@ -36,7 +37,7 @@ def apply_patch(self, patch_name):
           add_or_extend_main_dol_free_space_section(self, new_bytes, org_address)
           continue
         else:
-          self.dol.write_data(write_and_pack_bytes, org_address, new_bytes, "B"*len(new_bytes))
+          self.dol.write_data(fs.write_and_pack_bytes, org_address, new_bytes, "B"*len(new_bytes))
       elif file_path.endswith(".rel"):
         offset = org_address
         relocations = patchlet.get("Relocations", [])
@@ -45,7 +46,7 @@ def apply_patch(self, patch_name):
         if offset >= free_space_start:
           apply_free_space_patchlet_to_rel(self, file_path, offset, new_bytes, relocations)
         else:
-          rel.write_data(write_and_pack_bytes, offset, new_bytes, "B"*len(new_bytes))
+          rel.write_data(fs.write_and_pack_bytes, offset, new_bytes, "B"*len(new_bytes))
           
           rel.delete_relocation_in_range(offset, len(new_bytes))
           
@@ -58,7 +59,7 @@ def apply_patch(self, patch_name):
         assert org_address < free_space_start
         
         file_data = self.get_raw_file(file_path)
-        write_and_pack_bytes(file_data, org_address, new_bytes, "B"*len(new_bytes))
+        fs.write_and_pack_bytes(file_data, org_address, new_bytes, "B"*len(new_bytes))
 
 def add_or_extend_main_dol_free_space_section(self, new_bytes, org_address):
   dol_section = self.dol.sections[2]
@@ -80,41 +81,41 @@ def add_or_extend_main_dol_free_space_section(self, new_bytes, org_address):
   else:
     # If we're not making the section bigger, we applied patches out of order and are writing into a zeroed-out slot earlier on.
     # In this case, make sure the bytes we're about to overwrite are actually all zero as they should be.
-    old_bytes = self.dol.read_data(read_and_unpack_bytes, org_address, len(new_bytes), "B"*len(new_bytes))
+    old_bytes = self.dol.read_data(fs.read_and_unpack_bytes, org_address, len(new_bytes), "B"*len(new_bytes))
     if any(byte != 0 for byte in old_bytes):
       raise Exception("Attempted to apply main.dol free space patch over nonzero data.")
   
   # Next write our custom code to the end of the dol file.
-  self.dol.write_data(write_and_pack_bytes, org_address, new_bytes, "B"*len(new_bytes))
+  self.dol.write_data(fs.write_and_pack_bytes, org_address, new_bytes, "B"*len(new_bytes))
   
   # Next we need to change a hardcoded pointer to where free space begins. Otherwise the game will overwrite the custom code.
   padded_section_size = ((dol_section.size + 3) & ~3) # Pad length of new section to next 4 just in case
   new_start_pointer_for_default_thread = ORIGINAL_FREE_SPACE_RAM_ADDRESS + padded_section_size # New free space pointer after our custom code
   high_halfword, low_halfword = split_pointer_into_high_and_low_half_for_hardcoding(new_start_pointer_for_default_thread)
   # Now update the asm instructions that load this hardcoded pointer.
-  self.dol.write_data(write_u32, 0x80307954, 0x3C600000 | high_halfword)
-  self.dol.write_data(write_u32, 0x8030795C, 0x38030000 | low_halfword)
+  self.dol.write_data(fs.write_u32, 0x80307954, 0x3C600000 | high_halfword)
+  self.dol.write_data(fs.write_u32, 0x8030795C, 0x38030000 | low_halfword)
   # We also update another pointer which seems like it should remain at 0x10000 later in RAM from the pointer we updated.
   # (This pointer was originally 0x8040CFA8.)
   # Updating this one may not actually be necessary to update, but this is to be safe.
   new_end_pointer_for_default_thread = new_start_pointer_for_default_thread + 0x10000
   high_halfword, low_halfword = split_pointer_into_high_and_low_half_for_hardcoding(new_end_pointer_for_default_thread)
-  self.dol.write_data(write_u32, 0x8030794C, 0x3C600000 | high_halfword)
-  self.dol.write_data(write_u32, 0x80307950, 0x38030000 | low_halfword)
-  self.dol.write_data(write_u32, 0x80301854, 0x3C600000 | high_halfword)
-  self.dol.write_data(write_u32, 0x80301858, 0x38630000 | low_halfword)
+  self.dol.write_data(fs.write_u32, 0x8030794C, 0x3C600000 | high_halfword)
+  self.dol.write_data(fs.write_u32, 0x80307950, 0x38030000 | low_halfword)
+  self.dol.write_data(fs.write_u32, 0x80301854, 0x3C600000 | high_halfword)
+  self.dol.write_data(fs.write_u32, 0x80301858, 0x38630000 | low_halfword)
   high_halfword = (new_end_pointer_for_default_thread & 0xFFFF0000) >> 16
   low_halfword = new_end_pointer_for_default_thread & 0xFFFF
-  self.dol.write_data(write_u32, 0x80003278, 0x3C200000 | high_halfword)
-  self.dol.write_data(write_u32, 0x8000327C, 0x60210000 | low_halfword)
+  self.dol.write_data(fs.write_u32, 0x80003278, 0x3C200000 | high_halfword)
+  self.dol.write_data(fs.write_u32, 0x8000327C, 0x60210000 | low_halfword)
   # We also update another pointer which seems like it should remain at 0x12000 later in RAM from the pointer we updated.
   # (This pointer was originally 0x8040EFA8.)
   # Updating this one is definitely not necessary since the function it's in (InitMetroTRK) is never called, and was likely for debugging. But we update it anyway just for completeness' sake.
   new_pointer_for_metro_trk = new_start_pointer_for_default_thread + 0x12000
   high_halfword = (new_pointer_for_metro_trk & 0xFFFF0000) >> 16
   low_halfword = new_pointer_for_metro_trk & 0xFFFF
-  self.dol.write_data(write_u32, 0x803370A8, 0x3C200000 | high_halfword)
-  self.dol.write_data(write_u32, 0x803370AC, 0x60210000 | low_halfword)
+  self.dol.write_data(fs.write_u32, 0x803370A8, 0x3C200000 | high_halfword)
+  self.dol.write_data(fs.write_u32, 0x803370AC, 0x60210000 | low_halfword)
   
   # Original thread start pointer: 803FCFA8 (must be updated)
   # Original stack end pointer (r1): 8040CFA8 (must be updated)
@@ -136,7 +137,7 @@ def apply_free_space_patchlet_to_rel(self, file_path, offset, new_bytes, relocat
     add_free_space_section_to_rel(self, file_path)
   
   section_relative_offset = offset - rel_section.offset
-  write_and_pack_bytes(rel_section.data, section_relative_offset, new_bytes, "B"*len(new_bytes))
+  fs.write_and_pack_bytes(rel_section.data, section_relative_offset, new_bytes, "B"*len(new_bytes))
   
   if relocations:
     add_relocations_to_rel(self, file_path, rel_section_index, section_relative_offset, relocations)

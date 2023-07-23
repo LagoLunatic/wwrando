@@ -1,5 +1,5 @@
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 from gclib.yaz0 import Yaz0
 
 from io import BytesIO
@@ -45,31 +45,31 @@ class REL:
     
     data = self.data
     
-    self.id = read_u32(data, 0)
+    self.id = fs.read_u32(data, 0)
     
     self.sections = []
-    self.num_sections = read_u32(data, 0xC)
-    self.section_info_table_offset = read_u32(data, 0x10)
+    self.num_sections = fs.read_u32(data, 0xC)
+    self.section_info_table_offset = fs.read_u32(data, 0x10)
     for section_index in range(0, self.num_sections):
       section_info_offset = self.section_info_table_offset + section_index*RELSection.ENTRY_SIZE
       section = RELSection()
       section.read(data, section_info_offset)
       self.sections.append(section)
     
-    self.name_offset = read_u32(data, 0x14)
-    self.name_length = read_u32(data, 0x18)
-    self.rel_format_version = read_u32(data, 0x1C)
+    self.name_offset = fs.read_u32(data, 0x14)
+    self.name_length = fs.read_u32(data, 0x18)
+    self.rel_format_version = fs.read_u32(data, 0x1C)
     
-    self.bss_size = read_u32(data, 0x20)
+    self.bss_size = fs.read_u32(data, 0x20)
     
     relocation_data_offset_for_module = OrderedDict()
-    self.relocation_table_offset = read_u32(data, 0x24)
-    self.imp_table_offset = read_u32(data, 0x28)
-    self.imp_table_length = read_u32(data, 0x2C)
+    self.relocation_table_offset = fs.read_u32(data, 0x24)
+    self.imp_table_offset = fs.read_u32(data, 0x28)
+    self.imp_table_length = fs.read_u32(data, 0x2C)
     offset = self.imp_table_offset
     while offset < self.imp_table_offset + self.imp_table_length:
-      module_num = read_u32(data, offset)
-      relocation_data_offset = read_u32(data, offset+4)
+      module_num = fs.read_u32(data, offset)
+      relocation_data_offset = fs.read_u32(data, offset+4)
       relocation_data_offset_for_module[module_num] = relocation_data_offset
       offset += 8
     
@@ -81,7 +81,7 @@ class REL:
       offset = relocation_data_offset
       prev_relocation_offset = 0
       while True:
-        relocation_type = RELRelocationType(read_u8(data, offset+2))
+        relocation_type = RELRelocationType(fs.read_u8(data, offset+2))
         if relocation_type == RELRelocationType.R_DOLPHIN_END:
           break
         
@@ -97,19 +97,19 @@ class REL:
         
         offset += RELRelocation.ENTRY_SIZE
     
-    self.prolog_section = read_u8(data, 0x30)
-    self.epilog_section = read_u8(data, 0x31)
-    self.unresolved_section = read_u8(data, 0x32)
-    self.prolog_offset = read_u32(data, 0x34)
-    self.epilog_offset = read_u32(data, 0x38)
-    self.unresolved_offset = read_u32(data, 0x3C)
+    self.prolog_section = fs.read_u8(data, 0x30)
+    self.epilog_section = fs.read_u8(data, 0x31)
+    self.unresolved_section = fs.read_u8(data, 0x32)
+    self.prolog_offset = fs.read_u32(data, 0x34)
+    self.epilog_offset = fs.read_u32(data, 0x38)
+    self.unresolved_offset = fs.read_u32(data, 0x3C)
     
-    self.alignment = read_u32(data, 0x40)
-    self.bss_alignment = read_u32(data, 0x44)
+    self.alignment = fs.read_u32(data, 0x40)
+    self.bss_alignment = fs.read_u32(data, 0x44)
     
     # Space after this fix_size offset can be reused for other purposes.
     # Such as using the space that originally had the relocations list for .bss static variables instead.
-    self.fix_size = read_u32(data, 0x48)
+    self.fix_size = fs.read_u32(data, 0x48)
     
     self.bss_section_index = None # The byte at offset 0x33 in the REL is reserved for this value at runtime.
     for section_index, section in enumerate(self.sections):
@@ -131,7 +131,7 @@ class REL:
       if section.is_uninitialized:
         continue
       
-      if section.offset <= offset < section.offset+data_len(section.data):
+      if section.offset <= offset < section.offset+fs.data_len(section.data):
         section_index = self.sections.index(section)
         relative_offset = offset - section.offset
         break
@@ -149,7 +149,7 @@ class REL:
       if section.is_uninitialized:
         continue
       
-      if section.offset <= offset < section.offset+data_len(section.data):
+      if section.offset <= offset < section.offset+fs.data_len(section.data):
         data = section.data
         relative_offset = offset - section.offset
         break
@@ -205,27 +205,27 @@ class REL:
     self.save_changes(preserve_section_data_offsets=preserve_section_data_offsets)
     
     with open(file_path, "wb") as f:
-      f.write(read_all_bytes(self.data))
+      f.write(fs.read_all_bytes(self.data))
   
   def save_changes(self, preserve_section_data_offsets=False):
     self.data.truncate(0)
     data = self.data
     
-    write_u32(data, 0x00, self.id)
-    write_u32(data, 0x04, 0)
-    write_u32(data, 0x08, 0)
+    fs.write_u32(data, 0x00, self.id)
+    fs.write_u32(data, 0x04, 0)
+    fs.write_u32(data, 0x08, 0)
     self.num_sections = len(self.sections)
-    write_u32(data, 0x0C, self.num_sections)
-    write_u32(data, 0x14, self.name_offset)
-    write_u32(data, 0x18, self.name_length)
-    write_u32(data, 0x1C, self.rel_format_version)
-    write_u32(data, 0x20, self.bss_size) # TODO recalculate this properly when necessary
+    fs.write_u32(data, 0x0C, self.num_sections)
+    fs.write_u32(data, 0x14, self.name_offset)
+    fs.write_u32(data, 0x18, self.name_length)
+    fs.write_u32(data, 0x1C, self.rel_format_version)
+    fs.write_u32(data, 0x20, self.bss_size) # TODO recalculate this properly when necessary
     
     self.section_info_table_offset = 0x4C
-    write_u32(data, 0x10, self.section_info_table_offset)
+    fs.write_u32(data, 0x10, self.section_info_table_offset)
     next_section_info_offset = self.section_info_table_offset
     next_section_data_offset = self.section_info_table_offset + self.num_sections*RELSection.ENTRY_SIZE
-    next_section_data_offset = pad_offset_to_nearest(next_section_data_offset, 4) # TODO why is 4 more accurate here than the 8 from self.alignment?
+    next_section_data_offset = fs.pad_offset_to_nearest(next_section_data_offset, 4) # TODO why is 4 more accurate here than the 8 from self.alignment?
     for section_index, section in enumerate(self.sections):
       if preserve_section_data_offsets:
         if section.is_uninitialized:
@@ -241,7 +241,7 @@ class REL:
       if not section.is_bss:
         next_section_data_offset += section.length
       
-      next_section_data_offset = pad_offset_to_nearest(next_section_data_offset, 4)
+      next_section_data_offset = fs.pad_offset_to_nearest(next_section_data_offset, 4)
     
     # We need to reorder the relocations list before writing it so that relocations against this current REL and relocations against main come after relocations against other RELs.
     # This is because the game assumes those two are always last, and shrinks the size of the imp table to not include those and anything after them upon first relocation (because those two are guaranteed to be complete on first relocation, unlike relocations against any other REL).
@@ -252,19 +252,19 @@ class REL:
       relocations_against_main = self.relocation_entries_for_module.pop(0)
       self.relocation_entries_for_module[0] = relocations_against_main
     
-    self.imp_table_offset = data_len(data)
+    self.imp_table_offset = fs.data_len(data)
     imp_table_size = len(self.relocation_entries_for_module)*8
     imp_table_end = self.imp_table_offset + imp_table_size
     self.relocation_table_offset = imp_table_end
     self.fix_size = self.relocation_table_offset
-    write_u32(data, 0x24, self.relocation_table_offset)
-    write_u32(data, 0x28, self.imp_table_offset)
-    write_u32(data, 0x2C, imp_table_size)
+    fs.write_u32(data, 0x24, self.relocation_table_offset)
+    fs.write_u32(data, 0x28, self.imp_table_offset)
+    fs.write_u32(data, 0x2C, imp_table_size)
     next_imp_offset = self.imp_table_offset
     next_relocation_entry_offset = self.relocation_table_offset
     for module_num, relocation_data_entries in self.relocation_entries_for_module.items():
-      write_u32(data, next_imp_offset+0x00, module_num)
-      write_u32(data, next_imp_offset+0x04, next_relocation_entry_offset)
+      fs.write_u32(data, next_imp_offset+0x00, module_num)
+      fs.write_u32(data, next_imp_offset+0x04, next_relocation_entry_offset)
       next_imp_offset += 8
       
       # Sort the relocations first by their section, then by their offset within the section.
@@ -320,18 +320,18 @@ class REL:
         # Only relocations after the end of the last REL-to-REL relocation can be repurposed.
         self.fix_size = next_relocation_entry_offset
     
-    write_u8(data, 0x30, self.prolog_section)
-    write_u8(data, 0x31, self.epilog_section)
-    write_u8(data, 0x32, self.unresolved_section)
-    write_u32(data, 0x34, self.prolog_offset)
-    write_u32(data, 0x38, self.epilog_offset)
-    write_u32(data, 0x3C, self.unresolved_offset)
+    fs.write_u8(data, 0x30, self.prolog_section)
+    fs.write_u8(data, 0x31, self.epilog_section)
+    fs.write_u8(data, 0x32, self.unresolved_section)
+    fs.write_u32(data, 0x34, self.prolog_offset)
+    fs.write_u32(data, 0x38, self.epilog_offset)
+    fs.write_u32(data, 0x3C, self.unresolved_offset)
     
-    write_u32(data, 0x40, self.alignment)
-    write_u32(data, 0x44, self.bss_alignment)
+    fs.write_u32(data, 0x40, self.alignment)
+    fs.write_u32(data, 0x44, self.bss_alignment)
     # TODO: align bss to the bss_alignment
     
-    write_u32(data, 0x48, self.fix_size)
+    fs.write_u32(data, 0x48, self.fix_size)
 
 class RELSection:
   ENTRY_SIZE = 8
@@ -347,13 +347,13 @@ class RELSection:
   def read(self, rel_data, info_offset):
     self.info_offset = info_offset
     
-    mult_vals = read_u32(rel_data, info_offset + 0x00)
+    mult_vals = fs.read_u32(rel_data, info_offset + 0x00)
     self.offset = mult_vals & 0xFFFFFFFE
     if mult_vals & 1:
       self.is_executable = True
     else:
       self.is_executable = False
-    self.length = read_u32(rel_data, info_offset + 0x04)
+    self.length = fs.read_u32(rel_data, info_offset + 0x04)
     
     if self.offset == 0:
       self.is_uninitialized = True
@@ -366,7 +366,7 @@ class RELSection:
       self.is_bss = False
       
       if self.length != 0:
-        self.data = BytesIO(read_bytes(rel_data, self.offset, self.length))
+        self.data = BytesIO(fs.read_bytes(rel_data, self.offset, self.length))
   
   def save(self, rel_data, info_offset, next_section_data_offset, bss_size):
     if self.is_uninitialized:
@@ -376,16 +376,16 @@ class RELSection:
     mult_vals = self.offset
     if self.is_executable:
       mult_vals |= 1
-    write_u32(rel_data, info_offset+0x00, mult_vals)
+    fs.write_u32(rel_data, info_offset+0x00, mult_vals)
     
     if self.is_bss:
       self.length = bss_size
     else:
-      self.length = data_len(self.data)
-    write_u32(rel_data, info_offset+0x04, self.length)
+      self.length = fs.data_len(self.data)
+    fs.write_u32(rel_data, info_offset+0x04, self.length)
     
     if not self.is_bss and self.length != 0 and not self.is_uninitialized:
-      write_bytes(rel_data, self.offset, read_all_bytes(self.data))
+      fs.write_bytes(rel_data, self.offset, fs.read_all_bytes(self.data))
 
 class RELRelocation:
   ENTRY_SIZE = 8
@@ -401,10 +401,10 @@ class RELRelocation:
   def read(self, rel_data, offset, prev_relocation_offset, curr_section_num):
     self.offset = offset
     
-    self.offset_of_curr_relocation_from_prev = read_u16(rel_data, offset+0x00)
-    self.relocation_type = RELRelocationType(read_u8(rel_data, offset+0x02))
-    self.section_num_to_relocate_against = read_u8(rel_data, offset+0x03)
-    self.symbol_address = read_u32(rel_data, offset+0x04)
+    self.offset_of_curr_relocation_from_prev = fs.read_u16(rel_data, offset+0x00)
+    self.relocation_type = RELRelocationType(fs.read_u8(rel_data, offset+0x02))
+    self.section_num_to_relocate_against = fs.read_u8(rel_data, offset+0x03)
+    self.symbol_address = fs.read_u32(rel_data, offset+0x04)
     
     self.relocation_offset = self.offset_of_curr_relocation_from_prev + prev_relocation_offset
     self.curr_section_num = curr_section_num
@@ -423,10 +423,10 @@ class RELRelocation:
       self.section_num_to_relocate_against = 0
       self.symbol_address = 0
     
-    write_u16(rel_data, offset+0x00, self.offset_of_curr_relocation_from_prev)
-    write_u8(rel_data, offset+0x02, self.relocation_type.value)
-    write_u8(rel_data, offset+0x03, self.section_num_to_relocate_against)
-    write_u32(rel_data, offset+0x04, self.symbol_address)
+    fs.write_u16(rel_data, offset+0x00, self.offset_of_curr_relocation_from_prev)
+    fs.write_u8(rel_data, offset+0x02, self.relocation_type.value)
+    fs.write_u8(rel_data, offset+0x03, self.section_num_to_relocate_against)
+    fs.write_u32(rel_data, offset+0x04, self.symbol_address)
 
 class RELRelocationType(Enum):
   R_PPC_NONE = 0x00

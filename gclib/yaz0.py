@@ -2,7 +2,7 @@
 import struct
 from io import BytesIO
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 
 try:
   import pyfastyaz0
@@ -24,7 +24,7 @@ class Yaz0:
   
   @staticmethod
   def check_is_compressed(data):
-    if try_read_str(data, 0, 4) != "Yaz0":
+    if fs.try_read_str(data, 0, 4) != "Yaz0":
       return False
     
     return True
@@ -36,15 +36,15 @@ class Yaz0:
       return comp_data
     
     if PY_FAST_YAZ0_INSTALLED:
-      comp_data = read_all_bytes(comp_data)
+      comp_data = fs.read_all_bytes(comp_data)
       uncomp_data = pyfastyaz0.decompress(comp_data)
       uncomp_data = BytesIO(uncomp_data)
       return uncomp_data
     
-    uncomp_size = read_u32(comp_data, 4)
+    uncomp_size = fs.read_u32(comp_data, 4)
     comp_size = comp_data.seek(0, 2)
     
-    comp = read_all_bytes(comp_data)
+    comp = fs.read_all_bytes(comp_data)
     
     output = []
     output_len = 0
@@ -90,28 +90,28 @@ class Yaz0:
   @staticmethod
   def compress(uncomp_data, search_depth=DEFAULT_SEARCH_DEPTH, should_pad_data=False):
     if PY_FAST_YAZ0_INSTALLED:
-      uncomp_data = read_all_bytes(uncomp_data)
+      uncomp_data = fs.read_all_bytes(uncomp_data)
       comp_data = pyfastyaz0.compress(uncomp_data, search_depth)
       comp_data = BytesIO(comp_data)
       if should_pad_data:
-        align_data_to_nearest(comp_data, 0x20, padding_bytes=b'\0')
+        fs.align_data_to_nearest(comp_data, 0x20, padding_bytes=b'\0')
       return comp_data
     
     comp_data = BytesIO()
-    write_magic_str(comp_data, 0, "Yaz0", 4)
+    fs.write_magic_str(comp_data, 0, "Yaz0", 4)
     
-    uncomp_size = data_len(uncomp_data)
-    write_u32(comp_data, 4, uncomp_size)
+    uncomp_size = fs.data_len(uncomp_data)
+    fs.write_u32(comp_data, 4, uncomp_size)
     
-    write_u32(comp_data, 8, 0)
-    write_u32(comp_data, 0xC, 0)
+    fs.write_u32(comp_data, 8, 0)
+    fs.write_u32(comp_data, 0xC, 0)
     
     Yaz0.next_num_bytes = 0
     Yaz0.next_match_pos = None
     Yaz0.next_flag = False
     
     uncomp_offset = 0
-    uncomp = read_all_bytes(uncomp_data)
+    uncomp = fs.read_all_bytes(uncomp_data)
     comp_offset = 0x10
     dst = []
     valid_bit_count = 0
@@ -146,11 +146,11 @@ class Yaz0:
       
       if valid_bit_count == 8:
         # Finished 8 codes, so write this block
-        write_u8(comp_data, comp_offset, curr_code_byte)
+        fs.write_u8(comp_data, comp_offset, curr_code_byte)
         comp_offset += 1
         
         for byte in dst:
-          write_u8(comp_data, comp_offset, byte)
+          fs.write_u8(comp_data, comp_offset, byte)
           comp_offset += 1
         
         curr_code_byte = 0
@@ -159,20 +159,20 @@ class Yaz0:
     
     if valid_bit_count > 0:
       # Still some codes leftover that weren't written yet, so write them now.
-      write_u8(comp_data, comp_offset, curr_code_byte)
+      fs.write_u8(comp_data, comp_offset, curr_code_byte)
       comp_offset += 1
       
       for byte in dst:
-        write_u8(comp_data, comp_offset, byte)
+        fs.write_u8(comp_data, comp_offset, byte)
         comp_offset += 1
     else:
       # If there are no codes leftover to be written, we instead write a single zero at the end for some reason.
       # I don't think it's necessary in practice, but we do it for maximum accuracy with the original algorithm.
-      write_u8(comp_data, comp_offset, 0)
+      fs.write_u8(comp_data, comp_offset, 0)
       comp_offset += 1
     
     if should_pad_data:
-      align_data_to_nearest(comp_data, 0x20, padding_bytes=b'\0')
+      fs.align_data_to_nearest(comp_data, 0x20, padding_bytes=b'\0')
     
     return comp_data
   

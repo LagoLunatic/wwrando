@@ -6,7 +6,7 @@ from collections import OrderedDict
 import hashlib
 import yaml
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 from gclib.yaz0 import Yaz0
 from gclib.rarc import RARC
 from gclib.dol import DOL
@@ -123,7 +123,7 @@ class Randomizer:
       
       try:
         self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").get_file("cmapdat.bin")
-      except (InvalidOffsetError, AssertionError):
+      except (fs.InvalidOffsetError, AssertionError):
         # An invalid offset error when reading fmapres.arc seems to happen when the user has a corrupted clean ISO.
         # Alternatively, fmapres.arc's magic bytes not being RARC can also happen here, also caused by a corrupted clean ISO.
         # The reason for this is unknown, but when this happens check the ISO's MD5 and if it's wrong say so in an error message.
@@ -413,7 +413,7 @@ class Randomizer:
         0x04, # Black only
       ])
       captured_prologue_pigs_bitfield_address = self.main_custom_symbols["captured_prologue_pigs_bitfield"]
-      self.dol.write_data(write_u8, captured_prologue_pigs_bitfield_address, captured_pigs_bitfield)
+      self.dol.write_data(fs.write_u8, captured_prologue_pigs_bitfield_address, captured_pigs_bitfield)
     
     options_completed += 1
     
@@ -551,8 +551,8 @@ class Randomizer:
   
   def verify_supported_version(self, clean_iso_path):
     with open(clean_iso_path, "rb") as f:
-      magic = try_read_str(f, 0, 4)
-      game_id = try_read_str(f, 0, 6)
+      magic = fs.try_read_str(f, 0, 4)
+      game_id = fs.try_read_str(f, 0, 6)
     if magic == "CISO":
       raise InvalidCleanISOError("This ISO is in CISO format. The randomizer only supports ISOs in GCM format.")
     if game_id != "GZLE01":
@@ -706,7 +706,7 @@ class Randomizer:
       return self.symbol_maps_by_path[map_path]
     else:
       data = self.gcm.read_file_data(map_path)
-      map_text = read_all_bytes(data).decode("ascii")
+      map_text = fs.read_all_bytes(data).decode("ascii")
       
       if map_path == "files/maps/framework.map":
         addr_to_name_map = disassemble.get_main_symbols(map_text)
@@ -770,7 +770,7 @@ class Randomizer:
     
     # Read the actor ID out of the actor profile.
     section_data_actor_profile = new_rel.sections[section_index_of_actor_profile].data
-    new_actor_id = read_u16(section_data_actor_profile, offset_of_actor_profile+8)
+    new_actor_id = fs.read_u16(section_data_actor_profile, offset_of_actor_profile+8)
     
     if new_actor_id in self.used_actor_ids:
       raise Exception("Cannot add a new REL with an actor ID that is already used:\nActor ID: %03X\nNew REL path: %s" % (new_actor_id, rel_path))
@@ -786,9 +786,9 @@ class Randomizer:
     
     # Write a null placeholder for the pointer to the profile that will be relocated.
     list_data = profile_list.sections[rel_relocation.curr_section_num].data
-    write_u32(list_data, new_actor_id*4, 0)
+    fs.write_u32(list_data, new_actor_id*4, 0)
     # For some reason, there's an extra four 0x00 bytes after the last entry in the list, so we put that there just to be safe.
-    write_u32(list_data, new_actor_id*4+4, 0)
+    fs.write_u32(list_data, new_actor_id*4+4, 0)
     
     rel_relocation.section_num_to_relocate_against = section_index_of_actor_profile
     rel_relocation.symbol_address = offset_of_actor_profile

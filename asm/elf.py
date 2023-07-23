@@ -3,16 +3,16 @@ from enum import Enum
 from io import BytesIO
 from collections import OrderedDict
 
-from fs_helpers import *
+from gclib import fs_helpers as fs
 
 class ELF:
   def read_from_file(self, file_path):
     with open(file_path, "rb") as f:
       self.data = BytesIO(f.read())
     
-    self.section_headers_table_offset = read_u32(self.data, 0x20)
-    self.num_section_headers = read_u16(self.data, 0x30)
-    self.section_header_string_table_section_index = read_u16(self.data, 0x32)
+    self.section_headers_table_offset = fs.read_u32(self.data, 0x20)
+    self.num_section_headers = fs.read_u16(self.data, 0x30)
+    self.section_header_string_table_section_index = fs.read_u16(self.data, 0x32)
     
     self.sections = []
     for i in range(self.num_section_headers):
@@ -22,7 +22,7 @@ class ELF:
     
     section_header_string_table_offset = self.sections[self.section_header_string_table_section_index].section_offset
     for section in self.sections:
-      section.name = read_str_until_null_character(self.data, section_header_string_table_offset+section.name_offset)
+      section.name = fs.read_str_until_null_character(self.data, section_header_string_table_offset+section.name_offset)
     
     self.sections_by_name = OrderedDict()
     for section in self.sections:
@@ -52,7 +52,7 @@ class ELF:
   
   def read_string_from_table(self, string_offset):
     offset = self.sections_by_name[".strtab"].section_offset + string_offset
-    return read_str_until_null_character(self.data, offset)
+    return fs.read_str_until_null_character(self.data, offset)
 
 class ELFSection:
   ENTRY_SIZE = 0x28
@@ -60,18 +60,18 @@ class ELFSection:
   def read(self, elf_data, header_offset):
     self.header_offset = header_offset
     
-    self.name_offset = read_u32(elf_data, self.header_offset+0x00)
-    self.type = ELFSectionType(read_u32(elf_data, self.header_offset+0x04))
-    self.flags = read_u32(elf_data, self.header_offset+0x08)
-    self.address = read_u32(elf_data, self.header_offset+0x0C)
-    self.section_offset = read_u32(elf_data, self.header_offset+0x10)
-    self.size = read_u32(elf_data, self.header_offset+0x14)
-    self.link = read_u32(elf_data, self.header_offset+0x18)
-    self.info = read_u32(elf_data, self.header_offset+0x1C)
-    self.addr_align = read_u32(elf_data, self.header_offset+0x20)
-    self.entry_size = read_u32(elf_data, self.header_offset+0x24)
+    self.name_offset = fs.read_u32(elf_data, self.header_offset+0x00)
+    self.type = ELFSectionType(fs.read_u32(elf_data, self.header_offset+0x04))
+    self.flags = fs.read_u32(elf_data, self.header_offset+0x08)
+    self.address = fs.read_u32(elf_data, self.header_offset+0x0C)
+    self.section_offset = fs.read_u32(elf_data, self.header_offset+0x10)
+    self.size = fs.read_u32(elf_data, self.header_offset+0x14)
+    self.link = fs.read_u32(elf_data, self.header_offset+0x18)
+    self.info = fs.read_u32(elf_data, self.header_offset+0x1C)
+    self.addr_align = fs.read_u32(elf_data, self.header_offset+0x20)
+    self.entry_size = fs.read_u32(elf_data, self.header_offset+0x24)
     
-    self.data = BytesIO(read_bytes(elf_data, self.section_offset, self.size))
+    self.data = BytesIO(fs.read_bytes(elf_data, self.section_offset, self.size))
 
 class ELFRelocation:
   ENTRY_SIZE = 0xC
@@ -79,11 +79,11 @@ class ELFRelocation:
   def read(self, elf_data, offset):
     self.offset = offset
     
-    self.relocation_offset = read_u32(elf_data, self.offset + 0x00)
-    info = read_u32(elf_data, self.offset + 0x04)
+    self.relocation_offset = fs.read_u32(elf_data, self.offset + 0x00)
+    info = fs.read_u32(elf_data, self.offset + 0x04)
     self.type = ELFRelocationType(info & 0x000000FF)
     self.symbol_index = (info & 0xFFFFFF00) >> 8
-    self.addend = read_u32(elf_data, self.offset + 0x08)
+    self.addend = fs.read_u32(elf_data, self.offset + 0x08)
 
 class ELFSymbol:
   ENTRY_SIZE = 0x10
@@ -91,14 +91,14 @@ class ELFSymbol:
   def read(self, elf_data, offset):
     self.offset = offset
     
-    self.name_offset = read_u32(elf_data, self.offset + 0x00)
-    self.address = read_u32(elf_data, self.offset + 0x04)
-    self.size = read_u32(elf_data, self.offset + 0x08)
-    info = read_u8(elf_data, self.offset + 0x0C)
+    self.name_offset = fs.read_u32(elf_data, self.offset + 0x00)
+    self.address = fs.read_u32(elf_data, self.offset + 0x04)
+    self.size = fs.read_u32(elf_data, self.offset + 0x08)
+    info = fs.read_u8(elf_data, self.offset + 0x0C)
     self.type = ElfSymbolType(info & 0x0F)
     self.binding = ElfSymbolBinding((info & 0xF0) >> 4)
-    self.other = read_u8(elf_data, self.offset + 0x0D)
-    self.section_index = read_u16(elf_data, self.offset + 0x0E)
+    self.other = fs.read_u8(elf_data, self.offset + 0x0D)
+    self.section_index = fs.read_u16(elf_data, self.offset + 0x0E)
 
 class ELFSectionType(Enum):
   SHT_NULL = 0x0
