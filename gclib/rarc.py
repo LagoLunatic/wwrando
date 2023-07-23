@@ -626,4 +626,10 @@ class RARCFileAttrType(IntFlag):
   LOAD_FROM_DVD   = 0x40
   YAZ0_COMPRESSED = 0x80
 
-RARC.FILE_EXT_TO_CLASS[".arc"] = RARC
+class RARCFileEntry(RARC):
+  def __init__(self, file_entry):
+    self.file_entry = file_entry
+    super(RARC, self).__init__()
+    self.read(self.file_entry.data)
+
+RARC.FILE_EXT_TO_CLASS[".arc"] = RARCFileEntry
