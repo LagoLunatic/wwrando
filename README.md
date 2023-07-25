@@ -63,7 +63,7 @@ If you want to run the latest development/beta version of the randomizer from so
 
 Download and install git from here: https://git-scm.com/downloads  
 Then clone this repository with git by running this in a command prompt:  
-`git clone https://github.com/LagoLunatic/wwrando.git`  
+`git clone --recurse-submodules https://github.com/LagoLunatic/wwrando.git`  
 
 Download and install Python 3.10.7 from here: https://www.python.org/downloads/release/python-3107/  
 "Windows installer (64-bit)" is the one you want if you're on Windows, "macOS 64-bit universal2 installer" if you're on Mac.  

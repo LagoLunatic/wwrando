@@ -1,2 +1,5 @@
 {
+  "python.analysis.extraPaths": [
+    "gclib",
+  ],
 }

@@ -3,3 +3,4 @@ PyYAML==6.0.1
 Pillow==9.3.0
 appdirs==1.4.4
 certifi==2022.12.7
+--editable "./gclib"

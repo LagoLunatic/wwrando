@@ -1,0 +1,3 @@
+[submodule "gclib"]
+	path = gclib
+	url = https://github.com/LagoLunatic/gclib.git
