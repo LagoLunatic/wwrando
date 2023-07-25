@@ -21,7 +21,7 @@ from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS
 from data_tables import DataTables
 
 try:
-  from keys.seed_key import SEED_KEY
+  from keys.seed_key import SEED_KEY # type: ignore
 except ImportError:
   SEED_KEY = ""
 

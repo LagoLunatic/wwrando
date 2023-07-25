@@ -22,7 +22,7 @@ from wwlib import stage_searcher
 from asm import disassemble
 
 try:
-  from keys.seed_key import SEED_KEY
+  from keys.seed_key import SEED_KEY # type: ignore
 except ImportError:
   SEED_KEY = ""
 
