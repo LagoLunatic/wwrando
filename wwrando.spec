@@ -25,6 +25,19 @@ def build_datas_recursive(paths):
   
   return datas
 
+def get_hidden_imports():
+  import_modules = []
+  
+  import gclib
+  for module_name in gclib.__all__:
+    import_modules.append(f"gclib.{module_name}")
+  
+  import wwlib
+  for module_name in wwlib.__all__:
+    import_modules.append(f"wwlib.{module_name}")
+  
+  return import_modules
+
 a = Analysis(['wwrando.py'],
              pathex=[],
              binaries=[],
@@ -38,7 +51,7 @@ a = Analysis(['wwrando.py'],
                'seedgen/*.txt',
                'version.txt',
              ]),
-             hiddenimports=[],
+             hiddenimports=get_hidden_imports(),
              hookspath=[],
              runtime_hooks=[],
              excludes=[],
