@@ -25,6 +25,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: recursive
       - name: Add keys
         run: |
             echo "$env:SEED_KEY" > keys/seed_key.py
@@ -76,6 +78,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: recursive
       - name: Add keys
         run: |
             echo "$SEED_KEY" > keys/seed_key.py
@@ -131,6 +135,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: recursive
       - name: Add keys
         run: |
             echo "$SEED_KEY" > keys/seed_key.py
