@@ -2,4 +2,7 @@
   "python.analysis.extraPaths": [
     "gclib",
   ],
+  "qtForPython.uic.options": [
+    "-o", "${resourceDirname}${pathSeparator}ui_${resourceBasenameNoExtension}.py",
+  ],
 }
