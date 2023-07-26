@@ -11,6 +11,11 @@ from gclib.yaz0 import Yaz0
 from gclib.rel import REL
 from wwrando_paths import ASM_PATH
 
+def simplify_filename(filename):
+  if filename.startswith("d_a_"):
+    filename = filename[len("d_a_"):]
+  return filename
+
 def disassemble_all_code(self):
   if not os.path.isfile(r"C:\devkitPro\devkitPPC\bin\powerpc-eabi-objdump.exe"):
     raise Exception(r"Failed to disassemble code: Could not find devkitPPC. devkitPPC should be installed to: C:\devkitPro\devkitPPC")
@@ -47,9 +52,7 @@ def disassemble_all_code(self):
       if Yaz0.check_is_compressed(data):
         data = Yaz0.decompress(data)
     
-    basename, file_ext = os.path.splitext(basename_with_ext)
-    
-    bin_path = os.path.join(out_dir, basename_with_ext)
+    bin_path = os.path.join(out_dir, simplify_filename(basename_with_ext))
     with open(bin_path, "wb") as f:
       data.seek(0)
       f.write(data.read())
@@ -61,7 +64,7 @@ def disassemble_all_code(self):
     basename, file_ext = os.path.splitext(basename_with_ext)
     
     
-    bin_path = os.path.join(out_dir, basename_with_ext)
+    bin_path = os.path.join(out_dir, simplify_filename(basename_with_ext))
     rel = REL()
     rel.read_from_file(bin_path)
     all_rels_by_path[file_path_in_gcm] = rel
@@ -77,7 +80,7 @@ def disassemble_all_code(self):
     rel_map_data = rel_map_data.read()
     
     # Copy the map file to the output directory
-    rel_map_path = os.path.join(out_dir, basename + ".map")
+    rel_map_path = os.path.join(out_dir, simplify_filename(basename) + ".map")
     with open(rel_map_path, "wb") as f:
       f.write(rel_map_data)
     
@@ -91,8 +94,8 @@ def disassemble_all_code(self):
     
     basename, file_ext = os.path.splitext(basename_with_ext)
     
-    bin_path = os.path.join(out_dir, basename_with_ext)
-    asm_path = os.path.join(out_dir, basename + ".asm")
+    bin_path = os.path.join(out_dir, simplify_filename(basename_with_ext))
+    asm_path = os.path.join(out_dir, simplify_filename(basename) + ".asm")
     
     disassemble_file(bin_path, asm_path)
     
