@@ -5,7 +5,7 @@ import platform
 import appdirs
 
 try:
-  from sys import _MEIPASS
+  from sys import _MEIPASS # @IgnoreException
   RANDO_ROOT_PATH = _MEIPASS
   IS_RUNNING_FROM_SOURCE = False
   if platform.system() == "Darwin":
