@@ -352,8 +352,11 @@ Can Reach and Defeat Ganondorf:
   & Can Defeat Ganondorf
 Can Defeat Ganondorf:
   # You need a sword to kill Ganondorf, but it doesn't need to be the Master Sword.
-  # You need a shield to reflect Zelda's light arrows, but it doesn't need to be Mirror Shield.
   # It doesn't matter if you have the bow or not, Zelda will still get it.
+  # You need a shield to reflect Zelda's light arrows, but it doesn't need to be Mirror Shield.
+  # Note: You can also reflect the light arrows with the Skull Hammer, but this is not currently
+  # required by the logic as it's obscure, and the vanilla game did not allow defending with
+  # Skull Hammer unless you owned a shield.
   (Hero's Sword | In Swordless Mode)
   & Hero's Shield
   # Swordless gives you a sword temporarily during the Ganondorf fight, so you don't need to have found a sword item.

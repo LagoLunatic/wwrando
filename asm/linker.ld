@@ -1,4 +1,5 @@
 
+g_dComIfG_gameInfo = 0x803c4c08;
 init__10dSv_save_cFv = 0x8005d860;
 
 execItemGet__FUc = 0x800c2dfc;

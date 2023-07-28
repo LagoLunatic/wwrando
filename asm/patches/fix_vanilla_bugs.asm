@@ -431,3 +431,46 @@ zero_out_arrow_on_hit_callback:
 .org 0x802ABEF8 ; In JAIZelBasic::processTime(void)
   li r6, 1 ; Argument r6 to bgmStart seems to prevent stoping the existing BGM, if one is playing.
 .close
+
+
+
+
+; Do not prevent the player from defending with the Skull Hammer when they don't own a shield.
+; Originally, the game only checked if you own a shield to know if it should allow you to defend.
+; Change it to allow defending if you own a shield, or are holding the Skull Hammer in your hands.
+.open "sys/main.dol"
+.org 0x8010E288 ; In daPy_lk_c::checkNextActionFromButton(void)
+  mr r3, r31 ; Player instance (daPy_lk_c)
+  bl check_can_defend
+  cmpwi r3, 0
+  nop
+
+.org 0x8010E504 ; In daPy_lk_c::setShieldGuard(void)
+  mr r3, r31 ; Player instance (daPy_lk_c)
+  bl check_can_defend
+  cmpwi r3, 0
+  nop
+
+.org @NextFreeSpace
+; Argument r3 - pointer to the current daPy_lk_c Link player instance
+.global check_can_defend
+check_can_defend:
+  lhz r0, 0x3560 (r3) ; What item the player is holding in their hand
+  cmplwi r0, 0x33 # Skull Hammer
+  beq check_can_defend_return_true ; Always allow defending if holding the Skull Hammer
+  
+  lis r3, g_dComIfG_gameInfo@ha
+  addi r3, r3, g_dComIfG_gameInfo@l
+  lbz r0, 0xF (r3) ; Currently equipped shield ID
+  cmplwi r0, 0xFF ; No shield equipped
+  bne check_can_defend_return_true ; Also allow defending if you own a shield
+  
+  ; Otherwise, don't allow defending.
+  check_can_defend_return_false:
+  li r3, 0
+  blr
+  
+  check_can_defend_return_true:
+  li r3, 1
+  blr
+.close
