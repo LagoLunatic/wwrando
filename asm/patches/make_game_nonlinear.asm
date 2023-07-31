@@ -506,3 +506,54 @@ medli_possible_et_spawn_positions:
   ; awakened from the start in the randomizer.
   b 0x115C
 .close
+
+
+
+
+; Modify the Servants of the Tower to work non-linearly.
+.open "files/rels/d_a_npc_os.rel" ; Servant of the Tower
+.org 0x12E8 ; In daNpc_Os_c::eventOrderCheck(void)
+  ; Prevent the east Servant of the Tower from starting an event when that servant's switch is set.
+  ; This stops the Command Melody stone tablet from disappearing prematurely, and also removes the
+  ; servant's unnecessary line of dialogue.
+  ; This branch is normally taken for the west and north servants (Os1 and Os2).
+  ; We modify it to be taken for all servants.
+  b 0x1338
+.org 0x1F74
+  ; Normally the servants would not keep the light beam they shoot on until even bit 0x1B01 is set,
+  ; which happens once the north servant is returned.
+  ; Remove this check so the beam is always on for servants that are on their pedestals.
+  nop
+.close
+; Normally, the east Servant of the Tower would set event bit 0x2510 to tell the Command Melody
+; stone tablet that it can disappear permanently because the player has finished using it.
+; But we allow that tablet to be used before returning that servant, so we have to change it so
+; the tablet itself sets that event bit.
+.open "files/rels/d_a_obj_hsehi1.rel" ; Command Melody Tablet
+.org 0x1E60
+  b set_item_obtained_from_totg_tablet_event_bit
+.org @NextFreeSpace
+.global set_item_obtained_from_totg_tablet_event_bit
+set_item_obtained_from_totg_tablet_event_bit:
+  lis r3, 0x803C522C@ha
+  addi r3, r3, 0x803C522C@l
+  li r4, 0x2510 ; Learned Command Melody from the TotG stone tablet
+  bl onEventBit__11dSv_event_cFUs
+  b 0x1E68
+.close
+; The west and north doors in the TotG hub room usually do not glow until they have been unlocked.
+; But rather than just checking if the door is actually unlocked directly, they are hardcoded to
+; check the vanilla conditions for unlocking them, resulting in them not being properly lit up from
+; the start in the randomizer.
+; We remove these conditions and make them always glow until the corresponding servant behind the
+; door has been returned.
+.open "sys/main.dol"
+.org 0x8006D618 ; In dDoor_hkyo_c::proc(dDoor_info_c *)
+  ; For the west door.
+  ; Originally checked if the Command Melody is in your inventory.
+  nop
+.org 0x8006D674 ; In dDoor_hkyo_c::proc(dDoor_info_c *)
+  ; For the north door.
+  ; Originally checked if the west servant has been returned.
+  nop
+.close

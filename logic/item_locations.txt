@@ -1039,6 +1039,11 @@ Tower of the Gods - Stone Tablet:
     & Bombs
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
+    & (
+      Can Bring East Servant of the Tower
+      | Can Bring West Servant of the Tower
+      | Can Bring North Servant of the Tower
+    )
     & Wind Waker
   Original item: Command Melody
   Types: Dungeon
@@ -1050,12 +1055,11 @@ Tower of the Gods - Darknut Mini-Boss Room:
     & Bombs
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
-    & Wind Waker
     & (Grappling Hook | Can Fly With Deku Leaf Indoors)
     & (Can Play Command Melody | Hero's Bow)
     & Can Defeat Darknuts
-    # Note: If you already have the bow you can get the statue guy across the previous room without getting this item, which might appear to make this chest permanently missable, but in reality you can use the deactivated Armos from across the pit to keep the button pressed.
-    # Note: Normally the only way to do this would be to use Command Melody on the statue guy, but if you already have the bow you can activate the moving platforms and use the deactivated Armos from across the pit to keep the button pressed instead.
+    # Note: If you already have the bow you can get the west servant across the previous room without getting this item, which might appear to make this chest permanently missable, but in reality you can use the deactivated Armos from across the pit to keep the button pressed.
+    # Note: Normally the only way to do this would be to use Command Melody on the west servant, but if you already have the bow you can activate the moving platforms and use the deactivated Armos from across the pit to keep the button pressed instead.
     # Note: You can reach this without Grappling Hook if you have Deku Leaf instead. But if you run out of MP you can get trapped and not be able to escape since there are no MP refill jars on this side of the gap. So we modify one of the pots to drop an MP refill jar.
   Original item: Hero's Bow
   Types: Dungeon
@@ -1067,12 +1071,9 @@ Tower of the Gods - Second Chest Guarded by Armos Knights:
     & Bombs
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
-    & Wind Waker
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors)
-    & Can Play Command Melody
-    & Hero's Bow
+    & Bombs
     & Can Play Wind's Requiem
-    # Bombs are needed to kill the Armos Knights, but killing them is not necessary for any reason, since the chest appears when you play Wind's Requiem, and the door is not locked.
+    # Note: Bombs are needed to enter this room, but not needed inside of it, as killing these Armos Knights is not necessary. The chest appears when you play Wind's Requiem, and the door is not locked.
   Original item: Treasure Chart 30
   Types: Dungeon
   Paths:
@@ -1083,9 +1084,6 @@ Tower of the Gods - Floating Platforms Room:
     & Bombs
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
-    & Wind Waker
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors)
-    & Can Play Command Melody
     & Hero's Bow
   Original item: Small Key
   Types: Dungeon
@@ -1097,9 +1095,6 @@ Tower of the Gods - Top of Floating Platforms Room:
     & Bombs
     & TotG Small Key x1
     & Can Defeat Yellow ChuChus
-    & Wind Waker
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors)
-    & Can Play Command Melody
     & Hero's Bow
   Original item: Joy Pendant
   Types: Dungeon
@@ -1110,13 +1105,12 @@ Tower of the Gods - Big Key Chest:
     Can Access Tower of the Gods
     & Bombs
     & Can Defeat Yellow ChuChus
+    & Can Bring East Servant of the Tower
+    & Can Bring West Servant of the Tower
+    & Can Bring North Servant of the Tower
     & Wind Waker
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors)
-    & Can Play Command Melody
-    & Hero's Bow
-    & TotG Small Key x2
-    & Can Fly With Deku Leaf Indoors
-    # Note: Deku Leaf is not strictly necessary in the 3rd statue guy room because you can jump on two decorative pillars near the side of the room, and then jump onto the wall protrusion above where the lasers are coming out of to reach the statue guy. But since it's not clear the wall protrusion is something you can jump to and stand on, this is not currently required by the logic.
+    # Note: The Wind Waker is required for getting the item from "Tower of the Gods - Stone Tablet".
+    # Although the randomizer removes the forced linearity of bringing the servants, it still requires you to get that item before the warp will appear, because otherwise the stone tablet would physically block link from using the warp, softlocking the game in an event.
   Original item: Big Key
   Types: Dungeon
   Paths:

@@ -1,5 +1,8 @@
 
-### Next version (in progress, not released yet)
+### Version 1.11.0 (in progress, not released yet)
+
+New features:
+* You can now bring the three Servants of the Tower to the central room in Tower of the Gods in any order instead of being forced into the linear vanilla order.
 
 Changes:
 * Dungeon bosses can no longer drop dungeon items when Key-Lunacy mode is disabled.
@@ -11,6 +14,7 @@ Bug fixes:
 * Fixed the feature introduced in 1.10.0 to customize vanilla Link's hat and tunic colors separately not actually working.
 * Fixed a vanilla bug where some of the sunken treasures around Needle Rock Island could be permanently missable depending on the order you collected them in (these only reward rupees and are not randomized).
 * Fixed a vanilla bug where the sun rising BGM would interrupt the miniboss BGM if you were in the middle of fighting a Big Octo at 5:59AM ingame time.
+* Fixed a bug in the vanilla code where you could not defend using the Skull Hammer if you didn't own a shield.
 
 Supported operating systems:
 * The Linux release builds now support systems with at least glibc version 2.31 (e.g. Ubuntu 20.04 is now supported).

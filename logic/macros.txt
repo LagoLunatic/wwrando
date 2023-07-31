@@ -95,6 +95,18 @@ Tingle Tuner Bombs:
   Bombs
   # Note: If an option to require Tingle Tuner is added, this macro should have Bombs replaced with Tingle Tuner when that option is on.
 
+Can Bring East Servant of the Tower:
+  Nothing
+Can Bring West Servant of the Tower:
+  (Grappling Hook | Can Fly With Deku Leaf Indoors)
+  & Can Play Command Melody
+  & Hero's Bow
+Can Bring North Servant of the Tower:
+  TotG Small Key x2
+  & Can Fly With Deku Leaf Indoors
+  & Can Play Command Melody
+  # Note: Deku Leaf is not strictly necessary in the north servant's room because you can jump on two decorative pillars near the side of the room, and then jump onto the wall protrusion above where the lasers are coming out of to reach the north servant. But since it's not clear the wall protrusion is something you can jump to and stand on, this is not currently required by the logic.
+
 Can Access Dungeon Entrance on Dragon Roost Island:
   Nothing
 Can Access Forest Haven:
@@ -145,12 +157,10 @@ Can Access Boss Entrance in Tower of the Gods:
   Can Access Tower of the Gods
   & Bombs
   & Can Defeat Yellow ChuChus
+  & Can Bring East Servant of the Tower
+  & Can Bring West Servant of the Tower
+  & Can Bring North Servant of the Tower
   & Wind Waker
-  & (Grappling Hook | Can Fly With Deku Leaf Indoors)
-  & Can Play Command Melody
-  & Hero's Bow
-  & TotG Small Key x2
-  & Can Fly With Deku Leaf Indoors
   & Can Defeat Armos
   & TotG Big Key
 Can Access Boss Entrance in Earth Temple:

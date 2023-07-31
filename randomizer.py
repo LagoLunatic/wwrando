@@ -534,6 +534,7 @@ class Randomizer:
     patcher.apply_patch(self, "flexible_enemies")
     tweaks.add_shortcut_warps_into_dungeons(self)
     tweaks.fix_needle_rock_island_salvage_flags(self)
+    tweaks.allow_nonlinear_servants_of_the_towers(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)

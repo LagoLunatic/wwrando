@@ -19,6 +19,7 @@ from wwrando_paths import ASSETS_PATH, ASM_PATH
 import customizer
 from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS
 from data_tables import DataTables
+from wwlib.events import EventList
 
 try:
   from keys.seed_key import SEED_KEY # type: ignore
@@ -1307,12 +1308,17 @@ def add_pirate_ship_to_windfall(self):
   
   
   # Handle starting the event for Aryll noticing the player is trapped.
+  aryll_opens_door_switches = [
+    countdown_not_happening_switch,
+    inside_chest_room_switch,
+  ]
+  assert switches_are_contiguous(aryll_opens_door_switches)
   sw_op = ship_dzr.add_entity("ACTR")
   sw_op.name = "SwOp"
   sw_op.operation = 0 # AND
   sw_op.is_continuous = 1
-  sw_op.num_switches_to_check = 2
-  sw_op.first_switch_to_check = countdown_not_happening_switch # && inside_chest_room_switch
+  sw_op.num_switches_to_check = len(aryll_opens_door_switches)
+  sw_op.first_switch_to_check = min(aryll_opens_door_switches)
   sw_op.switch_to_set = aryll_opened_door_switch
   sw_op.evnt_index = new_event_index_in_evnt
   sw_op.delay = 150
@@ -1322,12 +1328,17 @@ def add_pirate_ship_to_windfall(self):
   
   
   # Handle opening the door.
+  door_is_open_switches = [
+    countdown_happening_switch,
+    aryll_opened_door_switch,
+  ]
+  assert switches_are_contiguous(door_is_open_switches)
   sw_op = ship_dzr.add_entity("ACTR")
   sw_op.name = "SwOp"
   sw_op.operation = 2 # OR
   sw_op.is_continuous = 1
-  sw_op.num_switches_to_check = 2
-  sw_op.first_switch_to_check = countdown_happening_switch # || aryll_opened_door_switch
+  sw_op.num_switches_to_check = len(door_is_open_switches)
+  sw_op.first_switch_to_check = min(door_is_open_switches)
   sw_op.switch_to_set = door_should_be_open_switch
   sw_op.evnt_index = 0xFF
   sw_op.x_pos = 0
@@ -1552,8 +1563,8 @@ def check_hide_ship_sail(self):
 
 def shorten_auction_intro_event(self):
   event_list = self.get_arc("files/res/Stage/Orichh/Stage.arc").get_file("event_list.dat")
-  wind_shrine_event = event_list.events_by_name["AUCTION_START"]
-  camera = next(actor for actor in wind_shrine_event.actors if actor.name == "CAMERA")
+  auction_start_event = event_list.events_by_name["AUCTION_START"]
+  camera = next(actor for actor in auction_start_event.actors if actor.name == "CAMERA")
   
   #pre_pan_delay = camera.actions[2]
   pan_action = camera.actions[3]
@@ -2420,3 +2431,276 @@ def fix_needle_rock_island_salvage_flags(self):
   salvages[0].save_changes()
   salvages[1].salvage_flag = 9 # Unused in vanilla
   salvages[1].save_changes()
+
+def switches_are_contiguous(switches):
+  return sorted(switches) == list(range(min(switches), max(switches)+1))
+
+def allow_nonlinear_servants_of_the_towers(self):
+  # Allow the sections of Tower of the Gods where you bring three Servants of the Tower into the
+  # hub room to be done nonlinearly, so you can return the servants in any order.
+  # We change it so the Command Melody tablet appears when any one of the three servants is
+  # returned (originally it would only appear when returning the east servant).
+  # We also change the final warp upwards to appear only after all three servants have been
+  # returned, *and* the item from the Command Melody tablet has been obtained (since that tablet
+  # would softlock the game if it was still there when you try to enter the warp).
+  # However, the various events for the servants being returned do not behave well with these
+  # modifications. So we will need to substantially edit these events.
+  
+  totg = self.get_arc("files/res/Stage/Siren/Stage.arc").get_file("stage.dzs")
+  event_list: EventList = self.get_arc("files/res/Stage/Siren/Stage.arc").get_file("event_list.dat")
+  hub_room_dzr = self.get_arc("files/res/Stage/Siren/Room7.arc").get_file("room.dzr")
+  
+  doors = totg.entries_by_type("TGDR")
+  north_door = doors[6]
+  west_door = doors[8]
+  
+  # Remove the open condition switches from the doors, making them unlocked from the start.
+  north_door.switch_1 = 0xFF
+  west_door.switch_1 = 0xFF
+  
+  # Note: In vanilla, 0x29 was not set directly by the east servant.
+  # Instead, the east servant's event caused the tablet to appear, and then after getting
+  # the Command Melody from the tablet, the tablet would set switch 0x29.
+  # We change the east servant to work like the others, and directly set the switch.
+  east_servant_returned_switch = 0x29
+  west_servant_returned_switch = 0x2A
+  north_servant_returned_switch = 0x28
+  
+  # These switches should be unused in vanilla TotG.
+  tablet_item_obtained_switch = 0x2B
+  any_servant_returned_switch = 0x7E
+  all_servants_returned_switch = 0x7F
+  
+  original_all_servants_returned_switch = 0x28
+  
+  # In vanilla, the tablet and the east servant both had their switch set to 0x29.
+  # The east servant would start an event that makes the tablet appear, and then after you
+  # get the Command Melody from the tablet, the tablet would set switch 0x29.
+  # The east servant would check for switch 0x29 to be set, and once it is, start another
+  # event where it tells you about its kin and makes the tablet disappear.
+  
+  # We change how this works so that the east servant sets switch 0x29 in its event.
+  # Then we have a custom event that triggers when any of the three servant returned
+  # switches have been set. This custom event makes the tablet appear.
+  # The switch set by the tablet when you get its item is changed to 0x2B (unused in vanilla).
+  # Once all fourth switches are set, the light beam warp appears.
+  
+  tablet = next(x for x in hub_room_dzr.entries_by_type("ACTR") if x.name == "Hsh")
+  tablet.switch_to_set = tablet_item_obtained_switch
+  beam_warp = next(x for x in hub_room_dzr.entries_by_type("ACTR") if x.name == "Ywarp00")
+  beam_warp.activation_switch = all_servants_returned_switch
+  weather_trigger = next(x for x in hub_room_dzr.entries_by_type("SCOB") if x.name == "kytag00")
+  weather_trigger.switch_to_check = all_servants_returned_switch
+  attn_tag = next(
+    x for x in hub_room_dzr.entries_by_type("SCOB")
+    if x.name == "AttTag"
+    and x.switch_to_check == original_all_servants_returned_switch
+    and x.type == 1
+  )
+  attn_tag.switch_to_check = all_servants_returned_switch
+  
+  # East servant returned.
+  # Make this servant set its switch directly, instead of making the Command Melody tablet appear
+  # and then having the tablet set the switch.
+  os0_finish = event_list.events_by_name["Os_Finish"]
+  os0 = next(actor for actor in os0_finish.actors if actor.name == "Os")
+  tablet = next(actor for actor in os0_finish.actors if actor.name == "Hsh")
+  timekeeper = next(actor for actor in os0_finish.actors if actor.name == "TIMEKEEPER")
+  camera = next(actor for actor in os0_finish.actors if actor.name == "CAMERA")
+  # Set the switch.
+  set_switch_action = os0.add_action("SW_ON")
+  os0.actions.remove(set_switch_action)
+  os0.actions.insert(7, set_switch_action)
+  # Remove the tablet.
+  os0_finish.actors.remove(tablet)
+  # Do not make the other actors wait for the tablet.
+  os0.actions[-1].starting_flags[0] = -1
+  timekeeper.actions[-2].starting_flags[0] = -1
+  camera.actions[6].starting_flags[0] = -1
+  # Adjust the camera angle so the beam doesn't pierce the camera.
+  os0_unitrans = camera.actions[3]
+  eye_prop = next(prop for prop in os0_unitrans.properties if prop.name == "Eye")
+  eye_prop.value = (546.0, 719.0, -8789.0)
+  center_prop = next(prop for prop in os0_unitrans.properties if prop.name == "Center")
+  center_prop.value = (783.0, 582.0, -9085.0)
+  # Do not make the camera look at the tablet appearing.
+  camera_tablet_pause_act = camera.actions[7]
+  camera_tablet_fixedfrm_act = camera.actions[6]
+  camera_tablet_fixedfrm_props = []
+  for prop in camera_tablet_fixedfrm_act.properties:
+    camera_tablet_fixedfrm_props.append((prop.name, prop.value))
+  camera.actions.remove(camera_tablet_pause_act)
+  camera.actions.remove(camera_tablet_fixedfrm_act)
+  # Make it shoot a light beam.
+  finish_action = next(act for act in os0.actions if act.name == "FINISH")
+  finish_type_prop = next(prop for prop in finish_action.properties if prop.name == "Type")
+  finish_type_prop.value = 2
+  
+  # West servant returned.
+  os1_finish = event_list.events_by_name["Os1_Finish"]
+  os1 = next(actor for actor in os1_finish.actors if actor.name == "Os1")
+  camera = next(actor for actor in os1_finish.actors if actor.name == "CAMERA")
+  # Make it shoot a light beam.
+  finish_actions = [act for act in os1.actions if act.name == "FINISH"]
+  finish_type_prop = next(prop for prop in finish_actions[1].properties if prop.name == "Type")
+  finish_type_prop.value = 2
+  # Adjust the camera angle so the beam doesn't pierce the camera.
+  os1_unitrans = camera.actions[3]
+  os1_cam_eye = (-512.0, 626.0, -8775.0)
+  os1_cam_center = (-790.0, 667.0, -9065.0)
+  eye_prop = next(prop for prop in os1_unitrans.properties if prop.name == "Eye")
+  eye_prop.value = os1_cam_eye
+  center_prop = next(prop for prop in os1_unitrans.properties if prop.name == "Center")
+  center_prop.value = os1_cam_center
+  # Remove the camera zooming in on the north door.
+  camera = next(actor for actor in os1_finish.actors if actor.name == "CAMERA")
+  camera.actions.remove(camera.actions[-2])
+  os1.actions.remove(os1.actions[-1])
+  os1_finish.ending_flags[0] = os1.actions[-1].flag_id_to_set
+  
+  # After west servant returned.
+  os1_message = event_list.events_by_name["Os1_Message"]
+  os1 = next(actor for actor in os1_message.actors if actor.name == "Os1")
+  camera = next(actor for actor in os1_message.actors if actor.name == "CAMERA")
+  # Remove all but the last action to effecitvely remove the event.
+  os1.actions = os1.actions[-1:]
+  camera.actions = camera.actions[-1:]
+  
+  # North servant returned.
+  os2_finish = event_list.events_by_name["Os2_Finish"]
+  os0 = next(actor for actor in os2_finish.actors if actor.name == "Os")
+  os1 = next(actor for actor in os2_finish.actors if actor.name == "Os1")
+  os2 = next(actor for actor in os2_finish.actors if actor.name == "Os2")
+  camera = next(actor for actor in os2_finish.actors if actor.name == "CAMERA")
+  # Remove the east and west servants from being a part of this event.
+  os2_finish.actors.remove(os0)
+  os2_finish.actors.remove(os1)
+  # Do not make the north servant wait for the east servant to finish before it ends the event.
+  os2_sw_on = next(act for act in os2.actions if act.name == "SW_ON")
+  os2_sw_on.starting_flags[0] = -1
+  # Do not make the camera wait for the west servant to finish before it ends the event.
+  camera.actions[-1].starting_flags[0] = -1
+  # Do not make the camera look at the east and west servants.
+  camera.actions.remove(camera.actions[-3])
+  camera.actions.remove(camera.actions[-2])
+  
+  # Tablet event where you play the Command Melody and get an item.
+  hsehi1_tact = event_list.events_by_name["hsehi1_tact"]
+  camera = next(actor for actor in hsehi1_tact.actors if actor.name == "CAMERA")
+  hsh = next(actor for actor in hsehi1_tact.actors if actor.name == "Hsh")
+  timekeeper = next(actor for actor in hsehi1_tact.actors if actor.name == "TIMEKEEPER")
+  link = next(actor for actor in hsehi1_tact.actors if actor.name == "Link")
+  # Remove the camera zooming in on the west door.
+  camera.actions.remove(camera.actions[-1])
+  # Don't make the table wait for the camera to zoom in on the west door.
+  hsh.actions.remove(hsh.actions[-1])
+  # Make the tablet disappear at the end.
+  hsh.actions.remove(hsh.actions[-1])
+  tablet_hide_player_act = hsh.add_action("Disp", properties=[
+    ("target", "@PLAYER"),
+    ("disp", "off"),
+  ])
+  tablet_delete_action = hsh.add_action("Delete")
+  # Make the camera zoom in on the tablet while it's disappearing.
+  camera_fixedfrm = camera.add_action("FIXEDFRM", properties=[
+    ("Eye", (3.314825, 690.2266, -8600.536)),
+    ("Center", (0.82259, 677.7084, -8721.426)),
+    ("Fovy", 60.0),
+    ("Timer", 30),
+  ])
+  link_get_song_action = link.actions[4] # 059get_dance
+  camera_fixedfrm.starting_flags[0] = link_get_song_action.flag_id_to_set
+  tablet_delete_action.starting_flags[0] = camera_fixedfrm.flag_id_to_set
+  tablet_show_player_act = hsh.add_action("Disp", properties=[
+    ("target", "@PLAYER"),
+    ("disp", "on"),
+  ])
+  hsh.add_action("WAIT")
+  hsehi1_tact.ending_flags[0] = hsh.actions[-1].flag_id_to_set
+  
+  # Create the custom event that causes the Command Melody tablet to appear.
+  appear_event = event_list.add_event("hsehi1_appear")
+  
+  camera = appear_event.add_actor("CAMERA")
+  camera.staff_type = 2
+  
+  tablet_actor = appear_event.add_actor("Hsh")
+  tablet_actor.staff_type = 0
+  tablet_wait_action = tablet_actor.add_action("WAIT")
+  
+  # Make sure Link still animates during the event instead of freezing.
+  link = appear_event.add_actor("Link")
+  link.staff_type = 0
+  link.add_action("001n_wait")
+  
+  timekeeper = appear_event.add_actor("TIMEKEEPER")
+  timekeeper.staff_type = 4
+  timekeeper.add_action("WAIT")
+  
+  camera_fixedfrm_action = camera.add_action("FIXEDFRM", properties=camera_tablet_fixedfrm_props)
+  
+  camera.add_action("PAUSE")
+  
+  tablet_appear_action = tablet_actor.add_action("Appear")
+  tablet_appear_action.starting_flags[0] = camera_fixedfrm_action.flag_id_to_set
+  
+  timekeeper_countdown_90_action = timekeeper.add_action("COUNTDOWN", properties=[
+    ("Timer", 90)
+  ])
+  timekeeper_countdown_90_action.duplicate_id = 1
+  timekeeper_countdown_90_action.starting_flags[0] = tablet_appear_action.flag_id_to_set
+  
+  tablet_wait_action = tablet_actor.add_action("WAIT")
+  tablet_wait_action.duplicate_id = 1
+  tablet_wait_action.starting_flags[0] = timekeeper_countdown_90_action.flag_id_to_set
+  
+  appear_event.ending_flags[0] = tablet_wait_action.flag_id_to_set
+  
+  tablet_appear_evnt = totg.add_entity("EVNT")
+  tablet_appear_evnt.name = appear_event.name
+  tablet_appear_evnt_index = totg.entries_by_type("EVNT").index(tablet_appear_evnt)
+  
+  
+  # Detect when any servant has been returned and start the tablet event.
+  servants_returned_switches = [
+    east_servant_returned_switch,
+    west_servant_returned_switch,
+    north_servant_returned_switch,
+  ]
+  assert switches_are_contiguous(servants_returned_switches)
+  sw_op = hub_room_dzr.add_entity("ACTR")
+  sw_op.name = "SwOp"
+  sw_op.operation = 2 # OR
+  sw_op.is_continuous = 0
+  sw_op.num_switches_to_check = len(servants_returned_switches)
+  sw_op.first_switch_to_check = min(servants_returned_switches)
+  sw_op.switch_to_set = any_servant_returned_switch
+  sw_op.evnt_index = tablet_appear_evnt_index
+  sw_op.x_pos = -800
+  sw_op.y_pos = 1000
+  sw_op.z_pos = -9000
+  
+  # Detect when all servants have been returned and the tablet item is also obtained,
+  # and make the warp appear.
+  servants_returned_and_tablet_obtained_switches = [
+    east_servant_returned_switch,
+    west_servant_returned_switch,
+    north_servant_returned_switch,
+    tablet_item_obtained_switch,
+  ]
+  assert switches_are_contiguous(servants_returned_and_tablet_obtained_switches)
+  sw_op = hub_room_dzr.add_entity("ACTR")
+  sw_op.name = "SwOp"
+  sw_op.operation = 0 # AND
+  sw_op.is_continuous = 0
+  sw_op.num_switches_to_check = len(servants_returned_and_tablet_obtained_switches)
+  sw_op.first_switch_to_check = min(servants_returned_and_tablet_obtained_switches)
+  sw_op.switch_to_set = all_servants_returned_switch
+  sw_op.evnt_index = 0xFF
+  sw_op.x_pos = 800
+  sw_op.y_pos = 1000
+  sw_op.z_pos = -9000
+  
+  
+  hub_room_dzr.save_changes()
+  totg.save_changes()
