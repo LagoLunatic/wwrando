@@ -2517,6 +2517,9 @@ def allow_nonlinear_servants_of_the_towers(self):
   os0.actions[-1].starting_flags[0] = -1
   timekeeper.actions[-2].starting_flags[0] = -1
   camera.actions[6].starting_flags[0] = -1
+  # Remove the final countdown and wait, they won't be used for anything.
+  timekeeper.actions.remove(timekeeper.actions[-1])
+  timekeeper.actions.remove(timekeeper.actions[-1])
   # Adjust the camera angle so the beam doesn't pierce the camera.
   os0_unitrans = camera.actions[3]
   eye_prop = next(prop for prop in os0_unitrans.properties if prop.name == "Eye")
@@ -2583,6 +2586,21 @@ def allow_nonlinear_servants_of_the_towers(self):
   # Do not make the camera look at the east and west servants.
   camera.actions.remove(camera.actions[-3])
   camera.actions.remove(camera.actions[-2])
+  # Adjust the camera angle while the camera is following the platform and the servant up.
+  # Normally it would adjust the angle after the platform is fully up, but we just skip a step.
+  os2_unitrans = camera.actions[3]
+  os2_cam_eye = (124.0, 589.0, -9482.0)
+  os2_cam_center = (-7.0, 644.0, -9625.0)
+  eye_prop = next(prop for prop in os2_unitrans.properties if prop.name == "Eye")
+  eye_prop.value = os2_cam_eye
+  center_prop = next(prop for prop in os2_unitrans.properties if prop.name == "Center")
+  center_prop.value = os2_cam_center
+  # Remove the third unitrans, which is when the original event adjusted the camera angle.
+  camera.actions.remove(camera.actions[-1])
+  camera.actions.remove(camera.actions[-1])
+  # And don't make the beam shooting action depend on the deleted unitrans.
+  finish_actions = [act for act in os2.actions if act.name == "FINISH"]
+  finish_actions[1].starting_flags[0] = -1
   
   # Tablet event where you play the Command Melody and get an item.
   hsehi1_tact = event_list.events_by_name["hsehi1_tact"]
@@ -2705,7 +2723,7 @@ def allow_nonlinear_servants_of_the_towers(self):
   # This is so their code still runs during these events, allowing them to seamlessly
   # start events, instead of having a janky one or two frame delay where the camera
   # tries to zoom back to the player before realizing it needs to go to the tablet.
-  for event in [os0_finish, os1_finish, os2_finish, appear_event]:
+  for event in [os0_finish, os1_finish, os2_finish, hsehi1_tact]:
     swop_actor = event.add_actor("SwOp")
     swop_actor.add_action("DUMMY")
   
