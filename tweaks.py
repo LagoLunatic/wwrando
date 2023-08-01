@@ -2727,5 +2727,44 @@ def allow_nonlinear_servants_of_the_towers(self):
     swop_actor = event.add_actor("SwOp")
     swop_actor.add_action("DUMMY")
   
+  
+  # Also speed up the events where the servants walk to their respective platforms.
+  # They're so slow that it's painful to watch, so we give them a big speed boost.
+  servant_speed_multiplier = 4
+  platform_speed_multiplier = 2
+  beam_delay_multiplier = 2
+  for finish_event in [os0_finish, os1_finish, os2_finish]:
+    servant = next(actor for actor in finish_event.actors if actor.name in ["Os", "Os1", "Os2"])
+    platform = next(actor for actor in finish_event.actors if actor.name in ["Hdai1", "Hdai2", "Hdai3"])
+    timekeeper = next(actor for actor in finish_event.actors if actor.name == "TIMEKEEPER")
+    camera = next(actor for actor in finish_event.actors if actor.name == "CAMERA")
+    
+    servant_move_action = next(act for act in servant.actions if act.name == "MOVE")
+    stick_prop = next(prop for prop in servant_move_action.properties if prop.name == "Stick")
+    stick_prop.value *= servant_speed_multiplier # Originally 0.5
+    
+    platform_move_action = next(act for act in platform.actions if act.name == "MOVE")
+    speed_prop = next(prop for prop in platform_move_action.properties if prop.name == "Speed")
+    speed_prop.value *= platform_speed_multiplier # Originally 2.5
+    
+    countdown_actions = [act for act in timekeeper.actions if act.name == "COUNTDOWN"]
+    countdown_timer_props = [
+      next(prop for prop in countdown_action.properties if prop.name == "Timer")
+      for countdown_action in countdown_actions
+    ]
+    countdown_timer_props[0].value //= servant_speed_multiplier # Originally 60 frames (2s)
+    countdown_timer_props[1].value //= servant_speed_multiplier # Originally 210 frames (7s)
+    # countdown_timer_props[2] is 10 frames
+    countdown_timer_props[3].value //= beam_delay_multiplier # Originally 60 frames (2s)
+    
+    unitrans_actions = [act for act in camera.actions if act.name == "UNITRANS"]
+    unitrans_timer_props = [
+      next(prop for prop in unitrans_action.properties if prop.name == "Timer")
+      for unitrans_action in unitrans_actions
+    ]
+    unitrans_timer_props[0].value //= platform_speed_multiplier # Originally 90 frames (3s)
+    # unitrans_timer_props[1] is 30 frames
+  
+  
   hub_room_dzr.save_changes()
   totg.save_changes()

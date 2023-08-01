@@ -7,6 +7,7 @@ New features:
 Changes:
 * Dungeon bosses can no longer drop dungeon items when Key-Lunacy mode is disabled.
 * It is now easier to get the Great Deku Tree to mark the location of the Koroks on your sea chart.
+* The three cutscenes where the Servants of the Tower walk onto their pillars have been significantly sped up.
 * Adjusted the text of a few hints.
 * Kogoli now appears in the randomizer.
 
