@@ -2467,7 +2467,7 @@ def allow_nonlinear_servants_of_the_towers(self):
   north_servant_returned_switch = 0x28
   
   # These switches should be unused in vanilla TotG.
-  tablet_item_obtained_switch = 0x2B
+  tablet_item_obtained_switch = 0x2B # Must be contiguous with 0x28-0x2A.
   any_servant_returned_switch = 0x7E
   all_servants_returned_switch = 0x7F
   
@@ -2701,6 +2701,13 @@ def allow_nonlinear_servants_of_the_towers(self):
   sw_op.y_pos = 1000
   sw_op.z_pos = -9000
   
+  # Also add these SwOps to all four events, with a dummy action.
+  # This is so their code still runs during these events, allowing them to seamlessly
+  # start events, instead of having a janky one or two frame delay where the camera
+  # tries to zoom back to the player before realizing it needs to go to the tablet.
+  for event in [os0_finish, os1_finish, os2_finish, appear_event]:
+    swop_actor = event.add_actor("SwOp")
+    swop_actor.add_action("DUMMY")
   
   hub_room_dzr.save_changes()
   totg.save_changes()
