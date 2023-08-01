@@ -1013,10 +1013,7 @@ Tower of the Gods - Shoot Eye Above Skulls Room Chest:
     - Siren/Stage.arc/Chest006
 Tower of the Gods - Tingle Statue Chest:
   Need:
-    Can Access Tower of the Gods
-    & Bombs
-    & TotG Small Key x1
-    & Can Defeat Yellow ChuChus
+    Can Reach Tower of the Gods Second Floor
     & Tingle Tuner Bombs
   Original item: Goddess Tingle Statue
   Types: Tingle Chest, Dungeon
@@ -1024,10 +1021,7 @@ Tower of the Gods - Tingle Statue Chest:
     - Siren/Stage.arc/Chest00A
 Tower of the Gods - First Chest Guarded by Armos Knights:
   Need:
-    Can Access Tower of the Gods
-    & Bombs
-    & TotG Small Key x1
-    & Can Defeat Yellow ChuChus
+    Can Reach Tower of the Gods Second Floor
     & Hero's Bow
   Original item: Joy Pendant
   Types: Dungeon
@@ -1035,10 +1029,7 @@ Tower of the Gods - First Chest Guarded by Armos Knights:
     - Siren/Stage.arc/Chest004
 Tower of the Gods - Stone Tablet:
   Need:
-    Can Access Tower of the Gods
-    & Bombs
-    & TotG Small Key x1
-    & Can Defeat Yellow ChuChus
+    Can Reach Tower of the Gods Second Floor
     & (
       Can Bring East Servant of the Tower
       | Can Bring West Servant of the Tower
@@ -1051,10 +1042,7 @@ Tower of the Gods - Stone Tablet:
     - Siren/Stage.arc/Event060:hsehi1_tact/Actor003/Action004
 Tower of the Gods - Darknut Mini-Boss Room:
   Need:
-    Can Access Tower of the Gods
-    & Bombs
-    & TotG Small Key x1
-    & Can Defeat Yellow ChuChus
+    Can Reach Tower of the Gods Second Floor
     & (Grappling Hook | Can Fly With Deku Leaf Indoors)
     & (Can Play Command Melody | Hero's Bow)
     & Can Defeat Darknuts
@@ -1067,10 +1055,7 @@ Tower of the Gods - Darknut Mini-Boss Room:
     - SirenMB/Stage.arc/Chest000
 Tower of the Gods - Second Chest Guarded by Armos Knights:
   Need:
-    Can Access Tower of the Gods
-    & Bombs
-    & TotG Small Key x1
-    & Can Defeat Yellow ChuChus
+    Can Reach Tower of the Gods Second Floor
     & Bombs
     & Can Play Wind's Requiem
     # Note: Bombs are needed to enter this room, but not needed inside of it, as killing these Armos Knights is not necessary. The chest appears when you play Wind's Requiem, and the door is not locked.
@@ -1080,21 +1065,19 @@ Tower of the Gods - Second Chest Guarded by Armos Knights:
     - Siren/Stage.arc/Chest007
 Tower of the Gods - Floating Platforms Room:
   Need:
-    Can Access Tower of the Gods
-    & Bombs
-    & TotG Small Key x1
-    & Can Defeat Yellow ChuChus
+    Can Reach Tower of the Gods Second Floor
     & Hero's Bow
+    # Note: You don't need bow to shoot the first eye if you use Deku Leaf to fly from the platform
+    #   near the entrance to the platform to the left of this chest. This doesn't require leaf
+    #   pumping or any tricks, but it does require the two platforms in question to have their
+    #   cycles synced, and decent timing. So this is not currently in logic.
   Original item: Small Key
   Types: Dungeon
   Paths:
     - Siren/Stage.arc/Chest008
 Tower of the Gods - Top of Floating Platforms Room:
   Need:
-    Can Access Tower of the Gods
-    & Bombs
-    & TotG Small Key x1
-    & Can Defeat Yellow ChuChus
+    Can Reach Tower of the Gods Second Floor
     & Hero's Bow
   Original item: Joy Pendant
   Types: Dungeon
@@ -1102,15 +1085,7 @@ Tower of the Gods - Top of Floating Platforms Room:
     - Siren/Stage.arc/Chest009
 Tower of the Gods - Big Key Chest:
   Need:
-    Can Access Tower of the Gods
-    & Bombs
-    & Can Defeat Yellow ChuChus
-    & Can Bring East Servant of the Tower
-    & Can Bring West Servant of the Tower
-    & Can Bring North Servant of the Tower
-    & Wind Waker
-    # Note: The Wind Waker is required for getting the item from "Tower of the Gods - Stone Tablet".
-    # Although the randomizer removes the forced linearity of bringing the servants, it still requires you to get that item before the warp will appear, because otherwise the stone tablet would physically block link from using the warp, softlocking the game in an event.
+    Can Reach Tower of the Gods Third Floor
   Original item: Big Key
   Types: Dungeon
   Paths:

@@ -95,6 +95,21 @@ Tingle Tuner Bombs:
   Bombs
   # Note: If an option to require Tingle Tuner is added, this macro should have Bombs replaced with Tingle Tuner when that option is on.
 
+Can Reach Tower of the Gods Second Floor:
+  Can Access Tower of the Gods
+  & Bombs
+  & TotG Small Key x1
+  & Can Defeat Yellow ChuChus
+Can Reach Tower of the Gods Third Floor:
+  Can Reach Tower of the Gods Second Floor
+  & Can Bring East Servant of the Tower
+  & Can Bring West Servant of the Tower
+  & Can Bring North Servant of the Tower
+  & Wind Waker
+  # Note: The Wind Waker is required for getting the item from "Tower of the Gods - Stone Tablet".
+  #   Although the randomizer removes the forced linearity of bringing the servants, it still
+  #   requires you to get that item before the warp will appear, because otherwise the stone tablet
+  #   would physically block link from using the warp, softlocking the game in an event.
 Can Bring East Servant of the Tower:
   Nothing
 Can Bring West Servant of the Tower:
@@ -154,13 +169,7 @@ Can Access Boss Entrance in Forbidden Woods:
   & Can Defeat Mothulas
   & FW Big Key
 Can Access Boss Entrance in Tower of the Gods:
-  Can Access Tower of the Gods
-  & Bombs
-  & Can Defeat Yellow ChuChus
-  & Can Bring East Servant of the Tower
-  & Can Bring West Servant of the Tower
-  & Can Bring North Servant of the Tower
-  & Wind Waker
+  Can Reach Tower of the Gods Third Floor
   & Can Defeat Armos
   & TotG Big Key
 Can Access Boss Entrance in Earth Temple:
