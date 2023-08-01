@@ -91,6 +91,8 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.randomize_all_custom_colors_separately.clicked.connect(self.randomize_all_custom_colors_separately)
     self.ui.custom_color_preset.currentIndexChanged.connect(self.color_preset_changed)
     
+    self.ui.label_for_clean_iso_path.linkActivated.connect(self.show_clean_iso_explanation)
+    
     for option_name in OPTIONS:
       widget = getattr(self.ui, option_name)
       if isinstance(widget, QAbstractButton):
@@ -614,6 +616,15 @@ class WWRandomizerWindow(QMainWindow):
       self.set_option_value("randomize_enemy_palettes", prev_randomize_enemy_palettes_value)
     
     self.update_settings()
+  
+  def show_clean_iso_explanation(self):
+    QMessageBox.information(
+      self, "Vanilla Wind Waker ISO",
+      "To use the randomizer, you need to have a copy of the North American GameCube version of The Legend of Zelda: The Wind Waker.\n\n" +
+      "The European and Japanese versions of Wind Waker are not supported.\nWind Waker HD is also not supported.\n\n" +
+      "The ISO should ideally be a vanilla/unmodified copy of the game to guarantee the randomizer works with no " +
+      "conflicts, but Wind Waker mods that do not conflict with the randomizer can also be used."
+    )
   
   def browse_for_clean_iso(self):
     if self.settings["clean_iso_path"] and os.path.isfile(self.settings["clean_iso_path"]):

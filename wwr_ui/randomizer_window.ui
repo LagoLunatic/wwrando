@@ -57,7 +57,10 @@
               <item row="0" column="0">
                <widget class="QLabel" name="label_for_clean_iso_path">
                 <property name="text">
-                 <string>Clean WW ISO</string>
+                 <string>Vanilla Wind Waker ISO [[?]](help)</string>
+                </property>
+                <property name="textFormat">
+                 <enum>Qt::MarkdownText</enum>
                 </property>
                </widget>
               </item>
@@ -67,7 +70,7 @@
               <item row="1" column="0">
                <widget class="QLabel" name="label_for_output_folder">
                 <property name="text">
-                 <string>Output Folder</string>
+                 <string>Randomized Output Folder</string>
                 </property>
                </widget>
               </item>
@@ -84,7 +87,7 @@
               <item row="2" column="0">
                <widget class="QLabel" name="label_for_seed">
                 <property name="text">
-                 <string>Seed (optional)</string>
+                 <string>Random Seed (optional)</string>
                 </property>
                </widget>
               </item>

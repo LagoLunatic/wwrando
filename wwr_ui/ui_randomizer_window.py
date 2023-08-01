@@ -57,6 +57,7 @@ class Ui_MainWindow(object):
 
         self.label_for_clean_iso_path = QLabel(self.tab_randomizer_settings)
         self.label_for_clean_iso_path.setObjectName(u"label_for_clean_iso_path")
+        self.label_for_clean_iso_path.setTextFormat(Qt.MarkdownText)
 
         self.gridLayout.addWidget(self.label_for_clean_iso_path, 0, 0, 1, 1)
 
@@ -1018,10 +1019,10 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Wind Waker Randomizer", None))
-        self.label_for_clean_iso_path.setText(QCoreApplication.translate("MainWindow", u"Clean WW ISO", None))
-        self.label_for_output_folder.setText(QCoreApplication.translate("MainWindow", u"Output Folder", None))
+        self.label_for_clean_iso_path.setText(QCoreApplication.translate("MainWindow", u"Vanilla Wind Waker ISO [[?]](help)", None))
+        self.label_for_output_folder.setText(QCoreApplication.translate("MainWindow", u"Randomized Output Folder", None))
         self.output_folder_browse_button.setText(QCoreApplication.translate("MainWindow", u"Browse", None))
-        self.label_for_seed.setText(QCoreApplication.translate("MainWindow", u"Seed (optional)", None))
+        self.label_for_seed.setText(QCoreApplication.translate("MainWindow", u"Random Seed (optional)", None))
         self.generate_seed_button.setText(QCoreApplication.translate("MainWindow", u"New seed", None))
         self.clean_iso_path_browse_button.setText(QCoreApplication.translate("MainWindow", u"Browse", None))
         self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Where Should Progress Items Appear?", None))
