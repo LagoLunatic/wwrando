@@ -681,7 +681,7 @@ def print_actor_info(self):
     if actor_id == 0xFFFF:
       break # End marker
     if actor_id in actor_id_to_rel_filename:
-      print("Warning, duplicate actor ID in rel filename list: %04X" % padding)
+      print("Warning, duplicate actor ID in rel filename list: %04X" % actor_id)
     padding = self.dol.read_data(fs.read_u16, address+2)
     if padding != 0:
       print("Warning, nonzero padding: %04X" % padding)
