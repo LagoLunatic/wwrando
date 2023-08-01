@@ -1,10 +1,21 @@
+from dataclasses import dataclass
 
-from collections import namedtuple
+@dataclass(frozen=True)
+class ZoneEntrance:
+  stage_name: str
+  room_num: int
+  scls_exit_index: int
+  spawn_id: int
+  entrance_name: str
+  island_name: str = None
+  warp_out_stage_name: str = None
+  warp_out_room_num: int = None
+  warp_out_spawn_id: int = None
+  
+  @property
+  def is_nested(self):
+    return self.island_name is None
 
-ZoneEntrance = namedtuple(
-  "ZoneEntrance",
-  "stage_name room_num scls_exit_index spawn_id entrance_name island_name warp_out_stage_name warp_out_room_num warp_out_spawn_id"
-)
 DUNGEON_ENTRANCES = [
   ZoneEntrance("Adanmae", 0, 2, 2, "Dungeon Entrance on Dragon Roost Island", "Dragon Roost Island", "sea", 13, 211),
   ZoneEntrance("sea", 41, 6, 6, "Dungeon Entrance in Forest Haven Sector", "Forest Haven", "Omori", 0, 215),
@@ -13,11 +24,11 @@ DUNGEON_ENTRANCES = [
   ZoneEntrance("Ekaze", 0, 0, 1, "Dungeon Entrance on Gale Isle", "Gale Isle", "sea", 4, 232),
 ]
 BOSS_ENTRANCES = [
-  ZoneEntrance("M_NewD2", 10, 1, 27, "Boss Entrance in Dragon Roost Cavern", None, None, None, None),
-  ZoneEntrance("kindan", 16, 0, 1, "Boss Entrance in Forbidden Woods", None, None, None, None),
-  ZoneEntrance("Siren", 18, 0, 27, "Boss Entrance in Tower of the Gods", None, None, None, None),
-  ZoneEntrance("M_Dai", 15, 0, 27, "Boss Entrance in Earth Temple", None, None, None, None),
-  ZoneEntrance("kaze", 12, 0, 27, "Boss Entrance in Wind Temple", None, None, None, None),
+  ZoneEntrance("M_NewD2", 10, 1, 27, "Boss Entrance in Dragon Roost Cavern"),
+  ZoneEntrance("kindan", 16, 0, 1, "Boss Entrance in Forbidden Woods"),
+  ZoneEntrance("Siren", 18, 0, 27, "Boss Entrance in Tower of the Gods"),
+  ZoneEntrance("M_Dai", 15, 0, 27, "Boss Entrance in Earth Temple"),
+  ZoneEntrance("kaze", 12, 0, 27, "Boss Entrance in Wind Temple"),
 ]
 SECRET_CAVE_ENTRANCES = [
   ZoneEntrance("sea", 44, 8, 10, "Secret Cave Entrance on Outset Island", "Outset Island", "sea", 44, 10),
@@ -42,11 +53,21 @@ SECRET_CAVE_ENTRANCES = [
   ZoneEntrance("sea", 43, 0, 5, "Secret Cave Entrance on Horseshoe Island", "Horseshoe Island", "sea", 43, 5),
   ZoneEntrance("sea", 2, 0, 1, "Secret Cave Entrance on Star Island", "Star Island", "sea", 2, 1),
 ]
+ALL_ENTRANCES = \
+  DUNGEON_ENTRANCES + \
+  BOSS_ENTRANCES + \
+  SECRET_CAVE_ENTRANCES
 
-ZoneExit = namedtuple(
-  "ZoneExit",
-  "stage_name room_num scls_exit_index spawn_id zone_name unique_name boss_stage_name"
-)
+@dataclass(frozen=True)
+class ZoneExit:
+  stage_name: str
+  room_num: int
+  scls_exit_index: int
+  spawn_id: int
+  zone_name: str
+  unique_name: str
+  boss_stage_name: str = None
+
 DUNGEON_EXITS = [
   ZoneExit("M_NewD2", 0, 0, 0, "Dragon Roost Cavern", "Dragon Roost Cavern", "M_DragB"),
   ZoneExit("kindan", 0, 0, 0, "Forbidden Woods", "Forbidden Woods", "kinBOSS"),
@@ -55,34 +76,38 @@ DUNGEON_EXITS = [
   ZoneExit("kaze", 15, 0, 15, "Wind Temple", "Wind Temple", "kazeB"),
 ]
 BOSS_EXITS = [
-  ZoneExit("M_DragB", 0, 0, 0, "Gohma Boss Arena", "Gohma Boss Arena", None),
-  ZoneExit("kinBOSS", 0, 0, 0, "Kalle Demos Boss Arena", "Kalle Demos Boss Arena", None),
-  ZoneExit("SirenB", 0, 0, 0, "Gohdan Boss Arena", "Gohdan Boss Arena", None),
-  ZoneExit("M_DaiB", 0, 0, 0, "Jalhalla Boss Arena", "Jalhalla Boss Arena", None),
-  ZoneExit("kazeB", 0, 0, 0, "Molgera Boss Arena", "Molgera Boss Arena", None),
+  ZoneExit("M_DragB", 0, 0, 0, "Gohma Boss Arena", "Gohma Boss Arena"),
+  ZoneExit("kinBOSS", 0, 0, 0, "Kalle Demos Boss Arena", "Kalle Demos Boss Arena"),
+  ZoneExit("SirenB", 0, 0, 0, "Gohdan Boss Arena", "Gohdan Boss Arena"),
+  ZoneExit("M_DaiB", 0, 0, 0, "Jalhalla Boss Arena", "Jalhalla Boss Arena"),
+  ZoneExit("kazeB", 0, 0, 0, "Molgera Boss Arena", "Molgera Boss Arena"),
 ]
 SECRET_CAVE_EXITS = [
-  ZoneExit("Cave09", 0, 1, 0, "Outset Island", "Savage Labyrinth", None),
-  ZoneExit("TF_06", 0, 0, 0, "Dragon Roost Island", "Dragon Roost Island Secret Cave", None),
-  ZoneExit("MiniKaz", 0, 0, 0, "Fire Mountain", "Fire Mountain Secret Cave", None),
-  ZoneExit("MiniHyo", 0, 0, 0, "Ice Ring Isle", "Ice Ring Isle Secret Cave", None),
-  ZoneExit("TF_04", 0, 0, 0, "Private Oasis", "Cabana Labyrinth", None),
-  ZoneExit("SubD42", 0, 0, 0, "Needle Rock Isle", "Needle Rock Isle Secret Cave", None),
-  ZoneExit("SubD43", 0, 0, 0, "Angular Isles", "Angular Isles Secret Cave", None),
-  ZoneExit("SubD71", 0, 0, 0, "Boating Course", "Boating Course Secret Cave", None),
-  ZoneExit("TF_01", 0, 0, 0, "Stone Watcher Island", "Stone Watcher Island Secret Cave", None),
-  ZoneExit("TF_02", 0, 0, 0, "Overlook Island", "Overlook Island Secret Cave", None),
-  ZoneExit("TF_03", 0, 0, 0, "Bird's Peak Rock", "Bird's Peak Rock Secret Cave", None),
-  ZoneExit("TyuTyu", 0, 0, 0, "Pawprint Isle", "Pawprint Isle Chuchu Cave", None),
-  ZoneExit("Cave07", 0, 0, 0, "Pawprint Isle Side Isle", "Pawprint Isle Wizzrobe Cave", None),
-  ZoneExit("WarpD", 0, 0, 0, "Diamond Steppe Island", "Diamond Steppe Island Warp Maze Cave", None),
-  ZoneExit("Cave01", 0, 0, 0, "Bomb Island", "Bomb Island Secret Cave", None),
-  ZoneExit("Cave04", 0, 0, 0, "Rock Spire Isle", "Rock Spire Isle Secret Cave", None),
-  ZoneExit("ITest63", 0, 0, 0, "Shark Island", "Shark Island Secret Cave", None),
-  ZoneExit("Cave03", 0, 0, 0, "Cliff Plateau Isles", "Cliff Plateau Isles Secret Cave", None),
-  ZoneExit("Cave05", 0, 0, 0, "Horseshoe Island", "Horseshoe Island Secret Cave", None),
-  ZoneExit("Cave02", 0, 0, 0, "Star Island", "Star Island Secret Cave", None),
+  ZoneExit("Cave09", 0, 1, 0, "Outset Island", "Savage Labyrinth"),
+  ZoneExit("TF_06", 0, 0, 0, "Dragon Roost Island", "Dragon Roost Island Secret Cave"),
+  ZoneExit("MiniKaz", 0, 0, 0, "Fire Mountain", "Fire Mountain Secret Cave"),
+  ZoneExit("MiniHyo", 0, 0, 0, "Ice Ring Isle", "Ice Ring Isle Secret Cave"),
+  ZoneExit("TF_04", 0, 0, 0, "Private Oasis", "Cabana Labyrinth"),
+  ZoneExit("SubD42", 0, 0, 0, "Needle Rock Isle", "Needle Rock Isle Secret Cave"),
+  ZoneExit("SubD43", 0, 0, 0, "Angular Isles", "Angular Isles Secret Cave"),
+  ZoneExit("SubD71", 0, 0, 0, "Boating Course", "Boating Course Secret Cave"),
+  ZoneExit("TF_01", 0, 0, 0, "Stone Watcher Island", "Stone Watcher Island Secret Cave"),
+  ZoneExit("TF_02", 0, 0, 0, "Overlook Island", "Overlook Island Secret Cave"),
+  ZoneExit("TF_03", 0, 0, 0, "Bird's Peak Rock", "Bird's Peak Rock Secret Cave"),
+  ZoneExit("TyuTyu", 0, 0, 0, "Pawprint Isle", "Pawprint Isle Chuchu Cave"),
+  ZoneExit("Cave07", 0, 0, 0, "Pawprint Isle Side Isle", "Pawprint Isle Wizzrobe Cave"),
+  ZoneExit("WarpD", 0, 0, 0, "Diamond Steppe Island", "Diamond Steppe Island Warp Maze Cave"),
+  ZoneExit("Cave01", 0, 0, 0, "Bomb Island", "Bomb Island Secret Cave"),
+  ZoneExit("Cave04", 0, 0, 0, "Rock Spire Isle", "Rock Spire Isle Secret Cave"),
+  ZoneExit("ITest63", 0, 0, 0, "Shark Island", "Shark Island Secret Cave"),
+  ZoneExit("Cave03", 0, 0, 0, "Cliff Plateau Isles", "Cliff Plateau Isles Secret Cave"),
+  ZoneExit("Cave05", 0, 0, 0, "Horseshoe Island", "Horseshoe Island Secret Cave"),
+  ZoneExit("Cave02", 0, 0, 0, "Star Island", "Star Island Secret Cave"),
 ]
+ALL_EXITS = \
+  DUNGEON_EXITS + \
+  BOSS_EXITS + \
+  SECRET_CAVE_EXITS
 
 DUNGEON_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS = [
   "Dungeon Entrance on Dragon Roost Island",
@@ -324,18 +349,22 @@ def get_outermost_entrance_for_entrance(zone_entrance: ZoneEntrance, done_exits_
 def get_all_entrances_on_path_to_entrance(zone_entrance: ZoneEntrance, done_exits_to_entrances):
   """ Unrecurses nested dungeons to build a list of all entrances leading to a given entrance."""
   seen_entrances = []
-  while zone_entrance.island_name is None:
+  while zone_entrance.is_nested:
     if zone_entrance in seen_entrances:
       raise Exception("Entrances are in an infinite loop: %s" % ", ".join([e.entrance_name for e in seen_entrances]))
     seen_entrances.append(zone_entrance)
-    assert zone_entrance.entrance_name.startswith("Boss Entrance in ")
-    dungeon_name = zone_entrance.entrance_name[len("Boss Entrance in "):]
-    dungeon_start_exit = next(ex for ex in DUNGEON_EXITS if ex.unique_name == dungeon_name)
+    dungeon_start_exit = get_dungeon_start_exit_leading_to_nested_entrance(zone_entrance)
     if dungeon_start_exit not in done_exits_to_entrances:
       return None
     zone_entrance = done_exits_to_entrances[dungeon_start_exit]
   seen_entrances.append(zone_entrance)
   return seen_entrances
+
+def get_dungeon_start_exit_leading_to_nested_entrance(zone_entrance: ZoneEntrance):
+  assert zone_entrance.entrance_name.startswith("Boss Entrance in ")
+  dungeon_name = zone_entrance.entrance_name[len("Boss Entrance in "):]
+  dungeon_start_exit = next(ex for ex in DUNGEON_EXITS if ex.unique_name == dungeon_name)
+  return dungeon_start_exit
 
 def update_entrance_to_lead_to_exit(self, zone_entrance: ZoneEntrance, zone_exit: ZoneExit, outermost_entrance: ZoneEntrance):
   # Update the stage this entrance takes you into.
