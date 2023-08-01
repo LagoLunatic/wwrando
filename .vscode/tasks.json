@@ -10,9 +10,15 @@
             "problemMatcher": []
         },
         {
-            "label": "Build UI",
+            "label": "Print Used Vanilla Flags",
             "type": "shell",
-            "command": "python ${workspaceFolder}/wwr_ui/build_ui.py",
+            "command": "python ${workspaceFolder}/wwrando.py -noui -printflags",
+            "problemMatcher": []
+        },
+        {
+            "label": "Disassemble Vanilla Code",
+            "type": "shell",
+            "command": "python ${workspaceFolder}/wwrando.py -noui -disassemble",
             "problemMatcher": []
         }
     ]

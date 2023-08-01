@@ -5,6 +5,7 @@ from random import Random
 from collections import OrderedDict
 import hashlib
 import yaml
+import sys
 
 from gclib import fs_helpers as fs
 from gclib.yaz0 import Yaz0
@@ -137,10 +138,13 @@ class Randomizer:
       
       if self.disassemble:
         self.disassemble_all_code()
+        sys.exit(0)
       if self.print_used_flags:
         stage_searcher.print_all_used_item_pickup_flags(self)
         stage_searcher.print_all_used_chest_open_flags(self)
         stage_searcher.print_all_event_flags_used_by_stb_cutscenes(self)
+        stage_searcher.print_all_used_switches(self)
+        sys.exit(0)
     
     # Starting items. This list is read by the Logic when initializing your currently owned items list.
     self.starting_items = [
