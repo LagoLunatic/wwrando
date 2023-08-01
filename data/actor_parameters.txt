@@ -226,7 +226,10 @@ d_a_bk:
   weapon:
     Bitfield name: params
     Mask: 0x000000C0
-  unknown_param_5:
+  sight_range:
+    Bitfield name: params
+    Mask: 0x0000FF00
+  frozen_pose:
     Bitfield name: params
     Mask: 0x0000FF00
   path_index:
@@ -655,21 +658,18 @@ d_a_gy_ctrl:
     Mask: 0xFF000000
 
 d_a_himo3:
-  unknown_param_1:
+  attachment_model_type:
     Bitfield name: params
-    Mask: 0x000000FF # (WARNING: overlaps)
-  unknown_param_2:
+    Mask: 0x000000FF
+  rope_length:
     Bitfield name: params
-    Mask: 0x0000FF00 # (WARNING: overlaps)
-  unknown_param_3:
+    Mask: 0x0000FF00
+  movement_speed:
     Bitfield name: params
-    Mask: 0x00FF0000 # (WARNING: overlaps)
-  unknown_param_4:
+    Mask: 0x00FF0000
+  path_index:
     Bitfield name: params
-    Mask: 0xFF000000 # (WARNING: overlaps)
-  unknown_param_5:
-    Bitfield name: params
-    Mask: 0xFFFFFFFF # (WARNING: overlaps)
+    Mask: 0xFF000000
 
 d_a_hitobj:
   unknown_param_1:
@@ -1039,7 +1039,7 @@ d_a_mo2:
   moblin_type:
     Bitfield name: params
     Mask: 0x000000FF
-  frozen_in_time_pose:
+  frozen_pose:
     Bitfield name: params
     Mask: 0x0000FF00
   path_index:
@@ -1835,16 +1835,16 @@ d_a_obj_hha:
     Mask: 0x0000FF00
 
 d_a_obj_hlift:
-  unknown_param_1:
+  lift_height:
     Bitfield name: params
     Mask: 0x00000007
-  unknown_param_2:
+  model_size:
     Bitfield name: params
     Mask: 0x00000010
-  unknown_param_3:
+  switch_to_check:
     Bitfield name: params
     Mask: 0x0000FF00
-  unknown_param_4:
+  evnt_index:
     Bitfield name: params
     Mask: 0x00FF0000
 
@@ -3173,7 +3173,7 @@ d_a_tn:
   color:
     Bitfield name: params
     Mask: 0x000000F0
-  frozen_in_time_pose:
+  frozen_pose:
     Bitfield name: params
     Mask: 0x0000FF00
   path_index:
