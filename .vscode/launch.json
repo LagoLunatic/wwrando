@@ -38,6 +38,20 @@
             ],
         },
         {
+            "name": "Debug WWRando (Dry Item Rando)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/wwrando.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-exportfolder",
+                "-mapselect",
+                "-noui",
+                "-dry",
+            ],
+        },
+        {
             "name": "Debug WWRando (No UI) (No item rando)",
             "type": "python",
             "request": "launch",
