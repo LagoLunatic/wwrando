@@ -110,7 +110,7 @@ class Randomizer:
     
     if not self.dry_run:
       if not os.path.isfile(clean_iso_path):
-        raise InvalidCleanISOError("Clean WW ISO does not exist: %s" % clean_iso_path)
+        raise InvalidCleanISOError("Vanilla WW ISO does not exist: %s" % clean_iso_path)
       
       self.verify_supported_version(clean_iso_path)
       
@@ -558,9 +558,9 @@ class Randomizer:
       raise InvalidCleanISOError("This ISO is in CISO format. The randomizer only supports ISOs in GCM format.")
     if game_id != "GZLE01":
       if game_id and game_id.startswith("GZL"):
-        raise InvalidCleanISOError("Invalid version of Wind Waker. Only the USA version is supported by this randomizer.")
+        raise InvalidCleanISOError("Invalid version of Wind Waker. Only the North American version is supported by this randomizer.")
       else:
-        raise InvalidCleanISOError("Invalid game given as the clean ISO. You must specify a Wind Waker ISO (USA version).")
+        raise InvalidCleanISOError("Invalid game given as the vanilla ISO. You must specify a Wind Waker ISO (North American version).")
   
   def verify_correct_clean_iso_md5(self, clean_iso_path):
     md5 = hashlib.md5()
@@ -574,7 +574,7 @@ class Randomizer:
     
     integer_md5 = int(md5.hexdigest(), 16)
     if integer_md5 != CLEAN_WIND_WAKER_ISO_MD5:
-      raise InvalidCleanISOError("Invalid clean Wind Waker ISO. Your ISO may be corrupted.\n\nCorrect ISO MD5 hash: %x\nYour ISO's MD5 hash: %x" % (CLEAN_WIND_WAKER_ISO_MD5, integer_md5))
+      raise InvalidCleanISOError("Invalid vanilla Wind Waker ISO. Your ISO may be corrupted.\n\nCorrect ISO MD5 hash: %x\nYour ISO's MD5 hash: %x" % (CLEAN_WIND_WAKER_ISO_MD5, integer_md5))
   
   def read_text_file_lists(self):
     # Get item names.

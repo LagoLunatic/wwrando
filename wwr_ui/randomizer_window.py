@@ -228,7 +228,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.output_folder.setText(output_folder)
     
     if not self.dry_run and not os.path.isfile(clean_iso_path):
-      QMessageBox.warning(self, "Clean ISO path not specified", "Must specify path to your clean Wind Waker ISO (USA).")
+      QMessageBox.warning(self, "Vanilla ISO path not specified", "Must specify path to your vanilla Wind Waker ISO (North American version).")
       return
     if not os.path.isdir(output_folder):
       QMessageBox.warning(self, "No output folder specified", "Must specify a valid output folder for the randomized files.")
@@ -632,7 +632,7 @@ class WWRandomizerWindow(QMainWindow):
     else:
       default_dir = None
     
-    clean_iso_path, selected_filter = QFileDialog.getOpenFileName(self, "Select clean Wind Waker ISO", default_dir, "GC ISO Files (*.iso *.gcm)")
+    clean_iso_path, selected_filter = QFileDialog.getOpenFileName(self, "Select vanilla Wind Waker ISO", default_dir, "GC ISO Files (*.iso *.gcm)")
     if not clean_iso_path:
       return
     self.ui.clean_iso_path.setText(clean_iso_path)
