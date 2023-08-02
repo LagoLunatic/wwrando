@@ -58,14 +58,13 @@ class Logic:
     self.item_locations = Logic.load_and_parse_item_locations()
     self.load_and_parse_macros()
     
-    self.all_dynamic_access_macros = []
-    for entrance_name, zone_name in self.rando.entrance_connections.items():
-      zone_access_macro_name = "Can Access " + zone_name
-      entrance_access_macro_name = "Can Access " + entrance_name
-      assert zone_access_macro_name in self.macros
-      assert entrance_access_macro_name in self.macros
-      self.all_dynamic_access_macros.append(zone_access_macro_name)
-      self.all_dynamic_access_macros.append(entrance_access_macro_name)
+    self.nested_entrance_macros = {}
+    for zone_entrance in entrances.ALL_ENTRANCES:
+      if zone_entrance.is_nested:
+        zone_exit = entrances.get_dungeon_start_exit_leading_to_nested_entrance(zone_entrance)
+        entrance_access_macro_name = "Can Access " + zone_entrance.entrance_name
+        zone_access_macro_name = "Can Access " + zone_exit.unique_name
+        self.nested_entrance_macros[entrance_access_macro_name] = zone_access_macro_name
     
     self.locations_by_zone_name = OrderedDict()
     for location_name in self.item_locations:
@@ -946,13 +945,17 @@ class Logic:
     if req_name in self.requirement_met_cache:
       return self.requirement_met_cache[req_name]
     
-    # Prevent infinite recursion for cases where requirements depend on themselves.
+    # Prevent infinite recursion for cases where nested requirements depend on themselves.
     # (e.g. temporarily_make_entrance_macros_worst_case_scenario)
     if reqs_being_checked is None:
       reqs_being_checked = set()
-    if req_name in reqs_being_checked:
-      assert req_name in self.all_dynamic_access_macros, "Recursive requirement check on non-entrance macro"
+    if req_name in self.nested_entrance_macros and self.nested_entrance_macros[req_name] in reqs_being_checked:
+      # If the logic says that, for example, TotG's dungeon entrance relies on TotG's boss entrance,
+      # we know this can't ever actually happen ingame as it would be an infinite loop.
+      # Thus we can safely just ignore this particular subtree in our search, as it is irrelevant.
       return True
+    # print(f"{' '*len(reqs_being_checked)}{req_name}")
+    assert req_name not in reqs_being_checked, f"Recursive requirement check on non-whitelisted macro: {req_name!r}, {reqs_being_checked}"
     reqs_being_checked.add(req_name)
     
     if req_name.startswith("Progressive "):
@@ -1030,13 +1033,17 @@ class Logic:
   def get_items_needed_by_req_name(self, req_name, reqs_being_checked=None):
     items_needed = OrderedDict()
     
-    # Prevent infinite recursion for cases where requirements depend on themselves.
+    # Prevent infinite recursion for cases where nested requirements depend on themselves.
     # (e.g. temporarily_make_entrance_macros_worst_case_scenario)
     if reqs_being_checked is None:
       reqs_being_checked = set()
-    if req_name in reqs_being_checked:
-      assert req_name in self.all_dynamic_access_macros, "Recursive requirement check on non-entrance macro"
+    if req_name in self.nested_entrance_macros and self.nested_entrance_macros[req_name] in reqs_being_checked:
+      # If the logic says that, for example, TotG's dungeon entrance relies on TotG's boss entrance,
+      # we know this can't ever actually happen ingame as it would be an infinite loop.
+      # Thus we can safely just ignore this particular subtree in our search, as it is irrelevant.
       return items_needed
+    # print(f"{' '*len(reqs_being_checked)}{req_name}")
+    assert req_name not in reqs_being_checked, f"Recursive requirement check on non-whitelisted macro: {req_name!r}"
     reqs_being_checked.add(req_name)
     
     if req_name.startswith("Progressive "):
