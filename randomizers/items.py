@@ -4,13 +4,8 @@ import re
 
 from gclib import fs_helpers as fs
 
-from randomizers import race_mode
-
 def randomize_items(self):
   print("Randomizing items...")
-  
-  if self.options.get("race_mode"):
-    race_mode.randomize_boss_rewards(self)
   
   if not self.options.get("keylunacy"):
     randomize_dungeon_items(self)

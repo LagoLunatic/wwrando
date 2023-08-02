@@ -34,6 +34,7 @@ from randomizers import entrances
 from randomizers import music
 from randomizers import enemies
 from randomizers import palettes
+from randomizers import race_mode
 
 from version import VERSION, VERSION_WITHOUT_COMMIT
 
@@ -399,6 +400,10 @@ class Randomizer:
     if self.options.get("randomize_starting_island"):
       self.reset_rng()
       starting_island.randomize_starting_island(self)
+    
+    if self.options.get("race_mode"):
+      self.reset_rng()
+      race_mode.randomize_boss_rewards(self)
     
     if self.options.get("randomize_entrances") not in ["Disabled", None]:
       self.reset_rng()
