@@ -556,7 +556,7 @@ class Randomizer:
       tweaks.update_auction_item_names(self)
       tweaks.update_battlesquid_item_names(self)
       tweaks.update_item_names_in_letter_advertising_rock_spire_shop(self)
-    tweaks.show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=self.race_mode_required_dungeons)
+    tweaks.show_quest_markers_on_sea_chart_for_dungeons(self, boss_location_names=self.race_mode_required_locations)
     tweaks.prevent_fire_mountain_lava_softlock(self)
   
   def verify_supported_version(self, clean_iso_path):

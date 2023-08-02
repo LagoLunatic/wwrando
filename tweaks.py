@@ -1767,17 +1767,17 @@ def implement_key_bag(self):
   pirate_charm_icon.replace_image_from_path(key_bag_icon_image_path)
   pirate_charm_icon.save_changes()
 
-DUNGEON_NAME_TO_SEA_CHART_QUEST_MARKER_INDEX = OrderedDict([
-  ("Dragon Roost Cavern", 7),
-  ("Forbidden Woods", 5),
-  ("Tower of the Gods", 3), # Originally Southern Triangle Island
-  ("Forsaken Fortress", 2), # Originally Eastern Triangle Island
-  ("Earth Temple", 0),
-  ("Wind Temple", 1),
+BOSS_NAME_TO_SEA_CHART_QUEST_MARKER_INDEX = OrderedDict([
+  ("Gohma", 7),
+  ("Kalle Demos", 5),
+  ("Gohdan", 3), # Originally Southern Triangle Island
+  ("Helmaroc King", 2), # Originally Eastern Triangle Island
+  ("Jalhalla", 0),
+  ("Molgera", 1),
 ])
-# Note: 4 is Northern Triangle Island and 6 is Greatfish Isle, these are not used by the randomizer.
+# Note: 4 is Northern Triangle Island and 6 is Greatfish Isle, these are not currently used by the randomizer.
 
-def show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=[]):
+def show_quest_markers_on_sea_chart_for_dungeons(self, boss_location_names=[]):
   # Uses the blue quest markers on the sea chart to highlight certain dungeons.
   # This is done by toggling visibility on them and moving some Triangle Island ones around to repurpose them as dungeon ones.
   # When the dungeon entrance rando is on, different entrances can lead into dungeons, so the positions of the markers are updated to point to the appropriate island in that case (including secret cave entrances).
@@ -1786,18 +1786,23 @@ def show_quest_markers_on_sea_chart_for_dungeons(self, dungeon_names=[]):
   sea_chart_ui.decompress_data_if_necessary()
   first_quest_marker_pic1_offset = 0x43B0
   
-  for dungeon_name in dungeon_names:
-    quest_marker_index = DUNGEON_NAME_TO_SEA_CHART_QUEST_MARKER_INDEX[dungeon_name]
+  for boss_location_name in boss_location_names:
+    assert "Boss" in self.logic.item_locations[boss_location_name]["Types"]
+    _, specific_location_name = self.logic.split_location_name_by_zone(boss_location_name)
+    assert specific_location_name.endswith(" Heart Container")
+    boss_name = specific_location_name.removesuffix(" Heart Container")
     
+    quest_marker_index = BOSS_NAME_TO_SEA_CHART_QUEST_MARKER_INDEX[boss_name]
     offset = first_quest_marker_pic1_offset + quest_marker_index*0x40
     
     # Make the quest marker icon be visible.
     fs.write_u8(sea_chart_ui.data, offset+9, 1)
     
-    if dungeon_name == "Forsaken Fortress":
+    if boss_name == "Helmaroc King":
       island_name = "Forsaken Fortress"
     else:
-      island_name = self.dungeon_and_cave_island_locations[dungeon_name]
+      boss_arena_name = f"{boss_name} Boss Arena"
+      island_name = self.dungeon_and_cave_island_locations[boss_arena_name]
     island_number = self.island_name_to_number[island_name]
     sector_x = (island_number-1) % 7
     sector_y = (island_number-1) // 7
