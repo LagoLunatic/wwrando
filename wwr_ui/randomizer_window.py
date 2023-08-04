@@ -266,6 +266,7 @@ class WWRandomizerWindow(QMainWindow):
       total_done = 0
       for i in range(100):
         temp_seed = str(i)
+        rando = None
         try:
           rando = Randomizer(temp_seed, clean_iso_path, output_folder, options, permalink=permalink, cmd_line_args=self.cmd_line_args)
           randomizer_generator = rando.randomize()
@@ -281,6 +282,8 @@ class WWRandomizerWindow(QMainWindow):
           stack_trace = traceback.format_exc()
           error_message = "Error on seed " + temp_seed + ":\n" + str(e) + "\n\n" + stack_trace
           print(error_message)
+          if rando is not None:
+            rando.write_error_log(error_message)
           failures_done += 1
         total_done += 1
         print("%d/%d seeds failed" % (failures_done, total_done))

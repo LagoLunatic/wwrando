@@ -66,6 +66,7 @@ class InvalidCleanISOError(Exception):
 class Randomizer:
   def __init__(self, seed, clean_iso_path, randomized_output_folder, options, permalink=None, cmd_line_args=OrderedDict()):
     self.randomized_output_folder = randomized_output_folder
+    self.logs_output_folder = self.randomized_output_folder
     self.options = options
     self.seed = seed
     self.permalink = permalink
@@ -78,7 +79,7 @@ class Randomizer:
     self.bulk_test = ("-bulk" in cmd_line_args)
     if self.bulk_test:
       self.dry_run = True
-      self.no_logs = True
+      self.logs_output_folder = os.path.join(self.logs_output_folder, "bulk")
     self.print_used_flags = ("-printflags" in cmd_line_args)
     if ("-noitemrando" in cmd_line_args) and IS_RUNNING_FROM_SOURCE:
       self.randomize_items = False
@@ -1080,7 +1081,8 @@ class Randomizer:
           item_name = self.logic.done_item_locations[location_name]
           log_str += format_string % specific_location_name
     
-    nonspoiler_log_output_path = os.path.join(self.randomized_output_folder, "WW Random %s - Non-Spoiler Log.txt" % self.seed)
+    os.makedirs(self.logs_output_folder, exist_ok=True)
+    nonspoiler_log_output_path = os.path.join(self.logs_output_folder, "WW Random %s - Non-Spoiler Log.txt" % self.seed)
     with open(nonspoiler_log_output_path, "w") as f:
       f.write(log_str)
   
@@ -1184,7 +1186,8 @@ class Randomizer:
       island_name = self.island_number_to_name[island_number]
       spoiler_log += "  %-18s %s\n" % (chart_name+":", island_name)
     
-    spoiler_log_output_path = os.path.join(self.randomized_output_folder, "WW Random %s - Spoiler Log.txt" % self.seed)
+    os.makedirs(self.logs_output_folder, exist_ok=True)
+    spoiler_log_output_path = os.path.join(self.logs_output_folder, "WW Random %s - Spoiler Log.txt" % self.seed)
     with open(spoiler_log_output_path, "w") as f:
       f.write(spoiler_log)
   
@@ -1200,7 +1203,8 @@ class Randomizer:
     
     error_log_str += error_message
     
-    error_log_output_path = os.path.join(self.randomized_output_folder, "WW Random %s - Error Log.txt" % self.seed)
+    os.makedirs(self.logs_output_folder, exist_ok=True)
+    error_log_output_path = os.path.join(self.logs_output_folder, "WW Random %s - Error Log.txt" % self.seed)
     with open(error_log_output_path, "w") as f:
       f.write(error_log_str)
   
