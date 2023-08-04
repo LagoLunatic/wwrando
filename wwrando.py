@@ -5,6 +5,9 @@ from PySide6.QtCore import *
 from PySide6.QtWidgets import *
 
 import sys
+
+sys.path.insert(0, "./gclib")
+
 from collections import OrderedDict
 
 from wwr_ui.randomizer_window import WWRandomizerWindow
