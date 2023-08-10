@@ -1,4 +1,4 @@
-#!/usr/bin/python3.10
+#!/usr/bin/python3.11
 
 from PySide6.QtGui import *
 from PySide6.QtCore import *
