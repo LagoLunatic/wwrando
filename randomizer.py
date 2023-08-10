@@ -6,6 +6,7 @@ from collections import OrderedDict
 import hashlib
 import yaml
 import sys
+from typing import Any, Callable
 
 from gclib import fs_helpers as fs
 from gclib.yaz0 import Yaz0
@@ -64,7 +65,7 @@ class InvalidCleanISOError(Exception):
   pass
 
 class Randomizer:
-  def __init__(self, seed, clean_iso_path, randomized_output_folder, options, permalink=None, cmd_line_args=OrderedDict()):
+  def __init__(self, seed, clean_iso_path, randomized_output_folder, options: dict, permalink=None, cmd_line_args=OrderedDict()):
     self.randomized_output_folder = randomized_output_folder
     self.logs_output_folder = self.randomized_output_folder
     self.options = options
@@ -885,6 +886,20 @@ class Randomizer:
   
   def reset_rng(self):
     self.rng = self.get_new_rng()
+  
+  def weighted_choice(self, seq: list[Any], weight_conditions: list[tuple[int, Callable[[Any], bool]]]):
+    weighted_seq = []
+    
+    for element in seq:
+      weight_for_element = 1
+      
+      for weight, condition_callback in weight_conditions:
+        if condition_callback(element):
+          weight_for_element *= weight
+      
+      weighted_seq += weight_for_element*[element]
+    
+    return self.rng.choice(weighted_seq)
   
   def calculate_playthrough_progression_spheres(self):
     progression_spheres = []
