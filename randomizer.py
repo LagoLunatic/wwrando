@@ -35,7 +35,7 @@ from randomizers import entrances
 from randomizers import music
 from randomizers import enemies
 from randomizers import palettes
-from randomizers import boss_rewards
+from randomizers.boss_rewards import BossRewardRandomizer
 
 from version import VERSION, VERSION_WITHOUT_COMMIT
 
@@ -299,24 +299,12 @@ class WWRandomizer:
       (49, "Treasure Chart 33"),
     ])
     
-    # Race mode variables. These will remain as empty arrays if race mode is off.
-    # The randomly selected dungeon boss locations that are required in race mode.
-    self.race_mode_required_locations = []
-    # The dungeons corresponding to the race mode required boss locations.
-    self.race_mode_required_dungeons = []
-    # The bosses required in race mode.
-    self.race_mode_required_bosses = []
-    # The item locations that should not have any items in them in race mode.
-    self.race_mode_banned_locations = []
-    # The dungeons that are guaranteed to not have anything important in race mode.
-    self.race_mode_banned_dungeons = []
-    # The bosses that are guaranteed to not have anything important in race mode.
-    self.race_mode_banned_bosses = []
-    
     self.custom_model_name = self.options.get("custom_player_model", "Link")
     self.using_custom_sail_texture = False
     
     self.logic = Logic(self)
+    
+    self.boss_rewards = BossRewardRandomizer(self)
     
     num_progress_locations = self.logic.get_num_progression_locations()
     max_race_mode_banned_locations = self.logic.get_max_race_mode_banned_locations()
@@ -408,8 +396,7 @@ class WWRandomizer:
       starting_island.randomize_starting_island(self)
     
     if self.options.get("race_mode"):
-      self.reset_rng()
-      boss_rewards.randomize_boss_rewards(self)
+      self.boss_rewards.randomize()
     
     if self.options.get("randomize_entrances") not in ["Disabled", None]:
       self.reset_rng()
@@ -463,6 +450,7 @@ class WWRandomizer:
     options_completed += 5
     
     if not self.dry_run:
+      self.boss_rewards.save_changes()
       self.apply_necessary_post_randomization_tweaks()
     options_completed += 1
     
@@ -562,7 +550,6 @@ class WWRandomizer:
       tweaks.update_auction_item_names(self)
       tweaks.update_battlesquid_item_names(self)
       tweaks.update_item_names_in_letter_advertising_rock_spire_shop(self)
-    tweaks.show_quest_markers_on_sea_chart_for_dungeons(self, boss_names=self.race_mode_required_bosses)
     tweaks.prevent_fire_mountain_lava_softlock(self)
   
   def verify_supported_version(self, clean_iso_path):
@@ -1154,16 +1141,7 @@ class WWRandomizer:
       
       spoiler_log += "\n\n\n"
     
-    # Write race mode dungeons.
-    spoiler_log += "Required dungeons:\n"
-    for dungeon_name in self.race_mode_required_dungeons:
-      spoiler_log += f"  {dungeon_name}\n"
-    spoiler_log += "\n"
-    spoiler_log += "Non-required dungeons:\n"
-    for dungeon_name in self.race_mode_banned_dungeons:
-      spoiler_log += f"  {dungeon_name}\n"
-    
-    spoiler_log += "\n\n\n"
+    spoiler_log += self.boss_rewards.write_to_spoiler_log()
     
     # Write starting island.
     spoiler_log += "Starting island: "

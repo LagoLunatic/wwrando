@@ -261,7 +261,7 @@ def randomize_progression_items(self):
     if self.options.get("race_mode"):
       locations_filtered = [
         loc for loc in accessible_undone_locations
-        if loc not in self.race_mode_banned_locations
+        if loc not in self.boss_rewards.banned_locations
       ]
       if item_name in self.logic.progress_item_groups:
         num_locs_needed = len(self.logic.progress_item_groups[item_name])
@@ -418,7 +418,7 @@ def get_ctmc_chest_type_for_item(self, item_name):
   # In race mode, only put the dungeon keys for required dungeons in dark wood chests.
   # The other keys go into light wood chests.
   dungeon_short_name = item_name.split()[0]
-  if self.logic.DUNGEON_NAMES[dungeon_short_name] in self.race_mode_required_dungeons:
+  if self.logic.DUNGEON_NAMES[dungeon_short_name] in self.boss_rewards.required_dungeons:
     return 1
   else:
     return 0

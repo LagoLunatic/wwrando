@@ -300,7 +300,7 @@ class HintManager:
   
   def get_required_locations_for_paths(self):
     # Add all race-mode dungeons as paths, in addition to Hyrule and Ganon's Tower.
-    dungeon_paths = self.rando.race_mode_required_dungeons.copy()
+    dungeon_paths = self.rando.boss_rewards.required_dungeons.copy()
     non_dungeon_paths = ["Hyrule", "Ganon's Tower"]
     path_goals = dungeon_paths + non_dungeon_paths
     required_locations_for_paths = {goal: [] for goal in path_goals}
@@ -312,13 +312,13 @@ class HintManager:
     progress_locations, non_progress_locations = self.logic.get_progress_and_non_progress_locations()
     for location_name in progress_locations:
       # Ignore race-mode-banned locations.
-      if location_name in self.rando.race_mode_banned_locations:
+      if location_name in self.rando.boss_rewards.banned_locations:
         continue
       
       # Build a list of required locations, along with the item at that location.
       item_name = self.logic.done_item_locations[location_name]
       if (
-        location_name not in self.rando.race_mode_required_locations          # Ignore boss Heart Containers in race mode, even if it's required.
+        location_name not in self.rando.boss_rewards.required_locations          # Ignore boss Heart Containers in race mode, even if it's required.
         and (self.options.get("keylunacy") or not item_name.endswith(" Key")) # Keys are only considered in key-lunacy.
         and item_name in self.logic.all_progress_items                        # Required locations always contain progress items (by definition).
       ):
@@ -380,7 +380,7 @@ class HintManager:
     # The list includes only zones which are allowed to be hinted at as barren.
     
     # To start, exclude locations in non race mode dungeons from being considered as a progress location.
-    progress_locations = set(progress_locations) - set(self.rando.race_mode_banned_locations)
+    progress_locations = set(progress_locations) - set(self.rando.boss_rewards.banned_locations)
     
     # Next, create a dictionary mapping all progress items to their randomized locations. The values in this dictionary
     # will be lists since an item can be in multiple locations if it is progressive or a small key.
@@ -434,7 +434,7 @@ class HintManager:
     zones_with_useful_locations = set()
     for location_name in useful_locations:
       # Don't consider race mode dungeon bosses, as those are implicity required.
-      if location_name in self.rando.race_mode_required_locations:
+      if location_name in self.rando.boss_rewards.required_locations:
         continue
       
       zones_with_useful_locations.add(entrances.get_entrance_zone_for_item_location(self.rando, location_name))
@@ -539,11 +539,11 @@ class HintManager:
       return False
     
     # You already know which boss locations have a required item and which don't in race mode by looking at the sea chart.
-    if location_name in self.rando.race_mode_required_locations:
+    if location_name in self.rando.boss_rewards.required_locations:
       return False
     
     # Remove locations in race-mode banned dungeons.
-    if location_name in self.rando.race_mode_banned_locations:
+    if location_name in self.rando.boss_rewards.banned_locations:
       return False
     
     # Remove locations for items that were previously hinted.
@@ -601,7 +601,7 @@ class HintManager:
       remote_hintable_locations = []
     
     # Remove locations in race-mode banned dungeons.
-    hintable_locations = [loc for loc in hintable_locations if loc not in self.rando.race_mode_banned_locations]
+    hintable_locations = [loc for loc in hintable_locations if loc not in self.rando.boss_rewards.banned_locations]
     
     # Remove locations for items that were previously hinted.
     hintable_locations = [loc for loc in hintable_locations if loc not in previously_hinted_locations]
@@ -705,7 +705,7 @@ class HintManager:
     # After that, we repeatedly select a path goal at random and use that to form another hint. Zones are weighted by
     # the number of required locations at that zone. The more required locations, the more likely that zone will be
     # chosen.
-    dungeon_paths = self.rando.race_mode_required_dungeons.copy()
+    dungeon_paths = self.rando.boss_rewards.required_dungeons.copy()
     self.rando.rng.shuffle(dungeon_paths)
     
     # If race mode is on, then remove items that are hinted on the path to a race mode dungeon from paths to Hyrule and

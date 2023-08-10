@@ -1767,44 +1767,6 @@ def implement_key_bag(self):
   pirate_charm_icon.replace_image_from_path(key_bag_icon_image_path)
   pirate_charm_icon.save_changes()
 
-BOSS_NAME_TO_SEA_CHART_QUEST_MARKER_INDEX = OrderedDict([
-  ("Gohma", 7),
-  ("Kalle Demos", 5),
-  ("Gohdan", 3), # Originally Southern Triangle Island
-  ("Helmaroc King", 2), # Originally Eastern Triangle Island
-  ("Jalhalla", 0),
-  ("Molgera", 1),
-])
-# Note: 4 is Northern Triangle Island and 6 is Greatfish Isle, these are not currently used by the randomizer.
-
-def show_quest_markers_on_sea_chart_for_dungeons(self, boss_names=[]):
-  # Uses the blue quest markers on the sea chart to highlight certain dungeons.
-  # This is done by toggling visibility on them and moving some Triangle Island ones around to repurpose them as dungeon ones.
-  # When the dungeon entrance rando is on, different entrances can lead into dungeons, so the positions of the markers are updated to point to the appropriate island in that case (including secret cave entrances).
-  
-  sea_chart_ui = self.get_arc("files/res/Msg/fmapres.arc").get_file_entry("f_map.blo")
-  sea_chart_ui.decompress_data_if_necessary()
-  first_quest_marker_pic1_offset = 0x43B0
-  
-  for boss_name in boss_names:
-    quest_marker_index = BOSS_NAME_TO_SEA_CHART_QUEST_MARKER_INDEX[boss_name]
-    offset = first_quest_marker_pic1_offset + quest_marker_index*0x40
-    
-    # Make the quest marker icon be visible.
-    fs.write_u8(sea_chart_ui.data, offset+9, 1)
-    
-    if boss_name == "Helmaroc King":
-      island_name = "Forsaken Fortress"
-    else:
-      boss_arena_name = f"{boss_name} Boss Arena"
-      island_name = self.dungeon_and_cave_island_locations[boss_arena_name]
-    island_number = self.island_name_to_number[island_name]
-    sector_x = (island_number-1) % 7
-    sector_y = (island_number-1) // 7
-    
-    fs.write_s16(sea_chart_ui.data, offset+0x10, sector_x*0x37-0xFA)
-    fs.write_s16(sea_chart_ui.data, offset+0x12, sector_y*0x38-0xBC)
-
 def prevent_fire_mountain_lava_softlock(self):
   # Sometimes when spawning from spawn ID 0 outside fire mountain, the player will get stuck in an infinite loop of taking damage from lava.
   # The reason for this is that when the player enters the sea stage, the ship is spawned in at its new game starting position (either Outset or a randomized starting island) and the player is put on the ship.

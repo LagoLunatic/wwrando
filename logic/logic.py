@@ -1,4 +1,8 @@
 
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING: from randomizer import WWRandomizer
+
 import yaml
 import re
 from collections import OrderedDict
@@ -49,7 +53,7 @@ class Logic:
   initial_item_locations = None
   initial_macros = None
   
-  def __init__(self, rando):
+  def __init__(self, rando: WWRandomizer):
     self.rando = rando
     self.requirement_met_cache = {}
     self.items_needed_cache = {}
@@ -446,7 +450,7 @@ class Logic:
     locations_to_check = self.filter_locations_for_progression(locations_to_check)
     for location_name in locations_to_check:
       if location_name not in accessible_undone_locations:
-        if location_name in self.rando.race_mode_banned_locations:
+        if location_name in self.rando.boss_rewards.banned_locations:
           # Don't consider locations inside unchosen dungeons in race mode when calculating usefulness.
           continue
         if location_name in self.prerandomization_item_locations:
@@ -520,7 +524,7 @@ class Logic:
     self.add_owned_item_or_item_group(item_name)
     
     for location_name in inaccessible_undone_item_locations:
-      if location_name in self.rando.race_mode_banned_locations:
+      if location_name in self.rando.boss_rewards.banned_locations:
         # Don't consider locations inside unchosen dungeons in race mode when calculating usefulness.
         continue
       
@@ -892,7 +896,7 @@ class Logic:
       # Reset the dungeon/secret cave access macros if we changed them earlier.
       self.update_entrance_connection_macros()
   
-  def split_location_name_by_zone(self, location_name):
+  def split_location_name_by_zone(self, location_name: str) -> tuple[str, str]:
     if " - " in location_name:
       zone_name, specific_location_name = location_name.split(" - ", 1)
     else:
