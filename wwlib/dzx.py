@@ -734,7 +734,7 @@ class EVNT(ChunkEntry):
     self.unknown_2 = 0xFF
     self.unknown_3 = 0xFF
     self.unknown_4 = 0
-    self.event_seen_switch_index = 0xFF
+    self.event_played_by_spawn_switch = 0xFF
     self.room_index = 0xFF
     self.padding = b"\xFF"*3
   
@@ -747,7 +747,9 @@ class EVNT(ChunkEntry):
     self.unknown_2 = fs.read_u8(data, offset+0x10)
     self.unknown_3 = fs.read_u8(data, offset+0x11)
     self.unknown_4 = fs.read_u8(data, offset+0x12)
-    self.event_seen_switch_index = fs.read_u8(data, offset+0x13)
+    # This switch is set when a PLYR spawn starts this event so it knows not to play it again when
+    # the player spawns in through it again.
+    self.event_played_by_spawn_switch = fs.read_u8(data, offset+0x13)
     self.room_index = fs.read_u8(data, offset+0x14)
     
     self.padding = fs.read_bytes(data, offset+0x15, 3)
@@ -760,7 +762,7 @@ class EVNT(ChunkEntry):
     fs.write_u8(data, self.offset+0x10, self.unknown_2)
     fs.write_u8(data, self.offset+0x11, self.unknown_3)
     fs.write_u8(data, self.offset+0x12, self.unknown_4)
-    fs.write_u8(data, self.offset+0x13, self.event_seen_switch_index)
+    fs.write_u8(data, self.offset+0x13, self.event_played_by_spawn_switch)
     fs.write_u8(data, self.offset+0x14, self.room_index)
     
     fs.write_bytes(data, self.offset+0x15, self.padding)

@@ -131,7 +131,7 @@ def print_all_used_switches(self):
         evnts = dzx.entries_by_type("EVNT")
       
       for evnt in evnts:
-        switch = evnt.event_seen_switch_index
+        switch = evnt.event_played_by_spawn_switch
         if switch == 0xFF:
           continue
         
