@@ -52,6 +52,8 @@ class Logic:
   def __init__(self, rando):
     self.rando = rando
     self.requirement_met_cache = {}
+    self.items_needed_cache = {}
+    self.cached_enemies_tested_for_reqs_tuple = {}
     
     
     # Initialize location related attributes.
@@ -157,7 +159,7 @@ class Logic:
       self.add_owned_item(item_name)
     
     # Decide what will count as a progress item on these settings.
-    self.requirement_met_cache.clear()
+    self.clear_req_caches()
     self.make_useless_progress_items_nonprogress()
     
     # Replace progress items that are part of a group with the group name instead.
@@ -179,8 +181,12 @@ class Logic:
         if group_name in self.unplaced_progress_items:
           self.unplaced_progress_items.remove(group_name)
     
+    self.clear_req_caches()
+  
+  def clear_req_caches(self):
     self.requirement_met_cache.clear()
-    self.cached_enemies_tested_for_reqs_tuple = OrderedDict()
+    self.items_needed_cache.clear()
+    self.cached_enemies_tested_for_reqs_tuple.clear()
   
   def save_simulated_playthrough_state(self):
     vars_backup = {}
@@ -190,6 +196,8 @@ class Logic:
       "unplaced_nonprogress_items",
       "unplaced_fixed_consumable_items",
       "requirement_met_cache",
+      "items_needed_cache",
+      "cached_enemies_tested_for_reqs_tuple",
     ]:
       vars_backup[attr_name] = copy.deepcopy(getattr(self, attr_name))
     return vars_backup
@@ -350,7 +358,7 @@ class Logic:
     elif item_name in self.unplaced_fixed_consumable_items:
       self.unplaced_fixed_consumable_items.remove(item_name)
     
-    self.requirement_met_cache.clear()
+    self.clear_req_caches()
   
   def remove_owned_item(self, item_name):
     cleaned_item_name = self.clean_item_name(item_name)
@@ -367,14 +375,14 @@ class Logic:
       # Removing consumable items doesn't work because we don't know if the item is from the fixed list or the duplicatable list
       raise Exception("Cannot remove item from simulated inventory: %s" % item_name)
     
-    self.requirement_met_cache.clear()
+    self.clear_req_caches()
   
   def add_owned_item_or_item_group(self, item_name):
     if item_name in self.progress_item_groups:
       group_name = item_name
       for item_name in self.progress_item_groups[group_name]:
         self.currently_owned_items.append(item_name)
-      self.requirement_met_cache.clear()
+      self.clear_req_caches()
     else:
       self.add_owned_item(item_name)
   
@@ -383,7 +391,7 @@ class Logic:
       group_name = item_name
       for item_name in self.progress_item_groups[group_name]:
         self.currently_owned_items.remove(item_name)
-      self.requirement_met_cache.clear()
+      self.clear_req_caches()
     else:
       self.remove_owned_item(item_name)
   
@@ -725,7 +733,7 @@ class Logic:
   
   def set_macro(self, macro_name, req_string):
     self.macros[macro_name] = Logic.parse_logic_expression(req_string)
-    self.requirement_met_cache.clear()
+    self.clear_req_caches()
   
   def update_entrance_connection_macros(self):
     # Update all the macros to take randomized entrances into account.
@@ -1031,6 +1039,9 @@ class Logic:
     return item_names
   
   def get_items_needed_by_req_name(self, req_name, reqs_being_checked=None):
+    if req_name in self.items_needed_cache:
+      return self.items_needed_cache[req_name]
+  
     items_needed = OrderedDict()
     
     # Prevent infinite recursion for cases where nested requirements depend on themselves.
@@ -1081,6 +1092,7 @@ class Logic:
     
     reqs_being_checked.remove(req_name)
     
+    self.items_needed_cache[req_name] = items_needed
     return items_needed
   
   def get_items_needed_from_logical_expression_req(self, logical_expression, reqs_being_checked=None):
