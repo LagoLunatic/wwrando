@@ -35,7 +35,7 @@ from randomizers import entrances
 from randomizers import music
 from randomizers import enemies
 from randomizers import palettes
-from randomizers import race_mode
+from randomizers import boss_rewards
 
 from version import VERSION, VERSION_WITHOUT_COMMIT
 
@@ -409,7 +409,7 @@ class WWRandomizer:
     
     if self.options.get("race_mode"):
       self.reset_rng()
-      race_mode.randomize_boss_rewards(self)
+      boss_rewards.randomize_boss_rewards(self)
     
     if self.options.get("randomize_entrances") not in ["Disabled", None]:
       self.reset_rng()
