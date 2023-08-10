@@ -118,14 +118,20 @@ def try_randomize_boss_rewards(self):
     
     dungeon_name, _ = self.logic.split_location_name_by_zone(location_name)
     self.race_mode_required_dungeons.append(dungeon_name)
+    
+    _, specific_location_name = self.logic.split_location_name_by_zone(location_name)
+    assert specific_location_name.endswith(" Heart Container")
+    boss_name = specific_location_name.removesuffix(" Heart Container")
+    self.race_mode_required_bosses.append(boss_name)
   
-  banned_dungeons = []
   for boss_location_name in possible_boss_locations:
     dungeon_name, _ = self.logic.split_location_name_by_zone(boss_location_name)
-    banned_dungeons.append(dungeon_name)
+    self.race_mode_banned_dungeons.append(dungeon_name)
   
+  banned_dungeons = self.race_mode_banned_dungeons
   for location_name in self.logic.item_locations:
-    zone_name, _ = self.logic.split_location_name_by_zone(location_name)
+    zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
+    
     if self.logic.is_dungeon_location(location_name) and zone_name in banned_dungeons:
       self.race_mode_banned_locations.append(location_name)
     elif location_name == "Mailbox - Letter from Orca" and "Forbidden Woods" in banned_dungeons:
@@ -136,6 +142,11 @@ def try_randomize_boss_rewards(self):
       self.race_mode_banned_locations.append(location_name)
     elif location_name == "Mailbox - Letter from Tingle" and "Forsaken Fortress" in banned_dungeons:
       self.race_mode_banned_locations.append(location_name)
+    
+    if "Boss" in self.logic.item_locations[location_name]["Types"] and zone_name in banned_dungeons:
+      assert specific_location_name.endswith(" Heart Container")
+      boss_name = specific_location_name.removesuffix(" Heart Container")
+      self.race_mode_banned_bosses.append(boss_name)
   
   return True
 

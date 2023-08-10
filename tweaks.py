@@ -1777,7 +1777,7 @@ BOSS_NAME_TO_SEA_CHART_QUEST_MARKER_INDEX = OrderedDict([
 ])
 # Note: 4 is Northern Triangle Island and 6 is Greatfish Isle, these are not currently used by the randomizer.
 
-def show_quest_markers_on_sea_chart_for_dungeons(self, boss_location_names=[]):
+def show_quest_markers_on_sea_chart_for_dungeons(self, boss_names=[]):
   # Uses the blue quest markers on the sea chart to highlight certain dungeons.
   # This is done by toggling visibility on them and moving some Triangle Island ones around to repurpose them as dungeon ones.
   # When the dungeon entrance rando is on, different entrances can lead into dungeons, so the positions of the markers are updated to point to the appropriate island in that case (including secret cave entrances).
@@ -1786,12 +1786,7 @@ def show_quest_markers_on_sea_chart_for_dungeons(self, boss_location_names=[]):
   sea_chart_ui.decompress_data_if_necessary()
   first_quest_marker_pic1_offset = 0x43B0
   
-  for boss_location_name in boss_location_names:
-    assert "Boss" in self.logic.item_locations[boss_location_name]["Types"]
-    _, specific_location_name = self.logic.split_location_name_by_zone(boss_location_name)
-    assert specific_location_name.endswith(" Heart Container")
-    boss_name = specific_location_name.removesuffix(" Heart Container")
-    
+  for boss_name in boss_names:
     quest_marker_index = BOSS_NAME_TO_SEA_CHART_QUEST_MARKER_INDEX[boss_name]
     offset = first_quest_marker_pic1_offset + quest_marker_index*0x40
     

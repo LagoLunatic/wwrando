@@ -298,15 +298,19 @@ class Randomizer:
       (49, "Treasure Chart 33"),
     ])
     
-    # This list will hold the randomly selected dungeon boss locations that are required in race mode.
-    # If race mode is not on, this list will remain empty.
+    # Race mode variables. These will remain as empty arrays if race mode is off.
+    # The randomly selected dungeon boss locations that are required in race mode.
     self.race_mode_required_locations = []
-    # This list will hold the dungeon names of the race mode required locations.
-    # If race mode is not on, this list will remain empty.
+    # The dungeons corresponding to the race mode required boss locations.
     self.race_mode_required_dungeons = []
-    # This list will hold all item location names that should not have any items in them in race mode.
-    # If race mode is not on, this list will remain empty.
+    # The bosses required in race mode.
+    self.race_mode_required_bosses = []
+    # The item locations that should not have any items in them in race mode.
     self.race_mode_banned_locations = []
+    # The dungeons that are guaranteed to not have anything important in race mode.
+    self.race_mode_banned_dungeons = []
+    # The bosses that are guaranteed to not have anything important in race mode.
+    self.race_mode_banned_bosses = []
     
     self.custom_model_name = self.options.get("custom_player_model", "Link")
     self.using_custom_sail_texture = False
@@ -557,7 +561,7 @@ class Randomizer:
       tweaks.update_auction_item_names(self)
       tweaks.update_battlesquid_item_names(self)
       tweaks.update_item_names_in_letter_advertising_rock_spire_shop(self)
-    tweaks.show_quest_markers_on_sea_chart_for_dungeons(self, boss_location_names=self.race_mode_required_locations)
+    tweaks.show_quest_markers_on_sea_chart_for_dungeons(self, boss_names=self.race_mode_required_bosses)
     tweaks.prevent_fire_mountain_lava_softlock(self)
   
   def verify_supported_version(self, clean_iso_path):
