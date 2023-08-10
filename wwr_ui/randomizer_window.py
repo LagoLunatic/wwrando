@@ -23,7 +23,7 @@ import time
 import zipfile
 import shutil
 
-from randomizer import Randomizer, TooFewProgressionLocationsError, InvalidCleanISOError
+from randomizer import WWRandomizer, TooFewProgressionLocationsError, InvalidCleanISOError
 from version import VERSION
 from wwrando_paths import SETTINGS_PATH, ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE, CUSTOM_MODELS_PATH
 import customizer
@@ -268,7 +268,7 @@ class WWRandomizerWindow(QMainWindow):
         temp_seed = str(i)
         rando = None
         try:
-          rando = Randomizer(temp_seed, clean_iso_path, output_folder, options, permalink=permalink, cmd_line_args=self.cmd_line_args)
+          rando = WWRandomizer(temp_seed, clean_iso_path, output_folder, options, permalink=permalink, cmd_line_args=self.cmd_line_args)
           randomizer_generator = rando.randomize()
           while True:
             next_option_description, options_finished = next(randomizer_generator)
@@ -289,7 +289,7 @@ class WWRandomizerWindow(QMainWindow):
         print("%d/%d seeds failed" % (failures_done, total_done))
     
     try:
-      rando = Randomizer(seed, clean_iso_path, output_folder, options, permalink=permalink, cmd_line_args=self.cmd_line_args)
+      rando = WWRandomizer(seed, clean_iso_path, output_folder, options, permalink=permalink, cmd_line_args=self.cmd_line_args)
     except (TooFewProgressionLocationsError, InvalidCleanISOError) as e:
       error_message = str(e)
       self.randomization_failed(error_message)

@@ -64,7 +64,7 @@ class TooFewProgressionLocationsError(Exception):
 class InvalidCleanISOError(Exception):
   pass
 
-class Randomizer:
+class WWRandomizer:
   def __init__(self, seed, clean_iso_path, randomized_output_folder, options: dict, permalink=None, cmd_line_args=OrderedDict()):
     self.randomized_output_folder = randomized_output_folder
     self.logs_output_folder = self.randomized_output_folder
