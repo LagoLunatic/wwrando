@@ -26,8 +26,8 @@ class EventList:
     string_list_total_size = fs.read_u32(data, 0x34)
     self.header_padding = fs.read_bytes(data, 0x38, 8)
     
-    self.events = []
-    self.events_by_name = {}
+    self.events: list[Event] = []
+    self.events_by_name: dict[str, Event] = {}
     for event_index in range(0, num_events):
       offset = event_list_offset + event_index * Event.DATA_SIZE
       event = Event(self)
@@ -334,6 +334,7 @@ class EventList:
     fs.write_bytes(data, 0x38, self.header_padding)
   
   def add_event(self, name):
+    assert name not in self.events_by_name
     event = Event(self)
     event.name = name
     self.events.append(event)
