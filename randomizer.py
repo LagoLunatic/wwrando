@@ -1139,6 +1139,17 @@ class Randomizer:
       
       spoiler_log += "\n\n\n"
     
+    # Write race mode dungeons.
+    spoiler_log += "Required dungeons:\n"
+    for dungeon_name in self.race_mode_required_dungeons:
+      spoiler_log += f"  {dungeon_name}\n"
+    spoiler_log += "\n"
+    spoiler_log += "Non-required dungeons:\n"
+    for dungeon_name in self.race_mode_banned_dungeons:
+      spoiler_log += f"  {dungeon_name}\n"
+    
+    spoiler_log += "\n\n\n"
+    
     # Write starting island.
     spoiler_log += "Starting island: "
     spoiler_log += self.island_number_to_name[self.starting_island_index]
