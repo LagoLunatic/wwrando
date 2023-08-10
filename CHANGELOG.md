@@ -2,6 +2,10 @@
 ### Version 1.11.0 (in progress, not released yet)
 
 New features:
+* Added a new Nested Dungeons option to the Entrance Randomizer. This option shuffles dungeon entrances **and** boss entrances with each other, allowing dungeons to be nested in long chains.
+  * For example: You could go through Dragon Roost Cavern, but instead of the boss door taking you to Gohma, it may take you into Tower of the Gods. Then, after getting to the end of Tower of the Gods, the boss door takes you to Kalle Demos instead of Gohdan.
+  * Extra bosses that aren't at the end of a dungeon chain are accessible directly from the sea (e.g. entering Gale Isle and finding Gohma instead of a dungeon).
+  * You can also optionally choose to randomize Nested Dungeons and Secret Caves together, which can sometimes result in a dungeon's boss door taking you into a Secret Cave instead of a boss.
 * You can now bring the three Servants of the Tower to the central room in Tower of the Gods in any order instead of being forced into the linear vanilla order.
 
 Changes:
