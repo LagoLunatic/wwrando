@@ -196,11 +196,11 @@ class Logic:
           self.unplaced_progress_items.remove(group_name)
     
     self.clear_req_caches()
+    self.cached_enemies_tested_for_reqs_tuple.clear()
   
   def clear_req_caches(self):
     self.requirement_met_cache.clear()
     self.items_needed_cache.clear()
-    self.cached_enemies_tested_for_reqs_tuple.clear()
   
   def save_simulated_playthrough_state(self):
     vars_backup = {}
@@ -211,7 +211,6 @@ class Logic:
       "unplaced_fixed_consumable_items",
       "requirement_met_cache",
       "items_needed_cache",
-      "cached_enemies_tested_for_reqs_tuple",
     ]:
       vars_backup[attr_name] = copy.deepcopy(getattr(self, attr_name))
     return vars_backup
