@@ -2522,6 +2522,11 @@ def allow_nonlinear_servants_of_the_towers(self):
   camera.actions.remove(camera.actions[-2])
   os1.actions.remove(os1.actions[-1])
   os1_finish.ending_flags[0] = os1.actions[-1].flag_id_to_set
+  # Don't make it wait for the countdown before shooting the beam.
+  # Instead make it wait for the camera zooming in on the servant.
+  os1.actions.remove(finish_actions[0])
+  camera_unitrans = camera.actions[-2]
+  finish_actions[1].starting_flags[0] = camera_unitrans.flag_id_to_set
   
   # After west servant returned.
   os1_message = event_list.events_by_name["Os1_Message"]
@@ -2561,8 +2566,11 @@ def allow_nonlinear_servants_of_the_towers(self):
   camera.actions.remove(camera.actions[-1])
   camera.actions.remove(camera.actions[-1])
   # And don't make the beam shooting action depend on the deleted unitrans.
+  # Instead make it wait for the camera zooming in on the servant.
   finish_actions = [act for act in os2.actions if act.name == "FINISH"]
-  finish_actions[1].starting_flags[0] = -1
+  os2.actions.remove(finish_actions[0])
+  camera_unitrans = camera.actions[-1]
+  finish_actions[1].starting_flags[0] = camera_unitrans.flag_id_to_set
   
   # Tablet event where you play the Command Melody and get an item.
   hsehi1_tact = event_list.events_by_name["hsehi1_tact"]
