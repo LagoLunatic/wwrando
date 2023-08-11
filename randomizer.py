@@ -400,6 +400,7 @@ class WWRandomizer:
     options_completed += 5
     
     if not self.dry_run:
+      self.charts.save_changes()
       self.boss_rewards.save_changes()
       self.apply_necessary_post_randomization_tweaks()
     options_completed += 1
