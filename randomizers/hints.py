@@ -6,7 +6,7 @@ import yaml
 
 from logic.logic import Logic
 from randomizers.base_randomizer import BaseRandomizer
-from wwlib.dzx import DZx
+from wwlib.dzx import DZx, ACTR, MULT
 from wwrando_paths import DATA_PATH
 import tweaks
 from randomizers import entrances
@@ -322,7 +322,7 @@ class HintsRandomizer(BaseRandomizer):
     Will make him face the first hint in his list that corresponds to an island."""
     
     sea_dzs = self.rando.get_arc("files/res/Stage/sea/Stage.arc").get_file("stage.dzs", DZx)
-    mults = sea_dzs.entries_by_type("MULT")
+    mults = sea_dzs.entries_by_type(MULT)
     
     island_num_to_look_towards = None
     for hint in hints_for_hoho:
@@ -344,7 +344,7 @@ class HintsRandomizer(BaseRandomizer):
     
     island_num = self.HOHO_INDEX_TO_ISLAND_NUM[hoho_index]
     island_dzr = self.rando.get_arc("files/res/Stage/sea/Room%d.arc" % island_num).get_file("room.dzr", DZx)
-    island_actors = island_dzr.entries_by_type("ACTR")
+    island_actors = island_dzr.entries_by_type(ACTR)
     hoho_actors = [x for x in island_actors if x.name == "Ah"]
     assert len(hoho_actors) > 0
     

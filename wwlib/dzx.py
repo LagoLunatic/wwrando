@@ -1,226 +1,10 @@
 
 from io import BytesIO
+from typing import Optional, Type, TypeVar
 from gclib import fs_helpers as fs
 from gclib.gclib_file import GCLibFile
 
 from data_tables import DataTables
-
-class DZx(GCLibFile): # DZR or DZS, same format
-  def __init__(self, file_entry_or_data = None):
-    super().__init__(file_entry_or_data)
-    self.read()
-    
-  def read(self):
-    num_chunks = fs.read_u32(self.data, 0)
-    
-    self.chunks = []
-    for chunk_index in range(0, num_chunks):
-      offset = 4 + chunk_index*0xC
-      chunk = Chunk(self.data)
-      chunk.read(offset)
-      self.chunks.append(chunk)
-  
-  def entries_by_type(self, chunk_type):
-    entries = []
-    for chunk in self.chunks:
-      if chunk_type == chunk.chunk_type:
-        entries += chunk.entries
-    return entries
-  
-  def entries_by_type_and_layer(self, chunk_type, layer):
-    entries = []
-    for chunk in self.chunks:
-      if chunk_type == chunk.chunk_type and layer == chunk.layer:
-        entries += chunk.entries
-    return entries
-  
-  def add_entity(self, chunk_type, layer=None):
-    chunk_to_add_entity_to = None
-    for chunk in self.chunks:
-      if chunk_type == chunk.chunk_type and layer == chunk.layer:
-        chunk_to_add_entity_to = chunk
-        break
-    
-    if chunk_to_add_entity_to is None:
-      chunk_to_add_entity_to = Chunk(self.data)
-      chunk_to_add_entity_to.chunk_type = chunk_type
-      chunk_to_add_entity_to.layer = layer
-      self.chunks.append(chunk_to_add_entity_to)
-    
-    entity = chunk_to_add_entity_to.entry_class(self.data)
-    chunk_to_add_entity_to.entries.append(entity)
-    
-    return entity
-  
-  def remove_entity(self, entity, chunk_type, layer=None):
-    assert hasattr(entity, "name")
-    
-    # Instead of actually removing the entity from the list, simply set its name to the empty string.
-    # This will cause the game to not load any actor there, so it's effectively removing it.
-    # The benefit of this is that removing an entity from the list shifts down the entity indexes of all entities after it in the list, which has the potential to screw up paths to entities in item_locations.txt and enemy locations.txt.
-    entity.name = ""
-    entity.save_changes()
-    
-    # Below is the old code that actually removed the entity from the list.
-    #chunk_to_remove_entity_from = None
-    #for chunk in self.chunks:
-    #  if chunk_type == chunk.chunk_type and layer == chunk.layer:
-    #    chunk_to_remove_entity_from = chunk
-    #    break
-    #
-    #if chunk_to_remove_entity_from is None:
-    #  raise Exception("Could not find chunk of type %s on layer %s" % (chunk_type, layer))
-    #
-    #chunk_to_remove_entity_from.entries.remove(entity)
-  
-  def save_changes(self):
-    for chunk in self.chunks:
-      # Make sure all chunk entries are fully loaded before trying to save them.
-      chunk.read_entries()
-    
-    self.data.truncate(0)
-    
-    offset = 0
-    fs.write_u32(self.data, offset, len(self.chunks))
-    offset += 4
-    
-    for chunk in self.chunks:
-      chunk.offset = offset
-      chunk.save_changes()
-      offset += 0xC
-    
-    for chunk in self.chunks:
-      # Pad the start of each chunk to the nearest 4 bytes.
-      fs.align_data_to_nearest(self.data, 4)
-      offset = fs.data_len(self.data)
-      
-      chunk.first_entry_offset = offset
-      fs.write_u32(self.data, chunk.offset+8, chunk.first_entry_offset)
-      
-      for entry in chunk.entries:
-        if entry is None:
-          raise Exception("Tried to save unknown chunk type: %s" % chunk.chunk_type)
-        
-        entry.offset = offset
-        
-        offset += chunk.entry_class.DATA_SIZE
-      
-      if chunk.fourcc == "RTBL":
-        # Assign offsets for RTBL sub entries.
-        for rtbl_entry in chunk.entries:
-          rtbl_entry.sub_entry.offset = offset
-          offset += rtbl_entry.sub_entry.DATA_SIZE
-        
-        # Assign offsets for RTBL sub entry adjacent rooms.
-        for rtbl_entry in chunk.entries:
-          rtbl_entry.sub_entry.adjacent_rooms_list_offset = offset
-          for adjacent_room in rtbl_entry.sub_entry.adjacent_rooms:
-            adjacent_room.offset = offset
-            offset += adjacent_room.DATA_SIZE
-        
-        # Pad the end of the adjacent rooms list to 4 bytes.
-        file_size = offset
-        padded_file_size = (file_size + 3) & ~3
-        padding_size_needed = padded_file_size - file_size
-        fs.write_bytes(self.data, offset, b"\xFF"*padding_size_needed)
-        offset += padding_size_needed
-      
-      for entry in chunk.entries:
-        entry.save_changes()
-    
-    # Pad the length of this file to 0x20 bytes.
-    file_size = offset
-    padded_file_size = (file_size + 0x1F) & ~0x1F
-    padding_size_needed = padded_file_size - file_size
-    fs.write_bytes(self.data, offset, b"\xFF"*padding_size_needed)
-
-class Chunk:
-  LAYER_CHAR_TO_LAYER_INDEX = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'a': 10, 'b': 11}
-  
-  
-  def __init__(self, data):
-    self.data = data
-    
-    self.chunk_type = None
-    self.num_entries = 0
-    self.first_entry_offset = None
-    
-    self._entries = []
-    self.layer = None
-  
-  def read(self, offset):
-    self.offset = offset
-    
-    self.chunk_type = fs.read_str(self.data, self.offset, 4)
-    self.num_entries = fs.read_u32(self.data, self.offset+4)
-    self.first_entry_offset = fs.read_u32(self.data, self.offset+8)
-    
-    # Some types of chunks are conditional and only appear on certain layers. The 4th character of their type determines what letter they appear on.
-    if self.chunk_type.startswith("TRE") or self.chunk_type.startswith("ACT") or self.chunk_type.startswith("SCO"):
-      layer_char = self.chunk_type[3]
-      if layer_char in self.LAYER_CHAR_TO_LAYER_INDEX:
-        self.layer = self.LAYER_CHAR_TO_LAYER_INDEX[layer_char]
-    if self.chunk_type.startswith("TRE"):
-      self.chunk_type = "TRES"
-    if self.chunk_type.startswith("ACT"):
-      self.chunk_type = "ACTR"
-    if self.chunk_type.startswith("SCO"):
-      self.chunk_type = "SCOB"
-    
-    # Lazy load entries to avoid loading old-versioned chunks that would crash the program.
-    self._entries = None
-  
-  def save_changes(self):
-    self.num_entries = len(self.entries)
-    
-    fs.write_magic_str(self.data, self.offset, self.fourcc, 4)
-    fs.write_u32(self.data, self.offset+4, self.num_entries)
-    fs.write_u32(self.data, self.offset+8, 0) # Placeholder for first entry offset
-  
-  @property
-  def entry_class(self):
-    class_name = self.chunk_type
-    if class_name[0].isdigit():
-      class_name = "_" + class_name
-    return globals().get(class_name, None)
-  
-  @property
-  def fourcc(self):
-    fourcc = self.chunk_type
-    if self.layer is not None:
-      assert 0 <= self.layer <= 11
-      fourcc = fourcc[:3]
-      fourcc += "%x" % self.layer
-    return fourcc
-  
-  @property
-  def entries(self):
-    self.read_entries()
-    
-    return self._entries
-  
-  @entries.setter
-  def entries(self, value):
-    self._entries = value
-  
-  def read_entries(self):
-    if self._entries is not None:
-      # Already read.
-      return
-    
-    if self.entry_class is None:
-      #raise Exception("Unknown chunk type: " + self.chunk_type)
-      self._entries = [None]*self.num_entries
-      return self._entries
-    
-    entry_size = self.entry_class.DATA_SIZE
-    
-    self._entries = []
-    for entry_index in range(self.num_entries):
-      entry_offset = self.first_entry_offset + entry_index*entry_size
-      entry = self.entry_class(self.data)
-      entry.read(entry_offset)
-      self._entries.append(entry)
 
 class ChunkEntry:
   DATA_SIZE: int = None
@@ -295,6 +79,225 @@ class ChunkEntry:
         return {}
     else:
       return self.PARAMS
+
+ChunkEntryT = TypeVar('ChunkEntryT', bound=ChunkEntry)
+
+class Chunk:
+  LAYER_CHAR_TO_LAYER_INDEX = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'a': 10, 'b': 11}
+  
+  chunk_type: ChunkEntryT
+  layer: Optional[int]
+  
+  def __init__(self, data):
+    self.data = data
+    
+    self.chunk_type = None
+    self.num_entries = 0
+    self.first_entry_offset = None
+    
+    self._entries = []
+    self.layer = None
+  
+  def read(self, offset):
+    self.offset = offset
+    
+    fourcc = fs.read_str(self.data, self.offset, 4)
+    self.num_entries = fs.read_u32(self.data, self.offset+4)
+    self.first_entry_offset = fs.read_u32(self.data, self.offset+8)
+    
+    # Some types of chunks are conditional and only appear on certain layers. The 4th character of their type determines what letter they appear on.
+    if fourcc.startswith("TRE") or fourcc.startswith("ACT") or fourcc.startswith("SCO"):
+      layer_char = fourcc[3]
+      if layer_char in self.LAYER_CHAR_TO_LAYER_INDEX:
+        self.layer = self.LAYER_CHAR_TO_LAYER_INDEX[layer_char]
+    
+    if fourcc.startswith("TRE"):
+      self.chunk_type = TRES
+    elif fourcc.startswith("ACT"):
+      self.chunk_type = ACTR
+    elif fourcc.startswith("SCO"):
+      self.chunk_type = SCOB
+    else:
+      class_name = fourcc
+      if class_name[0].isdigit():
+        class_name = "_" + class_name
+      self.chunk_type = globals().get(class_name, None)
+    
+    # Lazy load entries to avoid loading old-versioned chunks that would crash the program.
+    self._entries = None
+  
+  def save_changes(self):
+    self.num_entries = len(self.entries)
+    
+    fs.write_magic_str(self.data, self.offset, self.fourcc, 4)
+    fs.write_u32(self.data, self.offset+4, self.num_entries)
+    fs.write_u32(self.data, self.offset+8, 0) # Placeholder for first entry offset
+  
+  @property
+  def fourcc(self):
+    fourcc = self.chunk_type.__name__
+    if fourcc[0] == "_":
+      fourcc = fourcc[1:]
+    if self.layer is not None:
+      assert 0 <= self.layer <= 11
+      fourcc = fourcc[:3]
+      fourcc += "%x" % self.layer
+    assert len(fourcc) == 4
+    return fourcc
+  
+  @property
+  def entries(self):
+    self.read_entries()
+    
+    return self._entries
+  
+  @entries.setter
+  def entries(self, value):
+    self._entries = value
+  
+  def read_entries(self):
+    if self._entries is not None:
+      # Already read.
+      return
+    
+    if self.chunk_type is None:
+      #raise Exception("Unknown chunk type: " + self.chunk_type.__name__)
+      self._entries = [None]*self.num_entries
+      return self._entries
+    
+    entry_size = self.chunk_type.DATA_SIZE
+    
+    self._entries = []
+    for entry_index in range(self.num_entries):
+      entry_offset = self.first_entry_offset + entry_index*entry_size
+      entry = self.chunk_type(self.data)
+      entry.read(entry_offset)
+      self._entries.append(entry)
+
+class DZx(GCLibFile): # DZR or DZS, same format
+  def __init__(self, file_entry_or_data = None):
+    super().__init__(file_entry_or_data)
+    
+    self.chunks: list[Chunk] = []
+    
+    self.read()
+    
+  def read(self):
+    num_chunks = fs.read_u32(self.data, 0)
+    
+    self.chunks = []
+    for chunk_index in range(0, num_chunks):
+      offset = 4 + chunk_index*0xC
+      chunk = Chunk(self.data)
+      chunk.read(offset)
+      self.chunks.append(chunk)
+  
+  def entries_by_type(self, chunk_type: Type[ChunkEntryT], *, layer: Optional[int] = None) -> list[ChunkEntryT]:
+    entries = []
+    for chunk in self.chunks:
+      if chunk_type == chunk.chunk_type and (layer is None or layer == chunk.layer):
+        entries += chunk.entries
+    return entries
+  
+  def add_entity(self, chunk_type: Type[ChunkEntryT], *, layer: Optional[int] = None):
+    chunk_to_add_entity_to = None
+    for chunk in self.chunks:
+      if chunk_type == chunk.chunk_type and layer == chunk.layer:
+        chunk_to_add_entity_to = chunk
+        break
+    
+    if chunk_to_add_entity_to is None:
+      chunk_to_add_entity_to = Chunk(self.data)
+      chunk_to_add_entity_to.chunk_type = chunk_type
+      chunk_to_add_entity_to.layer = layer
+      self.chunks.append(chunk_to_add_entity_to)
+    
+    entity = chunk_to_add_entity_to.chunk_type(self.data)
+    chunk_to_add_entity_to.entries.append(entity)
+    
+    return entity
+  
+  def remove_entity(self, entity, chunk_type, layer=None):
+    assert hasattr(entity, "name")
+    
+    # Instead of actually removing the entity from the list, simply set its name to the empty string.
+    # This will cause the game to not load any actor there, so it's effectively removing it.
+    # The benefit of this is that removing an entity from the list shifts down the entity indexes of all entities after it in the list, which has the potential to screw up paths to entities in item_locations.txt and enemy locations.txt.
+    entity.name = ""
+    entity.save_changes()
+    
+    # Below is the old code that actually removed the entity from the list.
+    #chunk_to_remove_entity_from = None
+    #for chunk in self.chunks:
+    #  if chunk_type == chunk.chunk_type and layer == chunk.layer:
+    #    chunk_to_remove_entity_from = chunk
+    #    break
+    #
+    #if chunk_to_remove_entity_from is None:
+    #  raise Exception("Could not find chunk of type %s on layer %s" % (chunk_type, layer))
+    #
+    #chunk_to_remove_entity_from.entries.remove(entity)
+  
+  def save_changes(self):
+    for chunk in self.chunks:
+      # Make sure all chunk entries are fully loaded before trying to save them.
+      chunk.read_entries()
+    
+    self.data.truncate(0)
+    
+    offset = 0
+    fs.write_u32(self.data, offset, len(self.chunks))
+    offset += 4
+    
+    for chunk in self.chunks:
+      chunk.offset = offset
+      chunk.save_changes()
+      offset += 0xC
+    
+    for chunk in self.chunks:
+      # Pad the start of each chunk to the nearest 4 bytes.
+      fs.align_data_to_nearest(self.data, 4)
+      offset = fs.data_len(self.data)
+      
+      chunk.first_entry_offset = offset
+      fs.write_u32(self.data, chunk.offset+8, chunk.first_entry_offset)
+      
+      for entry in chunk.entries:
+        if entry is None:
+          raise Exception("Tried to save unknown chunk type: %s" % chunk.chunk_type.__name__)
+        
+        entry.offset = offset
+        
+        offset += chunk.chunk_type.DATA_SIZE
+      
+      if chunk.fourcc == "RTBL":
+        # Assign offsets for RTBL sub entries.
+        for rtbl_entry in chunk.entries:
+          rtbl_entry.sub_entry.offset = offset
+          offset += rtbl_entry.sub_entry.DATA_SIZE
+        
+        # Assign offsets for RTBL sub entry adjacent rooms.
+        for rtbl_entry in chunk.entries:
+          rtbl_entry.sub_entry.adjacent_rooms_list_offset = offset
+          for adjacent_room in rtbl_entry.sub_entry.adjacent_rooms:
+            adjacent_room.offset = offset
+            offset += adjacent_room.DATA_SIZE
+        
+        # Pad the end of the adjacent rooms list to 4 bytes.
+        file_size = offset
+        padded_file_size = (file_size + 3) & ~3
+        padding_size_needed = padded_file_size - file_size
+        fs.write_bytes(self.data, offset, b"\xFF"*padding_size_needed)
+        offset += padding_size_needed
+      
+      for entry in chunk.entries:
+        entry.save_changes()
+    
+    # Pad the length of this file to 0x20 bytes.
+    file_size = offset
+    padded_file_size = (file_size + 0x1F) & ~0x1F
+    padding_size_needed = padded_file_size - file_size
+    fs.write_bytes(self.data, offset, b"\xFF"*padding_size_needed)
 
 class SCOB(ChunkEntry):
   DATA_SIZE = 0x24

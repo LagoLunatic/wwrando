@@ -3,7 +3,7 @@ import os
 import re
 
 from gclib import fs_helpers as fs
-from wwlib.dzx import DZx
+from wwlib.dzx import DZx, ACTR, SCOB, TRES
 from wwlib.events import EventList
 
 def randomize_items(self):
@@ -403,7 +403,7 @@ def change_chest_item(self, arc_path, chest_index, layer, item_id, item_name):
     dzx = self.get_arc(arc_path).get_file("stage.dzs", DZx)
   else:
     dzx = self.get_arc(arc_path).get_file("room.dzr", DZx)
-  chest = dzx.entries_by_type_and_layer("TRES", layer)[chest_index]
+  chest = dzx.entries_by_type(TRES, layer=layer)[chest_index]
   chest.item_id = item_id
   if self.options.get("chest_type_matches_contents"):
     chest.chest_type = get_ctmc_chest_type_for_item(self, item_name)
@@ -441,7 +441,7 @@ def change_scob_item(self, arc_path, scob_index, layer, item_id):
     dzx = self.get_arc(arc_path).get_file("stage.dzs", DZx)
   else:
     dzx = self.get_arc(arc_path).get_file("room.dzr", DZx)
-  scob = dzx.entries_by_type_and_layer("SCOB", layer)[scob_index]
+  scob = dzx.entries_by_type(SCOB, layer=layer)[scob_index]
   if scob.actor_class_name in ["d_a_salvage", "d_a_tag_kb_item"]:
     scob.item_id = item_id
     scob.save_changes()
@@ -453,7 +453,7 @@ def change_actor_item(self, arc_path, actor_index, layer, item_id):
     dzx = self.get_arc(arc_path).get_file("stage.dzs", DZx)
   else:
     dzx = self.get_arc(arc_path).get_file("room.dzr", DZx)
-  actr = dzx.entries_by_type_and_layer("ACTR", layer)[actor_index]
+  actr = dzx.entries_by_type(ACTR, layer=layer)[actor_index]
   if actr.actor_class_name in ["d_a_item", "d_a_boss_item"]:
     actr.item_id = item_id
   else:

@@ -23,7 +23,7 @@ import customizer
 from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS
 from data_tables import DataTables
 from wwlib.events import EventList
-from wwlib.dzx import ACTR, SHIP, DZx
+from wwlib.dzx import DZx, ACTR, EVNT, FILI, PLYR, SCLS, SCOB, SHIP, TGDR, TRES
 
 try:
   from keys.seed_key import SEED_KEY # type: ignore
@@ -45,11 +45,11 @@ def set_new_game_starting_room(self: WWRandomizer, room_number: int):
 
 def change_ship_starting_island(self: WWRandomizer, room_number: int):
   island_dzx = self.get_arc(f"files/res/Stage/sea/Room{room_number}.arc").get_file("room.dzr", DZx)
-  ship_spawns: list[SHIP] = island_dzx.entries_by_type("SHIP")
+  ship_spawns = island_dzx.entries_by_type(SHIP)
   island_ship_spawn_0 = next(x for x in ship_spawns if x.ship_id == 0)
   
   sea_dzx = self.get_arc("files/res/Stage/sea/Stage.arc").get_file("stage.dzs", DZx)
-  sea_actors: list[ACTR] = sea_dzx.entries_by_type("ACTR")
+  sea_actors = sea_dzx.entries_by_type(ACTR)
   ship_actor = next(x for x in sea_actors if x.name == "Ship")
   ship_actor.x_pos = island_ship_spawn_0.x_pos
   ship_actor.y_pos = island_ship_spawn_0.y_pos
@@ -102,7 +102,7 @@ def fix_deku_leaf_model(self):
   # So instead we replace the unique Deku Leaf actor ("itemDek") with a more general actor that can be for any field item ("item").
   
   dzx = self.get_arc("files/res/Stage/Omori/Room0.arc").get_file("room.dzr", DZx)
-  deku_leaf_actors = [actor for actor in dzx.entries_by_type("ACTR") if actor.name == "itemDek"]
+  deku_leaf_actors = [actor for actor in dzx.entries_by_type(ACTR) if actor.name == "itemDek"]
   for actor in deku_leaf_actors:
     actor.name = "item"
     actor.params = 0x01FF0000 # Misc params, one of which makes the item not fade out over time
@@ -239,12 +239,12 @@ def remove_shop_item_forced_uniqueness_bit(self):
 def remove_forsaken_fortress_2_cutscenes(self):
   # Removes the rescuing-Aryll cutscene played by the spawn when you enter the Forsaken Fortress tower.
   dzx = self.get_arc("files/res/Stage/M2tower/Room0.arc").get_file("room.dzr", DZx)
-  spawn = next(spawn for spawn in dzx.entries_by_type("PLYR") if spawn.spawn_id == 16)
+  spawn = next(spawn for spawn in dzx.entries_by_type(PLYR) if spawn.spawn_id == 16)
   spawn.evnt_index = 0xFF
   spawn.save_changes()
   
   # Removes the Ganon cutscene by making the door to his room lead back to the start of Forsaken Fortress instead.
-  exit = next((exit for exit in dzx.entries_by_type("SCLS") if exit.dest_stage_name == "M2ganon"), None)
+  exit = next((exit for exit in dzx.entries_by_type(SCLS) if exit.dest_stage_name == "M2ganon"), None)
   if exit:
     exit.dest_stage_name = "sea"
     exit.room_index = 1
@@ -369,10 +369,10 @@ def add_ganons_tower_warp_to_ff2(self):
   
   dzx = self.get_arc("files/res/Stage/sea/Room1.arc").get_file("room.dzr", DZx)
   
-  layer_2_actors = dzx.entries_by_type_and_layer("ACTR", 2)
+  layer_2_actors = dzx.entries_by_type(ACTR, layer=2)
   layer_2_warp = next(x for x in layer_2_actors if x.name == "Warpmj")
   
-  layer_1_warp = dzx.add_entity("ACTR", layer=1)
+  layer_1_warp = dzx.add_entity(ACTR, layer=1)
   layer_1_warp.name = layer_2_warp.name
   layer_1_warp.params = layer_2_warp.params
   layer_1_warp.x_pos = layer_2_warp.x_pos
@@ -390,7 +390,7 @@ def add_chest_in_place_medli_grappling_hook_gift(self):
   
   dzs = self.get_arc("files/res/Stage/M_Dra09/Stage.arc").get_file("stage.dzs", DZx)
   
-  chest_in_jail = dzs.add_entity("TRES", layer=None)
+  chest_in_jail = dzs.add_entity(TRES)
   chest_in_jail.name = "takara3"
   chest_in_jail.params = 0xFF000000
   chest_in_jail.switch_to_set = 0xFF
@@ -407,7 +407,7 @@ def add_chest_in_place_medli_grappling_hook_gift(self):
   
   dzs = self.get_arc("files/res/Stage/M_NewD2/Stage.arc").get_file("stage.dzs", DZx)
   
-  dummy_chest = dzs.add_entity("TRES", layer=None)
+  dummy_chest = dzs.add_entity(TRES)
   dummy_chest.name = chest_in_jail.name
   dummy_chest.params = chest_in_jail.params
   dummy_chest.switch_to_set = chest_in_jail.switch_to_set
@@ -427,7 +427,7 @@ def add_chest_in_place_queen_fairy_cutscene(self):
   
   dzx = self.get_arc("files/res/Stage/sea/Room9.arc").get_file("room.dzr", DZx)
   
-  mother_island_chest = dzx.add_entity("TRES", layer=None)
+  mother_island_chest = dzx.add_entity(TRES)
   mother_island_chest.name = "takara3"
   mother_island_chest.params = 0xFF000000
   mother_island_chest.switch_to_set = 0xFF
@@ -449,7 +449,7 @@ def add_cube_to_earth_temple_first_room(self):
   
   dzx = self.get_arc("files/res/Stage/M_Dai/Room0.arc").get_file("room.dzr", DZx)
   
-  cube = dzx.add_entity("ACTR", layer=None)
+  cube = dzx.add_entity(ACTR)
   cube.name = "Ecube"
   cube.params = 0x8C00FF00
   cube.x_pos = -6986.07
@@ -465,14 +465,14 @@ def add_more_magic_jars(self):
   # But since using Deku Leaf in DRC can be required by the randomizer, it can be annoying to not have any way to refill MP.
   # We change several skulls that originally dropped nothing when destroyed to drop magic jars instead.
   drc_center_room = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr", DZx)
-  actors = drc_center_room.entries_by_type("ACTR")
+  actors = drc_center_room.entries_by_type(ACTR)
   skulls = [actor for actor in actors if actor.name == "Odokuro"]
   skulls[2].item_id = self.item_name_to_id["Small Magic Jar (Pickup)"]
   skulls[2].save_changes()
   skulls[5].item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   skulls[5].save_changes()
   drc_before_boss_room = self.get_arc("files/res/Stage/M_NewD2/Room10.arc").get_file("room.dzr", DZx)
-  actors = drc_before_boss_room.entries_by_type("ACTR")
+  actors = drc_before_boss_room.entries_by_type(ACTR)
   skulls = [actor for actor in actors if actor.name == "Odokuro"]
   skulls[0].item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   skulls[0].save_changes()
@@ -482,7 +482,7 @@ def add_more_magic_jars(self):
   # The grass on the small elevated islands around DRI have a lot of grass that can drop magic, but it's not guaranteed.
   # Add a new piece of grass to each of the 2 small islands that are guaranteed to drop magic.
   dri = self.get_arc("files/res/Stage/sea/Room13.arc").get_file("room.dzr", DZx)
-  grass1 = dri.add_entity("ACTR", layer=None)
+  grass1 = dri.add_entity(ACTR)
   grass1.name = "kusax1"
   grass1.grass_type = 0
   grass1.grass_subtype = 0
@@ -490,7 +490,7 @@ def add_more_magic_jars(self):
   grass1.x_pos = 209694
   grass1.y_pos = 1900
   grass1.z_pos = -202463
-  grass2 = dri.add_entity("ACTR", layer=None)
+  grass2 = dri.add_entity(ACTR)
   grass2.name = "kusax1"
   grass2.grass_type = 0
   grass2.grass_subtype = 0
@@ -502,7 +502,7 @@ def add_more_magic_jars(self):
   
   # Make one of the pots next to the entrance to the TotG miniboss always drop large magic.
   totg_before_miniboss_room = self.get_arc("files/res/Stage/Siren/Room14.arc").get_file("room.dzr", DZx)
-  actors = totg_before_miniboss_room.entries_by_type("ACTR")
+  actors = totg_before_miniboss_room.entries_by_type(ACTR)
   pots = [actor for actor in actors if actor.name == "kotubo"]
   pots[1].item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   pots[1].save_changes()
@@ -715,7 +715,7 @@ def upper_first_letter(string):
 def remove_ballad_of_gales_warp_in_cutscene(self):
   for island_index in range(1, 49+1):
     dzx = self.get_arc("files/res/Stage/sea/Room%d.arc" % island_index).get_file("room.dzr", DZx)
-    for spawn in dzx.entries_by_type("PLYR"):
+    for spawn in dzx.entries_by_type(PLYR):
       if spawn.spawn_type == 9: # Spawn type is warping in on a cyclone
         spawn.spawn_type = 2 # Change to spawn type of instantly spawning on KoRL instead
         spawn.save_changes()
@@ -886,10 +886,10 @@ def add_pirate_ship_to_windfall(self):
   ship_dzs = self.get_arc("files/res/Stage/Asoko/Stage.arc").get_file("stage.dzs", DZx)
   event_list = self.get_arc("files/res/Stage/Asoko/Stage.arc").get_file("event_list.dat", EventList)
   
-  windfall_layer_2_actors = windfall_dzr.entries_by_type_and_layer("ACTR", 2)
+  windfall_layer_2_actors = windfall_dzr.entries_by_type(ACTR, layer=2)
   layer_2_pirate_ship = next(x for x in windfall_layer_2_actors if x.name == "Pirates")
   
-  default_layer_pirate_ship = windfall_dzr.add_entity("ACTR", layer=None)
+  default_layer_pirate_ship = windfall_dzr.add_entity(ACTR)
   default_layer_pirate_ship.name = layer_2_pirate_ship.name
   default_layer_pirate_ship.params = layer_2_pirate_ship.params
   default_layer_pirate_ship.x_pos = layer_2_pirate_ship.x_pos
@@ -907,12 +907,12 @@ def add_pirate_ship_to_windfall(self):
   
   # Remove Niko from the ship to get rid of his events.
   for layer_num in [2, 3]:
-    actors_on_this_layer = ship_dzr.entries_by_type_and_layer("ACTR", layer_num)
+    actors_on_this_layer = ship_dzr.entries_by_type(ACTR, layer=layer_num)
     niko = next(x for x in actors_on_this_layer if x.name == "P2b")
     ship_dzr.remove_entity(niko, "ACTR", layer=layer_num)
   
   # Add Aryll to the ship instead.
-  aryll = ship_dzr.add_entity("ACTR", layer=None)
+  aryll = ship_dzr.add_entity(ACTR)
   aryll.name = "Ls1"
   aryll.which_aryll = 0 # Looking out of her lookout (though we change her animation to just stand there via asm).
   aryll.x_pos = 600
@@ -1027,9 +1027,9 @@ def add_pirate_ship_to_windfall(self):
   
   event_list.save_changes()
   
-  new_evnt = ship_dzs.add_entity("EVNT")
+  new_evnt = ship_dzs.add_entity(EVNT)
   new_evnt.name = event.name
-  new_event_index_in_evnt = ship_dzs.entries_by_type("EVNT").index(new_evnt)
+  new_event_index_in_evnt = ship_dzs.entries_by_type(EVNT).index(new_evnt)
   
   
   # Change the facial animation used by Aryll animation 4 (arms behind back, swaying back and forth) to be 5 (smug expression).
@@ -1049,7 +1049,7 @@ def add_pirate_ship_to_windfall(self):
   
   
   # Detect when the player is inside the chest room.
-  swc00 = ship_dzr.add_entity("SCOB", layer=None)
+  swc00 = ship_dzr.add_entity(SCOB)
   swc00.name = "SW_C00"
   swc00.switch_to_set = inside_chest_room_switch
   swc00.behavior_type = 0 # Unset the switch when leaving the region
@@ -1063,7 +1063,7 @@ def add_pirate_ship_to_windfall(self):
   
   
   # Detect when the countdown is not currently going on.
-  sw_op = ship_dzr.add_entity("ACTR")
+  sw_op = ship_dzr.add_entity(ACTR)
   sw_op.name = "SwOp"
   sw_op.operation = 3 # NOR
   sw_op.is_continuous = 1
@@ -1082,7 +1082,7 @@ def add_pirate_ship_to_windfall(self):
     inside_chest_room_switch,
   ]
   assert switches_are_contiguous(aryll_opens_door_switches)
-  sw_op = ship_dzr.add_entity("ACTR")
+  sw_op = ship_dzr.add_entity(ACTR)
   sw_op.name = "SwOp"
   sw_op.operation = 0 # AND
   sw_op.is_continuous = 1
@@ -1102,7 +1102,7 @@ def add_pirate_ship_to_windfall(self):
     aryll_opened_door_switch,
   ]
   assert switches_are_contiguous(door_is_open_switches)
-  sw_op = ship_dzr.add_entity("ACTR")
+  sw_op = ship_dzr.add_entity(ACTR)
   sw_op.name = "SwOp"
   sw_op.operation = 2 # OR
   sw_op.is_continuous = 1
@@ -1114,7 +1114,7 @@ def add_pirate_ship_to_windfall(self):
   sw_op.y_pos = 0
   sw_op.z_pos = -3400
   for layer_num in [2, 3]:
-    actors_on_this_layer = ship_dzr.entries_by_type_and_layer("ACTR", layer_num)
+    actors_on_this_layer = ship_dzr.entries_by_type(ACTR, layer=layer_num)
     ashut = next(x for x in actors_on_this_layer if x.name == "Ashut")
     ashut.switch_to_check = door_should_be_open_switch
   
@@ -1151,7 +1151,7 @@ def add_inter_dungeon_warp_pots(self):
         dzx_for_spawn = stage_dzx
       else:
         dzx_for_spawn = room_dzx
-      spawn = dzx_for_spawn.add_entity("PLYR", layer=None)
+      spawn = dzx_for_spawn.add_entity(PLYR)
       spawn.spawn_type = 7 # Flying out of a warp pot
       spawn.room_num = warp_pot_data.room_num
       spawn.x_pos = warp_pot_data.x
@@ -1161,22 +1161,22 @@ def add_inter_dungeon_warp_pots(self):
       spawn.spawn_id = 69
       
       # Ensure there wasn't already a spawn using the ID we chose, just to be safe.
-      spawns = dzx_for_spawn.entries_by_type("PLYR")
+      spawns = dzx_for_spawn.entries_by_type(PLYR)
       spawn_id_69s = [x for x in spawns if x.spawn_id == 69]
       assert len(spawn_id_69s) == 1
       
       # Add new exits.
       pot_index_to_exit_index = []
       for other_warp_pot_data in warp_pot_datas_in_this_cycle:
-        scls_exit = room_dzx.add_entity("SCLS", layer=None)
+        scls_exit = room_dzx.add_entity(SCLS)
         scls_exit.dest_stage_name = other_warp_pot_data.stage_name
         scls_exit.spawn_id = 69
         scls_exit.room_index = other_warp_pot_data.room_num
         scls_exit.fade_type = 4 # Warp pot fade out
-        pot_index_to_exit_index.append(len(room_dzx.entries_by_type("SCLS"))-1)
+        pot_index_to_exit_index.append(len(room_dzx.entries_by_type(SCLS))-1)
       
       # Add the warp pots themselves.
-      warp_pot = room_dzx.add_entity("ACTR", layer=None)
+      warp_pot = room_dzx.add_entity(ACTR)
       warp_pot.name = "Warpts%d" % (warp_pot_index+1) # Warpts1 Warpts2 or Warpts3
       warp_pot.type = warp_pot_index + 2 # 2 3 or 4
       warp_pot.cyclic_event_reg_index = warp_pot_data.event_reg_index
@@ -1217,7 +1217,7 @@ def add_inter_dungeon_warp_pots(self):
 
 def remove_makar_kidnapping_event(self):
   dzx = self.get_arc("files/res/Stage/kaze/Room3.arc").get_file("room.dzr", DZx)
-  actors = dzx.entries_by_type_and_layer("ACTR", None)
+  actors = dzx.entries_by_type(ACTR, layer=None)
   
   # Remove the AND switch actor that makes the Floormasters appear after unlocking the door.
   and_switch_actor = next(x for x in actors if x.name == "AND_SW2")
@@ -1351,7 +1351,7 @@ def disable_invisible_walls(self):
   
   # Remove an invisible wall in the second room of DRC.
   dzx = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr", DZx)
-  invisible_wall = next(x for x in dzx.entries_by_type("SCOB") if x.name == "Akabe")
+  invisible_wall = next(x for x in dzx.entries_by_type(SCOB) if x.name == "Akabe")
   invisible_wall.disable_spawn_switch = 0xFF
   invisible_wall.save_changes()
 
@@ -1419,7 +1419,7 @@ def add_hint_signs(self):
   msg.text_alignment = 3 # Centered text alignment
   
   dzx = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr", DZx)
-  bomb_flowers = [actor for actor in dzx.entries_by_type_and_layer("ACTR", None) if actor.name == "BFlower"]
+  bomb_flowers = [actor for actor in dzx.entries_by_type(ACTR, layer=None) if actor.name == "BFlower"]
   bomb_flowers[1].name = "Kanban"
   bomb_flowers[1].params = new_message_id
   bomb_flowers[1].y_rot = 0x2000
@@ -1434,7 +1434,7 @@ def prevent_door_boulder_softlocks(self):
   # Add a SW_C00 (switch setting trigger region) on the other side of the first door blocked by a boulder.
   boulder_destroyed_switch_index = 5
   dzr = self.get_arc("files/res/Stage/M_NewD2/Room13.arc").get_file("room.dzr", DZx)
-  swc00 = dzr.add_entity("SCOB", layer=None)
+  swc00 = dzr.add_entity(SCOB)
   swc00.name = "SW_C00"
   swc00.params = 0x0000FF00
   swc00.switch_to_set = boulder_destroyed_switch_index
@@ -1453,7 +1453,7 @@ def prevent_door_boulder_softlocks(self):
   # Add a SW_C00 (switch setting trigger region) on the other side of the second door blocked by a boulder.
   boulder_destroyed_switch_index = 6
   dzr = self.get_arc("files/res/Stage/M_NewD2/Room14.arc").get_file("room.dzr", DZx)
-  swc00 = dzr.add_entity("SCOB", layer=None)
+  swc00 = dzr.add_entity(SCOB)
   swc00.name = "SW_C00"
   swc00.params = 0x0000FF00
   swc00.switch_to_set = boulder_destroyed_switch_index
@@ -1508,7 +1508,7 @@ def fix_ghost_ship_chest_crash(self):
   # (Actually deleting them would mess up the entity indexes in the logic files, so it's simpler to move them.)
   
   dzs = self.get_arc("files/res/Stage/PShip/Stage.arc").get_file("stage.dzs", DZx)
-  chests = dzs.entries_by_type("TRES")
+  chests = dzs.entries_by_type(TRES)
   for chest in chests:
     if chest.room_num == 2:
       # The chest for room 2 is the one that is actually used, so don't move this one.
@@ -1547,7 +1547,7 @@ def prevent_fire_mountain_lava_softlock(self):
   # This does not result in the ship actually visibly spawning far below the sea when you start a new game, because the sea actor is smart enough to instantly teleport the ship on top whenever it falls below the surface.
   
   sea_dzs = self.get_arc("files/res/Stage/sea/Stage.arc").get_file("stage.dzs", DZx)
-  sea_actors = sea_dzs.entries_by_type("ACTR")
+  sea_actors = sea_dzs.entries_by_type(ACTR)
   ship_actor = next(x for x in sea_actors if x.name == "Ship")
   ship_actor.y_pos = -500000
   ship_actor.save_changes()
@@ -1557,16 +1557,16 @@ def add_chest_in_place_of_jabun_cutscene(self):
   
   jabun_dzr = self.get_arc("files/res/Stage/Pjavdou/Room0.arc").get_file("room.dzr", DZx)
   
-  raft = jabun_dzr.add_entity("ACTR", layer=None)
+  raft = jabun_dzr.add_entity(ACTR)
   raft.name = "Ikada"
   raft.y_rot = 0x8000
   
   # Turn wind on inside the cave so that the flag on the raft blows in the wind.
   # Otherwise it clips inside the flagpole and looks bad.
-  room_props = jabun_dzr.entries_by_type("FILI")[0]
+  room_props = jabun_dzr.entries_by_type(FILI)[0]
   room_props.wind_type = 0 # Weakest wind (0.3 strength)
   
-  jabun_chest = jabun_dzr.add_entity("TRES", layer=None)
+  jabun_chest = jabun_dzr.add_entity(TRES)
   jabun_chest.name = "takara3"
   jabun_chest.params = 0xFF000000
   jabun_chest.switch_to_set = 0xFF
@@ -1588,11 +1588,11 @@ def add_chest_in_place_of_jabun_cutscene(self):
   # This is so they appear during the day too, not just at night.
   outset_dzr = self.get_arc("files/res/Stage/sea/Room44.arc").get_file("room.dzr", DZx)
   
-  layer_5_actors = outset_dzr.entries_by_type_and_layer("ACTR", 5)
+  layer_5_actors = outset_dzr.entries_by_type(ACTR, layer=5)
   layer_5_door = next(x for x in layer_5_actors if x.name == "Ajav")
   layer_5_whirlpool = next(x for x in layer_5_actors if x.name == "Auzu")
   
-  layer_none_door = outset_dzr.add_entity("ACTR", layer=None)
+  layer_none_door = outset_dzr.add_entity(ACTR)
   layer_none_door.name = layer_5_door.name
   layer_none_door.params = layer_5_door.params
   layer_none_door.x_pos = layer_5_door.x_pos
@@ -1603,7 +1603,7 @@ def add_chest_in_place_of_jabun_cutscene(self):
   layer_none_door.z_rot = layer_5_door.z_rot
   layer_none_door.enemy_number = layer_5_door.enemy_number
   
-  layer_none_whirlpool = outset_dzr.add_entity("ACTR", layer=None)
+  layer_none_whirlpool = outset_dzr.add_entity(ACTR)
   layer_none_whirlpool.name = layer_5_whirlpool.name
   layer_none_whirlpool.params = layer_5_whirlpool.params
   layer_none_whirlpool.x_pos = layer_5_whirlpool.x_pos
@@ -1642,16 +1642,16 @@ def add_chest_in_place_of_master_sword(self):
   ms_chamber_dzr = self.get_arc("files/res/Stage/kenroom/Room0.arc").get_file("room.dzr", DZx)
   
   # Remove the Master Sword entities.
-  ms_actors = [x for x in ms_chamber_dzr.entries_by_type_and_layer("ACTR", None) if x.name in ["VmsMS", "VmsDZ"]]
+  ms_actors = [x for x in ms_chamber_dzr.entries_by_type(ACTR, layer=None) if x.name in ["VmsMS", "VmsDZ"]]
   for actor in ms_actors:
     ms_chamber_dzr.remove_entity(actor, "ACTR", layer=None)
   
   # Copy the entities necessary for the Mighty Darknuts fight from layer 5 to the default layer.
-  layer_5_actors = ms_chamber_dzr.entries_by_type_and_layer("ACTR", 5)
+  layer_5_actors = ms_chamber_dzr.entries_by_type(ACTR, layer=5)
   layer_5_actors_to_copy = [x for x in layer_5_actors if x.name in ["Tn", "ALLdie", "Yswdr00"]]
   
   for orig_actor in layer_5_actors_to_copy:
-    new_actor = ms_chamber_dzr.add_entity("ACTR", layer=None)
+    new_actor = ms_chamber_dzr.add_entity(ACTR)
     new_actor.name = orig_actor.name
     new_actor.params = orig_actor.params
     new_actor.x_pos = orig_actor.x_pos
@@ -1668,7 +1668,7 @@ def add_chest_in_place_of_master_sword(self):
   
   
   # Add the chest.
-  ms_chest = ms_chamber_dzr.add_entity("TRES", layer=None)
+  ms_chest = ms_chamber_dzr.add_entity(TRES)
   ms_chest.name = "takara3"
   ms_chest.params = 0xFF000000
   ms_chest.switch_to_set = 0xFF
@@ -1687,7 +1687,7 @@ def add_chest_in_place_of_master_sword(self):
   # Normally if the player saves and reloads or dies and respawns in this fight, they'll be put right back into it.
   # But that would be bad in swordless mode since the player might not have anything to kill the Darknuts with and be stuck forever.
   # So the spawn is moved back away from the fight's trigger area so that the player isn't forced back into the fight immediately.
-  spawn = next(spawn for spawn in ms_chamber_dzr.entries_by_type("PLYR") if spawn.spawn_id == 10)
+  spawn = next(spawn for spawn in ms_chamber_dzr.entries_by_type(PLYR) if spawn.spawn_id == 10)
   spawn.y_pos = -2949.39
   spawn.z_pos = -4240.7
   
@@ -1705,7 +1705,7 @@ def fix_totg_warp_out_spawn_pos(self):
   # Move the spawn forward a bit to avoid to avoid this.
   
   dzr = self.get_arc("files/res/Stage/sea/Room26.arc").get_file("room.dzr", DZx)
-  spawn = next(x for x in dzr.entries_by_type("PLYR") if x.spawn_id == 1)
+  spawn = next(x for x in dzr.entries_by_type(PLYR) if x.spawn_id == 1)
   spawn.z_pos += 1000.0
   spawn.save_changes()
 
@@ -1714,7 +1714,7 @@ def remove_phantom_ganon_requirement_from_eye_reefs(self):
   
   for island_number in [24, 46, 22, 8, 37, 25]:
     eye_reef_dzr = self.get_arc("files/res/Stage/sea/Room%d.arc" % island_number).get_file("room.dzr", DZx)
-    actors = eye_reef_dzr.entries_by_type("ACTR")
+    actors = eye_reef_dzr.entries_by_type(ACTR)
     cannons = [x for x in actors if x.name == "Ocanon"]
     for cannon in cannons:
       if cannon.enable_spawn_switch == 0x2A: # Switch 2A is Phantom Ganon being dead.
@@ -1888,10 +1888,10 @@ def add_failsafe_id_0_spawns(self):
   
   for stage_name, room_number, spawn_id_to_copy in spawns_to_copy:
     dzr = self.get_arc("files/res/Stage/%s/Room%d.arc" % (stage_name, room_number)).get_file("room.dzr", DZx)
-    spawns = dzr.entries_by_type("PLYR")
+    spawns = dzr.entries_by_type(PLYR)
     spawn_to_copy = next(spawn for spawn in spawns if spawn.spawn_id == spawn_id_to_copy)
     
-    new_spawn = dzr.add_entity("PLYR", layer=None)
+    new_spawn = dzr.add_entity(PLYR)
     new_spawn.spawn_type = spawn_to_copy.spawn_type
     new_spawn.room_num = spawn_to_copy.room_num
     new_spawn.x_pos = spawn_to_copy.x_pos
@@ -1920,10 +1920,10 @@ def add_failsafe_id_0_spawns(self):
   
   for stage_name, room_number in rooms_to_add_new_spawns_to:
     dzr = self.get_arc("files/res/Stage/%s/Room%d.arc" % (stage_name, room_number)).get_file("room.dzr", DZx)
-    spawns = dzr.entries_by_type("PLYR")
+    spawns = dzr.entries_by_type(PLYR)
         
     dzs = self.get_arc("files/res/Stage/%s/Stage.arc" % stage_name).get_file("stage.dzs", DZx)
-    doors = dzs.entries_by_type("TGDR")
+    doors = dzs.entries_by_type(TGDR)
     spawn_dist_from_door = 200
     x_pos = None
     y_pos = None
@@ -1943,7 +1943,7 @@ def add_failsafe_id_0_spawns(self):
         z_pos = door.z_pos + z_offset
         break
     
-    new_spawn = dzr.add_entity("PLYR", layer=None)
+    new_spawn = dzr.add_entity(PLYR)
     new_spawn.spawn_type = 0
     new_spawn.room_num = room_number
     new_spawn.x_pos = x_pos
@@ -1958,12 +1958,12 @@ def add_spawns_outside_boss_doors(self):
   """Creates new spawns in dungeons for use when exiting the boss doors."""
   
   rooms_to_add_new_spawns_to = [
-    ("M_NewD2", 10, "TGDR", None, 11),
-    #("kindan", 16, "TGDR", None, 13), # Already has a spawn, ID 1.
-    ("Siren", 18, "TGDR", None, 13),
-    ("sea", 1, "ACTR", 1, 56),
-    ("M_Dai", 15, "TGDR", None, 17),
-    ("kaze", 12, "TGDR", None, 13),
+    ("M_NewD2", 10, TGDR, None, 11),
+    #("kindan", 16, TGDR, None, 13), # Already has a spawn, ID 1.
+    ("Siren", 18, TGDR, None, 13),
+    ("sea", 1, ACTR, 1, 56),
+    ("M_Dai", 15, TGDR, None, 17),
+    ("kaze", 12, TGDR, None, 13),
   ]
   
   for stage_name, room_number, chunk, layer, boss_door_index in rooms_to_add_new_spawns_to:
@@ -1972,12 +1972,12 @@ def add_spawns_outside_boss_doors(self):
     dzs = self.get_arc("files/res/Stage/%s/Stage.arc" % stage_name).get_file("stage.dzs", DZx)
     dzr = self.get_arc("files/res/Stage/%s/Room%d.arc" % (stage_name, room_number)).get_file("room.dzr", DZx)
     
-    if chunk == "TGDR":
+    if chunk == TGDR:
       dzx_for_door = dzs
     else:
       dzx_for_door = dzr
     
-    door = dzx_for_door.entries_by_type_and_layer(chunk, layer)[boss_door_index]
+    door = dzx_for_door.entries_by_type(chunk, layer=layer)[boss_door_index]
     spawn_dist_from_door = 200
     y_rot = door.y_rot
     if door.from_room_num != room_number and door.from_room_num != 63:
@@ -1995,10 +1995,10 @@ def add_spawns_outside_boss_doors(self):
     else:
       dzx_for_spawn = dzr
     
-    spawns = dzx_for_spawn.entries_by_type("PLYR")
+    spawns = dzx_for_spawn.entries_by_type(PLYR)
     assert len([spawn for spawn in spawns if spawn.spawn_id == new_spawn_id]) == 0
     
-    new_spawn = dzx_for_spawn.add_entity("PLYR", layer=None)
+    new_spawn = dzx_for_spawn.add_entity(PLYR)
     new_spawn.spawn_type = 0
     new_spawn.room_num = room_number
     new_spawn.x_pos = x_pos
@@ -2027,12 +2027,12 @@ def remove_minor_panning_cutscenes(self):
     else:
       dzx = arc.get_file("room.dzr", DZx)
     
-    tagevs = [x for x in dzx.entries_by_type("SCOB") if x.name == "TagEv"]
+    tagevs = [x for x in dzx.entries_by_type(SCOB) if x.name == "TagEv"]
     for tagev in tagevs:
       if tagev.evnt_index == evnt_index:
         dzx.remove_entity(tagev, "SCOB")
     
-    spawns = dzx.entries_by_type("PLYR")
+    spawns = dzx.entries_by_type(PLYR)
     for spawn in spawns:
       if spawn.evnt_index == evnt_index:
         spawn.evnt_index = 0xFF
@@ -2103,7 +2103,7 @@ def add_shortcut_warps_into_dungeons(self):
   # This is disabled at first, it becomes active after a switch is set when you've entered the dungeon once normally.
   # (Looks kinda weird since the model doesn't reach all the way up to the sky. Scaling it scales the model, but not the cull box.)
   # This will take the player into whatever the entrance is randomized to lead to, not just Forbidden Woods.
-  warp = fh_dzr.add_entity("SCOB", layer=None)
+  warp = fh_dzr.add_entity(SCOB)
   warp.name = "Ysdls00"
   warp.type = 1 # White warp
   warp.activation_switch = fh_entrance_touched_switch
@@ -2115,7 +2115,7 @@ def add_shortcut_warps_into_dungeons(self):
   
   # Add a SW_C00 (switch setting trigger region) around the entrance to the dungeon.
   # This will set the switch when the player enters the dungeon, enabling the warp for later use.
-  swc00 = fh_dzr.add_entity("SCOB", layer=None)
+  swc00 = fh_dzr.add_entity(SCOB)
   swc00.name = "SW_C00"
   swc00.switch_to_set = fh_entrance_touched_switch
   swc00.behavior_type = 3 # Don't unset the switch when leaving the region
@@ -2152,7 +2152,7 @@ def fix_needle_rock_island_salvage_flags(self):
   
   nri_dzr = self.get_arc("files/res/Stage/sea/Room29.arc").get_file("room.dzr", DZx)
   salvages = [
-    actor for actor in nri_dzr.entries_by_type("SCOB")
+    actor for actor in nri_dzr.entries_by_type(SCOB)
     if DataTables.actor_name_to_class_name[actor.name] == "d_a_salvage"
     and actor.salvage_type in [2, 3, 4]
     and actor.salvage_flag in [0, 1]
@@ -2181,7 +2181,7 @@ def allow_nonlinear_servants_of_the_towers(self):
   event_list: EventList = self.get_arc("files/res/Stage/Siren/Stage.arc").get_file("event_list.dat", EventList)
   hub_room_dzr = self.get_arc("files/res/Stage/Siren/Room7.arc").get_file("room.dzr", DZx)
   
-  doors = totg.entries_by_type("TGDR")
+  doors = totg.entries_by_type(TGDR)
   north_door = doors[6]
   west_door = doors[8]
   
@@ -2216,14 +2216,14 @@ def allow_nonlinear_servants_of_the_towers(self):
   # The switch set by the tablet when you get its item is changed to 0x2B (unused in vanilla).
   # Once all fourth switches are set, the light beam warp appears.
   
-  tablet = next(x for x in hub_room_dzr.entries_by_type("ACTR") if x.name == "Hsh")
+  tablet = next(x for x in hub_room_dzr.entries_by_type(ACTR) if x.name == "Hsh")
   tablet.switch_to_set = tablet_item_obtained_switch
-  beam_warp = next(x for x in hub_room_dzr.entries_by_type("ACTR") if x.name == "Ywarp00")
+  beam_warp = next(x for x in hub_room_dzr.entries_by_type(ACTR) if x.name == "Ywarp00")
   beam_warp.activation_switch = all_servants_returned_switch
-  weather_trigger = next(x for x in hub_room_dzr.entries_by_type("SCOB") if x.name == "kytag00")
+  weather_trigger = next(x for x in hub_room_dzr.entries_by_type(SCOB) if x.name == "kytag00")
   weather_trigger.switch_to_check = all_servants_returned_switch
   attn_tag = next(
-    x for x in hub_room_dzr.entries_by_type("SCOB")
+    x for x in hub_room_dzr.entries_by_type(SCOB)
     if x.name == "AttTag"
     and x.switch_to_check == original_all_servants_returned_switch
     and x.type == 1
@@ -2413,9 +2413,9 @@ def allow_nonlinear_servants_of_the_towers(self):
   
   appear_event.ending_flags[0] = tablet_wait_action.flag_id_to_set
   
-  tablet_appear_evnt = totg.add_entity("EVNT")
+  tablet_appear_evnt = totg.add_entity(EVNT)
   tablet_appear_evnt.name = appear_event.name
-  tablet_appear_evnt_index = totg.entries_by_type("EVNT").index(tablet_appear_evnt)
+  tablet_appear_evnt_index = totg.entries_by_type(EVNT).index(tablet_appear_evnt)
   
   
   # Detect when any servant has been returned and start the tablet event.
@@ -2425,7 +2425,7 @@ def allow_nonlinear_servants_of_the_towers(self):
     north_servant_returned_switch,
   ]
   assert switches_are_contiguous(servants_returned_switches)
-  sw_op = hub_room_dzr.add_entity("ACTR")
+  sw_op = hub_room_dzr.add_entity(ACTR)
   sw_op.name = "SwOp"
   sw_op.operation = 2 # OR
   sw_op.is_continuous = 0
@@ -2446,7 +2446,7 @@ def allow_nonlinear_servants_of_the_towers(self):
     tablet_item_obtained_switch,
   ]
   assert switches_are_contiguous(servants_returned_and_tablet_obtained_switches)
-  sw_op = hub_room_dzr.add_entity("ACTR")
+  sw_op = hub_room_dzr.add_entity(ACTR)
   sw_op.name = "SwOp"
   sw_op.operation = 0 # AND
   sw_op.is_continuous = 0

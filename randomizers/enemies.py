@@ -7,7 +7,7 @@ import math
 
 from wwlib import stage_searcher
 from logic.logic import Logic
-from wwlib.dzx import DZx
+from wwlib.dzx import DZx, ACTR, DOOR, FILI, RPAT, SCOB, STAG, TGDR
 
 # This variable is for debugging specific enemies.
 # Set it to the name of a specific enemy type and it will handle putting that enemy type in every single enemy location throughout the game - ignoring memory and logic limits.
@@ -440,7 +440,7 @@ def save_changed_enemies_and_randomize_their_params(self):
       if path_index_to_follow == 0xFF:
         path_index_to_follow = None
       else:
-        assert path_index_to_follow < len(dzx.entries_by_type("RPAT"))
+        assert path_index_to_follow < len(dzx.entries_by_type(RPAT))
     
     enemy.name = new_enemy_data["Actor name"]
     enemy.params = new_enemy_data["Params"]
@@ -505,10 +505,10 @@ def save_changed_enemies_and_randomize_their_params(self):
     
     if stage_folder == "sea":
       dzr = self.get_arc("files/res/Stage/sea/" + room_arc_name).get_file("room.dzr", DZx)
-      dest_jpc_index = dzr.entries_by_type("FILI")[0].loaded_particle_bank
+      dest_jpc_index = dzr.entries_by_type(FILI)[0].loaded_particle_bank
     else:
       dzs = self.get_arc("files/res/Stage/" + stage_folder + "/Stage.arc").get_file("stage.dzs", DZx)
-      dest_jpc_index = dzs.entries_by_type("STAG")[0].loaded_particle_bank
+      dest_jpc_index = dzs.entries_by_type(STAG)[0].loaded_particle_bank
     
     if dest_jpc_index not in self.particles_to_load_for_each_jpc_index:
       self.particles_to_load_for_each_jpc_index[dest_jpc_index] = []
@@ -576,7 +576,7 @@ def add_modify_and_replace_actors_for_enemy_rando(self):
       new_actor_datas = enemy_group["New actors to add"]
       for new_actor_data in new_actor_datas:
         dzx, _, layer = get_dzx_fourcc_and_layer_by_path(self, enemy_group["Enemies"][0]["Path"])
-        actor = dzx.add_entity("ACTR", layer=layer)
+        actor = dzx.add_entity(ACTR, layer=layer)
         
         actor.name = new_actor_data["Name"]
         actor.params = new_actor_data["Params"]
@@ -625,15 +625,15 @@ def randomize_enemies_spawned_by_objects(self):
   ]
   
   dzr = self.get_arc("files/res/Stage/kaze/Room2.arc").get_file("room.dzr", DZx)
-  homen = dzr.entries_by_type("ACTR")[0x27]
+  homen = dzr.entries_by_type(ACTR)[0x27]
   homen.enemy_to_spawn = self.rng.choice(possible_homen_enemies)
   homen.save_changes()
   
   dzr = self.get_arc("files/res/Stage/kaze/Room10.arc").get_file("room.dzr", DZx)
-  homen = dzr.entries_by_type("ACTR")[0]
+  homen = dzr.entries_by_type(ACTR)[0]
   homen.enemy_to_spawn = self.rng.choice(possible_homen_enemies)
   homen.save_changes()
-  homen = dzr.entries_by_type("ACTR")[9]
+  homen = dzr.entries_by_type(ACTR)[9]
   homen.enemy_to_spawn = self.rng.choice(possible_homen_enemies)
   homen.save_changes()
 
@@ -685,7 +685,7 @@ def print_all_enemy_params(self):
   
   print("% 7s  % 8s  % 4s  % 4s  %s" % ("name", "params", "xrot", "yrot", "path"))
   for dzx, arc_path in stage_searcher.each_stage_and_room(self):
-    actors = dzx.entries_by_type("ACTR")
+    actors = dzx.entries_by_type(ACTR)
     enemies = [actor for actor in actors if actor.name in all_enemy_actor_names]
     for enemy in enemies:
       print("% 7s  %08X  %04X  %04X  %s" % (enemy.name, enemy.params, enemy.x_rot, enemy.z_rot, arc_path))
@@ -707,7 +707,7 @@ def print_all_enemy_locations(self):
       stage_folder, arc_name = os.path.split(relative_arc_path)
       relative_arc_path = stage_folder + "/" + arc_name
       
-      actors = dzx.entries_by_type_and_layer("ACTR", layer)
+      actors = dzx.entries_by_type(ACTR, layer=layer)
       enemies = [
         actor for actor in actors
         if actor.name in all_enemy_actor_names
@@ -1093,7 +1093,7 @@ def adjust_enemy(self, enemy_data, enemy, category, dzx, layer):
   elif enemy.name in ["c_green", "c_red", "c_kiiro", "c_blue", "c_black"] and category == "Pot":
     # ChuChus in pots will only appear if the pot has the EXACT same position as the ChuChu, just being very close is not enough.
     pots_on_same_layer = [
-      actor for actor in dzx.entries_by_type_and_layer("ACTR", layer)
+      actor for actor in dzx.entries_by_type(ACTR, layer=layer)
       if actor.actor_class_name == "d_a_tsubo"
     ]
     if not pots_on_same_layer:
@@ -1120,7 +1120,7 @@ def get_enemy_instance_by_path(self, path):
     dzx = self.get_arc(arc_path).get_file("stage.dzs", DZx)
   else:
     dzx = self.get_arc(arc_path).get_file("room.dzr", DZx)
-  enemy = dzx.entries_by_type_and_layer("ACTR", layer)[actor_index]
+  enemy = dzx.entries_by_type(ACTR, layer=layer)[actor_index]
   
   if enemy.name not in self.all_enemy_actor_names:
     raise Exception("Enemy location path %s points to a %s actor, not an enemy!" % (path, enemy.name))
@@ -1129,13 +1129,13 @@ def get_enemy_instance_by_path(self, path):
 
 def get_fourcc_by_english_chunk_name(dzx_chunk_type_name):
   if dzx_chunk_type_name == "Actor":
-    return "ACTR"
+    return ACTR
   elif dzx_chunk_type_name == "ScalableObject":
-    return "SCOB"
+    return SCOB
   elif dzx_chunk_type_name == "Door":
-    return "DOOR"
+    return DOOR
   elif dzx_chunk_type_name == "ScalableDoor":
-    return "TGDR"
+    return TGDR
   else:
     raise Exception("Unknown DZx chunk type name: %s" % dzx_chunk_type_name)
 
@@ -1158,7 +1158,7 @@ def get_actor_by_path(self, path):
     dzx = self.get_arc(arc_path).get_file("stage.dzs", DZx)
   else:
     dzx = self.get_arc(arc_path).get_file("room.dzr", DZx)
-  actor = dzx.entries_by_type_and_layer(fourcc, layer)[actor_index]
+  actor = dzx.entries_by_type(fourcc, layer=layer)[actor_index]
   
   return actor
 

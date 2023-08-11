@@ -8,7 +8,7 @@ from gclib import fs_helpers as fs
 from data_tables import DataTables
 from wwlib.dzb import DZB
 from gclib.j3d import BMD, BDL, BPRegister, XFRegister
-from wwlib.dzx import DZx
+from wwlib.dzx import DZx, ACTR, DOOR, EVNT, FILI, PLYR, SCOB, STAG, TGDR, TGOB, TGSC, TRES
 from wwlib.events import EventList
 
 def try_int_convert(string):
@@ -109,7 +109,7 @@ def print_all_used_switches(self):
   for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
     match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
     stage_name = match.group(1)
-    stage_info = dzs.entries_by_type("STAG")[0]
+    stage_info = dzs.entries_by_type(STAG)[0]
     stage_id = stage_info.stage_id
     
     if self.stage_names[stage_name] == "Unused":
@@ -130,7 +130,7 @@ def print_all_used_switches(self):
         # Uses an old EVNT format, cannot be read.
         evnts = []
       else:
-        evnts = dzx.entries_by_type("EVNT")
+        evnts = dzx.entries_by_type(EVNT)
       
       for evnt in evnts:
         switch = evnt.event_played_by_spawn_switch
@@ -145,14 +145,14 @@ def print_all_used_switches(self):
       
       for layer in [None] + list(range(11+1)):
         actors = []
-        actors += dzx.entries_by_type_and_layer("ACTR", layer)
-        actors += dzx.entries_by_type_and_layer("TGOB", layer)
-        actors += dzx.entries_by_type_and_layer("TRES", layer)
-        actors += dzx.entries_by_type_and_layer("PLYR", layer)
-        actors += dzx.entries_by_type_and_layer("SCOB", layer)
-        actors += dzx.entries_by_type_and_layer("TGSC", layer)
-        actors += dzx.entries_by_type_and_layer("DOOR", layer)
-        actors += dzx.entries_by_type_and_layer("TGDR", layer)
+        actors += dzx.entries_by_type(ACTR, layer=layer)
+        actors += dzx.entries_by_type(TGOB, layer=layer)
+        actors += dzx.entries_by_type(TRES, layer=layer)
+        actors += dzx.entries_by_type(PLYR, layer=layer)
+        actors += dzx.entries_by_type(SCOB, layer=layer)
+        actors += dzx.entries_by_type(TGSC, layer=layer)
+        actors += dzx.entries_by_type(DOOR, layer=layer)
+        actors += dzx.entries_by_type(TGDR, layer=layer)
         
         for actor in actors:
           if actor.name not in DataTables.actor_name_to_class_name:
@@ -331,7 +331,7 @@ def print_all_used_item_pickup_flags(self):
   for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
     match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
     stage_name = match.group(1)
-    stage_info = dzs.entries_by_type("STAG")[0]
+    stage_info = dzs.entries_by_type(STAG)[0]
     stage_id = stage_info.stage_id
     
     if self.stage_names[stage_name] == "Unused":
@@ -349,14 +349,14 @@ def print_all_used_item_pickup_flags(self):
     for dzx, arc_path in [(dzs, stage_arc_path)]+rooms:
       for layer in [None] + list(range(11+1)):
         actors = []
-        actors += dzx.entries_by_type_and_layer("ACTR", layer)
-        actors += dzx.entries_by_type_and_layer("TGOB", layer)
-        actors += dzx.entries_by_type_and_layer("TRES", layer)
-        actors += dzx.entries_by_type_and_layer("PLYR", layer)
-        actors += dzx.entries_by_type_and_layer("SCOB", layer)
-        actors += dzx.entries_by_type_and_layer("TGSC", layer)
-        actors += dzx.entries_by_type_and_layer("DOOR", layer)
-        actors += dzx.entries_by_type_and_layer("TGDR", layer)
+        actors += dzx.entries_by_type(ACTR, layer=layer)
+        actors += dzx.entries_by_type(TGOB, layer=layer)
+        actors += dzx.entries_by_type(TRES, layer=layer)
+        actors += dzx.entries_by_type(PLYR, layer=layer)
+        actors += dzx.entries_by_type(SCOB, layer=layer)
+        actors += dzx.entries_by_type(TGSC, layer=layer)
+        actors += dzx.entries_by_type(DOOR, layer=layer)
+        actors += dzx.entries_by_type(TGDR, layer=layer)
         
         for actor in actors:
           for attr_name in actor.param_fields:
@@ -428,13 +428,13 @@ def print_all_used_chest_open_flags(self):
   used_chest_flags_by_stage_id = {}
   used_chest_flags_by_stage_id[1] = []
   for dzs, stage_arc_path, rooms in each_stage_with_rooms(self):
-    stage_info = dzs.entries_by_type("STAG")[0]
+    stage_info = dzs.entries_by_type(STAG)[0]
     stage_id = stage_info.stage_id
     if stage_id not in used_chest_flags_by_stage_id:
       used_chest_flags_by_stage_id[stage_id] = []
     
     for dzx, arc_path in [(dzs, stage_arc_path)]+rooms:
-      chests = dzx.entries_by_type("TRES")
+      chests = dzx.entries_by_type(TRES)
       
       for chest in chests:
         if chest.item_id in self.item_names:
@@ -465,7 +465,7 @@ def print_all_used_salvage_flags(self):
     arc_path = rf"files/res/Stage/sea/Room{island_index}.arc"
     dzr = self.get_arc(arc_path).get_file("room.dzr", DZx)
     
-    for actor in dzr.entries_by_type("SCOB"):
+    for actor in dzr.entries_by_type(SCOB):
       class_name = DataTables.actor_name_to_class_name[actor.name]
       if class_name != 'd_a_salvage':
         continue
@@ -618,7 +618,7 @@ def print_all_event_list_actions(self):
 def print_stages_for_each_stage_id(self):
   stage_names_by_stage_id = {}
   for dzs, stage_arc_path, rooms in each_stage_with_rooms(self):
-    stage_info = dzs.entries_by_type("STAG")[0]
+    stage_info = dzs.entries_by_type(STAG)[0]
     stage_id = stage_info.stage_id
     if stage_id not in stage_names_by_stage_id:
       stage_names_by_stage_id[stage_id] = []
@@ -745,9 +745,9 @@ def print_all_entity_params(self):
     for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
       stage_and_rooms = [(dzs, stage_arc_path)] + rooms
       for dzx, arc_path in stage_and_rooms:
-        for chunk_type in ["ACTR", "SCOB", "TRES", "TGOB", "TGSC", "DOOR", "TGDR"]:
+        for chunk_type in [ACTR, SCOB, TRES, TGOB, TGSC, DOOR, TGDR]:
           for layer in [None] + list(range(11+1)):
-            for i, entity in enumerate(dzx.entries_by_type_and_layer(chunk_type, layer)):
+            for i, entity in enumerate(dzx.entries_by_type(chunk_type, layer=layer)):
               arc_path_short = arc_path[len("files/res/Stage/"):-len(".arc")]
               location_identifier = arc_path_short
               location_identifier += " %s/" % chunk_type
@@ -823,9 +823,9 @@ def print_actor_class_occurrences(self):
     classes_seen_in_stage = []
     for dzx, arc_path in stage_and_rooms:
       #classes_seen_in_room = []
-      for chunk_type in ["ACTR", "SCOB", "TRES", "TGOB", "TGSC", "DOOR", "TGDR"]:
+      for chunk_type in [ACTR, SCOB, TRES, TGOB, TGSC, DOOR, TGDR]:
         for layer in [None] + list(range(11+1)):
-          for i, entity in enumerate(dzx.entries_by_type_and_layer(chunk_type, layer)):
+          for i, entity in enumerate(dzx.entries_by_type(chunk_type, layer=layer)):
             if entity.name not in DataTables.actor_name_to_class_name:
               print("Unknown actor name: %s" % entity.name)
               continue
@@ -932,12 +932,12 @@ def print_all_used_particle_banks(self):
   for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
     match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
     stage_name = match.group(1)
-    particle_bank = dzs.entries_by_type("STAG")[0].loaded_particle_bank
+    particle_bank = dzs.entries_by_type(STAG)[0].loaded_particle_bank
     if particle_bank == 0xFF:
       for dzr, room_arc_path in rooms:
         match = re.search(r"files/res/Stage/([^/]+)/([^.]+).arc", room_arc_path, re.IGNORECASE)
         room_name = match.group(2)
-        particle_bank = dzr.entries_by_type("FILI")[0].loaded_particle_bank
+        particle_bank = dzr.entries_by_type(FILI)[0].loaded_particle_bank
         if particle_bank == 0xFF:
           continue
         jpc_path = "files/res/Particle/Pscene%03d.jpc" % particle_bank
