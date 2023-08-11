@@ -17,6 +17,7 @@ class BaseRandomizer:
   def randomize(self):
     self.reset_rng()
     self._randomize()
+    self.rng = None
     self.made_any_changes = True
   
   def _randomize(self):
