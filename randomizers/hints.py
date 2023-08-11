@@ -662,7 +662,7 @@ class HintManager:
     previously_hinted_locations = []
     
     # Create a mapping for chart name -> sunken treasure
-    self.chart_name_to_sunken_treasure = charts.build_chart_to_sunken_treasure_location_mapping(self.rando)
+    self.chart_name_to_sunken_treasure = self.rando.charts.build_chart_to_sunken_treasure_location_mapping()
     
     # Build of list of progress locations for this seed.
     progress_locations, non_progress_locations = self.logic.get_progress_and_non_progress_locations()

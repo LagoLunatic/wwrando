@@ -29,7 +29,7 @@ except ImportError:
   SEED_KEY = ""
 
 from randomizers import items
-from randomizers import charts
+from randomizers.charts import ChartRandomizer
 from randomizers import starting_island
 from randomizers import entrances
 from randomizers import music
@@ -246,64 +246,13 @@ class WWRandomizer:
     # Default starting island (Outset) if the starting island randomizer is not on.
     self.starting_island_index = 44
     
-    # Default charts for each island.
-    self.island_number_to_chart_name = OrderedDict([
-      (1, "Treasure Chart 25"),
-      (2, "Treasure Chart 7"),
-      (3, "Treasure Chart 24"),
-      (4, "Triforce Chart 2"),
-      (5, "Treasure Chart 11"),
-      (6, "Triforce Chart 7"),
-      (7, "Treasure Chart 13"),
-      (8, "Treasure Chart 41"),
-      (9, "Treasure Chart 29"),
-      (10, "Treasure Chart 22"),
-      (11, "Treasure Chart 18"),
-      (12, "Treasure Chart 30"),
-      (13, "Treasure Chart 39"),
-      (14, "Treasure Chart 19"),
-      (15, "Treasure Chart 8"),
-      (16, "Treasure Chart 2"),
-      (17, "Treasure Chart 10"),
-      (18, "Treasure Chart 26"),
-      (19, "Treasure Chart 3"),
-      (20, "Treasure Chart 37"),
-      (21, "Treasure Chart 27"),
-      (22, "Treasure Chart 38"),
-      (23, "Triforce Chart 1"),
-      (24, "Treasure Chart 21"),
-      (25, "Treasure Chart 6"),
-      (26, "Treasure Chart 14"),
-      (27, "Treasure Chart 34"),
-      (28, "Treasure Chart 5"),
-      (29, "Treasure Chart 28"),
-      (30, "Treasure Chart 35"),
-      (31, "Triforce Chart 3"),
-      (32, "Triforce Chart 6"),
-      (33, "Treasure Chart 1"),
-      (34, "Treasure Chart 20"),
-      (35, "Treasure Chart 36"),
-      (36, "Treasure Chart 23"),
-      (37, "Treasure Chart 12"),
-      (38, "Treasure Chart 16"),
-      (39, "Treasure Chart 4"),
-      (40, "Treasure Chart 17"),
-      (41, "Treasure Chart 31"),
-      (42, "Triforce Chart 5"),
-      (43, "Treasure Chart 9"),
-      (44, "Triforce Chart 4"),
-      (45, "Treasure Chart 40"),
-      (46, "Triforce Chart 8"),
-      (47, "Treasure Chart 15"),
-      (48, "Treasure Chart 32"),
-      (49, "Treasure Chart 33"),
-    ])
     
     self.custom_model_name = self.options.get("custom_player_model", "Link")
     self.using_custom_sail_texture = False
     
     self.logic = Logic(self, rando_fully_inited=False)
     
+    self.charts = ChartRandomizer(self)
     self.boss_rewards = BossRewardRandomizer(self)
     
     self.logic.initialize_from_randomizer_state()
@@ -390,8 +339,7 @@ class WWRandomizer:
     yield("Randomizing...", options_completed)
     
     if self.options.get("randomize_charts"):
-      self.reset_rng()
-      charts.randomize_charts(self)
+      self.charts.randomize()
     
     if self.options.get("randomize_starting_island"):
       self.reset_rng()
@@ -1166,20 +1114,7 @@ class WWRandomizer:
     
     spoiler_log += "\n\n\n"
     
-    # Write treasure charts.
-    spoiler_log += "Charts:\n"
-    chart_name_to_island_number = {}
-    for island_number in range(1, 49+1):
-      chart_name = self.logic.macros["Chart for Island %d" % island_number][0]
-      chart_name_to_island_number[chart_name] = island_number
-    for chart_number in range(1, 49+1):
-      if chart_number <= 8:
-        chart_name = "Triforce Chart %d" % chart_number
-      else:
-        chart_name = "Treasure Chart %d" % (chart_number-8)
-      island_number = chart_name_to_island_number[chart_name]
-      island_name = self.island_number_to_name[island_number]
-      spoiler_log += "  %-18s %s\n" % (chart_name+":", island_name)
+    spoiler_log += self.charts.write_to_spoiler_log()
     
     os.makedirs(self.logs_output_folder, exist_ok=True)
     spoiler_log_output_path = os.path.join(self.logs_output_folder, "WW Random %s - Spoiler Log.txt" % self.seed)

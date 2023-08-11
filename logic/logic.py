@@ -825,7 +825,7 @@ class Logic:
     # Update all the "Chart for Island" macros to take randomized charts into account.
     for island_number in range(1, 49+1):
       chart_macro_name = "Chart for Island %d" % island_number
-      chart_item_name = self.rando.island_number_to_chart_name[island_number]
+      chart_item_name = self.rando.charts.island_number_to_chart_name[island_number]
       
       if "Triforce Chart" in chart_item_name:
         req_string = "%s & Any Wallet Upgrade" % chart_item_name
