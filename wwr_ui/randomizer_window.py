@@ -213,7 +213,7 @@ class WWRandomizerWindow(QMainWindow):
     
     if pieces != 0:
       if pieces == 1: # grammar check
-        text += " and 1 piece" 
+        text += " and 1 piece"
       else:
         text += " and %d pieces" % pieces
     
@@ -1094,7 +1094,7 @@ class WWRandomizerWindow(QMainWindow):
       else:
         return default_colors[color_name]
   
-  def set_color(self, 
+  def set_color(self,
     option_name, color, update_preview=True,
     save_color_as_custom=True, move_other_non_custom_colors_to_custom=True
   ):

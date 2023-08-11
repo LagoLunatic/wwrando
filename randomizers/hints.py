@@ -478,9 +478,10 @@ class HintsRandomizer(BaseRandomizer):
   
   #region Hint generation
   def check_location_required_for_paths(self, location_to_check, paths_to_check):
-    # To check whether the location is required or not, we simulate a playthrough and remove the item the player would
-    # receive at that location immediately after they receive it. If the player can still fulfill the requirement 
-    # despite not having this item, the location is not required.
+    # To check whether the location is required or not, we simulate a playthrough and remove the
+    # item the player would receive at that location immediately after they receive it.
+    # If the player can still fulfill the requirement despite not having this item, the location is
+    # not required.
     
     # If the item is not a progress item, there's no way it's required.
     item_name = self.logic.done_item_locations[location_to_check]

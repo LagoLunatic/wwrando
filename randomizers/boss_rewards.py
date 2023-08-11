@@ -129,7 +129,7 @@ class BossRewardRandomizer(BaseRandomizer):
     boss_reward_locations = OrderedDict()
     
     # Decide what reward item to place in each boss location.
-    for item_name in boss_reward_items:    
+    for item_name in boss_reward_items:
       if self.rando.dungeons_only_start and "Dragon Roost Cavern - Gohma Heart Container" in possible_boss_locations:
         location_name = "Dragon Roost Cavern - Gohma Heart Container"
       elif self.rando.dungeons_only_start and "Forbidden Woods - Kalle Demos Heart Container" in possible_boss_locations:
@@ -220,7 +220,7 @@ class BossRewardRandomizer(BaseRandomizer):
     
     while remaining_boss_reward_items:
       # Consider a dungeon boss reward to be accessible when every location in the dungeon is accessible.
-      accessible_undone_locations = self.logic.get_accessible_remaining_locations()    
+      accessible_undone_locations = self.logic.get_accessible_remaining_locations()
       inaccessible_dungeons = []
       for location_name in self.logic.remaining_item_locations:
         if self.logic.is_dungeon_location(location_name) and location_name not in accessible_undone_locations:
