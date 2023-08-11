@@ -122,6 +122,13 @@ class HintsRandomizer(BaseRandomizer):
     self.cryptic_hints = self.options.get("cryptic_hints")
     self.prioritize_remote_hints = self.options.get("prioritize_remote_hints")
     
+    self.floor_30_hint: Hint = None
+    self.floor_50_hint: Hint = None
+    self.octo_fairy_hint: Hint = None
+    self.hints_per_placement: dict[str, list[Hint]] = {}
+    self.island_to_fishman_hint: dict[int, Hint] = {}
+    self.hoho_index_to_hints: dict[int, list[Hint]] = {}
+    
     HintsRandomizer.load_hint_text_files()
     
     # Validate location names in location hints file.
@@ -144,7 +151,7 @@ class HintsRandomizer(BaseRandomizer):
     self.octo_fairy_hint = self.generate_octo_fairy_hint()
     
     variable_hint_placement_options = ("fishmen_hints", "hoho_hints", "korl_hints")
-    self.hints_per_placement: dict[str, list[Hint]] = {}
+    self.hints_per_placement.clear()
     for option in variable_hint_placement_options:
       if self.options.get(option):
         self.hints_per_placement[option] = []
@@ -167,6 +174,42 @@ class HintsRandomizer(BaseRandomizer):
     self.rng.shuffle(hint_placement_options)
     for i, hint in enumerate(hints):
       self.hints_per_placement[hint_placement_options[i % len(hint_placement_options)]].append(hint)
+    
+    if "fishmen_hints" in self.hints_per_placement:
+      self.distribute_fishmen_hints(self.hints_per_placement["fishmen_hints"])
+    if "hoho_hints" in self.hints_per_placement:
+      self.distribute_hoho_hints(self.hints_per_placement["hoho_hints"])
+  
+  def distribute_fishmen_hints(self, hints: list[Hint]):
+    assert hints
+    
+    islands = list(range(1, 49+1))
+    self.rng.shuffle(islands)
+    
+    self.island_to_fishman_hint.clear()
+    for fishman_hint_number, fishman_island_number in enumerate(islands):
+      self.island_to_fishman_hint[fishman_island_number] = hints[fishman_hint_number % len(hints)]
+  
+  def distribute_hoho_hints(self, hints: list[Hint]):
+    assert hints
+    
+    hohos = list(range(10))
+    self.rng.shuffle(hohos)
+    
+    self.hoho_index_to_hints.clear()
+    for i in range(len(hohos)):
+      self.hoho_index_to_hints[i] = []
+    
+    # Distribute the hints to each Hoho.
+    # We want each hint to be duplicated as few times as possible, while still ensuring all Hohos
+    # give the same number of hints.
+    hint_index = 0
+    while hint_index < len(hints):
+      for hoho_index in hohos:
+        hint = hints[hint_index % len(hints)]
+        self.hoho_index_to_hints[hoho_index].append(hint)
+        hint_index += 1
+    
   
   def _save(self):
     self.update_savage_labyrinth_hint_tablet(self.floor_30_hint, self.floor_50_hint)
@@ -183,9 +226,9 @@ class HintsRandomizer(BaseRandomizer):
     # Each hint placement option will handle how to place the hints in-game in their own way.
     for hint_placement in self.hints_per_placement:
       if hint_placement == "fishmen_hints":
-        self.update_fishmen_hints(self.hints_per_placement["fishmen_hints"])
+        self.update_fishmen_hints()
       elif hint_placement == "hoho_hints":
-        self.update_hoho_hints(self.hints_per_placement["hoho_hints"])
+        self.update_hoho_hints()
       elif hint_placement == "korl_hints":
         self.update_korl_hints(self.hints_per_placement["korl_hints"])
       else:
@@ -254,15 +297,8 @@ class HintsRandomizer(BaseRandomizer):
     msg.string = "\\{1A 06 FF 00 00 05}When you find you have need of such an item, you must journey to that place."
     msg.word_wrap_string(self.rando.bfn)
   
-  def update_fishmen_hints(self, hints):
-    assert hints
-    
-    islands = list(range(1, 49+1))
-    self.rng.shuffle(islands)
-    
-    for fishman_hint_number, fishman_island_number in enumerate(islands):
-      hint = hints[fishman_hint_number % len(hints)]
-      
+  def update_fishmen_hints(self):
+    for fishman_island_number, hint in self.island_to_fishman_hint.items():
       hint_lines = []
       hint_lines.append(HintsRandomizer.get_formatted_hint_text(hint, self.cryptic_hints, prefix="I've heard from my sources that ", suffix=".", delay=60))
       
@@ -277,26 +313,8 @@ class HintsRandomizer(BaseRandomizer):
       msg = self.rando.bmg.messages_by_id[msg_id]
       msg.construct_string_from_parts(self.rando.bfn, hint_lines)
 
-  def update_hoho_hints(self, hints):
-    assert hints
-    
-    hohos = list(range(10))
-    self.rng.shuffle(hohos)
-    
-    hoho_hints = []
-    for i in range(10):
-      hoho_hints.append([])
-    
-    # Distribute the hints to each Hoho.
-    # We want each hint to be duplicated as few times as possible, while still ensuring all Hohos give the same number of hints.
-    hint_index = 0
-    while hint_index < len(hints):
-      for hoho_index in hohos:
-        hint = hints[hint_index % len(hints)]
-        hoho_hints[hoho_index].append(hint)
-        hint_index += 1
-    
-    for hoho_index, hints_for_hoho in enumerate(hoho_hints):
+  def update_hoho_hints(self):
+    for hoho_index, hints_for_hoho in self.hoho_index_to_hints.items():
       hint_lines = []
       for i, hint in enumerate(hints_for_hoho):
         # Determine the prefix and suffix for the hint
