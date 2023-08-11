@@ -2,29 +2,31 @@
 from collections import OrderedDict
 
 from gclib import fs_helpers as fs
+from gclib.gclib_file import GCLibFile
 
-class EventList:
+class EventList(GCLibFile):
   TOTAL_NUM_FLAGS = 0x2800
   
-  def __init__(self, file_entry):
-    self.file_entry = file_entry
-    data = self.file_entry.data
-    
-    event_list_offset = fs.read_u32(data, 0x00)
-    num_events = fs.read_u32(data, 0x04)
-    actor_list_offset = fs.read_u32(data, 0x08)
-    num_actors = fs.read_u32(data, 0x0C)
-    action_list_offset = fs.read_u32(data, 0x10)
-    num_actions = fs.read_u32(data, 0x14)
-    property_list_offset = fs.read_u32(data, 0x18)
-    num_properties = fs.read_u32(data, 0x1C)
-    self.float_list_offset = fs.read_u32(data, 0x20)
-    num_floats = fs.read_u32(data, 0x24)
-    self.integer_list_offset = fs.read_u32(data, 0x28)
-    num_integers = fs.read_u32(data, 0x2C)
-    self.string_list_offset = fs.read_u32(data, 0x30)
-    string_list_total_size = fs.read_u32(data, 0x34)
-    self.header_padding = fs.read_bytes(data, 0x38, 8)
+  def __init__(self, file_entry_or_data = None):
+    super().__init__(file_entry_or_data)
+    self.read()
+  
+  def read(self):
+    event_list_offset = fs.read_u32(self.data, 0x00)
+    num_events = fs.read_u32(self.data, 0x04)
+    actor_list_offset = fs.read_u32(self.data, 0x08)
+    num_actors = fs.read_u32(self.data, 0x0C)
+    action_list_offset = fs.read_u32(self.data, 0x10)
+    num_actions = fs.read_u32(self.data, 0x14)
+    property_list_offset = fs.read_u32(self.data, 0x18)
+    num_properties = fs.read_u32(self.data, 0x1C)
+    self.float_list_offset = fs.read_u32(self.data, 0x20)
+    num_floats = fs.read_u32(self.data, 0x24)
+    self.integer_list_offset = fs.read_u32(self.data, 0x28)
+    num_integers = fs.read_u32(self.data, 0x2C)
+    self.string_list_offset = fs.read_u32(self.data, 0x30)
+    string_list_total_size = fs.read_u32(self.data, 0x34)
+    self.header_padding = fs.read_bytes(self.data, 0x38, 8)
     
     self.events: list[Event] = []
     self.events_by_name: dict[str, Event] = {}
@@ -98,19 +100,19 @@ class EventList:
     all_floats = []
     for float_index in range(0, num_floats):
       offset = self.float_list_offset + float_index * 4
-      float_val = fs.read_float(data, offset)
+      float_val = fs.read_float(self.data, offset)
       all_floats.append(float_val)
     
     all_integers = []
     for integer_index in range(0, num_integers):
       offset = self.integer_list_offset + integer_index * 4
-      integer = fs.read_s32(data, offset)
+      integer = fs.read_s32(self.data, offset)
       all_integers.append(integer)
     
     all_strings_by_offset = OrderedDict()
     offset = self.string_list_offset
     while offset < self.string_list_offset+string_list_total_size:
-      string = fs.read_str_until_null_character(data, offset)
+      string = fs.read_str_until_null_character(self.data, offset)
       all_strings_by_offset[offset-self.string_list_offset] = string
       string_length_with_null = len(string)+1
       offset += string_length_with_null
@@ -121,7 +123,7 @@ class EventList:
         
         # To be safe ensure that the bytes we skip are actually all null bytes.
         for i in range(padding_bytes_to_skip):
-          padding_byte = fs.read_u8(data, offset+i)
+          padding_byte = fs.read_u8(self.data, offset+i)
           assert padding_byte == 0
         
         offset += padding_bytes_to_skip
@@ -163,11 +165,9 @@ class EventList:
           self.unused_flag_ids.remove(action.flag_id_to_set)
   
   def save_changes(self):
-    data = self.file_entry.data
-    
     # Cut off all the data after the header first since we're completely replacing this data.
-    data.truncate(0x40)
-    data.seek(0x40)
+    self.data.truncate(0x40)
+    self.data.seek(0x40)
     
     offset = 0x40
     
@@ -275,20 +275,20 @@ class EventList:
     self.float_list_offset = offset
     num_floats = len(all_floats)
     for float_val in all_floats:
-      fs.write_float(data, offset, float_val)
+      fs.write_float(self.data, offset, float_val)
       offset += 4
     
     self.integer_list_offset = offset
     num_integers = len(all_integers)
     for integer in all_integers:
-      fs.write_s32(data, offset, integer)
+      fs.write_s32(self.data, offset, integer)
       offset += 4
     
     self.string_list_offset = offset
     for property in all_properties:
       if property.data_type == 4:
         string = property.value
-        fs.write_str_with_null_byte(data, offset, string)
+        fs.write_str_with_null_byte(self.data, offset, string)
         new_relative_string_offset = offset-self.string_list_offset
         
         string_length_with_null = len(string)+1
@@ -298,7 +298,7 @@ class EventList:
         if string_length_with_null % 8 != 0:
           padding_bytes_needed = (8 - (string_length_with_null % 8))
           padding = b"\0"*padding_bytes_needed
-          fs.write_bytes(data, offset, padding)
+          fs.write_bytes(self.data, offset, padding)
           offset += padding_bytes_needed
           string_length_with_padding = string_length_with_null + padding_bytes_needed
         else:
@@ -317,21 +317,21 @@ class EventList:
     for property in all_properties:
       property.save_changes()
     
-    fs.write_u32(data, 0x00, event_list_offset)
-    fs.write_u32(data, 0x04, num_events)
-    fs.write_u32(data, 0x08, actor_list_offset)
-    fs.write_u32(data, 0x0C, num_actors)
-    fs.write_u32(data, 0x10, action_list_offset)
-    fs.write_u32(data, 0x14, num_actions)
-    fs.write_u32(data, 0x18, property_list_offset)
-    fs.write_u32(data, 0x1C, num_properties)
-    fs.write_u32(data, 0x20, self.float_list_offset)
-    fs.write_u32(data, 0x24, num_floats)
-    fs.write_u32(data, 0x28, self.integer_list_offset)
-    fs.write_u32(data, 0x2C, num_integers)
-    fs.write_u32(data, 0x30, self.string_list_offset)
-    fs.write_u32(data, 0x34, string_list_total_size)
-    fs.write_bytes(data, 0x38, self.header_padding)
+    fs.write_u32(self.data, 0x00, event_list_offset)
+    fs.write_u32(self.data, 0x04, num_events)
+    fs.write_u32(self.data, 0x08, actor_list_offset)
+    fs.write_u32(self.data, 0x0C, num_actors)
+    fs.write_u32(self.data, 0x10, action_list_offset)
+    fs.write_u32(self.data, 0x14, num_actions)
+    fs.write_u32(self.data, 0x18, property_list_offset)
+    fs.write_u32(self.data, 0x1C, num_properties)
+    fs.write_u32(self.data, 0x20, self.float_list_offset)
+    fs.write_u32(self.data, 0x24, num_floats)
+    fs.write_u32(self.data, 0x28, self.integer_list_offset)
+    fs.write_u32(self.data, 0x2C, num_integers)
+    fs.write_u32(self.data, 0x30, self.string_list_offset)
+    fs.write_u32(self.data, 0x34, string_list_total_size)
+    fs.write_bytes(self.data, 0x38, self.header_padding)
   
   def add_event(self, name):
     assert name not in self.events_by_name
@@ -620,9 +620,3 @@ class Property:
     fs.write_s32(data, self.offset+0x30, self.next_property_index)
     
     fs.write_bytes(data, self.offset+0x34, self.zero_initialized_runtime_data)
-
-try:
-  from gclib.rarc import RARC
-  RARC.FILE_NAME_TO_CLASS["event_list.dat"] = EventList
-except ImportError:
-  print(f"Could not register file name with RARC in file {__file__}")

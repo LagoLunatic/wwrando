@@ -2,6 +2,7 @@
 import copy
 
 from randomizers.base_randomizer import BaseRandomizer
+from wwlib.dzx import DZx
 
 class ChartRandomizer(BaseRandomizer):
   """Shuffles around which chart points to each sector."""
@@ -103,7 +104,7 @@ class ChartRandomizer(BaseRandomizer):
       chart.save_changes()
       
       # Then update the salvage object on the sea so it knows what chart corresponds to it now.
-      dzx = self.rando.get_arc("files/res/Stage/sea/Room%d.arc" % chart.island_number).get_file("room.dzr")
+      dzx = self.rando.get_arc(f"files/res/Stage/sea/Room{chart.island_number}.arc").get_file("room.dzr", DZx)
       for scob in dzx.entries_by_type("SCOB"):
         if scob.actor_class_name == "d_a_salvage" and scob.salvage_type == 0:
           scob.chart_index_plus_1 = chart.owned_chart_index_plus_1

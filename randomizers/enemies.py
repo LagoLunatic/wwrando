@@ -7,6 +7,7 @@ import math
 
 from wwlib import stage_searcher
 from logic.logic import Logic
+from wwlib.dzx import DZx
 
 # This variable is for debugging specific enemies.
 # Set it to the name of a specific enemy type and it will handle putting that enemy type in every single enemy location throughout the game - ignoring memory and logic limits.
@@ -503,10 +504,10 @@ def save_changed_enemies_and_randomize_their_params(self):
     enemy.save_changes()
     
     if stage_folder == "sea":
-      dzr = self.get_arc("files/res/Stage/sea/" + room_arc_name).get_file("room.dzr")
+      dzr = self.get_arc("files/res/Stage/sea/" + room_arc_name).get_file("room.dzr", DZx)
       dest_jpc_index = dzr.entries_by_type("FILI")[0].loaded_particle_bank
     else:
-      dzs = self.get_arc("files/res/Stage/" + stage_folder + "/Stage.arc").get_file("stage.dzs")
+      dzs = self.get_arc("files/res/Stage/" + stage_folder + "/Stage.arc").get_file("stage.dzs", DZx)
       dest_jpc_index = dzs.entries_by_type("STAG")[0].loaded_particle_bank
     
     if dest_jpc_index not in self.particles_to_load_for_each_jpc_index:
@@ -623,12 +624,12 @@ def randomize_enemies_spawned_by_objects(self):
     10, # Yellow ChuChu
   ]
   
-  dzr = self.get_arc("files/res/Stage/kaze/Room2.arc").get_file("room.dzr")
+  dzr = self.get_arc("files/res/Stage/kaze/Room2.arc").get_file("room.dzr", DZx)
   homen = dzr.entries_by_type("ACTR")[0x27]
   homen.enemy_to_spawn = self.rng.choice(possible_homen_enemies)
   homen.save_changes()
   
-  dzr = self.get_arc("files/res/Stage/kaze/Room10.arc").get_file("room.dzr")
+  dzr = self.get_arc("files/res/Stage/kaze/Room10.arc").get_file("room.dzr", DZx)
   homen = dzr.entries_by_type("ACTR")[0]
   homen.enemy_to_spawn = self.rng.choice(possible_homen_enemies)
   homen.save_changes()
@@ -1116,9 +1117,9 @@ def get_enemy_instance_by_path(self, path):
   actor_index = int(match.group(3), 16)
   
   if arc_path.endswith("Stage.arc"):
-    dzx = self.get_arc(arc_path).get_file("stage.dzs")
+    dzx = self.get_arc(arc_path).get_file("stage.dzs", DZx)
   else:
-    dzx = self.get_arc(arc_path).get_file("room.dzr")
+    dzx = self.get_arc(arc_path).get_file("room.dzr", DZx)
   enemy = dzx.entries_by_type_and_layer("ACTR", layer)[actor_index]
   
   if enemy.name not in self.all_enemy_actor_names:
@@ -1154,9 +1155,9 @@ def get_actor_by_path(self, path):
   actor_index = int(match.group(4), 16)
   
   if arc_path.endswith("Stage.arc"):
-    dzx = self.get_arc(arc_path).get_file("stage.dzs")
+    dzx = self.get_arc(arc_path).get_file("stage.dzs", DZx)
   else:
-    dzx = self.get_arc(arc_path).get_file("room.dzr")
+    dzx = self.get_arc(arc_path).get_file("room.dzr", DZx)
   actor = dzx.entries_by_type_and_layer(fourcc, layer)[actor_index]
   
   return actor
@@ -1174,9 +1175,9 @@ def get_dzx_fourcc_and_layer_by_path(self, path):
     layer = None
   
   if arc_path.endswith("Stage.arc"):
-    dzx = self.get_arc(arc_path).get_file("stage.dzs")
+    dzx = self.get_arc(arc_path).get_file("stage.dzs", DZx)
   else:
-    dzx = self.get_arc(arc_path).get_file("room.dzr")
+    dzx = self.get_arc(arc_path).get_file("room.dzr", DZx)
   
   dzx_chunk_type_name = match.group(3)
   fourcc = get_fourcc_by_english_chunk_name(dzx_chunk_type_name)

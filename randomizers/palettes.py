@@ -2,7 +2,8 @@
 import os
 
 from gclib import texture_utils
-from gclib.j3d import BPRegister
+from gclib.bti import BTI
+from gclib.j3d import J3D, BPRegister
 
 from gclib import fs_helpers as fs
 from io import BytesIO
@@ -64,24 +65,26 @@ def randomize_enemy_palettes(self):
         
         #print(file_name)
         
-        j3d_file = rarc.get_file(file_name)
-        
-        if hasattr(j3d_file, "tex1"):
-          shift_all_colors_in_tex1(self, file_name, j3d_file, h_shift, v_shift)
-        
-        if file_name.endswith(".bti"):
-          shift_all_colors_in_bti(self, file_name, j3d_file, h_shift, v_shift)
-        
-        if hasattr(j3d_file, "mat3"):
-          shift_all_colors_in_mat3(self, file_name, j3d_file, h_shift, v_shift)
-        
-        if hasattr(j3d_file, "mdl3"):
-          shift_all_colors_in_mdl3(self, file_name, j3d_file, h_shift, v_shift)
-        
-        if hasattr(j3d_file, "trk1"):
-          shift_all_colors_in_trk1(self, file_name, j3d_file, h_shift, v_shift)
-        
-        j3d_file.save_changes()
+        if file_ext == ".bti":
+          bti_file = rarc.get_file(file_name, BTI)
+          shift_all_colors_in_bti(self, file_name, bti_file, h_shift, v_shift)
+          bti_file.save_changes()
+        else:
+          j3d_file = rarc.get_file(file_name, J3D)
+          
+          if hasattr(j3d_file, "tex1"):
+            shift_all_colors_in_tex1(self, file_name, j3d_file, h_shift, v_shift)
+          
+          if hasattr(j3d_file, "mat3"):
+            shift_all_colors_in_mat3(self, file_name, j3d_file, h_shift, v_shift)
+          
+          if hasattr(j3d_file, "mdl3"):
+            shift_all_colors_in_mdl3(self, file_name, j3d_file, h_shift, v_shift)
+          
+          if hasattr(j3d_file, "trk1"):
+            shift_all_colors_in_trk1(self, file_name, j3d_file, h_shift, v_shift)
+          
+          j3d_file.save_changes()
 
 def shift_all_colors_in_tex1(self, file_name, j3d_file, h_shift, v_shift):
   for texture_name in j3d_file.tex1.textures_by_name:

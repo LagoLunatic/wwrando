@@ -8,6 +8,8 @@ from gclib import fs_helpers as fs
 from data_tables import DataTables
 from wwlib.dzb import DZB
 from gclib.j3d import BMD, BDL, BPRegister, XFRegister
+from wwlib.dzx import DZx
+from wwlib.events import EventList
 
 def try_int_convert(string):
   if string.isdigit():
@@ -54,12 +56,12 @@ def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_n
       all_room_arc_paths.append(filename)
   
   for stage_arc_path in all_stage_arc_paths:
-    dzs = self.get_arc(stage_arc_path).get_file("stage.dzs")
+    dzs = self.get_arc(stage_arc_path).get_file("stage.dzs", DZx)
     if dzs is None:
       continue
     yield(dzs, stage_arc_path)
   for room_arc_path in all_room_arc_paths:
-    dzr = self.get_arc(room_arc_path).get_file("room.dzr")
+    dzr = self.get_arc(room_arc_path).get_file("room.dzr", DZx)
     if dzr is None:
       continue
     yield(dzr, room_arc_path)
@@ -461,7 +463,7 @@ def print_all_used_salvage_flags(self):
   used_salvage_flags_by_room_num = defaultdict(list)
   for island_index in range(50):
     arc_path = rf"files/res/Stage/sea/Room{island_index}.arc"
-    dzr = self.get_arc(arc_path).get_file("room.dzr")
+    dzr = self.get_arc(arc_path).get_file("room.dzr", DZx)
     
     for actor in dzr.entries_by_type("SCOB"):
       class_name = DataTables.actor_name_to_class_name[actor.name]
@@ -492,7 +494,7 @@ def print_all_event_flags_used_by_stb_cutscenes(self):
   print()
   print("Event flags:")
   for dzs, stage_arc_path in each_stage(self):
-    event_list = self.get_arc(stage_arc_path).get_file("event_list.dat")
+    event_list = self.get_arc(stage_arc_path).get_file("event_list.dat", EventList)
     for event in event_list.events:
       package = [x for x in event.actors if x.name == "PACKAGE"]
       if package:
@@ -510,7 +512,7 @@ def print_all_event_list_actions(self):
   
   for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
     stage_arc = self.get_arc(stage_arc_path)
-    event_list = stage_arc.get_file("event_list.dat")
+    event_list = stage_arc.get_file("event_list.dat", EventList)
     if event_list is None:
       continue
     

@@ -3,6 +3,8 @@ import os
 import re
 
 from gclib import fs_helpers as fs
+from wwlib.dzx import DZx
+from wwlib.events import EventList
 
 def randomize_items(self):
   print("Randomizing items...")
@@ -398,9 +400,9 @@ def change_hardcoded_item_in_rel(self, path, offset, item_id):
 
 def change_chest_item(self, arc_path, chest_index, layer, item_id, item_name):
   if arc_path.endswith("Stage.arc"):
-    dzx = self.get_arc(arc_path).get_file("stage.dzs")
+    dzx = self.get_arc(arc_path).get_file("stage.dzs", DZx)
   else:
-    dzx = self.get_arc(arc_path).get_file("room.dzr")
+    dzx = self.get_arc(arc_path).get_file("room.dzr", DZx)
   chest = dzx.entries_by_type_and_layer("TRES", layer)[chest_index]
   chest.item_id = item_id
   if self.options.get("chest_type_matches_contents"):
@@ -424,7 +426,7 @@ def get_ctmc_chest_type_for_item(self, item_name):
     return 0
 
 def change_event_item(self, arc_path, event_index, actor_index, action_index, item_id):
-  event_list = self.get_arc(arc_path).get_file("event_list.dat")
+  event_list = self.get_arc(arc_path).get_file("event_list.dat", EventList)
   action = event_list.events[event_index].actors[actor_index].actions[action_index]
   
   if 0x6D <= item_id <= 0x72: # Song
@@ -436,9 +438,9 @@ def change_event_item(self, arc_path, event_index, actor_index, action_index, it
 
 def change_scob_item(self, arc_path, scob_index, layer, item_id):
   if arc_path.endswith("Stage.arc"):
-    dzx = self.get_arc(arc_path).get_file("stage.dzs")
+    dzx = self.get_arc(arc_path).get_file("stage.dzs", DZx)
   else:
-    dzx = self.get_arc(arc_path).get_file("room.dzr")
+    dzx = self.get_arc(arc_path).get_file("room.dzr", DZx)
   scob = dzx.entries_by_type_and_layer("SCOB", layer)[scob_index]
   if scob.actor_class_name in ["d_a_salvage", "d_a_tag_kb_item"]:
     scob.item_id = item_id
@@ -448,9 +450,9 @@ def change_scob_item(self, arc_path, scob_index, layer, item_id):
 
 def change_actor_item(self, arc_path, actor_index, layer, item_id):
   if arc_path.endswith("Stage.arc"):
-    dzx = self.get_arc(arc_path).get_file("stage.dzs")
+    dzx = self.get_arc(arc_path).get_file("stage.dzs", DZx)
   else:
-    dzx = self.get_arc(arc_path).get_file("room.dzr")
+    dzx = self.get_arc(arc_path).get_file("room.dzr", DZx)
   actr = dzx.entries_by_type_and_layer("ACTR", layer)[actor_index]
   if actr.actor_class_name in ["d_a_item", "d_a_boss_item"]:
     actr.item_id = item_id

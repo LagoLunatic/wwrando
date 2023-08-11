@@ -1,18 +1,19 @@
 
 from gclib import fs_helpers as fs
+from gclib.gclib_file import GCLibFile
 
-class ChartList:
-  def __init__(self, file_entry):
-    self.file_entry = file_entry
-    self.file_entry.decompress_data_if_necessary()
-    data = self.file_entry.data
+class ChartList(GCLibFile):
+  def __init__(self, file_entry_or_data = None):
+    super().__init__(file_entry_or_data)
+    self.read()
     
-    self.num_charts = fs.read_u32(data, 0)
+  def read(self):
+    self.num_charts = fs.read_u32(self.data, 0)
     
     self.charts = []
     offset = 4
     for chart_index in range(self.num_charts):
-      chart = Chart(self.file_entry, offset)
+      chart = Chart(self.data, offset)
       self.charts.append(chart)
       offset += Chart.DATA_SIZE
   
@@ -32,23 +33,24 @@ class ChartList:
 class Chart:
   DATA_SIZE = 0x26
   
-  def __init__(self, file_entry, offset):
-    self.file_entry = file_entry
-    data = self.file_entry.data
+  def __init__(self, data, offset):
+    self.data = data
     self.offset = offset
+    self.read()
+  
+  def read(self):
+    self.texture_id = fs.read_u8(self.data, self.offset)
+    self.owned_chart_index_plus_1 = fs.read_u8(self.data, self.offset+1)
+    self.number = fs.read_u8(self.data, self.offset+2)
+    self.type = fs.read_u8(self.data, self.offset+3)
     
-    self.texture_id = fs.read_u8(data, self.offset)
-    self.owned_chart_index_plus_1 = fs.read_u8(data, self.offset+1)
-    self.number = fs.read_u8(data, self.offset+2)
-    self.type = fs.read_u8(data, self.offset+3)
-    
-    self.sector_x = fs.read_s8(data, self.offset+4)
-    self.sector_y = fs.read_s8(data, self.offset+5)
+    self.sector_x = fs.read_s8(self.data, self.offset+4)
+    self.sector_y = fs.read_s8(self.data, self.offset+5)
     
     offset = self.offset + 6
     self.possible_random_positions = []
     for random_pos_index in range(4):
-      possible_pos = ChartPossibleRandomPosition(self.file_entry, offset)
+      possible_pos = ChartPossibleRandomPosition(self.data, offset)
       self.possible_random_positions.append(possible_pos)
       offset += ChartPossibleRandomPosition.DATA_SIZE
   
@@ -72,15 +74,13 @@ class Chart:
       return "Treasure Chart " + str(self.number-8)
   
   def save_changes(self):
-    data = self.file_entry.data
+    fs.write_u8(self.data, self.offset, self.texture_id)
+    fs.write_u8(self.data, self.offset+1, self.owned_chart_index_plus_1)
+    fs.write_u8(self.data, self.offset+2, self.number)
+    fs.write_u8(self.data, self.offset+3, self.type)
     
-    fs.write_u8(data, self.offset, self.texture_id)
-    fs.write_u8(data, self.offset+1, self.owned_chart_index_plus_1)
-    fs.write_u8(data, self.offset+2, self.number)
-    fs.write_u8(data, self.offset+3, self.type)
-    
-    fs.write_s8(data, self.offset+4, self.sector_x)
-    fs.write_s8(data, self.offset+5, self.sector_y)
+    fs.write_s8(self.data, self.offset+4, self.sector_x)
+    fs.write_s8(self.data, self.offset+5, self.sector_y)
     
     for possible_pos in self.possible_random_positions:
       possible_pos.save_changes()
@@ -88,26 +88,19 @@ class Chart:
 class ChartPossibleRandomPosition:
   DATA_SIZE = 8
   
-  def __init__(self, file_entry, offset):
-    self.file_entry = file_entry
-    data = self.file_entry.data
+  def __init__(self, data, offset):
+    self.data = data
     self.offset = offset
-    
-    self.chart_texture_x_offset = fs.read_u16(data, offset)
-    self.chart_texture_y_offset = fs.read_u16(data, offset+2)
-    self.salvage_x_pos = fs.read_u16(data, offset+4)
-    self.salvage_y_pos = fs.read_u16(data, offset+6)
+    self.read()
+  
+  def read(self):
+    self.chart_texture_x_offset = fs.read_u16(self.data, self.offset)
+    self.chart_texture_y_offset = fs.read_u16(self.data, self.offset+2)
+    self.salvage_x_pos = fs.read_u16(self.data, self.offset+4)
+    self.salvage_y_pos = fs.read_u16(self.data, self.offset+6)
   
   def save_changes(self):
-    data = self.file_entry.data
-    
-    fs.write_u16(data, self.offset, self.chart_texture_x_offset)
-    fs.write_u16(data, self.offset+2, self.chart_texture_y_offset)
-    fs.write_u16(data, self.offset+4, self.salvage_x_pos)
-    fs.write_u16(data, self.offset+6, self.salvage_y_pos)
-
-try:
-  from gclib.rarc import RARC
-  RARC.FILE_NAME_TO_CLASS["cmapdat.bin"] = ChartList
-except ImportError:
-  print(f"Could not register file name with RARC in file {__file__}")
+    fs.write_u16(self.data, self.offset, self.chart_texture_x_offset)
+    fs.write_u16(self.data, self.offset+2, self.chart_texture_y_offset)
+    fs.write_u16(self.data, self.offset+4, self.salvage_x_pos)
+    fs.write_u16(self.data, self.offset+6, self.salvage_y_pos)

@@ -7,8 +7,11 @@ import hashlib
 import yaml
 import sys
 from typing import Any, Callable
+from io import BytesIO
 
 from gclib import fs_helpers as fs
+from gclib.bfn import BFN
+from gclib.bmg import BMG
 from gclib.yaz0 import Yaz0
 from gclib.rarc import RARC
 from gclib.dol import DOL
@@ -18,6 +21,7 @@ from gclib.jpc import JPC
 import tweaks
 from asm import patcher
 from logic.logic import Logic
+from wwlib.charts import ChartList
 from wwrando_paths import DATA_PATH, ASM_PATH, IS_RUNNING_FROM_SOURCE, SEEDGEN_PATH
 import customizer
 from wwlib import stage_searcher
@@ -104,11 +108,11 @@ class WWRandomizer:
     self.integer_seed = self.convert_string_to_integer_md5(seed_string)
     self.rng = self.get_new_rng()
     
-    self.arcs_by_path = {}
-    self.jpcs_by_path = {}
-    self.rels_by_path = {}
-    self.symbol_maps_by_path = {}
-    self.raw_files_by_path = {}
+    self.arcs_by_path: dict[str, RARC] = {}
+    self.jpcs_by_path: dict[str, JPC] = {}
+    self.rels_by_path: dict[str, REL] = {}
+    self.symbol_maps_by_path: dict[str, dict[int, str]] = {}
+    self.raw_files_by_path: dict[str, BytesIO] = {}
     self.used_actor_ids = list(range(0x1F6))
     
     self.read_text_file_lists()
@@ -127,7 +131,7 @@ class WWRandomizer:
       self.dol.read(dol_data)
       
       try:
-        self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").get_file("cmapdat.bin")
+        self.chart_list = self.get_arc("files/res/Msg/fmapres.arc").get_file("cmapdat.bin", ChartList)
       except (fs.InvalidOffsetError, AssertionError):
         # An invalid offset error when reading fmapres.arc seems to happen when the user has a corrupted clean ISO.
         # Alternatively, fmapres.arc's magic bytes not being RARC can also happen here, also caused by a corrupted clean ISO.
@@ -137,8 +141,8 @@ class WWRandomizer:
         # But if the ISO's MD5 is correct just raise the normal offset error.
         raise
       
-      self.bmg = self.get_arc("files/res/Msg/bmgres.arc").get_file("zel_00.bmg")
-      self.bfn = self.get_arc("files/res/Msg/fontres.arc").get_file("rock_24_20_4i_usa.bfn")
+      self.bmg = self.get_arc("files/res/Msg/bmgres.arc").get_file("zel_00.bmg", BMG)
+      self.bfn = self.get_arc("files/res/Msg/fontres.arc").get_file("rock_24_20_4i_usa.bfn", BFN)
       
       if self.disassemble:
         self.disassemble_all_code()
@@ -607,8 +611,8 @@ class WWRandomizer:
       return self.arcs_by_path[arc_path]
     else:
       data = self.gcm.read_file_data(arc_path)
-      arc = RARC()
-      arc.read(data)
+      arc = RARC(data)
+      arc.read()
       self.arcs_by_path[arc_path] = arc
       return arc
   
@@ -693,8 +697,8 @@ class WWRandomizer:
     if arc_path not in self.gcm.files_by_path:
       raise Exception("Cannot replace RARC that doesn't exist: " + arc_path)
     
-    arc = RARC()
-    arc.read(new_data)
+    arc = RARC(new_data)
+    arc.read()
     self.arcs_by_path[arc_path] = arc
   
   def replace_raw_file(self, file_path, new_data):

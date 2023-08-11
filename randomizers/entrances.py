@@ -1,5 +1,8 @@
 from dataclasses import dataclass
 
+from wwlib.dzx import DZx
+from wwlib.events import EventList
+
 @dataclass(frozen=True)
 class ZoneEntrance:
   stage_name: str
@@ -370,8 +373,8 @@ def update_entrance_to_lead_to_exit(self, zone_entrance: ZoneEntrance, zone_exit
   # Update the stage this entrance takes you into.
   entrance_dzr_path = "files/res/Stage/%s/Room%d.arc" % (zone_entrance.stage_name, zone_entrance.room_num)
   entrance_dzs_path = "files/res/Stage/%s/Stage.arc" % (zone_entrance.stage_name)
-  entrance_dzr = self.get_arc(entrance_dzr_path).get_file("room.dzr")
-  entrance_dzs = self.get_arc(entrance_dzs_path).get_file("stage.dzs")
+  entrance_dzr = self.get_arc(entrance_dzr_path).get_file("room.dzr", DZx)
+  entrance_dzs = self.get_arc(entrance_dzs_path).get_file("stage.dzs", DZx)
   entrance_scls = entrance_dzr.entries_by_type("SCLS")[zone_entrance.scls_exit_index]
   entrance_scls.dest_stage_name = zone_exit.stage_name
   entrance_scls.room_index = zone_exit.room_num
@@ -394,7 +397,7 @@ def update_entrance_to_lead_to_exit(self, zone_entrance: ZoneEntrance, zone_exit
   
   if zone_exit in BOSS_EXITS:
     # Update the spawn you're placed at when saving and reloading inside a boss room.
-    exit_dzs = self.get_arc(exit_dzs_path).get_file("stage.dzs")
+    exit_dzs = self.get_arc(exit_dzs_path).get_file("stage.dzs", DZx)
     exit_scls = exit_dzs.entries_by_type("SCLS")[zone_exit.scls_exit_index]
     if zone_entrance in BOSS_ENTRANCES:
       # If the end of a dungeon connects to a boss, saving and reloading inside the boss
@@ -414,7 +417,7 @@ def update_entrance_to_lead_to_exit(self, zone_entrance: ZoneEntrance, zone_exit
       exit_scls.save_changes()
   else:
     # Update the entrance you're put at when leaving the dungeon/secret cave.
-    exit_dzr = self.get_arc(exit_dzr_path).get_file("room.dzr")
+    exit_dzr = self.get_arc(exit_dzr_path).get_file("room.dzr", DZx)
     exit_scls = exit_dzr.entries_by_type("SCLS")[zone_exit.scls_exit_index]
     exit_scls.dest_stage_name = zone_entrance.stage_name
     exit_scls.room_index = zone_entrance.room_num
@@ -425,7 +428,7 @@ def update_entrance_to_lead_to_exit(self, zone_entrance: ZoneEntrance, zone_exit
   if zone_exit.unique_name == "Savage Labyrinth":
     for stage_and_room_name in ["Cave10/Room0", "Cave10/Room20", "Cave11/Room0"]:
       savage_dzr_path = "files/res/Stage/%s.arc" % stage_and_room_name
-      savage_dzr = self.get_arc(savage_dzr_path).get_file("room.dzr")
+      savage_dzr = self.get_arc(savage_dzr_path).get_file("room.dzr", DZx)
       exit_sclses = [x for x in savage_dzr.entries_by_type("SCLS") if x.dest_stage_name == "sea"]
       for exit_scls in exit_sclses:
         exit_scls.dest_stage_name = zone_entrance.stage_name
@@ -435,7 +438,7 @@ def update_entrance_to_lead_to_exit(self, zone_entrance: ZoneEntrance, zone_exit
   
   if zone_exit in SECRET_CAVE_EXITS:
     # Update the sector coordinates in the 2DMA chunk so that save-and-quitting in a secret cave puts you on the correct island.
-    exit_dzs = self.get_arc(exit_dzs_path).get_file("stage.dzs")
+    exit_dzs = self.get_arc(exit_dzs_path).get_file("stage.dzs", DZx)
     _2dma = exit_dzs.entries_by_type("2DMA")[0]
     island_number = self.island_name_to_number[outermost_entrance.island_name]
     sector_x = (island_number-1) % 7
@@ -479,7 +482,7 @@ def update_entrance_to_lead_to_exit(self, zone_entrance: ZoneEntrance, zone_exit
   if zone_exit.unique_name == "Ice Ring Isle Secret Cave":
     # Also update the inner cave of Ice Ring Isle to take you out to the correct entrance as well.
     inner_cave_dzr_path = "files/res/Stage/ITest62/Room0.arc"
-    inner_cave_dzr = self.get_arc(inner_cave_dzr_path).get_file("room.dzr")
+    inner_cave_dzr = self.get_arc(inner_cave_dzr_path).get_file("room.dzr", DZx)
     inner_cave_exit_scls = inner_cave_dzr.entries_by_type("SCLS")[0]
     inner_cave_exit_scls.dest_stage_name = zone_entrance.stage_name
     inner_cave_exit_scls.room_index = zone_entrance.room_num
@@ -488,7 +491,7 @@ def update_entrance_to_lead_to_exit(self, zone_entrance: ZoneEntrance, zone_exit
     
     # Also update the sector coordinates in the 2DMA chunk of the inner cave of Ice Ring Isle so save-and-quitting works properly there.
     inner_cave_dzs_path = "files/res/Stage/ITest62/Stage.arc"
-    inner_cave_dzs = self.get_arc(inner_cave_dzs_path).get_file("stage.dzs")
+    inner_cave_dzs = self.get_arc(inner_cave_dzs_path).get_file("stage.dzs", DZx)
     inner_cave_2dma = inner_cave_dzs.entries_by_type("2DMA")[0]
     inner_cave_2dma.sector_x = sector_x-3
     inner_cave_2dma.sector_y = sector_y-3
@@ -497,7 +500,7 @@ def update_entrance_to_lead_to_exit(self, zone_entrance: ZoneEntrance, zone_exit
 def update_boss_warp_out_destination(self, boss_stage_name, outermost_entrance):
   # Update the wind warp out event to take you to the correct island.
   boss_stage_arc_path = "files/res/Stage/%s/Stage.arc" % boss_stage_name
-  event_list = self.get_arc(boss_stage_arc_path).get_file("event_list.dat")
+  event_list = self.get_arc(boss_stage_arc_path).get_file("event_list.dat", EventList)
   warp_out_event = event_list.events_by_name["WARP_WIND_AFTER"]
   director = next(actor for actor in warp_out_event.actors if actor.name == "DIRECTOR")
   stage_change_action = next(action for action in director.actions if action.name == "NEXT")

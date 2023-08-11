@@ -9,6 +9,8 @@ from PIL import Image
 
 from gclib import fs_helpers as fs
 from gclib import texture_utils
+from gclib.bti import BTI
+from gclib.j3d import BDL
 from gclib.texture_utils import ImageFormat, PaletteFormat
 from gclib.gx_enums import GXAttr
 from wwrando_paths import ASSETS_PATH, CUSTOM_MODELS_PATH
@@ -290,8 +292,8 @@ def replace_link_model(self):
     checked_arc_names.append("Ship.arc")
     check_changed_archives_over_filesize_limit(orig_sum_of_changed_arc_sizes, new_sum_of_changed_arc_sizes, checked_arc_names)
     
-    orig_sail_tex = orig_ship_arc.get_file("new_ho1.bti")
-    custom_sail_tex = custom_ship_arc.get_file("new_ho1.bti")
+    orig_sail_tex = orig_ship_arc.get_file("new_ho1.bti", BTI)
+    custom_sail_tex = custom_ship_arc.get_file("new_ho1.bti", BTI)
     if fs.read_all_bytes(custom_sail_tex.data) != fs.read_all_bytes(orig_sail_tex.data) or orig_sail_tex.image_format != custom_sail_tex.image_format:
       # Don't allow the swift sail tweak to replace this custom texture with the swift sail texture.
       self.using_custom_sail_texture = True
@@ -383,12 +385,12 @@ def change_player_custom_colors(self):
     particle.bsp1.color_prm = tuple(arrow_trail_color)
   
   link_arc = self.get_arc("files/res/Object/Link.arc")
-  link_main_model = link_arc.get_file("cl.bdl")
+  link_main_model = link_arc.get_file("cl.bdl", BDL)
   
   if self.options.get("player_in_casual_clothes") and not disable_casual_clothes:
     is_casual = True
     prefix = "casual"
-    link_main_textures = [link_arc.get_file("linktexbci4.bti")]
+    link_main_textures = [link_arc.get_file("linktexbci4.bti", BTI)]
   else:
     is_casual = False
     prefix = "hero"
@@ -400,7 +402,7 @@ def change_player_custom_colors(self):
   hitomi_textures = link_main_model.tex1.textures_by_name["hitomi"]
   hitomi_image = hitomi_textures[0].render()
   
-  hands_model = link_arc.get_file("hands.bdl")
+  hands_model = link_arc.get_file("hands.bdl", BDL)
   hands_textures = hands_model.tex1.textures_by_name["handsS3TC"]
   hands_image = hands_textures[0].render()
   
@@ -481,7 +483,7 @@ def change_player_custom_colors(self):
     
     # Recolor the back hair for casual Link.
     if is_casual and custom_color_basename == casual_hair_color_name:
-      link_hair_model = link_arc.get_file("katsura.bdl")
+      link_hair_model = link_arc.get_file("katsura.bdl", BDL)
       link_hair_textures = link_hair_model.tex1.textures_by_name["katsuraS3TC"]
       first_texture = link_hair_textures[0]
       back_hair_image = first_texture.render()
