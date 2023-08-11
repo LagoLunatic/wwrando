@@ -38,7 +38,7 @@ from randomizers.starting_island import StartingIslandRandomizer
 from randomizers import entrances
 from randomizers import music
 from randomizers import enemies
-from randomizers import palettes
+from randomizers.palettes import PaletteRandomizer
 from randomizers.boss_rewards import BossRewardRandomizer
 from randomizers.hints import HintsRandomizer
 
@@ -256,6 +256,7 @@ class WWRandomizer:
     
     self.charts = ChartRandomizer(self)
     self.starting_island = StartingIslandRandomizer(self)
+    self.palettes = PaletteRandomizer(self)
     self.boss_rewards = BossRewardRandomizer(self)
     self.hints = HintsRandomizer(self)
     
@@ -380,8 +381,7 @@ class WWRandomizer:
     
     if self.options.get("randomize_enemy_palettes"):
       yield("Randomizing enemy colors...", options_completed)
-      self.reset_rng()
-      palettes.randomize_enemy_palettes(self)
+      self.palettes.randomize()
       options_completed += 10
     
     yield("Randomizing items...", options_completed)
@@ -401,9 +401,11 @@ class WWRandomizer:
       self.hints.randomize()
     options_completed += 5
     
+    yield("Applying changes...", options_completed) # TODO each option should have its own applying message
     if not self.dry_run:
       self.charts.save()
       self.starting_island.save()
+      self.palettes.save()
       self.boss_rewards.save()
       self.hints.save()
       self.apply_necessary_post_randomization_tweaks()
@@ -595,9 +597,6 @@ class WWRandomizer:
     
     with open(os.path.join(DATA_PATH, "enemy_types.txt"), "r") as f:
       self.enemy_types = yaml.safe_load(f)
-    
-    with open(os.path.join(DATA_PATH, "palette_randomizable_files.txt"), "r") as f:
-      self.palette_randomizable_files = yaml.safe_load(f)
   
   def register_renamed_item(self, item_id, item_name):
     self.item_name_to_id[item_name] = item_id
