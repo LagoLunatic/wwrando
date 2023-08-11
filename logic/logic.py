@@ -53,47 +53,38 @@ class Logic:
   initial_item_locations = None
   initial_macros = None
   
-  def __init__(self, rando: WWRandomizer):
+  def __init__(self, rando: WWRandomizer, rando_fully_inited=True):
     self.rando = rando
+    
+    # Caches.
     self.requirement_met_cache = {}
     self.items_needed_cache = {}
     self.cached_enemies_tested_for_reqs_tuple = {}
     
-    
-    # Initialize location related attributes.
+    # Locations and requirements.
     self.item_locations = Logic.load_and_parse_item_locations()
     self.load_and_parse_macros()
     
-    self.nested_entrance_macros = {}
-    for zone_entrance in entrances.ALL_ENTRANCES:
-      if zone_entrance.is_nested:
-        zone_exit = entrances.get_dungeon_start_exit_leading_to_nested_entrance(zone_entrance)
-        entrance_access_macro_name = "Can Access " + zone_entrance.entrance_name
-        zone_access_macro_name = "Can Access " + zone_exit.unique_name
-        self.nested_entrance_macros[entrance_access_macro_name] = zone_access_macro_name
+    self.nested_entrance_macros: dict[str, str] = {}
     
-    self.locations_by_zone_name = OrderedDict()
+    self.locations_by_zone_name: dict[str, list] = {}
     for location_name in self.item_locations:
-      zone_name, specific_location_name = self.split_location_name_by_zone(location_name)
+      zone_name, _ = self.split_location_name_by_zone(location_name)
       if zone_name not in self.locations_by_zone_name:
         self.locations_by_zone_name[zone_name] = []
       self.locations_by_zone_name[zone_name].append(location_name)
     
     self.remaining_item_locations = list(self.item_locations.keys())
-    self.prerandomization_item_locations = OrderedDict()
+    self.prerandomization_item_locations = {}
     
-    self.done_item_locations = OrderedDict()
+    self.done_item_locations = {}
     for location_name in self.item_locations:
       self.done_item_locations[location_name] = None
     
     self.rock_spire_shop_ship_locations = []
-    for location_name, location in self.item_locations.items():
+    for location_name in self.item_locations:
       if location_name.startswith("Rock Spire Isle - Beedle's Special Shop Ship - "):
         self.rock_spire_shop_ship_locations.append(location_name)
-    
-    # Sync the logic macros with the randomizer.
-    self.update_entrance_connection_macros()
-    self.update_chart_macros()
     
     
     # Initialize item related attributes.
@@ -151,13 +142,32 @@ class Logic:
       if cleaned_item_name not in self.all_cleaned_item_names:
         self.all_cleaned_item_names.append(cleaned_item_name)
     
+    self.progress_item_groups = copy.deepcopy(self.PROGRESS_ITEM_GROUPS)
+    
+    self.unplaced_progress_items: list[str]
+    self.unplaced_nonprogress_items: list[str]
+    self.unplaced_fixed_consumable_items: list[str]
+    self.currently_owned_items: list[str] = []
+    
+    if rando_fully_inited:
+      self.initialize_from_randomizer_state()
+  
+  def initialize_from_randomizer_state(self):
+    self.nested_entrance_macros.clear()
+    for zone_entrance in entrances.ALL_ENTRANCES:
+      if zone_entrance.is_nested:
+        zone_exit = entrances.get_dungeon_start_exit_leading_to_nested_entrance(zone_entrance)
+        entrance_access_macro_name = "Can Access " + zone_entrance.entrance_name
+        zone_access_macro_name = "Can Access " + zone_exit.unique_name
+        self.nested_entrance_macros[entrance_access_macro_name] = zone_access_macro_name
+    
+    self.update_entrance_connection_macros()
+    self.update_chart_macros()
+    
     self.unplaced_progress_items = self.all_progress_items.copy()
     self.unplaced_nonprogress_items = self.all_nonprogress_items.copy()
     self.unplaced_fixed_consumable_items = self.all_fixed_consumable_items.copy()
-    
-    self.progress_item_groups = copy.deepcopy(self.PROGRESS_ITEM_GROUPS)
-    
-    self.currently_owned_items = []
+    self.currently_owned_items.clear()
     
     for item_name in self.rando.starting_items:
       self.add_owned_item(item_name)
@@ -699,7 +709,7 @@ class Logic:
     return valid_items
   
   @staticmethod
-  def load_and_parse_item_locations():
+  def load_and_parse_item_locations() -> dict[str, dict]:
     if Logic.initial_item_locations is not None:
       return copy.deepcopy(Logic.initial_item_locations)
     

@@ -302,9 +302,11 @@ class WWRandomizer:
     self.custom_model_name = self.options.get("custom_player_model", "Link")
     self.using_custom_sail_texture = False
     
-    self.logic = Logic(self)
+    self.logic = Logic(self, rando_fully_inited=False)
     
     self.boss_rewards = BossRewardRandomizer(self)
+    
+    self.logic.initialize_from_randomizer_state()
     
     num_progress_locations = self.logic.get_num_progression_locations()
     max_race_mode_banned_locations = self.logic.get_max_race_mode_banned_locations()
