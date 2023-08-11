@@ -111,10 +111,12 @@ class ChartRandomizer(BaseRandomizer):
   
   def write_to_spoiler_log(self):
     spoiler_log = "Charts:\n"
+    
     chart_name_to_island_number = {}
     for island_number in range(1, 49+1):
       chart_name = self.logic.macros["Chart for Island %d" % island_number][0]
       chart_name_to_island_number[chart_name] = island_number
+    
     for chart_number in range(1, 49+1):
       if chart_number <= 8:
         chart_name = "Triforce Chart %d" % chart_number
@@ -123,6 +125,9 @@ class ChartRandomizer(BaseRandomizer):
       island_number = chart_name_to_island_number[chart_name]
       island_name = self.rando.island_number_to_name[island_number]
       spoiler_log += "  %-18s %s\n" % (chart_name+":", island_name)
+    
+    spoiler_log += "\n\n\n"
+    
     return spoiler_log
   
   

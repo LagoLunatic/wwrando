@@ -20,15 +20,16 @@ class HintType(Enum):
 
 
 class Hint:
-  def __init__(self, type: HintType, is_cryptic, place, reward=None):
+  def __init__(self, type: HintType, place, reward=None):
+    assert place is not None
+    if type == HintType.BARREN: assert reward is None
+    if type != HintType.BARREN: assert reward is not None
     self.type = type
-    self.is_cryptic = is_cryptic
     self.place = place
     self.reward = reward
   
-  @property
-  def formatted_place(self):
-    if not self.is_cryptic:
+  def formatted_place(self, is_cryptic: bool):
+    if not is_cryptic:
       return self.place
     
     match self.type:
@@ -39,13 +40,12 @@ class Hint:
       case _:
         raise NotImplementedError
   
-  @property
-  def formatted_reward(self):
+  def formatted_reward(self, is_cryptic: bool):
     match self.type:
       case HintType.PATH | HintType.BARREN:
         return self.reward
       case HintType.ITEM:
-        if self.is_cryptic:
+        if is_cryptic:
           return HintsRandomizer.cryptic_item_hints[HintsRandomizer.get_hint_item_name(self.reward)]
         else:
           return HintsRandomizer.get_formatted_item_name(self.reward)
@@ -56,11 +56,10 @@ class Hint:
         raise NotImplementedError
   
   def __str__(self):
-    suffix = ", (CRYPTIC)" if self.is_cryptic else ""
-    return "<HINT: %s, (%s, %s)%s>" % (self.type.name, self.formatted_place, self.formatted_reward, suffix)
+    return "<HINT: %s, (%s, %s)>" % (self.type.name, self.formatted_place(False), self.formatted_reward(False))
   
   def __repr__(self):
-    return "Hint(%s, %s, %s, %s)" % (str(self.type), repr(self.is_cryptic), repr(self.place), repr(self.reward))
+    return "Hint(%s, %s, %s)" % (str(self.type), repr(self.place), repr(self.reward))
 
 
 class HintsRandomizer(BaseRandomizer):
@@ -146,7 +145,7 @@ class HintsRandomizer(BaseRandomizer):
     self.octo_fairy_hint = self.generate_octo_fairy_hint()
     
     variable_hint_placement_options = ("fishmen_hints", "hoho_hints", "korl_hints")
-    self.hints_per_placement = {}
+    self.hints_per_placement: dict[str, list[Hint]] = {}
     for option in variable_hint_placement_options:
       if self.options.get(option):
         self.hints_per_placement[option] = []
@@ -194,7 +193,27 @@ class HintsRandomizer(BaseRandomizer):
         print("Invalid hint placement option: %s" % hint_placement)
   
   def write_to_spoiler_log(self) -> str:
-    raise NotImplementedError()
+    all_hints = [self.floor_30_hint, self.floor_50_hint, self.octo_fairy_hint]
+    for hints in self.hints_per_placement.values():
+      all_hints += hints
+    
+    if not all_hints:
+      return ""
+    
+    rows = []
+    for hint in all_hints:
+      if hint is None:
+        continue
+      rows.append((hint.place, hint.reward or "Nothing"))
+    
+    spoiler_log = "Hints:\n"
+    col_widths = tuple(max(len(x) for x in (row[i] for row in rows)) for i in range(2))
+    for row in rows:
+      spoiler_log += f"{row[0]:>{col_widths[0]}}: {row[1]}\n"
+    
+    spoiler_log += "\n\n\n"
+    
+    return spoiler_log
   
   
   #region Saving
@@ -246,9 +265,9 @@ class HintsRandomizer(BaseRandomizer):
       hint = hints[fishman_hint_number % len(hints)]
       
       hint_lines = []
-      hint_lines.append(HintsRandomizer.get_formatted_hint_text(hint, prefix="I've heard from my sources that ", suffix=".", delay=60))
+      hint_lines.append(HintsRandomizer.get_formatted_hint_text(hint, self.cryptic_hints, prefix="I've heard from my sources that ", suffix=".", delay=60))
       
-      if self.options.get("cryptic_hints") and (hint.type == HintType.ITEM or hint.type == HintType.LOCATION):
+      if self.cryptic_hints and (hint.type == HintType.ITEM or hint.type == HintType.LOCATION):
         hint_lines.append("Could be worth a try checking that place out. If you know where it is, of course.")
       
         if self.options.get("instant_text_boxes"):
@@ -285,7 +304,7 @@ class HintsRandomizer(BaseRandomizer):
         hint_prefix = "\\{1A 05 01 01 03}Ho ho! To think that " if i == 0 else "and that "
         hint_suffix = "..." if i == len(hints_for_hoho) - 1 else ","
         
-        hint_lines.append(HintsRandomizer.get_formatted_hint_text(hint, prefix=hint_prefix, suffix=hint_suffix))
+        hint_lines.append(HintsRandomizer.get_formatted_hint_text(hint, self.cryptic_hints, prefix=hint_prefix, suffix=hint_suffix))
         
         if self.options.get("instant_text_boxes") and i > 0:
           # If instant text mode is on, we need to reset the text speed to instant after the wait command messed it up.
@@ -346,7 +365,7 @@ class HintsRandomizer(BaseRandomizer):
       # Have no delay with KoRL text since he potentially has a lot of textboxes
       hint_prefix = "They say that " if i == 0 else "and that "
       hint_suffix = "." if i == len(hints) - 1 else ","
-      hint_lines.append(HintsRandomizer.get_formatted_hint_text(hint, prefix=hint_prefix, suffix=hint_suffix, delay=0))
+      hint_lines.append(HintsRandomizer.get_formatted_hint_text(hint, self.cryptic_hints, prefix=hint_prefix, suffix=hint_suffix, delay=0))
     
     for msg_id in (3443, 3444, 3445, 3446, 3447, 3448):
       msg = self.rando.bmg.messages_by_id[msg_id]
@@ -383,8 +402,8 @@ class HintsRandomizer(BaseRandomizer):
     return item_name
   
   @staticmethod
-  def get_formatted_hint_text(hint: Hint, prefix="They say that ", suffix=".", delay=30):
-    place = hint.formatted_place
+  def get_formatted_hint_text(hint: Hint, cryptic: bool, prefix="They say that ", suffix=".", delay=30):
+    place = hint.formatted_place(cryptic)
     if place == "Mailbox":
       place = "the mail"
     elif place == "The Great Sea":
@@ -392,13 +411,15 @@ class HintsRandomizer(BaseRandomizer):
     elif place == "Tower of the Gods Sector":
       place = "the Tower of the Gods sector"
     
+    reward = hint.formatted_reward(cryptic)
+    
     if hint.type == HintType.PATH:
       place_preposition = "at"
       if place in ["the mail", "the Tower of the Gods sector"]:
         place_preposition = "in"
       hint_string = (
         "%san item found %s \\{1A 06 FF 00 00 05}%s\\{1A 06 FF 00 00 00} is on the path to \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
-        % (prefix, place_preposition, place, hint.formatted_reward, suffix)
+        % (prefix, place_preposition, place, reward, suffix)
       )
     elif hint.type == HintType.BARREN:
       verb = "visiting"
@@ -411,15 +432,15 @@ class HintsRandomizer(BaseRandomizer):
     elif hint.type == HintType.LOCATION:
       hint_string = (
         "%s\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} rewards \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
-        % (prefix, place, hint.formatted_reward, suffix)
+        % (prefix, place, reward, suffix)
       )
     elif hint.type == HintType.ITEM:
       copula = "is"
-      if hint.formatted_reward in ["Power Bracelets", "Iron Boots", "Bombs"]:
+      if reward in ["Power Bracelets", "Iron Boots", "Bombs"]:
         copula = "are"
       hint_string = (
         "%s\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00} %s located in \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
-        % (prefix, hint.formatted_reward, copula, place, suffix)
+        % (prefix, reward, copula, place, suffix)
       )
     else:
       hint_string = ""
@@ -604,7 +625,7 @@ class HintsRandomizer(BaseRandomizer):
       # Otherwise, use the entrance zone name.
       hint_zone = entrance_zone
     
-    path_hint = Hint(HintType.PATH, self.cryptic_hints, hint_zone, self.DUNGEON_NAME_TO_BOSS_NAME[path_name])
+    path_hint = Hint(HintType.PATH, hint_zone, self.DUNGEON_NAME_TO_BOSS_NAME[path_name])
     
     return path_hint, hinted_location
   
@@ -725,7 +746,7 @@ class HintsRandomizer(BaseRandomizer):
     zone_name = self.rando.rng.choices(unhinted_zones, weights=zone_weights)[0]
     unhinted_zones.remove(zone_name)
     
-    barren_hint = Hint(HintType.BARREN, self.cryptic_hints, zone_name)
+    barren_hint = Hint(HintType.BARREN, zone_name)
     
     return barren_hint
   
@@ -814,7 +835,7 @@ class HintsRandomizer(BaseRandomizer):
     if entrance_zone == "Tower of the Gods Sector":
       entrance_zone = "Tower of the Gods"
     
-    item_hint = Hint(HintType.ITEM, self.cryptic_hints, entrance_zone, item_name)
+    item_hint = Hint(HintType.ITEM, entrance_zone, item_name)
     
     return item_hint, location_name
   
@@ -854,7 +875,7 @@ class HintsRandomizer(BaseRandomizer):
     
     item_name = self.logic.done_item_locations[location_name]
     
-    location_hint = Hint(HintType.LOCATION, self.cryptic_hints, location_name, item_name)
+    location_hint = Hint(HintType.LOCATION, location_name, item_name)
     
     return location_hint, location_name
   
@@ -876,19 +897,21 @@ class HintsRandomizer(BaseRandomizer):
   
   def generate_savage_labyrinth_hints(self):
     # Get an item hint for the two checks in Savage Labyrinth.
-    floor_30_item_name = self.logic.done_item_locations["Outset Island - Savage Labyrinth - Floor 30"]
-    floor_50_item_name = self.logic.done_item_locations["Outset Island - Savage Labyrinth - Floor 50"]
+    floor_30_loc_name = "Outset Island - Savage Labyrinth - Floor 30"
+    floor_50_loc_name = "Outset Island - Savage Labyrinth - Floor 50"
+    floor_30_item_name = self.logic.done_item_locations[floor_30_loc_name]
+    floor_50_item_name = self.logic.done_item_locations[floor_50_loc_name]
     
     floor_30_is_progress = (floor_30_item_name in self.logic.all_progress_items)
     floor_50_is_progress = (floor_50_item_name in self.logic.all_progress_items)
     
     floor_30_hint = None
     if floor_30_is_progress:
-      floor_30_hint = Hint(HintType.ITEM, self.cryptic_hints, None, floor_30_item_name)
+      floor_30_hint = Hint(HintType.LOCATION, floor_30_loc_name, floor_30_item_name)
     
     floor_50_hint = None
     if floor_50_is_progress:
-      floor_50_hint = Hint(HintType.ITEM, self.cryptic_hints, None, floor_50_item_name)
+      floor_50_hint = Hint(HintType.LOCATION, floor_50_loc_name, floor_50_item_name)
     
     return floor_30_hint, floor_50_hint
   

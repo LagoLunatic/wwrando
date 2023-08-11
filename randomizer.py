@@ -1119,6 +1119,8 @@ class WWRandomizer:
     
     spoiler_log += self.charts.write_to_spoiler_log()
     
+    spoiler_log += self.hints.write_to_spoiler_log()
+    
     os.makedirs(self.logs_output_folder, exist_ok=True)
     spoiler_log_output_path = os.path.join(self.logs_output_folder, "WW Random %s - Spoiler Log.txt" % self.seed)
     with open(spoiler_log_output_path, "w") as f:
