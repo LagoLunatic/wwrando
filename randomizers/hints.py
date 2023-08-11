@@ -1,15 +1,15 @@
 import os
-from collections import Counter, deque, OrderedDict
+from collections import Counter, deque
 from enum import Enum
-from math import sqrt
-
+import math
 import yaml
 
-from logic.item_types import CONSUMABLE_ITEMS, DUNGEON_NONPROGRESS_ITEMS, DUNGEON_PROGRESS_ITEMS
 from logic.logic import Logic
+from randomizers.base_randomizer import BaseRandomizer
 from wwrando_paths import DATA_PATH
 import tweaks
-from randomizers import entrances, charts
+from randomizers import entrances
+from asm import patcher
 
 
 class HintType(Enum):
@@ -33,9 +33,9 @@ class Hint:
     
     match self.type:
       case HintType.PATH | HintType.BARREN | HintType.ITEM:
-        return HintManager.cryptic_zone_hints[self.place]
+        return HintsRandomizer.cryptic_zone_hints[self.place]
       case HintType.LOCATION:
-        return HintManager.location_hints[self.place]["Text"]
+        return HintsRandomizer.location_hints[self.place]["Text"]
       case _:
         raise NotImplementedError
   
@@ -46,12 +46,12 @@ class Hint:
         return self.reward
       case HintType.ITEM:
         if self.is_cryptic:
-          return HintManager.cryptic_item_hints[HintManager.get_hint_item_name(self.reward)]
+          return HintsRandomizer.cryptic_item_hints[HintsRandomizer.get_hint_item_name(self.reward)]
         else:
-          return HintManager.get_formatted_item_name(self.reward)
+          return HintsRandomizer.get_formatted_item_name(self.reward)
       case HintType.LOCATION:
         # Never use cryptic item names for location hints.
-        return HintManager.get_formatted_item_name(self.reward)
+        return HintsRandomizer.get_formatted_item_name(self.reward)
       case _:
         raise NotImplementedError
   
@@ -63,7 +63,7 @@ class Hint:
     return "Hint(%s, %s, %s, %s)" % (str(self.type), repr(self.is_cryptic), repr(self.place), repr(self.reward))
 
 
-class HintManager:
+class HintsRandomizer(BaseRandomizer):
   # A dictionary mapping dungeon name to the dungeon boss.
   # The boss name is used as the path goal in the hint text.
   DUNGEON_NAME_TO_BOSS_NAME = {
@@ -90,15 +90,25 @@ class HintManager:
     "Ganon's Tower": "Can Reach and Defeat Ganondorf",
   }
   
+  HOHO_INDEX_TO_ISLAND_NUM = {
+    0: 34,
+    1: 14,
+    2: 44, # On multiple layers
+    3: 1,
+    4: 5,
+    5: 33,
+    6: 3,
+    7: 43,
+    8: 31,
+    9: 46,
+  }
+
   cryptic_item_hints = None
   cryptic_zone_hints = None
   location_hints = None
   
   def __init__(self, rando):
-    self.rando = rando
-    self.logic = rando.logic
-    self.options = rando.options
-    
+    super().__init__(rando)
     self.path_logic = Logic(self.rando)
     self.path_logic_initial_state = self.path_logic.save_simulated_playthrough_state()
     
@@ -112,7 +122,7 @@ class HintManager:
     self.cryptic_hints = self.options.get("cryptic_hints")
     self.prioritize_remote_hints = self.options.get("prioritize_remote_hints")
     
-    HintManager.load_hint_text_files()
+    HintsRandomizer.load_hint_text_files()
     
     # Validate location names in location hints file.
     for location_name in self.location_hints:
@@ -123,16 +133,238 @@ class HintManager:
     # considered junk.
     self.chart_name_to_sunken_treasure = {}
   
+  def randomize(self):
+    self.reset_rng()
+    
+    self.floor_30_hint, self.floor_50_hint = self.generate_savage_labyrinth_hints()
+    
+    if self.rando.num_randomized_progress_items == 0:
+      # If the player chose to start the game with every single progress item, there will be no way to generate any hints.
+      # Therefore we leave all the hint location text as the vanilla text, except Savage Labyrinth's hint tablet.
+      return
+    
+    self.octo_fairy_hint = self.generate_octo_fairy_hint()
+    
+    variable_hint_placement_options = ("fishmen_hints", "hoho_hints", "korl_hints")
+    self.hints_per_placement = {}
+    for option in variable_hint_placement_options:
+      if self.options.get(option):
+        self.hints_per_placement[option] = []
+    
+    hint_placement_options = list(self.hints_per_placement.keys())
+    if self.total_num_hints == 0 or len(hint_placement_options) == 0:
+      return
+    
+    # Generate the hints that will be distributed over the hint placement options
+    hints = self.generate_hints()
+    
+    # If there are less hints than placement options, duplicate the hints so that all selected
+    # placement options have at least one hint.
+    duplicated_hints = []
+    while len(hints) + len(duplicated_hints) < len(hint_placement_options):
+      duplicated_hints += self.rng.sample(hints, len(hints))
+    hints += duplicated_hints[:(len(hint_placement_options) - len(hints))]
+    
+    # Distribute the hints among the enabled hint placement options
+    self.rng.shuffle(hint_placement_options)
+    for i, hint in enumerate(hints):
+      self.hints_per_placement[hint_placement_options[i % len(hint_placement_options)]].append(hint)
+  
+  def save_changes(self):
+    self.update_savage_labyrinth_hint_tablet(self.floor_30_hint, self.floor_50_hint)
+    
+    if self.rando.num_randomized_progress_items == 0:
+      # See above.
+      return
+    
+    patcher.apply_patch(self.rando, "flexible_hint_locations")
+    
+    self.update_big_octo_great_fairy_item_name_hint(self.octo_fairy_hint)
+    
+    # Send the list of hints for each hint placement option to its respective distribution function.
+    # Each hint placement option will handle how to place the hints in-game in their own way.
+    for hint_placement in self.hints_per_placement:
+      if hint_placement == "fishmen_hints":
+        self.update_fishmen_hints(self.hints_per_placement["fishmen_hints"])
+      elif hint_placement == "hoho_hints":
+        self.update_hoho_hints(self.hints_per_placement["hoho_hints"])
+      elif hint_placement == "korl_hints":
+        self.update_korl_hints(self.hints_per_placement["korl_hints"])
+      else:
+        print("Invalid hint placement option: %s" % hint_placement)
+  
+  def write_to_spoiler_log(self) -> str:
+    raise NotImplementedError()
+  
+  
+  #region Saving
+  def update_savage_labyrinth_hint_tablet(self, floor_30_hint: Hint, floor_50_hint: Hint):
+    # Update the tablet on the first floor of savage labyrinth to give hints as to the items inside the labyrinth.
+    
+    if floor_30_hint and floor_50_hint:
+      hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_30_hint.reward
+      hint += " and "
+      hint += "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_50_hint.reward
+      hint += " await"
+    elif floor_30_hint:
+      hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_30_hint.reward
+      hint += " and "
+      hint += "challenge"
+      hint += " await"
+    elif floor_50_hint:
+      hint = "challenge"
+      hint += " and "
+      hint += "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_50_hint.reward
+      hint += " await"
+    else:
+      hint = "challenge"
+      hint += " awaits"
+    
+    msg = self.rando.bmg.messages_by_id[837]
+    msg.string = "\\{1A 07 FF 00 01 00 96}\\{1A 06 FF 00 00 01}The Savage Labyrinth\n\\{1A 07 FF 00 01 00 64}\n\n\n"
+    msg.string += "\\{1A 06 FF 00 00 00}Deep in the never-ending darkness, the way to %s." % hint
+    msg.word_wrap_string(self.rando.bfn)
+  
+  def update_big_octo_great_fairy_item_name_hint(self, hint: Hint):
+    msg = self.rando.bmg.messages_by_id[12015]
+    msg.string = "\\{1A 06 FF 00 00 05}In \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05}, you will find an item." % hint.place
+    msg.word_wrap_string(self.rando.bfn)
+    msg = self.rando.bmg.messages_by_id[12016]
+    msg.string = "\\{1A 06 FF 00 00 05}...\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05}, which may help you on your quest." % tweaks.upper_first_letter(hint.reward)
+    msg.word_wrap_string(self.rando.bfn)
+    msg = self.rando.bmg.messages_by_id[12017]
+    msg.string = "\\{1A 06 FF 00 00 05}When you find you have need of such an item, you must journey to that place."
+    msg.word_wrap_string(self.rando.bfn)
+  
+  def update_fishmen_hints(self, hints):
+    assert hints
+    
+    islands = list(range(1, 49+1))
+    self.rng.shuffle(islands)
+    
+    for fishman_hint_number, fishman_island_number in enumerate(islands):
+      hint = hints[fishman_hint_number % len(hints)]
+      
+      hint_lines = []
+      hint_lines.append(HintsRandomizer.get_formatted_hint_text(hint, prefix="I've heard from my sources that ", suffix=".", delay=60))
+      
+      if self.options.get("cryptic_hints") and (hint.type == HintType.ITEM or hint.type == HintType.LOCATION):
+        hint_lines.append("Could be worth a try checking that place out. If you know where it is, of course.")
+      
+        if self.options.get("instant_text_boxes"):
+          # If instant text mode is on, we need to reset the text speed to instant after the wait command messed it up.
+          hint_lines[-1] = "\\{1A 05 00 00 01}" + hint_lines[-1]
+      
+      msg_id = 13026 + fishman_island_number
+      msg = self.rando.bmg.messages_by_id[msg_id]
+      msg.construct_string_from_parts(self.rando.bfn, hint_lines)
+
+  def update_hoho_hints(self, hints):
+    assert hints
+    
+    hohos = list(range(10))
+    self.rng.shuffle(hohos)
+    
+    hoho_hints = []
+    for i in range(10):
+      hoho_hints.append([])
+    
+    # Distribute the hints to each Hoho.
+    # We want each hint to be duplicated as few times as possible, while still ensuring all Hohos give the same number of hints.
+    hint_index = 0
+    while hint_index < len(hints):
+      for hoho_index in hohos:
+        hint = hints[hint_index % len(hints)]
+        hoho_hints[hoho_index].append(hint)
+        hint_index += 1
+    
+    for hoho_index, hints_for_hoho in enumerate(hoho_hints):
+      hint_lines = []
+      for i, hint in enumerate(hints_for_hoho):
+        # Determine the prefix and suffix for the hint
+        hint_prefix = "\\{1A 05 01 01 03}Ho ho! To think that " if i == 0 else "and that "
+        hint_suffix = "..." if i == len(hints_for_hoho) - 1 else ","
+        
+        hint_lines.append(HintsRandomizer.get_formatted_hint_text(hint, prefix=hint_prefix, suffix=hint_suffix))
+        
+        if self.options.get("instant_text_boxes") and i > 0:
+          # If instant text mode is on, we need to reset the text speed to instant after the wait command messed it up.
+          hint_lines[-1] = "\\{1A 05 00 00 01}" + hint_lines[-1]
+      
+      msg_id = 14001 + hoho_index
+      msg = self.rando.bmg.messages_by_id[msg_id]
+      msg.construct_string_from_parts(self.rando.bfn, hint_lines)
+      
+      self.rotate_hoho_to_face_hint(hoho_index, hints_for_hoho)
+    
+  def rotate_hoho_to_face_hint(self, hoho_index: int, hints_for_hoho: list[Hint]):
+    """Attempt to rotate the Hoho of a particular index to look towards the island he is hinting at.
+    Will make him face the first hint in his list that corresponds to an island."""
+    
+    sea_dzs = self.rando.get_arc("files/res/Stage/sea/Stage.arc").get_file("stage.dzs")
+    mults = sea_dzs.entries_by_type("MULT")
+    
+    island_num_to_look_towards = None
+    for hint in hints_for_hoho:
+      if hint.type in [HintType.PATH, HintType.BARREN, HintType.ITEM]:
+        zone_name = hint.place
+      elif hint.type == HintType.LOCATION:
+        zone_name = entrances.get_entrance_zone_for_item_location(self.rando, hint.place)
+      
+      if zone_name in ["Tower of the Gods Sector", "Ganon's Tower"]:
+        zone_name = "Tower of the Gods"
+      if zone_name in self.rando.island_name_to_number:
+        island_num_to_look_towards = self.rando.island_name_to_number[zone_name]
+        break
+    
+    if island_num_to_look_towards is None:
+      # Some hints, such as mail, don't correspond to any particular island.
+      # If all of this Hoho's hints are of that type, don't rotate him. Leave his vanilla rotation.
+      return
+    
+    island_num = self.HOHO_INDEX_TO_ISLAND_NUM[hoho_index]
+    island_dzr = self.rando.get_arc("files/res/Stage/sea/Room%d.arc" % island_num).get_file("room.dzr")
+    island_actors = island_dzr.entries_by_type("ACTR")
+    hoho_actors = [x for x in island_actors if x.name == "Ah"]
+    assert len(hoho_actors) > 0
+    
+    dest_sector_mult = next(mult for mult in mults if mult.room_index == island_num_to_look_towards)
+    
+    for hoho_actor in hoho_actors:
+      assert hoho_actor.which_hoho == hoho_index
+      angle_rad = math.atan2(dest_sector_mult.x_pos - hoho_actor.x_pos, dest_sector_mult.z_pos - hoho_actor.z_pos)
+      angle_u16 = int(angle_rad * (0x8000 / math.pi)) % 0x10000
+      hoho_actor.y_rot = angle_u16
+    
+    island_dzr.save_changes()
+
+  def update_korl_hints(self, hints: list[Hint]):
+    assert hints
+    
+    hint_lines = []
+    for i, hint in enumerate(hints):
+      # Have no delay with KoRL text since he potentially has a lot of textboxes
+      hint_prefix = "They say that " if i == 0 else "and that "
+      hint_suffix = "." if i == len(hints) - 1 else ","
+      hint_lines.append(HintsRandomizer.get_formatted_hint_text(hint, prefix=hint_prefix, suffix=hint_suffix, delay=0))
+    
+    for msg_id in (3443, 3444, 3445, 3446, 3447, 3448):
+      msg = self.rando.bmg.messages_by_id[msg_id]
+      msg.construct_string_from_parts(self.rando.bfn, hint_lines)
+  #endregion
+  
+  
+  #region Static methods
   @staticmethod
   def load_hint_text_files():
-    if HintManager.cryptic_item_hints and HintManager.cryptic_zone_hints and HintManager.location_hints:
+    if HintsRandomizer.cryptic_item_hints and HintsRandomizer.cryptic_zone_hints and HintsRandomizer.location_hints:
       return
     with open(os.path.join(DATA_PATH, "progress_item_hints.txt"), "r") as f:
-      HintManager.cryptic_item_hints = yaml.safe_load(f)
+      HintsRandomizer.cryptic_item_hints = yaml.safe_load(f)
     with open(os.path.join(DATA_PATH, "zone_name_hints.txt"), "r") as f:
-      HintManager.cryptic_zone_hints = yaml.safe_load(f)
+      HintsRandomizer.cryptic_zone_hints = yaml.safe_load(f)
     with open(os.path.join(DATA_PATH, "location_hints.txt"), "r") as f:
-      HintManager.location_hints = yaml.safe_load(f)
+      HintsRandomizer.location_hints = yaml.safe_load(f)
   
   @staticmethod
   def get_hint_item_name(item_name):
@@ -220,8 +452,10 @@ class HintManager:
     
     item_name = tweaks.add_article_before_item_name(item_name)
     return item_name
+  #endregion
   
   
+  #region Hint generation
   def check_location_required_for_paths(self, location_to_check, paths_to_check):
     # To check whether the location is required or not, we simulate a playthrough and remove the item the player would
     # receive at that location immediately after they receive it. If the player can still fulfill the requirement 
@@ -237,7 +471,7 @@ class HintManager:
     previously_accessible_locations = []
     
     while self.path_logic.unplaced_progress_items:
-      progress_items_in_this_sphere = OrderedDict()
+      progress_items_in_this_sphere = {}
       
       accessible_locations = self.path_logic.get_accessible_remaining_locations()
       locations_in_this_sphere = [
@@ -765,7 +999,7 @@ class HintManager:
     hinted_barren_zones = []
     while len(unhinted_barren_zones) > 0 and len(hinted_barren_zones) < self.max_barren_hints:
       # Weight each barren zone by the square root of the number of locations there.
-      zone_weights = [sqrt(location_counter[zone]) for zone in unhinted_barren_zones]
+      zone_weights = [math.sqrt(location_counter[zone]) for zone in unhinted_barren_zones]
       if sum(zone_weights) == 0:
         break
       
@@ -801,3 +1035,4 @@ class HintManager:
       previously_hinted_locations.append(location_name)
     
     return hinted_path_zones + hinted_barren_zones + hinted_item_locations + hinted_remote_locations + hinted_standard_locations
+  #endregion

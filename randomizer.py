@@ -36,6 +36,7 @@ from randomizers import music
 from randomizers import enemies
 from randomizers import palettes
 from randomizers.boss_rewards import BossRewardRandomizer
+from randomizers.hints import HintsRandomizer
 
 from version import VERSION, VERSION_WITHOUT_COMMIT
 
@@ -254,6 +255,7 @@ class WWRandomizer:
     
     self.charts = ChartRandomizer(self)
     self.boss_rewards = BossRewardRandomizer(self)
+    self.hints = HintsRandomizer(self)
     
     self.logic.initialize_from_randomizer_state()
     
@@ -395,13 +397,13 @@ class WWRandomizer:
     
     yield("Generating hints...", options_completed)
     if self.randomize_items:
-      self.reset_rng()
-      tweaks.randomize_and_update_hints(self)
+      self.hints.randomize()
     options_completed += 5
     
     if not self.dry_run:
       self.charts.save_changes()
       self.boss_rewards.save_changes()
+      self.hints.save_changes()
       self.apply_necessary_post_randomization_tweaks()
     options_completed += 1
     
