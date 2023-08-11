@@ -63,9 +63,7 @@ class ChartRandomizer(BaseRandomizer):
       49: "Treasure Chart 33",
     }
   
-  def randomize(self):
-    self.reset_rng()
-    
+  def _randomize(self):
     original_item_names = list(self.island_number_to_chart_name.values())
     
     # Shuffles the list of island numbers.
@@ -79,7 +77,7 @@ class ChartRandomizer(BaseRandomizer):
     
     self.logic.update_chart_macros()
   
-  def save_changes(self):
+  def _save(self):
     randomizable_charts = [chart for chart in self.rando.chart_list.charts if chart.type in [0, 1, 2, 6]]
     original_charts = copy.deepcopy(randomizable_charts)
     

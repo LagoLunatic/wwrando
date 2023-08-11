@@ -402,11 +402,10 @@ class WWRandomizer:
     options_completed += 5
     
     if not self.dry_run:
-      self.charts.save_changes()
-      self.starting_island.save_changes()
-      self.boss_rewards.save_changes()
-      if self.randomize_items:
-        self.hints.save_changes()
+      self.charts.save()
+      self.starting_island.save()
+      self.boss_rewards.save()
+      self.hints.save()
       self.apply_necessary_post_randomization_tweaks()
     options_completed += 1
     

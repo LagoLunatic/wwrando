@@ -9,15 +9,25 @@ class BaseRandomizer:
     self.logic = rando.logic
     self.options = rando.options
     self.rng = None
+    self.made_any_changes = False
   
   def reset_rng(self):
     self.rng = self.rando.get_new_rng()
   
   def randomize(self):
+    self.reset_rng()
+    self._randomize()
+    self.made_any_changes = True
+  
+  def _randomize(self):
     raise NotImplementedError()
   
-  def save_changes(self):
+  def save(self):
+    if self.made_any_changes:
+      self._save()
+  
+  def _save(self):
     raise NotImplementedError()
   
   def write_to_spoiler_log(self) -> str:
-    raise NotImplementedError()
+    return ""

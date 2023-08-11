@@ -32,16 +32,14 @@ class BossRewardRandomizer(BaseRandomizer):
     # The bosses that are guaranteed to not have anything important in race mode.
     self.banned_bosses = []
   
-  def randomize(self):
-    self.reset_rng()
-    
+  def _randomize(self):
     # Try to generate dungeon boss reward locations until a valid set of locations is found.
     for i in range(50):
       if self.try_randomize_boss_rewards():
         return
     raise Exception("Cannot randomize boss rewards! Please try randomizing with a different seed.")
   
-  def save_changes(self):
+  def _save(self):
     self.show_quest_markers_on_sea_chart_for_dungeons()
   
   def write_to_spoiler_log(self):

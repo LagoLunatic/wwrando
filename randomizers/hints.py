@@ -133,9 +133,7 @@ class HintsRandomizer(BaseRandomizer):
     # considered junk.
     self.chart_name_to_sunken_treasure = {}
   
-  def randomize(self):
-    self.reset_rng()
-    
+  def _randomize(self):
     self.floor_30_hint, self.floor_50_hint = self.generate_savage_labyrinth_hints()
     
     if self.rando.num_randomized_progress_items == 0:
@@ -170,7 +168,7 @@ class HintsRandomizer(BaseRandomizer):
     for i, hint in enumerate(hints):
       self.hints_per_placement[hint_placement_options[i % len(hint_placement_options)]].append(hint)
   
-  def save_changes(self):
+  def _save(self):
     self.update_savage_labyrinth_hint_tablet(self.floor_30_hint, self.floor_50_hint)
     
     if self.rando.num_randomized_progress_items == 0:

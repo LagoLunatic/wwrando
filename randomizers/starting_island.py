@@ -9,9 +9,7 @@ class StartingIslandRandomizer(BaseRandomizer):
     # Default starting island (Outset Island) if the starting island randomizer is not on.
     self.room_number = 44
   
-  def randomize(self):
-    self.reset_rng()
-    
+  def _randomize(self):
     possible_starting_islands = list(range(1, 49+1))
     
     # Don't allow Forsaken Fortress to be the starting island.
@@ -20,7 +18,7 @@ class StartingIslandRandomizer(BaseRandomizer):
     
     self.room_number = self.rng.choice(possible_starting_islands)
   
-  def save_changes(self):
+  def _save(self):
     tweaks.set_new_game_starting_spawn_id(self.rando, 0)
     tweaks.set_new_game_starting_room(self.rando, self.room_number)
     tweaks.change_ship_starting_island(self.rando, self.room_number)
