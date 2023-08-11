@@ -34,7 +34,12 @@ class BossRewardRandomizer(BaseRandomizer):
   
   def randomize(self):
     self.reset_rng()
-    self.randomize_boss_rewards()
+    
+    # Try to generate dungeon boss reward locations until a valid set of locations is found.
+    for i in range(50):
+      if self.try_randomize_boss_rewards():
+        return
+    raise Exception("Cannot randomize boss rewards! Please try randomizing with a different seed.")
   
   def save_changes(self):
     self.show_quest_markers_on_sea_chart_for_dungeons()
@@ -52,13 +57,6 @@ class BossRewardRandomizer(BaseRandomizer):
     spoiler_log += "\n\n\n"
     return spoiler_log
   
-  
-  def randomize_boss_rewards(self):
-    # Try to generate dungeon boss reward locations until a valid set of locations is found.
-    for i in range(50):
-      if self.try_randomize_boss_rewards():
-        return
-    raise Exception("Cannot randomize boss rewards! Please try randomizing with a different seed.")
 
   def try_randomize_boss_rewards(self):
     if not self.options.get("progression_dungeons"):
