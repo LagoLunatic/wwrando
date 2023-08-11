@@ -1,4 +1,8 @@
 
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING: from randomizer import WWRandomizer
+
 import re
 import os
 from io import BytesIO
@@ -16,6 +20,7 @@ import customizer
 from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS
 from data_tables import DataTables
 from wwlib.events import EventList
+from wwlib.dzx import ACTR, SHIP, DZx
 
 try:
   from keys.seed_key import SEED_KEY # type: ignore
@@ -29,19 +34,19 @@ ORIGINAL_DOL_SIZE = 0x3A52C0
 MAXIMUM_ADDITIONAL_STARTING_ITEMS = 70
 
 
-def set_new_game_starting_spawn_id(self, spawn_id):
+def set_new_game_starting_spawn_id(self: WWRandomizer, spawn_id: int):
   self.dol.write_data(fs.write_u8, 0x80058BAF, spawn_id)
 
-def set_new_game_starting_room_index(self, room_index):
-  self.dol.write_data(fs.write_u8, 0x80058BA7, room_index)
+def set_new_game_starting_room(self: WWRandomizer, room_number: int):
+  self.dol.write_data(fs.write_u8, 0x80058BA7, room_number)
 
-def change_ship_starting_island(self, starting_island_room_index):
-  island_dzx = self.get_arc("files/res/Stage/sea/Room%d.arc" % starting_island_room_index).get_file("room.dzr")
-  ship_spawns = island_dzx.entries_by_type("SHIP")
+def change_ship_starting_island(self: WWRandomizer, room_number: int):
+  island_dzx: DZx = self.get_arc(f"files/res/Stage/sea/Room{room_number}.arc").get_file("room.dzr")
+  ship_spawns: list[SHIP] = island_dzx.entries_by_type("SHIP")
   island_ship_spawn_0 = next(x for x in ship_spawns if x.ship_id == 0)
   
-  sea_dzx = self.get_arc("files/res/Stage/sea/Stage.arc").get_file("stage.dzs")
-  sea_actors = sea_dzx.entries_by_type("ACTR")
+  sea_dzx: DZx = self.get_arc("files/res/Stage/sea/Stage.arc").get_file("stage.dzs")
+  sea_actors: list[ACTR] = sea_dzx.entries_by_type("ACTR")
   ship_actor = next(x for x in sea_actors if x.name == "Ship")
   ship_actor.x_pos = island_ship_spawn_0.x_pos
   ship_actor.y_pos = island_ship_spawn_0.y_pos

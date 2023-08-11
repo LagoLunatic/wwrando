@@ -30,7 +30,7 @@ except ImportError:
 
 from randomizers import items
 from randomizers.charts import ChartRandomizer
-from randomizers import starting_island
+from randomizers.starting_island import StartingIslandRandomizer
 from randomizers import entrances
 from randomizers import music
 from randomizers import enemies
@@ -244,9 +244,6 @@ class WWRandomizer:
     ])
     self.nested_entrance_paths = []
     
-    # Default starting island (Outset) if the starting island randomizer is not on.
-    self.starting_island_index = 44
-    
     
     self.custom_model_name = self.options.get("custom_player_model", "Link")
     self.using_custom_sail_texture = False
@@ -254,6 +251,7 @@ class WWRandomizer:
     self.logic = Logic(self, rando_fully_inited=False)
     
     self.charts = ChartRandomizer(self)
+    self.starting_island = StartingIslandRandomizer(self)
     self.boss_rewards = BossRewardRandomizer(self)
     self.hints = HintsRandomizer(self)
     
@@ -344,8 +342,7 @@ class WWRandomizer:
       self.charts.randomize()
     
     if self.options.get("randomize_starting_island"):
-      self.reset_rng()
-      starting_island.randomize_starting_island(self)
+      self.starting_island.randomize()
     
     if self.options.get("race_mode"):
       self.boss_rewards.randomize()
@@ -402,6 +399,7 @@ class WWRandomizer:
     
     if not self.dry_run:
       self.charts.save_changes()
+      self.starting_island.save_changes()
       self.boss_rewards.save_changes()
       if self.randomize_items:
         self.hints.save_changes()
@@ -1082,12 +1080,7 @@ class WWRandomizer:
     
     spoiler_log += self.boss_rewards.write_to_spoiler_log()
     
-    # Write starting island.
-    spoiler_log += "Starting island: "
-    spoiler_log += self.island_number_to_name[self.starting_island_index]
-    spoiler_log += "\n"
-    
-    spoiler_log += "\n\n\n"
+    spoiler_log += self.starting_island.write_to_spoiler_log()
     
     # Write dungeon/secret cave entrances.
     spoiler_log += "Entrances:\n"
