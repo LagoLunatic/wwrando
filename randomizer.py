@@ -456,12 +456,7 @@ class WWRandomizer:
     
     yield("Saving randomized ISO...", options_completed)
     if not self.dry_run:
-      generator = self.save_randomized_iso()
-      while True:
-        # Need to use a while loop to go through the generator instead of a for loop, as a for loop would silently exit if a StopIteration error ever happened for any reason.
-        next_progress_text, files_done = next(generator)
-        if files_done == -1:
-          break
+      for next_progress_text, files_done in self.save_randomized_iso():
         percentage_done = files_done/len(self.gcm.files_by_path)
         yield("Saving randomized ISO...", options_completed+int(percentage_done*9))
     options_completed += 9
@@ -470,8 +465,6 @@ class WWRandomizer:
     if not self.options.get("do_not_generate_spoiler_log"):
       self.write_spoiler_log()
     self.write_non_spoiler_log()
-    
-    yield("Done", -1)
   
   def apply_necessary_tweaks(self):
     patcher.apply_patch(self, "custom_data")
@@ -843,18 +836,10 @@ class WWRandomizer:
     
     if self.export_disc_to_folder:
       output_folder_path = os.path.join(self.randomized_output_folder, "WW Random %s" % self.seed)
-      generator = self.gcm.export_disc_to_folder_with_changed_files(output_folder_path)
+      yield from self.gcm.export_disc_to_folder_with_changed_files(output_folder_path)
     else:
       output_file_path = os.path.join(self.randomized_output_folder, "WW Random %s.iso" % self.seed)
-      generator = self.gcm.export_disc_to_iso_with_changed_files(output_file_path)
-    
-    while True:
-      # Need to use a while loop to go through the generator instead of a for loop, as a for loop would silently exit if a StopIteration error ever happened for any reason.
-      next_progress_text, files_done = next(generator)
-      if files_done == -1:
-        break
-      yield(next_progress_text, files_done)
-    yield("Done", -1)
+      yield from self.gcm.export_disc_to_iso_with_changed_files(output_file_path)
   
   def convert_string_to_integer_md5(self, string):
     return int(hashlib.md5(string.encode('utf-8')).hexdigest(), 16)

@@ -269,11 +269,7 @@ class WWRandomizerWindow(QMainWindow):
         rando = None
         try:
           rando = WWRandomizer(temp_seed, clean_iso_path, output_folder, options, permalink=permalink, cmd_line_args=self.cmd_line_args)
-          randomizer_generator = rando.randomize()
-          while True:
-            next_option_description, options_finished = next(randomizer_generator)
-            if options_finished == -1:
-              break
+          all(rando.randomize())
         except (TooFewProgressionLocationsError, InvalidCleanISOError) as e:
           error_message = str(e)
           self.randomization_failed(error_message)
@@ -1476,13 +1472,8 @@ class RandomizerThread(QThread):
       profiler.enable()
     
     try:
-      randomizer_generator = self.randomizer.randomize()
       last_update_time = time.time()
-      while True:
-        # Need to use a while loop to go through the generator instead of a for loop, as a for loop would silently exit if a StopIteration error ever happened for any reason.
-        next_option_description, options_finished = next(randomizer_generator)
-        if options_finished == -1:
-          break
+      for next_option_description, options_finished in self.randomizer.randomize():
         if time.time()-last_update_time < 0.1:
           # Limit how frequently the signal is emitted to 10 times per second.
           # Extremely frequent updates (e.g. 1000 times per second) can cause the program to crash with no error message.
