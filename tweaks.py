@@ -909,7 +909,7 @@ def add_pirate_ship_to_windfall(self):
   for layer_num in [2, 3]:
     actors_on_this_layer = ship_dzr.entries_by_type(ACTR, layer=layer_num)
     niko = next(x for x in actors_on_this_layer if x.name == "P2b")
-    ship_dzr.remove_entity(niko, "ACTR", layer=layer_num)
+    ship_dzr.remove_entity(niko, ACTR, layer=layer_num)
   
   # Add Aryll to the ship instead.
   aryll = ship_dzr.add_entity(ACTR)
@@ -1221,7 +1221,7 @@ def remove_makar_kidnapping_event(self):
   
   # Remove the AND switch actor that makes the Floormasters appear after unlocking the door.
   and_switch_actor = next(x for x in actors if x.name == "AND_SW2")
-  dzx.remove_entity(and_switch_actor, "ACTR", layer=None)
+  dzx.remove_entity(and_switch_actor, ACTR, layer=None)
   
   # Remove the enable spawn switch from the Wizzrobe so it's just always there.
   wizzrobe = next(x for x in actors if x.name == "wiz_r")
@@ -1614,8 +1614,8 @@ def add_chest_in_place_of_jabun_cutscene(self):
   layer_none_whirlpool.z_rot = layer_5_whirlpool.z_rot
   layer_none_whirlpool.enemy_number = layer_5_whirlpool.enemy_number
   
-  outset_dzr.remove_entity(layer_5_door, "ACTR", layer=5)
-  outset_dzr.remove_entity(layer_5_whirlpool, "ACTR", layer=5)
+  outset_dzr.remove_entity(layer_5_door, ACTR, layer=5)
+  outset_dzr.remove_entity(layer_5_whirlpool, ACTR, layer=5)
   
   outset_dzr.save_changes()
   
@@ -1644,7 +1644,7 @@ def add_chest_in_place_of_master_sword(self):
   # Remove the Master Sword entities.
   ms_actors = [x for x in ms_chamber_dzr.entries_by_type(ACTR, layer=None) if x.name in ["VmsMS", "VmsDZ"]]
   for actor in ms_actors:
-    ms_chamber_dzr.remove_entity(actor, "ACTR", layer=None)
+    ms_chamber_dzr.remove_entity(actor, ACTR, layer=None)
   
   # Copy the entities necessary for the Mighty Darknuts fight from layer 5 to the default layer.
   layer_5_actors = ms_chamber_dzr.entries_by_type(ACTR, layer=5)
@@ -1664,7 +1664,7 @@ def add_chest_in_place_of_master_sword(self):
   
   # Remove the entities on layer 5 that are no longer necessary.
   for orig_actor in layer_5_actors:
-    ms_chamber_dzr.remove_entity(orig_actor, "ACTR", layer=5)
+    ms_chamber_dzr.remove_entity(orig_actor, ACTR, layer=5)
   
   
   # Add the chest.
@@ -2030,7 +2030,7 @@ def remove_minor_panning_cutscenes(self):
     tagevs = [x for x in dzx.entries_by_type(SCOB) if x.name == "TagEv"]
     for tagev in tagevs:
       if tagev.evnt_index == evnt_index:
-        dzx.remove_entity(tagev, "SCOB")
+        dzx.remove_entity(tagev, SCOB)
     
     spawns = dzx.entries_by_type(PLYR)
     for spawn in spawns:

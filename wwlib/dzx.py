@@ -217,7 +217,7 @@ class DZx(GCLibFile): # DZR or DZS, same format
     
     return entity
   
-  def remove_entity(self, entity, chunk_type, layer=None):
+  def remove_entity(self, entity, chunk_type: Type[ChunkEntryT], *, layer: Optional[int] = None):
     assert hasattr(entity, "name")
     
     # Instead of actually removing the entity from the list, simply set its name to the empty string.
@@ -227,16 +227,18 @@ class DZx(GCLibFile): # DZR or DZS, same format
     entity.save_changes()
     
     # Below is the old code that actually removed the entity from the list.
-    #chunk_to_remove_entity_from = None
-    #for chunk in self.chunks:
+    # Note that it probably won't work correctly if uncommented.
+    
+    # chunk_to_remove_entity_from = None
+    # for chunk in self.chunks:
     #  if chunk_type == chunk.chunk_type and layer == chunk.layer:
     #    chunk_to_remove_entity_from = chunk
     #    break
-    #
-    #if chunk_to_remove_entity_from is None:
-    #  raise Exception("Could not find chunk of type %s on layer %s" % (chunk_type, layer))
-    #
-    #chunk_to_remove_entity_from.entries.remove(entity)
+    
+    # if chunk_to_remove_entity_from is None:
+    #  raise Exception("Could not find chunk of type %s on layer %s" % (chunk_type.__name__, layer))
+    
+    # chunk_to_remove_entity_from.entries.remove(entity)
   
   def save_changes(self):
     for chunk in self.chunks:
@@ -270,7 +272,7 @@ class DZx(GCLibFile): # DZR or DZS, same format
         
         offset += chunk.chunk_type.DATA_SIZE
       
-      if chunk.fourcc == "RTBL":
+      if chunk.chunk_type == RTBL:
         # Assign offsets for RTBL sub entries.
         for rtbl_entry in chunk.entries:
           rtbl_entry.sub_entry.offset = offset

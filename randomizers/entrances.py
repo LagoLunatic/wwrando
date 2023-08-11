@@ -461,7 +461,7 @@ def update_entrance_to_lead_to_exit(self, zone_entrance: ZoneEntrance, zone_exit
     else:
       # An entrance without a timer leads into this cave.
       # Remove the kill trigger actor on the inside, because otherwise it would throw the player out the instant they enter.
-      exit_dzr.remove_entity(kill_trigger, "ACTR")
+      exit_dzr.remove_entity(kill_trigger, ACTR)
   
   if zone_exit.unique_name == "Ice Ring Isle Secret Cave":
     actors = exit_dzr.entries_by_type(ACTR)
@@ -477,7 +477,7 @@ def update_entrance_to_lead_to_exit(self, zone_entrance: ZoneEntrance, zone_exit
     else:
       # An entrance without a timer leads into this cave.
       # Remove the kill trigger actor on the inside, because otherwise it would throw the player out the instant they enter.
-      exit_dzr.remove_entity(kill_trigger, "ACTR")
+      exit_dzr.remove_entity(kill_trigger, ACTR)
   
   if zone_exit.unique_name == "Ice Ring Isle Secret Cave":
     # Also update the inner cave of Ice Ring Isle to take you out to the correct entrance as well.

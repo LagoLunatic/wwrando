@@ -388,7 +388,7 @@ def save_changed_enemies_and_randomize_their_params(self):
     stage_folder, room_arc_name = arc_name.split("/")
     
     if DEBUG_REMOVE_ALL_ENEMIES and path not in DEBUG_REMOVAL_EXCLUDED_PATHS:
-      dzx.remove_entity(enemy, "ACTR", layer=layer)
+      dzx.remove_entity(enemy, ACTR, layer=layer)
       continue
     
     if False:
