@@ -1,5 +1,6 @@
 
 from __future__ import annotations
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from gclib.bti import BTI
@@ -1123,7 +1124,16 @@ def add_pirate_ship_to_windfall(self):
   ship_dzs.save_changes()
 
 
-CyclicWarpPotData = namedtuple("CyclicWarpPotData", 'stage_name room_num x y z y_rot event_reg_index')
+@dataclass(frozen=True)
+class CyclicWarpPotData:
+  stage_name: str
+  room_num: int
+  x: float
+  y: float
+  z: float
+  y_rot: int
+  event_reg_index: int
+
 INTER_DUNGEON_WARP_DATA = [
   [
     CyclicWarpPotData("M_NewD2", 2, 2185, 0, 590, 0xA000, 2), # DRC
