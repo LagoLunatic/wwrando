@@ -403,7 +403,8 @@ class WWRandomizer:
     if not self.dry_run:
       self.charts.save_changes()
       self.boss_rewards.save_changes()
-      self.hints.save_changes()
+      if self.randomize_items:
+        self.hints.save_changes()
       self.apply_necessary_post_randomization_tweaks()
     options_completed += 1
     
@@ -1119,7 +1120,8 @@ class WWRandomizer:
     
     spoiler_log += self.charts.write_to_spoiler_log()
     
-    spoiler_log += self.hints.write_to_spoiler_log()
+    if self.randomize_items:
+      spoiler_log += self.hints.write_to_spoiler_log()
     
     os.makedirs(self.logs_output_folder, exist_ok=True)
     spoiler_log_output_path = os.path.join(self.logs_output_folder, "WW Random %s - Spoiler Log.txt" % self.seed)
