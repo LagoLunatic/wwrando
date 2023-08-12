@@ -35,7 +35,7 @@ except ImportError:
 from randomizers.items import ItemRandomizer
 from randomizers.charts import ChartRandomizer
 from randomizers.starting_island import StartingIslandRandomizer
-from randomizers import entrances
+from randomizers.entrances import EntranceRandomizer 
 from randomizers import music
 from randomizers.enemies import EnemyRandomizer
 from randomizers.palettes import PaletteRandomizer
@@ -177,77 +177,6 @@ class WWRandomizer:
     for i in range(starting_hcs):
       self.starting_items.append("Heart Container")
     
-    # Default entrances connections to be used if the entrance randomizer is not on.
-    self.entrance_connections = OrderedDict([
-      ("Dungeon Entrance on Dragon Roost Island", "Dragon Roost Cavern"),
-      ("Dungeon Entrance in Forest Haven Sector", "Forbidden Woods"),
-      ("Dungeon Entrance in Tower of the Gods Sector", "Tower of the Gods"),
-      ("Dungeon Entrance on Headstone Island", "Earth Temple"),
-      ("Dungeon Entrance on Gale Isle", "Wind Temple"),
-      
-      ("Boss Entrance in Dragon Roost Cavern", "Gohma Boss Arena"),
-      ("Boss Entrance in Forbidden Woods", "Kalle Demos Boss Arena"),
-      ("Boss Entrance in Tower of the Gods", "Gohdan Boss Arena"),
-      ("Boss Entrance in Earth Temple", "Jalhalla Boss Arena"),
-      ("Boss Entrance in Wind Temple", "Molgera Boss Arena"),
-      
-      ("Secret Cave Entrance on Outset Island", "Savage Labyrinth"),
-      ("Secret Cave Entrance on Dragon Roost Island", "Dragon Roost Island Secret Cave"),
-      ("Secret Cave Entrance on Fire Mountain", "Fire Mountain Secret Cave"),
-      ("Secret Cave Entrance on Ice Ring Isle", "Ice Ring Isle Secret Cave"),
-      ("Secret Cave Entrance on Private Oasis", "Cabana Labyrinth"),
-      ("Secret Cave Entrance on Needle Rock Isle", "Needle Rock Isle Secret Cave"),
-      ("Secret Cave Entrance on Angular Isles", "Angular Isles Secret Cave"),
-      ("Secret Cave Entrance on Boating Course", "Boating Course Secret Cave"),
-      ("Secret Cave Entrance on Stone Watcher Island", "Stone Watcher Island Secret Cave"),
-      ("Secret Cave Entrance on Overlook Island", "Overlook Island Secret Cave"),
-      ("Secret Cave Entrance on Bird's Peak Rock", "Bird's Peak Rock Secret Cave"),
-      ("Secret Cave Entrance on Pawprint Isle", "Pawprint Isle Chuchu Cave"),
-      ("Secret Cave Entrance on Pawprint Isle Side Isle", "Pawprint Isle Wizzrobe Cave"),
-      ("Secret Cave Entrance on Diamond Steppe Island", "Diamond Steppe Island Warp Maze Cave"),
-      ("Secret Cave Entrance on Bomb Island", "Bomb Island Secret Cave"),
-      ("Secret Cave Entrance on Rock Spire Isle", "Rock Spire Isle Secret Cave"),
-      ("Secret Cave Entrance on Shark Island", "Shark Island Secret Cave"),
-      ("Secret Cave Entrance on Cliff Plateau Isles", "Cliff Plateau Isles Secret Cave"),
-      ("Secret Cave Entrance on Horseshoe Island", "Horseshoe Island Secret Cave"),
-      ("Secret Cave Entrance on Star Island", "Star Island Secret Cave"),
-    ])
-    self.dungeon_and_cave_island_locations = OrderedDict([
-      ("Dragon Roost Cavern", "Dragon Roost Island"),
-      ("Forbidden Woods", "Forest Haven"),
-      ("Tower of the Gods", "Tower of the Gods"),
-      ("Earth Temple", "Headstone Island"),
-      ("Wind Temple", "Gale Isle"),
-      
-      ("Gohma Boss Arena", "Dragon Roost Island"),
-      ("Kalle Demos Boss Arena", "Forest Haven"),
-      ("Gohdan Boss Arena", "Tower of the Gods"),
-      ("Jalhalla Boss Arena", "Headstone Island"),
-      ("Molgera Boss Arena", "Gale Isle"),
-      
-      ("Outset Island", "Outset Island"),
-      ("Dragon Roost Island", "Dragon Roost Island"),
-      ("Fire Mountain", "Fire Mountain"),
-      ("Ice Ring Isle", "Ice Ring Isle"),
-      ("Private Oasis", "Private Oasis"),
-      ("Needle Rock Isle", "Needle Rock Isle"),
-      ("Angular Isles", "Angular Isles"),
-      ("Boating Course", "Boating Course"),
-      ("Stone Watcher Island", "Stone Watcher Island"),
-      ("Overlook Island", "Overlook Island"),
-      ("Bird's Peak Rock", "Bird's Peak Rock"),
-      ("Pawprint Isle", "Pawprint Isle"),
-      ("Pawprint Isle Side Isle", "Pawprint Isle"),
-      ("Diamond Steppe Island", "Diamond Steppe Island"),
-      ("Bomb Island", "Bomb Island"),
-      ("Rock Spire Isle", "Rock Spire Isle"),
-      ("Shark Island", "Shark Island"),
-      ("Cliff Plateau Isles", "Cliff Plateau Isles"),
-      ("Horseshoe Island", "Horseshoe Island"),
-      ("Star Island", "Star Island"),
-    ])
-    self.nested_entrance_paths = []
-    
     
     self.custom_model_name = self.options.get("custom_player_model", "Link")
     self.using_custom_sail_texture = False
@@ -257,6 +186,7 @@ class WWRandomizer:
     self.items = ItemRandomizer(self)
     self.charts = ChartRandomizer(self)
     self.starting_island = StartingIslandRandomizer(self)
+    self.entrances = EntranceRandomizer(self)
     self.enemies = EnemyRandomizer(self)
     self.palettes = PaletteRandomizer(self)
     self.boss_rewards = BossRewardRandomizer(self)
@@ -355,8 +285,7 @@ class WWRandomizer:
       self.boss_rewards.randomize()
     
     if self.options.get("randomize_entrances") not in ["Disabled", None]:
-      self.reset_rng()
-      entrances.randomize_entrances(self)
+      self.entrances.randomize()
     
     if self.options.get("randomize_music"):
       self.reset_rng()
@@ -405,6 +334,7 @@ class WWRandomizer:
     if not self.dry_run:
       self.charts.save()
       self.starting_island.save()
+      self.entrances.save()
       self.enemies.save()
       self.palettes.save()
       self.boss_rewards.save()
@@ -920,34 +850,7 @@ class WWRandomizer:
     
     spoiler_log += self.starting_island.write_to_spoiler_log()
     
-    # Write dungeon/secret cave entrances.
-    spoiler_log += "Entrances:\n"
-    for entrance_name, dungeon_or_cave_name in self.entrance_connections.items():
-      spoiler_log += "  %-48s %s\n" % (entrance_name+":", dungeon_or_cave_name)
-    
-    def shorten_path_name(name):
-      if name == "Dungeon Entrance on Dragon Roost Island":
-        return "Dragon Roost Island (Main)"
-      elif name == "Secret Cave Entrance on Dragon Roost Island":
-        return "Dragon Roost Island (Pit)"
-      elif re.search(r"^(Dungeon|Boss|Secret Cave) Entrance (on|in) ", name):
-        _, short_name = re.split(r" (?:on|in) ", name, 1)
-        return short_name
-      else:
-        return name
-    
-    if self.nested_entrance_paths:
-      spoiler_log += "\n"
-      
-      spoiler_log += "Nested entrance paths:\n"
-      for path in self.nested_entrance_paths:
-        if len(path) < 3:
-          # Don't include non-nested short paths (e.g. DRI -> Molgera).
-          continue
-        shortened_path = [shorten_path_name(name) for name in path[:-1]] + [path[-1]]
-        spoiler_log += "  " + " -> ".join(shortened_path) + "\n"
-    
-    spoiler_log += "\n\n\n"
+    spoiler_log += self.entrances.write_to_spoiler_log()
     
     spoiler_log += self.charts.write_to_spoiler_log()
     

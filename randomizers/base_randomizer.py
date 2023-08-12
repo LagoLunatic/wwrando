@@ -7,7 +7,7 @@ class BaseRandomizer:
   """Base class for individual randomization features.
   
   Acts as an interface that allows randomizing a particular feature in a deterministic way
-  independent of of other features, while also allowing the randomized changes to be saved to the
+  independent of other features, while also allowing the randomized changes to be saved to the
   game's files and written to text file logs, or only written to logs but not the game's files.
   
   Subclasses should implement at least _randomize and _save.
@@ -32,7 +32,7 @@ class BaseRandomizer:
   
   def _randomize(self):
     """Decide on what specific randomizations to make on this seed and store the results in instance
-    variables for later.
+    variables for later use.
     
     Should not read from or write to any of the game's files."""
     raise NotImplementedError()

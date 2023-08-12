@@ -156,7 +156,7 @@ class Logic:
     self.nested_entrance_macros.clear()
     for zone_entrance in entrances.ALL_ENTRANCES:
       if zone_entrance.is_nested:
-        zone_exit = entrances.get_dungeon_start_exit_leading_to_nested_entrance(zone_entrance)
+        zone_exit = self.rando.entrances.get_dungeon_start_exit_leading_to_nested_entrance(zone_entrance)
         entrance_access_macro_name = "Can Access " + zone_entrance.entrance_name
         zone_access_macro_name = "Can Access " + zone_exit.unique_name
         self.nested_entrance_macros[entrance_access_macro_name] = zone_access_macro_name
@@ -750,7 +750,7 @@ class Logic:
   
   def update_entrance_connection_macros(self):
     # Update all the macros to take randomized entrances into account.
-    for entrance_name, zone_name in self.rando.entrance_connections.items():
+    for entrance_name, zone_name in self.rando.entrances.entrance_connections.items():
       zone_access_macro_name = "Can Access " + zone_name
       entrance_access_macro_name = "Can Access " + entrance_name
       self.set_macro(zone_access_macro_name, entrance_access_macro_name)
@@ -772,7 +772,7 @@ class Logic:
   def temporarily_make_entrance_macros_impossible(self):
     # Update all the dungeon/secret cave access macros to be considered "Impossible".
     # Useful when the entrance randomizer is selecting which dungeons/secret caves should be allowed where.
-    for entrance_name, zone_name in self.rando.entrance_connections.items():
+    for entrance_name, zone_name in self.rando.entrances.entrance_connections.items():
       zone_access_macro_name = "Can Access " + zone_name
       self.set_macro(zone_access_macro_name, "Impossible")
   

@@ -64,6 +64,8 @@ class Hint:
 
 
 class HintsRandomizer(BaseRandomizer):
+  #region Constants
+  
   # A dictionary mapping dungeon name to the dungeon boss.
   # The boss name is used as the path goal in the hint text.
   DUNGEON_NAME_TO_BOSS_NAME = {
@@ -102,7 +104,10 @@ class HintsRandomizer(BaseRandomizer):
     8: 31,
     9: 46,
   }
-
+  
+  #endregion
+  
+  
   cryptic_item_hints = None
   cryptic_zone_hints = None
   location_hints = None
@@ -210,7 +215,6 @@ class HintsRandomizer(BaseRandomizer):
         self.hoho_index_to_hints[hoho_index].append(hint)
         hint_index += 1
     
-  
   def _save(self):
     self.update_savage_labyrinth_hint_tablet(self.floor_30_hint, self.floor_50_hint)
     
@@ -345,7 +349,7 @@ class HintsRandomizer(BaseRandomizer):
       if hint.type in [HintType.PATH, HintType.BARREN, HintType.ITEM]:
         zone_name = hint.place
       elif hint.type == HintType.LOCATION:
-        zone_name = entrances.get_entrance_zone_for_item_location(self.rando, hint.place)
+        zone_name = self.rando.entrances.get_entrance_zone_for_item_location(hint.place)
       
       if zone_name in ["Tower of the Gods Sector", "Ganon's Tower"]:
         zone_name = "Tower of the Gods"
@@ -597,7 +601,7 @@ class HintsRandomizer(BaseRandomizer):
       ):
         # Determine the item name for the given location.
         zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
-        entrance_zone = entrances.get_entrance_zone_for_item_location(self.rando, location_name)
+        entrance_zone = self.rando.entrances.get_entrance_zone_for_item_location(location_name)
         item_tuple = (zone_name, entrance_zone, specific_location_name, item_name)
         
         # Check and record if the location is required for path goals.
@@ -710,7 +714,7 @@ class HintsRandomizer(BaseRandomizer):
       if location_name in self.rando.boss_rewards.required_locations:
         continue
       
-      zones_with_useful_locations.add(entrances.get_entrance_zone_for_item_location(self.rando, location_name))
+      zones_with_useful_locations.add(self.rando.entrances.get_entrance_zone_for_item_location(location_name))
       # For dungeon locations, both the dungeon and its entrance should be considered useful.
       if self.logic.is_dungeon_location(location_name):
         zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
@@ -719,10 +723,10 @@ class HintsRandomizer(BaseRandomizer):
       # Include dungeon-related mail with its dungeon, in addition to Mailbox.
       if location_name == "Mailbox - Letter from Baito":
         zones_with_useful_locations.add("Earth Temple")
-        zones_with_useful_locations.add(entrances.get_entrance_zone_for_item_location(self.rando, "Earth Temple - Jalhalla Heart Container"))
+        zones_with_useful_locations.add(self.rando.entrances.get_entrance_zone_for_item_location("Earth Temple - Jalhalla Heart Container"))
       if location_name == "Mailbox - Letter from Orca":
         zones_with_useful_locations.add("Forbidden Woods")
-        zones_with_useful_locations.add(entrances.get_entrance_zone_for_item_location(self.rando, "Forbidden Woods - Kalle Demos Heart Container"))
+        zones_with_useful_locations.add(self.rando.entrances.get_entrance_zone_for_item_location("Forbidden Woods - Kalle Demos Heart Container"))
       if location_name == "Mailbox - Letter from Aryll" or location_name == "Mailbox - Letter from Tingle":
         zones_with_useful_locations.add("Forsaken Fortress")
     
@@ -733,7 +737,7 @@ class HintsRandomizer(BaseRandomizer):
       if location_name in hinted_remote_locations:
         continue
       
-      zones_with_barren_locations.add(entrances.get_entrance_zone_for_item_location(self.rando, location_name))
+      zones_with_barren_locations.add(self.rando.entrances.get_entrance_zone_for_item_location(location_name))
       # For dungeon locations, both the dungeon and its entrance should be considered barren.
       if self.logic.is_dungeon_location(location_name):
         zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
@@ -742,10 +746,10 @@ class HintsRandomizer(BaseRandomizer):
       # Include dungeon-related mail with its dungeon, in addition to Mailbox.
       if location_name == "Mailbox - Letter from Baito":
         zones_with_barren_locations.add("Earth Temple")
-        zones_with_barren_locations.add(entrances.get_entrance_zone_for_item_location(self.rando, "Earth Temple - Jalhalla Heart Container"))
+        zones_with_barren_locations.add(self.rando.entrances.get_entrance_zone_for_item_location("Earth Temple - Jalhalla Heart Container"))
       if location_name == "Mailbox - Letter from Orca":
         zones_with_barren_locations.add("Forbidden Woods")
-        zones_with_barren_locations.add(entrances.get_entrance_zone_for_item_location(self.rando, "Forbidden Woods - Kalle Demos Heart Container"))
+        zones_with_barren_locations.add(self.rando.entrances.get_entrance_zone_for_item_location("Forbidden Woods - Kalle Demos Heart Container"))
       if location_name == "Mailbox - Letter from Aryll" or location_name == "Mailbox - Letter from Tingle":
         zones_with_barren_locations.add("Forsaken Fortress")
     
@@ -790,7 +794,7 @@ class HintsRandomizer(BaseRandomizer):
           continue
       
       # Catch locations which are hinted at in barren zones.
-      entrance_zone = entrances.get_entrance_zone_for_item_location(self.rando, location_name)
+      entrance_zone = self.rando.entrances.get_entrance_zone_for_item_location(location_name)
       if entrance_zone not in barrens:
         new_hintable_locations.append(location_name)
     
@@ -847,7 +851,7 @@ class HintsRandomizer(BaseRandomizer):
     hintable_locations.remove(location_name)
     
     item_name = self.logic.done_item_locations[location_name]
-    entrance_zone = entrances.get_entrance_zone_for_item_location(self.rando, location_name)
+    entrance_zone = self.rando.entrances.get_entrance_zone_for_item_location(location_name)
     
     # Simplify entrance zone name
     if entrance_zone == "Tower of the Gods Sector":
@@ -949,7 +953,7 @@ class HintsRandomizer(BaseRandomizer):
         zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
         all_world_areas.append(zone_name)
       else:
-        all_world_areas.append(entrances.get_entrance_zone_for_item_location(self.rando, location_name))
+        all_world_areas.append(self.rando.entrances.get_entrance_zone_for_item_location(location_name))
     
     # Get a counter for the number of locations associated with each zone, used for weighing.
     location_counter = Counter(all_world_areas)
