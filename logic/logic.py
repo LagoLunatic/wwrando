@@ -1206,7 +1206,7 @@ class Logic:
   
   
   @staticmethod
-  def load_and_parse_enemy_locations():
+  def load_and_parse_enemy_locations() -> dict[str, list[dict]]:
     with open(os.path.join(LOGIC_PATH, "enemy_locations.txt")) as f:
       enemy_locations = yaml.load(f, YamlOrderedDictLoader)
     

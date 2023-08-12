@@ -37,7 +37,7 @@ from randomizers.charts import ChartRandomizer
 from randomizers.starting_island import StartingIslandRandomizer
 from randomizers import entrances
 from randomizers import music
-from randomizers import enemies
+from randomizers.enemies import EnemyRandomizer
 from randomizers.palettes import PaletteRandomizer
 from randomizers.boss_rewards import BossRewardRandomizer
 from randomizers.hints import HintsRandomizer
@@ -257,6 +257,7 @@ class WWRandomizer:
     self.items = ItemRandomizer(self)
     self.charts = ChartRandomizer(self)
     self.starting_island = StartingIslandRandomizer(self)
+    self.enemies = EnemyRandomizer(self)
     self.palettes = PaletteRandomizer(self)
     self.boss_rewards = BossRewardRandomizer(self)
     self.hints = HintsRandomizer(self)
@@ -377,8 +378,7 @@ class WWRandomizer:
     # Enemies must be randomized before items in order for the enemy logic to properly take into account what items you do and don't start with.
     if self.options.get("randomize_enemies"):
       yield("Randomizing enemy locations...", options_completed)
-      self.reset_rng()
-      enemies.randomize_enemies(self)
+      self.enemies.randomize()
     
     if self.options.get("randomize_enemy_palettes"):
       yield("Randomizing enemy colors...", options_completed)
@@ -405,6 +405,7 @@ class WWRandomizer:
     if not self.dry_run:
       self.charts.save()
       self.starting_island.save()
+      self.enemies.save()
       self.palettes.save()
       self.boss_rewards.save()
       self.hints.save()
@@ -594,9 +595,6 @@ class WWRandomizer:
     self.main_custom_symbols = self.custom_symbols["sys/main.dol"]
     with open(os.path.join(ASM_PATH, "free_space_start_offsets.txt"), "r") as f:
       self.free_space_start_offsets = yaml.safe_load(f)
-    
-    with open(os.path.join(DATA_PATH, "enemy_types.txt"), "r") as f:
-      self.enemy_types = yaml.safe_load(f)
   
   def register_renamed_item(self, item_id, item_name):
     self.item_name_to_id[item_name] = item_id
