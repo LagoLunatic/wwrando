@@ -30,5 +30,8 @@ class BaseRandomizer:
   def _save(self):
     raise NotImplementedError()
   
+  def write_to_non_spoiler_log(self) -> str:
+    return ""
+  
   def write_to_spoiler_log(self) -> str:
     return ""

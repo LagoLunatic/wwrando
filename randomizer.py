@@ -32,7 +32,7 @@ try:
 except ImportError:
   SEED_KEY = ""
 
-from randomizers import items
+from randomizers.items import ItemRandomizer
 from randomizers.charts import ChartRandomizer
 from randomizers.starting_island import StartingIslandRandomizer
 from randomizers import entrances
@@ -254,6 +254,7 @@ class WWRandomizer:
     
     self.logic = Logic(self, rando_fully_inited=False)
     
+    self.items = ItemRandomizer(self)
     self.charts = ChartRandomizer(self)
     self.starting_island = StartingIslandRandomizer(self)
     self.palettes = PaletteRandomizer(self)
@@ -386,14 +387,13 @@ class WWRandomizer:
     
     yield("Randomizing items...", options_completed)
     if self.randomize_items:
-      self.reset_rng()
-      items.randomize_items(self)
+      self.items.randomize()
     
     options_completed += 2
     
     yield("Saving items...", options_completed)
     if self.randomize_items and not self.dry_run:
-      items.write_changed_items(self)
+      self.items.save()
     options_completed += 1
     
     yield("Generating hints...", options_completed)
@@ -827,82 +827,6 @@ class WWRandomizer:
     
     return self.rng.choice(weighted_seq)
   
-  def calculate_playthrough_progression_spheres(self):
-    progression_spheres = []
-    
-    logic = Logic(self)
-    previously_accessible_locations = []
-    game_beatable = False
-    while logic.unplaced_progress_items:
-      progress_items_in_this_sphere = OrderedDict()
-      
-      accessible_locations = logic.get_accessible_remaining_locations()
-      locations_in_this_sphere = [
-        loc for loc in accessible_locations
-        if loc not in previously_accessible_locations
-      ]
-      if not locations_in_this_sphere:
-        raise Exception("Failed to calculate progression spheres")
-      
-      
-      if not self.options.get("keylunacy"):
-        # If the player gained access to any small keys, we need to give them the keys without counting that as a new sphere.
-        newly_accessible_predetermined_item_locations = [
-          loc for loc in locations_in_this_sphere
-          if loc in self.logic.prerandomization_item_locations
-        ]
-        newly_accessible_small_key_locations = [
-          loc for loc in newly_accessible_predetermined_item_locations
-          if self.logic.prerandomization_item_locations[loc].endswith(" Small Key")
-        ]
-        if newly_accessible_small_key_locations:
-          for small_key_location_name in newly_accessible_small_key_locations:
-            item_name = self.logic.prerandomization_item_locations[small_key_location_name]
-            assert item_name.endswith(" Small Key")
-            
-            logic.add_owned_item(item_name)
-          
-          previously_accessible_locations += newly_accessible_small_key_locations
-          continue # Redo this loop iteration with the small key locations no longer being considered 'remaining'.
-      
-      
-      # Hide duplicated progression items (e.g. Empty Bottles) when they are placed in non-progression locations to avoid confusion and inconsistency.
-      locations_in_this_sphere = logic.filter_locations_for_progression(locations_in_this_sphere)
-      
-      for location_name in locations_in_this_sphere:
-        item_name = self.logic.done_item_locations[location_name]
-        if item_name in logic.all_progress_items:
-          progress_items_in_this_sphere[location_name] = item_name
-      
-      if not game_beatable:
-        game_beatable = logic.check_requirement_met("Can Reach and Defeat Ganondorf")
-        if game_beatable:
-          progress_items_in_this_sphere["Ganon's Tower - Rooftop"] = "Defeat Ganondorf"
-      
-      progression_spheres.append(progress_items_in_this_sphere)
-      
-      for location_name, item_name in progress_items_in_this_sphere.items():
-        if item_name == "Defeat Ganondorf":
-          continue
-        logic.add_owned_item(item_name)
-      for group_name, item_names in logic.progress_item_groups.items():
-        entire_group_is_owned = all(item_name in logic.currently_owned_items for item_name in item_names)
-        if entire_group_is_owned and group_name in logic.unplaced_progress_items:
-          logic.unplaced_progress_items.remove(group_name)
-      
-      previously_accessible_locations = accessible_locations
-    
-    if not game_beatable:
-      # If the game wasn't already beatable on a previous progression sphere but it is now we add one final one just for this.
-      game_beatable = logic.check_requirement_met("Can Reach and Defeat Ganondorf")
-      if game_beatable:
-        final_progression_sphere = OrderedDict([
-          ("Ganon's Tower - Rooftop", "Defeat Ganondorf"),
-        ])
-        progression_spheres.append(final_progression_sphere)
-    
-    return progression_spheres
-
   def get_seed_hash(self):
     # Generate some text that will be shown on the name entry screen which has two random character names that vary based on the permalink (so the seed and settings both change it).
     # This is so two players intending to play the same seed can verify if they really are on the same seed or not.
@@ -969,62 +893,13 @@ class WWRandomizer:
     
     return header
   
-  def get_zones_and_max_location_name_len(self, locations):
-    zones = OrderedDict()
-    max_location_name_length = 0
-    for location_name in locations:
-      zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
-      
-      if zone_name not in zones:
-        zones[zone_name] = []
-      zones[zone_name].append((location_name, specific_location_name))
-      
-      if len(specific_location_name) > max_location_name_length:
-        max_location_name_length = len(specific_location_name)
-    
-    return (zones, max_location_name_length)
-  
   def write_non_spoiler_log(self):
     if self.no_logs:
       return
     
     log_str = self.get_log_header()
     
-    progress_locations, nonprogress_locations = self.logic.get_progress_and_non_progress_locations()
-    
-    zones, max_location_name_length = self.get_zones_and_max_location_name_len(self.logic.done_item_locations)
-    format_string = "    %s\n"
-    
-    # Write progress item locations.
-    log_str += "### Locations that may or may not have progress items in them on this run:\n"
-    for zone_name, locations_in_zone in zones.items():
-      if not any(loc for (loc, _) in locations_in_zone if loc in progress_locations):
-        # No progress locations for this zone.
-        continue
-      
-      log_str += zone_name + ":\n"
-      
-      for (location_name, specific_location_name) in locations_in_zone:
-        if location_name in progress_locations:
-          item_name = self.logic.done_item_locations[location_name]
-          log_str += format_string % specific_location_name
-    
-    log_str += "\n\n"
-    
-    
-    # Write nonprogress item locations.
-    log_str += "### Locations that cannot have progress items in them on this run:\n"
-    for zone_name, locations_in_zone in zones.items():
-      if not any(loc for (loc, _) in locations_in_zone if loc in nonprogress_locations):
-        # No nonprogress locations for this zone.
-        continue
-      
-      log_str += zone_name + ":\n"
-      
-      for (location_name, specific_location_name) in locations_in_zone:
-        if location_name in nonprogress_locations:
-          item_name = self.logic.done_item_locations[location_name]
-          log_str += format_string % specific_location_name
+    log_str += self.items.write_to_non_spoiler_log()
     
     os.makedirs(self.logs_output_folder, exist_ok=True)
     nonspoiler_log_output_path = os.path.join(self.logs_output_folder, "WW Random %s - Non-Spoiler Log.txt" % self.seed)
@@ -1035,50 +910,13 @@ class WWRandomizer:
     if self.no_logs:
       if self.randomize_items:
         # We still calculate progression spheres even if we're not going to write them anywhere to catch more errors in testing.
-        self.calculate_playthrough_progression_spheres()
+        self.items.calculate_playthrough_progression_spheres()
       return
     
     spoiler_log = self.get_log_header()
     
     if self.randomize_items:
-      # Write progression spheres.
-      spoiler_log += "Playthrough:\n"
-      progression_spheres = self.calculate_playthrough_progression_spheres()
-      all_progression_sphere_locations = [loc for locs in progression_spheres for loc in locs]
-      zones, max_location_name_length = self.get_zones_and_max_location_name_len(all_progression_sphere_locations)
-      format_string = "      %-" + str(max_location_name_length+1) + "s %s\n"
-      for i, progression_sphere in enumerate(progression_spheres):
-        spoiler_log += "%d:\n" % (i+1)
-        
-        for zone_name, locations_in_zone in zones.items():
-          if not any(loc for (loc, _) in locations_in_zone if loc in progression_sphere):
-            # No locations in this zone are used in this sphere.
-            continue
-          
-          spoiler_log += "  %s:\n" % zone_name
-          
-          for (location_name, specific_location_name) in locations_in_zone:
-            if location_name in progression_sphere:
-              if location_name == "Ganon's Tower - Rooftop":
-                item_name = "Defeat Ganondorf"
-              else:
-                item_name = self.logic.done_item_locations[location_name]
-              spoiler_log += format_string % (specific_location_name + ":", item_name)
-        
-      spoiler_log += "\n\n\n"
-      
-      # Write item locations.
-      spoiler_log += "All item locations:\n"
-      zones, max_location_name_length = self.get_zones_and_max_location_name_len(self.logic.done_item_locations)
-      format_string = "    %-" + str(max_location_name_length+1) + "s %s\n"
-      for zone_name, locations_in_zone in zones.items():
-        spoiler_log += zone_name + ":\n"
-        
-        for (location_name, specific_location_name) in locations_in_zone:
-          item_name = self.logic.done_item_locations[location_name]
-          spoiler_log += format_string % (specific_location_name + ":", item_name)
-      
-      spoiler_log += "\n\n\n"
+      spoiler_log += self.items.write_to_spoiler_log()
     
     spoiler_log += self.boss_rewards.write_to_spoiler_log()
     
