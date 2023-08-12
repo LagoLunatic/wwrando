@@ -363,7 +363,7 @@ class Event:
     self.ending_flags = [-1, -1, -1]
     self.play_jingle = False
     self.zero_initialized_runtime_data = b"\0"*0x1B
-    self.actors = []
+    self.actors: list[Actor] = []
   
   def read(self, offset):
     data = self.event_list.file_entry.data
@@ -446,7 +446,7 @@ class Actor:
     self.staff_type = 0
     self.initial_action_index = None
     self.zero_initialized_runtime_data = b"\0"*0x1C
-    self.actions = []
+    self.actions: list[Action] = []
     self.initial_action = None
   
   def read(self, offset):
@@ -508,7 +508,7 @@ class Action:
     self.first_property_index = None
     self.next_action_index = None
     self.zero_initialized_runtime_data = b"\0"*0x10
-    self.properties = []
+    self.properties: list[Property] = []
     self.next_action = None
   
   def read(self, offset):
