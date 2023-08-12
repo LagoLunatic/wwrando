@@ -622,7 +622,7 @@ class HintsRandomizer(BaseRandomizer):
         return None, None
       
       # Pick a location uniformly at random from the list of hintable locations.
-      zone_name, entrance_zone, specific_location_name, item_name = self.rando.rng.choice(unhinted_locations)
+      zone_name, entrance_zone, specific_location_name, item_name = self.rng.choice(unhinted_locations)
       hinted_location = "%s - %s" % (zone_name, specific_location_name)
       
       # Regardless of whether we use the location, remove that location from being hinted.
@@ -761,7 +761,7 @@ class HintsRandomizer(BaseRandomizer):
       return None
     
     # Remove a barren zone at random from the list, using the weights provided.
-    zone_name = self.rando.rng.choices(unhinted_zones, weights=zone_weights)[0]
+    zone_name = self.rng.choices(unhinted_zones, weights=zone_weights)[0]
     unhinted_zones.remove(zone_name)
     
     barren_hint = Hint(HintType.BARREN, zone_name)
@@ -843,7 +843,7 @@ class HintsRandomizer(BaseRandomizer):
       return None, None
     
     # Pick a location at which to hint at random.
-    location_name = self.rando.rng.choice(hintable_locations)
+    location_name = self.rng.choice(hintable_locations)
     hintable_locations.remove(location_name)
     
     item_name = self.logic.done_item_locations[location_name]
@@ -888,7 +888,7 @@ class HintsRandomizer(BaseRandomizer):
       return None
     
     # Pick a location at which to hint at random.
-    location_name = self.rando.rng.choice(hintable_locations)
+    location_name = self.rng.choice(hintable_locations)
     hintable_locations.remove(location_name)
     
     item_name = self.logic.done_item_locations[location_name]
@@ -981,7 +981,7 @@ class HintsRandomizer(BaseRandomizer):
     # the number of required locations at that zone. The more required locations, the more likely that zone will be
     # chosen.
     dungeon_paths = self.rando.boss_rewards.required_dungeons.copy()
-    self.rando.rng.shuffle(dungeon_paths)
+    self.rng.shuffle(dungeon_paths)
     
     # If race mode is on, then remove items that are hinted on the path to a race mode dungeon from paths to Hyrule and
     # Ganondorf. This way, the path to the race mode dungeon takes hint priority for that item.
@@ -1021,7 +1021,7 @@ class HintsRandomizer(BaseRandomizer):
           previously_hinted_locations.append(location_name)
     
     while len(required_locations_for_paths) > 0 and len(hinted_path_zones) < self.max_path_hints:
-      path_name = self.rando.rng.choice(list(required_locations_for_paths.keys()))
+      path_name = self.rng.choice(list(required_locations_for_paths.keys()))
       path_hint, location_name = self.get_path_hint(required_locations_for_paths[path_name], previously_hinted_locations, path_name)
       
       # Unable to generate a path hint for the dungeon, so remove path goal.
