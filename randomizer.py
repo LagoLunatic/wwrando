@@ -41,6 +41,7 @@ from randomizers.enemies import EnemyRandomizer
 from randomizers.palettes import PaletteRandomizer
 from randomizers.boss_rewards import BossRewardRandomizer
 from randomizers.hints import HintsRandomizer
+from randomizers.pigs import PigsRandomizer
 
 from version import VERSION, VERSION_WITHOUT_COMMIT
 
@@ -108,7 +109,6 @@ class WWRandomizer:
       seed_string += SEED_KEY
     
     self.integer_seed = self.convert_string_to_integer_md5(seed_string)
-    self.rng = self.get_new_rng()
     
     self.arcs_by_path: dict[str, RARC] = {}
     self.jpcs_by_path: dict[str, JPC] = {}
@@ -193,6 +193,7 @@ class WWRandomizer:
     self.palettes = PaletteRandomizer(self)
     self.boss_rewards = BossRewardRandomizer(self)
     self.hints = HintsRandomizer(self)
+    self.pigs = PigsRandomizer(self)
     
     self.logic.initialize_from_randomizer_state()
     
@@ -301,16 +302,7 @@ class WWRandomizer:
       yield("Randomizing entrances...", options_completed)
       self.entrances.randomize()
     
-    if not self.dry_run:
-      # Randomize the color of the big pig on Outset by setting the bitfield of which pigs were captured in the prologue.
-      self.reset_rng()
-      captured_pigs_bitfield = self.rng.choice([
-        0x01, # Pink only
-        0x02, # Speckled only
-        0x04, # Black only
-      ])
-      captured_prologue_pigs_bitfield_address = self.main_custom_symbols["captured_prologue_pigs_bitfield"]
-      self.dol.write_data(fs.write_u8, captured_prologue_pigs_bitfield_address, captured_pigs_bitfield)
+    self.pigs.randomize()
     
     options_completed += 1
     
@@ -349,6 +341,7 @@ class WWRandomizer:
       self.palettes.save()
       self.boss_rewards.save()
       self.hints.save()
+      self.pigs.save()
       self.apply_necessary_post_randomization_tweaks()
     options_completed += 1
     
@@ -749,10 +742,7 @@ class WWRandomizer:
     
     return rng
   
-  def reset_rng(self):
-    self.rng = self.get_new_rng()
-  
-  def weighted_choice(self, seq: list[Any], weight_conditions: list[tuple[int, Callable[[Any], bool]]]):
+  def weighted_choice(self, rng: Random, seq: list[Any], weight_conditions: list[tuple[int, Callable[[Any], bool]]]):
     weighted_seq = []
     
     for element in seq:
@@ -764,7 +754,7 @@ class WWRandomizer:
       
       weighted_seq += weight_for_element*[element]
     
-    return self.rng.choice(weighted_seq)
+    return rng.choice(weighted_seq)
   
   def get_seed_hash(self):
     # Generate some text that will be shown on the name entry screen which has two random character names that vary based on the permalink (so the seed and settings both change it).

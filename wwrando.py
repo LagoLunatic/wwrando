@@ -50,7 +50,6 @@ def run_no_ui(args):
     "permalink": None, # TODO encode this
     "cmd_line_args": args,
   }
-  print(rando_kwargs)
   
   # TODO profiling
   
