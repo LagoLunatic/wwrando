@@ -6,3 +6,4 @@ certifi==2023.7.22
 PyInstaller==5.13.0
 tinyaes==1.0.4
 --editable "./gclib[speedups]"
+tqdm>=4.65.0

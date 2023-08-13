@@ -43,8 +43,6 @@ class WWRandomizerWindow(QMainWindow):
     
     self.cmd_line_args = cmd_line_args
     self.dry_run = ("-dry" in cmd_line_args)
-    self.bulk_test = ("-bulk" in cmd_line_args)
-    self.no_ui_test = ("-noui" in cmd_line_args)
     self.profiling = ("-profile" in cmd_line_args)
     self.auto_seed = ("-autoseed" in cmd_line_args)
 
@@ -129,10 +127,6 @@ class WWRandomizerWindow(QMainWindow):
     
     if self.auto_seed:
       self.generate_seed()
-
-    if self.no_ui_test:
-      self.randomize()
-      return
     
     self.show()
     
@@ -258,29 +252,6 @@ class WWRandomizerWindow(QMainWindow):
     
     self.progress_dialog = RandomizerProgressDialog("Randomizing", "Initializing...")
     
-    if self.bulk_test:
-      failures_done = 0
-      total_done = 0
-      for i in range(100):
-        temp_seed = str(i)
-        rando = None
-        try:
-          rando = WWRandomizer(temp_seed, clean_iso_path, output_folder, options, permalink=permalink, cmd_line_args=self.cmd_line_args)
-          all(rando.randomize())
-        except (TooFewProgressionLocationsError, InvalidCleanISOError) as e:
-          error_message = str(e)
-          self.randomization_failed(error_message)
-          return
-        except Exception as e:
-          stack_trace = traceback.format_exc()
-          error_message = "Error on seed " + temp_seed + ":\n" + str(e) + "\n\n" + stack_trace
-          print(error_message)
-          if rando is not None:
-            rando.write_error_log(error_message)
-          failures_done += 1
-        total_done += 1
-        print("%d/%d seeds failed" % (failures_done, total_done))
-    
     try:
       rando = WWRandomizer(seed, clean_iso_path, output_folder, options, permalink=permalink, cmd_line_args=self.cmd_line_args)
     except (TooFewProgressionLocationsError, InvalidCleanISOError) as e:
@@ -308,11 +279,6 @@ class WWRandomizerWindow(QMainWindow):
     self.progress_dialog.reset()
     
     self.randomizer_thread = None
-    
-    if self.no_ui_test:
-      self.close()
-      QCoreApplication.quit()
-      return
     
     text = """Randomization complete.<br><br>
       If you get stuck, check the progression spoiler log in the output folder."""
@@ -1303,10 +1269,6 @@ class WWRandomizerWindow(QMainWindow):
     return color_presets
   
   def update_model_preview(self):
-    if self.no_ui_test:
-      # Preview can't be seen without a UI anyway, don't waste time generating it.
-      return
-    
     custom_model_name = self.get_option_value("custom_player_model")
     custom_model_metadata = customizer.get_model_metadata(custom_model_name)
     disable_casual_clothes = custom_model_metadata.get("disable_casual_clothes", False)

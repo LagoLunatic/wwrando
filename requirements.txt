@@ -4,3 +4,4 @@ Pillow==10.0.0
 appdirs==1.4.4
 certifi==2023.7.22
 --editable "./gclib"
+tqdm>=4.65.0

@@ -70,7 +70,7 @@ class InvalidCleanISOError(Exception):
   pass
 
 class WWRandomizer:
-  def __init__(self, seed, clean_iso_path, randomized_output_folder, options: dict, permalink=None, cmd_line_args=OrderedDict()):
+  def __init__(self, seed, clean_iso_path, randomized_output_folder, options: dict, permalink=None, cmd_line_args=None):
     self.randomized_output_folder = randomized_output_folder
     self.logs_output_folder = self.randomized_output_folder
     self.options = options
@@ -78,6 +78,8 @@ class WWRandomizer:
     self.permalink = permalink
     self.seed_hash = self.get_seed_hash()
     
+    if cmd_line_args is None:
+      cmd_line_args = {}
     self.dry_run = ("-dry" in cmd_line_args)
     self.disassemble = ("-disassemble" in cmd_line_args)
     self.export_disc_to_folder = ("-exportfolder" in cmd_line_args)
