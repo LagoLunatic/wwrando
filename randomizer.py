@@ -36,7 +36,7 @@ from randomizers.items import ItemRandomizer
 from randomizers.charts import ChartRandomizer
 from randomizers.starting_island import StartingIslandRandomizer
 from randomizers.entrances import EntranceRandomizer 
-from randomizers import music
+# from randomizers import music # Unfinished and needs to be rewritten from scratch
 from randomizers.enemies import EnemyRandomizer
 from randomizers.palettes import PaletteRandomizer
 from randomizers.boss_rewards import BossRewardRandomizer
@@ -290,9 +290,9 @@ class WWRandomizer:
     if self.options.get("randomize_starting_island"):
       self.starting_island.randomize()
     
-    if self.options.get("randomize_music"):
-      self.reset_rng()
-      music.randomize_music(self)
+    # if self.options.get("randomize_music"):
+    #   self.reset_rng()
+    #   music.randomize_music(self)
     
     if self.options.get("race_mode"):
       self.boss_rewards.randomize()
