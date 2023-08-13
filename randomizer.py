@@ -281,15 +281,16 @@ class WWRandomizer:
     if self.options.get("randomize_starting_island"):
       self.starting_island.randomize()
     
+    if self.options.get("randomize_music"):
+      self.reset_rng()
+      music.randomize_music(self)
+    
     if self.options.get("race_mode"):
       self.boss_rewards.randomize()
     
     if self.options.get("randomize_entrances") not in ["Disabled", None]:
+      yield("Randomizing entrances...", options_completed)
       self.entrances.randomize()
-    
-    if self.options.get("randomize_music"):
-      self.reset_rng()
-      music.randomize_music(self)
     
     if not self.dry_run:
       # Randomize the color of the big pig on Outset by setting the bitfield of which pigs were captured in the prologue.
@@ -398,7 +399,8 @@ class WWRandomizer:
     tweaks.update_tingle_statue_item_get_funcs(self)
     patcher.apply_patch(self, "tingle_chests_without_tuner")
     tweaks.make_tingle_statue_reward_rupee_rainbow_colored(self)
-    tweaks.show_seed_hash_on_name_entry_screen(self)
+    if self.seed_hash is not None:
+      tweaks.show_seed_hash_on_name_entry_screen(self)
     tweaks.fix_ghost_ship_chest_crash(self)
     tweaks.implement_key_bag(self)
     tweaks.add_chest_in_place_of_jabun_cutscene(self)
