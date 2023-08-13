@@ -256,10 +256,7 @@ class WWRandomizerWindow(QMainWindow):
     
     permalink = self.ui.permalink.text()
     
-    max_progress_val = 20
-    if options.get("randomize_enemy_palettes"):
-      max_progress_val += 10
-    self.progress_dialog = RandomizerProgressDialog("Randomizing", "Initializing...", max_progress_val)
+    self.progress_dialog = RandomizerProgressDialog("Randomizing", "Initializing...")
     
     if self.bulk_test:
       failures_done = 0
@@ -296,6 +293,7 @@ class WWRandomizerWindow(QMainWindow):
       self.randomization_failed(error_message)
       return
     
+    self.progress_dialog.setMaximum(rando.get_max_progress_length())
     self.randomizer_thread = RandomizerThread(rando, profiling=self.profiling)
     self.randomizer_thread.update_progress.connect(self.update_progress_dialog)
     self.randomizer_thread.randomization_complete.connect(self.randomization_complete)
@@ -1442,11 +1440,10 @@ class ModelFilterOut(QSortFilterProxyModel):
     return num_occurrences <= 0
 
 class RandomizerProgressDialog(QProgressDialog):
-  def __init__(self, title, description, max_val):
+  def __init__(self, title, description):
     QProgressDialog.__init__(self)
     self.setWindowTitle(title)
     self.setLabelText(description)
-    self.setMaximum(max_val)
     self.setWindowModality(Qt.ApplicationModal)
     self.setWindowFlags(Qt.CustomizeWindowHint | Qt.WindowTitleHint)
     self.setFixedSize(self.size())
@@ -1472,14 +1469,14 @@ class RandomizerThread(QThread):
       profiler.enable()
     
     try:
-      last_update_time = time.time()
+      last_update_time = time.monotonic()
       for next_option_description, options_finished in self.randomizer.randomize():
-        if time.time()-last_update_time < 0.1:
+        if time.monotonic()-last_update_time < 0.1:
           # Limit how frequently the signal is emitted to 10 times per second.
           # Extremely frequent updates (e.g. 1000 times per second) can cause the program to crash with no error message.
           continue
         self.update_progress.emit(next_option_description, options_finished)
-        last_update_time = time.time()
+        last_update_time = time.monotonic()
     except Exception as e:
       stack_trace = traceback.format_exc()
       error_message = "Randomization failed with error:\n" + str(e) + "\n\n" + stack_trace

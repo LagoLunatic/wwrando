@@ -229,6 +229,13 @@ class WWRandomizer:
       self.dungeons_and_caves_only_start = False
     self.logic.update_entrance_connection_macros() # Reset the entrance macros.
   
+  def get_max_progress_length(self) -> int:
+    # TODO: calculate this properly
+    max_progress_val = 20
+    if self.options.get("randomize_enemy_palettes"):
+      max_progress_val += 10
+    return max_progress_val
+  
   def randomize(self):
     options_completed = 0
     yield("Modifying game code...", options_completed)
