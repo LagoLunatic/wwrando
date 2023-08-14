@@ -1282,8 +1282,8 @@ class Logic:
         new_items_to_add = [item_name]*num
         for old_item_combo in old_item_combos:
           new_item_combo = old_item_combo + new_items_to_add
-          if new_item_combo in item_combos_to_check:
-            raise Exception("Duplicate item combo!")
+          # if new_item_combo in item_combos_to_check:
+          #   raise Exception("Duplicate item combo!")
           item_combos_to_check.append(new_item_combo)
     
     for item_combo in item_combos_to_check:
