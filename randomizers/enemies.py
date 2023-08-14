@@ -898,10 +898,10 @@ class EnemyRandomizer(BaseRandomizer):
     
     dzr = self.rando.get_arc("files/res/Stage/kaze/Room10.arc").get_file("room.dzr", DZx)
     homen = dzr.entries_by_type(ACTR)[0]
-    homen.enemy_to_spawn = self.rando.rng.choice(possible_homen_enemies)
+    homen.enemy_to_spawn = self.rng.choice(possible_homen_enemies)
     homen.save_changes()
     homen = dzr.entries_by_type(ACTR)[9]
-    homen.enemy_to_spawn = self.rando.rng.choice(possible_homen_enemies)
+    homen.enemy_to_spawn = self.rng.choice(possible_homen_enemies)
     homen.save_changes()
 
   def update_loaded_particles(self, particles_to_load_for_each_jpc_index):
