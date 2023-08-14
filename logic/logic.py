@@ -1263,9 +1263,9 @@ class Logic:
     
     relevant_item_names = list(max_num_of_each_item_to_check.keys())
     if self.rando.options.get("sword_mode") == "Swordless":
-      if "Progressive Sword" in relevant_item_names:
+      while "Progressive Sword" in relevant_item_names:
         relevant_item_names.remove("Progressive Sword")
-      if "Hurricane Spin" in relevant_item_names:
+      while "Hurricane Spin" in relevant_item_names:
         relevant_item_names.remove("Hurricane Spin")
     
     item_combos_to_check = [[]]
