@@ -60,9 +60,12 @@ def run_no_ui(args):
       progress_bar.set_description(f"{failures_done}/{total_done} seeds failed")
   else:
     rando = WWRandomizer(**rando_kwargs)
-    progress_bar = tqdm(rando.randomize(), total=rando.get_max_progress_length())
-    for next_option_description, _ in progress_bar:
-      progress_bar.set_description(next_option_description)
+    with tqdm(total=rando.get_max_progress_length()) as progress_bar:
+      prev_val = 0
+      for next_option_description, options_finished in rando.randomize():
+        progress_bar.update(options_finished-prev_val)
+        prev_val = options_finished
+        progress_bar.set_description(next_option_description)
 
 def try_fix_taskbar_icon():
   from wwrando_paths import IS_RUNNING_FROM_SOURCE
