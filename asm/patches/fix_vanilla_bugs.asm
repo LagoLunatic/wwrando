@@ -474,3 +474,43 @@ check_can_defend:
   li r3, 1
   blr
 .close
+
+
+
+
+; During the Ganondorf fight, it is actually possible to reflect Zelda's light arrows during the
+; first phase of the fight. This rarely happens as Zelda aims upwards at Ganondorf and not at Link,
+; but it is possible.
+; But when it does happen, if you are locked on to Ganondorf, and Ganondorf tries to enter the
+; second phase of the fight (knocking Zelda out) at the same time as as being hit with the reflected
+; arrow, this can cause a bug because of conflicting events.
+; Ganondorf starts the short hardcoded camera event to emphasize the fact that you reflected an
+; arrow at him at around the same time as the event for knocking Zelda out, which can result in a
+; bug where Zelda and Link will not be animated during that event.
+; To fix this, we disable that short hardcoded event until Ganondorf has <= 25 HP (phase 3).
+; (Bug figured out and fix suggested by SuperDude88.)
+.open "sys/main.dol" ; In daArrow_c::ShieldReflect(void)
+.org 0x800D4EBC
+  ; This code gets run when reflecting a light arrow while locked on to Ganondorf.
+  b check_ganondorf_in_phase_3
+
+.org @NextFreeSpace
+.global check_ganondorf_in_phase_3
+check_ganondorf_in_phase_3:
+  lbz r0, 0x285 (r3) ; Ganondorf's current HP
+  extsb r0, r0
+  cmpwi r0, 25 ; Zelda wakes up and Ganondorf enters phase 3 at 25 HP
+  bgt ganondorf_not_in_phase_3
+
+ganondorf_in_phase_3:
+  ; Replace the line we overwrote to jump here.
+  lfs f0, 0x1F8 (r4)
+  ; Return to the original code for reflecting Zelda's light arrow.
+  b 0x800D4EC0
+
+ganondorf_not_in_phase_3:
+  ; Return to the code ran when you are not locked on to Ganondorf.
+  ; This stops Ganondorf from playing the hardcoded camera event if he isn't in phase 3 yet.
+  ; We still allow the arrow to be reflected and damage Ganondorf; only the event is removed.
+  b 0x800D4F68
+.close
