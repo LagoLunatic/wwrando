@@ -10,31 +10,66 @@ def signal_handler(sig, frame):
   sys.exit(0)
 signal.signal(signal.SIGINT, signal_handler)
 
-def run_bulk_test(bulk_test_size, rando_kwargs):
+def run_single_bulk_test(args):
+  temp_seed, rando_kwargs = args
+  
   from randomizer import WWRandomizer
   import traceback
   
-  failures_done = 0
-  total_done = 0
-  for i in range(bulk_test_size):
-    temp_seed = str(i)
-    rando_kwargs["seed"] = temp_seed
-    rando = None
-    try:
-      rando = WWRandomizer(**rando_kwargs)
-      all(rando.randomize())
-    except Exception as e:
-      stack_trace = traceback.format_exc()
-      error_message = f"Error on seed {temp_seed}:\n{e}\n\n{stack_trace}"
-      print(error_message)
-      if rando is not None:
-        rando.write_error_log(error_message)
-      failures_done += 1
-    total_done += 1
-    yield(failures_done, total_done)
+  temp_seed = str(temp_seed)
+  rando_kwargs["seed"] = temp_seed
+  rando = None
+  try:
+    rando = WWRandomizer(**rando_kwargs)
+    all(rando.randomize())
+    return True, rando
+  except Exception as e:
+    stack_trace = traceback.format_exc()
+    error_message = f"Error on seed {temp_seed}:\n{e}\n\n{stack_trace}"
+    print()
+    print(error_message)
+    if rando is not None:
+      rando.write_error_log(error_message)
+    return False, rando
+
+def run_all_bulk_tests(rando_kwargs):
+  assert getattr(sys, "gettrace", None) is None or sys.gettrace() is None, "Launched bulk test in debug mode (slow)"
+  
+  from tqdm import tqdm
+  from multiprocessing import Pool
+  from collections import Counter
+  
+  with Pool(4) as p:
+    first_seed = 0
+    num_tests = 100
+    func_args = [(i, rando_kwargs) for i in range(first_seed, first_seed+num_tests)]
+    progress_bar = tqdm(p.imap(run_single_bulk_test, func_args), total=num_tests)
+    
+    total_done = 0
+    failures_done = 0
+    counts = Counter()
+    for success, rando in progress_bar:
+      total_done += 1
+      if success:
+        # Optionally put some code here to count something across all seeds to detect biased distributions.
+        pass
+        # for path in rando.entrances.nested_entrance_paths:
+        #   depth_counts[len(path)] += 1
+        # for i in range(3, max(len(p) for p in rando.entrances.nested_entrance_paths)+1):
+        #   counts[i] += 1
+        # for path in rando.entrances.nested_entrance_paths:
+        #   if path[-1].endswith(" Boss Arena"):
+        #     counts[path[-2].split(" ")[0]] += 1
+      else:
+        failures_done += 1
+      progress_bar.set_description(f"{failures_done}/{total_done} seeds failed")
+    
+    if counts:
+      print(counts)
 
 def run_no_ui(args):
   from randomizer import WWRandomizer
+  import traceback
   from wwrando_paths import SETTINGS_PATH
   from tqdm import tqdm
   import yaml
@@ -54,18 +89,22 @@ def run_no_ui(args):
   # TODO profiling
   
   if "-bulk" in args:
-    bulk_test_size = 100
-    progress_bar = tqdm(run_bulk_test(bulk_test_size, rando_kwargs), total=bulk_test_size)
-    for failures_done, total_done in progress_bar:
-      progress_bar.set_description(f"{failures_done}/{total_done} seeds failed")
+    run_all_bulk_tests(rando_kwargs)
   else:
     rando = WWRandomizer(**rando_kwargs)
-    with tqdm(total=rando.get_max_progress_length()) as progress_bar:
-      prev_val = 0
-      for next_option_description, options_finished in rando.randomize():
-        progress_bar.update(options_finished-prev_val)
-        prev_val = options_finished
-        progress_bar.set_description(next_option_description)
+    try:
+      with tqdm(total=rando.get_max_progress_length()) as progress_bar:
+        prev_val = 0
+        for next_option_description, options_finished in rando.randomize():
+          progress_bar.update(options_finished-prev_val)
+          prev_val = options_finished
+          progress_bar.set_description(next_option_description)
+    except Exception as e:
+      stack_trace = traceback.format_exc()
+      error_message = f"Error on seed {rando_kwargs['seed']}:\n{e}\n\n{stack_trace}"
+      if rando is not None:
+        rando.write_error_log(error_message)
+      raise e
 
 def try_fix_taskbar_icon():
   from wwrando_paths import IS_RUNNING_FROM_SOURCE
