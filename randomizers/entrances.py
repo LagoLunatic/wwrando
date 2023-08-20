@@ -20,6 +20,9 @@ class ZoneEntrance:
   @property
   def is_nested(self):
     return self.island_name is None
+  
+  def __repr__(self):
+    return f"ZoneEntrance('{self.entrance_name}')"
 
 DUNGEON_ENTRANCES = [
   ZoneEntrance("Adanmae", 0, 2, 2, "Dungeon Entrance on Dragon Roost Island", "Dragon Roost Island", "sea", 13, 211),
@@ -72,6 +75,9 @@ class ZoneExit:
   zone_name: str
   unique_name: str
   boss_stage_name: str = None
+  
+  def __repr__(self):
+    return f"ZoneExit('{self.unique_name}')"
 
 DUNGEON_EXITS = [
   ZoneExit("M_NewD2", 0, 0, 0, "Dragon Roost Cavern", "Dragon Roost Cavern", "M_DragB"),
@@ -251,6 +257,9 @@ class EntranceRandomizer(BaseRandomizer):
     self.nesting_enabled = False
     if self.options.get("randomize_entrances") in ["Nested Dungeons", "Nested Dungeons & Secret Caves (Separately)", "Nested Dungeons & Secret Caves (Together)"]:
       self.nesting_enabled = True
+    
+    self.safety_entrance = None
+    self.islands_with_a_dungeon: list[str] = []
   
   def _randomize(self):
     if self.options.get("randomize_entrances") == "Dungeons":
@@ -325,11 +334,10 @@ class EntranceRandomizer(BaseRandomizer):
     
     for zone_entrance in relevant_entrances:
       del self.done_entrances_to_exits[zone_entrance]
-    for zone_exit in relevant_exits:
-      del self.done_exits_to_entrances[zone_exit]
     
-    remaining_exits = relevant_exits.copy()
     self.rng.shuffle(relevant_entrances)
+    
+    self.islands_with_a_dungeon.clear()
     
     doing_progress_entrances_for_dungeons_and_caves_only_start = False
     if self.rando.dungeons_and_caves_only_start:
@@ -340,20 +348,7 @@ class EntranceRandomizer(BaseRandomizer):
           or self.options.get("progression_savage_labyrinth")):
         doing_progress_entrances_for_dungeons_and_caves_only_start = True
     
-    if self.options.get("race_mode"):
-      # Move entrances that are on islands with multiple entrances to the start of the list.
-      # This is because we need to prevent these islands from having multiple dungeons on them in Race Mode, and this can fail if they're not at the start of the list because it's possible for the only possibility left to be to put multiple dungeons on one island.
-      entrances_not_on_unique_islands = []
-      for zone_entrance in relevant_entrances:
-        for other_zone_entrance in relevant_entrances:
-          if other_zone_entrance.island_name == zone_entrance.island_name and other_zone_entrance != zone_entrance:
-            entrances_not_on_unique_islands.append(zone_entrance)
-            break
-      for zone_entrance in entrances_not_on_unique_islands:
-        relevant_entrances.remove(zone_entrance)
-      relevant_entrances = entrances_not_on_unique_islands + relevant_entrances
-    
-    safety_entrance = None
+    self.safety_entrance = None
     if doing_progress_entrances_for_dungeons_and_caves_only_start:
       # If the player can't access any locations at the start besides dungeon/cave entrances, we choose an entrance with no requirements that will be the first place the player goes.
       # We will make this entrance lead to a dungeon/cave with no requirements so the player can actually get an item at the start.
@@ -361,30 +356,126 @@ class EntranceRandomizer(BaseRandomizer):
         e for e in relevant_entrances
         if e.entrance_name in self.entrance_names_with_no_requirements
       ]
-      safety_entrance = self.rng.choice(possible_safety_entrances)
-      
-      # In order to avoid using up all dungeons/caves with no requirements, we have to do this entrance first, so move it to the start of the array.
-      relevant_entrances.remove(safety_entrance)
-      relevant_entrances.insert(0, safety_entrance)
+      self.safety_entrance = self.rng.choice(possible_safety_entrances)
     
-    while relevant_entrances:
-      zone_entrance = relevant_entrances.pop(0)
-      outermost_entrance = self.get_outermost_entrance_for_entrance(zone_entrance)
-      if outermost_entrance is None:
-        # Boss entrance that isn't yet accessible from the sea in any way.
-        # We don't want to connect this to anything yet or we risk creating an infinite loop.
-        # So postpone it until the end.
-        relevant_entrances.append(zone_entrance)
-        continue
+    if include_dungeons and self.options.get("race_mode"):
+      split_groups = self.split_race_mode_banned_entrances_and_exits(relevant_entrances, relevant_exits)
+      for entrances, exits, banned in split_groups:
+        self.randomize_one_set_of_exits(entrances, exits, banned)
+    else:
+      self.randomize_one_set_of_exits(relevant_entrances, relevant_exits)
+  
+  def split_race_mode_banned_entrances_and_exits(self, relevant_entrances: list[ZoneEntrance], relevant_exits: list[ZoneExit]):
+    # Splits the entrance and exit lists into two pairs: ones that should be considered banned on
+    # this race mode seed (will never lead to any progress items) and ones that should be considered
+    # required on this race mode seed.
+    # This is so that we can effectively randomize these two pairs separately without any convoluted
+    # logic to ensure they don't connect to each other.
+    
+    banned_zone_entrances: list[ZoneEntrance] = []
+    for zone_entrance in relevant_entrances:
+      if zone_entrance in BOSS_ENTRANCES:
+        assert zone_entrance.entrance_name.startswith("Boss Entrance in ")
+        dungeon_name = zone_entrance.entrance_name[len("Boss Entrance in "):]
+        if dungeon_name in self.rando.boss_rewards.banned_dungeons:
+          banned_zone_entrances.append(zone_entrance)
+    
+    nonbanned_zone_entrances: list[ZoneEntrance] = [
+      zone_entrance for zone_entrance in relevant_entrances
+      if zone_entrance not in banned_zone_entrances
+    ]
+    
+    banned_zone_exits: list[ZoneExit] = []
+    for zone_exit in relevant_exits:
+      if zone_exit in BOSS_EXITS:
+        assert zone_exit.unique_name.endswith(" Boss Arena")
+        boss_name = zone_exit.unique_name[:-len(" Boss Arena")]
+        if boss_name in self.rando.boss_rewards.banned_bosses:
+          banned_zone_exits.append(zone_exit)
+      elif zone_exit in DUNGEON_EXITS:
+        dungeon_name = zone_exit.unique_name
+        if dungeon_name in self.rando.boss_rewards.banned_dungeons:
+          banned_zone_exits.append(zone_exit)
+    
+    nonbanned_zone_exits: list[ZoneExit] = [
+      zone_exit for zone_exit in relevant_exits
+      if zone_exit not in banned_zone_exits
+    ]
+    
+    # At this point, banned_zone_entrances includes only the boss entrances inside of dungeons, not
+    # any of the island entrances on the sea. So we need to select N random island entrances to
+    # allow all of the banned dungeons to be accessible, where N is the number of banned dungeons.
+    for i in range(len(banned_zone_entrances)):
+      # Note: nonbanned_zone_entrances is already shuffled, so we can just take the first result
+      # from it and it's the same as picking one randomly.
+      banned_island_entrance = next(
+        en for en in nonbanned_zone_entrances
+        if en.island_name is not None
+        # We do need to exclude the safety_entrance from being considered, as otherwise the item
+        # rando would have nowhere to put items at the start of the seed without violating the rule
+        # that progress items cannot appear in banned race mode dungeons.
+        and en != self.safety_entrance
+      )
+      nonbanned_zone_entrances.remove(banned_island_entrance)
+      banned_zone_entrances.append(banned_island_entrance)
+    
+    assert len(banned_zone_entrances) == len(banned_zone_exits)
+    assert len(nonbanned_zone_entrances) == len(nonbanned_zone_exits)
+    
+    return [
+      (banned_zone_entrances, banned_zone_exits, True),
+      (nonbanned_zone_entrances, nonbanned_zone_exits, False),
+    ]
+  
+  def randomize_one_set_of_exits(self, relevant_entrances: list[ZoneEntrance], relevant_exits: list[ZoneExit], doing_banned=False):
+    for zone_exit in relevant_exits:
+      del self.done_exits_to_entrances[zone_exit]
+    
+    remaining_entrances = relevant_entrances.copy()
+    remaining_exits = relevant_exits.copy()
+    
+    if not doing_banned and self.options.get("race_mode") and any(ex in SECRET_CAVE_EXITS for ex in relevant_exits):
+      # Move entrances that are on islands with multiple entrances to the start of the list.
+      # This is because we need to prevent these islands from having multiple dungeons on them in
+      # Race Mode, and this can fail if they're not at the start of the list because it's possible
+      # for the only possibility left to be to put multiple dungeons on one island.
+      entrances_not_on_unique_islands = []
+      for zone_entrance in relevant_entrances:
+        if zone_entrance.is_nested:
+          continue
+        if zone_entrance.island_name in self.islands_with_a_dungeon:
+          # This island was already used on a previous call to randomize_one_set_of_exits.
+          entrances_not_on_unique_islands.append(zone_entrance)
+          continue
+        for other_zone_entrance in relevant_entrances:
+          if other_zone_entrance.is_nested:
+            continue
+          if other_zone_entrance.island_name == zone_entrance.island_name and other_zone_entrance != zone_entrance:
+            entrances_not_on_unique_islands.append(zone_entrance)
+            break
+      for zone_entrance in entrances_not_on_unique_islands:
+        remaining_entrances.remove(zone_entrance)
+      remaining_entrances = entrances_not_on_unique_islands + remaining_entrances
+    
+    if self.safety_entrance is not None and self.safety_entrance in remaining_entrances:
+      # In order to avoid using up all dungeons/caves with no requirements, we have to do this entrance first, so move it to the start of the array.
+      remaining_entrances.remove(self.safety_entrance)
+      remaining_entrances.insert(0, self.safety_entrance)
+    
+    while remaining_entrances:
+      # Filter out boss entrances that aren't yet accessible from the sea.
+      # We don't want to connect these to anything yet or we risk creating an infinite loop.
+      possible_remaining_entrances = [
+        en for en in remaining_entrances
+        if self.get_outermost_entrance_for_entrance(en) is not None
+      ]
+      zone_entrance = possible_remaining_entrances.pop(0)
+      remaining_entrances.remove(zone_entrance)
       
-      if doing_progress_entrances_for_dungeons_and_caves_only_start and zone_entrance == safety_entrance:
+      if zone_entrance == self.safety_entrance:
         possible_remaining_exits = [e for e in remaining_exits if e.unique_name in self.exit_names_with_no_requirements]
       else:
         possible_remaining_exits = remaining_exits
-      
-      if any(e for e in possible_remaining_exits if e in DUNGEON_EXITS):
-        # Only start placing boss exits after all dungeon exits have been placed.
-        possible_remaining_exits = [e for e in remaining_exits if e not in BOSS_EXITS]
       
       # The below is debugging code for testing the caves with timers.
       #if zone_entrance.entrance_name == "Secret Cave Entrance on Fire Mountain":
@@ -403,19 +494,25 @@ class EntranceRandomizer(BaseRandomizer):
       #    if x.unique_name not in ["Fire Mountain Secret Cave", "Ice Ring Isle Secret Cave"]
       #  ]
       
-      if self.options.get("race_mode"):
-        # Prevent two entrances on the same island both leading into dungeons (DRC and Pawprint each have two entrances).
-        # This is because Race Mode's dungeon markers only tell you what island required dungeons are on, not which of the two entrances it's in. So if a required dungeon and a non-required dungeon were on the same island there would be no way to tell which is required.
-        done_entrances_on_same_island_leading_to_a_dungeon = [
-          entr for entr in self.done_entrances_to_exits
-          if entr.island_name == zone_entrance.island_name
-          and self.done_entrances_to_exits[entr] in DUNGEON_EXITS
-        ]
-        if done_entrances_on_same_island_leading_to_a_dungeon:
+      if self.options.get("race_mode") and zone_entrance.island_name is not None and not doing_banned:
+        # Prevent two entrances on the same island (DRC or Pawprint) both leading into dungeons.
+        # This is because Race Mode's dungeon markers only tell you what island a required dungeons
+        # is on, not which of the two entrances it's in. So if a required dungeon and a non-required
+        # dungeon were on the same island there would be no way to tell which is required.
+        # However, we allow multiple banned dungeons to appear on a single island.
+        if zone_entrance.island_name in self.islands_with_a_dungeon:
           possible_remaining_exits = [
             ex for ex in possible_remaining_exits
             if ex not in DUNGEON_EXITS + BOSS_EXITS
           ]
+      
+      if any(ex for ex in possible_remaining_exits if ex in DUNGEON_EXITS):
+        # Only start placing terminal exits (exits that do not create another entrance) after all
+        # non-terminal exits have been placed.
+        possible_remaining_exits = [
+          ex for ex in possible_remaining_exits
+          if ex in DUNGEON_EXITS
+        ]
       
       if not possible_remaining_exits:
         raise Exception(f"No valid exits to place for entrance: {zone_entrance.entrance_name}")
@@ -423,8 +520,11 @@ class EntranceRandomizer(BaseRandomizer):
       remaining_exits.remove(zone_exit)
       
       self.entrance_connections[zone_entrance.entrance_name] = zone_exit.unique_name
+      # print(f"{zone_entrance.entrance_name} -> {zone_exit.unique_name}")
       self.done_entrances_to_exits[zone_entrance] = zone_exit
       self.done_exits_to_entrances[zone_exit] = zone_entrance
+      if zone_exit in DUNGEON_EXITS and zone_entrance.island_name is not None:
+        self.islands_with_a_dungeon.append(zone_entrance.island_name)
   
   def finalize_all_randomized_sets_of_entrances(self):
     for zone_exit in ALL_EXITS:
