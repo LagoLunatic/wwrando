@@ -1,7 +1,7 @@
 
 import os
 import re
-from collections import OrderedDict, defaultdict
+from collections import defaultdict
 
 from gclib import fs_helpers as fs
 
@@ -300,15 +300,15 @@ def print_all_used_switches(self):
               
               add_used_switch(switch, stage_id_for_param, stage_name, room_no_for_param, location_identifier, is_unused)
   
-  def write_used_switches_to_file(used_switches_dict, filename):
-    used_switches_dict = OrderedDict(sorted(
+  def write_used_switches_to_file(used_switches_dict: dict[int, dict], filename):
+    used_switches_dict = dict(sorted(
       used_switches_dict.items(), key=lambda x: x[0]
     ))
     
     with open(filename, "w") as f:
       f.write("Switches:\n")
       for stage_id, used_switches_for_room in used_switches_dict.items():
-        used_switches_for_room = OrderedDict(sorted(
+        used_switches_for_room = dict(sorted(
           used_switches_for_room.items(),
           key=lambda x: (x[0] is not None, split_string_for_natural_sort(str(x[0])))
         ))
@@ -409,7 +409,7 @@ def print_all_used_item_pickup_flags(self):
                 used_item_flags_by_stage_id[stage_id].append((item_flag, item_name, location_identifier))
   
   def write_used_item_flags_to_file(used_item_flags_dict, filename):
-    used_item_flags_dict = OrderedDict(sorted(
+    used_item_flags_dict = dict(sorted(
       used_item_flags_dict.items(), key=lambda x: x[0]
     ))
     
@@ -447,7 +447,7 @@ def print_all_used_chest_open_flags(self):
           stage_id_for_chest = stage_id
         used_chest_flags_by_stage_id[stage_id_for_chest].append((chest.opened_flag, item_name, arc_path))
   
-  used_chest_flags_by_stage_id = OrderedDict(sorted(
+  used_chest_flags_by_stage_id = dict(sorted(
     used_chest_flags_by_stage_id.items(), key=lambda x: x[0]
   ))
   print()
@@ -508,7 +508,7 @@ def print_all_event_flags_used_by_stb_cutscenes(self):
 
 def print_all_event_list_actions(self):
   # Build a list of all actions used by all actors in the game.
-  all_actors = OrderedDict()
+  all_actors = {}
   
   for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
     stage_arc = self.get_arc(stage_arc_path)
@@ -524,11 +524,11 @@ def print_all_event_list_actions(self):
       
       for actor in event.actors:
         if actor.name not in all_actors:
-          all_actors[actor.name] = OrderedDict()
+          all_actors[actor.name] = {}
         
         for action in actor.actions:
           if action.name not in all_actors[actor.name]:
-            all_actors[actor.name][action.name] = OrderedDict()
+            all_actors[actor.name][action.name] = {}
           
           if len(action.properties) == 0:
             if None not in all_actors[actor.name][action.name]:
@@ -538,7 +538,7 @@ def print_all_event_list_actions(self):
           
           for prop in action.properties:
             if prop.name not in all_actors[actor.name][action.name]:
-              all_actors[actor.name][action.name][prop.name] = OrderedDict()
+              all_actors[actor.name][action.name][prop.name] = {}
             
             prop_value_str = repr(prop.value)
             if prop_value_str not in all_actors[actor.name][action.name][prop.name]:
@@ -548,16 +548,16 @@ def print_all_event_list_actions(self):
               all_actors[actor.name][action.name][prop.name][prop_value_str].append(stage_and_event_name)
   
   # Sort everything alphanumerically instead of by the order they first appeared in the game's files.
-  all_actors = OrderedDict(sorted(all_actors.items(), key=lambda x: x[0]))
+  all_actors = dict(sorted(all_actors.items(), key=lambda x: x[0]))
   for actor_name, actions in all_actors.items():
-    actions = OrderedDict(sorted(actions.items(), key=lambda x: x[0]))
+    actions = dict(sorted(actions.items(), key=lambda x: x[0]))
     all_actors[actor_name] = actions
     for action_name, props in actions.items():
-      sorted_props = OrderedDict()
+      sorted_props = {}
       if None in props:
         sorted_props[None] = props[None]
         del props[None]
-      sorted_props |= OrderedDict(sorted(props.items(), key=lambda x: x[0]))
+      sorted_props |= dict(sorted(props.items(), key=lambda x: x[0]))
       all_actors[actor_name][action_name] = sorted_props
   
   with open("All Event List Actions.txt", "w") as f:
@@ -627,7 +627,7 @@ def print_stages_for_each_stage_id(self):
     stage_name = match.group(1)
     stage_names_by_stage_id[stage_id].append(stage_name)
   
-  stage_names_by_stage_id = OrderedDict(sorted(
+  stage_names_by_stage_id = dict(sorted(
     stage_names_by_stage_id.items(), key=lambda x: x[0]
   ))
   print()
@@ -644,7 +644,7 @@ def print_item_table(self):
   
   with open("Item Table.txt", "w") as f:
     for i in range(num_entries):
-      item_occs = OrderedDict()
+      item_occs = {}
       offset = 0x10 + i*0x10
       for j in range(0x10):
         item_id = fs.read_u8(item_table_data, offset + j)
@@ -674,7 +674,7 @@ def print_actor_info(self):
   actor_id_to_rel_filename_mapping_addr = 0x803398D8 # DynamicNameTable
   actr_name_to_actor_info_mapping_addr = 0x80372818 # l_objectName
   
-  actor_id_to_rel_filename = OrderedDict()
+  actor_id_to_rel_filename = {}
   
   i = 0
   while True:

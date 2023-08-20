@@ -1,17 +1,15 @@
 
-from collections import OrderedDict
-
 from randomizers.base_randomizer import BaseRandomizer
 from gclib import fs_helpers as fs
 
-BOSS_NAME_TO_SEA_CHART_QUEST_MARKER_INDEX = OrderedDict([
-  ("Gohma", 7),
-  ("Kalle Demos", 5),
-  ("Gohdan", 3), # Originally Southern Triangle Island
-  ("Helmaroc King", 2), # Originally Eastern Triangle Island
-  ("Jalhalla", 0),
-  ("Molgera", 1),
-])
+BOSS_NAME_TO_SEA_CHART_QUEST_MARKER_INDEX = {
+  "Gohma"        : 7,
+  "Kalle Demos"  : 5,
+  "Gohdan"       : 3, # Originally Southern Triangle Island
+  "Helmaroc King": 2, # Originally Eastern Triangle Island
+  "Jalhalla"     : 0,
+  "Molgera"      : 1,
+}
 # Note: 4 is Northern Triangle Island and 6 is Greatfish Isle, these are not currently used by the randomizer.
 
 class BossRewardRandomizer(BaseRandomizer):
@@ -127,7 +125,7 @@ class BossRewardRandomizer(BaseRandomizer):
     if len(possible_boss_locations) != 6:
       raise Exception("Number of boss item locations is incorrect: " + ", ".join(possible_boss_locations))
     
-    boss_reward_locations = OrderedDict()
+    boss_reward_locations = {}
     
     # Decide what reward item to place in each boss location.
     for item_name in boss_reward_items:

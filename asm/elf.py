@@ -1,7 +1,6 @@
 
 from enum import Enum
 from io import BytesIO
-from collections import OrderedDict
 
 from gclib import fs_helpers as fs
 
@@ -24,11 +23,11 @@ class ELF:
     for section in self.sections:
       section.name = fs.read_str_until_null_character(self.data, section_header_string_table_offset+section.name_offset)
     
-    self.sections_by_name = OrderedDict()
+    self.sections_by_name = {}
     for section in self.sections:
       self.sections_by_name[section.name] = section
     
-    self.relocations = OrderedDict()
+    self.relocations = {}
     for section in self.sections:
       if section.type == ELFSectionType.SHT_RELA:
         self.relocations[section.name] = []
@@ -37,12 +36,12 @@ class ELF:
           relocation.read(self.data, section.section_offset + i*ELFRelocation.ENTRY_SIZE)
           self.relocations[section.name].append(relocation)
     
-    self.symbols = OrderedDict()
-    self.symbols_by_name = OrderedDict()
+    self.symbols = {}
+    self.symbols_by_name = {}
     for section in self.sections:
       if section.type == ELFSectionType.SHT_SYMTAB:
         self.symbols[section.name] = []
-        self.symbols_by_name[section.name] = OrderedDict()
+        self.symbols_by_name[section.name] = {}
         for i in range(section.size//ELFSymbol.ENTRY_SIZE):
           symbol = ELFSymbol()
           symbol.read(self.data, section.section_offset + i*ELFSymbol.ENTRY_SIZE)

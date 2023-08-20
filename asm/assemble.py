@@ -6,7 +6,6 @@ from subprocess import call
 import os
 import tempfile
 import shutil
-from collections import OrderedDict
 import struct
 import yaml
 import traceback
@@ -33,12 +32,6 @@ def get_bin(name):
 if not os.path.isfile(get_bin("powerpc-eabi-as")):
   raise Exception(r"Failed to assemble code: Could not find devkitPPC. devkitPPC should be installed to: C:\devkitPro\devkitPPC")
 
-# Allow yaml to dump OrderedDicts for the diffs.
-yaml.Dumper.add_representer(
-  OrderedDict,
-  lambda dumper, data: dumper.represent_dict(data.items())
-)
-
 # Change how yaml dumps lists so each element isn't on a separate line.
 yaml.Dumper.add_representer(
   list,
@@ -55,8 +48,8 @@ temp_dir = tempfile.mkdtemp()
 print(temp_dir)
 print()
 
-custom_symbols = OrderedDict()
-custom_symbols["sys/main.dol"] = OrderedDict()
+custom_symbols = {}
+custom_symbols["sys/main.dol"] = {}
 
 with open(asm_dir + "/free_space_start_offsets.txt", "r") as f:
   free_space_start_offsets = yaml.safe_load(f)
@@ -169,11 +162,11 @@ def get_code_and_relocations_from_elf(bin_name):
         is_local_relocation = try_apply_local_relocation(bin_name, elf_relocation, elf_symbol)
         
         if not is_local_relocation:
-          relocations_in_elf.append(OrderedDict([
-            ["SymbolName", elf_symbol.name],
-            ["Offset", elf_relocation.relocation_offset],
-            ["Type", elf_relocation.type.name],
-          ]))
+          relocations_in_elf.append({
+            "SymbolName": elf_symbol.name,
+            "Offset"    : elf_relocation.relocation_offset,
+            "Type"      : elf_relocation.type.name,
+          })
   
   return relocations_in_elf
 
@@ -238,7 +231,7 @@ try:
   all_asm_files = ["custom_data.asm", "custom_funcs.asm"] + all_asm_files
   
   # First parse all the asm files into code chunks.
-  code_chunks = OrderedDict()
+  code_chunks = {}
   local_branches_linker_script_for_file = {}
   next_free_space_id_for_file = {}
   for patch_filename in all_asm_files:
@@ -251,7 +244,7 @@ try:
     #print(asm_with_includes)
     
     patch_name = os.path.splitext(patch_filename)[0]
-    code_chunks[patch_name] = OrderedDict()
+    code_chunks[patch_name] = {}
     
     most_recent_file_path = None
     most_recent_org_offset = None
@@ -268,7 +261,7 @@ try:
         if most_recent_file_path or most_recent_org_offset is not None:
           raise Exception("File %s was not closed before opening new file %s" % (most_recent_file_path, relative_file_path))
         if relative_file_path not in code_chunks[patch_name]:
-          code_chunks[patch_name][relative_file_path] = OrderedDict()
+          code_chunks[patch_name][relative_file_path] = {}
         if relative_file_path not in local_branches_linker_script_for_file:
           local_branches_linker_script_for_file[relative_file_path] = ""
         most_recent_file_path = relative_file_path
@@ -340,11 +333,11 @@ try:
       raise Exception("File %s was not closed before the end of the file" % most_recent_file_path)
   
   for patch_name, code_chunks_for_patch in code_chunks.items():
-    diffs = OrderedDict()
+    diffs = {}
     
     for file_path, code_chunks_for_file in code_chunks_for_patch.items():
       if file_path not in custom_symbols:
-        custom_symbols[file_path] = OrderedDict()
+        custom_symbols[file_path] = {}
       custom_symbols_for_file = custom_symbols[file_path]
       
       # Sort code chunks in this patch so that free space chunks come first.
@@ -416,7 +409,7 @@ try:
         # Determine the org offset for each individual section.
         elf = ELF()
         elf.read_from_file(o_name)
-        org_offset_for_section_by_name = OrderedDict()
+        org_offset_for_section_by_name = {}
         curr_org_offset = org_offset
         for elf_section in elf.sections:
           if elf_section.flags & ELFSectionFlags.SHF_ALLOC.value != 0:
@@ -496,7 +489,7 @@ try:
         
         # Keep track of changed bytes.
         if file_path not in diffs:
-          diffs[file_path] = OrderedDict()
+          diffs[file_path] = {}
         
         if org_offset in diffs[file_path]:
           raise Exception("Duplicate .org directive within a single asm patch: %X" % org_offset)
@@ -515,18 +508,18 @@ try:
           next_free_space_offsets[file_path] += code_chunk_size_in_bytes
         
         bytes = list(struct.unpack("B"*bin_size, binary_data))
-        diffs[file_path][org_offset] = OrderedDict()
+        diffs[file_path][org_offset] = {}
         diffs[file_path][org_offset]["Data"] = bytes
         if relocations:
           diffs[file_path][org_offset]["Relocations"] = relocations
     
     diff_path = os.path.join(asm_dir, "patch_diffs", patch_name + "_diff.txt")
     with open(diff_path, "w", newline='\n') as f:
-      f.write(yaml.dump(diffs, Dumper=yaml.Dumper, default_flow_style=False))
+      f.write(yaml.dump(diffs, default_flow_style=False, sort_keys=False))
   
   # Write the custom symbols to a text file.
   # Delete any entries in custom_symbols that have no custom symbols to avoid clutter.
-  output_custom_symbols = OrderedDict()
+  output_custom_symbols = {}
   for file_path, custom_symbols_for_file in custom_symbols.items():
     if file_path != "sys/main.dol" and len(custom_symbols_for_file) == 0:
       continue
@@ -534,7 +527,7 @@ try:
     output_custom_symbols[file_path] = custom_symbols_for_file
   
   with open(asm_dir + "/custom_symbols.txt", "w", newline='\n') as f:
-    f.write(yaml.dump(output_custom_symbols, Dumper=yaml.Dumper, default_flow_style=False))
+    f.write(yaml.dump(output_custom_symbols, default_flow_style=False, sort_keys=False))
 except Exception as e:
   stack_trace = traceback.format_exc()
   error_message = str(e) + "\n\n" + stack_trace

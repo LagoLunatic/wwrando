@@ -10,7 +10,6 @@ from wwr_ui.packedbits import PackedBitsReader, PackedBitsWriter
 
 import random
 import collections
-from collections import OrderedDict
 
 import os
 import yaml
@@ -34,22 +33,24 @@ class WWRandomizerWindow(QMainWindow):
   VALID_SEED_CHARACTERS = "-_'%%.%s%s" % (string.ascii_letters, string.digits)
   MAX_SEED_LENGTH = 42 # Limited by maximum length of game name in banner
   
-  def __init__(self, cmd_line_args=OrderedDict()):
+  def __init__(self, cmd_line_args=None):
     super(WWRandomizerWindow, self).__init__()
     self.ui = Ui_MainWindow()
     self.ui.setupUi(self)
     
     self.randomizer_thread = None
     
+    if cmd_line_args is None:
+      cmd_line_args = {}
     self.cmd_line_args = cmd_line_args
     self.dry_run = ("-dry" in cmd_line_args)
     self.profiling = ("-profile" in cmd_line_args)
     self.auto_seed = ("-autoseed" in cmd_line_args)
 
-    self.custom_color_selector_buttons = OrderedDict()
-    self.custom_color_selector_hex_inputs = OrderedDict()
-    self.custom_color_reset_buttons = OrderedDict()
-    self.custom_colors = OrderedDict()
+    self.custom_color_selector_buttons = {}
+    self.custom_color_selector_hex_inputs = {}
+    self.custom_color_reset_buttons = {}
+    self.custom_colors = {}
     self.initialize_custom_player_model_list()
     self.initialize_color_presets_list()
     
@@ -239,11 +240,11 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.seed.setText(seed)
     self.update_settings()
     
-    options = OrderedDict()
+    options = {}
     for option_name in OPTIONS:
       options[option_name] = self.get_option_value(option_name)
     
-    colors = OrderedDict()
+    colors = {}
     for color_name in self.get_default_custom_colors_for_current_model():
       colors[color_name] = self.get_color(color_name)
     options["custom_colors"] = colors
@@ -322,7 +323,7 @@ class WWRandomizerWindow(QMainWindow):
       self.ui.update_checker_label.setText(new_text)
   
   def preserve_default_settings(self):
-    self.default_settings = OrderedDict()
+    self.default_settings = {}
     for option_name in OPTIONS:
       self.default_settings[option_name] = self.get_option_value(option_name)
   
@@ -353,9 +354,9 @@ class WWRandomizerWindow(QMainWindow):
       with open(SETTINGS_PATH) as f:
         self.settings = yaml.safe_load(f)
       if self.settings is None:
-        self.settings = OrderedDict()
+        self.settings = {}
     else:
-      self.settings = OrderedDict()
+      self.settings = {}
     
     if "clean_iso_path" in self.settings:
       self.ui.clean_iso_path.setText(self.settings["clean_iso_path"])
@@ -396,7 +397,7 @@ class WWRandomizerWindow(QMainWindow):
   
   def save_settings(self):
     with open(SETTINGS_PATH, "w") as f:
-      yaml.dump(self.settings, f, default_flow_style=False, Dumper=yaml.Dumper)
+      yaml.dump(self.settings, f, default_flow_style=False, sort_keys=False)
   
   def update_settings(self):
     self.settings["clean_iso_path"] = self.ui.clean_iso_path.text()
@@ -417,7 +418,7 @@ class WWRandomizerWindow(QMainWindow):
     self.update_total_progress_locations()
   
   def update_total_progress_locations(self):
-    options = OrderedDict()
+    options = {}
     for option_name in OPTIONS:
       options[option_name] = self.get_option_value(option_name)
     num_progress_locations = Logic.get_num_progression_locations_static(self.cached_item_locations, options)
@@ -778,9 +779,9 @@ class WWRandomizerWindow(QMainWindow):
         widget = item.widget()
         if widget:
           widget.deleteLater()
-    self.custom_color_selector_buttons = OrderedDict()
-    self.custom_color_selector_hex_inputs = OrderedDict()
-    self.custom_color_reset_buttons = OrderedDict()
+    self.custom_color_selector_buttons = {}
+    self.custom_color_selector_hex_inputs = {}
+    self.custom_color_reset_buttons = {}
     
     custom_model_name = self.get_option_value("custom_player_model")
     metadata = customizer.get_model_metadata(custom_model_name)
@@ -820,7 +821,7 @@ class WWRandomizerWindow(QMainWindow):
     else:
       prefix = "hero"
     
-    self.custom_colors = OrderedDict()
+    self.custom_colors = {}
     custom_colors = metadata.get(prefix + "_custom_colors", {})
     
     for custom_color_name, default_color in custom_colors.items():
@@ -1277,7 +1278,7 @@ class WWRandomizerWindow(QMainWindow):
     else:
       prefix = "hero"
     
-    colors = OrderedDict()
+    colors = {}
     for color_name in self.get_default_custom_colors_for_current_model():
       colors[color_name] = self.get_color(color_name)
     
@@ -1459,13 +1460,3 @@ class UpdateCheckerThread(QThread):
   def run(self):
     new_version = check_for_updates()
     self.finished_checking_for_updates.emit(new_version)
-
-# Allow yaml to load and dump OrderedDicts.
-yaml.SafeLoader.add_constructor(
-  yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
-  lambda loader, node: OrderedDict(loader.construct_pairs(node))
-)
-yaml.Dumper.add_representer(
-  OrderedDict,
-  lambda dumper, data: dumper.represent_dict(data.items())
-)

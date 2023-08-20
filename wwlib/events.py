@@ -1,6 +1,4 @@
 
-from collections import OrderedDict
-
 from gclib import fs_helpers as fs
 from gclib.gclib_file import GCLibFile
 
@@ -109,7 +107,7 @@ class EventList(GCLibFile):
       integer = fs.read_s32(self.data, offset)
       all_integers.append(integer)
     
-    all_strings_by_offset = OrderedDict()
+    all_strings_by_offset = {}
     offset = self.string_list_offset
     while offset < self.string_list_offset+string_list_total_size:
       string = fs.read_str_until_null_character(self.data, offset)

@@ -1,6 +1,4 @@
 
-from collections import OrderedDict
-
 from gclib import fs_helpers as fs
 
 from randomizers.music_constants import *
@@ -41,13 +39,13 @@ def randomize_music(self):
   
   # First we initialize the list of what a BGM can be replaced with to all other BGMs in the same group as it.
   # We will later filter these lists down.
-  bgm_replacements_that_work = OrderedDict()
+  bgm_replacements_that_work = {}
   for bgm_randomization_group in BGM_RANDOMIZATION_GROUPS:
     for bgm_name in bgm_randomization_group:
       bgm_replacements_that_work[bgm_name] = bgm_randomization_group.copy()
   
-  all_stage_names_that_use_bgm = OrderedDict()
-  all_island_nums_that_use_bgm = OrderedDict()
+  all_stage_names_that_use_bgm = {}
+  all_island_nums_that_use_bgm = {}
   for bgm_name in bgm_name_to_index:
     all_stage_names_that_use_bgm[bgm_name] = []
     all_island_nums_that_use_bgm[bgm_name] = []
@@ -98,8 +96,8 @@ def randomize_music(self):
   decided_second_scene_wave_for_stage = {}
   decided_second_scene_wave_for_island = {}
   
-  stage_name_to_bgm_info_pointer = OrderedDict()
-  island_num_to_bgm_info_pointer = OrderedDict()
+  stage_name_to_bgm_info_pointer = {}
+  island_num_to_bgm_info_pointer = {}
   
   for spot_index in range(1, 0x78+1):
     if spot_index <= 0:

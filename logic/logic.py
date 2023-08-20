@@ -5,7 +5,6 @@ if TYPE_CHECKING: from randomizer import WWRandomizer
 
 import yaml
 import re
-from collections import OrderedDict
 import copy
 
 import os
@@ -15,18 +14,18 @@ from wwrando_paths import LOGIC_PATH
 from randomizers import entrances
 
 class Logic:
-  DUNGEON_NAMES = OrderedDict([
-    ("DRC",  "Dragon Roost Cavern"),
-    ("FW",   "Forbidden Woods"),
-    ("TotG", "Tower of the Gods"),
-    ("FF",   "Forsaken Fortress"),
-    ("ET",   "Earth Temple"),
-    ("WT",   "Wind Temple"),
-  ])
-  DUNGEON_NAME_TO_SHORT_DUNGEON_NAME = OrderedDict([v, k] for k, v in DUNGEON_NAMES.items())
+  DUNGEON_NAMES = {
+    "DRC" : "Dragon Roost Cavern",
+    "FW"  : "Forbidden Woods",
+    "TotG": "Tower of the Gods",
+    "FF"  : "Forsaken Fortress",
+    "ET"  : "Earth Temple",
+    "WT"  : "Wind Temple",
+  }
+  DUNGEON_NAME_TO_SHORT_DUNGEON_NAME = {v: k for k, v in DUNGEON_NAMES.items()}
   
-  PROGRESS_ITEM_GROUPS = OrderedDict([
-    ("Triforce Shards",  [
+  PROGRESS_ITEM_GROUPS = {
+    "Triforce Shards": [
       "Triforce Shard 1",
       "Triforce Shard 2",
       "Triforce Shard 3",
@@ -35,20 +34,20 @@ class Logic:
       "Triforce Shard 6",
       "Triforce Shard 7",
       "Triforce Shard 8",
-    ]),
-    ("Goddess Pearls",  [
+    ],
+    "Goddess Pearls": [
       "Nayru's Pearl",
       "Din's Pearl",
       "Farore's Pearl",
-    ]),
-    ("Tingle Statues",  [
+    ],
+    "Tingle Statues": [
       "Dragon Tingle Statue",
       "Forbidden Tingle Statue",
       "Goddess Tingle Statue",
       "Earth Tingle Statue",
       "Wind Tingle Statue",
-    ]),
-  ])
+    ],
+  }
   
   initial_item_locations = None
   initial_macros = None
@@ -299,7 +298,7 @@ class Logic:
     
     all_locations = self.item_locations.keys()
     progress_locations = self.filter_locations_for_progression(all_locations)
-    location_counts_by_dungeon = OrderedDict()
+    location_counts_by_dungeon = {}
     
     for location_name in progress_locations:
       zone_name, _ = self.split_location_name_by_zone(location_name)
@@ -479,7 +478,7 @@ class Logic:
     item_names_for_all_locations.append(item_names_to_beat_game)
     
     # Now calculate the best case scenario usefulness fraction for all items given.
-    item_by_usefulness_fraction = OrderedDict()
+    item_by_usefulness_fraction = {}
     for item_name in item_names_to_check:
       item_by_usefulness_fraction[item_name] = 9999
     
@@ -713,7 +712,7 @@ class Logic:
       return copy.deepcopy(Logic.initial_item_locations)
     
     with open(os.path.join(LOGIC_PATH, "item_locations.txt")) as f:
-      item_locations = yaml.load(f, YamlOrderedDictLoader)
+      item_locations = yaml.safe_load(f)
     
     for location_name in item_locations:
       req_string = item_locations[location_name]["Need"]
@@ -855,7 +854,7 @@ class Logic:
       filter_sunken_treasure=filter_sunken_treasure
     )
     
-    items_needed = OrderedDict()
+    items_needed = {}
     for location_name in progress_locations:
       requirement_expression = self.item_locations[location_name]["Need"]
       sub_items_needed = self.get_items_needed_from_logical_expression_req(requirement_expression)
@@ -1055,7 +1054,7 @@ class Logic:
     if req_name in self.items_needed_cache:
       return self.items_needed_cache[req_name]
   
-    items_needed = OrderedDict()
+    items_needed = {}
     
     # Prevent infinite recursion for cases where nested requirements depend on themselves.
     # (e.g. temporarily_make_entrance_macros_worst_case_scenario)
@@ -1111,9 +1110,9 @@ class Logic:
   def get_items_needed_from_logical_expression_req(self, logical_expression, reqs_being_checked=None):
     if self.check_logical_expression_req(logical_expression):
       # If this expression is already satisfied, we don't want to include any other items in the OR statement.
-      return OrderedDict()
+      return {}
     
-    items_needed = OrderedDict()
+    items_needed = {}
     tokens = logical_expression.copy()
     tokens.reverse()
     while tokens:
@@ -1208,7 +1207,7 @@ class Logic:
   @staticmethod
   def load_and_parse_enemy_locations() -> dict[str, list[dict]]:
     with open(os.path.join(LOGIC_PATH, "enemy_locations.txt")) as f:
-      enemy_locations = yaml.load(f, YamlOrderedDictLoader)
+      enemy_locations = yaml.safe_load(f)
     
     return enemy_locations
   
@@ -1236,7 +1235,7 @@ class Logic:
     
     # However, we don't recheck ones that are already in the cache.
     if reqs_tuple_key not in self.cached_enemies_tested_for_reqs_tuple:
-      self.cached_enemies_tested_for_reqs_tuple[reqs_tuple_key] = OrderedDict()
+      self.cached_enemies_tested_for_reqs_tuple[reqs_tuple_key] = {}
     else:
       for possible_new_enemy_data in possible_new_enemy_datas:
         enemy_name = possible_new_enemy_data["Pretty name"]
@@ -1252,7 +1251,19 @@ class Logic:
     
     orig_req_expression = Logic.parse_logic_expression(original_req_string)
     
-    max_num_of_each_item_to_check = self.get_items_needed_from_logical_expression_req(orig_req_expression)
+    # trying to fix poor performance for nested entrances+enemy rando
+    reqs_to_ignore = set()
+    # for zone_entrance in entrances.ALL_ENTRANCES:
+    #   if zone_entrance.is_nested:
+    #     zone_exit = self.rando.entrances.get_dungeon_start_exit_leading_to_nested_entrance(zone_entrance)
+    #     entrance_access_macro_name = "Can Access " + zone_entrance.entrance_name
+    #     zone_access_macro_name = "Can Access " + zone_exit.unique_name
+    #     # self.nested_entrance_macros[entrance_access_macro_name] = zone_access_macro_name
+    #     reqs_to_ignore.add(entrance_access_macro_name)
+    #     reqs_to_ignore.add(zone_access_macro_name)
+    
+    print(self.nested_entrance_macros)
+    max_num_of_each_item_to_check = self.get_items_needed_from_logical_expression_req(orig_req_expression, reqs_being_checked=reqs_to_ignore)
     
     # Remove starting items from being checked.
     for item_name in self.currently_owned_items:
@@ -1275,6 +1286,19 @@ class Logic:
     if num_combos_to_check > 1024:
       raise Exception(f"Enemy randomizer got stuck in an exponential loop checking requirement: {original_req_string!r}")
     
+    # # Using set instead of list helps out performance of `in` checks for large numbers of combos.
+    # item_combos_to_check = set()
+    # item_combos_to_check.add(())
+    # for item_name in relevant_item_names:
+    #   old_item_combos = item_combos_to_check.copy()
+    #   for num in range(1, max_num_of_each_item_to_check[item_name]+1):
+    #     new_items_to_add = (item_name,)*num
+    #     for old_item_combo in old_item_combos:
+    #       new_item_combo = old_item_combo + new_items_to_add
+    #       if new_item_combo in item_combos_to_check:
+    #         raise Exception("Duplicate item combo!")
+    #       item_combos_to_check.add(new_item_combo)
+    
     item_combos_to_check = [[]]
     for item_name in relevant_item_names:
       old_item_combos = item_combos_to_check.copy()
@@ -1290,7 +1314,7 @@ class Logic:
       for item_name in item_combo:
         self.add_owned_item_or_item_group(item_name)
       
-      orig_req_met = self.check_logical_expression_req(orig_req_expression)
+      orig_req_met = self.check_logical_expression_req(orig_req_expression, reqs_being_checked=reqs_to_ignore)
       if orig_req_met:
         for possible_new_enemy_data in possible_new_enemy_datas_to_check:
           if possible_new_enemy_data not in enemy_datas_allowed_here:
@@ -1322,11 +1346,3 @@ class Logic:
       self.cached_enemies_tested_for_reqs_tuple[reqs_tuple_key][enemy_name] = True
     
     return enemy_datas_allowed_here
-
-class YamlOrderedDictLoader(yaml.SafeLoader):
-  pass
-
-YamlOrderedDictLoader.add_constructor(
-  yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
-  lambda loader, node: OrderedDict(loader.construct_pairs(node))
-)

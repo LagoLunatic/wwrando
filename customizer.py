@@ -2,7 +2,6 @@
 import os
 import re
 import yaml
-from collections import OrderedDict
 from io import BytesIO
 import glob
 from PIL import Image
@@ -68,7 +67,7 @@ def get_model_metadata(custom_model_name):
       if old_format_match and not new_format_match:
         use_old_color_format = True
       
-      metadata = yaml.load(metadata_str, YamlOrderedDictLoader)
+      metadata = yaml.safe_load(metadata_str)
     except Exception as e:
       error_message = str(e)
       return {
@@ -78,18 +77,18 @@ def get_model_metadata(custom_model_name):
     metadata["preview_hero"] = os.path.join(previews_path, "preview_hero.png")
     metadata["preview_casual"] = os.path.join(previews_path, "preview_casual.png")
     
-    metadata["hero_color_mask_paths"] = OrderedDict()
-    metadata["casual_color_mask_paths"] = OrderedDict()
-    metadata["hands_hero_color_mask_paths"] = OrderedDict()
-    metadata["hands_casual_color_mask_paths"] = OrderedDict()
-    metadata["hitomi_hero_color_mask_paths"] = OrderedDict()
-    metadata["hitomi_casual_color_mask_paths"] = OrderedDict()
-    metadata["preview_hero_color_mask_paths"] = OrderedDict()
-    metadata["preview_casual_color_mask_paths"] = OrderedDict()
+    metadata["hero_color_mask_paths"] = {}
+    metadata["casual_color_mask_paths"] = {}
+    metadata["hands_hero_color_mask_paths"] = {}
+    metadata["hands_casual_color_mask_paths"] = {}
+    metadata["hitomi_hero_color_mask_paths"] = {}
+    metadata["hitomi_casual_color_mask_paths"] = {}
+    metadata["preview_hero_color_mask_paths"] = {}
+    metadata["preview_casual_color_mask_paths"] = {}
     metadata["mouth_color_mask_paths"] = []
     metadata["mouth_color_mask_paths"].append(None) # Dummy entry for mouth number 0, which doesn't exist
     for i in range(1, 9+1):
-      metadata["mouth_color_mask_paths"].append(OrderedDict())
+      metadata["mouth_color_mask_paths"].append({})
     
     for key, value in metadata.items():
       if key in ["hero_custom_colors", "casual_custom_colors"]:
@@ -406,8 +405,8 @@ def change_player_custom_colors(self):
   hands_textures = hands_model.tex1.textures_by_name["handsS3TC"]
   hands_image = hands_textures[0].render()
   
-  all_mouth_textures = OrderedDict()
-  all_mouth_images = OrderedDict()
+  all_mouth_textures = {}
+  all_mouth_images = {}
   
   replaced_any = False
   replaced_any_hands = False
@@ -615,11 +614,3 @@ def get_default_colors(self):
   custom_colors = custom_model_metadata.get(prefix + "_custom_colors", {})
   
   return custom_colors
-
-class YamlOrderedDictLoader(yaml.SafeLoader):
-  pass
-
-YamlOrderedDictLoader.add_constructor(
-  yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
-  lambda loader, node: OrderedDict(loader.construct_pairs(node))
-)

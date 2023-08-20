@@ -4,7 +4,6 @@ from subprocess import DEVNULL
 import os
 import re
 from io import BytesIO
-from collections import OrderedDict
 
 from gclib import fs_helpers as fs
 from gclib.yaz0 import Yaz0
@@ -57,8 +56,8 @@ def disassemble_all_code(self):
       data.seek(0)
       f.write(data.read())
   
-  all_rels_by_path = OrderedDict()
-  all_rel_symbols_by_path = OrderedDict()
+  all_rels_by_path = {}
+  all_rel_symbols_by_path = {}
   for file_path_in_gcm in all_rel_paths:
     basename_with_ext = os.path.basename(file_path_in_gcm)
     basename, file_ext = os.path.splitext(basename_with_ext)
