@@ -21,6 +21,9 @@ class PaletteRandomizer(BaseRandomizer):
     
     self.file_group_name_to_hv_shift: dict[str, tuple] = {}
   
+  def is_enabled(self) -> bool:
+    return bool(self.options.get("randomize_enemy_palettes"))
+  
   def _randomize(self):
     for randomizable_file_group in self.palette_randomizable_files:
       h_shift = self.rng.randint(20, 340)

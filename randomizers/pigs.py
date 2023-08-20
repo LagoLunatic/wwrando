@@ -6,6 +6,9 @@ from randomizers.base_randomizer import BaseRandomizer
 class PigsRandomizer(BaseRandomizer):
   captured_pigs_bitfield: int = 0x04
   
+  def is_enabled(self) -> bool:
+    return True
+  
   def _randomize(self):
     # Randomize the color of the big pig on Outset by setting the bitfield of which pigs were captured in the prologue.
     self.captured_pigs_bitfield = self.rng.choice([

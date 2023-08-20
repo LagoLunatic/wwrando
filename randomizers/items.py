@@ -15,6 +15,9 @@ class ItemRandomizer(BaseRandomizer):
     
     self.drc_failsafe_location = None
   
+  def is_enabled(self) -> bool:
+    return bool(self.rando.randomize_items)
+  
   def _randomize(self):
     if not self.options.get("keylunacy"):
       self.randomize_dungeon_items()

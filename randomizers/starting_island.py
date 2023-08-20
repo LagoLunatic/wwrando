@@ -9,6 +9,9 @@ class StartingIslandRandomizer(BaseRandomizer):
     # Default starting island (Outset Island) if the starting island randomizer is not on.
     self.room_number = 44
   
+  def is_enabled(self) -> bool:
+    return bool(self.options.get("randomize_starting_island"))
+  
   def _randomize(self):
     possible_starting_islands = list(range(1, 49+1))
     

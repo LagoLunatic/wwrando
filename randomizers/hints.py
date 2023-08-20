@@ -145,6 +145,9 @@ class HintsRandomizer(BaseRandomizer):
     # considered junk.
     self.chart_name_to_sunken_treasure = {}
   
+  def is_enabled(self) -> bool:
+    return bool(self.rando.randomize_items)
+  
   def _randomize(self):
     self.floor_30_hint, self.floor_50_hint = self.generate_savage_labyrinth_hints()
     

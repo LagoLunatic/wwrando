@@ -261,6 +261,9 @@ class EntranceRandomizer(BaseRandomizer):
     self.safety_entrance = None
     self.islands_with_a_dungeon: list[str] = []
   
+  def is_enabled(self) -> bool:
+    return self.options.get("randomize_entrances") not in ["Disabled", None]
+  
   def _randomize(self):
     if self.options.get("randomize_entrances") == "Dungeons":
       self.randomize_one_set_of_entrances(include_dungeons=True)

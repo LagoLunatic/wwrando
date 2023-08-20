@@ -32,6 +32,9 @@ class BossRewardRandomizer(BaseRandomizer):
     # The bosses that are guaranteed to not have anything important in race mode.
     self.banned_bosses = []
   
+  def is_enabled(self) -> bool:
+    return bool(self.options.get("race_mode"))
+  
   def _randomize(self):
     # Try to generate dungeon boss reward locations until a valid set of locations is found.
     for i in range(50):

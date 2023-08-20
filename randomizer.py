@@ -32,6 +32,7 @@ try:
 except ImportError:
   SEED_KEY = ""
 
+from randomizers.base_randomizer import BaseRandomizer
 from randomizers.items import ItemRandomizer
 from randomizers.charts import ChartRandomizer
 from randomizers.starting_island import StartingIslandRandomizer
@@ -195,6 +196,22 @@ class WWRandomizer:
     self.hints = HintsRandomizer(self)
     self.pigs = PigsRandomizer(self)
     
+    # This list's order is the order these randomizers will be called in.
+    self.randomizers: list[BaseRandomizer] = [
+      self.charts,
+      self.starting_island,
+      # self.music,
+      self.boss_rewards,
+      self.entrances,
+      self.pigs,
+      # Enemies must be randomized before items in order for the enemy logic to properly take into
+      # account what items you do and don't start with.
+      self.enemies,
+      self.palettes,
+      self.items,
+      self.hints,
+    ]
+    
     self.logic.initialize_from_randomizer_state()
     
     num_progress_locations = self.logic.get_num_progression_locations()
@@ -233,10 +250,22 @@ class WWRandomizer:
     self.logic.update_entrance_connection_macros() # Reset the entrance macros.
   
   def get_max_progress_length(self) -> int:
-    # TODO: calculate this properly
-    max_progress_val = 20
-    if self.options.get("randomize_enemy_palettes"):
-      max_progress_val += 10
+    max_progress_val = 0
+    
+    if not self.dry_run:
+      max_progress_val += 1 # Applying pre-randomization tweaks.
+  
+    for randomizer in self.randomizers:
+      if randomizer.is_enabled():
+        # TODO: each option should specify its own duration weight
+        max_progress_val += 1 # Randomizing.
+        if not self.dry_run:
+          max_progress_val += 2 # Saving changes.
+    
+    if not self.dry_run:
+      max_progress_val += 1 # Applying post-randomization tweaks.
+      max_progress_val += 9 # Saving the ISO.
+    
     return max_progress_val
   
   def randomize(self):
@@ -281,78 +310,46 @@ class WWRandomizer:
       
       if self.test_room_args is not None:
         tweaks.test_room(self)
-    options_completed += 1
+      
+      options_completed += 1
     
     yield("Randomizing...", options_completed)
-    
-    if self.options.get("randomize_charts"):
-      self.charts.randomize()
-    
-    if self.options.get("randomize_starting_island"):
-      self.starting_island.randomize()
-    
-    # if self.options.get("randomize_music"):
-    #   self.reset_rng()
-    #   music.randomize_music(self)
-    
-    if self.options.get("race_mode"):
-      self.boss_rewards.randomize()
-    
-    if self.options.get("randomize_entrances") not in ["Disabled", None]:
-      yield("Randomizing entrances...", options_completed)
-      self.entrances.randomize()
-    
-    self.pigs.randomize()
-    
-    options_completed += 1
-    
-    # Enemies must be randomized before items in order for the enemy logic to properly take into account what items you do and don't start with.
-    if self.options.get("randomize_enemies"):
-      yield("Randomizing enemy locations...", options_completed)
-      self.enemies.randomize()
-    
-    if self.options.get("randomize_enemy_palettes"):
-      yield("Randomizing enemy colors...", options_completed)
-      self.palettes.randomize()
-      options_completed += 10
-    
-    yield("Randomizing items...", options_completed)
-    if self.randomize_items:
-      self.items.randomize()
-    
-    options_completed += 2
-    
-    yield("Saving items...", options_completed)
-    if self.randomize_items and not self.dry_run:
-      self.items.save()
-    options_completed += 1
-    
-    yield("Generating hints...", options_completed)
-    if self.randomize_items:
-      self.hints.randomize()
-    options_completed += 5
+    for randomizer in self.randomizers:
+      if randomizer.is_enabled():
+        # import time
+        # start = time.monotonic()
+        randomizer.randomize()
+        # print()
+        # print(f"{randomizer.__class__.__name__}: {time.monotonic()-start}")
+        options_completed += 1
+        # TODO: each option should specify its own progress text
+        yield("Randomizing...", options_completed)
     
     yield("Applying changes...", options_completed) # TODO each option should have its own applying message
     if not self.dry_run:
-      self.charts.save()
-      self.starting_island.save()
-      self.entrances.save()
-      self.enemies.save()
-      self.palettes.save()
-      self.boss_rewards.save()
-      self.hints.save()
-      self.pigs.save()
+      for randomizer in self.randomizers:
+        if randomizer.is_enabled():
+          # import time
+          # start = time.monotonic()
+          randomizer.save()
+          # print()
+          # print(f"{randomizer.__class__.__name__}: {time.monotonic()-start}")
+          options_completed += 2
+        # TODO: each option should specify its own progress text
+          yield("Applying changes...", options_completed)
+    
+    if not self.dry_run:
       self.apply_necessary_post_randomization_tweaks()
-    options_completed += 1
+      options_completed += 1
     
     yield("Saving randomized ISO...", options_completed)
     if not self.dry_run:
       for next_progress_text, files_done in self.save_randomized_iso():
         percentage_done = files_done/len(self.gcm.files_by_path)
         yield("Saving randomized ISO...", options_completed+int(percentage_done*9))
-    options_completed += 9
-    yield("Writing logs...", options_completed)
+      options_completed += 9
     
+    yield("Writing logs...", options_completed)
     if not self.options.get("do_not_generate_spoiler_log"):
       self.write_spoiler_log()
     self.write_non_spoiler_log()

@@ -63,6 +63,9 @@ class ChartRandomizer(BaseRandomizer):
       49: "Treasure Chart 33",
     }
   
+  def is_enabled(self) -> bool:
+    return bool(self.options.get("randomize_charts"))
+  
   def _randomize(self):
     original_item_names = list(self.island_number_to_chart_name.values())
     

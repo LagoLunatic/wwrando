@@ -10,7 +10,7 @@ class BaseRandomizer:
   independent of other features, while also allowing the randomized changes to be saved to the
   game's files and written to text file logs, or only written to logs but not the game's files.
   
-  Subclasses should implement at least _randomize and _save.
+  Subclasses should implement at least is_enabled, _randomize, and _save.
   They can also optionally implement write_to_non_spoiler_log and/or write_to_spoiler_log.
   """
   
@@ -20,6 +20,9 @@ class BaseRandomizer:
     self.options = rando.options
     self.rng = None
     self.made_any_changes = False
+  
+  def is_enabled(self) -> bool:
+    raise NotImplementedError()
   
   def reset_rng(self):
     self.rng = self.rando.get_new_rng()

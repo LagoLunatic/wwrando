@@ -182,6 +182,9 @@ class EnemyRandomizer(BaseRandomizer):
 
     self.particles_to_load_for_each_jpc_index = {}
   
+  def is_enabled(self) -> bool:
+    return bool(self.options.get("randomize_enemies"))
+  
   def _randomize(self):
     for stage_folder, enemy_locations in self.enemy_locations.items():
       stage_attempts = 0
