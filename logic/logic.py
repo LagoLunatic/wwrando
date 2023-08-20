@@ -1251,19 +1251,7 @@ class Logic:
     
     orig_req_expression = Logic.parse_logic_expression(original_req_string)
     
-    # trying to fix poor performance for nested entrances+enemy rando
-    reqs_to_ignore = set()
-    # for zone_entrance in entrances.ALL_ENTRANCES:
-    #   if zone_entrance.is_nested:
-    #     zone_exit = self.rando.entrances.get_dungeon_start_exit_leading_to_nested_entrance(zone_entrance)
-    #     entrance_access_macro_name = "Can Access " + zone_entrance.entrance_name
-    #     zone_access_macro_name = "Can Access " + zone_exit.unique_name
-    #     # self.nested_entrance_macros[entrance_access_macro_name] = zone_access_macro_name
-    #     reqs_to_ignore.add(entrance_access_macro_name)
-    #     reqs_to_ignore.add(zone_access_macro_name)
-    
-    print(self.nested_entrance_macros)
-    max_num_of_each_item_to_check = self.get_items_needed_from_logical_expression_req(orig_req_expression, reqs_being_checked=reqs_to_ignore)
+    max_num_of_each_item_to_check = self.get_items_needed_from_logical_expression_req(orig_req_expression)
     
     # Remove starting items from being checked.
     for item_name in self.currently_owned_items:
@@ -1286,19 +1274,6 @@ class Logic:
     if num_combos_to_check > 1024:
       raise Exception(f"Enemy randomizer got stuck in an exponential loop checking requirement: {original_req_string!r}")
     
-    # # Using set instead of list helps out performance of `in` checks for large numbers of combos.
-    # item_combos_to_check = set()
-    # item_combos_to_check.add(())
-    # for item_name in relevant_item_names:
-    #   old_item_combos = item_combos_to_check.copy()
-    #   for num in range(1, max_num_of_each_item_to_check[item_name]+1):
-    #     new_items_to_add = (item_name,)*num
-    #     for old_item_combo in old_item_combos:
-    #       new_item_combo = old_item_combo + new_items_to_add
-    #       if new_item_combo in item_combos_to_check:
-    #         raise Exception("Duplicate item combo!")
-    #       item_combos_to_check.add(new_item_combo)
-    
     item_combos_to_check = [[]]
     for item_name in relevant_item_names:
       old_item_combos = item_combos_to_check.copy()
@@ -1314,7 +1289,7 @@ class Logic:
       for item_name in item_combo:
         self.add_owned_item_or_item_group(item_name)
       
-      orig_req_met = self.check_logical_expression_req(orig_req_expression, reqs_being_checked=reqs_to_ignore)
+      orig_req_met = self.check_logical_expression_req(orig_req_expression)
       if orig_req_met:
         for possible_new_enemy_data in possible_new_enemy_datas_to_check:
           if possible_new_enemy_data not in enemy_datas_allowed_here:
