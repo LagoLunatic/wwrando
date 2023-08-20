@@ -370,7 +370,7 @@ def add_ganons_tower_warp_to_ff2(self):
   
   dzx = self.get_arc("files/res/Stage/sea/Room1.arc").get_file("room.dzr", DZx)
   
-  layer_2_actors = dzx.entries_by_type(ACTR, layer=2)
+  layer_2_actors = dzx.entries_by_type_and_layer(ACTR, layer=2)
   layer_2_warp = next(x for x in layer_2_actors if x.name == "Warpmj")
   
   layer_1_warp = dzx.add_entity(ACTR, layer=1)
@@ -887,7 +887,7 @@ def add_pirate_ship_to_windfall(self):
   ship_dzs = self.get_arc("files/res/Stage/Asoko/Stage.arc").get_file("stage.dzs", DZx)
   event_list = self.get_arc("files/res/Stage/Asoko/Stage.arc").get_file("event_list.dat", EventList)
   
-  windfall_layer_2_actors = windfall_dzr.entries_by_type(ACTR, layer=2)
+  windfall_layer_2_actors = windfall_dzr.entries_by_type_and_layer(ACTR, layer=2)
   layer_2_pirate_ship = next(x for x in windfall_layer_2_actors if x.name == "Pirates")
   
   default_layer_pirate_ship = windfall_dzr.add_entity(ACTR)
@@ -908,7 +908,7 @@ def add_pirate_ship_to_windfall(self):
   
   # Remove Niko from the ship to get rid of his events.
   for layer_num in [2, 3]:
-    actors_on_this_layer = ship_dzr.entries_by_type(ACTR, layer=layer_num)
+    actors_on_this_layer = ship_dzr.entries_by_type_and_layer(ACTR, layer=layer_num)
     niko = next(x for x in actors_on_this_layer if x.name == "P2b")
     ship_dzr.remove_entity(niko, ACTR, layer=layer_num)
   
@@ -1115,7 +1115,7 @@ def add_pirate_ship_to_windfall(self):
   sw_op.y_pos = 0
   sw_op.z_pos = -3400
   for layer_num in [2, 3]:
-    actors_on_this_layer = ship_dzr.entries_by_type(ACTR, layer=layer_num)
+    actors_on_this_layer = ship_dzr.entries_by_type_and_layer(ACTR, layer=layer_num)
     ashut = next(x for x in actors_on_this_layer if x.name == "Ashut")
     ashut.switch_to_check = door_should_be_open_switch
   
@@ -1227,7 +1227,7 @@ def add_inter_dungeon_warp_pots(self):
 
 def remove_makar_kidnapping_event(self):
   dzx = self.get_arc("files/res/Stage/kaze/Room3.arc").get_file("room.dzr", DZx)
-  actors = dzx.entries_by_type(ACTR, layer=None)
+  actors = dzx.entries_by_type_and_layer(ACTR, layer=None)
   
   # Remove the AND switch actor that makes the Floormasters appear after unlocking the door.
   and_switch_actor = next(x for x in actors if x.name == "AND_SW2")
@@ -1429,7 +1429,7 @@ def add_hint_signs(self):
   msg.text_alignment = 3 # Centered text alignment
   
   dzx = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr", DZx)
-  bomb_flowers = [actor for actor in dzx.entries_by_type(ACTR, layer=None) if actor.name == "BFlower"]
+  bomb_flowers = [actor for actor in dzx.entries_by_type_and_layer(ACTR, layer=None) if actor.name == "BFlower"]
   bomb_flowers[1].name = "Kanban"
   bomb_flowers[1].params = new_message_id
   bomb_flowers[1].y_rot = 0x2000
@@ -1598,7 +1598,7 @@ def add_chest_in_place_of_jabun_cutscene(self):
   # This is so they appear during the day too, not just at night.
   outset_dzr = self.get_arc("files/res/Stage/sea/Room44.arc").get_file("room.dzr", DZx)
   
-  layer_5_actors = outset_dzr.entries_by_type(ACTR, layer=5)
+  layer_5_actors = outset_dzr.entries_by_type_and_layer(ACTR, layer=5)
   layer_5_door = next(x for x in layer_5_actors if x.name == "Ajav")
   layer_5_whirlpool = next(x for x in layer_5_actors if x.name == "Auzu")
   
@@ -1652,12 +1652,12 @@ def add_chest_in_place_of_master_sword(self):
   ms_chamber_dzr = self.get_arc("files/res/Stage/kenroom/Room0.arc").get_file("room.dzr", DZx)
   
   # Remove the Master Sword entities.
-  ms_actors = [x for x in ms_chamber_dzr.entries_by_type(ACTR, layer=None) if x.name in ["VmsMS", "VmsDZ"]]
+  ms_actors = [x for x in ms_chamber_dzr.entries_by_type_and_layer(ACTR, layer=None) if x.name in ["VmsMS", "VmsDZ"]]
   for actor in ms_actors:
     ms_chamber_dzr.remove_entity(actor, ACTR, layer=None)
   
   # Copy the entities necessary for the Mighty Darknuts fight from layer 5 to the default layer.
-  layer_5_actors = ms_chamber_dzr.entries_by_type(ACTR, layer=5)
+  layer_5_actors = ms_chamber_dzr.entries_by_type_and_layer(ACTR, layer=5)
   layer_5_actors_to_copy = [x for x in layer_5_actors if x.name in ["Tn", "ALLdie", "Yswdr00"]]
   
   for orig_actor in layer_5_actors_to_copy:
@@ -1987,7 +1987,7 @@ def add_spawns_outside_boss_doors(self):
     else:
       dzx_for_door = dzr
     
-    door = dzx_for_door.entries_by_type(chunk, layer=layer)[boss_door_index]
+    door = dzx_for_door.entries_by_type_and_layer(chunk, layer=layer)[boss_door_index]
     spawn_dist_from_door = 200
     y_rot = door.y_rot
     if door.from_room_num != room_number and door.from_room_num != 63:

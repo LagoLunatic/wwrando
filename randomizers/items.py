@@ -6,7 +6,7 @@ from logic.logic import Logic
 
 from gclib import fs_helpers as fs
 from randomizers.base_randomizer import BaseRandomizer
-from wwlib.dzx import DZx, ACTR, SCOB, TRES
+from wwlib.dzx import DZx, ACTR, SCOB, TRES, DZxLayer
 from wwlib.events import EventList
 
 class ItemRandomizer(BaseRandomizer):
@@ -397,10 +397,7 @@ class ItemRandomizer(BaseRandomizer):
         raise Exception("Invalid custom symbol: %s" % custom_symbol)
     elif chest_match:
       arc_path = "files/res/Stage/" + chest_match.group(1)
-      if chest_match.group(2):
-        layer = int(chest_match.group(2), 16)
-      else:
-        layer = None
+      layer = DZxLayer(chest_match.group(2))
       chest_index = int(chest_match.group(3), 16)
       self.change_chest_item(arc_path, chest_index, layer, item_id, item_name)
     elif event_match:
@@ -411,18 +408,12 @@ class ItemRandomizer(BaseRandomizer):
       self.change_event_item(arc_path, event_index, actor_index, action_index, item_id)
     elif scob_match:
       arc_path = "files/res/Stage/" + scob_match.group(1)
-      if scob_match.group(2):
-        layer = int(scob_match.group(2), 16)
-      else:
-        layer = None
+      layer = DZxLayer(scob_match.group(2))
       scob_index = int(scob_match.group(3), 16)
       self.change_scob_item(arc_path, scob_index, layer, item_id)
     elif actor_match:
       arc_path = "files/res/Stage/" + actor_match.group(1)
-      if actor_match.group(2):
-        layer = int(actor_match.group(2), 16)
-      else:
-        layer = None
+      layer = DZxLayer(actor_match.group(2))
       actor_index = int(actor_match.group(3), 16)
       self.change_actor_item(arc_path, actor_index, layer, item_id)
     else:
@@ -435,12 +426,12 @@ class ItemRandomizer(BaseRandomizer):
     rel = self.rando.get_rel(path)
     rel.write_data(fs.write_u8, offset, item_id)
 
-  def change_chest_item(self, arc_path: str, chest_index: int, layer, item_id: int, item_name: str):
+  def change_chest_item(self, arc_path: str, chest_index: int, layer: DZxLayer, item_id: int, item_name: str):
     if arc_path.endswith("Stage.arc"):
       dzx = self.rando.get_arc(arc_path).get_file("stage.dzs", DZx)
     else:
       dzx = self.rando.get_arc(arc_path).get_file("room.dzr", DZx)
-    chest = dzx.entries_by_type(TRES, layer=layer)[chest_index]
+    chest = dzx.entries_by_type_and_layer(TRES, layer=layer)[chest_index]
     chest.item_id = item_id
     if self.options.get("chest_type_matches_contents"):
       chest.chest_type = self.get_ctmc_chest_type_for_item(item_name)
@@ -473,24 +464,24 @@ class ItemRandomizer(BaseRandomizer):
       action.name = "011get_item"
       action.properties[0].value = [item_id]
 
-  def change_scob_item(self, arc_path: str, scob_index: int, layer: int, item_id: int):
+  def change_scob_item(self, arc_path: str, scob_index: int, layer: DZxLayer, item_id: int):
     if arc_path.endswith("Stage.arc"):
       dzx = self.rando.get_arc(arc_path).get_file("stage.dzs", DZx)
     else:
       dzx = self.rando.get_arc(arc_path).get_file("room.dzr", DZx)
-    scob = dzx.entries_by_type(SCOB, layer=layer)[scob_index]
+    scob = dzx.entries_by_type_and_layer(SCOB, layer=layer)[scob_index]
     if scob.actor_class_name in ["d_a_salvage", "d_a_tag_kb_item"]:
       scob.item_id = item_id
       scob.save_changes()
     else:
       raise Exception("%s/SCOB%03X is an unknown type of SCOB" % (arc_path, scob_index))
 
-  def change_actor_item(self, arc_path: str, actor_index: int, layer: int, item_id: int):
+  def change_actor_item(self, arc_path: str, actor_index: int, layer: DZxLayer, item_id: int):
     if arc_path.endswith("Stage.arc"):
       dzx = self.rando.get_arc(arc_path).get_file("stage.dzs", DZx)
     else:
       dzx = self.rando.get_arc(arc_path).get_file("room.dzr", DZx)
-    actr = dzx.entries_by_type(ACTR, layer=layer)[actor_index]
+    actr = dzx.entries_by_type_and_layer(ACTR, layer=layer)[actor_index]
     if actr.actor_class_name in ["d_a_item", "d_a_boss_item"]:
       actr.item_id = item_id
     else:

@@ -8,7 +8,7 @@ import yaml
 from randomizers.base_randomizer import BaseRandomizer
 from wwlib import stage_searcher
 from logic.logic import Logic
-from wwlib.dzx import DZx, ACTR, DOOR, FILI, RPAT, SCOB, STAG, TGDR
+from wwlib.dzx import DZx, ACTR, DOOR, FILI, RPAT, SCOB, STAG, TGDR, DZxLayer
 from wwrando_paths import DATA_PATH
 
 # This variable is for debugging specific enemies.
@@ -776,7 +776,7 @@ class EnemyRandomizer(BaseRandomizer):
     elif enemy.name in ["c_green", "c_red", "c_kiiro", "c_blue", "c_black"] and category == "Pot":
       # ChuChus in pots will only appear if the pot has the EXACT same position as the ChuChu, just being very close is not enough.
       pots_on_same_layer = [
-        actor for actor in dzx.entries_by_type(ACTR, layer=layer)
+        actor for actor in dzx.entries_by_type_and_layer(ACTR, layer=layer)
         if actor.actor_class_name == "d_a_tsubo"
       ]
       if not pots_on_same_layer:
@@ -975,12 +975,12 @@ class EnemyRandomizer(BaseRandomizer):
     prev_stage_folder = None
     prev_arc_name = None
     for dzx, arc_path in stage_searcher.each_stage_and_room(self):
-      for layer in ([None] + list(range(11+1))):
+      for layer in DZxLayer:
         relative_arc_path = os.path.relpath(arc_path, "files/res/Stage")
         stage_folder, arc_name = os.path.split(relative_arc_path)
         relative_arc_path = stage_folder + "/" + arc_name
         
-        actors = dzx.entries_by_type(ACTR, layer=layer)
+        actors = dzx.entries_by_type_and_layer(ACTR, layer=layer)
         enemies = [
           actor for actor in actors
           if actor.name in all_enemy_actor_names
@@ -1029,8 +1029,8 @@ class EnemyRandomizer(BaseRandomizer):
           output_str += "  Actors to replace with ALLdies:\n"
           for and_sw in and_sws:
             layer_name = ""
-            if layer != None:
-              layer_name = "/Layer%x" % layer
+            if layer != DZxLayer.Default:
+              layer_name = "/Layer%x" % layer.value
             actor_index = actors.index(and_sw)
             and_sw_path = relative_arc_path + layer_name + "/Actor%03X" % actor_index
             
@@ -1049,8 +1049,8 @@ class EnemyRandomizer(BaseRandomizer):
           defeat_reqs = enemy_data["Requirements to defeat"]
           
           layer_name = ""
-          if layer != None:
-            layer_name = "/Layer%x" % layer
+          if layer != DZxLayer.Default:
+            layer_name = "/Layer%x" % layer.value
           actor_index = actors.index(enemy)
           enemy_loc_path = relative_arc_path + layer_name + "/Actor%03X" % actor_index
           
@@ -1212,17 +1212,14 @@ class EnemyRandomizer(BaseRandomizer):
     
     arc_name = match.group(1)
     arc_path = "files/res/Stage/" + arc_name
-    if match.group(2):
-      layer = int(match.group(2), 16)
-    else:
-      layer = None
+    layer = DZxLayer(match.group(2))
     actor_index = int(match.group(3), 16)
     
     if arc_path.endswith("Stage.arc"):
       dzx = self.rando.get_arc(arc_path).get_file("stage.dzs", DZx)
     else:
       dzx = self.rando.get_arc(arc_path).get_file("room.dzr", DZx)
-    enemy = dzx.entries_by_type(ACTR, layer=layer)[actor_index]
+    enemy = dzx.entries_by_type_and_layer(ACTR, layer=layer)[actor_index]
     
     if enemy.name not in self.all_enemy_actor_names:
       raise Exception("Enemy location path %s points to a %s actor, not an enemy!" % (path, enemy.name))
@@ -1249,10 +1246,7 @@ class EnemyRandomizer(BaseRandomizer):
     
     arc_name = match.group(1)
     arc_path = "files/res/Stage/" + arc_name
-    if match.group(2):
-      layer = int(match.group(2), 16)
-    else:
-      layer = None
+    layer = DZxLayer(match.group(2))
     dzx_chunk_type_name = match.group(3)
     fourcc = self.get_fourcc_by_english_chunk_name(dzx_chunk_type_name)
     actor_index = int(match.group(4), 16)
@@ -1261,7 +1255,7 @@ class EnemyRandomizer(BaseRandomizer):
       dzx = self.rando.get_arc(arc_path).get_file("stage.dzs", DZx)
     else:
       dzx = self.rando.get_arc(arc_path).get_file("room.dzr", DZx)
-    actor = dzx.entries_by_type(fourcc, layer=layer)[actor_index]
+    actor = dzx.entries_by_type_and_layer(fourcc, layer=layer)[actor_index]
     
     return actor
   
@@ -1272,10 +1266,7 @@ class EnemyRandomizer(BaseRandomizer):
     
     arc_name = match.group(1)
     arc_path = "files/res/Stage/" + arc_name
-    if match.group(2):
-      layer = int(match.group(2), 16)
-    else:
-      layer = None
+    layer = DZxLayer(match.group(2))
     
     if arc_path.endswith("Stage.arc"):
       dzx = self.rando.get_arc(arc_path).get_file("stage.dzs", DZx)

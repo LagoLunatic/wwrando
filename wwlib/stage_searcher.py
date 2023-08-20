@@ -8,7 +8,7 @@ from gclib import fs_helpers as fs
 from data_tables import DataTables
 from wwlib.dzb import DZB
 from gclib.j3d import BMD, BDL, BPRegister, XFRegister
-from wwlib.dzx import DZx, ACTR, DOOR, EVNT, FILI, PLYR, SCOB, STAG, TGDR, TGOB, TGSC, TRES
+from wwlib.dzx import DZx, ACTR, DOOR, EVNT, FILI, PLYR, SCOB, STAG, TGDR, TGOB, TGSC, TRES, DZxLayer
 from wwlib.events import EventList
 
 def try_int_convert(string):
@@ -143,16 +143,16 @@ def print_all_used_switches(self):
         
         add_used_switch(switch, stage_id, stage_name, evnt.room_index, location_identifier, is_unused)
       
-      for layer in [None] + list(range(11+1)):
+      for layer in DZxLayer:
         actors = []
-        actors += dzx.entries_by_type(ACTR, layer=layer)
-        actors += dzx.entries_by_type(TGOB, layer=layer)
-        actors += dzx.entries_by_type(TRES, layer=layer)
-        actors += dzx.entries_by_type(PLYR, layer=layer)
-        actors += dzx.entries_by_type(SCOB, layer=layer)
-        actors += dzx.entries_by_type(TGSC, layer=layer)
-        actors += dzx.entries_by_type(DOOR, layer=layer)
-        actors += dzx.entries_by_type(TGDR, layer=layer)
+        actors += dzx.entries_by_type_and_layer(ACTR, layer)
+        actors += dzx.entries_by_type_and_layer(TGOB, layer)
+        actors += dzx.entries_by_type_and_layer(TRES, layer)
+        actors += dzx.entries_by_type_and_layer(PLYR, layer)
+        actors += dzx.entries_by_type_and_layer(SCOB, layer)
+        actors += dzx.entries_by_type_and_layer(TGSC, layer)
+        actors += dzx.entries_by_type_and_layer(DOOR, layer)
+        actors += dzx.entries_by_type_and_layer(TGDR, layer)
         
         for actor in actors:
           if actor.name not in DataTables.actor_name_to_class_name:
@@ -161,8 +161,8 @@ def print_all_used_switches(self):
           
           location_identifier = " from % 15s" % actor.name
           location_identifier += "  in " + arc_path_short
-          if layer is not None:
-            location_identifier += "/Layer%X" % layer
+          if layer != DZxLayer.Default:
+            location_identifier += "/Layer%X" % layer.value
           
           #param_bitfield_masks_unused = {}
           #param_bitfield_values_unused = {}
@@ -347,16 +347,16 @@ def print_all_used_item_pickup_flags(self):
         used_item_flags_by_stage_id[stage_id] = []
     
     for dzx, arc_path in [(dzs, stage_arc_path)]+rooms:
-      for layer in [None] + list(range(11+1)):
+      for layer in DZxLayer:
         actors = []
-        actors += dzx.entries_by_type(ACTR, layer=layer)
-        actors += dzx.entries_by_type(TGOB, layer=layer)
-        actors += dzx.entries_by_type(TRES, layer=layer)
-        actors += dzx.entries_by_type(PLYR, layer=layer)
-        actors += dzx.entries_by_type(SCOB, layer=layer)
-        actors += dzx.entries_by_type(TGSC, layer=layer)
-        actors += dzx.entries_by_type(DOOR, layer=layer)
-        actors += dzx.entries_by_type(TGDR, layer=layer)
+        actors += dzx.entries_by_type_and_layer(ACTR, layer)
+        actors += dzx.entries_by_type_and_layer(TGOB, layer)
+        actors += dzx.entries_by_type_and_layer(TRES, layer)
+        actors += dzx.entries_by_type_and_layer(PLYR, layer)
+        actors += dzx.entries_by_type_and_layer(SCOB, layer)
+        actors += dzx.entries_by_type_and_layer(TGSC, layer)
+        actors += dzx.entries_by_type_and_layer(DOOR, layer)
+        actors += dzx.entries_by_type_and_layer(TGDR, layer)
         
         for actor in actors:
           for attr_name in actor.param_fields:
@@ -400,8 +400,8 @@ def print_all_used_item_pickup_flags(self):
               
               location_identifier = " from % 7s" % actor.name
               location_identifier += "  in " + arc_path[len("files/res/Stage/"):-len(".arc")]
-              if layer is not None:
-                location_identifier += "/Layer%X" % layer
+              if layer != DZxLayer.Default:
+                location_identifier += "/Layer%X" % layer.value
               
               if is_unused:
                 used_item_flags_by_stage_id_unused[stage_id].append((item_flag, item_name, location_identifier))
@@ -746,13 +746,13 @@ def print_all_entity_params(self):
       stage_and_rooms = [(dzs, stage_arc_path)] + rooms
       for dzx, arc_path in stage_and_rooms:
         for chunk_type in [ACTR, SCOB, TRES, TGOB, TGSC, DOOR, TGDR]:
-          for layer in [None] + list(range(11+1)):
-            for i, entity in enumerate(dzx.entries_by_type(chunk_type, layer=layer)):
+          for layer in DZxLayer:
+            for i, entity in enumerate(dzx.entries_by_type_and_layer(chunk_type, layer=layer)):
               arc_path_short = arc_path[len("files/res/Stage/"):-len(".arc")]
               location_identifier = arc_path_short
               location_identifier += " %s/" % chunk_type
-              if layer is not None:
-                location_identifier += "Layer%X/" % layer
+              if layer != DZxLayer.Default:
+                location_identifier += "Layer%X/" % layer.value
               location_identifier += "%03X" % i
               out_str = "% 7s %08X %04X %04X in %s" % (entity.name, entity.params, entity.x_rot, entity.z_rot, location_identifier)
               #print(out_str)
@@ -824,8 +824,8 @@ def print_actor_class_occurrences(self):
     for dzx, arc_path in stage_and_rooms:
       #classes_seen_in_room = []
       for chunk_type in [ACTR, SCOB, TRES, TGOB, TGSC, DOOR, TGDR]:
-        for layer in [None] + list(range(11+1)):
-          for i, entity in enumerate(dzx.entries_by_type(chunk_type, layer=layer)):
+        for layer in DZxLayer:
+          for i, entity in enumerate(dzx.entries_by_type_and_layer(chunk_type, layer=layer)):
             if entity.name not in DataTables.actor_name_to_class_name:
               print("Unknown actor name: %s" % entity.name)
               continue

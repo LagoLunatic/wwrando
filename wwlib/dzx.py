@@ -1,10 +1,37 @@
 
 from io import BytesIO
 from typing import Optional, Type, TypeVar
+from enum import Enum
+
 from gclib import fs_helpers as fs
 from gclib.gclib_file import GCLibFile
 
 from data_tables import DataTables
+
+class DZxLayer(Enum):
+  Default = -1
+  Layer0 = 0x0
+  Layer1 = 0x1
+  Layer2 = 0x2
+  Layer3 = 0x3
+  Layer4 = 0x4
+  Layer5 = 0x5
+  Layer6 = 0x6
+  Layer7 = 0x7
+  Layer8 = 0x8
+  Layer9 = 0x9
+  LayerA = 0xA
+  LayerB = 0xB
+  
+  @classmethod
+  def _missing_(cls, value):
+    if value is None:
+      return cls.Default
+    if value in list(range(0, 11+1)):
+      return cls(value)
+    if value in [f"{i:x}" for i in range(0, 11+1)]:
+      return cls(int(value, 16))
+    return super()._missing_(value)
 
 class ChunkEntry:
   DATA_SIZE: int = None
@@ -83,10 +110,8 @@ class ChunkEntry:
 ChunkEntryT = TypeVar('ChunkEntryT', bound=ChunkEntry)
 
 class Chunk:
-  LAYER_CHAR_TO_LAYER_INDEX = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'a': 10, 'b': 11}
-  
   chunk_type: ChunkEntryT
-  layer: Optional[int]
+  layer: DZxLayer
   
   def __init__(self, data):
     self.data = data
@@ -96,7 +121,7 @@ class Chunk:
     self.first_entry_offset = None
     
     self._entries = []
-    self.layer = None
+    self.layer = DZxLayer.Default
   
   def read(self, offset):
     self.offset = offset
@@ -105,18 +130,21 @@ class Chunk:
     self.num_entries = fs.read_u32(self.data, self.offset+4)
     self.first_entry_offset = fs.read_u32(self.data, self.offset+8)
     
-    # Some types of chunks are conditional and only appear on certain layers. The 4th character of their type determines what letter they appear on.
-    if fourcc.startswith("TRE") or fourcc.startswith("ACT") or fourcc.startswith("SCO"):
-      layer_char = fourcc[3]
-      if layer_char in self.LAYER_CHAR_TO_LAYER_INDEX:
-        self.layer = self.LAYER_CHAR_TO_LAYER_INDEX[layer_char]
-    
+    self.layer = DZxLayer.Default
+    # Some types of chunks are conditional and only appear on certain layers. The 4th character of
+    # their type determines which layer they appear on.
     if fourcc.startswith("TRE"):
       self.chunk_type = TRES
+      if fourcc[3] != "S":
+        self.layer = DZxLayer(fourcc[3])
     elif fourcc.startswith("ACT"):
       self.chunk_type = ACTR
+      if fourcc[3] != "R":
+        self.layer = DZxLayer(fourcc[3])
     elif fourcc.startswith("SCO"):
       self.chunk_type = SCOB
+      if fourcc[3] != "B":
+        self.layer = DZxLayer(fourcc[3])
     else:
       class_name = fourcc
       if class_name[0].isdigit():
@@ -138,10 +166,10 @@ class Chunk:
     fourcc = self.chunk_type.__name__
     if fourcc[0] == "_":
       fourcc = fourcc[1:]
-    if self.layer is not None:
-      assert 0 <= self.layer <= 11
+    assert isinstance(self.layer, DZxLayer)
+    if self.layer != DZxLayer.Default:
       fourcc = fourcc[:3]
-      fourcc += "%x" % self.layer
+      fourcc += f"{self.layer.value:x}"
     assert len(fourcc) == 4
     return fourcc
   
@@ -192,14 +220,26 @@ class DZx(GCLibFile): # DZR or DZS, same format
       chunk.read(offset)
       self.chunks.append(chunk)
   
-  def entries_by_type(self, chunk_type: Type[ChunkEntryT], *, layer: Optional[int] = None) -> list[ChunkEntryT]:
+  def entries_by_type(self, chunk_type: Type[ChunkEntryT]) -> list[ChunkEntryT]:
     entries = []
     for chunk in self.chunks:
-      if chunk_type == chunk.chunk_type and (layer is None or layer == chunk.layer):
+      if chunk_type == chunk.chunk_type:
         entries += chunk.entries
     return entries
   
-  def add_entity(self, chunk_type: Type[ChunkEntryT], *, layer: Optional[int] = None):
+  def entries_by_type_and_layer(self, chunk_type: Type[ChunkEntryT], layer: DZxLayer) -> list[ChunkEntryT]:
+    layer = DZxLayer(layer)
+    
+    entries = []
+    for chunk in self.chunks:
+      if chunk_type == chunk.chunk_type and layer == chunk.layer:
+        entries += chunk.entries
+    return entries
+  
+  def add_entity(self, chunk_type: Type[ChunkEntryT], layer: Optional[DZxLayer] = None):
+    # If no layer is passed, it will default to DZxLayer.Default.
+    layer = DZxLayer(layer)
+    
     chunk_to_add_entity_to = None
     for chunk in self.chunks:
       if chunk_type == chunk.chunk_type and layer == chunk.layer:
@@ -217,8 +257,11 @@ class DZx(GCLibFile): # DZR or DZS, same format
     
     return entity
   
-  def remove_entity(self, entity, chunk_type: Type[ChunkEntryT], *, layer: Optional[int] = None):
+  def remove_entity(self, entity, chunk_type: Type[ChunkEntryT], layer: DZxLayer = None):
     assert hasattr(entity, "name")
+    
+    # If no layer is passed, it will default to DZxLayer.Default.
+    layer = DZxLayer(layer)
     
     # Instead of actually removing the entity from the list, simply set its name to the empty string.
     # This will cause the game to not load any actor there, so it's effectively removing it.
