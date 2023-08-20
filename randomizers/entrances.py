@@ -337,6 +337,8 @@ class EntranceRandomizer(BaseRandomizer):
     
     for zone_entrance in relevant_entrances:
       del self.done_entrances_to_exits[zone_entrance]
+    for zone_exit in relevant_exits:
+      del self.done_exits_to_entrances[zone_exit]
     
     self.rng.shuffle(relevant_entrances)
     
@@ -408,18 +410,23 @@ class EntranceRandomizer(BaseRandomizer):
     # At this point, banned_zone_entrances includes only the boss entrances inside of dungeons, not
     # any of the island entrances on the sea. So we need to select N random island entrances to
     # allow all of the banned dungeons to be accessible, where N is the number of banned dungeons.
+    possible_island_entrances = [
+      en for en in nonbanned_zone_entrances
+      if en.island_name is not None
+    ]
+    if self.safety_entrance is not None:
+      # We do need to exclude the safety_entrance (and other entrances on the same island as it)
+      # from being considered, as otherwise the item rando would have nowhere to put items at the
+      # start of the seed without violating the rule that progress items cannot appear in banned
+      # race mode dungeons.
+      possible_island_entrances = [
+        en for en in possible_island_entrances
+        if en.island_name != self.safety_entrance.island_name
+      ]
     for i in range(len(banned_zone_entrances)):
       # Note: nonbanned_zone_entrances is already shuffled, so we can just take the first result
       # from it and it's the same as picking one randomly.
-      banned_island_entrance = next(
-        en for en in nonbanned_zone_entrances
-        if en.island_name is not None
-        # We do need to exclude the safety_entrance (and other entrances on the same island as it)
-        # from being considered, as otherwise the item rando would have nowhere to put items at the
-        # start of the seed without violating the rule that progress items cannot appear in banned
-        # race mode dungeons.
-        and self.safety_entrance is None or en.island_name != self.safety_entrance.island_name
-      )
+      banned_island_entrance = possible_island_entrances.pop(0)
       nonbanned_zone_entrances.remove(banned_island_entrance)
       banned_zone_entrances.append(banned_island_entrance)
     
@@ -432,9 +439,6 @@ class EntranceRandomizer(BaseRandomizer):
     ]
   
   def randomize_one_set_of_exits(self, relevant_entrances: list[ZoneEntrance], relevant_exits: list[ZoneExit], doing_banned=False):
-    for zone_exit in relevant_exits:
-      del self.done_exits_to_entrances[zone_exit]
-    
     remaining_entrances = relevant_entrances.copy()
     remaining_exits = relevant_exits.copy()
     
