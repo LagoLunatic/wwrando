@@ -38,6 +38,10 @@ def run_all_bulk_tests(rando_kwargs):
   from tqdm import tqdm
   from multiprocessing import Pool
   from collections import Counter
+  from randomizer import WWRandomizer
+  
+  # Catch any init errors early
+  WWRandomizer(**rando_kwargs)
   
   with Pool(4) as p:
     first_seed = 0
