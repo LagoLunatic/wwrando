@@ -131,9 +131,9 @@ class BossRewardRandomizer(BaseRandomizer):
     
     # Decide what reward item to place in each boss location.
     for item_name in boss_reward_items:
-      if self.rando.dungeons_only_start and "Dragon Roost Cavern - Gohma Heart Container" in possible_boss_locations:
+      if self.rando.dungeons_and_caves_only_start and "Dragon Roost Cavern - Gohma Heart Container" in possible_boss_locations:
         location_name = "Dragon Roost Cavern - Gohma Heart Container"
-      elif self.rando.dungeons_only_start and "Forbidden Woods - Kalle Demos Heart Container" in possible_boss_locations:
+      elif self.rando.dungeons_and_caves_only_start and "Forbidden Woods - Kalle Demos Heart Container" in possible_boss_locations:
         location_name = "Forbidden Woods - Kalle Demos Heart Container"
       else:
         location_name = self.rng.choice(possible_boss_locations)
