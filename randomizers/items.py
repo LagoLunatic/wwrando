@@ -177,6 +177,17 @@ class ItemRandomizer(BaseRandomizer):
     while self.logic.unplaced_progress_items:
       accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
       
+      if self.options.get("race_mode"):
+        # Filter out item locations that have been banned by race mode. We don't want any progress
+        # items being placed there.
+        # However, we do still keep prerandomized banned locations in for e.g. small keys. If these
+        # were excluded the logic would not know how to place them and error out.
+        accessible_undone_locations = [
+          loc for loc in accessible_undone_locations
+          if loc not in self.rando.boss_rewards.banned_locations
+          or loc in self.logic.prerandomization_item_locations
+        ]
+      
       if not accessible_undone_locations:
         raise Exception("No locations left to place progress items!")
       
@@ -275,20 +286,6 @@ class ItemRandomizer(BaseRandomizer):
             item_name = self.rng.choice(items_at_max_usefulness)
       else:
         item_name = self.rng.choice(possible_items_when_not_placing_useful)
-      
-      if self.options.get("race_mode"):
-        locations_filtered = [
-          loc for loc in accessible_undone_locations
-          if loc not in self.rando.boss_rewards.banned_locations
-        ]
-        if item_name in self.logic.progress_item_groups:
-          num_locs_needed = len(self.logic.progress_item_groups[item_name])
-        else:
-          num_locs_needed = 1
-        if len(locations_filtered) >= num_locs_needed:
-          accessible_undone_locations = locations_filtered
-        else:
-          raise Exception("Failed to prevent progress items from appearing in unchosen dungeons for race mode.")
       
       if item_name in self.logic.progress_item_groups:
         # If we're placing an entire item group, we use different logic for deciding the location.
