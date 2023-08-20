@@ -485,6 +485,15 @@ class EntranceRandomizer(BaseRandomizer):
       else:
         possible_remaining_exits = remaining_exits
       
+      if len(possible_remaining_entrances) == 0 and len(remaining_entrances) > 0:
+        # If this is the last entrance we have left to attach exits to, then we can't place a
+        # terminal exit here, as terminal exits do not create another entrance, so one would leave
+        # us with no possible way to continue placing the remaining exits on future loops.
+        possible_remaining_exits = [
+          ex for ex in possible_remaining_exits
+          if ex in DUNGEON_EXITS
+        ]
+      
       # The below is debugging code for testing the caves with timers.
       #if zone_entrance.entrance_name == "Secret Cave Entrance on Fire Mountain":
       #  possible_remaining_exits = [
@@ -513,14 +522,6 @@ class EntranceRandomizer(BaseRandomizer):
             ex for ex in possible_remaining_exits
             if ex not in DUNGEON_EXITS + BOSS_EXITS
           ]
-      
-      if any(ex for ex in possible_remaining_exits if ex in DUNGEON_EXITS):
-        # Only start placing terminal exits (exits that do not create another entrance) after all
-        # non-terminal exits have been placed.
-        possible_remaining_exits = [
-          ex for ex in possible_remaining_exits
-          if ex in DUNGEON_EXITS
-        ]
       
       if not possible_remaining_exits:
         raise Exception(f"No valid exits to place for entrance: {zone_entrance.entrance_name}")
