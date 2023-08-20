@@ -110,7 +110,7 @@
             <item>
              <widget class="QGroupBox" name="groupBox">
               <property name="title">
-               <string>Where Should Progress Items Appear?</string>
+               <string>Progression Locations: Where Should Progress Items Be Placed?</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_2">
                <item row="7" column="0">

@@ -423,7 +423,8 @@ class WWRandomizerWindow(QMainWindow):
       options[option_name] = self.get_option_value(option_name)
     num_progress_locations = Logic.get_num_progression_locations_static(self.cached_item_locations, options)
     
-    text = "Where Should Progress Items Appear? (Selected: %d Possible Progression Locations)" % num_progress_locations
+    text = "Progression Locations: Where Should Progress Items Be Placed? " \
+      f"(Selected: {num_progress_locations} Locations Available)"
     self.ui.groupBox.setTitle(text)
   
   def permalink_modified(self):
