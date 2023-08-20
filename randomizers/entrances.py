@@ -414,10 +414,11 @@ class EntranceRandomizer(BaseRandomizer):
       banned_island_entrance = next(
         en for en in nonbanned_zone_entrances
         if en.island_name is not None
-        # We do need to exclude the safety_entrance from being considered, as otherwise the item
-        # rando would have nowhere to put items at the start of the seed without violating the rule
-        # that progress items cannot appear in banned race mode dungeons.
-        and en != self.safety_entrance
+        # We do need to exclude the safety_entrance (and other entrances on the same island as it)
+        # from being considered, as otherwise the item rando would have nowhere to put items at the
+        # start of the seed without violating the rule that progress items cannot appear in banned
+        # race mode dungeons.
+        and self.safety_entrance is None or en.island_name != self.safety_entrance.island_name
       )
       nonbanned_zone_entrances.remove(banned_island_entrance)
       banned_zone_entrances.append(banned_island_entrance)
