@@ -525,7 +525,22 @@ class EntranceRandomizer(BaseRandomizer):
       
       if not possible_remaining_exits:
         raise Exception(f"No valid exits to place for entrance: {zone_entrance.entrance_name}")
-      zone_exit = self.rng.choice(possible_remaining_exits)
+      # When secret caves are mixed with nested dungeons, the large number of caves can overpower
+      # the small number of dungeons, resulting in boss entrances frequently leading into caves and
+      # many bosses appearing directly attached to island entrances.
+      # We don't want to prevent this from happening entirely, so instead we use a weighted random
+      # choice to adjust the frequency a bit so that boss entrances usually lead to either a nested
+      # dungeon or a boss, and island entrances usually lead to a cave or dungeon.
+      if zone_entrance in BOSS_ENTRANCES:
+        zone_exit = self.rando.weighted_choice(self.rng, possible_remaining_exits, [
+          (7, lambda ex: ex in DUNGEON_EXITS),
+          (3, lambda ex: ex in BOSS_EXITS),
+        ])
+      else:
+        zone_exit = self.rando.weighted_choice(self.rng, possible_remaining_exits, [
+          (7, lambda ex: ex in SECRET_CAVE_EXITS),
+          (3, lambda ex: ex in DUNGEON_EXITS),
+        ])
       remaining_exits.remove(zone_exit)
       
       self.entrance_connections[zone_entrance.entrance_name] = zone_exit.unique_name

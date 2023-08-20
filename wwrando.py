@@ -58,7 +58,7 @@ def run_all_bulk_tests(rando_kwargs):
         # Optionally put some code here to count something across all seeds to detect biased distributions.
         pass
         # for path in rando.entrances.nested_entrance_paths:
-        #   depth_counts[len(path)] += 1
+        #   counts[len(path)] += 1
         # for i in range(3, max(len(p) for p in rando.entrances.nested_entrance_paths)+1):
         #   counts[i] += 1
         # for path in rando.entrances.nested_entrance_paths:
