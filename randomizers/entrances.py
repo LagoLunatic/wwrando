@@ -36,8 +36,8 @@ class ZoneEntrance:
 DUNGEON_ENTRANCES = [
   ZoneEntrance("Adanmae", 0, 2, 2, "Dungeon Entrance on Dragon Roost Island", "Dragon Roost Island", "sea", 13, 211),
   ZoneEntrance("sea", 41, 6, 6, "Dungeon Entrance in Forest Haven Sector", "Forest Haven", "Omori", 0, 215),
-  ZoneEntrance("sea", 26, 0, 2, "Dungeon Entrance in Tower of the Gods Sector", "Tower of the Gods", "sea", 26, 1),
-  ZoneEntrance("sea", 1, None, None, "Dungeon Entrance in Forsaken Fortress Sector", "Forsaken Fortress", "sea", 1, 0),
+  ZoneEntrance("sea", 26, 0, 2, "Dungeon Entrance in Tower of the Gods Sector", "Tower of the Gods Sector", "sea", 26, 1),
+  ZoneEntrance("sea", 1, None, None, "Dungeon Entrance in Forsaken Fortress Sector", "Forsaken Fortress Sector", "sea", 1, 0),
   ZoneEntrance("Edaichi", 0, 0, 1, "Dungeon Entrance on Headstone Island", "Headstone Island", "sea", 45, 229),
   ZoneEntrance("Ekaze", 0, 0, 1, "Dungeon Entrance on Gale Isle", "Gale Isle", "sea", 4, 232),
 ]
@@ -218,15 +218,15 @@ class EntranceRandomizer(BaseRandomizer):
     self.dungeon_and_cave_island_locations = {
       "Dragon Roost Cavern": "Dragon Roost Island",
       "Forbidden Woods": "Forest Haven",
-      "Tower of the Gods": "Tower of the Gods",
-      "Forsaken Fortress": "Forsaken Fortress",
+      "Tower of the Gods": "Tower of the Gods Sector",
+      "Forsaken Fortress": "Forsaken Fortress Sector",
       "Earth Temple": "Headstone Island",
       "Wind Temple": "Gale Isle",
       
       "Gohma Boss Arena": "Dragon Roost Island",
       "Kalle Demos Boss Arena": "Forest Haven",
-      "Gohdan Boss Arena": "Tower of the Gods",
-      "Helmaroc King Boss Arena": "Forsaken Fortress",
+      "Gohdan Boss Arena": "Tower of the Gods Sector",
+      "Helmaroc King Boss Arena": "Forsaken Fortress Sector",
       "Jalhalla Boss Arena": "Headstone Island",
       "Molgera Boss Arena": "Gale Isle",
       
@@ -580,7 +580,7 @@ class EntranceRandomizer(BaseRandomizer):
   def finalize_all_randomized_sets_of_entrances(self):
     # Ensure Forsaken Fortress didn't somehow get randomized.
     assert self.entrance_connections["Dungeon Entrance in Forsaken Fortress Sector"] == "Forsaken Fortress"
-    assert self.dungeon_and_cave_island_locations["Forsaken Fortress"] == "Forsaken Fortress"
+    assert self.dungeon_and_cave_island_locations["Forsaken Fortress"] == "Forsaken Fortress Sector"
     ff_dummy_entrance = ZoneEntrance["Dungeon Entrance in Forsaken Fortress Sector"]
     ff_dummy_exit = ZoneExit["Forsaken Fortress"]
     assert self.done_entrances_to_exits[ff_dummy_entrance] == ff_dummy_exit
@@ -823,9 +823,6 @@ class EntranceRandomizer(BaseRandomizer):
     #
     # For non-dungeon and non-cave locations, the entrance zone name is simply the zone (island) name. However, when
     # entrances are randomized, the entrance zone name may differ from the zone name for dungeons and caves.
-    # As a special case, if the entrance zone is Tower of the Gods or the location name is "Tower of the Gods - Sunken
-    # Treasure", the entrance zone name is "Tower of the Gods Sector" to differentiate between the dungeon and the
-    # entrance.
     
     zone_name, _ = self.logic.split_location_name_by_zone(location_name)
     
@@ -835,21 +832,9 @@ class EntranceRandomizer(BaseRandomizer):
     if zone_name in self.dungeon_and_cave_island_locations and self.logic.is_dungeon_or_cave(location_name):
       # If the location is in a dungeon or cave, use the hint for whatever island the dungeon/cave is located on.
       entrance_zone = self.dungeon_and_cave_island_locations[zone_name]
-      
-      # Special cases when referring to island sectors with the same name as a dungeon.
-      if entrance_zone == "Tower of the Gods":
-        entrance_zone = "Tower of the Gods Sector"
-      elif location_name == "Forsaken Fortress":
-        entrance_zone = "Forsaken Fortress Sector"
     else:
       # Otherwise, for non-dungeon and non-cave locations, just use the zone name.
       entrance_zone = zone_name
-      
-      # Special cases when referring to island sectors with the same name as a dungeon.
-      if location_name == "Tower of the Gods - Sunken Treasure":
-        entrance_zone = "Tower of the Gods Sector"
-      elif location_name == "Forsaken Fortress - Sunken Treasure":
-        entrance_zone = "Forsaken Fortress Sector"
     
     return entrance_zone
   #endregion

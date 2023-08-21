@@ -2684,7 +2684,7 @@ Six-Eye Reef - Submarine:
   Paths:
     - Abship/Room1.arc/Chest000
 
-Forsaken Fortress - Sunken Treasure:
+Forsaken Fortress Sector - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 1
   Original item: Silver Rupee
   Types: Sunken Treasure
@@ -2914,7 +2914,7 @@ Six-Eye Reef - Sunken Treasure:
     - sea/Room25.arc/ScalableObject008
     - sea/Room25.arc/ScalableObject009
     - sea/Room25.arc/ScalableObject00A
-Tower of the Gods - Sunken Treasure:
+Tower of the Gods Sector - Sunken Treasure:
   Need: Grappling Hook & Chart for Island 26
   Original item: Silver Rupee
   Types: Sunken Treasure

@@ -354,8 +354,8 @@ class HintsRandomizer(BaseRandomizer):
       elif hint.type == HintType.LOCATION:
         zone_name = self.rando.entrances.get_entrance_zone_for_item_location(hint.place)
       
-      if zone_name in ["Tower of the Gods Sector", "Ganon's Tower"]:
-        zone_name = "Tower of the Gods"
+      if zone_name == "Ganon's Tower":
+        zone_name = "Tower of the Gods Sector"
       if zone_name in self.rando.island_name_to_number:
         island_num_to_look_towards = self.rando.island_name_to_number[zone_name]
         break
@@ -642,13 +642,7 @@ class HintsRandomizer(BaseRandomizer):
         valid_path_hint = True
     
     # Record hinted zone, item, and path goal.
-    if hinted_location == "Tower of the Gods - Sunken Treasure":
-      # Special case: if location is Tower of the Gods - Sunken Treasure, use "Tower of the Gods Sector" as the hint.
-      hint_zone = "Tower of the Gods Sector"
-    elif hinted_location == "Forsaken Fortress - Sunken Treasure":
-      # Same as above.
-      hint_zone = "Forsaken Fortress Sector"
-    elif self.logic.is_dungeon_location(hinted_location):
+    if self.logic.is_dungeon_location(hinted_location):
       # If it's a dungeon, use the dungeon name.
       hint_zone = zone_name
     else:
@@ -862,12 +856,6 @@ class HintsRandomizer(BaseRandomizer):
     
     item_name = self.logic.done_item_locations[location_name]
     entrance_zone = self.rando.entrances.get_entrance_zone_for_item_location(location_name)
-    
-    # Simplify entrance zone name
-    if entrance_zone == "Tower of the Gods Sector":
-      entrance_zone = "Tower of the Gods"
-    if entrance_zone == "Forsaken Fortress Sector":
-      entrance_zone = "Forsaken Fortress"
     
     item_hint = Hint(HintType.ITEM, entrance_zone, item_name)
     

@@ -6488,7 +6488,7 @@ ma2room:
 #      Path: majroom/Room3.arc/Actor007
 
 
-# Forsaken Fortress
+# Forsaken Fortress Sector
 sea/Room1.arc:
 -
   Must defeat enemies: No

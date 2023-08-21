@@ -1,7 +1,7 @@
 Room0.arc
   Sea Floor
 Room1.arc
-  Forsaken Fortress
+  Forsaken Fortress Sector
 Room2.arc
   Star Island
 Room3.arc
@@ -51,7 +51,7 @@ Room24.arc
 Room25.arc
   Six-Eye Reef
 Room26.arc
-  Tower of the Gods
+  Tower of the Gods Sector
 Room27.arc
   Eastern Triangle Island
 Room28.arc
