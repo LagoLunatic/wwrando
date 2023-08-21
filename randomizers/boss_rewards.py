@@ -272,11 +272,8 @@ class BossRewardRandomizer(BaseRandomizer):
       # Make the quest marker icon be visible.
       fs.write_u8(sea_chart_ui.data, offset+9, 1)
       
-      if boss_name == "Helmaroc King":
-        island_name = "Forsaken Fortress"
-      else:
-        boss_arena_name = f"{boss_name} Boss Arena"
-        island_name = self.rando.entrances.dungeon_and_cave_island_locations[boss_arena_name]
+      boss_arena_name = f"{boss_name} Boss Arena"
+      island_name = self.rando.entrances.dungeon_and_cave_island_locations[boss_arena_name]
       island_number = self.rando.island_name_to_number[island_name]
       sector_x = (island_number-1) % 7
       sector_y = (island_number-1) // 7

@@ -434,12 +434,14 @@ class HintsRandomizer(BaseRandomizer):
       place = "a location on the open seas"
     elif place == "Tower of the Gods Sector":
       place = "the Tower of the Gods sector"
+    elif place == "Forsaken Fortress Sector":
+      place = "the Forsaken Fortress sector"
     
     reward = hint.formatted_reward(cryptic)
     
     if hint.type == HintType.PATH:
       place_preposition = "at"
-      if place in ["the mail", "the Tower of the Gods sector"]:
+      if place in ["the mail", "the Tower of the Gods sector", "the Forsaken Fortress sector"]:
         place_preposition = "in"
       hint_string = (
         "%san item found %s \\{1A 06 FF 00 00 05}%s\\{1A 06 FF 00 00 00} is on the path to \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}%s"
@@ -643,6 +645,9 @@ class HintsRandomizer(BaseRandomizer):
     if hinted_location == "Tower of the Gods - Sunken Treasure":
       # Special case: if location is Tower of the Gods - Sunken Treasure, use "Tower of the Gods Sector" as the hint.
       hint_zone = "Tower of the Gods Sector"
+    elif hinted_location == "Forsaken Fortress - Sunken Treasure":
+      # Same as above.
+      hint_zone = "Forsaken Fortress Sector"
     elif self.logic.is_dungeon_location(hinted_location):
       # If it's a dungeon, use the dungeon name.
       hint_zone = zone_name
@@ -732,6 +737,7 @@ class HintsRandomizer(BaseRandomizer):
         zones_with_useful_locations.add(self.rando.entrances.get_entrance_zone_for_item_location("Forbidden Woods - Kalle Demos Heart Container"))
       if location_name == "Mailbox - Letter from Aryll" or location_name == "Mailbox - Letter from Tingle":
         zones_with_useful_locations.add("Forsaken Fortress")
+        zones_with_useful_locations.add(self.rando.entrances.get_entrance_zone_for_item_location("Forsaken Fortress - Helmaroc King Heart Container"))
     
     # Now, we do the same with barren locations, identifying which zones have barren locations.
     zones_with_barren_locations = set()
@@ -755,6 +761,7 @@ class HintsRandomizer(BaseRandomizer):
         zones_with_barren_locations.add(self.rando.entrances.get_entrance_zone_for_item_location("Forbidden Woods - Kalle Demos Heart Container"))
       if location_name == "Mailbox - Letter from Aryll" or location_name == "Mailbox - Letter from Tingle":
         zones_with_barren_locations.add("Forsaken Fortress")
+        zones_with_barren_locations.add(self.rando.entrances.get_entrance_zone_for_item_location("Forsaken Fortress - Helmaroc King Heart Container"))
     
     # Finally, the difference between the zones with barren locations and the zones with useful locations gives us our
     # set of hintable barren zones.
@@ -859,6 +866,8 @@ class HintsRandomizer(BaseRandomizer):
     # Simplify entrance zone name
     if entrance_zone == "Tower of the Gods Sector":
       entrance_zone = "Tower of the Gods"
+    if entrance_zone == "Forsaken Fortress Sector":
+      entrance_zone = "Forsaken Fortress"
     
     item_hint = Hint(HintType.ITEM, entrance_zone, item_name)
     

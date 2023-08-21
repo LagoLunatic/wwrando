@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 import re
+from typing import ClassVar
 
 from wwlib.dzx import DZx, _2DMA, ACTR, PLYR, SCLS
 from wwlib.events import EventList
@@ -23,11 +24,20 @@ class ZoneEntrance:
   
   def __repr__(self):
     return f"ZoneEntrance('{self.entrance_name}')"
+  
+  instances_by_name: ClassVar[dict[str, 'ZoneEntrance']] = {}
+  
+  def __post_init__(self):
+    ZoneEntrance.instances_by_name[self.entrance_name] = self
+  
+  def __class_getitem__(cls, entrance_name):
+    return ZoneEntrance.instances_by_name[entrance_name]
 
 DUNGEON_ENTRANCES = [
   ZoneEntrance("Adanmae", 0, 2, 2, "Dungeon Entrance on Dragon Roost Island", "Dragon Roost Island", "sea", 13, 211),
   ZoneEntrance("sea", 41, 6, 6, "Dungeon Entrance in Forest Haven Sector", "Forest Haven", "Omori", 0, 215),
   ZoneEntrance("sea", 26, 0, 2, "Dungeon Entrance in Tower of the Gods Sector", "Tower of the Gods", "sea", 26, 1),
+  ZoneEntrance("sea", 1, None, None, "Dungeon Entrance in Forsaken Fortress Sector", "Forsaken Fortress", "sea", 1, 0),
   ZoneEntrance("Edaichi", 0, 0, 1, "Dungeon Entrance on Headstone Island", "Headstone Island", "sea", 45, 229),
   ZoneEntrance("Ekaze", 0, 0, 1, "Dungeon Entrance on Gale Isle", "Gale Isle", "sea", 4, 232),
 ]
@@ -35,6 +45,7 @@ BOSS_ENTRANCES = [
   ZoneEntrance("M_NewD2", 10, 1, 27, "Boss Entrance in Dragon Roost Cavern"),
   ZoneEntrance("kindan", 16, 0, 1, "Boss Entrance in Forbidden Woods"),
   ZoneEntrance("Siren", 18, 0, 27, "Boss Entrance in Tower of the Gods"),
+  ZoneEntrance("sea", 1, 16, 27, "Boss Entrance in Forsaken Fortress"),
   ZoneEntrance("M_Dai", 15, 0, 27, "Boss Entrance in Earth Temple"),
   ZoneEntrance("kaze", 12, 0, 27, "Boss Entrance in Wind Temple"),
 ]
@@ -78,20 +89,30 @@ class ZoneExit:
   
   def __repr__(self):
     return f"ZoneExit('{self.unique_name}')"
+  
+  instances_by_name: ClassVar[dict[str, 'ZoneExit']] = {}
+  
+  def __post_init__(self):
+    ZoneExit.instances_by_name[self.unique_name] = self
+  
+  def __class_getitem__(cls, exit_name):
+    return ZoneExit.instances_by_name[exit_name]
 
 DUNGEON_EXITS = [
   ZoneExit("M_NewD2", 0, 0, 0, "Dragon Roost Cavern", "Dragon Roost Cavern", "M_DragB"),
   ZoneExit("kindan", 0, 0, 0, "Forbidden Woods", "Forbidden Woods", "kinBOSS"),
   ZoneExit("Siren", 0, 1, 0, "Tower of the Gods", "Tower of the Gods", "SirenB"),
+  ZoneExit("sea", 1, None, None, "Forsaken Fortress", "Forsaken Fortress", "M2tower"),
   ZoneExit("M_Dai", 0, 0, 0, "Earth Temple", "Earth Temple", "M_DaiB"),
   ZoneExit("kaze", 15, 0, 15, "Wind Temple", "Wind Temple", "kazeB"),
 ]
 BOSS_EXITS = [
-  ZoneExit("M_DragB", 0, 0, 0, "Gohma Boss Arena", "Gohma Boss Arena"),
-  ZoneExit("kinBOSS", 0, 0, 0, "Kalle Demos Boss Arena", "Kalle Demos Boss Arena"),
-  ZoneExit("SirenB", 0, 0, 0, "Gohdan Boss Arena", "Gohdan Boss Arena"),
-  ZoneExit("M_DaiB", 0, 0, 0, "Jalhalla Boss Arena", "Jalhalla Boss Arena"),
-  ZoneExit("kazeB", 0, 0, 0, "Molgera Boss Arena", "Molgera Boss Arena"),
+  ZoneExit("M_DragB", 0, None, 0, "Gohma Boss Arena", "Gohma Boss Arena"),
+  ZoneExit("kinBOSS", 0, None, 0, "Kalle Demos Boss Arena", "Kalle Demos Boss Arena"),
+  ZoneExit("SirenB", 0, None, 0, "Gohdan Boss Arena", "Gohdan Boss Arena"),
+  ZoneExit("M2tower", 0, None, 16, "Helmaroc King Boss Arena", "Helmaroc King Boss Arena"),
+  ZoneExit("M_DaiB", 0, None, 0, "Jalhalla Boss Arena", "Jalhalla Boss Arena"),
+  ZoneExit("kazeB", 0, None, 0, "Molgera Boss Arena", "Molgera Boss Arena"),
 ]
 SECRET_CAVE_EXITS = [
   ZoneExit("Cave09", 0, 1, 0, "Outset Island", "Savage Labyrinth"),
@@ -162,12 +183,14 @@ class EntranceRandomizer(BaseRandomizer):
       "Dungeon Entrance on Dragon Roost Island": "Dragon Roost Cavern",
       "Dungeon Entrance in Forest Haven Sector": "Forbidden Woods",
       "Dungeon Entrance in Tower of the Gods Sector": "Tower of the Gods",
+      "Dungeon Entrance in Forsaken Fortress Sector": "Forsaken Fortress",
       "Dungeon Entrance on Headstone Island": "Earth Temple",
       "Dungeon Entrance on Gale Isle": "Wind Temple",
       
       "Boss Entrance in Dragon Roost Cavern": "Gohma Boss Arena",
       "Boss Entrance in Forbidden Woods": "Kalle Demos Boss Arena",
       "Boss Entrance in Tower of the Gods": "Gohdan Boss Arena",
+      "Boss Entrance in Forsaken Fortress": "Helmaroc King Boss Arena",
       "Boss Entrance in Earth Temple": "Jalhalla Boss Arena",
       "Boss Entrance in Wind Temple": "Molgera Boss Arena",
       
@@ -196,12 +219,14 @@ class EntranceRandomizer(BaseRandomizer):
       "Dragon Roost Cavern": "Dragon Roost Island",
       "Forbidden Woods": "Forest Haven",
       "Tower of the Gods": "Tower of the Gods",
+      "Forsaken Fortress": "Forsaken Fortress",
       "Earth Temple": "Headstone Island",
       "Wind Temple": "Gale Isle",
       
       "Gohma Boss Arena": "Dragon Roost Island",
       "Kalle Demos Boss Arena": "Forest Haven",
       "Gohdan Boss Arena": "Tower of the Gods",
+      "Helmaroc King Boss Arena": "Forsaken Fortress",
       "Jalhalla Boss Arena": "Headstone Island",
       "Molgera Boss Arena": "Gale Isle",
       
@@ -231,8 +256,8 @@ class EntranceRandomizer(BaseRandomizer):
     self.done_exits_to_entrances: dict[ZoneExit, ZoneEntrance] = {}
     
     for entrance_name, exit_name in self.entrance_connections.items():
-      zone_entrance = next(en for en in ALL_ENTRANCES if en.entrance_name == entrance_name)
-      zone_exit = next(ex for ex in ALL_EXITS if ex.unique_name == exit_name)
+      zone_entrance = ZoneEntrance[entrance_name]
+      zone_exit = ZoneExit[exit_name]
       self.done_entrances_to_exits[zone_entrance] = zone_exit
       self.done_exits_to_entrances[zone_exit] = zone_entrance
     
@@ -328,6 +353,8 @@ class EntranceRandomizer(BaseRandomizer):
     if include_dungeons:
       relevant_entrances += DUNGEON_ENTRANCES
       relevant_exits += DUNGEON_EXITS
+      relevant_entrances.remove(ZoneEntrance["Dungeon Entrance in Forsaken Fortress Sector"])
+      relevant_exits.remove(ZoneExit["Forsaken Fortress"])
     if include_bosses:
       relevant_entrances += BOSS_ENTRANCES
       relevant_exits += BOSS_EXITS
@@ -423,7 +450,7 @@ class EntranceRandomizer(BaseRandomizer):
         en for en in possible_island_entrances
         if en.island_name != self.safety_entrance.island_name
       ]
-    for i in range(len(banned_zone_entrances)):
+    for i in range(len(banned_zone_exits) - len(banned_zone_entrances)):
       # Note: nonbanned_zone_entrances is already shuffled, so we can just take the first result
       # from it and it's the same as picking one randomly.
       banned_island_entrance = possible_island_entrances.pop(0)
@@ -551,6 +578,14 @@ class EntranceRandomizer(BaseRandomizer):
         self.islands_with_a_dungeon.append(zone_entrance.island_name)
   
   def finalize_all_randomized_sets_of_entrances(self):
+    # Ensure Forsaken Fortress didn't somehow get randomized.
+    assert self.entrance_connections["Dungeon Entrance in Forsaken Fortress Sector"] == "Forsaken Fortress"
+    assert self.dungeon_and_cave_island_locations["Forsaken Fortress"] == "Forsaken Fortress"
+    ff_dummy_entrance = ZoneEntrance["Dungeon Entrance in Forsaken Fortress Sector"]
+    ff_dummy_exit = ZoneExit["Forsaken Fortress"]
+    assert self.done_entrances_to_exits[ff_dummy_entrance] == ff_dummy_exit
+    assert self.done_exits_to_entrances[ff_dummy_exit] == ff_dummy_entrance
+    
     for zone_exit in ALL_EXITS:
       outermost_entrance = self.get_outermost_entrance_for_exit(zone_exit)
       self.dungeon_and_cave_island_locations[zone_exit.zone_name] = outermost_entrance.island_name
@@ -574,12 +609,18 @@ class EntranceRandomizer(BaseRandomizer):
   #region Saving
   def update_all_entrance_destinations(self):
     for zone_exit, zone_entrance in self.done_exits_to_entrances.items():
+      if zone_exit == ZoneExit["Forsaken Fortress"]:
+        continue
       outermost_entrance = self.get_outermost_entrance_for_exit(zone_exit)
       self.update_entrance_to_lead_to_exit(zone_entrance, zone_exit, outermost_entrance)
   
   def update_all_boss_warp_out_destinations(self):
     for boss_exit in BOSS_EXITS:
       outermost_entrance = self.get_outermost_entrance_for_exit(boss_exit)
+      if boss_exit.unique_name == "Helmaroc King Boss Arena":
+        # Special case, does not have a warp out event, just an exit.
+        self.update_helmaroc_king_arena_ganon_door(boss_exit, outermost_entrance)
+        continue
       self.update_boss_warp_out_destination(boss_exit.stage_name, outermost_entrance)
   
   def update_entrance_to_lead_to_exit(self, zone_entrance: ZoneEntrance, zone_exit: ZoneExit, outermost_entrance: ZoneEntrance):
@@ -611,7 +652,9 @@ class EntranceRandomizer(BaseRandomizer):
     if zone_exit in BOSS_EXITS:
       # Update the spawn you're placed at when saving and reloading inside a boss room.
       exit_dzs = self.rando.get_arc(exit_dzs_path).get_file("stage.dzs", DZx)
-      exit_scls = exit_dzs.entries_by_type(SCLS)[zone_exit.scls_exit_index]
+      # For dungeons, the stage.dzs's SCLS exit at index 0 is always where to take you when saving
+      # and reloading.
+      exit_scls = exit_dzs.entries_by_type(SCLS)[0]
       if zone_entrance in BOSS_ENTRANCES:
         # If the end of a dungeon connects to a boss, saving and reloading inside the boss
         # room should put you at the beginning of that dungeon, not the end.
@@ -723,6 +766,17 @@ class EntranceRandomizer(BaseRandomizer):
     room_num_prop.value = outermost_entrance.warp_out_room_num
     spawn_id_prop = next(prop for prop in stage_change_action.properties if prop.name == "StartCode")
     spawn_id_prop.value = outermost_entrance.warp_out_spawn_id
+  
+  def update_helmaroc_king_arena_ganon_door(self, hk_exit: ZoneExit, outermost_entrance: ZoneEntrance):
+    # Update the door that originally lead into Ganondorf's room in vanilla.
+    # In the randomizer, we use it in place of the WARP_WIND_AFTER warp out event.
+    exit_dzr_path = "files/res/Stage/%s/Room%d.arc" % (hk_exit.stage_name, hk_exit.room_num)
+    exit_dzr = self.rando.get_arc(exit_dzr_path).get_file("room.dzr", DZx)
+    exit_scls = exit_dzr.entries_by_type(SCLS)[1]
+    exit_scls.dest_stage_name = outermost_entrance.warp_out_stage_name
+    exit_scls.room_index = outermost_entrance.warp_out_room_num
+    exit_scls.spawn_id = outermost_entrance.warp_out_spawn_id
+    exit_scls.save_changes()
   #endregion
   
   
@@ -761,7 +815,7 @@ class EntranceRandomizer(BaseRandomizer):
   def get_dungeon_start_exit_leading_to_nested_entrance(zone_entrance: ZoneEntrance):
     assert zone_entrance.entrance_name.startswith("Boss Entrance in ")
     dungeon_name = zone_entrance.entrance_name[len("Boss Entrance in "):]
-    dungeon_start_exit = next(ex for ex in DUNGEON_EXITS if ex.unique_name == dungeon_name)
+    dungeon_start_exit = ZoneExit[dungeon_name]
     return dungeon_start_exit
   
   def get_entrance_zone_for_item_location(self, location_name):
@@ -782,18 +836,20 @@ class EntranceRandomizer(BaseRandomizer):
       # If the location is in a dungeon or cave, use the hint for whatever island the dungeon/cave is located on.
       entrance_zone = self.dungeon_and_cave_island_locations[zone_name]
       
-      # Special case for Tower of the Gods to use Tower of the Gods Sector when refering to the entrance, not the dungeon
+      # Special cases when referring to island sectors with the same name as a dungeon.
       if entrance_zone == "Tower of the Gods":
         entrance_zone = "Tower of the Gods Sector"
+      elif location_name == "Forsaken Fortress":
+        entrance_zone = "Forsaken Fortress Sector"
     else:
       # Otherwise, for non-dungeon and non-cave locations, just use the zone name.
       entrance_zone = zone_name
       
-      # Special case for Tower of the Gods to use Tower of the Gods Sector when refering to the Sunken Treasure
+      # Special cases when referring to island sectors with the same name as a dungeon.
       if location_name == "Tower of the Gods - Sunken Treasure":
         entrance_zone = "Tower of the Gods Sector"
-      # Note that Forsaken Fortress - Sunken Treasure has a similar issue, but there are no randomized entrances on
-      # Forsaken Fortress, so we won't make that distinction here.
+      elif location_name == "Forsaken Fortress - Sunken Treasure":
+        entrance_zone = "Forsaken Fortress Sector"
     
     return entrance_zone
   #endregion

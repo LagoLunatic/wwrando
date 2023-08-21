@@ -1170,16 +1170,8 @@ Forsaken Fortress - Chest on Bed:
 #    - MajyuE/Room0.arc/Actor016
 Forsaken Fortress - Helmaroc King Heart Container:
   Need:
-    Can Get Inside Forsaken Fortress
-    & Skull Hammer
-    & (Can Fly With Deku Leaf Indoors | Hookshot)
+    Can Access Helmaroc King Boss Arena
     & Can Defeat Helmaroc King
-    # You can make it up there with either Deku Leaf, or Hookshotting a torch to cross a gap.
-    # Note: It is possible to get up there without either Deku Leaf or Hookshot.
-    # To do it, go to the southwest room, and jump on top of the wooden bedposts. Then jump diagonally onto the corner of the platform with the Bokoblin and the Skull Hammer pegs on it.
-    # If adding difficulty options, take that trick into account.
-    # There's a cannon that makes sidling across a gap difficult, but you don't need bombs because you can just kill the searchlight operator Bokoblin instead to get rid of the cannon simultaneously.
-    # In vanilla, you also would have needed to be able to defeat Phantom Ganon because his fight triggers even if you're way above him trying to get to Helmaroc. But the randomizer fixes this so the fight won't start in that case.
   Original item: Heart Container
   Types: Dungeon, Boss
   Paths:

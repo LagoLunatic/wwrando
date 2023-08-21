@@ -138,6 +138,9 @@ Can Access Dungeon Entrance in Tower of the Gods Sector:
   Din's Pearl
   & Farore's Pearl
   & Nayru's Pearl
+Can Access Dungeon Entrance in Forsaken Fortress Sector:
+  # This macro isn't actually used, it's just a placeholder for entrance randomizer.
+  Impossible
 Can Access Dungeon Entrance on Headstone Island:
   Power Bracelets
 Can Access Dungeon Entrance on Gale Isle:
@@ -151,6 +154,9 @@ Can Access Forbidden Woods:
   Can Access Dungeon Entrance in Forest Haven Sector
 Can Access Tower of the Gods:
   Can Access Dungeon Entrance in Tower of the Gods Sector
+Can Access Forsaken Fortress:
+  # This macro isn't actually used, it's just a placeholder for entrance randomizer.
+  Can Access Dungeon Entrance in Forsaken Fortress Sector
 Can Access Earth Temple:
   Can Access Dungeon Entrance on Headstone Island
 Can Access Wind Temple:
@@ -172,6 +178,16 @@ Can Access Boss Entrance in Tower of the Gods:
   Can Reach Tower of the Gods Third Floor
   & Can Defeat Armos
   & TotG Big Key
+Can Access Boss Entrance in Forsaken Fortress:
+  Can Get Inside Forsaken Fortress
+  & Skull Hammer
+  & (Can Fly With Deku Leaf Indoors | Hookshot)
+  # You can make it up there with either Deku Leaf, or Hookshotting a torch to cross a gap.
+  # Note: It is possible to get up there without either Deku Leaf or Hookshot.
+  # To do it, go to the southwest room, and jump on top of the wooden bedposts. Then jump diagonally onto the corner of the platform with the Bokoblin and the Skull Hammer pegs on it.
+  # If adding difficulty options, take that trick into account.
+  # There's a cannon that makes sidling across a gap difficult, but you don't need bombs because you can just kill the searchlight operator Bokoblin instead to get rid of the cannon simultaneously.
+  # In vanilla, you also would have needed to be able to defeat Phantom Ganon because his fight triggers even if you're way above him trying to get to Helmaroc. But the randomizer fixes this so the fight won't start in that case.
 Can Access Boss Entrance in Earth Temple:
   Can Access Earth Temple
   & Can Play Command Melody
@@ -199,6 +215,8 @@ Can Access Kalle Demos Boss Arena:
   Can Access Boss Entrance in Forbidden Woods
 Can Access Gohdan Boss Arena:
   Can Access Boss Entrance in Tower of the Gods
+Can Access Helmaroc King Boss Arena:
+  Can Access Boss Entrance in Forsaken Fortress
 Can Access Jalhalla Boss Arena:
   Can Access Boss Entrance in Earth Temple
 Can Access Molgera Boss Arena:

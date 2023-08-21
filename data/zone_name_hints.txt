@@ -1,5 +1,5 @@
-Forsaken Fortress:
-  the rubble of the evil's lair
+Forsaken Fortress Sector:
+  where the rubble of the evil's lair lies
 Star Island:
   an island shaped like a star
 Northern Fairy Island:
@@ -106,6 +106,8 @@ Forbidden Woods:
   a dungeon with overgrown vegetation
 Tower of the Gods:
   a tower created to test the hero
+Forsaken Fortress:
+  the rubble of the evil's lair
 Earth Temple:
   a haunted dungeon
 Wind Temple:
