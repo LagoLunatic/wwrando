@@ -164,9 +164,11 @@ COMBAT_SECRET_CAVE_EXIT_NAMES_WITH_NO_REQUIREMENTS = [
 
 ITEM_LOCATION_NAME_TO_EXIT_ZONE_NAME_OVERRIDES = {
   "Pawprint Isle - Wizzrobe Cave": "Pawprint Isle Side Isle",
+  
   "Dragon Roost Cavern - Gohma Heart Container": "Gohma Boss Arena",
   "Forbidden Woods - Kalle Demos Heart Container": "Kalle Demos Boss Arena",
   "Tower of the Gods - Gohdan Heart Container": "Gohdan Boss Arena",
+  "Forsaken Fortress - Helmaroc King Heart Container": "Helmaroc King Boss Arena",
   "Earth Temple - Jalhalla Heart Container": "Jalhalla Boss Arena",
   "Wind Temple - Molgera Heart Container": "Molgera Boss Arena",
 }
