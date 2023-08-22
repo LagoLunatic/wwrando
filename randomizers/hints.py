@@ -711,7 +711,7 @@ class HintsRandomizer(BaseRandomizer):
     
     # Since we hint at zones as barren, we next construct a set of zones which contain at least one useful item.
     zones_with_useful_locations = set()
-    for location_name in useful_locations:
+    for location_name in sorted(useful_locations):
       # Don't consider race mode dungeon bosses, as those are implicity required.
       if location_name in self.rando.boss_rewards.required_locations:
         continue
@@ -735,7 +735,7 @@ class HintsRandomizer(BaseRandomizer):
     
     # Now, we do the same with barren locations, identifying which zones have barren locations.
     zones_with_barren_locations = set()
-    for location_name in barren_locations:
+    for location_name in sorted(barren_locations):
       # Don't consider locations hinted through remote location hints, as those are explicity barren.
       if location_name in hinted_remote_locations:
         continue
