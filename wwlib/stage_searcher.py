@@ -7,7 +7,8 @@ from gclib import fs_helpers as fs
 
 from data_tables import DataTables
 from wwlib.dzb import DZB
-from gclib.j3d import BMD, BDL, BPRegister, XFRegister
+from gclib.j3d import BMD, BDL
+from gclib.j3d_chunks.mdl3 import BPRegister, XFRegister
 from wwlib.dzx import DZx, ACTR, DOOR, EVNT, FILI, PLYR, SCOB, STAG, TGDR, TGOB, TGSC, TRES, DZxLayer
 from wwlib.events import EventList
 

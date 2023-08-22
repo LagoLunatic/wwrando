@@ -64,11 +64,25 @@ jobs:
           python-version: '3.11'
           architecture: ${{ matrix.architecture }}
           cache: 'pip' # Cache all pip dependencies
-      - name: Install dependencies
+      - name: Cache venv
+        id: cache-venv
+        uses: actions/cache@v3
+        with:
+          path: ./.venv
+          key: ${{ runner.os }}-venv-${{ hashFiles('**/requirements*.txt') }}
+      - name: Create venv
+        if: steps.cache-venv.outputs.cache-hit != 'true'
+        run: |
+          python -m venv ./.venv
+      - name: Activate venv
+        run: |
+          source ./.venv/bin/activate || source ./.venv/Scripts/activate
+          echo $PATH >> $GITHUB_PATH
+      - name: Install venv dependencies
+        if: steps.cache-venv.outputs.cache-hit != 'true'
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements_full.txt
-          python -m pip install PyInstaller
       - name: Install any missing Qt dependencies
         if: runner.os == 'Linux'
         run: |

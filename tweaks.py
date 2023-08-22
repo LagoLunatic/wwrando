@@ -360,7 +360,7 @@ def make_sail_behave_like_swift_sail(self):
   sail_itemget_model = sail_itemget_arc.get_file("vho.bdl", BDL)
   sail_itemget_tex_image = sail_itemget_model.tex1.textures_by_name["Vho"][0]
   sail_itemget_tex_image.replace_image_from_path(new_sail_itemget_tex_image_path)
-  sail_itemget_model.save_changes()
+  sail_itemget_model.save()
 
 def add_ganons_tower_warp_to_ff2(self):
   # Normally the warp object from Forsaken Fortress down to Ganon's Tower only appears in FF3.
@@ -530,12 +530,12 @@ def modify_title_screen_logo(self):
   subtitle_model = tlogoe_arc.get_file("subtitle_start_anim_e.bdl", BDL)
   subtitle_image = subtitle_model.tex1.textures_by_name["logo_sub_e"][0]
   subtitle_image.replace_image_from_path(new_subtitle_image_path)
-  subtitle_model.save_changes()
+  subtitle_model.save()
   
   subtitle_glare_model = tlogoe_arc.get_file("subtitle_kirari_e.bdl", BDL)
   subtitle_glare_image = subtitle_glare_model.tex1.textures_by_name["logo_sub_e"][0]
   subtitle_glare_image.replace_image_from_path(new_subtitle_image_path)
-  subtitle_glare_model.save_changes()
+  subtitle_glare_model.save()
   
   # Move where the subtitle is drawn downwards a bit so the word "the" doesn't get covered up by the main logo.
   title_rel = self.get_rel("files/rels/d_a_title.rel")
@@ -2149,7 +2149,7 @@ def replace_dark_wood_chest_texture(self):
   dark_wood_chest_model = dark_wood_chest_arc.get_file("boxb.bdl", BDL)
   dark_wood_chest_tex_image = dark_wood_chest_model.tex1.textures_by_name["Ktakara_001"][0]
   dark_wood_chest_tex_image.replace_image_from_path(os.path.join(ASSETS_PATH, "key chest.png"))
-  dark_wood_chest_model.save_changes()
+  dark_wood_chest_model.save()
 
 def fix_needle_rock_island_salvage_flags(self):
   # Salvage flags 0 and 1 for Needle Rock Island are each duplicated in the vanilla game.

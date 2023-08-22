@@ -91,6 +91,7 @@ def run_no_ui(args):
   }
   
   # TODO profiling
+  # TODO autoseed option
   
   if "-bulk" in args:
     run_all_bulk_tests(rando_kwargs)

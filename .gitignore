@@ -9,3 +9,4 @@ settings.txt
 profileresults*.txt
 /keys/seed_key.py
 /keys/build_key.txt
+/.venv

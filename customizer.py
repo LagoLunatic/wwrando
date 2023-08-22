@@ -11,7 +11,7 @@ from gclib import texture_utils
 from gclib.bti import BTI
 from gclib.j3d import BDL
 from gclib.texture_utils import ImageFormat, PaletteFormat
-from gclib.gx_enums import GXAttr
+import gclib.gx_enums as GX
 from wwrando_paths import ASSETS_PATH, CUSTOM_MODELS_PATH
 
 ORIG_LINK_ARC_FILE_SIZE_IN_BYTES  = 1308608
@@ -491,7 +491,7 @@ def change_player_custom_colors(self):
       
       for link_hair_texture in link_hair_textures:
         link_hair_texture.replace_image(back_hair_image)
-      link_hair_model.save_changes()
+      link_hair_model.save()
     
     # Recolor the mouth.
     for i in range(1, 9+1):
@@ -524,7 +524,7 @@ def change_player_custom_colors(self):
     # The vanilla Link model UV-mapped Link's hat and tunic to the same part of the texture.
     # We want the hat and tunic colors to be customizable separately, so we modify the UVs.
     # We edit the VTX1 section to move the hat UV coords to a vertical column on the right.
-    texcoords = link_main_model.vtx1.attributes[GXAttr.Tex0]
+    texcoords = link_main_model.vtx1.attributes[GX.Attr.Tex0]
     # Make sure this is the vanilla Link VTX1 section by checking the number of UV coords.
     # If the number of coords doesn't match this is probably a custom model, so skip it.
     # 810 is the correct number of coords, 816 is if you count padding too. Check both.
@@ -557,9 +557,9 @@ def change_player_custom_colors(self):
   if replaced_any_hands:
     for hands_texture in hands_textures:
       hands_texture.replace_image(hands_image)
-    hands_model.save_changes()
+    hands_model.save()
   
-  link_main_model.save_changes()
+  link_main_model.save()
 
 def get_model_preview_image(custom_model_name, prefix, selected_colors):
   custom_model_metadata = get_model_metadata(custom_model_name)

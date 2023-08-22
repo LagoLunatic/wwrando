@@ -713,7 +713,7 @@ class WWRandomizer:
       self.gcm.changed_files[arc_path] = arc.data
     
     for jpc_path, jpc in self.jpcs_by_path.items():
-      jpc.save_changes()
+      jpc.save()
       self.gcm.changed_files[jpc_path] = jpc.data
     
     if self.export_disc_to_folder:

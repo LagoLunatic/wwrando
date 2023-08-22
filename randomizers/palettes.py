@@ -3,10 +3,14 @@ import os
 import yaml
 from io import BytesIO
 
+from gclib import fs_helpers as fs
 from gclib import texture_utils
 from gclib.bti import BTI
-from gclib.j3d import J3D, BPRegister
-from gclib import fs_helpers as fs
+from gclib.j3d import J3D
+from gclib.j3d_chunks.mat3 import MAT3
+from gclib.j3d_chunks.mdl3 import MDL3, BPRegister
+from gclib.j3d_chunks.tex1 import TEX1
+from gclib.j3d_chunks.trk1 import TRK1, ColorAnimation
 from gclib.rel import REL
 
 from randomizers.base_randomizer import BaseRandomizer
@@ -102,26 +106,26 @@ class PaletteRandomizer(BaseRandomizer):
           j3d_file = rarc.get_file(file_name, J3D)
           
           if hasattr(j3d_file, "tex1"):
-            self.shift_all_colors_in_tex1(file_name, j3d_file, h_shift, v_shift)
+            self.shift_all_colors_in_tex1(file_name, j3d_file.tex1, h_shift, v_shift)
           
           if hasattr(j3d_file, "mat3"):
-            self.shift_all_colors_in_mat3(file_name, j3d_file, h_shift, v_shift)
+            self.shift_all_colors_in_mat3(file_name, j3d_file.mat3, h_shift, v_shift)
           
           if hasattr(j3d_file, "mdl3"):
-            self.shift_all_colors_in_mdl3(file_name, j3d_file, h_shift, v_shift)
+            self.shift_all_colors_in_mdl3(file_name, j3d_file.mdl3, h_shift, v_shift)
           
           if hasattr(j3d_file, "trk1"):
-            self.shift_all_colors_in_trk1(file_name, j3d_file, h_shift, v_shift)
+            self.shift_all_colors_in_trk1(file_name, j3d_file.trk1, h_shift, v_shift)
           
-          j3d_file.save_changes()
+          j3d_file.save()
 
-  def shift_all_colors_in_tex1(self, file_name, j3d_file, h_shift, v_shift):
-    for texture_name in j3d_file.tex1.textures_by_name:
+  def shift_all_colors_in_tex1(self, file_name, tex1: TEX1, h_shift, v_shift):
+    for texture_name in tex1.textures_by_name:
       if "toon" in texture_name:
         # Special texture related to lighting
         continue
       
-      textures = j3d_file.tex1.textures_by_name[texture_name]
+      textures = tex1.textures_by_name[texture_name]
       first_texture = textures[0]
       
       if first_texture.image_format in texture_utils.GREYSCALE_IMAGE_FORMATS:
@@ -167,22 +171,19 @@ class PaletteRandomizer(BaseRandomizer):
       image = texture_utils.hsv_shift_image(image, h_shift, v_shift)
       texture.replace_image(image)
 
-  def shift_all_colors_in_mat3(self, file_name, j3d_file, h_shift, v_shift):
-    for i, color in enumerate(j3d_file.mat3.reg_colors):
-      r, g, b, a = color
-      if r < 0 or g < 0 or b < 0:
-        # Negative color? Skip it to avoid errors.
-        continue
-      r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-      j3d_file.mat3.reg_colors[i] = (r, g, b, a)
-    
-    for i, color in enumerate(j3d_file.mat3.konst_colors):
-      r, g, b, a = color
-      r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-      j3d_file.mat3.konst_colors[i] = (r, g, b, a)
+  def shift_all_colors_in_mat3(self, file_name, mat3: MAT3, h_shift, v_shift):
+    for material in mat3.materials:
+      for col in material.tev_colors:
+        if any(c < 0 for c in col.rgb):
+          # Negative color? Skip it to avoid errors.
+          continue
+        col.rgb = texture_utils.hsv_shift_color(col.rgb, h_shift, v_shift)
+      
+      for col in material.tev_konst_colors:
+        col.rgb = texture_utils.hsv_shift_color(col.rgb, h_shift, v_shift)
 
-  def shift_all_colors_in_mdl3(self, file_name, j3d_file, h_shift, v_shift):
-    for entry in j3d_file.mdl3.entries:
+  def shift_all_colors_in_mdl3(self, file_name, mdl3: MDL3, h_shift, v_shift):
+    for entry in mdl3.entries:
       tev_color_commands = [
         com for com in entry.bp_commands
         if com.register >= BPRegister.TEV_REGISTERL_0.value and com.register <= BPRegister.TEV_REGISTERH_3.value
@@ -224,11 +225,11 @@ class PaletteRandomizer(BaseRandomizer):
         hi_command.value |= ((b <<  0) & 0x0007FF)
         lo_command.value |= ((a << 12) & 0x7FF000)
 
-  def shift_all_colors_in_trk1(self, file_name, j3d_file, h_shift, v_shift):
-    animations = []
-    for mat_name, anims in j3d_file.trk1.mat_name_to_reg_anims.items():
+  def shift_all_colors_in_trk1(self, file_name, trk1: TRK1, h_shift, v_shift):
+    animations: list[ColorAnimation] = []
+    for mat_name, anims in trk1.mat_name_to_reg_anims.items():
       animations += anims
-    for mat_name, anims in j3d_file.trk1.mat_name_to_konst_anims.items():
+    for mat_name, anims in trk1.mat_name_to_konst_anims.items():
       animations += anims
     
     for anim_index, anim in enumerate(animations):
