@@ -5,7 +5,7 @@ from random import Random
 import hashlib
 import yaml
 import sys
-from typing import Any, Callable
+from typing import TypeVar, Callable
 from io import BytesIO
 
 from gclib import fs_helpers as fs
@@ -69,6 +69,8 @@ class TooFewProgressionLocationsError(Exception):
 
 class InvalidCleanISOError(Exception):
   pass
+
+T = TypeVar('T')
 
 class WWRandomizer:
   def __init__(self, seed, clean_iso_path, randomized_output_folder, options: dict, permalink=None, cmd_line_args=None):
@@ -738,7 +740,7 @@ class WWRandomizer:
     
     return rng
   
-  def weighted_choice(self, rng: Random, seq: list[Any], weight_conditions: list[tuple[int, Callable[[Any], bool]]]):
+  def weighted_choice(self, rng: Random, seq: list[T], weight_conditions: list[tuple[int, Callable[[T], bool]]]) -> T:
     weighted_seq = []
     
     for element in seq:
