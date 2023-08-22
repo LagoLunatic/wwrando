@@ -153,9 +153,9 @@ class Logic:
   
   def initialize_from_randomizer_state(self):
     self.nested_entrance_macros.clear()
-    for zone_entrance in entrances.ALL_ENTRANCES:
+    for zone_entrance in entrances.ZoneEntrance.instances_by_name.values():
       if zone_entrance.is_nested:
-        zone_exit = self.rando.entrances.get_dungeon_start_exit_leading_to_nested_entrance(zone_entrance)
+        zone_exit = zone_entrance.nested_in
         entrance_access_macro_name = "Can Access " + zone_entrance.entrance_name
         zone_access_macro_name = "Can Access " + zone_exit.unique_name
         self.nested_entrance_macros[entrance_access_macro_name] = zone_access_macro_name
