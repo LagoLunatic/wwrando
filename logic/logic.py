@@ -1271,8 +1271,8 @@ class Logic:
     for item_name, num in max_num_of_each_item_to_check.items():
       num_combos_to_check *= (num+1)
     # print(f"Combos to check: {num_combos_to_check} ({len(max_num_of_each_item_to_check)} items)")
-    if num_combos_to_check > 1024:
-      raise Exception(f"Enemy randomizer got stuck in an exponential loop checking requirement: {original_req_string!r}")
+    if num_combos_to_check > 6144:
+      raise Exception(f"Enemy randomizer got stuck in an exponential loop checking {num_combos_to_check} possibilities for requirement: {original_req_string!r}")
     
     item_combos_to_check = [[]]
     for item_name in relevant_item_names:
