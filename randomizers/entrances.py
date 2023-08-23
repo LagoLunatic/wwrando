@@ -46,7 +46,7 @@ class ZoneExit:
   unique_name: str
   _: KW_ONLY
   boss_stage_name: str = None
-  zone: str = None
+  zone_name: str = None
   
   def __repr__(self):
     return f"ZoneExit('{self.unique_name}')"
@@ -68,12 +68,12 @@ DUNGEON_ENTRANCES = [
   ZoneEntrance("Ekaze", 0, 0, 1, "Dungeon Entrance on Gale Isle", "Gale Isle", "sea", 4, 232),
 ]
 DUNGEON_EXITS = [
-  ZoneExit("M_NewD2", 0, 0, 0, "Dragon Roost Cavern", boss_stage_name="M_DragB", zone="Dragon Roost Cavern"),
-  ZoneExit("kindan", 0, 0, 0, "Forbidden Woods", boss_stage_name="kinBOSS", zone="Forbidden Woods"),
-  ZoneExit("Siren", 0, 1, 0, "Tower of the Gods", boss_stage_name="SirenB", zone="Tower of the Gods"),
-  ZoneExit("sea", 1, None, None, "Forsaken Fortress", boss_stage_name="M2tower", zone="Forsaken Fortress"),
-  ZoneExit("M_Dai", 0, 0, 0, "Earth Temple", boss_stage_name="M_DaiB", zone="Earth Temple"),
-  ZoneExit("kaze", 15, 0, 15, "Wind Temple", boss_stage_name="kazeB", zone="Wind Temple"),
+  ZoneExit("M_NewD2", 0, 0, 0, "Dragon Roost Cavern", boss_stage_name="M_DragB", zone_name="Dragon Roost Cavern"),
+  ZoneExit("kindan", 0, 0, 0, "Forbidden Woods", boss_stage_name="kinBOSS", zone_name="Forbidden Woods"),
+  ZoneExit("Siren", 0, 1, 0, "Tower of the Gods", boss_stage_name="SirenB", zone_name="Tower of the Gods"),
+  ZoneExit("sea", 1, None, None, "Forsaken Fortress", boss_stage_name="M2tower", zone_name="Forsaken Fortress"),
+  ZoneExit("M_Dai", 0, 0, 0, "Earth Temple", boss_stage_name="M_DaiB", zone_name="Earth Temple"),
+  ZoneExit("kaze", 15, 0, 15, "Wind Temple", boss_stage_name="kazeB", zone_name="Wind Temple"),
 ]
 
 MINIBOSS_ENTRANCES = [
@@ -132,26 +132,26 @@ SECRET_CAVE_ENTRANCES = [
   ZoneEntrance("sea", 2, 0, 1, "Secret Cave Entrance on Star Island", "Star Island", "sea", 2, 1),
 ]
 SECRET_CAVE_EXITS = [
-  ZoneExit("Cave09", 0, 1, 0, "Savage Labyrinth", zone="Outset Island"),
-  ZoneExit("TF_06", 0, 0, 0, "Dragon Roost Island Secret Cave", zone="Dragon Roost Island"),
-  ZoneExit("MiniKaz", 0, 0, 0, "Fire Mountain Secret Cave", zone="Fire Mountain"),
-  ZoneExit("MiniHyo", 0, 0, 0, "Ice Ring Isle Secret Cave", zone="Ice Ring Isle"),
-  ZoneExit("TF_04", 0, 0, 0, "Cabana Labyrinth", zone="Private Oasis"),
-  ZoneExit("SubD42", 0, 0, 0, "Needle Rock Isle Secret Cave", zone="Needle Rock Isle"),
-  ZoneExit("SubD43", 0, 0, 0, "Angular Isles Secret Cave", zone="Angular Isles"),
-  ZoneExit("SubD71", 0, 0, 0, "Boating Course Secret Cave", zone="Boating Course"),
-  ZoneExit("TF_01", 0, 0, 0, "Stone Watcher Island Secret Cave", zone="Stone Watcher Island"),
-  ZoneExit("TF_02", 0, 0, 0, "Overlook Island Secret Cave", zone="Overlook Island"),
-  ZoneExit("TF_03", 0, 0, 0, "Bird's Peak Rock Secret Cave", zone="Bird's Peak Rock"),
-  ZoneExit("TyuTyu", 0, 0, 0, "Pawprint Isle Chuchu Cave", zone="Pawprint Isle"),
+  ZoneExit("Cave09", 0, 1, 0, "Savage Labyrinth", zone_name="Outset Island"),
+  ZoneExit("TF_06", 0, 0, 0, "Dragon Roost Island Secret Cave", zone_name="Dragon Roost Island"),
+  ZoneExit("MiniKaz", 0, 0, 0, "Fire Mountain Secret Cave", zone_name="Fire Mountain"),
+  ZoneExit("MiniHyo", 0, 0, 0, "Ice Ring Isle Secret Cave", zone_name="Ice Ring Isle"),
+  ZoneExit("TF_04", 0, 0, 0, "Cabana Labyrinth", zone_name="Private Oasis"),
+  ZoneExit("SubD42", 0, 0, 0, "Needle Rock Isle Secret Cave", zone_name="Needle Rock Isle"),
+  ZoneExit("SubD43", 0, 0, 0, "Angular Isles Secret Cave", zone_name="Angular Isles"),
+  ZoneExit("SubD71", 0, 0, 0, "Boating Course Secret Cave", zone_name="Boating Course"),
+  ZoneExit("TF_01", 0, 0, 0, "Stone Watcher Island Secret Cave", zone_name="Stone Watcher Island"),
+  ZoneExit("TF_02", 0, 0, 0, "Overlook Island Secret Cave", zone_name="Overlook Island"),
+  ZoneExit("TF_03", 0, 0, 0, "Bird's Peak Rock Secret Cave", zone_name="Bird's Peak Rock"),
+  ZoneExit("TyuTyu", 0, 0, 0, "Pawprint Isle Chuchu Cave", zone_name="Pawprint Isle"),
   ZoneExit("Cave07", 0, 0, 0, "Pawprint Isle Wizzrobe Cave"),
-  ZoneExit("WarpD", 0, 0, 0, "Diamond Steppe Island Warp Maze Cave", zone="Diamond Steppe Island"),
-  ZoneExit("Cave01", 0, 0, 0, "Bomb Island Secret Cave", zone="Bomb Island"),
-  ZoneExit("Cave04", 0, 0, 0, "Rock Spire Isle Secret Cave", zone="Rock Spire Isle"),
-  ZoneExit("ITest63", 0, 0, 0, "Shark Island Secret Cave", zone="Shark Island"),
-  ZoneExit("Cave03", 0, 0, 0, "Cliff Plateau Isles Secret Cave", zone="Cliff Plateau Isles"),
-  ZoneExit("Cave05", 0, 0, 0, "Horseshoe Island Secret Cave", zone="Horseshoe Island"),
-  ZoneExit("Cave02", 0, 0, 0, "Star Island Secret Cave", zone="Star Island"),
+  ZoneExit("WarpD", 0, 0, 0, "Diamond Steppe Island Warp Maze Cave", zone_name="Diamond Steppe Island"),
+  ZoneExit("Cave01", 0, 0, 0, "Bomb Island Secret Cave", zone_name="Bomb Island"),
+  ZoneExit("Cave04", 0, 0, 0, "Rock Spire Isle Secret Cave", zone_name="Rock Spire Isle"),
+  ZoneExit("ITest63", 0, 0, 0, "Shark Island Secret Cave", zone_name="Shark Island"),
+  ZoneExit("Cave03", 0, 0, 0, "Cliff Plateau Isles Secret Cave", zone_name="Cliff Plateau Isles"),
+  ZoneExit("Cave05", 0, 0, 0, "Horseshoe Island Secret Cave", zone_name="Horseshoe Island"),
+  ZoneExit("Cave02", 0, 0, 0, "Star Island Secret Cave", zone_name="Star Island"),
 ]
 
 SECRET_CAVE_INNER_ENTRANCES = [
@@ -293,21 +293,21 @@ class EntranceRandomizer(BaseRandomizer):
   
   def _randomize(self):
     if self.options.get("randomize_entrances") == "Dungeons":
-      self.randomize_one_set_of_entrances(include_dungeons=True)
+      self.randomize_one_set_of_entrances(dungeons=True)
     elif self.options.get("randomize_entrances") == "Nested Dungeons":
-      self.randomize_one_set_of_entrances(include_dungeons=True, include_bosses=True)
+      self.randomize_one_set_of_entrances(dungeons=True, bosses=True)
     elif self.options.get("randomize_entrances") == "Secret Caves":
-      self.randomize_one_set_of_entrances(include_caves=True)
+      self.randomize_one_set_of_entrances(caves=True)
     elif self.options.get("randomize_entrances") == "Dungeons & Secret Caves (Separately)":
-      self.randomize_one_set_of_entrances(include_dungeons=True)
-      self.randomize_one_set_of_entrances(include_caves=True)
+      self.randomize_one_set_of_entrances(dungeons=True)
+      self.randomize_one_set_of_entrances(caves=True)
     elif self.options.get("randomize_entrances") == "Nested Dungeons & Secret Caves (Separately)":
-      self.randomize_one_set_of_entrances(include_dungeons=True, include_bosses=True)
-      self.randomize_one_set_of_entrances(include_caves=True)
+      self.randomize_one_set_of_entrances(dungeons=True, bosses=True)
+      self.randomize_one_set_of_entrances(caves=True)
     elif self.options.get("randomize_entrances") == "Dungeons & Secret Caves (Together)":
-      self.randomize_one_set_of_entrances(include_dungeons=True, include_caves=True)
+      self.randomize_one_set_of_entrances(dungeons=True, caves=True)
     elif self.options.get("randomize_entrances") == "Nested Dungeons & Secret Caves (Together)":
-      self.randomize_one_set_of_entrances(include_dungeons=True, include_bosses=True, include_caves=True)
+      self.randomize_one_set_of_entrances(dungeons=True, bosses=True, caves=True)
     else:
       raise Exception("Invalid entrance randomizer option: %s" % self.options.get("randomize_entrances"))
     
@@ -327,7 +327,7 @@ class EntranceRandomizer(BaseRandomizer):
         return "Dragon Roost Island (Main)"
       elif name == "Secret Cave Entrance on Dragon Roost Island":
         return "Dragon Roost Island (Pit)"
-      elif re.search(r"^(Dungeon|Boss|Secret Cave) Entrance (on|in) ", name):
+      elif re.search(r"^(Dungeon|Miniboss|Boss|Secret Cave|Inner) Entrance (on|in) ", name):
         _, short_name = re.split(r" (?:on|in) ", name, 1)
         return short_name
       else:
@@ -349,18 +349,18 @@ class EntranceRandomizer(BaseRandomizer):
   
   
   #region Randomization
-  def randomize_one_set_of_entrances(self, include_dungeons=False, include_bosses=False, include_caves=False):
+  def randomize_one_set_of_entrances(self, dungeons=False, bosses=False, caves=False):
     relevant_entrances: list[ZoneEntrance] = []
     relevant_exits: list[ZoneExit] = []
-    if include_dungeons:
+    if dungeons:
       relevant_entrances += DUNGEON_ENTRANCES
       relevant_exits += DUNGEON_EXITS
       relevant_entrances.remove(ZoneEntrance["Dungeon Entrance in Forsaken Fortress Sector"])
       relevant_exits.remove(ZoneExit["Forsaken Fortress"])
-    if include_bosses:
+    if bosses:
       relevant_entrances += BOSS_ENTRANCES
       relevant_exits += BOSS_EXITS
-    if include_caves:
+    if caves:
       relevant_entrances += SECRET_CAVE_ENTRANCES
       relevant_exits += SECRET_CAVE_EXITS
     
@@ -375,9 +375,9 @@ class EntranceRandomizer(BaseRandomizer):
     
     doing_progress_entrances_for_dungeons_and_caves_only_start = False
     if self.rando.dungeons_and_caves_only_start:
-      if include_dungeons and self.options.get("progression_dungeons"):
+      if dungeons and self.options.get("progression_dungeons"):
         doing_progress_entrances_for_dungeons_and_caves_only_start = True
-      if include_caves and (self.options.get("progression_puzzle_secret_caves") \
+      if caves and (self.options.get("progression_puzzle_secret_caves") \
           or self.options.get("progression_combat_secret_caves") \
           or self.options.get("progression_savage_labyrinth")):
         doing_progress_entrances_for_dungeons_and_caves_only_start = True
@@ -392,12 +392,24 @@ class EntranceRandomizer(BaseRandomizer):
       ]
       self.safety_entrance = self.rng.choice(possible_safety_entrances)
     
-    if include_dungeons and self.options.get("race_mode"):
+    # We calculate which exits are terminal (the end of a nested chain) per-set instead of for all
+    # entrances. This is so that, for example, Ice Ring Isle counts as terminal when its inner cave
+    # is not being randomized.
+    non_terminal_exits = []
+    for en in relevant_entrances:
+      if en.nested_in is not None and en.nested_in not in non_terminal_exits:
+        non_terminal_exits.append(en.nested_in)
+    terminal_exits = [
+      ex for ex in relevant_exits
+      if ex not in non_terminal_exits
+    ]
+    
+    if dungeons and self.options.get("race_mode"):
       split_groups = self.split_race_mode_banned_entrances_and_exits(relevant_entrances, relevant_exits)
       for entrances, exits, banned in split_groups:
-        self.randomize_one_set_of_exits(entrances, exits, banned)
+        self.randomize_one_set_of_exits(entrances, exits, terminal_exits, banned)
     else:
-      self.randomize_one_set_of_exits(relevant_entrances, relevant_exits)
+      self.randomize_one_set_of_exits(relevant_entrances, relevant_exits, terminal_exits)
   
   def split_race_mode_banned_entrances_and_exits(self, relevant_entrances: list[ZoneEntrance], relevant_exits: list[ZoneExit]):
     # Splits the entrance and exit lists into two pairs: ones that should be considered banned on
@@ -466,7 +478,7 @@ class EntranceRandomizer(BaseRandomizer):
       (nonbanned_zone_entrances, nonbanned_zone_exits, False),
     ]
   
-  def randomize_one_set_of_exits(self, relevant_entrances: list[ZoneEntrance], relevant_exits: list[ZoneExit], doing_banned=False):
+  def randomize_one_set_of_exits(self, relevant_entrances: list[ZoneEntrance], relevant_exits: list[ZoneExit], terminal_exits: list[ZoneExit], doing_banned=False):
     remaining_entrances = relevant_entrances.copy()
     remaining_exits = relevant_exits.copy()
     
@@ -519,7 +531,7 @@ class EntranceRandomizer(BaseRandomizer):
         # us with no possible way to continue placing the remaining exits on future loops.
         possible_remaining_exits = [
           ex for ex in possible_remaining_exits
-          if ex in DUNGEON_EXITS
+          if ex not in terminal_exits
         ]
       
       # The below is debugging code for testing the caves with timers.
@@ -586,13 +598,19 @@ class EntranceRandomizer(BaseRandomizer):
     assert self.done_entrances_to_exits[ff_dummy_entrance] == ff_dummy_exit
     assert self.done_exits_to_entrances[ff_dummy_exit] == ff_dummy_entrance
     
+    non_terminal_exits = []
+    for en in ZoneEntrance.instances_by_name.values():
+      if en.nested_in is not None and en.nested_in not in non_terminal_exits:
+        non_terminal_exits.append(en.nested_in)
+    
     # Prepare some data so the spoiler log can display the nesting in terms of paths.
     self.nested_entrance_paths.clear()
-    terminal_exits = [ex for ex in BOSS_EXITS + SECRET_CAVE_EXITS]
-    for terminal_exit in terminal_exits:
-      zone_entrance = self.done_exits_to_entrances[terminal_exit]
+    for zone_exit in ZoneExit.instances_by_name.values():
+      if zone_exit in non_terminal_exits:
+        continue
+      zone_entrance = self.done_exits_to_entrances[zone_exit]
       seen_entrances = self.get_all_entrances_on_path_to_entrance(zone_entrance)
-      path = [terminal_exit.unique_name]
+      path = [zone_exit.unique_name]
       for entr in seen_entrances:
         path.append(entr.entrance_name)
       path.reverse()
@@ -827,7 +845,7 @@ class EntranceRandomizer(BaseRandomizer):
     
     if zone_exit is None:
       for possible_exit in ZoneExit.instances_by_name.values():
-        if possible_exit.zone == loc_zone_name:
+        if possible_exit.zone_name == loc_zone_name:
           zone_exit = possible_exit
           break
     

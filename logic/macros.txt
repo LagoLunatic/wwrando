@@ -162,6 +162,46 @@ Can Access Earth Temple:
 Can Access Wind Temple:
   Can Access Dungeon Entrance on Gale Isle
 
+Can Access Miniboss Entrance in Forbidden Woods:
+  Can Access Forbidden Woods
+  & Can Fly With Deku Leaf Indoors
+  & Can Defeat Boko Babas
+  & Grappling Hook
+  & FW Small Key x1
+Can Access Miniboss Entrance in Tower of the Gods:
+  Can Reach Tower of the Gods Second Floor
+  & (Grappling Hook | Can Fly With Deku Leaf Indoors)
+  & (Can Play Command Melody | Hero's Bow)
+  # Note: If you already have the bow you can get the west servant across the previous room without getting this item, which might appear to make this chest permanently missable, but in reality you can use the deactivated Armos from across the pit to keep the button pressed.
+  # Note: Normally the only way to do this would be to use Command Melody on the west servant, but if you already have the bow you can activate the moving platforms and use the deactivated Armos from across the pit to keep the button pressed instead.
+  # Note: You can reach this without Grappling Hook if you have Deku Leaf instead. But if you run out of MP you can get trapped and not be able to escape since there are no MP refill jars on this side of the gap. So we modify one of the pots to drop an MP refill jar.
+Can Access Miniboss Entrance in Earth Temple:
+  Can Access Earth Temple
+  & Can Play Command Melody
+  & ET Small Key x3
+  & Fire Arrows
+  & Power Bracelets
+  & Can Defeat Floormasters
+Can Access Miniboss Entrance in Wind Temple:
+  Can Access Wind Temple
+  & Can Play Command Melody
+  & Iron Boots
+  & Can Fly With Deku Leaf Indoors
+  & (
+    Can Cut Grass
+    | (Hookshot & Can Defeat Blue Bubbles)
+  )
+  & WT Small Key x2
+
+Can Access Forbidden Woods Miniboss Arena:
+  Can Access Miniboss Entrance in Forbidden Woods
+Can Access Tower of the Gods Miniboss Arena:
+  Can Access Miniboss Entrance in Tower of the Gods
+Can Access Earth Temple Miniboss Arena:
+  Can Access Miniboss Entrance in Earth Temple
+Can Access Wind Temple Miniboss Arena:
+  Can Access Miniboss Entrance in Wind Temple
+
 Can Access Boss Entrance in Dragon Roost Cavern:
   Can Access Dragon Roost Cavern
   & DRC Small Key x4
@@ -317,6 +357,19 @@ Can Access Horseshoe Island Secret Cave:
   Can Access Secret Cave Entrance on Horseshoe Island
 Can Access Star Island Secret Cave:
   Can Access Secret Cave Entrance on Star Island
+
+Can Access Inner Entrance in Ice Ring Isle Secret Cave:
+  Can Access Ice Ring Isle Secret Cave
+  & Iron Boots
+Can Access Inner Entrance in Cliff Plateau Isles Secret Cave:
+  Can Access Cliff Plateau Isles Secret Cave
+  & Can Defeat Boko Babas
+  & Can Fly With Deku Leaf Indoors
+
+Can Access Ice Ring Isle Inner Cave:
+  Can Access Inner Entrance in Ice Ring Isle Secret Cave
+Can Access Cliff Plateau Isles Inner Cave:
+  Can Access Inner Entrance in Cliff Plateau Isles Secret Cave
 
 Can Get Past Forsaken Fortress Gate:
   Bombs

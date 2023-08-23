@@ -872,11 +872,7 @@ Forbidden Woods - Tall Room Before Mini-Boss:
     - kindan/Stage.arc/Chest009
 Forbidden Woods - Mothula Mini-Boss Room:
   Need:
-    Can Access Forbidden Woods
-    & Can Fly With Deku Leaf Indoors
-    & Can Defeat Boko Babas
-    & Grappling Hook
-    & FW Small Key x1
+    Can Access Forbidden Woods Miniboss Arena
     & Can Defeat Winged Mothulas
   # Need to escape: Can Hit Diamond Switches at Range
   Original item: Boomerang
@@ -1042,13 +1038,8 @@ Tower of the Gods - Stone Tablet:
     - Siren/Stage.arc/Event060:hsehi1_tact/Actor003/Action004
 Tower of the Gods - Darknut Mini-Boss Room:
   Need:
-    Can Reach Tower of the Gods Second Floor
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors)
-    & (Can Play Command Melody | Hero's Bow)
+    Can Access Tower of the Gods Miniboss Arena
     & Can Defeat Darknuts
-    # Note: If you already have the bow you can get the west servant across the previous room without getting this item, which might appear to make this chest permanently missable, but in reality you can use the deactivated Armos from across the pit to keep the button pressed.
-    # Note: Normally the only way to do this would be to use Command Melody on the west servant, but if you already have the bow you can activate the moving platforms and use the deactivated Armos from across the pit to keep the button pressed instead.
-    # Note: You can reach this without Grappling Hook if you have Deku Leaf instead. But if you run out of MP you can get trapped and not be able to escape since there are no MP refill jars on this side of the gap. So we modify one of the pots to drop an MP refill jar.
   Original item: Hero's Bow
   Types: Dungeon
   Paths:
@@ -1232,8 +1223,7 @@ Ice Ring Isle - Cave - Chest:
     - MiniHyo/Stage.arc/Chest000
 Ice Ring Isle - Inner Cave - Chest:
   Need:
-    Can Access Ice Ring Isle Secret Cave
-    & Iron Boots
+    Can Access Ice Ring Isle Inner Cave
     & Fire Arrows
     # There are a number of enemies you need to kill here, but you can trick enemies into attacking each other and steal a weapon so no items are required.
   Original item: Orange Rupee
@@ -1345,12 +1335,7 @@ Earth Temple - Casket in Second Crypt:
     - M_Dai/Room8.arc/Actor008
 Earth Temple - Stalfos Mini-Boss Room:
   Need:
-    Can Access Earth Temple
-    & Can Play Command Melody
-    & ET Small Key x3
-    & Fire Arrows
-    & Power Bracelets
-    & Can Defeat Floormasters
+    Can Access Earth Temple Miniboss Arena
     & (Can Defeat Stalfos | Hookshot)
     # Hookshot allows you to skip fighting the mini-boss if you use it on one of the torches up near the chest.
   # Need to escape: Can Aim Mirror Shield
@@ -1616,15 +1601,7 @@ Wind Temple - Spike Wall Room - Destroy All Cracked Floors:
     - kaze/Stage.arc/Chest007
 Wind Temple - Wizzrobe Mini-Boss Room:
   Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Can Fly With Deku Leaf Indoors
-    & (
-      Can Cut Grass
-      | (Hookshot & Can Defeat Blue Bubbles)
-    )
-    & WT Small Key x2
+    Can Access Wind Temple Miniboss Arena
     & Can Defeat Darknuts
     & Can Remove Peahat Armor
     # Besides Darknuts, there are Wizzrobes, Peahats, Moblins, Keese, and Kargarocs. But if you can defeat a Darknut you can steal its sword to defeat the other enemies.
@@ -2430,9 +2407,7 @@ Cliff Plateau Isles - Cave:
     - Cave03/Stage.arc/Chest000
 Cliff Plateau Isles - Highest Isle:
   Need:
-    Can Access Cliff Plateau Isles Secret Cave
-    & Can Defeat Boko Babas
-    & Can Fly With Deku Leaf Indoors
+    Can Access Cliff Plateau Isles Inner Cave
   Original item: Treasure Chart 25
   Types: Puzzle Secret Cave
   Paths:
