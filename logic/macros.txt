@@ -10,6 +10,8 @@ Can Play Wind God's Aria:
   Wind Waker & Wind God's Aria
 Can Fan With Deku Leaf:
   Deku Leaf
+  # In the vanilla code, you couldn't fan the Deku Leaf without any magic.
+  # This requirement is removed in the randomizer.
 Can Fly With Deku Leaf Indoors:
   Deku Leaf & Magic Meter
 Can Fly With Deku Leaf Outdoors:
