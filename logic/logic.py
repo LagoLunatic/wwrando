@@ -6,8 +6,8 @@ if TYPE_CHECKING: from randomizer import WWRandomizer
 import yaml
 import re
 import copy
-
 import os
+from contextlib import contextmanager
 
 from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS, DUNGEON_PROGRESS_ITEMS, DUNGEON_NONPROGRESS_ITEMS
 from wwrando_paths import LOGIC_PATH
@@ -406,6 +406,16 @@ class Logic:
       self.clear_req_caches()
     else:
       self.remove_owned_item(item_name)
+  
+  @contextmanager
+  def add_temporary_items(self, item_names):
+    for item_name in item_names:
+      self.add_owned_item_or_item_group(item_name)
+    
+    yield
+    
+    for item_name in item_names:
+      self.remove_owned_item_or_item_group(item_name)
   
   def get_accessible_remaining_locations(self, for_progression=False):
     accessible_location_names = []
