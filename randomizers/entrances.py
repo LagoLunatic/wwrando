@@ -282,7 +282,7 @@ class EntranceRandomizer(BaseRandomizer):
     
     self.nested_entrance_paths: list[list[str]] = []
     self.nesting_enabled = False
-    if self.options.get("randomize_entrances") in ["Nested Dungeons", "Nested Dungeons & Secret Caves (Separately)", "Nested Dungeons & Secret Caves (Together)"]:
+    if self.options.get("randomize_entrances") in ["Nested Dungeons", "Nested Secret Caves", "Nested Dungeons & Secret Caves (Separately)", "Nested Dungeons & Secret Caves (Together)"]:
       self.nesting_enabled = True
     
     self.safety_entrance = None
@@ -553,6 +553,11 @@ class EntranceRandomizer(BaseRandomizer):
           (7, lambda ex: ex in DUNGEON_EXITS),
           (3, lambda ex: ex in BOSS_EXITS),
         ])
+      elif zone_entrance in MINIBOSS_ENTRANCES:
+        zone_exit = self.rando.weighted_choice(self.rng, possible_remaining_exits, [
+          (10, lambda ex: ex in DUNGEON_EXITS),
+          (5, lambda ex: ex in MINIBOSS_EXITS),
+        ])
       else:
         zone_exit = self.rando.weighted_choice(self.rng, possible_remaining_exits, [
           (7, lambda ex: ex in SECRET_CAVE_EXITS),
@@ -776,23 +781,25 @@ class EntranceRandomizer(BaseRandomizer):
     if self.options.get("randomize_entrances") == "Dungeons":
       yield self.get_one_entrance_set(dungeons=True)
     elif self.options.get("randomize_entrances") == "Nested Dungeons":
-      yield self.get_one_entrance_set(dungeons=True, bosses=True)
+      yield self.get_one_entrance_set(dungeons=True, nested=True)
     elif self.options.get("randomize_entrances") == "Secret Caves":
       yield self.get_one_entrance_set(caves=True)
+    elif self.options.get("randomize_entrances") == "Nested Secret Caves":
+      yield self.get_one_entrance_set(caves=True, nested=True)
     elif self.options.get("randomize_entrances") == "Dungeons & Secret Caves (Separately)":
       yield self.get_one_entrance_set(dungeons=True)
       yield self.get_one_entrance_set(caves=True)
     elif self.options.get("randomize_entrances") == "Nested Dungeons & Secret Caves (Separately)":
-      yield self.get_one_entrance_set(dungeons=True, bosses=True)
-      yield self.get_one_entrance_set(caves=True)
+      yield self.get_one_entrance_set(dungeons=True, nested=True)
+      yield self.get_one_entrance_set(caves=True, nested=True)
     elif self.options.get("randomize_entrances") == "Dungeons & Secret Caves (Together)":
       yield self.get_one_entrance_set(dungeons=True, caves=True)
     elif self.options.get("randomize_entrances") == "Nested Dungeons & Secret Caves (Together)":
-      yield self.get_one_entrance_set(dungeons=True, bosses=True, caves=True)
+      yield self.get_one_entrance_set(dungeons=True, caves=True, nested=True)
     else:
       raise Exception("Invalid entrance randomizer option: %s" % self.options.get("randomize_entrances"))
   
-  def get_one_entrance_set(self, dungeons=False, bosses=False, caves=False):
+  def get_one_entrance_set(self, dungeons=False, caves=False, nested=False):
     relevant_entrances: list[ZoneEntrance] = []
     relevant_exits: list[ZoneExit] = []
     if dungeons:
@@ -800,12 +807,17 @@ class EntranceRandomizer(BaseRandomizer):
       relevant_exits += DUNGEON_EXITS
       relevant_entrances.remove(ZoneEntrance["Dungeon Entrance in Forsaken Fortress Sector"])
       relevant_exits.remove(ZoneExit["Forsaken Fortress"])
-    if bosses:
-      relevant_entrances += BOSS_ENTRANCES
-      relevant_exits += BOSS_EXITS
+      if nested:
+        relevant_entrances += MINIBOSS_ENTRANCES
+        relevant_exits += MINIBOSS_EXITS
+        relevant_entrances += BOSS_ENTRANCES
+        relevant_exits += BOSS_EXITS
     if caves:
       relevant_entrances += SECRET_CAVE_ENTRANCES
       relevant_exits += SECRET_CAVE_EXITS
+      if nested:
+        relevant_entrances += SECRET_CAVE_INNER_ENTRANCES
+        relevant_exits += SECRET_CAVE_INNER_EXITS
     return relevant_entrances, relevant_exits
   
   def get_outermost_entrance_for_exit(self, zone_exit: ZoneExit):
