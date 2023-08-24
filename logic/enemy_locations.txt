@@ -5594,7 +5594,7 @@ kaze:
     & Can Fly With Deku Leaf Indoors
     & Can Defeat Floormasters
     & Can Defeat Blue Bubbles
-    & Can Defeat Dexivines
+    #& Can Defeat Dexivines # Messes with the logic since it's impossible
   Enemies:
     -
       Original enemy: Floormaster
