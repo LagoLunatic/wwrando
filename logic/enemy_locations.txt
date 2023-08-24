@@ -130,7 +130,7 @@ Abship:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Five-Star Isles - Submarine"
+    Can Access Item Location "Five-Star Isles - Submarine"
   Has throwable objects: Yes # 6 pots # TODO: less objects than enemies
   Actors to replace with ALLdies:
     - Abship/Room0.arc/Actor005
@@ -174,7 +174,7 @@ Abship:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Six-Eye Reef - Submarine"
+    Can Access Item Location "Six-Eye Reef - Submarine"
   Has throwable objects: Yes # 6 barrels # TODO: there's less objects than enemies. how to handle this? guarantee at least one of the placed enemies has a weapon you can steal?
   Actors to replace with ALLdies:
     - Abship/Room1.arc/Actor006
@@ -220,7 +220,7 @@ Abship:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Bomb Island - Submarine"
+    Can Access Item Location "Bomb Island - Submarine"
   Has throwable objects: Yes # 4 barrels and 2 pots # TODO: less objects than enemies
   Actors to replace with ALLdies:
     - Abship/Room2.arc/Actor005
@@ -434,7 +434,7 @@ Cave01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Bomb Island - Cave"
+    Can Access Item Location "Bomb Island - Cave"
   Actors to replace with ALLdies:
     - Cave01/Room0.arc/Actor000
   Enemies:
@@ -451,7 +451,7 @@ Cave01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Bomb Island - Cave"
+    Can Access Item Location "Bomb Island - Cave"
   Actors to replace with ALLdies:
     - Cave01/Room1.arc/Actor00B
   Enemies:
@@ -481,7 +481,7 @@ Cave02:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Star Island - Cave"
+    Can Access Item Location "Star Island - Cave"
   Enemies:
     -
       Original enemy: Magtail
@@ -693,7 +693,7 @@ Cave07:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Pawprint Isle - Wizzrobe Cave"
+    Can Access Item Location "Pawprint Isle - Wizzrobe Cave"
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -732,7 +732,7 @@ Cave09:
 - # Floor 1
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Free memory: 1511488
   Enemies:
     -
@@ -778,7 +778,7 @@ Cave09:
 - # Floor 2
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Miniblin
@@ -807,7 +807,7 @@ Cave09:
 - # Floor 3
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Bokoblin
@@ -828,7 +828,7 @@ Cave09:
 - # Floor 4
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Red ChuChu
@@ -857,7 +857,7 @@ Cave09:
 - # Floor 5
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Magtail
@@ -878,7 +878,7 @@ Cave09:
 - # Floor 6
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Miniblin
@@ -915,7 +915,7 @@ Cave09:
 - # Floor 7
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Fire Keese
@@ -944,7 +944,7 @@ Cave09:
 - # Floor 8
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Bokoblin
@@ -973,7 +973,7 @@ Cave09:
 - # Floor 9
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Blue Moblin
@@ -986,7 +986,7 @@ Cave09:
 - # Floor 21
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -1003,7 +1003,7 @@ Cave09:
 - # Floor 22
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Armos
@@ -1024,7 +1024,7 @@ Cave09:
 - # Floor 23
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Armos Knight
@@ -1037,7 +1037,7 @@ Cave09:
 - # Floor 24
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Yellow ChuChu
@@ -1066,7 +1066,7 @@ Cave09:
 - # Floor 25
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Red Bubble
@@ -1087,7 +1087,7 @@ Cave09:
 - # Floor 26
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Darknut
@@ -1104,7 +1104,7 @@ Cave09:
 - # Floor 27
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Armos
@@ -1125,7 +1125,7 @@ Cave09:
 - # Floor 28
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Red Bubble
@@ -1146,7 +1146,7 @@ Cave09:
 - # Floor 29
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Darknut
@@ -1163,7 +1163,7 @@ Cave10:
 - # Floor 11
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Peahat
@@ -1192,7 +1192,7 @@ Cave10:
 - # Floor 12
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Green ChuChu
@@ -1213,7 +1213,7 @@ Cave10:
 - # Floor 13
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Boko Baba
@@ -1238,7 +1238,7 @@ Cave10:
 - # Floor 14
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Bokoblin
@@ -1259,7 +1259,7 @@ Cave10:
 - # Floor 15
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Wingless Mothula
@@ -1284,7 +1284,7 @@ Cave10:
 - # Floor 16
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Peahat
@@ -1313,7 +1313,7 @@ Cave10:
 - # Floor 17
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Green ChuChu
@@ -1350,7 +1350,7 @@ Cave10:
 - # Floor 18
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Wingless Mothula
@@ -1375,7 +1375,7 @@ Cave10:
 - # Floor 19
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
     -
       Original enemy: Winged Mothula
@@ -1388,7 +1388,7 @@ Cave10:
 - # Floor 41
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Free memory: 1424976
   Enemies:
     -
@@ -1490,7 +1490,7 @@ Cave10:
 - # Floor 42
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Free memory: 1424976
   Enemies:
     -
@@ -1616,7 +1616,7 @@ Cave10:
 - # Floor 43
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -1641,7 +1641,7 @@ Cave10:
 - # Floor 44
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Free memory: 1417936
   Enemies:
     -
@@ -1711,7 +1711,7 @@ Cave10:
 - # Floor 45
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Stalfos
@@ -1740,7 +1740,7 @@ Cave10:
 - # Floor 46
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Blue Moblin
@@ -1765,7 +1765,7 @@ Cave10:
 - # Floor 47
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Darknut
@@ -1790,7 +1790,7 @@ Cave10:
 - # Floor 48
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Stalfos
@@ -1807,7 +1807,7 @@ Cave10:
 - # Floor 49
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Darknut
@@ -1832,7 +1832,7 @@ Cave11:
 - # Floor 31
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: ReDead
@@ -1861,7 +1861,7 @@ Cave11:
 - # Floor 32
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Blue Bubble
@@ -1886,7 +1886,7 @@ Cave11:
 - # Floor 33
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Dark ChuChu
@@ -1915,7 +1915,7 @@ Cave11:
 - # Floor 34
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Poe
@@ -1940,7 +1940,7 @@ Cave11:
 - # Floor 35
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Winged Mothula
@@ -1957,7 +1957,7 @@ Cave11:
 - # Floor 36
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Sitting ReDead
@@ -1982,7 +1982,7 @@ Cave11:
 - # Floor 37
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Winged Mothula
@@ -2011,7 +2011,7 @@ Cave11:
 - # Floor 38
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Lantern Moblin
@@ -2044,7 +2044,7 @@ Cave11:
 - # Floor 39
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 50"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
     -
       Original enemy: Stalfos
@@ -3028,7 +3028,7 @@ ITest62:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Ice Ring Isle - Inner Cave - Chest"
+    Can Access Item Location "Ice Ring Isle - Inner Cave - Chest"
   Enemies:
     -
       Original enemy: Bokoblin
@@ -3057,7 +3057,7 @@ ITest63:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Shark Island - Cave"
+    Can Access Item Location "Shark Island - Cave"
   Free memory: 1411392
   Actors to replace with ALLdies:
     - ITest63/Room0.arc/Actor025
@@ -4644,7 +4644,7 @@ TF_01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Stone Watcher Island - Cave"
+    Can Access Item Location "Stone Watcher Island - Cave"
   Existing actors to modify:
     - # Change the Zenshut door leading from the center room to the chest to check for switch 22 being set, instead of checking for all the enemies in the current room being dead and setting switch 22.
       Path: TF_01/Stage.arc/ScalableDoor005
@@ -4670,7 +4670,7 @@ TF_01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Stone Watcher Island - Cave"
+    Can Access Item Location "Stone Watcher Island - Cave"
   Enemies:
     -
       Original enemy: Bokoblin
@@ -4695,7 +4695,7 @@ TF_01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Stone Watcher Island - Cave"
+    Can Access Item Location "Stone Watcher Island - Cave"
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -4712,7 +4712,7 @@ TF_01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Stone Watcher Island - Cave"
+    Can Access Item Location "Stone Watcher Island - Cave"
   Enemies:
     -
       Original enemy: Armos
@@ -4733,7 +4733,7 @@ TF_01:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Stone Watcher Island - Cave"
+    Can Access Item Location "Stone Watcher Island - Cave"
   Enemies:
     -
       Original enemy: Blue Moblin
@@ -4750,7 +4750,7 @@ TF_02:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Overlook Island - Cave"
+    Can Access Item Location "Overlook Island - Cave"
   Enemies:
     -
       Original enemy: Darknut
@@ -4771,7 +4771,7 @@ TF_02:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Overlook Island - Cave"
+    Can Access Item Location "Overlook Island - Cave"
   Has throwable objects: Yes # 5 pots, 5 enemies
   Enemies:
     -
@@ -4797,7 +4797,7 @@ TF_02:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Overlook Island - Cave"
+    Can Access Item Location "Overlook Island - Cave"
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -4810,7 +4810,7 @@ TF_02:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Overlook Island - Cave"
+    Can Access Item Location "Overlook Island - Cave"
   Has bomb flowers: Yes
   Enemies:
     -
@@ -4828,7 +4828,7 @@ TF_02:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Overlook Island - Cave"
+    Can Access Item Location "Overlook Island - Cave"
   Enemies:
     -
       Original enemy: Stalfos
@@ -4956,7 +4956,7 @@ TF_06:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Dragon Roost Island - Secret Cave"
+    Can Access Item Location "Dragon Roost Island - Secret Cave"
   #Has throwable objects: Yes # 2 pots, 3 enemies
   Enemies:
     -
@@ -4974,7 +4974,7 @@ TF_06:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Dragon Roost Island - Secret Cave"
+    Can Access Item Location "Dragon Roost Island - Secret Cave"
   Has throwable objects: Yes # 4 pots, 3 enemies
   Enemies:
     -
@@ -4992,7 +4992,7 @@ TF_06:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Dragon Roost Island - Secret Cave"
+    Can Access Item Location "Dragon Roost Island - Secret Cave"
   #Has throwable objects: Yes # 3 pots, 4 enemies
   Enemies:
     -
@@ -5014,7 +5014,7 @@ TF_06:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Dragon Roost Island - Secret Cave"
+    Can Access Item Location "Dragon Roost Island - Secret Cave"
   Has throwable objects: Yes # 5 pots, 2 enemies
   Enemies:
     -
@@ -5252,7 +5252,7 @@ kaze:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Wind Temple - Chest Behind Seven Armos"
+    Can Access Item Location "Wind Temple - Chest Behind Seven Armos"
   Enemies:
     -
       Original enemy: Armos
@@ -5383,7 +5383,7 @@ kaze:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Wind Temple - Big Key Chest"
+    Can Access Item Location "Wind Temple - Big Key Chest"
   Enemies:
     -
       Original enemy: Darknut
@@ -5469,7 +5469,7 @@ kaze:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Wind Temple - Kill All Enemies in Tall Basement Room"
+    Can Access Item Location "Wind Temple - Kill All Enemies in Tall Basement Room"
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -5639,7 +5639,7 @@ kazeMB:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Wind Temple - Wizzrobe Mini-Boss Room"
+    Can Access Item Location "Wind Temple - Wizzrobe Mini-Boss Room"
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -6689,7 +6689,7 @@ sea/Room6.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Seven-Star Isles - Northern Lookout Platform"
+    Can Access Item Location "Seven-Star Isles - Northern Lookout Platform"
   Has throwable objects: Yes # 4 (12 objects split over 3 platforms)
   Enemies:
     -
@@ -6700,7 +6700,7 @@ sea/Room6.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Seven-Star Isles - Center Lookout Platform"
+    Can Access Item Location "Seven-Star Isles - Center Lookout Platform"
   Has throwable objects: Yes # 4 (12 objects split over 3 platforms)
   Enemies:
     -
@@ -6710,7 +6710,7 @@ sea/Room6.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Seven-Star Isles - Southern Lookout Platform"
+    Can Access Item Location "Seven-Star Isles - Southern Lookout Platform"
   Has throwable objects: Yes # 4 (12 objects split over 3 platforms)
   Enemies:
     -
@@ -6728,7 +6728,7 @@ sea/Room12.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Pawprint Isle - Lookout Platform - Defeat the Enemies"
+    Can Access Item Location "Pawprint Isle - Lookout Platform - Defeat the Enemies"
   Has throwable objects: Yes # 8 pots
   Enemies:
     -
@@ -6918,7 +6918,7 @@ sea/Room19.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Eastern Fairy Island - Lookout Platform - Defeat the Cannons and Enemies"
+    Can Access Item Location "Eastern Fairy Island - Lookout Platform - Defeat the Cannons and Enemies"
   Has throwable objects: Yes # 4 pots
   Enemies:
     -
@@ -7075,7 +7075,7 @@ sea/Room24.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Cyclops Reef - Lookout Platform - Defeat the Enemies"
+    Can Access Item Location "Cyclops Reef - Lookout Platform - Defeat the Enemies"
   Has throwable objects: Yes # 2 barrels and 6 pots
   Enemies:
     -
@@ -7198,7 +7198,7 @@ sea/Room28.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Thorned Fairy Island - Southwestern Lookout Platform - Defeat the Enemies"
+    Can Access Item Location "Thorned Fairy Island - Southwestern Lookout Platform - Defeat the Enemies"
   Has throwable objects: Yes # 4 barrels and 3 pots
   Enemies:
     -
@@ -7292,7 +7292,7 @@ sea/Room30.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Islet of Steel - Lookout Platform - Defeat the Enemies"
+    Can Access Item Location "Islet of Steel - Lookout Platform - Defeat the Enemies"
   Has throwable objects: Yes # 4 barrels and 8 pots
   Enemies:
     -
@@ -7376,7 +7376,7 @@ sea/Room34.arc:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Other Location "Bomb Island - Lookout Platform - Defeat the Enemies"
+    Can Access Item Location "Bomb Island - Lookout Platform - Defeat the Enemies"
   Has throwable objects: Yes # 4 pots
   Enemies:
     -

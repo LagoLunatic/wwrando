@@ -124,7 +124,7 @@ Outset Island - Savage Labyrinth - Floor 30:
     - Cave09/Room20.arc/Chest000
 Outset Island - Savage Labyrinth - Floor 50:
   Need:
-    Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30"
+    Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
     & Can Aim Mirror Shield
     & Can Defeat ReDeads
     & Can Defeat Blue Bubbles
@@ -1705,7 +1705,7 @@ Mailbox - Letter from Baito's Mother:
     - rels/d_a_obj_toripost.rel@2564
     - rels/d_a_obj_toripost.rel@25C4
 Mailbox - Letter from Baito:
-  Need: Delivery Bag & Note to Mom & Can Access Other Location "Earth Temple - Jalhalla Heart Container"
+  Need: Delivery Bag & Note to Mom & Can Access Item Location "Earth Temple - Jalhalla Heart Container"
   # Need to kill Jalhalla and mail Note to Mom.
   # Unlike Letter from Baito's Mother, you do not need to wait for time to pass for this letter.
   Original item: Red Rupee
@@ -1762,7 +1762,7 @@ Mailbox - Beedle's Gold Membership Reward:
   Paths:
     - rels/d_a_obj_toripost.rel@25F4
 Mailbox - Letter from Orca:
-  Need: Can Access Other Location "Forbidden Woods - Kalle Demos Heart Container"
+  Need: Can Access Item Location "Forbidden Woods - Kalle Demos Heart Container"
   # Note: In the vanilla game, this letter is sent after you watch a cutscene on Greatfish Isle.
   # But since that's impossible when cutscenes are removed, the randomizer changes it to be sent when you kill Kalle Demos.
   # Do not need to wait for time to pass.
@@ -1778,7 +1778,7 @@ Mailbox - Letter from Grandma:
   Paths:
     - rels/d_a_obj_toripost.rel@2594
 Mailbox - Letter from Aryll:
-  Need: Can Access Other Location "Forsaken Fortress - Helmaroc King Heart Container" & Song of Passing
+  Need: Can Access Item Location "Forsaken Fortress - Helmaroc King Heart Container" & Song of Passing
   # Note: In the vanilla game, this letter is sent after you watch a cutscene in Hyrule 2.
   # But since that's impossible when cutscenes are removed, the randomizer changes it to be sent when you kill Helmaroc King.
   # Need to wait for time to pass.
@@ -1787,7 +1787,7 @@ Mailbox - Letter from Aryll:
   Paths:
     - rels/d_a_obj_toripost.rel@25B8
 Mailbox - Letter from Tingle:
-  Need: Rescued Tingle & Any Wallet Upgrade & Can Access Other Location "Forsaken Fortress - Helmaroc King Heart Container" & Song of Passing
+  Need: Rescued Tingle & Any Wallet Upgrade & Can Access Item Location "Forsaken Fortress - Helmaroc King Heart Container" & Song of Passing
   # You need a wallet upgrade because it costs 201 rupees to receive this letter.
   # Note: In the vanilla game, this letter is sent after you watch a cutscene in Hyrule 2.
   # But since that's impossible when cutscenes are removed, the randomizer changes it to be sent when you kill Helmaroc King.
@@ -1829,7 +1829,7 @@ The Great Sea - Withered Trees:
     Can Access Forest Haven
     & Empty Bottle
     & Can Play Ballad of Gales
-    & Can Access Other Location "Cliff Plateau Isles - Highest Isle"
+    & Can Access Item Location "Cliff Plateau Isles - Highest Isle"
   Original item: Piece of Heart
   Types: Long Sidequest
   Paths:

@@ -463,13 +463,13 @@ Can Get Fairies:
 Can Farm Knight's Crests:
   Grappling Hook & Spoils Bag
   & (
-    (Can Access Other Location "Ice Ring Isle - Inner Cave - Chest")
-    | (Can Access Other Location "Outset Island - Savage Labyrinth - Floor 30")
-    | (Can Access Other Location "Earth Temple - Big Key Chest" & Can Defeat Darknuts Easily)
-    | (Can Access Other Location "Wind Temple - Big Key Chest" & Can Defeat Darknuts Easily)
-    | (Can Access Other Location "Shark Island - Cave")
-    | (Can Access Other Location "Stone Watcher Island - Cave" & Can Defeat Darknuts Easily)
-    | (Can Access Other Location "Overlook Island - Cave" & Can Defeat Darknuts Easily)
+    (Can Access Item Location "Ice Ring Isle - Inner Cave - Chest")
+    | (Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30")
+    | (Can Access Item Location "Earth Temple - Big Key Chest" & Can Defeat Darknuts Easily)
+    | (Can Access Item Location "Wind Temple - Big Key Chest" & Can Defeat Darknuts Easily)
+    | (Can Access Item Location "Shark Island - Cave")
+    | (Can Access Item Location "Stone Watcher Island - Cave" & Can Defeat Darknuts Easily)
+    | (Can Access Item Location "Overlook Island - Cave" & Can Defeat Darknuts Easily)
     | (Can Access Hyrule)
   )
   # There are respawning Darknuts in:
@@ -507,7 +507,7 @@ Can Obtain 15 Blue Chu Jelly:
     | Grappling Hook
     | Hookshot
     | (Can Access Secret Cave Entrance on Shark Island & Can Fly With Deku Leaf Outdoors)
-    | Can Access Other Location "Cliff Plateau Isles - Highest Isle"
+    | Can Access Item Location "Cliff Plateau Isles - Highest Isle"
     | Can Fan With Deku Leaf
     | Can Access Secret Cave Entrance on Boating Course
   )

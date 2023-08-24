@@ -82,12 +82,12 @@ class HintsRandomizer(BaseRandomizer):
   # A dictionary mapping dungeon name to the requirement name.
   # This dictionary is used when determining which items are on the path to a goal.
   DUNGEON_NAME_TO_REQUIREMENT_NAME = {
-    "Dragon Roost Cavern": "Can Access Other Location \"Dragon Roost Cavern - Gohma Heart Container\"",
-    "Forbidden Woods": "Can Access Other Location \"Forbidden Woods - Kalle Demos Heart Container\"",
-    "Tower of the Gods": "Can Access Other Location \"Tower of the Gods - Gohdan Heart Container\"",
-    "Forsaken Fortress": "Can Access Other Location \"Forsaken Fortress - Helmaroc King Heart Container\"",
-    "Earth Temple": "Can Access Other Location \"Earth Temple - Jalhalla Heart Container\"",
-    "Wind Temple": "Can Access Other Location \"Wind Temple - Molgera Heart Container\"",
+    "Dragon Roost Cavern": "Can Access Item Location \"Dragon Roost Cavern - Gohma Heart Container\"",
+    "Forbidden Woods": "Can Access Item Location \"Forbidden Woods - Kalle Demos Heart Container\"",
+    "Tower of the Gods": "Can Access Item Location \"Tower of the Gods - Gohdan Heart Container\"",
+    "Forsaken Fortress": "Can Access Item Location \"Forsaken Fortress - Helmaroc King Heart Container\"",
+    "Earth Temple": "Can Access Item Location \"Earth Temple - Jalhalla Heart Container\"",
+    "Wind Temple": "Can Access Item Location \"Wind Temple - Molgera Heart Container\"",
     "Hyrule": "Can Access Hyrule",
     "Ganon's Tower": "Can Reach and Defeat Ganondorf",
   }
@@ -699,7 +699,7 @@ class HintsRandomizer(BaseRandomizer):
       # Consider all instances of this item, even if those extra copies might not be required.
       item_locations = progress_items[item_name]
       for location_name in item_locations:
-        requirement_name = "Can Access Other Location \"%s\"" % location_name
+        requirement_name = "Can Access Item Location \"%s\"" % location_name
         other_items_needed = self.path_logic.get_item_names_by_req_name(requirement_name)
         items_needed.extend(other_items_needed)
       
