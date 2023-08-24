@@ -1,7 +1,7 @@
 
 import os
 import re
-from collections import defaultdict
+from collections import Counter, defaultdict
 
 from gclib import fs_helpers as fs
 
@@ -853,32 +853,77 @@ def search_all_bmds(self):
   # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
   all_filenames.sort(key=lambda filename: split_string_for_natural_sort(filename))
   
+  j_idx_cnt = Counter()
+  bbox_j_idx_cnt = Counter()
+  j_name_cnt = Counter()
+  bbox_j_name_cnt = Counter()
   for arc_path in all_filenames:
     if not arc_path.endswith(".arc"):
       continue
-    for file_entry in self.get_arc(arc_path).file_entries:
+    rarc = self.get_arc(arc_path)
+    # if any(fe.name.endswith(".dzb") for fe in rarc.file_entries):
+    #   continue
+    for file_entry in rarc.file_entries:
       if not file_entry.name.endswith(".bmd") and not file_entry.name.endswith(".bdl"):
         continue
       if arc_path == "files/res/Stage/A_R00/Room0.arc" and file_entry.name == "model.bmd":
         # Text file incorrectly given .bmd extension.
         continue
       
-      print(arc_path)
-      print(file_entry.name)
+      # print(arc_path)
+      # print(file_entry.name)
+      
       if file_entry.name.endswith(".bmd"):
         bmd = BMD(file_entry)
       else:
         bmd = BDL(file_entry)
       
-      if not "MDL3" in bmd.chunk_by_type:
-        continue
+      for joint_index, joint in enumerate(bmd.jnt1.joints):
+        joint_name = bmd.jnt1.joint_names[joint_index]
+        # print(joint_name)
+        j_idx_cnt[joint_index] += 1
+        j_name_cnt[joint_name] += 1
+        if all(n == 0.0 for n in joint.bounding_box_min.xyz) and all(n == 0.0 for n in joint.bounding_box_max.xyz):
+          continue
+        bbox_j_idx_cnt[joint_index] += 1
+        bbox_j_name_cnt[joint_name] += 1
       
-      for i, mdl_entry in enumerate(bmd.mdl3.entries):
-        print(bmd.mat3.mat_names[i])
-        for bp_command in mdl_entry.bp_commands:
-          print(BPRegister(bp_command.register))
-        for xf_command in mdl_entry.xf_commands:
-          print(XFRegister(xf_command.register))
+      # if not "MDL3" in bmd.chunk_by_type:
+      #   continue
+      
+      # for i, mdl_entry in enumerate(bmd.mdl3.entries):
+      #   print(bmd.mat3.mat_names[i])
+      #   for bp_command in mdl_entry.bp_commands:
+      #     print(BPRegister(bp_command.register))
+      #   for xf_command in mdl_entry.xf_commands:
+      #     print(XFRegister(xf_command.register))
+    
+    # if j_name_cnt["world_root"] > 5:
+    #   break
+  
+  with open("Joint bboxes by name.txt", "w") as f:
+    f.write("Most common joints to have a bbox, by name:\n")
+    joint_names = list(j_name_cnt.keys())
+    joint_names.sort(key=lambda jn: (bbox_j_name_cnt[jn] / j_name_cnt[jn], j_name_cnt[jn]), reverse=True)
+    max_joint_name_len = max(len(jn) for jn in joint_names)
+    for joint_name in joint_names:
+      bboxed = bbox_j_name_cnt[joint_name]
+      total = j_name_cnt[joint_name]
+      if total < 5:
+        continue
+      f.write(f"{joint_name:{max_joint_name_len}s}: {bboxed}/{total} ({100*bboxed/total:.0f}%)\n")
+  
+  with open("Joint bboxes by index.txt", "w") as f:
+    f.write("Most common joints to have a bbox, by index:\n")
+    joint_indexes = list(j_idx_cnt.keys())
+    joint_indexes.sort(key=lambda ji: (bbox_j_idx_cnt[ji] / j_idx_cnt[ji], j_idx_cnt[ji]), reverse=True)
+    max_joint_index_len = max(len(str(ji)) for ji in j_idx_cnt)
+    for joint_index in joint_indexes:
+      bboxed = bbox_j_idx_cnt[joint_index]
+      total = j_idx_cnt[joint_index]
+      if total < 5:
+        continue
+      f.write(f"{joint_index:{max_joint_index_len}d}: {bboxed}/{total} ({100*bboxed/total:.0f}%)\n")
 
 def search_all_dzb_properties(self):
   all_filenames = list(self.gcm.files_by_path.keys())
