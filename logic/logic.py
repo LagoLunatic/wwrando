@@ -1280,30 +1280,52 @@ class Logic:
       while "Hurricane Spin" in relevant_item_names:
         relevant_item_names.remove("Hurricane Spin")
     
-    num_combos_to_check = 1
-    for item_name, num in max_num_of_each_item_to_check.items():
-      num_combos_to_check *= (num+1)
+    # print(f"{len(max_num_of_each_item_to_check)} relevant items")
+    # num_combos_to_check = 1
+    # for item_name, num in max_num_of_each_item_to_check.items():
+    #   num_combos_to_check *= (num+1)
+    # print(f"Checking up to {num_combos_to_check} item combos")
     # print(f"Combos to check: {num_combos_to_check} ({len(max_num_of_each_item_to_check)} items)")
-    if num_combos_to_check > 6144:
-      raise Exception(f"Enemy randomizer got stuck in an exponential loop checking {num_combos_to_check} possibilities for requirement: {original_req_string!r}")
+    # if num_combos_to_check > 6144:
+    #   raise Exception(f"Enemy randomizer got stuck in an exponential loop checking {num_combos_to_check} possibilities for requirement: {original_req_string!r}")
     
-    item_combos_to_check = [[]]
-    for item_name in relevant_item_names:
-      old_item_combos = item_combos_to_check.copy()
-      for num in range(1, max_num_of_each_item_to_check[item_name]+1):
-        new_items_to_add = [item_name]*num
-        for old_item_combo in old_item_combos:
-          new_item_combo = old_item_combo + new_items_to_add
-          # if new_item_combo in item_combos_to_check:
-          #   raise Exception("Duplicate item combo!")
-          item_combos_to_check.append(new_item_combo)
+    # Obsolete code to generate a list of every single relevant item combo:
+    # item_combos_to_check = [[]]
+    # for item_name in relevant_item_names:
+    #   old_item_combos = item_combos_to_check.copy()
+    #   for num in range(1, max_num_of_each_item_to_check[item_name]+1):
+    #     new_items_to_add = [item_name]*num
+    #     for old_item_combo in old_item_combos:
+    #       new_item_combo = old_item_combo + new_items_to_add
+    #       # if new_item_combo in item_combos_to_check:
+    #       #   raise Exception("Duplicate item combo!")
+    #       item_combos_to_check.append(new_item_combo)
     
-    for item_combo in item_combos_to_check:
-      for item_name in item_combo:
-        self.add_owned_item_or_item_group(item_name)
-      
-      orig_req_met = self.check_logical_expression_req(orig_req_expression)
-      if orig_req_met:
+    biggest_combo = []
+    for item_name, num in max_num_of_each_item_to_check.items():
+      biggest_combo += [item_name]*num
+    biggest_combo = tuple(biggest_combo)
+    # print(f"Biggest item combo length: {len(biggest_combo)} items")
+    # print(f"Biggest item combo: {biggest_combo}")
+    
+    item_combos_to_check, checked_combos = self.get_all_item_combo_subsets_meeting_req(biggest_combo, orig_req_expression)
+    
+    # print(f"Actually checking {len(item_combos_to_check)} combos")
+    # print(f"Actually checking {len(item_combos_to_check)} combos (lengths: {', '.join(str(len(combo)) for combo in sorted(item_combos_to_check)[:30])})")
+    # for combo in item_combos_to_check:
+    #   print(combo)
+    # print(f"Did a preliminary check on {len(checked_combos)} combos, will now fully check {len(item_combos_to_check)} combos")
+    
+    if len(item_combos_to_check) == 0:
+      raise Exception("No item combos satisfied the requirement!")
+    
+    for item_combo in sorted(item_combos_to_check):
+      with self.add_temporary_items(item_combo):
+        # This check isn't necessary here as we already know all the combos returned from
+        # get_all_item_combo_subsets_meeting_req must meet the req, so it's removed for efficiency.
+        # if not self.check_logical_expression_req(orig_req_expression):
+        #   continue
+        
         for possible_new_enemy_data in possible_new_enemy_datas_to_check:
           if possible_new_enemy_data not in enemy_datas_allowed_here:
             # Already removed this one
@@ -1325,12 +1347,60 @@ class Logic:
           if not new_req_met:
             enemy_datas_allowed_here.remove(possible_new_enemy_data)
             self.cached_enemies_tested_for_reqs_tuple[reqs_tuple_key][enemy_name] = False
-      
-      for item_name in item_combo:
-        self.remove_owned_item_or_item_group(item_name)
     
     for enemy_data in enemy_datas_allowed_here:
       enemy_name = enemy_data["Pretty name"]
       self.cached_enemies_tested_for_reqs_tuple[reqs_tuple_key][enemy_name] = True
     
     return enemy_datas_allowed_here
+  
+  def get_all_item_combo_subsets_meeting_req(self, item_combo: tuple, orig_req_expression: list) -> tuple[set, set]:
+    # This function returns all subsets of an item combo that meet a particular requirement.
+    # e.g. If the requirement is 'Hookshot', and the initial combo is ('Hookshot', 'Deku Leaf'),
+    # then this function would return {('Hookshot', 'Deku Leaf'), ('Hookshot')} as both of those
+    # combos satisfy the requirement of 'Hookshot'.
+    # e.g. If the requirement is 'Nothing' and the initial combo is ('DRC Small Key', 'Bombs'), then
+    # this function would return {('DRC Small Key', 'Bombs'), ('DRC Small Key'), ('Bombs'), ()},
+    # as all of those satisfy the requirement of 'Nothing'.
+    # If this function finds a combo that does not satisfy the requirements, it will exit early and
+    # not check any subsets of that combo. This allows the function to usually be fast, even though
+    # the worst case time complexity is exponential with the number of items in the combo.
+    
+    matched_combos = set()
+    checked_combos = set()
+    self.get_all_item_combo_subsets_meeting_req_recursive(
+      item_combo, orig_req_expression,
+      matched_combos, checked_combos,
+    )
+    return matched_combos, checked_combos
+  
+  def get_all_item_combo_subsets_meeting_req_recursive(self, item_combo: tuple, orig_req_expression: list, matched_combos: set, checked_combos: set):
+    if item_combo in checked_combos:
+      return
+    
+    with self.add_temporary_items(item_combo):
+      orig_req_met = self.check_logical_expression_req(orig_req_expression)
+    
+    checked_combos.add(item_combo)
+    # if len(checked_combos) > 1000 and len(checked_combos) % 10000 == 0:
+    #   print(f"Did a preliminary check on {len(checked_combos)} combos so far...")
+    if len(checked_combos) >= 5000:
+      raise Exception(f"Enemy randomizer got stuck in an exponential loop checking over {len(checked_combos)} possibilities for requirement: {orig_req_expression!r}")
+    
+    if not orig_req_met:
+      return
+    matched_combos.add(item_combo)
+    
+    for item in item_combo:
+      # Recursively check all subsets by removing one item at a time.
+      # Note that because item_combo can have duplicate items in it, this loop gets run more times
+      # than necessary. But this is okay as the duplicates will be immediately caught in the next
+      # call down due to checked_combos anyway. If we tried to optimize the duplicates out here too
+      # it would actually make it slower.
+      subset_item_combo = list(item_combo)
+      subset_item_combo.remove(item)
+      subset_item_combo = tuple(subset_item_combo)
+      self.get_all_item_combo_subsets_meeting_req_recursive(
+        subset_item_combo, orig_req_expression,
+        matched_combos, checked_combos,
+      )
