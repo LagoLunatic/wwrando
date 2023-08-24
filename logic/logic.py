@@ -786,50 +786,20 @@ class Logic:
       self.set_macro(zone_access_macro_name, "Impossible")
   
   def temporarily_make_entrance_macros_worst_case_scenario(self):
-    # Update all the dungeon/secret cave access macros to be a combination of all the macros for accessing dungeons/secret caves that can have their entrance randomized.
-    
-    if self.rando.options.get("randomize_entrances") == "Dungeons":
-      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True)
-    elif self.rando.options.get("randomize_entrances") == "Nested Dungeons":
-      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_bosses=True)
-    elif self.rando.options.get("randomize_entrances") == "Secret Caves":
-      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_caves=True)
-    elif self.rando.options.get("randomize_entrances") == "Dungeons & Secret Caves (Separately)":
-      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True)
-      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_caves=True)
-    elif self.rando.options.get("randomize_entrances") == "Nested Dungeons & Secret Caves (Separately)":
-      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_bosses=True)
-      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_caves=True)
-    elif self.rando.options.get("randomize_entrances") == "Dungeons & Secret Caves (Together)":
-      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_caves=True)
-    elif self.rando.options.get("randomize_entrances") == "Nested Dungeons & Secret Caves (Together)":
-      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(include_dungeons=True, include_bosses=True, include_caves=True)
-    else:
-      raise Exception("Invalid entrance randomizer option: %s" % self.rando.options.get("randomize_entrances"))
+    # Update all the dungeon/secret cave access macros to be a combination of all the macros for
+    # accessing dungeons/secret caves that can have their entrance randomized.
+    for relevant_entrances, relevant_exits in self.rando.entrances.get_all_entrance_sets_to_be_randomized():
+      self.temporarily_make_one_set_of_entrance_macros_worst_case_scenario(relevant_entrances, relevant_exits)
   
-  def temporarily_make_one_set_of_entrance_macros_worst_case_scenario(self, include_dungeons=False, include_bosses=False, include_caves=False):
-    relevant_entrances = []
-    zones = []
-    if include_dungeons:
-      relevant_entrances += entrances.DUNGEON_ENTRANCES
-      zones += entrances.DUNGEON_EXITS
-      relevant_entrances.remove(entrances.ZoneEntrance["Dungeon Entrance in Forsaken Fortress Sector"])
-      zones.remove(entrances.ZoneExit["Forsaken Fortress"])
-    if include_bosses:
-      relevant_entrances += entrances.BOSS_ENTRANCES
-      zones += entrances.BOSS_EXITS
-    if include_caves:
-      relevant_entrances += entrances.SECRET_CAVE_ENTRANCES
-      zones += entrances.SECRET_CAVE_EXITS
-    
+  def temporarily_make_one_set_of_entrance_macros_worst_case_scenario(self, relevant_entrances, relevant_exits):
     all_entrance_access_macro_names = []
     for entrance in relevant_entrances:
       entrance_access_macro_name = "Can Access " + entrance.entrance_name
       assert self.macros[entrance_access_macro_name] != ["Impossible"]
       all_entrance_access_macro_names.append(entrance_access_macro_name)
     can_access_all_entrances = " & ".join(all_entrance_access_macro_names)
-    for zone in zones:
-      zone_access_macro_name = "Can Access " + zone.unique_name
+    for zone_exit in relevant_exits:
+      zone_access_macro_name = "Can Access " + zone_exit.unique_name
       self.set_macro(zone_access_macro_name, can_access_all_entrances)
   
   def update_chart_macros(self):
