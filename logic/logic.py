@@ -803,6 +803,8 @@ class Logic:
     if include_dungeons:
       relevant_entrances += entrances.DUNGEON_ENTRANCES
       zones += entrances.DUNGEON_EXITS
+      relevant_entrances.remove(entrances.ZoneEntrance["Dungeon Entrance in Forsaken Fortress Sector"])
+      zones.remove(entrances.ZoneExit["Forsaken Fortress"])
     if include_bosses:
       relevant_entrances += entrances.BOSS_ENTRANCES
       zones += entrances.BOSS_EXITS
@@ -813,6 +815,7 @@ class Logic:
     all_entrance_access_macro_names = []
     for entrance in relevant_entrances:
       entrance_access_macro_name = "Can Access " + entrance.entrance_name
+      assert self.macros[entrance_access_macro_name] != ["Impossible"]
       all_entrance_access_macro_names.append(entrance_access_macro_name)
     can_access_all_entrances = " & ".join(all_entrance_access_macro_names)
     for zone in zones:
