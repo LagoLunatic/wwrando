@@ -996,7 +996,7 @@ class Logic:
     elif " Small Key x" in req_name:
       result = self.check_small_key_req(req_name)
     elif req_name.startswith("Can Access Item Location \""):
-      result = self.check_other_location_requirement(req_name)
+      result = self.check_item_location_requirement(req_name)
     elif req_name.startswith("Option \""):
       result = self.check_option_enabled_requirement(req_name)
     elif req_name in self.all_cleaned_item_names:
@@ -1094,8 +1094,8 @@ class Logic:
       items_needed[small_key_name] = max(num_keys_required, items_needed.setdefault(small_key_name, 0))
     elif req_name.startswith("Can Access Item Location \""):
       match = re.search(r"^Can Access Item Location \"([^\"]+)\"$", req_name)
-      other_location_name = match.group(1)
-      requirement_expression = self.item_locations[other_location_name]["Need"]
+      item_location_name = match.group(1)
+      requirement_expression = self.item_locations[item_location_name]["Need"]
       sub_items_needed = self.get_items_needed_from_logical_expression_req(requirement_expression, reqs_being_checked=reqs_being_checked)
       for item_name, num_required in sub_items_needed.items():
         items_needed[item_name] = max(num_required, items_needed.setdefault(item_name, 0))
@@ -1167,11 +1167,11 @@ class Logic:
     num_small_keys_owned = self.currently_owned_items.count(small_key_name)
     return num_small_keys_owned >= num_keys_required
   
-  def check_other_location_requirement(self, req_name):
+  def check_item_location_requirement(self, req_name):
     match = re.search(r"^Can Access Item Location \"([^\"]+)\"$", req_name)
-    other_location_name = match.group(1)
+    item_location_name = match.group(1)
     
-    requirement_expression = self.item_locations[other_location_name]["Need"]
+    requirement_expression = self.item_locations[item_location_name]["Need"]
     return self.check_logical_expression_req(requirement_expression)
   
   def check_option_enabled_requirement(self, req_name):
