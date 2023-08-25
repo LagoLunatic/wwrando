@@ -842,10 +842,10 @@ class WWRandomizer:
     
     spoiler_log = self.get_log_header()
     
+    spoiler_log += self.boss_rewards.write_to_spoiler_log()
+    
     if self.randomize_items:
       spoiler_log += self.items.write_to_spoiler_log()
-    
-    spoiler_log += self.boss_rewards.write_to_spoiler_log()
     
     spoiler_log += self.starting_island.write_to_spoiler_log()
     
