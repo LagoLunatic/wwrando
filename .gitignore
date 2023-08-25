@@ -7,6 +7,7 @@ settings.txt
 !/models/About Custom Models.txt
 /asm/maps-out
 profileresults*.txt
+profileresults*.prof
 /keys/seed_key.py
 /keys/build_key.txt
 /.venv

@@ -17,6 +17,7 @@ Changes:
 
 Bug fixes:
 * Fixed the feature introduced in 1.10.0 to customize vanilla Link's hat and tunic colors separately not actually working.
+* Fixed a bug where seeds would fail to generate if you chose to start with every single progression item in the game while progression Dungeons was enabled and Key-Lunacy was disabled.
 * Fixed a vanilla bug where some of the sunken treasures around Needle Rock Island could be permanently missable depending on the order you collected them in (these only reward rupees and are not randomized).
 * Fixed a vanilla bug where the sun rising BGM would interrupt the miniboss BGM if you were in the middle of fighting a Big Octo at 5:59AM ingame time.
 * Fixed a bug in the vanilla code where you could not defend using the Skull Hammer if you didn't own a shield.
