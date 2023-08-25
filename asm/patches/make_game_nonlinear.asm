@@ -557,3 +557,24 @@ set_item_obtained_from_totg_tablet_event_bit:
   ; Originally checked if the west servant has been returned.
   nop
 .close
+
+
+
+
+; Disallow the player from getting in the ship when they don't own a sail.
+; This functionality already existed in the vanilla game, but it's overridden by the randomizer
+; setting event bit 0908 (SAIL_INTRODUCTION_TEXT_AND_MAP_UNLOCKED) when you start a new save.
+; We restore this functionality, but have it depend directly on whether you own the sail or not,
+; instead of indirectly depending on whether you've seen a tutorial that only appears after you
+; obtain the sail.
+.open "files/rels/d_a_ship.rel"
+.org 0xB29C ; In daShip_c::execute(void)
+  ; This originally called isEventBit(0x0908) to check if you've seen the sail tutorial.
+  ; We replace it with a call to isItem(1, 0) to check if the player owns the sail.
+  lis r24, 0x803C522C@ha ;  We need to put this address in r24 for the rest of the code to work
+  addi r24, r24, 0x803C522C@l
+  subi r3, r24, 0x5D3 ; Put 803C4C59 in r3 for the call to isItem
+  li r4, 1 ; Offset to the byte to check (803C4C59 + 1 = 803C4C5A)
+  li r5, 0 ; Index of the bit to check (1<<0 = 0x01 = Boat's Sail)
+  bl isItem__21dSv_player_get_item_cFiUc
+.close

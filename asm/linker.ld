@@ -73,6 +73,7 @@ subBgmStop__11JAIZelBasicFv = 0x802a4cdc;
 GetTgHitObj__12dCcD_GObjInfFv = 0x800aba48;
 fopScnM_ChangeReq__FP11scene_classssUs = 0x80029e6c;
 mPadButton__10JUTGamePad = 0x803ed848;
+isItem__21dSv_player_get_item_cFiUc = 0x8005955c;
 
 fopMsgM_int_to_char__FPcib = 0x800350b8;
 strcmp = 0x8032db44;

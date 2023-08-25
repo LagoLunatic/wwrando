@@ -391,7 +391,7 @@ class HintsRandomizer(BaseRandomizer):
       hint_suffix = "." if i == len(hints) - 1 else ","
       hint_lines.append(HintsRandomizer.get_formatted_hint_text(hint, self.cryptic_hints, prefix=hint_prefix, suffix=hint_suffix, delay=0))
     
-    for msg_id in (3443, 3444, 3445, 3446, 3447, 3448):
+    for msg_id in (1502, 3443, 3444, 3445, 3446, 3447, 3448):
       msg = self.rando.bmg.messages_by_id[msg_id]
       msg.construct_string_from_parts(self.rando.bfn, hint_lines)
   #endregion
