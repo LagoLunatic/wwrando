@@ -688,7 +688,7 @@ class EntranceRandomizer(BaseRandomizer):
           exit_scls.spawn_id = zone_entrance.spawn_id
           exit_scls.save_changes()
     
-    if zone_exit in SECRET_CAVE_EXITS:
+    if zone_exit in SECRET_CAVE_EXITS or zone_exit == ZoneExit["Ice Ring Isle Inner Cave"]:
       # Update the sector coordinates in the 2DMA chunk so that save-and-quitting in a secret cave puts you on the correct island.
       exit_dzs = self.rando.get_arc(exit_dzs_path).get_file("stage.dzs", DZx)
       _2dma = exit_dzs.entries_by_type(_2DMA)[0]
@@ -730,24 +730,6 @@ class EntranceRandomizer(BaseRandomizer):
         # An entrance without a timer leads into this cave.
         # Remove the kill trigger actor on the inside, because otherwise it would throw the player out the instant they enter.
         exit_dzr.remove_entity(kill_trigger, ACTR)
-    
-    if zone_exit.unique_name == "Ice Ring Isle Secret Cave":
-      # Also update the inner cave of Ice Ring Isle to take you out to the correct entrance as well.
-      inner_cave_dzr_path = "files/res/Stage/ITest62/Room0.arc"
-      inner_cave_dzr = self.rando.get_arc(inner_cave_dzr_path).get_file("room.dzr", DZx)
-      inner_cave_exit_scls = inner_cave_dzr.entries_by_type(SCLS)[0]
-      inner_cave_exit_scls.dest_stage_name = zone_entrance.stage_name
-      inner_cave_exit_scls.room_index = zone_entrance.room_num
-      inner_cave_exit_scls.spawn_id = zone_entrance.spawn_id
-      inner_cave_exit_scls.save_changes()
-      
-      # Also update the sector coordinates in the 2DMA chunk of the inner cave of Ice Ring Isle so save-and-quitting works properly there.
-      inner_cave_dzs_path = "files/res/Stage/ITest62/Stage.arc"
-      inner_cave_dzs = self.rando.get_arc(inner_cave_dzs_path).get_file("stage.dzs", DZx)
-      inner_cave_2dma = inner_cave_dzs.entries_by_type(_2DMA)[0]
-      inner_cave_2dma.sector_x = sector_x-3
-      inner_cave_2dma.sector_y = sector_y-3
-      inner_cave_2dma.save_changes()
   
   def update_boss_warp_out_destination(self, boss_stage_name, outermost_entrance: ZoneEntrance):
     # Update the wind warp out event to take you to the correct island.
