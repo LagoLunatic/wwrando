@@ -200,10 +200,10 @@ class WWRandomizer:
     # This list's order is the order these randomizers will be called in.
     self.randomizers: list[BaseRandomizer] = [
       self.charts,
-      self.starting_island,
       # self.music,
       self.boss_rewards,
       self.entrances,
+      self.starting_island,
       self.pigs,
       # Enemies must be randomized before items in order for the enemy logic to properly take into
       # account what items you do and don't start with.
