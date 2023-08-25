@@ -217,10 +217,10 @@ class WWRandomizer:
     
     num_progress_locations = self.logic.get_num_progression_locations()
     max_race_mode_banned_locations = self.logic.get_max_race_mode_banned_locations()
-    self.num_randomized_progress_items = self.logic.get_num_unplaced_progression_items()
-    if num_progress_locations - max_race_mode_banned_locations < self.num_randomized_progress_items:
+    self.all_randomized_progress_items = self.logic.get_flattened_unplaced_progression_items()
+    if num_progress_locations - max_race_mode_banned_locations < len(self.all_randomized_progress_items):
       error_message = "Not enough progress locations to place all progress items.\n\n"
-      error_message += "Total progress items: %d\n" % self.num_randomized_progress_items
+      error_message += "Total progress items: %d\n" % len(self.all_randomized_progress_items)
       error_message += "Progress locations with current options: %d\n" % num_progress_locations
       if max_race_mode_banned_locations > 0:
         error_message += "Maximum Race Mode banned locations: %d\n" % max_race_mode_banned_locations

@@ -151,9 +151,10 @@ class HintsRandomizer(BaseRandomizer):
   def _randomize(self):
     self.floor_30_hint, self.floor_50_hint = self.generate_savage_labyrinth_hints()
     
-    if self.rando.num_randomized_progress_items == 0:
-      # If the player chose to start the game with every single progress item, there will be no way to generate any hints.
-      # Therefore we leave all the hint location text as the vanilla text, except Savage Labyrinth's hint tablet.
+    if not any(self.check_item_can_be_hinted_at(item_name) for item_name in self.rando.all_randomized_progress_items):
+      # If the player chose to start the game with every single progress item, there will be no way
+      # to generate any hints. Therefore we leave all the hint location text as the vanilla text,
+      # except Savage Labyrinth's hint tablet.
       return
     
     self.octo_fairy_hint = self.generate_octo_fairy_hint()
@@ -221,7 +222,7 @@ class HintsRandomizer(BaseRandomizer):
   def _save(self):
     self.update_savage_labyrinth_hint_tablet(self.floor_30_hint, self.floor_50_hint)
     
-    if self.rando.num_randomized_progress_items == 0:
+    if not any(self.check_item_can_be_hinted_at(item_name) for item_name in self.rando.all_randomized_progress_items):
       # See above.
       return
     
@@ -600,9 +601,12 @@ class HintsRandomizer(BaseRandomizer):
       # Build a list of required locations, along with the item at that location.
       item_name = self.logic.done_item_locations[location_name]
       if (
-        location_name not in self.rando.boss_rewards.required_locations          # Ignore boss Heart Containers in race mode, even if it's required.
-        and (self.options.get("keylunacy") or not item_name.endswith(" Key")) # Keys are only considered in key-lunacy.
-        and item_name in self.logic.all_progress_items                        # Required locations always contain progress items (by definition).
+        # Ignore boss Heart Containers in race mode, even if it's required.
+        location_name not in self.rando.boss_rewards.required_locations
+        # Keys are only considered in key-lunacy.
+        and (self.options.get("keylunacy") or not item_name.endswith(" Key"))
+        # Required locations always contain progress items (by definition).
+        and item_name in self.logic.all_progress_items
       ):
         # Determine the item name for the given location.
         zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
@@ -692,7 +696,7 @@ class HintsRandomizer(BaseRandomizer):
       
       # Don't consider dungeon keys when keylunacy is not enabled.
       if self.logic.is_dungeon_item(item_name) and not self.options.get("keylunacy"):
-          continue
+        continue
       
       items_checked.append(item_name)
       
@@ -804,19 +808,25 @@ class HintsRandomizer(BaseRandomizer):
     
     return new_hintable_locations
   
-  def check_is_legal_item_hint(self, location_name, progress_locations, previously_hinted_locations):
-    item_name = self.logic.done_item_locations[location_name]
-    
+  def check_item_can_be_hinted_at(self, item_name):
     # Don't hint at non-progress items.
     if item_name not in self.logic.all_progress_items:
       return False
     
-    # Don't hint at item in non-progress locations.
-    if location_name not in progress_locations:
-      return False
-    
     # Don't hint at dungeon keys when key-lunacy is not enabled.
     if self.logic.is_dungeon_item(item_name) and not self.options.get("keylunacy"):
+      return False
+    
+    return True
+  
+  def check_is_legal_item_hint(self, location_name, progress_locations, previously_hinted_locations):
+    item_name = self.logic.done_item_locations[location_name]
+    
+    if not self.check_item_can_be_hinted_at(item_name):
+      return False
+    
+    # Don't hint at item in non-progress locations.
+    if location_name not in progress_locations:
       return False
     
     # You already know which boss locations have a required item and which don't in race mode by looking at the sea chart.

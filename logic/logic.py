@@ -261,17 +261,17 @@ class Logic:
     assert location_name in self.item_locations
     self.prerandomization_item_locations[location_name] = item_name
   
-  def get_num_unplaced_progression_items(self):
-    num_progress_items = 0
+  def get_flattened_unplaced_progression_items(self):
+    progress_items = []
     for item_name in self.unplaced_progress_items:
       if item_name in self.progress_item_groups:
         group_name = item_name
         for item_name in self.progress_item_groups[group_name]:
-          num_progress_items += 1
+          progress_items.append(item_name)
       else:
-        num_progress_items += 1
+        progress_items.append(item_name)
     
-    return num_progress_items
+    return progress_items
   
   def get_num_progression_locations(self):
     return Logic.get_num_progression_locations_static(self.item_locations, self.rando.options)
