@@ -246,7 +246,7 @@ class HintsRandomizer(BaseRandomizer):
     for hints in self.hints_per_placement.values():
       all_hints += hints
     
-    if not all_hints:
+    if all(hint is None for hint in all_hints):
       return ""
     
     rows = []
