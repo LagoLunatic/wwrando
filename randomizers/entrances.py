@@ -645,15 +645,15 @@ class EntranceRandomizer(BaseRandomizer):
       entrance_spawn.spawn_type = 1
       entrance_spawn.save_changes()
     
-    if zone_exit in BOSS_EXITS:
-      # Update the spawn you're placed at when saving and reloading inside a boss room.
+    if zone_exit in MINIBOSS_EXITS + BOSS_EXITS:
+      # Update the spawn you're placed at when saving and reloading inside a (mini)boss room.
       exit_dzs = self.rando.get_arc(exit_dzs_path).get_file("stage.dzs", DZx)
       # For dungeons, the stage.dzs's SCLS exit at index 0 is always where to take you when saving
       # and reloading.
       exit_scls = exit_dzs.entries_by_type(SCLS)[0]
-      if zone_entrance in BOSS_ENTRANCES:
-        # If the end of a dungeon connects to a boss, saving and reloading inside the boss
-        # room should put you at the beginning of that dungeon, not the end.
+      if zone_entrance in MINIBOSS_ENTRANCES + BOSS_ENTRANCES:
+        # If a dungeon's (mini)boss entrance connects to a (mini)boss, saving and reloading inside
+        # the (mini)boss room should put you at the beginning of that dungeon, not the end.
         # But if multiple dungeons are nested we don't take the player all the way back to the
         # beginning of the chain, just to the beginning of the last dungeon.
         dungeon_start_exit = entrance_dzs.entries_by_type(SCLS)[0]
@@ -662,13 +662,15 @@ class EntranceRandomizer(BaseRandomizer):
         exit_scls.spawn_id = dungeon_start_exit.spawn_id
         exit_scls.save_changes()
       else:
-        # If a sea entrance connects directly to a boss we put you right outside that entrance.
+        # If an island entrance (or inner cave entrance) connects directly to a (mini)boss we put
+        # you right outside that entrance.
         exit_scls.dest_stage_name = zone_entrance.stage_name
         exit_scls.room_index = zone_entrance.room_num
         exit_scls.spawn_id = zone_entrance.spawn_id
         exit_scls.save_changes()
-    else:
-      # Update the entrance you're put at when leaving the dungeon/secret cave.
+    
+    if zone_exit not in BOSS_EXITS:
+      # Update the entrance you're put at when leaving the dungeon/secret cave/miniboss/inner cave.
       exit_dzr = self.rando.get_arc(exit_dzr_path).get_file("room.dzr", DZx)
       exit_scls = exit_dzr.entries_by_type(SCLS)[zone_exit.scls_exit_index]
       exit_scls.dest_stage_name = zone_entrance.stage_name
