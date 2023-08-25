@@ -44,6 +44,9 @@ class BossRewardRandomizer(BaseRandomizer):
     self.show_quest_markers_on_sea_chart_for_dungeons()
   
   def write_to_spoiler_log(self):
+    if not self.is_enabled():
+      return ""
+    
     spoiler_log = ""
     spoiler_log += "Required dungeons:\n"
     for dungeon_name in self.required_dungeons:
