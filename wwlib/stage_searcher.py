@@ -1,7 +1,7 @@
-
 import os
 import re
 from collections import Counter, defaultdict
+from typing import Iterable
 
 from gclib import fs_helpers as fs
 
@@ -73,7 +73,7 @@ def each_stage(self, exclude_unused=True):
 def each_room(self, exclude_unused=True):
   return each_stage_and_room(self, exclude_stages=True, exclude_unused=exclude_unused)
 
-def each_stage_with_rooms(self, exclude_unused=True):
+def each_stage_with_rooms(self, exclude_unused=True) -> Iterable[tuple[DZx, str, list[tuple[DZx, str]]]]:
   for dzs, stage_arc_path in each_stage(self, exclude_unused=exclude_unused):
     match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
     stage_name = match.group(1)
@@ -995,3 +995,24 @@ def print_all_used_particle_banks(self):
       print("% 14s: %s" % (stage_name, jpc_path))
       if jpc_path not in self.gcm.files_by_path:
         raise Exception("%s does not exist" % jpc_path)
+
+def print_all_spawn_types(self):
+  spawns_by_type = defaultdict(list)
+  for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
+    match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
+    stage_name = match.group(1)
+    stage_info = dzs.entries_by_type(STAG)[0]
+    stage_id = stage_info.stage_id
+    
+    for dzx, arc_path in [(dzs, stage_arc_path)]+rooms:
+      for spawn in dzx.entries_by_type(PLYR):
+        spawns_by_type[spawn.spawn_type].append((arc_path, spawn))
+        if spawn.spawn_type in [2, 9]:
+          print(f"{spawn.spawn_id:3d} {spawn.spawn_type:3d} {arc_path}")
+  
+  with open("All Spawns By Type.txt", "w") as f:
+    for spawn_type in sorted(spawns_by_type.keys()):
+      f.write(f"Spawn type {spawn_type}:\n")
+      spawns = spawns_by_type[spawn_type]
+      for arc_path, spawn in spawns:
+        f.write(f"  {spawn.spawn_id:3d} {arc_path}\n")
