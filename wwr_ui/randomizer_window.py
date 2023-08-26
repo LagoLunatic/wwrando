@@ -971,6 +971,24 @@ class WWRandomizerWindow(QMainWindow):
     if self.get_option_value("num_location_hints") == 0:
       should_enable_options["prioritize_remote_hints"] = False
     
+    dungeon_entrances_random = any(
+      self.get_option_value(option_name)
+      for option_name in [
+        "randomize_dungeon_entrances",
+        "randomize_miniboss_entrances",
+        "randomize_boss_entrances",
+      ]
+    )
+    cave_entrances_random = any(
+      self.get_option_value(option_name)
+      for option_name in [
+        "randomize_secret_cave_entrances",
+        "randomize_secret_cave_inner_entrances",
+      ]
+    )
+    if not (dungeon_entrances_random and cave_entrances_random):
+      should_enable_options["mix_entrances"] = False
+    
     self.filtered_rgear.setFilterStrings(items_to_filter_out)
     
     starting_gear = self.get_option_value("starting_gear")

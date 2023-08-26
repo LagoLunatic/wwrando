@@ -69,9 +69,22 @@ OPTIONS = {
   
   "keylunacy":
     "Allows dungeon keys (as well as maps and compasses) to appear anywhere in the game, not just in the dungeon they're for.",
-  "randomize_entrances":
-    "Shuffles around which dungeon entrances/secret cave entrances take you into which dungeons/secret caves.<br>"
+  "randomize_dungeon_entrances":
+    "Shuffles around which dungeon entrances take you into which dungeons.<br>"
     "(No effect on Forsaken Fortress or Ganon's Tower.)",
+  "randomize_secret_cave_entrances":
+    "Shuffles around which secret cave entrances take you into which secret caves.",
+  "mix_entrances":
+    "'Keep Separate' will only randomize dungeons with other dungeons and secret caves with other secret caves.<br>"
+    "'Mix Together' allows dungeon entrances to lead into secret caves and vice versa.",
+  "randomize_miniboss_entrances":
+    "Allows dungeon miniboss doors to act as entrances to be randomized.<br>"
+    "If this option is enabled with random dungeon entrances, dungeons can potentially nest within each other, forming chains of connected dungeons.",
+  "randomize_boss_entrances":
+    "Allows dungeon boss doors to act as entrances to be randomized.<br>"
+    "If this option is enabled with random dungeon entrances, dungeons can potentially nest within each other, forming chains of connected dungeons.",
+  "randomize_secret_cave_inner_entrances":
+    "Allows the pit in Ice Ring Isle's secret cave and the exit out of Cliff Plateau Isles' secret cave to act as entrances to be randomized.",
   "randomize_charts":
     "Randomizes which sector is drawn on each Triforce/Treasure Chart.",
   "randomize_starting_island":
@@ -133,8 +146,8 @@ OPTIONS = {
   "num_race_mode_dungeons":
     "Select the number of dungeons that are required in Race Mode.<br>"
     "Required dungeon bosses will drop required items (e.g. Triforce Shards). Nothing in the other dungeons will ever be required.",
-  "randomize_music":
-    "Shuffles around all the music in the game. This affects background music, combat music, fanfares, etc.",
+  # "randomize_music":
+  #   "Shuffles around all the music in the game. This affects background music, combat music, fanfares, etc.",
   "randomize_enemy_palettes":
     "Gives all the enemies in the game random colors.",
   "remove_title_and_ending_videos":
@@ -183,7 +196,7 @@ NON_PERMALINK_OPTIONS = [
 ]
 
 HIDDEN_OPTIONS = [
-  "randomize_music",
+  # "randomize_music",
   "randomize_enemies",
 ]
 

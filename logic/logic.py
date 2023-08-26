@@ -823,7 +823,7 @@ class Logic:
     # Detect which progress items don't actually help access any locations with the user's current settings, and move those over to the nonprogress item list instead.
     # This is so things like dungeons-only runs don't have a lot of useless items hogging the progress locations.
     
-    if self.rando.options.get("randomize_entrances") not in ["Disabled", None]:
+    if self.rando.entrances.is_enabled():
       # Since the randomizer hasn't decided which dungeon/secret cave will be where yet, we have to assume the worst case scenario by considering that you need to be able to access all dungeon/secret cave entrances in order to access each individual one.
       self.temporarily_make_entrance_macros_worst_case_scenario()
     
@@ -883,7 +883,7 @@ class Logic:
       self.unplaced_progress_items.remove(item_name)
       self.unplaced_nonprogress_items.append(item_name)
     
-    if self.rando.options.get("randomize_entrances") not in ["Disabled", None]:
+    if self.rando.entrances.is_enabled():
       # Reset the dungeon/secret cave access macros if we changed them earlier.
       self.update_entrance_connection_macros()
   
