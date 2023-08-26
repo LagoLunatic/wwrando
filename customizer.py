@@ -142,6 +142,9 @@ def parse_hex_color(hex_color, use_old_color_format):
   if use_old_color_format:
     return parse_hex_color_old_format(hex_color)
   
+  if isinstance(hex_color, str) and (match := re.match(r"^0x([0-9A-F]{6})$", hex_color)):
+    hex_color = int(match.group(1), 16)
+  
   if isinstance(hex_color, int) and (0x000000 <= hex_color <= 0xFFFFFF):
     r = (hex_color & 0xFF0000) >> 16
     g = (hex_color & 0x00FF00) >> 8

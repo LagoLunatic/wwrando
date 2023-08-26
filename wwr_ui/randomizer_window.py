@@ -46,9 +46,14 @@ class WWRandomizerWindow(QMainWindow):
     self.dry_run = ("-dry" in cmd_line_args)
     self.profiling = ("-profile" in cmd_line_args)
     self.auto_seed = ("-autoseed" in cmd_line_args)
-
+    
+    self.dice_icon = QIcon(os.path.join(ASSETS_PATH, "dice.png"))
+    
+    size_policy = self.ui.custom_model_preview_label.sizePolicy()
+    size_policy.setRetainSizeWhenHidden(True)
+    self.ui.custom_model_preview_label.setSizePolicy(size_policy)
+    
     self.custom_color_selector_buttons = {}
-    self.custom_color_selector_hex_inputs = {}
     self.custom_color_reset_buttons = {}
     self.custom_colors = {}
     self.initialize_custom_player_model_list()
@@ -89,6 +94,8 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.randomize_all_custom_colors_together.clicked.connect(self.randomize_all_custom_colors_together)
     self.ui.randomize_all_custom_colors_separately.clicked.connect(self.randomize_all_custom_colors_separately)
     self.ui.custom_color_preset.currentIndexChanged.connect(self.color_preset_changed)
+    self.ui.save_custom_color_preset.clicked.connect(self.save_custom_color_preset)
+    self.ui.load_custom_color_preset.clicked.connect(self.load_custom_color_preset)
     
     self.ui.label_for_clean_iso_path.linkActivated.connect(self.show_clean_iso_explanation)
     
@@ -769,17 +776,20 @@ class WWRandomizerWindow(QMainWindow):
     
     self.ui.custom_color_preset.blockSignals(False)
   
+  def clear_layout_recursive(self, layout: QLayout):
+    while layout.count():
+      item = layout.takeAt(0)
+      widget = item.widget()
+      if widget:
+        widget.deleteLater()
+      sublayout = item.layout()
+      if sublayout:
+        self.clear_layout_recursive(sublayout)
+  
   def reload_custom_model(self, update_preview=True):
     self.disable_invalid_cosmetic_options()
     
-    while self.ui.custom_colors_layout.count():
-      item = self.ui.custom_colors_layout.takeAt(0)
-      hlayout = item.layout()
-      while hlayout.count():
-        item = hlayout.takeAt(0)
-        widget = item.widget()
-        if widget:
-          widget.deleteLater()
+    self.clear_layout_recursive(self.ui.custom_colors_layout)
     self.custom_color_selector_buttons = {}
     self.custom_color_selector_hex_inputs = {}
     self.custom_color_reset_buttons = {}
@@ -800,9 +810,9 @@ class WWRandomizerWindow(QMainWindow):
     model_comment = metadata.get("comment", None)
     comment_lines = []
     if model_author:
-      comment_lines.append("Model author: %s" % model_author)
+      comment_lines.append("Author: %s" % model_author)
     if model_comment:
-      comment_lines.append("Model author comment: %s" % model_comment)
+      comment_lines.append("Author's comment: %s" % model_comment)
     self.ui.custom_model_comment.setText("\n".join(comment_lines))
     if len(comment_lines) <= 0:
       self.ui.custom_model_comment.hide()
@@ -825,53 +835,17 @@ class WWRandomizerWindow(QMainWindow):
     self.custom_colors = {}
     custom_colors = metadata.get(prefix + "_custom_colors", {})
     
+    curr_row_layout = None
+    i = 0
     for custom_color_name, default_color in custom_colors.items():
-      option_name = "custom_color_" + custom_color_name
-      hlayout = QHBoxLayout()
-      label_for_color_selector = QLabel(self.ui.tab_player_customization)
-      label_for_color_selector.setText("%s Color" % custom_color_name)
-      hlayout.addWidget(label_for_color_selector)
-      
-      color_hex_code_input = QLineEdit(self.ui.tab_player_customization)
-      color_hex_code_input.setText("")
-      color_hex_code_input.setObjectName(option_name + "_hex_code_input")
-      color_hex_code_input.setFixedWidth(QFontMetrics(QFont()).horizontalAdvance("CCCCCC")+5)
-      color_hex_code_input.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-      hlayout.addWidget(color_hex_code_input)
-      
-      color_randomize_button = QPushButton(self.ui.tab_player_customization)
-      color_randomize_button.setText("Random")
-      color_randomize_button.setObjectName(option_name + "_randomize_color")
-      color_randomize_button.setFixedWidth(QFontMetrics(QFont()).horizontalAdvance("Random")+11)
-      hlayout.addWidget(color_randomize_button)
-      
-      color_selector_button = QPushButton(self.ui.tab_player_customization)
-      color_selector_button.setText("Click to set color")
-      color_selector_button.setObjectName(option_name)
-      hlayout.addWidget(color_selector_button)
-      
-      color_reset_button = QPushButton(self.ui.tab_player_customization)
-      color_reset_button.setText("X")
-      color_reset_button.setObjectName(option_name + "_reset_color")
-      color_reset_button.setFixedWidth(QFontMetrics(QFont()).horizontalAdvance("X")+11)
-      size_policy = color_reset_button.sizePolicy()
-      size_policy.setRetainSizeWhenHidden(True)
-      color_reset_button.setSizePolicy(size_policy)
-      color_reset_button.setVisible(False)
-      hlayout.addWidget(color_reset_button)
-      
-      self.custom_color_selector_buttons[option_name] = color_selector_button
-      color_selector_button.clicked.connect(self.open_custom_color_chooser)
-      self.custom_color_selector_hex_inputs[option_name] = color_hex_code_input
-      color_hex_code_input.textEdited.connect(self.custom_color_hex_code_changed)
-      color_hex_code_input.editingFinished.connect(self.custom_color_hex_code_finished_editing)
-      color_randomize_button.clicked.connect(self.randomize_one_custom_color)
-      color_reset_button.clicked.connect(self.reset_one_custom_color)
-      self.custom_color_reset_buttons[option_name] = color_reset_button
-      
-      self.ui.custom_colors_layout.addLayout(hlayout)
-      
-      self.set_color(option_name, default_color, update_preview=False, save_color_as_custom=False)
+      if i % 2 == 0:
+        curr_row_layout = QHBoxLayout()
+        self.ui.custom_colors_layout.addLayout(curr_row_layout)
+      color_layout = self.make_layout_for_one_custom_color(custom_color_name, default_color)
+      curr_row_layout.addLayout(color_layout)
+      i += 1
+    if i % 2 == 1:
+      curr_row_layout.addWidget(QWidget())
     
     if len(custom_colors) == 0:
       # Need to push the preview over to the right even when there are no colors to do it, so add a spacer.
@@ -884,24 +858,47 @@ class WWRandomizerWindow(QMainWindow):
     
     if update_preview:
       self.update_model_preview()
+  
+  def make_layout_for_one_custom_color(self, custom_color_name, default_color):
+    option_name = "custom_color_" + custom_color_name
+    hlayout = QHBoxLayout()
+    hlayout.setSpacing(0)
+    label_for_color_selector = QLabel(self.ui.tab_player_customization)
+    label_for_color_selector.setTextFormat(Qt.TextFormat.PlainText)
+    label_for_color_selector.setText(custom_color_name)
+    hlayout.addWidget(label_for_color_selector)
     
-    # Hide the custom voice disable option for models that don't have custom voice files.
-    if custom_model_name == "Random" or custom_model_name == "Random (exclude Link)":
-      self.ui.disable_custom_player_voice.show()
-    else:
-      custom_model_path = os.path.join(CUSTOM_MODELS_PATH, custom_model_name)
-      jaiinit_aaf_path = os.path.join(custom_model_path, "sound", "JaiInit.aaf")
-      voice_aw_path = os.path.join(custom_model_path, "sound", "voice_0.aw")
-      if os.path.isfile(jaiinit_aaf_path) and os.path.isfile(voice_aw_path):
-        self.ui.disable_custom_player_voice.show()
-      else:
-        self.ui.disable_custom_player_voice.hide()
+    color_selector_button = QPushButton(self.ui.tab_player_customization)
+    color_selector_button.setText("")
+    color_selector_button.setObjectName(option_name)
+    color_selector_button.setFixedWidth(QFontMetrics(QFont()).horizontalAdvance("#CCCCCC")+5)
+    hlayout.addWidget(color_selector_button)
     
-    # Hide the custom items disable option for Link, but not any other models (since we don't know which have custom items).
-    if custom_model_name == "Link":
-      self.ui.disable_custom_player_items.hide()
-    else:
-      self.ui.disable_custom_player_items.show()
+    color_randomize_button = QPushButton(self.ui.tab_player_customization)
+    color_randomize_button.setIcon(self.dice_icon)
+    color_randomize_button.setObjectName(option_name + "_randomize_color")
+    color_randomize_button.setFixedWidth(32)
+    hlayout.addWidget(color_randomize_button)
+    
+    color_reset_button = QPushButton(self.ui.tab_player_customization)
+    color_reset_button.setText("X")
+    color_reset_button.setObjectName(option_name + "_reset_color")
+    color_reset_button.setFixedWidth(QFontMetrics(QFont()).horizontalAdvance("X")+11)
+    size_policy = color_reset_button.sizePolicy()
+    size_policy.setRetainSizeWhenHidden(True)
+    color_reset_button.setSizePolicy(size_policy)
+    color_reset_button.setVisible(False)
+    hlayout.addWidget(color_reset_button)
+    
+    self.custom_color_selector_buttons[option_name] = color_selector_button
+    color_selector_button.clicked.connect(self.open_custom_color_chooser)
+    color_randomize_button.clicked.connect(self.randomize_one_custom_color)
+    color_reset_button.clicked.connect(self.reset_one_custom_color)
+    self.custom_color_reset_buttons[option_name] = color_reset_button
+    
+    self.set_color(option_name, default_color, update_preview=False, save_color_as_custom=False)
+    
+    return hlayout
   
   def reload_colors(self, update_preview=True):
     for color_name in self.get_default_custom_colors_for_current_model():
@@ -934,6 +931,84 @@ class WWRandomizerWindow(QMainWindow):
       self.update_model_preview()
     
     return any_color_changed
+  
+  def save_custom_color_preset(self):
+    preset_path, selected_filter = QFileDialog.getSaveFileName(self, "Save color preset", None, "Text Files (*.txt)")
+    if not preset_path:
+      return
+    
+    hex_custom_colors = {}
+    for color_name, color_tuple in self.custom_colors.items():
+      hex_custom_colors[color_name] = "0x%02X%02X%02X" % tuple(color_tuple)
+    
+    custom_preset = {}
+    custom_preset["model_name"] = self.get_option_value("custom_player_model")
+    custom_preset["colors"] = hex_custom_colors
+    
+    with open(preset_path, "w") as f:
+      yaml.dump(custom_preset, f, default_flow_style=False, sort_keys=False)
+    
+    QMessageBox.information(
+      self, "Custom colors saved",
+      f"Your custom colors have been saved to the file:\n{preset_path}"
+    )
+  
+  def load_custom_color_preset(self):
+    preset_path, selected_filter = QFileDialog.getOpenFileName(self, "Load color preset", None, "Text Files (*.txt)")
+    if not preset_path:
+      return
+    
+    with open(preset_path) as f:
+      custom_preset = yaml.safe_load(f)
+    
+    model_name = custom_preset["model_name"]
+    custom_colors = custom_preset["colors"]
+    
+    custom_model_names = customizer.get_all_custom_model_names()
+    
+    if model_name not in custom_model_names:
+      QMessageBox.critical(
+        self, "Failed to load custom color preset",
+        f"The color preset you loaded is for the custom model '{model_name}'.\n"
+        "You do not have this model installed."
+      )
+      return
+    
+    if self.get_option_value("custom_player_model") != model_name:
+      self.set_option_value("custom_player_model", model_name)
+    
+    custom_colors_to_set = {}
+    
+    # Only read colors if they are valid colors for this model.
+    found_any_valid = False
+    for color_name, default_color in self.get_default_custom_colors_for_current_model().items():
+      if color_name not in custom_colors:
+        custom_colors_to_set[color_name] = default_color
+        continue
+      hex_color = custom_colors[color_name]
+      try:
+        custom_colors_to_set[color_name] = customizer.parse_hex_color(hex_color, False)
+        found_any_valid = True
+      except customizer.InvalidColorError:
+        error_message = "Custom color \"%s\" is invalid: \"%s\"" % (color_name, repr(hex_color))
+        print(error_message)
+        QMessageBox.critical(
+          self, "Failed to load custom color preset",
+          error_message
+        )
+        return
+    
+    if not found_any_valid:
+      QMessageBox.warning(
+        self, "Found no colors",
+        f"The preset didn't contain any colors that are valid for this model."
+      )
+      return
+    
+    for color_name, color_tuple in custom_colors_to_set.items():
+      self.set_color(f"custom_color_{color_name}", color_tuple, update_preview=False)
+    
+    self.update_model_preview()
   
   def ensure_valid_combination_of_options(self):
     items_to_filter_out = []
@@ -1055,6 +1130,29 @@ class WWRandomizerWindow(QMainWindow):
         self.ui.player_in_casual_clothes.setChecked(False)
       else:
         self.ui.player_in_casual_clothes.setEnabled(True)
+    
+    # Grey out the custom voice disable option for models that don't have custom voice files.
+    if custom_model_name == "Random" or custom_model_name == "Random (exclude Link)":
+      self.ui.disable_custom_player_voice.setEnabled(True)
+    else:
+      custom_model_path = os.path.join(CUSTOM_MODELS_PATH, custom_model_name)
+      jaiinit_aaf_path = os.path.join(custom_model_path, "sound", "JaiInit.aaf")
+      voice_aw_path = os.path.join(custom_model_path, "sound", "voice_0.aw")
+      if os.path.isfile(jaiinit_aaf_path) and os.path.isfile(voice_aw_path):
+        self.ui.disable_custom_player_voice.setEnabled(True)
+      else:
+        self.ui.disable_custom_player_voice.setEnabled(False)
+    
+    # Grey out the custom items disable option for Link, but not any other models (since we don't know which have custom items).
+    if custom_model_name == "Link":
+      self.ui.disable_custom_player_items.setEnabled(False)
+    else:
+      self.ui.disable_custom_player_items.setEnabled(True)
+    
+    if custom_model_name == "Random" or custom_model_name == "Random (exclude Link)":
+      self.ui.save_custom_color_preset.setEnabled(False)
+    else:
+      self.ui.save_custom_color_preset.setEnabled(True)
   
   def get_color(self, color_name):
     preset_type = self.get_option_value("custom_color_preset")
@@ -1091,19 +1189,18 @@ class WWRandomizerWindow(QMainWindow):
     color_name = option_name[len("custom_color_"):]
     
     color_button = self.custom_color_selector_buttons[option_name]
-    hex_input = self.custom_color_selector_hex_inputs[option_name]
     reset_button = self.custom_color_reset_buttons[option_name]
     if color is None:
       color_button.setStyleSheet("")
-      hex_input.setText("")
+      color_button.setText("")
     else:
-      hex_input.setText("%02X%02X%02X" % tuple(color))
+      color_button.setText("#%02X%02X%02X" % tuple(color))
       
       r, g, b = color
       
       # Depending on the value of the background color of the button, we need to make the text color either black or white for contrast.
       h, s, v = colorsys.rgb_to_hsv(r/255, g/255, b/255)
-      if v > 0.5:
+      if v > 0.7:
         text_color = (0, 0, 0)
       else:
         text_color = (255, 255, 255)
@@ -1157,26 +1254,6 @@ class WWRandomizerWindow(QMainWindow):
     b = color.blue()
     self.set_color(option_name, [r, g, b])
     self.update_settings()
-  
-  def custom_color_hex_code_changed(self):
-    option_name, color_name = self.get_option_name_and_color_name_from_sender_object_name()
-    
-    text = self.sender().text().strip().lstrip("#").upper()
-    if len(text) != 6 or any(c for c in text if c not in "0123456789ABCDEF"):
-      return False
-    r = int(text[0:2], 16)
-    g = int(text[2:4], 16)
-    b = int(text[4:6], 16)
-    self.set_color(option_name, [r, g, b])
-    self.update_settings()
-    return True
-  
-  def custom_color_hex_code_finished_editing(self):
-    is_valid_color = self.custom_color_hex_code_changed()
-    if not is_valid_color:
-      # If the hex code is invalid reset the text to the correct hex code for the current color.
-      option_name, color_name = self.get_option_name_and_color_name_from_sender_object_name()
-      self.set_color(option_name, self.get_color(color_name))
   
   def reset_one_custom_color(self):
     option_name, color_name = self.get_option_name_and_color_name_from_sender_object_name()
@@ -1251,9 +1328,7 @@ class WWRandomizerWindow(QMainWindow):
   def get_option_name_and_color_name_from_sender_object_name(self):
     object_name = self.sender().objectName()
     
-    if object_name.endswith("_hex_code_input"):
-      option_name = object_name[:len(object_name)-len("_hex_code_input")]
-    elif object_name.endswith("_randomize_color"):
+    if object_name.endswith("_randomize_color"):
       option_name = object_name[:len(object_name)-len("_randomize_color")]
     elif object_name.endswith("_reset_color"):
       option_name = object_name[:len(object_name)-len("_reset_color")]

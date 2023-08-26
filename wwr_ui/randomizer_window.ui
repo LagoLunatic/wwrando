@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>840</width>
-    <height>585</height>
+    <width>856</width>
+    <height>598</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,17 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QScrollArea" name="scrollArea">
+      <property name="minimumSize">
+       <size>
+        <width>600</width>
+        <height>400</height>
+       </size>
+      </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOn</enum>
       </property>
       <property name="widgetResizable">
        <bool>true</bool>
@@ -28,8 +37,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>822</width>
-         <height>445</height>
+         <width>821</width>
+         <height>458</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1166,14 +1175,14 @@
                     <item>
                      <widget class="QPushButton" name="randomize_all_custom_colors_together">
                       <property name="text">
-                       <string>Randomize Colors Orderly</string>
+                       <string>Random (Orderly)</string>
                       </property>
                      </widget>
                     </item>
                     <item>
                      <widget class="QPushButton" name="randomize_all_custom_colors_separately">
                       <property name="text">
-                       <string>Randomize Colors Chaotically</string>
+                       <string>Random (Chaotically)</string>
                       </property>
                      </widget>
                     </item>
@@ -1250,6 +1259,9 @@
                     <property name="text">
                      <string/>
                     </property>
+                    <property name="textFormat">
+                     <enum>Qt::PlainText</enum>
+                    </property>
                     <property name="wordWrap">
                      <bool>true</bool>
                     </property>
@@ -1259,6 +1271,24 @@
                 </item>
                 <item>
                  <layout class="QVBoxLayout" name="custom_colors_layout"/>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_18">
+                  <item>
+                   <widget class="QPushButton" name="save_custom_color_preset">
+                    <property name="text">
+                     <string>Save Custom Preset</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="load_custom_color_preset">
+                    <property name="text">
+                     <string>Load Custom Preset</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </item>
                 <item>
                  <spacer name="verticalSpacer_4">
@@ -1279,6 +1309,18 @@
                <layout class="QVBoxLayout" name="verticalLayout_11">
                 <item>
                  <widget class="QLabel" name="custom_model_preview_label">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>225</width>
+                    <height>350</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>

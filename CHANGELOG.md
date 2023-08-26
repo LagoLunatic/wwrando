@@ -9,6 +9,7 @@ New features:
   * You can also choose to mix secret caves with nested dungeons, which can sometimes result in a dungeon's boss door taking you into a Secret Cave instead of a boss.
   * Secret cave "inner" caves - the pit inside Ice Ring Isle's secret cave and the rear exit out of Cliff Plateau Isles's secret cave - can now also be included in entrance randomization.
 * You can now bring the three Servants of the Tower to the central room in Tower of the Gods in any order instead of being forced into the linear vanilla order.
+* Customized player colors can now be saved to a file for later use, or shared with other players.
 
 Changes:
 * Dungeon bosses can no longer drop dungeon items when Key-Lunacy mode is disabled.
