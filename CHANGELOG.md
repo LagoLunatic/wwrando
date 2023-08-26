@@ -2,10 +2,12 @@
 ### Version 1.11.0 (in progress, not released yet)
 
 New features:
-* Added a new Nested Dungeons option to the Entrance Randomizer. This option shuffles dungeon entrances **and** boss entrances with each other, allowing dungeons to be nested in long chains.
+* Added new Entrance Randomizer options for shuffling dungeon entrances **and** boss entrances with each other, allowing dungeons to be nested in long chains.
   * For example: You could go through Dragon Roost Cavern, but instead of the boss door taking you to Gohma, it may take you into Tower of the Gods. Then, after getting to the end of Tower of the Gods, the boss door takes you to Kalle Demos instead of Gohdan.
   * Extra bosses that aren't at the end of a dungeon chain are accessible directly from the sea (e.g. entering Gale Isle and finding Gohma instead of a dungeon).
-  * You can also optionally choose to randomize Nested Dungeons and Secret Caves together, which can sometimes result in a dungeon's boss door taking you into a Secret Cave instead of a boss.
+  * In addition to boss entrances, you can also choose to randomize miniboss entrances (allowing one dungeon to potentially have two other dungeons nested inside of it).
+  * You can also choose to randomize mix secret caves with nested dungeons, which can sometimes result in a dungeon's boss door taking you into a Secret Cave instead of a boss.
+  * Secret cave "inner" caves - the pit inside Ice Ring Isle's secret cave and the rear exit out of Cliff Plateau Isles's secret cave - can now also be included in entrance randomization.
 * You can now bring the three Servants of the Tower to the central room in Tower of the Gods in any order instead of being forced into the linear vanilla order.
 
 Changes:
@@ -14,6 +16,7 @@ Changes:
 * The three cutscenes where the Servants of the Tower walk onto their platforms have been significantly sped up.
 * Adjusted the text of a few hints.
 * Kogoli now appears in the randomizer.
+* The spoiler log now includes hints and Race Mode's required dungeons.
 
 Bug fixes:
 * Fixed the feature introduced in 1.10.0 to customize vanilla Link's hat and tunic colors separately not actually working.
