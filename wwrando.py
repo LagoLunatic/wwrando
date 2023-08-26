@@ -98,12 +98,14 @@ def run_no_ui(args):
   else:
     rando = WWRandomizer(**rando_kwargs)
     try:
-      with tqdm(total=rando.get_max_progress_length()) as progress_bar:
-        prev_val = 0
-        for next_option_description, options_finished in rando.randomize():
-          progress_bar.update(options_finished-prev_val)
-          prev_val = options_finished
-          progress_bar.set_description(next_option_description)
+      all(rando.randomize())
+      print("Done")
+      # with tqdm(total=rando.get_max_progress_length()) as progress_bar:
+      #   prev_val = 0
+      #   for next_option_description, options_finished in rando.randomize():
+      #     progress_bar.update(options_finished-prev_val)
+      #     prev_val = options_finished
+      #     progress_bar.set_description(next_option_description)
     except Exception as e:
       stack_trace = traceback.format_exc()
       error_message = f"Error on seed {rando_kwargs['seed']}:\n{e}\n\n{stack_trace}"
