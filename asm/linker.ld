@@ -48,6 +48,10 @@ getTriforceNum__20dSv_player_collect_cFv = 0x8005b230;
 dComIfGs_isStageTbox__Fii = 0x80053918;
 isTbox__12dSv_memBit_cFi = 0x8005c188;
 
+fopMsgM_int_to_char__FPcib = 0x800350b8;
+strcmp = 0x8032db44;
+strcat = 0x8032dc6c;
+
 fopAcM_createItem__FP4cXyziiiiP5csXyziP4cXyz = 0x80026adc;
 fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz = 0x80026118;
 fopAcM_orderOtherEventId__FP10fopAc_ac_csUcUsUsUs = 0x80025ea4;
@@ -74,7 +78,4 @@ GetTgHitObj__12dCcD_GObjInfFv = 0x800aba48;
 fopScnM_ChangeReq__FP11scene_classssUs = 0x80029e6c;
 mPadButton__10JUTGamePad = 0x803ed848;
 isItem__21dSv_player_get_item_cFiUc = 0x8005955c;
-
-fopMsgM_int_to_char__FPcib = 0x800350b8;
-strcmp = 0x8032db44;
-strcat = 0x8032dc6c;
+isEnableEnlargementScroll__6dMap_cFv = 0x8004826c;

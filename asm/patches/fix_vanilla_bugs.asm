@@ -429,7 +429,7 @@ zero_out_arrow_on_hit_callback:
 ; calls bgmStart in this way without interrupting the previous BGM.
 .open "sys/main.dol"
 .org 0x802ABEF8 ; In JAIZelBasic::processTime(void)
-  li r6, 1 ; Argument r6 to bgmStart seems to prevent stoping the existing BGM, if one is playing.
+  li r6, 1 ; Argument r6 to bgmStart seems to prevent stopping the existing BGM, if one is playing.
 .close
 
 
