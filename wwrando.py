@@ -95,6 +95,10 @@ def run_no_ui(args):
   
   if "-bulk" in args:
     run_all_bulk_tests(rando_kwargs)
+  elif "-stagesearch" in args:
+    from wwlib import stage_searcher
+    rando = WWRandomizer(**rando_kwargs)
+    stage_searcher.print_all_spawn_types(rando)
   else:
     rando = WWRandomizer(**rando_kwargs)
     try:
@@ -154,7 +158,7 @@ if __name__ == "__main__":
     else:
       args[arg_parts[0]] = arg_parts[1]
   
-  if "-bulk" in args:
+  if "-bulk" in args or "-stagesearch" in args:
     args["-noui"] = None
   
   if "-noui" in args:
