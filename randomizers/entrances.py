@@ -358,10 +358,13 @@ class EntranceRandomizer(BaseRandomizer):
     
     doing_dungeons = False
     doing_caves = False
+    doing_race_mode_entrances = False
     if any(ex in DUNGEON_EXITS for ex in relevant_exits):
       doing_dungeons = True
     if any(ex in SECRET_CAVE_EXITS for ex in relevant_exits):
       doing_caves = True
+    if doing_dungeons or any(ex in MINIBOSS_EXITS + BOSS_EXITS for ex in relevant_exits):
+      doing_race_mode_entrances = True
     
     self.rng.shuffle(relevant_entrances)
     
@@ -398,7 +401,7 @@ class EntranceRandomizer(BaseRandomizer):
       if ex not in non_terminal_exits
     ]
     
-    if doing_dungeons and self.options.get("race_mode"):
+    if doing_race_mode_entrances and self.options.get("race_mode"):
       split_groups = self.split_race_mode_banned_entrances_and_exits(relevant_entrances, relevant_exits)
       for entrances, exits, banned in split_groups:
         self.randomize_one_set_of_exits(entrances, exits, terminal_exits, banned)
