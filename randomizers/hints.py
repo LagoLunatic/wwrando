@@ -114,8 +114,8 @@ class HintsRandomizer(BaseRandomizer):
   
   def __init__(self, rando):
     super().__init__(rando)
-    self.path_logic = Logic(self.rando)
-    self.path_logic_initial_state = self.path_logic.save_simulated_playthrough_state()
+    self.path_logic = None
+    self.path_logic_initial_state = None
     
     # Define instance variable shortcuts for hint distribution options.
     self.max_path_hints = int(self.options.get("num_path_hints", 0))
@@ -149,6 +149,9 @@ class HintsRandomizer(BaseRandomizer):
     return bool(self.rando.randomize_items)
   
   def _randomize(self):
+    self.path_logic = Logic(self.rando)
+    self.path_logic_initial_state = self.path_logic.save_simulated_playthrough_state()
+    
     self.floor_30_hint, self.floor_50_hint = self.generate_savage_labyrinth_hints()
     
     if not any(self.check_item_can_be_hinted_at(item_name) for item_name in self.rando.all_randomized_progress_items):

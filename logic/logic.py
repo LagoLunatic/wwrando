@@ -52,7 +52,7 @@ class Logic:
   initial_item_locations = None
   initial_macros = None
   
-  def __init__(self, rando: WWRandomizer, rando_fully_inited=True):
+  def __init__(self, rando: WWRandomizer):
     self.rando = rando
     
     # Caches.
@@ -148,7 +148,7 @@ class Logic:
     self.unplaced_fixed_consumable_items: list[str]
     self.currently_owned_items: list[str] = []
     
-    if rando_fully_inited:
+    if self.rando.fully_initialized:
       self.initialize_from_randomizer_state()
   
   def initialize_from_randomizer_state(self):

@@ -74,6 +74,8 @@ T = TypeVar('T')
 
 class WWRandomizer:
   def __init__(self, seed, clean_iso_path, randomized_output_folder, options: dict, permalink=None, cmd_line_args=None):
+    self.fully_initialized = False
+    
     self.randomized_output_folder = randomized_output_folder
     self.logs_output_folder = self.randomized_output_folder
     self.options = options
@@ -185,7 +187,7 @@ class WWRandomizer:
     self.custom_model_name = self.options.get("custom_player_model", "Link")
     self.using_custom_sail_texture = False
     
-    self.logic = Logic(self, rando_fully_inited=False)
+    self.logic = Logic(self)
     
     self.items = ItemRandomizer(self)
     self.charts = ChartRandomizer(self)
@@ -249,6 +251,8 @@ class WWRandomizer:
     else:
       self.dungeons_and_caves_only_start = False
     self.logic.update_entrance_connection_macros() # Reset the entrance macros.
+    
+    self.fully_initialized = True
   
   def get_max_progress_length(self) -> int:
     max_progress_val = 0
