@@ -366,8 +366,8 @@ phantom_ganon_check_link_within_y_diff_outside_range:
 
 
 
-; Stop sub BGM (used for mini-boss music, as well as item get jingles) when unloading a stage.
-; This is to stop the Mothula and Stalfos mini-boss music from continuing to play even after leaving their rooms.
+; Stop sub BGM (used for miniboss music, as well as item get jingles) when unloading a stage.
+; This is to stop the Mothula and Stalfos miniboss music from continuing to play even after leaving their rooms.
 ; It also stops the Outset whirlpool's music from playing after you lose to it.
 .open "sys/main.dol"
 .org 0x80235340 ; In dScnPly_Delete(dScnPly_ply_c *)

@@ -676,7 +676,7 @@ Dragon Roost Cavern - Pot Room Chest:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest003
-Dragon Roost Cavern - Mini-Boss:
+Dragon Roost Cavern - Miniboss:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x4
@@ -857,7 +857,7 @@ Forbidden Woods - Vine Maze Right Chest:
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest003
-Forbidden Woods - Tall Room Before Mini-Boss:
+Forbidden Woods - Tall Room Before Miniboss:
   Need:
     Can Access Forbidden Woods
     & Can Fly With Deku Leaf Indoors
@@ -870,7 +870,7 @@ Forbidden Woods - Tall Room Before Mini-Boss:
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest009
-Forbidden Woods - Mothula Mini-Boss Room:
+Forbidden Woods - Mothula Miniboss Room:
   Need:
     Can Access Forbidden Woods Miniboss Arena
     & Can Defeat Winged Mothulas
@@ -1036,7 +1036,7 @@ Tower of the Gods - Stone Tablet:
   Types: Dungeon
   Paths:
     - Siren/Stage.arc/Event060:hsehi1_tact/Actor003/Action004
-Tower of the Gods - Darknut Mini-Boss Room:
+Tower of the Gods - Darknut Miniboss Room:
   Need:
     Can Access Tower of the Gods Miniboss Arena
     & Can Defeat Darknuts
@@ -1333,11 +1333,11 @@ Earth Temple - Casket in Second Crypt:
   Types: Dungeon
   Paths:
     - M_Dai/Room8.arc/Actor008
-Earth Temple - Stalfos Mini-Boss Room:
+Earth Temple - Stalfos Miniboss Room:
   Need:
     Can Access Earth Temple Miniboss Arena
     & (Can Defeat Stalfos | Hookshot)
-    # Hookshot allows you to skip fighting the mini-boss if you use it on one of the torches up near the chest.
+    # Hookshot allows you to skip fighting the miniboss if you use it on one of the torches up near the chest.
   # Need to escape: Can Aim Mirror Shield
   Original item: Mirror Shield
   Types: Dungeon
@@ -1599,7 +1599,7 @@ Wind Temple - Spike Wall Room - Destroy All Cracked Floors:
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest007
-Wind Temple - Wizzrobe Mini-Boss Room:
+Wind Temple - Wizzrobe Miniboss Room:
   Need:
     Can Access Wind Temple Miniboss Arena
     & Can Defeat Darknuts

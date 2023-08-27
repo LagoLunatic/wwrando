@@ -186,10 +186,10 @@ COMBAT_SECRET_CAVE_EXIT_NAMES_WITH_NO_REQUIREMENTS = [
 ]
 
 ITEM_LOCATION_NAME_TO_EXIT_OVERRIDES = {
-  "Forbidden Woods - Mothula Mini-Boss Room"         : ZoneExit["Forbidden Woods Miniboss Arena"],
-  "Tower of the Gods - Darknut Mini-Boss Room"       : ZoneExit["Tower of the Gods Miniboss Arena"],
-  "Earth Temple - Stalfos Mini-Boss Room"            : ZoneExit["Earth Temple Miniboss Arena"],
-  "Wind Temple - Wizzrobe Mini-Boss Room"            : ZoneExit["Wind Temple Miniboss Arena"],
+  "Forbidden Woods - Mothula Miniboss Room"         : ZoneExit["Forbidden Woods Miniboss Arena"],
+  "Tower of the Gods - Darknut Miniboss Room"       : ZoneExit["Tower of the Gods Miniboss Arena"],
+  "Earth Temple - Stalfos Miniboss Room"            : ZoneExit["Earth Temple Miniboss Arena"],
+  "Wind Temple - Wizzrobe Miniboss Room"            : ZoneExit["Wind Temple Miniboss Arena"],
   
   "Dragon Roost Cavern - Gohma Heart Container"      : ZoneExit["Gohma Boss Arena"],
   "Forbidden Woods - Kalle Demos Heart Container"    : ZoneExit["Kalle Demos Boss Arena"],

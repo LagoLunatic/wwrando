@@ -67,7 +67,7 @@ Dragon Roost Island - Secret Cave:
   Type: Standard
   Text: besting the cavern at the home of bird people
 
-Dragon Roost Cavern - Mini-Boss:
+Dragon Roost Cavern - Miniboss:
   Type: Standard
   Text: freeing the chest in an arena at the summit of a large volcanic den
 Dragon Roost Cavern - Under Rope Bridge:
@@ -84,7 +84,7 @@ Forest Haven - Small Island Chest:
   Type: Standard
   Text: gliding to an isle behind the home of the woodland spirits
 
-Forbidden Woods - Mothula Mini-Boss Room:
+Forbidden Woods - Mothula Miniboss Room:
   Type: Standard
   Text: exterminating a flying bug in its arena in a dungeon with overgrown vegetation
 Forbidden Woods - Chest in Locked Tree Trunk:
@@ -100,7 +100,7 @@ Tower of the Gods - Hop Across Floating Boxes:
 Tower of the Gods - First Chest Guarded by Armos Knights:
   Type: Standard
   Text: defeating two bomb-hungry foes in a tower created to test the hero
-Tower of the Gods - Darknut Mini-Boss Room:
+Tower of the Gods - Darknut Miniboss Room:
   Type: Standard
   Text: defeating a sworded foe in its arena in a tower created to test the hero
 
@@ -116,7 +116,7 @@ Ice Ring Isle - Inner Cave - Chest:
   Type: Standard
   Text: awakening foes from an icy slumber
 
-Earth Temple - Stalfos Mini-Boss Room:
+Earth Temple - Stalfos Miniboss Room:
   Type: Standard
   Text: defeating three Stalfos in a haunted dungeon's arena
 Earth Temple - Kill All Floormasters in Foggy Room:
@@ -132,9 +132,9 @@ Earth Temple - Big Key Chest:
 Wind Temple - Big Key Chest:
   Type: Standard
   Text: defeating three sworded foes in a trap-filled dungeon
-Wind Temple - Wizzrobe Mini-Boss Room:
+Wind Temple - Wizzrobe Miniboss Room:
   Type: Standard
-  Text: defeating the Wizzrobe mini-boss in a trap-filled dungeon's arena
+  Text: defeating the Wizzrobe miniboss in a trap-filled dungeon's arena
 Wind Temple - Chest Behind Seven Armos:
   Type: Standard
   Text: defeating seven mechanical foes near the top of a trap-filled dungeon

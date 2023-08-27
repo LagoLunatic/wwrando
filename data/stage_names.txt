@@ -135,7 +135,7 @@ kaze
 kazeB
   Wind Temple Molgera Boss Room
 kazeMB
-  Wind Temple Wizzrobe Mini-Boss Room
+  Wind Temple Wizzrobe Miniboss Room
 kenroom
   Master Sword Chamber
 kinBOSS
@@ -143,7 +143,7 @@ kinBOSS
 kindan
   Forbidden Woods
 kinMB
-  Forbidden Woods Mothula Mini-Boss Room
+  Forbidden Woods Mothula Miniboss Room
 K_Test2
   Unused
 K_Test3
@@ -201,9 +201,9 @@ M_Dai
 M_DaiB
   Earth Temple Jalhalla Boss Room
 M_DaiMB
-  Earth Temple Stalfos Mini-Boss Room
+  Earth Temple Stalfos Miniboss Room
 M_Dra09
-  Dragon Roost Cavern Moblin Mini-Boss Room
+  Dragon Roost Cavern Moblin Miniboss Room
 M_DragB
   Dragon Roost Cavern Gohma Boss Room
 M_NewD2
@@ -265,7 +265,7 @@ Siren
 SirenB
   Tower of the Gods Gohdan Boss Room
 SirenMB
-  Tower of the Gods Darknut Mini-Boss Room
+  Tower of the Gods Darknut Miniboss Room
 SubD42
   Needle Rock Isle Cave
 SubD43

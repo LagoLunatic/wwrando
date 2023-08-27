@@ -8,7 +8,7 @@
   ; Remove combat music
   blr
 .org 0x802A47B8 ; subBgmStart__11JAIZelBasicFUl
-  ; Remove mini-boss music and item get jingles
+  ; Remove miniboss music and item get jingles
   blr
 .org 0x802A33D0 ; bgmStreamPlay__11JAIZelBasicFv
   ; Remove boss defeat fanfare

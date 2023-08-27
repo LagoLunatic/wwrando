@@ -3649,7 +3649,7 @@ M_Dai:
       Path: M_Dai/Room19.arc/Actor007
 
 
-# Earth Temple Stalfos Mini-Boss Room
+# Earth Temple Stalfos Miniboss Room
 M_DaiMB:
 -
   Must defeat enemies: Yes
@@ -3670,7 +3670,7 @@ M_DaiMB:
       Path: M_DaiMB/Room12.arc/Actor002
 
 
-# Dragon Roost Cavern Moblin Mini-Boss Room
+# Dragon Roost Cavern Moblin Miniboss Room
 M_Dra09:
 -
   Must defeat enemies: Yes
@@ -4423,7 +4423,7 @@ Siren:
 #      Path: Siren/Room23.arc/Actor000
 
 
-# Tower of the Gods Darknut Mini-Boss Room
+# Tower of the Gods Darknut Miniboss Room
 SirenMB:
 -
   Must defeat enemies: Yes
@@ -5634,12 +5634,12 @@ kaze:
       Path: kaze/Room16.arc/Actor01D
 
 
-# Wind Temple Wizzrobe Mini-Boss Room
+# Wind Temple Wizzrobe Miniboss Room
 kazeMB:
 -
   Must defeat enemies: Yes
   Original requirements:
-    Can Access Item Location "Wind Temple - Wizzrobe Mini-Boss Room"
+    Can Access Item Location "Wind Temple - Wizzrobe Miniboss Room"
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -5652,7 +5652,7 @@ kazeMB:
       Path: kazeMB/Room6.arc/Actor001
 
 
-# Forbidden Woods Mothula Mini-Boss Room
+# Forbidden Woods Mothula Miniboss Room
 kinMB:
 -
   Must defeat enemies: Yes
