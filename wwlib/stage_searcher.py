@@ -1016,3 +1016,21 @@ def print_all_spawn_types(self):
       spawns = spawns_by_type[spawn_type]
       for arc_path, spawn in spawns:
         f.write(f"  {spawn.spawn_id:3d} {arc_path}\n")
+
+def print_all_stage_types(self):
+  stages_by_type = defaultdict(list)
+  for dzs, stage_arc_path in each_stage(self, exclude_unused=False):
+    match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
+    stage_name = match.group(1)
+    stage_info = dzs.entries_by_type(STAG)[0]
+    stage_id = stage_info.stage_id
+    stage_type = stage_info.stage_type
+    
+    stages_by_type[stage_type].append(stage_name)
+  
+  with open("All Stages By Type.txt", "w") as f:
+    for stage_type in sorted(stages_by_type.keys()):
+      f.write(f"Stage type {stage_type}:\n")
+      stage_names = stages_by_type[stage_type]
+      for stage_name in stage_names:
+        f.write(f"  {stage_name}\n")

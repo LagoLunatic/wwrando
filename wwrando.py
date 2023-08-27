@@ -98,7 +98,8 @@ def run_no_ui(args):
   elif "-stagesearch" in args:
     from wwlib import stage_searcher
     rando = WWRandomizer(**rando_kwargs)
-    stage_searcher.print_all_spawn_types(rando)
+    # stage_searcher.print_all_spawn_types(rando)
+    stage_searcher.print_all_stage_types(rando)
   else:
     rando = WWRandomizer(**rando_kwargs)
     try:
