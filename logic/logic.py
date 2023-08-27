@@ -654,6 +654,9 @@ class Logic:
       if "Boss" in types:
         # Don't allow dungeon items to be placed on the dungeon boss.
         return False
+      if "Randomizable Miniboss" in types and self.rando.options.get("randomize_miniboss_entrances"):
+        # Don't allow dungeon items to be placed in miniboss rooms when they are randomized.
+        return False
     
     # Beedle's shop does not work properly if the same item is in multiple slots of the same shop.
     # Ban the Bait Bag slot from having bait.
