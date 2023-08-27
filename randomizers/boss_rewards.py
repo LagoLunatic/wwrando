@@ -1,3 +1,4 @@
+from collections import Counter
 
 from randomizers.base_randomizer import BaseRandomizer
 from gclib import fs_helpers as fs
@@ -268,6 +269,15 @@ class BossRewardRandomizer(BaseRandomizer):
     sea_chart_ui.decompress_data_if_necessary()
     first_quest_marker_pic1_offset = 0x43B0
     
+    overlap_counts = Counter()
+    overlap_count_to_extra_rotation = {
+      0: 0,
+      1: 45,
+      2: 22,
+      3: 68,
+      4: 33,
+      5: 56,
+    }
     for boss_name in self.required_bosses:
       quest_marker_index = BOSS_NAME_TO_SEA_CHART_QUEST_MARKER_INDEX[boss_name]
       offset = first_quest_marker_pic1_offset + quest_marker_index*0x40
@@ -282,3 +292,11 @@ class BossRewardRandomizer(BaseRandomizer):
       
       fs.write_s16(sea_chart_ui.data, offset+0x10, sector_x*0x37-0xFA)
       fs.write_s16(sea_chart_ui.data, offset+0x12, sector_y*0x38-0xBC)
+      
+      # Rotate the quest markers so you can tell how many there are even if they overlap.
+      # 55 is the base angle they display at in vanilla, and when they don't overlap.
+      num_overlaps = overlap_counts[island_number]
+      extra_angle = overlap_count_to_extra_rotation[num_overlaps]
+      fs.write_u8(sea_chart_ui.data, offset+0x19, 55+extra_angle)
+      
+      overlap_counts[island_number] += 1
