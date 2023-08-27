@@ -125,11 +125,6 @@ class Logic:
       self.all_nonprogress_items += DUNGEON_PROGRESS_ITEMS
     self.all_nonprogress_items += DUNGEON_NONPROGRESS_ITEMS
     
-    # Tell the randomizer to register dungeon-specific item names as the normal items.
-    for dungeon_item_name in (DUNGEON_PROGRESS_ITEMS + DUNGEON_NONPROGRESS_ITEMS):
-      regular_item_name = dungeon_item_name.split(" ", 1)[1]
-      self.rando.item_name_to_id[dungeon_item_name] = self.rando.item_name_to_id[regular_item_name]
-    
     self.all_cleaned_item_names = []
     all_item_names = []
     all_item_names += self.all_progress_items
