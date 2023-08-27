@@ -325,9 +325,12 @@ class EntranceRandomizer(BaseRandomizer):
         return "Dragon Roost Island (Main)"
       elif name == "Secret Cave Entrance on Dragon Roost Island":
         return "Dragon Roost Island (Pit)"
-      elif re.search(r"^(Dungeon|Miniboss|Boss|Secret Cave|Inner) Entrance (on|in) ", name):
+      elif re.search(r"^(Dungeon|Secret Cave|Inner) Entrance (on|in) ", name):
         _, short_name = re.split(r" (?:on|in) ", name, 1)
         return short_name
+      elif match := re.search(r"^(Miniboss|Boss) Entrance in ", name):
+        _, short_name = re.split(r" in ", name, 1)
+        return f"{short_name} ({match.group(1)})"
       else:
         return name
     
