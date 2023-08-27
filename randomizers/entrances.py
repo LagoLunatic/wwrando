@@ -411,7 +411,7 @@ class EntranceRandomizer(BaseRandomizer):
     
     banned_zone_entrances: list[ZoneEntrance] = []
     for zone_entrance in relevant_entrances:
-      if zone_entrance in BOSS_ENTRANCES:
+      if zone_entrance in MINIBOSS_ENTRANCES + BOSS_ENTRANCES:
         dungeon_name = zone_entrance.nested_in.unique_name
         if dungeon_name in self.rando.boss_rewards.banned_dungeons:
           banned_zone_entrances.append(zone_entrance)
@@ -430,6 +430,11 @@ class EntranceRandomizer(BaseRandomizer):
           banned_zone_exits.append(zone_exit)
       elif zone_exit in DUNGEON_EXITS:
         dungeon_name = zone_exit.unique_name
+        if dungeon_name in self.rando.boss_rewards.banned_dungeons:
+          banned_zone_exits.append(zone_exit)
+      elif zone_exit in MINIBOSS_EXITS:
+        assert zone_exit.unique_name.endswith(" Miniboss Arena")
+        dungeon_name = zone_exit.unique_name[:-len(" Miniboss Arena")]
         if dungeon_name in self.rando.boss_rewards.banned_dungeons:
           banned_zone_exits.append(zone_exit)
     
