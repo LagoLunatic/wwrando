@@ -82,7 +82,7 @@ def run_no_ui(args):
     options: dict = yaml.safe_load(f)
   
   rando_kwargs = {
-    "seed": options.pop("seed"), # TODO sanitize seed
+    "seed": options.pop("seed"),
     "clean_iso_path": options.pop("clean_iso_path").strip(),
     "randomized_output_folder": options.pop("output_folder"),
     "options": options, # TODO filter out invalid options

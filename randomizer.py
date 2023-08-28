@@ -7,6 +7,7 @@ import yaml
 import sys
 from typing import TypeVar, Callable
 from io import BytesIO
+import string
 
 from gclib import fs_helpers as fs
 from gclib.bfn import BFN
@@ -45,8 +46,6 @@ from randomizers.pigs import PigsRandomizer
 
 from version import VERSION, VERSION_WITHOUT_COMMIT
 
-CLEAN_WIND_WAKER_ISO_MD5 = 0xd8e4d45af2032a081a0f446384e9261b
-
 # The below are options that could be used to cheat in races.
 # They do not naturally change algorithmic item distribution, but do change the availability of information on item distribution.
 # To prevent this possibility, we change the RNG seed itself for each one of these options that is selected.
@@ -73,13 +72,17 @@ class InvalidCleanISOError(Exception):
 T = TypeVar('T')
 
 class WWRandomizer:
+  CLEAN_WIND_WAKER_ISO_MD5 = 0xd8e4d45af2032a081a0f446384e9261b
+  VALID_SEED_CHARACTERS = "-_'%%.%s%s" % (string.ascii_letters, string.digits)
+  MAX_SEED_LENGTH = 42 # Limited by maximum length of game name in banner
+  
   def __init__(self, seed, clean_iso_path, randomized_output_folder, options: dict, permalink=None, cmd_line_args=None):
     self.fully_initialized = False
     
     self.randomized_output_folder = randomized_output_folder
     self.logs_output_folder = self.randomized_output_folder
     self.options = options
-    self.seed = seed
+    self.seed = self.sanitize_seed(seed)
     self.permalink = permalink
     self.seed_hash = self.get_seed_hash()
     
@@ -441,6 +444,14 @@ class WWRandomizer:
       tweaks.update_item_names_in_letter_advertising_rock_spire_shop(self)
     tweaks.prevent_fire_mountain_lava_softlock(self)
   
+  @classmethod
+  def sanitize_seed(cls, seed):
+    seed = str(seed)
+    seed = seed.strip()
+    seed = "".join(char for char in seed if char in cls.VALID_SEED_CHARACTERS)
+    seed = seed[:cls.MAX_SEED_LENGTH]
+    return seed
+  
   def verify_supported_version(self, clean_iso_path):
     with open(clean_iso_path, "rb") as f:
       magic = fs.try_read_str(f, 0, 4)
@@ -464,8 +475,11 @@ class WWRandomizer:
         md5.update(chunk)
     
     integer_md5 = int(md5.hexdigest(), 16)
-    if integer_md5 != CLEAN_WIND_WAKER_ISO_MD5:
-      raise InvalidCleanISOError("Invalid vanilla Wind Waker ISO. Your ISO may be corrupted.\n\nCorrect ISO MD5 hash: %x\nYour ISO's MD5 hash: %x" % (CLEAN_WIND_WAKER_ISO_MD5, integer_md5))
+    if integer_md5 != self.CLEAN_WIND_WAKER_ISO_MD5:
+      raise InvalidCleanISOError(
+        "Invalid vanilla Wind Waker ISO. Your ISO may be corrupted.\n\n"
+        f"Correct ISO MD5 hash: {self.CLEAN_WIND_WAKER_ISO_MD5:x}\nYour ISO's MD5 hash: {integer_md5:x}"
+      )
   
   def read_text_file_lists(self):
     # Get item names.

@@ -30,9 +30,6 @@ from logic.logic import Logic
 from gclib import texture_utils
 
 class WWRandomizerWindow(QMainWindow):
-  VALID_SEED_CHARACTERS = "-_'%%.%s%s" % (string.ascii_letters, string.digits)
-  MAX_SEED_LENGTH = 42 # Limited by maximum length of game name in banner
-  
   def __init__(self, cmd_line_args=None):
     super(WWRandomizerWindow, self).__init__()
     self.ui = Ui_MainWindow()
@@ -166,18 +163,11 @@ class WWRandomizerWindow(QMainWindow):
       capitalized_words.append(capitalized_word)
     seed = "".join(capitalized_words)
     
-    seed = self.sanitize_seed(seed)
+    seed = WWRandomizer.sanitize_seed(seed)
     
     self.settings["seed"] = seed
     self.ui.seed.setText(seed)
     self.update_settings()
-  
-  def sanitize_seed(self, seed):
-    seed = str(seed)
-    seed = seed.strip()
-    seed = "".join(char for char in seed if char in self.VALID_SEED_CHARACTERS)
-    seed = seed[:self.MAX_SEED_LENGTH]
-    return seed
   
   def append_row(self, model, value):
     model.insertRow(model.rowCount())
@@ -236,7 +226,7 @@ class WWRandomizerWindow(QMainWindow):
       return
     
     seed = self.settings["seed"]
-    seed = self.sanitize_seed(seed)
+    seed = WWRandomizer.sanitize_seed(seed)
     
     if not seed:
       self.generate_seed()
@@ -454,7 +444,7 @@ class WWRandomizerWindow(QMainWindow):
   
   def encode_permalink(self):
     seed = self.settings["seed"]
-    seed = self.sanitize_seed(seed)
+    seed = WWRandomizer.sanitize_seed(seed)
     if not seed:
       self.ui.permalink.setText("")
       return
