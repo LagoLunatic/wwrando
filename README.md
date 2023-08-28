@@ -65,7 +65,7 @@ Download and install git from here: https://git-scm.com/downloads
 Then clone this repository with git by running this in a command prompt:  
 `git clone --recurse-submodules https://github.com/LagoLunatic/wwrando.git`  
 
-Download and install Python 3.11.4 from here: https://www.python.org/downloads/release/python-3114/  
+Download and install Python 3.11.5 from here: https://www.python.org/downloads/release/python-3115/  
 "Windows installer (64-bit)" is the one you want if you're on Windows, "macOS 64-bit universal2 installer" if you're on Mac.  
 If you're on Linux, run this command instead: `sudo apt-get install python3.11`  
 
