@@ -85,7 +85,9 @@ class WWRandomizer:
     
     if cmd_line_args is None:
       cmd_line_args = {}
-    self.dry_run = ("-dry" in cmd_line_args)
+    if "-dry" in cmd_line_args:
+      self.options["dry_run"] = True
+    self.dry_run = self.options.pop("dry_run", False)
     self.disassemble = ("-disassemble" in cmd_line_args)
     self.export_disc_to_folder = ("-exportfolder" in cmd_line_args)
     self.no_logs = ("-nologs" in cmd_line_args)

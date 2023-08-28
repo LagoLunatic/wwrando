@@ -18,6 +18,7 @@ Changes:
 * Adjusted the text of a few hints.
 * Kogoli now appears in the randomizer.
 * The spoiler log now includes hints and Race Mode's required dungeons.
+* Added an advanced "Dry Run" option which generates just the logs for a seed, without the playable ISO. Because no ISO is created, this option can be used to check a seed's item locations on a PC where you don't have the vanilla Wind Waker ISO on hand.
 
 Bug fixes:
 * Fixed the feature introduced in 1.10.0 to customize vanilla Link's hat and tunic colors separately not actually working.

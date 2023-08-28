@@ -43,7 +43,6 @@ class WWRandomizerWindow(QMainWindow):
     if cmd_line_args is None:
       cmd_line_args = {}
     self.cmd_line_args = cmd_line_args
-    self.dry_run = ("-dry" in cmd_line_args)
     self.profiling = ("-profile" in cmd_line_args)
     self.auto_seed = ("-autoseed" in cmd_line_args)
     
@@ -229,7 +228,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.clean_iso_path.setText(clean_iso_path)
     self.ui.output_folder.setText(output_folder)
     
-    if not self.dry_run and not os.path.isfile(clean_iso_path):
+    if not self.settings["dry_run"] and not os.path.isfile(clean_iso_path):
       QMessageBox.warning(self, "Vanilla ISO path not specified", "Must specify path to your vanilla Wind Waker ISO (North American version).")
       return
     if not os.path.isdir(output_folder):
@@ -286,10 +285,14 @@ class WWRandomizerWindow(QMainWindow):
   def randomization_complete(self):
     self.progress_dialog.reset()
     
-    self.randomizer_thread = None
-    
     text = """Randomization complete.<br><br>
       If you get stuck, check the progression spoiler log in the output folder."""
+    if self.randomizer_thread.randomizer.dry_run:
+      text = """Randomization complete.<br><br>
+      Note: You chose to do a dry run, meaning <u>no playable ISO was generated</u>.<br>
+      To actually play the randomizer, uncheck the Dry Run checkbox in the Advanced Options tab, then click Randomize again."""
+    
+    self.randomizer_thread = None
     
     self.complete_dialog = QMessageBox()
     self.complete_dialog.setTextFormat(Qt.TextFormat.RichText)

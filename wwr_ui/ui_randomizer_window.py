@@ -751,25 +751,25 @@ class Ui_MainWindow(object):
         self.groupBox_6.setObjectName(u"groupBox_6")
         self.gridLayout_8 = QGridLayout(self.groupBox_6)
         self.gridLayout_8.setObjectName(u"gridLayout_8")
-        self.widget_11 = QWidget(self.groupBox_6)
-        self.widget_11.setObjectName(u"widget_11")
-
-        self.gridLayout_8.addWidget(self.widget_11, 0, 3, 1, 1)
-
         self.do_not_generate_spoiler_log = QCheckBox(self.groupBox_6)
         self.do_not_generate_spoiler_log.setObjectName(u"do_not_generate_spoiler_log")
 
         self.gridLayout_8.addWidget(self.do_not_generate_spoiler_log, 0, 0, 1, 1)
 
-        self.widget_10 = QWidget(self.groupBox_6)
-        self.widget_10.setObjectName(u"widget_10")
+        self.widget_11 = QWidget(self.groupBox_6)
+        self.widget_11.setObjectName(u"widget_11")
 
-        self.gridLayout_8.addWidget(self.widget_10, 0, 2, 1, 1)
+        self.gridLayout_8.addWidget(self.widget_11, 0, 2, 1, 1)
 
         self.widget_12 = QWidget(self.groupBox_6)
         self.widget_12.setObjectName(u"widget_12")
 
-        self.gridLayout_8.addWidget(self.widget_12, 0, 4, 1, 1)
+        self.gridLayout_8.addWidget(self.widget_12, 0, 3, 1, 1)
+
+        self.dry_run = QCheckBox(self.groupBox_6)
+        self.dry_run.setObjectName(u"dry_run")
+
+        self.gridLayout_8.addWidget(self.dry_run, 0, 1, 1, 1)
 
 
         self.verticalLayout_8.addWidget(self.groupBox_6)
@@ -1149,6 +1149,7 @@ class Ui_MainWindow(object):
         self.label_for_num_path_hints.setText(QCoreApplication.translate("MainWindow", u"Path Hints", None))
         self.groupBox_6.setTitle(QCoreApplication.translate("MainWindow", u"Additional Advanced Options", None))
         self.do_not_generate_spoiler_log.setText(QCoreApplication.translate("MainWindow", u"Do Not Generate Spoiler Log", None))
+        self.dry_run.setText(QCoreApplication.translate("MainWindow", u"Dry Run", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_advanced), QCoreApplication.translate("MainWindow", u"Advanced Options", None))
         self.randomize_all_custom_colors_together.setText(QCoreApplication.translate("MainWindow", u"Random (Orderly)", None))
         self.randomize_all_custom_colors_separately.setText(QCoreApplication.translate("MainWindow", u"Random (Chaotically)", None))

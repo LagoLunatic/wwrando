@@ -129,7 +129,7 @@ OPTIONS = {
     "Adds new warp pots that act as shortcuts connecting dungeons to each other directly. (DRC, FW, TotG, and separately FF, ET, WT.)<br>"
     "Each pot must be unlocked before it can be used, so you cannot use them to access dungeons you wouldn't already have access to.",
   "do_not_generate_spoiler_log":
-    "Prevents the randomizer from generating a text file listing out the location of every single item for this seed. (This also changes where items are placed in this seed.)<br>"
+    "Prevents the randomizer from generating a text file listing out the locations of all items in this seed. (Also changes where items are placed in this seed.)<br>"
     "<u>Generating a spoiler log is highly recommended even if you don't intend to use it</u>, just in case you get completely stuck.",
   "sword_mode":
     "Controls whether you start with the Hero's Sword, the Hero's Sword is randomized, or if there are no swords in the entire game.<br>"
@@ -177,8 +177,18 @@ OPTIONS = {
     "Mutes all ingame music.",
   "randomize_enemies":
     "Randomizes the placement of non-boss enemies.",
+  "dry_run":
+    "If this option is selected, <u>no playable ISO will be generated</u>, but the log files will still be created.<br>"
+    "This can be useful if you want to generate a spoiler log on a computer where you do not have a vanilla Wind Waker ISO.",
 }
 
+# Options that should not be put into the permalink. These options are generally cosmetic or
+# accessibility related, anything that can differ between players while still being the same seed.
+# Note: Options that affect music must be included in the permalink because music duration affects
+# gameplay in some cases, like not being allowed to close the item get textbox until the item get
+# jingle has finished playing.
+# Note: randomize_enemy_palettes has special logic to be in the permalink when enemy rando is on,
+# but otherwise just have an unused placeholder in the permalink.
 NON_PERMALINK_OPTIONS = [
   "invert_camera_x_axis",
   "invert_sea_compass_x_axis",
@@ -188,11 +198,7 @@ NON_PERMALINK_OPTIONS = [
   "disable_custom_player_items",
   "custom_color_preset",
   "remove_title_and_ending_videos",
-  # Note: Options that affect music must be included in the permalink because music duration affects
-  # gameplay in some cases, like not being allowed to close the item get textbox until the item get
-  # jingle has finished playing.
-  # Note: randomize_enemy_palettes has special logic to be in the permalink when enemy rando is on,
-  # but otherwise just have an unused placeholder in the permalink.
+  "dry_run",
 ]
 
 HIDDEN_OPTIONS = [
