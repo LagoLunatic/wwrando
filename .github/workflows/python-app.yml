@@ -65,7 +65,7 @@ jobs:
           python-version: '3.11'
           check-latest: true
           architecture: ${{ matrix.architecture }}
-          cache: 'pip' # Cache all pip dependencies
+          cache: 'pip' # Cache all pip dependency downloads
       - name: Cache venv
         id: cache-venv
         uses: actions/cache@v3
