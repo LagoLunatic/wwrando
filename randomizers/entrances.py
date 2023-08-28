@@ -401,12 +401,18 @@ class EntranceRandomizer(BaseRandomizer):
       if ex not in non_terminal_exits
     ]
     
+    remaining_entrances = relevant_entrances.copy()
+    remaining_exits = relevant_exits.copy()
+    
     if doing_race_mode_entrances and self.options.get("race_mode"):
-      split_groups = self.split_race_mode_banned_entrances_and_exits(relevant_entrances, relevant_exits)
-      for entrances, exits, banned in split_groups:
-        self.randomize_one_set_of_exits(entrances, exits, terminal_exits, banned)
-    else:
-      self.randomize_one_set_of_exits(relevant_entrances, relevant_exits, terminal_exits)
+      banned_zone_entrances, banned_zone_exits = self.split_race_mode_banned_entrances_and_exits(remaining_entrances, remaining_exits)
+      for en in banned_zone_entrances:
+        remaining_entrances.remove(en)
+      for ex in banned_zone_exits:
+        remaining_exits.remove(ex)
+      self.randomize_one_set_of_exits(banned_zone_entrances, banned_zone_exits, terminal_exits, doing_banned=True)
+    
+    self.randomize_one_set_of_exits(remaining_entrances, remaining_exits, terminal_exits)
   
   def split_race_mode_banned_entrances_and_exits(self, relevant_entrances: list[ZoneEntrance], relevant_exits: list[ZoneExit]):
     # Splits the entrance and exit lists into two pairs: ones that should be considered banned on
@@ -420,12 +426,8 @@ class EntranceRandomizer(BaseRandomizer):
       if zone_entrance in MINIBOSS_ENTRANCES + BOSS_ENTRANCES:
         dungeon_name = zone_entrance.nested_in.unique_name
         if dungeon_name in self.rando.boss_rewards.banned_dungeons:
+          assert zone_entrance.is_nested
           banned_zone_entrances.append(zone_entrance)
-    
-    nonbanned_zone_entrances: list[ZoneEntrance] = [
-      zone_entrance for zone_entrance in relevant_entrances
-      if zone_entrance not in banned_zone_entrances
-    ]
     
     banned_zone_exits: list[ZoneExit] = []
     for zone_exit in relevant_exits:
@@ -444,16 +446,11 @@ class EntranceRandomizer(BaseRandomizer):
         if dungeon_name in self.rando.boss_rewards.banned_dungeons:
           banned_zone_exits.append(zone_exit)
     
-    nonbanned_zone_exits: list[ZoneExit] = [
-      zone_exit for zone_exit in relevant_exits
-      if zone_exit not in banned_zone_exits
-    ]
-    
     # At this point, banned_zone_entrances includes only the boss entrances inside of dungeons, not
     # any of the island entrances on the sea. So we need to select N random island entrances to
     # allow all of the banned dungeons to be accessible, where N is the number of banned dungeons.
     possible_island_entrances = [
-      en for en in nonbanned_zone_entrances
+      en for en in relevant_entrances
       if en.island_name is not None
     ]
     if self.safety_entrance is not None:
@@ -466,19 +463,14 @@ class EntranceRandomizer(BaseRandomizer):
         if en.island_name != self.safety_entrance.island_name
       ]
     for i in range(len(banned_zone_exits) - len(banned_zone_entrances)):
-      # Note: nonbanned_zone_entrances is already shuffled, so we can just take the first result
-      # from it and it's the same as picking one randomly.
+      # Note: relevant_entrances is already shuffled, so we can just take the first result from
+      # possible_island_entrances and it's the same as picking one randomly.
       banned_island_entrance = possible_island_entrances.pop(0)
-      nonbanned_zone_entrances.remove(banned_island_entrance)
       banned_zone_entrances.append(banned_island_entrance)
     
     assert len(banned_zone_entrances) == len(banned_zone_exits)
-    assert len(nonbanned_zone_entrances) == len(nonbanned_zone_exits)
     
-    return [
-      (banned_zone_entrances, banned_zone_exits, True),
-      (nonbanned_zone_entrances, nonbanned_zone_exits, False),
-    ]
+    return banned_zone_entrances, banned_zone_exits
   
   def randomize_one_set_of_exits(self, relevant_entrances: list[ZoneEntrance], relevant_exits: list[ZoneExit], terminal_exits: list[ZoneExit], doing_banned=False):
     remaining_entrances = relevant_entrances.copy()
