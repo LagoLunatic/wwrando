@@ -650,7 +650,7 @@ class Logic:
       if "Boss" in types:
         # Don't allow dungeon items to be placed on the dungeon boss.
         return False
-      if "Randomizable Miniboss" in types and self.options.get("randomize_miniboss_entrances"):
+      if "Randomizable Miniboss Room" in types and self.options.get("randomize_miniboss_entrances"):
         # Don't allow dungeon items to be placed in miniboss rooms when they are randomized.
         return False
     

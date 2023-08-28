@@ -876,7 +876,7 @@ Forbidden Woods - Mothula Miniboss Room:
     & Can Defeat Winged Mothulas
   # Need to escape: Can Hit Diamond Switches at Range
   Original item: Boomerang
-  Types: Dungeon, Randomizable Miniboss
+  Types: Dungeon, Randomizable Miniboss Room
   Paths:
     - kinMB/Stage.arc/Chest000
 Forbidden Woods - Past Seeds Hanging by Vines:
@@ -1041,7 +1041,7 @@ Tower of the Gods - Darknut Miniboss Room:
     Can Access Tower of the Gods Miniboss Arena
     & Can Defeat Darknuts
   Original item: Hero's Bow
-  Types: Dungeon, Randomizable Miniboss
+  Types: Dungeon, Randomizable Miniboss Room
   Paths:
     - SirenMB/Stage.arc/Chest000
 Tower of the Gods - Second Chest Guarded by Armos Knights:
@@ -1340,7 +1340,7 @@ Earth Temple - Stalfos Miniboss Room:
     # Hookshot allows you to skip fighting the miniboss if you use it on one of the torches up near the chest.
   # Need to escape: Can Aim Mirror Shield
   Original item: Mirror Shield
-  Types: Dungeon, Randomizable Miniboss
+  Types: Dungeon, Randomizable Miniboss Room
   Paths:
     - M_DaiMB/Stage.arc/Chest000
 Earth Temple - Tingle Statue Chest:
@@ -1609,7 +1609,7 @@ Wind Temple - Wizzrobe Miniboss Room:
     # Killing the Wizzrobe doesn't require ranged weapons because he occasionally comes down to ground level.
   # Need to escape: Hookshot & Skull Hammer
   Original item: Hookshot
-  Types: Dungeon, Randomizable Miniboss
+  Types: Dungeon, Randomizable Miniboss Room
   Paths:
     - kazeMB/Stage.arc/Chest000
 Wind Temple - Chest at Top of Hub Room:
