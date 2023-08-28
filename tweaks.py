@@ -819,7 +819,8 @@ def update_item_names_in_letter_advertising_rock_spire_shop(self):
     "We have them at special bargain prices."
   )
   
-  # Letters have 2 spaces at the start of each line, so word wrap to 39 chars instead of 43, then add 2 spaces to each line.
+  # Letters are supposed to have 2 spaces at the start of each line, so word wrap to a reduced width
+  # to account for that, and then add the 2 spaces to each line.
   space_width = self.bfn.get_char_width(" ")
   hint_string = msg.word_wrap_string_part(self.bfn, hint_string, extra_line_length=-2*space_width)
   hint_string = msg.pad_string_to_next_4_lines(hint_string)
