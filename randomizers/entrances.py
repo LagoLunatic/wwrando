@@ -1,6 +1,7 @@
 from dataclasses import dataclass, KW_ONLY
 import re
 from typing import ClassVar
+from collections import defaultdict
 
 from wwlib.dzx import DZx, _2DMA, ACTR, PLYR, SCLS
 from wwlib.events import EventList
@@ -185,7 +186,7 @@ COMBAT_SECRET_CAVE_EXIT_NAMES_WITH_NO_REQUIREMENTS = [
   "Rock Spire Isle Secret Cave",
 ]
 
-ITEM_LOCATION_NAME_TO_EXIT_OVERRIDES = {
+ITEM_LOCATION_NAME_TO_EXIT_OVERRIDES: dict[str, ZoneExit] = {
   "Forbidden Woods - Mothula Miniboss Room"          : ZoneExit["Forbidden Woods Miniboss Arena"],
   "Tower of the Gods - Darknut Miniboss Room"        : ZoneExit["Tower of the Gods Miniboss Arena"],
   "Earth Temple - Stalfos Miniboss Room"             : ZoneExit["Earth Temple Miniboss Arena"],
@@ -207,6 +208,15 @@ ITEM_LOCATION_NAME_TO_EXIT_OVERRIDES = {
 class EntranceRandomizer(BaseRandomizer):
   def __init__(self, rando):
     super().__init__(rando)
+    
+    self.item_location_name_to_zone_exit: dict[str, ZoneExit] = {}
+    self.zone_exit_to_item_location_names: dict[ZoneExit, list[str]] = defaultdict(list)
+    for loc_name in self.logic.item_locations:
+      zone_exit = self.get_zone_exit_for_item_location(loc_name)
+      if zone_exit is None:
+        continue
+      self.item_location_name_to_zone_exit[loc_name] = zone_exit
+      self.zone_exit_to_item_location_names[zone_exit].append(loc_name)
     
     # Default entrances connections to be used if the entrance randomizer is not on.
     self.entrance_connections = {
@@ -462,7 +472,9 @@ class EntranceRandomizer(BaseRandomizer):
         en for en in possible_island_entrances
         if en.island_name != self.safety_entrance.island_name
       ]
-    for i in range(len(banned_zone_exits) - len(banned_zone_entrances)):
+    
+    num_island_entrances_needed = len(banned_zone_exits) - len(banned_zone_entrances)
+    for i in range(num_island_entrances_needed):
       # Note: relevant_entrances is already shuffled, so we can just take the first result from
       # possible_island_entrances and it's the same as picking one randomly.
       banned_island_entrance = possible_island_entrances.pop(0)
@@ -887,6 +899,21 @@ class EntranceRandomizer(BaseRandomizer):
       # on beating dungeon bosses.
       return loc_zone_name
     
+    zone_exit = self.item_location_name_to_zone_exit[location_name]
+    assert zone_exit is not None, f"Could not determine entrance zone for item location: {location_name}"
+    
+    outermost_entrance = self.get_outermost_entrance_for_exit(zone_exit)
+    return outermost_entrance.island_name
+  
+  def get_zone_exit_for_item_location(self, location_name: str):
+    if not self.logic.is_dungeon_or_cave(location_name):
+      return None
+    
+    loc_zone_name, _ = self.logic.split_location_name_by_zone(location_name)
+    
+    if loc_zone_name in ["Hyrule", "Ganon's Tower", "Mailbox"]:
+      return None
+    
     zone_exit = ITEM_LOCATION_NAME_TO_EXIT_OVERRIDES.get(location_name, None)
     
     if zone_exit is None:
@@ -895,10 +922,7 @@ class EntranceRandomizer(BaseRandomizer):
           zone_exit = possible_exit
           break
     
-    assert zone_exit is not None, f"Could not determine entrance zone for item location: {location_name}"
-    
-    outermost_entrance = self.get_outermost_entrance_for_exit(zone_exit)
-    return outermost_entrance.island_name
+    return zone_exit
   
   def get_entrance_zone_for_boss(self, boss_name: str) -> str:
     boss_arena_name = f"{boss_name} Boss Arena"
