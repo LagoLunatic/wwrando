@@ -3,6 +3,6 @@
     "gclib",
   ],
   "qtForPython.uic.options": [
-    "-o", "${resourceDirname}${pathSeparator}ui_${resourceBasenameNoExtension}.py",
+    "-o", "${resourceDirname}${pathSeparator}uic${pathSeparator}ui_${resourceBasenameNoExtension}.py",
   ],
 }
