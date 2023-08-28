@@ -7,7 +7,7 @@ New features:
   * Extra bosses that aren't at the end of a dungeon chain are accessible directly from the sea (e.g. entering Gale Isle and finding Gohma instead of a dungeon).
   * In addition to boss entrances, you can also choose to randomize miniboss entrances (allowing one dungeon to potentially have two other dungeons nested inside of it).
   * You can also choose to mix secret caves with nested dungeons, which can sometimes result in a dungeon's boss door taking you into a Secret Cave instead of a boss.
-  * Secret cave "inner" caves - the pit inside Ice Ring Isle's secret cave and the rear exit out of Cliff Plateau Isles's secret cave - can now also be included in entrance randomization.
+  * Secret cave "inner caves" - the pit inside Ice Ring Isle's secret cave and the rear exit out of Cliff Plateau Isles's secret cave - can now also be included in entrance randomization.
 * You can now bring the three Servants of the Tower to the central room in Tower of the Gods in any order instead of being forced into the linear vanilla order.
 * Customized player colors can now be saved to a file for later use, or shared with other players.
 
@@ -18,7 +18,7 @@ Changes:
 * Adjusted the text of a few hints.
 * Kogoli now appears in the randomizer.
 * The spoiler log now includes hints and Race Mode's required dungeons.
-* Added an advanced "Dry Run" option which generates just the logs for a seed, without the playable ISO. Because no ISO is created, this option can be used to check a seed's item locations on a PC where you don't have the vanilla Wind Waker ISO on hand.
+* Added an advanced "Dry Run" option which generates just the logs for a seed, without the playable ISO. Because no ISO is created, this option can be used to check a seed's item locations on a PC where you don't have a vanilla Wind Waker ISO on hand.
 
 Bug fixes:
 * Fixed the feature introduced in 1.10.0 to customize vanilla Link's hat and tunic colors separately not actually working.
