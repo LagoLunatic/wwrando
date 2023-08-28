@@ -13,7 +13,7 @@
             "justMyCode": true
         },
         {
-            "name": "Debug WWRando",
+            "name": "UI",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/wwrando.py",
@@ -25,7 +25,7 @@
             ],
         },
         {
-            "name": "Debug WWRando (No UI)",
+            "name": "No UI",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/wwrando.py",
@@ -38,7 +38,7 @@
             ],
         },
         {
-            "name": "Debug WWRando (Dry Item Rando)",
+            "name": "Dry",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/wwrando.py",
@@ -52,7 +52,7 @@
             ],
         },
         {
-            "name": "Debug WWRando (No UI) (No item rando)",
+            "name": "No Item Rando",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/wwrando.py",
@@ -66,7 +66,22 @@
             ],
         },
         {
-            "name": "Bulk Test WWRando",
+            "name": "Dry No Item Rando",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/wwrando.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-exportfolder",
+                "-mapselect",
+                "-noui",
+                "-noitemrando",
+                "-dry",
+            ],
+        },
+        {
+            "name": "Bulk Test",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/wwrando.py",
@@ -80,7 +95,7 @@
             ],
         },
         {
-            "name": "Bulk Test WWRando (No item rando)",
+            "name": "Bulk Test, No Item Rando",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/wwrando.py",
@@ -95,7 +110,7 @@
             ],
         },
         {
-            "name": "Profile WWRando (No UI)",
+            "name": "Profile",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/wwrando.py",
