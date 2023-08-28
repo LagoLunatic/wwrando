@@ -656,9 +656,9 @@ class WWRandomizerWindow(QMainWindow):
     elif isinstance(widget, QSpinBox):
       return widget.value()
     elif isinstance(widget, QListView):
-      if widget.model() == None:
+      if widget.model() is None:
         return []
-      model = widget.model();
+      model = widget.model()
       if isinstance(model, ModelFilterOut):
         model = model.sourceModel()
       model.sort(0)
@@ -693,7 +693,7 @@ class WWRandomizerWindow(QMainWindow):
       if not isinstance(new_value, list):
         new_value = self.default_settings[option_name]
       
-      if widget.model() != None:
+      if widget.model() is not None:
         model = widget.model()
         if isinstance(model, QSortFilterProxyModel):
           model = model.sourceModel()
@@ -1073,7 +1073,7 @@ class WWRandomizerWindow(QMainWindow):
     self.set_option_value("randomized_gear", randomized_gear)
     
     compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
-    all_gear = self.get_option_value("starting_gear") + self.get_option_value("randomized_gear");
+    all_gear = self.get_option_value("starting_gear") + self.get_option_value("randomized_gear")
     
     if not compare(all_gear, INVENTORY_ITEMS):
       print("Gear list invalid, resetting")

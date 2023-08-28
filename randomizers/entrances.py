@@ -160,7 +160,7 @@ SECRET_CAVE_INNER_ENTRANCES = [
 ]
 SECRET_CAVE_INNER_EXITS = [
   ZoneExit("ITest62", 0, 0, 0, "Ice Ring Isle Inner Cave"),
-  ZoneExit("sea", 42, 1, 1, "Cliff Plateau Isles Inner Cave")
+  ZoneExit("sea", 42, 1, 1, "Cliff Plateau Isles Inner Cave"),
 ]
 
 

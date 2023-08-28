@@ -57,10 +57,18 @@ class Hint:
         raise NotImplementedError
   
   def __str__(self):
-    return "<HINT: %s, (%s, %s)>" % (self.type.name, self.formatted_place(False), self.formatted_reward(False))
+    return "<HINT: %s, (%s, %s)>" % (
+      self.type.name,
+      self.formatted_place(False),
+      self.formatted_reward(False),
+    )
   
   def __repr__(self):
-    return "Hint(%s, %s, %s)" % (str(self.type), repr(self.place), repr(self.reward))
+    return "Hint(%s, %s, %s)" % (
+      str(self.type),
+      repr(self.place),
+      repr(self.reward),
+    )
 
 
 class HintsRandomizer(BaseRandomizer):

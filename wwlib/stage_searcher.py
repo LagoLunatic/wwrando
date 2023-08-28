@@ -315,7 +315,7 @@ def print_all_used_switches(self):
         ))
         
         for room_arc_path_short, used_switches in used_switches_for_room.items():
-          if room_arc_path_short == None:
+          if room_arc_path_short is None:
             f.write("Stage ID: %02X\n" % stage_id)
           else:
             f.write("Room %s\n" % room_arc_path_short)
@@ -717,7 +717,7 @@ def print_actor_info(self):
         actor_id,
         subtype_index,
         gba_name,
-        rel_filename
+        rel_filename,
       ))
       
       # Alternate dump format as YAML to be read by the randomizer.
@@ -726,7 +726,7 @@ def print_actor_info(self):
       #  rel_filename,
       #  actor_id,
       #  subtype_index,
-      #  gba_name
+      #  gba_name,
       #))
       
       done_actor_ids.append(actor_id)
@@ -736,7 +736,7 @@ def print_actor_info(self):
         # Print nameless actors
         f.write(" [none]:   ID %04X,   Subtype [],   GBAName [],   REL %s\n" % (
           actor_id,
-          rel_filename
+          rel_filename,
         ))
       
 

@@ -204,7 +204,7 @@ def decide_on_link_model(self):
     temp_rng = self.get_new_rng()
     custom_model_name = temp_rng.choice(custom_model_names)
     
-    if custom_model_name == None:
+    if custom_model_name is None:
       return
   
   # Remember what custom model was chosen so code in various places can access the metadata for the proper model.

@@ -130,7 +130,7 @@ class EnemyCategory:
     return "EnemyCategory(%s, SpawnSwitch: %s, DeathSwitch: %s)" % (
       self.category_string,
       self.can_check_switch,
-      self.can_set_switch
+      self.can_set_switch,
     )
   
   def __repr__(self):
