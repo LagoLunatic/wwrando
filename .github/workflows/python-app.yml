@@ -59,6 +59,7 @@ jobs:
           SEED_KEY: ${{ secrets.SEED_KEY }}
           BUILD_KEY: ${{ secrets.BUILD_KEY }}
       - name: Set up Python 3.11
+        id: setup-py
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
@@ -70,7 +71,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ./.venv
-          key: ${{ runner.os }}-venv-${{ hashFiles('**/requirements*.txt') }}
+          key: ${{ runner.os }}-venv-${{ steps.setup-py.outputs.python-version  }}-${{ hashFiles('**/requirements*.txt') }}
       - name: Create venv
         if: steps.cache-venv.outputs.cache-hit != 'true'
         run: |
