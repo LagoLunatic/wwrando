@@ -54,6 +54,7 @@ class Logic:
   
   def __init__(self, rando: WWRandomizer):
     self.rando = rando
+    self.options = rando.options
     
     # Caches.
     self.requirement_met_cache = {}
@@ -99,7 +100,7 @@ class Logic:
     for i in range(1, 41+1):
       self.treasure_chart_names.append("Treasure Chart %d" % i)
     
-    if self.rando.options.get("sword_mode") == "Swordless":
+    if self.options.get("sword_mode") == "Swordless":
       self.all_progress_items = [
         item_name for item_name in self.all_progress_items
         if item_name != "Progressive Sword"
@@ -109,17 +110,17 @@ class Logic:
         if item_name != "Hurricane Spin"
       ]
     
-    if self.rando.options.get("progression_triforce_charts"):
+    if self.options.get("progression_triforce_charts"):
       self.all_progress_items += self.triforce_chart_names
     else:
       self.all_nonprogress_items += self.triforce_chart_names
-    if self.rando.options.get("progression_treasure_charts"):
+    if self.options.get("progression_treasure_charts"):
       self.all_progress_items += self.treasure_chart_names
     else:
       self.all_nonprogress_items += self.treasure_chart_names
     
     # Add dungeon items to the progress/nonprogress items lists.
-    if self.rando.options.get("progression_dungeons"):
+    if self.options.get("progression_dungeons"):
       self.all_progress_items += DUNGEON_PROGRESS_ITEMS
     else:
       self.all_nonprogress_items += DUNGEON_PROGRESS_ITEMS
@@ -269,7 +270,7 @@ class Logic:
     return progress_items
   
   def get_num_progression_locations(self):
-    return Logic.get_num_progression_locations_static(self.item_locations, self.rando.options)
+    return Logic.get_num_progression_locations_static(self.item_locations, self.options)
   
   @staticmethod
   def get_num_progression_locations_static(item_locations, options):
@@ -288,7 +289,7 @@ class Logic:
     return num_progress_locations
 
   def get_max_race_mode_banned_locations(self):
-    if not self.rando.options.get("race_mode"):
+    if not self.options.get("race_mode"):
       return 0
     
     all_locations = self.item_locations.keys()
@@ -320,7 +321,7 @@ class Logic:
     
     dungeon_location_counts = list(location_counts_by_dungeon.values())
     dungeon_location_counts.sort(reverse=True)
-    num_banned_dungeons = 6 - int(self.rando.options.get("num_race_mode_dungeons"))
+    num_banned_dungeons = 6 - int(self.options.get("num_race_mode_dungeons"))
     max_banned_locations = sum(dungeon_location_counts[:num_banned_dungeons])
     
     return max_banned_locations
@@ -337,12 +338,12 @@ class Logic:
       if "Sunken Treasure" in types:
         chart_name = self.chart_name_for_location(location_name)
         if "Triforce Chart" in chart_name:
-          if self.rando.options.get("progression_triforce_charts"):
+          if self.options.get("progression_triforce_charts"):
             progress_locations.append(location_name)
           else:
             nonprogress_locations.append(location_name)
         else:
-          if self.rando.options.get("progression_treasure_charts"):
+          if self.options.get("progression_treasure_charts"):
             progress_locations.append(location_name)
           else:
             nonprogress_locations.append(location_name)
@@ -573,7 +574,7 @@ class Logic:
     return Logic.filter_locations_for_progression_static(
       locations_to_filter,
       self.item_locations,
-      self.rando.options,
+      self.options,
       filter_sunken_treasure=filter_sunken_treasure
     )
   
@@ -641,7 +642,7 @@ class Logic:
     types = self.item_locations[location_name]["Types"]
     
     # Don't allow dungeon items to appear outside their proper dungeon when Key-Lunacy is off.
-    if self.is_dungeon_item(item_name) and not self.rando.options.get("keylunacy"):
+    if self.is_dungeon_item(item_name) and not self.options.get("keylunacy"):
       short_dungeon_name = item_name.split(" ")[0]
       dungeon_name = self.DUNGEON_NAMES[short_dungeon_name]
       if not self.is_dungeon_location(location_name, dungeon_name_to_match=dungeon_name):
@@ -649,7 +650,7 @@ class Logic:
       if "Boss" in types:
         # Don't allow dungeon items to be placed on the dungeon boss.
         return False
-      if "Randomizable Miniboss" in types and self.rando.options.get("randomize_miniboss_entrances"):
+      if "Randomizable Miniboss" in types and self.options.get("randomize_miniboss_entrances"):
         # Don't allow dungeon items to be placed in miniboss rooms when they are randomized.
         return False
     
@@ -826,12 +827,12 @@ class Logic:
       self.temporarily_make_entrance_macros_worst_case_scenario()
     
     filter_sunken_treasure = True
-    if self.rando.options.get("progression_triforce_charts") or self.rando.options.get("progression_treasure_charts"):
+    if self.options.get("progression_triforce_charts") or self.options.get("progression_treasure_charts"):
       filter_sunken_treasure = False
     progress_locations = Logic.filter_locations_for_progression_static(
       self.item_locations.keys(),
       self.item_locations,
-      self.rando.options,
+      self.options,
       filter_sunken_treasure=filter_sunken_treasure
     )
     
@@ -849,9 +850,9 @@ class Logic:
     
     all_progress_items_filtered = []
     for item_name in useful_items:
-      if item_name == "Progressive Sword" and self.rando.options.get("sword_mode") == "Swordless":
+      if item_name == "Progressive Sword" and self.options.get("sword_mode") == "Swordless":
         continue
-      if self.is_dungeon_item(item_name) and not self.rando.options.get("progression_dungeons"):
+      if self.is_dungeon_item(item_name) and not self.options.get("progression_dungeons"):
         continue
       if item_name not in self.all_progress_items:
         if not (item_name.startswith("Triforce Chart ") or item_name.startswith("Treasure Chart")):
@@ -1151,26 +1152,26 @@ class Logic:
     negative_list_match = re.search(r"^Option \"([^\"]+)\" Does Not Contain \"([^\"]+)\"$", req_name)
     if positive_boolean_match:
       option_name = positive_boolean_match.group(1)
-      return not not self.rando.options.get(option_name)
+      return not not self.options.get(option_name)
     elif negative_boolean_match:
       option_name = negative_boolean_match.group(1)
-      return not self.rando.options.get(option_name)
+      return not self.options.get(option_name)
     elif positive_dropdown_match:
       option_name = positive_dropdown_match.group(1)
       value = positive_dropdown_match.group(2)
-      return self.rando.options.get(option_name) == value
+      return self.options.get(option_name) == value
     elif negative_dropdown_match:
       option_name = negative_dropdown_match.group(1)
       value = negative_dropdown_match.group(2)
-      return self.rando.options.get(option_name) != value
+      return self.options.get(option_name) != value
     elif positive_list_match:
       option_name = positive_list_match.group(1)
       value = positive_list_match.group(2)
-      return value in self.rando.options.get(option_name, [])
+      return value in self.options.get(option_name, [])
     elif negative_list_match:
       option_name = negative_list_match.group(1)
       value = negative_list_match.group(2)
-      return value not in self.rando.options.get(option_name, [])
+      return value not in self.options.get(option_name, [])
     else:
       raise Exception("Invalid option check requirement: %s" % req_name)
   
@@ -1242,7 +1243,7 @@ class Logic:
           del max_num_of_each_item_to_check[item_name]
     
     relevant_item_names = list(max_num_of_each_item_to_check.keys())
-    if self.rando.options.get("sword_mode") == "Swordless":
+    if self.options.get("sword_mode") == "Swordless":
       while "Progressive Sword" in relevant_item_names:
         relevant_item_names.remove("Progressive Sword")
       while "Hurricane Spin" in relevant_item_names:
