@@ -344,6 +344,7 @@ class EntranceRandomizer(BaseRandomizer):
         "randomize_miniboss_entrances",
         "randomize_boss_entrances",
         "randomize_secret_cave_inner_entrances",
+        "randomize_fairy_fountain_entrances",
       ]
     )
   
@@ -638,13 +639,14 @@ class EntranceRandomizer(BaseRandomizer):
       # dungeon or a boss, and island entrances usually lead to a cave or dungeon.
       if zone_entrance in BOSS_ENTRANCES:
         zone_exit = self.rando.weighted_choice(self.rng, possible_remaining_exits, [
-          (7, lambda ex: ex in DUNGEON_EXITS),
-          (3, lambda ex: ex in BOSS_EXITS),
+          (10, lambda ex: ex in DUNGEON_EXITS),
+          (5, lambda ex: ex in BOSS_EXITS),
         ])
       elif zone_entrance in MINIBOSS_ENTRANCES:
         zone_exit = self.rando.weighted_choice(self.rng, possible_remaining_exits, [
-          (10, lambda ex: ex in DUNGEON_EXITS),
-          (5, lambda ex: ex in MINIBOSS_EXITS),
+          (12, lambda ex: ex in DUNGEON_EXITS),
+          (6, lambda ex: ex in MINIBOSS_EXITS),
+          (2, lambda ex: ex in FAIRY_FOUNTAIN_EXITS),
         ])
       else:
         zone_exit = self.rando.weighted_choice(self.rng, possible_remaining_exits, [
@@ -859,23 +861,24 @@ class EntranceRandomizer(BaseRandomizer):
     bosses = self.options.get("randomize_boss_entrances")
     secret_caves = self.options.get("randomize_secret_cave_entrances")
     inner_caves = self.options.get("randomize_secret_cave_inner_entrances")
+    fountains = self.options.get("randomize_fairy_fountain_entrances")
     
     mix_entrances = self.options.get("mix_entrances")
     any_dungeons = dungeons or minibosses or bosses
-    any_caves = secret_caves or inner_caves
+    any_non_dungeons = secret_caves or inner_caves or fountains
     
-    if mix_entrances == "Keep Separate" and any_dungeons and any_caves:
+    if mix_entrances == "Separate Dungeons From Caves & Fountains" and any_dungeons and any_non_dungeons:
       yield self.get_one_entrance_set(dungeons=dungeons, minibosses=minibosses, bosses=bosses)
-      yield self.get_one_entrance_set(caves=secret_caves, inner_caves=inner_caves)
-    elif (any_dungeons or any_caves) and mix_entrances in ["Keep Separate", "Mix Together"]:
+      yield self.get_one_entrance_set(caves=secret_caves, inner_caves=inner_caves, fountains=fountains)
+    elif (any_dungeons or any_non_dungeons) and mix_entrances in ["Separate Dungeons From Caves & Fountains", "Mix Dungeons & Caves & Fountains"]:
       yield self.get_one_entrance_set(
         dungeons=dungeons, minibosses=minibosses, bosses=bosses,
-        caves=secret_caves, inner_caves=inner_caves,
+        caves=secret_caves, inner_caves=inner_caves, fountains=fountains,
       )
     else:
       raise Exception("An invalid combination of entrance randomizer options was selected.")
   
-  def get_one_entrance_set(self, *, dungeons=False, caves=False, minibosses=False, bosses=False, inner_caves=False):
+  def get_one_entrance_set(self, *, dungeons=False, caves=False, minibosses=False, bosses=False, inner_caves=False, fountains=False):
     relevant_entrances: list[ZoneEntrance] = []
     relevant_exits: list[ZoneExit] = []
     if dungeons:
@@ -893,6 +896,9 @@ class EntranceRandomizer(BaseRandomizer):
     if inner_caves:
       relevant_entrances += SECRET_CAVE_INNER_ENTRANCES
       relevant_exits += SECRET_CAVE_INNER_EXITS
+    if fountains:
+      relevant_entrances += FAIRY_FOUNTAIN_ENTRANCES
+      relevant_exits += FAIRY_FOUNTAIN_EXITS
     return relevant_entrances, relevant_exits
   
   def get_outermost_entrance_for_exit(self, zone_exit: ZoneExit):

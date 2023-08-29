@@ -85,6 +85,8 @@ OPTIONS = {
     "If this option is enabled with random dungeon entrances, dungeons may nest within each other, forming chains of connected dungeons.",
   "randomize_secret_cave_inner_entrances":
     "Allows the pit in Ice Ring Isle's secret cave and the rear exit out of Cliff Plateau Isles' secret cave to act as entrances to be randomized.",
+  "randomize_fairy_fountain_entrances":
+    "Allows the pits that lead down into Fairy Fountains to act as entrances to be randomized.",
   "randomize_charts":
     "Randomizes which sector is drawn on each Triforce/Treasure Chart.",
   "randomize_starting_island":

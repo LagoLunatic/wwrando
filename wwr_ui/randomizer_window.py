@@ -1047,14 +1047,15 @@ class WWRandomizerWindow(QMainWindow):
         "randomize_boss_entrances",
       ]
     )
-    cave_entrances_random = any(
+    non_dungeon_entrances_random = any(
       self.get_option_value(option_name)
       for option_name in [
         "randomize_secret_cave_entrances",
         "randomize_secret_cave_inner_entrances",
+        "randomize_fairy_fountain_entrances",
       ]
     )
-    if not (dungeon_entrances_random and cave_entrances_random):
+    if not (dungeon_entrances_random and non_dungeon_entrances_random):
       should_enable_options["mix_entrances"] = False
     
     self.filtered_rgear.setFilterStrings(items_to_filter_out)
