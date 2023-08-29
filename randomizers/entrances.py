@@ -47,8 +47,8 @@ class ZoneExit:
   zone_name: str = None
   # If zone_name is specified, this exit will assume by default that it owns all item locations in
   # that zone which are behind randomizable entrances. If a single zone has multiple randomizable
-  # entrances, only one of them at most can use zone_name. The rest must use be explicitly specified
-  # for each item location using ITEM_LOCATION_NAME_TO_EXIT_OVERRIDES.
+  # entrances, only one of them at most can use zone_name. The rest must have their item locations
+  # explicitly specified using ITEM_LOCATION_NAME_TO_EXIT_OVERRIDES.
   
   def __repr__(self):
     return f"ZoneExit('{self.unique_name}')"
@@ -934,8 +934,11 @@ class EntranceRandomizer(BaseRandomizer):
     loc_zone_name, _ = self.logic.split_location_name_by_zone(location_name)
     if loc_zone_name in ["Hyrule", "Ganon's Tower", "Mailbox"]:
       # Hyrule, Ganon's Tower, and the handful of Mailbox locations that depend on beating dungeon
-      # bosses are considered to be "Dungeon" location types by the logic, but they are not related
-      # to entrance randomizer at all.
+      # bosses are considered to be "Dungeon" location types by the logic, but entrance randomizer
+      # does not need to take them into account.
+      # Although the mail locations are technically locked behind dungeons, we can still ignore them
+      # here because if all of the locations in the dungeon itself are nonprogress, then any mail
+      # depending on that dungeon should also be enforced as nonprogress by other parts of the code.
       return False
     
     types = self.logic.item_locations[location_name]["Types"]
