@@ -79,10 +79,10 @@ OPTIONS = {
     "'Mix Together' allows dungeon entrances to lead into secret caves and vice versa.",
   "randomize_miniboss_entrances":
     "Allows dungeon miniboss doors to act as entrances to be randomized.<br>"
-    "If this option is enabled with random dungeon entrances, dungeons can potentially nest within each other, forming chains of connected dungeons.",
+    "If this option is enabled with random dungeon entrances, dungeons may nest within each other, forming chains of connected dungeons.",
   "randomize_boss_entrances":
     "Allows dungeon boss doors to act as entrances to be randomized.<br>"
-    "If this option is enabled with random dungeon entrances, dungeons can potentially nest within each other, forming chains of connected dungeons.",
+    "If this option is enabled with random dungeon entrances, dungeons may nest within each other, forming chains of connected dungeons.",
   "randomize_secret_cave_inner_entrances":
     "Allows the pit in Ice Ring Isle's secret cave and the rear exit out of Cliff Plateau Isles' secret cave to act as entrances to be randomized.",
   "randomize_charts":
@@ -90,16 +90,15 @@ OPTIONS = {
   "randomize_starting_island":
     "Randomizes which island you start the game on.",
   "chest_type_matches_contents":
-    "Changes the chest type to reflect its contents. A metal chest has a progress item, a key chest has a dungeon key, and a wooden chest has a non-progress item or a consumable.<br>"
-    "Key chests are dark wood chests that use a custom texture based on Big Key chests. Keys for non-required dungeons in race mode will be in wooden chests.",
+    "Changes the chest type to reflect its contents. A metal chest has a progress item, a wooden chest has a non-progress item or a consumable, and a green chest has a potentially required dungeon key.",
   "fishmen_hints":
     "Places hints on the fishmen. There is one fishman at each of the 49 islands of the Great Sea. Each fishman must be fed an All-Purpose Bait before he will give a hint.",
   "hoho_hints":
-    "Places hints on Old Man Ho Ho. Old Man Ho Ho appears at 10 different islands in the game. Simply talk to Old Man Ho Ho to get hints.",
+    "Places hints on Old Man Ho Ho. Old Man Ho Ho appears at 10 different islands in the game. Talk to Old Man Ho Ho to get hints.",
   "korl_hints":
     "Places hints on the King of Red Lions. Talk to the King of Red Lions to get hints.",
   "num_path_hints":
-    "The number of path hints that will be placed. Path hints tell you that an area contains an item that is logically required to reach a particular goal in this seed.<br>"
+    "The number of path hints that will be placed. Path hints tell you that an area contains an item that is required to reach a particular goal in this seed.<br>"
     "If multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
   "num_barren_hints":
     "The number of barren hints that will be placed. Barren hints tell you that an area does not contain any required items in this seed.<br>"
@@ -108,7 +107,7 @@ OPTIONS = {
     "The number of location hints that will be placed. Location hints tell you what item is at a specific location in this seed.<br>"
     "If multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
   "num_item_hints":
-    "The number of item hints that will be placed. Item hints tell you which area contains a particular progression item in this seed.<br>"
+    "The number of item hints that will be placed. Item hints tell you which area contains a particular progress item in this seed.<br>"
     "If multiple hint placement options are selected, the hint count will be split evenly among the placement options.",
   "cryptic_hints":
     "When this option is selected, all hints will be phrased cryptically instead of telling you the names of locations and items directly.",
@@ -124,7 +123,7 @@ OPTIONS = {
     "Start the game with the sea chart fully drawn out.",
   "num_starting_triforce_shards":
     "Change the number of Triforce Shards you start the game with.<br>"
-    "The higher you set this, the fewer you will need to find placed randomly.",
+    "The higher you set this, the fewer you will need to find placed randomly to beat the game.",
   "add_shortcut_warps_between_dungeons":
     "Adds new warp pots that act as shortcuts connecting dungeons to each other directly. (DRC, FW, TotG, and separately FF, ET, WT.)<br>"
     "Each pot must be unlocked before it can be used, so you cannot use them to access dungeons you wouldn't already have access to.",
@@ -133,7 +132,7 @@ OPTIONS = {
     "<u>Generating a spoiler log is highly recommended even if you don't intend to use it</u>, just in case you get completely stuck.",
   "sword_mode":
     "Controls whether you start with the Hero's Sword, the Hero's Sword is randomized, or if there are no swords in the entire game.<br>"
-    "Swordless and No Starting Sword are challenge modes, not recommended for your first run. Also, FF's Phantom Ganon is vulnerable to Skull Hammer in Swordless mode only.",
+    "Swordless and No Starting Sword are challenge modes. (For Swordless, Phantom Ganon at FF is vulnerable to Skull Hammer.)",
   "skip_rematch_bosses":
     "Removes the door in Ganon's Tower that only unlocks when you defeat the rematch versions of Gohma, Kalle Demos, Jalhalla, and Molgera.",
   "invert_camera_x_axis":
@@ -141,17 +140,17 @@ OPTIONS = {
   "invert_sea_compass_x_axis":
     "Inverts the east-west direction of the compass that shows while at sea.",
   "race_mode":
-    "In Race Mode, certain randomly chosen dungeon bosses will drop required items (e.g. Triforce Shards). Nothing in the other dungeons will ever be required.<br>"
+    "In Race Mode, certain randomly chosen dungeon bosses will drop guaranteed required items. Nothing in the other dungeons will ever be required.<br>"
     "You can see which islands have the required dungeons on them by opening the sea chart and checking which islands have blue quest markers.",
   "num_race_mode_dungeons":
     "Select the number of dungeons that are required in Race Mode.<br>"
-    "Required dungeon bosses will drop required items (e.g. Triforce Shards). Nothing in the other dungeons will ever be required.",
+    "Required dungeon bosses will drop guaranteed required items. Nothing in the other dungeons will ever be required.",
   # "randomize_music":
   #   "Shuffles around all the music in the game. This affects background music, combat music, fanfares, etc.",
   "randomize_enemy_palettes":
     "Gives all the enemies in the game random colors.",
   "remove_title_and_ending_videos":
-    "Removes the two prerendered videos that play if you wait on the title screen and after you beat the game. (Decreases randomized ISO's filesize by about 600MB.)<br>"
+    "Removes the two prerendered videos that play if you wait on the title screen and after you beat the game. (This cuts the ISO's filesize in half.)<br>"
     "If you keep these videos in, they won't reflect your custom player model or colors.",
   
   "custom_player_model":
@@ -160,9 +159,9 @@ OPTIONS = {
   "player_in_casual_clothes":
     "Enable this if you want to wear your casual clothes instead of the Hero's Clothes.",
   "disable_custom_player_voice":
-    "If the chosen custom model comes with custom voice files, you can check this option to turn them off and simply use Link's normal voice instead.",
+    "If the chosen custom model comes with custom voice files, you can check this option to turn them off and use Link's normal voice instead.",
   "disable_custom_player_items":
-    "If the chosen custom model comes with custom item models, you can check this option to turn them off and simply use Link's normal item models instead.",
+    "If the chosen custom model comes with custom item models, you can check this option to turn them off and use Link's normal item models instead.",
   "custom_color_preset":
     "This allows you to select from preset color combinations chosen by the author of the selected player model.",
   "randomized_gear":
