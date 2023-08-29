@@ -37,14 +37,14 @@ class EventList(GCLibFile):
         raise Exception("Duplicate event name: %s" % event.name)
       self.events_by_name[event.name] = event
     
-    all_actors = []
+    all_actors: list[Actor] = []
     for actor_index in range(0, num_actors):
       offset = actor_list_offset + actor_index * Actor.DATA_SIZE
       actor = Actor(self)
       actor.read(offset)
       all_actors.append(actor)
     
-    all_actions = []
+    all_actions: list[Action] = []
     for action_index in range(0, num_actions):
       offset = action_list_offset + action_index * Action.DATA_SIZE
       action = Action(self)
@@ -75,7 +75,7 @@ class EventList(GCLibFile):
         actor.actions.append(next_action)
         action = next_action
     
-    all_properties = []
+    all_properties: list[Property] = []
     for property_index in range(0, num_properties):
       offset = property_list_offset + property_index * Property.DATA_SIZE
       property = Property(self)
@@ -95,19 +95,19 @@ class EventList(GCLibFile):
         action.properties.append(next_property)
         property = next_property
     
-    all_floats = []
+    all_floats: list[float] = []
     for float_index in range(0, num_floats):
       offset = self.float_list_offset + float_index * 4
       float_val = fs.read_float(self.data, offset)
       all_floats.append(float_val)
     
-    all_integers = []
+    all_integers: list[int] = []
     for integer_index in range(0, num_integers):
       offset = self.integer_list_offset + integer_index * 4
       integer = fs.read_s32(self.data, offset)
       all_integers.append(integer)
     
-    all_strings_by_offset = {}
+    all_strings_by_offset: dict[int, str] = {}
     offset = self.string_list_offset
     while offset < self.string_list_offset+string_list_total_size:
       string = fs.read_str_until_null_character(self.data, offset)

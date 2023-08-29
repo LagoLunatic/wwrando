@@ -617,7 +617,7 @@ class RTBL_SubEntry:
     self.unknown = fs.read_u8(self.data, offset+3)
     
     self.adjacent_rooms_list_offset = fs.read_u32(self.data, offset+4)
-    self.adjacent_rooms = []
+    self.adjacent_rooms: list[RTBL_AdjacentRoom] = []
     for i in range(num_rooms):
       adjacent_room = RTBL_AdjacentRoom(self.data)
       adjacent_room.read(self.adjacent_rooms_list_offset + i)
