@@ -63,10 +63,7 @@ Outset Island - Orca - Hit 500 Times:
 #  Paths:
 #    - rels/d_a_npc_ji1.rel@42EF
 Outset Island - Great Fairy:
-  Need:
-    Can Cut Down Outset Trees
-    & Can Fly With Deku Leaf Outdoors
-    & Can Move Boulders
+  Need: Can Access Outset Fairy Fountain
   Original item: 5000 Rupee Wallet
   Types: Great Fairy
   Paths:
@@ -2113,7 +2110,7 @@ Pawprint Isle - Lookout Platform - Defeat the Enemies:
     - sea/Room12.arc/Chest000
 
 Thorned Fairy Island - Great Fairy:
-  Need: Skull Hammer
+  Need: Can Access Thorned Fairy Fountain
   Original item: 99 Arrow Quiver
   Types: Great Fairy
   Paths:
@@ -2133,7 +2130,7 @@ Thorned Fairy Island - Southwestern Lookout Platform - Defeat the Enemies:
     - sea/Room28.arc/Chest001
 
 Eastern Fairy Island - Great Fairy:
-  Need: Can Move Boulders
+  Need: Can Access Eastern Fairy Fountain
   Original item: 60 Bomb Bomb Bag
   Types: Great Fairy
   Paths:
@@ -2147,7 +2144,7 @@ Eastern Fairy Island - Lookout Platform - Defeat the Cannons and Enemies:
     - sea/Room19.arc/Chest000
 
 Western Fairy Island - Great Fairy:
-  Need: Skull Hammer
+  Need: Can Access Western Fairy Fountain
   Original item: 60 Arrow Quiver
   Types: Great Fairy
   Paths:
@@ -2160,7 +2157,7 @@ Western Fairy Island - Lookout Platform:
     - sea/Room15.arc/Chest000
 
 Southern Fairy Island - Great Fairy:
-  Need: Bombs | Fire Arrows # Can either blow up or burn the blockade
+  Need: Can Access Southern Fairy Fountain
   Original item: 99 Bomb Bomb Bag
   Types: Great Fairy
   Paths:
@@ -2183,7 +2180,7 @@ Southern Fairy Island - Lookout Platform - Destroy the Southeast Cannons:
     - sea/Room39.arc/Chest001
 
 Northern Fairy Island - Great Fairy:
-  Need: Nothing
+  Need: Can Access Northern Fairy Fountain
   Original item: 1000 Rupee Wallet
   Types: Great Fairy
   Paths:

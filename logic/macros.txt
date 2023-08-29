@@ -97,6 +97,10 @@ Tingle Tuner Bombs:
   Bombs
   # Note: If an option to require Tingle Tuner is added, this macro should have Bombs replaced with Tingle Tuner when that option is on.
 
+Can Access Forest of Fairies:
+  Can Cut Down Outset Trees
+  & Can Fly With Deku Leaf Outdoors
+
 Can Reach Tower of the Gods Second Floor:
   Can Access Tower of the Gods
   & Bombs
@@ -148,8 +152,7 @@ Can Access Dungeon Entrance on Headstone Island:
 Can Access Dungeon Entrance on Gale Isle:
   Iron Boots & Skull Hammer
 
-# The below macros are used when dungeon entrances are not randomized.
-# When dungeon entrances are randomized, these macros are shuffled around by the randomizer logic.
+# The below macros are automatically updated by the entrance randomizer.
 Can Access Dragon Roost Cavern:
   Can Access Dungeon Entrance on Dragon Roost Island
 Can Access Forbidden Woods:
@@ -195,6 +198,7 @@ Can Access Miniboss Entrance in Wind Temple:
   )
   & WT Small Key x2
 
+# The below macros are automatically updated by the entrance randomizer.
 Can Access Forbidden Woods Miniboss Arena:
   Can Access Miniboss Entrance in Forbidden Woods
 Can Access Tower of the Gods Miniboss Arena:
@@ -251,6 +255,7 @@ Can Access Boss Entrance in Wind Temple:
   & Can Play Wind God's Aria
   & WT Big Key
 
+# The below macros are automatically updated by the entrance randomizer.
 Can Access Gohma Boss Arena:
   Can Access Boss Entrance in Dragon Roost Cavern
 Can Access Kalle Demos Boss Arena:
@@ -317,8 +322,7 @@ Can Access Secret Cave Entrance on Horseshoe Island:
 Can Access Secret Cave Entrance on Star Island:
   Can Move Boulders
 
-# The below macros are used when secret cave entrances are not randomized.
-# When secret cave entrances are randomized, these macros are shuffled around by the randomizer logic.
+# The below macros are automatically updated by the entrance randomizer.
 Can Access Savage Labyrinth:
   Can Access Secret Cave Entrance on Outset Island
 Can Access Dragon Roost Island Secret Cave:
@@ -368,10 +372,41 @@ Can Access Inner Entrance in Cliff Plateau Isles Secret Cave:
   & Can Defeat Boko Babas
   & Can Fly With Deku Leaf Indoors
 
+# The below macros are automatically updated by the entrance randomizer.
 Can Access Ice Ring Isle Inner Cave:
   Can Access Inner Entrance in Ice Ring Isle Secret Cave
 Can Access Cliff Plateau Isles Inner Cave:
   Can Access Inner Entrance in Cliff Plateau Isles Secret Cave
+
+Can Access Fairy Fountain Entrance on Outset Island:
+  Can Access Forest of Fairies
+  & Can Move Boulders
+Can Access Fairy Fountain Entrance on Thorned Fairy Island:
+  Skull Hammer
+Can Access Fairy Fountain Entrance on Eastern Fairy Island:
+  Can Move Boulders
+Can Access Fairy Fountain Entrance on Western Fairy Island:
+  Skull Hammer
+Can Access Fairy Fountain Entrance on Southern Fairy Island:
+  Bombs
+  | Fire Arrows
+  # Can either blow up or burn the blockade.
+Can Access Fairy Fountain Entrance on Northern Fairy Island:
+  Nothing
+
+# The below macros are automatically updated by the entrance randomizer.
+Can Access Outset Fairy Fountain:
+  Can Access Fairy Fountain Entrance on Outset Island
+Can Access Thorned Fairy Fountain:
+  Can Access Fairy Fountain Entrance on Thorned Fairy Island
+Can Access Eastern Fairy Fountain:
+  Can Access Fairy Fountain Entrance on Eastern Fairy Island
+Can Access Western Fairy Fountain:
+  Can Access Fairy Fountain Entrance on Western Fairy Island
+Can Access Southern Fairy Fountain:
+  Can Access Fairy Fountain Entrance on Southern Fairy Island
+Can Access Northern Fairy Fountain:
+  Can Access Fairy Fountain Entrance on Northern Fairy Island
 
 Can Get Past Forsaken Fortress Gate:
   Bombs
@@ -874,8 +909,7 @@ Can Sword Fight with Orca:
   | In Swordless Mode
   # Swordless gives you a sword temporarily while in Orca's house, so you don't need to have found a sword item.
 
-# The below macros are used when charts are not randomized.
-# When charts are randomized, these macros are shuffled around by the randomizer logic.
+# The below macros are automatically updated by the chart randomizer.
 Chart for Island 1: Treasure Chart 25
 Chart for Island 2: Treasure Chart 7
 Chart for Island 3: Treasure Chart 24

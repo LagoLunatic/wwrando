@@ -45,6 +45,10 @@ class ZoneExit:
   _: KW_ONLY
   boss_stage_name: str = None
   zone_name: str = None
+  # If zone_name is specified, this exit will assume by default that it owns all item locations in
+  # that zone which are behind randomizable entrances. If a single zone has multiple randomizable
+  # entrances, only one of them at most can use zone_name. The rest must use be explicitly specified
+  # for each item location using ITEM_LOCATION_NAME_TO_EXIT_OVERRIDES.
   
   def __repr__(self):
     return f"ZoneExit('{self.unique_name}')"
@@ -158,6 +162,23 @@ SECRET_CAVE_INNER_EXITS = [
   ZoneExit("sea", 42, 1, 1, "Cliff Plateau Isles Inner Cave"),
 ]
 
+FAIRY_FOUNTAIN_ENTRANCES = [
+  ZoneEntrance("A_mori", 0, 1, 2, "Fairy Fountain Entrance on Outset Island", "Outset Island", "A_mori", 0, 2),
+  ZoneEntrance("sea", 28, 0, 1, "Fairy Fountain Entrance on Thorned Fairy Island", "Thorned Fairy Island", "sea", 28, 1),
+  ZoneEntrance("sea", 19, 0, 1, "Fairy Fountain Entrance on Eastern Fairy Island", "Eastern Fairy Island", "sea", 19, 1),
+  ZoneEntrance("sea", 15, 0, 1, "Fairy Fountain Entrance on Western Fairy Island", "Western Fairy Island", "sea", 15, 1),
+  ZoneEntrance("sea", 39, 0, 1, "Fairy Fountain Entrance on Southern Fairy Island", "Southern Fairy Island", "sea", 39, 1),
+  ZoneEntrance("sea", 3, 0, 1, "Fairy Fountain Entrance on Northern Fairy Island", "Northern Fairy Island", "sea", 3, 1),
+]
+FAIRY_FOUNTAIN_EXITS = [
+  ZoneExit("Fairy04", 0, 0, 0, "Outset Fairy Fountain"),
+  ZoneExit("Fairy05", 0, 0, 0, "Thorned Fairy Fountain", zone_name="Thorned Fairy Island"),
+  ZoneExit("Fairy02", 0, 0, 0, "Eastern Fairy Fountain", zone_name="Eastern Fairy Island"),
+  ZoneExit("Fairy03", 0, 0, 0, "Western Fairy Fountain", zone_name="Western Fairy Island"),
+  ZoneExit("Fairy06", 0, 0, 0, "Southern Fairy Fountain", zone_name="Southern Fairy Island"),
+  ZoneExit("Fairy01", 0, 0, 0, "Northern Fairy Fountain", zone_name="Northern Fairy Island"),
+]
+
 
 DUNGEON_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS = [
   "Dungeon Entrance on Dragon Roost Island",
@@ -185,6 +206,7 @@ ENTRANCE_RANDOMIZABLE_ITEM_LOCATION_TYPES = [
   "Puzzle Secret Cave",
   "Combat Secret Cave",
   "Savage Labyrinth",
+  "Great Fairy",
 ]
 ITEM_LOCATION_NAME_TO_EXIT_OVERRIDES = {
   "Forbidden Woods - Mothula Miniboss Room"          : ZoneExit.all["Forbidden Woods Miniboss Arena"],
@@ -203,6 +225,8 @@ ITEM_LOCATION_NAME_TO_EXIT_OVERRIDES = {
   
   "Ice Ring Isle - Inner Cave - Chest"               : ZoneExit.all["Ice Ring Isle Inner Cave"],
   "Cliff Plateau Isles - Highest Isle"               : ZoneExit.all["Cliff Plateau Isles Inner Cave"],
+  
+  "Outset Island - Great Fairy"                      : ZoneExit.all["Outset Fairy Fountain"],
 }
 
 class EntranceRandomizer(BaseRandomizer):
@@ -262,6 +286,13 @@ class EntranceRandomizer(BaseRandomizer):
       
       "Inner Entrance in Ice Ring Isle Secret Cave": "Ice Ring Isle Inner Cave",
       "Inner Entrance in Cliff Plateau Isles Secret Cave": "Cliff Plateau Isles Inner Cave",
+      
+      "Fairy Fountain Entrance on Outset Island": "Outset Fairy Fountain",
+      "Fairy Fountain Entrance on Thorned Fairy Island": "Thorned Fairy Fountain",
+      "Fairy Fountain Entrance on Eastern Fairy Island": "Eastern Fairy Fountain",
+      "Fairy Fountain Entrance on Western Fairy Island": "Western Fairy Fountain",
+      "Fairy Fountain Entrance on Southern Fairy Island": "Southern Fairy Fountain",
+      "Fairy Fountain Entrance on Northern Fairy Island": "Northern Fairy Fountain",
     }
     
     self.done_entrances_to_exits: dict[ZoneEntrance, ZoneExit] = {}
@@ -450,7 +481,7 @@ class EntranceRandomizer(BaseRandomizer):
     nonprogress_exits = []
     for ex in relevant_exits:
       locs_for_exit = self.zone_exit_to_item_location_names[ex]
-      assert locs_for_exit
+      assert locs_for_exit, f"Could not find any item locations corresponding to zone exit: {ex.unique_name}"
       # Banned race mode dungeons still technically count as progress locations, so filter them out
       # separately first.
       nonbanned_locs = [
@@ -673,6 +704,7 @@ class EntranceRandomizer(BaseRandomizer):
   def update_all_boss_warp_out_destinations(self):
     for boss_exit in BOSS_EXITS:
       outermost_entrance = self.get_outermost_entrance_for_exit(boss_exit)
+      assert outermost_entrance.warp_out_spawn_id is not None
       if boss_exit.unique_name == "Helmaroc King Boss Arena":
         # Special case, does not have a warp out event, just an exit.
         self.update_helmaroc_king_arena_ganon_door(boss_exit, outermost_entrance)
@@ -906,6 +938,11 @@ class EntranceRandomizer(BaseRandomizer):
       # Special case. FF is a dungeon that is not randomized, except for the boss arena.
       return False
     
+    is_big_octo = "Big Octo" in types
+    if is_big_octo:
+      # The Big Octo Great Fairy is the only Great Fairy location that is not also a Fairy Fountain.
+      return False
+    
     # In the general case we check if the location has a type corresponding to exits that can be
     # randomized.
     if any(t in ENTRANCE_RANDOMIZABLE_ITEM_LOCATION_TYPES for t in types):
@@ -935,15 +972,17 @@ class EntranceRandomizer(BaseRandomizer):
       return None
     
     zone_exit = ITEM_LOCATION_NAME_TO_EXIT_OVERRIDES.get(location_name, None)
+    if zone_exit is not None:
+      return zone_exit
     
-    if zone_exit is None:
-      loc_zone_name, _ = self.logic.split_location_name_by_zone(location_name)
-      for possible_exit in ZoneExit.all.values():
-        if possible_exit.zone_name == loc_zone_name:
-          zone_exit = possible_exit
-          break
-    
-    return zone_exit
+    loc_zone_name, _ = self.logic.split_location_name_by_zone(location_name)
+    possible_exits = [ex for ex in ZoneExit.all.values() if ex.zone_name == loc_zone_name]
+    if len(possible_exits) == 0:
+      return None
+    elif len(possible_exits) == 1:
+      return possible_exits[0]
+    else:
+      raise Exception(f"Multiple zone exits share the same zone name: {loc_zone_name!r}. Use a location exit override instead.")
   
   def get_entrance_zone_for_boss(self, boss_name: str) -> str:
     boss_arena_name = f"{boss_name} Boss Arena"
