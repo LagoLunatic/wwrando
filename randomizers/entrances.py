@@ -180,6 +180,12 @@ COMBAT_SECRET_CAVE_EXIT_NAMES_WITH_NO_REQUIREMENTS = [
   "Rock Spire Isle Secret Cave",
 ]
 
+ENTRANCE_RANDOMIZABLE_ITEM_LOCATION_TYPES = [
+  "Dungeon",
+  "Puzzle Secret Cave",
+  "Combat Secret Cave",
+  "Savage Labyrinth",
+]
 ITEM_LOCATION_NAME_TO_EXIT_OVERRIDES = {
   "Forbidden Woods - Mothula Miniboss Room"          : ZoneExit.all["Forbidden Woods Miniboss Arena"],
   "Tower of the Gods - Darknut Miniboss Room"        : ZoneExit.all["Tower of the Gods Miniboss Arena"],
@@ -886,6 +892,27 @@ class EntranceRandomizer(BaseRandomizer):
     seen_entrances.append(zone_entrance)
     return seen_entrances
   
+  def is_item_location_behind_randomizable_entrance(self, location_name):
+    loc_zone_name, _ = self.logic.split_location_name_by_zone(location_name)
+    if loc_zone_name in ["Hyrule", "Ganon's Tower", "Mailbox"]:
+      # Hyrule, Ganon's Tower, and the handful of Mailbox locations that depend on beating dungeon
+      # bosses are considered to be "Dungeon" location types by the logic, but they are not related
+      # to entrance randomizer at all.
+      return False
+    
+    types = self.logic.item_locations[location_name]["Types"]
+    is_boss = "Boss" in types
+    if loc_zone_name == "Forsaken Fortress" and not is_boss:
+      # Special case. FF is a dungeon that is not randomized, except for the boss arena.
+      return False
+    
+    # In the general case we check if the location has a type corresponding to exits that can be
+    # randomized.
+    if any(t in ENTRANCE_RANDOMIZABLE_ITEM_LOCATION_TYPES for t in types):
+      return True
+      
+    return False
+  
   def get_entrance_zone_for_item_location(self, location_name: str) -> str:
     # Helper function to return the entrance zone name for the location.
     # For non-dungeon and non-cave locations, the entrance zone name is simply the zone/island name.
@@ -894,17 +921,7 @@ class EntranceRandomizer(BaseRandomizer):
     
     loc_zone_name, _ = self.logic.split_location_name_by_zone(location_name)
     
-    if not self.logic.is_dungeon_or_cave(location_name):
-      return loc_zone_name
-    
-    if loc_zone_name in ["Hyrule", "Ganon's Tower", "Mailbox"]:
-      # Some extra locations that are considered dungeon locations by the logic but are not part of
-      # entrance randomizer. Hyrule, Ganon's Tower, and the handful of Mailbox locations that depend
-      # on beating dungeon bosses.
-      return loc_zone_name
-    
-    if loc_zone_name == "Forsaken Fortress" and location_name not in self.item_location_name_to_zone_exit:
-      # Special case. FF is a dungeon that is not randomized, except for the boss arena.
+    if not self.is_item_location_behind_randomizable_entrance(location_name):
       return loc_zone_name
     
     zone_exit = self.item_location_name_to_zone_exit[location_name]
@@ -914,17 +931,13 @@ class EntranceRandomizer(BaseRandomizer):
     return outermost_entrance.island_name
   
   def get_zone_exit_for_item_location(self, location_name: str):
-    if not self.logic.is_dungeon_or_cave(location_name):
-      return None
-    
-    loc_zone_name, _ = self.logic.split_location_name_by_zone(location_name)
-    
-    if loc_zone_name in ["Hyrule", "Ganon's Tower", "Mailbox"]:
+    if not self.is_item_location_behind_randomizable_entrance(location_name):
       return None
     
     zone_exit = ITEM_LOCATION_NAME_TO_EXIT_OVERRIDES.get(location_name, None)
     
     if zone_exit is None:
+      loc_zone_name, _ = self.logic.split_location_name_by_zone(location_name)
       for possible_exit in ZoneExit.all.values():
         if possible_exit.zone_name == loc_zone_name:
           zone_exit = possible_exit
