@@ -58,7 +58,7 @@ DUNGEON_ENTRANCES = [
   ZoneEntrance("Adanmae", 0, 2, 2, "Dungeon Entrance on Dragon Roost Island", "Dragon Roost Island", "sea", 13, 211),
   ZoneEntrance("sea", 41, 6, 6, "Dungeon Entrance in Forest Haven Sector", "Forest Haven", "Omori", 0, 215),
   ZoneEntrance("sea", 26, 0, 2, "Dungeon Entrance in Tower of the Gods Sector", "Tower of the Gods Sector", "sea", 26, 1),
-  ZoneEntrance("sea", 1, None, None, "Dungeon Entrance in Forsaken Fortress Sector", "Forsaken Fortress Sector", "sea", 1, 0),
+  # ZoneEntrance("sea", 1, None, None, "Dungeon Entrance in Forsaken Fortress Sector", "Forsaken Fortress Sector", "sea", 1, 0),
   ZoneEntrance("Edaichi", 0, 0, 1, "Dungeon Entrance on Headstone Island", "Headstone Island", "sea", 45, 229),
   ZoneEntrance("Ekaze", 0, 0, 1, "Dungeon Entrance on Gale Isle", "Gale Isle", "sea", 4, 232),
 ]
@@ -66,7 +66,7 @@ DUNGEON_EXITS = [
   ZoneExit("M_NewD2", 0, 0, 0, "Dragon Roost Cavern", boss_stage_name="M_DragB", zone_name="Dragon Roost Cavern"),
   ZoneExit("kindan", 0, 0, 0, "Forbidden Woods", boss_stage_name="kinBOSS", zone_name="Forbidden Woods"),
   ZoneExit("Siren", 0, 1, 0, "Tower of the Gods", boss_stage_name="SirenB", zone_name="Tower of the Gods"),
-  ZoneExit("sea", 1, None, None, "Forsaken Fortress", boss_stage_name="M2tower", zone_name="Forsaken Fortress"),
+  # ZoneExit("sea", 1, None, None, "Forsaken Fortress", boss_stage_name="M2tower", zone_name="Forsaken Fortress"),
   ZoneExit("M_Dai", 0, 0, 0, "Earth Temple", boss_stage_name="M_DaiB", zone_name="Earth Temple"),
   ZoneExit("kaze", 15, 0, 15, "Wind Temple", boss_stage_name="kazeB", zone_name="Wind Temple"),
 ]
@@ -88,7 +88,7 @@ BOSS_ENTRANCES = [
   ZoneEntrance("M_NewD2", 10, 1, 27, "Boss Entrance in Dragon Roost Cavern", nested_in=ZoneExit.all["Dragon Roost Cavern"]),
   ZoneEntrance("kindan", 16, 0, 1, "Boss Entrance in Forbidden Woods", nested_in=ZoneExit.all["Forbidden Woods"]),
   ZoneEntrance("Siren", 18, 0, 27, "Boss Entrance in Tower of the Gods", nested_in=ZoneExit.all["Tower of the Gods"]),
-  ZoneEntrance("sea", 1, 16, 27, "Boss Entrance in Forsaken Fortress", nested_in=ZoneExit.all["Forsaken Fortress"]),
+  ZoneEntrance("sea", 1, 16, 27, "Boss Entrance in Forsaken Fortress", "Forsaken Fortress Sector", "sea", 1, 0),
   ZoneEntrance("M_Dai", 15, 0, 27, "Boss Entrance in Earth Temple", nested_in=ZoneExit.all["Earth Temple"]),
   ZoneEntrance("kaze", 12, 0, 27, "Boss Entrance in Wind Temple", nested_in=ZoneExit.all["Wind Temple"]),
 ]
@@ -217,7 +217,7 @@ class EntranceRandomizer(BaseRandomizer):
       "Dungeon Entrance on Dragon Roost Island": "Dragon Roost Cavern",
       "Dungeon Entrance in Forest Haven Sector": "Forbidden Woods",
       "Dungeon Entrance in Tower of the Gods Sector": "Tower of the Gods",
-      "Dungeon Entrance in Forsaken Fortress Sector": "Forsaken Fortress",
+      # "Dungeon Entrance in Forsaken Fortress Sector": "Forsaken Fortress",
       "Dungeon Entrance on Headstone Island": "Earth Temple",
       "Dungeon Entrance on Gale Isle": "Wind Temple",
       
@@ -483,6 +483,8 @@ class EntranceRandomizer(BaseRandomizer):
         ]
     
     num_island_entrances_needed = len(nonprogress_exits) - len(nonprogress_entrances)
+    if num_island_entrances_needed > len(possible_island_entrances):
+      raise Exception("Not enough island entrances left to split entrances.")
     for i in range(num_island_entrances_needed):
       # Note: relevant_entrances is already shuffled, so we can just take the first result from
       # possible_island_entrances and it's the same as picking one randomly.
@@ -622,13 +624,6 @@ class EntranceRandomizer(BaseRandomizer):
         self.islands_with_a_banned_dungeon.append(zone_entrance.island_name)
   
   def finalize_all_randomized_sets_of_entrances(self):
-    # Ensure Forsaken Fortress didn't somehow get randomized.
-    assert self.entrance_connections["Dungeon Entrance in Forsaken Fortress Sector"] == "Forsaken Fortress"
-    ff_dummy_entrance = ZoneEntrance.all["Dungeon Entrance in Forsaken Fortress Sector"]
-    ff_dummy_exit = ZoneExit.all["Forsaken Fortress"]
-    assert self.done_entrances_to_exits[ff_dummy_entrance] == ff_dummy_exit
-    assert self.done_exits_to_entrances[ff_dummy_exit] == ff_dummy_entrance
-    
     non_terminal_exits = []
     for en in ZoneEntrance.all.values():
       if en.nested_in is not None and en.nested_in not in non_terminal_exits:
@@ -666,8 +661,6 @@ class EntranceRandomizer(BaseRandomizer):
   #region Saving
   def update_all_entrance_destinations(self):
     for zone_exit, zone_entrance in self.done_exits_to_entrances.items():
-      if zone_exit == ZoneExit.all["Forsaken Fortress"]:
-        continue
       outermost_entrance = self.get_outermost_entrance_for_exit(zone_exit)
       self.update_entrance_to_lead_to_exit(zone_entrance, zone_exit, outermost_entrance)
   
@@ -850,8 +843,6 @@ class EntranceRandomizer(BaseRandomizer):
     if dungeons:
       relevant_entrances += DUNGEON_ENTRANCES
       relevant_exits += DUNGEON_EXITS
-      relevant_entrances.remove(ZoneEntrance.all["Dungeon Entrance in Forsaken Fortress Sector"])
-      relevant_exits.remove(ZoneExit.all["Forsaken Fortress"])
     if minibosses:
       relevant_entrances += MINIBOSS_ENTRANCES
       relevant_exits += MINIBOSS_EXITS
@@ -910,6 +901,10 @@ class EntranceRandomizer(BaseRandomizer):
       # Some extra locations that are considered dungeon locations by the logic but are not part of
       # entrance randomizer. Hyrule, Ganon's Tower, and the handful of Mailbox locations that depend
       # on beating dungeon bosses.
+      return loc_zone_name
+    
+    if loc_zone_name == "Forsaken Fortress" and location_name not in self.item_location_name_to_zone_exit:
+      # Special case. FF is a dungeon that is not randomized, except for the boss arena.
       return loc_zone_name
     
     zone_exit = self.item_location_name_to_zone_exit[location_name]
