@@ -1,3 +1,7 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+  from randomizer import WWRandomizer
 
 import os
 import re
@@ -188,7 +192,7 @@ def get_all_custom_model_names():
     custom_model_names.append(folder_name)
   return custom_model_names
 
-def decide_on_link_model(self):
+def decide_on_link_model(self: WWRandomizer):
   custom_model_name = self.options.get("custom_player_model", "Link")
   if custom_model_name == "Link":
     return
@@ -210,7 +214,7 @@ def decide_on_link_model(self):
   # Remember what custom model was chosen so code in various places can access the metadata for the proper model.
   self.custom_model_name = custom_model_name
 
-def replace_link_model(self):
+def replace_link_model(self: WWRandomizer):
   if self.custom_model_name == "Link":
     return
   
@@ -364,7 +368,7 @@ def check_changed_archives_over_filesize_limit(orig_sum_of_changed_arc_sizes, ne
     error_message += "Combined size of selected model's archives: %.2fMiB\n" % (new_sum_of_changed_arc_sizes / (1024*1024))
     raise Exception(error_message)
 
-def change_player_custom_colors(self):
+def change_player_custom_colors(self: WWRandomizer):
   custom_model_metadata = get_model_metadata(self.custom_model_name)
   disable_casual_clothes = custom_model_metadata.get("disable_casual_clothes", False)
   
@@ -605,7 +609,7 @@ def check_valid_mask_path(mask_path):
   if given_filename != true_filename:
     raise Exception("Color mask path's actual capitalization differs from the capitalization given in metadata.txt.\nGiven: %s, actual: %s" % (given_filename, true_filename))
 
-def get_default_colors(self):
+def get_default_colors(self: WWRandomizer):
   custom_model_metadata = get_model_metadata(self.custom_model_name)
   disable_casual_clothes = custom_model_metadata.get("disable_casual_clothes", False)
   

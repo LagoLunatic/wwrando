@@ -1,7 +1,7 @@
-
 from __future__ import annotations
 from typing import TYPE_CHECKING
-if TYPE_CHECKING: from randomizer import WWRandomizer
+if TYPE_CHECKING:
+  from randomizer import WWRandomizer
 
 class BaseRandomizer:
   """Base class for individual randomization features.

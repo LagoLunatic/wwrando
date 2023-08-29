@@ -1,3 +1,7 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+  from randomizer import WWRandomizer
 
 import os
 import yaml
@@ -22,7 +26,7 @@ def split_pointer_into_high_and_low_half_for_hardcoding(pointer):
   
   return high_halfword, low_halfword
 
-def apply_patch(self, patch_name):
+def apply_patch(self: WWRandomizer, patch_name):
   with open(os.path.join(ASM_PATH, "patch_diffs", patch_name + "_diff.txt")) as f:
     diffs = yaml.safe_load(f)
   
@@ -61,7 +65,7 @@ def apply_patch(self, patch_name):
         file_data = self.get_raw_file(file_path)
         fs.write_and_pack_bytes(file_data, org_address, new_bytes, "B"*len(new_bytes))
 
-def add_or_extend_main_dol_free_space_section(self, new_bytes, org_address):
+def add_or_extend_main_dol_free_space_section(self: WWRandomizer, new_bytes, org_address):
   dol_section = self.dol.sections[2]
   patch_length = len(new_bytes)
   
@@ -122,7 +126,7 @@ def add_or_extend_main_dol_free_space_section(self, new_bytes, org_address):
   # Original rtoc pointer (r2): 803FFD00 (must NOT be updated)
   # Original read-write small data area pointer (r13): 803FE0E0 (must NOT be updated)
 
-def apply_free_space_patchlet_to_rel(self, file_path, offset, new_bytes, relocations):
+def apply_free_space_patchlet_to_rel(self: WWRandomizer, file_path, offset, new_bytes, relocations):
   # We add a new section to the REL to hold our custom code.
   
   rel = self.get_rel(file_path)
@@ -142,7 +146,7 @@ def apply_free_space_patchlet_to_rel(self, file_path, offset, new_bytes, relocat
   if relocations:
     add_relocations_to_rel(self, file_path, rel_section_index, section_relative_offset, relocations)
 
-def add_free_space_section_to_rel(self, file_path):
+def add_free_space_section_to_rel(self: WWRandomizer, file_path):
   rel = self.get_rel(file_path)
   
   rel_section_index = 7
@@ -156,7 +160,7 @@ def add_free_space_section_to_rel(self, file_path):
   # We could leave it to the REL implementation's saving logic to decide where to place the free space, but to be on the safe side, instead use the free space offset from free_space_start_offsets.txt, because that's the offset that was used for linking the code.
   rel_section.offset = self.free_space_start_offsets[file_path]
 
-def add_relocations_to_rel(self, file_path, rel_section_index, offset_into_section, relocations):
+def add_relocations_to_rel(self: WWRandomizer, file_path, rel_section_index, offset_into_section, relocations):
   # Create the new REL relocations.
   
   rel = self.get_rel(file_path)
