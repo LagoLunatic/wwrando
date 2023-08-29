@@ -522,9 +522,8 @@ class WWRandomizer:
     with open(os.path.join(DATA_PATH, "items_without_field_models.txt"), "r") as f:
       matches = re.findall(r"^([0-9a-f]{2}) ", f.read(), re.IGNORECASE | re.MULTILINE)
     for item_id in matches:
-      if item_name:
-        item_id = int(item_id, 16)
-        self.item_ids_without_a_field_model.append(item_id)
+      item_id = int(item_id, 16)
+      self.item_ids_without_a_field_model.append(item_id)
     
     self.arc_name_pointers = {}
     with open(os.path.join(DATA_PATH, "item_resource_arc_name_pointers.txt"), "r") as f:
