@@ -301,6 +301,7 @@ class EntranceRandomizer(BaseRandomizer):
     )
     
     self.safety_entrance = None
+    self.race_mode_banned_exits: list[ZoneExit] = []
     self.islands_with_a_banned_dungeon: list[str] = []
   
   def is_enabled(self) -> bool:
@@ -368,15 +369,30 @@ class EntranceRandomizer(BaseRandomizer):
     
     doing_dungeons = False
     doing_caves = False
-    doing_race_mode_entrances = False
     if any(ex in DUNGEON_EXITS for ex in relevant_exits):
       doing_dungeons = True
     if any(ex in SECRET_CAVE_EXITS for ex in relevant_exits):
       doing_caves = True
-    if doing_dungeons or any(ex in MINIBOSS_EXITS + BOSS_EXITS for ex in relevant_exits):
-      doing_race_mode_entrances = True
     
     self.rng.shuffle(relevant_entrances)
+    
+    self.race_mode_banned_exits.clear()
+    if self.options.get("race_mode"):
+      for zone_exit in relevant_exits:
+        if zone_exit in BOSS_EXITS:
+          assert zone_exit.unique_name.endswith(" Boss Arena")
+          boss_name = zone_exit.unique_name[:-len(" Boss Arena")]
+          if boss_name in self.rando.boss_rewards.banned_bosses:
+            self.race_mode_banned_exits.append(zone_exit)
+        elif zone_exit in DUNGEON_EXITS:
+          dungeon_name = zone_exit.unique_name
+          if dungeon_name in self.rando.boss_rewards.banned_dungeons:
+            self.race_mode_banned_exits.append(zone_exit)
+        elif zone_exit in MINIBOSS_EXITS:
+          assert zone_exit.unique_name.endswith(" Miniboss Arena")
+          dungeon_name = zone_exit.unique_name[:-len(" Miniboss Arena")]
+          if dungeon_name in self.rando.boss_rewards.banned_dungeons:
+            self.race_mode_banned_exits.append(zone_exit)
     
     self.islands_with_a_banned_dungeon.clear()
     
@@ -414,79 +430,82 @@ class EntranceRandomizer(BaseRandomizer):
     remaining_entrances = relevant_entrances.copy()
     remaining_exits = relevant_exits.copy()
     
-    if doing_race_mode_entrances and self.options.get("race_mode"):
-      banned_zone_entrances, banned_zone_exits = self.split_race_mode_banned_entrances_and_exits(remaining_entrances, remaining_exits)
-      for en in banned_zone_entrances:
+    nonprogress_entrances, nonprogress_exits = self.split_nonprogress_entrances_and_exits(remaining_entrances, remaining_exits)
+    if nonprogress_entrances:
+      for en in nonprogress_entrances:
         remaining_entrances.remove(en)
-      for ex in banned_zone_exits:
+      for ex in nonprogress_exits:
         remaining_exits.remove(ex)
-      self.randomize_one_set_of_exits(banned_zone_entrances, banned_zone_exits, terminal_exits, doing_banned=True)
+      self.randomize_one_set_of_exits(nonprogress_entrances, nonprogress_exits, terminal_exits)
     
     self.randomize_one_set_of_exits(remaining_entrances, remaining_exits, terminal_exits)
   
-  def split_race_mode_banned_entrances_and_exits(self, relevant_entrances: list[ZoneEntrance], relevant_exits: list[ZoneExit]):
-    # Splits the entrance and exit lists into two pairs: ones that should be considered banned on
-    # this race mode seed (will never lead to any progress items) and ones that should be considered
-    # required on this race mode seed.
+  def split_nonprogress_entrances_and_exits(self, relevant_entrances: list[ZoneEntrance], relevant_exits: list[ZoneExit]):
+    # Splits the entrance and exit lists into two pairs: ones that should be considered nonprogress
+    # on this seed (will never lead to any progress items) and ones that should be considered
+    # potentially required on this race mode seed.
     # This is so that we can effectively randomize these two pairs separately without any convoluted
     # logic to ensure they don't connect to each other.
     
-    banned_zone_entrances: list[ZoneEntrance] = []
-    for zone_entrance in relevant_entrances:
-      if zone_entrance in MINIBOSS_ENTRANCES + BOSS_ENTRANCES:
-        dungeon_name = zone_entrance.nested_in.unique_name
-        if dungeon_name in self.rando.boss_rewards.banned_dungeons:
-          assert zone_entrance.is_nested
-          banned_zone_entrances.append(zone_entrance)
+    nonprogress_exits = []
+    for ex in relevant_exits:
+      locs_for_exit = self.zone_exit_to_item_location_names[ex]
+      assert locs_for_exit
+      # Banned race mode dungeons still technically count as progress locations, so filter them out
+      # separately first.
+      nonbanned_locs = [
+        loc for loc in locs_for_exit
+        if loc not in self.rando.boss_rewards.banned_locations
+      ]
+      progress_locs = self.logic.filter_locations_for_progression(nonbanned_locs)
+      if not progress_locs:
+        nonprogress_exits.append(ex)
     
-    banned_zone_exits: list[ZoneExit] = []
-    for zone_exit in relevant_exits:
-      if zone_exit in BOSS_EXITS:
-        assert zone_exit.unique_name.endswith(" Boss Arena")
-        boss_name = zone_exit.unique_name[:-len(" Boss Arena")]
-        if boss_name in self.rando.boss_rewards.banned_bosses:
-          banned_zone_exits.append(zone_exit)
-      elif zone_exit in DUNGEON_EXITS:
-        dungeon_name = zone_exit.unique_name
-        if dungeon_name in self.rando.boss_rewards.banned_dungeons:
-          banned_zone_exits.append(zone_exit)
-      elif zone_exit in MINIBOSS_EXITS:
-        assert zone_exit.unique_name.endswith(" Miniboss Arena")
-        dungeon_name = zone_exit.unique_name[:-len(" Miniboss Arena")]
-        if dungeon_name in self.rando.boss_rewards.banned_dungeons:
-          banned_zone_exits.append(zone_exit)
+    nonprogress_entrances = [
+      en for en in relevant_entrances
+      if en.nested_in is not None
+      and en.nested_in in nonprogress_exits
+    ]
     
-    # At this point, banned_zone_entrances includes only the boss entrances inside of dungeons, not
-    # any of the island entrances on the sea. So we need to select N random island entrances to
-    # allow all of the banned dungeons to be accessible, where N is the number of banned dungeons.
+    # At this point, nonprogress_entrances includes only the inner entrances nested inside of the
+    # main exits, not any of the island entrances on the sea. So we need to select N random island
+    # entrances to allow all of the nonprogress exits to be accessible, where N is the difference
+    # between the number of entrances and exits we currently have.
     possible_island_entrances = [
       en for en in relevant_entrances
       if en.island_name is not None
     ]
     if self.safety_entrance is not None:
-      # We do need to exclude the safety_entrance (and other entrances on the same island as it)
-      # from being considered, as otherwise the item rando would have nowhere to put items at the
-      # start of the seed without violating the rule that progress items cannot appear in banned
-      # race mode dungeons.
-      possible_island_entrances = [
-        en for en in possible_island_entrances
-        if en.island_name != self.safety_entrance.island_name
-      ]
+      # We do need to exclude the safety_entrance from being considered, as otherwise the item rando
+      # would have nowhere to put items at the start of the seed.
+      possible_island_entrances.remove(self.safety_entrance)
+      if self.options.get("race_mode"):
+        # If we're in race mode, also exclude any other entrances one the same island as the safety
+        # entrance so that we don't risk getting a banned dungeon and a required dungeon on the same
+        # island.
+        possible_island_entrances = [
+          en for en in possible_island_entrances
+          if en.island_name != self.safety_entrance.island_name
+        ]
     
-    num_island_entrances_needed = len(banned_zone_exits) - len(banned_zone_entrances)
+    num_island_entrances_needed = len(nonprogress_exits) - len(nonprogress_entrances)
     for i in range(num_island_entrances_needed):
       # Note: relevant_entrances is already shuffled, so we can just take the first result from
       # possible_island_entrances and it's the same as picking one randomly.
-      banned_island_entrance = possible_island_entrances.pop(0)
-      banned_zone_entrances.append(banned_island_entrance)
+      nonprogress_island_entrance = possible_island_entrances.pop(0)
+      nonprogress_entrances.append(nonprogress_island_entrance)
     
-    assert len(banned_zone_entrances) == len(banned_zone_exits)
+    assert len(nonprogress_entrances) == len(nonprogress_exits)
     
-    return banned_zone_entrances, banned_zone_exits
+    return nonprogress_entrances, nonprogress_exits
   
-  def randomize_one_set_of_exits(self, relevant_entrances: list[ZoneEntrance], relevant_exits: list[ZoneExit], terminal_exits: list[ZoneExit], doing_banned=False):
+  def randomize_one_set_of_exits(self, relevant_entrances: list[ZoneEntrance], relevant_exits: list[ZoneExit], terminal_exits: list[ZoneExit]):
     remaining_entrances = relevant_entrances.copy()
     remaining_exits = relevant_exits.copy()
+    
+    doing_banned = False
+    if any(ex in self.race_mode_banned_exits for ex in relevant_exits):
+      doing_banned = True
     
     if not doing_banned and self.options.get("race_mode") and any(ex in SECRET_CAVE_EXITS for ex in relevant_exits):
       # Prioritize entrances that share an island with an entrance randomized to lead into a race
@@ -605,7 +624,7 @@ class EntranceRandomizer(BaseRandomizer):
       # print(f"{zone_entrance.entrance_name} -> {zone_exit.unique_name}")
       self.done_entrances_to_exits[zone_entrance] = zone_exit
       self.done_exits_to_entrances[zone_exit] = zone_entrance
-      if doing_banned and zone_exit in DUNGEON_EXITS + BOSS_EXITS and zone_entrance.island_name is not None:
+      if zone_exit in self.race_mode_banned_exits and zone_exit in DUNGEON_EXITS + BOSS_EXITS and zone_entrance.island_name is not None:
         self.islands_with_a_banned_dungeon.append(zone_entrance.island_name)
   
   def finalize_all_randomized_sets_of_entrances(self):
