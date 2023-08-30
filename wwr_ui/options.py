@@ -75,8 +75,7 @@ OPTIONS = {
   "randomize_secret_cave_entrances":
     "Shuffles around which secret cave entrances take you into which secret caves.",
   "mix_entrances":
-    "'Keep Separate' will only randomize dungeons with other dungeons and secret caves with other secret caves.<br>"
-    "'Mix Together' allows dungeon entrances to lead into secret caves and vice versa.",
+    "Controls whether dungeons should be separated from other randomized entrances, or if all types of randomized entrances can lead into each other.",
   "randomize_miniboss_entrances":
     "Allows dungeon miniboss doors to act as entrances to be randomized.<br>"
     "If this option is enabled with random dungeon entrances, dungeons may nest within each other, forming chains of connected dungeons.",
