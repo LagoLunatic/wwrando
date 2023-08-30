@@ -3,7 +3,7 @@ import re
 from typing import ClassVar
 from collections import defaultdict
 
-from wwlib.dzx import DZx, _2DMA, ACTR, PLYR, SCLS
+from wwlib.dzx import DZx, _2DMA, ACTR, PLYR, SCLS, STAG
 from wwlib.events import EventList
 from randomizers.base_randomizer import BaseRandomizer
 
@@ -727,6 +727,7 @@ class EntranceRandomizer(BaseRandomizer):
     
     exit_dzr_path = "files/res/Stage/%s/Room%d.arc" % (zone_exit.stage_name, zone_exit.room_num)
     exit_dzs_path = "files/res/Stage/%s/Stage.arc" % zone_exit.stage_name
+    exit_dzs = self.rando.get_arc(exit_dzs_path).get_file("stage.dzs", DZx)
     
     # Update the DRI spawn to not have spawn type 5.
     # If the DRI entrance was connected to the TotG dungeon, then exiting TotG while riding KoRL would crash the game.
@@ -741,7 +742,6 @@ class EntranceRandomizer(BaseRandomizer):
     
     if zone_exit in MINIBOSS_EXITS + BOSS_EXITS:
       # Update the spawn you're placed at when saving and reloading inside a (mini)boss room.
-      exit_dzs = self.rando.get_arc(exit_dzs_path).get_file("stage.dzs", DZx)
       # For dungeons, the stage.dzs's SCLS exit at index 0 is always where to take you when saving
       # and reloading.
       exit_scls = exit_dzs.entries_by_type(SCLS)[0]
@@ -784,9 +784,10 @@ class EntranceRandomizer(BaseRandomizer):
           exit_scls.spawn_id = zone_entrance.spawn_id
           exit_scls.save_changes()
     
-    if zone_exit in SECRET_CAVE_EXITS or zone_exit == ZoneExit.all["Ice Ring Isle Inner Cave"]:
-      # Update the sector coordinates in the 2DMA chunk so that save-and-quitting in a secret cave puts you on the correct island.
-      exit_dzs = self.rando.get_arc(exit_dzs_path).get_file("stage.dzs", DZx)
+    if zone_exit in SECRET_CAVE_EXITS + FAIRY_FOUNTAIN_EXITS or zone_exit == ZoneExit.all["Ice Ring Isle Inner Cave"]:
+      # Update the sector coordinates in the 2DMA chunk so that save-and-quitting in a cave puts you on the correct island.
+      # This behavior applies to stages with stage ID 11-13 (checked at 80054B78 at dComIfGs_setGameStartStage).
+      assert exit_dzs.entries_by_type(STAG)[0].stage_id in [11, 12, 13]
       _2dma = exit_dzs.entries_by_type(_2DMA)[0]
       island_number = self.rando.island_name_to_number[outermost_entrance.island_name]
       sector_x = (island_number-1) % 7
@@ -794,6 +795,8 @@ class EntranceRandomizer(BaseRandomizer):
       _2dma.sector_x = sector_x-3
       _2dma.sector_y = sector_y-3
       _2dma.save_changes()
+    else:
+      assert exit_dzs.entries_by_type(STAG)[0].stage_id not in [11, 12, 13]
     
     if zone_exit.unique_name == "Fire Mountain Secret Cave":
       actors = exit_dzr.entries_by_type(ACTR)
