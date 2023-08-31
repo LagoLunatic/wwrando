@@ -112,6 +112,9 @@ files/rels/d_a_mt.rel:
 files/rels/d_a_fganon.rel:
   phantom_ganon_check_link_within_y_diff: 0xB020
   check_ganons_tower_chest_opened: 0xB03C
+files/rels/d_a_bdk.rel:
+  initialize_helmaroc_king_landing_timer: 0xEA88
+  check_helmaroc_king_landing_timeout: 0xEA98
 files/rels/d_a_rd.rel:
   redead_check_disable_spawn_switch: 0x61E4
   redead_set_death_switch: 0x6224

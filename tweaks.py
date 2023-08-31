@@ -2517,3 +2517,14 @@ def allow_nonlinear_servants_of_the_towers(self: WWRandomizer):
   
   hub_room_dzr.save_changes()
   totg.save_changes()
+
+def fix_helmaroc_king_table_softlock(self: WWRandomizer):
+  # When doing the speedrun strat to trick Helmaroc King into landing inside of the tower and attack
+  # you, he could sometimes land on top of the small wooden table in there, which seems to have a
+  # small chance of causing him to clip out of bounds and fall into the void forever.
+  # Simply remove this table, as this should presumably fix the bug, and the table seems to serve no
+  # purpose anyway (the two stools beside it don't appear during the fight to begin with).
+  fftower_dzr = self.get_arc("files/res/Stage/M2tower/Room0.arc").get_file("room.dzr", DZx)
+  actors = fftower_dzr.entries_by_type_and_layer(ACTR, layer=None)
+  table = next(x for x in actors if x.name == "Otble")
+  fftower_dzr.remove_entity(table, ACTR)

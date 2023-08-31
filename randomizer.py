@@ -430,6 +430,7 @@ class WWRandomizer:
     tweaks.add_shortcut_warps_into_dungeons(self)
     tweaks.fix_needle_rock_island_salvage_flags(self)
     tweaks.allow_nonlinear_servants_of_the_towers(self)
+    tweaks.fix_helmaroc_king_table_softlock(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)

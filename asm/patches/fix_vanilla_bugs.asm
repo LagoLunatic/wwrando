@@ -514,3 +514,60 @@ ganondorf_not_in_phase_3:
   ; We still allow the arrow to be reflected and damage Ganondorf; only the event is removed.
   b 0x800D4F68
 .close
+
+
+
+
+; During the Helmaroc King fight, HK could sometimes become stuck on the level geometry while trying
+; to land. This is only known to happen after doing the speedrun strat of jumping back into the
+; tower while it's closing, as HK only starting using the landing state after the tower closes, and
+; there doesn't seem to be any geometry he can get stuck on when you're on top of the tower.
+; To fix this, we add a custom timer that counts the number of frames his current landing attempt
+; has taken, and when it exceeds a set limit, we switch his state back to the flying upwards state,
+; which causes him to break free, fly back to the top, and then try to land again from scratch.
+.open "files/rels/d_a_bdk.rel" ; Helmaroc King
+.org 0x24D4 ; At the start of HK's landing state's first substate, in landing(bdk_class *)
+  b initialize_helmaroc_king_landing_timer
+.org 0x2AD0 ; At the end of HK's landing state function, landing(bdk_class *)
+  b check_helmaroc_king_landing_timeout
+.org @NextFreeSpace
+.global initialize_helmaroc_king_landing_timer
+initialize_helmaroc_king_landing_timer:
+  ; Branch taken for substate 0.
+  ; Initialize a timer in the upper two bytes of HK's params field, which were unused in vanilla.
+  li r3, 0
+  sth r3, 0xB0 (r30) ; Store the initial timer value.
+  mr r3, r30 ; Replace the line we overwrote to jump here
+  b 0x24D8 ; Return to the landing state's first substate code
+.global check_helmaroc_king_landing_timeout
+check_helmaroc_king_landing_timeout:
+  ; Branch taken for all substates, so we have to check if the substate is 1 or 2, which are the
+  ; states he is known to become stuck in. If it is, we increment the timer once per frame, and give
+  ; up on the landing if necessary.
+  ; Otherwise, for states 3 or 4 or anything else, HK has likely already successfully reached his
+  ; landing spot, and is just finishing up the landing. We don't want to make him give up after
+  ; succeeding, so just return from the function in that case.
+  lha r3, 0x2C8 (r30) ; Load HK's landing substate
+  cmpwi r3, 0 
+  ble check_helmaroc_king_landing_timeout_return
+  cmpwi r3, 3
+  bge check_helmaroc_king_landing_timeout_return
+  
+  check_helmaroc_king_landing_timeout_check_timer:
+  lha r3, 0xB0 (r30) ; Load our timer from the upper two bytes of HK's params.
+  addi r3, r3, 1 ; Increment by one frame.
+  sth r3, 0xB0 (r30) ; Store the new timer value.
+  cmpwi r3, 10*30 ; 10 seconds is the limit for how long we allow HK to spend trying to land.
+  ble check_helmaroc_king_landing_timeout_return
+  
+  check_helmaroc_king_landing_timeout_give_up:
+  ; Went over the time limit. Force Helmaroc King to reset to flying instead of landing.
+  li r0, 1
+  sth r0, 0x2C6 (r30) ; Reset the state to 1, flying up. Corresponds to function up_fly(bdk_class *)
+  li r0, 0
+  sth r0, 0x2C8 (r30) ; Also reset the substate to 0 since we are leaving the landing state.
+  
+  check_helmaroc_king_landing_timeout_return:
+  addi r11, r1, 0xA0 ; Replace the line we overwrote to jump here
+  b 0x2AD4 ; Return to the end of the landing function
+.close
