@@ -3385,7 +3385,7 @@ d_a_py_lk:
   evnt_index:
     Bitfield name: params
     Mask: 0xFF000000
-  unknown_param_5:
+  ship_id:
     Bitfield name: z_rot
     Mask: 0xFF00
   spawn_id:

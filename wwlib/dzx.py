@@ -468,7 +468,7 @@ class PLYR(ACTR):
     self.name = "Link"
     self.unknown_param_4 = 0xFF
     self.evnt_index = 0xFF
-    self.unknown_param_5 = 0xFF
+    self.ship_id = 0xFF
 
 class SCLS(ChunkEntry):
   DATA_SIZE = 0xC
