@@ -2016,6 +2016,8 @@ def add_spawns_outside_boss_doors(self: WWRandomizer):
     new_spawn.z_pos = z_pos
     new_spawn.y_rot = y_rot
     new_spawn.spawn_id = new_spawn_id
+    if stage_name == "sea":
+      new_spawn.ship_id = 0
     
     dzx_for_spawn.save_changes()
 
