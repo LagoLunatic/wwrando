@@ -99,12 +99,16 @@ def run_no_ui(args):
     from wwlib import stage_searcher
     rando = WWRandomizer(**rando_kwargs)
     # stage_searcher.print_all_spawn_types(rando)
-    stage_searcher.print_all_stage_types(rando)
+    # stage_searcher.print_all_stage_types(rando)
+    stage_searcher.search_all_bmds(rando)
   else:
     rando = WWRandomizer(**rando_kwargs)
     try:
       all(rando.randomize())
-      print("Done")
+      if rando.dry_run:
+        print("Done (dry)")
+      else:
+        print("Done")
       # with tqdm(total=rando.get_max_progress_length()) as progress_bar:
       #   prev_val = 0
       #   for next_option_description, options_finished in rando.randomize():

@@ -853,10 +853,10 @@ def search_all_bmds(self):
   # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
   all_filenames.sort(key=lambda filename: split_string_for_natural_sort(filename))
   
-  j_idx_cnt = Counter()
-  bbox_j_idx_cnt = Counter()
-  j_name_cnt = Counter()
-  bbox_j_name_cnt = Counter()
+  # j_idx_cnt = Counter()
+  # bbox_j_idx_cnt = Counter()
+  # j_name_cnt = Counter()
+  # bbox_j_name_cnt = Counter()
   for arc_path in all_filenames:
     if not arc_path.endswith(".arc"):
       continue
@@ -878,15 +878,15 @@ def search_all_bmds(self):
       else:
         bmd = BDL(file_entry)
       
-      for joint_index, joint in enumerate(bmd.jnt1.joints):
-        joint_name = bmd.jnt1.joint_names[joint_index]
-        # print(joint_name)
-        j_idx_cnt[joint_index] += 1
-        j_name_cnt[joint_name] += 1
-        if all(n == 0.0 for n in joint.bounding_box_min.xyz) and all(n == 0.0 for n in joint.bounding_box_max.xyz):
-          continue
-        bbox_j_idx_cnt[joint_index] += 1
-        bbox_j_name_cnt[joint_name] += 1
+      # for joint_index, joint in enumerate(bmd.jnt1.joints):
+      #   joint_name = bmd.jnt1.joint_names[joint_index]
+      #   # print(joint_name)
+      #   j_idx_cnt[joint_index] += 1
+      #   j_name_cnt[joint_name] += 1
+      #   if all(n == 0.0 for n in joint.bounding_box_min.xyz) and all(n == 0.0 for n in joint.bounding_box_max.xyz):
+      #     continue
+      #   bbox_j_idx_cnt[joint_index] += 1
+      #   bbox_j_name_cnt[joint_name] += 1
       
       # if not "MDL3" in bmd.chunk_by_type:
       #   continue
@@ -901,29 +901,29 @@ def search_all_bmds(self):
     # if j_name_cnt["world_root"] > 5:
     #   break
   
-  with open("Joint bboxes by name.txt", "w") as f:
-    f.write("Most common joints to have a bbox, by name:\n")
-    joint_names = list(j_name_cnt.keys())
-    joint_names.sort(key=lambda jn: (bbox_j_name_cnt[jn] / j_name_cnt[jn], j_name_cnt[jn]), reverse=True)
-    max_joint_name_len = max(len(jn) for jn in joint_names)
-    for joint_name in joint_names:
-      bboxed = bbox_j_name_cnt[joint_name]
-      total = j_name_cnt[joint_name]
-      if total < 5:
-        continue
-      f.write(f"{joint_name:{max_joint_name_len}s}: {bboxed}/{total} ({100*bboxed/total:.0f}%)\n")
+  # with open("Joint bboxes by name.txt", "w") as f:
+  #   f.write("Most common joints to have a bbox, by name:\n")
+  #   joint_names = list(j_name_cnt.keys())
+  #   joint_names.sort(key=lambda jn: (bbox_j_name_cnt[jn] / j_name_cnt[jn], j_name_cnt[jn]), reverse=True)
+  #   max_joint_name_len = max(len(jn) for jn in joint_names)
+  #   for joint_name in joint_names:
+  #     bboxed = bbox_j_name_cnt[joint_name]
+  #     total = j_name_cnt[joint_name]
+  #     if total < 5:
+  #       continue
+  #     f.write(f"{joint_name:{max_joint_name_len}s}: {bboxed}/{total} ({100*bboxed/total:.0f}%)\n")
   
-  with open("Joint bboxes by index.txt", "w") as f:
-    f.write("Most common joints to have a bbox, by index:\n")
-    joint_indexes = list(j_idx_cnt.keys())
-    joint_indexes.sort(key=lambda ji: (bbox_j_idx_cnt[ji] / j_idx_cnt[ji], j_idx_cnt[ji]), reverse=True)
-    max_joint_index_len = max(len(str(ji)) for ji in j_idx_cnt)
-    for joint_index in joint_indexes:
-      bboxed = bbox_j_idx_cnt[joint_index]
-      total = j_idx_cnt[joint_index]
-      if total < 5:
-        continue
-      f.write(f"{joint_index:{max_joint_index_len}d}: {bboxed}/{total} ({100*bboxed/total:.0f}%)\n")
+  # with open("Joint bboxes by index.txt", "w") as f:
+  #   f.write("Most common joints to have a bbox, by index:\n")
+  #   joint_indexes = list(j_idx_cnt.keys())
+  #   joint_indexes.sort(key=lambda ji: (bbox_j_idx_cnt[ji] / j_idx_cnt[ji], j_idx_cnt[ji]), reverse=True)
+  #   max_joint_index_len = max(len(str(ji)) for ji in j_idx_cnt)
+  #   for joint_index in joint_indexes:
+  #     bboxed = bbox_j_idx_cnt[joint_index]
+  #     total = j_idx_cnt[joint_index]
+  #     if total < 5:
+  #       continue
+  #     f.write(f"{joint_index:{max_joint_index_len}d}: {bboxed}/{total} ({100*bboxed/total:.0f}%)\n")
 
 def search_all_dzb_properties(self):
   all_filenames = list(self.gcm.files_by_path.keys())
