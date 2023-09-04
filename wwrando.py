@@ -100,7 +100,8 @@ def run_no_ui(args):
     rando = WWRandomizer(**rando_kwargs)
     # stage_searcher.print_all_spawn_types(rando)
     # stage_searcher.print_all_stage_types(rando)
-    stage_searcher.search_all_bmds(rando)
+    # stage_searcher.search_all_bmds(rando)
+    stage_searcher.print_all_used_item_pickup_flags(rando)
   else:
     rando = WWRandomizer(**rando_kwargs)
     try:

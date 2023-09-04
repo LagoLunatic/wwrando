@@ -384,16 +384,11 @@ def print_all_used_item_pickup_flags(self):
               
               if class_name in ["d_a_item", "d_a_race_item", "d_a_tag_kb_item"]:
                 item_name = self.item_names[actor.item_id]
-              elif class_name in ["d_a_tsubo", "d_a_switem", "d_a_obj_barrel2", "d_a_obj_movebox", "d_a_obj_homen", "d_a_stone", "d_a_stone2"]:
-                if actor.item_id < 0x20:
-                  item_name = self.item_names[actor.item_id]
+              elif class_name in ["d_a_tsubo", "d_a_switem", "d_a_obj_barrel2", "d_a_obj_movebox", "d_a_obj_homen", "d_a_stone", "d_a_stone2", "d_a_obj_bemos"]:
+                if actor.dropped_item_id < 0x20:
+                  item_name = self.item_names[actor.dropped_item_id]
                 else:
-                  item_name = "Random drop type 0x%02X" % (actor.item_id - 0x20)
-              elif class_name == "d_a_obj_bemos":
-                if actor.beamos_item_id < 0x20:
-                  item_name = self.item_names[actor.beamos_item_id]
-                else:
-                  item_name = "Random drop type 0x%02X" % (actor.item_id - 0x20)
+                  item_name = "Random drop type 0x%02X" % (actor.dropped_item_id - 0x20)
               elif class_name == "d_a_deku_item":
                 item_name = self.item_names[0x34]
               else:

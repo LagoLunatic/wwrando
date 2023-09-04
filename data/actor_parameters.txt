@@ -1542,7 +1542,7 @@ d_a_obj_barrel:
     Mask: 0xFFFF
 
 d_a_obj_barrel2:
-  item_id:
+  dropped_item_id:
     Bitfield name: params
     Mask: 0x0000003F
   unknown_param_2:
@@ -1579,7 +1579,7 @@ d_a_obj_bemos:
   beamos_head_rotation_speed:
     Bitfield name: params
     Mask: 0x0000FF00
-  beamos_item_id:
+  dropped_item_id:
     Bitfield name: z_rot
     Mask: 0x003F
   beamos_item_pickup_flag:
@@ -1863,7 +1863,7 @@ d_a_obj_homen:
   type:
     Bitfield name: params
     Mask: 0x00000100
-  item_id:
+  dropped_item_id:
     Bitfield name: params
     Mask: 0x0003F000
   enemy_to_spawn:
@@ -2045,7 +2045,7 @@ d_a_obj_monument:
     Mask: 0x0000FF00
 
 d_a_obj_movebox:
-  item_id:
+  dropped_item_id:
     Bitfield name: params
     Mask: 0x0000003F
   stay_moved_switch_1:
@@ -2795,7 +2795,7 @@ d_a_steam_tag:
     Mask: 0x000003FC
 
 d_a_stone:
-  item_id:
+  dropped_item_id:
     Bitfield name: params
     Mask: 0x0000003F
   unknown_param_2:
@@ -2815,7 +2815,7 @@ d_a_stone:
     Mask: 0x70000000
 
 d_a_stone2:
-  item_id:
+  dropped_item_id:
     Bitfield name: params
     Mask: 0x0000003F
   switch_to_set:
@@ -2880,7 +2880,7 @@ d_a_switem:
   unknown_param_1:
     Bitfield name: params
     Mask: 0x000000FF
-  item_id:
+  dropped_item_id:
     Bitfield name: params
     Mask: 0x00003F00
   item_pickup_flag:
@@ -3207,7 +3207,7 @@ d_a_tornado:
 d_a_tpota: {}
 
 d_a_tsubo:
-  item_id:
+  dropped_item_id:
     Bitfield name: params
     Mask: 0x0000003F
   behavior_type:

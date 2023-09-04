@@ -106,7 +106,7 @@ def fix_deku_leaf_model(self: WWRandomizer):
   for actor in deku_leaf_actors:
     actor.name = "item"
     actor.params = 0x01FF0000 # Misc params, one of which makes the item not fade out over time
-    actor.item_id = 0x34 # Deku Leaf
+    actor.item_id = self.item_name_to_id["Deku Leaf"]
     actor.item_pickup_flag = 2 # This is the same item pickup flag that itemDek originally had in its params.
     actor.enable_activation_switch = 0xFF # Necessary for the item to be pickupable.
     actor.save_changes()
@@ -467,16 +467,16 @@ def add_more_magic_jars(self: WWRandomizer):
   drc_center_room = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr", DZx)
   actors = drc_center_room.entries_by_type(ACTR)
   skulls = [actor for actor in actors if actor.name == "Odokuro"]
-  skulls[2].item_id = self.item_name_to_id["Small Magic Jar (Pickup)"]
+  skulls[2].dropped_item_id = self.item_name_to_id["Small Magic Jar (Pickup)"]
   skulls[2].save_changes()
-  skulls[5].item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
+  skulls[5].dropped_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   skulls[5].save_changes()
   drc_before_boss_room = self.get_arc("files/res/Stage/M_NewD2/Room10.arc").get_file("room.dzr", DZx)
   actors = drc_before_boss_room.entries_by_type(ACTR)
   skulls = [actor for actor in actors if actor.name == "Odokuro"]
-  skulls[0].item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
+  skulls[0].dropped_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   skulls[0].save_changes()
-  skulls[9].item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
+  skulls[9].dropped_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   skulls[9].save_changes()
   
   # The grass on the small elevated islands around DRI have a lot of grass that can drop magic, but it's not guaranteed.
@@ -504,7 +504,7 @@ def add_more_magic_jars(self: WWRandomizer):
   totg_before_miniboss_room = self.get_arc("files/res/Stage/Siren/Room14.arc").get_file("room.dzr", DZx)
   actors = totg_before_miniboss_room.entries_by_type(ACTR)
   pots = [actor for actor in actors if actor.name == "kotubo"]
-  pots[1].item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
+  pots[1].dropped_item_id = self.item_name_to_id["Large Magic Jar (Pickup)"]
   pots[1].save_changes()
 
 def remove_title_and_ending_videos(self: WWRandomizer):
