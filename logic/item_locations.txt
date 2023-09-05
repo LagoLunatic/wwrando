@@ -660,7 +660,7 @@ Dragon Roost Cavern - Tingle Chest in Hub Room:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x4
-    & Tingle Tuner Bombs
+    & Tingle Bombs
   Original item: Yellow Rupee
   Types: Tingle Chest, Dungeon
   Paths:
@@ -703,7 +703,7 @@ Dragon Roost Cavern - Tingle Statue Chest:
       | Ice Arrows
     )
     & Grappling Hook
-    & Tingle Tuner Bombs
+    & Tingle Bombs
   Original item: Dragon Tingle Statue
   Types: Tingle Chest, Dungeon
   Paths:
@@ -907,7 +907,11 @@ Forbidden Woods - Tingle Statue Chest:
     & Can Fly With Deku Leaf Indoors
     & Grappling Hook
     & Boomerang
-    & Tingle Tuner Bombs
+    & (
+      Tingle Bombs
+      | Can Activate Tingle Bomb Triggers Without Tingle Tuner
+    )
+    # You don't need bombs because there is a bomb flower in this room, on the ledge right above the Tingle Bomb trigger. You can go up there and throw the bomb flower down.
   Original item: Forbidden Tingle Statue
   Types: Tingle Chest, Dungeon
   Paths:
@@ -1007,7 +1011,7 @@ Tower of the Gods - Shoot Eye Above Skulls Room Chest:
 Tower of the Gods - Tingle Statue Chest:
   Need:
     Can Reach Tower of the Gods Second Floor
-    & Tingle Tuner Bombs
+    & Tingle Bombs
   Original item: Goddess Tingle Statue
   Types: Tingle Chest, Dungeon
   Paths:
@@ -1345,7 +1349,7 @@ Earth Temple - Tingle Statue Chest:
     Can Access Earth Temple
     & Can Play Command Melody
     & Can Aim Mirror Shield
-    & Tingle Tuner Bombs
+    & Tingle Bombs
   Original item: Earth Tingle Statue
   Types: Tingle Chest, Dungeon
   Paths:
@@ -1497,7 +1501,7 @@ Wind Temple - Tingle Statue Chest:
     & Can Play Command Melody
     & Iron Boots
     & Can Fly With Deku Leaf Indoors
-    & Tingle Tuner Bombs
+    & Tingle Bombs
   Original item: Wind Tingle Statue
   Types: Tingle Chest, Dungeon
   Paths:

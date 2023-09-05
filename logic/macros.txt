@@ -93,9 +93,12 @@ All 8 Triforce Shards:
   & Triforce Shard 7
   & Triforce Shard 8
 
-Tingle Tuner Bombs:
+Tingle Bombs:
   Bombs
   # Note: If an option to require Tingle Tuner is added, this macro should have Bombs replaced with Tingle Tuner when that option is on.
+Can Activate Tingle Bomb Triggers Without Tingle Tuner:
+  Nothing
+  # This tweak is always enabled.
 
 Can Access Forest of Fairies:
   Can Cut Down Outset Trees
