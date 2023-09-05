@@ -727,23 +727,13 @@ Dragon Roost Cavern - Big Key Chest:
   Paths:
     - M_NewD2/Stage.arc/Chest000
 Dragon Roost Cavern - Boss Stairs Right Chest:
-  Need:
-    Can Access Dragon Roost Cavern
-    & DRC Small Key x4
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors | Hookshot | Ice Arrows)
-    # Hookshot can reach the torches on the other side of the lava.
-    # Ice Arrows can create a platform in the lava.
+  Need: Can Reach Dragon Roost Cavern Boss Stairs
   Original item: Knight's Crest
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest001
 Dragon Roost Cavern - Boss Stairs Left Chest:
-  Need:
-    Can Access Dragon Roost Cavern
-    & DRC Small Key x4
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors | Hookshot | Ice Arrows)
-    # Hookshot can reach the torches on the other side of the lava.
-    # Ice Arrows can create a platform in the lava.
+  Need: Can Reach Dragon Roost Cavern Boss Stairs
   Original item: Yellow Rupee
   Types: Dungeon
   Paths:

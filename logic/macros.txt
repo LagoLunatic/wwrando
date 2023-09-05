@@ -104,6 +104,18 @@ Can Access Forest of Fairies:
   Can Cut Down Outset Trees
   & Can Fly With Deku Leaf Outdoors
 
+Can Reach Dragon Roost Cavern Boss Stairs:
+  Can Access Dragon Roost Cavern
+  & DRC Small Key x4
+  & (
+    Grappling Hook
+    | Can Fly With Deku Leaf Indoors
+    | Hookshot
+    | Ice Arrows
+  )
+  # Hookshot can reach the torches on the other side of the lava.
+  # Ice Arrows can create a platform in the lava.
+
 Can Reach Tower of the Gods Second Floor:
   Can Access Tower of the Gods
   & Bombs
@@ -212,9 +224,7 @@ Can Access Wind Temple Miniboss Arena:
   Can Access Miniboss Entrance in Wind Temple
 
 Can Access Boss Entrance in Dragon Roost Cavern:
-  Can Access Dragon Roost Cavern
-  & DRC Small Key x4
-  & Grappling Hook
+  Can Reach Dragon Roost Cavern Boss Stairs
   & DRC Big Key
 Can Access Boss Entrance in Forbidden Woods:
   Can Access Forbidden Woods
