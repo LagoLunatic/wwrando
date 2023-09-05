@@ -166,17 +166,17 @@
 
 
 
-; When the player enters Wind Temple, reset Makar's position to the starting room, or to near the warp pot the player exited.
-; This is to prevent possible softlocks where Makar can teleport to later rooms in the dungeon for seemingly no reason.
+; When the player enters Wind Temple, reset Makar's position to be near the spawn point the player entered from.
+; This is to prevent Makar from copying the saved position of the previous partner, and potentially teleporting to later rooms in the dungeon, or out of bounds.
 .open "files/rels/d_a_npc_cb1.rel" ; Makar
 .org 0x7D4
-  bl reset_makar_position_to_start_of_dungeon
+  bl reset_makar_position
 .org 0x7B4 ; This line originally stopped Makar from spawning if the partner ID number (803C4DC3) was not set to 1.
   ; Remove the line so that Makar spawns in, even after taking an inter-dungeon warp pot.
   nop
 .org @NextFreeSpace
-.global reset_makar_position_to_start_of_dungeon
-reset_makar_position_to_start_of_dungeon:
+.global reset_makar_position
+reset_makar_position:
   stwu sp, -0x10 (sp)
   mflr r0
   stw r0, 0x14 (sp)
@@ -188,7 +188,7 @@ reset_makar_position_to_start_of_dungeon:
   ; Search through the list of places Makar can spawn from to see which one corresponds to the player's last spawn ID, if any.
   lis r9, makar_possible_wt_spawn_positions@ha
   addi r9, r9, makar_possible_wt_spawn_positions@l
-  li r0, 5 ; 5 possible spawn points
+  li r0, 7 ; Number of possible spawn points
   mtctr r0
   makar_spawn_point_search_loop_start:
   lbz r0, 0 (r9) ; Spawn ID
@@ -283,22 +283,31 @@ makar_possible_wt_spawn_positions:
   .byte 69, 3
   .short 0x4000
   .float -4146.65, 1100, 47.88
+  ; WT miniboss door
+  .byte 20, 2
+  .short 0
+  .float -111.29, -3600, -1747.64
+  ; WT boss door
+  .byte 27, 12
+  .short 0x8000
+  .float 14084.78, -5062.49, 9650.55
 .close
 
 
 
 
-; When the player enters Earth Temple, reset Medli's position to the starting room, or to near the warp pot the player exited.
-; This is to prevent an issue where the player can't get past the first room without Medli unless they have Deku Leaf.
+; When the player enters Earth Temple, reset Medli's position to be near the spawn point the player entered from.
+; This is to prevent Medli from copying the saved position of the previous partner, and potentially teleporting to later rooms in the dungeon, or out of bounds.
+; It also prevents an issue where the player can accidentally save Medli's position past the first room, and then the player can't get past the first room again without Medli unless they have Deku Leaf.
 .open "files/rels/d_a_npc_md.rel" ; Medli
 .org 0xDB4
-  bl reset_medli_position_to_start_of_dungeon
+  bl reset_medli_position
 .org 0xD94 ; This line originally stopped Medli from spawning if the partner ID number (803C4DC3) was not set to 2.
   ; Remove the line so that Medli spawns in, even after taking an inter-dungeon warp pot.
   nop
 .org @NextFreeSpace
-.global reset_medli_position_to_start_of_dungeon
-reset_medli_position_to_start_of_dungeon:
+.global reset_medli_position
+reset_medli_position:
   stwu sp, -0x10 (sp)
   mflr r0
   stw r0, 0x14 (sp)
@@ -310,7 +319,7 @@ reset_medli_position_to_start_of_dungeon:
   ; Search through the list of places Medli can spawn from to see which one corresponds to the player's last spawn ID, if any.
   lis r9, medli_possible_et_spawn_positions@ha
   addi r9, r9, medli_possible_et_spawn_positions@l
-  li r0, 5 ; 5 possible spawn points
+  li r0, 7 ; Number of possible spawn points
   mtctr r0
   medli_spawn_point_search_loop_start:
   lbz r0, 0 (r9) ; Spawn ID
@@ -404,6 +413,14 @@ medli_possible_et_spawn_positions:
   .byte 69, 1
   .short 0
   .float -8010, 1000, -1508.94
+  ; ET miniboss door
+  .byte 9, 7
+  .short 0x8000
+  .float 6301.06, 1400, 2355.29
+  ; ET boss door
+  .byte 27, 15
+  .short 0x4000
+  .float -5689.21, -2300, 9667.67
 .close
 
 
