@@ -161,10 +161,10 @@ files/rels/d_a_ship.rel:
   ship_idle_deceleration: 0xE458
 files/rels/d_a_npc_md.rel:
   reset_medli_position_to_start_of_dungeon: 0x15D78
-  medli_possible_et_spawn_positions: 0x15E04
+  medli_possible_et_spawn_positions: 0x15E50
 files/rels/d_a_npc_cb1.rel:
   reset_makar_position_to_start_of_dungeon: 0xB214
-  makar_possible_wt_spawn_positions: 0xB2A0
+  makar_possible_wt_spawn_positions: 0xB2EC
 files/rels/d_a_warpdm20.rel:
   check_hyrule_warp_unlocked: 0x1EBC
 files/rels/d_a_obj_hsehi1.rel:

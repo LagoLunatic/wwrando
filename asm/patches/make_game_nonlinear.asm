@@ -197,8 +197,7 @@ reset_makar_position_to_start_of_dungeon:
   addi r9, r9, 0x10 ; Increase pointer to point to next element
   bdnz makar_spawn_point_search_loop_start ; Loop
   
-  ; The player came from a spawn that doesn't correspond to any of the elements in the array, don't change Makar's position.
-  b after_resetting_makar_position
+  b reset_makar_no_matching_spawn_point
   
   reset_makar_found_matching_spawn_point:
   lwz r8, 4 (r9) ; X pos
@@ -217,6 +216,40 @@ reset_makar_position_to_start_of_dungeon:
   stb r8, 0xE (r5)
   mr r7, r8 ; Argument r7 to setRestartOption needs to be the room index
   mr r29, r8 ; Also modify the local variable room index in Makar's code (for when he calls set__19dSv_player_priest)
+  
+  b after_resetting_makar_position
+  
+  reset_makar_no_matching_spawn_point:
+  ; The player came from a spawn that doesn't correspond to any of the elements in the array.
+  ; This shouldn't happen under normal circumstances. If it did happen, it could mean a few things:
+  ; Maybe we forgot to account for a spawn you can enter from. Or maybe the player is using the map select cheat code.
+  ; In any case, we need an elegant fallback for cases like these. Simply doing nothing and leaving Makar's position
+  ; as is doesn't work well: it means the position will be copied from the partner's last saved position, which might
+  ; not even be Makar in Wind Temple (e.g. it could be a servant of the tower). This can result in Makar spawning out
+  ; of bounds, softlocking the game.
+  ; So instead, we copy the player's current position over to Makar. This is still a bit buggy, and can result in Makar
+  ; spawning inside of doors or in midair. But these bugs are preferable to completely softlocking the game.
+  
+  lis r9, 0x803E440C@ha ; Player's current position
+  addi r9, r9, 0x803E440C@l
+  lfs f1, 0 (r9) ; X
+  stfs f1, 0 (r5)
+  lfs f1, 4 (r9) ; Y
+  stfs f1, 4 (r5)
+  lfs f1, 8 (r9) ; Z
+  stfs f1, 8 (r5)
+  
+  lis r9, 0x803F6A78@ha ; Current room number
+  addi r9, r9, 0x803F6A78@l
+  lbz r8, 0 (r9)
+  stb r8, 0xE (r5)
+  mr r7, r8 ; Argument r7 to setRestartOption needs to be the room index
+  mr r29, r8 ; Also modify the local variable room index in Makar's code (for when he calls set__19dSv_player_priest)
+  
+  lha r8, 0x4A2 (r9) ; 0x803F6F1A, player's current Y rotation
+  sth r8, 0xC (r5)
+  mr r6, r8 ; Argument r6 to setRestartOption needs to be the rotation
+  mr r28, r8 ; Also modify the local variable rotation in Makar's code (for when he calls set__19dSv_player_priest)
   
   after_resetting_makar_position:
   
@@ -286,8 +319,7 @@ reset_medli_position_to_start_of_dungeon:
   addi r9, r9, 0x10 ; Increase pointer to point to next element
   bdnz medli_spawn_point_search_loop_start ; Loop
   
-  ; The player came from a spawn that doesn't correspond to any of the elements in the array, don't change Medli's position.
-  b after_resetting_medli_position
+  b reset_medli_no_matching_spawn_point
   
   reset_medli_found_matching_spawn_point:
   lwz r8, 4 (r9) ; X pos
@@ -306,6 +338,39 @@ reset_medli_position_to_start_of_dungeon:
   stb r8, 0xE (r5)
   mr r7, r8 ; Argument r7 to setRestartOption needs to be the room index
   mr r30, r8 ; Also modify the local variable room index in Medli's code (for when she calls set__19dSv_player_priest)
+  b after_resetting_medli_position
+  
+  reset_medli_no_matching_spawn_point:
+  ; The player came from a spawn that doesn't correspond to any of the elements in the array.
+  ; This shouldn't happen under normal circumstances. If it did happen, it could mean a few things:
+  ; Maybe we forgot to account for a spawn you can enter from. Or maybe the player is using the map select cheat code.
+  ; In any case, we need an elegant fallback for cases like these. Simply doing nothing and leaving Medli's position
+  ; as is doesn't work well: it means the position will be copied from the partner's last saved position, which might
+  ; not even be Medli in Earth Temple (e.g. it could be a servant of the tower). This can result in Medli spawning out
+  ; of bounds, softlocking the game.
+  ; So instead, we copy the player's current position over to Medli. This is still a bit buggy, and can result in Medli
+  ; spawning inside of doors or in midair. But these bugs are preferable to completely softlocking the game.
+  
+  lis r9, 0x803E440C@ha ; Player's current position
+  addi r9, r9, 0x803E440C@l
+  lfs f1, 0 (r9) ; X
+  stfs f1, 0 (r5)
+  lfs f1, 4 (r9) ; Y
+  stfs f1, 4 (r5)
+  lfs f1, 8 (r9) ; Z
+  stfs f1, 8 (r5)
+  
+  lis r9, 0x803F6A78@ha ; Current room number
+  addi r9, r9, 0x803F6A78@l
+  lbz r8, 0 (r9)
+  stb r8, 0xE (r5)
+  mr r7, r8 ; Argument r7 to setRestartOption needs to be the room index
+  mr r30, r8 ; Also modify the local variable room index in Medli's code (for when she calls set__19dSv_player_priest)
+  
+  lha r8, 0x4A2 (r9) ; 0x803F6F1A, player's current Y rotation
+  sth r8, 0xC (r5)
+  mr r6, r8 ; Argument r6 to setRestartOption needs to be the rotation
+  mr r31, r8 ; Also modify the local variable rotation in Medli's code (for when she calls set__19dSv_player_priest)
   
   after_resetting_medli_position:
   
