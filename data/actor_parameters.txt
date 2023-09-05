@@ -1872,6 +1872,11 @@ d_a_obj_homen:
   destroyed_switch:
     Bitfield name: params
     Mask: 0xFF000000
+  # The below item_id parameter did not exist for stone heads in the vanilla game.
+  # The randomizer adds it so that they can drop any item, without the limited size of dropped_item_id.
+  item_id:
+    Bitfield name: x_rot
+    Mask: 0x00FF
 
 d_a_obj_homensmoke:
   unknown_param_1:
@@ -3231,6 +3236,11 @@ d_a_tsubo:
   enable_spawn_switch:
     Bitfield name: z_rot
     Mask: 0x00FF
+  # The below item_id parameter did not exist for pots in the vanilla game.
+  # The randomizer adds it so that pots can drop any item, without the limited size of dropped_item_id.
+  item_id:
+    Bitfield name: z_rot
+    Mask: 0xFF00
 
 d_a_wall:
   disable_spawn_on_destroyed_switch:

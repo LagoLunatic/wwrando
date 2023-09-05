@@ -54,6 +54,7 @@ strcat = 0x8032dc6c;
 
 fopAcM_createItem__FP4cXyziiiiP5csXyziP4cXyz = 0x80026adc;
 fopAcM_createItemForPresentDemo__FP4cXyziUciiP5csXyzP4cXyz = 0x80026118;
+fopAcM_createItemFromTable__FP4cXyziiiiP5csXyziP4cXyz = 0x800262b4;
 fopAcM_orderOtherEventId__FP10fopAc_ac_csUcUsUsUs = 0x80025ea4;
 SoldOutItem__11ShopItems_cFi = 0x8005ff10;
 getSelectItemNo__11ShopItems_cFv = 0x80060058;

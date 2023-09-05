@@ -94,7 +94,7 @@
 ; Normally when the player takes a boss item drop, it would not set the flag for having taken the current dungeon's boss item, since in vanilla that was handled by the heart container's item get function.
 ; That could allow the player to get the item over and over again since the item never disappears.
 ; So we modify createItemForBoss to pass an item flag to createItem, so that the item properly keeps track of whether it has been taken.
-; We use item flag 15 for all boss items, since that flag is not used by any items in any of the dungeons.
+; We use item pickup flag 0x15 for all boss items, since that flag is not used by any items in any of the dungeons.
 ; (Note that since we're just setting an item flag, the special flag for the dungeon's boss item being taken is never set. But I don't believe that should cause any issues.)
 .open "sys/main.dol"
 .org 0x80026A94
@@ -1009,4 +1009,84 @@ doc_bandam_blue_potion_slot_item_id:
 .org 0x1250
   beq 0x12C4 ; If the Darknuts are defeated, destroy this firewall object so it doesn't play any intro event.
   ; Otherwise continue on with the normal code to initialize the short intro event.
+.close
+
+
+
+
+; Allow pots to drop any item in the game.
+; In vanilla, pots could only drop certain items, mostly consumables.
+; This is because their item ID parameter, which ranged from 0x00-0x3F, was passed to fopAcM_createItemFromTable.
+; That function treats IDs 0x00-0x1F as normal item IDs, while it treats 0x20-0x3F as indexes in the random item drop table.
+; We add a new parameter to pots: z_rot&0xFF00.
+; This acts as a normal item ID passed to fopAcM_createItem, which can create any item, allowing pots to be randomized.
+.open "files/rels/d_a_tsubo.rel" ; Pots
+.org 0x3E7C ; In daTsubo::Act_c::damaged
+  ; This is where it originally called fopAcM_createItemFromTable with all the necessary arguments.
+  ; We replace the function call with a branch so that we can hijack the arguments it already set up for our own call.
+  b create_pot_item
+.org @NextFreeSpace
+.global create_pot_item
+create_pot_item:
+  ; Most registers are filled with the function call arguments at this point, so we can only use r0.
+  lhz r0, 0x67C (r29) ; Load the pot's backup of its original Z rotation parameters bitfield
+  rlwinm r0, r0, 24, 24, 31 ; Extract byte 0xFF00 from the Z rotation parameters (unused in vanilla)
+  
+  ; If the custom item ID is invalid we use the vanilla parameter (dropped_item_id).
+  ; The item IDs we consider invalid are 0xFF (invalid item) and 0x00 (heart pickup).
+  ; The reason we consider 0x00/heart to be invalid here is simply that this unused byte was always
+  ; set to 0x00 in vanilla, and it's better to avoid modifying every existing pot in the game.
+  ; Also, if we want a pot to drop a heart, we can use its existing dropped_item_id param instead.
+  cmpwi r0, 0xFF
+  beq create_pot_item_use_dropped_item_id
+  cmpwi r0, 0x00
+  beq create_pot_item_use_dropped_item_id
+  
+  create_pot_item_use_custom_item_id:
+  mr r4, r0 ; Modify the item ID parameter to use our custom item ID before passing it
+  li r7, 3 ; Don't fade out
+  li r9, 5 ; Item action, how it behaves. 5 causes it to make a ding sound so that it's more obvious.
+  bl fopAcM_createItem__FP4cXyziiiiP5csXyziP4cXyz
+  b 0x3E80 ; Return to original code
+  
+  create_pot_item_use_dropped_item_id:
+  ; Don't modify any parameters, use the ones already set by the vanilla code.
+  ; And call the same function as the line we overwrote to jump here.
+  bl fopAcM_createItemFromTable__FP4cXyziiiiP5csXyziP4cXyz
+  b 0x3E80 ; Return to original code
+.close
+
+
+
+
+; Allow stone heads to drop any item in the game.
+; This patch is almost identical to the above one for pots, so see there for detailed comments.
+.open "files/rels/d_a_obj_homen.rel" ; Stone head
+.org 0x16DC ; In daObjHomen::Act_c::make_item
+  ; Remove the check that the item spawn code will only run if the dropped_item_id is not equal to 0x3F.
+  ; This check is unnecessary even in vanilla since calling fopAcM_createItemFromTable with 0x3F will do nothing bad.
+  nop
+.org 0x1728 ; In daObjHomen::Act_c::make_item
+  b create_stone_head_item
+.org @NextFreeSpace
+.global create_stone_head_item
+create_stone_head_item:
+  lhz r0, 0x1DC (r29) ; Load the stone head's X rotation (unused in vanilla)
+  clrlwi r0, r0, 24 ; Extract byte 0x00FF from the X rotation
+  
+  cmpwi r0, 0xFF
+  beq create_stone_head_item_use_dropped_item_id
+  cmpwi r0, 0x00
+  beq create_stone_head_item_use_dropped_item_id
+  
+  create_stone_head_item_use_custom_item_id:
+  mr r4, r0
+  li r7, 3
+  li r9, 5
+  bl fopAcM_createItem__FP4cXyziiiiP5csXyziP4cXyz
+  b 0x172C ; Return to original code
+  
+  create_stone_head_item_use_dropped_item_id:
+  bl fopAcM_createItemFromTable__FP4cXyziiiiP5csXyziP4cXyz
+  b 0x172C ; Return to original code
 .close

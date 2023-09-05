@@ -216,7 +216,6 @@ reset_makar_position:
   stb r8, 0xE (r5)
   mr r7, r8 ; Argument r7 to setRestartOption needs to be the room index
   mr r29, r8 ; Also modify the local variable room index in Makar's code (for when he calls set__19dSv_player_priest)
-  
   b after_resetting_makar_position
   
   reset_makar_no_matching_spawn_point:

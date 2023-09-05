@@ -484,6 +484,14 @@ class ItemRandomizer(BaseRandomizer):
     actr = dzx.entries_by_type_and_layer(ACTR, layer=layer)[actor_index]
     if actr.actor_class_name in ["d_a_item", "d_a_boss_item"]:
       actr.item_id = item_id
+    elif actr.actor_class_name in ["d_a_tsubo", "d_a_obj_homen"]:
+      if item_id == 0x00:
+        # Special case - our custom item_id param for these classes uses 0x00 to mean null, so use the vanilla param.
+        actr.dropped_item_id = item_id
+        actr.item_id = 0x00
+      else:
+        actr.dropped_item_id = 0x3F
+        actr.item_id = item_id
     else:
       raise Exception("%s/ACTR%03X is not an item" % (arc_path, actor_index))
     

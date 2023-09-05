@@ -153,6 +153,10 @@ files/rels/d_a_npc_ds1.rel:
   doc_bandam_check_new_potion_and_give_free_item: 0x60F8
   doc_bandam_green_potion_slot_item_id: 0x6154
   doc_bandam_blue_potion_slot_item_id: 0x6155
+files/rels/d_a_tsubo.rel:
+  create_pot_item: 0x9964
+files/rels/d_a_obj_homen.rel:
+  create_stone_head_item: 0x36DC
 files/rels/d_a_ship.rel:
   set_wind_dir_to_ship_dir: 0xE3A8
   slow_down_ship_when_stopping: 0xE3F0
