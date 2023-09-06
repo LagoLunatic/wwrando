@@ -18,7 +18,6 @@ import string
 import struct
 import base64
 import colorsys
-import time
 import zipfile
 import shutil
 
@@ -1520,14 +1519,8 @@ class RandomizerThread(QThread):
       profiler.enable()
     
     try:
-      last_update_time = time.monotonic()
       for next_option_description, options_finished in self.randomizer.randomize():
-        if time.monotonic()-last_update_time < 0.1:
-          # Limit how frequently the signal is emitted to 10 times per second.
-          # Extremely frequent updates (e.g. 1000 times per second) can cause the program to crash with no error message.
-          continue
         self.update_progress.emit(next_option_description, options_finished)
-        last_update_time = time.monotonic()
     except Exception as e:
       stack_trace = traceback.format_exc()
       error_message = "Randomization failed with error:\n" + str(e) + "\n\n" + stack_trace
