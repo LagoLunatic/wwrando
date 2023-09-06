@@ -533,7 +533,7 @@ class HintsRandomizer(BaseRandomizer):
     while self.path_logic.unplaced_progress_items:
       progress_items_in_this_sphere = {}
       
-      accessible_locations = self.path_logic.get_accessible_remaining_locations()
+      accessible_locations = self.path_logic.get_accessible_remaining_locations(for_progression=False)
       locations_in_this_sphere = [
         loc for loc in accessible_locations
         if loc not in previously_accessible_locations

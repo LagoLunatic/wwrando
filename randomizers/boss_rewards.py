@@ -223,7 +223,9 @@ class BossRewardRandomizer(BaseRandomizer):
     
     while remaining_boss_reward_items:
       # Consider a dungeon boss reward to be accessible when every location in the dungeon is accessible.
-      accessible_undone_locations = self.logic.get_accessible_remaining_locations()
+      # This includes nonprogress locations. e.g. A Tingle Chest cannot be locked behind the boss reward of that same
+      # dungeon, even if Tingle Chests are not allowed to have progress items on these settings.
+      accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=False)
       inaccessible_dungeons = []
       for location_name in self.logic.remaining_item_locations:
         if self.logic.is_dungeon_location(location_name) and location_name not in accessible_undone_locations:

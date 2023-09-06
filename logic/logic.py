@@ -404,7 +404,7 @@ class Logic:
     for item_name in item_names:
       self.remove_owned_item_or_item_group(item_name)
   
-  def get_accessible_remaining_locations(self, for_progression=False):
+  def get_accessible_remaining_locations(self, *, for_progression):
     accessible_location_names = []
     
     locations_to_check = self.remaining_item_locations

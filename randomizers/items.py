@@ -26,7 +26,7 @@ class ItemRandomizer(BaseRandomizer):
     
     self.randomize_unique_nonprogress_items()
     
-    accessible_undone_locations = self.logic.get_accessible_remaining_locations()
+    accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=False)
     inaccessible_locations = [loc for loc in self.logic.remaining_item_locations if loc not in accessible_undone_locations]
     if inaccessible_locations:
       print("Inaccessible locations:")
@@ -135,16 +135,21 @@ class ItemRandomizer(BaseRandomizer):
     self.logic.update_entrance_connection_macros()
 
   def place_dungeon_item(self, item_name):
-    accessible_undone_locations = self.logic.get_accessible_remaining_locations()
+    if self.options.get("progression_dungeons"):
+      # If dungeons themselves are progress, do not allow dungeon items to appear in any dungeon
+      # locations that are nonprogress (e.g. Tingle Chests).
+      for_progression = True
+    else:
+      # But if dungeons are nonprogress, dungeon items can appear in nonprogress locations.
+      for_progression = False
+    
+    accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=for_progression)
+    
     accessible_undone_locations = [
       loc for loc in accessible_undone_locations
       if loc not in self.logic.prerandomization_item_locations
     ]
-    if not self.options.get("progression_tingle_chests"):
-      accessible_undone_locations = [
-        loc for loc in accessible_undone_locations
-        if not "Tingle Chest" in self.logic.item_locations[loc]["Types"]
-      ]
+    
     possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
     
     if self.rando.dungeons_and_caves_only_start and item_name == "DRC Small Key":
@@ -333,7 +338,7 @@ class ItemRandomizer(BaseRandomizer):
   
   def randomize_unique_nonprogress_items(self):
     while self.logic.unplaced_nonprogress_items:
-      accessible_undone_locations = self.logic.get_accessible_remaining_locations()
+      accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=False)
       
       item_name = self.rng.choice(self.logic.unplaced_nonprogress_items)
       
@@ -586,7 +591,7 @@ class ItemRandomizer(BaseRandomizer):
     while logic.unplaced_progress_items:
       progress_items_in_this_sphere = {}
       
-      accessible_locations = logic.get_accessible_remaining_locations()
+      accessible_locations = logic.get_accessible_remaining_locations(for_progression=False)
       locations_in_this_sphere = [
         loc for loc in accessible_locations
         if loc not in previously_accessible_locations
