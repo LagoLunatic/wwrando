@@ -1250,19 +1250,6 @@ Earth Temple - Transparent Chest In Warp Pot Room:
   Types: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest000
-Earth Temple - Chest Behind Destructible Walls:
-  Need:
-    Can Access Earth Temple
-    & Can Play Command Melody
-    & Can Defeat Red ChuChus
-    & Can Defeat Green ChuChus
-    & Can Defeat Dark ChuChus
-    & Skull Hammer
-    & Mirror Shield
-  Original item: Joy Pendant
-  Types: Dungeon
-  Paths:
-    - M_Dai/Stage.arc/Chest00A
 #Earth Temple - Behind Curtain In Warp Pot Room: # Too obscure to randomize
 #  Need:
 #    Can Access Earth Temple
@@ -1275,51 +1262,60 @@ Earth Temple - Chest Behind Destructible Walls:
 #    - M_Dai/Room2.arc/Actor010
 Earth Temple - Transparent Chest in First Crypt:
   Need:
-    Can Access Earth Temple
-    & Can Play Command Melody
-    & Skull Hammer
+    Can Reach Earth Temple Right Path
     & Power Bracelets
+    & (
+      Can Play Command Melody
+      | Mirror Shield
+    )
     # Power Bracelets necessary to move the large black pushable box and reveal a light ray.
+    # Then you can make the chest appear with either Medli or your own Mirror Shield (aiming not required).
   Original item: Small Key
   Types: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest001
+Earth Temple - Chest Behind Destructible Walls:
+  Need:
+    Can Reach Earth Temple Right Path
+    & Mirror Shield
+    # Put Medli on the button and then use your Mirror Shield on the wall (aiming not required).
+  Original item: Joy Pendant
+  Types: Dungeon
+  Paths:
+    - M_Dai/Stage.arc/Chest00A
 Earth Temple - Chest In Three Blocks Room:
   Need:
-    Can Access Earth Temple
-    & Can Play Command Melody
-    & ET Small Key x2
+    Can Reach Earth Temple Left Path
     & Fire Arrows
     & Power Bracelets
     & Can Defeat Floormasters
+    & (
+      Can Play Command Melody
+      | Can Aim Mirror Shield
+    )
     # Power Bracelets necessary again to move the large black pushable box and unlock a door.
     # You need to push blocks near the Floormaster to progress in this room, which basically requires killing it.
+    # Reflecting light on the statue on top of the block can be done without aiming the Mirror Shield, but it's finicky, so aiming is logically required.
   Original item: Compass
   Types: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest002
 Earth Temple - Chest Behind Statues:
   Need:
-    Can Access Earth Temple
-    & Can Play Command Melody
-    & ET Small Key x2
-    & Fire Arrows
-    & Power Bracelets
-    & Can Defeat Floormasters
+    Can Reach Earth Temple Moblins and Poes Room
+    & (
+      Can Play Command Melody
+      | Can Aim Mirror Shield
+    )
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest003
 Earth Temple - Casket in Second Crypt:
   Need:
-    Can Access Earth Temple
-    & Can Play Command Melody
-    & ET Small Key x2
-    & Fire Arrows
-    & Power Bracelets
-    & Can Defeat Floormasters
-    # The Poes don't require anything to kill and the Moblins can be tricked into hitting each other so you can steal their weapon.
+    Can Reach Earth Temple Moblins and Poes Room
     # The ReDeads don't need to be killed to get the item in their room, but you do need to kill them to escape without save warping.
+  # Need to escape: Can Defeat ReDeads
   Original item: Small Key
   Types: Dungeon
   Paths:
@@ -1336,9 +1332,7 @@ Earth Temple - Stalfos Miniboss Room:
     - M_DaiMB/Stage.arc/Chest000
 Earth Temple - Tingle Statue Chest:
   Need:
-    Can Access Earth Temple
-    & Can Play Command Melody
-    & Can Aim Mirror Shield
+    Can Reach Earth Temple Basement
     & Tingle Bombs
   Original item: Earth Tingle Statue
   Types: Tingle Chest, Dungeon
@@ -1346,20 +1340,22 @@ Earth Temple - Tingle Statue Chest:
     - M_Dai/Stage.arc/Chest00D
 Earth Temple - End of Foggy Room With Floormasters:
   Need:
-    Can Access Earth Temple
-    & Can Play Command Melody
-    & Can Aim Mirror Shield
-    & Can Play Earth God's Lyric
+    Can Reach Earth Temple ReDead Hub Room
+    & (
+      Can Play Command Melody
+      | Can Aim Mirror Shield
+    )
   Original item: Small Key
   Types: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest004
 Earth Temple - Kill All Floormasters in Foggy Room:
   Need:
-    Can Access Earth Temple
-    & Can Play Command Melody
-    & Can Aim Mirror Shield
-    & Can Play Earth God's Lyric
+    Can Reach Earth Temple ReDead Hub Room
+    & (
+      Can Play Command Melody
+      | Can Aim Mirror Shield
+    )
     & Can Defeat Floormasters
   Original item: Treasure Chart 20
   Types: Dungeon
@@ -1367,69 +1363,44 @@ Earth Temple - Kill All Floormasters in Foggy Room:
     - M_Dai/Stage.arc/Chest009
 #Earth Temple - Behind Curtain Next to Hammer Button: # Too obscure to randomize
 #  Need:
-#    Can Access Earth Temple
-#    & Can Play Command Melody
-#    & Can Aim Mirror Shield
-#    & Can Play Earth God's Lyric
+#    Can Reach Earth Temple ReDead Hub Room
+#    & (
+#      Can Play Command Melody
+#      | Can Aim Mirror Shield
+#    )
+#    & Fire Arrows
 #    & (Boomerang | Hookshot)
 #  Original item: Joy Pendant
 #  Types: Dungeon
 #  Paths:
 #    - M_Dai/Room13.arc/Actor01A
 Earth Temple - Chest in Third Crypt:
-  Need:
-    Can Access Earth Temple
-    & Can Play Command Melody
-    & Can Aim Mirror Shield
-    & Can Play Earth God's Lyric
-    & Power Bracelets
-    & Skull Hammer
-    & ET Small Key x3
-    & Can Defeat Red Bubbles
-    # Power Bracelets necessary again to move the large mirror under the light.
-    # Note: Killing the Red Bubbles is not necessary, but reflecting light is quite annoying while they're still alive.
+  Need: Can Reach Earth Temple Third Crypt
   Original item: Red Rupee
   Types: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest005
 Earth Temple - Many Mirrors Room Right Chest:
   Need:
-    Can Access Earth Temple
+    Can Reach Earth Temple Many Mirrors Room
     & Can Play Command Melody
-    & Can Aim Mirror Shield
-    & Can Play Earth God's Lyric
-    & Power Bracelets
-    & Skull Hammer
-    & ET Small Key x3
-    & Can Defeat Red Bubbles
   Original item: Purple Rupee
   Types: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest007
 Earth Temple - Many Mirrors Room Left Chest:
   Need:
-    Can Access Earth Temple
+    Can Reach Earth Temple Many Mirrors Room
+    & Power Bracelets
     & Can Play Command Melody
     & Can Aim Mirror Shield
-    & Can Play Earth God's Lyric
-    & Power Bracelets
-    & Skull Hammer
-    & ET Small Key x3
-    & Can Defeat Red Bubbles
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest008
 Earth Temple - Stalfos Crypt Room:
   Need:
-    Can Access Earth Temple
-    & Can Play Command Melody
-    & Can Aim Mirror Shield
-    & Can Play Earth God's Lyric
-    & Power Bracelets
-    & Skull Hammer
-    & ET Small Key x3
-    & Can Defeat Red Bubbles
+    Can Reach Earth Temple Many Mirrors Room
     & Can Defeat Stalfos
   Original item: Treasure Chart 12
   Types: Dungeon
@@ -1437,14 +1408,10 @@ Earth Temple - Stalfos Crypt Room:
     - M_Dai/Stage.arc/Chest00B
 Earth Temple - Big Key Chest:
   Need:
-    Can Access Earth Temple
+    Can Reach Earth Temple Many Mirrors Room
+    & Power Bracelets
     & Can Play Command Melody
     & Can Aim Mirror Shield
-    & Can Play Earth God's Lyric
-    & Power Bracelets
-    & Skull Hammer
-    & ET Small Key x3
-    & Can Defeat Red Bubbles
     & Can Defeat Blue Bubbles
     & Can Defeat Darknuts
   Original item: Big Key
