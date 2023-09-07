@@ -989,11 +989,11 @@ class Logic:
       token = tokens.pop()
       if token == "|":
         if expression_type == "AND":
-          raise Exception("Error parsing progression requirements: & and | must not be within the same nesting level.")
+          raise Exception(f"Error parsing progression requirements: & and | must not be within the same nesting level. Expression: {logical_expression}")
         expression_type = "OR"
       elif token == "&":
         if expression_type == "OR":
-          raise Exception("Error parsing progression requirements: & and | must not be within the same nesting level.")
+          raise Exception(f"Error parsing progression requirements: & and | must not be within the same nesting level. Expression: {logical_expression}")
         expression_type = "AND"
       elif token == "(":
         assert prev_token in [None, "&", "|"], f"Invalid expression: {logical_expression}"
