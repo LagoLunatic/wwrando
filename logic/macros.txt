@@ -104,6 +104,17 @@ Can Access Forest of Fairies:
   Can Cut Down Outset Trees
   & Can Fly With Deku Leaf Outdoors
 
+Can Reach Dragon Roost Cavern Gaping Maw:
+  Can Access Dragon Roost Cavern
+  & DRC Small Key x1
+  & (
+    (DRC Small Key x4 & Can Cut Down Hanging DRC Platform)
+    | (Can Fly With Deku Leaf Indoors & Obscure 2)
+    | (Ice Arrows & Obscure 2 & Precise 1)
+  )
+  # Obscure: You can sneak into the gap at the bottom of the second room of DRC to get here early (without cutting the platform down) by flying into the gap with Deku Leaf.
+  # Obscure&Precise: You can do the same with Ice Arrows instead of Deku Leaf by using them to freeze the magma and make one or two platform to jump across. It's somewhat tricky, but made easier by jump attacking if you have a sword.
+  # In vanilla these sequence breaks were not possible because of an invisible wall, but the randomizer removes the wall.
 Can Reach Dragon Roost Cavern Boss Stairs:
   Can Access Dragon Roost Cavern
   & DRC Small Key x4
@@ -128,9 +139,7 @@ Can Reach Tower of the Gods Third Floor:
   & Can Bring North Servant of the Tower
   & Wind Waker
   # Note: The Wind Waker is required for getting the item from "Tower of the Gods - Stone Tablet".
-  #   Although the randomizer removes the forced linearity of bringing the servants, it still
-  #   requires you to get that item before the warp will appear, because otherwise the stone tablet
-  #   would physically block link from using the warp, softlocking the game in an event.
+  # Although the randomizer removes the forced linearity of bringing the servants, it still requires you to get that item before the warp will appear, because otherwise the stone tablet would physically block Link from using the warp, softlocking the game in an event.
 Can Bring East Servant of the Tower:
   Nothing
 Can Bring West Servant of the Tower:
@@ -139,9 +148,12 @@ Can Bring West Servant of the Tower:
   & Hero's Bow
 Can Bring North Servant of the Tower:
   TotG Small Key x2
-  & Can Fly With Deku Leaf Indoors
+  & (
+    Can Fly With Deku Leaf Indoors
+    | Obscure 1
+  )
   & Can Play Command Melody
-  # Note: Deku Leaf is not strictly necessary in the north servant's room because you can jump on two decorative pillars near the side of the room, and then jump onto the wall protrusion above where the lasers are coming out of to reach the north servant. But since it's not clear the wall protrusion is something you can jump to and stand on, this is not currently required by the logic.
+  # Obscure: You can skip using Deku Leaf by jumping on two decorative pillars near the side of the room, and then jumping onto the wall protrusion above where the lasers are coming out of.
 
 Can Reach Earth Temple Sun Statue Room:
   Can Access Earth Temple
@@ -190,11 +202,14 @@ Can Reach Earth Temple Third Crypt:
   & Power Bracelets
   & Skull Hammer
   & ET Small Key x3
-  & Can Defeat Red Bubbles
+  & (
+    Can Defeat Red Bubbles
+    | Precise 2
+  )
   & Can Play Command Melody
   & Can Aim Mirror Shield
   # Power Bracelets necessary to move the large mirror under the light.
-  # Note: Killing the Red Bubbles is not necessary, but reflecting light is quite annoying while they're still alive.
+  # Precise: You can skip killing the Red Bubbles, but reflecting the light to progress is quite annoying while they're still alive.
 Can Reach Earth Temple Tall Vine Room:
   Can Reach Earth Temple Third Crypt
   & Can Play Earth God's Lyric
@@ -208,11 +223,19 @@ Can Access Forest Haven:
   # Grappling over the waterfall is very difficult without killing the Boko Baba there - but only if you start grappling from the top. You can grapple from the bottom up to avoid that Boko Baba entirely, so there's no extra requirement here for swordless.
 Can Access Dungeon Entrance in Forest Haven Sector:
   Can Access Forest Haven
-  & Grappling Hook
+  & (
+    Grappling Hook
+    | (
+      Can Fly With Deku Leaf Indoors
+      & Can Fly With Deku Leaf Outdoors
+      & Obscure 1
+      & Precise 1
+    )
+  )
   & Can Fly With Deku Leaf Outdoors
   & (Can Cut Grass | Magic Meter Upgrade)
   # You either need double magic or the ability to refill your magic by cutting grass to make it all the way across.
-  # Note: You don't need Grappling Hook because you can take the lower platform exit out of Forest Haven (Noob Skip), but this is not currently in the logic.
+  # Obscure&Precise: You can access this without Grappling Hook if you fly to the lowest elevated exit out of Forest Haven, then fly southwest to the pillar outside (Noob Skip).
 Can Access Dungeon Entrance in Tower of the Gods Sector:
   Din's Pearl
   & Farore's Pearl
@@ -294,11 +317,13 @@ Can Access Boss Entrance in Tower of the Gods:
 Can Access Boss Entrance in Forsaken Fortress:
   Can Get Inside Forsaken Fortress
   & Skull Hammer
-  & (Can Fly With Deku Leaf Indoors | Hookshot)
+  & (
+    Can Fly With Deku Leaf Indoors
+    | Hookshot
+    | (Obscure 2 & Precise 2)
+  )
   # You can make it up there with either Deku Leaf, or Hookshotting a torch to cross a gap.
-  # Note: It is possible to get up there without either Deku Leaf or Hookshot.
-  # To do it, go to the southwest room, and jump on top of the wooden bedposts. Then jump diagonally onto the corner of the platform with the Bokoblin and the Skull Hammer pegs on it.
-  # If adding difficulty options, take that trick into account.
+  # Obscure&Precise: It is possible to get up there without either Deku Leaf or Hookshot. To do it, go to the southwest room, and jump on top of the wooden bedposts (not the rightmost one). Then jump diagonally onto the corner of the platform with the Bokoblin and the Skull Hammer pegs on it.
   # There's a cannon that makes sidling across a gap difficult, but you don't need bombs because you can just kill the searchlight operator Bokoblin instead to get rid of the cannon simultaneously.
   # In vanilla, you also would have needed to be able to defeat Phantom Ganon because his fight triggers even if you're way above him trying to get to Helmaroc. But the randomizer fixes this so the fight won't start in that case.
 Can Access Boss Entrance in Earth Temple:
@@ -469,9 +494,13 @@ Can Access Northern Fairy Fountain:
   Can Access Fairy Fountain Entrance on Northern Fairy Island
 
 Can Get Past Forsaken Fortress Gate:
-  Bombs
-  # Note: It's also possible to blow up the door without bombs by using the mounted cannons, but this is not required by the logic.
-  # Note: It's also possible to get past the gate by going all the way down to Ganon's Tower, and then activating the warp up to Forsaken Fortress. But this is not currently required by the logic.
+  (
+    Bombs
+    | (Obscure 1 & Precise 1)
+    | (Can Open Ganon's Tower Dark Portal & Obscure 1)
+  )
+  # Obscure&Precise: You can trick the mounted cannons into blowing the door up for you.
+  # Obscure: You can circumvent the gate entirely by going all the way down to Ganon's Tower, and then activating the dark portal so you can warp up to Forsaken Fortress.
 Can Get Inside Forsaken Fortress:
   Can Get Past Forsaken Fortress Gate & Skull Hammer
   # Even though you can kill Phantom Ganon without the Skull Hammer, that only lets you access the one chest he spawns.
@@ -523,6 +552,9 @@ Can Unlock Ganon's Tower Four Boss Door:
 Can Reach Ganon's Tower Phantom Ganon Room:
   Can Access Ganon's Tower
   & Can Unlock Ganon's Tower Four Boss Door
+Can Open Ganon's Tower Dark Portal:
+  Can Reach Ganon's Tower Phantom Ganon Room
+  & Boomerang
 Can Reach and Defeat Puppet Ganon:
   Can Reach Ganon's Tower Phantom Ganon Room
   & Light Arrows
@@ -530,23 +562,29 @@ Can Reach and Defeat Puppet Ganon:
   & Can Defeat Mighty Darknuts
   & Can Defeat Puppet Ganon
 Can Defeat Puppet Ganon:
-  Boomerang
-  # Boomerang isn't strictly necessary to defeat Puppet Ganon but makes things significantly easier, both to cut down Puppet Ganon's strings and to defeat the keese who drop refills.
+  Light Arrows
+  & (
+    Boomerang
+    | Precise 2
+  )
+  # Precise: You can snipe Puppet Ganon's tail without cutting his strings first, though this is fairly precise. Boomerang makes things significantly easier, both to cut down Puppet Ganon's strings and to defeat the keese who drop refills.
 Can Reach and Defeat Ganondorf:
   Can Reach and Defeat Puppet Ganon
   & Grappling Hook
   & Hookshot
   & Can Defeat Ganondorf
 Can Defeat Ganondorf:
+  (Hero's Sword | In Swordless Mode)
+  & (
+    Hero's Shield
+    | (Skull Hammer & Obscure 2)
+  )
   # You need a sword to kill Ganondorf, but it doesn't need to be the Master Sword.
+  # Swordless gives you a sword temporarily during the Ganondorf fight, so you don't need to have found a sword item in that case.
   # It doesn't matter if you have the bow or not, Zelda will still get it.
   # You need a shield to reflect Zelda's light arrows, but it doesn't need to be Mirror Shield.
-  # Note: You can also reflect the light arrows with the Skull Hammer, but this is not currently
-  # required by the logic as it's obscure, and the vanilla game did not allow defending with
-  # Skull Hammer unless you owned a shield.
-  (Hero's Sword | In Swordless Mode)
-  & Hero's Shield
-  # Swordless gives you a sword temporarily during the Ganondorf fight, so you don't need to have found a sword item.
+  # Obscure: You can also reflect the light arrows with the Skull Hammer.
+  # In the vanilla game you were not allowed to defend with Skull Hammer unless you owned a shield, but this is changed in the randomizer.
 
 Rescued Aryll:
   Nothing # We set the event bit for having rescued Aryll by default.
@@ -664,8 +702,9 @@ Can Defeat Darknuts Easily:
   | Light Arrows
 Can Defeat Mighty Darknuts:
   Can Defeat Darknuts Easily
+  | (Skull Hammer & Precise 3)
   # The capes Mighty Darknuts have mean the one hit armor removal with the hammer doesn't work.
-  # Destroying the armor the slow way by hitting it repeatedly with spinning hammer attacks is far too hard against Mighty Darknuts, so that's not in logic.
+  # Precise: Destroying the armor the slow way by hitting it repeatedly with spinning hammer attacks is *extremely* difficult against Mighty Darknuts, but it is possible, even with only 3 hearts.
 Can Defeat Miniblins:
   Hero's Sword
   | Grappling Hook
@@ -693,9 +732,9 @@ Can Defeat Yellow ChuChus:
   | Bombs
   | (Can Fan With Deku Leaf & Hero's Sword)
   | Skull Hammer
+  | (Grappling Hook & Hero's Sword & Obscure 1 & Precise 2)
   # Note: Skull Hammer can stun them without taking damage if you hit the ground near them instead of hitting them directly.
-  # Note: Grappling Hook does stun it just barely long enough for you to kill it with your sword.
-  # But this is not immediately obvious and somewhat tricky to time, so maybe reserve that for a higher difficulty level.
+  # Obscure&Precise: Grappling Hook stuns them just barely long enough for you to kill them with your sword. This is somewhat tricky to time.
 Can Defeat Blue ChuChus:
   Can Defeat Yellow ChuChus
 Can Get Blue Chu Jelly from Blue ChuChus:
@@ -854,7 +893,8 @@ Can Defeat Stalfos:
 Can Defeat Floormasters:
   Hero's Sword
   | Hero's Bow
-  # Skull Hammer also works, but because of the wonky hitbox on floormasters there's a very high chance you'll miss and get taken back to the dungeon entrance, so it's not in the logic.
+  | (Skull Hammer & Precise 1)
+  # Precise: When using Skull Hammer to kill Floormasters, there's a chance you'll miss because of their wonky hitbox, and get taken all the way back to the dungeon entrance.
   # Bombs also work, but it's very annoying to hit them since they throw the bombs back at you. They also go back in the ground becoming invulnerable if you get too far away.
   # Hero's Bow would only be an issue if you run out of arrows when you need to kill a ton of Floormasters - aka the Earth Temple foggy Floormaster room. But thankfully that room has tons of skulls that drop arrow refills.
 Can Defeat Morths:
@@ -949,15 +989,21 @@ Can Cut Down Outset Trees:
   Hero's Sword
   | Boomerang
   | Skull Hammer
+  | (Power Bracelets & Obscure 3)
   # Fire Arrows and Bombs don't work.
   # Luring a ChuChu up the hill and having it jump on the trees doesn't work.
-  # Carrying the big pig to the trees and enraging it DOES work, it can cut the trees. But this is not currently in the logic because it's obscure and slow to do.
+  # Obscure: You can carry the big pig to the trees and enrage it, then trick it into cutting down the trees, although this is slow.
+  # You can do the pig method without any other items besides Power Bracelets, and without taking any damage from the enraged pig.
+  # To do this, first carry the pig to the trees. Then pick it up and throw it against the wall several times. For the tenth throw, instead of throwing it against the wall, throw it *through* the trees.
+  # Being thrown ten times will enrage it, so it will start rushing at you, cutting the trees down in the process. As soon as it comes back through the trees, pick it up again to calm it down so it doesn't hurt you.
 Can Cut Down Hanging DRC Platform:
   Hero's Sword
   | Bombs
   | Hero's Bow
   | Skull Hammer
-  # Hookshot and Grappling Hook can also technically cut the ropes, but it's too precise to aim them.
+  | (Hookshot & Precise 1)
+  | (Grappling Hook & Precise 1)
+  # Precise: Hookshot and Grappling Hook can also cut the ropes, though aiming them at such small targets without lock-on is fairly precise.
   # Boomerang can't cut them at all.
 Can Cut Grass:
   Hero's Sword
@@ -1027,6 +1073,20 @@ In Swordless Mode:
   Option "sword_mode" Is "Swordless"
 Outside Swordless Mode:
   Option "sword_mode" Is Not "Swordless"
+
+# Macros to wrap difficulty level checks.
+Obscure 1:
+  Impossible
+Obscure 2:
+  Impossible
+Obscure 3:
+  Impossible
+Precise 1:
+  Impossible
+Precise 2:
+  Impossible
+Precise 3:
+  Impossible
 
 TODO:
   Impossible

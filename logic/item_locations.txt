@@ -629,8 +629,12 @@ Dragon Roost Cavern - Chest Across Lava Pit:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x2
-    & (Grappling Hook | Can Fly With Deku Leaf Indoors)
-  # Note: It's also possible to throw a burning stick across the pit, then stand at the very very edge of the cliff and hookshot the chest to get across. But this is pretty precise, so this is not required. (Maybe for a higher difficulty level in the future it can be.)
+    & (
+      Grappling Hook
+      | Can Fly With Deku Leaf Indoors
+      | (Hookshot & Obscure 1)
+    )
+  # Obscure: Throw a burning stick across the pit to burn the barricade, then stand at a certain specific spot on the edge of the cliff and hookshot the chest to get across.
   # Note: In swordless, you can throw a burning stick across the lava pit, then grapple across.
   Original item: Treasure Chart 11
   Types: Dungeon
@@ -715,9 +719,7 @@ Dragon Roost Cavern - Under Rope Bridge:
     - M_NewD2/Stage.arc/Chest009
 Dragon Roost Cavern - Tingle Statue Chest:
   Need:
-    Can Access Dragon Roost Cavern
-    & DRC Small Key x1
-    & (DRC Small Key x4 & Can Cut Down Hanging DRC Platform)
+    Can Reach Dragon Roost Cavern Gaping Maw
     & Grappling Hook
     & Tingle Bombs
   Original item: Dragon Tingle Statue
@@ -726,14 +728,9 @@ Dragon Roost Cavern - Tingle Statue Chest:
     - M_NewD2/Stage.arc/Chest00C
 Dragon Roost Cavern - Big Key Chest:
   Need:
-    Can Access Dragon Roost Cavern
-    & DRC Small Key x1
-    & (DRC Small Key x4 & Can Cut Down Hanging DRC Platform)
+    Can Reach Dragon Roost Cavern Gaping Maw
     & Grappling Hook
     & Can Stun Magtails
-  # You can sneak into the gap at the bottom of the second room of DRC to get this chest early, but this is not currently in the logic.
-  # In vanilla you couldn't because of an invisible wall, but the randomizer removes the wall.
-  # Ice Arrows can be used to make platforms in order to get into the gap - it's somewhat tricky, but made easier by jump attacking if you have a sword.
   Original item: Big Key
   Types: Dungeon
   Paths:
@@ -770,8 +767,21 @@ Dragon Roost Cavern - Gohma Heart Container:
 Forest Haven - On Tree Branch:
   Need:
     Can Access Forest Haven
-    & Grappling Hook
-  # Note: You can access this without Grappling Hook if you take the lower platform exit out of Forest Haven, fly to the pillar outside, then use the whirlwind to gain height and fly back to Forest Haven taking the middle platform exit. But this requires using glitches (either precise ledge grabbing, leaf pumping, or simply abusing the respawn mechanic to get on the FH ledge without actually reaching it) so it's not in the logic.
+    & (
+      Grappling Hook
+      | (
+        Can Fly With Deku Leaf Indoors
+        & Can Fly With Deku Leaf Outdoors
+        & Obscure 1
+        & (
+          (Can Cut Grass & Precise 1)
+          | (Magic Meter Upgrade & Precise 2)
+        )
+      )
+    )
+  # Obscure&Precise: You can access this without Grappling Hook if you fly to the lowest elevated exit out of Forest Haven, fly southwest to the pillar outside (Noob Skip), then use the whirlwind to gain height and fly back northeast to Forest Haven entering via the middle elevated platform exit.
+  # This requires using either precise ledge grabbing, leaf pumping, or simply abusing the respawn mechanic to get on the FH ledge without actually reaching it.
+  # It is possible to do this skip without the ability to cut grass if you have Magic Meter Upgrade, but you can't waste even a single point of magic in that case.
   Original item: Deku Leaf
   Types: Island Puzzle
   Paths:
@@ -786,10 +796,22 @@ Forest Haven - On Tree Branch:
 Forest Haven - Small Island Chest:
   Need:
     Can Access Forest Haven
-    & Grappling Hook
+    & (
+      Grappling Hook
+      | (
+        Can Fly With Deku Leaf Indoors
+        & Can Fly With Deku Leaf Outdoors
+        & Obscure 1
+        & (
+          (Can Cut Grass & Precise 1)
+          | (Magic Meter Upgrade & Precise 2)
+        )
+      )
+    )
     & Can Fly With Deku Leaf Outdoors
     & (Can Cut Grass | Magic Meter Upgrade)
-  # Note: You don't need Grappling Hook because you can take the lower platform exit out of Forest Haven, fly to the pillar outside, then fly east to this small island (Noob Skip). You can just barely make it without double magic meter as long as you fully refill your magic meter. But this is not currently in the logic.
+  # Obscure&Precise: You can access this without Grappling Hook if you fly to the lowest elevated exit out of Forest Haven, fly southwest to the pillar outside (Noob Skip), then fly east to this small island.
+  # It is possible to do this skip without the ability to cut grass if you have Magic Meter Upgrade, but you can't waste even a single point of magic in that case.
   Original item: Treasure Chart 3
   Types: Island Puzzle
   Paths:
@@ -888,8 +910,11 @@ Forbidden Woods - Tall Room Before Miniboss:
     & Can Defeat Boko Babas
     & Grappling Hook
     & FW Small Key x1
-    & Can Defeat Peahats
-    # Killing the Peahats is not strictly necessary but grappling up is tricky while they're still alive since they knock you around.
+    & (
+      Can Defeat Peahats
+      | Precise 2
+    )
+    # Precise: Grappling up is tricky while the Peahats are still alive since they knock you around.
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
@@ -911,8 +936,11 @@ Forbidden Woods - Past Seeds Hanging by Vines:
     & Grappling Hook
     & FW Small Key x1
     & Can Defeat Door Flowers
-    & Can Destroy Seeds Hanging by Vines
-    # Note: Destroying the seeds hanging by vines is not strictly necessary, but it's hard to float across consistently without destroying them.
+    & (
+      Can Destroy Seeds Hanging by Vines
+      | Precise 1
+    )
+    # Precise: You can fly through the vines without destroying the seeds first, but it's slightly tricky to thread the needle like that, so you may fall.
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
@@ -1093,11 +1121,13 @@ Tower of the Gods - Second Chest Guarded by Armos Knights:
 Tower of the Gods - Floating Platforms Room:
   Need:
     Can Reach Tower of the Gods Second Floor
-    & Hero's Bow
-    # Note: You don't need bow to shoot the first eye if you use Deku Leaf to fly from the platform
-    #   near the entrance to the platform to the left of this chest. This doesn't require leaf
-    #   pumping or any tricks, but it does require the two platforms in question to have their
-    #   cycles synced, and decent timing. So this is not currently in logic.
+    & (
+      Hero's Bow
+      | (Can Fly With Deku Leaf Indoors & Precise 1)
+      | (Hookshot & Obscure 1)
+    )
+    # Precise: Instead of shooting the first eye, you can use Deku Leaf to fly from the platform near the entrance to the platform to the left of this chest. This doesn't require leaf pumping or any tricks, but it does require the cycles of the two platforms to be in sync, and decent timing.
+    # Obscure: Instead of shooting the first eye, you can simply hookshot the chest from the platform near the entrance.
   Original item: Small Key
   Types: Dungeon
   Paths:
@@ -1164,9 +1194,13 @@ Forsaken Fortress - Phantom Ganon:
 Forsaken Fortress - Chest Outside Upper Jail Cell:
   Need:
     Can Get Inside Forsaken Fortress
-    & (Can Fly With Deku Leaf Indoors | Hookshot)
+    & (
+      Can Fly With Deku Leaf Indoors
+      | Hookshot
+      | Obscure 1
+    )
     # Instead of using Deku Leaf to fly over to the chest, you can also use the Hookshot on the chest.
-    # Note: You could also intentionally get caught by the Floormaster so that it takes you to jail, then escape and access this chest without needing either Deku Leaf or Hookshot. But since this one Floormaster behaving differently from all others in the game is obscure, this is not currently required by the logic.
+    # Obscure: You can intentionally get caught by the Floormaster in the boat room so that it takes you to jail, then escape and access this chest without needing any items.
   Original item: Dungeon Map
   Types: Dungeon
   Paths:
@@ -1973,7 +2007,8 @@ Spectacle Island - Barrel Shooting - Second Prize:
 
 Needle Rock Isle - Chest:
   Need: Bait Bag & Can Buy Hyoi Pears
-    # Note: It might be theoretically possible to hit the switch at the top with a fire arrow's explosion, but it's not easy.
+    # Note: It does not seem possible to hit the switch at the top with a fire arrow's explosion.
+    # If you hit one of the trees on top with the fire arrow, it will simply eat your arrow without allows it to explode.
   Original item: Piece of Heart
   Types: Island Puzzle
   Paths:
@@ -2021,9 +2056,12 @@ Boating Course - Cave:
   Need:
     Can Access Boating Course Secret Cave
     & Can Hit Diamond Switches at Range
-    & Can Defeat Miniblins Easily
+    & (
+      Can Defeat Miniblins Easily
+      | Precise 2
+    )
     # Hitting the 3 diamond switches inside the cave needs a ranged weapon.
-    # Killing the miniblins is not necessary, but hitting the switches without being able to kill them would be extremely annoying.
+    # Precise: Hitting the switches with Hookshot without being able to kill the Miniblins is difficult and involves a lot of running around.
   Original item: Submarine Chart
   Types: Puzzle Secret Cave, Combat Secret Cave
   Paths:
@@ -2442,8 +2480,11 @@ Shark Island - Cave:
 Cliff Plateau Isles - Cave:
   Need:
     Can Access Cliff Plateau Isles Secret Cave
-    & Can Defeat Boko Babas
-    # Technically you can kill the Boko Babas here by throwing a nut at one to stun it, then using the Grappling Hook to finish it off. But the timing is pretty precise and this is pretty obscure, so it's not in the logic.
+    & (
+      Can Defeat Boko Babas
+      | (Grappling Hook & Obscure 1 & Precise 1)
+    )
+    # Obscure&Precise: You can kill a Boko Baba here by throwing a nut at it to stun it, then using the Grappling Hook to finish it off. Then you can take its Boko Stick.
   Original item: Joy Pendant
   Types: Puzzle Secret Cave
   Paths:
@@ -2748,8 +2789,15 @@ Crescent Moon Island - Sunken Treasure:
     - sea/Room5.arc/ScalableObject008
     - sea/Room5.arc/ScalableObject009
 Seven-Star Isles - Sunken Treasure:
-  Need: Grappling Hook & Chart for Island 6 & Bombs
-  # Bombs are not necessary, but it's tricky to salvage this treasure with two stationary gunboats shooting at you, so being able to destroy them makes this much easier. (Note that these gunboats only spawn after you have deciphered Triforce Chart 7.)
+  Need:
+    Grappling Hook
+    & Chart for Island 6
+    & (
+      Bombs
+      | Precise 1
+    )
+  # Precise: Bombs are not necessary, but it's slightly tricky to salvage this treasure with two stationary gunboats shooting at you, so being able to destroy them makes this easier.
+  # (Note that these gunboats only spawn after you have deciphered Triforce Chart 7, which is the chart for this island when the chart randomizer is disabled.)
   Original item: Triforce Shard 7
   Types: Sunken Treasure
   Paths:
@@ -2767,8 +2815,14 @@ Overlook Island - Sunken Treasure:
     - sea/Room7.arc/ScalableObject008
     - sea/Room7.arc/ScalableObject009
 Four-Eye Reef - Sunken Treasure:
-  Need: Grappling Hook & Chart for Island 8 & Bombs
-  # The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
+  Need:
+    Grappling Hook
+    & Chart for Island 8
+    & (
+      Bombs
+      | Precise 1
+    )
+  # Precise: The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
   Original item: Great Fairy Chart
   Types: Sunken Treasure
   Paths:
@@ -2894,8 +2948,14 @@ Star Belt Archipelago - Sunken Treasure:
     - sea/Room21.arc/ScalableObject00B
     - sea/Room21.arc/ScalableObject00C
 Three-Eye Reef - Sunken Treasure:
-  Need: Grappling Hook & Chart for Island 22 & Bombs
-  # The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
+  Need:
+    Grappling Hook
+    & Chart for Island 22
+    & (
+      Bombs
+      | Precise 1
+    )
+  # Precise: The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
   Original item: Piece of Heart
   Types: Sunken Treasure
   Paths:
@@ -2913,8 +2973,14 @@ Greatfish Isle - Sunken Treasure:
     - sea/Room23.arc/ScalableObject007
     - sea/Room23.arc/ScalableObject008
 Cyclops Reef - Sunken Treasure:
-  Need: Grappling Hook & Chart for Island 24 & Bombs
-  # The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
+  Need:
+    Grappling Hook
+    & Chart for Island 24
+    & (
+      Bombs
+      | Precise 1
+    )
+  # Precise: The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
   Original item: Light Ring Chart
   Types: Sunken Treasure
   Paths:
@@ -2923,8 +2989,14 @@ Cyclops Reef - Sunken Treasure:
     - sea/Room24.arc/ScalableObject00E
     - sea/Room24.arc/ScalableObject00F
 Six-Eye Reef - Sunken Treasure:
-  Need: Grappling Hook & Chart for Island 25 & Bombs
-  # The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
+  Need:
+    Grappling Hook
+    & Chart for Island 25
+    & (
+      Bombs
+      | Precise 1
+    )
+  # Precise: The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
   Original item: Silver Rupee
   Types: Sunken Treasure
   Paths:
@@ -2989,8 +3061,14 @@ Stone Watcher Island - Sunken Treasure:
     - sea/Room31.arc/ScalableObject008
     - sea/Room31.arc/ScalableObject009
 Southern Triangle Island - Sunken Treasure:
-  Need: Grappling Hook & Chart for Island 32 & Can Defeat Seahats
-  # Killing the seahats isn't necessary, but makes it much easier.
+  Need:
+    Grappling Hook
+    & Chart for Island 32
+    & (
+      Can Defeat Seahats
+      | Precise 1
+    )
+  # Precise: The seahats will try to knock you out of your ship when trying to salvage this treasure, so being able to kill them makes this much easier.
   Original item: Triforce Shard 6
   Types: Sunken Treasure
   Paths:
@@ -3117,8 +3195,14 @@ Headstone Island - Sunken Treasure:
     - sea/Room45.arc/ScalableObject028
     - sea/Room45.arc/ScalableObject029
 Two-Eye Reef - Sunken Treasure:
-  Need: Grappling Hook & Chart for Island 46 & Bombs
-  # The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
+  Need:
+    Grappling Hook
+    & Chart for Island 46
+    & (
+      Bombs
+      | Precise 1
+    )
+  # Precise: The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
   Original item: Triforce Shard 8
   Types: Sunken Treasure
   Paths:
