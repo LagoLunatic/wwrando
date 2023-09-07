@@ -100,8 +100,12 @@ Can Activate Tingle Bomb Triggers Without Tingle Tuner:
   Nothing
   # This tweak is always enabled.
 
-Can Access Forest of Fairies:
+Can Reach Outset Island Upper Level:
   Can Cut Down Outset Trees
+  | (Can Fly With Deku Leaf Outdoors & Obscure 1)
+  # Obscure: You can circumvent the trees entirely by jumping off the edge of the path near the trees and flying northeast to land on the elevated cliff on the side of the island. Then follow the path on top of the cliff to get behind the trees.
+Can Access Forest of Fairies:
+  Can Reach Outset Island Upper Level
   & Can Fly With Deku Leaf Outdoors
 
 Can Reach Dragon Roost Cavern Gaping Maw:
@@ -356,7 +360,7 @@ Can Access Molgera Boss Arena:
 
 Can Access Secret Cave Entrance on Outset Island:
   (
-    (Can Cut Down Outset Trees & Can Fly With Deku Leaf Outdoors)
+    (Can Reach Outset Island Upper Level & Can Fly With Deku Leaf Outdoors)
     | Hookshot
   )
   & Power Bracelets
