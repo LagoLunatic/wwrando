@@ -9,6 +9,8 @@ New features:
   * You can also choose to mix secret caves with nested dungeons, which can sometimes result in a dungeon's boss door taking you into a Secret Cave instead of a boss.
 * Fairy Fountain entrances can now be randomized.
 * Secret cave "inner caves" - the pit inside Ice Ring Isle's secret cave and the rear exit out of Cliff Plateau Isles's secret cave - can now also be included in entrance randomization.
+* Added a new Dungeon Secrets progression location category, which corresponds to 11 newly-randomized item locations within various dungeons.
+  * In vanilla these items were all originally Joy Pendants, hidden fairly well (not in chests). DRC has 3, while FW, TotG, ET, and WT each have 2.
 * You can now bring the three Servants of the Tower to the central room in Tower of the Gods in any order instead of being forced into the linear vanilla order.
 * Customized player colors can now be saved to a file for later use, or shared with other players.
 
@@ -24,6 +26,7 @@ Changes:
 Bug fixes:
 * Fixed the feature introduced in 1.10.0 to customize vanilla Link's hat and tunic colors separately not actually working.
 * Fixed a bug where seeds would fail to generate if you chose to start with every single progression item in the game while progression Dungeons was enabled and Key-Lunacy was disabled.
+* Fixed a bug where Tingle Chests would not appear when hit with a Bomb Flower instead of a normal bomb.
 * Fixed a vanilla bug where some of the sunken treasures around Needle Rock Island could be permanently missable depending on the order you collected them in (these only reward rupees and are not randomized).
 * Fixed a vanilla bug where the sun rising BGM would interrupt the miniboss BGM if you were in the middle of fighting a Big Octo at 5:59AM ingame time.
 * Fixed a bug in the vanilla code where you could not defend using the Skull Hammer if you didn't own a shield.

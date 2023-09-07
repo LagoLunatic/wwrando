@@ -614,7 +614,7 @@ Dragon Roost Cavern - Water Jug on Upper Shelf:
     Can Access Dragon Roost Cavern
     & DRC Small Key x1
   Original item: Joy Pendant
-  Types: Dungeon, Obscure
+  Types: Dungeon, Dungeon Secret
   Paths:
     - M_NewD2/Room13.arc/Actor005
 Dragon Roost Cavern - Boarded Up Chest:
@@ -682,7 +682,7 @@ Dragon Roost Cavern - Pot on Upper Shelf in Pot Room:
     Can Access Dragon Roost Cavern
     & DRC Small Key x4
   Original item: Joy Pendant
-  Types: Dungeon, Obscure
+  Types: Dungeon, Dungeon Secret
   Paths:
     - M_NewD2/Room6.arc/Actor023
 Dragon Roost Cavern - Pot Room Chest:
@@ -753,7 +753,7 @@ Dragon Roost Cavern - Boss Stairs Left Chest:
 Dragon Roost Cavern - Boss Stairs Right Pot:
   Need: Can Reach Dragon Roost Cavern Boss Stairs
   Original item: Joy Pendant
-  Types: Dungeon, Obscure
+  Types: Dungeon, Dungeon Secret
   Paths:
     - M_NewD2/Room10.arc/Actor002
 Dragon Roost Cavern - Gohma Heart Container:
@@ -828,7 +828,7 @@ Forbidden Woods - Pot High Above Hollow Tree:
     Can Access Forbidden Woods
     & Can Fly With Deku Leaf Indoors
   Original item: Joy Pendant
-  Types: Dungeon, Obscure
+  Types: Dungeon, Dungeon Secret
   Paths:
     - kindan/Room1.arc/Actor06B
 Forbidden Woods - Hole in Tree:
@@ -877,7 +877,7 @@ Forbidden Woods - Highest Pot in Vine Maze:
     & Can Defeat Boko Babas
     & Grappling Hook
   Original item: Joy Pendant
-  Types: Dungeon, Obscure
+  Types: Dungeon, Dungeon Secret
   Paths:
     - kindan/Room7.arc/Actor0E0
 Forbidden Woods - Tall Room Before Miniboss:
@@ -1008,7 +1008,7 @@ Tower of the Gods - Pot Behind Bombable Walls:
     Can Access Tower of the Gods
     & Bombs
   Original item: Joy Pendant
-  Types: Dungeon, Obscure
+  Types: Dungeon, Dungeon Secret
   Paths:
     - Siren/Room3.arc/Actor004
 Tower of the Gods - Hop Across Floating Boxes:
@@ -1113,7 +1113,7 @@ Tower of the Gods - Eastern Pot in Big Key Chest Room:
   Need:
     Can Reach Tower of the Gods Third Floor
   Original item: Joy Pendant
-  Types: Dungeon, Obscure
+  Types: Dungeon, Dungeon Secret
   Paths:
     - Siren/Room17.arc/Actor006
 Tower of the Gods - Big Key Chest:
@@ -1308,7 +1308,7 @@ Earth Temple - Behind Curtain In Warp Pot Room:
     & Fire Arrows
     & (Boomerang | Hookshot)
   Original item: Joy Pendant
-  Types: Dungeon, Obscure
+  Types: Dungeon, Dungeon Secret
   Paths:
     - M_Dai/Room2.arc/Actor010
 Earth Temple - Transparent Chest in First Crypt:
@@ -1422,7 +1422,7 @@ Earth Temple - Behind Curtain Next to Hammer Button:
     & Fire Arrows
     & (Boomerang | Hookshot)
   Original item: Joy Pendant
-  Types: Dungeon, Obscure
+  Types: Dungeon, Dungeon Secret
   Paths:
     - M_Dai/Room13.arc/Actor01A
 Earth Temple - Chest in Third Crypt:
@@ -1511,7 +1511,7 @@ Wind Temple - Behind Stone Head in Hidden Upper Room:
     & Can Fly With Deku Leaf Indoors
     & Hookshot
   Original item: Joy Pendant
-  Types: Dungeon, Obscure
+  Types: Dungeon, Dungeon Secret
   Paths:
     - kaze/Room1.arc/Actor010
 Wind Temple - Tingle Statue Chest:
@@ -1592,7 +1592,7 @@ Wind Temple - Behind Stone Head in Many Cyclones Room:
     # You can easily cheese the grass-cutting requirement if you decide to skip the chest in this room.
     # You can also cheese the grass-cutting requirement while getting the chest if you trick the Wizzrobe into using its fireballs to burn the grass for you.
   Original item: Joy Pendant
-  Types: Dungeon, Obscure
+  Types: Dungeon, Dungeon Secret
   Paths:
     - kaze/Room7.arc/Actor02E
 Wind Temple - Chest In Middle Of Hub Room:

@@ -618,7 +618,7 @@ class Logic:
         continue
       if ("Other Chest" in types or "Misc" in types) and not options.get("progression_misc"):
         continue
-      if "Obscure" in types:
+      if "Dungeon Secret" in types and not options.get("progression_dungeon_secrets"):
         continue
       
       # Note: The Triforce/Treasure Chart sunken treasures are handled differently from other types.

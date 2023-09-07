@@ -66,6 +66,9 @@ OPTIONS = {
   "progression_island_puzzles":
     "This controls whether various island puzzles can contain progress items (e.g. chests hidden in unusual places).<br>"
     "<u>If this is not checked, they will still be randomized</u>, but will only contain optional items you don't need to beat the game.",
+  "progression_dungeon_secrets":
+    "DRC, FW, TotG, ET, and WT each have 2-3 secret items within them (11 in total). This controls whether they can be progress items.<br>"
+    "The items are fairly well-hidden (they aren't in chests), so don't select this option unless you're prepared to search each dungeon high and low!",
   
   "keylunacy":
     "Allows dungeon keys (as well as maps and compasses) to appear anywhere in the game, not just in the dungeon they're for.",
