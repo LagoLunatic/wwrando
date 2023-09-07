@@ -2530,3 +2530,26 @@ def fix_helmaroc_king_table_softlock(self: WWRandomizer):
   actors = fftower_dzr.entries_by_type_and_layer(ACTR, layer=None)
   table = next(x for x in actors if x.name == "Otble")
   fftower_dzr.remove_entity(table, ACTR)
+
+def make_dungeon_joy_pendant_locations_flexible(self: WWRandomizer):
+  # One of the pots that drops a joy pendant does not have an item pickup flag set, meaning the
+  # item placed here can be obtained multiple times. This was presumably unintentional as all the
+  # other dungeon joy pendants have pickup flags, so we give it a new flag.
+  dzr = self.get_arc("files/res/Stage/kindan/Room7.arc").get_file("room.dzr", DZx)
+  pot = dzr.entries_by_type_and_layer(ACTR, layer=None)[0xE0]
+  pot.item_pickup_flag = 0x16 # Unused item pickup flag for Forbidden Woods
+  pot.save_changes()
+  
+  # The stone heads that drop joy pendants have dan bit switches for staying destroyed until you
+  # leave and re-enter this dungeon. These switches get set when the stone heads are destroyed, not
+  # when the items are collected. This can make it look like you're softlocked if you exit the room
+  # after destroying the stone head without picking up the item and then come back.
+  # To avoid this, we remove the destroyed switch from the stone heads so that they always reappear.
+  dzr = self.get_arc("files/res/Stage/kaze/Room1.arc").get_file("room.dzr", DZx)
+  stone_head = dzr.entries_by_type_and_layer(ACTR, layer=None)[0x10]
+  stone_head.destroyed_switch = 0xFF
+  stone_head.save_changes()
+  dzr = self.get_arc("files/res/Stage/kaze/Room7.arc").get_file("room.dzr", DZx)
+  stone_head = dzr.entries_by_type_and_layer(ACTR, layer=None)[0x2E]
+  stone_head.destroyed_switch = 0xFF
+  stone_head.save_changes()

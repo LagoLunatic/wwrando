@@ -605,6 +605,14 @@ Dragon Roost Cavern - Alcove With Water Jugs:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest008
+Dragon Roost Cavern - Water Jug on Upper Shelf:
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x1
+  Original item: Joy Pendant
+  Types: Dungeon, Obscure
+  Paths:
+    - M_NewD2/Room13.arc/Actor005
 Dragon Roost Cavern - Boarded Up Chest:
   Need:
     Can Access Dragon Roost Cavern
@@ -665,6 +673,14 @@ Dragon Roost Cavern - Tingle Chest in Hub Room:
   Types: Tingle Chest, Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest00D
+Dragon Roost Cavern - Pot on Upper Shelf in Pot Room:
+  Need:
+    Can Access Dragon Roost Cavern
+    & DRC Small Key x4
+  Original item: Joy Pendant
+  Types: Dungeon, Obscure
+  Paths:
+    - M_NewD2/Room6.arc/Actor023
 Dragon Roost Cavern - Pot Room Chest:
   Need:
     Can Access Dragon Roost Cavern
@@ -730,6 +746,12 @@ Dragon Roost Cavern - Boss Stairs Left Chest:
   Types: Dungeon
   Paths:
     - M_NewD2/Stage.arc/Chest002
+Dragon Roost Cavern - Boss Stairs Right Pot:
+  Need: Can Reach Dragon Roost Cavern Boss Stairs
+  Original item: Joy Pendant
+  Types: Dungeon, Obscure
+  Paths:
+    - M_NewD2/Room10.arc/Actor002
 Dragon Roost Cavern - Gohma Heart Container:
   Need:
     Can Access Gohma Boss Arena
@@ -797,6 +819,14 @@ Forbidden Woods - Climb to Top Using Boko Baba Bulbs:
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest000
+Forbidden Woods - Pot High Above Hollow Tree:
+  Need:
+    Can Access Forbidden Woods
+    & Can Fly With Deku Leaf Indoors
+  Original item: Joy Pendant
+  Types: Dungeon, Obscure
+  Paths:
+    - kindan/Room1.arc/Actor06B
 Forbidden Woods - Hole in Tree:
   Need:
     Can Access Forbidden Woods
@@ -836,6 +866,16 @@ Forbidden Woods - Vine Maze Right Chest:
   Types: Dungeon
   Paths:
     - kindan/Stage.arc/Chest003
+Forbidden Woods - Highest Pot in Vine Maze:
+  Need:
+    Can Access Forbidden Woods
+    & Can Fly With Deku Leaf Indoors
+    & Can Defeat Boko Babas
+    & Grappling Hook
+  Original item: Joy Pendant
+  Types: Dungeon, Obscure
+  Paths:
+    - kindan/Room7.arc/Actor0E0
 Forbidden Woods - Tall Room Before Miniboss:
   Need:
     Can Access Forbidden Woods
@@ -959,6 +999,14 @@ Tower of the Gods - Chest Behind Bombable Walls:
   Types: Dungeon
   Paths:
     - Siren/Stage.arc/Chest001
+Tower of the Gods - Pot Behind Bombable Walls:
+  Need:
+    Can Access Tower of the Gods
+    & Bombs
+  Original item: Joy Pendant
+  Types: Dungeon, Obscure
+  Paths:
+    - Siren/Room3.arc/Actor004
 Tower of the Gods - Hop Across Floating Boxes:
   Need: Can Access Tower of the Gods
   Original item: Small Key
@@ -1057,6 +1105,13 @@ Tower of the Gods - Top of Floating Platforms Room:
   Types: Dungeon
   Paths:
     - Siren/Stage.arc/Chest009
+Tower of the Gods - Eastern Pot in Big Key Chest Room:
+  Need:
+    Can Reach Tower of the Gods Third Floor
+  Original item: Joy Pendant
+  Types: Dungeon, Obscure
+  Paths:
+    - Siren/Room17.arc/Actor006
 Tower of the Gods - Big Key Chest:
   Need:
     Can Reach Tower of the Gods Third Floor
@@ -1242,16 +1297,16 @@ Earth Temple - Transparent Chest In Warp Pot Room:
   Types: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest000
-#Earth Temple - Behind Curtain In Warp Pot Room: # Too obscure to randomize
-#  Need:
-#    Can Access Earth Temple
-#    & Can Play Command Melody
-#    & Fire Arrows
-#    & (Boomerang | Hookshot)
-#  Original item: Joy Pendant
-#  Types: Dungeon
-#  Paths:
-#    - M_Dai/Room2.arc/Actor010
+Earth Temple - Behind Curtain In Warp Pot Room:
+  Need:
+    Can Access Earth Temple
+    & Can Play Command Melody
+    & Fire Arrows
+    & (Boomerang | Hookshot)
+  Original item: Joy Pendant
+  Types: Dungeon, Obscure
+  Paths:
+    - M_Dai/Room2.arc/Actor010
 Earth Temple - Transparent Chest in First Crypt:
   Need:
     Can Reach Earth Temple Right Path
@@ -1353,19 +1408,19 @@ Earth Temple - Kill All Floormasters in Foggy Room:
   Types: Dungeon
   Paths:
     - M_Dai/Stage.arc/Chest009
-#Earth Temple - Behind Curtain Next to Hammer Button: # Too obscure to randomize
-#  Need:
-#    Can Reach Earth Temple ReDead Hub Room
-#    & (
-#      Can Play Command Melody
-#      | Can Aim Mirror Shield
-#    )
-#    & Fire Arrows
-#    & (Boomerang | Hookshot)
-#  Original item: Joy Pendant
-#  Types: Dungeon
-#  Paths:
-#    - M_Dai/Room13.arc/Actor01A
+Earth Temple - Behind Curtain Next to Hammer Button:
+  Need:
+    Can Reach Earth Temple ReDead Hub Room
+    & (
+      Can Play Command Melody
+      | Can Aim Mirror Shield
+    )
+    & Fire Arrows
+    & (Boomerang | Hookshot)
+  Original item: Joy Pendant
+  Types: Dungeon, Obscure
+  Paths:
+    - M_Dai/Room13.arc/Actor01A
 Earth Temple - Chest in Third Crypt:
   Need: Can Reach Earth Temple Third Crypt
   Original item: Red Rupee
@@ -1444,6 +1499,17 @@ Wind Temple - Chest Between Two Dirt Patches:
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest005
+Wind Temple - Behind Stone Head in Hidden Upper Room:
+  Need:
+    Can Access Wind Temple
+    & Can Play Command Melody
+    & Iron Boots
+    & Can Fly With Deku Leaf Indoors
+    & Hookshot
+  Original item: Joy Pendant
+  Types: Dungeon, Obscure
+  Paths:
+    - kaze/Room1.arc/Actor010
 Wind Temple - Tingle Statue Chest:
   Need:
     Can Access Wind Temple
@@ -1500,11 +1566,31 @@ Wind Temple - Chest In Many Cyclones Room:
     )
     # There's 2 paths you can take:
     # * The vanilla path requires you to refill your magic to reach the chest, so you need a way to cut grass or the magic meter upgrade.
-    # * The alternate path is to hookshot up the trees on the side path to reach the upper level of the hub room, then glide down to where the iron switch is and do the many cyclones room backwards. If you don't have the magic meter upgrade you still need to refill your magic - but there's conveniently a skull that always drops a large magic refill, so you can just barely make it.
+    #   You can cheese the grass-cutting requirement if you trick the Wizzrobe into using its fireballs to burn the grass for you.
+    # * The alternate path is to hookshot up the trees on the side path to reach the upper level of the hub room, then glide down to where the iron switch is and do the many cyclones room backwards.
+    #   If you don't have the magic meter upgrade you still need to refill your magic - but there's conveniently a skull that always drops a large magic refill, so you can just barely make it.
   Original item: Dungeon Map
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest008
+Wind Temple - Behind Stone Head in Many Cyclones Room:
+  Need:
+    Can Access Wind Temple
+    & Can Play Command Melody
+    & Iron Boots
+    & Can Fly With Deku Leaf Indoors
+    & (
+      Can Cut Grass
+      | (Hookshot & Can Defeat Blue Bubbles)
+    )
+    & Hookshot
+    # 2 paths: Through the many cyclones room (requires refilling magic) or glide down from the upper level of the hub room.
+    # You can easily cheese the grass-cutting requirement if you decide to skip the chest in this room.
+    # You can also cheese the grass-cutting requirement while getting the chest if you trick the Wizzrobe into using its fireballs to burn the grass for you.
+  Original item: Joy Pendant
+  Types: Dungeon, Obscure
+  Paths:
+    - kaze/Room7.arc/Actor02E
 Wind Temple - Chest In Middle Of Hub Room:
   Need:
     Can Access Wind Temple
@@ -1516,6 +1602,8 @@ Wind Temple - Chest In Middle Of Hub Room:
       | (Hookshot & Can Defeat Blue Bubbles)
     )
     # 2 paths: Through the many cyclones room (requires refilling magic) or glide down from the upper level of the hub room.
+    # You can easily cheese the grass-cutting requirement if you decide to skip the chest in this room.
+    # You can also cheese the grass-cutting requirement while getting the chest if you trick the Wizzrobe into using its fireballs to burn the grass for you.
   Original item: Compass
   Types: Dungeon
   Paths:

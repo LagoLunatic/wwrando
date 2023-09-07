@@ -618,12 +618,15 @@ class Logic:
         continue
       if ("Other Chest" in types or "Misc" in types) and not options.get("progression_misc"):
         continue
-      if "Sunken Treasure" in types and filter_sunken_treasure:
+      if "Obscure" in types:
         continue
+      
       # Note: The Triforce/Treasure Chart sunken treasures are handled differently from other types.
       # During randomization they are handled by not considering the charts themselves to be progress items.
       # That results in the item randomizer considering these locations inaccessible until after all progress items are placed.
       # But when calculating the total number of progression locations, sunken treasures are filtered out entirely here so they can be specially counted elsewhere.
+      if "Sunken Treasure" in types and filter_sunken_treasure:
+        continue
       
       filtered_locations.append(location_name)
     
