@@ -697,11 +697,7 @@ Dragon Roost Cavern - Tingle Statue Chest:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x1
-    & (
-      (DRC Small Key x4 & Can Cut Down Hanging DRC Platform)
-      | Can Fly With Deku Leaf Indoors
-      | Ice Arrows
-    )
+    & (DRC Small Key x4 & Can Cut Down Hanging DRC Platform)
     & Grappling Hook
     & Tingle Bombs
   Original item: Dragon Tingle Statue
@@ -712,16 +708,12 @@ Dragon Roost Cavern - Big Key Chest:
   Need:
     Can Access Dragon Roost Cavern
     & DRC Small Key x1
-    & (
-      (DRC Small Key x4 & Can Cut Down Hanging DRC Platform)
-      | Can Fly With Deku Leaf Indoors
-      | Ice Arrows
-    )
+    & (DRC Small Key x4 & Can Cut Down Hanging DRC Platform)
     & Grappling Hook
-  # You can sneak into the gap at the bottom of the second room of DRC to get this chest early.
+    & Can Stun Magtails
+  # You can sneak into the gap at the bottom of the second room of DRC to get this chest early, but this is not currently in the logic.
   # In vanilla you couldn't because of an invisible wall, but the randomizer removes the wall.
   # Ice Arrows can be used to make platforms in order to get into the gap - it's somewhat tricky, but made easier by jump attacking if you have a sword.
-  # The Magtail you need to use to press a switch can be stunned with just Grappling Hook so it doesn't add more requirements.
   Original item: Big Key
   Types: Dungeon
   Paths:
