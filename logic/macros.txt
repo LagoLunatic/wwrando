@@ -1076,17 +1076,23 @@ Outside Swordless Mode:
 
 # Macros to wrap difficulty level checks.
 Obscure 1:
-  Impossible
+  Option "logic_obscurity" Is "Normal"
+  | Option "logic_obscurity" Is "Hard"
+  | Option "logic_obscurity" Is "Very Hard"
 Obscure 2:
-  Impossible
+  Option "logic_obscurity" Is "Hard"
+  | Option "logic_obscurity" Is "Very Hard"
 Obscure 3:
-  Impossible
+  Option "logic_obscurity" Is "Very Hard"
 Precise 1:
-  Impossible
+  Option "logic_precision" Is "Normal"
+  | Option "logic_precision" Is "Hard"
+  | Option "logic_precision" Is "Very Hard"
 Precise 2:
-  Impossible
+  Option "logic_precision" Is "Hard"
+  | Option "logic_precision" Is "Very Hard"
 Precise 3:
-  Impossible
+  Option "logic_precision" Is "Very Hard"
 
 TODO:
   Impossible

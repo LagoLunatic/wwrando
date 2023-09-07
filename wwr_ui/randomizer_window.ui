@@ -117,7 +117,7 @@
              </layout>
             </item>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="progression_locations_groupbox">
               <property name="title">
                <string>Progression Locations: Where Should Progress Items Be Placed?</string>
               </property>
@@ -871,9 +871,6 @@
                <string>Race Mode Options</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_6">
-               <item row="0" column="2">
-                <widget class="QWidget" name="widget_4" native="true"/>
-               </item>
                <item row="0" column="0">
                 <widget class="QCheckBox" name="race_mode">
                  <property name="text">
@@ -950,8 +947,96 @@
                  </item>
                 </layout>
                </item>
+               <item row="0" column="2">
+                <widget class="QWidget" name="widget_4" native="true"/>
+               </item>
                <item row="0" column="3">
                 <widget class="QWidget" name="widget_5" native="true"/>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_9">
+              <property name="title">
+               <string>Logic Difficulty</string>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_22">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_20">
+                 <item>
+                  <widget class="QLabel" name="label_for_logic_obscurity">
+                   <property name="text">
+                    <string>Obscure Tricks Required</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="logic_obscurity">
+                   <item>
+                    <property name="text">
+                     <string>None</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Normal</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Hard</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Very Hard</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_21">
+                 <item>
+                  <widget class="QLabel" name="label_for_logic_precision">
+                   <property name="text">
+                    <string>Precise Tricks Required</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="logic_precision">
+                   <item>
+                    <property name="text">
+                     <string>None</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Normal</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Hard</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Very Hard</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QWidget" name="widget_10" native="true"/>
+               </item>
+               <item>
+                <widget class="QWidget" name="widget_13" native="true"/>
                </item>
               </layout>
              </widget>

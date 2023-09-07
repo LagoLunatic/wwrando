@@ -183,6 +183,13 @@ OPTIONS = {
   "dry_run":
     "If this option is selected, <u>no playable ISO will be generated</u>, but the log files will still be created.<br>"
     "This can be useful if you want to generate a spoiler log on a computer where you do not have a vanilla Wind Waker ISO.",
+  
+  "logic_obscurity":
+    "Obscure tricks are ways of obtaining items that are not obvious and may involve thinking outside the box.<br>"
+    "This option controls the maximum difficulty of obscure tricks the randomizer will require you to do to beat the game.",
+  "logic_precision":
+    "Precise tricks are ways of obtaining items that involve difficult inputs such as accurate aiming or perfect timing.<br>"
+    "This option controls the maximum difficulty of precise tricks the randomizer will require you to do to beat the game.",
 }
 
 # Options that should not be put into the permalink. These options are generally cosmetic or

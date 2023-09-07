@@ -424,7 +424,7 @@ class WWRandomizerWindow(QMainWindow):
     
     text = "Progression Locations: Where Should Progress Items Be Placed? " \
       f"(Selected: {num_progress_locations} Locations Available)"
-    self.ui.groupBox.setTitle(text)
+    self.ui.progression_locations_groupbox.setTitle(text)
   
   def permalink_modified(self):
     permalink = self.ui.permalink.text()
