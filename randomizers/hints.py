@@ -146,7 +146,7 @@ class HintsRandomizer(BaseRandomizer):
     
     # Validate location names in location hints file.
     for location_name in self.location_hints:
-      assert location_name in rando.logic.item_locations
+      assert location_name in rando.logic.item_locations, f"Invalid location name in hints file: {location_name!r}"
     
     # Define a dictionary mapping charts to their sunken treasure.
     # This will be used to check whether or not the chart leads to a junk item. If so, the chart itself can be

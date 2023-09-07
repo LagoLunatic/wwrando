@@ -60,7 +60,7 @@ Dragon Roost Island - Rito Aerie - Give Hoskit 20 Golden Feathers:
 Dragon Roost Island - Fly Across Platforms Around Island:
   Type: Standard
   Text: gliding around the home of bird people
-Dragon Roost Island - Rito Aerie - Baito:
+Dragon Roost Island - Rito Aerie - Mail Sorting:
   Type: Standard
   Text: mastering the art of letter throwing
 Dragon Roost Island - Secret Cave:

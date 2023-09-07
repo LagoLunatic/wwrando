@@ -570,7 +570,7 @@ Dragon Roost Island - Fly Across Platforms Around Island:
   Types: Island Puzzle
   Paths:
     - sea/Room13.arc/Chest001
-Dragon Roost Island - Rito Aerie - Baito:
+Dragon Roost Island - Rito Aerie - Mail Sorting:
   Need: Nothing # Need to sort letters 4 times total. The minimum score each time is: 10, 20, 25, 25.
   Original item: Note to Mom
   Types: Minigame
