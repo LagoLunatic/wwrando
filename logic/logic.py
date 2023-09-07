@@ -984,6 +984,7 @@ class Logic:
     subexpression_results = []
     tokens = logical_expression.copy()
     tokens.reverse()
+    prev_token = None
     while tokens:
       token = tokens.pop()
       if token == "|":
@@ -995,17 +996,17 @@ class Logic:
           raise Exception("Error parsing progression requirements: & and | must not be within the same nesting level.")
         expression_type = "AND"
       elif token == "(":
+        assert prev_token in [None, "&", "|"], f"Invalid expression: {logical_expression}"
         nested_expression = tokens.pop()
-        if nested_expression == "(":
-          # Nested parentheses
-          nested_expression = ["("] + tokens.pop()
         result = self.check_logical_expression_req(nested_expression, reqs_being_checked=reqs_being_checked)
         subexpression_results.append(result)
         assert tokens.pop() == ")"
       else:
         # Subexpression.
+        assert prev_token in [None, "&", "|"], f"Invalid expression: {logical_expression}"
         result = self.check_requirement_met(token, reqs_being_checked=reqs_being_checked)
         subexpression_results.append(result)
+      prev_token = token
     
     if expression_type == "OR":
       return any(subexpression_results)
@@ -1091,6 +1092,7 @@ class Logic:
     items_needed = {}
     tokens = logical_expression.copy()
     tokens.reverse()
+    prev_token = None
     while tokens:
       token = tokens.pop()
       if token == "|":
@@ -1098,19 +1100,19 @@ class Logic:
       elif token == "&":
         pass
       elif token == "(":
+        assert prev_token in [None, "&", "|"], f"Invalid expression: {logical_expression}"
         nested_expression = tokens.pop()
-        if nested_expression == "(":
-          # Nested parentheses
-          nested_expression = ["("] + tokens.pop()
         sub_items_needed = self.get_items_needed_from_logical_expression_req(nested_expression, reqs_being_checked=reqs_being_checked)
         for item_name, num_required in sub_items_needed.items():
           items_needed[item_name] = max(num_required, items_needed.setdefault(item_name, 0))
         assert tokens.pop() == ")"
       else:
         # Subexpression.
+        assert prev_token in [None, "&", "|"], f"Invalid expression: {logical_expression}"
         sub_items_needed = self.get_items_needed_by_req_name(token, reqs_being_checked=reqs_being_checked)
         for item_name, num_required in sub_items_needed.items():
           items_needed[item_name] = max(num_required, items_needed.setdefault(item_name, 0))
+      prev_token = token
     
     return items_needed
   
