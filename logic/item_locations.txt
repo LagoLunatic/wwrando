@@ -412,27 +412,31 @@ Windfall Island - Sam - Decorate the Town:
   Types: Long Sidequest
   Paths:
     - rels/d_a_npc_people.rel@C54B
-#Windfall Island - Kane - Place Shop Guru Statue on Gate: # Too obscure to randomize
-#  Need: Rescued Aryll & Delivery Bag
-#  Original item: Purple Rupee
-#  Paths:
-#    - rels/d_a_npc_people.rel@C21B
-#Windfall Island - Kane - Place Postman Statue on Gate: # Too obscure to randomize
-#  Need: Rescued Aryll & Delivery Bag
-#  Original item: Purple Rupee
-#  Paths:
-#    - rels/d_a_npc_people.rel@C21F
-#Windfall Island - Kane - Place Six Flags on Gate: # Too obscure to randomize
-#  # Pinwheel counts as a flag
-#  Need: Rescued Aryll & Delivery Bag
-#  Original item: Red Rupee
-#  Paths:
-#    - rels/d_a_npc_people.rel@C223
-#Windfall Island - Kane - Place Six Idols on Gate: # Too obscure to randomize
-#  Need: Rescued Aryll & Delivery Bag
-#  Original item: Red Rupee
-#  Paths:
-#    - rels/d_a_npc_people.rel@C227
+Windfall Island - Kane - Place Shop Guru Statue on Gate:
+  Need: Rescued Aryll & Delivery Bag
+  Original item: Purple Rupee
+  Types: Consumables only
+  Paths:
+    - rels/d_a_npc_people.rel@C21B
+Windfall Island - Kane - Place Postman Statue on Gate:
+  Need: Rescued Aryll & Delivery Bag
+  Original item: Purple Rupee
+  Types: Consumables only
+  Paths:
+    - rels/d_a_npc_people.rel@C21F
+Windfall Island - Kane - Place Six Flags on Gate:
+  # Pinwheel counts as a flag
+  Need: Rescued Aryll & Delivery Bag
+  Original item: Red Rupee
+  Types: Consumables only
+  Paths:
+    - rels/d_a_npc_people.rel@C223
+Windfall Island - Kane - Place Six Idols on Gate:
+  Need: Rescued Aryll & Delivery Bag
+  Original item: Red Rupee
+  Types: Consumables only
+  Paths:
+    - rels/d_a_npc_people.rel@C227
 Windfall Island - Mila - Follow the Thief:
   Need: Rescued Aryll
   Original item: Empty Bottle
