@@ -2008,7 +2008,7 @@ Spectacle Island - Barrel Shooting - Second Prize:
 Needle Rock Isle - Chest:
   Need: Bait Bag & Can Buy Hyoi Pears
     # Note: It does not seem possible to hit the switch at the top with a fire arrow's explosion.
-    # If you hit one of the trees on top with the fire arrow, it will simply eat your arrow without allows it to explode.
+    # If you hit one of the trees on top with the fire arrow, it will simply eat your arrow without allowing it to explode.
   Original item: Piece of Heart
   Types: Island Puzzle
   Paths:

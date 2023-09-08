@@ -1010,7 +1010,7 @@ d_a_mbdoor:
     Mask: 0x003F
 
 d_a_mdoor:
-  unknown_param_1:
+  unknown_switch:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
@@ -1085,7 +1085,7 @@ d_a_mt:
     Mask: 0x00FF
 
 d_a_mtoge:
-  unknown_param_1:
+  switch_to_check:
     Bitfield name: params
     Mask: 0x000000FF
 
@@ -2299,7 +2299,7 @@ d_a_obj_table:
     Mask: 0x000000FF
 
 d_a_obj_tapestry:
-  unknown_param_1:
+  switch_to_set:
     Bitfield name: params
     Mask: 0x000000FF
   unknown_param_2:
@@ -3107,7 +3107,7 @@ d_a_tag_photo:
     Mask: 0x000000FF
 
 d_a_tag_ret:
-  unknown_param_1:
+  spawn_id:
     Bitfield name: params
     Mask: 0x000000FF
 
