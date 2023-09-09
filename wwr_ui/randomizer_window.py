@@ -14,7 +14,6 @@ import collections
 import os
 import yaml
 import traceback
-import string
 import struct
 import base64
 import colorsys
@@ -23,7 +22,8 @@ import shutil
 
 from randomizer import WWRandomizer, TooFewProgressionLocationsError, InvalidCleanISOError
 from version import VERSION
-from wwrando_paths import SETTINGS_PATH, ASSETS_PATH, SEEDGEN_PATH, IS_RUNNING_FROM_SOURCE, CUSTOM_MODELS_PATH
+from wwrando_paths import SETTINGS_PATH, ASSETS_PATH, IS_RUNNING_FROM_SOURCE, CUSTOM_MODELS_PATH
+from seedgen import seedgen
 import customizer
 from logic.logic import Logic
 from gclib import texture_utils
@@ -139,27 +139,7 @@ class WWRandomizerWindow(QMainWindow):
       self.ui.update_checker_label.setText("(Running from source, skipping release update check.)")
   
   def generate_seed(self):
-    random.seed(None)
-    
-    with open(os.path.join(SEEDGEN_PATH, "adjectives.txt")) as f:
-      adjectives = random.sample(f.read().splitlines(), 2)
-    noun_file_to_use = random.choice(["nouns.txt", "names.txt"])
-    with open(os.path.join(SEEDGEN_PATH, noun_file_to_use)) as f:
-      noun = random.choice(f.read().splitlines())
-    words = adjectives + [noun]
-    capitalized_words = []
-    for word in words:
-      capitalized_word = ""
-      seen_first_letter = False
-      for char in word:
-        if char in string.ascii_letters and not seen_first_letter:
-          capitalized_word += char.capitalize()
-          seen_first_letter = True
-        else:
-          capitalized_word += char
-      capitalized_words.append(capitalized_word)
-    seed = "".join(capitalized_words)
-    
+    seed = seedgen.make_random_seed_name()
     seed = WWRandomizer.sanitize_seed(seed)
     
     self.settings["seed"] = seed
