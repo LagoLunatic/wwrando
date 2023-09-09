@@ -93,7 +93,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.label_for_clean_iso_path.linkActivated.connect(self.show_clean_iso_explanation)
     
     for option_name in OPTIONS:
-      widget = getattr(self.ui, option_name)
+      widget = self.findChild(QWidget, option_name)
       if isinstance(widget, QAbstractButton):
         widget.clicked.connect(self.update_settings)
       elif isinstance(widget, QComboBox):
@@ -112,8 +112,8 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.about_button.clicked.connect(self.open_about)
     
     for option_name in OPTIONS:
-      getattr(self.ui, option_name).installEventFilter(self)
-      label_for_option = getattr(self.ui, "label_for_" + option_name, None)
+      self.findChild(QWidget, option_name).installEventFilter(self)
+      label_for_option = self.findChild(QLabel, "label_for_" + option_name)
       if label_for_option:
         label_for_option.installEventFilter(self)
     self.ui.sword_mode.highlighted.connect(self.update_sword_mode_highlighted_description)
@@ -464,7 +464,7 @@ class WWRandomizerWindow(QMainWindow):
         # So just put a 0 bit as a placeholder.
         value = False
       
-      widget = getattr(self.ui, option_name)
+      widget = self.findChild(QWidget, option_name)
       if isinstance(widget, QAbstractButton):
         bitswriter.write(int(value), 1)
       elif isinstance(widget, QComboBox):
@@ -535,7 +535,7 @@ class WWRandomizerWindow(QMainWindow):
       if option_name in NON_PERMALINK_OPTIONS:
         continue
       
-      widget = getattr(self.ui, option_name)
+      widget = self.findChild(QWidget, option_name)
       if isinstance(widget, QAbstractButton):
         boolean_value = bitsreader.read(1)
         self.set_option_value(option_name, boolean_value)
@@ -645,7 +645,7 @@ class WWRandomizerWindow(QMainWindow):
     self.set_option_description(desc)
   
   def get_option_value(self, option_name):
-    widget = getattr(self.ui, option_name)
+    widget = self.findChild(QWidget, option_name)
     if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
       return widget.isChecked()
     elif isinstance(widget, QComboBox):
@@ -664,7 +664,7 @@ class WWRandomizerWindow(QMainWindow):
       print("Option widget is invalid: %s" % option_name)
   
   def set_option_value(self, option_name, new_value):
-    widget = getattr(self.ui, option_name)
+    widget = self.findChild(QWidget, option_name)
     if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
       widget.setChecked(bool(new_value))
     elif isinstance(widget, QComboBox):
@@ -1079,8 +1079,8 @@ class WWRandomizerWindow(QMainWindow):
         self.set_option_value(opt, self.default_settings[opt])
     
     for option_name in OPTIONS:
-      widget = getattr(self.ui, option_name)
-      label_for_option = getattr(self.ui, "label_for_" + option_name, None)
+      widget = self.findChild(QWidget, option_name)
+      label_for_option = self.findChild(QLabel, "label_for_" + option_name)
       if should_enable_options[option_name]:
         widget.setEnabled(True)
         if label_for_option:
@@ -1101,7 +1101,7 @@ class WWRandomizerWindow(QMainWindow):
     
     # Hide certain options from the GUI (still accessible via settings.txt and permalinks).
     for option_name in HIDDEN_OPTIONS:
-      widget = getattr(self.ui, option_name)
+      widget = self.findChild(QWidget, option_name)
       if self.get_option_value(option_name):
         widget.show()
       else:
