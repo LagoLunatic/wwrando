@@ -36,7 +36,7 @@ def make_argparser() -> argparse.ArgumentParser:
   )
   parser.add_argument(
     '-n', '--noui', action='store_true',
-    help="Skip loading the GUI, randomize immediately with stored settings. (Permalinks, autoseed, and profiling are currently broken with this option.)"
+    help="Skip loading the GUI, randomize immediately with stored settings. (Permalinks are currently broken with this option.)"
   )
   parser.add_argument(
     '-d', '--dry', action='store_true',
@@ -157,10 +157,12 @@ def run_all_bulk_tests(rando_kwargs):
 
 def run_no_ui(args):
   from randomizer import WWRandomizer
+  from seedgen import seedgen
   import traceback
   from wwrando_paths import SETTINGS_PATH
   from tqdm import tqdm
   import yaml
+  import cProfile, pstats
   
   with open(SETTINGS_PATH) as f:
     options: dict = yaml.safe_load(f)
@@ -174,8 +176,12 @@ def run_no_ui(args):
     "cmd_line_args": args,
   }
   
-  # TODO profiling
-  # TODO autoseed option
+  if args.autoseed:
+    rando_kwargs["seed"] = seedgen.make_random_seed_name()
+  
+  if args.profile:
+    profiler = cProfile.Profile()
+    profiler.enable()
   
   if args.bulk:
     run_all_bulk_tests(rando_kwargs)
@@ -185,8 +191,6 @@ def run_no_ui(args):
     # stage_searcher.print_all_spawn_types(rando)
     # stage_searcher.print_all_stage_types(rando)
     # stage_searcher.search_all_bmds(rando)
-    stage_searcher.print_all_used_item_pickup_flags(rando)
-    stage_searcher.print_all_used_switches(rando)
   else:
     rando = WWRandomizer(**rando_kwargs)
     try:
@@ -207,6 +211,13 @@ def run_no_ui(args):
       if rando is not None:
         rando.write_error_log(error_message)
       raise e
+  
+  if args.profile:
+    profiler.disable()
+    profiler.dump_stats("profileresults.prof")
+    with open("profileresults.txt", "w") as f:
+      ps = pstats.Stats(profiler, stream=f).sort_stats("cumulative")
+      ps.print_stats()
 
 def try_fix_taskbar_icon():
   from wwrando_paths import IS_RUNNING_FROM_SOURCE
@@ -245,9 +256,6 @@ if __name__ == "__main__":
   
   if args.bulk or args.stagesearch:
     args.noui = True
-  
-  if args.noui and (args.autoseed or args.profile):
-    raise NotImplementedError
   
   if args.noui:
     run_no_ui(args)

@@ -117,9 +117,26 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
+                "--exportfolder",
+                "--mapselect",
                 "--noui",
                 "--profile",
             ]
-        }
+        },
+        {
+            "name": "Profile (Dry)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/wwrando.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--exportfolder",
+                "--mapselect",
+                "--noui",
+                "--dry",
+                "--profile",
+            ]
+        },
     ]
 }

@@ -20,6 +20,12 @@
             "type": "shell",
             "command": "python ${workspaceFolder}/wwrando.py -noui -disassemble",
             "problemMatcher": []
-        }
+        },
+        {
+            "label": "Launch SnakeViz",
+            "type": "shell",
+            "command": "snakeviz ${workspaceFolder}/profileresults.prof",
+            "problemMatcher": []
+        },
     ]
 }
