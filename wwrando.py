@@ -23,20 +23,22 @@ def parse_spawn(str_value):
   return {"stage": stage, "room": room, "spawn": spawn}
 
 def make_argparser() -> argparse.ArgumentParser:
-  parser = argparse.ArgumentParser(add_help=False)
+  parser = argparse.ArgumentParser(
+    add_help=False,
+    formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=52), # Force extra space for all option names.
+  )
   
   parser.add_argument(
     '-h', '--help', action='help',
     help="Show this help message and exit.",
   )
   parser.add_argument(
-    '-v', '--version', action='version',
+    '-v', '--version', action='version', version=VERSION,
     help="Show program's version number and exit.",
-    version=VERSION,
   )
   parser.add_argument(
     '-n', '--noui', action='store_true',
-    help="Skip loading the GUI, randomize immediately with stored settings. (Permalinks are currently broken with this option.)"
+    help="Skip loading GUI, randomize immediately with saved settings. (No permalink/seed hash.)"
   )
   parser.add_argument(
     '-d', '--dry', action='store_true',
@@ -44,16 +46,15 @@ def make_argparser() -> argparse.ArgumentParser:
   )
   parser.add_argument(
     '-a', '--autoseed', action='store_true',
-    help="Use a random seed name instead of the last seed from stored settings."
+    help="Use a random seed name instead of the last seed from saved settings."
   )
   parser.add_argument(
-    '-b', '--bulk', action='store_true',
-    help="Randomize a large number of seeds quickly and save their logs only.",
+    '-b', '--bulk', type=int, nargs='?', const=100, metavar="SEEDS",
+    help="Randomize a large number of seeds (default 100) and save their logs only.",
   )
   parser.add_argument(
-    '-t', '--test',
+    '-t', '--test', type=parse_spawn, metavar="SPAWN",
     help="Playtest a specific player spawn. Format: StageName,RoomNum,SpawnID",
-    type=parse_spawn,
   )
   parser.add_argument(
     '-e', '--exportfolder', action='store_true',
@@ -116,7 +117,7 @@ def run_single_bulk_test(args):
       rando.write_error_log(error_message)
     return False, rando
 
-def run_all_bulk_tests(rando_kwargs):
+def run_all_bulk_tests(rando_kwargs, num_seeds):
   assert getattr(sys, "gettrace", None) is None or sys.gettrace() is None, "Launched bulk test in debug mode (slow)"
   
   from tqdm import tqdm
@@ -129,9 +130,8 @@ def run_all_bulk_tests(rando_kwargs):
   
   with Pool(4) as p:
     first_seed = 0
-    num_tests = 100
-    func_args = [(i, rando_kwargs) for i in range(first_seed, first_seed+num_tests)]
-    progress_bar = tqdm(p.imap(run_single_bulk_test, func_args), total=num_tests)
+    func_args = [(i, rando_kwargs) for i in range(first_seed, first_seed+num_seeds)]
+    progress_bar = tqdm(p.imap(run_single_bulk_test, func_args), total=num_seeds)
     
     total_done = 0
     failures_done = 0
@@ -184,7 +184,7 @@ def run_no_ui(args):
     profiler.enable()
   
   if args.bulk:
-    run_all_bulk_tests(rando_kwargs)
+    run_all_bulk_tests(rando_kwargs, args.bulk)
   elif args.stagesearch:
     from wwlib import stage_searcher
     rando = WWRandomizer(**rando_kwargs)
