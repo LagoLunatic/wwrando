@@ -29,18 +29,16 @@ from logic.logic import Logic
 from gclib import texture_utils
 
 class WWRandomizerWindow(QMainWindow):
-  def __init__(self, cmd_line_args=None):
+  def __init__(self, cmd_line_args):
     super(WWRandomizerWindow, self).__init__()
     self.ui = Ui_MainWindow()
     self.ui.setupUi(self)
     
     self.randomizer_thread = None
     
-    if cmd_line_args is None:
-      cmd_line_args = {}
     self.cmd_line_args = cmd_line_args
-    self.profiling = ("-profile" in cmd_line_args)
-    self.auto_seed = ("-autoseed" in cmd_line_args)
+    self.profiling = cmd_line_args.profile
+    self.auto_seed = cmd_line_args.autoseed
     
     self.dice_icon = QIcon(os.path.join(ASSETS_PATH, "dice.png"))
     

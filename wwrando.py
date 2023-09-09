@@ -10,6 +10,90 @@ def signal_handler(sig, frame):
   sys.exit(0)
 signal.signal(signal.SIGINT, signal_handler)
 
+import argparse
+from version import VERSION
+
+def parse_spawn(str_value):
+  try:
+    stage, room, spawn = str_value.split(",")
+    room = int(room)
+    spawn = int(spawn)
+  except ValueError:
+    raise argparse.ArgumentTypeError("Invalid test room spawn format. Should be in the format: StageName,RoomNum,SpawnID (e.g. 'kindan,5,0')")
+  return {"stage": stage, "room": room, "spawn": spawn}
+
+def make_argparser() -> argparse.ArgumentParser:
+  parser = argparse.ArgumentParser(add_help=False)
+  
+  parser.add_argument(
+    '-h', '--help', action='help',
+    help="Show this help message and exit.",
+  )
+  parser.add_argument(
+    '-v', '--version', action='version',
+    help="Show program's version number and exit.",
+    version=VERSION,
+  )
+  parser.add_argument(
+    '-n', '--noui', action='store_true',
+    help="Skip loading the GUI, randomize immediately with stored settings. (Permalinks, autoseed, and profiling are currently broken with this option.)"
+  )
+  parser.add_argument(
+    '-d', '--dry', action='store_true',
+    help="Randomize in-memory and write logs only, do not read or write any ISOs.",
+  )
+  parser.add_argument(
+    '-a', '--autoseed', action='store_true',
+    help="Use a random seed name instead of the last seed from stored settings."
+  )
+  parser.add_argument(
+    '-b', '--bulk', action='store_true',
+    help="Randomize a large number of seeds quickly and save their logs only.",
+  )
+  parser.add_argument(
+    '-t', '--test',
+    help="Playtest a specific player spawn. Format: StageName,RoomNum,SpawnID",
+    type=parse_spawn,
+  )
+  parser.add_argument(
+    '-e', '--exportfolder', action='store_true',
+    help="Save output game files to an extracted folder instead of a GCM ISO file.",
+  )
+  parser.add_argument(
+    '-m', '--mapselect', action='store_true',
+    help="Enable debug map select ingame by pressing Y, Z, and D-pad down.",
+  )
+  parser.add_argument(
+    '-r', '--heap', action='store_true',
+    help="Enable display of memory heaps onscreen during gameplay for debugging low RAM.",
+  )
+  parser.add_argument(
+    '-i', '--noitemrando', action='store_true',
+    help="Preserve vanilla item locations. This speeds up randomization. Source only.",
+  )
+  parser.add_argument(
+    '--nologs', action='store_true',
+    help="Skip writing all log files, including error logs.",
+  )
+  parser.add_argument(
+    '--disassemble', action='store_true',
+    help="Dump and disassemble all of the vanilla game's code, adding symbol names as comments.",
+  )
+  parser.add_argument(
+    '--printflags', action='store_true',
+    help="Print all documented flags used in the vanilla game to text files.",
+  )
+  parser.add_argument(
+    '--stagesearch', action='store_true',
+    help="Runs a custom dev script for searching the game's files.",
+  )
+  parser.add_argument(
+    '--profile', action='store_true',
+    help="Profile the randomization code and store the results to a file.",
+  )
+  
+  return parser
+
 def run_single_bulk_test(args):
   temp_seed, rando_kwargs = args
   
@@ -93,9 +177,9 @@ def run_no_ui(args):
   # TODO profiling
   # TODO autoseed option
   
-  if "-bulk" in args:
+  if args.bulk:
     run_all_bulk_tests(rando_kwargs)
-  elif "-stagesearch" in args:
+  elif args.stagesearch:
     from wwlib import stage_searcher
     rando = WWRandomizer(**rando_kwargs)
     # stage_searcher.print_all_spawn_types(rando)
@@ -157,18 +241,15 @@ def run_with_ui(args):
   sys.exit(qApp.exec())
 
 if __name__ == "__main__":
-  args = {}
-  for arg in sys.argv[1:]:
-    arg_parts = arg.split("=", 1)
-    if len(arg_parts) == 1:
-      args[arg_parts[0]] = None
-    else:
-      args[arg_parts[0]] = arg_parts[1]
+  args = make_argparser().parse_args()
   
-  if "-bulk" in args or "-stagesearch" in args:
-    args["-noui"] = None
+  if args.bulk or args.stagesearch:
+    args.noui = True
   
-  if "-noui" in args:
+  if args.noui and (args.autoseed or args.profile):
+    raise NotImplementedError
+  
+  if args.noui:
     run_no_ui(args)
   else:
     run_with_ui(args)

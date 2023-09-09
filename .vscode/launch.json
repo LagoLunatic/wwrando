@@ -20,8 +20,8 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "-exportfolder",
-                "-mapselect",
+                "--exportfolder",
+                "--mapselect",
             ],
         },
         {
@@ -32,9 +32,9 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "-exportfolder",
-                "-mapselect",
-                "-noui",
+                "--exportfolder",
+                "--mapselect",
+                "--noui",
             ],
         },
         {
@@ -45,10 +45,10 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "-exportfolder",
-                "-mapselect",
-                "-noui",
-                "-dry",
+                "--exportfolder",
+                "--mapselect",
+                "--noui",
+                "--dry",
             ],
         },
         {
@@ -59,10 +59,10 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "-exportfolder",
-                "-mapselect",
-                "-noui",
-                "-noitemrando",
+                "--exportfolder",
+                "--mapselect",
+                "--noui",
+                "--noitemrando",
             ],
         },
         {
@@ -73,11 +73,11 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "-exportfolder",
-                "-mapselect",
-                "-noui",
-                "-noitemrando",
-                "-dry",
+                "--exportfolder",
+                "--mapselect",
+                "--noui",
+                "--noitemrando",
+                "--dry",
             ],
         },
         {
@@ -88,10 +88,10 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "-exportfolder",
-                "-mapselect",
-                "-noui",
-                "-bulk",
+                "--exportfolder",
+                "--mapselect",
+                "--noui",
+                "--bulk",
             ],
         },
         {
@@ -102,11 +102,11 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "-exportfolder",
-                "-mapselect",
-                "-noui",
-                "-bulk",
-                "-noitemrando"
+                "--exportfolder",
+                "--mapselect",
+                "--noui",
+                "--bulk",
+                "--noitemrando"
             ],
         },
         {
@@ -117,8 +117,8 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "-noui",
-                "-profile",
+                "--noui",
+                "--profile",
             ]
         }
     ]

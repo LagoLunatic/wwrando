@@ -88,30 +88,27 @@ class WWRandomizer:
     
     if cmd_line_args is None:
       cmd_line_args = {}
-    if "-dry" in cmd_line_args:
+    if cmd_line_args.dry:
       self.options["dry_run"] = True
     self.dry_run = self.options.pop("dry_run", False)
-    self.disassemble = ("-disassemble" in cmd_line_args)
-    self.export_disc_to_folder = ("-exportfolder" in cmd_line_args)
-    self.no_logs = ("-nologs" in cmd_line_args)
-    self.bulk_test = ("-bulk" in cmd_line_args)
+    self.disassemble = cmd_line_args.disassemble
+    self.export_disc_to_folder = cmd_line_args.exportfolder
+    self.no_logs = cmd_line_args.nologs
+    self.bulk_test = cmd_line_args.bulk
     if self.bulk_test:
       self.dry_run = True
       self.logs_output_folder = os.path.join(self.logs_output_folder, "bulk")
-    self.print_used_flags = ("-printflags" in cmd_line_args)
-    if ("-noitemrando" in cmd_line_args) and IS_RUNNING_FROM_SOURCE:
+    self.print_used_flags = cmd_line_args.printflags
+    if cmd_line_args.noitemrando and IS_RUNNING_FROM_SOURCE:
       self.randomize_items = False
     else:
       self.randomize_items = True
-    self.map_select = ("-mapselect" in cmd_line_args)
-    self.heap_display = ("-heap" in cmd_line_args)
+    self.map_select = cmd_line_args.mapselect
+    self.heap_display = cmd_line_args.heap
     
     self.test_room_args = None
-    if "-test" in cmd_line_args:
-      args = cmd_line_args["-test"]
-      if args is not None:
-        stage, room, spawn = args.split(",")
-        self.test_room_args = {"stage": stage, "room": int(room), "spawn": int(spawn)}
+    if cmd_line_args.test:
+      self.test_room_args = cmd_line_args.test
     
     seed_string = self.seed
     if self.options.get("do_not_generate_spoiler_log"):
