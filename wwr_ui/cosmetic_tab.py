@@ -16,7 +16,7 @@ import zipfile
 import shutil
 import traceback
 
-from wwrando_paths import SETTINGS_PATH, ASSETS_PATH, IS_RUNNING_FROM_SOURCE, CUSTOM_MODELS_PATH
+from wwrando_paths import ASSETS_PATH, CUSTOM_MODELS_PATH
 import customizer
 from gclib import texture_utils
 
@@ -663,7 +663,7 @@ class CosmeticTab(QWidget):
     if not found_any_valid:
       QMessageBox.warning(
         self, "Found no colors",
-        f"The preset didn't contain any colors that are valid for this model."
+        "The preset didn't contain any colors that are valid for this model."
       )
       return
     

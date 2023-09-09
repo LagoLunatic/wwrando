@@ -157,7 +157,7 @@ class ItemRandomizer(BaseRandomizer):
       # A key you need to progress appearing there can cause issues that dead-end the item placement logic when there are no locations outside DRC for the randomizer to give you other items at.
       possible_locations = [
         loc for loc in possible_locations
-        if not loc in ["Dragon Roost Cavern - Big Key Chest", "Dragon Roost Cavern - Tingle Statue Chest"]
+        if loc not in ["Dragon Roost Cavern - Big Key Chest", "Dragon Roost Cavern - Tingle Statue Chest"]
       ]
     if self.rando.dungeons_and_caves_only_start and item_name in ["DRC Big Key", "DRC Dungeon Map", "DRC Compass"]:
       # If we're in a dungeons-only start, we have to ban dungeon items except small keys from appearing in all 6 of the 6 easiest locations to access in DRC.
@@ -311,7 +311,7 @@ class ItemRandomizer(BaseRandomizer):
         if item_name.startswith("Treasure Chart") or item_name.startswith("Triforce Chart"):
           possible_locations_without_sunken_treasures = [
             loc for loc in possible_locations
-            if not "Sunken Treasure" in self.logic.item_locations[loc]["Types"]
+            if "Sunken Treasure" not in self.logic.item_locations[loc]["Types"]
           ]
           if possible_locations_without_sunken_treasures:
             possible_locations = possible_locations_without_sunken_treasures

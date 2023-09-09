@@ -18,7 +18,7 @@ import base64
 
 from randomizer import WWRandomizer, TooFewProgressionLocationsError, InvalidCleanISOError
 from version import VERSION
-from wwrando_paths import SETTINGS_PATH, ASSETS_PATH, IS_RUNNING_FROM_SOURCE, CUSTOM_MODELS_PATH
+from wwrando_paths import SETTINGS_PATH, ASSETS_PATH, IS_RUNNING_FROM_SOURCE
 from seedgen import seedgen
 from logic.logic import Logic
 

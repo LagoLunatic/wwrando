@@ -20,12 +20,12 @@ from elf import ELF, ELFSectionType, ELFRelocationType, ELFSectionFlags, ElfSymb
 if sys.platform == "win32":
   devkitbasepath = r"C:\devkitPro\devkitPPC\bin"
 else:
-  if not "DEVKITPPC" in os.environ:
+  if "DEVKITPPC" not in os.environ:
     raise Exception(r"Could not find devkitPPC. Path to devkitPPC should be in the DEVKITPPC env var")
   devkitbasepath = os.environ.get("DEVKITPPC") + "/bin"
 
 def get_bin(name):
-  if not sys.platform == "win32":
+  if sys.platform != "win32":
     return os.path.join(devkitbasepath, name)
   return os.path.join(devkitbasepath, name + ".exe")
 
@@ -90,7 +90,7 @@ def make_compiled_c_asm_more_readable(compiled_asm):
   for line in compiled_asm.splitlines():
     pieces = []
     for piece in re.split(r"(\s|,|\(|\)|\"[^\"]+\")", line):
-      if piece and not piece[0] in ['"', "'"]: # Don't modify strings
+      if piece and piece[0] not in ['"', "'"]: # Don't modify strings
         piece = re.sub(r"%((?:r|f|cr)\d+)", "\\1", piece)
         piece = re.sub(r"\b(\d+)\b", lambda match: "0x%X" % int(match.group(1)), piece)
         piece = re.sub(r",", ", ", piece)

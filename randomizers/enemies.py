@@ -197,7 +197,7 @@ class EnemyRandomizer(BaseRandomizer):
         done_enemy_locations_for_stage = self.randomize_enemy_groups_for_stage(stage_folder, enemy_locations)
         
         stage_attempts += 1
-        if done_enemy_locations_for_stage != False:
+        if done_enemy_locations_for_stage is not False:
           self.done_enemy_locations += done_enemy_locations_for_stage
           break
         elif stage_attempts >= max_stage_attempts:
@@ -311,7 +311,7 @@ class EnemyRandomizer(BaseRandomizer):
         done_enemy_locations_for_room = self.randomize_enemy_group(stage_folder, enemy_group, enemy_pool_for_stage)
         
         room_attempts += 1
-        if done_enemy_locations_for_room != False:
+        if done_enemy_locations_for_room is not False:
           done_enemy_locations_for_stage += done_enemy_locations_for_room
           break
         elif room_attempts >= max_room_attempts:

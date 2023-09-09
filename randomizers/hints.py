@@ -9,7 +9,6 @@ from randomizers.base_randomizer import BaseRandomizer
 from wwlib.dzx import DZx, ACTR, MULT
 from wwrando_paths import DATA_PATH
 import tweaks
-from randomizers import entrances
 from asm import patcher
 
 
