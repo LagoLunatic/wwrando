@@ -1258,191 +1258,10 @@
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="tab_player_customization">
+          <widget class="CosmeticTab" name="tab_player_customization">
            <attribute name="title">
             <string>Player Customization</string>
            </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_9">
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_14">
-              <item>
-               <layout class="QVBoxLayout" name="verticalLayout_10">
-                <item>
-                 <layout class="QGridLayout" name="gridLayout_5">
-                  <item row="2" column="1">
-                   <layout class="QHBoxLayout" name="horizontalLayout_11">
-                    <item>
-                     <widget class="QPushButton" name="randomize_all_custom_colors_together">
-                      <property name="text">
-                       <string>Random (Orderly)</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="randomize_all_custom_colors_separately">
-                      <property name="text">
-                       <string>Random (Chaotically)</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item row="2" column="0">
-                   <layout class="QHBoxLayout" name="horizontalLayout_10">
-                    <item>
-                     <widget class="QLabel" name="label_for_custom_color_preset">
-                      <property name="text">
-                       <string>Color Preset</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QComboBox" name="custom_color_preset"/>
-                    </item>
-                   </layout>
-                  </item>
-                  <item row="1" column="0">
-                   <layout class="QHBoxLayout" name="horizontalLayout_12">
-                    <item>
-                     <widget class="QLabel" name="label_for_custom_player_model">
-                      <property name="text">
-                       <string>Model</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QComboBox" name="custom_player_model"/>
-                    </item>
-                   </layout>
-                  </item>
-                  <item row="1" column="1">
-                   <layout class="QHBoxLayout" name="horizontalLayout_13">
-                    <item>
-                     <widget class="QCheckBox" name="player_in_casual_clothes">
-                      <property name="text">
-                       <string>Casual Clothes</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QCheckBox" name="disable_custom_player_voice">
-                      <property name="text">
-                       <string>No Custom Voice</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QCheckBox" name="disable_custom_player_items">
-                      <property name="text">
-                       <string>No Custom Items</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item row="0" column="0" colspan="2">
-                   <widget class="QPushButton" name="install_custom_model">
-                    <property name="text">
-                     <string>Install a Custom Model or Model Pack</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="0" colspan="2">
-                   <widget class="QLabel" name="custom_model_comment">
-                    <property name="maximumSize">
-                     <size>
-                      <width>810</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                    <property name="textFormat">
-                     <enum>Qt::PlainText</enum>
-                    </property>
-                    <property name="wordWrap">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="custom_colors_layout"/>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_18">
-                  <item>
-                   <widget class="QPushButton" name="save_custom_color_preset">
-                    <property name="text">
-                     <string>Save Custom Preset</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="load_custom_color_preset">
-                    <property name="text">
-                     <string>Load Custom Preset</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <spacer name="verticalSpacer_4">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QVBoxLayout" name="verticalLayout_11">
-                <item>
-                 <widget class="QLabel" name="custom_model_preview_label">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>225</width>
-                    <height>350</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="verticalSpacer_5">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-           </layout>
           </widget>
          </widget>
         </item>
@@ -1553,6 +1372,14 @@
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CosmeticTab</class>
+   <extends>QWidget</extends>
+   <header>wwr_ui.cosmetic_tab</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>scrollArea</tabstop>
   <tabstop>clean_iso_path</tabstop>
@@ -1589,14 +1416,6 @@
   <tabstop>cryptic_hints</tabstop>
   <tabstop>prioritize_remote_hints</tabstop>
   <tabstop>do_not_generate_spoiler_log</tabstop>
-  <tabstop>install_custom_model</tabstop>
-  <tabstop>custom_player_model</tabstop>
-  <tabstop>player_in_casual_clothes</tabstop>
-  <tabstop>disable_custom_player_voice</tabstop>
-  <tabstop>disable_custom_player_items</tabstop>
-  <tabstop>custom_color_preset</tabstop>
-  <tabstop>randomize_all_custom_colors_together</tabstop>
-  <tabstop>randomize_all_custom_colors_separately</tabstop>
   <tabstop>permalink</tabstop>
   <tabstop>about_button</tabstop>
   <tabstop>reset_settings_to_default</tabstop>
