@@ -2553,3 +2553,20 @@ def make_dungeon_joy_pendant_locations_flexible(self: WWRandomizer):
   stone_head = dzr.entries_by_type_and_layer(ACTR, layer=None)[0x2E]
   stone_head.destroyed_switch = 0xFF
   stone_head.save_changes()
+
+def prevent_fairy_island_softlocks(self: WWRandomizer):
+  # If the player somehow managed to get inside Western Fairy Island's Fairy Fountain without
+  # properly solving the puzzle to open the entrance up (e.g. with glitches), then the ring of
+  # flames would still be present in front of the pit. Because the ring of flames is so large, it
+  # would immediately damage the player as soon as they come back up from the pit, knocking them
+  # back in the pit. Under normal circumstances a softlock can be avoided here by saving and
+  # reloading inside the Fairy Foutnain to be placed back outside the ring of flames, but in
+  # entrance randomizer, dungeons will place you back at the beginning of the dungeon, and escaping
+  # can be impossible.
+  # To fix this, we move the spawn coming out of the pit on Western Fairy Island back a bit so you
+  # just barely don't get hit by the ring of flames. Then, you can save and reload while standing
+  # behind the flames to be placed outside of them.
+  wfi_dzr = self.get_arc(f"files/res/Stage/sea/Room15.arc").get_file("room.dzr", DZx)
+  spawn = next(spawn for spawn in wfi_dzr.entries_by_type(PLYR) if spawn.spawn_id == 1)
+  spawn.x_pos = -320170.0
+  spawn.save_changes()
