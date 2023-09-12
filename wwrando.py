@@ -191,6 +191,7 @@ def run_no_ui(args):
     # stage_searcher.print_all_spawn_types(rando)
     # stage_searcher.print_all_stage_types(rando)
     # stage_searcher.search_all_bmds(rando)
+    # stage_searcher.print_all_actor_listids(rando)
   else:
     rando = WWRandomizer(**rando_kwargs)
     try:

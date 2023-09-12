@@ -810,6 +810,59 @@ def print_all_actor_instance_sizes(self):
       class_name = profile_name[len("g_profile_"):]
       f.write("%-19s: %5X\n" % (class_name, actor_size))
 
+def print_all_actor_listids(self):
+  all_filenames = list(self.gcm.files_by_path.keys())
+  
+  # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
+  all_filenames.sort(key=lambda filename: split_string_for_natural_sort(filename))
+  
+  rel_paths = []
+  for filename in all_filenames:
+    if not filename.startswith("files/rels/"):
+      continue
+    rel_paths.append(filename)
+  
+  rels_arc = self.get_arc("files/RELS.arc")
+  for file_entry in rels_arc.file_entries:
+    if file_entry.is_dir:
+      continue
+    if file_entry.name == "f_pc_profile_lst.rel":
+      continue
+    rel_paths.append("files/rels/%s" % file_entry.name)
+  
+  profile_name_to_listid = []
+  for rel_path in rel_paths:
+    rel = self.get_rel(rel_path)
+    basename = os.path.splitext(os.path.basename(rel_path))[0]
+    #print(basename)
+    
+    symbols = self.get_symbol_map("files/maps/%s.map" % basename)
+    profile_name = None
+    for symbol_name, symbol_address in symbols.items():
+      if symbol_name.startswith("g_profile_"):
+        profile_name = symbol_name
+    
+    #print(profile_name)
+    profile_offset = symbols[profile_name]
+    actor_listid = rel.read_data(fs.read_u16, profile_offset+0x04)
+    #print("%X" % actor_listid)
+    
+    profile_name_to_listid.append((profile_name, actor_listid))
+  
+  main_symbols = self.get_symbol_map("files/maps/framework.map")
+  for symbol_name, symbol_address in main_symbols.items():
+    if symbol_name.startswith("g_profile_"):
+      actor_listid = self.dol.read_data(fs.read_u16, symbol_address+0x04)
+      profile_name_to_listid.append((symbol_name, actor_listid))
+  
+  profile_name_to_listid.sort(key=lambda x: x[1])
+  
+  with open("Actor ListIDs.txt", "w") as f:
+    for profile_name, actor_listid in profile_name_to_listid:
+      assert profile_name.startswith("g_profile_")
+      class_name = profile_name[len("g_profile_"):]
+      f.write("%-19s: %5X\n" % (class_name, actor_listid))
+
 def print_actor_class_occurrences(self):
   occs = {}
   for class_name in DataTables.actor_parameters:
