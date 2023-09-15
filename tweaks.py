@@ -2532,7 +2532,18 @@ def fix_helmaroc_king_table_softlock(self: WWRandomizer):
   fftower_dzr.remove_entity(table, ACTR)
 
 def make_dungeon_joy_pendant_locations_flexible(self: WWRandomizer):
-  # One of the pots that drops a joy pendant does not have an item pickup flag set, meaning the
+  # There's a purple rupee in the first room of DRC that appears when you use a Tingle Bomb on a
+  # crack with steam coming out of it.
+  # This purple rupee shares the same item pickup flag (0x06) as one of the joy pendants much later
+  # in DRC. Obtaining one of these two items makes the other one unobtainable, which could result in
+  # and unbeatable seed if the player gets the purple rupee first.
+  # To fix this, we give the purple rupee a different item pickup flag that was originally unused.
+  dzr = self.get_arc("files/res/Stage/M_NewD2/Room0.arc").get_file("room.dzr", DZx)
+  tingle_item = dzr.entries_by_type_and_layer(ACTR, layer=None)[0x1C]
+  tingle_item.item_pickup_flag = 0x16 # Unused item pickup flag for Dragon Roost Cavern
+  tingle_item.save_changes()
+  
+  # One of the pots that drops a joy pendant in FW doesn't have an item pickup flag set, meaning the
   # item placed here can be obtained multiple times. This was presumably unintentional as all the
   # other dungeon joy pendants have pickup flags, so we give it a new flag.
   dzr = self.get_arc("files/res/Stage/kindan/Room7.arc").get_file("room.dzr", DZx)
