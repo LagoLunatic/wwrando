@@ -199,7 +199,7 @@ class WWRandomizerWindow(QMainWindow):
     
     permalink = self.ui.permalink.text()
     
-    self.progress_dialog = RandomizerProgressDialog("Randomizing", "Initializing...")
+    self.progress_dialog = RandomizerProgressDialog(self, "Randomizing", "Initializing...")
     
     try:
       rando = WWRandomizer(seed, clean_iso_path, output_folder, options, permalink=permalink, cmd_line_args=self.cmd_line_args)
@@ -766,6 +766,8 @@ class WWRandomizerWindow(QMainWindow):
       self.close()
   
   def closeEvent(self, event):
+    if self.randomizer_thread is not None:
+      self.randomizer_thread.terminate()
     if not IS_RUNNING_FROM_SOURCE:
       # Need to wait for the update checker before exiting, or the program will crash when closing.
       self.update_checker_thread.quit()
@@ -793,16 +795,29 @@ class ModelFilterOut(QSortFilterProxyModel):
     return num_occurrences <= 0
 
 class RandomizerProgressDialog(QProgressDialog):
-  def __init__(self, title, description):
+  def __init__(self, rando_window: WWRandomizerWindow, title, description):
     QProgressDialog.__init__(self)
+    self.rando_window = rando_window
     self.setWindowTitle(title)
     self.setLabelText(description)
     self.setWindowModality(Qt.ApplicationModal)
     self.setWindowFlags(Qt.CustomizeWindowHint | Qt.WindowTitleHint)
     self.setFixedSize(self.size())
     self.setAutoReset(False)
-    self.setCancelButton(None)
+    self.setCancelButton(None) # Disable cancellation via cancel button.
     self.show()
+  
+  def keyPressEvent(self, e: QKeyEvent):
+    # Disable cancellation via escape key.
+    if e.key() == Qt.Key.Key_Escape:
+      e.ignore()
+  
+  def closeEvent(self, e: QCloseEvent):
+    # Although we could disable cancellation via Alt+F4, this would not be good design as it would
+    # prevent the user from escaping from a randomization that got stuck in a loop somehow.
+    # Instead, we reroute the Alt+F4 press to close the entire randomizer window instead of just the
+    # progress bar. The window will forcibly kill the randomization attempt before it closes.
+    self.rando_window.close()
 
 class RandomizerThread(QThread):
   update_progress = Signal(str, int)
