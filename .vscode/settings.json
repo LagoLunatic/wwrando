@@ -5,4 +5,8 @@
   "qtForPython.uic.options": [
     "-o", "${resourceDirname}${pathSeparator}uic${pathSeparator}ui_${resourceBasenameNoExtension}.py",
   ],
+  "yaml.customTags": [
+    "tag:yaml.org,2002:python/name:materialx.emoji.twemoji",
+    "tag:yaml.org,2002:python/name:materialx.emoji.to_svg",
+  ],
 }

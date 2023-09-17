@@ -1,0 +1,5 @@
+INHERIT: mkdocs.yml
+
+# This is needed for GitHub Pages because the root URL is in a subdirectory.
+# Without this things such as the 404 page break.
+site_url: https://lagolunatic.github.io/wwrando/

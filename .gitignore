@@ -11,3 +11,4 @@ profileresults*.prof
 /keys/seed_key.py
 /keys/build_key.txt
 /.venv
+/site

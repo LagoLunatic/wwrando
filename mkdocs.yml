@@ -1,0 +1,67 @@
+site_name: Wind Waker Randomizer
+
+repo_url: https://github.com/LagoLunatic/wwrando
+repo_name: WWRando Source Code
+
+nav:
+  - index.md
+  - getting-started.md
+  - download.md
+  - faq.md
+  - useful-links.md
+  - release-history.md
+  - credits.md
+
+theme:
+  name: material
+  logo: assets/icon.ico
+  favicon: assets/icon.ico
+  font: false # Disable loading fonts from Google Fonts servers
+  icon:
+    repo: fontawesome/brands/github # Upper right repo link
+  features:
+    - navigation.instant # Switch pages quickly with XHR
+    - navigation.tracking # Auto-update anchor in URL
+    - navigation.top # "Back to top" button
+    # - navigation.expand
+    # - navigation.sections
+    # - navigation.indexes
+    # - navigation.footer
+  palette:
+    - media: "(prefers-color-scheme: light)" 
+      scheme: default
+      primary: blue grey
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)" 
+      scheme: slate
+      primary: black
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition # Notes
+  - attr_list # Custom element IDs
+  # - def_list
+  # - footnotes
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - toc:
+      permalink: true
+      toc_depth: 2
+
+plugins:
+  - search
+  - macros
+  
+extra:
+  rando_version: 1.10.0
+  generator: false # Hide the "Made with Material for MkDocs" footer
+  social:
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/r2963mt

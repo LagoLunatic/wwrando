@@ -27,5 +27,13 @@
             "command": "snakeviz ${workspaceFolder}/profileresults.prof",
             "problemMatcher": []
         },
+		{
+			"label": "Test Website",
+			"command": "mkdocs",
+			"args": [
+				"serve",
+			],
+			"problemMatcher": [],
+		},
     ]
 }
