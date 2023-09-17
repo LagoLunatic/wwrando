@@ -1,11 +1,13 @@
 
-## About Wind Waker Randomizer
+# Wind Waker Randomizer
 
 This is a randomizer for The Legend of Zelda: The Wind Waker.  
 It randomizes all the items in the game so that each playthrough is unique and you never know where a particular item will be.  
 It also makes the game completely open world from the start, removes most cutscenes from the game, and increases sailing speed and text speed.
 
-**You can download the randomizer here: https://github.com/LagoLunatic/wwrando/releases/latest**
+If you're new here, check out the official website for details on how to get started playing: https://lagolunatic.github.io/wwrando/
+
+Or you can download the randomizer here: https://github.com/LagoLunatic/wwrando/releases/latest
 
 ## Information
 
@@ -24,17 +26,11 @@ If the randomizer gives an error saying "Failed to execute script wwrando", or i
 
 ### Got stuck in a seed?
 
-If you seem to be stuck and can't find anywhere to progress, you should first consult the spoiler log. The spoiler log is generated at the same time as the randomized ISO, and is put in the same folder. It contains information on everything that was randomized in this seed, and lists the order you can get progress items in as well.
+If you seem to be stuck and can't find anywhere to progress, you should first read the Frequently Asked Questions page on the official website: https://lagolunatic.github.io/wwrando/faq/  
 
-If you've consulted the spoiler log and you're still stuck, it's possible you've encountered a bug in the randomizer.  
+If you've read the FAQ and consulted the spoiler log but you're still stuck, it's possible you've encountered a bug in the randomizer.  
 Please report bugs like that here: https://github.com/LagoLunatic/wwrando/issues  
-In the bug report be sure to include the permalink for the seed you encountered the bug on.
-
-### Playing on emulator
-
-If you're going to play on emulator, you should use a recent beta or development version of Dolphin, which can be found on this page: https://dolphin-emu.org/download/  
-RetroArch is not recommended and you may experience crashes if you use it.  
-Note that the GameCube boot up animation in Dolphin doesn't work with the randomizer and will cause the game to crash before reaching the main menu. If you have previously set Dolphin up to play that animation you will need to disable it before launching the randomized game by going to Config -> GameCube in Dolphin and checking "Skip Main Menu".  
+In the bug report be sure to include the permalink for the seed you encountered the bug on.  
 
 ## Discord Server
 
@@ -59,7 +55,8 @@ wooferzfg (additional programming)
 
 ## Running the randomizer from source
 
-If you want to run the latest development/beta version of the randomizer from source, follow the instructions below.
+If you want to run the latest development version of the randomizer from source, follow the instructions below.  
+Note that this is only recommended for advanced users or those interested in helping develop the randomizer.  
 
 Download and install git from here: https://git-scm.com/downloads  
 Then clone this repository with git by running this in a command prompt:  

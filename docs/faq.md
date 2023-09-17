@@ -10,6 +10,7 @@ search:
 You're probably not softlocked if you're running the latest official release of the randomizer (currently version {{ rando_version }}) without any other mods or cheats applied on top of it.  
 
 You should first check the spoiler log for your seed to find out where the next item you need was placed. It might be somewhere you forgot to check.  
+The spoiler log is a text file in the same folder as your randomized ISO, it tells you the randomized locations of items for your seed.  
 
 If you still can't figure it out, try reading the rest of this FAQ. There are some common pitfalls related to obscure game interactions covered here that you might not be aware of, even if you've beaten vanilla Wind Waker before.  
 
