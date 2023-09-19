@@ -192,6 +192,7 @@ def run_no_ui(args):
     # stage_searcher.print_all_stage_types(rando)
     # stage_searcher.search_all_bmds(rando)
     # stage_searcher.print_all_actor_listids(rando)
+    # stage_searcher.search_all_dzbs(rando)
   else:
     rando = WWRandomizer(**rando_kwargs)
     try:
@@ -255,7 +256,7 @@ def run_with_ui(args):
 if __name__ == "__main__":
   args = make_argparser().parse_args()
   
-  if args.bulk or args.stagesearch:
+  if args.bulk or args.stagesearch or args.printflags:
     args.noui = True
   
   if args.noui:

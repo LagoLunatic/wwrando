@@ -222,8 +222,8 @@ def print_all_used_switches(self):
               if attr_name in ["invert_spawn_condition_switch", "dont_check_enable_spawn_switch"]:
                 continue
               
-              switch = getattr(actor, attr_name)
-              if switch == 0xFF:
+              attr_switch = getattr(actor, attr_name)
+              if attr_switch == 0xFF:
                 continue
               
               if class_name == "d_a_tbox":
@@ -239,6 +239,12 @@ def print_all_used_switches(self):
                 for switch in range(actor.first_switch_to_check, actor.first_switch_to_check+actor.num_switches_to_check):
                   add_used_switch(switch, stage_id_for_param, stage_name, room_no_for_param, location_identifier, is_unused)
                 continue
+              elif class_name in ["d_a_andsw0", "d_a_andsw2"] and attr_name == "switch_to_set" and actor.first_switch_to_check == 0xFF:
+                # If first_switch_to_check is 0xFF, it instead uses switch_to_set+1.
+                first_switch_to_check = actor.switch_to_set+1
+                if first_switch_to_check != 0xFF:
+                  for switch in range(first_switch_to_check, first_switch_to_check+actor.num_switches_to_check):
+                    add_used_switch(switch, stage_id_for_param, stage_name, room_no_for_param, location_identifier, is_unused)
               elif class_name == "d_a_tag_md_cb" and attr_name == "first_switch_to_check":
                 if actor.name in ["TagMd15", "TagMd16", "TagCb13"]:
                   for switch in range(actor.first_switch_to_check, actor.first_switch_to_check+actor.num_switches_to_check):
@@ -299,7 +305,7 @@ def print_all_used_switches(self):
                 # Added by the randomizer.
                 continue
               
-              add_used_switch(switch, stage_id_for_param, stage_name, room_no_for_param, location_identifier, is_unused)
+              add_used_switch(attr_switch, stage_id_for_param, stage_name, room_no_for_param, location_identifier, is_unused)
   
   def write_used_switches_to_file(used_switches_dict: dict[int, dict], filename):
     used_switches_dict = dict(sorted(
@@ -382,6 +388,13 @@ def print_all_used_item_pickup_flags(self):
               
               class_name = DataTables.actor_name_to_class_name[actor.name]
               
+              if class_name == "d_a_obj_movebox" and actor.type in [1, 2, 3, 6, 7, 8, 9, 0xA, 0xB, 0xC]:
+                # Indestructible.
+                continue
+              if class_name == "d_a_obj_bemos" and actor.type == 2:
+                # Laser barrier, not a real Beamos.
+                continue
+              
               if class_name in ["d_a_item", "d_a_race_item", "d_a_tag_kb_item"]:
                 item_name = self.item_names[actor.item_id]
               elif class_name in ["d_a_tsubo", "d_a_switem", "d_a_obj_barrel2", "d_a_obj_movebox", "d_a_obj_homen", "d_a_stone", "d_a_stone2", "d_a_obj_bemos"]:
@@ -448,14 +461,14 @@ def print_all_used_chest_open_flags(self):
   used_chest_flags_by_stage_id = dict(sorted(
     used_chest_flags_by_stage_id.items(), key=lambda x: x[0]
   ))
-  print()
-  print("Chest opened flags:")
-  for stage_id, chest_flags in used_chest_flags_by_stage_id.items():
-    print("Stage ID: %02X" % stage_id)
-    chest_flags.sort(key=lambda tuple: tuple[0])
-    for chest_flag, item_name, arc_path in chest_flags:
-      arc_path_short = arc_path[len("files/res/Stage/"):-len(".arc")]
-      print("  %02X (Item: %s) in %s" % (chest_flag, item_name, arc_path_short))
+  with open("Used chest open flags by stage ID.txt", "w") as f:
+    f.write("Chest opened flags:\n")
+    for stage_id, chest_flags in used_chest_flags_by_stage_id.items():
+      f.write(f"Stage ID: {stage_id:02X}\n")
+      chest_flags.sort(key=lambda tuple: tuple[0])
+      for chest_flag, item_name, arc_path in chest_flags:
+        arc_path_short = arc_path[len("files/res/Stage/"):-len(".arc")]
+        f.write(f"  {chest_flag:02X} (Item: {item_name}) in {arc_path_short}\n")
 
 def print_all_used_salvage_flags(self):
   used_salvage_flags_by_room_num = defaultdict(list)
@@ -489,20 +502,20 @@ def print_all_used_salvage_flags(self):
         f.write(f"  {salvage_flag:02X} (Item: {item_name}) in {arc_path_short}\n")
 
 def print_all_event_flags_used_by_stb_cutscenes(self):
-  print()
-  print("Event flags:")
-  for dzs, stage_arc_path in each_stage(self):
-    event_list = self.get_arc(stage_arc_path).get_file("event_list.dat", EventList)
-    for event in event_list.events:
-      package = [x for x in event.actors if x.name == "PACKAGE"]
-      if package:
-        package = package[0]
-        play = next(x for x in package.actions if x.name == "PLAY")
-        prop = play.get_prop("EventFlag")
-        if prop:
-          print("Event name: %s" % event.name)
-          print("  Event flag: %04X" % prop.value)
-          print("  File path: " + stage_arc_path)
+  with open("Used event bits (from STB cutscenes only).txt", "w") as f:
+    f.write("Event flags:\n")
+    for dzs, stage_arc_path in each_stage(self):
+      event_list = self.get_arc(stage_arc_path).get_file("event_list.dat", EventList)
+      for event in event_list.events:
+        package = [x for x in event.actors if x.name == "PACKAGE"]
+        if package:
+          package = package[0]
+          play = next(x for x in package.actions if x.name == "PLAY")
+          prop = play.get_prop("EventFlag")
+          if prop:
+            f.write(f"Event name: {event.name}\n")
+            f.write(f"  Event flag: {prop.value:04X}\n")
+            f.write(f"  File path: {stage_arc_path}\n")
 
 def print_all_event_list_actions(self):
   # Build a list of all actions used by all actors in the game.
@@ -975,13 +988,14 @@ def search_all_bmds(self):
   #       continue
   #     f.write(f"{joint_index:{max_joint_index_len}d}: {bboxed}/{total} ({100*bboxed/total:.0f}%)\n")
 
-def search_all_dzb_properties(self):
+def search_all_dzbs(self):
   all_filenames = list(self.gcm.files_by_path.keys())
   
   # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
   all_filenames.sort(key=lambda filename: split_string_for_natural_sort(filename))
   
   seen_cam_behavior_vals = []
+  seen_octree_block_face_counts = Counter()
   for arc_path in all_filenames:
     if not arc_path.endswith(".arc"):
       continue
@@ -1023,6 +1037,12 @@ def search_all_dzb_properties(self):
         #  face = next(face for face in dzb.faces if face.property_index == dzb.properties.index(property))
         #  group = dzb.groups[face.group_index]
         #  print("%02X" % property.room_path_point_no, arc_path, group.name, "Property-%02X" % (dzb.properties.index(property)))
+      
+  #     for block in dzb.octree_blocks:
+  #       seen_octree_block_face_counts[len(block.faces)] += 1
+  
+  # for num_faces, count in seen_octree_block_face_counts.most_common():
+  #   print(f"{num_faces:-2d}: {count}")
 
 def print_all_used_particle_banks(self):
   for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
