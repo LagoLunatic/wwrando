@@ -24,6 +24,7 @@ Changes:
 * Added an advanced "Dry Run" option which generates just the logs for a seed, without the playable ISO. Because no ISO is created, this option can be used to check a seed's item locations on a PC where you don't have a vanilla Wind Waker ISO on hand.
 
 Bug fixes:
+* Fixed a bug in Key-Lunacy where small keys were less likely to appear early in the seed, causing dungeons to tend to become accessible late in the seed.
 * Fixed the feature introduced in 1.10.0 to customize vanilla Link's hat and tunic colors separately not actually working.
 * Fixed a bug where seeds would fail to generate if you chose to start with every single progression item in the game while progression Dungeons was enabled and Key-Lunacy was disabled.
 * Fixed a bug where Tingle Chests would not appear when hit with a Bomb Flower instead of a normal bomb.
