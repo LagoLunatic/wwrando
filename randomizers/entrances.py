@@ -34,6 +34,7 @@ class ZoneEntrance:
     
     # Must be an island entrance XOR must be a nested entrance.
     assert (self.island_name is None) ^ (self.nested_in is None)
+    assert (self.warp_out_stage_name is None) ^ (self.nested_in is None)
 
 @dataclass(frozen=True)
 class ZoneExit:
@@ -550,9 +551,9 @@ class EntranceRandomizer(BaseRandomizer):
     if any(ex in self.race_mode_banned_exits for ex in relevant_exits):
       doing_banned = True
     
-    if not doing_banned and self.options.get("race_mode") and any(ex in SECRET_CAVE_EXITS for ex in relevant_exits):
+    if self.options.get("race_mode") and not doing_banned:
       # Prioritize entrances that share an island with an entrance randomized to lead into a race
-      # mode banned dungeon. (Potentially DRI and Pawprint.)
+      # mode banned dungeon. (e.g. DRI, Pawprint, Outset.)
       # This is because we need to prevent these islands from having a required boss or anything
       # that could potentially lead to a required boss, and if we don't do this first we can get
       # backed into a corner where there is no other option left.
@@ -564,18 +565,13 @@ class EntranceRandomizer(BaseRandomizer):
           # This island was already used on a previous call to randomize_one_set_of_exits.
           entrances_not_on_unique_islands.append(zone_entrance)
           continue
-        for other_zone_entrance in relevant_entrances:
-          if other_zone_entrance.is_nested:
-            continue
-          if other_zone_entrance.island_name == zone_entrance.island_name and other_zone_entrance != zone_entrance:
-            entrances_not_on_unique_islands.append(zone_entrance)
-            break
       for zone_entrance in entrances_not_on_unique_islands:
         remaining_entrances.remove(zone_entrance)
       remaining_entrances = entrances_not_on_unique_islands + remaining_entrances
     
     if self.safety_entrance is not None and self.safety_entrance in remaining_entrances:
-      # In order to avoid using up all dungeons/caves with no requirements, we have to do this entrance first, so move it to the start of the array.
+      # In order to avoid using up all dungeons/caves with no requirements, we have to do this
+      # entrance first, so move it to the start of the list.
       remaining_entrances.remove(self.safety_entrance)
       remaining_entrances.insert(0, self.safety_entrance)
     
@@ -590,7 +586,10 @@ class EntranceRandomizer(BaseRandomizer):
       remaining_entrances.remove(zone_entrance)
       
       if zone_entrance == self.safety_entrance:
-        possible_remaining_exits = [e for e in remaining_exits if e.unique_name in self.exit_names_with_no_requirements]
+        possible_remaining_exits = [
+          ex for ex in remaining_exits
+          if ex.unique_name in self.exit_names_with_no_requirements
+        ]
       else:
         possible_remaining_exits = remaining_exits
       
@@ -668,8 +667,13 @@ class EntranceRandomizer(BaseRandomizer):
       # print(f"{zone_entrance.entrance_name} -> {zone_exit.unique_name}")
       self.done_entrances_to_exits[zone_entrance] = zone_exit
       self.done_exits_to_entrances[zone_exit] = zone_entrance
-      if zone_exit in self.race_mode_banned_exits and zone_exit in DUNGEON_EXITS + BOSS_EXITS and zone_entrance.island_name is not None:
-        self.islands_with_a_banned_dungeon.append(zone_entrance.island_name)
+      
+      if zone_exit in self.race_mode_banned_exits and zone_entrance.island_name is not None:
+        # Keep track of which islands have a race mode banned dungeon to avoid marker overlap.
+        if zone_exit in DUNGEON_EXITS + BOSS_EXITS:
+          # We only keep track of dungeon exits and boss exits, not miniboss exits.
+          # Banned miniboss exits can share an island with required dungeons/bosses.
+          self.islands_with_a_banned_dungeon.append(zone_entrance.island_name)
   
   def finalize_all_randomized_sets_of_entrances(self):
     non_terminal_exits = []
