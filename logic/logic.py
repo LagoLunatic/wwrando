@@ -412,8 +412,7 @@ class Logic:
       locations_to_check = self.filter_locations_for_progression(locations_to_check)
     
     for location_name in locations_to_check:
-      requirement_expression = self.item_locations[location_name]["Need"]
-      if self.check_logical_expression_req(requirement_expression):
+      if self.check_location_accessible(location_name):
         accessible_location_names.append(location_name)
     
     return accessible_location_names
@@ -545,14 +544,12 @@ class Logic:
           # If that item is not useful, don't consider the current item useful for unlocking it.
           continue
         
-        requirement_expression = self.item_locations[location_name]["Need"]
-        if self.check_logical_expression_req(requirement_expression):
+        if self.check_location_accessible(location_name):
           self.remove_owned_item_or_item_group(item_name)
           self.cached_items_are_useful[item_name] = True
           return True
       
-      requirement_expression = self.item_locations[location_name]["Need"]
-      if self.check_logical_expression_req(requirement_expression):
+      if self.check_location_accessible(location_name):
         self.remove_owned_item_or_item_group(item_name)
         self.cached_items_are_useful[item_name] = True
         return True
@@ -1013,6 +1010,10 @@ class Logic:
     else:
       return all(subexpression_results)
   
+  def check_location_accessible(self, location_name):
+    requirement_expression = self.item_locations[location_name]["Need"]
+    return self.check_logical_expression_req(requirement_expression)
+  
   def get_item_names_by_req_name(self, req_name):
     items_needed = self.get_items_needed_by_req_name(req_name)
     return self.flatten_items_needed_to_item_names(items_needed)
@@ -1136,8 +1137,7 @@ class Logic:
     match = re.search(r"^Can Access Item Location \"([^\"]+)\"$", req_name)
     item_location_name = match.group(1)
     
-    requirement_expression = self.item_locations[item_location_name]["Need"]
-    return self.check_logical_expression_req(requirement_expression)
+    return self.check_location_accessible(item_location_name)
   
   def check_option_enabled_requirement(self, req_name):
     positive_boolean_match = re.search(r"^Option \"([^\"]+)\" Enabled$", req_name)
