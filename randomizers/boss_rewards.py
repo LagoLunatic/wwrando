@@ -228,6 +228,10 @@ class BossRewardRandomizer(BaseRandomizer):
       accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=False)
       inaccessible_dungeons = []
       for location_name in self.logic.remaining_item_locations:
+        types = self.logic.item_locations[location_name]["Types"]
+        if "Randomizable Miniboss Room" in types and self.options.get("randomize_miniboss_entrances"):
+          # Don't consider miniboss rooms as part of the dungeon when they are randomized.
+          continue
         if self.logic.is_dungeon_location(location_name) and location_name not in accessible_undone_locations:
           dungeon_name, _ = self.logic.split_location_name_by_zone(location_name)
           inaccessible_dungeons.append(dungeon_name)
