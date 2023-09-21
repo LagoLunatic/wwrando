@@ -5,7 +5,7 @@ New features:
 * Added a Nested Entrance Randomizer for shuffling dungeon entrances **and** boss entrances with each other, allowing dungeons to be inside of other dungeons, linked together.
   * For example: You could go through Dragon Roost Cavern, but instead of the boss door taking you to Gohma, it may take you into Tower of the Gods. Then, after getting to the end of Tower of the Gods, the boss door takes you to Kalle Demos instead of Gohdan.
   * Extra bosses that aren't at the end of a dungeon chain are accessible directly from the sea (e.g. entering Gale Isle and finding Gohma instead of a dungeon).
-  * In addition to boss entrances, you can also choose to randomize miniboss entrances (allowing one dungeon to potentially have two other dungeons nested inside of it).
+  * In addition to boss entrances, you can also choose to randomize miniboss entrances (allowing one dungeon to potentially have two other dungeons nested inside of it). Hyrule Castle's Master Sword Chamber counts as a miniboss room.
   * You can also choose to mix secret caves with nested dungeons, which can sometimes result in a dungeon's boss door taking you into a Secret Cave instead of a boss.
 * Fairy Fountain entrances can now be randomized.
 * Secret cave "inner caves" - the pit inside Ice Ring Isle's secret cave and the rear exit out of Cliff Plateau Isles's secret cave - can now also be included in entrance randomization.

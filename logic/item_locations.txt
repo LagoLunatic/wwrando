@@ -1176,7 +1176,7 @@ Tower of the Gods - Gohdan Heart Container:
 
 Hyrule - Master Sword Chamber:
   Need:
-    Can Access Hyrule
+    Can Access Master Sword Chamber
     & Can Defeat Mighty Darknuts
   Original item: Master Sword (Powerless)
   Types: Dungeon

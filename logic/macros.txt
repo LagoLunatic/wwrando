@@ -293,6 +293,8 @@ Can Access Miniboss Entrance in Wind Temple:
     | (Hookshot & Can Defeat Blue Bubbles)
   )
   & WT Small Key x2
+Can Access Miniboss Entrance in Hyrule Castle:
+  Can Access Hyrule
 
 # The below macros are automatically updated by the entrance randomizer.
 Can Access Forbidden Woods Miniboss Arena:
@@ -303,6 +305,8 @@ Can Access Earth Temple Miniboss Arena:
   Can Access Miniboss Entrance in Earth Temple
 Can Access Wind Temple Miniboss Arena:
   Can Access Miniboss Entrance in Wind Temple
+Can Access Master Sword Chamber:
+  Can Access Miniboss Entrance in Hyrule Castle
 
 Can Access Boss Entrance in Dragon Roost Cavern:
   Can Reach Dragon Roost Cavern Boss Stairs

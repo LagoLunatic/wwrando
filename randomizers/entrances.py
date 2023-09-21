@@ -81,12 +81,14 @@ MINIBOSS_ENTRANCES = [
   ZoneEntrance("Siren", 14, 0, 1, "Miniboss Entrance in Tower of the Gods", nested_in=ZoneExit.all["Tower of the Gods"]),
   ZoneEntrance("M_Dai", 7, 0, 9, "Miniboss Entrance in Earth Temple", nested_in=ZoneExit.all["Earth Temple"]),
   ZoneEntrance("kaze", 2, 3, 20, "Miniboss Entrance in Wind Temple", nested_in=ZoneExit.all["Wind Temple"]),
+  ZoneEntrance("Hyroom", 0, 2, 2, "Miniboss Entrance in Hyrule Castle", "Tower of the Gods Sector", "Hyroom", 0, 10),
 ]
 MINIBOSS_EXITS = [
   ZoneExit("kinMB", 10, 0, 0, "Forbidden Woods Miniboss Arena"),
   ZoneExit("SirenMB", 23, 0, 0, "Tower of the Gods Miniboss Arena"),
   ZoneExit("M_DaiMB", 12, 0, 0, "Earth Temple Miniboss Arena"),
   ZoneExit("kazeMB", 6, 0, 0, "Wind Temple Miniboss Arena"),
+  ZoneExit("kenroom", 0, 0, 0, "Master Sword Chamber"),
 ]
 
 BOSS_ENTRANCES = [
@@ -214,6 +216,7 @@ ITEM_LOCATION_NAME_TO_EXIT_OVERRIDES = {
   "Tower of the Gods - Darknut Miniboss Room"        : ZoneExit.all["Tower of the Gods Miniboss Arena"],
   "Earth Temple - Stalfos Miniboss Room"             : ZoneExit.all["Earth Temple Miniboss Arena"],
   "Wind Temple - Wizzrobe Miniboss Room"             : ZoneExit.all["Wind Temple Miniboss Arena"],
+  "Hyrule - Master Sword Chamber"                    : ZoneExit.all["Master Sword Chamber"],
   
   "Dragon Roost Cavern - Gohma Heart Container"      : ZoneExit.all["Gohma Boss Arena"],
   "Forbidden Woods - Kalle Demos Heart Container"    : ZoneExit.all["Kalle Demos Boss Arena"],
@@ -256,6 +259,7 @@ class EntranceRandomizer(BaseRandomizer):
       "Miniboss Entrance in Tower of the Gods": "Tower of the Gods Miniboss Arena",
       "Miniboss Entrance in Earth Temple": "Earth Temple Miniboss Arena",
       "Miniboss Entrance in Wind Temple": "Wind Temple Miniboss Arena",
+      "Miniboss Entrance in Hyrule Castle": "Master Sword Chamber",
       
       "Boss Entrance in Dragon Roost Cavern": "Gohma Boss Arena",
       "Boss Entrance in Forbidden Woods": "Kalle Demos Boss Arena",
@@ -412,6 +416,9 @@ class EntranceRandomizer(BaseRandomizer):
     self.banned_exits.clear()
     if self.options.get("required_bosses"):
       for zone_exit in relevant_exits:
+        if zone_exit == ZoneExit.all["Master Sword Chamber"]:
+          # Hyrule cannot be chosen as a banned dungeon.
+          continue
         if zone_exit in BOSS_EXITS:
           assert zone_exit.unique_name.endswith(" Boss Arena")
           boss_name = zone_exit.unique_name[:-len(" Boss Arena")]
@@ -553,7 +560,7 @@ class EntranceRandomizer(BaseRandomizer):
     
     if self.options.get("required_bosses") and not doing_banned:
       # Prioritize entrances that share an island with an entrance randomized to lead into a race
-      # mode banned dungeon. (e.g. DRI, Pawprint, Outset.)
+      # mode banned dungeon. (e.g. DRI, Pawprint, Outset, TotG sector.)
       # This is because we need to prevent these islands from having a required boss or anything
       # that could potentially lead to a required boss, and if we don't do this first we can get
       # backed into a corner where there is no other option left.
@@ -948,10 +955,10 @@ class EntranceRandomizer(BaseRandomizer):
   
   def is_item_location_behind_randomizable_entrance(self, location_name):
     loc_zone_name, _ = self.logic.split_location_name_by_zone(location_name)
-    if loc_zone_name in ["Hyrule", "Ganon's Tower", "Mailbox"]:
-      # Hyrule, Ganon's Tower, and the handful of Mailbox locations that depend on beating dungeon
-      # bosses are considered to be "Dungeon" location types by the logic, but entrance randomizer
-      # does not need to take them into account.
+    if loc_zone_name in ["Ganon's Tower", "Mailbox"]:
+      # Ganon's Tower and the handful of Mailbox locations that depend on beating dungeon bosses are
+      # considered to be "Dungeon" location types by the logic, but entrance randomizer does not
+      # need to take them into account.
       # Although the mail locations are technically locked behind dungeons, we can still ignore them
       # here because if all of the locations in the dungeon itself are nonprogress, then any mail
       # depending on that dungeon should also be enforced as nonprogress by other parts of the code.
