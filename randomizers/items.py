@@ -491,6 +491,11 @@ class ItemRandomizer(BaseRandomizer):
     actr = dzx.entries_by_type_and_layer(ACTR, layer=layer)[actor_index]
     if actr.actor_class_name in ["d_a_item", "d_a_boss_item"]:
       actr.item_id = item_id
+      if actr.actor_class_name == "d_a_item" and actr.behavior_type == 0:
+        # Change field items with the fade out behavior type to have the don't fade out type instead.
+        # This affects the "Earth Temple - Casket in Second Crypt" item (though that one would only
+        # fade out after opening the casket and reloading the room).
+        actr.behavior_type = 3
     elif actr.actor_class_name in ["d_a_tsubo", "d_a_obj_homen"]:
       if item_id == 0x00:
         # Special case - our custom item_id param for these classes uses 0x00 to mean null, so use the vanilla param.

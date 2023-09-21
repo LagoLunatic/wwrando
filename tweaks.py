@@ -196,15 +196,15 @@ def allow_all_items_to_be_field_items(self: WWRandomizer):
   # We also change the Y offset of the hitbox for any items that have 0 for the Y offset.
   # Without this change the item would be very difficult to pick up, the only way would be to stand on top of it and do a spin attack.
   # And also change the radius of the hitbox for items that have 0 for the radius.
-  extra_item_data_list_start = 0x803882B0
+  item_info_list_start = 0x803882B0
   for item_id in range(0, 0xFF+1):
-    item_extra_data_entry_addr = extra_item_data_list_start+4*item_id
-    original_y_offset = self.dol.read_data(fs.read_u8, item_extra_data_entry_addr+1)
+    item_info_entry_addr = item_info_list_start+4*item_id
+    original_y_offset = self.dol.read_data(fs.read_u8, item_info_entry_addr+1)
     if original_y_offset == 0:
-      self.dol.write_data(fs.write_u8, item_extra_data_entry_addr+1, 0x28) # Y offset of 0x28
-    original_radius = self.dol.read_data(fs.read_u8, item_extra_data_entry_addr+2)
+      self.dol.write_data(fs.write_u8, item_info_entry_addr+1, 0x28) # Y offset of 0x28
+    original_radius = self.dol.read_data(fs.read_u8, item_info_entry_addr+2)
     if original_radius == 0:
-      self.dol.write_data(fs.write_u8, item_extra_data_entry_addr+2, 0x28) # Radius of 0x28
+      self.dol.write_data(fs.write_u8, item_info_entry_addr+2, 0x28) # Radius of 0x28
   
   
   for item_id in range(0x20, 0x44+1):
@@ -585,6 +585,7 @@ def allow_dungeon_items_to_appear_anywhere(self: WWRandomizer):
   item_get_funcs_list = 0x803888C8
   item_resources_list_start = 0x803842B0
   field_item_resources_list_start = 0x803866B0
+  item_info_list_start = 0x803882B0
   
   dungeon_items = [
     ("DRC", "Small Key", 0x13),
@@ -675,6 +676,17 @@ def allow_dungeon_items_to_appear_anywhere(self: WWRandomizer):
     self.dol.write_data(fs.write_bytes, field_item_resources_addr+0x11, data5)
     data6 = self.dol.read_data(fs.read_bytes, field_item_resources_addr_to_copy_from+0x18, 4)
     self.dol.write_data(fs.write_bytes, field_item_resources_addr+0x18, data6)
+    
+    # Also set the item info for all custom dungeon items to match the vanilla dungeon items.
+    # This includes the bit that causes the item to not fade out over time.
+    if base_item_name == "Small Key":
+      item_info_value = 0x14281E05
+    elif base_item_name == "Big Key":
+      item_info_value = 0x00282805
+    else:
+      item_info_value = 0x00282800
+    item_info_entry_addr = item_info_list_start+4*item_id
+    self.dol.write_data(fs.write_u32, item_info_entry_addr, item_info_value)
 
 def get_indefinite_article(string):
   first_letter = string.strip()[0].lower()
