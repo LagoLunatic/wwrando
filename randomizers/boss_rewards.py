@@ -211,13 +211,14 @@ class BossRewardRandomizer(BaseRandomizer):
     remaining_boss_reward_items = boss_reward_items.copy()
     remaining_boss_locations = list(self.boss_reward_locations.keys())
     
+    all_locations = self.logic.item_locations.keys()
+    all_progress_locations = self.logic.filter_locations_for_progression(all_locations, filter_sunken_treasure=True)
+    
     while remaining_boss_reward_items:
-      # Consider a dungeon boss reward to be accessible when every location in the dungeon is accessible.
-      # This includes nonprogress locations. e.g. A Tingle Chest cannot be locked behind the boss reward of that same
-      # dungeon, even if Tingle Chests are not allowed to have progress items on these settings.
+      # Consider a dungeon boss reward to be accessible when every progress location in the dungeon is accessible.
       accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=False)
       inaccessible_dungeons = []
-      for location_name in self.logic.remaining_item_locations:
+      for location_name in all_progress_locations:
         types = self.logic.item_locations[location_name]["Types"]
         if "Randomizable Miniboss Room" in types and self.options.get("randomize_miniboss_entrances"):
           # Don't consider miniboss rooms as part of the dungeon when they are randomized.
