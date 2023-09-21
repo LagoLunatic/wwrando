@@ -17,7 +17,7 @@ class BossRewardRandomizer(BaseRandomizer):
   def __init__(self, rando):
     super().__init__(rando)
     
-    # These variables will remain as empty lists if race mode is off.
+    # These variables will remain empty if race mode is off.
     # The randomly selected dungeon boss locations that are required in race mode.
     self.required_locations = []
     # The dungeons corresponding to the race mode required boss locations.
@@ -30,16 +30,14 @@ class BossRewardRandomizer(BaseRandomizer):
     self.banned_dungeons = []
     # The bosses that are guaranteed to not have anything important in race mode.
     self.banned_bosses = []
+    # Mapping of required locations to which item is placed there.
+    self.boss_reward_locations = {}
   
   def is_enabled(self) -> bool:
     return bool(self.options.get("race_mode"))
   
   def _randomize(self):
-    # Try to generate dungeon boss reward locations until a valid set of locations is found.
-    for i in range(50):
-      if self.try_randomize_boss_rewards():
-        return
-    raise Exception("Cannot randomize boss rewards! Please try randomizing with a different seed.")
+    self.randomize_boss_rewards()
   
   def _save(self):
     self.show_quest_markers_on_sea_chart_for_dungeons()
@@ -61,7 +59,7 @@ class BossRewardRandomizer(BaseRandomizer):
     return spoiler_log
   
 
-  def try_randomize_boss_rewards(self):
+  def randomize_boss_rewards(self):
     if not self.options.get("progression_dungeons"):
       raise Exception("Cannot randomize boss rewards when progress items are not allowed in dungeons.")
     
@@ -129,7 +127,7 @@ class BossRewardRandomizer(BaseRandomizer):
     if len(possible_boss_locations) != 6:
       raise Exception("Number of boss item locations is incorrect: " + ", ".join(possible_boss_locations))
     
-    boss_reward_locations = {}
+    self.boss_reward_locations.clear()
     
     # Decide what reward item to place in each boss location.
     for item_name in boss_reward_items:
@@ -140,14 +138,7 @@ class BossRewardRandomizer(BaseRandomizer):
       else:
         location_name = self.rng.choice(possible_boss_locations)
       possible_boss_locations.remove(location_name)
-      boss_reward_locations[location_name] = item_name
-    
-    # Verify that the dungeon boss rewards were placed in a way that allows them all to be accessible.
-    locations_valid = self.validate_boss_reward_locations(boss_reward_locations)
-    
-    # If the dungeon boss reward locations are not valid, a new set of dungeon boss reward locations will be generated.
-    if not locations_valid:
-      return False
+      self.boss_reward_locations[location_name] = item_name
     
     # Remove any Triforce Shards we're about to use from the progress item group, and add them as ungrouped progress items instead.
     for group_name, group_item_names in self.logic.progress_item_groups.items():
@@ -155,6 +146,7 @@ class BossRewardRandomizer(BaseRandomizer):
         item_name for item_name in group_item_names
         if item_name in boss_reward_items
       ]
+      
       for item_name in items_to_remove_from_group:
         self.logic.progress_item_groups[group_name].remove(item_name)
       if group_name in self.logic.unplaced_progress_items:
@@ -165,7 +157,7 @@ class BossRewardRandomizer(BaseRandomizer):
         if group_name in self.logic.unplaced_progress_items:
           self.logic.unplaced_progress_items.remove(group_name)
     
-    for location_name, item_name in boss_reward_locations.items():
+    for location_name, item_name in self.boss_reward_locations.items():
       self.logic.set_prerandomization_item_location(location_name, item_name)
       self.required_locations.append(location_name)
       
@@ -200,11 +192,9 @@ class BossRewardRandomizer(BaseRandomizer):
         assert specific_location_name.endswith(" Heart Container")
         boss_name = specific_location_name.removesuffix(" Heart Container")
         self.banned_bosses.append(boss_name)
-    
-    return True
 
-  def validate_boss_reward_locations(self, boss_reward_locations: dict):
-    boss_reward_items = list(boss_reward_locations.values())
+  def validate_boss_reward_locations(self):
+    boss_reward_items = list(self.boss_reward_locations.values())
     
     # Temporarily own every item that is not a dungeon boss reward.
     items_to_temporarily_add = self.logic.unplaced_progress_items.copy()
@@ -219,7 +209,7 @@ class BossRewardRandomizer(BaseRandomizer):
     locations_valid = True
     temporary_boss_reward_items = []
     remaining_boss_reward_items = boss_reward_items.copy()
-    remaining_boss_locations = list(boss_reward_locations.keys())
+    remaining_boss_locations = list(self.boss_reward_locations.keys())
     
     while remaining_boss_reward_items:
       # Consider a dungeon boss reward to be accessible when every location in the dungeon is accessible.
@@ -250,7 +240,7 @@ class BossRewardRandomizer(BaseRandomizer):
       
       # Temporarily own dungeon boss rewards that are now accessible.
       for location_name in newly_accessible_boss_locations:
-        item_name = boss_reward_locations[location_name]
+        item_name = self.boss_reward_locations[location_name]
         if item_name in self.logic.unplaced_progress_items:
           self.logic.add_owned_item_or_item_group(item_name)
         temporary_boss_reward_items.append(item_name)

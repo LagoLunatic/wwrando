@@ -91,7 +91,7 @@
                 "--exportfolder",
                 "--mapselect",
                 "--noui",
-                "--bulk",
+                "--bulk", "100",
             ],
         },
         {
@@ -105,8 +105,8 @@
                 "--exportfolder",
                 "--mapselect",
                 "--noui",
-                "--bulk",
-                "--noitemrando"
+                "--bulk", "100",
+                "--noitemrando",
             ],
         },
         {

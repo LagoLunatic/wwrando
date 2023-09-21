@@ -707,6 +707,10 @@ class EntranceRandomizer(BaseRandomizer):
         for boss_name in self.rando.boss_rewards.required_bosses
       )
       assert not banned_island_names & required_island_names
+      
+      locations_valid = self.rando.boss_rewards.validate_boss_reward_locations()
+      if not locations_valid:
+        raise Exception("Race Mode and Entrance Randomizer produced an impossible seed, please try again on a different seed.")
   #endregion
   
   
