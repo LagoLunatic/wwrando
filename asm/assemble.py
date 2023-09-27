@@ -234,6 +234,7 @@ try:
   code_chunks = {}
   local_branches_linker_script_for_file = {}
   next_free_space_id_for_file = {}
+  constant_definitions = ""
   for patch_filename in all_asm_files:
     print("Assembling " + patch_filename)
     patch_path = os.path.join(asm_dir, "patches", patch_filename)
@@ -299,6 +300,9 @@ try:
         branch_temp_label = "branch_label_%X" % branch_dest
         local_branches_linker_script_for_file[most_recent_file_path] += "%s = 0x%X;\n" % (branch_temp_label, branch_dest)
         line = re.sub(r"0x" + branch_match.group(1), branch_temp_label, line, 1)
+      elif line.startswith(".equ "):
+        constant_definitions += line + "\n"
+        continue
       elif line == ".close":
         most_recent_file_path = None
         most_recent_org_offset = None
@@ -388,7 +392,10 @@ try:
         
         temp_asm_name = os.path.join(temp_dir, "tmp_" + patch_name + "_%08X.asm" % org_offset)
         with open(temp_asm_name, "w") as f:
-          f.write(asm_macros) # Add our custom asm macros to all asm at the start.
+          # Add our custom asm macros and constant definitions to all asm at the start.
+          f.write(asm_macros)
+          f.write("\n")
+          f.write(constant_definitions)
           f.write("\n")
           f.write(temp_asm)
         
