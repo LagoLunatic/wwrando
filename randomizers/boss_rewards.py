@@ -2,6 +2,9 @@ from collections import Counter
 
 from randomizers.base_randomizer import BaseRandomizer
 from gclib import fs_helpers as fs
+from wwlib.dzx import DZx, ACTR, TGOB, SCOB
+from tweaks import switches_are_contiguous
+from gclib.bmg import TextBoxType
 
 BOSS_NAME_TO_SEA_CHART_QUEST_MARKER_INDEX = {
   "Gohma"        : 7,
@@ -12,6 +15,15 @@ BOSS_NAME_TO_SEA_CHART_QUEST_MARKER_INDEX = {
   "Molgera"      : 1,
 }
 # Note: 4 is Northern Triangle Island and 6 is Greatfish Isle, these are not currently used by the randomizer.
+
+BOSS_NAME_TO_STAGE_ID = {
+  "Gohma"        : 3,
+  "Kalle Demos"  : 4,
+  "Gohdan"       : 5,
+  "Helmaroc King": 2,
+  "Jalhalla"     : 6,
+  "Molgera"      : 7,
+}
 
 class BossRewardRandomizer(BaseRandomizer):
   def __init__(self, rando):
@@ -41,6 +53,7 @@ class BossRewardRandomizer(BaseRandomizer):
   
   def _save(self):
     self.show_quest_markers_on_sea_chart_for_dungeons()
+    self.update_puppet_ganon_door_unlock_requirements()
   
   def write_to_spoiler_log(self):
     if not self.is_enabled():
@@ -297,3 +310,92 @@ class BossRewardRandomizer(BaseRandomizer):
       fs.write_u8(sea_chart_ui.data, offset+0x19, 55+extra_angle)
       
       overlap_counts[island_number] += 1
+  
+  def update_puppet_ganon_door_unlock_requirements(self):
+    door_unlocked_switch = 0x19 # From vanilla, originally set when all enemies in the room are dead
+    required_bosses_dead_switch = 0x25 # Unused in vanilla
+    enemies_dead_switch = 0x26 # Unused in vanilla
+    required_bosses_not_dead_switch = 0xE5 # Unused room-specific zone bit (temporary)
+    
+    stairway_dzr = self.rando.get_arc("files/res/Stage/GanonL/Room0.arc").get_file("room.dzr", DZx)
+    
+    barred_door = next(e for e in stairway_dzr.entries_by_type(TGOB) if e.name == "KGBdor")
+    
+    # Add a custom actor to check if the bosses are dead and sets a switch when they are.
+    required_boss_stage_no_mask = 0x0000
+    for boss_name in self.required_bosses:
+      stage_id = BOSS_NAME_TO_STAGE_ID[boss_name]
+      assert 0x00 <= stage_id <= 0x0F
+      required_boss_stage_no_mask |= (1 << stage_id)
+    dng_sw = stairway_dzr.add_entity(ACTR)
+    dng_sw.name = "DngSw"
+    dng_sw.flag_to_check = 3 # Boss is dead dungoen flag
+    dng_sw.stage_no_bitmask = required_boss_stage_no_mask
+    dng_sw.switch_to_set = required_bosses_dead_switch
+    dng_sw.x_pos = 1800
+    dng_sw.y_pos = 2000
+    dng_sw.z_pos = -19000
+    
+    # Change the ALLdie that originally opened the door directly by setting switch 0x19 to instead
+    # set an intermediate switch first.
+    alldie = next(e for e in stairway_dzr.entries_by_type(ACTR) if e.name == "ALLdie")
+    alldie.switch_to_set = enemies_dead_switch
+    
+    # Add a switch operator that checks that both all enemies in the current room are dead and the
+    # required dungeon bosses are also dead.
+    door_should_open_switches = [
+      required_bosses_dead_switch,
+      enemies_dead_switch,
+    ]
+    assert switches_are_contiguous(door_should_open_switches)
+    sw_op = stairway_dzr.add_entity(ACTR)
+    sw_op.name = "SwOp"
+    sw_op.operation = 0 # AND
+    sw_op.is_continuous = 0
+    sw_op.num_switches_to_check = len(door_should_open_switches)
+    sw_op.first_switch_to_check = min(door_should_open_switches)
+    sw_op.switch_to_set = door_unlocked_switch
+    sw_op.evnt_index = 0xFF
+    sw_op.x_pos = 1800
+    sw_op.y_pos = 2000
+    sw_op.z_pos = -19200
+    
+    # Add a TagMsg on the door telling the player it's locked because they haven't defeated the required bosses yet.
+    new_message_id = 851
+    msg = self.rando.bmg.add_new_message(new_message_id)
+    msg.text_box_type = TextBoxType.SPECIAL
+    msg.initial_draw_type = 0 # Normal
+    msg.text_alignment = 4 # Bottom text box
+    msg.string = "You sense that this door will not open until the giant evils throughout the world have been defeated..."
+    msg.word_wrap_string(self.rando.bfn)
+    
+    tag_msg = stairway_dzr.add_entity(SCOB)
+    tag_msg.name = "TagMsg"
+    tag_msg.type = 0
+    tag_msg.message_id = new_message_id
+    tag_msg.enable_spawn_switch = required_bosses_not_dead_switch
+    tag_msg.switch_to_set = 0xFF
+    tag_msg.evnt_index = 0xFF
+    tag_msg.enable_spawn_event_bit = 0xFFFF
+    tag_msg.x_pos = barred_door.x_pos
+    tag_msg.y_pos = barred_door.y_pos + 200
+    tag_msg.z_pos = barred_door.z_pos
+    tag_msg.scale_x = 80
+    tag_msg.scale_y = 255
+    
+    # We want the TagMsg to disappear once the required bosses are defeated, so add a NAND switch
+    # operator that checks for the switch set by the dungeon flag checker and sets a switch if it's
+    # NOT set.
+    sw_op = stairway_dzr.add_entity(ACTR)
+    sw_op.name = "SwOp"
+    sw_op.operation = 1 # NAND
+    sw_op.is_continuous = 0
+    sw_op.num_switches_to_check = 1
+    sw_op.first_switch_to_check = required_bosses_dead_switch
+    sw_op.switch_to_set = required_bosses_not_dead_switch
+    sw_op.evnt_index = 0xFF
+    sw_op.x_pos = 1800
+    sw_op.y_pos = 2000
+    sw_op.z_pos = -19400
+    
+    stairway_dzr.save_changes()

@@ -286,8 +286,6 @@ class WWRandomizer:
       
       if self.options.get("swift_sail"):
         tweaks.make_sail_behave_like_swift_sail(self)
-      if self.options.get("instant_text_boxes"):
-        tweaks.make_all_text_instant(self)
       if self.options.get("reveal_full_sea_chart"):
         patcher.apply_patch(self, "reveal_sea_chart")
       if self.options.get("add_shortcut_warps_between_dungeons"):
@@ -347,6 +345,8 @@ class WWRandomizer:
     
     if not self.dry_run:
       self.apply_necessary_post_randomization_tweaks()
+      if self.options.get("instant_text_boxes"):
+        tweaks.make_all_text_instant(self)
       options_completed += 1
     
     yield("Saving randomized ISO...", options_completed)
