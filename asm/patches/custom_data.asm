@@ -71,11 +71,15 @@ custom_l_objectName:
 .global custom_l_objectName_end
 custom_l_objectName_end:
 
+; These constants are used by the code that reads these lists, so update these when adding new entries.
+.equ num_custom_DynamicNameTable_entries, 1
+.equ num_custom_l_objectName_entries, 1
+
 ; This is a BSS variable (initialized at runtime) that holds pointers to the DynamicModuleControl struct for each REL.
 ; Unlike the above two lists, there's no easy way to trick the code into reading both the vanilla list and our custom list, so instead we just move the entire list into free space we have control over.
 .global custom_DMC
 custom_DMC:
-  .space 4 * 0x1F7 ; Total num actors, including our custom ones
+  .space 4 * (0x1F6 + num_custom_DynamicNameTable_entries) ; Total num actors, including our custom ones
 
 .align 2 ; Align to the next 4 bytes
 

@@ -504,7 +504,7 @@ read_custom_DynamicNameTable_loop:
   beq read_custom_DynamicNameTable_loop_switch_from_vanilla_to_custom
   
   ; If we're past even the indexes for our custom list, end the loop.
-  cmplwi r28, 0x1AE + 1 ; Num entries in vanilla list + custom list
+  cmplwi r28, 0x1AE + num_custom_DynamicNameTable_entries ; Num entries in vanilla list + custom list
   bge read_custom_DynamicNameTable_loop_end_loop
   
   ; Otherwise, just continue the loop, since we're on a custom entry that is not the first one.
@@ -535,7 +535,7 @@ read_custom_l_objectName_loop_for_dStage_searchName:
   beq read_custom_l_objectName_loop_for_dStage_searchName_switch_from_vanilla_to_custom
   
   ; If we're past even the indexes for our custom list, end the loop.
-  cmplwi r28, 0x339 + 1 ; Num entries in vanilla list + custom list
+  cmplwi r30, 0x339 + num_custom_l_objectName_entries ; Num entries in vanilla list + custom list
   bge read_custom_l_objectName_loop_for_dStage_searchName_end_loop
   
   ; Otherwise, just continue the loop, since we're on a custom entry that is not the first one.
@@ -572,7 +572,7 @@ read_custom_l_objectName_loop_for_dStage_getName:
   lis r6, custom_l_objectName@ha
   addi r6, r6, custom_l_objectName@l
   ; Then restart the loop counter so it loops for our custom list.
-  li r0, 1 ; Num entries in our custom list
+  li r0, num_custom_l_objectName_entries ; Num entries in our custom list
   mtctr r0
   
   read_custom_l_objectName_loop_for_dStage_getName_continue:
@@ -613,13 +613,13 @@ read_custom_l_objectName_loop_for_dStage_getName:
 
 ; Also change references to the original total number of actors (0x1F6) to the number including our custom actors.
 .org 0x80022850
-  cmplwi r0, 0x1F7
+  cmplwi r0, 0x1F6 + num_custom_DynamicNameTable_entries
 .org 0x80022944
-  cmplwi r23, 0x1F7
+  cmplwi r23, 0x1F6 + num_custom_DynamicNameTable_entries
 .org 0x80022ADC
-  cmplwi r0, 0x1F7
+  cmplwi r0, 0x1F6 + num_custom_DynamicNameTable_entries
 .org 0x80022BC8
-  cmplwi r4, 0x1F7
+  cmplwi r4, 0x1F6 + num_custom_DynamicNameTable_entries
 
 .close
 
