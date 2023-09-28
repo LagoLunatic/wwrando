@@ -185,9 +185,9 @@ class ItemRandomizer(BaseRandomizer):
     while self.logic.unplaced_progress_items:
       accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
       
-      if self.options.get("race_mode"):
-        # Filter out item locations that have been banned by race mode. We don't want any progress
-        # items being placed there.
+      if self.options.get("required_bosses"):
+        # Filter out item locations that have been banned by required bosses mode. We don't want any
+        # progress items being placed there.
         # However, we do still keep prerandomized banned locations in for e.g. small keys. If these
         # were excluded the logic would not know how to place them and error out.
         accessible_undone_locations = [
@@ -449,10 +449,10 @@ class ItemRandomizer(BaseRandomizer):
       return 0 # Light wood chests for non-progress items and consumables
     if not item_name.endswith(" Key"):
       return 2 # Metal chests for progress items
-    if not self.options.get("race_mode"):
+    if not self.options.get("required_bosses"):
       return 1 # Dark wood chest for Small and Big Keys
     
-    # In race mode, only put the dungeon keys for required dungeons in dark wood chests.
+    # In required bosses mode, only put the dungeon keys for required dungeons in dark wood chests.
     # The other keys go into light wood chests.
     dungeon_short_name = item_name.split()[0]
     if self.logic.DUNGEON_NAMES[dungeon_short_name] in self.rando.boss_rewards.required_dungeons:

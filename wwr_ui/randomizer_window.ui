@@ -868,20 +868,20 @@
             <item>
              <widget class="QGroupBox" name="groupBox_4">
               <property name="title">
-               <string>Race Mode Options</string>
+               <string>Required Bosses</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_6">
                <item row="0" column="0">
-                <widget class="QCheckBox" name="race_mode">
+                <widget class="QCheckBox" name="required_bosses">
                  <property name="text">
-                  <string>Race Mode</string>
+                  <string>Required Bosses Mode</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="1">
                 <layout class="QHBoxLayout" name="horizontalLayout_8">
                  <item>
-                  <widget class="QLabel" name="label_for_num_race_mode_dungeons">
+                  <widget class="QLabel" name="label_for_num_required_bosses">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                      <horstretch>0</horstretch>
@@ -889,12 +889,12 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>Race Mode Required Dungeons</string>
+                    <string>Number of Required Bosses</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QComboBox" name="num_race_mode_dungeons">
+                  <widget class="QComboBox" name="num_required_bosses">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                      <horstretch>1</horstretch>
@@ -1404,8 +1404,8 @@
   <tabstop>starting_gear</tabstop>
   <tabstop>starting_hcs</tabstop>
   <tabstop>starting_pohs</tabstop>
-  <tabstop>race_mode</tabstop>
-  <tabstop>num_race_mode_dungeons</tabstop>
+  <tabstop>required_bosses</tabstop>
+  <tabstop>num_required_bosses</tabstop>
   <tabstop>hoho_hints</tabstop>
   <tabstop>fishmen_hints</tabstop>
   <tabstop>korl_hints</tabstop>

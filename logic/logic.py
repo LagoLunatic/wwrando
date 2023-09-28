@@ -279,8 +279,8 @@ class Logic:
     
     return num_progress_locations
 
-  def get_max_race_mode_banned_locations(self):
-    if not self.options.get("race_mode"):
+  def get_max_required_bosses_banned_locations(self):
+    if not self.options.get("required_bosses"):
       return 0
     
     all_locations = self.item_locations.keys()
@@ -312,7 +312,7 @@ class Logic:
     
     dungeon_location_counts = list(location_counts_by_dungeon.values())
     dungeon_location_counts.sort(reverse=True)
-    num_banned_dungeons = 6 - int(self.options.get("num_race_mode_dungeons"))
+    num_banned_dungeons = 6 - int(self.options.get("num_required_bosses"))
     max_banned_locations = sum(dungeon_location_counts[:num_banned_dungeons])
     
     return max_banned_locations
@@ -455,7 +455,7 @@ class Logic:
     for location_name in locations_to_check:
       if location_name not in accessible_undone_locations:
         if location_name in self.rando.boss_rewards.banned_locations:
-          # Don't consider locations inside unchosen dungeons in race mode when calculating usefulness.
+          # Don't consider locations inside unchosen dungeons in required bosses mode when calculating usefulness.
           continue
         if location_name in self.prerandomization_item_locations:
           # We just ignore items with predetermined items when calculating usefulness fractions.
@@ -529,7 +529,7 @@ class Logic:
     
     for location_name in inaccessible_undone_item_locations:
       if location_name in self.rando.boss_rewards.banned_locations:
-        # Don't consider locations inside unchosen dungeons in race mode when calculating usefulness.
+        # Don't consider locations inside unchosen dungeons in required bosses mode when calculating usefulness.
         continue
       
       if location_name in self.prerandomization_item_locations:

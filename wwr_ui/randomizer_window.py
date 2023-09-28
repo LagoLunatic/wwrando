@@ -651,8 +651,7 @@ class WWRandomizerWindow(QMainWindow):
       should_enable_options[option_name] = True
     
     if not self.get_option_value("progression_dungeons"):
-      # Race mode places required items on dungeon bosses.
-      should_enable_options["race_mode"] = False
+      should_enable_options["required_bosses"] = False
     
     sword_mode = self.get_option_value("sword_mode")
     if sword_mode == "Swordless":
@@ -660,7 +659,7 @@ class WWRandomizerWindow(QMainWindow):
     if sword_mode in ["Swordless", "No Starting Sword"]:
       items_to_filter_out += 3 * ["Progressive Sword"]
     
-    if self.get_option_value("race_mode"):
+    if self.get_option_value("required_bosses"):
       num_possible_rewards = 8 - int(self.get_option_value("num_starting_triforce_shards"))
       potential_boss_rewards = []
       
@@ -670,12 +669,12 @@ class WWRandomizerWindow(QMainWindow):
         num_possible_rewards += 4
       
       potential_boss_rewards += 3 * ["Progressive Bow"] + ["Hookshot", "Progressive Shield", "Boomerang"]
-      while num_possible_rewards < int(self.get_option_value("num_race_mode_dungeons")):
+      while num_possible_rewards < int(self.get_option_value("num_required_bosses")):
         cur_reward = potential_boss_rewards.pop(0)
         items_to_filter_out += [cur_reward]
         num_possible_rewards += 1
     else:
-      should_enable_options["num_race_mode_dungeons"] = False
+      should_enable_options["num_required_bosses"] = False
     
     if self.get_option_value("num_location_hints") == 0:
       should_enable_options["prioritize_remote_hints"] = False

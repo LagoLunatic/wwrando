@@ -29,24 +29,24 @@ class BossRewardRandomizer(BaseRandomizer):
   def __init__(self, rando):
     super().__init__(rando)
     
-    # These variables will remain empty if race mode is off.
-    # The randomly selected dungeon boss locations that are required in race mode.
+    # These variables will remain empty if required bosses mode is off.
+    # The randomly selected dungeon boss locations that are required in required bosses mode.
     self.required_locations = []
-    # The dungeons corresponding to the race mode required boss locations.
+    # The dungeons corresponding to the required bosses mode required boss locations.
     self.required_dungeons = []
-    # The bosses required in race mode.
+    # The bosses required in required bosses mode.
     self.required_bosses = []
-    # The item locations that should not have any items in them in race mode.
+    # The item locations that should not have any items in them in required bosses mode.
     self.banned_locations = []
-    # The dungeons that are guaranteed to not have anything important in race mode.
+    # The dungeons that are guaranteed to not have anything important in required bosses mode.
     self.banned_dungeons = []
-    # The bosses that are guaranteed to not have anything important in race mode.
+    # The bosses that are guaranteed to not have anything important in required bosses mode.
     self.banned_bosses = []
     # Mapping of required locations to which item is placed there.
     self.boss_reward_locations = {}
   
   def is_enabled(self) -> bool:
-    return bool(self.options.get("race_mode"))
+    return bool(self.options.get("required_bosses"))
   
   def _randomize(self):
     self.randomize_boss_rewards()
@@ -77,7 +77,7 @@ class BossRewardRandomizer(BaseRandomizer):
       raise Exception("Cannot randomize boss rewards when progress items are not allowed in dungeons.")
     
     boss_reward_items = []
-    total_num_rewards = int(self.options.get("num_race_mode_dungeons"))
+    total_num_rewards = int(self.options.get("num_required_bosses"))
     
     unplaced_progress_items_degrouped = []
     for item_name in self.logic.unplaced_progress_items:

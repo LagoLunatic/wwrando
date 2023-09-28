@@ -143,12 +143,12 @@ OPTIONS = {
     "Inverts the horizontal axis of camera movement.",
   "invert_sea_compass_x_axis":
     "Inverts the east-west direction of the compass that shows while at sea.",
-  "race_mode":
-    "In Race Mode, certain randomly chosen dungeon bosses will drop guaranteed required items. Nothing in the other dungeons will ever be required.<br>"
-    "You can see which islands have the required dungeons on them by opening the sea chart and checking which islands have blue quest markers.",
-  "num_race_mode_dungeons":
-    "Select the number of dungeons that are required in Race Mode.<br>"
-    "Required dungeon bosses will drop guaranteed required items. Nothing in the other dungeons will ever be required.",
+  "required_bosses":
+    "In this mode, you will not be allowed to beat the game until certain randomly-chosen bosses are defeated. Nothing in dungeons for other bosses will ever be required.<br>"
+    "You can see which islands have the required bosses on them by opening the sea chart and checking which islands have blue quest markers.",
+  "num_required_bosses":
+    "Select the number of randomly-chosen bosses that are required in Required Bosses Mode.<br>"
+    "The door to Puppet Ganon will not unlock until you've defeated all of these bosses. Nothing in dungeons for other bosses will ever be required.",
   # "randomize_music":
   #   "Shuffles around all the music in the game. This affects background music, combat music, fanfares, etc.",
   "randomize_enemy_palettes":

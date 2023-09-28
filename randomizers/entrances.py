@@ -333,7 +333,7 @@ class EntranceRandomizer(BaseRandomizer):
     )
     
     self.safety_entrance = None
-    self.race_mode_banned_exits: list[ZoneExit] = []
+    self.banned_exits: list[ZoneExit] = []
     self.islands_with_a_banned_dungeon: list[str] = []
   
   def is_enabled(self) -> bool:
@@ -409,23 +409,23 @@ class EntranceRandomizer(BaseRandomizer):
     
     self.rng.shuffle(relevant_entrances)
     
-    self.race_mode_banned_exits.clear()
-    if self.options.get("race_mode"):
+    self.banned_exits.clear()
+    if self.options.get("required_bosses"):
       for zone_exit in relevant_exits:
         if zone_exit in BOSS_EXITS:
           assert zone_exit.unique_name.endswith(" Boss Arena")
           boss_name = zone_exit.unique_name[:-len(" Boss Arena")]
           if boss_name in self.rando.boss_rewards.banned_bosses:
-            self.race_mode_banned_exits.append(zone_exit)
+            self.banned_exits.append(zone_exit)
         elif zone_exit in DUNGEON_EXITS:
           dungeon_name = zone_exit.unique_name
           if dungeon_name in self.rando.boss_rewards.banned_dungeons:
-            self.race_mode_banned_exits.append(zone_exit)
+            self.banned_exits.append(zone_exit)
         elif zone_exit in MINIBOSS_EXITS:
           assert zone_exit.unique_name.endswith(" Miniboss Arena")
           dungeon_name = zone_exit.unique_name[:-len(" Miniboss Arena")]
           if dungeon_name in self.rando.boss_rewards.banned_dungeons:
-            self.race_mode_banned_exits.append(zone_exit)
+            self.banned_exits.append(zone_exit)
     
     self.islands_with_a_banned_dungeon.clear()
     
@@ -476,7 +476,7 @@ class EntranceRandomizer(BaseRandomizer):
   def split_nonprogress_entrances_and_exits(self, relevant_entrances: list[ZoneEntrance], relevant_exits: list[ZoneExit]):
     # Splits the entrance and exit lists into two pairs: ones that should be considered nonprogress
     # on this seed (will never lead to any progress items) and ones that should be considered
-    # potentially required on this race mode seed.
+    # potentially required.
     # This is so that we can effectively randomize these two pairs separately without any convoluted
     # logic to ensure they don't connect to each other.
     
@@ -484,8 +484,8 @@ class EntranceRandomizer(BaseRandomizer):
     for ex in relevant_exits:
       locs_for_exit = self.zone_exit_to_item_location_names[ex]
       assert locs_for_exit, f"Could not find any item locations corresponding to zone exit: {ex.unique_name}"
-      # Banned race mode dungeons still technically count as progress locations, so filter them out
-      # separately first.
+      # Banned required bosses mode dungeons still technically count as progress locations, so
+      # filter them out separately first.
       nonbanned_locs = [
         loc for loc in locs_for_exit
         if loc not in self.rando.boss_rewards.banned_locations
@@ -513,10 +513,10 @@ class EntranceRandomizer(BaseRandomizer):
       # We do need to exclude the safety_entrance from being considered, as otherwise the item rando
       # would have nowhere to put items at the start of the seed.
       possible_island_entrances.remove(self.safety_entrance)
-      if self.options.get("race_mode"):
-        # If we're in race mode, also exclude any other entrances one the same island as the safety
-        # entrance so that we don't risk getting a banned dungeon and a required dungeon on the same
-        # island.
+      if self.options.get("required_bosses"):
+        # If we're in required bosses mode, also exclude any other entrances one the same island as
+        # the safety entrance so that we don't risk getting a banned dungeon and a required dungeon
+        # on the same island.
         possible_island_entrances = [
           en for en in possible_island_entrances
           if en.island_name != self.safety_entrance.island_name
@@ -548,10 +548,10 @@ class EntranceRandomizer(BaseRandomizer):
     remaining_exits = relevant_exits.copy()
     
     doing_banned = False
-    if any(ex in self.race_mode_banned_exits for ex in relevant_exits):
+    if any(ex in self.banned_exits for ex in relevant_exits):
       doing_banned = True
     
-    if self.options.get("race_mode") and not doing_banned:
+    if self.options.get("required_bosses") and not doing_banned:
       # Prioritize entrances that share an island with an entrance randomized to lead into a race
       # mode banned dungeon. (e.g. DRI, Pawprint, Outset.)
       # This is because we need to prevent these islands from having a required boss or anything
@@ -619,12 +619,12 @@ class EntranceRandomizer(BaseRandomizer):
       #    if x.unique_name not in ["Fire Mountain Secret Cave", "Ice Ring Isle Secret Cave"]
       #  ]
       
-      if self.options.get("race_mode") and zone_entrance.island_name is not None and not doing_banned:
+      if self.options.get("required_bosses") and zone_entrance.island_name is not None and not doing_banned:
         # Prevent required bosses (and non-terminal exits which could potentially lead to required
         # bosses) from appearing on islands where we already placed a banned boss or dungeon.
         # This can happen with DRI and Pawprint, as these islands each have two entrances.
-        # This would be bad because Race Mode's dungeon markers only tell you what island the
-        # required dungeons are on, not which of the two entrances to enter.
+        # This would be bad because required bosses mode's dungeon markers only tell you what island
+        # the required dungeons are on, not which of the two entrances to enter.
         # So e.g. if a banned dungeon gets placed on DRI's main entrance, we will then have to fill
         # DRI's pit entrance with either a miniboss or one of the caves that does not have a nested
         # entrance inside of it.
@@ -668,8 +668,8 @@ class EntranceRandomizer(BaseRandomizer):
       self.done_entrances_to_exits[zone_entrance] = zone_exit
       self.done_exits_to_entrances[zone_exit] = zone_entrance
       
-      if zone_exit in self.race_mode_banned_exits and zone_entrance.island_name is not None:
-        # Keep track of which islands have a race mode banned dungeon to avoid marker overlap.
+      if zone_exit in self.banned_exits and zone_entrance.island_name is not None:
+        # Keep track of which islands have a required bosses mode banned dungeon to avoid marker overlap.
         if zone_exit in DUNGEON_EXITS + BOSS_EXITS:
           # We only keep track of dungeon exits and boss exits, not miniboss exits.
           # Banned miniboss exits can share an island with required dungeons/bosses.
@@ -696,7 +696,7 @@ class EntranceRandomizer(BaseRandomizer):
     
     self.logic.update_entrance_connection_macros()
     
-    if self.options.get("race_mode"):
+    if self.options.get("required_bosses"):
       # Make sure we didn't accidentally place a banned boss and a required boss on the same island.
       banned_island_names = set(
         self.get_entrance_zone_for_boss(boss_name)
@@ -710,7 +710,7 @@ class EntranceRandomizer(BaseRandomizer):
       
       locations_valid = self.rando.boss_rewards.validate_boss_reward_locations()
       if not locations_valid:
-        raise Exception("Race Mode and Entrance Randomizer produced an impossible seed, please try again on a different seed.")
+        raise Exception("Required Bosses Mode and Entrance Randomizer produced an impossible seed, please try again on a different seed.")
   #endregion
   
   
