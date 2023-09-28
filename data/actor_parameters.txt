@@ -3082,22 +3082,22 @@ d_a_tag_mk:
     Mask: 0x00FF0000
 
 d_a_tag_msg:
-  unknown_param_1:
+  type:
     Bitfield name: params
-    Mask: 0x000000C0
+    Mask: 0x00000040
   switch_to_set:
     Bitfield name: params
     Mask: 0x0000FF00
   enable_spawn_switch:
     Bitfield name: params
     Mask: 0x00FF0000
-  unknown_param_4:
+  evnt_index:
     Bitfield name: params
     Mask: 0xFF000000
-  unknown_param_5:
+  message_id:
     Bitfield name: x_rot
     Mask: 0xFFFF
-  unknown_param_6:
+  enable_spawn_event_bit:
     Bitfield name: z_rot
     Mask: 0xFFFF
 
