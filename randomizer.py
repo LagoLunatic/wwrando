@@ -694,6 +694,8 @@ class WWRandomizer:
     
     if new_rel.id in profile_list.relocation_entries_for_module:
       raise Exception("Cannot add a new REL with a unique ID that is already present in the profile list:\nREL ID: %03X\nNew REL path: %s" % (new_rel.id, rel_path))
+    if new_rel.id not in new_rel.relocation_entries_for_module:
+      raise Exception("Custom REL does not contain any relocations against itself! The REL's module ID is probably invalid.\nREL ID: %03X\nNew REL path: %s" % (new_rel.id, rel_path))
     
     profile_list.relocation_entries_for_module[new_rel.id] = [rel_relocation]
     
