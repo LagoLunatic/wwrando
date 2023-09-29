@@ -415,16 +415,16 @@ class EntranceRandomizer(BaseRandomizer):
         if zone_exit in BOSS_EXITS:
           assert zone_exit.unique_name.endswith(" Boss Arena")
           boss_name = zone_exit.unique_name[:-len(" Boss Arena")]
-          if boss_name in self.rando.boss_rewards.banned_bosses:
+          if boss_name in self.rando.boss_reqs.banned_bosses:
             self.banned_exits.append(zone_exit)
         elif zone_exit in DUNGEON_EXITS:
           dungeon_name = zone_exit.unique_name
-          if dungeon_name in self.rando.boss_rewards.banned_dungeons:
+          if dungeon_name in self.rando.boss_reqs.banned_dungeons:
             self.banned_exits.append(zone_exit)
         elif zone_exit in MINIBOSS_EXITS:
           assert zone_exit.unique_name.endswith(" Miniboss Arena")
           dungeon_name = zone_exit.unique_name[:-len(" Miniboss Arena")]
-          if dungeon_name in self.rando.boss_rewards.banned_dungeons:
+          if dungeon_name in self.rando.boss_reqs.banned_dungeons:
             self.banned_exits.append(zone_exit)
     
     self.islands_with_a_banned_dungeon.clear()
@@ -488,7 +488,7 @@ class EntranceRandomizer(BaseRandomizer):
       # filter them out separately first.
       nonbanned_locs = [
         loc for loc in locs_for_exit
-        if loc not in self.rando.boss_rewards.banned_locations
+        if loc not in self.rando.boss_reqs.banned_locations
       ]
       progress_locs = self.logic.filter_locations_for_progression(nonbanned_locs)
       if not progress_locs:
@@ -524,7 +524,7 @@ class EntranceRandomizer(BaseRandomizer):
     
     ff_boss_entrance = ZoneEntrance.all["Boss Entrance in Forsaken Fortress"]
     if ff_boss_entrance in possible_island_entrances and self.options.get("progression_dungeons"):
-      if "Forsaken Fortress" not in self.rando.boss_rewards.banned_dungeons:
+      if "Forsaken Fortress" not in self.rando.boss_reqs.banned_dungeons:
         # When Forsaken Fortress can have progress items inside of it, we exclude it from being used
         # as a throwaway entrance leading to a nonprogress exit.
         # This is a special case as it is the only island entrance inside of a dungeon.
@@ -700,11 +700,11 @@ class EntranceRandomizer(BaseRandomizer):
       # Make sure we didn't accidentally place a banned boss and a required boss on the same island.
       banned_island_names = set(
         self.get_entrance_zone_for_boss(boss_name)
-        for boss_name in self.rando.boss_rewards.banned_bosses
+        for boss_name in self.rando.boss_reqs.banned_bosses
       )
       required_island_names = set(
         self.get_entrance_zone_for_boss(boss_name)
-        for boss_name in self.rando.boss_rewards.required_bosses
+        for boss_name in self.rando.boss_reqs.required_bosses
       )
       assert not banned_island_names & required_island_names
   #endregion

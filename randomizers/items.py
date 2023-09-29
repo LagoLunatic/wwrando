@@ -192,7 +192,7 @@ class ItemRandomizer(BaseRandomizer):
         # were excluded the logic would not know how to place them and error out.
         accessible_undone_locations = [
           loc for loc in accessible_undone_locations
-          if loc not in self.rando.boss_rewards.banned_locations
+          if loc not in self.rando.boss_reqs.banned_locations
           or loc in self.logic.prerandomization_item_locations
         ]
       
@@ -455,7 +455,7 @@ class ItemRandomizer(BaseRandomizer):
     # In required bosses mode, only put the dungeon keys for required dungeons in dark wood chests.
     # The other keys go into light wood chests.
     dungeon_short_name = item_name.split()[0]
-    if self.logic.DUNGEON_NAMES[dungeon_short_name] in self.rando.boss_rewards.required_dungeons:
+    if self.logic.DUNGEON_NAMES[dungeon_short_name] in self.rando.boss_reqs.required_dungeons:
       return 1
     else:
       return 0

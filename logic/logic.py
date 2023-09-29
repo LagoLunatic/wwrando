@@ -454,7 +454,7 @@ class Logic:
     locations_to_check = self.filter_locations_for_progression(locations_to_check)
     for location_name in locations_to_check:
       if location_name not in accessible_undone_locations:
-        if location_name in self.rando.boss_rewards.banned_locations:
+        if location_name in self.rando.boss_reqs.banned_locations:
           # Don't consider locations inside unchosen dungeons in required bosses mode when calculating usefulness.
           continue
         if location_name in self.prerandomization_item_locations:
@@ -528,7 +528,7 @@ class Logic:
     self.add_owned_item_or_item_group(item_name)
     
     for location_name in inaccessible_undone_item_locations:
-      if location_name in self.rando.boss_rewards.banned_locations:
+      if location_name in self.rando.boss_reqs.banned_locations:
         # Don't consider locations inside unchosen dungeons in required bosses mode when calculating usefulness.
         continue
       
@@ -808,7 +808,7 @@ class Logic:
   def update_required_bosses_macro(self):
     required_boss_reqs = [
       f"Can Access Item Location \"{loc}\""
-      for loc in self.rando.boss_rewards.required_boss_item_locations
+      for loc in self.rando.boss_reqs.required_boss_item_locations
     ]
     req_string = " & ".join(required_boss_reqs)
     self.set_macro("Can Defeat All Required Bosses", req_string)
@@ -840,7 +840,7 @@ class Logic:
       # access each individual one.
       self.temporarily_make_entrance_macros_worst_case_scenario()
     
-    if self.rando.boss_rewards.is_enabled():
+    if self.rando.boss_reqs.is_enabled():
       # Required bosses mode also hasn't decided on which bosses to make required, so assume the worst case here too.
       self.temporarily_make_required_bosses_macro_worst_case_scenario()
     
@@ -903,7 +903,7 @@ class Logic:
     # Reset the macros if we changed them earlier.
     if self.rando.entrances.is_enabled():
       self.update_entrance_connection_macros()
-    if self.rando.boss_rewards.is_enabled():
+    if self.rando.boss_reqs.is_enabled():
       self.update_required_bosses_macro()
   
   def split_location_name_by_zone(self, location_name: str) -> tuple[str, str]:

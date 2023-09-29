@@ -40,7 +40,7 @@ from randomizers.entrances import EntranceRandomizer
 # from randomizers import music # Unfinished and needs to be rewritten from scratch
 from randomizers.enemies import EnemyRandomizer
 from randomizers.palettes import PaletteRandomizer
-from randomizers.boss_rewards import BossRewardRandomizer
+from randomizers.boss_reqs import RequiredBossesRandomizer
 from randomizers.hints import HintsRandomizer
 from randomizers.pigs import PigsRandomizer
 
@@ -197,7 +197,7 @@ class WWRandomizer:
     self.entrances = EntranceRandomizer(self)
     self.enemies = EnemyRandomizer(self)
     self.palettes = PaletteRandomizer(self)
-    self.boss_rewards = BossRewardRandomizer(self)
+    self.boss_reqs = RequiredBossesRandomizer(self)
     self.hints = HintsRandomizer(self)
     self.pigs = PigsRandomizer(self)
     
@@ -205,7 +205,7 @@ class WWRandomizer:
     self.randomizers: list[BaseRandomizer] = [
       self.charts,
       # self.music,
-      self.boss_rewards,
+      self.boss_reqs,
       self.entrances,
       self.starting_island,
       self.pigs,
@@ -863,7 +863,7 @@ class WWRandomizer:
     
     spoiler_log = self.get_log_header()
     
-    spoiler_log += self.boss_rewards.write_to_spoiler_log()
+    spoiler_log += self.boss_reqs.write_to_spoiler_log()
     
     if self.randomize_items:
       spoiler_log += self.items.write_to_spoiler_log()

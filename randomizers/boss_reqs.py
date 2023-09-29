@@ -25,7 +25,7 @@ BOSS_NAME_TO_STAGE_ID = {
   "Molgera"      : 7,
 }
 
-class BossRewardRandomizer(BaseRandomizer):
+class RequiredBossesRandomizer(BaseRandomizer):
   def __init__(self, rando):
     super().__init__(rando)
     
@@ -47,7 +47,7 @@ class BossRewardRandomizer(BaseRandomizer):
     return bool(self.options.get("required_bosses"))
   
   def _randomize(self):
-    self.randomize_boss_rewards()
+    self.randomize_required_bosses()
     self.logic.update_required_bosses_macro()
   
   def _save(self):
@@ -71,7 +71,7 @@ class BossRewardRandomizer(BaseRandomizer):
     return spoiler_log
   
 
-  def randomize_boss_rewards(self):
+  def randomize_required_bosses(self):
     if not self.options.get("progression_dungeons"):
       raise Exception("Cannot make bosses required when progression dungeons are disabled.")
     

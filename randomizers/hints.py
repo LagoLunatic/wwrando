@@ -593,7 +593,7 @@ class HintsRandomizer(BaseRandomizer):
   
   def get_required_locations_for_paths(self):
     # Add all required bosses mode dungeons as paths, in addition to Hyrule and Ganon's Tower.
-    dungeon_paths = self.rando.boss_rewards.required_dungeons.copy()
+    dungeon_paths = self.rando.boss_reqs.required_dungeons.copy()
     non_dungeon_paths = ["Hyrule", "Ganon's Tower"]
     path_goals = dungeon_paths + non_dungeon_paths
     required_locations_for_paths = {goal: [] for goal in path_goals}
@@ -605,7 +605,7 @@ class HintsRandomizer(BaseRandomizer):
     progress_locations, non_progress_locations = self.logic.get_progress_and_non_progress_locations()
     for location_name in progress_locations:
       # Ignore required bosses mode banned locations.
-      if location_name in self.rando.boss_rewards.banned_locations:
+      if location_name in self.rando.boss_reqs.banned_locations:
         continue
       
       # Build a list of required locations, along with the item at that location.
@@ -614,7 +614,7 @@ class HintsRandomizer(BaseRandomizer):
         # Ignore boss item drops in required bosses mode even if the item they drop is required.
         # This is because regardless of whether the item itself is required or not, you still need to defeat the boss
         # and see the item anyway to beat the game.
-        location_name not in self.rando.boss_rewards.required_boss_item_locations
+        location_name not in self.rando.boss_reqs.required_boss_item_locations
         # Keys are only considered in key-lunacy.
         and (self.options.get("keylunacy") or not item_name.endswith(" Key"))
         # Required locations always contain progress items (by definition).
@@ -675,7 +675,7 @@ class HintsRandomizer(BaseRandomizer):
     # The list includes only zones which are allowed to be hinted at as barren.
     
     # To start, exclude locations in non required bosses mode dungeons from being considered as progress locations.
-    progress_locations = set(progress_locations) - set(self.rando.boss_rewards.banned_locations)
+    progress_locations = set(progress_locations) - set(self.rando.boss_reqs.banned_locations)
     
     # Next, create a dictionary mapping all progress items to their randomized locations. The values in this dictionary
     # will be lists since an item can be in multiple locations if it is progressive or a small key.
@@ -729,7 +729,7 @@ class HintsRandomizer(BaseRandomizer):
     zones_with_useful_locations = set()
     for location_name in sorted(useful_locations):
       # Don't consider boss item drops in required bosses mode, as the boss is required anyway.
-      if location_name in self.rando.boss_rewards.required_boss_item_locations:
+      if location_name in self.rando.boss_reqs.required_boss_item_locations:
         continue
       
       zones_with_useful_locations.add(self.rando.entrances.get_entrance_zone_for_item_location(location_name))
@@ -843,11 +843,11 @@ class HintsRandomizer(BaseRandomizer):
     
     # You already know which bosses are required or not in required bosses mode by looking at the sea chart, so there's
     # no need to hint at the item dropped by the bosses too.
-    if location_name in self.rando.boss_rewards.required_boss_item_locations:
+    if location_name in self.rando.boss_reqs.required_boss_item_locations:
       return False
     
     # Remove locations in required bosses mode banned dungeons.
-    if location_name in self.rando.boss_rewards.banned_locations:
+    if location_name in self.rando.boss_reqs.banned_locations:
       return False
     
     # Remove locations for items that were previously hinted.
@@ -901,7 +901,7 @@ class HintsRandomizer(BaseRandomizer):
       remote_hintable_locations = []
     
     # Remove locations in required bosses mode banned dungeons.
-    hintable_locations = [loc for loc in hintable_locations if loc not in self.rando.boss_rewards.banned_locations]
+    hintable_locations = [loc for loc in hintable_locations if loc not in self.rando.boss_reqs.banned_locations]
     
     # Remove locations for items that were previously hinted.
     hintable_locations = [loc for loc in hintable_locations if loc not in previously_hinted_locations]
@@ -1008,7 +1008,7 @@ class HintsRandomizer(BaseRandomizer):
     # After that, we repeatedly select a path goal at random and use that to form another hint. Zones are weighted by
     # the number of required locations at that zone. The more required locations, the more likely that zone will be
     # chosen.
-    dungeon_paths = self.rando.boss_rewards.required_dungeons.copy()
+    dungeon_paths = self.rando.boss_reqs.required_dungeons.copy()
     self.rng.shuffle(dungeon_paths)
     
     # If required bosses mode is on, then remove items that are hinted on the path to a required dungeon from paths to
