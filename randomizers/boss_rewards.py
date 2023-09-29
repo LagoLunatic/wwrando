@@ -48,6 +48,7 @@ class BossRewardRandomizer(BaseRandomizer):
   
   def _randomize(self):
     self.randomize_boss_rewards()
+    self.logic.update_required_bosses_macro()
   
   def _save(self):
     self.show_quest_markers_on_sea_chart_for_dungeons()

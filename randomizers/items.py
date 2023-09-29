@@ -564,10 +564,7 @@ class ItemRandomizer(BaseRandomizer):
         
         for (location_name, specific_location_name) in locations_in_zone:
           if location_name in progression_sphere:
-            if location_name == "Ganon's Tower - Rooftop":
-              item_name = "Defeat Ganondorf"
-            else:
-              item_name = self.logic.done_item_locations[location_name]
+            item_name = progression_sphere[location_name]
             spoiler_log += format_string % (specific_location_name + ":", item_name)
       
     spoiler_log += "\n\n\n"
@@ -632,6 +629,11 @@ class ItemRandomizer(BaseRandomizer):
       locations_in_this_sphere = logic.filter_locations_for_progression(locations_in_this_sphere)
       
       for location_name in locations_in_this_sphere:
+        zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
+        if specific_location_name.endswith(" Heart Container"):
+          boss_name = specific_location_name.removesuffix(" Heart Container")
+          progress_items_in_this_sphere[f"{zone_name} - Boss"] = f"Defeat {boss_name}"
+        
         item_name = self.logic.done_item_locations[location_name]
         if item_name in logic.all_progress_items:
           progress_items_in_this_sphere[location_name] = item_name
@@ -644,7 +646,7 @@ class ItemRandomizer(BaseRandomizer):
       progression_spheres.append(progress_items_in_this_sphere)
       
       for location_name, item_name in progress_items_in_this_sphere.items():
-        if item_name == "Defeat Ganondorf":
+        if item_name.startswith("Defeat "):
           continue
         logic.add_owned_item(item_name)
       for group_name, item_names in logic.progress_item_groups.items():
