@@ -611,8 +611,10 @@ class HintsRandomizer(BaseRandomizer):
       # Build a list of required locations, along with the item at that location.
       item_name = self.logic.done_item_locations[location_name]
       if (
-        # Ignore boss Heart Containers in required bosses mode, even if it's required.
-        location_name not in self.rando.boss_rewards.required_locations
+        # Ignore boss item drops in required bosses mode even if the item they drop is required.
+        # This is because regardless of whether the item itself is required or not, you still need to defeat the boss
+        # and see the item anyway to beat the game.
+        location_name not in self.rando.boss_rewards.required_boss_item_locations
         # Keys are only considered in key-lunacy.
         and (self.options.get("keylunacy") or not item_name.endswith(" Key"))
         # Required locations always contain progress items (by definition).
@@ -726,8 +728,8 @@ class HintsRandomizer(BaseRandomizer):
     # Since we hint at zones as barren, we next construct a set of zones which contain at least one useful item.
     zones_with_useful_locations = set()
     for location_name in sorted(useful_locations):
-      # Don't consider bosses in required bosses mode, as those are implicity required.
-      if location_name in self.rando.boss_rewards.required_locations:
+      # Don't consider boss item drops in required bosses mode, as the boss is required anyway.
+      if location_name in self.rando.boss_rewards.required_boss_item_locations:
         continue
       
       zones_with_useful_locations.add(self.rando.entrances.get_entrance_zone_for_item_location(location_name))
@@ -839,8 +841,9 @@ class HintsRandomizer(BaseRandomizer):
     if location_name not in progress_locations:
       return False
     
-    # You already know which boss locations are and aren't required in required bosses mode by looking at the sea chart.
-    if location_name in self.rando.boss_rewards.required_locations:
+    # You already know which bosses are required or not in required bosses mode by looking at the sea chart, so there's
+    # no need to hint at the item dropped by the bosses too.
+    if location_name in self.rando.boss_rewards.required_boss_item_locations:
       return False
     
     # Remove locations in required bosses mode banned dungeons.
