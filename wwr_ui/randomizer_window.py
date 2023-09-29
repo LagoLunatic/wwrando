@@ -659,21 +659,7 @@ class WWRandomizerWindow(QMainWindow):
     if sword_mode in ["Swordless", "No Starting Sword"]:
       items_to_filter_out += 3 * ["Progressive Sword"]
     
-    if self.get_option_value("required_bosses"):
-      num_possible_rewards = 8 - int(self.get_option_value("num_starting_triforce_shards"))
-      potential_boss_rewards = []
-      
-      if sword_mode == "Start with Hero's Sword":
-        potential_boss_rewards += 3 * ["Progressive Sword"]
-      elif sword_mode == "No Starting Sword":
-        num_possible_rewards += 4
-      
-      potential_boss_rewards += 3 * ["Progressive Bow"] + ["Hookshot", "Progressive Shield", "Boomerang"]
-      while num_possible_rewards < int(self.get_option_value("num_required_bosses")):
-        cur_reward = potential_boss_rewards.pop(0)
-        items_to_filter_out += [cur_reward]
-        num_possible_rewards += 1
-    else:
+    if not self.get_option_value("required_bosses"):
       should_enable_options["num_required_bosses"] = False
     
     if self.get_option_value("num_location_hints") == 0:
