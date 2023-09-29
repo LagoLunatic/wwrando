@@ -102,12 +102,6 @@ class RequiredBossesRandomizer(BaseRandomizer):
         self.banned_dungeons.append(dungeon_name)
         self.banned_bosses.append(boss_name)
     
-    for boss_location_name in possible_boss_item_locations:
-      if boss_location_name in self.required_boss_item_locations:
-        continue
-      dungeon_name, _ = self.logic.split_location_name_by_zone(boss_location_name)
-      self.banned_dungeons.append(dungeon_name)
-    
     for location_name in self.logic.item_locations:
       zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
       
@@ -181,7 +175,7 @@ class RequiredBossesRandomizer(BaseRandomizer):
       required_boss_stage_no_mask |= (1 << stage_id)
     dng_sw = stairway_dzr.add_entity(ACTR)
     dng_sw.name = "DngSw"
-    dng_sw.flag_to_check = 3 # Boss is dead dungoen flag
+    dng_sw.flag_to_check = 3 # Boss is dead dungeon flag
     dng_sw.stage_no_bitmask = required_boss_stage_no_mask
     dng_sw.switch_to_set = required_bosses_dead_switch
     dng_sw.x_pos = 1800
