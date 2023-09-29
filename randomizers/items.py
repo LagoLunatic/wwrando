@@ -185,14 +185,14 @@ class ItemRandomizer(BaseRandomizer):
     while self.logic.unplaced_progress_items:
       accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
       
-      if self.options.get("race_mode"):
-        # Filter out item locations that have been banned by race mode. We don't want any progress
-        # items being placed there.
+      if self.options.get("required_bosses"):
+        # Filter out item locations that have been banned by required bosses mode. We don't want any
+        # progress items being placed there.
         # However, we do still keep prerandomized banned locations in for e.g. small keys. If these
         # were excluded the logic would not know how to place them and error out.
         accessible_undone_locations = [
           loc for loc in accessible_undone_locations
-          if loc not in self.rando.boss_rewards.banned_locations
+          if loc not in self.rando.boss_reqs.banned_locations
           or loc in self.logic.prerandomization_item_locations
         ]
       
@@ -449,13 +449,13 @@ class ItemRandomizer(BaseRandomizer):
       return 0 # Light wood chests for non-progress items and consumables
     if not item_name.endswith(" Key"):
       return 2 # Metal chests for progress items
-    if not self.options.get("race_mode"):
+    if not self.options.get("required_bosses"):
       return 1 # Dark wood chest for Small and Big Keys
     
-    # In race mode, only put the dungeon keys for required dungeons in dark wood chests.
+    # In required bosses mode, only put the dungeon keys for required dungeons in dark wood chests.
     # The other keys go into light wood chests.
     dungeon_short_name = item_name.split()[0]
-    if self.logic.DUNGEON_NAMES[dungeon_short_name] in self.rando.boss_rewards.required_dungeons:
+    if self.logic.DUNGEON_NAMES[dungeon_short_name] in self.rando.boss_reqs.required_dungeons:
       return 1
     else:
       return 0
@@ -564,10 +564,7 @@ class ItemRandomizer(BaseRandomizer):
         
         for (location_name, specific_location_name) in locations_in_zone:
           if location_name in progression_sphere:
-            if location_name == "Ganon's Tower - Rooftop":
-              item_name = "Defeat Ganondorf"
-            else:
-              item_name = self.logic.done_item_locations[location_name]
+            item_name = progression_sphere[location_name]
             spoiler_log += format_string % (specific_location_name + ":", item_name)
       
     spoiler_log += "\n\n\n"
@@ -632,6 +629,11 @@ class ItemRandomizer(BaseRandomizer):
       locations_in_this_sphere = logic.filter_locations_for_progression(locations_in_this_sphere)
       
       for location_name in locations_in_this_sphere:
+        zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
+        if specific_location_name.endswith(" Heart Container"):
+          boss_name = specific_location_name.removesuffix(" Heart Container")
+          progress_items_in_this_sphere[f"{zone_name} - Boss"] = f"Defeat {boss_name}"
+        
         item_name = self.logic.done_item_locations[location_name]
         if item_name in logic.all_progress_items:
           progress_items_in_this_sphere[location_name] = item_name
@@ -644,7 +646,7 @@ class ItemRandomizer(BaseRandomizer):
       progression_spheres.append(progress_items_in_this_sphere)
       
       for location_name, item_name in progress_items_in_this_sphere.items():
-        if item_name == "Defeat Ganondorf":
+        if item_name.startswith("Defeat "):
           continue
         logic.add_owned_item(item_name)
       for group_name, item_names in logic.progress_item_groups.items():

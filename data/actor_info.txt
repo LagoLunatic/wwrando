@@ -4133,3 +4133,8 @@ SwOp:
   Actor ID: 0x01F6
   Subtype: 0xFF
   GBA Name: 0x00
+DngSw:
+  Class Name: d_a_dungeon_flag_sw
+  Actor ID: 0x01F7
+  Subtype: 0xFF
+  GBA Name: 0x00

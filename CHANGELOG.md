@@ -11,6 +11,10 @@ New features:
 * Secret cave "inner caves" - the pit inside Ice Ring Isle's secret cave and the rear exit out of Cliff Plateau Isles's secret cave - can now also be included in entrance randomization.
 * Added a new Dungeon Secrets progression location category, which corresponds to 11 newly-randomized item locations within various dungeons.
   * In vanilla these items were all originally Joy Pendants, hidden fairly well (not in chests). DRC has 3, while FW, TotG, ET, and WT each have 2.
+* Added a Required Bosses Mode, which prevents you from beating the game before you have defeated certain randomly-selected bosses that are marked on the sea chart.
+  * You can potentially go down to Hyrule and Ganon's Tower early, but the door to Puppet Ganon will be locked until you defeat the selected bosses elsewhere.
+  * The dungeons of the bosses that were *not* selected will never have progress items in them (e.g. Earth Temple for Jalhalla). If used together with the Nested Entrance Randomizer, nothing nested inside of these non-required dungeons will contain progress items, either.
+  * This replaces the old Race Mode option. Although similar, Required Bosses Mode does not limit what items can be dropped by the randomly selected bosses like Race Mode.
 * You can now bring the three Servants of the Tower to the central room in Tower of the Gods in any order instead of being forced into the linear vanilla order.
 * Customized player colors can now be saved to a file for later use, or shared with other players.
 

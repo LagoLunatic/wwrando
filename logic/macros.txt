@@ -562,9 +562,18 @@ Can Open Ganon's Tower Dark Portal:
 Can Reach and Defeat Puppet Ganon:
   Can Reach Ganon's Tower Phantom Ganon Room
   & Light Arrows
-  & Can Defeat Moblins
-  & Can Defeat Mighty Darknuts
+  & Can Unlock Puppet Ganon Door
   & Can Defeat Puppet Ganon
+Can Unlock Puppet Ganon Door:
+  Can Defeat Moblins
+  & Can Defeat Mighty Darknuts
+  & (
+    Outside Required Bosses Mode
+    | (
+      In Required Bosses Mode
+      & Can Defeat All Required Bosses
+    )
+  )
 Can Defeat Puppet Ganon:
   Light Arrows
   & (
@@ -1070,6 +1079,10 @@ Chart for Island 47: Treasure Chart 15
 Chart for Island 48: Treasure Chart 32
 Chart for Island 49: Treasure Chart 33
 
+# The below macro is automatically updated by the required bosses randomizer.
+Can Defeat All Required Bosses:
+  Nothing
+
 # Macros to wrap option checks and make them look better.
 Rematch Bosses Skipped:
   Option "skip_rematch_bosses" Enabled
@@ -1077,6 +1090,10 @@ In Swordless Mode:
   Option "sword_mode" Is "Swordless"
 Outside Swordless Mode:
   Option "sword_mode" Is Not "Swordless"
+In Required Bosses Mode:
+  Option "required_bosses" Enabled
+Outside Required Bosses Mode:
+  Option "required_bosses" Disabled
 
 # Macros to wrap difficulty level checks.
 Obscure 1:

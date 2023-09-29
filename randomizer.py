@@ -40,7 +40,7 @@ from randomizers.entrances import EntranceRandomizer
 # from randomizers import music # Unfinished and needs to be rewritten from scratch
 from randomizers.enemies import EnemyRandomizer
 from randomizers.palettes import PaletteRandomizer
-from randomizers.boss_rewards import BossRewardRandomizer
+from randomizers.boss_reqs import RequiredBossesRandomizer
 from randomizers.hints import HintsRandomizer
 from randomizers.pigs import PigsRandomizer
 
@@ -197,7 +197,7 @@ class WWRandomizer:
     self.entrances = EntranceRandomizer(self)
     self.enemies = EnemyRandomizer(self)
     self.palettes = PaletteRandomizer(self)
-    self.boss_rewards = BossRewardRandomizer(self)
+    self.boss_reqs = RequiredBossesRandomizer(self)
     self.hints = HintsRandomizer(self)
     self.pigs = PigsRandomizer(self)
     
@@ -205,7 +205,7 @@ class WWRandomizer:
     self.randomizers: list[BaseRandomizer] = [
       self.charts,
       # self.music,
-      self.boss_rewards,
+      self.boss_reqs,
       self.entrances,
       self.starting_island,
       self.pigs,
@@ -220,14 +220,14 @@ class WWRandomizer:
     self.logic.initialize_from_randomizer_state()
     
     num_progress_locations = self.logic.get_num_progression_locations()
-    max_race_mode_banned_locations = self.logic.get_max_race_mode_banned_locations()
+    max_required_bosses_banned_locations = self.logic.get_max_required_bosses_banned_locations()
     self.all_randomized_progress_items = self.logic.get_flattened_unplaced_progression_items()
-    if num_progress_locations - max_race_mode_banned_locations < len(self.all_randomized_progress_items):
+    if num_progress_locations - max_required_bosses_banned_locations < len(self.all_randomized_progress_items):
       error_message = "Not enough progress locations to place all progress items.\n\n"
       error_message += "Total progress items: %d\n" % len(self.all_randomized_progress_items)
       error_message += "Progress locations with current options: %d\n" % num_progress_locations
-      if max_race_mode_banned_locations > 0:
-        error_message += "Maximum Race Mode banned locations: %d\n" % max_race_mode_banned_locations
+      if max_required_bosses_banned_locations > 0:
+        error_message += "Maximum Required Bosses Mode banned locations: %d\n" % max_required_bosses_banned_locations
       error_message += "\nYou need to check more of the progress location options in order to give the randomizer enough space to place all the items."
       raise TooFewProgressionLocationsError(error_message)
     
@@ -286,8 +286,6 @@ class WWRandomizer:
       
       if self.options.get("swift_sail"):
         tweaks.make_sail_behave_like_swift_sail(self)
-      if self.options.get("instant_text_boxes"):
-        tweaks.make_all_text_instant(self)
       if self.options.get("reveal_full_sea_chart"):
         patcher.apply_patch(self, "reveal_sea_chart")
       if self.options.get("add_shortcut_warps_between_dungeons"):
@@ -347,6 +345,8 @@ class WWRandomizer:
     
     if not self.dry_run:
       self.apply_necessary_post_randomization_tweaks()
+      if self.options.get("instant_text_boxes"):
+        tweaks.make_all_text_instant(self)
       options_completed += 1
     
     yield("Saving randomized ISO...", options_completed)
@@ -694,6 +694,8 @@ class WWRandomizer:
     
     if new_rel.id in profile_list.relocation_entries_for_module:
       raise Exception("Cannot add a new REL with a unique ID that is already present in the profile list:\nREL ID: %03X\nNew REL path: %s" % (new_rel.id, rel_path))
+    if new_rel.id not in new_rel.relocation_entries_for_module:
+      raise Exception("Custom REL does not contain any relocations against itself! The REL's module ID is probably invalid.\nREL ID: %03X\nNew REL path: %s" % (new_rel.id, rel_path))
     
     profile_list.relocation_entries_for_module[new_rel.id] = [rel_relocation]
     
@@ -861,7 +863,7 @@ class WWRandomizer:
     
     spoiler_log = self.get_log_header()
     
-    spoiler_log += self.boss_rewards.write_to_spoiler_log()
+    spoiler_log += self.boss_reqs.write_to_spoiler_log()
     
     if self.randomize_items:
       spoiler_log += self.items.write_to_spoiler_log()

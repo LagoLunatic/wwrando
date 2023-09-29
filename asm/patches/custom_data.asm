@@ -55,9 +55,17 @@ custom_DynamicNameTable:
   .short 0x01F6 ; Actor ID
   .align 2 ; Align to the next 4 bytes
   .int custom_DynamicNameTable_switch_op_rel_name ; REL name
+  
+  .short 0x01F7 ; Actor ID
+  .align 2 ; Align to the next 4 bytes
+  .int custom_DynamicNameTable_dungeon_flag_sw_rel_name ; REL name
 
 custom_DynamicNameTable_switch_op_rel_name:
   .string "d_a_switch_op"
+  .align 2 ; Align to the next 4 bytes
+
+custom_DynamicNameTable_dungeon_flag_sw_rel_name:
+  .string "d_a_dungeon_flag_sw"
   .align 2 ; Align to the next 4 bytes
 
 ; This is a list of custom actor names, to add on to the vanilla l_objectName list.
@@ -67,13 +75,18 @@ custom_l_objectName:
   .short 0x01F6 ; Actor ID
   .byte 0xFF ; Subtype
   .byte 0x00 ; GBA name
+  
+  padded_string "DngSw", 8 ; Actor name
+  .short 0x01F7 ; Actor ID
+  .byte 0xFF ; Subtype
+  .byte 0x00 ; GBA name
 
 .global custom_l_objectName_end
 custom_l_objectName_end:
 
 ; These constants are used by the code that reads these lists, so update these when adding new entries.
-.equ num_custom_DynamicNameTable_entries, 1
-.equ num_custom_l_objectName_entries, 1
+.equ num_custom_DynamicNameTable_entries, 2
+.equ num_custom_l_objectName_entries, 2
 
 ; This is a BSS variable (initialized at runtime) that holds pointers to the DynamicModuleControl struct for each REL.
 ; Unlike the above two lists, there's no easy way to trick the code into reading both the vanilla list and our custom list, so instead we just move the entire list into free space we have control over.

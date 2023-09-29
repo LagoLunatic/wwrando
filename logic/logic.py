@@ -279,8 +279,8 @@ class Logic:
     
     return num_progress_locations
 
-  def get_max_race_mode_banned_locations(self):
-    if not self.options.get("race_mode"):
+  def get_max_required_bosses_banned_locations(self):
+    if not self.options.get("required_bosses"):
       return 0
     
     all_locations = self.item_locations.keys()
@@ -312,7 +312,7 @@ class Logic:
     
     dungeon_location_counts = list(location_counts_by_dungeon.values())
     dungeon_location_counts.sort(reverse=True)
-    num_banned_dungeons = 6 - int(self.options.get("num_race_mode_dungeons"))
+    num_banned_dungeons = 6 - int(self.options.get("num_required_bosses"))
     max_banned_locations = sum(dungeon_location_counts[:num_banned_dungeons])
     
     return max_banned_locations
@@ -454,8 +454,8 @@ class Logic:
     locations_to_check = self.filter_locations_for_progression(locations_to_check)
     for location_name in locations_to_check:
       if location_name not in accessible_undone_locations:
-        if location_name in self.rando.boss_rewards.banned_locations:
-          # Don't consider locations inside unchosen dungeons in race mode when calculating usefulness.
+        if location_name in self.rando.boss_reqs.banned_locations:
+          # Don't consider locations inside unchosen dungeons in required bosses mode when calculating usefulness.
           continue
         if location_name in self.prerandomization_item_locations:
           # We just ignore items with predetermined items when calculating usefulness fractions.
@@ -528,8 +528,8 @@ class Logic:
     self.add_owned_item_or_item_group(item_name)
     
     for location_name in inaccessible_undone_item_locations:
-      if location_name in self.rando.boss_rewards.banned_locations:
-        # Don't consider locations inside unchosen dungeons in race mode when calculating usefulness.
+      if location_name in self.rando.boss_reqs.banned_locations:
+        # Don't consider locations inside unchosen dungeons in required bosses mode when calculating usefulness.
         continue
       
       if location_name in self.prerandomization_item_locations:
@@ -805,17 +805,44 @@ class Logic:
       
       self.set_macro(chart_macro_name, req_string)
   
+  def update_required_bosses_macro(self):
+    required_boss_reqs = [
+      f"Can Access Item Location \"{loc}\""
+      for loc in self.rando.boss_reqs.required_boss_item_locations
+    ]
+    req_string = " & ".join(required_boss_reqs)
+    self.set_macro("Can Defeat All Required Bosses", req_string)
+  
+  def temporarily_make_required_bosses_macro_worst_case_scenario(self):
+    possible_boss_item_locations = [
+      loc for loc in self.item_locations.keys()
+      if "Boss" in self.item_locations[loc]["Types"]
+    ]
+    required_boss_reqs = [
+      f"Can Access Item Location \"{loc}\""
+      for loc in possible_boss_item_locations
+    ]
+    req_string = " & ".join(required_boss_reqs)
+    self.set_macro("Can Defeat All Required Bosses", req_string)
+  
   def clean_item_name(self, item_name):
     # Remove parentheses from any item names that may have them. (Formerly Master Swords, though that's not an issue anymore.)
     return item_name.replace("(", "").replace(")", "")
   
   def make_useless_progress_items_nonprogress(self):
-    # Detect which progress items don't actually help access any locations with the user's current settings, and move those over to the nonprogress item list instead.
+    # Detect which progress items don't actually help access any locations with the user's current settings, and move
+    # those over to the nonprogress item list instead.
     # This is so things like dungeons-only runs don't have a lot of useless items hogging the progress locations.
     
     if self.rando.entrances.is_enabled():
-      # Since the randomizer hasn't decided which dungeon/secret cave will be where yet, we have to assume the worst case scenario by considering that you need to be able to access all dungeon/secret cave entrances in order to access each individual one.
+      # Since the randomizer hasn't decided which dungeon/secret cave will be where yet, we have to assume the worst
+      # case scenario by considering that you need to be able to access all dungeon/secret cave entrances in order to
+      # access each individual one.
       self.temporarily_make_entrance_macros_worst_case_scenario()
+    
+    if self.rando.boss_reqs.is_enabled():
+      # Required bosses mode also hasn't decided on which bosses to make required, so assume the worst case here too.
+      self.temporarily_make_required_bosses_macro_worst_case_scenario()
     
     filter_sunken_treasure = True
     if self.options.get("progression_triforce_charts") or self.options.get("progression_treasure_charts"):
@@ -873,9 +900,11 @@ class Logic:
       self.unplaced_progress_items.remove(item_name)
       self.unplaced_nonprogress_items.append(item_name)
     
+    # Reset the macros if we changed them earlier.
     if self.rando.entrances.is_enabled():
-      # Reset the dungeon/secret cave access macros if we changed them earlier.
       self.update_entrance_connection_macros()
+    if self.rando.boss_reqs.is_enabled():
+      self.update_required_bosses_macro()
   
   def split_location_name_by_zone(self, location_name: str) -> tuple[str, str]:
     if " - " in location_name:

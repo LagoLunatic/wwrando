@@ -2064,14 +2064,24 @@ def remove_minor_panning_cutscenes(self: WWRandomizer):
 
 def add_custom_actor_rels(self: WWRandomizer):
   # Add the custom switch operator REL to the game.
-  switch_op_rel_path = os.path.join(ASM_PATH, "d_a_switch_op.rel")
-  switch_op_rel = REL()
-  switch_op_rel.read_from_file(switch_op_rel_path)
+  rel_path = os.path.join(ASM_PATH, "d_a_switch_op.rel")
+  rel = REL()
+  rel.read_from_file(rel_path)
   self.add_new_rel(
     "files/rels/d_a_switch_op.rel",
-    switch_op_rel,
+    rel,
     section_index_of_actor_profile = 2,
     offset_of_actor_profile = 0,
+  )
+  
+  rel_path = os.path.join(ASM_PATH, "d_a_dungeon_flag_sw.rel")
+  rel = REL()
+  rel.read_from_file(rel_path)
+  self.add_new_rel(
+    "files/rels/d_a_dungeon_flag_sw.rel",
+    rel,
+    section_index_of_actor_profile = 4,
+    offset_of_actor_profile = 0x20,
   )
 
 def fix_message_closing_sound_on_quest_status_screen(self: WWRandomizer):
