@@ -212,7 +212,7 @@ class RequiredBossesRandomizer(BaseRandomizer):
     msg.text_box_type = TextBoxType.SPECIAL
     msg.initial_draw_type = 0 # Normal
     msg.text_alignment = 4 # Bottom text box
-    msg.string = "You sense that this door will not open until the giant evils throughout the world have been defeated..."
+    msg.string = "You sense that this door will not open until the gigantic monsters lurking throughout the world have been defeated..."
     msg.word_wrap_string(self.rando.bfn)
     
     tag_msg = stairway_dzr.add_entity(SCOB)
@@ -254,12 +254,12 @@ class RequiredBossesRandomizer(BaseRandomizer):
     akabe.collision_archive = 3 # NBOX, cube that blocks link, no top/bottom
     akabe.scale_mode = 3 # NBOX10 - 10x scale NBOX
     akabe.disable_spawn_switch = required_bosses_dead_switch
-    akabe.always_on = 0
+    akabe.always_on = 0 # Conditional
     akabe.x_pos = -0.7944336
     akabe.y_pos = 0
     akabe.z_pos = -37797.72
     akabe.scale_x = 9 # 9*10
     akabe.scale_y = 255 # 255*10
-    akabe.scale_z = 7 # 9*10
+    akabe.scale_z = 7 # 7*10
     
     stairway_dzr.save_changes()
