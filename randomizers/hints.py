@@ -835,11 +835,6 @@ class HintsRandomizer(BaseRandomizer):
     if location_name not in progress_locations:
       return False
     
-    # You already know which bosses are required or not in required bosses mode by looking at the sea chart, so there's
-    # no need to hint at the item dropped by the bosses too.
-    if location_name in self.rando.boss_reqs.required_boss_item_locations:
-      return False
-    
     # Remove locations in required bosses mode banned dungeons.
     if location_name in self.rando.boss_reqs.banned_locations:
       return False
