@@ -1486,13 +1486,13 @@ d_a_obj_akabe:
   disable_spawn_switch:
     Bitfield name: params
     Mask: 0x000000FF
-  unknown_param_2:
+  scale_mode:
     Bitfield name: params
     Mask: 0x00000300
-  unknown_param_3:
+  always_on:
     Bitfield name: params
     Mask: 0x00001000
-  unknown_param_4:
+  collision_archive:
     Bitfield name: params
     Mask: 0x000F0000
 

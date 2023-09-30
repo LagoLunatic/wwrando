@@ -244,4 +244,22 @@ class RequiredBossesRandomizer(BaseRandomizer):
     sw_op.y_pos = 2000
     sw_op.z_pos = -19400
     
+    # Also add an invisible wall behind the door to prevent touching the exit from out of bounds early.
+    # The invisible wall disappears once the required bosses are dead, not when the door itself is unlocked, so skipping
+    # the door can still be done to avoid defeating just the enemies in this room.
+    # As none of the invisible wall models have a top or bottom, we scale its height to the maximum possible value so
+    # that jumping behind the door from above is not possible either.
+    akabe = stairway_dzr.add_entity(SCOB)
+    akabe.name = "NBOX10" # d_a_obj_akabe, invisible wall
+    akabe.collision_archive = 3 # NBOX, cube that blocks link, no top/bottom
+    akabe.scale_mode = 3 # NBOX10 - 10x scale NBOX
+    akabe.disable_spawn_switch = required_bosses_dead_switch
+    akabe.always_on = 0
+    akabe.x_pos = -0.7944336
+    akabe.y_pos = 0
+    akabe.z_pos = -37797.72
+    akabe.scale_x = 9 # 9*10
+    akabe.scale_y = 255 # 255*10
+    akabe.scale_z = 7 # 9*10
+    
     stairway_dzr.save_changes()
