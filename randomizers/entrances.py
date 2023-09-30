@@ -559,8 +559,8 @@ class EntranceRandomizer(BaseRandomizer):
       doing_banned = True
     
     if self.options.get("required_bosses") and not doing_banned:
-      # Prioritize entrances that share an island with an entrance randomized to lead into a race
-      # mode banned dungeon. (e.g. DRI, Pawprint, Outset, TotG sector.)
+      # Prioritize entrances that share an island with an entrance randomized to lead into a
+      # required bosses mode banned dungeon. (e.g. DRI, Pawprint, Outset, TotG sector.)
       # This is because we need to prevent these islands from having a required boss or anything
       # that could potentially lead to a required boss, and if we don't do this first we can get
       # backed into a corner where there is no other option left.
