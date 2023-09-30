@@ -604,39 +604,37 @@ class HintsRandomizer(BaseRandomizer):
     # we consider the item as required.
     progress_locations, non_progress_locations = self.logic.get_progress_and_non_progress_locations()
     for location_name in progress_locations:
+      item_name = self.logic.done_item_locations[location_name]
+      
       # Ignore required bosses mode banned locations.
       if location_name in self.rando.boss_reqs.banned_locations:
         continue
       
-      # Build a list of required locations, along with the item at that location.
-      item_name = self.logic.done_item_locations[location_name]
-      if (
-        # Ignore boss item drops in required bosses mode even if the item they drop is required.
-        # This is because regardless of whether the item itself is required or not, you still need to defeat the boss
-        # and see the item anyway to beat the game.
-        location_name not in self.rando.boss_reqs.required_boss_item_locations
-        # Keys are only considered in key-lunacy.
-        and (self.options.get("keylunacy") or not item_name.endswith(" Key"))
-        # Required locations always contain progress items (by definition).
-        and item_name in self.logic.all_progress_items
-      ):
-        # Determine the item name for the given location.
-        zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
-        entrance_zone = self.rando.entrances.get_entrance_zone_for_item_location(location_name)
-        item_tuple = (zone_name, entrance_zone, specific_location_name, item_name)
-        
-        # Check and record if the location is required for path goals.
-        requirements_met = self.check_location_required_for_paths(location_name, path_goals)
-        for goal_name, requirement_met in requirements_met.items():
-          if requirement_met:
-            required_locations_for_paths[goal_name].append(item_tuple)
-        
-        # Add items that are on paths to required bosses mode dungeons to the Hyrule and Ganon's Tower paths.
-        for dungeon_path_name in dungeon_paths:
-          for item_tuple in required_locations_for_paths[dungeon_path_name]:
-            for non_dungeon_path_name in non_dungeon_paths:
-              if item_tuple not in required_locations_for_paths[non_dungeon_path_name]:
-                required_locations_for_paths[non_dungeon_path_name].append(item_tuple)
+      # Required locations always contain progress items by definition, so ignore nonprogress items.
+      if item_name not in self.logic.all_progress_items:
+        continue
+      
+      # Keys are only considered in key-lunacy.
+      if item_name.endswith(" Key") and not self.options.get("keylunacy"):
+        continue
+      
+      # Determine the item name for the given location.
+      zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
+      entrance_zone = self.rando.entrances.get_entrance_zone_for_item_location(location_name)
+      item_tuple = (zone_name, entrance_zone, specific_location_name, item_name)
+      
+      # Check and record if the location is required for path goals.
+      requirements_met = self.check_location_required_for_paths(location_name, path_goals)
+      for goal_name, requirement_met in requirements_met.items():
+        if requirement_met:
+          required_locations_for_paths[goal_name].append(item_tuple)
+      
+      # Add items that are on paths to required bosses mode dungeons to the Hyrule and Ganon's Tower paths.
+      for dungeon_path_name in dungeon_paths:
+        for item_tuple in required_locations_for_paths[dungeon_path_name]:
+          for non_dungeon_path_name in non_dungeon_paths:
+            if item_tuple not in required_locations_for_paths[non_dungeon_path_name]:
+              required_locations_for_paths[non_dungeon_path_name].append(item_tuple)
     
     return required_locations_for_paths
   
@@ -728,10 +726,6 @@ class HintsRandomizer(BaseRandomizer):
     # Since we hint at zones as barren, we next construct a set of zones which contain at least one useful item.
     zones_with_useful_locations = set()
     for location_name in sorted(useful_locations):
-      # Don't consider boss item drops in required bosses mode, as the boss is required anyway.
-      if location_name in self.rando.boss_reqs.required_boss_item_locations:
-        continue
-      
       zones_with_useful_locations.add(self.rando.entrances.get_entrance_zone_for_item_location(location_name))
       # For dungeon locations, both the dungeon and its entrance should be considered useful.
       if self.logic.is_dungeon_location(location_name):
