@@ -786,3 +786,45 @@ custom_warp_pot_env_color:
   ; Remove branch taken when having less than 1 magic.
   nop
 .close
+
+
+
+
+; Allow the player to carry enemy weapons through doors instead of dropping them.
+; We also allow enemy weapons to be carried up and down ladders.
+; But we don't allow bringing enemy weapons into the water or the ship.
+.open "sys/main.dol"
+.org 0x80121B18 ; In daPy_lk_c::execute
+  ; This runs when the player walks through a door.
+  ; It checks if the player is holding an enemy weapon, and if not, skips the code to drop it.
+  ; We change it to unconditionally take the branch so that the weapon is not dropped.
+  b 0x80121B54
+.org 0x8013344C ; In daPy_lk_c::procLadderUpStart_init
+  ; This runs when the player starts climbing up a ladder.
+  ; We still want the player's sword and shield to be put away if those are out.
+  ; But we don't want any enemy weapons to be dropped.
+  b ladder_up_check_unequip_held_item
+.org 0x8013389C ; In daPy_lk_c::procLadderDownStart_init
+  ; This runs when the player starts climbing down a ladder.
+  ; Same change as for climbing up the ladder.
+  b ladder_down_check_unequip_held_item
+.org @NextFreeSpace
+.global ladder_up_check_unequip_held_item
+ladder_up_check_unequip_held_item:
+  cmplwi r0, 0x100 ; No held item
+  beq ladder_up_do_not_unequip_held_item
+  cmplwi r0, 0x101 ; Held enemy weapon
+  beq ladder_up_do_not_unequip_held_item
+  b 0x8013347C ; Return to the code that unequips the held item
+ladder_up_do_not_unequip_held_item:
+  b 0x80133450 ; Return to the code for climbing the ladder without unequipping the held item
+.global ladder_down_check_unequip_held_item
+ladder_down_check_unequip_held_item:
+  cmplwi r0, 0x100 ; No held item
+  beq ladder_down_do_not_unequip_held_item
+  cmplwi r0, 0x101 ; Held enemy weapon
+  beq ladder_down_do_not_unequip_held_item
+  b 0x801338CC ; Return to the code that unequips the held item
+ladder_down_do_not_unequip_held_item:
+  b 0x801338A0 ; Return to the code for climbing the ladder without unequipping the held item
+.close
