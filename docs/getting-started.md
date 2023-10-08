@@ -21,7 +21,7 @@ Now that it's extracted, you can double click the "Wind Waker Randomizer" progra
 !!! note
     Don't try to run the randomizer while it's still inside of the .zip. You will get an error.
 
-## Using the Randomizer
+## Configuring
 
 Once you've launched the randomizer program, you will need to select your vanilla Wind Waker ISO mentioned at the start. Click "Browse" to the right of `Vanilla Wind Waker ISO` and select the correct file - it usually ends in the .iso extension.
 
@@ -31,8 +31,13 @@ The next step is to tell the randomizer where this new randomized ISO should be 
 
 You might want to customize which settings are selected before randomizing, but you can also just leave the default settings on, as those tend to be good for first time players.
 
-Now you can randomize the game! To do this, click the "Randomize" button at the very bottom right of the program and wait a minute.
+## Randomizing
+
+Now you can randomize the game! To do this, click the "Randomize" button at the very bottom right of the program and wait a minute.  
 Once it's done, you can find the new randomized ISO in the `Randomized Output Folder` you picked earlier. You can play this ISO with Dolphin or Nintendont just like a regular GameCube ISO.
 
-That's it, have fun!  
-If you run into any issues, check out the [Frequently Asked Questions](faq.md) page.
+That's it, you can start playing now!  
+
+You may want to check out the [Useful Links](useful-links.md) page for a list of tools, guides, and mods that can optionally be used with the randomizer.  
+
+And if you run into any issues during your playthrough, head over to the [Frequently Asked Questions](faq.md) page.  

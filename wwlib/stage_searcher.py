@@ -21,7 +21,7 @@ def try_int_convert(string):
 def split_string_for_natural_sort(string):
   return [try_int_convert(c) for c in re.split("([0-9]+)", string)]
 
-def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_name_to_limit_to=None, exclude_unused=True):
+def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_name_to_limit_to=None, exclude_unused=True) -> list[tuple[DZx, str]]:
   all_filenames = list(self.gcm.files_by_path.keys())
   
   # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
@@ -67,10 +67,10 @@ def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_n
       continue
     yield(dzr, room_arc_path)
 
-def each_stage(self, exclude_unused=True):
+def each_stage(self, exclude_unused=True) -> list[tuple[DZx, str]]:
   return each_stage_and_room(self, exclude_rooms=True, exclude_unused=exclude_unused)
 
-def each_room(self, exclude_unused=True):
+def each_room(self, exclude_unused=True) -> list[tuple[DZx, str]]:
   return each_stage_and_room(self, exclude_stages=True, exclude_unused=exclude_unused)
 
 def each_stage_with_rooms(self, exclude_unused=True) -> Iterable[tuple[DZx, str, list[tuple[DZx, str]]]]:
@@ -1104,3 +1104,10 @@ def print_all_stage_types(self):
       stage_names = stages_by_type[stage_type]
       for stage_name in stage_names:
         f.write(f"  {stage_name}\n")
+
+def print_all_filis(self):
+  for dzr, room_arc_path in each_room(self, exclude_unused=False):
+    fili = dzr.entries_by_type(FILI)[0]
+    if fili.params & 1 == 0:
+      continue
+    print(f"{fili.params:08X} {room_arc_path}")
