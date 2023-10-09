@@ -11,6 +11,6 @@ for input_path in glob.glob(glob.escape(ui_dir) + "/*.ui"):
   command = [
     "pyside6-uic",
     input_path,
-    "-o", ui_dir + "uic/ui_%s.py" % base_name
+    "-o", ui_dir + "/uic/ui_%s.py" % base_name
   ]
   result = call(command)
