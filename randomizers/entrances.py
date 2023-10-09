@@ -516,6 +516,25 @@ class EntranceRandomizer(BaseRandomizer):
       if en.island_name is not None
     ]
     
+    # We need special logic to handle Forsaken Fortress as it is the only island entrance inside of a dungeon.
+    ff_boss_entrance = ZoneEntrance.all["Boss Entrance in Forsaken Fortress"]
+    if ff_boss_entrance in possible_island_entrances:
+      if self.options.get("progression_dungeons"):
+        if "Forsaken Fortress" in self.rando.boss_reqs.banned_dungeons:
+          ff_progress = False
+        else:
+          ff_progress = True
+      else:
+        ff_progress = False
+      
+      if ff_progress:
+        # If it's progress then don't allow it to be randomly chosen to lead to nonprogress exits.
+        possible_island_entrances.remove(ff_boss_entrance)
+      else:
+        # If it's not progress then manually mark it as such, and still don't allow it to be chosen randomly.
+        nonprogress_entrances.append(ff_boss_entrance)
+        possible_island_entrances.remove(ff_boss_entrance)
+    
     if self.safety_entrance is not None:
       # We do need to exclude the safety_entrance from being considered, as otherwise the item rando
       # would have nowhere to put items at the start of the seed.
@@ -528,14 +547,6 @@ class EntranceRandomizer(BaseRandomizer):
           en for en in possible_island_entrances
           if en.island_name != self.safety_entrance.island_name
         ]
-    
-    ff_boss_entrance = ZoneEntrance.all["Boss Entrance in Forsaken Fortress"]
-    if ff_boss_entrance in possible_island_entrances and self.options.get("progression_dungeons"):
-      if "Forsaken Fortress" not in self.rando.boss_reqs.banned_dungeons:
-        # When Forsaken Fortress can have progress items inside of it, we exclude it from being used
-        # as a throwaway entrance leading to a nonprogress exit.
-        # This is a special case as it is the only island entrance inside of a dungeon.
-        possible_island_entrances.remove(ff_boss_entrance)
     
     num_island_entrances_needed = len(nonprogress_exits) - len(nonprogress_entrances)
     if num_island_entrances_needed > len(possible_island_entrances):
