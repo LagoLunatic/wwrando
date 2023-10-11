@@ -14,7 +14,6 @@ from gclib import fs_helpers as fs
 from gclib import texture_utils
 from gclib.bti import BTI
 from gclib.j3d import BDL
-from gclib.texture_utils import ImageFormat, PaletteFormat
 import gclib.gx_enums as GX
 from wwrando_paths import ASSETS_PATH, CUSTOM_MODELS_PATH
 
@@ -541,15 +540,15 @@ def change_player_custom_colors(self: WWRandomizer):
         texcoords[hat_uv_indexes.start+i] = (0.995, v)
   
   for texture in link_main_textures:
-    if self.custom_model_name == "Link" and is_casual and texture.image_format == ImageFormat.C4:
+    if self.custom_model_name == "Link" and is_casual and texture.image_format == GX.ImageFormat.C4:
       # Change the casual clothes texture to use C8 instead of C4 to increase the potential colors from 16 to 256.
       # This is only done for the vanilla Link model that comes with the game, not for custom models, since custom model creators could just change it themselves if they want to.
-      texture.image_format = ImageFormat.C8
-    elif self.custom_model_name == "Link" and not is_casual and texture.image_format == ImageFormat.CMPR:
+      texture.image_format = GX.ImageFormat.C8
+    elif self.custom_model_name == "Link" and not is_casual and texture.image_format == GX.ImageFormat.CMPR:
       # Change the hero's clothes texture to use C8 instead of CMPR to prevent the lossy compression from creating seams.
       # This is only done for the vanilla Link model that comes with the game, not for custom models, since custom model creators could just change it themselves if they want to.
-      texture.image_format = ImageFormat.C8
-      texture.palette_format = PaletteFormat.RGB565
+      texture.image_format = GX.ImageFormat.C8
+      texture.palette_format = GX.PaletteFormat.RGB565
     
     texture.replace_image(link_main_image)
     

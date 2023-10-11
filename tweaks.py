@@ -18,6 +18,7 @@ from asm import patcher
 from gclib import texture_utils
 from gclib.rel import REL
 from gclib.bmg import TextBoxType
+import gclib.gx_enums as GX
 from wwrando_paths import ASSETS_PATH, ASM_PATH
 import customizer
 from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS
@@ -560,8 +561,8 @@ def update_game_name_icon_and_banners(self: WWRandomizer):
   self.dol.write_data(fs.write_magic_str, 0x80339690, new_memory_card_game_name, 21)
   
   new_image_file_path = os.path.join(ASSETS_PATH, "banner.png")
-  image_format = texture_utils.ImageFormat.RGB5A3
-  palette_format = texture_utils.PaletteFormat.RGB5A3
+  image_format = GX.ImageFormat.RGB5A3
+  palette_format = GX.PaletteFormat.RGB5A3
   image_data, _, _, image_width, image_height = texture_utils.encode_image_from_path(new_image_file_path, image_format, palette_format)
   assert image_width == 96
   assert image_height == 32
