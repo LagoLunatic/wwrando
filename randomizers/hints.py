@@ -441,8 +441,6 @@ class HintsRandomizer(BaseRandomizer):
     place = hint.formatted_place(cryptic)
     if place == "Mailbox":
       place = "the mail"
-    elif place == "The Great Sea":
-      place = "a location on the open seas"
     elif place == "Tower of the Gods Sector":
       place = "the Tower of the Gods sector"
     elif place == "Forsaken Fortress Sector":
@@ -462,6 +460,8 @@ class HintsRandomizer(BaseRandomizer):
       verb = "visiting"
       if place == "the mail":
         verb = "checking"
+      if place == "a location on the open seas":
+        place = "locations on the open seas"
       hint_string = (
         "%s%s \\{1A 06 FF 00 00 03}%s\\{1A 06 FF 00 00 00} is a foolish choice%s"
         % (prefix, verb, place, suffix)
