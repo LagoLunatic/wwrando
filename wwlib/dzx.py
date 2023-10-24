@@ -5,6 +5,9 @@ from enum import Enum
 
 from gclib import fs_helpers as fs
 from gclib.gclib_file import GCLibFile
+from gclib.bunfoe import bunfoe, BUNFOE, field
+from gclib.bunfoe_types import RGBu8
+from gclib.fs_helpers import u32, u24, u16, u8, s32, s16, s8, u16Rot, FixedStr, MagicStr
 
 from data_tables import DataTables
 
@@ -33,7 +36,7 @@ class DZxLayer(Enum):
       return cls(int(value, 16))
     return super()._missing_(value)
 
-class ChunkEntry:
+class ChunkEntry(BUNFOE):
   DATA_SIZE: int = None
   PARAMS: dict[str, tuple[str, int]] = {}
   IS_ACTOR_CHUNK: bool = False
@@ -877,6 +880,35 @@ class DummyEntry(ChunkEntry):
   def save_changes(self):
     fs.write_bytes(self.data, self.offset, self.raw_data_bytes)
 
+@bunfoe
+class Pale(ChunkEntry):
+  DATA_SIZE = 0x2C
+  
+  actor_c0: RGBu8
+  actor_k0: RGBu8
+  bg0_c0: RGBu8
+  bg0_k0: RGBu8
+  bg1_c0: RGBu8
+  bg1_k0: RGBu8
+  bg2_c0: RGBu8
+  bg2_k0: RGBu8
+  bg3_c0: RGBu8
+  bg3_k0: RGBu8
+  fog: RGBu8
+  virt_idx: u8
+  _padding: u16 = field(assert_default=True, default=0)
+  fog_start_z: float
+  fog_end_z: float
+  
+  # TODO: temporary until refactoring the rest of the chunks to use BUNFOE
+  def read(self, offset: int):
+    self.offset = offset
+    return BUNFOE.read(self, offset)
+  
+  # TODO: temporary until refactoring the rest of the chunks to use BUNFOE
+  def save_changes(self):
+    return BUNFOE.save(self, self.offset)
+
 class FLOR(DummyEntry):
   DATA_SIZE = 0x14
 
@@ -900,9 +932,6 @@ class EnvR(DummyEntry):
 
 class Colo(DummyEntry):
   DATA_SIZE = 0xC
-
-class Pale(DummyEntry):
-  DATA_SIZE = 0x2C
 
 class Virt(DummyEntry):
   DATA_SIZE = 0x24
