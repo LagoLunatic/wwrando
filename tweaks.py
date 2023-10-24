@@ -12,6 +12,7 @@ from io import BytesIO
 from dataclasses import dataclass
 import copy
 import math
+import colorsys
 
 from gclib import fs_helpers as fs
 from asm import patcher
@@ -24,7 +25,7 @@ import customizer
 from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS
 from data_tables import DataTables
 from wwlib.events import EventList
-from wwlib.dzx import DZx, ACTR, EVNT, FILI, PLYR, SCLS, SCOB, SHIP, TGDR, TRES
+from wwlib.dzx import DZx, ACTR, EVNT, FILI, PLYR, SCLS, SCOB, SHIP, TGDR, TRES, Pale
 
 try:
   from keys.seed_key import SEED_KEY # type: ignore
@@ -2604,3 +2605,23 @@ def prevent_fairy_island_softlocks(self: WWRandomizer):
   spawn = next(spawn for spawn in wfi_dzr.entries_by_type(PLYR) if spawn.spawn_id == 1)
   spawn.x_pos = -320170.0
   spawn.save_changes()
+
+def give_fairy_fountains_distinct_colors(self: WWRandomizer):
+  stage_groups = [
+    ["Fairy01", "Fairy02", "Fairy03", "Fairy04", "Fairy05", "Fairy06"],
+  ]
+  
+  for stage_group in stage_groups:
+    hue = 0
+    for stage_name in stage_group:
+      dzs = self.get_arc(f"files/res/Stage/{stage_name}/Stage.arc").get_file("stage.dzs", DZx)
+      
+      for pale in dzs.entries_by_type(Pale):
+        for color in [pale.bg0_c0, pale.bg0_k0]:
+          h, s, v = colorsys.rgb_to_hsv(color.r/255, color.g/255, color.b/255)
+          h = hue
+          r, g, b = colorsys.hsv_to_rgb(h, s, v)
+          color.r, color.g, color.b = int(r*255), int(g*255), int(b*255)
+      
+      hue += 1.0 / len(stage_group)
+      dzs.save_changes()
