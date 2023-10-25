@@ -106,16 +106,16 @@ class PaletteRandomizer(BaseRandomizer):
         else:
           j3d_file = rarc.get_file(file_name, J3D)
           
-          if hasattr(j3d_file, "tex1"):
+          if j3d_file.tex1 is not None:
             self.shift_all_colors_in_tex1(file_name, j3d_file.tex1, h_shift, v_shift)
           
-          if hasattr(j3d_file, "mat3"):
+          if j3d_file.mat3 is not None:
             self.shift_all_colors_in_mat3(file_name, j3d_file.mat3, h_shift, v_shift)
           
-          if hasattr(j3d_file, "mdl3"):
+          if j3d_file.mdl3 is not None:
             self.shift_all_colors_in_mdl3(file_name, j3d_file.mdl3, h_shift, v_shift)
           
-          if hasattr(j3d_file, "trk1"):
+          if j3d_file.trk1 is not None:
             self.shift_all_colors_in_trk1(file_name, j3d_file.trk1, h_shift, v_shift)
           
           j3d_file.save()
