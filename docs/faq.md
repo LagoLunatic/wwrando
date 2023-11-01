@@ -26,6 +26,10 @@ If you get an error that says `Failed to execute script wwrando`, or if the rand
 To fix this, you will need to go into your antivirus software's settings and add an exception/exclusion to let it know the randomizer executable is safe.  
 The specifics of how to do this depend on which antivirus software you use, so if you don't know how to, you may want to search the internet for help on using your antivirus software.
 
+## Are any glitches required to beat the randomizer?
+
+No, every seed is guaranteed to be beatable without glitches.
+
 ## How can I get across magma pools?
 
 Other than using the Grappling Hook or Deku Leaf to go over the magma like normal, you can also shoot an Ice Arrow directly at the surface of the magma to temporarily freeze it, allowing you to walk on top of it safely.
@@ -47,6 +51,16 @@ In Wind Waker, Bomb Bag upgrades do not actually give you any bombs to use by th
 To use bombs, you must first find the item literally named "Bombs".
 
 Once you do, any increases to carrying capacity from Bomb Bags you already obtained will be carried over.
+
+## Why won't Beedle sell me a randomized item, just arrows/bombs/potions?
+
+Beedle sells different items depending on which island you're currently at.  
+
+The randomized 20 Rupee Item he sells is available at Outset Island, Pawprint Isle, Dragon Roost Island, Forest Haven, Spectacle Island, Eastern Triangle Isle, and Southern Triangle Isle.  
+
+The three randomized expensive items he sells are only available at Rock Spire Isle.  
+
+Beedle also appears at several other islands, but his inventory at those islands isn't currently randomized and is not required to beat the randomizer.
 
 ## I found bait/letters/spoils, but I don't have a bag to hold them.
 
