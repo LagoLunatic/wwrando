@@ -21,8 +21,8 @@ A pack of dozens of different community-made player character models you can pla
 [BetterWW](https://github.com/WideBoner/betterww)  
 A program that allows using custom models and other randomizer features in vanilla Wind Waker.
 
-[Texture Color Customizer](https://github.com/xXVevzZXx/Wind-Waker-texture-customizer/releases)
-Allows customizing colors for more models than the randomizer itself does. Only works on Dolphin.
+[Texture Color Customizer](https://github.com/xXVevzZXx/Wind-Waker-texture-customizer/releases)  
+Allows customizing colors for more models than the randomizer itself does. Only works on Dolphin.  
 
 ## Guides
 
