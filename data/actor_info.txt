@@ -399,7 +399,7 @@ NormCam:
   Subtype: 0xFF
   GBA Name: 0x00
 Link:
-  Class Name: d_a_py_lk
+  Class Name: d_a_player_main
   Actor ID: 0x00A9
   Subtype: 0xFF
   GBA Name: 0x00
@@ -3654,7 +3654,7 @@ Com_C:
   Subtype: 0xFF
   GBA Name: 0x00
 SPitem:
-  Class Name: d_a_spc_item
+  Class Name: d_a_spc_item01
   Actor ID: 0x0107
   Subtype: 0xFF
   GBA Name: 0x00
@@ -3984,7 +3984,7 @@ STBox:
   Subtype: 0xFF
   GBA Name: 0x00
 Fobj00:
-  Class Name: d_a_stand_item
+  Class Name: d_a_dai_item
   Actor ID: 0x01D4
   Subtype: 0xFF
   GBA Name: 0x00
@@ -4099,7 +4099,7 @@ Ditem:
   Subtype: 0xFF
   GBA Name: 0x00
 Iball:
-  Class Name: d_a_iball
+  Class Name: d_a_ib
   Actor ID: 0x0192
   Subtype: 0xFF
   GBA Name: 0x00

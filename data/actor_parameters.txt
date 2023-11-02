@@ -3373,7 +3373,7 @@ f_pc_profile_lst: {}
 
 ### Below this are non-REL classes.
 
-d_a_py_lk:
+d_a_player_main:
   room_num:
     Bitfield name: params
     Mask: 0x0000003F
@@ -3432,9 +3432,9 @@ d_a_npc_fa1: {}
 
 d_a_obj_search: {}
 
-d_a_spc_item: {}
+d_a_spc_item01: {}
 
-d_a_iball: {}
+d_a_ib: {}
 
 d_a_arrow: {}
 
@@ -3458,7 +3458,7 @@ d_a_esa: {}
 
 d_a_grid: {}
 
-d_a_stand_item: {}
+d_a_dai_item: {}
 
 d_a_vrbox: {}
 
