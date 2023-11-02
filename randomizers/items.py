@@ -369,8 +369,6 @@ class ItemRandomizer(BaseRandomizer):
   
   #region Saving
   def change_item(self, path, item_name):
-    item_id = self.rando.item_name_to_id[item_name]
-    
     rel_match = re.search(r"^(rels/[^.]+\.rel)@([0-9A-F]{4})$", path)
     main_dol_match = re.search(r"^main.dol@(8[0-9A-F]{7})$", path)
     custom_symbol_match = re.search(r"^CustomSymbol:(.+)$", path)
@@ -383,10 +381,10 @@ class ItemRandomizer(BaseRandomizer):
       rel_path = rel_match.group(1)
       offset = int(rel_match.group(2), 16)
       path = os.path.join("files", rel_path)
-      self.change_hardcoded_item_in_rel(path, offset, item_id)
+      self.change_hardcoded_item_in_rel(path, offset, item_name)
     elif main_dol_match:
       address = int(main_dol_match.group(1), 16)
-      self.change_hardcoded_item_in_dol(address, item_id)
+      self.change_hardcoded_item_in_dol(address, item_name)
     elif custom_symbol_match:
       custom_symbol = custom_symbol_match.group(1)
       found_custom_symbol = False
@@ -395,10 +393,10 @@ class ItemRandomizer(BaseRandomizer):
           found_custom_symbol = True
           if file_path == "sys/main.dol":
             address = custom_symbols_for_file[custom_symbol]
-            self.change_hardcoded_item_in_dol(address, item_id)
+            self.change_hardcoded_item_in_dol(address, item_name)
           else:
             offset = custom_symbols_for_file[custom_symbol]
-            self.change_hardcoded_item_in_rel(file_path, offset, item_id)
+            self.change_hardcoded_item_in_rel(file_path, offset, item_name)
           break
       if not found_custom_symbol:
         raise Exception("Invalid custom symbol: %s" % custom_symbol)
@@ -406,42 +404,49 @@ class ItemRandomizer(BaseRandomizer):
       arc_path = "files/res/Stage/" + chest_match.group(1)
       layer = DZxLayer(chest_match.group(2))
       chest_index = int(chest_match.group(3), 16)
-      self.change_chest_item(arc_path, chest_index, layer, item_id, item_name)
+      self.change_chest_item(arc_path, chest_index, layer, item_name)
     elif event_match:
       arc_path = "files/res/Stage/" + event_match.group(1)
       event_index = int(event_match.group(2), 16)
       actor_index = int(event_match.group(3), 16)
       action_index = int(event_match.group(4), 16)
-      self.change_event_item(arc_path, event_index, actor_index, action_index, item_id)
+      self.change_event_item(arc_path, event_index, actor_index, action_index, item_name)
     elif scob_match:
       arc_path = "files/res/Stage/" + scob_match.group(1)
       layer = DZxLayer(scob_match.group(2))
       scob_index = int(scob_match.group(3), 16)
-      self.change_scob_item(arc_path, scob_index, layer, item_id)
+      self.change_scob_item(arc_path, scob_index, layer, item_name)
     elif actor_match:
       arc_path = "files/res/Stage/" + actor_match.group(1)
       layer = DZxLayer(actor_match.group(2))
       actor_index = int(actor_match.group(3), 16)
-      self.change_actor_item(arc_path, actor_index, layer, item_id)
+      self.change_actor_item(arc_path, actor_index, layer, item_name)
     else:
       raise Exception("Invalid item path: " + path)
 
-  def change_hardcoded_item_in_dol(self, address, item_id):
+  def change_hardcoded_item_in_dol(self, address, item_name: str):
+    item_id = self.rando.item_name_to_id[item_name]
     self.rando.dol.write_data(fs.write_u8, address, item_id)
 
-  def change_hardcoded_item_in_rel(self, path, offset, item_id):
+  def change_hardcoded_item_in_rel(self, path, offset, item_name: str):
+    item_id = self.rando.item_name_to_id[item_name]
     rel = self.rando.get_rel(path)
     rel.write_data(fs.write_u8, offset, item_id)
 
-  def change_chest_item(self, arc_path: str, chest_index: int, layer: DZxLayer, item_id: int, item_name: str):
+  def change_chest_item(self, arc_path: str, chest_index: int, layer: DZxLayer, item_name: str):
+    item_id = self.rando.item_name_to_id[item_name]
+    
     if arc_path.endswith("Stage.arc"):
       dzx = self.rando.get_arc(arc_path).get_file("stage.dzs", DZx)
     else:
       dzx = self.rando.get_arc(arc_path).get_file("room.dzr", DZx)
+    
     chest = dzx.entries_by_type_and_layer(TRES, layer=layer)[chest_index]
     chest.item_id = item_id
+    
     if self.options.get("chest_type_matches_contents"):
       chest.chest_type = self.get_ctmc_chest_type_for_item(item_name)
+    
     chest.save_changes()
 
   def get_ctmc_chest_type_for_item(self, item_name: str):
@@ -460,7 +465,9 @@ class ItemRandomizer(BaseRandomizer):
     else:
       return 0
 
-  def change_event_item(self, arc_path: str, event_index: int, actor_index: int, action_index: int, item_id: int):
+  def change_event_item(self, arc_path: str, event_index: int, actor_index: int, action_index: int, item_name: str):
+    item_id = self.rando.item_name_to_id[item_name]
+    
     event_list = self.rando.get_arc(arc_path).get_file("event_list.dat", EventList)
     action = event_list.events[event_index].actors[actor_index].actions[action_index]
     
@@ -471,11 +478,14 @@ class ItemRandomizer(BaseRandomizer):
       action.name = "011get_item"
       action.properties[0].value = [item_id]
 
-  def change_scob_item(self, arc_path: str, scob_index: int, layer: DZxLayer, item_id: int):
+  def change_scob_item(self, arc_path: str, scob_index: int, layer: DZxLayer, item_name: str):
+    item_id = self.rando.item_name_to_id[item_name]
+    
     if arc_path.endswith("Stage.arc"):
       dzx = self.rando.get_arc(arc_path).get_file("stage.dzs", DZx)
     else:
       dzx = self.rando.get_arc(arc_path).get_file("room.dzr", DZx)
+    
     scob = dzx.entries_by_type_and_layer(SCOB, layer=layer)[scob_index]
     if scob.actor_class_name in ["d_a_salvage", "d_a_tag_kb_item"]:
       scob.item_id = item_id
@@ -483,11 +493,14 @@ class ItemRandomizer(BaseRandomizer):
     else:
       raise Exception("%s/SCOB%03X is an unknown type of SCOB" % (arc_path, scob_index))
 
-  def change_actor_item(self, arc_path: str, actor_index: int, layer: DZxLayer, item_id: int):
+  def change_actor_item(self, arc_path: str, actor_index: int, layer: DZxLayer, item_name: str):
+    item_id = self.rando.item_name_to_id[item_name]
+    
     if arc_path.endswith("Stage.arc"):
       dzx = self.rando.get_arc(arc_path).get_file("stage.dzs", DZx)
     else:
       dzx = self.rando.get_arc(arc_path).get_file("room.dzr", DZx)
+    
     actr = dzx.entries_by_type_and_layer(ACTR, layer=layer)[actor_index]
     if actr.actor_class_name in ["d_a_item", "d_a_boss_item"]:
       actr.item_id = item_id
