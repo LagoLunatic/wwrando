@@ -443,6 +443,13 @@ class ItemRandomizer(BaseRandomizer):
     chest = dzx.entries_by_type_and_layer(TRES, layer=layer)[chest_index]
 
     if item_name.endswith("Trap Chest"):
+      # The vanilla game stores the chest behavior type in a bitfield
+      # with a mask of 0x7F. However, the devs only used the values 0x00 to 0x08.
+      # So, in the custom chest code, the behavior type has been reduced to a mask
+      # of 0x3F, leaving a single bit with a mask of 0x40 to serve as a flag
+      # indicating whether the chest is trapped (set) or normal (unset).
+      
+      # Here, we set that custom trap flag.
       chest.behavior_type |= 0x40
 
       if self.options.get("chest_type_matches_contents"):
