@@ -1,7 +1,6 @@
 
 import os
 import re
-import random
 
 from logic.logic import Logic
 
