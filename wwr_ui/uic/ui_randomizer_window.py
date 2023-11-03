@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'randomizer_window.ui'
+## Form generated from reading UI file 'randomizer_windowSrrxGL.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -41,10 +41,10 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 870, 582))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 870, 606))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.tabWidget = QTabWidget(self.scrollAreaWidgetContents)
         self.tabWidget.setObjectName(u"tabWidget")
         self.tabWidget.setEnabled(True)
@@ -236,6 +236,16 @@ class Ui_MainWindow(object):
         self.groupBox_2.setObjectName(u"groupBox_2")
         self.gridLayout_3 = QGridLayout(self.groupBox_2)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.keylunacy = QCheckBox(self.groupBox_2)
+        self.keylunacy.setObjectName(u"keylunacy")
+
+        self.gridLayout_3.addWidget(self.keylunacy, 6, 3, 1, 1)
+
+        self.chest_type_matches_contents = QCheckBox(self.groupBox_2)
+        self.chest_type_matches_contents.setObjectName(u"chest_type_matches_contents")
+
+        self.gridLayout_3.addWidget(self.chest_type_matches_contents, 8, 0, 1, 1)
+
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.label_for_sword_mode = QLabel(self.groupBox_2)
@@ -257,7 +267,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.sword_mode)
 
 
-        self.gridLayout_3.addLayout(self.horizontalLayout_3, 0, 0, 1, 1)
+        self.gridLayout_3.addLayout(self.horizontalLayout_3, 6, 0, 1, 1)
 
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
@@ -295,17 +305,17 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.addWidget(self.widget)
 
 
-        self.gridLayout_3.addLayout(self.horizontalLayout_4, 0, 1, 1, 1)
+        self.gridLayout_3.addLayout(self.horizontalLayout_4, 6, 2, 1, 1)
 
-        self.chest_type_matches_contents = QCheckBox(self.groupBox_2)
-        self.chest_type_matches_contents.setObjectName(u"chest_type_matches_contents")
+        self.trap_chests = QCheckBox(self.groupBox_2)
+        self.trap_chests.setObjectName(u"trap_chests")
 
-        self.gridLayout_3.addWidget(self.chest_type_matches_contents, 0, 3, 1, 1)
+        self.gridLayout_3.addWidget(self.trap_chests, 8, 2, 1, 1)
 
-        self.keylunacy = QCheckBox(self.groupBox_2)
-        self.keylunacy.setObjectName(u"keylunacy")
+        self.widget_14 = QWidget(self.groupBox_2)
+        self.widget_14.setObjectName(u"widget_14")
 
-        self.gridLayout_3.addWidget(self.keylunacy, 0, 2, 1, 1)
+        self.gridLayout_3.addWidget(self.widget_14, 8, 3, 1, 1)
 
 
         self.verticalLayout_3.addWidget(self.groupBox_2)
@@ -1000,6 +1010,8 @@ class Ui_MainWindow(object):
         self.progression_free_gifts.setText(QCoreApplication.translate("MainWindow", u"Free Gifts", None))
         self.progression_mail.setText(QCoreApplication.translate("MainWindow", u"Mail", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Item Randomizer Modes", None))
+        self.keylunacy.setText(QCoreApplication.translate("MainWindow", u"Key-Lunacy", None))
+        self.chest_type_matches_contents.setText(QCoreApplication.translate("MainWindow", u"Chest Type Matches Contents", None))
         self.label_for_sword_mode.setText(QCoreApplication.translate("MainWindow", u"Sword Mode", None))
         self.sword_mode.setItemText(0, QCoreApplication.translate("MainWindow", u"Start with Hero's Sword", None))
         self.sword_mode.setItemText(1, QCoreApplication.translate("MainWindow", u"No Starting Sword", None))
@@ -1016,8 +1028,7 @@ class Ui_MainWindow(object):
         self.num_starting_triforce_shards.setItemText(7, QCoreApplication.translate("MainWindow", u"7", None))
         self.num_starting_triforce_shards.setItemText(8, QCoreApplication.translate("MainWindow", u"8", None))
 
-        self.chest_type_matches_contents.setText(QCoreApplication.translate("MainWindow", u"Chest Type Matches Contents", None))
-        self.keylunacy.setText(QCoreApplication.translate("MainWindow", u"Key-Lunacy", None))
+        self.trap_chests.setText(QCoreApplication.translate("MainWindow", u"Enable Trap Chests", None))
         self.groupBox_7.setTitle(QCoreApplication.translate("MainWindow", u"Entrance Randomizer Options", None))
         self.randomize_miniboss_entrances.setText(QCoreApplication.translate("MainWindow", u"Nested Minibosses", None))
         self.randomize_dungeon_entrances.setText(QCoreApplication.translate("MainWindow", u"Dungeons", None))

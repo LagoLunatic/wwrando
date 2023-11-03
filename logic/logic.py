@@ -635,6 +635,7 @@ class Logic:
   
   def check_item_valid_in_location(self, item_name, location_name):
     types = self.item_locations[location_name]["Types"]
+    paths = self.item_locations[location_name]["Paths"]
     
     # Don't allow dungeon items to appear outside their proper dungeon when Key-Lunacy is off.
     if self.is_dungeon_item(item_name) and not self.options.get("keylunacy"):
@@ -671,6 +672,10 @@ class Logic:
     
     if "Consumables only" in types:
       if item_name not in self.all_fixed_consumable_items and item_name not in self.duplicatable_consumable_items:
+        return False
+      
+    if item_name.endswith("Trap Chest"):
+      if not all(path.split("/")[-1].startswith("Chest") for path in paths):
         return False
     
     return True

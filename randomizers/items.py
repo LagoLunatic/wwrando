@@ -8,6 +8,7 @@ from gclib import fs_helpers as fs
 from randomizers.base_randomizer import BaseRandomizer
 from wwlib.dzx import DZx, ACTR, SCOB, TRES, DZxLayer
 from wwlib.events import EventList
+from tweaks import add_trap_chest_event_to_stage
 
 class ItemRandomizer(BaseRandomizer):
   def __init__(self, rando):
@@ -441,11 +442,14 @@ class ItemRandomizer(BaseRandomizer):
     
     chest = dzx.entries_by_type_and_layer(TRES, layer=layer)[chest_index]
 
-    if item_name.startswith("Ice Trap Chest"):
+    if item_name.endswith("Trap Chest"):
       chest.behavior_type |= 0x40
 
       if self.options.get("chest_type_matches_contents"):
         chest.chest_type = self.rng.randrange(0, 2)
+
+      stage_name = arc_path.split("/")[-2]
+      add_trap_chest_event_to_stage(self.rando, stage_name)
     else:
       item_id = self.rando.item_name_to_id[item_name]
       chest.item_id = item_id
