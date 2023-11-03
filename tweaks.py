@@ -2625,3 +2625,48 @@ def give_fairy_fountains_distinct_colors(self: WWRandomizer):
       
       hue += 1.0 / len(stage_group)
       dzs.save_changes()
+
+def add_trap_chest_event_to_stage(self: WWRandomizer, stage_name: str):
+  # Add the event DEFAULT_TREASURE_TRAP to the given stage. Necessary for trap chests to function.
+  stage_path = "files/res/Stage/{}/Stage.arc".format(stage_name)
+  event_list: EventList = self.get_arc(stage_path).get_file("event_list.dat", EventList)
+
+  trap_event = event_list.add_event("DEFAULT_TREASURE_TRAP")
+
+  # Create treasure chest actor
+  chest_actor = trap_event.add_actor("TREASURE")
+  chest_actor.staff_type = 0
+
+  chest_actor.add_action("OPEN_SHORT")
+  chest_actor.add_action("SPRING_TRAP")
+  chest_actor.add_action("WAIT")
+
+  # Create timekeeper actor
+  timekeeper_actor = trap_event.add_actor("TIMEKEEPER")
+  timekeeper_actor.staff_type = 4
+
+  timekeeper_actor.add_action("WAIT")
+
+  # Create Link actor
+  link_actor = trap_event.add_actor("Link")
+  link_actor.staff_type = 0
+
+  linke_open_treasure_action = link_actor.add_action("010open_treasure", properties=[
+    ("prm0", 1)
+  ])
+  link_actor.add_action("057rd_stop")
+
+  # Create dependent actions between Link and the timekeeper
+  timekeeper_countdown_action = timekeeper_actor.add_action("COUNTDOWN", properties=[
+    ("Timer", 92)
+  ])
+  timekeeper_countdown_action.starting_flags[0] = linke_open_treasure_action.flag_id_to_set
+  
+  link_surprise_action = link_actor.add_action("024surprised")
+  link_surprise_action.starting_flags[0] = timekeeper_countdown_action.flag_id_to_set
+
+  # Create camera actor
+  camera_actor = trap_event.add_actor("CAMERA")
+  camera_actor.staff_type = 2
+
+  camera_actor.add_action("PAUSE")
