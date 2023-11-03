@@ -190,6 +190,10 @@ OPTIONS = {
   "logic_precision":
     "Precise tricks are ways of obtaining items that involve difficult inputs such as accurate aiming or perfect timing.<br>"
     "This option controls the maximum difficulty of precise tricks the randomizer will require you to do to beat the game.",
+
+  "trap_chests":
+    "Allows the randomizer to place several trapped chests across the game that do not give you items.<br>"
+    "Perfect for spicing up any run!"
 }
 
 # Options that should not be put into the permalink. These options are generally cosmetic or
