@@ -1,6 +1,7 @@
 
 import os
 import re
+import random
 
 from logic.logic import Logic
 
@@ -434,18 +435,24 @@ class ItemRandomizer(BaseRandomizer):
     rel.write_data(fs.write_u8, offset, item_id)
 
   def change_chest_item(self, arc_path: str, chest_index: int, layer: DZxLayer, item_name: str):
-    item_id = self.rando.item_name_to_id[item_name]
-    
     if arc_path.endswith("Stage.arc"):
       dzx = self.rando.get_arc(arc_path).get_file("stage.dzs", DZx)
     else:
       dzx = self.rando.get_arc(arc_path).get_file("room.dzr", DZx)
     
     chest = dzx.entries_by_type_and_layer(TRES, layer=layer)[chest_index]
-    chest.item_id = item_id
-    
-    if self.options.get("chest_type_matches_contents"):
-      chest.chest_type = self.get_ctmc_chest_type_for_item(item_name)
+
+    if item_name.startswith("Ice Trap Chest"):
+      chest.behavior_type |= 0x40
+
+      if self.options.get("chest_type_matches_contents"):
+        chest.chest_type = self.rng.randrange(0, 2)
+    else:
+      item_id = self.rando.item_name_to_id[item_name]
+      chest.item_id = item_id
+      
+      if self.options.get("chest_type_matches_contents"):
+        chest.chest_type = self.get_ctmc_chest_type_for_item(item_name)
     
     chest.save_changes()
 
