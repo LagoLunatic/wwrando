@@ -90,7 +90,11 @@ class Logic:
     # Initialize item related attributes.
     self.all_progress_items = PROGRESS_ITEMS.copy()
     self.all_nonprogress_items = NONPROGRESS_ITEMS.copy()
+
     self.all_fixed_consumable_items = CONSUMABLE_ITEMS.copy()
+    if self.options.get("trap_chests"):
+      self.all_fixed_consumable_items += ["Ice Trap Chest"]*5
+      
     self.duplicatable_consumable_items = DUPLICATABLE_CONSUMABLE_ITEMS.copy()
     
     self.triforce_chart_names = []
