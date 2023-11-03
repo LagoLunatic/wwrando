@@ -2670,3 +2670,6 @@ def add_trap_chest_event_to_stage(self: WWRandomizer, stage_name: str):
   camera_actor.staff_type = 2
 
   camera_actor.add_action("PAUSE")
+
+  # Add ending flag to event
+  trap_event.ending_flags[0] = link_surprise_action.flag_id_to_set
