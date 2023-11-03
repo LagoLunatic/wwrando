@@ -2631,6 +2631,9 @@ def add_trap_chest_event_to_stage(self: WWRandomizer, stage_name: str):
   stage_path = "files/res/Stage/{}/Stage.arc".format(stage_name)
   event_list: EventList = self.get_arc(stage_path).get_file("event_list.dat", EventList)
 
+  if event_list.events_by_name["DEFAULT_TREASURE_TRAP"] is not None:
+    return
+
   trap_event = event_list.add_event("DEFAULT_TREASURE_TRAP")
 
   # Create treasure chest actor
