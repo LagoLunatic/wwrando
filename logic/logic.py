@@ -90,11 +90,7 @@ class Logic:
     # Initialize item related attributes.
     self.all_progress_items = PROGRESS_ITEMS.copy()
     self.all_nonprogress_items = NONPROGRESS_ITEMS.copy()
-
     self.all_fixed_consumable_items = CONSUMABLE_ITEMS.copy()
-    if self.options.get("trap_chests"):
-      self.all_fixed_consumable_items += ["Ice Trap Chest"]*5
-      
     self.duplicatable_consumable_items = DUPLICATABLE_CONSUMABLE_ITEMS.copy()
     
     self.triforce_chart_names = []
@@ -129,6 +125,9 @@ class Logic:
     else:
       self.all_nonprogress_items += DUNGEON_PROGRESS_ITEMS
     self.all_nonprogress_items += DUNGEON_NONPROGRESS_ITEMS
+    
+    if self.options.get("trap_chests"):
+      self.all_progress_items += ["Ice Trap Chest"]*5
     
     self.all_cleaned_item_names = []
     all_item_names = []
@@ -674,7 +673,7 @@ class Logic:
       if item_name not in self.all_fixed_consumable_items and item_name not in self.duplicatable_consumable_items:
         return False
       
-    if item_name.endswith("Trap Chest"):
+    if item_name.endswith(" Trap Chest"):
       if not all(path.split("/")[-1].startswith("Chest") for path in paths):
         return False
     
@@ -903,6 +902,9 @@ class Logic:
     
     for item_name in all_items_to_make_nonprogress:
       #print(item_name)
+      if item_name.endswith(" Trap Chest"):
+        # Don't remove traps from the progress items list even though they are useless.
+        continue
       self.all_progress_items.remove(item_name)
       self.all_nonprogress_items.append(item_name)
     for item_name in unplaced_items_to_make_nonprogress:

@@ -141,13 +141,25 @@ def run_all_bulk_tests(rando_kwargs, num_seeds):
       if success:
         # Optionally put some code here to count something across all seeds to detect biased distributions.
         pass
+      
         # for path in rando.entrances.nested_entrance_paths:
         #   counts[len(path)] += 1
+        
         # for i in range(3, max(len(p) for p in rando.entrances.nested_entrance_paths)+1):
         #   counts[i] += 1
+        
         # for path in rando.entrances.nested_entrance_paths:
         #   if path[-1].endswith(" Boss Arena"):
         #     counts[path[-2].split(" ")[0]] += 1
+        
+        # progress_locs = rando.logic.filter_locations_for_progression(rando.logic.item_locations)
+        # for loc, item in rando.logic.done_item_locations.items():
+        #   if not item.endswith(" Trap Chest"):
+        #     continue
+        #   if loc in progress_locs:
+        #     counts["progress"] += 1
+        #   else:
+        #     counts["nonprogress"] += 1
       else:
         failures_done += 1
       progress_bar.set_description(f"{failures_done}/{total_done} seeds failed")
