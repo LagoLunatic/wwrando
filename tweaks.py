@@ -2086,6 +2086,12 @@ def add_custom_actor_rels(self: WWRandomizer):
     offset_of_actor_profile = 0x20,
   )
 
+  # Replace the vanilla treasure chest actor with a modified one.
+  # Includes trap chest functionality and the shortened opening cutscene.
+  elf_path = os.path.join(ASM_PATH, "d_a_tbox.plf")
+  rel_path = "files/rels/d_a_tbox.rel"
+  self.replace_rel_from_elf(elf_path, rel_path, "g_profile_TBOX")
+
 def fix_message_closing_sound_on_quest_status_screen(self: WWRandomizer):
   # Fix an issue where the message box closing sound effect would play when opening the quest status pause screen.
   # This issue is caused by the "Options" button on the quest status screen trying to use message ID 704 for its description when you select it, but there is no message with ID 704, so it returns the last message (the message with the highest index) instead.
