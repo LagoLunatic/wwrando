@@ -12,6 +12,7 @@
 #include "d/d_kankyo.h"
 #include "d/d_particle.h"
 #include "d/d_procname.h"
+#include "d/actor/d_a_player_main.h"
 #include "f_op/f_op_actor_mng.h"
 #include "m_Do/m_Do_ext.h"
 #include "m_Do/m_Do_graphic.h"
@@ -24,6 +25,8 @@
 #define DEMO_PROC_OPEN 1
 #define DEMO_PROC_APPEAR 2
 #define DEMO_PROC_OPEN_SHORT 3
+
+#define DEMO_PROC_SPRING_TRAP 4
 
 #define FUNC_TYPE_NORMAL 0
 #define FUNC_TYPE_SWITCH 1
@@ -68,9 +71,9 @@ struct modelInfo {
 
 static modelInfo l_modelInfo[] = {
     { 0x000E, 0x0009, 0x0022, 0x001B, 0x002A, 0x002B },
-    { 0x000F, 0x0008, 0x0023, 0x001C, 0x002A, 0x002B },
-    { 0x0010, 0x0008, 0x0024, 0x001D, 0x002A, 0x002B },
-    { 0x0014, 0x0008, 0xFFFF, 0xFFFF, 0x002C, 0x002D }
+    { 0x000F, 0x0009, 0x0023, 0x001C, 0x002A, 0x002B },
+    { 0x0010, 0x0009, 0x0024, 0x001D, 0x002A, 0x002B },
+    { 0x0014, 0x0009, 0xFFFF, 0xFFFF, 0x002C, 0x002D }
 };
 
 class daTbox_c : public fopAc_ac_c {
@@ -97,6 +100,7 @@ public:
     BOOL checkRoomDisp(int);
     s32 getShapeType();
     s32 getFuncType();
+    bool getIsTrap();
     BOOL checkNormal();
     
     s32 CreateHeap();
@@ -115,6 +119,8 @@ public:
 
     void demoProcAppear_Tact();
     void demoProcAppear();
+
+    void demoProcSpringTrap();
 
     s32 demoProc();
 
@@ -631,7 +637,11 @@ s32 daTbox_c::getShapeType() {
 
 /* 00000FE4-00000FF0       .text getFuncType__8daTbox_cFv */
 s32 daTbox_c::getFuncType() {
-    return fopAcM_GetParam(this) & 0x7F;
+    return fopAcM_GetParam(this) & 0x3F;
+}
+
+bool daTbox_c::getIsTrap() {
+    return (fopAcM_GetParam(this) & 0x40) != 0;
 }
 
 /* 00000FF0-0000108C       .text checkNormal__8daTbox_cFv */
@@ -982,16 +992,71 @@ void daTbox_c::demoProcAppear() {
     }
 }
 
+#define TRAP_TIME_FREEZE 0x05
+#define TRAP_TIME_MIST_STOP 0x30
+#define TRAP_TIME_UNFREEZE 0x60
+#define TRAP_TIME_END 0x64
+
+void daTbox_c::demoProcSpringTrap() {
+    if (mOpenTimer < TRAP_TIME_END) {
+        mOpenTimer++;
+    }
+
+    daPy_lk_c* player = (daPy_lk_c*)dComIfGp_getPlayer(0);
+
+    switch (mOpenTimer) {
+        case TRAP_TIME_FREEZE:
+        {
+            player->mNoResetFlg1 |= 0x800;
+            player->setDamagePoint(-2.0f);
+
+            fopAcM_seStart(this, JA_SE_LK_FREEZE, 0);
+            dComIfGp_particle_set(0x0274, player->getPositionP());
+
+            break;
+        }
+        case TRAP_TIME_MIST_STOP:
+        {
+            if (mSmokeEmitter != NULL) {
+                mSmokeEmitter->becomeInvalidEmitter();
+                mSmokeEmitter = NULL;
+            }
+
+            break;
+        }
+        case TRAP_TIME_UNFREEZE:
+        {
+            player->mNoResetFlg1 &= ~0x800;
+
+            fopAcM_seStart(this, JA_SE_CM_ICE_BREAK, 0);
+            dComIfGp_particle_set(0x0277, player->getPositionP());
+
+            break;
+        }
+        case TRAP_TIME_END:
+        {
+            player->mAcch.m_flags &= ~0x04;
+            player->mAcch.m_flags |= 0x2000;
+
+            dComIfGp_evmng_cutEnd(mStaffId);
+            
+            break;
+        }
+    }
+}
+
 /* 00001E4C-0000210C       .text demoProc__8daTbox_cFv */
 s32 daTbox_c::demoProc() {
     static char* action_table[] = {
         "WAIT",
         "OPEN",
         "APPEAR",
-        "OPEN_SHORT"
+        "OPEN_SHORT",
+
+        "SPRING_TRAP"
     };
 
-    s32 actionIdx = dComIfGp_evmng_getMyActIdx(mStaffId, action_table, 4, 0, 0);
+    s32 actionIdx = dComIfGp_evmng_getMyActIdx(mStaffId, action_table, 5, 0, 0);
     bool bIsAdvance = dComIfGp_evmng_getIsAddvance(mStaffId);
 
     if (bIsAdvance) {
@@ -1022,6 +1087,15 @@ s32 daTbox_c::demoProc() {
                 break;
             case DEMO_PROC_OPEN_SHORT:
                 OpenInit_com();
+                break;
+            case DEMO_PROC_SPRING_TRAP:
+                mOpenTimer = 0; // We're re-using this timer for the trap.
+
+                cXyz ptcPos = current.pos + cXyz(0.0f, 5.0f, 0.0f);
+                cXyz ptcScale(1.5f, 2.0f, 1.5f);
+                csXyz ptcAngle(0x4000, 0, 0);
+
+                mSmokeEmitter = dComIfGp_particle_set(0x029D, &ptcPos, &ptcAngle, &ptcScale);
                 break;
         }
     }
@@ -1060,6 +1134,9 @@ s32 daTbox_c::demoProc() {
                     fopAcM_seStart(this, JA_SE_OBJ_TBOX_OPEN_S2, 0);
                 }
             }
+            break;
+        case DEMO_PROC_SPRING_TRAP:
+            demoProcSpringTrap();
             break;
         default:
             dComIfGp_evmng_cutEnd(mStaffId);
@@ -1188,26 +1265,13 @@ bool daTbox_c::actionOpenWait() {
     if (mEvtInfo.checkCommandDoor()) {
         dComIfGp_event_onEventFlag(0x04);
 
-        u8 itemNo = getItemNo();
-        s32 itemId = fopAcM_createItemForTrBoxDemo(&current.pos, itemNo, -1, -1, NULL, NULL);
+        if (!getIsTrap()) {
+            u8 itemNo = getItemNo();
+            s32 itemId = fopAcM_createItemForTrBoxDemo(&current.pos, itemNo, -1, -1, NULL, NULL);
 
-        if (itemId != 0xFFFFFFFF) {
-            dComIfGp_event_setItemPartnerId(itemId);
-        }
-
-        if (getShapeType() != 0) {
-            mDoAud_subBgmStart(0x80000000 | JA_BGM_OPEN_BOX);
-            mAllColRatio = 0.4f;
-
-            flagOn(0x08);
-            dKy_set_allcol_ratio(mAllColRatio);
-
-            lightReady();
-            mPLight.mPower = 0.0f;
-            mEfLight.mPower = 0.0f;
-
-            dKy_plight_priority_set(&mPLight);
-            dKy_efplight_set(&mEfLight);
+            if (itemId != 0xFFFFFFFF) {
+                dComIfGp_event_setItemPartnerId(itemId);
+            }
         }
 
         setAction(&daTbox_c::actionDemo);
@@ -1219,11 +1283,11 @@ bool daTbox_c::actionOpenWait() {
         if (boxCheck()) {
             mEvtInfo.onCondition(0x04);
 
-            if (getShapeType() == 0) {
-                mEvtInfo.setEventName("DEFAULT_TREASURE_A");
+            if (getIsTrap()) {
+                mEvtInfo.setEventName("DEFAULT_TREASURE_TRAP");
             }
             else {
-                mEvtInfo.setEventName("DEFAULT_TREASURE");
+                mEvtInfo.setEventName("DEFAULT_TREASURE_A");
             }
         }
     }
