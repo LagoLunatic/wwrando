@@ -452,9 +452,6 @@ class ItemRandomizer(BaseRandomizer):
       # Here, we set that custom trap flag.
       chest.behavior_type |= 0x40
 
-      if self.options.get("chest_type_matches_contents"):
-        chest.chest_type = self.rng.randrange(0, 2)
-
       stage_name = arc_path.split("/")[-2]
       add_trap_chest_event_to_stage(self.rando, stage_name)
     else:
