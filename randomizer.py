@@ -26,6 +26,7 @@ from wwrando_paths import DATA_PATH, ASM_PATH, IS_RUNNING_FROM_SOURCE, SEEDGEN_P
 import customizer
 from wwlib import stage_searcher
 from asm import disassemble
+from asm import elf2rel
 
 try:
   from keys.seed_key import SEED_KEY # type: ignore
@@ -706,6 +707,32 @@ class WWRandomizer:
     
     # Don't allow this actor ID to be used again by any more custom RELs we add.
     self.used_actor_ids.append(new_actor_id)
+  
+  def replace_rel_from_elf(self, linked_elf_path, rel_path, actor_profile_name):
+    orig_rel = self.get_rel(rel_path)
+    rel_id = orig_rel.id
+    main_symbols = self.get_symbol_map("files/maps/framework.map")
+    new_rel, profile_section_index, profile_address = elf2rel.convert_elf_to_rel(linked_elf_path, rel_id, main_symbols, actor_profile_name)
+    
+    self.rels_by_path[rel_path] = new_rel
+    
+    # If this REL is in RELS.arc, we also need to update the file entry to know that it's associated with a different REL now.
+    rel_name = os.path.basename(rel_path)
+    rels_arc = self.get_arc("files/RELS.arc")
+    rel_file_entry = rels_arc.get_file_entry(rel_name)
+    if rel_file_entry:
+      rel_file_entry.data = new_rel.data
+    
+    # We need to update the pointer to the REL's profile in the profile list.
+    profile_list = self.get_rel("files/rels/f_pc_profile_lst.rel")
+    if rel_id not in profile_list.relocation_entries_for_module:
+      raise Exception("Tried to replace a REL that was not already in the profile list.")
+    
+    profile_relocation = profile_list.relocation_entries_for_module[new_rel.id][0]
+    profile_relocation.section_num_to_relocate_against = profile_section_index
+    profile_relocation.symbol_address = profile_address
+    
+    profile_list.save_changes(preserve_section_data_offsets=True)
   
   def save_randomized_iso(self):
     self.bmg.save_changes()
