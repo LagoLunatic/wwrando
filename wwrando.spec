@@ -48,6 +48,7 @@ a = Analysis(['wwrando.py'],
              datas=build_datas_recursive([
                'asm/*.txt',
                'asm/*.rel',
+               'asm/*.plf',
                'asm/patch_diffs/*.txt',
                'assets/**/*.*',
                'data/*.txt',
