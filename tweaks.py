@@ -2595,7 +2595,7 @@ def prevent_fairy_island_softlocks(self: WWRandomizer):
   # flames would still be present in front of the pit. Because the ring of flames is so large, it
   # would immediately damage the player as soon as they come back up from the pit, knocking them
   # back in the pit. Under normal circumstances a softlock can be avoided here by saving and
-  # reloading inside the Fairy Foutnain to be placed back outside the ring of flames, but in
+  # reloading inside the Fairy Fountain to be placed back outside the ring of flames, but in
   # entrance randomizer, dungeons will place you back at the beginning of the dungeon, and escaping
   # can be impossible.
   # To fix this, we move the spawn coming out of the pit on Western Fairy Island back a bit so you

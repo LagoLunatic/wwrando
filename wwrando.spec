@@ -25,25 +25,8 @@ def build_datas_recursive(paths):
   
   return datas
 
-import sys
-def get_hidden_imports():
-  import_modules = []
-  
-  sys.path.insert(0, "./gclib")
-  import gclib
-  for module_name in gclib.__all__:
-    import_modules.append(f"gclib.{module_name}")
-  for module_name in gclib.j3d_chunks.__all__:
-    import_modules.append(f"gclib.j3d_chunks.{module_name}")
-  
-  import wwlib
-  for module_name in wwlib.__all__:
-    import_modules.append(f"wwlib.{module_name}")
-  
-  return import_modules
-
 a = Analysis(['wwrando.py'],
-             pathex=[],
+             pathex=["./gclib", "./gclib/gclib"],
              binaries=[],
              datas=build_datas_recursive([
                'asm/*.txt',
@@ -55,7 +38,7 @@ a = Analysis(['wwrando.py'],
                'seedgen/*.txt',
                'version.txt',
              ]),
-             hiddenimports=get_hidden_imports(),
+             hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
              excludes=[],

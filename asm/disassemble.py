@@ -302,7 +302,7 @@ def add_symbols_to_main(self, asm_path, main_symbols):
       
       branch_match = re.search(r"^(.+ \t(?:bl|b|beq|bne|blt|bgt|ble|bge|bdnz|bdz)\s+0x)([0-9a-f]+)$", line, re.IGNORECASE)
       addi_match = re.search(r"^.+ \t(?:addi)\s+r\d+,(r\d+),(-?\d+)$", line, re.IGNORECASE)
-      load_or_store_match = re.search(r"^.+ \t(?:" + "|".join(ALL_LOAD_OR_STORE_OPCODES) + ")\s+[rf]\d+,(-?\d+)\((r\d+)\)$", line, re.IGNORECASE)
+      load_or_store_match = re.search(r"^.+ \t(?:" + "|".join(ALL_LOAD_OR_STORE_OPCODES) + r")\s+[rf]\d+,(-?\d+)\((r\d+)\)$", line, re.IGNORECASE)
       if branch_match:
         line_before_offset = branch_match.group(1)
         offset = int(branch_match.group(2), 16)
