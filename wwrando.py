@@ -85,7 +85,7 @@ def make_argparser() -> argparse.ArgumentParser:
     help="Print all documented flags used in the vanilla game to text files.",
   )
   parser.add_argument(
-    '--stagesearch', action='store_true',
+    '--stagesearch', type=str, metavar="SEARCHFUNC",
     help="Runs a custom dev script for searching the game's files.",
   )
   parser.add_argument(
@@ -159,7 +159,7 @@ def run_no_ui(args):
   from randomizer import WWRandomizer
   from seedgen import seedgen
   import traceback
-  from wwrando_paths import SETTINGS_PATH
+  from wwrando_paths import SETTINGS_PATH, IS_RUNNING_FROM_SOURCE
   from tqdm import tqdm
   import yaml
   import cProfile, pstats
@@ -185,15 +185,10 @@ def run_no_ui(args):
   
   if args.bulk:
     run_all_bulk_tests(rando_kwargs, args.bulk)
-  elif args.stagesearch:
+  elif args.stagesearch and IS_RUNNING_FROM_SOURCE:
     from wwlib import stage_searcher
     rando = WWRandomizer(**rando_kwargs)
-    # stage_searcher.print_all_spawn_types(rando)
-    # stage_searcher.print_all_stage_types(rando)
-    # stage_searcher.search_all_bmds(rando)
-    # stage_searcher.print_all_actor_listids(rando)
-    # stage_searcher.search_all_dzbs(rando)
-    # stage_searcher.print_all_filis(rando)
+    getattr(stage_searcher, args.stagesearch)(rando)
   else:
     rando = WWRandomizer(**rando_kwargs)
     try:
