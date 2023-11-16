@@ -457,9 +457,9 @@ class ItemRandomizer(BaseRandomizer):
     else:
       item_id = self.rando.item_name_to_id[item_name]
       chest.item_id = item_id
-      
-      if self.options.get("chest_type_matches_contents"):
-        chest.chest_type = self.get_ctmc_chest_type_for_item(item_name)
+    
+    if self.options.get("chest_type_matches_contents"):
+      chest.chest_type = self.get_ctmc_chest_type_for_item(item_name)
     
     chest.save_changes()
 
