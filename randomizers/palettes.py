@@ -11,6 +11,7 @@ from gclib.j3d_chunks.mat3 import MAT3
 from gclib.j3d_chunks.mdl3 import MDL3, BPRegister
 from gclib.j3d_chunks.tex1 import TEX1
 from gclib.j3d_chunks.trk1 import TRK1, ColorAnimation
+from gclib.jpa import JParticle100
 from gclib.rel import REL
 import gclib.gx_enums as GX
 
@@ -119,7 +120,7 @@ class PaletteRandomizer(BaseRandomizer):
             self.shift_all_colors_in_trk1(file_name, j3d_file.trk1, h_shift, v_shift)
           
           j3d_file.save()
-
+  
   def shift_all_colors_in_tex1(self, file_name, tex1: TEX1, h_shift, v_shift):
     for texture_name in tex1.textures_by_name:
       if "toon" in texture_name:
@@ -153,7 +154,7 @@ class PaletteRandomizer(BaseRandomizer):
           texture.replace_image(image)
       
       #first_texture.render().save("./wip/enemy recolors/%s/%s %d %d.png" % (file_name, texture_name, h_shift, v_shift))
-
+  
   def shift_all_colors_in_bti(self, texture_name, texture, h_shift, v_shift):
     if texture.image_format in texture_utils.GREYSCALE_IMAGE_FORMATS:
       return
@@ -171,7 +172,7 @@ class PaletteRandomizer(BaseRandomizer):
       image = texture.render()
       image = texture_utils.hsv_shift_image(image, h_shift, v_shift)
       texture.replace_image(image)
-
+  
   def shift_all_colors_in_mat3(self, file_name, mat3: MAT3, h_shift, v_shift):
     for material in mat3.materials:
       for col in material.tev_colors:
@@ -182,7 +183,7 @@ class PaletteRandomizer(BaseRandomizer):
       
       for col in material.tev_konst_colors:
         col.rgb = texture_utils.hsv_shift_color(col.rgb, h_shift, v_shift)
-
+  
   def shift_all_colors_in_mdl3(self, file_name, mdl3: MDL3, h_shift, v_shift):
     for entry in mdl3.entries:
       tev_color_commands = [
@@ -225,7 +226,7 @@ class PaletteRandomizer(BaseRandomizer):
         hi_command.value |= ((g << 12) & 0x7FF000)
         hi_command.value |= ((b <<  0) & 0x0007FF)
         lo_command.value |= ((a << 12) & 0x7FF000)
-
+  
   def shift_all_colors_in_trk1(self, file_name, trk1: TRK1, h_shift, v_shift):
     animations: list[ColorAnimation] = []
     for mat_name, anims in trk1.mat_name_to_reg_anims.items():
@@ -278,8 +279,8 @@ class PaletteRandomizer(BaseRandomizer):
         b_keyframe = get_keyframe_by_exact_time(anim.b.keyframes, keyframe_time)
         if b_keyframe:
           b_keyframe.value = b
-
-  def shift_all_colors_in_particle(self, particle, h_shift, v_shift):
+  
+  def shift_all_colors_in_particle(self, particle: JParticle100, h_shift, v_shift):
     #print("%04X" % particle_id)
     #print(particle.tdb1.texture_filenames)
     
@@ -306,15 +307,10 @@ class PaletteRandomizer(BaseRandomizer):
       r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
       keyframe.color = (r, g, b, a)
     
-    if hasattr(particle, "ssp1"):
-      r, g, b, a = particle.ssp1.color_prm
-      r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-      particle.ssp1.color_prm = (r, g, b, a)
-      
-      r, g, b, a = particle.ssp1.color_env
-      r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
-      particle.ssp1.color_env = (r, g, b, a)
-
+    if particle.ssp1 is not None:
+      particle.ssp1.color_prm.rgb = texture_utils.hsv_shift_color(particle.ssp1.color_prm.rgb, h_shift, v_shift)
+      particle.ssp1.color_env.rgb = texture_utils.hsv_shift_color(particle.ssp1.color_env.rgb, h_shift, v_shift)
+  
   def shift_hardcoded_color_in_rel(self, rel: REL, offset, h_shift, v_shift):
     r = rel.read_data(fs.read_u8, offset + 0)
     g = rel.read_data(fs.read_u8, offset + 1)
@@ -323,7 +319,7 @@ class PaletteRandomizer(BaseRandomizer):
     rel.write_data(fs.write_u8, offset + 0, r)
     rel.write_data(fs.write_u8, offset + 1, g)
     rel.write_data(fs.write_u8, offset + 2, b)
-
+  
   def shift_hardcoded_darknut_colors(self, h_shift, v_shift):
     # Update the RGB values for Darknut armor destroyed particles.
     rel = self.rando.get_rel("files/rels/d_a_tn.rel")
@@ -346,19 +342,19 @@ class PaletteRandomizer(BaseRandomizer):
       palette_data = texture_utils.encode_palette(encoded_colors, GX.PaletteFormat.RGB5A3, GX.ImageFormat.C4)
       assert fs.data_len(palette_data) == 0x20
       rel.write_data(fs.write_bytes, palette_offset, fs.read_all_bytes(palette_data))
-
+  
   def shift_hardcoded_moblin_colors(self, h_shift, v_shift):
     # Update the thread colors for the Moblin's spear
     for rel_name, offset in [("mo2", 0xD648), ("boko", 0x4488)]:
       rel = self.rando.get_rel("files/rels/d_a_%s.rel" % rel_name)
       self.shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift)
-
+  
   def shift_hardcoded_stalfos_colors(self, h_shift, v_shift):
     # Stalfos hat thread
     rel = self.rando.get_rel("files/rels/d_a_st.rel")
     offset = 0x9F30
     self.shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift)
-
+  
   def shift_hardcoded_rat_colors(self, h_shift, v_shift):
     # Rat tails
     rel = self.rando.get_rel("files/rels/d_a_nz.rel")
@@ -368,7 +364,7 @@ class PaletteRandomizer(BaseRandomizer):
     rel = self.rando.get_rel("files/rels/d_a_npc_nz.rel")
     offset = 0x48C0
     self.shift_hardcoded_color_in_rel(rel, offset, h_shift, v_shift)
-
+  
   def shift_hardcoded_chuchu_colors(self, h_shift, v_shift):
     # ChuChu particles
     rel = self.rando.get_rel("files/rels/d_a_cc.rel")
@@ -387,7 +383,7 @@ class PaletteRandomizer(BaseRandomizer):
     rel.write_data(fs.write_float, 0x7E9C, r)
     rel.write_data(fs.write_float, 0x7EBC, g)
     rel.write_data(fs.write_float, 0x7EC0, b)
-
+  
   def shift_hardcoded_puppet_ganon_colors(self, h_shift, v_shift):
     # Puppet ganon's strings
     rel = self.rando.get_rel("files/rels/d_a_bgn.rel")
@@ -404,7 +400,7 @@ class PaletteRandomizer(BaseRandomizer):
     rel.write_data(fs.write_u8, 0x2CF, r)
     rel.write_data(fs.write_u8, 0x2D7, g)
     rel.write_data(fs.write_u8, 0x2DF, b)
-
+  
   def shift_hardcoded_ganondorf_colors(self, h_shift, v_shift):
     # Ganondorf's fancy threads
     rel = self.rando.get_rel("files/rels/d_a_gnd.rel")

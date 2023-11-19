@@ -17,7 +17,7 @@ from gclib.rarc import RARC
 from gclib.dol import DOL
 from gclib.rel import REL, RELRelocation, RELRelocationType
 from gclib.gcm import GCM
-from gclib.jpc import JPC
+from gclib.jpc import JPC100
 import tweaks
 from asm import patcher
 from logic.logic import Logic
@@ -118,7 +118,7 @@ class WWRandomizer:
     self.integer_seed = self.convert_string_to_integer_md5(seed_string)
     
     self.arcs_by_path: dict[str, RARC] = {}
-    self.jpcs_by_path: dict[str, JPC] = {}
+    self.jpcs_by_path: dict[str, JPC100] = {}
     self.rels_by_path: dict[str, REL] = {}
     self.symbol_maps_by_path: dict[str, dict[int, str]] = {}
     self.raw_files_by_path: dict[str, BytesIO] = {}
@@ -572,7 +572,7 @@ class WWRandomizer:
       return self.jpcs_by_path[jpc_path]
     else:
       data = self.gcm.read_file_data(jpc_path)
-      jpc = JPC(data)
+      jpc = JPC100(data)
       self.jpcs_by_path[jpc_path] = jpc
       return jpc
   
