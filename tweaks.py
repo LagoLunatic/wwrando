@@ -1397,9 +1397,9 @@ def update_sword_mode_game_variable(self: WWRandomizer):
   else:
     raise Exception("Unknown sword mode: %s" % self.options.get("sword_mode"))
 
-def update_starting_gear(self: WWRandomizer):
-  starting_gear = self.options.get("starting_gear").copy()
-  
+def update_starting_gear(self: WWRandomizer, starting_gear: list[str]):
+  starting_gear = starting_gear.copy()
+
   # Changing starting magic doesn't work when done via our normal starting items initialization code, so we need to handle it specially.
   set_starting_magic(self, 16*starting_gear.count("Progressive Magic Meter"))
   while "Progressive Magic Meter" in starting_gear:

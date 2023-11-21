@@ -44,6 +44,7 @@ from randomizers.palettes import PaletteRandomizer
 from randomizers.boss_reqs import RequiredBossesRandomizer
 from randomizers.hints import HintsRandomizer
 from randomizers.pigs import PigsRandomizer
+from randomizers.starting_item import StartingItemRandomizer
 
 from version import VERSION, VERSION_WITHOUT_COMMIT
 
@@ -201,6 +202,7 @@ class WWRandomizer:
     self.boss_reqs = RequiredBossesRandomizer(self)
     self.hints = HintsRandomizer(self)
     self.pigs = PigsRandomizer(self)
+    self.random_starting_item = StartingItemRandomizer(self)
     
     # This list's order is the order these randomizers will be called in.
     self.randomizers: list[BaseRandomizer] = [
@@ -210,6 +212,9 @@ class WWRandomizer:
       self.entrances,
       self.starting_island,
       self.pigs,
+      # Random Starting Item must be randomized before items end enemies which
+      # depend on the starting items list, but after bosses and entrances since it needs logic
+      self.random_starting_item,
       # Enemies must be randomized before items in order for the enemy logic to properly take into
       # account what items you do and don't start with.
       self.enemies,
@@ -300,7 +305,7 @@ class WWRandomizer:
       if self.options.get("sword_mode") == "Swordless":
         patcher.apply_patch(self, "swordless")
         tweaks.update_text_for_swordless(self)
-      tweaks.update_starting_gear(self)
+      tweaks.update_starting_gear(self, self.options.get("starting_gear"))
       if self.options.get("chest_type_matches_contents"):
         tweaks.replace_dark_wood_chest_texture(self)
       if self.options.get("remove_title_and_ending_videos"):
@@ -890,6 +895,9 @@ class WWRandomizer:
       return
     
     spoiler_log = self.get_log_header()
+
+    if self.random_starting_item.is_enabled():
+      spoiler_log += self.random_starting_item.write_to_spoiler_log()
     
     spoiler_log += self.boss_reqs.write_to_spoiler_log()
     
