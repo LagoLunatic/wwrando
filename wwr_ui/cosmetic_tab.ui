@@ -15,11 +15,11 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_14">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_10">
+    <layout class="QVBoxLayout" name="layoutV_for_0_cosmetic_options">
      <item>
-      <layout class="QGridLayout" name="gridLayout_5">
+      <layout class="QGridLayout" name="layoutG_for_0_model_settings">
        <item row="2" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_11">
+        <layout class="QHBoxLayout" name="layoutH_for_random_colors">
          <item>
           <widget class="QPushButton" name="randomize_all_custom_colors_together">
            <property name="text">
@@ -37,7 +37,7 @@
         </layout>
        </item>
        <item row="2" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_10">
+        <layout class="QHBoxLayout" name="layoutH_for_2_color_present">
          <item>
           <widget class="QLabel" name="label_for_custom_color_preset">
            <property name="text">
@@ -51,7 +51,7 @@
         </layout>
        </item>
        <item row="1" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_12">
+        <layout class="QHBoxLayout" name="layoutH_for_0_model">
          <item>
           <widget class="QLabel" name="label_for_custom_player_model">
            <property name="text">
@@ -65,7 +65,7 @@
         </layout>
        </item>
        <item row="1" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_13">
+        <layout class="QHBoxLayout" name="layoutH_for_1_custom_options">
          <item>
           <widget class="QCheckBox" name="player_in_casual_clothes">
            <property name="text">
@@ -121,7 +121,7 @@
       <layout class="QVBoxLayout" name="custom_colors_layout"/>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_18">
+      <layout class="QHBoxLayout" name="layoutH_for_1_present">
        <item>
         <widget class="QPushButton" name="save_custom_color_preset">
          <property name="text">
@@ -139,7 +139,7 @@
       </layout>
      </item>
      <item>
-      <spacer name="verticalSpacer_4">
+      <spacer name="zzzz_spacerV_for_cosmetic_options">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -154,7 +154,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_11">
+    <layout class="QVBoxLayout" name="layoutV_for_1_preview">
      <item>
       <widget class="QLabel" name="custom_model_preview_label">
        <property name="sizePolicy">
@@ -175,7 +175,7 @@
       </widget>
      </item>
      <item>
-      <spacer name="verticalSpacer_5">
+      <spacer name="zzzz_spacerV_for_preview">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
