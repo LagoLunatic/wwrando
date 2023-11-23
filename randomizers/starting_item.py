@@ -9,7 +9,6 @@ DISALLOWED_RANDOM_STARTING_ITEMS = set([
   # It's also 8 items and would have a fairly large impact on the seed, so we'd probably want
   # to weigh it less than other items if allowed
   "Triforce Shards",
-  "Progressive Sword", # Separate option for starting sword mode, not handled solely by tweaks.update_starting_gear. might be possible?
   # Other items that you can't start with in the UI, but we allow anyway:
   # "Treasure Charts", "Triforce Charts" # These seem to work fine to start with, even if not very fun
   # "Tingle Statues", # seem to work fine
@@ -108,6 +107,15 @@ class StartingItemRandomizer(BaseRandomizer):
     if set(self.logic.triforce_chart_names).intersection(available_items):
         available_items -= set(self.logic.triforce_chart_names)
         available_items.add('Triforce Chart')
+
+    # If sword_mode is No Starting Sword, adding swords would desync the
+    # sword_mode option from the actual number of swords.
+    # Swordless doesn't put the Progressive Swords in the progress items in the
+    # first place so doesn't need this
+    # This might be removable if we can make a random starting progressive sword
+    # automatically change the sword_mode variable and its consequences
+    if self.options.get("sword_mode") == "No Starting Sword" and "Progressive Sword" in available_items:
+      available_items.remove("Progressive Sword")
 
     # We need to sort before converting to lists because sets have per-process hash seeding
     # and could otherwise lead to different randomization between processes with the same seed
