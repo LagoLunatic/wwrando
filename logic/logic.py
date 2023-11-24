@@ -189,6 +189,15 @@ class Logic:
         if group_name in self.unplaced_progress_items:
           self.unplaced_progress_items.remove(group_name)
     
+    # Add the randomly-selected starting items (without incidence on other progress items)
+    if self.rando.random_starting_item.is_enabled():
+      for item in self.rando.random_starting_item.random_starting_items:
+        # Needs to happen after make useless_progress_items_nonprogress
+        # To ensure other progress items aren't made nonprogress by the random
+        # items being in the starting inventory for the purpose of hints or
+        # spoiler log progression
+        self.add_owned_item_or_item_group(item)
+
     self.clear_req_caches()
     self.cached_enemies_tested_for_reqs_tuple.clear()
   

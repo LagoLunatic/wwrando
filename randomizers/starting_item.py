@@ -59,8 +59,13 @@ class StartingItemRandomizer(BaseRandomizer):
 
       # Sync the added items back to the other lists:
       self.logic.add_owned_item_or_item_group(selected)
-      self.rando.starting_items.extend(self.logic.expand_item_groups([selected]))
       self.random_starting_items.append(selected)
+      # Do *not* add it to the base starting items list, as it would mess up the
+      # hints since they'd start with a different set of starting items when
+      # demoting some progress items to nonprogress.
+      # Eg big octos with a starting boomerang would make the quiver foolish,
+      # which is (maybe?) confusing and would lead you to never check octos
+      # self.rando.starting_items.extend(self.logic.expand_item_groups([selected]))
 
     # Confirm that we opened at least one new check if we assigned an item
     if self.random_starting_items and len(self.logic.get_accessible_remaining_locations(for_progression=True)) <= len(initial_sphere_0_checks):
