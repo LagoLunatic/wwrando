@@ -2086,6 +2086,12 @@ def add_custom_actor_rels(self: WWRandomizer):
     offset_of_actor_profile = 0x20,
   )
 
+  # Replace the vanilla treasure chest actor with a modified one.
+  # Includes trap chest functionality and the shortened opening cutscene.
+  elf_path = os.path.join(ASM_PATH, "d_a_tbox.plf")
+  rel_path = "files/rels/d_a_tbox.rel"
+  self.replace_rel_from_elf(elf_path, rel_path, "g_profile_TBOX")
+
 def fix_message_closing_sound_on_quest_status_screen(self: WWRandomizer):
   # Fix an issue where the message box closing sound effect would play when opening the quest status pause screen.
   # This issue is caused by the "Options" button on the quest status screen trying to use message ID 704 for its description when you select it, but there is no message with ID 704, so it returns the last message (the message with the highest index) instead.
@@ -2625,3 +2631,54 @@ def give_fairy_fountains_distinct_colors(self: WWRandomizer):
       
       hue += 1.0 / len(stage_group)
       dzs.save_changes()
+
+def add_trap_chest_event_to_stage(self: WWRandomizer, stage_name: str):
+  # Add the event DEFAULT_TREASURE_TRAP to the given stage. Necessary for trap chests to function.
+  stage_path = "files/res/Stage/{}/Stage.arc".format(stage_name)
+  event_list: EventList = self.get_arc(stage_path).get_file("event_list.dat", EventList)
+
+  if "DEFAULT_TREASURE_TRAP" in event_list.events_by_name:
+    return
+
+  trap_event = event_list.add_event("DEFAULT_TREASURE_TRAP")
+
+  # Create treasure chest actor
+  chest_actor = trap_event.add_actor("TREASURE")
+  chest_actor.staff_type = 0
+
+  chest_actor.add_action("OPEN_SHORT")
+  chest_actor.add_action("SPRING_TRAP")
+  chest_actor.add_action("WAIT")
+
+  # Create timekeeper actor
+  timekeeper_actor = trap_event.add_actor("TIMEKEEPER")
+  timekeeper_actor.staff_type = 4
+
+  timekeeper_actor.add_action("WAIT")
+
+  # Create Link actor
+  link_actor = trap_event.add_actor("Link")
+  link_actor.staff_type = 0
+
+  linke_open_treasure_action = link_actor.add_action("010open_treasure", properties=[
+    ("prm0", 1)
+  ])
+  link_actor.add_action("057rd_stop")
+
+  # Create dependent actions between Link and the timekeeper
+  timekeeper_countdown_action = timekeeper_actor.add_action("COUNTDOWN", properties=[
+    ("Timer", 92)
+  ])
+  timekeeper_countdown_action.starting_flags[0] = linke_open_treasure_action.flag_id_to_set
+  
+  link_surprise_action = link_actor.add_action("024surprised")
+  link_surprise_action.starting_flags[0] = timekeeper_countdown_action.flag_id_to_set
+
+  # Create camera actor
+  camera_actor = trap_event.add_actor("CAMERA")
+  camera_actor.staff_type = 2
+
+  camera_actor.add_action("PAUSE")
+
+  # Add ending flag to event
+  trap_event.ending_flags[0] = link_surprise_action.flag_id_to_set

@@ -823,6 +823,10 @@ class HintsRandomizer(BaseRandomizer):
     if self.logic.is_dungeon_item(item_name) and not self.options.get("keylunacy"):
       return False
     
+    # Don't hint at the existence of traps.
+    if item_name.endswith(" Trap Chest"):
+      return False
+    
     return True
   
   def check_is_legal_item_hint(self, location_name, progress_locations, previously_hinted_locations):

@@ -126,6 +126,9 @@ class Logic:
       self.all_nonprogress_items += DUNGEON_PROGRESS_ITEMS
     self.all_nonprogress_items += DUNGEON_NONPROGRESS_ITEMS
     
+    if self.options.get("trap_chests"):
+      self.all_progress_items += ["Ice Trap Chest"]*5
+    
     self.all_cleaned_item_names = []
     all_item_names = []
     all_item_names += self.all_progress_items
@@ -631,6 +634,7 @@ class Logic:
   
   def check_item_valid_in_location(self, item_name, location_name):
     types = self.item_locations[location_name]["Types"]
+    paths = self.item_locations[location_name]["Paths"]
     
     # Don't allow dungeon items to appear outside their proper dungeon when Key-Lunacy is off.
     if self.is_dungeon_item(item_name) and not self.options.get("keylunacy"):
@@ -667,6 +671,10 @@ class Logic:
     
     if "Consumables only" in types:
       if item_name not in self.all_fixed_consumable_items and item_name not in self.duplicatable_consumable_items:
+        return False
+      
+    if item_name.endswith(" Trap Chest"):
+      if not all(path.split("/")[-1].startswith("Chest") for path in paths):
         return False
     
     return True
@@ -894,6 +902,9 @@ class Logic:
     
     for item_name in all_items_to_make_nonprogress:
       #print(item_name)
+      if item_name.endswith(" Trap Chest"):
+        # Don't remove traps from the progress items list even though they are useless.
+        continue
       self.all_progress_items.remove(item_name)
       self.all_nonprogress_items.append(item_name)
     for item_name in unplaced_items_to_make_nonprogress:
