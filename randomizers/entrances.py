@@ -486,6 +486,18 @@ class EntranceRandomizer(BaseRandomizer):
     
     self.randomize_one_set_of_exits(remaining_entrances, remaining_exits, terminal_exits)
   
+  def check_if_one_exit_is_progress(self, exit: ZoneExit) -> bool:
+    locs_for_exit = self.zone_exit_to_logically_dependent_item_locations[exit]
+    assert locs_for_exit, f"Could not find any item locations corresponding to zone exit: {exit.unique_name}"
+    # Banned required bosses mode dungeons still technically count as progress locations, so
+    # filter them out separately first.
+    nonbanned_locs = [
+      loc for loc in locs_for_exit
+      if loc not in self.rando.boss_reqs.banned_locations
+    ]
+    progress_locs = self.logic.filter_locations_for_progression(nonbanned_locs)
+    return bool(progress_locs)
+
   def split_nonprogress_entrances_and_exits(self, relevant_entrances: list[ZoneEntrance], relevant_exits: list[ZoneExit]):
     # Splits the entrance and exit lists into two pairs: ones that should be considered nonprogress
     # on this seed (will never lead to any progress items) and ones that should be considered
@@ -493,24 +505,15 @@ class EntranceRandomizer(BaseRandomizer):
     # This is so that we can effectively randomize these two pairs separately without any convoluted
     # logic to ensure they don't connect to each other.
     
-    nonprogress_exits = []
-    for ex in relevant_exits:
-      locs_for_exit = self.zone_exit_to_logically_dependent_item_locations[ex]
-      assert locs_for_exit, f"Could not find any item locations corresponding to zone exit: {ex.unique_name}"
-      # Banned required bosses mode dungeons still technically count as progress locations, so
-      # filter them out separately first.
-      nonbanned_locs = [
-        loc for loc in locs_for_exit
-        if loc not in self.rando.boss_reqs.banned_locations
-      ]
-      progress_locs = self.logic.filter_locations_for_progression(nonbanned_locs)
-      if not progress_locs:
-        nonprogress_exits.append(ex)
+    nonprogress_exits = [ex for ex in relevant_exits if not self.check_if_one_exit_is_progress(ex)]
     
     nonprogress_entrances = [
-      en for en in relevant_entrances
-      if en.nested_in is not None
-      and en.nested_in in nonprogress_exits
+      en for en in relevant_entrances 
+      if en.nested_in is not None and (
+        (en.nested_in in nonprogress_exits) or
+        # The area this entrance is nested in is not randomized, but we still need to figure out if it's progression
+        (en.nested_in not in relevant_exits and not self.check_if_one_exit_is_progress(en.nested_in))
+      )
     ]
     
     # At this point, nonprogress_entrances includes only the inner entrances nested inside of the
