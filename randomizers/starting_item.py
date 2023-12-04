@@ -52,10 +52,12 @@ class StartingItemRandomizer(BaseRandomizer):
 
       selected = self.rng.choice(available_items)
 
-      if selected == "Treasure Chart":
-        selected = self.rng.choice([chart for chart in self.logic.unplaced_progress_items if chart in self.logic.treasure_chart_names])
-      if selected == "Triforce Chart":
-        selected = self.rng.choice([chart for chart in self.logic.unplaced_progress_items if chart in self.logic.triforce_chart_names])
+      if selected in ("Treasure Chart", "Triforce Chart"):
+        chart_usefulness = self.logic.get_items_by_usefulness_fraction(self.logic.treasure_chart_names + self.logic.triforce_chart_names)
+        selected = self.rng.choice([
+          chart for chart in self.logic.unplaced_progress_items
+          if chart.startswith(selected) and chart in chart_usefulness and chart_usefulness[chart] <= max_fraction
+        ])
 
       # Sync the added items back to the other lists:
       self.logic.add_owned_item_or_item_group(selected)
