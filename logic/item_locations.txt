@@ -1263,7 +1263,7 @@ Fire Mountain - Cave - Chest:
     & Can Defeat Magtails
   # Need to escape: Power Bracelets
   Original item: Power Bracelets
-  Types: Puzzle Secret Cave
+  Types: Puzzle Secret Cave, Combat Secret Cave
   Paths:
     - MiniKaz/Stage.arc/Chest000
 Fire Mountain - Lookout Platform Chest:
