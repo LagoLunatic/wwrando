@@ -159,7 +159,8 @@ class HintsRandomizer(BaseRandomizer):
     self.path_logic = Logic(self.rando)
     self.path_logic_initial_state = self.path_logic.save_simulated_playthrough_state()
     
-    self.floor_30_hint, self.floor_50_hint = self.generate_savage_labyrinth_hints()
+    self.floor_30_hint = self.generate_savage_labyrinth_hint("Outset Island - Savage Labyrinth - Floor 30")
+    self.floor_50_hint = self.generate_savage_labyrinth_hint("Outset Island - Savage Labyrinth - Floor 50")
     
     if not any(self.check_item_can_be_hinted_at(item_name) for item_name in self.rando.all_randomized_progress_items):
       # If the player chose to start the game with every single progress item, there will be no way
@@ -253,17 +254,17 @@ class HintsRandomizer(BaseRandomizer):
         print("Invalid hint placement option: %s" % hint_placement)
   
   def write_to_spoiler_log(self) -> str:
-    all_hints = [self.floor_30_hint, self.floor_50_hint, self.octo_fairy_hint]
-    for hints in self.hints_per_placement.values():
-      all_hints += hints
-    
-    if all(hint is None for hint in all_hints):
-      return ""
-    
     rows = []
+    
+    for savage_hint in [self.floor_30_hint, self.floor_50_hint]:
+      savage_hint_is_progress = savage_hint.reward in self.logic.all_progress_items
+      rows.append((savage_hint.place, savage_hint.reward if savage_hint_is_progress else "Nothing"))
+    
+    all_hints = [self.octo_fairy_hint]
+    for hints_for_placement in self.hints_per_placement.values():
+      all_hints += hints_for_placement
+    
     for hint in all_hints:
-      if hint is None:
-        continue
       rows.append((hint.place, hint.reward or "Nothing"))
     
     spoiler_log = "Hints:\n"
@@ -280,20 +281,23 @@ class HintsRandomizer(BaseRandomizer):
   def update_savage_labyrinth_hint_tablet(self, floor_30_hint: Hint, floor_50_hint: Hint):
     # Update the tablet on the first floor of savage labyrinth to give hints as to the items inside the labyrinth.
     
-    if floor_30_hint and floor_50_hint:
-      hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_30_hint.reward
+    floor_30_is_progress = floor_30_hint.reward in self.logic.all_progress_items
+    floor_50_is_progress = floor_50_hint.reward in self.logic.all_progress_items
+    
+    if floor_30_is_progress and floor_50_is_progress:
+      hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_30_hint.formatted_reward(self.cryptic_hints)
       hint += " and "
-      hint += "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_50_hint.reward
+      hint += "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_50_hint.formatted_reward(self.cryptic_hints)
       hint += " await"
-    elif floor_30_hint:
-      hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_30_hint.reward
+    elif floor_30_is_progress:
+      hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_30_hint.formatted_reward(self.cryptic_hints)
       hint += " and "
       hint += "challenge"
       hint += " await"
-    elif floor_50_hint:
+    elif floor_50_is_progress:
       hint = "challenge"
       hint += " and "
-      hint += "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_50_hint.reward
+      hint += "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_50_hint.formatted_reward(self.cryptic_hints)
       hint += " await"
     else:
       hint = "challenge"
@@ -306,10 +310,10 @@ class HintsRandomizer(BaseRandomizer):
   
   def update_big_octo_great_fairy_item_name_hint(self, hint: Hint):
     msg = self.rando.bmg.messages_by_id[12015]
-    msg.string = "\\{1A 06 FF 00 00 05}In \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05}, you will find an item." % hint.place
+    msg.string = "\\{1A 06 FF 00 00 05}In \\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05}, you will find an item." % hint.formatted_place(self.cryptic_hints)
     msg.word_wrap_string(self.rando.bfn)
     msg = self.rando.bmg.messages_by_id[12016]
-    msg.string = "\\{1A 06 FF 00 00 05}...\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05}, which may help you on your quest." % tweaks.upper_first_letter(hint.reward)
+    msg.string = "\\{1A 06 FF 00 00 05}...\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 05}, which may help you on your quest." % tweaks.upper_first_letter(hint.formatted_reward(self.cryptic_hints))
     msg.word_wrap_string(self.rando.bfn)
     msg = self.rando.bmg.messages_by_id[12017]
     msg.string = "\\{1A 06 FF 00 00 05}When you find you have need of such an item, you must journey to that place."
@@ -933,25 +937,11 @@ class HintsRandomizer(BaseRandomizer):
     
     return item_hint
   
-  def generate_savage_labyrinth_hints(self):
-    # Get an item hint for the two checks in Savage Labyrinth.
-    floor_30_loc_name = "Outset Island - Savage Labyrinth - Floor 30"
-    floor_50_loc_name = "Outset Island - Savage Labyrinth - Floor 50"
-    floor_30_item_name = self.logic.done_item_locations[floor_30_loc_name]
-    floor_50_item_name = self.logic.done_item_locations[floor_50_loc_name]
-    
-    floor_30_is_progress = (floor_30_item_name in self.logic.all_progress_items)
-    floor_50_is_progress = (floor_50_item_name in self.logic.all_progress_items)
-    
-    floor_30_hint = None
-    if floor_30_is_progress:
-      floor_30_hint = Hint(HintType.LOCATION, floor_30_loc_name, floor_30_item_name)
-    
-    floor_50_hint = None
-    if floor_50_is_progress:
-      floor_50_hint = Hint(HintType.LOCATION, floor_50_loc_name, floor_50_item_name)
-    
-    return floor_30_hint, floor_50_hint
+  def generate_savage_labyrinth_hint(self, location_name):
+    # Get an item hint for one of the two checks in Savage Labyrinth.
+    item_name = self.logic.done_item_locations[location_name]
+    hint = Hint(HintType.LOCATION, location_name, item_name)
+    return hint
   
   def generate_hints(self):
     previously_hinted_locations = []
