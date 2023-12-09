@@ -58,11 +58,11 @@ jobs:
         env:
           SEED_KEY: ${{ secrets.SEED_KEY }}
           BUILD_KEY: ${{ secrets.BUILD_KEY }}
-      - name: Set up Python 3.11
+      - name: Set up Python
         id: setup-py
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.12'
           check-latest: true
           architecture: ${{ matrix.architecture }}
           cache: 'pip' # Cache all pip dependency downloads

@@ -62,12 +62,12 @@ Download and install git from here: https://git-scm.com/downloads
 Then clone this repository with git by running this in a command prompt:  
 `git clone --recurse-submodules https://github.com/LagoLunatic/wwrando.git`  
 
-Download and install Python 3.11.5 from here: https://www.python.org/downloads/release/python-3115/  
+Download and install Python 3.12 from here: https://www.python.org/downloads/release/python-3121/  
 "Windows installer (64-bit)" is the one you want if you're on Windows, "macOS 64-bit universal2 installer" if you're on Mac.  
-If you're on Linux, run this command instead: `sudo apt-get install python3.11`  
+If you're on Linux, run this command instead: `sudo apt-get install python3.12`  
 
 Open the wwrando folder in a command prompt and install dependencies by running:  
-`py -3.11 -m pip install -r requirements.txt` (on Windows)  
+`py -3.12 -m pip install -r requirements.txt` (on Windows)  
 `python3 -m pip install -r requirements.txt` (on Mac)  
 `python3 -m pip install $(cat requirements.txt) --user` (on Linux)  
 

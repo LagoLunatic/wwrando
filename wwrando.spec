@@ -1,9 +1,6 @@
 # -*- mode: python -*-
 
-with open("./keys/build_key.txt") as f:
-  cipher_key = f.read().strip()
-
-block_cipher = pyi_crypto.PyiBlockCipher(key=cipher_key)
+block_cipher = None
 
 with open("./version.txt") as f:
   randomizer_version = f.read().strip()
