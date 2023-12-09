@@ -1023,6 +1023,8 @@ class EntranceRandomizer(BaseRandomizer):
     # Boss and miniboss locations are considered part of their respective dungeons, even when those
     # entrances are randomized.
     #
+    # A letter that is obtained from defeating a boss is considered part of the boss's dungeon.
+    #
     # Here are some examples:
     # - If the location is inside Dragon Roost Cavern, which is inside Forbidden Woods, which is
     #   at the Outset Island cave entrance, then the returned value is {"Dragon Roost Cavern",
@@ -1035,8 +1037,17 @@ class EntranceRandomizer(BaseRandomizer):
     # - If the location is inside the Star Island Cave, which is inside Wind Temple, which is at the
     #   Forsaken Fortress boss entrance, then the returned value is {"Wind Temple",
     #   "Forsaken Fortress"}.
+    # - If the location is Letter from Baito and Jalhalla is at the Southern Fairy Island entrance,
+    #   then the returned value is {"Mailbox", "Earth Temple", "Southern Fairy Island"}.
     
     loc_zone_name, _ = self.logic.split_location_name_by_zone(location_name)
+    
+    if location_name == "Mailbox - Letter from Baito":
+      return {loc_zone_name} | self.get_all_zones_for_item_location("Earth Temple - Jalhalla Heart Container")
+    if location_name == "Mailbox - Letter from Orca":
+      return {loc_zone_name} | self.get_all_zones_for_item_location("Forbidden Woods - Kalle Demos Heart Container")
+    if location_name == "Mailbox - Letter from Aryll" or location_name == "Mailbox - Letter from Tingle":
+      return {loc_zone_name} | self.get_all_zones_for_item_location("Forsaken Fortress - Helmaroc King Heart Container")
     
     if not self.is_item_location_behind_randomizable_entrance(location_name):
       return {loc_zone_name}

@@ -731,14 +731,6 @@ class HintsRandomizer(BaseRandomizer):
     zones_with_useful_locations = set()
     for location_name in sorted(useful_locations):
       zones_with_useful_locations.update(self.rando.entrances.get_all_zones_for_item_location(location_name))
-      
-      # Include dungeon-related mail with its dungeon, in addition to Mailbox.
-      if location_name == "Mailbox - Letter from Baito":
-        zones_with_useful_locations.update(self.rando.entrances.get_all_zones_for_item_location("Earth Temple - Jalhalla Heart Container"))
-      if location_name == "Mailbox - Letter from Orca":
-        zones_with_useful_locations.update(self.rando.entrances.get_all_zones_for_item_location("Forbidden Woods - Kalle Demos Heart Container"))
-      if location_name == "Mailbox - Letter from Aryll" or location_name == "Mailbox - Letter from Tingle":
-        zones_with_useful_locations.update(self.rando.entrances.get_all_zones_for_item_location("Forsaken Fortress - Helmaroc King Heart Container"))
     
     # Now, we do the same with barren locations, identifying which zones have barren locations.
     zones_with_barren_locations = set()
@@ -748,14 +740,6 @@ class HintsRandomizer(BaseRandomizer):
         continue
       
       zones_with_barren_locations.update(self.rando.entrances.get_all_zones_for_item_location(location_name))
-      
-      # Include dungeon-related mail with its dungeon, in addition to Mailbox.
-      if location_name == "Mailbox - Letter from Baito":
-        zones_with_barren_locations.update(self.rando.entrances.get_all_zones_for_item_location("Earth Temple - Jalhalla Heart Container"))
-      if location_name == "Mailbox - Letter from Orca":
-        zones_with_barren_locations.update(self.rando.entrances.get_all_zones_for_item_location("Forbidden Woods - Kalle Demos Heart Container"))
-      if location_name == "Mailbox - Letter from Aryll" or location_name == "Mailbox - Letter from Tingle":
-        zones_with_barren_locations.update(self.rando.entrances.get_all_zones_for_item_location("Forsaken Fortress - Helmaroc King Heart Container"))
     
     # Finally, the difference between the zones with barren locations and the zones with useful locations gives us our
     # set of hintable barren zones.
@@ -782,15 +766,6 @@ class HintsRandomizer(BaseRandomizer):
     new_hintable_locations = []
     barrens = [hint.place for hint in hinted_barren_zones]
     for location_name in hintable_locations:
-      # Catch Mailbox cases.
-      if (
-          (location_name == "Mailbox - Letter from Baito" and "Earth Temple" in barrens)
-          or (location_name == "Mailbox - Letter from Orca" and "Forbidden Woods" in barrens)
-          or (location_name == "Mailbox - Letter from Aryll" and "Forsaken Fortress" in barrens)
-          or (location_name == "Mailbox - Letter from Tingle" and "Forsaken Fortress" in barrens)
-      ):
-        continue
-      
       entrance_zones = self.rando.entrances.get_all_zones_for_item_location(location_name)
       if not any(entrance_zone in barrens for entrance_zone in entrance_zones):
         new_hintable_locations.append(location_name)
