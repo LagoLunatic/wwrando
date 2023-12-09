@@ -1042,14 +1042,14 @@ class EntranceRandomizer(BaseRandomizer):
     
     loc_zone_name, _ = self.logic.split_location_name_by_zone(location_name)
     
+    if location_name == "Mailbox - Letter from Baito":
+      return {loc_zone_name} | self.get_all_zones_for_item_location("Earth Temple - Jalhalla Heart Container")
+    if location_name == "Mailbox - Letter from Orca":
+      return {loc_zone_name} | self.get_all_zones_for_item_location("Forbidden Woods - Kalle Demos Heart Container")
+    if location_name == "Mailbox - Letter from Aryll" or location_name == "Mailbox - Letter from Tingle":
+      return {loc_zone_name} | self.get_all_zones_for_item_location("Forsaken Fortress - Helmaroc King Heart Container")
+    
     if not self.is_item_location_behind_randomizable_entrance(location_name):
-      if location_name == "Mailbox - Letter from Baito":
-        return {loc_zone_name} | self.get_all_zones_for_item_location("Earth Temple - Jalhalla Heart Container")
-      if location_name == "Mailbox - Letter from Orca":
-        return {loc_zone_name} | self.get_all_zones_for_item_location("Forbidden Woods - Kalle Demos Heart Container")
-      if location_name == "Mailbox - Letter from Aryll" or location_name == "Mailbox - Letter from Tingle":
-        return {loc_zone_name} | self.get_all_zones_for_item_location("Forsaken Fortress - Helmaroc King Heart Container")
-      
       return {loc_zone_name}
     
     zone_exit = self.item_location_name_to_zone_exit[location_name]
