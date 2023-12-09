@@ -1010,6 +1010,62 @@ class EntranceRandomizer(BaseRandomizer):
     outermost_entrance = self.get_outermost_entrance_for_exit(zone_exit)
     return outermost_entrance.island_name
   
+  def get_all_zones_for_item_location(self, location_name: str) -> list[str]:
+    # Helper function to return a set of zone names that include the location.
+    #
+    # All returned zones are either an island name or a dungeon name - that is, if the entrance to
+    # a cave is located on a different island, then the entrance island name is returned, but
+    # the cave name is not.
+    #
+    # Locations in the Forsaken Fortress dungeon use "Forsaken Fortress" as the zone name, while
+    # the Sunken Treasure location uses "Forsaken Fortress Sector".
+    #
+    # Boss and miniboss locations are considered part of their respective dungeons, even when those
+    # entrances are randomized.
+    #
+    # Here are some examples:
+    # - If the location is inside Dragon Roost Cavern, which is inside Forbidden Woods, which is
+    #   at the Outset Island cave entrance, then the returned value is {"Dragon Roost Cavern",
+    #   "Forbidden Woods", "Outset Island"}.
+    # - If the location is inside the Ice Ring Isle Cave, which is at the Private Oasis cave
+    #   entrance, then the returned value is {"Private Oasis"}.
+    # - If the location is the Helmaroc King Heart Container and Helmaroc King is at the Dragon
+    #   Roost Island dungeon entrance, then the returned value is {"Forsaken Fortress",
+    #   "Dragon Roost Island"}.
+    # - If the location is inside the Star Island Cave, which is inside Wind Temple, which is at the
+    #   Forsaken Fortress boss entrance, then the returned value is {"Wind Temple",
+    #   "Forsaken Fortress"}.
+    
+    loc_zone_name, _ = self.logic.split_location_name_by_zone(location_name)
+    
+    if not self.is_item_location_behind_randomizable_entrance(location_name):
+      return {loc_zone_name}
+    
+    zone_exit = self.item_location_name_to_zone_exit[location_name]
+    assert zone_exit is not None, f"Could not determine entrance zone for item location: {location_name}"
+    
+    zone_entrance = self.done_exits_to_entrances[zone_exit]
+    entrances_on_path = self.get_all_entrances_on_path_to_entrance(zone_entrance)
+    
+    zones_for_item_location = set()
+    
+    for entrance in entrances_on_path:
+      if entrance.island_name:
+        zone_name = entrance.island_name
+        # The Forsaken Fortress boss door is part of the dungeon, so we use "Forsaken Fortress" for
+        # the zone name instead of "Forsaken Fortress Sector"
+        if zone_name == "Forsaken Fortress Sector":
+          zone_name = "Forsaken Fortress"
+
+        zones_for_item_location.add(zone_name)
+      elif entrance.nested_in in DUNGEON_EXITS:
+        zones_for_item_location.add(entrance.nested_in.zone_name)
+    
+    if self.logic.is_dungeon_location(location_name):
+      zones_for_item_location.add(loc_zone_name)
+    
+    return zones_for_item_location
+  
   def get_zone_exit_for_item_location(self, location_name: str):
     if not self.is_item_location_behind_randomizable_entrance(location_name):
       return None
