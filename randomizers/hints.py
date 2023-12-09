@@ -17,6 +17,7 @@ class HintType(Enum):
   BARREN = 1
   ITEM = 2
   LOCATION = 3
+  FIXED_LOCATION = 4
 
 
 class Hint:
@@ -44,7 +45,7 @@ class Hint:
     match self.type:
       case HintType.PATH | HintType.BARREN:
         return self.reward
-      case HintType.ITEM:
+      case HintType.ITEM | HintType.FIXED_LOCATION:
         if is_cryptic:
           return HintsRandomizer.cryptic_item_hints[HintsRandomizer.get_hint_item_name(self.reward)]
         else:
@@ -894,7 +895,7 @@ class HintsRandomizer(BaseRandomizer):
   def generate_savage_labyrinth_hint(self, location_name):
     # Get an item hint for one of the two checks in Savage Labyrinth.
     item_name = self.logic.done_item_locations[location_name]
-    hint = Hint(HintType.LOCATION, location_name, item_name)
+    hint = Hint(HintType.FIXED_LOCATION, location_name, item_name)
     return hint
   
   def generate_hints(self):
