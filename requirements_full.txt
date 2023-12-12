@@ -3,6 +3,9 @@ PyYAML==6.0.1
 Pillow==10.0.1
 appdirs==1.4.4
 certifi==2023.7.22
-PyInstaller~=6.2.0
--r ./gclib/requirements_full.txt
 tqdm>=4.65.0
+-r ./gclib/requirements_full.txt
+PyInstaller~=6.2.0
+pytest~=7.4.0
+pytest-cov~=4.1.0
+pytest-qt~=4.2.0

@@ -1,0 +1,60 @@
+name: Test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows
+            os: windows-latest
+          - name: MacOS
+            os: macos-latest
+          - name: Linux
+            os: ubuntu-20.04
+    
+    runs-on: ${{ matrix.os }}
+    
+    env:
+      DISPLAY: ':99.0'
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+          cache: 'pip' # Cache all pip dependency downloads
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements_full.txt
+      - name: Install any missing Qt dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qtbase5-dev libxcb-cursor0 libxcb-xinerama0 xvfb herbstluftwm
+      - name: Set up Qt
+        uses: tlambert03/setup-qt-libs@v1
+        if: runner.os == 'Linux'
+      - name: Build "display"
+        if: runner.os == 'Linux'
+        run: |
+          /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1920x1200x24 -ac +extension GLX
+      - name: Test with pytest
+        run: |
+          pip install pytest pytest-cov
+          pytest test --cov --cov-report=html
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: wwrando-htmlcov-${{ matrix.os }}
+          path: htmlcov

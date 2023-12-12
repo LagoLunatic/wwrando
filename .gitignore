@@ -12,3 +12,4 @@ profileresults*.prof
 /keys/build_key.txt
 /.venv
 /site
+.coverage

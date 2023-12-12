@@ -9,4 +9,11 @@
     "tag:yaml.org,2002:python/name:materialx.emoji.twemoji",
     "tag:yaml.org,2002:python/name:materialx.emoji.to_svg",
   ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": [
+    "test",
+    "--cov",
+    "--cov-report=html",
+  ],
 }
