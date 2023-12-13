@@ -473,7 +473,7 @@ class Logic:
     
     return None
   
-  def get_items_by_usefulness_fraction(self, item_names_to_check):
+  def get_items_by_usefulness_fraction(self, item_names_to_check, *, filter_sunken_treasure):
     # Takes a list of items and locations, and determines for each item what the lowest number of items including it the player needs before a new location is opened up, and returns that in a dict.
     # For example, say there are 3 items A B and C, and 2 locations X and Y.
     # Location X requires items A and B while location Y requires items A B and C.
@@ -483,8 +483,7 @@ class Logic:
     accessible_undone_locations = self.get_accessible_remaining_locations(for_progression=True)
     inaccessible_undone_item_locations = []
     locations_to_check = self.remaining_item_locations
-    need_sunken_treasure = any(item.startswith("Treasure Chart ") or item.startswith("Triforce Chart ") for item in item_names_to_check)
-    locations_to_check = self.filter_locations_for_progression(locations_to_check, filter_sunken_treasure=(not need_sunken_treasure))
+    locations_to_check = self.filter_locations_for_progression(locations_to_check, filter_sunken_treasure=filter_sunken_treasure)
     for location_name in locations_to_check:
       if location_name not in accessible_undone_locations:
         if location_name in self.rando.boss_reqs.banned_locations:
