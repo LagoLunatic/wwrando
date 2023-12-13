@@ -1398,6 +1398,9 @@ def update_sword_mode_game_variable(self: WWRandomizer):
     raise Exception("Unknown sword mode: %s" % self.options.get("sword_mode"))
 
 def update_starting_gear(self: WWRandomizer, starting_gear: list[str]):
+  # Saves the list of starting items that should be given to the player when starting a new save.
+  # Note: This tweak may be called more than once in a single randomization.
+  
   starting_gear = starting_gear.copy()
 
   # Changing starting magic doesn't work when done via our normal starting items initialization code, so we need to handle it specially.
@@ -1415,8 +1418,8 @@ def update_starting_gear(self: WWRandomizer, starting_gear: list[str]):
   gear_slots_available = (next_symbol_addr - starting_gear_array_address) - 1
   assert gear_slots_available >= MAXIMUM_ADDITIONAL_STARTING_ITEMS, "Max starting items constant is too large"
   
-  for i in range(len(starting_gear)):
-    item_id = self.item_name_to_id[starting_gear[i]]
+  for i, item_name in enumerate(starting_gear):
+    item_id = self.item_name_to_id[item_name]
     self.dol.write_data(fs.write_u8, starting_gear_array_address+i, item_id)
   
   # Write end marker.

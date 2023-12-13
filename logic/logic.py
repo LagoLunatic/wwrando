@@ -189,15 +189,14 @@ class Logic:
         if group_name in self.unplaced_progress_items:
           self.unplaced_progress_items.remove(group_name)
     
-    # Add the randomly-selected starting items (without incidence on other progress items)
+    # Add the randomly-selected extra starting items (without incidence on other progress items).
     if self.rando.random_starting_item.is_enabled():
       for item in self.rando.random_starting_item.random_starting_items:
-        # Needs to happen after make useless_progress_items_nonprogress
-        # To ensure other progress items aren't made nonprogress by the random
-        # items being in the starting inventory for the purpose of hints or
-        # spoiler log progression
+        # Needs to happen after make useless_progress_items_nonprogress to ensure other progress
+        # items aren't made nonprogress by the extra random items being in the starting inventory
+        # for the purpose of hints or spoiler log progression.
         self.add_owned_item_or_item_group(item)
-
+    
     self.clear_req_caches()
     self.cached_enemies_tested_for_reqs_tuple.clear()
   
@@ -263,9 +262,9 @@ class Logic:
         ret_items += self.progress_item_groups[item_name]
       else:
         ret_items.append(item_name)
-
+    
     return ret_items
-
+  
   def pack_item_groups(self, items_to_pack: list[str]) -> list[str]:
     ret_items = items_to_pack.copy()
     for group in self.progress_item_groups:
@@ -274,7 +273,7 @@ class Logic:
         for item_name in self.progress_item_groups[group]:
           ret_items.remove(item_name)
     return ret_items
-
+  
   def get_flattened_unplaced_progression_items(self):
     return self.expand_item_groups(self.unplaced_progress_items)
   
@@ -296,7 +295,7 @@ class Logic:
       num_progress_locations += 41
     
     return num_progress_locations
-
+  
   def get_max_required_bosses_banned_locations(self):
     if not self.options.get("required_bosses"):
       return 0
@@ -405,7 +404,7 @@ class Logic:
         if item_name in self.unplaced_nonprogress_items:
           self.unplaced_nonprogress_items.remove(item_name)
       self.unplaced_progress_items = self.pack_item_groups(temp_unplaced_progress_items)
-
+      
       self.clear_req_caches()
     else:
       self.add_owned_item(item_name)
@@ -421,7 +420,7 @@ class Logic:
         elif item_name in self.all_nonprogress_items:
           self.unplaced_nonprogress_items.append(item_name)
       self.unplaced_progress_items = self.pack_item_groups(temp_unplaced_progress_items)
-
+      
       self.clear_req_caches()
     else:
       self.remove_owned_item(item_name)
