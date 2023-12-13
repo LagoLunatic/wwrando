@@ -431,7 +431,7 @@ class WWRandomizer:
     tweaks.fix_helmaroc_king_table_softlock(self)
     tweaks.make_dungeon_joy_pendant_locations_flexible(self)
     tweaks.prevent_fairy_island_softlocks(self)
-    # tweaks.give_fairy_fountains_distinct_colors(self)
+    tweaks.give_fairy_fountains_distinct_colors(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)
