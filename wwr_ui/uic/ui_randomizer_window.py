@@ -585,6 +585,29 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_7)
 
+        self.horizontalLayout_random_starting_items = QHBoxLayout()
+        self.horizontalLayout_random_starting_items.setObjectName(u"horizontalLayout_random_starting_items")
+        self.label_for_num_random_starting_items = QLabel(self.tab_starting_items)
+        self.label_for_num_random_starting_items.setObjectName(u"label_for_num_random_starting_items")
+
+        self.horizontalLayout_random_starting_items.addWidget(self.label_for_num_random_starting_items)
+
+        self.num_random_starting_items = QSpinBox(self.tab_starting_items)
+        self.num_random_starting_items.setObjectName(u"num_random_starting_items")
+        self.num_random_starting_items.setLayoutDirection(Qt.LeftToRight)
+        self.num_random_starting_items.setMaximum(3)
+        self.num_random_starting_items.setValue(0)
+        self.num_random_starting_items.setDisplayIntegerBase(10)
+
+        self.horizontalLayout_random_starting_items.addWidget(self.num_random_starting_items)
+
+        self.horizontalSpacer_random_starting_item = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_random_starting_items.addItem(self.horizontalSpacer_random_starting_item)
+
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout_random_starting_items)
+
         self.tabWidget.addTab(self.tab_starting_items, "")
         self.tab_advanced = QWidget()
         self.tab_advanced.setObjectName(u"tab_advanced")
@@ -1063,6 +1086,7 @@ class Ui_MainWindow(object):
         self.label_for_starting_hcs.setText(QCoreApplication.translate("MainWindow", u"Heart Containers", None))
         self.label_for_starting_pohs.setText(QCoreApplication.translate("MainWindow", u"Heart Pieces", None))
         self.current_health.setText(QCoreApplication.translate("MainWindow", u"Current Starting Health: 3 hearts", None))
+        self.label_for_num_random_starting_items.setText(QCoreApplication.translate("MainWindow", u"Additional Random Starting Items", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_starting_items), QCoreApplication.translate("MainWindow", u"Starting Items", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Required Bosses", None))
         self.required_bosses.setText(QCoreApplication.translate("MainWindow", u"Required Bosses Mode", None))

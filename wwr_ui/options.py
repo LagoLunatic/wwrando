@@ -176,6 +176,8 @@ OPTIONS = {
     "Amount of extra pieces of heart that you start with.",
   "starting_hcs":
     "Amount of extra heart containers that you start with.",
+  "num_random_starting_items":
+    "Amount of extra random progression items that you start with. They are guaranteed to unlock at least one additional check if nonzero",
   "remove_music":
     "Mutes all ingame music.",
   "randomize_enemies":

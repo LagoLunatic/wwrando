@@ -175,11 +175,7 @@ class Logic:
     self.make_useless_progress_items_nonprogress()
     
     # Replace progress items that are part of a group with the group name instead.
-    for group_name, item_names in self.progress_item_groups.items():
-      if all(item_name in self.unplaced_progress_items for item_name in item_names):
-        self.unplaced_progress_items.append(group_name)
-        for item_name in item_names:
-          self.unplaced_progress_items.remove(item_name)
+    self.unplaced_progress_items = self.pack_item_groups(self.unplaced_progress_items)
     
     # Remove starting items from item groups.
     for group_name, group_item_names in self.progress_item_groups.items():
@@ -193,6 +189,15 @@ class Logic:
         if group_name in self.unplaced_progress_items:
           self.unplaced_progress_items.remove(group_name)
     
+    # Add the randomly-selected starting items (without incidence on other progress items)
+    if self.rando.random_starting_item.is_enabled():
+      for item in self.rando.random_starting_item.random_starting_items:
+        # Needs to happen after make useless_progress_items_nonprogress
+        # To ensure other progress items aren't made nonprogress by the random
+        # items being in the starting inventory for the purpose of hints or
+        # spoiler log progression
+        self.add_owned_item_or_item_group(item)
+
     self.clear_req_caches()
     self.cached_enemies_tested_for_reqs_tuple.clear()
   
@@ -251,17 +256,27 @@ class Logic:
     assert location_name in self.item_locations
     self.prerandomization_item_locations[location_name] = item_name
   
-  def get_flattened_unplaced_progression_items(self):
-    progress_items = []
-    for item_name in self.unplaced_progress_items:
+  def expand_item_groups(self, items):
+    ret_items = []
+    for item_name in items:
       if item_name in self.progress_item_groups:
-        group_name = item_name
-        for item_name in self.progress_item_groups[group_name]:
-          progress_items.append(item_name)
+        ret_items += self.progress_item_groups[item_name]
       else:
-        progress_items.append(item_name)
-    
-    return progress_items
+        ret_items.append(item_name)
+
+    return ret_items
+
+  def pack_item_groups(self, items_to_pack: list[str]) -> list[str]:
+    ret_items = items_to_pack.copy()
+    for group in self.progress_item_groups:
+      if all(item_name in items_to_pack for item_name in self.progress_item_groups[group]):
+        ret_items.append(group)
+        for item_name in self.progress_item_groups[group]:
+          ret_items.remove(item_name)
+    return ret_items
+
+  def get_flattened_unplaced_progression_items(self):
+    return self.expand_item_groups(self.unplaced_progress_items)
   
   def get_num_progression_locations(self):
     return Logic.get_num_progression_locations_static(self.item_locations, self.options)
@@ -382,8 +397,15 @@ class Logic:
   def add_owned_item_or_item_group(self, item_name):
     if item_name in self.progress_item_groups:
       group_name = item_name
+      temp_unplaced_progress_items = self.expand_item_groups(self.unplaced_progress_items)
       for item_name in self.progress_item_groups[group_name]:
         self.currently_owned_items.append(item_name)
+        if item_name in temp_unplaced_progress_items:
+          temp_unplaced_progress_items.remove(item_name)
+        if item_name in self.unplaced_nonprogress_items:
+          self.unplaced_nonprogress_items.remove(item_name)
+      self.unplaced_progress_items = self.pack_item_groups(temp_unplaced_progress_items)
+
       self.clear_req_caches()
     else:
       self.add_owned_item(item_name)
@@ -391,8 +413,15 @@ class Logic:
   def remove_owned_item_or_item_group(self, item_name):
     if item_name in self.progress_item_groups:
       group_name = item_name
+      temp_unplaced_progress_items = self.expand_item_groups(self.unplaced_progress_items)
       for item_name in self.progress_item_groups[group_name]:
         self.currently_owned_items.remove(item_name)
+        if item_name in self.all_progress_items:
+          temp_unplaced_progress_items.append(item_name)
+        elif item_name in self.all_nonprogress_items:
+          self.unplaced_nonprogress_items.append(item_name)
+      self.unplaced_progress_items = self.pack_item_groups(temp_unplaced_progress_items)
+
       self.clear_req_caches()
     else:
       self.remove_owned_item(item_name)
@@ -454,7 +483,8 @@ class Logic:
     accessible_undone_locations = self.get_accessible_remaining_locations(for_progression=True)
     inaccessible_undone_item_locations = []
     locations_to_check = self.remaining_item_locations
-    locations_to_check = self.filter_locations_for_progression(locations_to_check)
+    need_sunken_treasure = any(item.startswith("Treasure Chart ") or item.startswith("Triforce Chart ") for item in item_names_to_check)
+    locations_to_check = self.filter_locations_for_progression(locations_to_check, filter_sunken_treasure=(not need_sunken_treasure))
     for location_name in locations_to_check:
       if location_name not in accessible_undone_locations:
         if location_name in self.rando.boss_reqs.banned_locations:
