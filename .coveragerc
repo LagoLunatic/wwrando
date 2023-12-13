@@ -1,0 +1,14 @@
+[run]
+branch = True
+omit =
+  */uic/ui_*.py
+  pyscript
+  signature_bootstrap.py
+  shibokensupport/*
+
+[report]
+exclude_lines =
+  raise NotImplementedError
+  if False:
+  if TYPE_CHECKING:
+  if typing\.TYPE_CHECKING:
