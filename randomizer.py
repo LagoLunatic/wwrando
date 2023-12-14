@@ -44,7 +44,7 @@ from randomizers.palettes import PaletteRandomizer
 from randomizers.boss_reqs import RequiredBossesRandomizer
 from randomizers.hints import HintsRandomizer
 from randomizers.pigs import PigsRandomizer
-from randomizers.starting_item import StartingItemRandomizer
+from randomizers.extra_starting_items import ExtraStartingItemsRandomizer
 
 from version import VERSION, VERSION_WITHOUT_COMMIT
 
@@ -202,7 +202,7 @@ class WWRandomizer:
     self.boss_reqs = RequiredBossesRandomizer(self)
     self.hints = HintsRandomizer(self)
     self.pigs = PigsRandomizer(self)
-    self.random_starting_item = StartingItemRandomizer(self)
+    self.extra_start_items = ExtraStartingItemsRandomizer(self)
     
     # This list's order is the order these randomizers will be called in.
     self.randomizers: list[BaseRandomizer] = [
@@ -212,9 +212,9 @@ class WWRandomizer:
       self.entrances,
       self.starting_island,
       self.pigs,
-      # Random Starting Item must be randomized before items end enemies which
-      # depend on the starting items list, but after bosses and entrances since it needs logic
-      self.random_starting_item,
+      # Extra Starting Items must be randomized before items and enemies which depend on the
+      # starting items list, but after bosses and entrances since it needs logic.
+      self.extra_start_items,
       # Enemies must be randomized before items in order for the enemy logic to properly take into
       # account what items you do and don't start with.
       self.enemies,
@@ -896,8 +896,8 @@ class WWRandomizer:
     
     spoiler_log = self.get_log_header()
 
-    if self.random_starting_item.is_enabled():
-      spoiler_log += self.random_starting_item.write_to_spoiler_log()
+    if self.extra_start_items.is_enabled():
+      spoiler_log += self.extra_start_items.write_to_spoiler_log()
     
     spoiler_log += self.boss_reqs.write_to_spoiler_log()
     

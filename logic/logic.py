@@ -190,8 +190,8 @@ class Logic:
           self.unplaced_progress_items.remove(group_name)
     
     # Add the randomly-selected extra starting items (without incidence on other progress items).
-    if self.rando.random_starting_item.is_enabled():
-      for item in self.rando.random_starting_item.random_starting_items:
+    if self.rando.extra_start_items.is_enabled():
+      for item in self.rando.extra_start_items.random_starting_items:
         # Needs to happen after make useless_progress_items_nonprogress to ensure other progress
         # items aren't made nonprogress by the extra random items being in the starting inventory
         # for the purpose of hints or spoiler log progression.

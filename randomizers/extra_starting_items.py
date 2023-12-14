@@ -24,7 +24,7 @@ DELIVERY_BAG_ITEMS = set([
   "Cabana Deed",
 ])
 
-class StartingItemRandomizer(BaseRandomizer):
+class ExtraStartingItemsRandomizer(BaseRandomizer):
   def __init__(self, rando):
     super().__init__(rando)
     self.random_starting_items = []
@@ -32,12 +32,12 @@ class StartingItemRandomizer(BaseRandomizer):
   def is_enabled(self) -> bool:
     return (
       self.rando.items.is_enabled() and
-      self.options.get("num_random_starting_items", 0) > 0
+      self.options.get("num_extra_starting_items", 0) > 0
     )
   
   def _randomize(self):
     initial_sphere_0_checks = self.logic.get_accessible_remaining_locations(for_progression=True)
-    items_to_place = self.options.get("num_random_starting_items")
+    items_to_place = self.options.get("num_extra_starting_items")
     for remaining_random_starting_items in range(items_to_place, 0, -1):
       max_fraction = remaining_random_starting_items
       if len(self.logic.get_accessible_remaining_locations(for_progression=True)) > len(initial_sphere_0_checks):

@@ -28,7 +28,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(905, 722)
+        MainWindow.resize(905, 749)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -41,7 +41,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 870, 588))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 870, 609))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -587,19 +587,19 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_random_starting_items = QHBoxLayout()
         self.horizontalLayout_random_starting_items.setObjectName(u"horizontalLayout_random_starting_items")
-        self.label_for_num_random_starting_items = QLabel(self.tab_starting_items)
-        self.label_for_num_random_starting_items.setObjectName(u"label_for_num_random_starting_items")
+        self.label_for_num_extra_starting_items = QLabel(self.tab_starting_items)
+        self.label_for_num_extra_starting_items.setObjectName(u"label_for_num_extra_starting_items")
 
-        self.horizontalLayout_random_starting_items.addWidget(self.label_for_num_random_starting_items)
+        self.horizontalLayout_random_starting_items.addWidget(self.label_for_num_extra_starting_items)
 
-        self.num_random_starting_items = QSpinBox(self.tab_starting_items)
-        self.num_random_starting_items.setObjectName(u"num_random_starting_items")
-        self.num_random_starting_items.setLayoutDirection(Qt.LeftToRight)
-        self.num_random_starting_items.setMaximum(3)
-        self.num_random_starting_items.setValue(0)
-        self.num_random_starting_items.setDisplayIntegerBase(10)
+        self.num_extra_starting_items = QSpinBox(self.tab_starting_items)
+        self.num_extra_starting_items.setObjectName(u"num_extra_starting_items")
+        self.num_extra_starting_items.setLayoutDirection(Qt.LeftToRight)
+        self.num_extra_starting_items.setMaximum(3)
+        self.num_extra_starting_items.setValue(0)
+        self.num_extra_starting_items.setDisplayIntegerBase(10)
 
-        self.horizontalLayout_random_starting_items.addWidget(self.num_random_starting_items)
+        self.horizontalLayout_random_starting_items.addWidget(self.num_extra_starting_items)
 
         self.horizontalSpacer_random_starting_item = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -1086,7 +1086,7 @@ class Ui_MainWindow(object):
         self.label_for_starting_hcs.setText(QCoreApplication.translate("MainWindow", u"Heart Containers", None))
         self.label_for_starting_pohs.setText(QCoreApplication.translate("MainWindow", u"Heart Pieces", None))
         self.current_health.setText(QCoreApplication.translate("MainWindow", u"Current Starting Health: 3 hearts", None))
-        self.label_for_num_random_starting_items.setText(QCoreApplication.translate("MainWindow", u"Additional Random Starting Items", None))
+        self.label_for_num_extra_starting_items.setText(QCoreApplication.translate("MainWindow", u"Extra Random Starting Items", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_starting_items), QCoreApplication.translate("MainWindow", u"Starting Items", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Required Bosses", None))
         self.required_bosses.setText(QCoreApplication.translate("MainWindow", u"Required Bosses Mode", None))

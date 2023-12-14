@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>905</width>
-    <height>722</height>
+    <height>749</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,7 +38,7 @@
          <x>0</x>
          <y>0</y>
          <width>870</width>
-         <height>588</height>
+         <height>609</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -880,14 +880,14 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_random_starting_items">
               <item>
-               <widget class="QLabel" name="label_for_num_random_starting_items">
+               <widget class="QLabel" name="label_for_num_extra_starting_items">
                 <property name="text">
-                 <string>Additional Random Starting Items</string>
+                 <string>Extra Random Starting Items</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="num_random_starting_items">
+               <widget class="QSpinBox" name="num_extra_starting_items">
                 <property name="layoutDirection">
                  <enum>Qt::LeftToRight</enum>
                 </property>

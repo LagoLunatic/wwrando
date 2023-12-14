@@ -176,7 +176,7 @@ OPTIONS = {
     "Amount of extra pieces of heart that you start with.",
   "starting_hcs":
     "Amount of extra heart containers that you start with.",
-  "num_random_starting_items":
+  "num_extra_starting_items":
     "Amount of extra random progression items that you start with.<br>"
     "Guaranteed to unlock at least one additional location at the start.",
   "remove_music":
