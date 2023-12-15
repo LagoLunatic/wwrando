@@ -1307,12 +1307,11 @@ class Logic:
         if max_num_of_each_item_to_check[item_name] == 0:
           del max_num_of_each_item_to_check[item_name]
     
-    relevant_item_names = list(max_num_of_each_item_to_check.keys())
     if self.options.sword_mode == SwordMode.SWORDLESS:
-      while "Progressive Sword" in relevant_item_names:
-        relevant_item_names.remove("Progressive Sword")
-      while "Hurricane Spin" in relevant_item_names:
-        relevant_item_names.remove("Hurricane Spin")
+      if "Progressive Sword" in max_num_of_each_item_to_check:
+        del max_num_of_each_item_to_check["Progressive Sword"]
+      if "Hurricane Spin" in max_num_of_each_item_to_check:
+        del max_num_of_each_item_to_check["Hurricane Spin"]
     
     # print(f"{len(max_num_of_each_item_to_check)} relevant items")
     # num_combos_to_check = 1
@@ -1322,18 +1321,6 @@ class Logic:
     # print(f"Combos to check: {num_combos_to_check} ({len(max_num_of_each_item_to_check)} items)")
     # if num_combos_to_check > 6144:
     #   raise Exception(f"Enemy randomizer got stuck in an exponential loop checking {num_combos_to_check} possibilities for requirement: {original_req_string!r}")
-    
-    # Obsolete code to generate a list of every single relevant item combo:
-    # item_combos_to_check = [[]]
-    # for item_name in relevant_item_names:
-    #   old_item_combos = item_combos_to_check.copy()
-    #   for num in range(1, max_num_of_each_item_to_check[item_name]+1):
-    #     new_items_to_add = [item_name]*num
-    #     for old_item_combo in old_item_combos:
-    #       new_item_combo = old_item_combo + new_items_to_add
-    #       # if new_item_combo in item_combos_to_check:
-    #       #   raise Exception("Duplicate item combo!")
-    #       item_combos_to_check.append(new_item_combo)
     
     biggest_combo = []
     for item_name, num in max_num_of_each_item_to_check.items():

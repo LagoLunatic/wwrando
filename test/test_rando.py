@@ -60,7 +60,7 @@ def test_rando_all_options():
   
   options.randomize_enemy_palettes = True
   
-  # options.randomize_enemies = True # TODO: fails with swordless
+  options.randomize_enemies = True
   
   options.randomize_charts = True
   
