@@ -6,6 +6,7 @@ from collections import defaultdict
 from wwlib.dzx import DZx, _2DMA, ACTR, PLYR, SCLS, STAG
 from wwlib.events import EventList
 from randomizers.base_randomizer import BaseRandomizer
+from options.wwrando_options import EntranceMixMode
 
 @dataclass(frozen=True)
 class ZoneEntrance:
@@ -311,47 +312,41 @@ class EntranceRandomizer(BaseRandomizer):
     
     self.entrance_names_with_no_requirements = []
     self.exit_names_with_no_requirements = []
-    if self.options.get("progression_dungeons"):
+    if self.options.progression_dungeons:
       self.entrance_names_with_no_requirements += DUNGEON_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS
-    if self.options.get("progression_puzzle_secret_caves") \
-        or self.options.get("progression_combat_secret_caves") \
-        or self.options.get("progression_savage_labyrinth"):
+    if self.options.progression_puzzle_secret_caves \
+        or self.options.progression_combat_secret_caves \
+        or self.options.progression_savage_labyrinth:
       self.entrance_names_with_no_requirements += SECRET_CAVE_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS
     
-    if self.options.get("progression_dungeons"):
+    if self.options.progression_dungeons:
       self.exit_names_with_no_requirements += DUNGEON_EXIT_NAMES_WITH_NO_REQUIREMENTS
-    if self.options.get("progression_puzzle_secret_caves"):
+    if self.options.progression_puzzle_secret_caves:
       self.exit_names_with_no_requirements += PUZZLE_SECRET_CAVE_EXIT_NAMES_WITH_NO_REQUIREMENTS
-    if self.options.get("progression_combat_secret_caves"):
+    if self.options.progression_combat_secret_caves:
       self.exit_names_with_no_requirements += COMBAT_SECRET_CAVE_EXIT_NAMES_WITH_NO_REQUIREMENTS
     # No need to check progression_savage_labyrinth, since neither of the items inside Savage have no requirements.
     
     self.nested_entrance_paths: list[list[str]] = []
-    self.nesting_enabled = any(
-      self.options.get(option_name)
-      for option_name in [
-        "randomize_miniboss_entrances",
-        "randomize_boss_entrances",
-        "randomize_secret_cave_inner_entrances",
-      ]
-    )
+    self.nesting_enabled = any([
+      self.options.randomize_miniboss_entrances,
+      self.options.randomize_boss_entrances,
+      self.options.randomize_secret_cave_inner_entrances,
+    ])
     
     self.safety_entrance = None
     self.banned_exits: list[ZoneExit] = []
     self.islands_with_a_banned_dungeon: list[str] = []
   
   def is_enabled(self) -> bool:
-    return any(
-      self.options.get(option_name)
-      for option_name in [
-        "randomize_dungeon_entrances",
-        "randomize_secret_cave_entrances",
-        "randomize_miniboss_entrances",
-        "randomize_boss_entrances",
-        "randomize_secret_cave_inner_entrances",
-        "randomize_fairy_fountain_entrances",
-      ]
-    )
+    return any([
+      self.options.randomize_dungeon_entrances,
+      self.options.randomize_secret_cave_entrances,
+      self.options.randomize_miniboss_entrances,
+      self.options.randomize_boss_entrances,
+      self.options.randomize_secret_cave_inner_entrances,
+      self.options.randomize_fairy_fountain_entrances,
+    ])
   
   def _randomize(self):
     for relevant_entrances, relevant_exits in self.get_all_entrance_sets_to_be_randomized():
@@ -414,7 +409,7 @@ class EntranceRandomizer(BaseRandomizer):
     self.rng.shuffle(relevant_entrances)
     
     self.banned_exits.clear()
-    if self.options.get("required_bosses"):
+    if self.options.required_bosses:
       for zone_exit in relevant_exits:
         if zone_exit == ZoneExit.all["Master Sword Chamber"]:
           # Hyrule cannot be chosen as a banned dungeon.
@@ -438,11 +433,11 @@ class EntranceRandomizer(BaseRandomizer):
     
     doing_progress_entrances_for_dungeons_and_caves_only_start = False
     if self.rando.dungeons_and_caves_only_start:
-      if doing_dungeons and self.options.get("progression_dungeons"):
+      if doing_dungeons and self.options.progression_dungeons:
         doing_progress_entrances_for_dungeons_and_caves_only_start = True
-      if doing_caves and (self.options.get("progression_puzzle_secret_caves") \
-          or self.options.get("progression_combat_secret_caves") \
-          or self.options.get("progression_savage_labyrinth")):
+      if doing_caves and (self.options.progression_puzzle_secret_caves \
+          or self.options.progression_combat_secret_caves \
+          or self.options.progression_savage_labyrinth):
         doing_progress_entrances_for_dungeons_and_caves_only_start = True
     
     self.safety_entrance = None
@@ -519,7 +514,7 @@ class EntranceRandomizer(BaseRandomizer):
     # We need special logic to handle Forsaken Fortress as it is the only island entrance inside of a dungeon.
     ff_boss_entrance = ZoneEntrance.all["Boss Entrance in Forsaken Fortress"]
     if ff_boss_entrance in possible_island_entrances:
-      if self.options.get("progression_dungeons"):
+      if self.options.progression_dungeons:
         if "Forsaken Fortress" in self.rando.boss_reqs.banned_dungeons:
           ff_progress = False
         else:
@@ -539,7 +534,7 @@ class EntranceRandomizer(BaseRandomizer):
       # We do need to exclude the safety_entrance from being considered, as otherwise the item rando
       # would have nowhere to put items at the start of the seed.
       possible_island_entrances.remove(self.safety_entrance)
-      if self.options.get("required_bosses"):
+      if self.options.required_bosses:
         # If we're in required bosses mode, also exclude any other entrances one the same island as
         # the safety entrance so that we don't risk getting a banned dungeon and a required dungeon
         # on the same island.
@@ -569,7 +564,7 @@ class EntranceRandomizer(BaseRandomizer):
     if any(ex in self.banned_exits for ex in relevant_exits):
       doing_banned = True
     
-    if self.options.get("required_bosses") and not doing_banned:
+    if self.options.required_bosses and not doing_banned:
       # Prioritize entrances that share an island with an entrance randomized to lead into a
       # required bosses mode banned dungeon. (e.g. DRI, Pawprint, Outset, TotG sector.)
       # This is because we need to prevent these islands from having a required boss or anything
@@ -637,7 +632,7 @@ class EntranceRandomizer(BaseRandomizer):
       #    if x.unique_name not in ["Fire Mountain Secret Cave", "Ice Ring Isle Secret Cave"]
       #  ]
       
-      if self.options.get("required_bosses") and zone_entrance.island_name is not None and not doing_banned:
+      if self.options.required_bosses and zone_entrance.island_name is not None and not doing_banned:
         # Prevent required bosses (and non-terminal exits which could potentially lead to required
         # bosses) from appearing on islands where we already placed a banned boss or dungeon.
         # This can happen with DRI and Pawprint, as these islands each have two entrances.
@@ -714,7 +709,7 @@ class EntranceRandomizer(BaseRandomizer):
     
     self.logic.update_entrance_connection_macros()
     
-    if self.options.get("required_bosses"):
+    if self.options.required_bosses:
       # Make sure we didn't accidentally place a banned boss and a required boss on the same island.
       banned_island_names = set(
         self.get_entrance_zone_for_boss(boss_name)
@@ -890,21 +885,21 @@ class EntranceRandomizer(BaseRandomizer):
   
   #region Convenience methods
   def get_all_entrance_sets_to_be_randomized(self):
-    dungeons = self.options.get("randomize_dungeon_entrances")
-    minibosses = self.options.get("randomize_miniboss_entrances")
-    bosses = self.options.get("randomize_boss_entrances")
-    secret_caves = self.options.get("randomize_secret_cave_entrances")
-    inner_caves = self.options.get("randomize_secret_cave_inner_entrances")
-    fountains = self.options.get("randomize_fairy_fountain_entrances")
+    dungeons = self.options.randomize_dungeon_entrances
+    minibosses = self.options.randomize_miniboss_entrances
+    bosses = self.options.randomize_boss_entrances
+    secret_caves = self.options.randomize_secret_cave_entrances
+    inner_caves = self.options.randomize_secret_cave_inner_entrances
+    fountains = self.options.randomize_fairy_fountain_entrances
     
-    mix_entrances = self.options.get("mix_entrances")
+    mix_entrances = self.options.mix_entrances
     any_dungeons = dungeons or minibosses or bosses
     any_non_dungeons = secret_caves or inner_caves or fountains
     
-    if mix_entrances == "Separate Dungeons From Caves & Fountains" and any_dungeons and any_non_dungeons:
+    if mix_entrances == EntranceMixMode.SEPARATE_DUNGEONS and any_dungeons and any_non_dungeons:
       yield self.get_one_entrance_set(dungeons=dungeons, minibosses=minibosses, bosses=bosses)
       yield self.get_one_entrance_set(caves=secret_caves, inner_caves=inner_caves, fountains=fountains)
-    elif (any_dungeons or any_non_dungeons) and mix_entrances in ["Separate Dungeons From Caves & Fountains", "Mix Dungeons & Caves & Fountains"]:
+    elif (any_dungeons or any_non_dungeons) and mix_entrances in [EntranceMixMode.SEPARATE_DUNGEONS, EntranceMixMode.MIX_DUNGEONS]:
       yield self.get_one_entrance_set(
         dungeons=dungeons, minibosses=minibosses, bosses=bosses,
         caves=secret_caves, inner_caves=inner_caves, fountains=fountains,

@@ -169,6 +169,7 @@ def run_all_bulk_tests(rando_kwargs, num_seeds):
 
 def run_no_ui(args):
   from randomizer import WWRandomizer
+  from options.wwrando_options import Options
   from seedgen import seedgen
   import traceback
   from wwrando_paths import SETTINGS_PATH, IS_RUNNING_FROM_SOURCE
@@ -176,13 +177,18 @@ def run_no_ui(args):
   import yaml
   import cProfile, pstats
   
+  options = Options()
   with open(SETTINGS_PATH) as f:
-    options: dict = yaml.safe_load(f)
+    settings: dict = yaml.safe_load(f)
+    for option_name, option_value in settings.items():
+      if option_name not in options.by_name:
+        continue
+      options[option_name] = option_value
   
   rando_kwargs = {
-    "seed": options.pop("seed"),
-    "clean_iso_path": options.pop("clean_iso_path").strip(),
-    "randomized_output_folder": options.pop("output_folder"),
+    "seed": settings["seed"],
+    "clean_iso_path": settings["clean_iso_path"].strip(),
+    "randomized_output_folder": settings["output_folder"],
     "options": options, # TODO filter out invalid options
     "permalink": None, # TODO encode this
     "cmd_line_args": args,

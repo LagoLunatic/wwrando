@@ -28,6 +28,8 @@ from wwlib import stage_searcher
 from asm import disassemble
 from asm import elf2rel
 
+from options.wwrando_options import Options, SwordMode
+
 try:
   from keys.seed_key import SEED_KEY # type: ignore
 except ImportError:
@@ -78,8 +80,10 @@ class WWRandomizer:
   VALID_SEED_CHARACTERS = "-_'%%.%s%s" % (string.ascii_letters, string.digits)
   MAX_SEED_LENGTH = 42 # Limited by maximum length of game name in banner
   
-  def __init__(self, seed, clean_iso_path, randomized_output_folder, options: dict, permalink=None, cmd_line_args=None):
+  def __init__(self, seed, clean_iso_path, randomized_output_folder, options: Options, permalink=None, cmd_line_args=None):
     self.fully_initialized = False
+    
+    options.validate()
     
     self.randomized_output_folder = randomized_output_folder
     self.logs_output_folder = self.randomized_output_folder
@@ -91,8 +95,8 @@ class WWRandomizer:
     if cmd_line_args is None:
       cmd_line_args = {}
     if cmd_line_args.dry:
-      self.options["dry_run"] = True
-    self.dry_run = self.options.pop("dry_run", False)
+      self.options.dry_run = True
+    self.dry_run = self.options.dry_run
     self.disassemble = cmd_line_args.disassemble
     self.export_disc_to_folder = cmd_line_args.exportfolder
     self.no_logs = cmd_line_args.nologs
@@ -113,7 +117,7 @@ class WWRandomizer:
       self.test_room_args = cmd_line_args.test
     
     seed_string = self.seed
-    if self.options.get("do_not_generate_spoiler_log"):
+    if self.options.do_not_generate_spoiler_log:
       seed_string += SEED_KEY
     
     self.integer_seed = self.convert_string_to_integer_md5(seed_string)
@@ -170,25 +174,23 @@ class WWRandomizer:
       "Wind's Requiem",
       "Boat's Sail",
     ]
-    self.starting_items += self.options.get("starting_gear", [])
+    self.starting_items += self.options.starting_gear
     
-    if self.options.get("sword_mode") == "Start with Hero's Sword":
+    if self.options.sword_mode == SwordMode.START_WITH_SWORD:
       self.starting_items.append("Progressive Sword")
     # Add starting Triforce Shards.
-    num_starting_triforce_shards = int(self.options.get("num_starting_triforce_shards", 0))
+    num_starting_triforce_shards = self.options.num_starting_triforce_shards
     for i in range(num_starting_triforce_shards):
       self.starting_items.append("Triforce Shard %d" % (i+1))
     
-    starting_pohs = self.options.get("starting_pohs")
-    for i in range(starting_pohs):
+    for i in range(self.options.starting_pohs):
       self.starting_items.append("Piece of Heart")
     
-    starting_hcs = self.options.get("starting_hcs")
-    for i in range(starting_hcs):
+    for i in range(self.options.starting_hcs):
       self.starting_items.append("Heart Container")
     
     
-    self.custom_model_name = self.options.get("custom_player_model", "Link")
+    self.custom_model_name = self.options.custom_player_model
     self.using_custom_sail_texture = False
     
     self.logic = Logic(self)
@@ -290,27 +292,27 @@ class WWRandomizer:
     if not self.dry_run:
       self.apply_necessary_tweaks()
       
-      if self.options.get("swift_sail"):
+      if self.options.swift_sail:
         tweaks.make_sail_behave_like_swift_sail(self)
-      if self.options.get("reveal_full_sea_chart"):
+      if self.options.reveal_full_sea_chart:
         patcher.apply_patch(self, "reveal_sea_chart")
-      if self.options.get("add_shortcut_warps_between_dungeons"):
+      if self.options.add_shortcut_warps_between_dungeons:
         tweaks.add_inter_dungeon_warp_pots(self)
-      if self.options.get("invert_camera_x_axis"):
+      if self.options.invert_camera_x_axis:
         patcher.apply_patch(self, "invert_camera_x_axis")
-      if self.options.get("invert_sea_compass_x_axis"):
+      if self.options.invert_sea_compass_x_axis:
         patcher.apply_patch(self, "invert_sea_compass_x_axis")
       tweaks.update_skip_rematch_bosses_game_variable(self)
       tweaks.update_sword_mode_game_variable(self)
-      if self.options.get("sword_mode") == "Swordless":
+      if self.options.sword_mode == SwordMode.SWORDLESS:
         patcher.apply_patch(self, "swordless")
         tweaks.update_text_for_swordless(self)
-      tweaks.update_starting_gear(self, self.options.get("starting_gear"))
-      if self.options.get("chest_type_matches_contents"):
+      tweaks.update_starting_gear(self, self.options.starting_gear)
+      if self.options.chest_type_matches_contents:
         tweaks.replace_dark_wood_chest_texture(self)
-      if self.options.get("remove_title_and_ending_videos"):
+      if self.options.remove_title_and_ending_videos:
         tweaks.remove_title_and_ending_videos(self)
-      if self.options.get("remove_music"):
+      if self.options.remove_music:
         patcher.apply_patch(self, "remove_music")
       if self.map_select:
         patcher.apply_patch(self, "map_select")
@@ -351,7 +353,7 @@ class WWRandomizer:
     
     if not self.dry_run:
       self.apply_necessary_post_randomization_tweaks()
-      if self.options.get("instant_text_boxes"):
+      if self.options.instant_text_boxes:
         tweaks.make_all_text_instant(self)
       options_completed += 1
     
@@ -363,7 +365,7 @@ class WWRandomizer:
       options_completed += 9
     
     yield("Writing logs...", options_completed)
-    if not self.options.get("do_not_generate_spoiler_log"):
+    if not self.options.do_not_generate_spoiler_log:
       self.write_spoiler_log()
     self.write_non_spoiler_log()
   
@@ -788,7 +790,7 @@ class WWRandomizer:
     
     # Further change the RNG based on which RNG-changing options are enabled
     for i, option in enumerate(RNG_CHANGING_OPTIONS):
-      value = self.options.get(option)
+      value = self.options[option]
       for j in range(1, 100 + i):
         rng.getrandbits(value + 20 * i + j)
     
@@ -815,7 +817,7 @@ class WWRandomizer:
     if not self.permalink:
       return None
 
-    if not self.options.get("do_not_generate_spoiler_log"):
+    if not self.options.do_not_generate_spoiler_log:
       integer_seed = self.convert_string_to_integer_md5(self.permalink)
     else:
       # When no spoiler log is generated, the seed key also affects randomization, not just the data in the permalink.
@@ -847,9 +849,9 @@ class WWRandomizer:
     
     header += "Options selected:\n  "
     non_disabled_options = [
-      name for name in self.options
-      if self.options[name] not in [False, [], {}]
-      and name != "randomized_gear" # Just takes up space
+      option.name for option in Options.all
+      if self.options[option.name] not in [False, [], {}]
+      and option.name != "randomized_gear" # Just takes up space
     ]
     option_strings = []
     for option_name in non_disabled_options:

@@ -20,7 +20,7 @@ class ItemRandomizer(BaseRandomizer):
     return bool(self.rando.randomize_items)
   
   def _randomize(self):
-    if not self.options.get("keylunacy"):
+    if not self.options.keylunacy:
       self.randomize_dungeon_items()
     
     self.randomize_progression_items_forward_fill()
@@ -136,7 +136,7 @@ class ItemRandomizer(BaseRandomizer):
     self.logic.update_entrance_connection_macros()
 
   def place_dungeon_item(self, item_name):
-    if self.options.get("progression_dungeons"):
+    if self.options.progression_dungeons:
       # If dungeons themselves are progress, do not allow dungeon items to appear in any dungeon
       # locations that are nonprogress (e.g. Tingle Chests).
       for_progression = True
@@ -186,7 +186,7 @@ class ItemRandomizer(BaseRandomizer):
     while self.logic.unplaced_progress_items:
       accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
       
-      if self.options.get("required_bosses"):
+      if self.options.required_bosses:
         # Filter out item locations that have been banned by required bosses mode. We don't want any
         # progress items being placed there.
         # However, we do still keep prerandomized banned locations in for e.g. small keys. If these
@@ -461,7 +461,7 @@ class ItemRandomizer(BaseRandomizer):
       item_id = self.rando.item_name_to_id[item_name]
       chest.item_id = item_id
     
-    if self.options.get("chest_type_matches_contents"):
+    if self.options.chest_type_matches_contents:
       chest.chest_type = self.get_ctmc_chest_type_for_item(item_name)
     
     chest.save_changes()
@@ -471,7 +471,7 @@ class ItemRandomizer(BaseRandomizer):
       return 0 # Light wood chests for non-progress items and consumables
     if not item_name.endswith(" Key"):
       return 2 # Metal chests for progress items
-    if not self.options.get("required_bosses"):
+    if not self.options.required_bosses:
       return 1 # Dark wood chest for Small and Big Keys
     
     # In required bosses mode, only put the dungeon keys for required dungeons in dark wood chests.
@@ -634,7 +634,7 @@ class ItemRandomizer(BaseRandomizer):
         raise Exception("Failed to calculate progression spheres")
       
       
-      if not self.options.get("keylunacy"):
+      if not self.options.keylunacy:
         # If the player gained access to any small keys, we need to give them the keys without counting that as a new sphere.
         newly_accessible_predetermined_item_locations = [
           loc for loc in locations_in_this_sphere

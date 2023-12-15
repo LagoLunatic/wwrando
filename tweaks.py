@@ -26,6 +26,7 @@ from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS
 from data_tables import DataTables
 from wwlib.events import EventList
 from wwlib.dzx import DZx, ACTR, EVNT, FILI, PLYR, SCLS, SCOB, SHIP, TGDR, TRES, Pale
+from options.wwrando_options import SwordMode
 
 try:
   from keys.seed_key import SEED_KEY # type: ignore
@@ -876,13 +877,12 @@ def update_korl_dialogue(self: WWRandomizer):
   msg.string += "that your quest is to defeat Ganondorf."
 
 def set_num_starting_triforce_shards(self: WWRandomizer):
-  num_starting_triforce_shards = int(self.options.get("num_starting_triforce_shards", 0))
   num_shards_address = self.main_custom_symbols["num_triforce_shards_to_start_with"]
-  self.dol.write_data(fs.write_u8, num_shards_address, num_starting_triforce_shards)
+  self.dol.write_data(fs.write_u8, num_shards_address, self.options.num_starting_triforce_shards)
 
 def set_starting_health(self: WWRandomizer):
-  heart_pieces = self.options.get("starting_pohs")
-  heart_containers = self.options.get("starting_hcs") * 4
+  heart_pieces = self.options.starting_pohs
+  heart_containers = self.options.starting_hcs * 4
   base_health = 12
 
   starting_health = base_health + heart_containers + heart_pieces
@@ -1338,7 +1338,7 @@ def change_starting_clothes(self: WWRandomizer):
   disable_casual_clothes = custom_model_metadata.get("disable_casual_clothes", False)
   
   should_start_with_heros_clothes_address = self.main_custom_symbols["should_start_with_heros_clothes"]
-  if self.options.get("player_in_casual_clothes") and not disable_casual_clothes:
+  if self.options.player_in_casual_clothes and not disable_casual_clothes:
     self.dol.write_data(fs.write_u8, should_start_with_heros_clothes_address, 0)
   else:
     self.dol.write_data(fs.write_u8, should_start_with_heros_clothes_address, 1)
@@ -1381,21 +1381,21 @@ def disable_invisible_walls(self: WWRandomizer):
 
 def update_skip_rematch_bosses_game_variable(self: WWRandomizer):
   skip_rematch_bosses_address = self.main_custom_symbols["skip_rematch_bosses"]
-  if self.options.get("skip_rematch_bosses"):
+  if self.options.skip_rematch_bosses:
     self.dol.write_data(fs.write_u8, skip_rematch_bosses_address, 1)
   else:
     self.dol.write_data(fs.write_u8, skip_rematch_bosses_address, 0)
 
 def update_sword_mode_game_variable(self: WWRandomizer):
   sword_mode_address = self.main_custom_symbols["sword_mode"]
-  if self.options.get("sword_mode") == "Start with Hero's Sword":
+  if self.options.sword_mode == SwordMode.START_WITH_SWORD:
     self.dol.write_data(fs.write_u8, sword_mode_address, 0)
-  elif self.options.get("sword_mode") == "No Starting Sword":
+  elif self.options.sword_mode == SwordMode.NO_STARTING_SWORD:
     self.dol.write_data(fs.write_u8, sword_mode_address, 1)
-  elif self.options.get("sword_mode") == "Swordless":
+  elif self.options.sword_mode == SwordMode.SWORDLESS:
     self.dol.write_data(fs.write_u8, sword_mode_address, 2)
   else:
-    raise Exception("Unknown sword mode: %s" % self.options.get("sword_mode"))
+    raise Exception("Unknown sword mode: %s" % self.options.sword_mode)
 
 def update_starting_gear(self: WWRandomizer, starting_gear: list[str]):
   # Saves the list of starting items that should be given to the player when starting a new save.

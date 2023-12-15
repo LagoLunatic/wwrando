@@ -44,7 +44,7 @@ class RequiredBossesRandomizer(BaseRandomizer):
     self.banned_bosses = []
   
   def is_enabled(self) -> bool:
-    return bool(self.options.get("required_bosses"))
+    return self.options.required_bosses
   
   def _randomize(self):
     self.randomize_required_bosses()
@@ -72,10 +72,10 @@ class RequiredBossesRandomizer(BaseRandomizer):
   
 
   def randomize_required_bosses(self):
-    if not self.options.get("progression_dungeons"):
+    if not self.options.progression_dungeons:
       raise Exception("Cannot make bosses required when progression dungeons are disabled.")
     
-    num_required_bosses = int(self.options.get("num_required_bosses"))
+    num_required_bosses = self.options.num_required_bosses
     
     possible_boss_item_locations = [
       loc for loc in self.logic.item_locations.keys()

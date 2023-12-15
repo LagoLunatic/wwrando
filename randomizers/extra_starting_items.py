@@ -3,6 +3,7 @@ from logic.item_types import DUNGEON_PROGRESS_ITEMS
 
 from randomizers.base_randomizer import BaseRandomizer
 import tweaks
+from options.wwrando_options import SwordMode
 
 DISALLOWED_RANDOM_STARTING_ITEMS = set([
   # There's a separate option for number of starting triforce shards that we'd need to mess with
@@ -32,13 +33,12 @@ class ExtraStartingItemsRandomizer(BaseRandomizer):
   def is_enabled(self) -> bool:
     return (
       self.rando.items.is_enabled() and
-      self.options.get("num_extra_starting_items", 0) > 0
+      self.options.num_extra_starting_items > 0
     )
   
   def _randomize(self):
     initial_sphere_0_checks = self.logic.get_accessible_remaining_locations(for_progression=True)
-    items_to_place = self.options.get("num_extra_starting_items")
-    for remaining_random_starting_items in range(items_to_place, 0, -1):
+    for remaining_random_starting_items in range(self.options.num_extra_starting_items, 0, -1):
       max_fraction = remaining_random_starting_items
       if len(self.logic.get_accessible_remaining_locations(for_progression=True)) > len(initial_sphere_0_checks):
         # If we've already unlocked at least one check, we can use any items for the remaining slots
@@ -111,7 +111,7 @@ class ExtraStartingItemsRandomizer(BaseRandomizer):
       # don't want to give a progression item if we don't have its bag since
       # it's impossible to see the item until you get delivery bag in that case
       available_items -= DELIVERY_BAG_ITEMS
-    if not self.options.get("keylunacy"):
+    if not self.options.keylunacy:
       available_items -= set(DUNGEON_PROGRESS_ITEMS)
     
     # To avoid treasure charts overwhelming everything when enabled, group them so they have the same weight as any other item
@@ -128,7 +128,7 @@ class ExtraStartingItemsRandomizer(BaseRandomizer):
     # first place so doesn't need this
     # This might be removable if we can make a random starting progressive sword
     # automatically change the sword_mode variable and its consequences
-    if self.options.get("sword_mode") == "No Starting Sword" and "Progressive Sword" in available_items:
+    if self.options.sword_mode == SwordMode.NO_STARTING_SWORD and "Progressive Sword" in available_items:
       available_items.remove("Progressive Sword")
     
     # We need to sort before converting to lists because sets have per-process hash seeding
@@ -139,7 +139,7 @@ class ExtraStartingItemsRandomizer(BaseRandomizer):
     # This tweak is written in an idempotent way, so this should be ok to call a second time.
     tweaks.update_starting_gear(
       self.rando,
-      self.options.get("starting_gear") + self.logic.expand_item_groups(self.random_starting_items)
+      self.options.starting_gear + self.logic.expand_item_groups(self.random_starting_items)
     )
   
   def write_to_spoiler_log(self) -> str:

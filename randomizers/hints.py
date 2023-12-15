@@ -126,14 +126,14 @@ class HintsRandomizer(BaseRandomizer):
     self.path_logic_initial_state = None
     
     # Define instance variable shortcuts for hint distribution options.
-    self.max_path_hints = int(self.options.get("num_path_hints", 0))
-    self.max_barren_hints = int(self.options.get("num_barren_hints", 0))
-    self.max_location_hints = int(self.options.get("num_location_hints", 0))
-    self.max_item_hints = int(self.options.get("num_item_hints", 0))
+    self.max_path_hints = self.options.num_path_hints
+    self.max_barren_hints = self.options.num_barren_hints
+    self.max_location_hints = self.options.num_location_hints
+    self.max_item_hints = self.options.num_item_hints
     self.total_num_hints = self.max_path_hints + self.max_barren_hints + self.max_location_hints + self.max_item_hints
     
-    self.cryptic_hints = self.options.get("cryptic_hints")
-    self.prioritize_remote_hints = self.options.get("prioritize_remote_hints")
+    self.cryptic_hints = self.options.cryptic_hints
+    self.prioritize_remote_hints = self.options.prioritize_remote_hints
     
     self.floor_30_hint: Hint = None
     self.floor_50_hint: Hint = None
@@ -173,9 +173,9 @@ class HintsRandomizer(BaseRandomizer):
     
     variable_hint_placement_options = ("fishmen_hints", "hoho_hints", "korl_hints")
     self.hints_per_placement.clear()
-    for option in variable_hint_placement_options:
-      if self.options.get(option):
-        self.hints_per_placement[option] = []
+    for option_name in variable_hint_placement_options:
+      if self.options[option_name]:
+        self.hints_per_placement[option_name] = []
     
     hint_placement_options = list(self.hints_per_placement.keys())
     if self.total_num_hints == 0 or len(hint_placement_options) == 0:
@@ -328,7 +328,7 @@ class HintsRandomizer(BaseRandomizer):
       if self.cryptic_hints and (hint.type == HintType.ITEM or hint.type == HintType.LOCATION):
         hint_lines.append("Could be worth a try checking that place out. If you know where it is, of course.")
       
-        if self.options.get("instant_text_boxes"):
+        if self.options.instant_text_boxes:
           # If instant text mode is on, we need to reset the text speed to instant after the wait command messed it up.
           hint_lines[-1] = "\\{1A 05 00 00 01}" + hint_lines[-1]
       
@@ -346,7 +346,7 @@ class HintsRandomizer(BaseRandomizer):
         
         hint_lines.append(HintsRandomizer.get_formatted_hint_text(hint, self.cryptic_hints, prefix=hint_prefix, suffix=hint_suffix))
         
-        if self.options.get("instant_text_boxes") and i > 0:
+        if self.options.instant_text_boxes and i > 0:
           # If instant text mode is on, we need to reset the text speed to instant after the wait command messed it up.
           hint_lines[-1] = "\\{1A 05 00 00 01}" + hint_lines[-1]
       
@@ -546,7 +546,7 @@ class HintsRandomizer(BaseRandomizer):
         break
       
       
-      if not self.options.get("keylunacy"):
+      if not self.options.keylunacy:
         # If the player gained access to any small keys, we need to give them the keys without counting that as a new sphere.
         newly_accessible_predetermined_item_locations = [
           loc for loc in locations_in_this_sphere
@@ -620,7 +620,7 @@ class HintsRandomizer(BaseRandomizer):
         continue
       
       # Keys are only considered in key-lunacy.
-      if item_name.endswith(" Key") and not self.options.get("keylunacy"):
+      if item_name.endswith(" Key") and not self.options.keylunacy:
         continue
       
       # Determine the item name for the given location.
@@ -710,7 +710,7 @@ class HintsRandomizer(BaseRandomizer):
         continue
       
       # Don't consider dungeon keys when keylunacy is not enabled.
-      if self.logic.is_dungeon_item(item_name) and not self.options.get("keylunacy"):
+      if self.logic.is_dungeon_item(item_name) and not self.options.keylunacy:
         continue
       
       items_checked.append(item_name)
@@ -779,7 +779,7 @@ class HintsRandomizer(BaseRandomizer):
       return False
     
     # Don't hint at dungeon keys when key-lunacy is not enabled.
-    if self.logic.is_dungeon_item(item_name) and not self.options.get("keylunacy"):
+    if self.logic.is_dungeon_item(item_name) and not self.options.keylunacy:
       return False
     
     # Don't hint at the existence of traps.

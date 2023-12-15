@@ -218,7 +218,6 @@ class WWRandomizerWindow(QMainWindow):
     self.progress_dialog = RandomizerProgressDialog(self, "Randomizing", "Initializing...")
     
     try:
-      options = options.dict() # TODO
       rando = WWRandomizer(seed, clean_iso_path, output_folder, options, permalink=permalink, cmd_line_args=self.cmd_line_args)
     except (TooFewProgressionLocationsError, InvalidCleanISOError) as e:
       error_message = str(e)
@@ -395,7 +394,7 @@ class WWRandomizerWindow(QMainWindow):
     self.update_total_progress_locations()
   
   def update_total_progress_locations(self):
-    options = self.get_all_options_from_widget_values().dict() # TODO
+    options = self.get_all_options_from_widget_values()
     num_progress_locations = Logic.get_num_progression_locations_static(self.cached_item_locations, options)
     
     text = "Progression Locations: Where Should Progress Items Be Placed? " \
@@ -592,8 +591,8 @@ class WWRandomizerWindow(QMainWindow):
   
   def get_option_from_widget(self, widget: QObject):
     option_name = widget.objectName().removeprefix("label_for_")
-    if option_name in Options.named:
-      return Options.named[option_name]
+    if option_name in Options.by_name:
+      return Options.by_name[option_name]
     else:
       return None
   
@@ -630,7 +629,7 @@ class WWRandomizerWindow(QMainWindow):
       return self.ui.tab_player_customization.get_all_colors()
     
     widget = self.findChild(QWidget, option_name)
-    option = Options.named[option_name]
+    option = Options.by_name[option_name]
     if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
       return widget.isChecked()
     elif isinstance(widget, QComboBox):
@@ -664,7 +663,7 @@ class WWRandomizerWindow(QMainWindow):
       return
     
     widget = self.findChild(QWidget, option_name)
-    option = Options.named[option_name]
+    option = Options.by_name[option_name]
     if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
       widget.setChecked(bool(new_value))
     elif isinstance(widget, QComboBox):

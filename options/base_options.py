@@ -1,5 +1,6 @@
 from dataclasses import fields, MISSING, Field, _recursive_repr, _FIELDS, _FIELD, asdict
-from typing import Any, Type
+from typing import Any, Type, Optional
+import typing
 
 class Option(Field):
   type: Type
@@ -12,7 +13,7 @@ class Option(Field):
   
   def __init__(self, default, default_factory,
                description: str, choice_descriptions: dict[Any, str],
-               minimum, maximum,
+               minimum: Optional[int], maximum: Optional[int],
                permalink: bool, hidden: bool, unbeatable: bool):
     super().__init__(default, default_factory, init=True, repr=True,
                      hash=None, compare=True, metadata=None, kw_only=True)
@@ -49,12 +50,12 @@ def option(default=MISSING, default_factory=MISSING,
 class BaseOptions:
   @classmethod
   @property
-  def all(cls) -> tuple[Option, ...]:
+  def all(cls) -> tuple[Option]:
     return fields(cls)
   
   @classmethod
   @property
-  def named(cls) -> dict[str, Option]:
+  def by_name(cls) -> dict[str, Option]:
     return {
       name: field
       for name, field in getattr(cls, _FIELDS).items()
@@ -69,3 +70,30 @@ class BaseOptions:
     if field._field_type is not _FIELD:
       raise KeyError(option_name)
     return getattr(self, option_name)
+  
+  def __setitem__(self, option_name, value):
+    fields = getattr(self, _FIELDS)
+    field = fields[option_name]
+    if field._field_type is not _FIELD:
+      raise KeyError(option_name)
+    setattr(self, option_name, value)
+  
+  def validate(self):
+    """Attempts to convert the values of all options to be valid."""
+    
+    options: tuple[Option] = self.all # Not sure why this type hint doesn't work automatically here.
+    for option in options:
+      value = self[option.name]
+      
+      option_type = typing.get_origin(option.type) or option.type
+      if not isinstance(value, option_type):
+        # Note: This can throw an error if the type conversion is impossible.
+        # e.g. Trying to convert a string to an enum when the string is not a valid value for that enum.
+        self[option.name] = option_type(value)
+      
+      if option.minimum is not None and value < option.minimum:
+        self[option.name] = option.default
+        continue
+      if option.maximum is not None and value > option.maximum:
+        self[option.name] = option.default
+        continue

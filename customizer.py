@@ -192,7 +192,7 @@ def get_all_custom_model_names():
   return custom_model_names
 
 def decide_on_link_model(self: WWRandomizer):
-  custom_model_name = self.options.get("custom_player_model", "Link")
+  custom_model_name = self.options.custom_player_model
   if custom_model_name == "Link":
     return
   
@@ -235,7 +235,7 @@ def replace_link_model(self: WWRandomizer):
   
   revert_bck_files_in_arc_to_original(orig_link_arc, custom_link_arc)
   
-  if self.options.get("disable_custom_player_items"):
+  if self.options.disable_custom_player_items:
     revert_item_models_in_arc_to_original(orig_link_arc, custom_link_arc)
   
   orig_sum_of_changed_arc_sizes += ORIG_LINK_ARC_FILE_SIZE_IN_BYTES
@@ -311,7 +311,7 @@ def replace_link_model(self: WWRandomizer):
     always_arc = self.get_arc("files/res/Object/Always.arc")
     always_arc.get_file_entry("shmref.bti").data = reflection_image_data
   
-  if not self.options.get("disable_custom_player_voice"):
+  if not self.options.disable_custom_player_voice:
     # Replace voice sound effects.
     jaiinit_aaf_path = os.path.join(custom_model_path, "sound/JaiInit.aaf")
     voice_aw_path = os.path.join(custom_model_path, "sound/voice_0.aw")
@@ -392,7 +392,7 @@ def change_player_custom_colors(self: WWRandomizer):
   link_arc = self.get_arc("files/res/Object/Link.arc")
   link_main_model = link_arc.get_file("cl.bdl", BDL)
   
-  if self.options.get("player_in_casual_clothes") and not disable_casual_clothes:
+  if self.options.player_in_casual_clothes and not disable_casual_clothes:
     is_casual = True
     prefix = "casual"
     link_main_textures = [link_arc.get_file("linktexbci4.bti", BTI)]
@@ -440,7 +440,7 @@ def change_player_custom_colors(self: WWRandomizer):
       hitomi_color_name = None
   
   for custom_color_basename, base_color in custom_colors.items():
-    custom_color = self.options.get("custom_colors", {}).get(custom_color_basename, None)
+    custom_color = self.options.custom_colors.get(custom_color_basename, None)
     if custom_color is None:
       continue
     custom_color = tuple(custom_color)
@@ -612,7 +612,7 @@ def get_default_colors(self: WWRandomizer):
   custom_model_metadata = get_model_metadata(self.custom_model_name)
   disable_casual_clothes = custom_model_metadata.get("disable_casual_clothes", False)
   
-  if self.options.get("player_in_casual_clothes") and not disable_casual_clothes:
+  if self.options.player_in_casual_clothes and not disable_casual_clothes:
     prefix = "casual"
   else:
     prefix = "hero"
