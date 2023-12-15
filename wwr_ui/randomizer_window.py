@@ -3,7 +3,6 @@ from PySide6.QtCore import *
 from PySide6.QtWidgets import *
 
 from wwr_ui.uic.ui_randomizer_window import Ui_MainWindow
-from wwr_ui.options import OPTIONS, NON_PERMALINK_OPTIONS, HIDDEN_OPTIONS, POTENTIALLY_UNBEATABLE_OPTIONS
 from wwr_ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
 from wwr_ui.inventory import INVENTORY_ITEMS, REGULAR_ITEMS, PROGRESSIVE_ITEMS, DEFAULT_STARTING_ITEMS, DEFAULT_RANDOMIZED_ITEMS
 from wwr_ui.packedbits import PackedBitsReader, PackedBitsWriter
@@ -15,12 +14,17 @@ import yaml
 import traceback
 import struct
 import base64
+from enum import Enum
 
+from options.wwrando_options import Options
 from randomizer import WWRandomizer, TooFewProgressionLocationsError, InvalidCleanISOError
 from version import VERSION
 from wwrando_paths import SETTINGS_PATH, ASSETS_PATH, IS_RUNNING_FROM_SOURCE
 from seedgen import seedgen
 from logic.logic import Logic
+
+from typing import TYPE_CHECKING, Type
+from types import GenericAlias
 
 class WWRandomizerWindow(QMainWindow):
   def __init__(self, cmd_line_args):
@@ -52,14 +56,18 @@ class WWRandomizerWindow(QMainWindow):
     self.starting_gear_model.setStringList(DEFAULT_STARTING_ITEMS.copy())
     self.ui.starting_gear.setModel(self.starting_gear_model)
     
-    self.preserve_default_settings()
+    # We use an Options instance to represent the defaults instead of directly accessing each options default so that
+    # default_factory works correctly.
+    self.default_options = Options()
+    
+    self.initialize_option_widgets()
+    
+    self.load_settings()
     
     self.cached_item_locations = Logic.load_and_parse_item_locations()
     
     self.ui.starting_pohs.valueChanged.connect(self.update_health_label)
     self.ui.starting_hcs.valueChanged.connect(self.update_health_label)
-    
-    self.load_settings()
     
     self.ui.clean_iso_path.editingFinished.connect(self.update_settings)
     self.ui.output_folder.editingFinished.connect(self.update_settings)
@@ -70,18 +78,20 @@ class WWRandomizerWindow(QMainWindow):
     
     self.ui.label_for_clean_iso_path.linkActivated.connect(self.show_clean_iso_explanation)
     
-    for option_name in OPTIONS:
-      widget = self.findChild(QWidget, option_name)
+    for option in Options.all:
+      widget = self.findChild(QWidget, option.name)
       if isinstance(widget, QAbstractButton):
         widget.clicked.connect(self.update_settings)
       elif isinstance(widget, QComboBox):
         widget.currentIndexChanged.connect(self.update_settings)
+        if option.choice_descriptions:
+          widget.highlighted.connect(self.update_choice_highlighted_description)
       elif isinstance(widget, QListView):
         pass
       elif isinstance(widget, QSpinBox):
         widget.valueChanged.connect(self.update_settings)
       else:
-        raise Exception("Option widget is invalid: %s" % option_name)
+        raise Exception("Option widget is invalid: %s" % option.name)
     
     self.ui.generate_seed_button.clicked.connect(self.generate_seed)
     
@@ -89,12 +99,11 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.reset_settings_to_default.clicked.connect(self.reset_settings_to_default)
     self.ui.about_button.clicked.connect(self.open_about)
     
-    for option_name in OPTIONS:
-      self.findChild(QWidget, option_name).installEventFilter(self)
-      label_for_option = self.findChild(QLabel, "label_for_" + option_name)
+    for option in Options.all:
+      self.findChild(QWidget, option.name).installEventFilter(self)
+      label_for_option = self.findChild(QLabel, "label_for_" + option.name)
       if label_for_option:
         label_for_option.installEventFilter(self)
-    self.ui.sword_mode.highlighted.connect(self.update_sword_mode_highlighted_description)
     self.set_option_description(None)
     
     self.update_settings()
@@ -124,12 +133,12 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.seed.setText(seed)
     self.update_settings()
   
-  def append_row(self, model, value):
+  def append_row(self, model: QAbstractListModel, value):
     model.insertRow(model.rowCount())
     newrow = model.index(model.rowCount() - 1, 0)
     model.setData(newrow, value)
   
-  def move_selected_rows(self, source, dest):
+  def move_selected_rows(self, source: QListView, dest: QListView):
     selection = source.selectionModel().selectedIndexes()
     # Remove starting from the last so the previous indices remain valid
     selection.sort(reverse = True, key = lambda x: x.row())
@@ -191,9 +200,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.seed.setText(seed)
     self.update_settings()
     
-    options = {}
-    for option_name in OPTIONS:
-      options[option_name] = self.get_option_value(option_name)
+    options = self.get_all_options_from_widget_values()
     
     colors = {}
     for color_name in self.ui.tab_player_customization.get_default_custom_colors_for_current_model():
@@ -277,20 +284,46 @@ class WWRandomizerWindow(QMainWindow):
       new_text += " <a href=\"%s\">Click here</a> to go to the download page." % LATEST_RELEASE_DOWNLOAD_PAGE_URL
       self.ui.update_checker_label.setText(new_text)
   
-  def preserve_default_settings(self):
-    self.default_settings = {}
-    for option_name in OPTIONS:
-      self.default_settings[option_name] = self.get_option_value(option_name)
+  def initialize_option_widgets(self):
+    for option in Options.all:
+      widget = self.findChild(QWidget, option.name)
+      if isinstance(widget, QAbstractButton):
+        assert issubclass(option.type, bool)
+      elif isinstance(widget, QComboBox):
+        if widget.objectName() in ["custom_player_model", "custom_color_preset"]:
+          assert issubclass(option.type, str)
+        else:
+          assert issubclass(option.type, Enum)
+          assert widget.count() == len(option.type)
+      elif isinstance(widget, QListView):
+        assert isinstance(option.type, GenericAlias) and option.type.__origin__ == list
+      elif isinstance(widget, QSpinBox):
+        assert issubclass(option.type, int)
+        widget.setMinimum(option.minimum)
+        widget.setMaximum(option.maximum)
+      else:
+        raise Exception("Option widget is invalid: %s" % option.name)
+      
+      default_value = self.default_options[option.name]
+      self.set_option_value(option.name, default_value)
   
   def reset_settings_to_default(self):
     any_setting_changed = False
-    for option_name in OPTIONS:
-      if option_name in self.default_settings:
-        default_value = self.default_settings[option_name]
-        current_value = self.get_option_value(option_name)
-        if default_value != current_value:
-          any_setting_changed = True
-        self.set_option_value(option_name, default_value)
+    
+    # # TODO: Get rid of any_setting_changed, instead check if default_options == get_all_options_from_widget_values()
+    # if options == self.default_options:
+    #   QMessageBox.information(self,
+    #     "Settings already default",
+    #     "You already have all the default randomization settings."
+    #   )
+    #   return
+    
+    for option in Options.all:
+      default_value = self.default_options[option.name]
+      current_value = self.get_option_value(option.name)
+      if default_value != current_value:
+        self.set_option_value(option.name, default_value)
+        any_setting_changed = True
     
     any_color_changed = self.ui.tab_player_customization.reset_color_selectors_to_model_default_colors()
     if any_color_changed:
@@ -320,12 +353,12 @@ class WWRandomizerWindow(QMainWindow):
     if "seed" in self.settings:
       self.ui.seed.setText(self.settings["seed"])
     
-    for option_name in OPTIONS:
-      if option_name in self.settings:
-        if option_name == "custom_color_preset":
+    for option in Options.all:
+      if option.name in self.settings:
+        if option.name == "custom_color_preset":
           # Color presets not loaded yet, handle this later
           continue
-        self.set_option_value(option_name, self.settings[option_name])
+        self.set_option_value(option.name, self.settings[option.name])
     
     self.ui.tab_player_customization.load_custom_colors_from_settings()
   
@@ -341,8 +374,8 @@ class WWRandomizerWindow(QMainWindow):
     self.ensure_valid_combination_of_options()
     self.ui.tab_player_customization.disable_invalid_cosmetic_options()
     
-    for option_name in OPTIONS:
-      self.settings[option_name] = self.get_option_value(option_name)
+    for option in Options.all:
+      self.settings[option.name] = self.get_option_value(option.name)
     self.settings["custom_colors"] = self.ui.tab_player_customization.custom_colors
     
     self.save_settings()
@@ -352,9 +385,7 @@ class WWRandomizerWindow(QMainWindow):
     self.update_total_progress_locations()
   
   def update_total_progress_locations(self):
-    options = {}
-    for option_name in OPTIONS:
-      options[option_name] = self.get_option_value(option_name)
+    options = self.get_all_options_from_widget_values()
     num_progress_locations = Logic.get_num_progression_locations_static(self.cached_item_locations, options)
     
     text = "Progression Locations: Where Should Progress Items Be Placed? " \
@@ -390,18 +421,18 @@ class WWRandomizerWindow(QMainWindow):
     permalink += b"\0"
     
     bitswriter = PackedBitsWriter()
-    for option_name in OPTIONS:
-      if option_name in NON_PERMALINK_OPTIONS:
+    for option in Options.all:
+      if not option.permalink:
         continue
       
-      value = self.settings[option_name]
+      value = self.settings[option.name]
       
-      if option_name == "randomize_enemy_palettes" and not self.get_option_value("randomize_enemies"):
+      if option.name == "randomize_enemy_palettes" and not self.get_option_value("randomize_enemies"):
         # Enemy palette randomizer doesn't need to be in the permalink when enemy rando is off.
         # So just put a 0 bit as a placeholder.
         value = False
       
-      widget = self.findChild(QWidget, option_name)
+      widget = self.findChild(QWidget, option.name)
       if isinstance(widget, QAbstractButton):
         bitswriter.write(int(value), 1)
       elif isinstance(widget, QComboBox):
@@ -468,26 +499,26 @@ class WWRandomizerWindow(QMainWindow):
     prev_randomize_enemy_palettes_value = self.get_option_value("randomize_enemy_palettes")
     
     bitsreader = PackedBitsReader(option_bytes)
-    for option_name in OPTIONS:
-      if option_name in NON_PERMALINK_OPTIONS:
+    for option in Options.all:
+      if not option.permalink:
         continue
       
-      widget = self.findChild(QWidget, option_name)
+      widget = self.findChild(QWidget, option.name)
       if isinstance(widget, QAbstractButton):
         boolean_value = bitsreader.read(1)
-        self.set_option_value(option_name, boolean_value)
+        self.set_option_value(option.name, boolean_value)
       elif isinstance(widget, QComboBox):
         index = bitsreader.read(8)
         if index >= widget.count() or index < 0:
           index = 0
         value = widget.itemText(index)
-        self.set_option_value(option_name, value)
+        self.set_option_value(option.name, value)
       elif isinstance(widget, QSpinBox):
         box_length = (widget.maximum() - widget.minimum()).bit_length()
         value = bitsreader.read(box_length) + widget.minimum()
         if value > widget.maximum() or value < widget.minimum():
-          value = self.default_settings[option_name]
-        self.set_option_value(option_name, value)
+          value = self.default_options[option.name]
+        self.set_option_value(option.name, value)
       elif widget == self.ui.starting_gear:
         # Reset model with only the regular items
         self.randomized_gear_model.setStringList(REGULAR_ITEMS.copy())
@@ -549,33 +580,35 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.output_folder.setText(output_folder_path)
     self.update_settings()
   
-  def eventFilter(self, target, event):
-    if event.type() == QEvent.Enter:
-      option_name = target.objectName()
-      
-      if option_name.startswith("label_for_"):
-        option_name = option_name[len("label_for_"):]
-      
-      if option_name in OPTIONS:
-        self.set_option_description(OPTIONS[option_name])
+  def get_option_from_widget(self, widget: QObject):
+    option_name = widget.objectName().removeprefix("label_for_")
+    if option_name in Options.named:
+      return Options.named[option_name]
+    else:
+      return None
+  
+  def eventFilter(self, target: QObject, event: QEvent):
+    if event.type() == QEvent.Type.Enter:
+      option = self.get_option_from_widget(target)
+      if option:
+        self.set_option_description(option.description)
       else:
         self.set_option_description(None)
       return True
-    elif event.type() == QEvent.Leave:
+    elif event.type() == QEvent.Type.Leave:
       self.set_option_description(None)
       return True
     
     return QMainWindow.eventFilter(self, target, event)
   
-  def update_sword_mode_highlighted_description(self, index):
-    option_name = self.ui.sword_mode.itemText(index)
+  def update_choice_highlighted_description(self, index):
+    option = self.get_option_from_widget(self.sender())
+    assert option
+    assert issubclass(option.type, Enum)
+    highlighted_value = option.type(index)
     
-    if option_name == "Start with Hero's Sword":
-      desc = "Start with Hero's Sword: You will start the game with the basic Hero's Sword already in your inventory (the default)."
-    elif option_name == "No Starting Sword":
-      desc = "No Starting Sword: You will start the game with no sword, and have to find it somewhere in the world like other randomized items."
-    elif option_name == "Swordless":
-      desc = "Swordless: You will start the game with no sword, and won't be able to find it anywhere. You have to beat the entire game using other items as weapons instead of the sword.\n(Note that Phantom Ganon in FF becomes vulnerable to Skull Hammer in this mode.)"
+    if highlighted_value in option.choice_descriptions:
+      desc = option.choice_descriptions[highlighted_value]
     else:
       desc = None
     
@@ -602,30 +635,37 @@ class WWRandomizerWindow(QMainWindow):
   
   def set_option_value(self, option_name, new_value):
     widget = self.findChild(QWidget, option_name)
+    option = Options.named[option_name]
     if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
       widget.setChecked(bool(new_value))
     elif isinstance(widget, QComboBox):
-      index_of_value = None
-      for i in range(widget.count()):
-        text = widget.itemText(i)
-        if text == new_value:
-          index_of_value = i
-          break
+      if issubclass(option.type, Enum) and isinstance(new_value, option.type):
+        index_of_value = new_value.value
+      elif isinstance(new_value, str):
+        index_of_value = None
+        for i in range(widget.count()):
+          text = widget.itemText(i)
+          if text == new_value:
+            index_of_value = i
+            break
+      else:
+        raise Exception(f"Invalid type for combobox option: {option.type}")
       
-      if index_of_value is None:
+      if index_of_value is None or index_of_value >= widget.count():
         print("Cannot find value %s in combobox %s" % (new_value, option_name))
         index_of_value = 0
       
       widget.setCurrentIndex(index_of_value)
     elif isinstance(widget, QSpinBox):
+      new_value = int(new_value)
       if new_value < widget.minimum() or new_value > widget.maximum():
         print("Value %s out of range for spinbox %s" % (new_value, option_name))
-        new_value = self.default_settings[option_name] # reset to default in case 0 is not default or in normal range
+        new_value = self.default_options[option_name] # reset to default in case 0 is not default or in normal range
 
       widget.setValue(new_value)
     elif isinstance(widget, QListView):
       if not isinstance(new_value, list):
-        new_value = self.default_settings[option_name]
+        new_value = self.default_options[option_name]
       
       if widget.model() is not None:
         model = widget.model()
@@ -644,11 +684,21 @@ class WWRandomizerWindow(QMainWindow):
       self.ui.option_description.setText(new_description)
       self.ui.option_description.setStyleSheet("")
   
+  def get_all_options_from_widget_values(self):
+    options_dict = {}
+    for option in Options.all:
+      options_dict[option.name] = self.get_option_value(option.name)
+    
+    # TODO: Return Options instance instead of dict
+    # options = Options(**options)
+    
+    return options_dict
+  
   def ensure_valid_combination_of_options(self):
     items_to_filter_out = []
     should_enable_options = {}
-    for option_name in OPTIONS:
-      should_enable_options[option_name] = True
+    for option in Options.all:
+      should_enable_options[option.name] = True
     
     if not self.get_option_value("progression_dungeons"):
       should_enable_options["required_bosses"] = False
@@ -705,12 +755,12 @@ class WWRandomizerWindow(QMainWindow):
     if not compare(all_gear, INVENTORY_ITEMS):
       print("Gear list invalid, resetting")
       for opt in ["randomized_gear", "starting_gear"]:
-        self.set_option_value(opt, self.default_settings[opt])
+        self.set_option_value(opt, self.default_options[opt])
     
-    for option_name in OPTIONS:
-      widget = self.findChild(QWidget, option_name)
-      label_for_option = self.findChild(QLabel, "label_for_" + option_name)
-      if should_enable_options[option_name]:
+    for option in Options.all:
+      widget = self.findChild(QWidget, option.name)
+      label_for_option = self.findChild(QLabel, "label_for_" + option.name)
+      if should_enable_options[option.name]:
         widget.setEnabled(True)
         if label_for_option:
           label_for_option.setEnabled(True)
@@ -720,21 +770,19 @@ class WWRandomizerWindow(QMainWindow):
           widget.setChecked(False)
         if label_for_option:
           label_for_option.setEnabled(False)
-    
-    # Disable options that produce unbeatable seeds when not running from source.
-    if not IS_RUNNING_FROM_SOURCE:
-      for option_name in POTENTIALLY_UNBEATABLE_OPTIONS:
-        if self.get_option_value(option_name):
-          self.set_option_value(option_name, False)
+      
+      if option.unbeatable and not IS_RUNNING_FROM_SOURCE:
+        # Disable options that produce unbeatable seeds when not running from source.
+        if self.get_option_value(option.name):
+          self.set_option_value(option.name, False)
           self.update_settings()
-    
-    # Hide certain options from the GUI (still accessible via settings.txt and permalinks).
-    for option_name in HIDDEN_OPTIONS:
-      widget = self.findChild(QWidget, option_name)
-      if self.get_option_value(option_name):
-        widget.show()
-      else:
-        widget.hide()
+      
+      if option.hidden:
+        # Hide certain options from the GUI (still accessible via settings.txt and permalinks).
+        if self.get_option_value(option.name):
+          widget.show()
+        else:
+          widget.hide()
   
   def open_about(self):
     text = """Wind Waker Randomizer Version %s<br><br>
@@ -761,6 +809,10 @@ class WWRandomizerWindow(QMainWindow):
       self.update_checker_thread.quit()
       self.update_checker_thread.wait()
     event.accept()
+  
+  if TYPE_CHECKING:
+    # Fake override for type checker because PySide6 doesn't use TypeVar.
+    def findChild[T](self, type: Type[T], name: str = ..., options: Qt.FindChildOption = ...) -> T: ...
 
 class ModelFilterOut(QSortFilterProxyModel):
   def __init__(self):
