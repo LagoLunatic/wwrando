@@ -1,24 +1,24 @@
 from dataclasses import dataclass, KW_ONLY
-from enum import Enum, auto
+from enum import StrEnum
 
 from options.base_options import BaseOptions, option
 
 from wwr_ui.inventory import DEFAULT_STARTING_ITEMS, DEFAULT_RANDOMIZED_ITEMS
 
-class SwordMode(Enum):
-  START_WITH_SWORD = 0
-  NO_STARTING_SWORD = auto()
-  SWORDLESS = auto()
+class SwordMode(StrEnum):
+  START_WITH_SWORD = "Start with Hero's Sword"
+  NO_STARTING_SWORD = "No Starting Sword"
+  SWORDLESS = "Swordless"
 
-class EntranceMixMode(Enum):
-  SEPARATE_DUNGEONS = 0
-  MIX_DUNGEONS = auto()
+class EntranceMixMode(StrEnum):
+  SEPARATE_DUNGEONS = "Separate Dungeons From Caves & Fountains"
+  MIX_DUNGEONS = "Mix Dungeons & Caves & Fountains"
 
-class TrickDifficulty(Enum):
-  NONE = 0
-  NORMAL = auto()
-  HARD = auto()
-  VERY_HARD = auto()
+class TrickDifficulty(StrEnum):
+  NONE = "None"
+  NORMAL = "Normal"
+  HARD = "Hard"
+  VERY_HARD = "Very Hard"
 
 @dataclass
 class Options(BaseOptions):
@@ -354,12 +354,16 @@ class Options(BaseOptions):
     permalink=False,
     description="This allows you to select from preset color combinations chosen by the author of the selected player model."
   )
+  custom_colors: dict[str, list] = option(
+    default_factory=dict,
+    permalink=False,
+  )
   randomized_gear: list[str] = option(
-    default_factory=lambda: DEFAULT_RANDOMIZED_ITEMS.copy(),
+    default_factory=lambda: sorted(DEFAULT_RANDOMIZED_ITEMS),
     description="Inventory items that will be randomized."
   )
   starting_gear: list[str] = option(
-    default_factory=lambda: DEFAULT_STARTING_ITEMS.copy(),
+    default_factory=lambda: sorted(DEFAULT_STARTING_ITEMS),
     description="Items that will be in Link's inventory at the start of a new game."
   )
   starting_pohs: int = option(

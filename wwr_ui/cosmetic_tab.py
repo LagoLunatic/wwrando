@@ -114,6 +114,12 @@ class CosmeticTab(QWidget):
     # The rando window recursively searches its children for options.
     return self.rando_window.set_option_value(option_name, new_value)
   
+  def get_all_colors(self):
+    colors = {}
+    for color_name in self.get_default_custom_colors_for_current_model():
+      colors[color_name] = self.get_color(color_name)
+    return colors
+  
   def get_color(self, color_name):
     preset_type = self.get_option_value("custom_color_preset")
     default_colors = self.get_default_custom_colors_for_current_model()
@@ -300,9 +306,7 @@ class CosmeticTab(QWidget):
     
     return (option_name, color_name)
   
-  def get_current_model_metadata_and_prefix(self):
-    custom_model_name = self.get_option_value("custom_player_model")
-    is_casual = self.get_option_value("player_in_casual_clothes")
+  def get_metadata_and_prefix_for_model(self, custom_model_name, is_casual):
     if is_casual:
       prefix = "casual"
     else:
@@ -313,10 +317,20 @@ class CosmeticTab(QWidget):
       return ({}, prefix)
     return (metadata, prefix)
   
-  def get_default_custom_colors_for_current_model(self):
-    metadata, prefix = self.get_current_model_metadata_and_prefix()
+  def get_current_model_metadata_and_prefix(self):
+    custom_model_name = self.get_option_value("custom_player_model")
+    is_casual = self.get_option_value("player_in_casual_clothes")
+    return self.get_metadata_and_prefix_for_model(custom_model_name, is_casual)
+  
+  def get_default_custom_colors_for_model(self, custom_model_name, is_casual):
+    metadata, prefix = self.get_metadata_and_prefix_for_model(custom_model_name, is_casual)
     default_colors = metadata.get(prefix + "_custom_colors", {})
     return default_colors
+  
+  def get_default_custom_colors_for_current_model(self):
+    custom_model_name = self.get_option_value("custom_player_model")
+    is_casual = self.get_option_value("player_in_casual_clothes")
+    return self.get_default_custom_colors_for_model(custom_model_name, is_casual)
   
   def get_color_presets_for_current_model(self):
     metadata, prefix = self.get_current_model_metadata_and_prefix()
