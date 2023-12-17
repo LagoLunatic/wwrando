@@ -37,8 +37,8 @@ class WWRandomizerWindow(QMainWindow):
     self.randomizer_thread = None
     
     self.cmd_line_args = cmd_line_args
-    self.profiling = cmd_line_args.profile
-    self.auto_seed = cmd_line_args.autoseed
+    self.profiling = self.cmd_line_args.profile
+    self.auto_seed = self.cmd_line_args.autoseed
     
     self.ui.add_gear.clicked.connect(self.add_to_starting_gear)
     self.randomized_gear_model = QStringListModel()
@@ -119,8 +119,15 @@ class WWRandomizerWindow(QMainWindow):
     icon_path = os.path.join(ASSETS_PATH, "icon.ico")
     self.setWindowIcon(QIcon(icon_path))
     
+    if self.cmd_line_args.seed:
+      self.ui.seed.setText(self.cmd_line_args.seed)
+    
     if self.auto_seed:
       self.generate_seed()
+    
+    if self.cmd_line_args.permalink:
+      self.ui.permalink.setText(self.cmd_line_args.permalink)
+      self.permalink_modified()
     
     self.show()
     

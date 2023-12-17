@@ -38,7 +38,7 @@ def make_argparser() -> argparse.ArgumentParser:
   )
   parser.add_argument(
     '-n', '--noui', action='store_true',
-    help="Skip loading GUI, randomize immediately with saved settings. (No permalink/seed hash.)"
+    help="Skip loading GUI, randomize immediately with saved settings.",
   )
   parser.add_argument(
     '-d', '--dry', action='store_true',
@@ -46,7 +46,15 @@ def make_argparser() -> argparse.ArgumentParser:
   )
   parser.add_argument(
     '-a', '--autoseed', action='store_true',
-    help="Use a random seed name instead of the last seed from saved settings."
+    help="Use a random seed name instead of the last seed from saved settings.",
+  )
+  parser.add_argument(
+    '-s', '--seed', type=str,
+    help="Use the specified seed name instead of the last seed from saved settings.",
+  )
+  parser.add_argument(
+    '-p', '--permalink', type=str,
+    help="Use the seed and options from the specified permalink instead of the last saved settings.",
   )
   parser.add_argument(
     '-b', '--bulk', type=int, nargs='?', const=100, metavar="SEEDS",
@@ -185,8 +193,16 @@ def run_no_ui(args):
         continue
       options[option_name] = option_value
   
+  seed = settings["seed"]
+  
+  if args.permalink:
+    seed, options = WWRandomizer.decode_permalink(args.permalink, options)
+  
+  if args.seed:
+    seed = args.seed
+  
   rando_kwargs = {
-    "seed": settings["seed"],
+    "seed": seed,
     "clean_iso_path": settings["clean_iso_path"].strip(),
     "randomized_output_folder": settings["output_folder"],
     "options": options, # TODO filter out invalid options
