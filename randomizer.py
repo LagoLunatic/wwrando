@@ -493,8 +493,10 @@ class WWRandomizer:
       elif issubclass(option.type, StrEnum):
         enum_values = [val for val in option.type]
         index_of_value = enum_values.index(value)
-        assert 0 <= index_of_value <= 255
-        bitswriter.write(index_of_value, 8)
+        maximum_index = len(enum_values) - 1
+        max_bit_length = maximum_index.bit_length()
+        assert 0 <= index_of_value <= maximum_index <= (2 ** max_bit_length)
+        bitswriter.write(index_of_value, max_bit_length)
       elif issubclass(option.type, int):
         assert option.minimum is not None
         assert option.maximum is not None
@@ -559,10 +561,11 @@ class WWRandomizer:
         boolean_value = bool(bitsreader.read(1))
         options[option.name] = boolean_value
       elif issubclass(option.type, StrEnum):
-        index_of_value = bitsreader.read(8)
         enum_values = [val for val in option.type]
-        if index_of_value < 0 or index_of_value >= len(enum_values):
-          index_of_value = 0
+        maximum_index = len(enum_values) - 1
+        max_bit_length = maximum_index.bit_length()
+        index_of_value = bitsreader.read(max_bit_length)
+        assert 0 <= index_of_value <= maximum_index <= (2 ** max_bit_length)
         enum_value = enum_values[index_of_value]
         options[option.name] = enum_value
       elif issubclass(option.type, int):
