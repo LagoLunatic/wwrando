@@ -497,14 +497,14 @@ class WWRandomizer:
         index_of_value = enum_values.index(value)
         maximum_index = len(enum_values) - 1
         max_bit_length = maximum_index.bit_length()
-        assert 0 <= index_of_value <= maximum_index <= (2 ** max_bit_length)
+        assert 0 <= index_of_value <= maximum_index < (1 << max_bit_length)
         bitswriter.write(index_of_value, max_bit_length)
       elif issubclass(option.type, int):
         assert option.minimum is not None
         assert option.maximum is not None
         max_bit_length = (option.maximum - option.minimum).bit_length()
         adjusted_value = value - option.minimum
-        assert 0 <= adjusted_value < (2 ** max_bit_length)
+        assert 0 <= adjusted_value < (1 << max_bit_length)
         bitswriter.write(adjusted_value, max_bit_length)
       elif option.name == "starting_gear":
         assert issubclass(typing.get_origin(option.type) or option.type, list)
@@ -567,7 +567,7 @@ class WWRandomizer:
         maximum_index = len(enum_values) - 1
         max_bit_length = maximum_index.bit_length()
         index_of_value = bitsreader.read(max_bit_length)
-        assert 0 <= index_of_value <= maximum_index <= (2 ** max_bit_length)
+        assert 0 <= index_of_value <= maximum_index < (1 << max_bit_length)
         enum_value = enum_values[index_of_value]
         options[option.name] = enum_value
       elif issubclass(option.type, int):
