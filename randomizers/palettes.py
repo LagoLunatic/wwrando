@@ -30,6 +30,22 @@ class PaletteRandomizer(BaseRandomizer):
   def is_enabled(self) -> bool:
     return self.options.randomize_enemy_palettes
   
+  @property
+  def progress_randomize_duration_weight(self) -> int:
+    return 0
+  
+  @property
+  def progress_save_duration_weight(self) -> int:
+    return 15000
+  
+  @property
+  def progress_randomize_text(self) -> str:
+    return "Randomizing enemy colors..."
+  
+  @property
+  def progress_save_text(self) -> str:
+    return "Saving enemy colors..."
+  
   def _randomize(self):
     for randomizable_file_group in self.palette_randomizable_files:
       h_shift = self.rng.randint(20, 340)

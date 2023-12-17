@@ -348,6 +348,22 @@ class EntranceRandomizer(BaseRandomizer):
       self.options.randomize_fairy_fountain_entrances,
     ])
   
+  @property
+  def progress_randomize_duration_weight(self) -> int:
+    return 5
+  
+  @property
+  def progress_save_duration_weight(self) -> int:
+    return 130
+  
+  @property
+  def progress_randomize_text(self) -> str:
+    return "Randomizing entrances..."
+  
+  @property
+  def progress_save_text(self) -> str:
+    return "Saving entrances..."
+  
   def _randomize(self):
     for relevant_entrances, relevant_exits in self.get_all_entrance_sets_to_be_randomized():
       self.randomize_one_set_of_entrances(relevant_entrances, relevant_exits)

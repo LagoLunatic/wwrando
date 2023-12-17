@@ -185,6 +185,22 @@ class EnemyRandomizer(BaseRandomizer):
   def is_enabled(self) -> bool:
     return self.options.randomize_enemies
   
+  @property
+  def progress_randomize_duration_weight(self) -> int:
+    return 100
+  
+  @property
+  def progress_save_duration_weight(self) -> int:
+    return 500
+  
+  @property
+  def progress_randomize_text(self) -> str:
+    return "Randomizing enemy locations..."
+  
+  @property
+  def progress_save_text(self) -> str:
+    return "Saving enemies..."
+  
   def _randomize(self):
     for stage_folder, enemy_locations in self.enemy_locations.items():
       stage_attempts = 0

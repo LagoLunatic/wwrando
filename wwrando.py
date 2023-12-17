@@ -232,9 +232,9 @@ def run_no_ui(args):
         print("Done")
       # with tqdm(total=rando.get_max_progress_length()) as progress_bar:
       #   prev_val = 0
-      #   for next_option_description, options_finished in rando.randomize():
-      #     progress_bar.update(options_finished-prev_val)
-      #     prev_val = options_finished
+      #   for next_option_description, progress_completed in rando.randomize():
+      #     progress_bar.update(progress_completed-prev_val)
+      #     prev_val = progress_completed
       #     progress_bar.set_description(next_option_description)
     except Exception as e:
       stack_trace = traceback.format_exc()

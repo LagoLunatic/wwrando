@@ -273,24 +273,26 @@ class WWRandomizer:
     max_progress_val = 0
     
     if not self.dry_run:
-      max_progress_val += 1 # Applying pre-randomization tweaks.
+      max_progress_val += 1800 # Applying pre-randomization tweaks.
   
     for randomizer in self.randomizers:
       if randomizer.is_enabled():
-        # TODO: each option should specify its own duration weight
-        max_progress_val += 1 # Randomizing.
+        max_progress_val += randomizer.progress_randomize_duration_weight
         if not self.dry_run:
-          max_progress_val += 2 # Saving changes.
+          max_progress_val += randomizer.progress_save_duration_weight
     
     if not self.dry_run:
-      max_progress_val += 1 # Applying post-randomization tweaks.
-      max_progress_val += 9 # Saving the ISO.
+      max_progress_val += 15 # Applying post-randomization tweaks.
+      max_progress_val += 2000 # Saving the ISO.
     
     return max_progress_val
   
   def randomize(self):
-    options_completed = 0
-    yield("Modifying game code...", options_completed)
+    progress_completed = 0
+    yield("Modifying game code...", progress_completed)
+    
+    # import time
+    # start = time.perf_counter_ns()
     
     customizer.decide_on_link_model(self)
     
@@ -329,47 +331,47 @@ class WWRandomizer:
       if self.test_room_args is not None:
         tweaks.test_room(self)
       
-      options_completed += 1
+      progress_completed += 1800
     
-    yield("Randomizing...", options_completed)
+    # print(f"{(time.perf_counter_ns()-start)//1_000_000:6d}: Pre-randomization tweaks")
+    
+    yield("Randomizing...", progress_completed)
     for randomizer in self.randomizers:
       if randomizer.is_enabled():
-        # import time
-        # start = time.monotonic()
+        yield(randomizer.progress_randomize_text, progress_completed)
+        # start = time.perf_counter_ns()
         randomizer.randomize()
-        # print()
-        # print(f"{randomizer.__class__.__name__}: {time.monotonic()-start}")
-        options_completed += 1
-        # TODO: each option should specify its own progress text
-        yield("Randomizing...", options_completed)
+        # print(f"{(time.perf_counter_ns()-start)//1_000_000:6d}: {randomizer.__class__.__name__}.randomize")
+        progress_completed += randomizer.progress_randomize_duration_weight
     
-    yield("Applying changes...", options_completed) # TODO each option should have its own applying message
+    yield("Applying changes...", progress_completed)
     if not self.dry_run:
       for randomizer in self.randomizers:
         if randomizer.is_enabled():
-          # import time
-          # start = time.monotonic()
+          yield(randomizer.progress_save_text, progress_completed)
+          # start = time.perf_counter_ns()
           randomizer.save()
-          # print()
-          # print(f"{randomizer.__class__.__name__}: {time.monotonic()-start}")
-          options_completed += 2
-        # TODO: each option should specify its own progress text
-          yield("Applying changes...", options_completed)
+          # print(f"{(time.perf_counter_ns()-start)//1_000_000:6d}: {randomizer.__class__.__name__}.save")
+          progress_completed += randomizer.progress_save_duration_weight
     
+    # start = time.perf_counter_ns()
     if not self.dry_run:
       self.apply_necessary_post_randomization_tweaks()
       if self.options.instant_text_boxes:
         tweaks.make_all_text_instant(self)
-      options_completed += 1
+      progress_completed += 15
+    # print(f"{(time.perf_counter_ns()-start)//1_000_000:6d}: Post-randomization tweaks")
     
-    yield("Saving randomized ISO...", options_completed)
+    # start = time.perf_counter_ns()
+    yield("Saving randomized ISO...", progress_completed)
     if not self.dry_run:
       for next_progress_text, files_done in self.save_randomized_iso():
         percentage_done = files_done/len(self.gcm.files_by_path)
-        yield("Saving randomized ISO...", options_completed+int(percentage_done*9))
-      options_completed += 9
+        yield("Saving randomized ISO...", progress_completed+int(percentage_done*9))
+      progress_completed += 2000
+    # print(f"{(time.perf_counter_ns()-start)//1_000_000:6d}: Saving ISO")
     
-    yield("Writing logs...", options_completed)
+    yield("Writing logs...", progress_completed)
     if not self.options.do_not_generate_spoiler_log:
       self.write_spoiler_log()
     self.write_non_spoiler_log()

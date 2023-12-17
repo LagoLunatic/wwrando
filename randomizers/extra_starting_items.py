@@ -36,6 +36,14 @@ class ExtraStartingItemsRandomizer(BaseRandomizer):
       self.options.num_extra_starting_items > 0
     )
   
+  @property
+  def progress_randomize_duration_weight(self) -> int:
+    return 20
+  
+  @property
+  def progress_save_duration_weight(self) -> int:
+    return 0
+  
   def _randomize(self):
     initial_sphere_0_checks = self.logic.get_accessible_remaining_locations(for_progression=True)
     for remaining_random_starting_items in range(self.options.num_extra_starting_items, 0, -1):

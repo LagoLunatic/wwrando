@@ -238,9 +238,13 @@ class WWRandomizerWindow(QMainWindow):
     self.randomizer_thread.randomization_failed.connect(self.randomization_failed)
     self.randomizer_thread.start()
   
-  def update_progress_dialog(self, next_option_description, options_finished):
+  def update_progress_dialog(self, next_option_description, progress_completed):
+    if progress_completed > self.progress_dialog.maximum():
+      # This shouldn't happen if the max estimate was correct, but if it did just snap the progress bar to the end.
+      # Without this, the progress going past the max would cause the bar to get stuck at the last valid position.
+      progress_completed = self.progress_dialog.maximum()
     self.progress_dialog.setLabelText(next_option_description)
-    self.progress_dialog.setValue(options_finished)
+    self.progress_dialog.setValue(progress_completed)
   
   def randomization_complete(self):
     self.progress_dialog.reset()
@@ -807,8 +811,8 @@ class RandomizerThread(QThread):
       profiler.enable()
     
     try:
-      for next_option_description, options_finished in self.randomizer.randomize():
-        self.update_progress.emit(next_option_description, options_finished)
+      for next_option_description, progress_completed in self.randomizer.randomize():
+        self.update_progress.emit(next_option_description, progress_completed)
     except Exception as e:
       stack_trace = traceback.format_exc()
       error_message = "Randomization failed with error:\n" + str(e) + "\n\n" + stack_trace

@@ -24,6 +24,30 @@ class BaseRandomizer:
   def is_enabled(self) -> bool:
     raise NotImplementedError()
   
+  @property
+  def progress_randomize_duration_weight(self) -> int:
+    """Gives a rough estimate of the duration that the randomization step will take relative to other randomizers.
+    
+    Can be approximately measured with: (time.perf_counter_ns() - start) // 1_000_000"""
+    return 0
+  
+  @property
+  def progress_save_duration_weight(self) -> int:
+    """Gives a rough estimate of the duration that the save step will take relative to other randomizers.
+    
+    Can be approximately measured with: (time.perf_counter_ns() - start) // 1_000_000"""
+    return 50
+  
+  @property
+  def progress_randomize_text(self) -> str:
+    """The message displayed to the user during the randomization step."""
+    return "Randomizing..."
+  
+  @property
+  def progress_save_text(self) -> str:
+    """The message displayed to the user during the save step."""
+    return "Applying changes..."
+  
   def reset_rng(self):
     self.rng = self.rando.get_new_rng()
   

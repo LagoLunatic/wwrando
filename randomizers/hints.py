@@ -156,6 +156,22 @@ class HintsRandomizer(BaseRandomizer):
   def is_enabled(self) -> bool:
     return bool(self.rando.randomize_items)
   
+  @property
+  def progress_randomize_duration_weight(self) -> int:
+    return 500
+  
+  @property
+  def progress_save_duration_weight(self) -> int:
+    return 50
+  
+  @property
+  def progress_randomize_text(self) -> str:
+    return "Generating hints..."
+  
+  @property
+  def progress_save_text(self) -> str:
+    return "Saving hints..."
+  
   def _randomize(self):
     self.path_logic = Logic(self.rando)
     self.path_logic_initial_state = self.path_logic.save_simulated_playthrough_state()

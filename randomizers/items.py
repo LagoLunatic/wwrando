@@ -19,6 +19,22 @@ class ItemRandomizer(BaseRandomizer):
   def is_enabled(self) -> bool:
     return bool(self.rando.randomize_items)
   
+  @property
+  def progress_randomize_duration_weight(self) -> int:
+    return 400
+  
+  @property
+  def progress_save_duration_weight(self) -> int:
+    return 100
+  
+  @property
+  def progress_randomize_text(self) -> str:
+    return "Randomizing items..."
+  
+  @property
+  def progress_save_text(self) -> str:
+    return "Saving items..."
+  
   def _randomize(self):
     if not self.options.keylunacy:
       self.randomize_dungeon_items()
