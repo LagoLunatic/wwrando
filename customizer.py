@@ -34,8 +34,7 @@ HARDCODED_COLORS_WITH_ALPHA_KEY_NAMES = [
   "arrow_trail_color",
 ]
 
-class InvalidColorError(Exception):
-  pass
+class InvalidColorError(Exception): pass
 
 cached_model_metadata = {}
 

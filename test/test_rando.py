@@ -138,3 +138,23 @@ def test_parse_string_option_to_enum():
   options.logic_precision = "Normal"
   rando = rando_with_options(options)
   assert isinstance(rando.options.logic_precision, StrEnum)
+
+def test_convert_options_to_dict_and_back():
+  default_options = Options()
+  orig_options = Options(progression_dungeons=False, num_required_bosses=2, logic_precision=TrickDifficulty.HARD)
+  options_dict = orig_options.dict()
+  converted_options = Options(**options_dict)
+  assert converted_options == orig_options
+  assert orig_options != default_options
+  assert converted_options != default_options
+
+def test_convert_options_to_permalink_and_back():
+  default_options = Options()
+  orig_options = Options(progression_dungeons=False, num_required_bosses=2, logic_precision=TrickDifficulty.HARD)
+  orig_seed = "test"
+  permalink = WWRandomizer.encode_permalink(orig_seed, orig_options)
+  converted_seed, converted_options = WWRandomizer.decode_permalink(permalink)
+  assert converted_seed == orig_seed
+  assert converted_options == orig_options
+  assert orig_options != default_options
+  assert converted_options != default_options

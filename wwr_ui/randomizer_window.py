@@ -4,27 +4,24 @@ from PySide6.QtWidgets import *
 
 from wwr_ui.uic.ui_randomizer_window import Ui_MainWindow
 from wwr_ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
-from wwr_ui.inventory import INVENTORY_ITEMS, REGULAR_ITEMS, PROGRESSIVE_ITEMS, DEFAULT_STARTING_ITEMS, DEFAULT_RANDOMIZED_ITEMS
-from wwr_ui.packedbits import PackedBitsReader, PackedBitsWriter
+from wwr_ui.inventory import INVENTORY_ITEMS, DEFAULT_STARTING_ITEMS, DEFAULT_RANDOMIZED_ITEMS
 
 import collections
 
 import os
 import yaml
 import traceback
-import struct
-import base64
 from enum import StrEnum
 
 from options.wwrando_options import Options, SwordMode
-from randomizer import WWRandomizer, TooFewProgressionLocationsError, InvalidCleanISOError
+from randomizer import WWRandomizer, TooFewProgressionLocationsError, InvalidCleanISOError, PermalinkWrongVersionError, PermalinkWrongCommitError
 from version import VERSION
 from wwrando_paths import SETTINGS_PATH, ASSETS_PATH, IS_RUNNING_FROM_SOURCE
 from seedgen import seedgen
 from logic.logic import Logic
 
 from typing import TYPE_CHECKING, Type
-from types import GenericAlias
+import typing
 
 class WWRandomizerWindow(QMainWindow):
   def __init__(self, cmd_line_args):
@@ -306,7 +303,7 @@ class WWRandomizerWindow(QMainWindow):
             # Make sure the text of each choice in the combobox matches the string enum value of the option.
             widget.setItemText(i, enum_value.value)
       elif isinstance(widget, QListView):
-        assert isinstance(option.type, GenericAlias) and option.type.__origin__ == list
+        assert issubclass(typing.get_origin(option.type) or option.type, list)
       elif isinstance(widget, QSpinBox):
         assert issubclass(option.type, int)
         widget.setMinimum(option.minimum)
@@ -423,53 +420,8 @@ class WWRandomizerWindow(QMainWindow):
       self.ui.permalink.setText("")
       return
     
-    permalink = b""
-    permalink += VERSION.encode("ascii")
-    permalink += b"\0"
-    permalink += seed.encode("ascii")
-    permalink += b"\0"
-    
-    bitswriter = PackedBitsWriter()
-    for option in Options.all:
-      if not option.permalink:
-        continue
-      
-      value = self.settings[option.name]
-      
-      if option.name == "randomize_enemy_palettes" and not self.get_option_value("randomize_enemies"):
-        # Enemy palette randomizer doesn't need to be in the permalink when enemy rando is off.
-        # So just put a 0 bit as a placeholder.
-        value = False
-      
-      widget = self.findChild(QWidget, option.name)
-      if isinstance(widget, QAbstractButton):
-        bitswriter.write(int(value), 1)
-      elif isinstance(widget, QComboBox):
-        value = widget.currentIndex()
-        assert 0 <= value <= 255
-        bitswriter.write(value, 8)
-      elif isinstance(widget, QSpinBox):
-        box_length = (widget.maximum() - widget.minimum()).bit_length()
-        value = widget.value() - widget.minimum()
-        assert 0 <= value < (2 ** box_length)
-        bitswriter.write(value, box_length)
-      elif widget == self.ui.starting_gear:
-        # randomized_gear is a complement of starting_gear
-        for i in range(len(REGULAR_ITEMS)):
-          bit = REGULAR_ITEMS[i] in value
-          bitswriter.write(bit, 1)
-        unique_progressive_items = list(set(PROGRESSIVE_ITEMS))
-        unique_progressive_items.sort()
-        for item in unique_progressive_items:
-          # No Progressive Sword and there's no more than
-          # 3 of any other Progressive item so two bits per item
-          bitswriter.write(value.count(item), 2)
-    
-    bitswriter.flush()
-    
-    for byte in bitswriter.bytes:
-      permalink += struct.pack(">B", byte)
-    base64_encoded_permalink = base64.b64encode(permalink).decode("ascii")
+    options = self.get_all_options_from_widget_values()
+    base64_encoded_permalink = WWRandomizer.encode_permalink(seed, options)
     self.ui.permalink.setText(base64_encoded_permalink)
   
   def decode_permalink(self, base64_encoded_permalink):
@@ -478,81 +430,33 @@ class WWRandomizerWindow(QMainWindow):
       # Empty
       return
     
-    permalink = base64.b64decode(base64_encoded_permalink)
-    given_version_num, seed, options_bytes = permalink.split(b"\0", 2)
-    given_version_num = given_version_num.decode("ascii")
-    seed = seed.decode("ascii")
-    if given_version_num != VERSION:
-      if IS_RUNNING_FROM_SOURCE and VERSION.split("_")[0] == given_version_num.split("_")[0]:
-        message = "The permalink you pasted is for version %s of the randomizer, while you are currently using version %s." % (given_version_num, VERSION)
-        message += "\n\nBecause only the commit is different, the permalink may or may not still be compatible. Would you like to try loading this permalink anyway?"
-        response = QMessageBox.question(
-          self, "Potentially invalid permalink",
-          message,
-          QMessageBox.Cancel | QMessageBox.Yes,
-          QMessageBox.Cancel
-        )
-        if response == QMessageBox.Cancel:
-          return
-      else:
-        QMessageBox.critical(
-          self, "Invalid permalink",
-          "The permalink you pasted is for version %s of the randomizer, it cannot be used with the version you are currently using (%s)." % (given_version_num, VERSION)
-        )
+    options = self.get_all_options_from_widget_values()
+    
+    try:
+      seed, options = WWRandomizer.decode_permalink(base64_encoded_permalink, options)
+    except PermalinkWrongVersionError as e:
+      message = str(e)
+      QMessageBox.critical(self, "Invalid permalink", message)
+      return
+    except PermalinkWrongCommitError as e:
+      message = str(e)
+      message += "\n\nBecause only the commit is different, the permalink may or may not still be compatible. Would you like to try loading this permalink anyway?"
+      response = QMessageBox.question(
+        self, "Potentially invalid permalink",
+        message,
+        QMessageBox.Cancel | QMessageBox.Yes,
+        QMessageBox.Cancel
+      )
+      if response == QMessageBox.Cancel:
         return
+      
+      options = self.get_all_options_from_widget_values()
+      seed, options = WWRandomizer.decode_permalink(base64_encoded_permalink, options, allow_different_commit=True)
     
     self.ui.seed.setText(seed)
-    
-    option_bytes = struct.unpack(">" + "B"*len(options_bytes), options_bytes)
-    
-    prev_randomize_enemy_palettes_value = self.get_option_value("randomize_enemy_palettes")
-    
-    bitsreader = PackedBitsReader(option_bytes)
     for option in Options.all:
-      if not option.permalink:
-        continue
-      
-      widget = self.findChild(QWidget, option.name)
-      if isinstance(widget, QAbstractButton):
-        boolean_value = bitsreader.read(1)
-        self.set_option_value(option.name, boolean_value)
-      elif isinstance(widget, QComboBox):
-        index = bitsreader.read(8)
-        if index >= widget.count() or index < 0:
-          index = 0
-        value = widget.itemText(index)
-        self.set_option_value(option.name, value)
-      elif isinstance(widget, QSpinBox):
-        box_length = (widget.maximum() - widget.minimum()).bit_length()
-        value = bitsreader.read(box_length) + widget.minimum()
-        if value > widget.maximum() or value < widget.minimum():
-          value = self.default_options[option.name]
-        self.set_option_value(option.name, value)
-      elif widget == self.ui.starting_gear:
-        # Reset model with only the regular items
-        self.randomized_gear_model.setStringList(REGULAR_ITEMS.copy())
-        self.starting_gear_model.setStringList([])
-        self.filtered_rgear.setFilterStrings([])
-        for i in range(len(REGULAR_ITEMS)):
-          starting = bitsreader.read(1)
-          if starting == 1:
-            self.ui.randomized_gear.selectionModel().select(self.randomized_gear_model.index(i), QItemSelectionModel.Select)
-        self.move_selected_rows(self.ui.randomized_gear, self.ui.starting_gear)
-        # Progressive items are all after regular items
-        unique_progressive_items = list(set(PROGRESSIVE_ITEMS))
-        unique_progressive_items.sort()
-        for item in unique_progressive_items:
-          amount = bitsreader.read(2)
-          randamount = PROGRESSIVE_ITEMS.count(item) - amount
-          for i in range(amount):
-            self.append_row(self.starting_gear_model, item)
-          for i in range(randamount):
-            self.append_row(self.randomized_gear_model, item)
-    
-    if not self.get_option_value("randomize_enemies"):
-      # If a permalink with enemy rando off was pasted, we don't want to change enemy palette rando to match the permalink.
-      # So revert it to the value from before reading the permalink.
-      self.set_option_value("randomize_enemy_palettes", prev_randomize_enemy_palettes_value)
+      if option.permalink:
+        self.set_option_value(option.name, options[option.name])
     
     self.update_settings()
   

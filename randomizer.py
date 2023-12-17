@@ -29,6 +29,12 @@ from asm import disassemble
 from asm import elf2rel
 
 from options.wwrando_options import Options, SwordMode
+from wwr_ui.inventory import REGULAR_ITEMS, PROGRESSIVE_ITEMS
+from packedbits import PackedBitsReader, PackedBitsWriter
+import base64
+import struct
+import typing
+from enum import StrEnum
 
 try:
   from keys.seed_key import SEED_KEY # type: ignore
@@ -67,11 +73,10 @@ RNG_CHANGING_OPTIONS = [
   "do_not_generate_spoiler_log",
 ]
 
-class TooFewProgressionLocationsError(Exception):
-  pass
-
-class InvalidCleanISOError(Exception):
-  pass
+class TooFewProgressionLocationsError(Exception): pass
+class InvalidCleanISOError(Exception): pass
+class PermalinkWrongVersionError(Exception): pass
+class PermalinkWrongCommitError(Exception): pass
 
 T = TypeVar('T')
 
@@ -460,6 +465,150 @@ class WWRandomizer:
     seed = "".join(char for char in seed if char in cls.VALID_SEED_CHARACTERS)
     seed = seed[:cls.MAX_SEED_LENGTH]
     return seed
+  
+  @classmethod
+  def encode_permalink(cls, seed: str, options: Options):
+    seed = cls.sanitize_seed(seed)
+    
+    permalink = b""
+    permalink += VERSION.encode("ascii")
+    permalink += b"\0"
+    permalink += seed.encode("ascii")
+    permalink += b"\0"
+    
+    bitswriter = PackedBitsWriter()
+    for option in Options.all:
+      if not option.permalink:
+        continue
+      
+      value = options[option.name]
+      
+      if option.name == "randomize_enemy_palettes" and not options.randomize_enemies:
+        # Enemy palette randomizer doesn't need to be in the permalink when enemy rando is off.
+        # So just put a 0 bit as a placeholder.
+        value = False
+      
+      if issubclass(option.type, bool):
+        bitswriter.write(int(value), 1)
+      elif issubclass(option.type, StrEnum):
+        enum_values = [val for val in option.type]
+        index_of_value = enum_values.index(value)
+        assert 0 <= index_of_value <= 255
+        bitswriter.write(index_of_value, 8)
+      elif issubclass(option.type, int):
+        assert option.minimum is not None
+        assert option.maximum is not None
+        max_bit_length = (option.maximum - option.minimum).bit_length()
+        adjusted_value = value - option.minimum
+        assert 0 <= adjusted_value < (2 ** max_bit_length)
+        bitswriter.write(adjusted_value, max_bit_length)
+      elif option.name == "starting_gear":
+        assert issubclass(typing.get_origin(option.type) or option.type, list)
+        for item_name in REGULAR_ITEMS:
+          bit = item_name in value
+          bitswriter.write(bit, 1)
+        unique_progressive_items = list(set(PROGRESSIVE_ITEMS))
+        unique_progressive_items.sort()
+        for item_name in unique_progressive_items:
+          bitswriter.write(value.count(item_name), 2)
+      elif option.name == "randomized_gear":
+        # Handled above.
+        continue
+      else:
+        raise Exception(f"Option {option.name} of type {option.type} is not currently supported by the permalink system.")
+    
+    bitswriter.flush()
+    
+    for byte in bitswriter.bytes:
+      permalink += struct.pack(">B", byte)
+    base64_encoded_permalink = base64.b64encode(permalink).decode("ascii")
+    return base64_encoded_permalink
+  
+  @classmethod
+  def decode_permalink(cls, base64_encoded_permalink: str, options: Options = None, allow_different_commit=False):
+    base64_encoded_permalink = base64_encoded_permalink.strip()
+    if not base64_encoded_permalink:
+      raise Exception(f"Permalink is blank.")
+    
+    permalink = base64.b64decode(base64_encoded_permalink)
+    given_version_num, seed, options_bytes = permalink.split(b"\0", 2)
+    given_version_num = given_version_num.decode("ascii")
+    seed = seed.decode("ascii")
+    if given_version_num != VERSION:
+      if IS_RUNNING_FROM_SOURCE and VERSION.split("_")[0] == given_version_num.split("_")[0]:
+        if not allow_different_commit:
+          message = "The given permalink is for version %s of the randomizer, while you are currently using version %s." % (given_version_num, VERSION)
+          raise PermalinkWrongCommitError(message)
+      else:
+        message = "The given permalink is for version %s of the randomizer, it cannot be used with the version you are currently using (%s)." % (given_version_num, VERSION)
+        raise PermalinkWrongVersionError(message)
+    
+    if options is None:
+      options = Options()
+    
+    option_bytes = struct.unpack(">" + "B"*len(options_bytes), options_bytes)
+    
+    prev_randomize_enemy_palettes_value = options.randomize_enemy_palettes
+    
+    bitsreader = PackedBitsReader(option_bytes)
+    for option in Options.all:
+      if not option.permalink:
+        continue
+      
+      if issubclass(option.type, bool):
+        boolean_value = bool(bitsreader.read(1))
+        options[option.name] = boolean_value
+      elif issubclass(option.type, StrEnum):
+        index_of_value = bitsreader.read(8)
+        enum_values = [val for val in option.type]
+        if index_of_value < 0 or index_of_value >= len(enum_values):
+          index_of_value = 0
+        enum_value = enum_values[index_of_value]
+        options[option.name] = enum_value
+      elif issubclass(option.type, int):
+        assert option.minimum is not None
+        assert option.maximum is not None
+        max_bit_length = (option.maximum - option.minimum).bit_length()
+        adjusted_value = bitsreader.read(max_bit_length)
+        value = adjusted_value + option.minimum
+        if value < option.minimum or value > option.maximum:
+          value = option.default
+        options[option.name] = value
+      elif option.name == "starting_gear":
+        # Reset model with only the regular items
+        assert issubclass(typing.get_origin(option.type) or option.type, list)
+        starting_list = []
+        randomized_list = []
+        for item_name in REGULAR_ITEMS:
+          starting = bitsreader.read(1)
+          if starting == 1:
+            starting_list.append(item_name)
+          else:
+            randomized_list.append(item_name)
+        # Progressive items are all after regular items
+        unique_progressive_items = list(set(PROGRESSIVE_ITEMS))
+        unique_progressive_items.sort()
+        for item_name in unique_progressive_items:
+          amount = bitsreader.read(2)
+          randamount = PROGRESSIVE_ITEMS.count(item_name) - amount
+          for i in range(amount):
+            starting_list.append(item_name)
+          for i in range(randamount):
+            randomized_list.append(item_name)
+        options.starting_gear = sorted(starting_list)
+        options.randomized_gear = sorted(randomized_list)
+      elif option.name == "randomized_gear":
+        # Handled above.
+        continue
+      else:
+        raise Exception(f"Option {option.name} of type {option.type} is not currently supported by the permalink system.")
+    
+    if not options.randomize_enemies:
+      # If a permalink with enemy rando off was pasted, we don't want to change enemy palette rando to match the permalink.
+      # So revert it to the value from before reading the permalink.
+      options.randomize_enemy_palettes = prev_randomize_enemy_palettes_value
+    
+    return seed, options
   
   def verify_supported_version(self, clean_iso_path):
     with open(clean_iso_path, "rb") as f:
