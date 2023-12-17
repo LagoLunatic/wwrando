@@ -233,16 +233,16 @@ class Options(BaseOptions):
   )
   cryptic_hints: bool = option(
     default=True,
-    description="When this option is selected, all hints will be phrased cryptically instead of telling you the names of locations and items directly."
+    description="When this option is selected, all hints will be phrased cryptically instead of telling you the names of locations and items directly.",
   )
   prioritize_remote_hints: bool = option(
     default=False,
-    description="When this option is selected, certain locations that are out of the way and time-consuming to complete will take precedence over normal location hints."
+    description="When this option is selected, certain locations that are out of the way and time-consuming to complete will take precedence over normal location hints.",
   )
   
   swift_sail: bool = option(
     default=True,
-    description="Sailing speed is doubled and the direction of the wind is always at your back as long as the sail is out."
+    description="Sailing speed is doubled and the direction of the wind is always at your back as long as the sail is out.",
   )
   instant_text_boxes: bool = option(
     default=True,
@@ -251,7 +251,7 @@ class Options(BaseOptions):
   )
   reveal_full_sea_chart: bool = option(
     default=True,
-    description="Start the game with the sea chart fully drawn out."
+    description="Start the game with the sea chart fully drawn out.",
   )
   num_starting_triforce_shards: int = option(
     default=0,
@@ -286,17 +286,17 @@ class Options(BaseOptions):
   )
   skip_rematch_bosses: bool = option(
     default=True,
-    description="Removes the door in Ganon's Tower that only unlocks when you defeat the rematch versions of Gohma, Kalle Demos, Jalhalla, and Molgera."
+    description="Removes the door in Ganon's Tower that only unlocks when you defeat the rematch versions of Gohma, Kalle Demos, Jalhalla, and Molgera.",
   )
   invert_camera_x_axis: bool = option(
     default=False,
     permalink=False,
-    description="Inverts the horizontal axis of camera movement."
+    description="Inverts the horizontal axis of camera movement.",
   )
   invert_sea_compass_x_axis: bool = option(
     default=False,
     permalink=False,
-    description="Inverts the east-west direction of the compass that shows while at sea."
+    description="Inverts the east-west direction of the compass that shows while at sea.",
   )
   required_bosses: bool = option(
     default=False,
@@ -314,12 +314,12 @@ class Options(BaseOptions):
   #   default=False,
   #   permalink=True, # Music duration affects gameplay (e.g. item get textbox speed).
   #   hidden=True,
-  #   description="Shuffles around all the music in the game. This affects background music, combat music, fanfares, etc."
+  #   description="Shuffles around all the music in the game. This affects background music, combat music, fanfares, etc.",
   # ),
   randomize_enemy_palettes: bool = option(
     default=False,
     permalink=True, # TODO: Has special logic to be in when enemy rando is on, but just a placeholder otherwise. How to handle this?
-    description="Gives all the enemies in the game random colors."
+    description="Gives all the enemies in the game random colors.",
   )
   remove_title_and_ending_videos: bool = option(
     default=True,
@@ -337,22 +337,22 @@ class Options(BaseOptions):
   player_in_casual_clothes: bool = option(
     default=False,
     permalink=False,
-    description="Enable this if you want to wear your casual clothes instead of the Hero's Clothes."
+    description="Enable this if you want to wear your casual clothes instead of the Hero's Clothes.",
   )
   disable_custom_player_voice: bool = option(
     default=False,
     permalink=False,
-    description="If the chosen custom model comes with custom voice files, you can check this option to turn them off and use Link's normal voice instead."
+    description="If the chosen custom model comes with custom voice files, you can check this option to turn them off and use Link's normal voice instead.",
   )
   disable_custom_player_items: bool = option(
     default=False,
     permalink=False,
-    description="If the chosen custom model comes with custom item models, you can check this option to turn them off and use Link's normal item models instead."
+    description="If the chosen custom model comes with custom item models, you can check this option to turn them off and use Link's normal item models instead.",
   )
   custom_color_preset: str = option(
     default="Default",
     permalink=False,
-    description="This allows you to select from preset color combinations chosen by the author of the selected player model."
+    description="This allows you to select from preset color combinations chosen by the author of the selected player model.",
   )
   custom_colors: dict[str, list] = option(
     default_factory=dict,
@@ -360,23 +360,23 @@ class Options(BaseOptions):
   )
   randomized_gear: list[str] = option(
     default_factory=lambda: sorted(DEFAULT_RANDOMIZED_ITEMS),
-    description="Inventory items that will be randomized."
+    description="Inventory items that will be randomized.",
   )
   starting_gear: list[str] = option(
     default_factory=lambda: sorted(DEFAULT_STARTING_ITEMS),
-    description="Items that will be in Link's inventory at the start of a new game."
+    description="Items that will be in Link's inventory at the start of a new game.",
   )
   starting_pohs: int = option(
     default=0,
     minimum=0,
     maximum=44,
-    description="Amount of extra pieces of heart that you start with."
+    description="Amount of extra pieces of heart that you start with.",
   )
   starting_hcs: int = option(
     default=0,
     minimum=0,
     maximum=6,
-    description="Amount of extra heart containers that you start with."
+    description="Amount of extra heart containers that you start with.",
   )
   num_extra_starting_items: int = option(
     default=0,
@@ -388,13 +388,13 @@ class Options(BaseOptions):
   remove_music: bool = option(
     default=False,
     permalink=True, # Music duration affects gameplay (e.g. item get textbox speed).
-    description="Mutes all ingame music."
+    description="Mutes all ingame music.",
   )
   randomize_enemies: bool = option(
     default=False,
     hidden=True,
     unbeatable=True,
-    description="Randomizes the placement of non-boss enemies."
+    description="Randomizes the placement of non-boss enemies.",
   )
   dry_run: bool = option(
     default=False,
