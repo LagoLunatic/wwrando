@@ -190,7 +190,6 @@ def run_no_ui(args):
     "clean_iso_path": settings["clean_iso_path"].strip(),
     "randomized_output_folder": settings["output_folder"],
     "options": options, # TODO filter out invalid options
-    "permalink": None, # TODO encode this
     "cmd_line_args": args,
   }
   

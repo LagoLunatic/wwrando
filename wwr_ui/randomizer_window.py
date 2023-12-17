@@ -210,12 +210,10 @@ class WWRandomizerWindow(QMainWindow):
     
     options.custom_colors = self.ui.tab_player_customization.get_all_colors()
     
-    permalink = self.ui.permalink.text()
-    
     self.progress_dialog = RandomizerProgressDialog(self, "Randomizing", "Initializing...")
     
     try:
-      rando = WWRandomizer(seed, clean_iso_path, output_folder, options, permalink=permalink, cmd_line_args=self.cmd_line_args)
+      rando = WWRandomizer(seed, clean_iso_path, output_folder, options, cmd_line_args=self.cmd_line_args)
     except (TooFewProgressionLocationsError, InvalidCleanISOError) as e:
       error_message = str(e)
       self.randomization_failed(error_message)

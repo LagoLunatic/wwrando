@@ -10,7 +10,6 @@ def rando_with_options(options) -> WWRandomizer:
     "clean_iso_path": None,
     "randomized_output_folder": "./rando_output",
     "options": options,
-    "permalink": None,
     "cmd_line_args": args,
   }
   return WWRandomizer(**rando_kwargs)
