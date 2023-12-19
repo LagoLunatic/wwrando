@@ -1325,7 +1325,7 @@ class Logic:
     biggest_combo = []
     for item_name, num in max_num_of_each_item_to_check.items():
       biggest_combo += [item_name]*num
-    biggest_combo = tuple(biggest_combo)
+    biggest_combo = tuple(self.pack_item_groups(biggest_combo))
     # print(f"Biggest item combo length: {len(biggest_combo)} items")
     # print(f"Biggest item combo: {biggest_combo}")
     
