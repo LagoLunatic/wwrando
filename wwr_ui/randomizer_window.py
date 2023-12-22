@@ -6,12 +6,11 @@ from wwr_ui.uic.ui_randomizer_window import Ui_MainWindow
 from wwr_ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
 from wwr_ui.inventory import INVENTORY_ITEMS, DEFAULT_STARTING_ITEMS, DEFAULT_RANDOMIZED_ITEMS
 
-import collections
-
 import os
 import yaml
 import traceback
 from enum import StrEnum
+from collections import Counter
 
 from options.wwrando_options import Options, SwordMode
 from randomizer import WWRandomizer, TooFewProgressionLocationsError, InvalidCleanISOError, PermalinkWrongVersionError, PermalinkWrongCommitError
@@ -681,10 +680,9 @@ class WWRandomizerWindow(QMainWindow):
     self.set_option_value("starting_gear", options.starting_gear)
     self.set_option_value("randomized_gear", options.randomized_gear)
     
-    compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
     all_gear = self.get_option_value("starting_gear") + self.get_option_value("randomized_gear")
     
-    if not compare(all_gear, INVENTORY_ITEMS):
+    if Counter(all_gear) != Counter(INVENTORY_ITEMS):
       print("Gear list invalid, resetting")
       for opt in ["randomized_gear", "starting_gear"]:
         self.set_option_value(opt, self.default_options[opt])

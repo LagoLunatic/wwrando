@@ -114,7 +114,7 @@ def run_single_bulk_test(args):
   rando = None
   try:
     rando = WWRandomizer(**rando_kwargs)
-    all(rando.randomize())
+    rando.randomize_all()
     return True, rando
   except Exception as e:
     stack_trace = traceback.format_exc()
@@ -225,7 +225,7 @@ def run_no_ui(args):
   else:
     rando = WWRandomizer(**rando_kwargs)
     try:
-      all(rando.randomize())
+      rando.randomize_all()
       if rando.dry_run:
         print("Done (dry)")
       else:

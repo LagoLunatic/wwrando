@@ -287,6 +287,9 @@ class WWRandomizer:
     
     return max_progress_val
   
+  def randomize_all(self):
+    for _ in self.randomize(): pass
+  
   def randomize(self):
     progress_completed = 0
     yield("Modifying game code...", progress_completed)

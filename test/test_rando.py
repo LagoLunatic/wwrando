@@ -17,7 +17,7 @@ def rando_with_options(options) -> WWRandomizer:
 def test_rando_default_options():
   options = Options()
   rando = rando_with_options(options)
-  all(rando.randomize())
+  rando.randomize_all()
 
 def test_rando_all_options():
   options = Options()
@@ -114,7 +114,7 @@ def test_rando_all_options():
   options.logic_precision = TrickDifficulty.VERY_HARD
   
   rando = rando_with_options(options)
-  all(rando.randomize())
+  rando.randomize_all()
 
 def test_entrance_rando_enables():
   options = Options()

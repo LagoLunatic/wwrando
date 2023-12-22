@@ -36,7 +36,7 @@ class Option(Field):
 
 def option(default=MISSING, default_factory=MISSING,
            description="", choice_descriptions={},
-           minimum=None, maximum=None,
+           minimum: Optional[int] = None, maximum: Optional[int] = None,
            permalink=True, hidden=False, unbeatable=False):
   if default is MISSING and default_factory is MISSING:
     raise ValueError('must specify either default or default_factory')
