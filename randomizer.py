@@ -954,7 +954,7 @@ class WWRandomizer:
     return rng
   
   def weighted_choice(self, rng: Random, seq: list[T], weight_conditions: list[tuple[int, Callable[[T], bool]]]) -> T:
-    weighted_seq = []
+    element_weights = []
     
     for element in seq:
       weight_for_element = 1
@@ -963,9 +963,9 @@ class WWRandomizer:
         if condition_callback(element):
           weight_for_element *= weight
       
-      weighted_seq += weight_for_element*[element]
+      element_weights.append(weight_for_element)
     
-    return rng.choice(weighted_seq)
+    return rng.sample(seq, 1, counts=element_weights)[0]
   
   def get_seed_hash(self):
     # Generate some text that will be shown on the name entry screen which has two random character names that vary based on the permalink (so the seed and settings both change it).
