@@ -946,7 +946,8 @@ class Logic:
     if self.rando.boss_reqs.is_enabled():
       self.update_required_bosses_macro()
   
-  def split_location_name_by_zone(self, location_name: str) -> tuple[str, str]:
+  @staticmethod
+  def split_location_name_by_zone(location_name: str) -> tuple[str, str]:
     if " - " in location_name:
       zone_name, specific_location_name = location_name.split(" - ", 1)
     else:
@@ -1405,7 +1406,7 @@ class Logic:
     checked_combos.add(item_combo)
     # if len(checked_combos) > 1000 and len(checked_combos) % 10000 == 0:
     #   print(f"Did a preliminary check on {len(checked_combos)} combos so far...")
-    if len(checked_combos) >= 5000:
+    if len(checked_combos) >= 10000:
       raise Exception(f"Enemy randomizer got stuck in an exponential loop checking over {len(checked_combos)} possibilities for requirement: {orig_req_expression!r}")
     
     if not orig_req_met:
