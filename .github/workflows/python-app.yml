@@ -54,10 +54,8 @@ jobs:
       - name: Add keys
         run: |
             echo "$SEED_KEY" > keys/seed_key.py
-            echo "$BUILD_KEY" > keys/build_key.txt
         env:
           SEED_KEY: ${{ secrets.SEED_KEY }}
-          BUILD_KEY: ${{ secrets.BUILD_KEY }}
       - name: Set up Python
         id: setup-py
         uses: actions/setup-python@v4

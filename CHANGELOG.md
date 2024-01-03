@@ -15,13 +15,17 @@ New features:
   * You can potentially go down to Hyrule and Ganon's Tower early, but the door to Puppet Ganon will be locked until you defeat the selected bosses elsewhere.
   * The dungeons of the bosses that were *not* selected will never have progress items in them (e.g. Earth Temple for Jalhalla). If used together with the Nested Entrance Randomizer, nothing nested inside of these non-required dungeons will contain progress items, either.
   * This replaces the old Race Mode option. Although similar, Required Bosses Mode does not limit what items can be dropped by the randomly selected bosses like Race Mode.
+* Added an Extra Starting Items Randomizer that starts your run off with some random (but guaranteed to be useful) items.
 * You can now bring the three Servants of the Tower to the central room in Tower of the Gods in any order instead of being forced into the linear vanilla order.
 * Customized player colors can now be saved to a file for later use, or shared with other players.
+* Added optional Trap Chests that will damage you instead of giving you an item.
+* You can now carry enemy weapons through doors.
 
 Changes:
 * Dungeon bosses can no longer drop dungeon items when Key-Lunacy mode is disabled.
 * It is now easier to get the Great Deku Tree to mark the location of the Koroks on your sea chart.
 * The three cutscenes where the Servants of the Tower walk onto their platforms have been significantly sped up.
+* The Fire Mountain Cave chest is now only enabled for progression when both Puzzle Secret Caves and Combat Secret Caves are selected. (Previously only Puzzle Secret Caves.)
 * Adjusted the text of a few hints.
 * Kogoli now appears in the randomizer.
 * The spoiler log now includes hints and Required Bosses Mode's required dungeons.
