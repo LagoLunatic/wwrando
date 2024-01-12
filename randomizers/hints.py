@@ -47,7 +47,7 @@ class Hint:
         return self.reward
       case HintType.ITEM | HintType.FIXED_LOCATION:
         if is_cryptic:
-          return HintsRandomizer.cryptic_item_hints[HintsRandomizer.get_hint_item_name(self.reward)]
+          return HintsRandomizer.get_cryptic_item_hint(self.reward)
         else:
           return HintsRandomizer.get_formatted_item_name(self.reward)
       case HintType.LOCATION:
@@ -274,8 +274,8 @@ class HintsRandomizer(BaseRandomizer):
     rows = []
     
     for savage_hint in [self.floor_30_hint, self.floor_50_hint]:
-      savage_hint_is_progress = savage_hint.reward in self.logic.all_progress_items
-      rows.append((savage_hint.place, savage_hint.reward if savage_hint_is_progress else "Nothing"))
+      savage_hint_is_valid = self.check_item_can_be_hinted_at(savage_hint.reward)
+      rows.append((savage_hint.place, savage_hint.reward if savage_hint_is_valid else "Nothing"))
     
     all_hints = [self.octo_fairy_hint]
     for hints_for_placement in self.hints_per_placement.values():
@@ -298,20 +298,20 @@ class HintsRandomizer(BaseRandomizer):
   def update_savage_labyrinth_hint_tablet(self, floor_30_hint: Hint, floor_50_hint: Hint):
     # Update the tablet on the first floor of savage labyrinth to give hints as to the items inside the labyrinth.
     
-    floor_30_is_progress = floor_30_hint.reward in self.logic.all_progress_items
-    floor_50_is_progress = floor_50_hint.reward in self.logic.all_progress_items
+    floor_30_is_valid = self.check_item_can_be_hinted_at(floor_30_hint.reward)
+    floor_50_is_valid = self.check_item_can_be_hinted_at(floor_50_hint.reward)
     
-    if floor_30_is_progress and floor_50_is_progress:
+    if floor_30_is_valid and floor_50_is_valid:
       hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_30_hint.formatted_reward(self.cryptic_hints)
       hint += " and "
       hint += "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_50_hint.formatted_reward(self.cryptic_hints)
       hint += " await"
-    elif floor_30_is_progress:
+    elif floor_30_is_valid:
       hint = "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_30_hint.formatted_reward(self.cryptic_hints)
       hint += " and "
       hint += "challenge"
       hint += " await"
-    elif floor_50_is_progress:
+    elif floor_50_is_valid:
       hint = "challenge"
       hint += " and "
       hint += "\\{1A 06 FF 00 00 01}%s\\{1A 06 FF 00 00 00}" % floor_50_hint.formatted_reward(self.cryptic_hints)
@@ -531,6 +531,11 @@ class HintsRandomizer(BaseRandomizer):
     
     item_name = tweaks.add_article_before_item_name(item_name)
     return item_name
+  
+  @staticmethod
+  def get_cryptic_item_hint(item_name):
+    item_name = HintsRandomizer.get_hint_item_name(item_name)
+    return HintsRandomizer.cryptic_item_hints[item_name]
   #endregion
   
   
