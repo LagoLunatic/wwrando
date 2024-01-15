@@ -14,6 +14,7 @@ from gclib import fs_helpers as fs
 from gclib import texture_utils
 from gclib.bti import BTI
 from gclib.j3d import BDL
+from gclib.j3d import BRK
 import gclib.gx_enums as GX
 from wwrando_paths import ASSETS_PATH, CUSTOM_MODELS_PATH
 
@@ -375,12 +376,39 @@ def change_player_custom_colors(self: WWRandomizer):
   parrying_sword_trail_color = custom_model_metadata.get("parrying_sword_trail_color")
   boomerang_trail_color = custom_model_metadata.get("boomerang_trail_color")
   arrow_trail_color = custom_model_metadata.get("arrow_trail_color")
-  if sword_slash_trail_color:
-    self.dol.write_data(fs.write_and_pack_bytes, 0x803F62AC, sword_slash_trail_color, "BBBB")
-  if elixir_soup_sword_trail_color:
-    self.dol.write_data(fs.write_and_pack_bytes, 0x803F62B0, elixir_soup_sword_trail_color, "BBBB")
-  if parrying_sword_trail_color:
-    self.dol.write_data(fs.write_and_pack_bytes, 0x803F62B4, parrying_sword_trail_color, "BBBB")
+  
+  if sword_slash_trail_color or elixir_soup_sword_trail_color or parrying_sword_trail_color:
+    # For most attack animations, the function daPy_swBlur_c::draw() hardcodes the three colors for the trails.
+    # However, the forward jab animation's trail is a separate model, with its color controlled by two BRK animations.
+    # We need to update both the hardcoded colors in main.dol and the BRK animations in LkAnm.arc.
+    lkanm_arc = self.get_arc("files/res/Object/LkAnm.arc")
+    sword_tip_brks: list = [
+      lkanm_arc.get_file("cutfh.brk", BRK), # Hero's Sword
+      lkanm_arc.get_file("cutfm.brk", BRK), # Master Sword
+    ]
+    def replace_sword_tip_brk_color_at_frame_index(index, color):
+      # Unlike with the hardcoded colors, the alpha value for the sword tip BRKs cannot be changed easily.
+      r, g, b, _ = color
+      for brk in sword_tip_brks:
+        anim = list(brk.trk1.mat_name_to_reg_anims.values())[0][0]
+        assert len(anim.r.keyframes) == len(anim.g.keyframes) == len(anim.b.keyframes) == 3
+        anim.r.keyframes[index].value = r
+        anim.g.keyframes[index].value = g
+        anim.b.keyframes[index].value = b
+    
+    if sword_slash_trail_color:
+      self.dol.write_data(fs.write_and_pack_bytes, 0x803F62AC, sword_slash_trail_color, "BBBB")
+      replace_sword_tip_brk_color_at_frame_index(0, sword_slash_trail_color)
+    if elixir_soup_sword_trail_color:
+      self.dol.write_data(fs.write_and_pack_bytes, 0x803F62B0, elixir_soup_sword_trail_color, "BBBB")
+      replace_sword_tip_brk_color_at_frame_index(1, elixir_soup_sword_trail_color)
+    if parrying_sword_trail_color:
+      self.dol.write_data(fs.write_and_pack_bytes, 0x803F62B4, parrying_sword_trail_color, "BBBB")
+      replace_sword_tip_brk_color_at_frame_index(2, parrying_sword_trail_color)
+    
+    for brk in sword_tip_brks:
+      brk.save()
+  
   if boomerang_trail_color:
     self.dol.write_data(fs.write_and_pack_bytes, 0x803F6268, boomerang_trail_color, "BBBB")
   if arrow_trail_color:

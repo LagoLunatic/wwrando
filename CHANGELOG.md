@@ -34,6 +34,7 @@ Changes:
 Bug fixes:
 * Fixed a bug in Key-Lunacy where small keys were less likely to appear early in the seed, causing dungeons to tend to become accessible late in the seed.
 * Fixed the feature introduced in 1.10.0 to customize vanilla Link's hat and tunic colors separately not actually working.
+* Fixed the custom sword trail colors for custom player models not working for the forward jab attack animation.
 * Fixed a bug where seeds would fail to generate if you chose to start with every single progression item in the game while progression Dungeons was enabled and Key-Lunacy was disabled.
 * Fixed a bug where Tingle Chests would not appear when hit with a Bomb Flower instead of a normal bomb.
 * Fixed a vanilla bug where some of the sunken treasures around Needle Rock Island could be permanently missable depending on the order you collected them in (these only reward rupees and are not randomized).
