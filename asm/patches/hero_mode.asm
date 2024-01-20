@@ -10,7 +10,7 @@ multiply_damage_amount:
   fcmpo cr0, f1, f0 ; Compare the amount of damage (f1) to 0.0f (f0)
   bge multiply_damage_amount_return ; Don't multiply the amount if it's not negative
   
-  ; Multiply the amount of damage in f1 by damage multiplier value set by the randomizer.
+  ; Multiply the amount of damage in f1 by the damage multiplier value set by the randomizer.
   lis r4, damage_multiplier@ha
   addi r4, r4, damage_multiplier@l
   lfs f0, 0 (r4)

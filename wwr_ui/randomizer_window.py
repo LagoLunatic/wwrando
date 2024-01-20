@@ -253,7 +253,7 @@ class WWRandomizerWindow(QMainWindow):
     if self.randomizer_thread.randomizer.dry_run:
       text = """Randomization complete.<br><br>
       Note: You chose to do a dry run, meaning <u>no playable ISO was generated</u>.<br>
-      To actually play the randomizer, uncheck the Dry Run checkbox in the Other Options tab, then click Randomize again."""
+      To actually play the randomizer, uncheck the Dry Run checkbox in the Advanced Options tab, then click Randomize again."""
     
     self.randomizer_thread = None
     
