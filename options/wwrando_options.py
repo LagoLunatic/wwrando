@@ -182,7 +182,11 @@ class Options(BaseOptions):
   )
   #endregion
   
-  #region Logic
+  #region Difficulty
+  hero_mode: bool = option(
+    default=False,
+    description="In Hero Mode, you take four times more damage than normal and heart refills will not drop.",
+  )
   logic_obscurity: TrickDifficulty = option(
     default=TrickDifficulty.NONE,
     description="Obscure tricks are ways of obtaining items that are not obvious and may involve thinking outside the box.<br>"
@@ -367,7 +371,7 @@ class Options(BaseOptions):
   )
   starting_gear: list[str] = option(
     default_factory=lambda: sorted(DEFAULT_STARTING_ITEMS),
-    description="Items that will be in Link's inventory at the start of a new game.",
+    description="Items that will be in your inventory at the start of a new game.",
   )
   num_starting_triforce_shards: int = option(
     default=0,

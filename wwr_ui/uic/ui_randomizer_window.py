@@ -638,6 +638,11 @@ class Ui_MainWindow(object):
         self.groupBox_9.setObjectName(u"groupBox_9")
         self.horizontalLayout_22 = QHBoxLayout(self.groupBox_9)
         self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
+        self.hero_mode = QCheckBox(self.groupBox_9)
+        self.hero_mode.setObjectName(u"hero_mode")
+
+        self.horizontalLayout_22.addWidget(self.hero_mode)
+
         self.horizontalLayout_20 = QHBoxLayout()
         self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
         self.label_for_logic_obscurity = QLabel(self.groupBox_9)
@@ -680,11 +685,6 @@ class Ui_MainWindow(object):
         self.widget_10.setObjectName(u"widget_10")
 
         self.horizontalLayout_22.addWidget(self.widget_10)
-
-        self.widget_13 = QWidget(self.groupBox_9)
-        self.widget_13.setObjectName(u"widget_13")
-
-        self.horizontalLayout_22.addWidget(self.widget_13)
 
 
         self.verticalLayout_8.addWidget(self.groupBox_9)
@@ -1048,7 +1048,8 @@ class Ui_MainWindow(object):
         self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Required Bosses", None))
         self.required_bosses.setText(QCoreApplication.translate("MainWindow", u"Required Bosses Mode", None))
         self.label_for_num_required_bosses.setText(QCoreApplication.translate("MainWindow", u"Number of Required Bosses", None))
-        self.groupBox_9.setTitle(QCoreApplication.translate("MainWindow", u"Logic Difficulty", None))
+        self.groupBox_9.setTitle(QCoreApplication.translate("MainWindow", u"Difficulty Options", None))
+        self.hero_mode.setText(QCoreApplication.translate("MainWindow", u"Hero Mode", None))
         self.label_for_logic_obscurity.setText(QCoreApplication.translate("MainWindow", u"Obscure Tricks Required", None))
         self.logic_obscurity.setItemText(0, QCoreApplication.translate("MainWindow", u"None", None))
         self.logic_obscurity.setItemText(1, QCoreApplication.translate("MainWindow", u"Normal", None))

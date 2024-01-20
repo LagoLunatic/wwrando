@@ -902,9 +902,16 @@
             <item>
              <widget class="QGroupBox" name="groupBox_9">
               <property name="title">
-               <string>Logic Difficulty</string>
+               <string>Difficulty Options</string>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_22">
+               <item>
+                <widget class="QCheckBox" name="hero_mode">
+                 <property name="text">
+                  <string>Hero Mode</string>
+                 </property>
+                </widget>
+               </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_20">
                  <item>
@@ -977,9 +984,6 @@
                </item>
                <item>
                 <widget class="QWidget" name="widget_10" native="true"/>
-               </item>
-               <item>
-                <widget class="QWidget" name="widget_13" native="true"/>
                </item>
               </layout>
              </widget>

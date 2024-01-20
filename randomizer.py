@@ -324,6 +324,9 @@ class WWRandomizer:
         tweaks.remove_title_and_ending_videos(self)
       if self.options.remove_music:
         patcher.apply_patch(self, "remove_music")
+      if self.options.hero_mode:
+        tweaks.enable_hero_mode(self)
+      
       if self.map_select:
         patcher.apply_patch(self, "map_select")
       if IS_RUNNING_FROM_SOURCE or "BETA" in VERSION_WITHOUT_COMMIT:

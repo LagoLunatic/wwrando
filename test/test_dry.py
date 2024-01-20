@@ -3,7 +3,7 @@ from randomizer import WWRandomizer
 from options.wwrando_options import Options, SwordMode, EntranceMixMode, TrickDifficulty
 from enum import StrEnum
 
-def rando_with_options(options) -> WWRandomizer:
+def dry_rando_with_options(options) -> WWRandomizer:
   args = make_argparser().parse_args(args=["--dry", "--nologs"])
   rando_kwargs = {
     "seed": "pytestseed",
@@ -14,12 +14,12 @@ def rando_with_options(options) -> WWRandomizer:
   }
   return WWRandomizer(**rando_kwargs)
 
-def test_rando_default_options():
+def test_dry_default_options():
   options = Options()
-  rando = rando_with_options(options)
+  rando = dry_rando_with_options(options)
   rando.randomize_all()
 
-def test_rando_all_options():
+def test_dry_all_options():
   options = Options()
   
   options.progression_dungeons = True
@@ -112,21 +112,22 @@ def test_rando_all_options():
   
   options.logic_obscurity = TrickDifficulty.VERY_HARD
   options.logic_precision = TrickDifficulty.VERY_HARD
+  options.hero_mode = True
   
-  rando = rando_with_options(options)
+  rando = dry_rando_with_options(options)
   rando.randomize_all()
 
 def test_entrance_rando_enables():
   options = Options()
   options.randomize_dungeon_entrances = True
-  rando = rando_with_options(options)
+  rando = dry_rando_with_options(options)
   assert rando.entrances.is_enabled()
 
 def test_trick_logic_checks():
   options = Options()
   options.logic_obscurity = TrickDifficulty.HARD
   options.logic_precision = TrickDifficulty.NORMAL
-  rando = rando_with_options(options)
+  rando = dry_rando_with_options(options)
   assert rando.logic.check_requirement_met("Obscure 2")
   assert not rando.logic.check_requirement_met("Obscure 3")
   assert rando.logic.check_requirement_met("Precise 1")
@@ -135,7 +136,7 @@ def test_trick_logic_checks():
 def test_parse_string_option_to_enum():
   options = Options()
   options.logic_precision = "Normal"
-  rando = rando_with_options(options)
+  rando = dry_rando_with_options(options)
   assert isinstance(rando.options.logic_precision, StrEnum)
 
 def test_convert_options_to_dict_and_back():

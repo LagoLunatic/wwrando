@@ -884,11 +884,11 @@ def set_starting_health(self: WWRandomizer):
   heart_pieces = self.options.starting_pohs
   heart_containers = self.options.starting_hcs * 4
   base_health = 12
-
+  
   starting_health = base_health + heart_containers + heart_pieces
   
   starting_quarter_hearts_address = self.main_custom_symbols["starting_quarter_hearts"]
-
+  
   self.dol.write_data(fs.write_u16, starting_quarter_hearts_address, starting_health)
 
 def set_starting_magic(self: WWRandomizer, starting_magic):
@@ -1402,7 +1402,7 @@ def update_starting_gear(self: WWRandomizer, starting_gear: list[str]):
   # Note: This tweak may be called more than once in a single randomization.
   
   starting_gear = starting_gear.copy()
-
+  
   # Changing starting magic doesn't work when done via our normal starting items initialization code, so we need to handle it specially.
   set_starting_magic(self, 16*starting_gear.count("Progressive Magic Meter"))
   while "Progressive Magic Meter" in starting_gear:
@@ -2088,7 +2088,7 @@ def add_custom_actor_rels(self: WWRandomizer):
     section_index_of_actor_profile = 4,
     offset_of_actor_profile = 0x20,
   )
-
+  
   # Replace the vanilla treasure chest actor with a modified one.
   # Includes trap chest functionality and the shortened opening cutscene.
   elf_path = os.path.join(ASM_PATH, "d_a_tbox.plf")
@@ -2639,35 +2639,35 @@ def add_trap_chest_event_to_stage(self: WWRandomizer, stage_name: str):
   # Add the event DEFAULT_TREASURE_TRAP to the given stage. Necessary for trap chests to function.
   stage_path = "files/res/Stage/{}/Stage.arc".format(stage_name)
   event_list: EventList = self.get_arc(stage_path).get_file("event_list.dat", EventList)
-
+  
   if "DEFAULT_TREASURE_TRAP" in event_list.events_by_name:
     return
-
+  
   trap_event = event_list.add_event("DEFAULT_TREASURE_TRAP")
-
+  
   # Create treasure chest actor
   chest_actor = trap_event.add_actor("TREASURE")
   chest_actor.staff_type = 0
-
+  
   chest_actor.add_action("OPEN_SHORT")
   chest_actor.add_action("SPRING_TRAP")
   chest_actor.add_action("WAIT")
-
+  
   # Create timekeeper actor
   timekeeper_actor = trap_event.add_actor("TIMEKEEPER")
   timekeeper_actor.staff_type = 4
-
+  
   timekeeper_actor.add_action("WAIT")
-
+  
   # Create Link actor
   link_actor = trap_event.add_actor("Link")
   link_actor.staff_type = 0
-
+  
   linke_open_treasure_action = link_actor.add_action("010open_treasure", properties=[
     ("prm0", 1)
   ])
   link_actor.add_action("057rd_stop")
-
+  
   # Create dependent actions between Link and the timekeeper
   timekeeper_countdown_action = timekeeper_actor.add_action("COUNTDOWN", properties=[
     ("Timer", 92)
@@ -2676,12 +2676,18 @@ def add_trap_chest_event_to_stage(self: WWRandomizer, stage_name: str):
   
   link_surprise_action = link_actor.add_action("024surprised")
   link_surprise_action.starting_flags[0] = timekeeper_countdown_action.flag_id_to_set
-
+  
   # Create camera actor
   camera_actor = trap_event.add_actor("CAMERA")
   camera_actor.staff_type = 2
-
+  
   camera_actor.add_action("PAUSE")
-
+  
   # Add ending flag to event
   trap_event.ending_flags[0] = link_surprise_action.flag_id_to_set
+
+def enable_hero_mode(self: WWRandomizer):
+  patcher.apply_patch(self, "hero_mode")
+  
+  multiplier_addr = self.main_custom_symbols["damage_multiplier"]
+  self.dol.write_data(fs.write_float, multiplier_addr, 4.0)
