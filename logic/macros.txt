@@ -220,6 +220,49 @@ Can Reach Earth Temple Tall Vine Room:
 Can Reach Earth Temple Many Mirrors Room:
   Can Reach Earth Temple Tall Vine Room
 
+Can Reach Wind Temple Kidnapping Room:
+  Can Access Wind Temple
+  & Can Play Command Melody
+  & Iron Boots
+  & Can Fly With Deku Leaf Indoors
+Can Reach End of Wind Temple Many Cyclones Room:
+  Can Reach Wind Temple Kidnapping Room
+  & (
+    (
+      & Iron Boots
+      & Can Fan With Deku Leaf
+      & Can Fly With Deku Leaf Indoors
+      & Can Cut Grass
+    ) | (
+      Hookshot
+      & Can Defeat Blue Bubbles
+      & Can Fly With Deku Leaf Indoors
+    ) | (
+      Hookshot
+      & Can Fly With Deku Leaf Indoors
+      & Obscure 1
+      & Precise 2
+    )
+  )
+  # 3 paths: Through the many cyclones room (requires refilling magic), glide down from the upper level of the hub room, or hookshot up and glide sideways into the alcove.
+  # You can easily cheese the grass-cutting requirement if you decide to skip the chest in this room.
+  # You can also cheese the grass-cutting requirement while getting the chest if you trick the Wizzrobe into using its fireballs to burn the grass for you.
+Can Open Wind Temple Upper Giant Grate:
+  Can Reach End of Wind Temple Many Cyclones Room
+  & Iron Boots
+Can Activate Wind Temple Giant Fan:
+  Can Open Wind Temple Upper Giant Grate
+  & Can Play Command Melody
+Can Open Wind Temple Lower Giant Grate:
+  Can Reach Wind Temple Kidnapping Room
+  & Hookshot
+  & Can Defeat Blue Bubbles
+Can Reach Wind Temple Tall Basement Room:
+  Can Open Wind Temple Upper Giant Grate
+  & Can Open Wind Temple Lower Giant Grate
+  & WT Small Key x2
+  # Activating the giant fan is not necessary.
+
 Can Access Dungeon Entrance on Dragon Roost Island:
   Nothing
 Can Access Forest Haven:
@@ -284,14 +327,7 @@ Can Access Miniboss Entrance in Earth Temple:
   Can Reach Earth Temple Moblins and Poes Room
   & ET Small Key x3
 Can Access Miniboss Entrance in Wind Temple:
-  Can Access Wind Temple
-  & Can Play Command Melody
-  & Iron Boots
-  & Can Fly With Deku Leaf Indoors
-  & (
-    Can Cut Grass
-    | (Hookshot & Can Defeat Blue Bubbles)
-  )
+  Can Open Wind Temple Upper Giant Grate
   & WT Small Key x2
 Can Access Miniboss Entrance in Hyrule Castle:
   Can Access Hyrule
@@ -338,13 +374,10 @@ Can Access Boss Entrance in Earth Temple:
   Can Reach Earth Temple Tall Vine Room
   & ET Big Key
 Can Access Boss Entrance in Wind Temple:
-  Can Access Wind Temple
-  & Can Play Command Melody
-  & Iron Boots
-  & Can Fly With Deku Leaf Indoors
+  Can Reach Wind Temple Tall Basement Room
   & Hookshot
-  & Can Defeat Blue Bubbles
-  & WT Small Key x2
+  & Iron Boots
+  & Can Play Command Melody
   & Can Play Wind God's Aria
   & WT Big Key
 
@@ -975,9 +1008,11 @@ Can Defeat Kalle Demos:
   Boomerang
   # No sword needed - Kalle Demos can be damaged with just boomerang.
 Can Defeat Gohdan:
-  (Hero's Bow | Hookshot)
-  & Bombs
-  # You can use hookshot to shoot all of Gohdan's eyes instead of the bow.
+  (
+    Hero's Bow
+    | (Hookshot & Obscure 1 & Precise 2)
+  ) & Bombs
+  # Obscure&Precise: You can use hookshot to shoot all of Gohdan's eyes instead of the bow.
 Can Defeat Helmaroc King:
   Skull Hammer
   # Doesn't require a sword or anything - just the hammer both breaks his mask and damages him.

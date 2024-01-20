@@ -1498,8 +1498,20 @@ Earth Temple - Big Key Chest:
     & Power Bracelets
     & Can Play Command Melody
     & Can Aim Mirror Shield
-    & Can Defeat Blue Bubbles
+    & (
+      Can Defeat Blue Bubbles
+      | (Hero's Bow & Obscure 1)
+      | (
+          (
+            Hero's Sword
+            | Any Master Sword
+            | Skull Hammer
+          ) & Obscure 1 & Precise 1
+        )
+      )
     & Can Defeat Darknuts
+    # Obscure: The Blue Bubbles here start off inactive and vulnerable, so you can use the bow to defeat them without ever activating them.
+    # Obscure&Precise: You can also defeat them with a melee weapon as long as you're somewhat fast and you avoid activating both at once.
   Original item: Big Key
   Types: Dungeon
   Paths:
@@ -1551,10 +1563,7 @@ Wind Temple - Behind Stone Head in Hidden Upper Room:
     - kaze/Room1.arc/Actor010
 Wind Temple - Tingle Statue Chest:
   Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    Can Reach Wind Temple Kidnapping Room
     & Tingle Bombs
   Original item: Wind Tingle Statue
   Types: Tingle Chest, Dungeon
@@ -1562,10 +1571,8 @@ Wind Temple - Tingle Statue Chest:
     - kaze/Stage.arc/Chest00C
 Wind Temple - Chest Behind Stone Head:
   Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
+    Can Reach Wind Temple Kidnapping Room
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
     & Hookshot
   Original item: Joy Pendant
   Types: Dungeon
@@ -1573,20 +1580,18 @@ Wind Temple - Chest Behind Stone Head:
     - kaze/Stage.arc/Chest006
 Wind Temple - Chest in Left Alcove:
   Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
+    Can Reach Wind Temple Kidnapping Room
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    & Can Fan With Deku Leaf
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest004
 Wind Temple - Big Key Chest:
   Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
+    Can Reach Wind Temple Kidnapping Room
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    & Can Fan With Deku Leaf
     & Can Play Wind God's Aria
     & Can Defeat Darknuts
   Original item: Big Key
@@ -1595,82 +1600,62 @@ Wind Temple - Big Key Chest:
     - kaze/Stage.arc/Chest002
 Wind Temple - Chest In Many Cyclones Room:
   Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Can Fly With Deku Leaf Indoors
+    Can Reach Wind Temple Kidnapping Room
     & (
-      (Can Cut Grass | Magic Meter Upgrade)
-      | (Hookshot & Can Defeat Blue Bubbles)
+      (
+        & Iron Boots
+        & Can Fan With Deku Leaf
+        & Can Fly With Deku Leaf Indoors
+        & (Can Cut Grass | Magic Meter Upgrade)
+      ) | (
+        Hookshot
+        & Can Defeat Blue Bubbles
+        & Can Fly With Deku Leaf Indoors
+      ) | (
+        Hookshot
+        & Can Fly With Deku Leaf Indoors
+        & Obscure 1
+        & Precise 2
+      )
     )
-    # There's 2 paths you can take:
+    # There's 3 paths you can take:
     # * The vanilla path requires you to refill your magic to reach the chest, so you need a way to cut grass or the magic meter upgrade.
     #   You can cheese the grass-cutting requirement if you trick the Wizzrobe into using its fireballs to burn the grass for you.
-    # * The alternate path is to hookshot up the trees on the side path to reach the upper level of the hub room, then glide down to where the iron switch is and do the many cyclones room backwards.
+    # * Hookshot up the trees on the side path to reach the upper level of the hub room, then glide down to where the iron switch and warp pot are and do the many cyclones room backwards.
     #   If you don't have the magic meter upgrade you still need to refill your magic - but there's conveniently a skull that always drops a large magic refill, so you can just barely make it.
+    # * Starting from the center of the hub room, use the hookshot on one of the targets above you to gain height, then take out the Deku Leaf when you hit the target with precise timing and float over to where the iron switch and warp pot are.
+    #   From there you can do the many cyclones room backwards the same as in path 2.
   Original item: Dungeon Map
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest008
 Wind Temple - Behind Stone Head in Many Cyclones Room:
   Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Can Fly With Deku Leaf Indoors
-    & (
-      Can Cut Grass
-      | (Hookshot & Can Defeat Blue Bubbles)
-    )
+    Can Reach End of Wind Temple Many Cyclones Room
     & Hookshot
-    # 2 paths: Through the many cyclones room (requires refilling magic) or glide down from the upper level of the hub room.
-    # You can easily cheese the grass-cutting requirement if you decide to skip the chest in this room.
-    # You can also cheese the grass-cutting requirement while getting the chest if you trick the Wizzrobe into using its fireballs to burn the grass for you.
   Original item: Joy Pendant
   Types: Dungeon, Dungeon Secret
   Paths:
     - kaze/Room7.arc/Actor02E
 Wind Temple - Chest In Middle Of Hub Room:
   Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Can Fly With Deku Leaf Indoors
-    & (
-      Can Cut Grass
-      | (Hookshot & Can Defeat Blue Bubbles)
-    )
-    # 2 paths: Through the many cyclones room (requires refilling magic) or glide down from the upper level of the hub room.
-    # You can easily cheese the grass-cutting requirement if you decide to skip the chest in this room.
-    # You can also cheese the grass-cutting requirement while getting the chest if you trick the Wizzrobe into using its fireballs to burn the grass for you.
+    Can Open Wind Temple Upper Giant Grate
   Original item: Compass
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest00A
 Wind Temple - Spike Wall Room - First Chest:
   Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
+    Can Open Wind Temple Upper Giant Grate
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
-    & (
-      Can Cut Grass
-      | (Hookshot & Can Defeat Blue Bubbles)
-    )
   Original item: Small Key
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest003
 Wind Temple - Spike Wall Room - Destroy All Cracked Floors:
   Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
+    Can Open Wind Temple Upper Giant Grate
     & Iron Boots
-    & Can Fly With Deku Leaf Indoors
-    & (
-      Can Cut Grass
-      | (Hookshot & Can Defeat Blue Bubbles)
-    )
     # You don't need to actually kill the enemies spawned in the process of destroying all the floors to get this chest.
   Original item: Treasure Chart 35
   Types: Dungeon
@@ -1691,28 +1676,14 @@ Wind Temple - Wizzrobe Miniboss Room:
     - kazeMB/Stage.arc/Chest000
 Wind Temple - Chest at Top of Hub Room:
   Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Can Fly With Deku Leaf Indoors
-    & (
-      Can Cut Grass
-      | (Hookshot & Can Defeat Blue Bubbles)
-    )
+    Can Activate Wind Temple Giant Fan
   Original item: Joy Pendant
   Types: Dungeon
   Paths:
     - kaze/Stage.arc/Chest000
 Wind Temple - Chest Behind Seven Armos:
   Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Can Fly With Deku Leaf Indoors
-    & (
-      Can Cut Grass
-      | (Hookshot & Can Defeat Blue Bubbles)
-    )
+    Can Activate Wind Temple Giant Fan
     & Can Defeat Armos
   Original item: Small Key
   Types: Dungeon
@@ -1720,13 +1691,7 @@ Wind Temple - Chest Behind Seven Armos:
     - kaze/Stage.arc/Chest001
 Wind Temple - Kill All Enemies in Tall Basement Room:
   Need:
-    Can Access Wind Temple
-    & Can Play Command Melody
-    & Iron Boots
-    & Can Fly With Deku Leaf Indoors
-    & Hookshot
-    & Can Defeat Blue Bubbles
-    & WT Small Key x2
+    Can Reach Wind Temple Tall Basement Room
     & Can Defeat Stalfos
     & Can Defeat Wizzrobes
     & Can Defeat Morths
@@ -2821,8 +2786,10 @@ Four-Eye Reef - Sunken Treasure:
     & (
       Bombs
       | Precise 1
+      | (Can Use Magic Armor & Obscure 1)
     )
   # Precise: The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
+  # Obscure: Magic Armor prevents you from being knocked out of the ship if you get hit by the gunboats while salvaging.
   Original item: Great Fairy Chart
   Types: Sunken Treasure
   Paths:
@@ -2954,8 +2921,10 @@ Three-Eye Reef - Sunken Treasure:
     & (
       Bombs
       | Precise 1
+      | (Can Use Magic Armor & Obscure 1)
     )
   # Precise: The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
+  # Obscure: Magic Armor prevents you from being knocked out of the ship if you get hit by the gunboats while salvaging.
   Original item: Piece of Heart
   Types: Sunken Treasure
   Paths:
@@ -2979,8 +2948,10 @@ Cyclops Reef - Sunken Treasure:
     & (
       Bombs
       | Precise 1
+      | (Can Use Magic Armor & Obscure 1)
     )
   # Precise: The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
+  # Obscure: Magic Armor prevents you from being knocked out of the ship if you get hit by the gunboats while salvaging.
   Original item: Light Ring Chart
   Types: Sunken Treasure
   Paths:
@@ -2995,8 +2966,10 @@ Six-Eye Reef - Sunken Treasure:
     & (
       Bombs
       | Precise 1
+      | (Can Use Magic Armor & Obscure 1)
     )
   # Precise: The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
+  # Obscure: Magic Armor prevents you from being knocked out of the ship if you get hit by the gunboats while salvaging.
   Original item: Silver Rupee
   Types: Sunken Treasure
   Paths:
@@ -3201,8 +3174,10 @@ Two-Eye Reef - Sunken Treasure:
     & (
       Bombs
       | Precise 1
+      | (Can Use Magic Armor & Obscure 1)
     )
   # Precise: The cannons and gunboats can get in the way when trying to salvage this treasure, so being able to destroy them makes this easier.
+  # Obscure: Magic Armor prevents you from being knocked out of the ship if you get hit by the gunboats while salvaging.
   Original item: Triforce Shard 8
   Types: Sunken Treasure
   Paths:
