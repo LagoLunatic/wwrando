@@ -53,6 +53,7 @@ PROGRESS_ITEMS = [
   "Progressive Quiver",
   
   "Ghost Ship Chart",
+  "Magic Armor",
 ] + \
   ["Progressive Sword"]*4 + \
   ["Progressive Shield"]*2 + \
@@ -64,7 +65,6 @@ PROGRESS_ITEMS = [
 
 NONPROGRESS_ITEMS = [
   "Telescope",
-  "Magic Armor",
   "Hero's Charm",
   
   # Complimentary ID is not placed in the randomizer to avoid the player getting an overly full delivery bag.

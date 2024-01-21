@@ -14,14 +14,7 @@ def dry_rando_with_options(options) -> WWRandomizer:
   }
   return WWRandomizer(**rando_kwargs)
 
-def test_dry_default_options():
-  options = Options()
-  rando = dry_rando_with_options(options)
-  rando.randomize_all()
-
-def test_dry_all_options():
-  options = Options()
-  
+def enable_all_progression_location_options(options: Options):
   options.progression_dungeons = True
   options.progression_great_fairies = True
   options.progression_puzzle_secret_caves = True
@@ -45,6 +38,9 @@ def test_dry_all_options():
   options.progression_savage_labyrinth = True
   options.progression_island_puzzles = True
   options.progression_dungeon_secrets = True
+
+def enable_all_options(options: Options):
+  enable_all_progression_location_options(options)
   
   options.sword_mode = SwordMode.SWORDLESS
   options.keylunacy = True
@@ -113,7 +109,31 @@ def test_dry_all_options():
   options.logic_obscurity = TrickDifficulty.VERY_HARD
   options.logic_precision = TrickDifficulty.VERY_HARD
   options.hero_mode = True
-  
+
+def test_dry_default_options():
+  options = Options()
+  rando = dry_rando_with_options(options)
+  rando.randomize_all()
+
+def test_dry_all_options():
+  options = Options()
+  enable_all_options(options)
+  rando = dry_rando_with_options(options)
+  rando.randomize_all()
+
+def test_tricks_precise_no_obscure():
+  options = Options()
+  enable_all_progression_location_options(options)
+  options.logic_obscurity = TrickDifficulty.NONE
+  options.logic_precision = TrickDifficulty.VERY_HARD
+  rando = dry_rando_with_options(options)
+  rando.randomize_all()
+
+def test_tricks_obscure_no_precise():
+  options = Options()
+  enable_all_progression_location_options(options)
+  options.logic_obscurity = TrickDifficulty.VERY_HARD
+  options.logic_precision = TrickDifficulty.NONE
   rando = dry_rando_with_options(options)
   rando.randomize_all()
 
