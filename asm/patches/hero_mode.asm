@@ -30,4 +30,14 @@ damage_multiplier:
   ; Remove the branch that skips switching hearts out for rupees when the player's health is not 100% full.
   nop
 
+; Prevent the Keese in Puppet Ganon's fight from dropping hearts.
+.org 0x8038B0C0 ; In ki_item_d$4029 (table used in daDisappear_Execute)
+  .int 0x01 ; Green Rupee
+
+.close
+
+; Prevent the skulls in Jalhalla's fight (which are really Bubbles) from dropping hearts.
+.open "files/rels/d_a_bl.rel" ; Bubbles
+.org 0x50C4 ; In action_normal_skull
+  li r4, 0x01 ; Green Rupee
 .close
