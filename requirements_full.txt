@@ -1,6 +1,6 @@
 PySide6~=6.6.0
 PyYAML==6.0.1
-Pillow==10.0.1
+Pillow>=10.2.0
 appdirs==1.4.4
 certifi==2023.7.22
 tqdm>=4.65.0
