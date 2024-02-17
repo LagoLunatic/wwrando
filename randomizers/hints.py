@@ -145,8 +145,9 @@ class HintsRandomizer(BaseRandomizer):
     HintsRandomizer.load_hint_text_files()
     
     for item_name in self.logic.all_progress_items:
-      item_name = HintsRandomizer.get_hint_item_name(item_name)
-      assert item_name in HintsRandomizer.cryptic_item_hints, f"Progress item is missing hint text: {item_name!r}"
+      if self.check_item_can_be_hinted_at(item_name):
+        item_name = HintsRandomizer.get_hint_item_name(item_name)
+        assert item_name in HintsRandomizer.cryptic_item_hints, f"Progress item is missing hint text: {item_name!r}"
     
     # Validate location names in location hints file.
     for location_name in self.location_hints:
@@ -798,7 +799,7 @@ class HintsRandomizer(BaseRandomizer):
     
     return new_hintable_locations
   
-  def check_item_can_be_hinted_at(self, item_name):
+  def check_item_can_be_hinted_at(self, item_name: str):
     # Don't hint at non-progress items.
     if item_name not in self.logic.all_progress_items:
       return False
