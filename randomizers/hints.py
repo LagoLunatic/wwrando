@@ -144,6 +144,10 @@ class HintsRandomizer(BaseRandomizer):
     
     HintsRandomizer.load_hint_text_files()
     
+    for item_name in self.logic.all_progress_items:
+      item_name = HintsRandomizer.get_hint_item_name(item_name)
+      assert item_name in HintsRandomizer.cryptic_item_hints, f"Progress item is missing hint text: {item_name!r}"
+    
     # Validate location names in location hints file.
     for location_name in self.location_hints:
       assert location_name in rando.logic.item_locations, f"Invalid location name in hints file: {location_name!r}"
