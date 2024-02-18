@@ -884,6 +884,12 @@ class HintsRandomizer(BaseRandomizer):
     # Remove locations for items that were previously hinted.
     hintable_locations = [loc for loc in hintable_locations if loc not in previously_hinted_locations]
     
+    # Don't hint at the existence of traps.
+    hintable_locations = [
+      loc for loc in hintable_locations
+      if not self.logic.done_item_locations[loc].endswith(" Trap Chest")
+    ]
+    
     standard_hintable_locations = self.filter_out_hinted_barren_locations(hintable_locations, hinted_barren_zones)
     
     return remote_hintable_locations, standard_hintable_locations
