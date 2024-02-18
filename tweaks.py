@@ -691,15 +691,16 @@ def allow_dungeon_items_to_appear_anywhere(self: WWRandomizer):
     item_info_entry_addr = item_info_list_start+4*item_id
     self.dol.write_data(fs.write_u32, item_info_entry_addr, item_info_value)
 
-def get_indefinite_article(string):
+def get_indefinite_article(string: str):
   first_letter = string.strip()[0].lower()
   if first_letter in ["a", "e", "i", "o", "u"]:
     return "an"
   else:
     return "a"
 
-def add_article_before_item_name(item_name):
-  # Adds a grammatical article ("a", "an", "the", or nothing) in front an item's name.
+def add_article_before_item_name(item_name: str):
+  """Adds a grammatical article ("a", "an", "the", or nothing) in front an item's name."""
+  
   article = None
   if re.search(r"\d$", item_name):
     article = None
@@ -711,6 +712,8 @@ def add_article_before_item_name(item_name):
     article = get_indefinite_article(item_name)
   elif item_name.lower().endswith(" small key"):
     article = get_indefinite_article(item_name)
+  elif item_name.endswith(" Trap Chest"):
+    article = get_indefinite_article(item_name)
   elif item_name in ["Delivery Bag", "Boat's Sail", "Note to Mom"]:
     article = get_indefinite_article(item_name)
   elif item_name in ["Beedle's Chart", "Bombs", "Tingle's Chart", "Maggie's Letter", "Father's Letter"]:
@@ -719,8 +722,10 @@ def add_article_before_item_name(item_name):
     article = None
   else:
     article = "the"
+  
   if article:
     item_name = article + " " + item_name
+  
   return item_name
 
 def upper_first_letter(string):
