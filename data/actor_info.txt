@@ -389,12 +389,12 @@ agbFA:
   Subtype: 0xFF
   GBA Name: 0x00
 NoneCam:
-  Class Name: null # TODO
+  Class Name: d_camera
   Actor ID: 0x01E2
   Subtype: 0xFF
   GBA Name: 0x00
 NormCam:
-  Class Name: null # TODO
+  Class Name: d_camera
   Actor ID: 0x01E2
   Subtype: 0xFF
   GBA Name: 0x00
@@ -4116,11 +4116,6 @@ Vrbox:
 Vrbox2:
   Class Name: d_a_vrbox2
   Actor ID: 0x01BB
-  Subtype: 0xFF
-  GBA Name: 0x00
-EndCode:
-  Class Name: null # TODO
-  Actor ID: 0x0007
   Subtype: 0xFF
   GBA Name: 0x00
 
