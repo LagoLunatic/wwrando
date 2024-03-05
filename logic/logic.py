@@ -269,6 +269,8 @@ class Logic:
   def pack_item_groups(self, items_to_pack: list[str]) -> list[str]:
     ret_items = items_to_pack.copy()
     for group in self.progress_item_groups:
+      if len(self.progress_item_groups[group]) == 0:
+        continue
       if all(item_name in items_to_pack for item_name in self.progress_item_groups[group]):
         ret_items.append(group)
         for item_name in self.progress_item_groups[group]:
