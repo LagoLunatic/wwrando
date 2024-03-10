@@ -35,7 +35,7 @@ jobs:
             artifact: macos
             upload_path_suffix: '.zip'
           - name: Linux Build
-            os: ubuntu-20.04
+            os: ubuntu-latest
             architecture: x64
             artifact: linux
             upload_path_suffix: '/*'

@@ -43,9 +43,6 @@ Bug fixes:
 * Fixed a rare vanilla bug that could cause Zelda to become temporarily frozen during the fight against Ganondorf. The bug occurred if you managed to reflect one of Zelda's Light Arrows back at Ganondorf during the first phase of the fight instead of the third one, while locked on to Ganondorf, and his HP was low enough to enter the second phase of the fight upon being hit.
 * Fixed a vanilla softlock that could occur when using glitches during the Helmaroc King fight.
 
-Supported operating systems:
-* The Linux release builds now support systems with at least glibc version 2.31 (e.g. Ubuntu 20.04 is now supported).
-
 ### Version 1.10.0 (released 2023-01-06)
 
 Supported operating systems:
