@@ -33,6 +33,10 @@ def disassemble_all_code(self):
     framework_map_contents = self.gcm.read_file_data("files/maps/framework.map")
   framework_map_contents = fs.read_all_bytes(framework_map_contents).decode("ascii")
   main_symbols = get_main_symbols(framework_map_contents)
+  # Copy the map file to the output directory
+  framework_map_path = os.path.join(out_dir, "framework.map")
+  with open(framework_map_path, "w") as f:
+    f.write(framework_map_contents)
   
   
   all_rel_paths = get_list_of_all_rels(self)
@@ -503,10 +507,12 @@ def get_extra_comment_for_asm_line(line):
   rlwinm_match = re.search(r"^.+ \t(?:rlwinm\.?)\s+(r\d+),(r\d+),(\d+),(\d+),(\d+)$", line, re.IGNORECASE)
   clrlwi_match = re.search(r"^.+ \t(?:clrlwi\.?)\s+(r\d+),(r\d+),(\d+)$", line, re.IGNORECASE)
   rotlwi_match = re.search(r"^.+ \t(?:rotlwi\.?)\s+(r\d+),(r\d+),(\d+)$", line, re.IGNORECASE)
-  
   rlwimi_match = re.search(r"^.+ \t(?:rlwimi\.?)\s+(r\d+),(r\d+),(\d+),(\d+),(\d+)$", line, re.IGNORECASE)
+  clrrwi_match = re.search(r"^.+ \t(?:clrrwi\.?)\s+(r\d+),(r\d+),(\d+)$", line, re.IGNORECASE)
+  slwi_match = re.search(r"^.+ \t(?:slwi\.?)\s+(r\d+),(r\d+),(\d+)$", line, re.IGNORECASE)
+  srwi_match = re.search(r"^.+ \t(?:srwi\.?)\s+(r\d+),(r\d+),(\d+)$", line, re.IGNORECASE)
   
-  if rlwinm_match or clrlwi_match or rotlwi_match or rlwimi_match:
+  if rlwinm_match or clrlwi_match or rotlwi_match or rlwimi_match or clrrwi_match or slwi_match or srwi_match:
     if rlwinm_match:
       dst_reg = rlwinm_match.group(1)
       src_reg = rlwinm_match.group(2)
@@ -531,6 +537,24 @@ def get_extra_comment_for_asm_line(line):
       l_shift = int(rlwimi_match.group(3))
       first_mask_bit = int(rlwimi_match.group(4))
       last_mask_bit = int(rlwimi_match.group(5))
+    elif clrrwi_match:
+      dst_reg = clrrwi_match.group(1)
+      src_reg = clrrwi_match.group(2)
+      l_shift = 0
+      first_mask_bit = 0
+      last_mask_bit = 31 - int(clrrwi_match.group(3))
+    elif slwi_match:
+      dst_reg = slwi_match.group(1)
+      src_reg = slwi_match.group(2)
+      l_shift = int(slwi_match.group(3))
+      first_mask_bit = 0
+      last_mask_bit = 31 - l_shift
+    elif srwi_match:
+      dst_reg = srwi_match.group(1)
+      src_reg = srwi_match.group(2)
+      l_shift = 32 - int(srwi_match.group(3))
+      first_mask_bit = 32 - l_shift
+      last_mask_bit = 31
     else:
       raise Exception("Unknown rotate left opcode")
     
