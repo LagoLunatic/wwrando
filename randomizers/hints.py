@@ -609,10 +609,6 @@ class HintsRandomizer(BaseRandomizer):
         # Remove item from owned items if it was from the location we want to check.
         if location_name == location_to_check:
           self.path_logic.remove_owned_item(item_name)
-      for group_name, item_names in self.path_logic.progress_item_groups.items():
-        entire_group_is_owned = all(item_name in self.path_logic.currently_owned_items for item_name in item_names)
-        if entire_group_is_owned and group_name in self.path_logic.unplaced_progress_items:
-          self.path_logic.unplaced_progress_items.remove(group_name)
       
       previously_accessible_locations = accessible_locations
     

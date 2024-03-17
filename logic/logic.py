@@ -25,31 +25,6 @@ class Logic:
   }
   DUNGEON_NAME_TO_SHORT_DUNGEON_NAME = {v: k for k, v in DUNGEON_NAMES.items()}
   
-  PROGRESS_ITEM_GROUPS = {
-    "Triforce Shards": [
-      "Triforce Shard 1",
-      "Triforce Shard 2",
-      "Triforce Shard 3",
-      "Triforce Shard 4",
-      "Triforce Shard 5",
-      "Triforce Shard 6",
-      "Triforce Shard 7",
-      "Triforce Shard 8",
-    ],
-    "Goddess Pearls": [
-      "Nayru's Pearl",
-      "Din's Pearl",
-      "Farore's Pearl",
-    ],
-    "Tingle Statues": [
-      "Dragon Tingle Statue",
-      "Forbidden Tingle Statue",
-      "Goddess Tingle Statue",
-      "Earth Tingle Statue",
-      "Wind Tingle Statue",
-    ],
-  }
-  
   initial_item_locations = None
   initial_macros = None
   
@@ -141,8 +116,6 @@ class Logic:
       if cleaned_item_name not in self.all_cleaned_item_names:
         self.all_cleaned_item_names.append(cleaned_item_name)
     
-    self.progress_item_groups = copy.deepcopy(self.PROGRESS_ITEM_GROUPS)
-    
     self.unplaced_progress_items: list[str]
     self.unplaced_nonprogress_items: list[str]
     self.unplaced_fixed_consumable_items: list[str]
@@ -175,28 +148,13 @@ class Logic:
     self.clear_req_caches()
     self.make_useless_progress_items_nonprogress()
     
-    # Replace progress items that are part of a group with the group name instead.
-    self.unplaced_progress_items = self.pack_item_groups(self.unplaced_progress_items)
-    
-    # Remove starting items from item groups.
-    for group_name, group_item_names in self.progress_item_groups.items():
-      items_to_remove_from_group = [
-        item_name for item_name in group_item_names
-        if item_name in self.rando.starting_items
-      ]
-      for item_name in items_to_remove_from_group:
-        self.progress_item_groups[group_name].remove(item_name)
-      if len(self.progress_item_groups[group_name]) == 0:
-        if group_name in self.unplaced_progress_items:
-          self.unplaced_progress_items.remove(group_name)
-    
     # Add the randomly-selected extra starting items (without incidence on other progress items).
     if self.rando.extra_start_items.is_enabled():
       for item in self.rando.extra_start_items.random_starting_items:
         # Needs to happen after make useless_progress_items_nonprogress to ensure other progress
         # items aren't made nonprogress by the extra random items being in the starting inventory
         # for the purpose of hints or spoiler log progression.
-        self.add_owned_item_or_item_group(item)
+        self.add_owned_item(item)
     
     self.clear_req_caches()
     self.cached_enemies_tested_for_reqs_tuple.clear()
@@ -233,21 +191,6 @@ class Logic:
     
     self.add_owned_item(item_name)
   
-  def set_multiple_locations_to_group(self, available_locations, group_name):
-    items_in_group = self.progress_item_groups[group_name]
-    
-    #print("Placing group: %s (size: %d)" % (group_name, len(items_in_group)))
-    
-    if len(available_locations) < len(items_in_group):
-      raise Exception("Not enough locations to place all items in group %s" % group_name)
-    
-    for item_name in items_in_group:
-      available_locations = self.filter_locations_valid_for_item(available_locations, item_name)
-      location_name = available_locations.pop()
-      self.set_location_to_item(location_name, item_name)
-    
-    self.unplaced_progress_items.remove(group_name)
-  
   def set_prerandomization_item_location(self, location_name, item_name):
     # Temporarily keep track of where certain items are placed before the main progression item randomization loop starts.
     
@@ -255,30 +198,6 @@ class Logic:
     
     assert location_name in self.item_locations
     self.prerandomization_item_locations[location_name] = item_name
-  
-  def expand_item_groups(self, items):
-    ret_items = []
-    for item_name in items:
-      if item_name in self.progress_item_groups:
-        ret_items += self.progress_item_groups[item_name]
-      else:
-        ret_items.append(item_name)
-    
-    return ret_items
-  
-  def pack_item_groups(self, items_to_pack: list[str]) -> list[str]:
-    ret_items = items_to_pack.copy()
-    for group in self.progress_item_groups:
-      if len(self.progress_item_groups[group]) == 0:
-        continue
-      if all(item_name in items_to_pack for item_name in self.progress_item_groups[group]):
-        ret_items.append(group)
-        for item_name in self.progress_item_groups[group]:
-          ret_items.remove(item_name)
-    return ret_items
-  
-  def get_flattened_unplaced_progression_items(self):
-    return self.expand_item_groups(self.unplaced_progress_items)
   
   def get_num_progression_locations(self):
     return Logic.get_num_progression_locations_static(self.item_locations, self.options)
@@ -396,47 +315,15 @@ class Logic:
     
     self.clear_req_caches()
   
-  def add_owned_item_or_item_group(self, item_name):
-    if item_name in self.progress_item_groups:
-      group_name = item_name
-      temp_unplaced_progress_items = self.expand_item_groups(self.unplaced_progress_items)
-      for item_name in self.progress_item_groups[group_name]:
-        self.currently_owned_items.append(item_name)
-        if item_name in temp_unplaced_progress_items:
-          temp_unplaced_progress_items.remove(item_name)
-        if item_name in self.unplaced_nonprogress_items:
-          self.unplaced_nonprogress_items.remove(item_name)
-      self.unplaced_progress_items = self.pack_item_groups(temp_unplaced_progress_items)
-      
-      self.clear_req_caches()
-    else:
-      self.add_owned_item(item_name)
-  
-  def remove_owned_item_or_item_group(self, item_name):
-    if item_name in self.progress_item_groups:
-      group_name = item_name
-      temp_unplaced_progress_items = self.expand_item_groups(self.unplaced_progress_items)
-      for item_name in self.progress_item_groups[group_name]:
-        self.currently_owned_items.remove(item_name)
-        if item_name in self.all_progress_items:
-          temp_unplaced_progress_items.append(item_name)
-        elif item_name in self.all_nonprogress_items:
-          self.unplaced_nonprogress_items.append(item_name)
-      self.unplaced_progress_items = self.pack_item_groups(temp_unplaced_progress_items)
-      
-      self.clear_req_caches()
-    else:
-      self.remove_owned_item(item_name)
-  
   @contextmanager
   def add_temporary_items(self, item_names):
     for item_name in item_names:
-      self.add_owned_item_or_item_group(item_name)
+      self.add_owned_item(item_name)
     
     yield
     
     for item_name in item_names:
-      self.remove_owned_item_or_item_group(item_name)
+      self.remove_owned_item(item_name)
   
   def get_accessible_remaining_locations(self, *, for_progression):
     accessible_location_names = []
@@ -559,7 +446,7 @@ class Logic:
     if item_name in self.cached_items_are_useful:
       return self.cached_items_are_useful[item_name]
     
-    self.add_owned_item_or_item_group(item_name)
+    self.add_owned_item(item_name)
     
     for location_name in inaccessible_undone_item_locations:
       if location_name in self.rando.boss_reqs.banned_locations:
@@ -579,16 +466,16 @@ class Logic:
           continue
         
         if self.check_location_accessible(location_name):
-          self.remove_owned_item_or_item_group(item_name)
+          self.remove_owned_item(item_name)
           self.cached_items_are_useful[item_name] = True
           return True
       
       if self.check_location_accessible(location_name):
-        self.remove_owned_item_or_item_group(item_name)
+        self.remove_owned_item(item_name)
         self.cached_items_are_useful[item_name] = True
         return True
     
-    self.remove_owned_item_or_item_group(item_name)
+    self.remove_owned_item(item_name)
     self.cached_items_are_useful[item_name] = False
     return False
   
@@ -714,21 +601,10 @@ class Logic:
     # Filters out items that cannot be in any of the given possible locations.
     valid_items = []
     for item_name in items:
-      if item_name in self.progress_item_groups:
-        group_name = item_name
-        items_in_group = self.progress_item_groups[group_name]
-        if len(items_in_group) > len(locations):
-          # Not enough locations to place all items in this group.
-          continue
-        # If the number of locations is sufficient, we consider this group able to be placed.
-        # NOTE: We do not check if each individual item in the group can also be placed.
-        # This is fine for shards and pearls, but would be incorrect for items that actually have location restrictions.
-        valid_items.append(group_name)
-      else:
-        for location_name in locations:
-          if self.check_item_valid_in_location(item_name, location_name):
-            valid_items.append(item_name)
-            break
+      for location_name in locations:
+        if self.check_item_valid_in_location(item_name, location_name):
+          valid_items.append(item_name)
+          break
     return valid_items
   
   def filter_locations_valid_for_item(self, locations, item_name):

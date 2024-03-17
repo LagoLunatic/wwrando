@@ -92,7 +92,7 @@ class ItemRandomizer(BaseRandomizer):
       if not self.logic.is_dungeon_item(item_name)
     ]
     for item_name in items_to_temporarily_add:
-      self.logic.add_owned_item_or_item_group(item_name)
+      self.logic.add_owned_item(item_name)
     
     # Temporarily remove all requirements for entering all dungeons while we randomize them.
     # This is for when dungeons are nested. Simply having all items except keys isn't enough if a dungeon is locked behind another dungeon.
@@ -142,7 +142,7 @@ class ItemRandomizer(BaseRandomizer):
     
     # Remove the items we temporarily added.
     for item_name in items_to_temporarily_add:
-      self.logic.remove_owned_item_or_item_group(item_name)
+      self.logic.remove_owned_item(item_name)
     for item_name in small_keys_to_place:
       self.logic.remove_owned_item(item_name)
     for item_name in big_keys_to_place:
@@ -277,16 +277,6 @@ class ItemRandomizer(BaseRandomizer):
         # This can give the randomizer a chance to place things like Delivery Bag or small keys for dungeons that need x2 to do anything.
         should_place_useful_item = False
       
-      # If we wind up placing a useful item it can be a single item or a group.
-      # But if we place an item that is not yet useful, we need to exclude groups that are not useful.
-      # This is so that a group doesn't wind up taking every single possible remaining location while not opening up new ones.
-      possible_groups = [name for name in possible_items if name in self.logic.progress_item_groups]
-      useless_groups = self.logic.get_all_useless_items(possible_groups)
-      possible_items_when_not_placing_useful = [name for name in possible_items if name not in useless_groups]
-      # Only exception is when there's exclusively groups left to place. Then we allow groups even if they're not useful.
-      if len(possible_items_when_not_placing_useful) == 0 and len(possible_items) > 0:
-        possible_items_when_not_placing_useful = possible_items
-      
       if must_place_useful_item or should_place_useful_item:
         shuffled_list = possible_items.copy()
         self.rng.shuffle(shuffled_list)
@@ -301,7 +291,7 @@ class ItemRandomizer(BaseRandomizer):
             # We'd prefer to place an item which is 1/2 of what you need to access a new location over one which is 1/5 for example.
             
             item_by_usefulness_fraction = self.logic.get_items_by_usefulness_fraction(
-              possible_items_when_not_placing_useful,
+              possible_items,
               filter_sunken_treasure=False,
             )
             
@@ -315,38 +305,29 @@ class ItemRandomizer(BaseRandomizer):
             
             item_name = self.rng.choice(items_at_max_usefulness)
       else:
-        item_name = self.rng.choice(possible_items_when_not_placing_useful)
+        item_name = self.rng.choice(possible_items)
       
-      if item_name in self.logic.progress_item_groups:
-        # If we're placing an entire item group, we use different logic for deciding the location.
-        # We do not weight towards newly accessible locations.
-        # And we have to select multiple different locations, one for each item in the group.
-        group_name = item_name
-        possible_locations_for_group = accessible_undone_locations.copy()
-        self.rng.shuffle(possible_locations_for_group)
-        self.logic.set_multiple_locations_to_group(possible_locations_for_group, group_name)
-      else:
-        possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
-        
-        # Try to prevent chains of charts that lead to sunken treasures with more charts in them.
-        # If the only locations we have available are sunken treasures we don't have much choice though, so still allow it then.
-        if item_name.startswith("Treasure Chart") or item_name.startswith("Triforce Chart"):
-          possible_locations_without_sunken_treasures = [
-            loc for loc in possible_locations
-            if "Sunken Treasure" not in self.logic.item_locations[loc]["Types"]
-          ]
-          if possible_locations_without_sunken_treasures:
-            possible_locations = possible_locations_without_sunken_treasures
-        
-        # We weight it so newly accessible locations are more likely to be chosen.
-        # This way there is still a good chance it will not choose a new location.
-        possible_locations_with_weighting = []
-        for location_name in possible_locations:
-          weight = location_weights[location_name]
-          possible_locations_with_weighting += [location_name]*weight
-        
-        location_name = self.rng.choice(possible_locations_with_weighting)
-        self.logic.set_location_to_item(location_name, item_name)
+      possible_locations = self.logic.filter_locations_valid_for_item(accessible_undone_locations, item_name)
+      
+      # Try to prevent chains of charts that lead to sunken treasures with more charts in them.
+      # If the only locations we have available are sunken treasures we don't have much choice though, so still allow it then.
+      if item_name.startswith("Treasure Chart") or item_name.startswith("Triforce Chart"):
+        possible_locations_without_sunken_treasures = [
+          loc for loc in possible_locations
+          if "Sunken Treasure" not in self.logic.item_locations[loc]["Types"]
+        ]
+        if possible_locations_without_sunken_treasures:
+          possible_locations = possible_locations_without_sunken_treasures
+      
+      # We weight it so newly accessible locations are more likely to be chosen.
+      # This way there is still a good chance it will not choose a new location.
+      possible_locations_with_weighting = []
+      for location_name in possible_locations:
+        weight = location_weights[location_name]
+        possible_locations_with_weighting += [location_name]*weight
+      
+      location_name = self.rng.choice(possible_locations_with_weighting)
+      self.logic.set_location_to_item(location_name, item_name)
     
     # Make sure locations that should have predetermined items in them have them properly placed, even if the above logic missed them for some reason.
     for location_name in self.logic.prerandomization_item_locations:
@@ -695,10 +676,6 @@ class ItemRandomizer(BaseRandomizer):
         if item_name.startswith("Defeat "):
           continue
         logic.add_owned_item(item_name)
-      for group_name, item_names in logic.progress_item_groups.items():
-        entire_group_is_owned = all(item_name in logic.currently_owned_items for item_name in item_names)
-        if entire_group_is_owned and group_name in logic.unplaced_progress_items:
-          logic.unplaced_progress_items.remove(group_name)
       
       previously_accessible_locations = accessible_locations
     

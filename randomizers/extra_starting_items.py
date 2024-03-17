@@ -6,15 +6,20 @@ import tweaks
 from options.wwrando_options import SwordMode
 
 DISALLOWED_RANDOM_STARTING_ITEMS = set([
-  # There's a separate option for number of starting triforce shards that we'd need to mess with
-  # It's also 8 items and would have a fairly large impact on the seed, so we'd probably want
-  # to weigh it less than other items if allowed
-  "Triforce Shards",
+  # There's a separate option for number of starting triforce shards that we'd need to mess with.
+  "Triforce Shard 1",
+  "Triforce Shard 2",
+  "Triforce Shard 3",
+  "Triforce Shard 4",
+  "Triforce Shard 5",
+  "Triforce Shard 6",
+  "Triforce Shard 7",
+  "Triforce Shard 8",
   # Other items that you can't start with in the UI, but we allow anyway:
-  # "Treasure Charts", "Triforce Charts" # These seem to work fine to start with, even if not very fun
-  # "Tingle Statues", # seem to work fine
-  # "Boat's Sail", "Wind Waker", "Wind's Requiem" # Mandatory starting items
-  # "Empty Bottle", # Can only start with one Empty Bottle from the UI, but seems to work ok with more
+  # Treasure Charts and Triforce Charts: These seem to work fine to start with, even if not very fun
+  # Tingle Statues: These seem to work fine
+  # Boat's Sail, Wind Waker, Wind's Requiem: Mandatory starting items
+  # Empty Bottle: Can only start with one Empty Bottle from the UI, but seems to work ok with more
   # DUNGEON_PROGRESS_ITEMS # Seem to work fine at least in keylunacy (enforced below)
 ])
 
@@ -70,14 +75,14 @@ class ExtraStartingItemsRandomizer(BaseRandomizer):
         ])
       
       # Sync the added items back to the other lists:
-      self.logic.add_owned_item_or_item_group(selected)
+      self.logic.add_owned_item(selected)
       self.random_starting_items.append(selected)
       # Do *not* add it to the base starting items list, as it would mess up the
       # hints since they'd start with a different set of starting items when
       # demoting some progress items to nonprogress.
       # e.g. big octos with a starting boomerang would make the quiver foolish,
       # which is (maybe?) confusing and would lead you to never check octos
-      # self.rando.starting_items.extend(self.logic.expand_item_groups([selected]))
+      # self.rando.starting_items.extend([selected])
     
     # Confirm that we opened at least one new check if we assigned an item
     if self.random_starting_items and len(self.logic.get_accessible_remaining_locations(for_progression=True)) <= len(initial_sphere_0_checks):
@@ -85,31 +90,14 @@ class ExtraStartingItemsRandomizer(BaseRandomizer):
       raise Exception("Random starting items didn't unlock at least one check")
       
   def filter_possible_random_starting_items(self, max_fraction: int) -> list[str]:
-    item_names_to_check = self.logic.get_flattened_unplaced_progression_items()
+    item_names_to_check = self.logic.unplaced_progress_items.copy()
     need_sunken_treasure = any(item.startswith("Treasure Chart ") or item.startswith("Triforce Chart ") for item in item_names_to_check)
     items_by_usefulness = self.logic.get_items_by_usefulness_fraction(
       item_names_to_check,
       filter_sunken_treasure=(not need_sunken_treasure),
     )
-    # Since we assign items in groups all at once, add back in synthetic items with the group names
     available_items: set[str] = set()
     for item, fraction in items_by_usefulness.items():
-      group_name = next(
-        (group for group, group_items in self.logic.progress_item_groups.items() 
-         if item in group_items),
-        None
-      )
-      # However we only want to merge the group if all the items are progression
-      # (specifically for pearls where Farore's can be useful without the
-      # others being progression)
-      if (
-        group_name and 
-        all((item in self.logic.get_flattened_unplaced_progression_items()) for item in self.logic.progress_item_groups[group_name])
-      ):
-        item = group_name
-        fraction = min((items_by_usefulness[item]) for item in self.logic.progress_item_groups[group_name])
-        fraction -= (len(self.logic.progress_item_groups[group_name]) - 1)
-      
       if fraction <= max_fraction:
         available_items.add(item)
     
@@ -147,7 +135,7 @@ class ExtraStartingItemsRandomizer(BaseRandomizer):
     # This tweak is written in an idempotent way, so this should be ok to call a second time.
     tweaks.update_starting_gear(
       self.rando,
-      self.options.starting_gear + self.logic.expand_item_groups(self.random_starting_items)
+      self.options.starting_gear + self.random_starting_items
     )
   
   def write_to_spoiler_log(self) -> str:
