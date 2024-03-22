@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 
 import sys
-sys.path.insert(0, "./gclib")
+import os.path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "gclib"))
 
 # Allow keyboard interrupts on the command line to instantly close the program.
 import signal
