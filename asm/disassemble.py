@@ -230,7 +230,7 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, mai
     
     out_str += "\n"
     
-    if line.endswith("blr"):
+    if line.rstrip(" ").endswith("blr"):
       out_str += "\n" # Separate functions
   with open(asm_path, "w", encoding="shift-jis") as f:
     f.write(out_str)
@@ -238,27 +238,54 @@ def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, mai
 ALL_LOAD_OR_STORE_OPCODES = [
   "lbz",
   "lbzu",
+  "lbzx",
+  "lbzux",
   "stb",
+  "stbu",
+  "stbx",
+  "stbux",
   
   "lha",
   "lhau",
+  "lhax",
+  "lhaux",
   "lhz",
   "lhzu",
+  "lhzx",
+  "lhzux",
   "sth",
   "sthu",
+  "sthx",
+  "sthux",
   
-  "lmw",
   "lwz",
   "lwzu",
+  "lwzx",
+  "lwzux",
   "stw",
   "stwu",
+  "stwx",
+  "stwux",
+  
+  "lmw",
+  "stmw",
   
   "lfs",
   "lfsu",
+  "lfsx",
+  "lfsux",
   "lfd",
   "lfdu",
+  "lfdx",
+  "lfdux",
   "stfs",
+  "stfsu",
+  "stfsx",
+  "stfsux",
   "stfd",
+  "stfdu",
+  "stfdx",
+  "stfdux",
 ]
 
 def add_symbols_to_main(self, asm_path, main_symbols):
@@ -388,7 +415,7 @@ def add_symbols_to_main(self, asm_path, main_symbols):
       
       out_str += "\n"
       
-      if line.endswith("blr"):
+      if line.rstrip(" ").endswith("blr"):
         out_str += "\n" # Separate functions
   with open(asm_path, "w", encoding="shift-jis") as f:
     f.write(out_str)
