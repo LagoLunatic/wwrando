@@ -619,7 +619,7 @@ class ItemRandomizer(BaseRandomizer):
     logic = Logic(self.rando)
     previously_accessible_locations = []
     game_beatable = False
-    while logic.unplaced_progress_items:
+    while True:
       progress_items_in_this_sphere = {}
       
       accessible_locations = logic.get_accessible_remaining_locations(for_progression=False)
@@ -628,7 +628,17 @@ class ItemRandomizer(BaseRandomizer):
         if loc not in previously_accessible_locations
       ]
       if not locations_in_this_sphere:
-        raise Exception("Failed to calculate progression spheres")
+        if logic.unplaced_progress_items:
+          raise Exception("Failed to calculate progression spheres")
+        else:
+          remaining_inaccessible_locations = [
+            loc for loc in logic.filter_locations_for_progression(logic.remaining_item_locations, filter_sunken_treasure=True)
+            if loc not in previously_accessible_locations
+          ]
+          if remaining_inaccessible_locations:
+            raise Exception("Failed to calculate progression spheres")
+          else:
+            break
       
       
       if not self.options.keylunacy:
