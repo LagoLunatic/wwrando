@@ -665,17 +665,22 @@ class ItemRandomizer(BaseRandomizer):
       # Hide duplicated progression items (e.g. Empty Bottles) when they are placed in non-progression locations to avoid confusion and inconsistency.
       locations_in_this_sphere = logic.filter_locations_for_progression(locations_in_this_sphere)
       
+      added_any_reqbosses_this_sphere = False
       for location_name in locations_in_this_sphere:
         zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
         if specific_location_name.endswith(" Heart Container"):
           boss_name = specific_location_name.removesuffix(" Heart Container")
           progress_items_in_this_sphere[f"{zone_name} - Boss"] = f"Defeat {boss_name}"
+          if boss_name in self.rando.boss_reqs.required_bosses:
+            # Have to keep track of this so we can split Defeat Ganondorf into a separate sphere.
+            # We don't want it in the same sphere as defeating the final required bosses.
+            added_any_reqbosses_this_sphere = True
         
         item_name = self.logic.done_item_locations[location_name]
         if item_name in logic.all_progress_items:
           progress_items_in_this_sphere[location_name] = item_name
       
-      if not game_beatable:
+      if not game_beatable and not added_any_reqbosses_this_sphere:
         game_beatable = logic.check_requirement_met("Can Reach and Defeat Ganondorf")
         if game_beatable:
           progress_items_in_this_sphere["Ganon's Tower - Rooftop"] = "Defeat Ganondorf"
