@@ -6,7 +6,7 @@ import re
 from io import BytesIO
 
 from gclib import fs_helpers as fs
-from gclib.yaz0 import Yaz0
+from gclib.yaz0_yay0 import Yaz0
 from gclib.rel import REL
 from wwrando_paths import ASM_PATH
 

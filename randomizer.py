@@ -12,7 +12,7 @@ import string
 from gclib import fs_helpers as fs
 from gclib.bfn import BFN
 from gclib.bmg import BMG
-from gclib.yaz0 import Yaz0
+from gclib.yaz0_yay0 import Yaz0
 from gclib.rarc import RARC
 from gclib.dol import DOL
 from gclib.rel import REL, RELRelocation, RELRelocationType
