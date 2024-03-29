@@ -620,6 +620,7 @@ class CosmeticTab(QWidget):
     custom_preset = {}
     custom_preset["model_name"] = self.get_option_value("custom_player_model")
     custom_preset["colors"] = hex_custom_colors
+    custom_preset["is_casual"] = self.get_option_value("player_in_casual_clothes")
     
     with open(preset_path, "w") as f:
       yaml.dump(custom_preset, f, default_flow_style=False, sort_keys=False)
@@ -639,6 +640,7 @@ class CosmeticTab(QWidget):
     
     model_name = custom_preset["model_name"]
     custom_colors = custom_preset["colors"]
+    is_casual = custom_preset.get("is_casual", False)
     
     custom_model_names = customizer.get_all_custom_model_names()
     
@@ -652,6 +654,8 @@ class CosmeticTab(QWidget):
     
     if self.get_option_value("custom_player_model") != model_name:
       self.set_option_value("custom_player_model", model_name)
+    
+    self.set_option_value("player_in_casual_clothes", is_casual)
     
     custom_colors_to_set = {}
     
