@@ -175,6 +175,8 @@ files/rels/d_a_npc_cb1.rel:
   makar_possible_wt_spawn_positions: 0xB2EC
 files/rels/d_a_warpdm20.rel:
   check_hyrule_warp_unlocked: 0x1EBC
+files/rels/d_a_npc_os.rel:
+  set_inactive_servant_when_player_leaves_room: 0x8AB4
 files/rels/d_a_obj_hsehi1.rel:
   set_item_obtained_from_totg_tablet_event_bit: 0x29D0
 files/rels/d_a_shop_item.rel:

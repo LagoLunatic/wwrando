@@ -238,7 +238,7 @@ reset_makar_position:
   lfs f1, 8 (r9) ; Z
   stfs f1, 8 (r5)
   
-  lis r9, 0x803F6A78@ha ; Current room number
+  lis r9, 0x803F6A78@ha ; Current room number (mStayNo)
   addi r9, r9, 0x803F6A78@l
   lbz r8, 0 (r9)
   stb r8, 0xE (r5)
@@ -368,7 +368,7 @@ reset_medli_position:
   lfs f1, 8 (r9) ; Z
   stfs f1, 8 (r5)
   
-  lis r9, 0x803F6A78@ha ; Current room number
+  lis r9, 0x803F6A78@ha ; Current room number (mStayNo)
   addi r9, r9, 0x803F6A78@l
   lbz r8, 0 (r9)
   stb r8, 0xE (r5)
@@ -600,18 +600,48 @@ medli_possible_et_spawn_positions:
   ; This branch is normally taken for the west and north servants (Os1 and Os2).
   ; We modify it to be taken for all servants.
   b 0x1338
-.org 0x1F74
+.org 0x1F74 ; In daNpc_Os_c::finish02NpcAction(void *)
   ; Normally the servants would not keep the light beam they shoot on until even bit 0x1B01 is set,
   ; which happens once the north servant is returned.
   ; Remove this check so the beam is always on for servants that are on their pedestals.
   nop
+.org 0x6000 ; In daNpc_Os_c::execute()
+  ; If the player enters the room of one servant and then leaves and tries to call a different
+  ; servant to become their partner, this normally wouldn't work because the first servant is locked
+  ; in as the current partner until you reload the stage. This could give the appearance of a
+  ; softlock if the player doesn't know you can reload the stage.
+  ; To fix this, we need to unset the current partner when it isn't in the same room as the player.
+  ; To do this, right before daPy_npc_c::check_initialRoom gets called, we insert some custom code:
+  ; If the player is not in the same room as this servant, its home room number wil be reset to -1.
+  ; When that happens, check_initialRoom will return 0, meaning the rest of execute will unset the
+  ; current player partner, if it's currently this servant. That will allow a different servant to
+  ; be set as the partner instead.
+  ; On the other hand, if the player is in the same room as this servant, nothing will happen, and
+  ; this servant will remain as the current partner.
+  b set_inactive_servant_when_player_leaves_room
+.org @NextFreeSpace
+.global set_inactive_servant_when_player_leaves_room
+set_inactive_servant_when_player_leaves_room:
+  lis r3, 0x803F6A78@ha ; Current room number (mStayNo)
+  addi r3, r3, 0x803F6A78@l
+  lbz r3, 0 (r3)
+  lbz r4, 0x20A (r27) ; Home room number
+  cmpw r3, r4
+  beq set_inactive_servant_when_player_leaves_room_return ; In the same room as the player, no need to become inactive
+  
+  li r3, -1
+  stb r3, 0x1E2 (r27) ; Set the home room number to -1
+  
+set_inactive_servant_when_player_leaves_room_return:
+  mr r3, r27 ; Replace the line we overwrote to jump here
+  b 0x6004 ; Return to where execute calls check_initialRoom
 .close
 ; Normally, the east Servant of the Tower would set event bit 0x2510 to tell the Command Melody
 ; stone tablet that it can disappear permanently because the player has finished using it.
 ; But we allow that tablet to be used before returning that servant, so we have to change it so
 ; the tablet itself sets that event bit.
 .open "files/rels/d_a_obj_hsehi1.rel" ; Command Melody Tablet
-.org 0x1E60
+.org 0x1E60 ; In daObj_hsh_c::actionDeleteEvent(int)
   b set_item_obtained_from_totg_tablet_event_bit
 .org @NextFreeSpace
 .global set_item_obtained_from_totg_tablet_event_bit

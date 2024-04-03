@@ -207,7 +207,7 @@ moblin_set_death_switch:
   lhz r4, 0x1BC (r31) ; Set ID (actor temporary death flag)
   lis r3, g_dComIfG_gameInfo@ha
   addi r3, r3, g_dComIfG_gameInfo@l
-  lbz r5, 0x1E2 (r31) ; Orig room number
+  lbz r5, 0x1E2 (r31) ; Home room number
   bl onActor__10dSv_info_cFii
   
   lbz r4, 0x2C0 (r31) ; Switch
@@ -250,7 +250,7 @@ stalfos_set_death_switch:
   lhz r4, 0x1BC (r31) ; Set ID (actor temporary death flag)
   lis r3, g_dComIfG_gameInfo@ha
   addi r3, r3, g_dComIfG_gameInfo@l
-  lbz r5, 0x1E2 (r31) ; Orig room number
+  lbz r5, 0x1E2 (r31) ; Home room number
   bl onActor__10dSv_info_cFii
   
   lbz r4, 0x2B8 (r31) ; Switch
@@ -293,7 +293,7 @@ darknut_set_death_switch:
   lhz r4, 0x1BC (r31) ; Set ID (actor temporary death flag)
   lis r3, g_dComIfG_gameInfo@ha
   addi r3, r3, g_dComIfG_gameInfo@l
-  lbz r5, 0x1E2 (r31) ; Orig room number
+  lbz r5, 0x1E2 (r31) ; Home room number
   bl onActor__10dSv_info_cFii
   
   lbz r4, 0x2C0 (r31) ; Switch
