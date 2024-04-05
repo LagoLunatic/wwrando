@@ -1,11 +1,10 @@
-import typing
 from logic.item_types import DUNGEON_PROGRESS_ITEMS
 
 from randomizers.base_randomizer import BaseRandomizer
 import tweaks
 from options.wwrando_options import SwordMode
 
-DISALLOWED_RANDOM_STARTING_ITEMS = set([
+DISALLOWED_RANDOM_STARTING_ITEMS = {
   # There's a separate option for number of starting triforce shards that we'd need to mess with.
   "Triforce Shard 1",
   "Triforce Shard 2",
@@ -14,21 +13,16 @@ DISALLOWED_RANDOM_STARTING_ITEMS = set([
   "Triforce Shard 5",
   "Triforce Shard 6",
   "Triforce Shard 7",
-  "Triforce Shard 8",
+  "Triforce Shard 8"
   # Other items that you can't start with in the UI, but we allow anyway:
   # Treasure Charts and Triforce Charts: These seem to work fine to start with, even if not very fun
   # Tingle Statues: These seem to work fine
   # Boat's Sail, Wind Waker, Wind's Requiem: Mandatory starting items
   # Empty Bottle: Can only start with one Empty Bottle from the UI, but seems to work ok with more
   # DUNGEON_PROGRESS_ITEMS # Seem to work fine at least in keylunacy (enforced below)
-])
+}
 
-DELIVERY_BAG_ITEMS = set([
-  "Note to Mom",
-  "Maggie's Letter",
-  "Moblin's Letter",
-  "Cabana Deed",
-])
+DELIVERY_BAG_ITEMS = {"Note to Mom", "Maggie's Letter", "Moblin's Letter", "Cabana Deed"}
 
 class ExtraStartingItemsRandomizer(BaseRandomizer):
   def __init__(self, rando):

@@ -1,6 +1,7 @@
-from dataclasses import fields, MISSING, Field, _recursive_repr, _FIELDS, _FIELD, asdict
+from dataclasses import fields, MISSING, Field, _FIELDS, _FIELD, asdict
 from typing import Any, Type, Optional
 import typing
+from reprlib import recursive_repr
 
 class Option(Field):
   type: Type
@@ -25,7 +26,7 @@ class Option(Field):
     self.hidden = hidden
     self.unbeatable = unbeatable
   
-  @_recursive_repr
+  @recursive_repr
   def __repr__(self):
       return ('Option('
               f'name={self.name!r},'
