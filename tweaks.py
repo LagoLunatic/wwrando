@@ -894,6 +894,8 @@ def set_starting_health(self: WWRandomizer):
   starting_quarter_hearts_address = self.main_custom_symbols["starting_quarter_hearts"]
   
   self.dol.write_data(fs.write_u16, starting_quarter_hearts_address, starting_health)
+  if starting_health < 8:
+    patcher.apply_patch(self, "remove_low_health_beep")
 
 def set_starting_magic(self: WWRandomizer, starting_magic):
   starting_magic_address = self.main_custom_symbols["starting_magic"]

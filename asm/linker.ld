@@ -80,3 +80,4 @@ fopScnM_ChangeReq__FP11scene_classssUs = 0x80029e6c;
 mPadButton__10JUTGamePad = 0x803ed848;
 isItem__21dSv_player_get_item_cFiUc = 0x8005955c;
 isEnableEnlargementScroll__6dMap_cFv = 0x8004826c;
+seStart__11JAIZelBasicFUlP3VecUlScffffUc = 0x802a6720;
