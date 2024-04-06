@@ -387,9 +387,9 @@ class Options(BaseOptions):
     description="Amount of extra pieces of heart that you start with.",
   )
   starting_hcs: int = option(
-    default=0,
-    minimum=0,
-    maximum=6,
+    default=3,
+    minimum=1,
+    maximum=9,
     description="Amount of extra heart containers that you start with.",
   )
   num_extra_starting_items: int = option(

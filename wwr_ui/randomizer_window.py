@@ -112,6 +112,7 @@ class WWRandomizerWindow(QMainWindow):
     self.set_option_description(None)
     
     self.update_settings()
+    self.update_health_label()
     
     self.setWindowTitle("Wind Waker Randomizer %s" % VERSION)
     
@@ -173,7 +174,7 @@ class WWRandomizerWindow(QMainWindow):
     pohs = self.ui.starting_pohs.value()
     hcs = self.ui.starting_hcs.value() * 4
     
-    health = hcs + pohs + 12
+    health = hcs + pohs
     pieces = health % 4
     
     text = "Current Starting Health: %d hearts" % (health // 4) # full hearts

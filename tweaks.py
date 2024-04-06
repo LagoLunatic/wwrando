@@ -888,9 +888,8 @@ def set_num_starting_triforce_shards(self: WWRandomizer):
 def set_starting_health(self: WWRandomizer):
   heart_pieces = self.options.starting_pohs
   heart_containers = self.options.starting_hcs * 4
-  base_health = 12
   
-  starting_health = base_health + heart_containers + heart_pieces
+  starting_health = heart_containers + heart_pieces
   
   starting_quarter_hearts_address = self.main_custom_symbols["starting_quarter_hearts"]
   

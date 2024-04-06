@@ -536,8 +536,9 @@ class Ui_MainWindow(object):
         self.starting_hcs = QSpinBox(self.tab_starting_items)
         self.starting_hcs.setObjectName(u"starting_hcs")
         self.starting_hcs.setLayoutDirection(Qt.LeftToRight)
-        self.starting_hcs.setMaximum(6)
-        self.starting_hcs.setValue(0)
+        self.starting_hcs.setMaximum(9)
+        self.starting_hcs.setMinimum(1)
+        self.starting_hcs.setValue(3)
         self.starting_hcs.setDisplayIntegerBase(10)
 
         self.horizontalLayout_7.addWidget(self.starting_hcs)

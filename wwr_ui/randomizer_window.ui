@@ -758,10 +758,13 @@
                  <enum>Qt::LeftToRight</enum>
                 </property>
                 <property name="maximum">
-                 <number>6</number>
+                 <number>9</number>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
                 </property>
                 <property name="value">
-                 <number>0</number>
+                 <number>3</number>
                 </property>
                 <property name="displayIntegerBase">
                  <number>10</number>
