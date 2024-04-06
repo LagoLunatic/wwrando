@@ -837,3 +837,26 @@ ladder_down_check_unequip_held_item:
 ladder_down_do_not_unequip_held_item:
   b 0x801338A0 ; Return to the code for climbing the ladder without unequipping the held item
 .close
+
+
+
+
+; On gameover-continue, set current health to the min of 3 hearts or the current max health
+.open "sys/main.dol"
+.org 0x8018E7D0 ; in _execute__11dGameover_cFv
+  ; This line unconditionally sets health to 3 hearts on death
+  b gameover_continue_reset_life
+.org @NextFreeSpace
+.global gameover_continue_reset_life
+gameover_continue_reset_life:
+  ; g_dComIfG_gameInfo is already loaded in r3
+  ; 12 is already loaded in r0
+  lhz r5, 0 (r3) ; maxLife
+  rlwinm r5,r5,0,0,29 ; round to the full heart
+  cmpw r5, r0
+  bge set_life_after_gameover
+  mr r0, r5
+  set_life_after_gameover:
+  sth r0, 2 (r3) ; set current life to the reset value
+  b 0x8018E9B0 ; Return to where the original code jumps right after
+.close
