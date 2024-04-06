@@ -92,19 +92,28 @@ get_max_health_for_file_select_screen:
 
 
 
-; Refill the player's magic meter to full when they load a save.
+; Refill the player's magic meter to full when they load a save, and cap health when starting with fewer than 3 hearts.
 .open "sys/main.dol"
 .org 0x80231B08 ; In FileSelectMainNormal__10dScnName_cFv right after calling card_to_memory__10dSv_info_cFPci
-  b fully_refill_magic_meter_on_load_save
+  b fully_refill_magic_meter_and_cap_health_on_load_save
 ; Refills the player's magic meter when loading a save.
 .org @NextFreeSpace
-.global fully_refill_magic_meter_on_load_save
-fully_refill_magic_meter_on_load_save:
-  lis r3, 0x803C4C1B@ha
-  addi r3, r3, 0x803C4C1B@l
-  lbz r4, 0 (r3) ; Load max magic meter
-  stb r4, 1 (r3) ; Store to current magic meter
+.global fully_refill_magic_meter_and_cap_health_on_load_save
+fully_refill_magic_meter_and_cap_health_on_load_save:
+  lis r3, g_dComIfG_gameInfo@ha
+  addi r3, r3, g_dComIfG_gameInfo@l
+  lbz r4, 0x13 (r3) ; Load max magic meter
+  stb r4, 0x14 (r3) ; Store to current magic meter
   
+  cap_health:
+  lhz r4, 0 (r3) ; Load max health
+  rlwinm r4,r4,0,0,29 ; round max health to the full heart below
+  lhz r0, 2 (r3) ; Load current health
+  cmpw r0, r4
+  ble already_lower
+  sth r4, 2 (r3) ; Store max health to current health
+  
+  already_lower:
   lwz r3, 0x428 (r22) ; Replace the line we overwrote to branch here
   b 0x80231B0C ; Return
 .close
