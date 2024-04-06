@@ -2,6 +2,7 @@
 from subprocess import call
 from subprocess import DEVNULL
 import os
+import sys
 import re
 from io import BytesIO
 
@@ -15,8 +16,22 @@ def simplify_filename(filename):
     filename = filename[len("d_a_"):]
   return filename
 
+def devkitpath() -> str:
+  if sys.platform == "win32":
+    return r"C:\devkitPro\devkitPPC\bin"
+  else:
+    if "DEVKITPPC" not in os.environ:
+      raise Exception(r"Could not find devkitPPC. Path to devkitPPC should be in the DEVKITPPC env var")
+    return os.environ["DEVKITPPC"] + "/bin"
+
+def get_bin(name):
+  if sys.platform != "win32":
+    return os.path.join(devkitpath(), name)
+  return os.path.join(devkitpath(), name + ".exe")
+
+
 def disassemble_all_code(self):
-  if not os.path.isfile(r"C:\devkitPro\devkitPPC\bin\powerpc-eabi-objdump.exe"):
+  if not os.path.isfile(get_bin("powerpc-eabi-objdump")):
     raise Exception(r"Failed to disassemble code: Could not find devkitPPC. devkitPPC should be installed to: C:\devkitPro\devkitPPC")
   
   rels_arc = self.get_arc("files/RELS.arc")
@@ -110,7 +125,7 @@ def disassemble_all_code(self):
 
 def disassemble_file(bin_path, asm_path):
   command = [
-    r"C:\devkitPro\devkitPPC\bin\powerpc-eabi-objdump.exe",
+    get_bin("powerpc-eabi-objdump"),
     "--disassemble-zeroes",
     "-m", "powerpc",
     "-D",
