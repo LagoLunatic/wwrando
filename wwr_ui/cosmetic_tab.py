@@ -644,7 +644,7 @@ class CosmeticTab(QWidget):
     
     custom_model_names = customizer.get_all_custom_model_names()
     
-    if model_name not in custom_model_names:
+    if model_name not in custom_model_names and model_name != "Link":
       QMessageBox.critical(
         self, "Failed to load custom color preset",
         f"The color preset you loaded is for the custom model '{model_name}'.\n"
