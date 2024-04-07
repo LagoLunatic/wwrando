@@ -23,10 +23,10 @@ set_starting_health:
   ; Base address to write health to is still stored in r3 from init__10dSv_save_cFv
   lis r4, starting_quarter_hearts@ha
   addi r4, r4, starting_quarter_hearts@l
-  lhz r0, 0 (r4)
+  lha r0, 0 (r4)
   sth r0, 0 (r3) ; Store maximum HP (including unfinished heart pieces)
-  rlwinm r0,r0,0,0,29
-  sth r0, 2 (r3) ; Store current HP (not including unfinished heart pieces)
+  rlwinm r0, r0, 0, 0, 29 ; r0 &= ~0x3
+  sth r0, 2 (r3) ; Store current HP (excluding unfinished heart pieces)
   
   b 0x800589B4
 .close
@@ -58,7 +58,7 @@ get_current_health_for_file_select_screen:
   lis r4, starting_quarter_hearts@ha
   addi r4, r4, starting_quarter_hearts@l
   lhz r3, 0 (r4)
-  rlwinm r3,r3,0,0,29 ; Round down initial max HP to 4 to get rid of unfinished heart pieces
+  rlwinm r3, r3, 0, 0, 29 ; r3 &= ~0x3 (round initial max HP down to a full heart to exclude unfinished heart pieces)
   
   get_current_health_for_file_select_screen_end:
   b 0x80182508
@@ -92,19 +92,28 @@ get_max_health_for_file_select_screen:
 
 
 
-; Refill the player's magic meter to full when they load a save.
+; Refill the player's magic meter to full when they load a save, and cap health when starting with fewer than 3 hearts.
 .open "sys/main.dol"
 .org 0x80231B08 ; In FileSelectMainNormal__10dScnName_cFv right after calling card_to_memory__10dSv_info_cFPci
-  b fully_refill_magic_meter_on_load_save
+  b fully_refill_magic_meter_and_cap_health_on_load_save
 ; Refills the player's magic meter when loading a save.
 .org @NextFreeSpace
-.global fully_refill_magic_meter_on_load_save
-fully_refill_magic_meter_on_load_save:
-  lis r3, 0x803C4C1B@ha
-  addi r3, r3, 0x803C4C1B@l
-  lbz r4, 0 (r3) ; Load max magic meter
-  stb r4, 1 (r3) ; Store to current magic meter
+.global fully_refill_magic_meter_and_cap_health_on_load_save
+fully_refill_magic_meter_and_cap_health_on_load_save:
+  lis r3, g_dComIfG_gameInfo@ha
+  addi r3, r3, g_dComIfG_gameInfo@l
+  lbz r4, 0x13 (r3) ; Load max magic meter
+  stb r4, 0x14 (r3) ; Store to current magic meter
   
+  fully_refill_magic_meter_and_cap_health_on_load_save__cap_health:
+  lha r4, 0 (r3) ; Load max health
+  rlwinm r4, r4, 0, 0, 29 ; r4 &= ~0x3 (round max HP down to a full heart to exclude unfinished heart pieces)
+  lha r0, 2 (r3) ; Load current health
+  cmpw r0, r4
+  ble fully_refill_magic_meter_and_cap_health_on_load_save__already_lower
+  sth r4, 2 (r3) ; Store max health to current health
+  
+  fully_refill_magic_meter_and_cap_health_on_load_save__already_lower:
   lwz r3, 0x428 (r22) ; Replace the line we overwrote to branch here
   b 0x80231B0C ; Return
 .close
@@ -827,4 +836,27 @@ ladder_down_check_unequip_held_item:
   b 0x801338CC ; Return to the code that unequips the held item
 ladder_down_do_not_unequip_held_item:
   b 0x801338A0 ; Return to the code for climbing the ladder without unequipping the held item
+.close
+
+
+
+
+; On gameover-continue, set current health to the min of 3 hearts or the current max health
+.open "sys/main.dol"
+.org 0x8018E7D0 ; in _execute__11dGameover_cFv
+  ; This line unconditionally sets health to 3 hearts on death
+  b gameover_continue_reset_life
+.org @NextFreeSpace
+.global gameover_continue_reset_life
+gameover_continue_reset_life:
+  ; g_dComIfG_gameInfo is already loaded in r3
+  ; 12 is already loaded in r0
+  lha r5, 0 (r3) ; maxLife
+  rlwinm r5, r5, 0, 0, 29 ; r5 &= ~0x3 (round down to full heart)
+  cmpw r5, r0
+  bge set_life_after_gameover
+  mr r0, r5
+  set_life_after_gameover:
+  sth r0, 2 (r3) ; set current life to the reset value
+  b 0x8018E9B0 ; Return to where the original code jumps right after
 .close

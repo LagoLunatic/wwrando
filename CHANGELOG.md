@@ -20,6 +20,8 @@ New features:
 * Customized player colors can now be saved to a file for later use, or shared with other players.
 * Added optional Trap Chests that will damage you instead of giving you an item.
 * You can now carry enemy weapons through doors.
+* Added a Hero Mode difficulty option that causes you to take four times more damage than normal, and prevents heart refills from dropping.
+* You can now choose to start the game with only one or two Heart Containers, instead of the usual three.
 
 Changes:
 * Dungeon bosses can no longer drop dungeon items when Key-Lunacy mode is disabled.

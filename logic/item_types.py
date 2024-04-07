@@ -90,7 +90,7 @@ NONPROGRESS_ITEMS = [
   #"IN-credible Chart",
 ] + \
   ["Piece of Heart"]*44 + \
-  ["Heart Container"]*6
+  ["Heart Container"]*9
 
 CONSUMABLE_ITEMS = \
    1 * ["Green Rupee"] + \

@@ -254,8 +254,8 @@ try:
       line = line.strip()
       
       open_file_match = re.search(r"^\s*\.open\s+\"([^\"]+)\"$", line, re.IGNORECASE)
-      org_match = re.search(r"^\s*\.org\s+0x([0-9a-f]+)$", line, re.IGNORECASE)
-      org_symbol_match = re.search(r"^\s*\.org\s+([\._a-z][\._a-z0-9]+|@NextFreeSpace)$", line, re.IGNORECASE)
+      org_match = re.search(r"^\s*\.org\s+0x([0-9a-f]+)(?:,\s\.area\s+0x([0-9a-f]+))?$", line, re.IGNORECASE)
+      org_symbol_match = re.search(r"^\s*\.org\s+([\._a-z][\._a-z0-9]+|@NextFreeSpace)(?:,\s\.area\s+0x([0-9a-f]+))?$", line, re.IGNORECASE)
       branch_match = re.search(r"^\s*(?:b|beq|bne|blt|bgt|ble|bge)\s+0x([0-9a-f]+)(?:$|\s)", line, re.IGNORECASE)
       if open_file_match:
         relative_file_path = open_file_match.group(1)
@@ -272,10 +272,24 @@ try:
           raise Exception("Found .org directive when no file was open")
         
         org_offset = int(org_match.group(1), 16)
-        if org_offset >= free_space_start_offsets[most_recent_file_path]:
-          raise Exception("Tried to manually set the origin point to after the start of free space.\n.org offset: 0x%X\nFile path: %s\n\nUse \".org @NextFreeSpace\" instead to get an automatically assigned free space offset." % (org_offset, most_recent_file_path))
+        area_size = org_match.group(2)
+        if area_size is not None:
+          area_size = int(area_size, 16)
         
-        code_chunks[patch_name][most_recent_file_path][org_offset] = ""
+        if org_offset >= free_space_start_offsets[most_recent_file_path]:
+          raise Exception(
+            f"Tried to manually set the origin point to after the start of free space.\n"
+            f".org offset: 0x{org_offset:X}\n"
+            f"File path: {most_recent_file_path}\n\n"
+            f"Use \".org @NextFreeSpace\" instead to get an automatically assigned free space offset."
+          )
+        if org_offset in code_chunks[patch_name][most_recent_file_path]:
+          raise Exception(f"Duplicate .org offset.\n.org offset: 0x{org_offset:X}\nFile path: {most_recent_file_path}")
+        
+        code_chunks[patch_name][most_recent_file_path][org_offset] = {
+          "area_size": area_size,
+          "temp_asm": "",
+        }
         most_recent_org_offset = org_offset
         continue
       elif org_symbol_match:
@@ -283,6 +297,9 @@ try:
           raise Exception("Found .org directive when no file was open")
         
         org_symbol = org_symbol_match.group(1)
+        area_size = org_symbol_match.group(2)
+        if area_size is not None:
+          area_size = int(area_size, 16)
         
         if org_symbol == "@NextFreeSpace":
           # Need to make each instance of @NextFreeSpace into a unique label.
@@ -291,7 +308,13 @@ try:
           org_symbol = "@FreeSpace_%d" % next_free_space_id_for_file[most_recent_file_path]
           next_free_space_id_for_file[most_recent_file_path] += 1
         
-        code_chunks[patch_name][most_recent_file_path][org_symbol] = ""
+        if org_symbol in code_chunks[patch_name][most_recent_file_path]:
+          raise Exception(f"Duplicate .org symbol.\n.org symbol: {org_symbol}\nFile path: {most_recent_file_path}")
+        
+        code_chunks[patch_name][most_recent_file_path][org_symbol] = {
+          "area_size": area_size,
+          "temp_asm": "",
+        }
         most_recent_org_offset = org_symbol
         continue
       elif branch_match:
@@ -328,7 +351,7 @@ try:
           continue
         raise Exception("Found code before any .org directive:\n%s" % line)
       
-      code_chunks[patch_name][most_recent_file_path][most_recent_org_offset] += line + "\n"
+      code_chunks[patch_name][most_recent_file_path][most_recent_org_offset]["temp_asm"] += line + "\n"
     
     if not code_chunks[patch_name]:
       raise Exception("No code found")
@@ -371,7 +394,10 @@ try:
         for symbol_name, symbol_address in custom_symbols["sys/main.dol"].items():
           temp_linker_script += "%s = 0x%08X;\n" % (symbol_name, symbol_address)
       
-      for org_offset_or_symbol, temp_asm in code_chunks_for_file_sorted:
+      for org_offset_or_symbol, chunk_info in code_chunks_for_file_sorted:
+        area_size = chunk_info["area_size"]
+        temp_asm = chunk_info["temp_asm"]
+        
         using_free_space = False
         if isinstance(org_offset_or_symbol, int):
           org_offset = org_offset_or_symbol
@@ -429,6 +455,20 @@ try:
             
             curr_org_offset += elf_section.size
         code_chunk_size_in_bytes = (curr_org_offset - org_offset)
+        
+        if area_size is not None:
+          if code_chunk_size_in_bytes > area_size:
+            if isinstance(org_offset_or_symbol, int):
+              org_str = f".org offset: 0x{org_offset_or_symbol:X}"
+            else:
+              org_str = f".org symbol: {org_offset_or_symbol}"
+            raise Exception(
+              f"The final byte size exceeded the end of the specified .area.\n"
+              f".area max size: 0x{area_size:X}\n"
+              f"Used size: 0x{code_chunk_size_in_bytes:X}\n"
+              f"{org_str}\n"
+              f"File path: {file_path}"
+            )
         
         # Check to be sure that the code we just assembled didn't redefine any already defined global custom symbols.
         # If it does raise an error so the user can fix the duplicate name in their code.
