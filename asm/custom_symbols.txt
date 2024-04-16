@@ -93,9 +93,10 @@ sys/main.dol:
   ladder_down_check_unequip_held_item: 0x803FEE38
   gameover_continue_reset_life: 0x803FEE50
   give_pearl_and_raise_totg_if_necessary: 0x803FEE6C
-  give_temporary_sword_during_ganondorf_fight_in_swordless: 0x803FEF00
-  give_temporary_sword_in_orcas_house_in_swordless: 0x803FEF1C
-  remove_temporary_sword_when_loading_stage_in_swordless: 0x803FEF64
+  remove_low_health_anim_at_full_health: 0x803FEF00
+  give_temporary_sword_during_ganondorf_fight_in_swordless: 0x803FEF24
+  give_temporary_sword_in_orcas_house_in_swordless: 0x803FEF40
+  remove_temporary_sword_when_loading_stage_in_swordless: 0x803FEF88
   test_room_stage_name: 0x8022D034
   test_room_starting_items_list: 0x8022D03C
   test_room_spawn_id: 0x800531E3

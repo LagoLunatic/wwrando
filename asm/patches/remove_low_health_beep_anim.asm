@@ -44,3 +44,27 @@
   processHeartGaugeSound__after_seStart:
   b 0x802A3038
 .close
+
+
+; Remove the low health animation at full health
+.open "sys/main.dol"
+.org 0x80111EE0 ; in daPy_lk_c::checkRestHPAnime
+  ; After all checks, when ready to return, in the branch returning true
+  b remove_low_health_anim_at_full_health
+.org @NextFreeSpace
+.global remove_low_health_anim_at_full_health
+remove_low_health_anim_at_full_health:
+  ; r3 contains function return value (1 when jumping here)
+  ; r4 contains current health
+  lis     r5, g_dComIfG_gameInfo@ha
+  addi    r5, r5, g_dComIfG_gameInfo@l
+  lha     r6, 0 (r5) ; Load max health
+  rlwinm  r6, r6, 0, 0, 29 ; r6 &= ~0x3 (round max HP down to a full heart to exclude unfinished heart pieces)
+  subfc   r6, r4, r6
+  cmpwi   r6, 2 ; Check if 2 quarter hearts of health have been removed
+  bge     remove_low_health_anim_at_full_health__return
+  li      r3, 0
+  remove_low_health_anim_at_full_health__return:
+  ; resume function epilogue, jumping over the branch returning 0
+  b 0x80111EE8
+.close
