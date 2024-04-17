@@ -571,3 +571,22 @@ check_helmaroc_king_landing_timeout:
   addi r11, r1, 0xA0 ; Replace the line we overwrote to jump here
   b 0x2AD4 ; Return to the end of the landing function
 .close
+
+
+
+
+; When Link opens a treasure chest, he teleports the enemy weapon he was carrying exactly to the
+; position of his feet on the floor he's standing on. The enemy weapon then tries to search
+; downwards for a floor. If Link is standing standing on only a single layer of floor above a void,
+; this results in the weapon being unable to find the floor it's already on, because it's exactly at
+; the position of that floor. As a failsafe, the weapon teleports itself to Link's feet again.
+; However, after that failsafe is triggered, it also sets its Y position to 50 in absolute
+; coordinates. This results in the weapon being vertically teleported to some arbitrary point in the
+; room, or out of bounds. The devs likely intended to add 50 units to the foot pos so the weapon
+; would visually fall a short distance instead of just teleporting, but they made a typo.
+; In order to fix this, we remove the line that sets the Y pos to 50 and simply teleport it to
+; Link's feet as normal instead.
+.open "files/rels/d_a_boko.rel" ; Enemy weapon
+.org 0x26A8 ; In daBoko_c::procCarry
+  nop
+.close

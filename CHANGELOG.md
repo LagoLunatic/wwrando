@@ -44,6 +44,7 @@ Bug fixes:
 * Fixed a bug in the vanilla code where you could not defend using the Skull Hammer if you didn't own a shield.
 * Fixed a rare vanilla bug that could cause Zelda to become temporarily frozen during the fight against Ganondorf. The bug occurred if you managed to reflect one of Zelda's Light Arrows back at Ganondorf during the first phase of the fight instead of the third one, while locked on to Ganondorf, and his HP was low enough to enter the second phase of the fight upon being hit.
 * Fixed a vanilla softlock that could occur when using glitches during the Helmaroc King fight.
+* Fixed a vanilla bug where opening certain chests while holding an enemy weapon would cause the weapon to teleport up into the air or out of bounds.
 
 ### Version 1.10.0 (released 2023-01-06)
 

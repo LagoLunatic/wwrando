@@ -381,7 +381,7 @@ check_ganons_tower_chest_opened:
   blr
 .close
 ; Then there's an issue where killing Phantom Ganon 3 first and using his sword to destroy the door makes the sword dropped by Phantom Ganon 2 also disappear, which is bad because then the player wouldn't know which way to go in the maze.
-.open "files/rels/d_a_boko.rel" ; Weapons lying on the ground
+.open "files/rels/d_a_boko.rel" ; Enemy weapon
 .org 0x2A90 ; In execute__8daBoko_cFv
   ; Instead of checking if the event flag for having destroyed the door with Phantom Ganon's sword is set, call a custom function.
   bl check_phantom_ganons_sword_should_disappear
