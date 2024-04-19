@@ -240,7 +240,7 @@ class EntranceRandomizer(BaseRandomizer):
     
     self.item_location_to_containing_zone_exit: dict[str, ZoneExit] = {}
     self.zone_exit_to_logically_dependent_item_locations: dict[ZoneExit, list[str]] = defaultdict(list)
-    self.register_mappings_between_item_locations_and_zone_exit()
+    self.register_mappings_between_item_locations_and_zone_exits()
     
     # Default entrances connections to be used if the entrance randomizer is not on.
     self.entrance_connections = {
@@ -895,7 +895,7 @@ class EntranceRandomizer(BaseRandomizer):
   
   
   #region Convenience methods
-  def register_mappings_between_item_locations_and_zone_exit(self):
+  def register_mappings_between_item_locations_and_zone_exits(self):
     for loc_name in self.logic.item_locations:
       zone_exit = self.get_zone_exit_for_item_location(loc_name)
       if zone_exit is not None:
