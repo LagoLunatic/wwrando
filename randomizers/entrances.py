@@ -238,14 +238,9 @@ class EntranceRandomizer(BaseRandomizer):
   def __init__(self, rando):
     super().__init__(rando)
     
-    self.item_location_name_to_zone_exit: dict[str, ZoneExit] = {}
-    self.zone_exit_to_item_location_names: dict[ZoneExit, list[str]] = defaultdict(list)
-    for loc_name in self.logic.item_locations:
-      zone_exit = self.get_zone_exit_for_item_location(loc_name)
-      if zone_exit is None:
-        continue
-      self.item_location_name_to_zone_exit[loc_name] = zone_exit
-      self.zone_exit_to_item_location_names[zone_exit].append(loc_name)
+    self.item_location_to_containing_zone_exit: dict[str, ZoneExit] = {}
+    self.zone_exit_to_logically_dependent_item_locations: dict[ZoneExit, list[str]] = defaultdict(list)
+    self.register_mappings_between_item_locations_and_zone_exit()
     
     # Default entrances connections to be used if the entrance randomizer is not on.
     self.entrance_connections = {
@@ -500,7 +495,7 @@ class EntranceRandomizer(BaseRandomizer):
     
     nonprogress_exits = []
     for ex in relevant_exits:
-      locs_for_exit = self.zone_exit_to_item_location_names[ex]
+      locs_for_exit = self.zone_exit_to_logically_dependent_item_locations[ex]
       assert locs_for_exit, f"Could not find any item locations corresponding to zone exit: {ex.unique_name}"
       # Banned required bosses mode dungeons still technically count as progress locations, so
       # filter them out separately first.
@@ -900,6 +895,21 @@ class EntranceRandomizer(BaseRandomizer):
   
   
   #region Convenience methods
+  def register_mappings_between_item_locations_and_zone_exit(self):
+    for loc_name in self.logic.item_locations:
+      zone_exit = self.get_zone_exit_for_item_location(loc_name)
+      if zone_exit is not None:
+        self.item_location_to_containing_zone_exit[loc_name] = zone_exit
+        self.zone_exit_to_logically_dependent_item_locations[zone_exit].append(loc_name)
+      
+      if loc_name == "The Great Sea - Withered Trees":
+        # This location isn't inside of a zone exit itself, but it does logically require the player
+        # to be able to reach a different item location that is inside of a zone exit.
+        for sub_loc_name in ["Cliff Plateau Isles - Highest Isle"]:
+          sub_zone_exit = self.get_zone_exit_for_item_location(sub_loc_name)
+          if sub_zone_exit is not None:
+            self.zone_exit_to_logically_dependent_item_locations[sub_zone_exit].append(loc_name)
+  
   def get_all_entrance_sets_to_be_randomized(self):
     dungeons = self.options.randomize_dungeon_entrances
     minibosses = self.options.randomize_miniboss_entrances
@@ -1015,7 +1025,7 @@ class EntranceRandomizer(BaseRandomizer):
     if not self.is_item_location_behind_randomizable_entrance(location_name):
       return loc_zone_name
     
-    zone_exit = self.item_location_name_to_zone_exit[location_name]
+    zone_exit = self.item_location_to_containing_zone_exit[location_name]
     assert zone_exit is not None, f"Could not determine entrance zone for item location: {location_name}"
     
     outermost_entrance = self.get_outermost_entrance_for_exit(zone_exit)
@@ -1059,11 +1069,13 @@ class EntranceRandomizer(BaseRandomizer):
       return {loc_zone_name} | self.get_all_zones_for_item_location("Forbidden Woods - Kalle Demos Heart Container")
     if location_name == "Mailbox - Letter from Aryll" or location_name == "Mailbox - Letter from Tingle":
       return {loc_zone_name} | self.get_all_zones_for_item_location("Forsaken Fortress - Helmaroc King Heart Container")
+    if location_name == "The Great Sea - Withered Trees":
+      return {loc_zone_name} | self.get_all_zones_for_item_location("Cliff Plateau Isles - Highest Isle")
     
     if not self.is_item_location_behind_randomizable_entrance(location_name):
       return {loc_zone_name}
     
-    zone_exit = self.item_location_name_to_zone_exit[location_name]
+    zone_exit = self.item_location_to_containing_zone_exit[location_name]
     assert zone_exit is not None, f"Could not determine entrance zone for item location: {location_name}"
     
     zone_entrance = self.done_exits_to_entrances[zone_exit]
