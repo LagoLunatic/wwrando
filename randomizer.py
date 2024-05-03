@@ -326,6 +326,8 @@ class WWRandomizer:
         patcher.apply_patch(self, "remove_music")
       if self.options.hero_mode:
         tweaks.enable_hero_mode(self)
+      if self.options.switch_targeting_mode:
+        tweaks.set_default_targeting_mode_to_switch(self)
       
       if self.map_select:
         patcher.apply_patch(self, "map_select")

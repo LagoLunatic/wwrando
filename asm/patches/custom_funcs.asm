@@ -151,6 +151,13 @@ addi r5, r5, captured_prologue_pigs_bitfield@l
 lbz r5, 0 (r5) ; Load the randomized value to set the bitfield to
 bl setEventReg__11dSv_event_cFUsUc
 
+lis r4, g_dComIfG_gameInfo@ha
+addi r4, r4, g_dComIfG_gameInfo@l
+lis r5, option_targeting_mode@ha 
+addi r5, r5, option_targeting_mode@l
+lbz r5, 0 (r5) ; Load the targeting mode option the player set
+stb r5, 0x1A6 (r4) ; 803C4DAE, the current targeting mode
+
 lis r3, 0x803C5D60@ha
 addi r3, r3, 0x803C5D60@l
 li r4, 0x0310 ; Saw event where Grandma gives you the Hero's Clothes
@@ -369,6 +376,9 @@ starting_magic:
 .global captured_prologue_pigs_bitfield
 captured_prologue_pigs_bitfield:
 .byte 0x04 ; By default, only have the black pig captured so that it becomes the big pig
+.global option_targeting_mode ; AKA "OptAttentionType"
+option_targeting_mode:
+.byte 0x00 ; By default, use the "Hold" targeting mode
 
 .align 2 ; Align to the next 4 bytes
 

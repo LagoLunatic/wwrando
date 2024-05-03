@@ -2697,3 +2697,7 @@ def enable_hero_mode(self: WWRandomizer):
   
   multiplier_addr = self.main_custom_symbols["damage_multiplier"]
   self.dol.write_data(fs.write_float, multiplier_addr, 4.0)
+
+def set_default_targeting_mode_to_switch(self: WWRandomizer):
+  targeting_mode_addr = self.main_custom_symbols["option_targeting_mode"]
+  self.dol.write_data(fs.write_u8, targeting_mode_addr, 1)

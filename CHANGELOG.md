@@ -31,6 +31,7 @@ Changes:
 * Adjusted the text of a few hints.
 * Kogoli now appears in the randomizer.
 * The spoiler log now includes hints and Required Bosses Mode's required dungeons.
+* Added an option to enable the game's "Switch" L-targeting mode from the randomizer's settings so that you don't have to enable it from within the game's options menu after starting a new save file.
 * Added an advanced "Dry Run" option which generates just the logs for a seed, without the playable ISO. Because no ISO is created, this option can be used to check a seed's item locations on a PC where you don't have a vanilla Wind Waker ISO on hand.
 
 Bug fixes:

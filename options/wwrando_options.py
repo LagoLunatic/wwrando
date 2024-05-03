@@ -362,6 +362,11 @@ class Options(BaseOptions):
     permalink=True, # Music duration affects gameplay (e.g. item get textbox speed).
     description="Mutes all ingame music.",
   )
+  switch_targeting_mode: bool = option(
+    default=False,
+    permalink=False,
+    description="Changes the default L-targeting mode when starting a new save file from 'Hold' to 'Switch'.",
+  )
   #endregion
   
   #region Starting items
