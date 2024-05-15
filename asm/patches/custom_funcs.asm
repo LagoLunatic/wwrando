@@ -167,13 +167,12 @@ bl onEventBit__11dSv_event_cFUs
 ; Set four switch bits (0, 1, 3, 7) for several events that happen in the Fairy Woods on Outset.
 ; Setting these switches causes the Tetra hanging from a tree and rescuing her from Bokoblins events to be marked as finished.
 ; Also set the switch (9) for having seen the event where you enter the Rito Aerie for the first time and get the Delivery Bag.
-; Also set the switch (8) for having unclogged the pond, since that boulder doesn't respond to normal bombs which would be odd.
 ; Also set the switch (1E) for having seen the intro to the interior of the Forest Haven, where the camera pans up.
 ; Also set the switch (13) for having seen the camera panning towards the treasure chest in Windfall Town Jail.
 lis r3, 0x803C5114@ha
 addi r3, r3, 0x803C5114@l
 lis r4, 0x4008
-addi r4, r4, 0x038B
+addi r4, r4, 0x028B
 stw r4, 4 (r3)
 
 ; Set two switch bits (3E and 3F) for having unlocked the song tablets in the Earth and Wind Temple entrances.

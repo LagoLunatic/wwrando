@@ -454,6 +454,7 @@ class WWRandomizer:
     tweaks.make_dungeon_joy_pendant_locations_flexible(self)
     tweaks.prevent_fairy_island_softlocks(self)
     tweaks.give_fairy_fountains_distinct_colors(self)
+    tweaks.replace_drc_entrance_boulder_with_normal_boulder(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)
