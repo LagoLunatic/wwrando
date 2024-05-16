@@ -198,17 +198,14 @@ def decide_on_link_model(self: WWRandomizer):
   
   if custom_model_name == "Random" or custom_model_name == "Random (exclude Link)":
     custom_model_names = get_all_custom_model_names()
+    if custom_model_name == "Random":
+      custom_model_names.append("Link") # Add entry to represent not changing Link's model
+    
     if not custom_model_names:
       raise Exception("No custom models to randomly choose from in the /models folder.")
     
-    if custom_model_name == "Random":
-      custom_model_names.append(None) # Dummy entry to represent not changing Link's model
-    
     temp_rng = self.get_new_rng()
     custom_model_name = temp_rng.choice(custom_model_names)
-    
-    if custom_model_name is None:
-      return
   
   # Remember what custom model was chosen so code in various places can access the metadata for the proper model.
   self.custom_model_name = custom_model_name
