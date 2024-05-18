@@ -2728,3 +2728,5 @@ def replace_drc_entrance_boulder_with_normal_boulder(self: WWRandomizer):
 
   room.remove_entity(flower_only_boulder, ACTR)
   room.save_changes()
+
+  patcher.apply_patch(self, "speedup_drc_water_raise")
