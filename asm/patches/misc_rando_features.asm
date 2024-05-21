@@ -12,7 +12,7 @@
 
 
 
-; Set initial HP from a custom symbol and also also allow the initial current HP to be rounded down from the initial max HP (for starting with some heart pieces).
+; Set initial HP from a custom symbol and also allow the initial current HP to be rounded down from the initial max HP (for starting with some heart pieces).
 .open "sys/main.dol"
 .org 0x800589A8
   b set_starting_health
@@ -272,7 +272,7 @@ exec_curr_num_keys_text_command:
   
   ; Convert the text command ID to the dungeon stage ID.
   ; The text command ID ranges from 0x4B-0x4F, for DRC, FW, TotG, ET, and WT.
-  ; The the dungeon stage IDs for those same 5 dungeons range from 3-7.
+  ; The dungeon stage IDs for those same 5 dungeons range from 3-7.
   ; So just subtract 0x48 to get the right stage ID.
   addi r4, r4, -0x48
   
@@ -767,15 +767,15 @@ custom_warp_pot_env_color:
 
 
 
-; Stop Old man Ho-Ho from disappearing under some conditions.
-.open "files/rels/d_a_npc_ah.rel" ; Old Man Ho-Ho
-.org 0x1044 ; Don't check if Cabana Octo is defeated
+; Stop Old Man Ho Ho from disappearing under some conditions.
+.open "files/rels/d_a_npc_ah.rel" ; Old Man Ho Ho
+.org 0x1044 ; Don't check if the Cabana Octo is defeated
   li r3, 0
 .org 0x1018 ; Don't check if the stone head above Savage Labyrinth is destroyed
   li r3, 0
 .org 0x1078 ; Don't check if the Two-Eye Reef Octo is defeated
   li r3, 0
-.org 0x8A8 ; Don't check if Cabana Octo is defeated
+.org 0x8A8 ; Don't check if the Cabana Octo is defeated
   li r3, 0
 .org 0x85C ; Don't check if the stone head above Savage Labyrinth is destroyed
   li r3, 0

@@ -121,7 +121,7 @@ convert_progressive_item_id_for_shop_item:
 
 
 
-; Fix a big where buying a progressive item from the shop would not show the item get animation if it's the tier 2+ item.
+; Fix a bug where buying a progressive item from the shop would not show the item get animation if it's the tier 2+ item.
 .open "files/rels/d_a_npc_bs1.rel"
 .org 0x1D00
   ; For the Bait Bag slot.
