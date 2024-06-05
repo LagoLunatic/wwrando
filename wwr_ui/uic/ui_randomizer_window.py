@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'randomizer_window.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.1
+## Created by: Qt User Interface Compiler version 6.6.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -28,7 +28,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(914, 757)
+        MainWindow.resize(1000, 775)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -42,7 +42,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 879, 600))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 965, 618))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -593,6 +593,79 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.addLayout(self.horizontalLayout_random_starting_items)
 
         self.tabWidget.addTab(self.tab_starting_items, "")
+        self.tab_excluded_locations = QWidget()
+        self.tab_excluded_locations.setObjectName(u"tab_excluded_locations")
+        self.verticalLayout_12 = QVBoxLayout(self.tab_excluded_locations)
+        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
+        self.horizontalLayout_10 = QHBoxLayout()
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.verticalLayout_9 = QVBoxLayout()
+        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.label_for_progression_locations = QLabel(self.tab_excluded_locations)
+        self.label_for_progression_locations.setObjectName(u"label_for_progression_locations")
+
+        self.verticalLayout_9.addWidget(self.label_for_progression_locations)
+
+        self.progression_locations = QListView(self.tab_excluded_locations)
+        self.progression_locations.setObjectName(u"progression_locations")
+        font = QFont()
+        font.setPointSize(8)
+        self.progression_locations.setFont(font)
+        self.progression_locations.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.progression_locations.setSelectionMode(QAbstractItemView.ExtendedSelection)
+
+        self.verticalLayout_9.addWidget(self.progression_locations)
+
+
+        self.horizontalLayout_10.addLayout(self.verticalLayout_9)
+
+        self.verticalLayout_10 = QVBoxLayout()
+        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
+        self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_10.addItem(self.verticalSpacer_4)
+
+        self.include_location = QPushButton(self.tab_excluded_locations)
+        self.include_location.setObjectName(u"include_location")
+        self.include_location.setMinimumSize(QSize(0, 80))
+
+        self.verticalLayout_10.addWidget(self.include_location)
+
+        self.exclude_location = QPushButton(self.tab_excluded_locations)
+        self.exclude_location.setObjectName(u"exclude_location")
+        self.exclude_location.setMinimumSize(QSize(0, 80))
+
+        self.verticalLayout_10.addWidget(self.exclude_location)
+
+        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_10.addItem(self.verticalSpacer_5)
+
+
+        self.horizontalLayout_10.addLayout(self.verticalLayout_10)
+
+        self.verticalLayout_11 = QVBoxLayout()
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.label_for_excluded_locations = QLabel(self.tab_excluded_locations)
+        self.label_for_excluded_locations.setObjectName(u"label_for_excluded_locations")
+
+        self.verticalLayout_11.addWidget(self.label_for_excluded_locations)
+
+        self.excluded_locations = QListView(self.tab_excluded_locations)
+        self.excluded_locations.setObjectName(u"excluded_locations")
+        self.excluded_locations.setFont(font)
+        self.excluded_locations.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.excluded_locations.setSelectionMode(QAbstractItemView.ExtendedSelection)
+
+        self.verticalLayout_11.addWidget(self.excluded_locations)
+
+
+        self.horizontalLayout_10.addLayout(self.verticalLayout_11)
+
+
+        self.verticalLayout_12.addLayout(self.horizontalLayout_10)
+
+        self.tabWidget.addTab(self.tab_excluded_locations, "")
         self.tab_advanced = QWidget()
         self.tab_advanced.setObjectName(u"tab_advanced")
         self.verticalLayout_8 = QVBoxLayout(self.tab_advanced)
@@ -1094,6 +1167,11 @@ class Ui_MainWindow(object):
         self.current_health.setText(QCoreApplication.translate("MainWindow", u"Current Starting Health: 3 hearts", None))
         self.label_for_num_extra_starting_items.setText(QCoreApplication.translate("MainWindow", u"Extra Random Starting Items", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_starting_items), QCoreApplication.translate("MainWindow", u"Starting Items", None))
+        self.label_for_progression_locations.setText(QCoreApplication.translate("MainWindow", u"Progression Locations", None))
+        self.include_location.setText(QCoreApplication.translate("MainWindow", u"<-", None))
+        self.exclude_location.setText(QCoreApplication.translate("MainWindow", u"->", None))
+        self.label_for_excluded_locations.setText(QCoreApplication.translate("MainWindow", u"Excluded Locations", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_excluded_locations), QCoreApplication.translate("MainWindow", u"Excluded Locations", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Required Bosses", None))
         self.required_bosses.setText(QCoreApplication.translate("MainWindow", u"Required Bosses Mode", None))
         self.label_for_num_required_bosses.setText(QCoreApplication.translate("MainWindow", u"Number of Required Bosses", None))

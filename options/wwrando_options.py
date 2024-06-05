@@ -20,6 +20,11 @@ class TrickDifficulty(StrEnum):
   HARD = "Hard"
   VERY_HARD = "Very Hard"
 
+def get_default_progression_locations():
+  from logic.logic import Logic # lazy import
+  
+  return Logic.load_and_parse_item_locations()
+
 @dataclass
 class Options(BaseOptions):
   #region Progress locations
@@ -137,6 +142,15 @@ class Options(BaseOptions):
     default=True,
     description="Miscellaneous locations that don't fit into any of the above categories (outdoors chests, wind shrine, Cyclos, etc).<br>"
       "<u>If this is not checked, they will still be randomized</u>, but will only contain optional items you don't need to beat the game.",
+  )
+  
+  progression_locations: list[str] = option(
+    default_factory=lambda: get_default_progression_locations(),
+    description="Randomized locations that can have progress items.",
+  )
+  excluded_locations: list[str] = option(
+    default_factory=lambda: [],
+    description="Randomized locations that cannot have progress items.",
   )
   #endregion
   
