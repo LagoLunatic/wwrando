@@ -3,6 +3,7 @@ import os
 import re
 from random import Random
 import hashlib
+import zlib
 import yaml
 import sys
 from typing import TypeVar, Callable
@@ -541,7 +542,7 @@ class WWRandomizer:
     
     for byte in bitswriter.bytes:
       permalink += struct.pack(">B", byte)
-    base64_encoded_permalink = base64.b64encode(permalink).decode("ascii")
+    base64_encoded_permalink = base64.b64encode(zlib.compress(permalink)).decode("ascii")
     return base64_encoded_permalink
   
   @classmethod
@@ -550,7 +551,7 @@ class WWRandomizer:
     if not base64_encoded_permalink:
       raise Exception(f"Permalink is blank.")
     
-    permalink = base64.b64decode(base64_encoded_permalink)
+    permalink = zlib.decompress(base64.b64decode(base64_encoded_permalink))
     given_version_num, seed, options_bytes = permalink.split(b"\0", 2)
     given_version_num = given_version_num.decode("ascii")
     seed = seed.decode("ascii")
