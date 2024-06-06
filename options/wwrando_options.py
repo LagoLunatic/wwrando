@@ -23,7 +23,7 @@ class TrickDifficulty(StrEnum):
 def get_default_progression_locations():
   from logic.logic import Logic # lazy import
   
-  return Logic.load_and_parse_item_locations()
+  return list(Logic.load_and_parse_item_locations().keys())
 
 @dataclass
 class Options(BaseOptions):

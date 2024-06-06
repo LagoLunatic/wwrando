@@ -636,10 +636,9 @@ class WWRandomizer:
           else:
             progression_list.append(location_name)
         options.excluded_locations = sorted(excluded_list)
-        options.progression_locations = sorted(progression_list)
       elif option.name == "progression_locations":
-        # Handled above.
-        continue
+        # Use default for now. This option will be updated later.
+        options.progression_locations = option.default_factory()
       else:
         raise Exception(f"Option {option.name} of type {option.type} is not currently supported by the permalink system.")
     
