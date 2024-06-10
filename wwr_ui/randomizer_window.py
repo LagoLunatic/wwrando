@@ -28,9 +28,6 @@ class WWRandomizerWindow(QMainWindow):
     self.ui = Ui_MainWindow()
     self.ui.setupUi(self)
     
-    # Fix text not becoming grey when a widget is disabled in newer versions of PySide6.
-    self.setStyleSheet("*:disabled { color: grey; }")
-    
     self.ui.tab_player_customization.initialize_from_rando_window(self)
     
     self.randomizer_thread = None
