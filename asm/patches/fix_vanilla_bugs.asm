@@ -75,7 +75,7 @@ hookshot_sight_failsafe_check:
 .org @NextFreeSpace
 .global deluxe_picto_box_item_func_fix_equipped_picto_box
 deluxe_picto_box_item_func_fix_equipped_picto_box:
-  stb r0, 0x44 (r3) ; Replace the line of code we overwrote to jump heree
+  stb r0, 0x44 (r3) ; Replace the line of code we overwrote to jump here
   
   li r4, 0 ; The offset for which button to check next (0/1/2 for X/Y/Z)
   li r0, 3 ; How many times to loop (3 buttons)
@@ -482,7 +482,7 @@ check_can_defend:
 ; first phase of the fight. This rarely happens as Zelda aims upwards at Ganondorf and not at Link,
 ; but it is possible.
 ; But when it does happen, if you are locked on to Ganondorf, and Ganondorf tries to enter the
-; second phase of the fight (knocking Zelda out) at the same time as as being hit with the reflected
+; second phase of the fight (knocking Zelda out) at the same time as being hit with the reflected
 ; arrow, this can cause a bug because of conflicting events.
 ; Ganondorf starts the short hardcoded camera event to emphasize the fact that you reflected an
 ; arrow at him at around the same time as the event for knocking Zelda out, which can result in a
@@ -520,7 +520,7 @@ ganondorf_not_in_phase_3:
 
 ; During the Helmaroc King fight, HK could sometimes become stuck on the level geometry while trying
 ; to land. This is only known to happen after doing the speedrun strat of jumping back into the
-; tower while it's closing, as HK only starting using the landing state after the tower closes, and
+; tower while it's closing, as HK only starts using the landing state after the tower closes, and
 ; there doesn't seem to be any geometry he can get stuck on when you're on top of the tower.
 ; To fix this, we add a custom timer that counts the number of frames his current landing attempt
 ; has taken, and when it exceeds a set limit, we switch his state back to the flying upwards state,
@@ -575,9 +575,9 @@ check_helmaroc_king_landing_timeout:
 
 
 
-; When Link opens a treasure chest, he teleports the enemy weapon he was carrying exactly to the
+; When Link opens a treasure chest, he teleports any enemy weapon he was carrying exactly to the
 ; position of his feet on the floor he's standing on. The enemy weapon then tries to search
-; downwards for a floor. If Link is standing standing on only a single layer of floor above a void,
+; downwards for a floor. If Link is standing on only a single layer of floor above a void,
 ; this results in the weapon being unable to find the floor it's already on, because it's exactly at
 ; the position of that floor. As a failsafe, the weapon teleports itself to Link's feet again.
 ; However, after that failsafe is triggered, it also sets its Y position to 50 in absolute

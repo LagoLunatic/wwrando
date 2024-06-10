@@ -66,7 +66,7 @@ def skip_wakeup_intro_and_start_at_dock(self: WWRandomizer):
   set_new_game_starting_spawn_id(self, 0)
 
 def start_ship_at_outset(self: WWRandomizer):
-  # Change the King of Red Lion's default position so that he appears on Outset at the start of the game.
+  # Change the King of Red Lions' default position so that he appears on Outset at the start of the game.
   change_ship_starting_island(self, 44)
   
 def make_all_text_instant(self: WWRandomizer):
@@ -192,7 +192,7 @@ def allow_all_items_to_be_field_items(self: WWRandomizer):
   # Update the visual Y offsets so the item doesn't look like it's halfway inside the floor and difficult to see.
   # First update the default case of the switch statement in the function getYOffset so that it reads from 803F9E84 (value: 23.0), instead of 803F9E80 (value: 0.0).
   self.dol.write_data(fs.write_u32, 0x800F4CD0, 0xC022A184) # lfs f1, -0x5E7C(rtoc)
-  # And fix then Big Key so it uses the default case with the 23.0 offset, instead of using the 0.0 offset. (Other items already use the default case, so we don't need to fix any besides Big Key.)
+  # And fix the Big Key so it uses the default case with the 23.0 offset, instead of using the 0.0 offset. (Other items already use the default case, so we don't need to fix any besides Big Key.)
   self.dol.write_data(fs.write_u32, 0x8038C8B8 + 0x4E*4, 0x800F4CD0)
   
   
@@ -240,7 +240,7 @@ def remove_shop_item_forced_uniqueness_bit(self: WWRandomizer):
     self.dol.write_data(fs.write_u8, shop_item_data_addr+0xC, buy_requirements_bitfield)
 
 def remove_forsaken_fortress_2_cutscenes(self: WWRandomizer):
-  # Removes the rescuing-Aryll cutscene played by the spawn when you enter the Forsaken Fortress tower.
+  # Removes the rescuing Aryll cutscene played by the spawn when you enter the Forsaken Fortress tower.
   dzx = self.get_arc("files/res/Stage/M2tower/Room0.arc").get_file("room.dzr", DZx)
   spawn = next(spawn for spawn in dzx.entries_by_type(PLYR) if spawn.spawn_id == 16)
   spawn.evnt_index = 0xFF
@@ -749,7 +749,7 @@ def fix_shop_item_y_offsets(self: WWRandomizer):
     
     if y_offset == 0 and item_id not in [0x10, 0x11, 0x12]:
       # If the item didn't originally have a Y offset we need to give it one so it's not sunken into the pedestal.
-      # Only exception are for items 10 11 and 12 - arrow refill pickups. Those have no Y offset but look fine already.
+      # Only exceptions are for items 10 11 and 12 - arrow refill pickups. Those have no Y offset but look fine already.
       new_y_offset = 20.0
       self.dol.write_data(fs.write_float, display_data_addr+0x10, new_y_offset)
 
@@ -1284,13 +1284,13 @@ def increase_grapple_animation_speed(self: WWRandomizer):
   # (We can't just change the float value itself because it's used for multiple things.)
   self.dol.write_data(fs.write_s16, 0x800EE0E4+2, 0x803F9DAC-0x803FFD00)
   
-  # Half the number of frames grappling hook extends outward in 1st person (from 40 to 20 frames)
+  # Halve the number of frames grappling hook extends outward in 1st person (from 40 to 20 frames)
   self.dol.write_data(fs.write_u32, 0x800EDB74, 0x38030014) # addi r0,r3,20
   
-  # Half the number of frames grappling hook extends outward in 3rd person (from 20 to 10)
+  # Halve the number of frames grappling hook extends outward in 3rd person (from 20 to 10)
   self.dol.write_data(fs.write_u32, 0x800EDEA4, 0x3803000A) # addi r0,r3,10
   
-  # Increase the speed in which the grappling hook falls onto it's target (from 10.0 to 20.0)
+  # Increase the speed at which the grappling hook falls onto its target (from 10.0 to 20.0)
   # Instead of reading 10.0 from 803F9C44, read 20.0 from 803F9D28.
   # (We can't just change the float value itself because it's used for multiple things.)
   self.dol.write_data(fs.write_s16, 0x800EEC40+2, 0x803F9D28-0x803FFD00)
@@ -1335,7 +1335,7 @@ def increase_misc_animations(self: WWRandomizer):
   # Increase Link's sidle animation speed (1.6 -> 2.0)
   self.dol.write_data(fs.write_float, 0x8035D6AC, 2.0)
   
-  # Half the number of frames camera takes to focus on an npc for a conversation (from 20 to 10)
+  # Halve the number of frames camera takes to focus on an npc for a conversation (from 20 to 10)
   self.dol.write_data(fs.write_u32, 0x8016DA2C, 0x3800000A) # li r0,10
 
 
@@ -1370,14 +1370,14 @@ def shorten_auction_intro_event(self: WWRandomizer):
   post_pan_delay = camera.actions[4]
   
   # Remove the 200 frame long panning action and the 30 frame delay after panning.
-  # We don't remove the 30 frame delay before panning, because of the intro is completely removed or only a couple frames long, there is a race condition where the timer entity may not be finished being asynchronously created until the intro is over. If this happens the auction entity will have no reference to the timer entity, causing a crash later on.
+  # We don't remove the 30 frame delay before panning, because if the intro is completely removed or only a couple frames long, there is a race condition where the timer entity may not be finished being asynchronously created until the intro is over. If this happens the auction entity will have no reference to the timer entity, causing a crash later on.
   camera.actions.remove(pan_action)
   camera.actions.remove(post_pan_delay)
 
 def disable_invisible_walls(self: WWRandomizer):
   # Remove some invisible walls to allow sequence breaking.
   # In vanilla switch index FF meant an invisible wall appears only when you have no sword.
-  # But we remove that in randomizer, so invisible walls with switch index FF act effectively completely disabled. So we use this to disable these invisible walls.
+  # But we remove that in the randomizer, so invisible walls with switch index FF are effectively completely disabled. So we use this to disable these invisible walls.
   
   # Remove an invisible wall in the second room of DRC.
   dzx = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr", DZx)
@@ -1735,7 +1735,7 @@ def update_beedle_spoil_selling_text(self: WWRandomizer):
 
 def fix_totg_warp_out_spawn_pos(self: WWRandomizer):
   # Normally the spawn point used when the player teleports out after beating the dungeon boss would put the player right on top of the Hyrule warp, which takes the player there immediately if it's active.
-  # Move the spawn forward a bit to avoid to avoid this.
+  # Move the spawn forward a bit to avoid this.
   
   dzr = self.get_arc("files/res/Stage/sea/Room26.arc").get_file("room.dzr", DZx)
   spawn = next(x for x in dzr.entries_by_type(PLYR) if x.spawn_id == 1)
@@ -1788,7 +1788,7 @@ def fix_forsaken_fortress_door_softlock(self: WWRandomizer):
 def add_new_bog_warp(self: WWRandomizer):
   # Adds a new Ballad of Gales warp point destination to Forsaken Fortress.
   # To do this we must relocate the lists with data for each warp to free space, modify the code to use the relocated lists, and modify the code to loop the number of times counting the new warp, instead of only the vanilla number of times.
-  # We also must add a new message for the confirmation dialog to display when the player select the Forsaken Fortress warp.
+  # We also must add a new message for the confirmation dialog to display when the player selects the Forsaken Fortress warp.
   # (Note that the actual warp spawn point in Forsaken Fortress already existed in the vanilla game unused, so we don't need to add that, it already works perfectly.)
   
   new_num_warps = 10
@@ -2114,7 +2114,7 @@ def fix_message_closing_sound_on_quest_status_screen(self: WWRandomizer):
 def fix_stone_head_bugs(self: WWRandomizer):
   # Unset the actor status bit for stone heads that makes them not execute on frames where they didn't draw because they weren't in view of the camera.
   # The fact that they don't execute when you're not looking at them can cause various bugs.
-  # One of which is that, for the ones that spawn enemies, they set themselves as being enemy-type actors. They only delete themselves after the enemy they spawn is killed and not at the moment the stone head actually breaks. So "kill all enemies" rooms, you would need to look at the empty spot where the stone head broke apart after killing the enemy it spawned in order for all "enemies" to be considered dead.
+  # One of which is that, for the ones that spawn enemies, they set themselves as being enemy-type actors. They only delete themselves after the enemy they spawn is killed and not at the moment the stone head actually breaks. So in "kill all enemies" rooms, you would need to look at the empty spot where the stone head broke apart after killing the enemy it spawned in order for all "enemies" to be considered dead.
   
   head_rel = self.get_rel("files/rels/d_a_obj_homen.rel")
   
@@ -2123,7 +2123,7 @@ def fix_stone_head_bugs(self: WWRandomizer):
   head_rel.write_data(fs.write_u32, 0x3450, status_bits)
 
 def show_number_of_tingle_statues_on_quest_status_screen(self: WWRandomizer):
-  # Replaces the visuals of the treasure chart counter on the quest status creen with visuals for a tingle statue counter.
+  # Replaces the visuals of the treasure chart counter on the quest status screen with visuals for a tingle statue counter.
   # That chart counter is redundant since it shows the same number on the chart screen.
   # (The actual counter number itself is modified via asm.)
   
@@ -2265,7 +2265,7 @@ def allow_nonlinear_servants_of_the_towers(self: WWRandomizer):
   # Then we have a custom event that triggers when any of the three servant returned
   # switches have been set. This custom event makes the tablet appear.
   # The switch set by the tablet when you get its item is changed to 0x2B (unused in vanilla).
-  # Once all fourth switches are set, the light beam warp appears.
+  # Once all four switches are set, the light beam warp appears.
   
   tablet = next(x for x in hub_room_dzr.entries_by_type(ACTR) if x.name == "Hsh")
   tablet.switch_to_set = tablet_item_obtained_switch
@@ -2352,7 +2352,7 @@ def allow_nonlinear_servants_of_the_towers(self: WWRandomizer):
   os1_message = event_list.events_by_name["Os1_Message"]
   os1 = next(actor for actor in os1_message.actors if actor.name == "Os1")
   camera = next(actor for actor in os1_message.actors if actor.name == "CAMERA")
-  # Remove all but the last action to effecitvely remove the event.
+  # Remove all but the last action to effectively remove the event.
   os1.actions = os1.actions[-1:]
   camera.actions = camera.actions[-1:]
   
@@ -2400,7 +2400,7 @@ def allow_nonlinear_servants_of_the_towers(self: WWRandomizer):
   link = next(actor for actor in hsehi1_tact.actors if actor.name == "Link")
   # Remove the camera zooming in on the west door.
   camera.actions.remove(camera.actions[-1])
-  # Don't make the table wait for the camera to zoom in on the west door.
+  # Don't make the tablet wait for the camera to zoom in on the west door.
   hsh.actions.remove(hsh.actions[-1])
   # Make the tablet disappear at the end.
   hsh.actions.remove(hsh.actions[-1])
@@ -2560,7 +2560,7 @@ def allow_nonlinear_servants_of_the_towers(self: WWRandomizer):
   totg.save_changes()
 
 def fix_helmaroc_king_table_softlock(self: WWRandomizer):
-  # When doing the speedrun strat to trick Helmaroc King into landing inside of the tower and attack
+  # When doing the speedrun strat to trick Helmaroc King into landing inside of the tower and attacking
   # you, he could sometimes land on top of the small wooden table in there, which seems to have a
   # small chance of causing him to clip out of bounds and fall into the void forever.
   # Simply remove this table, as this should presumably fix the bug, and the table seems to serve no
@@ -2575,7 +2575,7 @@ def make_dungeon_joy_pendant_locations_flexible(self: WWRandomizer):
   # crack with steam coming out of it.
   # This purple rupee shares the same item pickup flag (0x06) as one of the joy pendants much later
   # in DRC. Obtaining one of these two items makes the other one unobtainable, which could result in
-  # and unbeatable seed if the player gets the purple rupee first.
+  # an unbeatable seed if the player gets the purple rupee first.
   # To fix this, we give the purple rupee a different item pickup flag that was originally unused.
   dzr = self.get_arc("files/res/Stage/M_NewD2/Room0.arc").get_file("room.dzr", DZx)
   tingle_item = dzr.entries_by_type_and_layer(ACTR, layer=None)[0x1C]

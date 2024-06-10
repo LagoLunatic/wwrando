@@ -55,7 +55,7 @@ class ExtraStartingItemsRandomizer(BaseRandomizer):
       max_fraction = remaining_random_starting_items
       if len(self.logic.get_accessible_remaining_locations(for_progression=True)) > len(initial_sphere_0_checks):
         # If we've already unlocked at least one check, we can use any items for the remaining slots
-        # We still want to avoid completely useless ones though (e.g. dungeon items for non-race-mode dungeons)
+        # We still want to avoid completely useless ones though (e.g. dungeon items for non-required-bosses-mode dungeons)
         max_fraction = 9998
       available_items = self.filter_possible_random_starting_items(max_fraction)
       

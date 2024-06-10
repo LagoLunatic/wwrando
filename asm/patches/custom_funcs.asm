@@ -145,7 +145,7 @@ li r4, 0x4002 ; Saw cutscene before Ganondorf fight
 bl onEventBit__11dSv_event_cFUs
 
 li r4, 0
-ori r4, r4, 0xBFFF ; Bitfield of which pigs you brough to Rose during the prologue (Pink, Speckled, Black)
+ori r4, r4, 0xBFFF ; Bitfield of which pigs you brought to Rose during the prologue (Pink, Speckled, Black)
 lis r5, captured_prologue_pigs_bitfield@ha 
 addi r5, r5, captured_prologue_pigs_bitfield@l
 lbz r5, 0 (r5) ; Load the randomized value to set the bitfield to
@@ -168,8 +168,8 @@ bl onEventBit__11dSv_event_cFUs
 ; Setting these switches causes the Tetra hanging from a tree and rescuing her from Bokoblins events to be marked as finished.
 ; Also set the switch (9) for having seen the event where you enter the Rito Aerie for the first time and get the Delivery Bag.
 ; Also set the switch (8) for having unclogged the pond, since that boulder doesn't respond to normal bombs which would be odd.
-; Also set the the switch (1E) for having seen the intro to the interior of the Forest Haven, where the camera pans up.
-; Also set the the switch (13) for having seen the camera panning towards the treasure chest in Windfall Town Jail.
+; Also set the switch (1E) for having seen the intro to the interior of the Forest Haven, where the camera pans up.
+; Also set the switch (13) for having seen the camera panning towards the treasure chest in Windfall Town Jail.
 lis r3, 0x803C5114@ha
 addi r3, r3, 0x803C5114@l
 lis r4, 0x4008

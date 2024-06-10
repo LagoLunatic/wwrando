@@ -601,7 +601,7 @@ medli_possible_et_spawn_positions:
   ; We modify it to be taken for all servants.
   b 0x1338
 .org 0x1F74 ; In daNpc_Os_c::finish02NpcAction(void *)
-  ; Normally the servants would not keep the light beam they shoot on until even bit 0x1B01 is set,
+  ; Normally the servants would not keep the light beam they shoot on until event bit 0x1B01 is set,
   ; which happens once the north servant is returned.
   ; Remove this check so the beam is always on for servants that are on their pedestals.
   nop
