@@ -2730,3 +2730,9 @@ def replace_drc_entrance_boulder_with_normal_boulder(self: WWRandomizer):
   room.save_changes()
 
   patcher.apply_patch(self, "speedup_drc_water_raise")
+  
+def open_drc(self: WWRandomizer):
+  patcher.apply_patch(self, "disable_dins_pearl_lava")
+  
+  open_drc_address = self.main_custom_symbols["open_drc"]
+  self.dol.write_data(fs.write_u8, open_drc_address, 1)

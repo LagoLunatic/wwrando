@@ -320,6 +320,10 @@ class WWRandomizer:
       tweaks.update_starting_gear(self, self.options.starting_gear)
       if self.options.chest_type_matches_contents:
         tweaks.replace_dark_wood_chest_texture(self)
+      if self.options.open_drc:
+        tweaks.open_drc(self)
+      else:
+        tweaks.replace_drc_entrance_boulder_with_normal_boulder(self)
       if self.options.remove_title_and_ending_videos:
         tweaks.remove_title_and_ending_videos(self)
       if self.options.remove_music:
@@ -454,7 +458,6 @@ class WWRandomizer:
     tweaks.make_dungeon_joy_pendant_locations_flexible(self)
     tweaks.prevent_fairy_island_softlocks(self)
     tweaks.give_fairy_fountains_distinct_colors(self)
-    tweaks.replace_drc_entrance_boulder_with_normal_boulder(self)
     
     customizer.replace_link_model(self)
     tweaks.change_starting_clothes(self)

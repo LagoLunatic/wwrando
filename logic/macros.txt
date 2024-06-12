@@ -264,7 +264,8 @@ Can Reach Wind Temple Tall Basement Room:
   # Activating the giant fan is not necessary.
 
 Can Access Dungeon Entrance on Dragon Roost Island:
-  Empty Bottle
+  DRC Initially Open
+  | Empty Bottle
   | Bombs
   | Power Bracelets
   | Can Fly With Deku Leaf Outdoors
@@ -1144,6 +1145,8 @@ In Required Bosses Mode:
   Option "required_bosses" Enabled
 Outside Required Bosses Mode:
   Option "required_bosses" Disabled
+DRC Initially Open:
+  Option "open_drc" Enabled
 
 # Macros to wrap difficulty level checks.
 Obscure 1:
