@@ -266,7 +266,7 @@ def try_fix_taskbar_icon():
     pass
 
 def get_dark_mode_palette(app) :
-  from PySide6.QtGui import QPalette, QColor
+  from qtpy.QtGui import QPalette, QColor
   pal = app.palette()
   
   pal.setColor(QPalette.ColorRole.Window, QColor("#353535"))
@@ -294,14 +294,18 @@ def get_dark_mode_palette(app) :
   return pal
 
 def run_with_ui(args):
-  from PySide6.QtCore import Qt, QTimer
-  from PySide6.QtWidgets import QApplication
+  from wwr_ui import qt_init
+  from qtpy.QtCore import Qt, QTimer
+  from qtpy.QtWidgets import QApplication
+  from qtpy import QT_VERSION
   from wwr_ui.randomizer_window import WWRandomizerWindow
-
+  
   try_fix_taskbar_icon()
   
   qApp = QApplication(sys.argv)
-  if qApp.styleHints().colorScheme() == Qt.ColorScheme.Dark and qApp.style().name() == "windowsvista":
+  
+  qt_version_tuple = tuple(int(num) for num in QT_VERSION.split("."))
+  if qt_version_tuple >= (6, 5, 0) and qApp.styleHints().colorScheme() == Qt.ColorScheme.Dark and qApp.style().name() == "windowsvista":
     qApp.setStyle("Fusion") # The windowsvista style on Windows doesn't support dark mode, so switch to Fusion.
     qApp.setPalette(get_dark_mode_palette(qApp))
   

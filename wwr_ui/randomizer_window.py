@@ -1,8 +1,9 @@
-from PySide6.QtGui import *
-from PySide6.QtCore import *
-from PySide6.QtWidgets import *
+from qtpy.QtGui import *
+from qtpy.QtCore import *
+from qtpy.QtWidgets import *
+from qtpy.uic import loadUiType # loadUi doesn't seem to work, so use loadUiType instead.
 
-from wwr_ui.uic.ui_randomizer_window import Ui_MainWindow
+Ui_MainWindow, _ = loadUiType("./wwr_ui/randomizer_window.ui")
 from wwr_ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
 from wwr_ui.inventory import INVENTORY_ITEMS, DEFAULT_STARTING_ITEMS, DEFAULT_RANDOMIZED_ITEMS
 
@@ -562,7 +563,7 @@ class WWRandomizerWindow(QMainWindow):
       if isinstance(model, ModelFilterOut):
         model = model.sourceModel()
       model.sort(0)
-      return [model.data(model.index(i)) for i in range(model.rowCount())]
+      return [model.data(model.index(i), Qt.ItemDataRole.DisplayRole) for i in range(model.rowCount())]
     else:
       print("Option widget is invalid: %s" % option_name)
     
@@ -756,11 +757,11 @@ class ModelFilterOut(QSortFilterProxyModel):
   
   def filterAcceptsRow(self, sourceRow, sourceParent):
     index0 = self.sourceModel().index(sourceRow, 0, sourceParent)
-    data = self.sourceModel().data(index0)
+    data = self.sourceModel().data(index0, Qt.ItemDataRole.DisplayRole)
     num_occurrences = self.filter_strings.count(data)
     for i in range(sourceRow):
       cur_index = self.sourceModel().index(i, 0, sourceParent)
-      cur_data = self.sourceModel().data(cur_index)
+      cur_data = self.sourceModel().data(cur_index, Qt.ItemDataRole.DisplayRole)
       if cur_data == data:
         num_occurrences -= 1
     return num_occurrences <= 0

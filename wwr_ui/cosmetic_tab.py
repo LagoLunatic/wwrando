@@ -1,8 +1,9 @@
-from PySide6.QtGui import *
-from PySide6.QtCore import *
-from PySide6.QtWidgets import *
+from qtpy.QtGui import *
+from qtpy.QtCore import *
+from qtpy.QtWidgets import *
+from qtpy.uic import loadUiType
 
-from wwr_ui.uic.ui_cosmetic_tab import Ui_CosmeticTab
+Ui_CosmeticTab, _ = loadUiType("./wwr_ui/cosmetic_tab.ui")
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
