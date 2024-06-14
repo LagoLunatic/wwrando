@@ -266,7 +266,15 @@ class WWRandomizer:
     else:
       self.dungeons_and_caves_only_start = False
     self.logic.update_entrance_connection_macros() # Reset the entrance macros.
-    
+
+    if self.dungeons_and_caves_only_start and not self.entrances.can_assign_safety_entrance():
+      msg = "No guaranteed accessible locations at the beginning of the game.\n"
+      if self.dungeons_only_start and not self.options.open_drc:
+        msg += 'Consider enabling more progression settings, adding starting items or enabling "Open DRC"'
+      else:
+        msg += "Consider enabling more progression settings or adding starting items"
+      raise TooFewProgressionLocationsError(msg)
+  
     self.fully_initialized = True
   
   def get_max_progress_length(self) -> int:
