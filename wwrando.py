@@ -265,15 +265,46 @@ def try_fix_taskbar_icon():
     # Versions of Windows before Windows 7 don't support SetCurrentProcessExplicitAppUserModelID, so just swallow the error.
     pass
 
+def get_dark_mode_palette(app) :
+  from PySide6.QtGui import QPalette, QColor
+  pal = app.palette()
+  
+  pal.setColor(QPalette.ColorRole.Window, QColor("#353535"))
+  pal.setColor(QPalette.ColorRole.WindowText, QColor("#D9D9D9"))
+  pal.setColor(QPalette.ColorRole.Base, QColor("#2A2A2A"))
+  pal.setColor(QPalette.ColorRole.AlternateBase, QColor("#424242"))
+  pal.setColor(QPalette.ColorRole.ToolTipBase, QColor("#353535"))
+  pal.setColor(QPalette.ColorRole.ToolTipText, QColor("#D9D9D9"))
+  pal.setColor(QPalette.ColorRole.Text, QColor("#D9D9D9"))
+  pal.setColor(QPalette.ColorRole.Dark, QColor("#232323"))
+  pal.setColor(QPalette.ColorRole.Shadow, QColor("#141414"))
+  pal.setColor(QPalette.ColorRole.Button, QColor("#353535"))
+  pal.setColor(QPalette.ColorRole.ButtonText, QColor("#D9D9D9"))
+  pal.setColor(QPalette.ColorRole.BrightText, QColor("#D90000"))
+  pal.setColor(QPalette.ColorRole.Link, QColor("#2A82DA"))
+  pal.setColor(QPalette.ColorRole.Highlight, QColor("#2A82DA"))
+  pal.setColor(QPalette.ColorRole.HighlightedText, QColor("#D9D9D9"))
+  
+  pal.setColor(QPalette.ColorGroup.Disabled, QPalette.ColorRole.WindowText, QColor("#7F7F7F"))
+  pal.setColor(QPalette.ColorGroup.Disabled, QPalette.ColorRole.Text, QColor("#7F7F7F"))
+  pal.setColor(QPalette.ColorGroup.Disabled, QPalette.ColorRole.ButtonText, QColor("#7F7F7F"))
+  pal.setColor(QPalette.ColorGroup.Disabled, QPalette.ColorRole.Highlight, QColor("#505050"))
+  pal.setColor(QPalette.ColorGroup.Disabled, QPalette.ColorRole.HighlightedText, QColor("#7F7F7F"))
+  
+  return pal
+
 def run_with_ui(args):
+  from PySide6.QtCore import Qt, QTimer
   from PySide6.QtWidgets import QApplication
-  from PySide6.QtCore import QTimer
   from wwr_ui.randomizer_window import WWRandomizerWindow
 
   try_fix_taskbar_icon()
   
   qApp = QApplication(sys.argv)
-
+  if qApp.styleHints().colorScheme() == Qt.ColorScheme.Dark and qApp.style().name() == "windowsvista":
+    qApp.setStyle("Fusion") # The windowsvista style on Windows doesn't support dark mode, so switch to Fusion.
+    qApp.setPalette(get_dark_mode_palette(qApp))
+  
   # Have a timer updated frequently so keyboard interrupts always work.
   # 499 milliseconds seems to be the maximum value that works here, but use 100 to be safe.
   timer = QTimer()
