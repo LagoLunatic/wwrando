@@ -19,8 +19,9 @@ from wwrando_paths import SETTINGS_PATH, ASSETS_PATH, IS_RUNNING_FROM_SOURCE
 from seedgen import seedgen
 from logic.logic import Logic
 
-from typing import TYPE_CHECKING, Type
 import typing
+from typing import TYPE_CHECKING, Type, TypeVar
+T = TypeVar('T')
 
 class WWRandomizerWindow(QMainWindow):
   def __init__(self, cmd_line_args):
@@ -742,7 +743,7 @@ class WWRandomizerWindow(QMainWindow):
   
   if TYPE_CHECKING:
     # Fake override for type checker because PySide6 doesn't use TypeVar.
-    def findChild[T](self, type: Type[T], name: str = ..., options: Qt.FindChildOption = ...) -> T: ...
+    def findChild(self, type: Type[T], name: str = ..., options: Qt.FindChildOption = ...) -> T: ...
 
 class ModelFilterOut(QSortFilterProxyModel):
   def __init__(self):
