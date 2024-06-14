@@ -3,7 +3,6 @@ from qtpy.QtCore import *
 from qtpy.QtWidgets import *
 from qtpy.uic import loadUiType # loadUi doesn't seem to work, so use loadUiType instead.
 
-Ui_MainWindow, _ = loadUiType("./wwr_ui/randomizer_window.ui")
 from wwr_ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
 from wwr_ui.inventory import INVENTORY_ITEMS, DEFAULT_STARTING_ITEMS, DEFAULT_RANDOMIZED_ITEMS
 
@@ -16,13 +15,15 @@ from collections import Counter
 from options.wwrando_options import Options, SwordMode
 from randomizer import WWRandomizer, TooFewProgressionLocationsError, InvalidCleanISOError, PermalinkWrongVersionError, PermalinkWrongCommitError
 from version import VERSION
-from wwrando_paths import SETTINGS_PATH, ASSETS_PATH, IS_RUNNING_FROM_SOURCE
+from wwrando_paths import SETTINGS_PATH, ASSETS_PATH, IS_RUNNING_FROM_SOURCE, RANDO_ROOT_PATH
 from seedgen import seedgen
 from logic.logic import Logic
 
 import typing
 from typing import TYPE_CHECKING, Type, TypeVar
 T = TypeVar('T')
+
+Ui_CosmeticTab, _ = loadUiType(os.path.join(RANDO_ROOT_PATH, "wwr_ui", "randomizer_window.ui"))
 
 class WWRandomizerWindow(QMainWindow):
   def __init__(self, cmd_line_args):

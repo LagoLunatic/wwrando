@@ -3,8 +3,6 @@ from qtpy.QtCore import *
 from qtpy.QtWidgets import *
 from qtpy.uic import loadUiType
 
-Ui_CosmeticTab, _ = loadUiType("./wwr_ui/cosmetic_tab.ui")
-
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
   from wwr_ui.randomizer_window import WWRandomizerWindow
@@ -17,9 +15,11 @@ import zipfile
 import shutil
 import traceback
 
-from wwrando_paths import ASSETS_PATH, CUSTOM_MODELS_PATH
+from wwrando_paths import ASSETS_PATH, CUSTOM_MODELS_PATH, RANDO_ROOT_PATH
 import customizer
 from gclib import texture_utils
+
+Ui_CosmeticTab, _ = loadUiType(os.path.join(RANDO_ROOT_PATH, "wwr_ui", "cosmetic_tab.ui"))
 
 class CosmeticTab(QWidget):
   def __init__(self):
