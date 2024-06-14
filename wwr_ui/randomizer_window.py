@@ -23,7 +23,7 @@ import typing
 from typing import TYPE_CHECKING, Type, TypeVar
 T = TypeVar('T')
 
-Ui_CosmeticTab, _ = loadUiType(os.path.join(RANDO_ROOT_PATH, "wwr_ui", "randomizer_window.ui"))
+Ui_MainWindow, _ = loadUiType(os.path.join(RANDO_ROOT_PATH, "wwr_ui", "randomizer_window.ui"))
 
 class WWRandomizerWindow(QMainWindow):
   def __init__(self, cmd_line_args):
