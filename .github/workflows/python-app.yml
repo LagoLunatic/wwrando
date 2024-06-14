@@ -24,21 +24,30 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: Windows Build
+          - name: Windows
             os: windows-latest
             architecture: x64
             artifact: windows
             upload_path_suffix: '/*'
-          - name: MacOS Build
+            reqs_file: requirements_full.txt
+          - name: Windows (Qt 5)
+            os: windows-latest
+            architecture: x64
+            artifact: windows-qt5
+            upload_path_suffix: '/*'
+            reqs_file: requirements_qt5_full.txt
+          - name: MacOS
             os: macos-latest
             architecture: x64
             artifact: macos
             upload_path_suffix: '.zip'
-          - name: Linux Build
+            reqs_file: requirements_full.txt
+          - name: Linux
             os: ubuntu-latest
             architecture: x64
             artifact: linux
             upload_path_suffix: '/*'
+            reqs_file: requirements_full.txt
     
     runs-on: ${{ matrix.os }}
     environment: ${{ github.event.inputs.env || 'Development' }}
@@ -86,7 +95,7 @@ jobs:
         if: steps.cache-venv.outputs.cache-hit != 'true'
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements_full.txt
+          python -m pip install -r ${{ matrix.reqs_file }}
       - name: Install any missing Qt dependencies
         if: runner.os == 'Linux'
         run: |

@@ -18,10 +18,16 @@ jobs:
         include:
           - name: Windows
             os: windows-latest
+            reqs_file: requirements_full.txt
+          - name: Windows (Qt 5)
+            os: windows-latest
+            reqs_file: requirements_qt5_full.txt
           - name: MacOS
             os: macos-latest
+            reqs_file: requirements_full.txt
           - name: Linux
             os: ubuntu-latest
+            reqs_file: requirements_full.txt
     
     runs-on: ${{ matrix.os }}
     
@@ -40,7 +46,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements_full.txt
+          pip install -r ${{ matrix.reqs_file }}
       - name: Install any missing Qt dependencies
         if: runner.os == 'Linux'
         run: |
