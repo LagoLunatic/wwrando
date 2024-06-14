@@ -39,6 +39,31 @@ def enable_all_progression_location_options(options: Options):
   options.progression_island_puzzles = True
   options.progression_dungeon_secrets = True
 
+def disable_all_progression_location_options(options: Options):
+  options.progression_dungeons = False
+  options.progression_great_fairies = False
+  options.progression_puzzle_secret_caves = False
+  options.progression_combat_secret_caves = False
+  options.progression_short_sidequests = False
+  options.progression_long_sidequests = False
+  options.progression_spoils_trading = False
+  options.progression_minigames = False
+  options.progression_free_gifts = False
+  options.progression_mail = False
+  options.progression_platforms_rafts = False
+  options.progression_submarines = False
+  options.progression_eye_reef_chests = False
+  options.progression_big_octos_gunboats = False
+  options.progression_triforce_charts = False
+  options.progression_treasure_charts = False
+  options.progression_expensive_purchases = False
+  options.progression_misc = False
+  options.progression_tingle_chests = False
+  options.progression_battlesquid = False
+  options.progression_savage_labyrinth = False
+  options.progression_island_puzzles = False
+  options.progression_dungeon_secrets = False
+
 def enable_all_options(options: Options):
   enable_all_progression_location_options(options)
   
@@ -142,6 +167,23 @@ def test_entrance_rando_enables():
   options.randomize_dungeon_entrances = True
   rando = dry_rando_with_options(options)
   assert rando.entrances.is_enabled()
+
+def test_regression_entrance_inner_rando():
+  # https://github.com/LagoLunatic/wwrando/pull/390
+  
+  options = Options()
+  disable_all_progression_location_options(options)
+  options.progression_dungeons = True
+  options.progression_dungeon_secrets = True
+  options.progression_free_gifts = True
+  options.progression_misc = True
+  
+  options.randomize_boss_entrances = True
+  options.required_bosses = True
+  options.num_required_bosses = 3
+  
+  rando = dry_rando_with_options(options)
+  rando.randomize_all()
 
 def test_trick_logic_checks():
   options = Options()
