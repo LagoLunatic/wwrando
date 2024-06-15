@@ -23,7 +23,10 @@ import typing
 from typing import TYPE_CHECKING, Type, TypeVar
 T = TypeVar('T')
 
-Ui_MainWindow, _ = loadUiType(os.path.join(RANDO_ROOT_PATH, "wwr_ui", "randomizer_window.ui"))
+try:
+  from wwr_ui.uic.ui_randomizer_window import Ui_MainWindow
+except ModuleNotFoundError:
+  Ui_MainWindow, _ = loadUiType(os.path.join(RANDO_ROOT_PATH, "wwr_ui", "randomizer_window.ui"))
 
 class WWRandomizerWindow(QMainWindow):
   def __init__(self, cmd_line_args):

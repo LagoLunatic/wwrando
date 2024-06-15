@@ -19,7 +19,10 @@ from wwrando_paths import ASSETS_PATH, CUSTOM_MODELS_PATH, RANDO_ROOT_PATH
 import customizer
 from gclib import texture_utils
 
-Ui_CosmeticTab, _ = loadUiType(os.path.join(RANDO_ROOT_PATH, "wwr_ui", "cosmetic_tab.ui"))
+try:
+  from wwr_ui.uic.ui_cosmetic_tab import Ui_CosmeticTab
+except ModuleNotFoundError:
+  Ui_CosmeticTab, _ = loadUiType(os.path.join(RANDO_ROOT_PATH, "wwr_ui", "cosmetic_tab.ui"))
 
 class CosmeticTab(QWidget):
   def __init__(self):
