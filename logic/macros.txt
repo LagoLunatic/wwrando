@@ -366,9 +366,14 @@ Can Access Boss Entrance in Forsaken Fortress:
     | Hookshot
     | (Obscure 2 & Precise 2)
   )
+  & (
+    Can Defeat Bokoblins
+    | Can Fly With Deku Leaf Outdoors
+    | Grappling Hook
+  )
   # You can make it up there with either Deku Leaf, or Hookshotting a torch to cross a gap.
   # Obscure&Precise: It is possible to get up there without either Deku Leaf or Hookshot. To do it, go to the southwest room, and jump on top of the wooden bedposts (not the rightmost one). Then jump diagonally onto the corner of the platform with the Bokoblin and the Skull Hammer pegs on it.
-  # There's a cannon that makes sidling across a gap difficult, but you don't need bombs because you can just kill the searchlight operator Bokoblin instead to get rid of the cannon simultaneously.
+  # There's a cannon that makes sidling across a gap difficult that only appears after defeating Phantom Ganon, but you don't need bombs because you can just kill the searchlight operator Bokoblin instead to get rid of the cannon simultaneously. Alternatively, you can use Deku Leaf or Grappling Hook to get across the gap without sidling.
   # In vanilla, you also would have needed to be able to defeat Phantom Ganon because his fight triggers even if you're way above him trying to get to Helmaroc. But the randomizer fixes this so the fight won't start in that case.
 Can Access Boss Entrance in Earth Temple:
   Can Reach Earth Temple Tall Vine Room
