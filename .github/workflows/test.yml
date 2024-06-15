@@ -18,15 +18,19 @@ jobs:
         include:
           - name: Windows
             os: windows-latest
+            artifact: windows
             reqs_file: requirements_full.txt
           - name: Windows (Qt 5)
             os: windows-latest
+            artifact: windows-qt5
             reqs_file: requirements_qt5_full.txt
           - name: MacOS
             os: macos-latest
+            artifact: macos
             reqs_file: requirements_full.txt
           - name: Linux
             os: ubuntu-latest
+            artifact: linux
             reqs_file: requirements_full.txt
     
     runs-on: ${{ matrix.os }}
@@ -66,5 +70,5 @@ jobs:
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v3
         with:
-          name: wwrando-htmlcov-${{ matrix.os }}
+          name: wwrando-htmlcov-${{ matrix.artifact }}
           path: htmlcov
