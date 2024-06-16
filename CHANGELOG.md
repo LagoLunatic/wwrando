@@ -25,6 +25,7 @@ New features:
 * You can now carry enemy weapons through doors.
 * Added a Hero Mode difficulty option that causes you to take four times more damage than normal, and prevents heart refills from dropping.
 * You can now choose to start the game with only one or two Heart Containers, instead of the usual three.
+* You can now choose to start the game with the Tingle Statues
 * The randomizer's UI now supports dark mode on Windows 10+.
 
 Changes:
