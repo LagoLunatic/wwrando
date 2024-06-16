@@ -23,9 +23,9 @@ import typing
 from typing import TYPE_CHECKING, Type, TypeVar
 T = TypeVar('T')
 
-try:
+if os.environ["QT_API"] == "pyside6":
   from wwr_ui.uic.ui_randomizer_window import Ui_MainWindow
-except ModuleNotFoundError:
+else:
   Ui_MainWindow, _ = loadUiType(os.path.join(RANDO_ROOT_PATH, "wwr_ui", "randomizer_window.ui"))
 
 class WWRandomizerWindow(QMainWindow):
