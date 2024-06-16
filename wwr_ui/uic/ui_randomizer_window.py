@@ -28,7 +28,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(905, 744)
+        MainWindow.resize(914, 757)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -36,12 +36,13 @@ class Ui_MainWindow(object):
         self.scrollArea = QScrollArea(self.centralwidget)
         self.scrollArea.setObjectName(u"scrollArea")
         self.scrollArea.setMinimumSize(QSize(600, 400))
-        self.scrollArea.setFrameShape(QFrame.NoFrame)
-        self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scrollArea.setFrameShape(QFrame.Shape.NoFrame)
+        self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 870, 604))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 879, 600))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -61,7 +62,7 @@ class Ui_MainWindow(object):
 
         self.label_for_clean_iso_path = QLabel(self.tab_randomizer_settings)
         self.label_for_clean_iso_path.setObjectName(u"label_for_clean_iso_path")
-        self.label_for_clean_iso_path.setTextFormat(Qt.MarkdownText)
+        self.label_for_clean_iso_path.setTextFormat(Qt.TextFormat.MarkdownText)
 
         self.gridLayout.addWidget(self.label_for_clean_iso_path, 0, 0, 1, 1)
 
@@ -236,20 +237,15 @@ class Ui_MainWindow(object):
         self.groupBox_2.setObjectName(u"groupBox_2")
         self.gridLayout_3 = QGridLayout(self.groupBox_2)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.chest_type_matches_contents = QCheckBox(self.groupBox_2)
-        self.chest_type_matches_contents.setObjectName(u"chest_type_matches_contents")
+        self.trap_chests = QCheckBox(self.groupBox_2)
+        self.trap_chests.setObjectName(u"trap_chests")
 
-        self.gridLayout_3.addWidget(self.chest_type_matches_contents, 6, 4, 1, 1)
+        self.gridLayout_3.addWidget(self.trap_chests, 6, 5, 1, 1)
 
         self.keylunacy = QCheckBox(self.groupBox_2)
         self.keylunacy.setObjectName(u"keylunacy")
 
         self.gridLayout_3.addWidget(self.keylunacy, 6, 3, 1, 1)
-
-        self.widget_14 = QWidget(self.groupBox_2)
-        self.widget_14.setObjectName(u"widget_14")
-
-        self.gridLayout_3.addWidget(self.widget_14, 8, 3, 1, 1)
 
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
@@ -270,6 +266,11 @@ class Ui_MainWindow(object):
 
 
         self.gridLayout_3.addLayout(self.horizontalLayout_4, 6, 2, 1, 1)
+
+        self.chest_type_matches_contents = QCheckBox(self.groupBox_2)
+        self.chest_type_matches_contents.setObjectName(u"chest_type_matches_contents")
+
+        self.gridLayout_3.addWidget(self.chest_type_matches_contents, 6, 4, 1, 1)
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
@@ -293,11 +294,6 @@ class Ui_MainWindow(object):
 
 
         self.gridLayout_3.addLayout(self.horizontalLayout_3, 6, 0, 1, 1)
-
-        self.trap_chests = QCheckBox(self.groupBox_2)
-        self.trap_chests.setObjectName(u"trap_chests")
-
-        self.gridLayout_3.addWidget(self.trap_chests, 6, 5, 1, 1)
 
 
         self.verticalLayout_3.addWidget(self.groupBox_2)
@@ -478,8 +474,8 @@ class Ui_MainWindow(object):
 
         self.randomized_gear = QListView(self.tab_starting_items)
         self.randomized_gear.setObjectName(u"randomized_gear")
-        self.randomized_gear.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.randomized_gear.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.randomized_gear.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.randomized_gear.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
 
         self.verticalLayout_5.addWidget(self.randomized_gear)
 
@@ -520,8 +516,8 @@ class Ui_MainWindow(object):
 
         self.starting_gear = QListView(self.tab_starting_items)
         self.starting_gear.setObjectName(u"starting_gear")
-        self.starting_gear.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.starting_gear.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.starting_gear.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.starting_gear.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
 
         self.verticalLayout_7.addWidget(self.starting_gear)
 
@@ -540,7 +536,7 @@ class Ui_MainWindow(object):
 
         self.starting_hcs = QSpinBox(self.tab_starting_items)
         self.starting_hcs.setObjectName(u"starting_hcs")
-        self.starting_hcs.setLayoutDirection(Qt.LeftToRight)
+        self.starting_hcs.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.starting_hcs.setMinimum(1)
         self.starting_hcs.setMaximum(9)
         self.starting_hcs.setValue(3)
@@ -582,7 +578,7 @@ class Ui_MainWindow(object):
 
         self.num_extra_starting_items = QSpinBox(self.tab_starting_items)
         self.num_extra_starting_items.setObjectName(u"num_extra_starting_items")
-        self.num_extra_starting_items.setLayoutDirection(Qt.LeftToRight)
+        self.num_extra_starting_items.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.num_extra_starting_items.setMaximum(3)
         self.num_extra_starting_items.setValue(0)
         self.num_extra_starting_items.setDisplayIntegerBase(10)
@@ -724,7 +720,7 @@ class Ui_MainWindow(object):
 
         self.num_barren_hints = QSpinBox(self.groupBox_5)
         self.num_barren_hints.setObjectName(u"num_barren_hints")
-        self.num_barren_hints.setCorrectionMode(QAbstractSpinBox.CorrectToNearestValue)
+        self.num_barren_hints.setCorrectionMode(QAbstractSpinBox.CorrectionMode.CorrectToNearestValue)
         self.num_barren_hints.setMinimum(0)
         self.num_barren_hints.setMaximum(15)
         self.num_barren_hints.setValue(0)
@@ -760,7 +756,7 @@ class Ui_MainWindow(object):
 
         self.num_location_hints = QSpinBox(self.groupBox_5)
         self.num_location_hints.setObjectName(u"num_location_hints")
-        self.num_location_hints.setCorrectionMode(QAbstractSpinBox.CorrectToNearestValue)
+        self.num_location_hints.setCorrectionMode(QAbstractSpinBox.CorrectionMode.CorrectToNearestValue)
         self.num_location_hints.setMinimum(0)
         self.num_location_hints.setMaximum(15)
         self.num_location_hints.setValue(5)
@@ -784,7 +780,7 @@ class Ui_MainWindow(object):
 
         self.num_item_hints = QSpinBox(self.groupBox_5)
         self.num_item_hints.setObjectName(u"num_item_hints")
-        self.num_item_hints.setCorrectionMode(QAbstractSpinBox.CorrectToNearestValue)
+        self.num_item_hints.setCorrectionMode(QAbstractSpinBox.CorrectionMode.CorrectToNearestValue)
         self.num_item_hints.setMinimum(0)
         self.num_item_hints.setMaximum(15)
         self.num_item_hints.setValue(15)
@@ -808,7 +804,7 @@ class Ui_MainWindow(object):
 
         self.num_path_hints = QSpinBox(self.groupBox_5)
         self.num_path_hints.setObjectName(u"num_path_hints")
-        self.num_path_hints.setCorrectionMode(QAbstractSpinBox.CorrectToNearestValue)
+        self.num_path_hints.setCorrectionMode(QAbstractSpinBox.CorrectionMode.CorrectToNearestValue)
         self.num_path_hints.setMinimum(0)
         self.num_path_hints.setMaximum(15)
         self.num_path_hints.setValue(0)
@@ -871,7 +867,7 @@ class Ui_MainWindow(object):
         self.option_description = QLabel(self.centralwidget)
         self.option_description.setObjectName(u"option_description")
         self.option_description.setMinimumSize(QSize(0, 32))
-        self.option_description.setTextFormat(Qt.RichText)
+        self.option_description.setTextFormat(Qt.TextFormat.RichText)
         self.option_description.setWordWrap(True)
 
         self.verticalLayout.addWidget(self.option_description)
@@ -1052,15 +1048,15 @@ class Ui_MainWindow(object):
         self.progression_misc.setText(QCoreApplication.translate("MainWindow", u"Miscellaneous", None))
         self.progression_platforms_rafts.setText(QCoreApplication.translate("MainWindow", u"Lookout Platforms and Rafts", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Item Randomizer Modes", None))
-        self.chest_type_matches_contents.setText(QCoreApplication.translate("MainWindow", u"Chest Type Matches Contents", None))
+        self.trap_chests.setText(QCoreApplication.translate("MainWindow", u"Enable Trap Chests", None))
         self.keylunacy.setText(QCoreApplication.translate("MainWindow", u"Key-Lunacy", None))
         self.label_for_num_starting_triforce_shards.setText(QCoreApplication.translate("MainWindow", u"Triforce Shards to Start With", None))
+        self.chest_type_matches_contents.setText(QCoreApplication.translate("MainWindow", u"Chest Type Matches Contents", None))
         self.label_for_sword_mode.setText(QCoreApplication.translate("MainWindow", u"Sword Mode", None))
         self.sword_mode.setItemText(0, QCoreApplication.translate("MainWindow", u"Start with Hero's Sword", None))
         self.sword_mode.setItemText(1, QCoreApplication.translate("MainWindow", u"No Starting Sword", None))
         self.sword_mode.setItemText(2, QCoreApplication.translate("MainWindow", u"Swordless", None))
 
-        self.trap_chests.setText(QCoreApplication.translate("MainWindow", u"Enable Trap Chests", None))
         self.groupBox_7.setTitle(QCoreApplication.translate("MainWindow", u"Entrance Randomizer Options", None))
         self.randomize_miniboss_entrances.setText(QCoreApplication.translate("MainWindow", u"Nested Minibosses", None))
         self.randomize_dungeon_entrances.setText(QCoreApplication.translate("MainWindow", u"Dungeons", None))

@@ -304,9 +304,11 @@ def run_with_ui(args):
   
   qApp = QApplication(sys.argv)
   
+  # Use the Qt Fusion style on all platforms for consistency to avoid parts of the UI breaking on certain OSes.
+  qApp.setStyle("Fusion")
+  
   qt_version_tuple = tuple(int(num) for num in QT_VERSION.split("."))
-  if qt_version_tuple >= (6, 5, 0) and qApp.styleHints().colorScheme() == Qt.ColorScheme.Dark and qApp.style().name() == "windowsvista":
-    qApp.setStyle("Fusion") # The windowsvista style on Windows doesn't support dark mode, so switch to Fusion.
+  if qt_version_tuple >= (6, 5, 0) and qApp.styleHints().colorScheme() == Qt.ColorScheme.Dark:
     qApp.setPalette(get_dark_mode_palette(qApp))
   
   # Have a timer updated frequently so keyboard interrupts always work.

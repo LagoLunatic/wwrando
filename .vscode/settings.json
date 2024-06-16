@@ -17,4 +17,5 @@
     "--cov-report=html",
     // "-vv", // Increases verbosity
   ],
+  "editor.tabSize": 2,
 }
