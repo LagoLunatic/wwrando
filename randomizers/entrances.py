@@ -665,7 +665,8 @@ class EntranceRandomizer(BaseRandomizer):
         if zone_entrance.island_name in self.islands_with_a_banned_dungeon:
           possible_remaining_exits = [
             ex for ex in possible_remaining_exits
-            if not (ex in BOSS_EXITS or ex not in terminal_exits)
+            if ex in terminal_exits and
+            not ex in (DUNGEON_EXITS + BOSS_EXITS)
           ]
       
       if not possible_remaining_exits:
