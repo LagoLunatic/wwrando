@@ -178,6 +178,8 @@ def test_regression_entrance_inner_rando():
   options.progression_free_gifts = True
   options.progression_misc = True
   
+  options.randomize_secret_cave_inner_entrances = True
+  
   options.randomize_boss_entrances = True
   options.required_bosses = True
   options.num_required_bosses = 3
