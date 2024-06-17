@@ -1,7 +1,7 @@
 from qtpy.QtGui import *
 from qtpy.QtCore import *
 from qtpy.QtWidgets import *
-from qtpy.uic import loadUiType
+from wwr_ui.qt_init import load_ui_file
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -22,7 +22,7 @@ from gclib import texture_utils
 if os.environ["QT_API"] == "pyside6":
   from wwr_ui.uic.ui_cosmetic_tab import Ui_CosmeticTab
 else:
-  Ui_CosmeticTab, _ = loadUiType(os.path.join(RANDO_ROOT_PATH, "wwr_ui", "cosmetic_tab.ui"))
+  Ui_CosmeticTab = load_ui_file(os.path.join(RANDO_ROOT_PATH, "wwr_ui", "cosmetic_tab.ui"))
 
 class CosmeticTab(QWidget):
   def __init__(self):

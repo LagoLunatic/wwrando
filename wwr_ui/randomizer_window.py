@@ -1,7 +1,7 @@
 from qtpy.QtGui import *
 from qtpy.QtCore import *
 from qtpy.QtWidgets import *
-from qtpy.uic import loadUiType # loadUi doesn't seem to work, so use loadUiType instead.
+from wwr_ui.qt_init import load_ui_file
 
 from wwr_ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAGE_URL
 from wwr_ui.inventory import INVENTORY_ITEMS, DEFAULT_STARTING_ITEMS, DEFAULT_RANDOMIZED_ITEMS
@@ -26,7 +26,7 @@ T = TypeVar('T')
 if os.environ["QT_API"] == "pyside6":
   from wwr_ui.uic.ui_randomizer_window import Ui_MainWindow
 else:
-  Ui_MainWindow, _ = loadUiType(os.path.join(RANDO_ROOT_PATH, "wwr_ui", "randomizer_window.ui"))
+  Ui_MainWindow = load_ui_file(os.path.join(RANDO_ROOT_PATH, "wwr_ui", "randomizer_window.ui"))
 
 class WWRandomizerWindow(QMainWindow):
   def __init__(self, cmd_line_args):
