@@ -331,7 +331,7 @@ class EntranceRandomizer(BaseRandomizer):
     
     self.safety_entrance = None
     self.banned_exits: list[ZoneExit] = []
-    self.islands_with_a_banned_dungeon: list[str] = []
+    self.islands_with_a_banned_dungeon: set[str] = set()
   
   def is_enabled(self) -> bool:
     return any([
@@ -360,6 +360,7 @@ class EntranceRandomizer(BaseRandomizer):
     return "Saving entrances..."
   
   def _randomize(self):
+    self.init_banned_exits()
     for relevant_entrances, relevant_exits in self.get_all_entrance_sets_to_be_randomized():
       self.randomize_one_set_of_entrances(relevant_entrances, relevant_exits)
     
@@ -404,6 +405,33 @@ class EntranceRandomizer(BaseRandomizer):
   
   
   #region Randomization
+  def init_banned_exits(self):
+    if self.options.required_bosses:
+      for zone_exit in BOSS_EXITS:
+        assert zone_exit.unique_name.endswith(" Boss Arena")
+        boss_name = zone_exit.unique_name[:-len(" Boss Arena")]
+        if boss_name in self.rando.boss_reqs.banned_bosses:
+          self.banned_exits.append(zone_exit)
+      for zone_exit in DUNGEON_EXITS:
+        dungeon_name = zone_exit.unique_name
+        if dungeon_name in self.rando.boss_reqs.banned_dungeons:
+          self.banned_exits.append(zone_exit)
+      for zone_exit in MINIBOSS_EXITS:
+        if zone_exit == ZoneExit.all["Master Sword Chamber"]:
+          # Hyrule cannot be chosen as a banned dungeon.
+          continue
+        assert zone_exit.unique_name.endswith(" Miniboss Arena")
+        dungeon_name = zone_exit.unique_name[:-len(" Miniboss Arena")]
+        if dungeon_name in self.rando.boss_reqs.banned_dungeons:
+          self.banned_exits.append(zone_exit)
+
+    if not self.options.randomize_dungeon_entrances:
+      # If dungeon entrances are not randomized, islands_with_a_banned_dungeon can be initialized 
+      # early since it's preset, and won't be updated later since we won't randomize the dungeon entrances
+      for en in DUNGEON_ENTRANCES:
+        if self.entrance_connections[en.entrance_name] in self.rando.boss_reqs.banned_dungeons:
+          self.islands_with_a_banned_dungeon.add(en.island_name)
+    
   def randomize_one_set_of_entrances(self, relevant_entrances: list[ZoneEntrance], relevant_exits: list[ZoneExit]):
     for zone_entrance in relevant_entrances:
       del self.done_entrances_to_exits[zone_entrance]
@@ -418,29 +446,6 @@ class EntranceRandomizer(BaseRandomizer):
       doing_caves = True
     
     self.rng.shuffle(relevant_entrances)
-    
-    self.banned_exits.clear()
-    if self.options.required_bosses:
-      for zone_exit in relevant_exits:
-        if zone_exit == ZoneExit.all["Master Sword Chamber"]:
-          # Hyrule cannot be chosen as a banned dungeon.
-          continue
-        if zone_exit in BOSS_EXITS:
-          assert zone_exit.unique_name.endswith(" Boss Arena")
-          boss_name = zone_exit.unique_name[:-len(" Boss Arena")]
-          if boss_name in self.rando.boss_reqs.banned_bosses:
-            self.banned_exits.append(zone_exit)
-        elif zone_exit in DUNGEON_EXITS:
-          dungeon_name = zone_exit.unique_name
-          if dungeon_name in self.rando.boss_reqs.banned_dungeons:
-            self.banned_exits.append(zone_exit)
-        elif zone_exit in MINIBOSS_EXITS:
-          assert zone_exit.unique_name.endswith(" Miniboss Arena")
-          dungeon_name = zone_exit.unique_name[:-len(" Miniboss Arena")]
-          if dungeon_name in self.rando.boss_reqs.banned_dungeons:
-            self.banned_exits.append(zone_exit)
-    
-    self.islands_with_a_banned_dungeon.clear()
     
     doing_progress_entrances_for_dungeons_and_caves_only_start = False
     if self.rando.dungeons_and_caves_only_start:
@@ -486,6 +491,18 @@ class EntranceRandomizer(BaseRandomizer):
     
     self.randomize_one_set_of_exits(remaining_entrances, remaining_exits, terminal_exits)
   
+  def check_if_one_exit_is_progress(self, exit: ZoneExit) -> bool:
+    locs_for_exit = self.zone_exit_to_logically_dependent_item_locations[exit]
+    assert locs_for_exit, f"Could not find any item locations corresponding to zone exit: {exit.unique_name}"
+    # Banned required bosses mode dungeons still technically count as progress locations, so
+    # filter them out separately first.
+    nonbanned_locs = [
+      loc for loc in locs_for_exit
+      if loc not in self.rando.boss_reqs.banned_locations
+    ]
+    progress_locs = self.logic.filter_locations_for_progression(nonbanned_locs)
+    return bool(progress_locs)
+
   def split_nonprogress_entrances_and_exits(self, relevant_entrances: list[ZoneEntrance], relevant_exits: list[ZoneExit]):
     # Splits the entrance and exit lists into two pairs: ones that should be considered nonprogress
     # on this seed (will never lead to any progress items) and ones that should be considered
@@ -493,24 +510,15 @@ class EntranceRandomizer(BaseRandomizer):
     # This is so that we can effectively randomize these two pairs separately without any convoluted
     # logic to ensure they don't connect to each other.
     
-    nonprogress_exits = []
-    for ex in relevant_exits:
-      locs_for_exit = self.zone_exit_to_logically_dependent_item_locations[ex]
-      assert locs_for_exit, f"Could not find any item locations corresponding to zone exit: {ex.unique_name}"
-      # Banned required bosses mode dungeons still technically count as progress locations, so
-      # filter them out separately first.
-      nonbanned_locs = [
-        loc for loc in locs_for_exit
-        if loc not in self.rando.boss_reqs.banned_locations
-      ]
-      progress_locs = self.logic.filter_locations_for_progression(nonbanned_locs)
-      if not progress_locs:
-        nonprogress_exits.append(ex)
+    nonprogress_exits = [ex for ex in relevant_exits if not self.check_if_one_exit_is_progress(ex)]
     
     nonprogress_entrances = [
-      en for en in relevant_entrances
-      if en.nested_in is not None
-      and en.nested_in in nonprogress_exits
+      en for en in relevant_entrances 
+      if en.nested_in is not None and (
+        (en.nested_in in nonprogress_exits) or
+        # The area this entrance is nested in is not randomized, but we still need to figure out if it's progression
+        (en.nested_in not in relevant_exits and not self.check_if_one_exit_is_progress(en.nested_in))
+      )
     ]
     
     # At this point, nonprogress_entrances includes only the inner entrances nested inside of the
@@ -697,7 +705,7 @@ class EntranceRandomizer(BaseRandomizer):
         if zone_exit in DUNGEON_EXITS + BOSS_EXITS:
           # We only keep track of dungeon exits and boss exits, not miniboss exits.
           # Banned miniboss exits can share an island with required dungeons/bosses.
-          self.islands_with_a_banned_dungeon.append(zone_entrance.island_name)
+          self.islands_with_a_banned_dungeon.add(zone_entrance.island_name)
   
   def finalize_all_randomized_sets_of_entrances(self):
     non_terminal_exits = []
