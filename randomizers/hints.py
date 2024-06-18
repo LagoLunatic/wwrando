@@ -1,6 +1,6 @@
 import os
 from collections import Counter, deque
-from enum import Flag
+from enum import Enum
 import math
 import yaml
 
@@ -12,18 +12,18 @@ import tweaks
 from asm import patcher
 
 
-class HintType(Flag):
-  PATH = 1
-  BARREN = 2
-  ITEM = 4
-  LOCATION = 8
-  FIXED_LOCATION = 16
+class HintType(Enum):
+  PATH = 0
+  BARREN = 1
+  ITEM = 2
+  LOCATION = 3
+  FIXED_LOCATION = 4
 
 
-class ItemImportance(Flag):
-  REQUIRED = 1
-  POSSIBLY_REQUIRED = 2
-  NOT_REQUIRED = 4
+class ItemImportance(Enum):
+  REQUIRED = 0
+  POSSIBLY_REQUIRED = 1
+  NOT_REQUIRED = 2
 
 
 class Hint:
