@@ -986,7 +986,7 @@ class HintsRandomizer(BaseRandomizer):
     
     return remote_hintable_locations, standard_hintable_locations
   
-  def get_location_hint(self, hintable_locations):
+  def get_location_hint(self, hintable_locations, ignore_importance=False):
     if len(hintable_locations) == 0:
       return None
     
@@ -995,7 +995,10 @@ class HintsRandomizer(BaseRandomizer):
     hintable_locations.remove(location_name)
     
     item_name = self.logic.done_item_locations[location_name]
-    item_importance = self.get_importance_for_location(location_name)
+    if ignore_importance:
+      item_importance = None
+    else:
+      item_importance = self.get_importance_for_location(location_name)
     
     location_hint = Hint(HintType.LOCATION, location_name, item_name, item_importance)
     
@@ -1053,7 +1056,8 @@ class HintsRandomizer(BaseRandomizer):
     if self.prioritize_remote_hints:
       remote_hintable_locations, standard_hintable_locations = self.get_legal_location_hints(progress_locations, [], [])
       while len(remote_hintable_locations) > 0 and len(hinted_remote_locations) < self.max_location_hints:
-        location_hint, location_name = self.get_location_hint(remote_hintable_locations)
+        # Temporarily ignore item importance until later.
+        location_hint, location_name = self.get_location_hint(remote_hintable_locations, ignore_importance=True)
         
         hinted_remote_locations.append(location_hint)
         previously_hinted_locations.append(location_name)
@@ -1149,6 +1153,10 @@ class HintsRandomizer(BaseRandomizer):
       barren_hint = self.get_barren_hint(unhinted_barren_zones, zone_weights)
       if barren_hint is not None:
         hinted_barren_zones.append(barren_hint)
+    
+    # Update remote location hints with importance information
+    for hint in hinted_remote_locations:
+      hint.importance = self.get_importance_for_location(hint.place)
     
     # Generate item hints.
     # We select at most `self.max_item_hints` items at random to hint at. We do not want to hint at items already
