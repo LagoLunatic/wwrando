@@ -33,7 +33,7 @@ jobs:
             artifact: linux
             reqs_file: requirements_full.txt
     
-    container: ghcr.io/LagoLunatic/wwrando-test-files:main
+    container: ghcr.io/lagolunatic/wwrando-test-files:main
     
     runs-on: ${{ matrix.os }}
     
