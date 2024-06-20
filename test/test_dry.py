@@ -1,6 +1,7 @@
+import os
 from wwrando import make_argparser
 from randomizer import WWRandomizer
-from options.wwrando_options import Options, SwordMode, EntranceMixMode, TrickDifficulty
+from options.wwrando_options import Options, TrickDifficulty
 from enum import StrEnum
 from test_helpers import *
 
@@ -9,7 +10,7 @@ def dry_rando_with_options(options) -> WWRandomizer:
   rando_kwargs = {
     "seed": "pytestseed",
     "clean_iso_path": None,
-    "randomized_output_folder": "./rando_output",
+    "randomized_output_folder": os.environ["WW_RANDO_OUTPUT_DIR"],
     "options": options,
     "cmd_line_args": args,
   }

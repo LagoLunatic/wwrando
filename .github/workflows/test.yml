@@ -33,6 +33,8 @@ jobs:
             artifact: linux
             reqs_file: requirements_full.txt
     
+    container: ghcr.io/LagoLunatic/wwrando-test-files:main
+    
     runs-on: ${{ matrix.os }}
     
     env:
@@ -63,6 +65,14 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1920x1200x24 -ac +extension GLX
+      - name: Extract test files
+        uses: edgarrc/action-7z@v1
+        with:
+          args: 7z x /wwrando-files/GZLE01-stripped.7z -o/wwrando-files/
+      - name: Prepare test env vars
+        run: |
+          echo "WW_GZLE01_STRIPPED_PATH=/wwrando-files/WW Stripped ISO.iso" > .env
+          echo "WW_RANDO_OUTPUT_DIR=/wwrando-output" > .env
       - name: Test with pytest
         run: |
           pip install pytest pytest-cov

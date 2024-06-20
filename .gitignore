@@ -13,3 +13,4 @@ profileresults*.prof
 /.venv
 /site
 .coverage
+.env
