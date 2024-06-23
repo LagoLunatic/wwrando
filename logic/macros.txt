@@ -876,7 +876,8 @@ Can Defeat Wizzrobes:
   | Skull Hammer
 Can Defeat Wizzrobes at Range:
   Hero's Bow
-  | Hookshot
+  | (Hookshot & Precise 1)
+  # Precise: The Hookshot requires twice as many hits as the Hero's Bow and is slower, making fighting Wizzrobes at range rather challenging.
 Can Defeat Armos:
   Hero's Sword
   | Hero's Bow
