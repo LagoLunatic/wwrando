@@ -16,7 +16,7 @@ def rando_with_options(options) -> WWRandomizer:
   os.makedirs(rando_kwargs["randomized_output_folder"], exist_ok=True)
   return WWRandomizer(**rando_kwargs)
 
-# def test_default_options():
-#   options = Options()
-#   rando = rando_with_options(options)
-#   rando.randomize_all()
+def test_default_options():
+  options = Options()
+  rando = rando_with_options(options)
+  rando.randomize_all()
