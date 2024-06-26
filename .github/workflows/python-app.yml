@@ -61,7 +61,8 @@ jobs:
       MACOSX_DEPLOYMENT_TARGET: 10.15
     
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout wwrando
+        uses: actions/checkout@v3
         with:
           submodules: recursive
       - name: Add keys

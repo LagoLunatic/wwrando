@@ -43,17 +43,19 @@ jobs:
         shell: bash
     
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout wwrando
+        uses: actions/checkout@v4
         with:
           submodules: recursive
-      - uses: actions/checkout@v4
+      - name: Checkout game-test-files
+        uses: actions/checkout@v4
         with:
           repository: LagoLunatic/game-test-files
           path: game-test-files
           token: ${{ secrets.GAME_TEST_FILES_TOKEN }}
       - name: Extract test files
         run: |
-          7z x ./game-test-files/files/GZLE01.7z -ogame-test-files/files
+          7z x $PWD/game-test-files/files/GZLE01.7z -o$PWD/game-test-files/files
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -68,6 +70,13 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y qtbase5-dev libxcb-cursor0 libxcb-xinerama0 xvfb herbstluftwm
+      - name: Set variables
+        id: vars
+        run: |
+          USER_INPUT_VERSION=${{ github.event.inputs.version }}
+          TXT_VERSION=$(cat version.txt)
+          GIT_SHA_SHORT=$(git rev-parse --short=7 ${{ github.sha }})
+          echo "full_version=${USER_INPUT_VERSION:-${TXT_VERSION}_${GIT_SHA_SHORT}}" >> $GITHUB_OUTPUT
       - name: Set up Qt
         uses: tlambert03/setup-qt-libs@v1
         if: runner.os == 'Linux'
@@ -86,5 +95,5 @@ jobs:
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v3
         with:
-          name: wwrando-htmlcov-${{ matrix.artifact }}
+          name: wwrando-htmlcov-${{ steps.vars.outputs.full_version }}-${{ matrix.artifact }}-${{ matrix.architecture }}
           path: htmlcov
