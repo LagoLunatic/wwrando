@@ -117,4 +117,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: wwrando-${{ steps.vars.outputs.full_version }}-${{ matrix.artifact }}
-          path: dist/release_archive_${{ steps.vars.outputs.full_version }}${{ matrix.upload_path_suffix }}
+          path: dist/release_archive_${{ steps.vars.outputs.full_version }}_x64${{ matrix.upload_path_suffix }}
