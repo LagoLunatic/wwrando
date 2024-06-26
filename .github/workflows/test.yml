@@ -88,14 +88,14 @@ jobs:
         if: runner.os == 'Windows'
         shell: cmd
         run: |
-          echo "WW_GZLE01_STRIPPED_PATH=%CD%/game-test-files/files/GZLE01.iso" >> .env
-          echo "WW_RANDO_OUTPUT_DIR=%CD%/wwrando-output" >> .env
+          echo WW_GZLE01_STRIPPED_PATH=%CD%/game-test-files/files/GZLE01.iso >> .env
+          echo WW_RANDO_OUTPUT_DIR=%CD%/wwrando-output >> .env
       - name: Prepare test env vars (Unix)
         if: runner.os != 'Windows'
         shell: bash
         run: |
-          echo "WW_GZLE01_STRIPPED_PATH=$PWD/game-test-files/files/GZLE01.iso" >> .env
-          echo "WW_RANDO_OUTPUT_DIR=$PWD/wwrando-output" >> .env
+          echo WW_GZLE01_STRIPPED_PATH=$PWD/game-test-files/files/GZLE01.iso >> .env
+          echo WW_RANDO_OUTPUT_DIR=$PWD/wwrando-output >> .env
       - name: Test with pytest
         run: |
           pip install pytest pytest-cov
