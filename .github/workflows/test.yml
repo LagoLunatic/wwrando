@@ -102,12 +102,12 @@ jobs:
         if: github.repository == 'LagoLunatic/wwrando'
         run: |
           pip install pytest pytest-cov
-          pytest test --cov --cov-report=html -m "not saving"
+          pytest test --cov --cov-report=html
       - name: Test with pytest (without saving)
         if: github.repository != 'LagoLunatic/wwrando'
         run: |
           pip install pytest pytest-cov
-          pytest test --cov --cov-report=html
+          pytest test --cov --cov-report=html -m "not saving"
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
         with:
