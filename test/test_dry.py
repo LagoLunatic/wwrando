@@ -6,7 +6,7 @@ from enum import StrEnum
 from test_helpers import *
 
 def dry_rando_with_options(options) -> WWRandomizer:
-  args = make_argparser().parse_args(args=["--dry", "--nologs"])
+  args = make_argparser().parse_args(args=["--dry"])
   rando_kwargs = {
     "seed": "pytestseed",
     "clean_iso_path": None,
