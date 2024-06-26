@@ -57,7 +57,7 @@ jobs:
         run: |
           7z x $PWD/game-test-files/files/GZLE01.7z -o$PWD/game-test-files/files
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
           cache: 'pip' # Cache all pip dependency downloads
@@ -101,7 +101,7 @@ jobs:
           pip install pytest pytest-cov
           pytest test --cov --cov-report=html
       - name: Upload Coverage Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: wwrando-htmlcov-${{ steps.vars.outputs.full_version }}-${{ matrix.artifact }}-${{ matrix.architecture }}
           path: htmlcov
