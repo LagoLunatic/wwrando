@@ -84,7 +84,15 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1920x1200x24 -ac +extension GLX
-      - name: Prepare test env vars
+      - name: Prepare test env vars (Windows)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: |
+          echo "WW_GZLE01_STRIPPED_PATH=%CD%/game-test-files/files/GZLE01.iso" >> .env
+          echo "WW_RANDO_OUTPUT_DIR=%CD%/wwrando-output" >> .env
+      - name: Prepare test env vars (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
         run: |
           echo "WW_GZLE01_STRIPPED_PATH=$PWD/game-test-files/files/GZLE01.iso" >> .env
           echo "WW_RANDO_OUTPUT_DIR=$PWD/wwrando-output" >> .env
