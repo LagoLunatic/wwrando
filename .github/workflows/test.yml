@@ -103,5 +103,5 @@ jobs:
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
         with:
-          name: wwrando-htmlcov-${{ steps.vars.outputs.full_version }}-${{ matrix.artifact }}-${{ matrix.architecture }}
+          name: wwrando-htmlcov-${{ steps.vars.outputs.full_version }}-${{ matrix.artifact }}
           path: htmlcov

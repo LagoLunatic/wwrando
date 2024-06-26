@@ -26,25 +26,21 @@ jobs:
         include:
           - name: Windows
             os: windows-latest
-            architecture: x64
             artifact: windows
             upload_path_suffix: '/*'
             reqs_file: requirements_full.txt
           - name: Windows (Qt 5)
             os: windows-latest
-            architecture: x64
             artifact: windows-qt5
             upload_path_suffix: '/*'
             reqs_file: requirements_qt5_full.txt
           - name: MacOS
             os: macos-latest
-            architecture: x64
             artifact: macos
             upload_path_suffix: '.zip'
             reqs_file: requirements_full.txt
           - name: Linux
             os: ubuntu-latest
-            architecture: x64
             artifact: linux
             upload_path_suffix: '/*'
             reqs_file: requirements_full.txt
@@ -76,7 +72,6 @@ jobs:
         with:
           python-version: '3.12'
           check-latest: true
-          architecture: ${{ matrix.architecture }}
           cache: 'pip' # Cache all pip dependency downloads
       - name: Cache venv
         id: cache-venv
@@ -121,5 +116,5 @@ jobs:
       - name: Upload Python App
         uses: actions/upload-artifact@v4
         with:
-          name: wwrando-${{ steps.vars.outputs.full_version }}-${{ matrix.artifact }}-${{ matrix.architecture }}
-          path: dist/release_archive_${{ steps.vars.outputs.full_version }}_${{ matrix.architecture }}${{ matrix.upload_path_suffix }}
+          name: wwrando-${{ steps.vars.outputs.full_version }}-${{ matrix.artifact }}
+          path: dist/release_archive_${{ steps.vars.outputs.full_version }}${{ matrix.upload_path_suffix }}
