@@ -58,7 +58,7 @@ def make_argparser() -> argparse.ArgumentParser:
     help="Use the seed and options from the specified permalink instead of the last saved settings.",
   )
   parser.add_argument(
-    '-b', '--bulk', type=int, nargs='?', const=100, metavar="SEEDS",
+    '-b', '--bulk', type=int, nargs='?', const=200, metavar="SEEDS",
     help="Randomize a large number of seeds (default 100) and save their logs only.",
   )
   parser.add_argument(
@@ -137,7 +137,7 @@ def run_all_bulk_tests(rando_kwargs, num_seeds):
   # Catch any init errors early
   WWRandomizer(**rando_kwargs)
   
-  with Pool(4) as p:
+  with Pool() as p:
     first_seed = 0
     func_args = [(i, rando_kwargs) for i in range(first_seed, first_seed+num_seeds)]
     progress_bar = tqdm(p.imap(run_single_bulk_test, func_args), total=num_seeds)
@@ -172,6 +172,9 @@ def run_all_bulk_tests(rando_kwargs, num_seeds):
       else:
         failures_done += 1
       progress_bar.set_description(f"{failures_done}/{total_done} seeds failed")
+    
+    failed_percent = failures_done / total_done * 100
+    print(f"Total failures: {failures_done}/{total_done} ({failed_percent:.2f}%)")
     
     if counts:
       print(counts)
