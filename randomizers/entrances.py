@@ -665,7 +665,8 @@ class EntranceRandomizer(BaseRandomizer):
         if zone_entrance.island_name in self.islands_with_a_banned_dungeon:
           possible_remaining_exits = [
             ex for ex in possible_remaining_exits
-            if not (ex in BOSS_EXITS or ex not in terminal_exits)
+            if ex in terminal_exits and
+            not ex in (DUNGEON_EXITS + BOSS_EXITS)
           ]
       
       if not possible_remaining_exits:
@@ -700,12 +701,19 @@ class EntranceRandomizer(BaseRandomizer):
       self.done_entrances_to_exits[zone_entrance] = zone_exit
       self.done_exits_to_entrances[zone_exit] = zone_entrance
       
-      if zone_exit in self.banned_exits and zone_entrance.island_name is not None:
+      if zone_exit in self.banned_exits:
         # Keep track of which islands have a required bosses mode banned dungeon to avoid marker overlap.
         if zone_exit in DUNGEON_EXITS + BOSS_EXITS:
           # We only keep track of dungeon exits and boss exits, not miniboss exits.
           # Banned miniboss exits can share an island with required dungeons/bosses.
-          self.islands_with_a_banned_dungeon.add(zone_entrance.island_name)
+          outer_entrance = self.get_outermost_entrance_for_entrance(zone_entrance)
+          # Because we filter above so that we always assign entrances from the sea inwards,
+          # we can assume when we assign an entrance that it has a path back to the sea. 
+          # If we're assigning a nonterminal entrance, any nested entrances will get assigned after this one
+          # and we'll run through this code again (so we can reason based on zone_exit only,
+          # instead of having to recurse through the nested exits to find banned dungeons/bosses)
+          assert outer_entrance
+          self.islands_with_a_banned_dungeon.add(outer_entrance.island_name)
   
   def finalize_all_randomized_sets_of_entrances(self):
     non_terminal_exits = []
