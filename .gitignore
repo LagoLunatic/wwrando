@@ -8,6 +8,7 @@ settings.txt
 /asm/maps-out
 profileresults*.txt
 profileresults*.prof
+profileresults*.png
 /keys/seed_key.py
 /keys/build_key.txt
 /.venv

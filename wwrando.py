@@ -176,13 +176,36 @@ def run_all_bulk_tests(rando_kwargs, num_seeds):
     if counts:
       print(counts)
 
+def create_and_run_randomizer(rando_kwargs: dict):
+  from randomizer import WWRandomizer
+  import traceback
+  from tqdm import tqdm
+  
+  rando = WWRandomizer(**rando_kwargs)
+  try:
+    rando.randomize_all()
+    if rando.dry_run:
+      print("Done (dry)")
+    else:
+      print("Done")
+    # with tqdm(total=rando.get_max_progress_length()) as progress_bar:
+    #   prev_val = 0
+    #   for next_option_description, progress_completed in rando.randomize():
+    #     progress_bar.update(progress_completed-prev_val)
+    #     prev_val = progress_completed
+    #     progress_bar.set_description(next_option_description)
+  except Exception as e:
+    stack_trace = traceback.format_exc()
+    error_message = f"Error on seed {rando_kwargs['seed']}:\n{e}\n\n{stack_trace}"
+    if rando is not None:
+      rando.write_error_log(error_message)
+    raise e
+
 def run_no_ui(args):
   from randomizer import WWRandomizer
   from options.wwrando_options import Options
   from seedgen import seedgen
-  import traceback
   from wwrando_paths import SETTINGS_PATH, IS_RUNNING_FROM_SOURCE
-  from tqdm import tqdm
   import yaml
   import cProfile, pstats
   
@@ -224,25 +247,10 @@ def run_no_ui(args):
     rando = WWRandomizer(**rando_kwargs)
     getattr(stage_searcher, args.stagesearch)(rando)
   else:
-    rando = WWRandomizer(**rando_kwargs)
-    try:
-      rando.randomize_all()
-      if rando.dry_run:
-        print("Done (dry)")
-      else:
-        print("Done")
-      # with tqdm(total=rando.get_max_progress_length()) as progress_bar:
-      #   prev_val = 0
-      #   for next_option_description, progress_completed in rando.randomize():
-      #     progress_bar.update(progress_completed-prev_val)
-      #     prev_val = progress_completed
-      #     progress_bar.set_description(next_option_description)
-    except Exception as e:
-      stack_trace = traceback.format_exc()
-      error_message = f"Error on seed {rando_kwargs['seed']}:\n{e}\n\n{stack_trace}"
-      if rando is not None:
-        rando.write_error_log(error_message)
-      raise e
+    # This needs to be in its own function for some profiler visualizers to show everything.
+    # If the __init__ and randomize_all calls are called separately at the top level, some
+    # visualizers will show just one of the two, obscuring performance problems in the other.
+    create_and_run_randomizer(rando_kwargs)
   
   if args.profile:
     profiler.disable()
