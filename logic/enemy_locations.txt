@@ -6934,7 +6934,6 @@ sea/Room19.arc:
     -
       Original enemy: Bokoblin
       Placement category: Ground:SetsDeathSwitch,HasPit
-      Position offset: [0, -200, 0]
       Path: sea/Room19.arc/Actor01B
       Position offset: [0, -200, 0]
 
