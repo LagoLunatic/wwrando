@@ -36,6 +36,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     
     env:
+      game_test_files_token: ${{ secrets.GAME_TEST_FILES_TOKEN }}
       DISPLAY: ':99.0'
     
     defaults:
@@ -48,14 +49,14 @@ jobs:
         with:
           submodules: recursive
       - name: Checkout game-test-files
-        if: github.repository == 'LagoLunatic/wwrando'
+        if: ${{ env.game_test_files_token != '' }}
         uses: actions/checkout@v4
         with:
           repository: LagoLunatic/game-test-files
           path: game-test-files
-          token: ${{ secrets.GAME_TEST_FILES_TOKEN }}
+          token: ${{ env.game_test_files_token }}
       - name: Extract test files
-        if: github.repository == 'LagoLunatic/wwrando'
+        if: ${{ env.game_test_files_token != '' }}
         run: |
           7z x $PWD/game-test-files/files/GZLE01.7z -o$PWD/game-test-files/files
       - name: Set up Python
@@ -99,12 +100,12 @@ jobs:
           echo WW_GZLE01_STRIPPED_PATH=$PWD/game-test-files/files/GZLE01.iso >> .env
           echo WW_RANDO_OUTPUT_DIR=$PWD/wwrando-output >> .env
       - name: Test with pytest (with saving)
-        if: github.repository == 'LagoLunatic/wwrando'
+        if: ${{ env.game_test_files_token != '' }}
         run: |
           pip install pytest pytest-cov
           pytest test --cov --cov-report=html
       - name: Test with pytest (without saving)
-        if: github.repository != 'LagoLunatic/wwrando'
+        if: ${{ env.game_test_files_token == '' }}
         run: |
           pip install pytest pytest-cov
           pytest test --cov --cov-report=html -m "not saving"
