@@ -819,6 +819,11 @@ class Ui_MainWindow(object):
 
         self.gridLayout_7.addLayout(self.horizontalLayout_15, 5, 3, 1, 1)
 
+        self.hint_importance = QCheckBox(self.groupBox_5)
+        self.hint_importance.setObjectName(u"hint_importance")
+
+        self.gridLayout_7.addWidget(self.hint_importance, 6, 2, 1, 1)
+
 
         self.verticalLayout_8.addWidget(self.groupBox_5)
 
@@ -1121,6 +1126,7 @@ class Ui_MainWindow(object):
         self.label_for_num_location_hints.setText(QCoreApplication.translate("MainWindow", u"Location Hints", None))
         self.label_for_num_item_hints.setText(QCoreApplication.translate("MainWindow", u"Item Hints", None))
         self.label_for_num_path_hints.setText(QCoreApplication.translate("MainWindow", u"Path Hints", None))
+        self.hint_importance.setText(QCoreApplication.translate("MainWindow", u"Hint Importance", None))
         self.groupBox_6.setTitle(QCoreApplication.translate("MainWindow", u"Additional Advanced Options", None))
         self.do_not_generate_spoiler_log.setText(QCoreApplication.translate("MainWindow", u"Do Not Generate Spoiler Log", None))
         self.dry_run.setText(QCoreApplication.translate("MainWindow", u"Dry Run", None))

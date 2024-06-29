@@ -316,6 +316,11 @@ class Options(BaseOptions):
     default=False,
     description="When this option is selected, certain locations that are out of the way and time-consuming to complete will take precedence over normal location hints.",
   )
+  hint_importance: bool = option(
+    default=False,
+    description="When this option is selected, item and location hints will also indicate if the hinted item is required, possibly required, or not required.<br>"
+      "Only progress items will have these additions; non-progress items are trivially not required."
+  )
   #endregion
   
   #region Tweaks
