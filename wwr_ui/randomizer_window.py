@@ -42,6 +42,8 @@ class WWRandomizerWindow(QMainWindow):
     self.profiling = self.cmd_line_args.profile
     self.auto_seed = self.cmd_line_args.autoseed
     
+    self.cached_item_locations = Logic.load_and_parse_item_locations()
+    
     self.ui.add_gear.clicked.connect(self.add_to_starting_gear)
     self.randomized_gear_model = QStringListModel()
     self.randomized_gear_model.setStringList(DEFAULT_RANDOMIZED_ITEMS.copy())
@@ -55,6 +57,16 @@ class WWRandomizerWindow(QMainWindow):
     self.starting_gear_model.setStringList(DEFAULT_STARTING_ITEMS.copy())
     self.ui.starting_gear.setModel(self.starting_gear_model)
     
+    self.ui.exclude_location.clicked.connect(self.exclude_location_from_progression)
+    self.progression_locations_model = QStringListModel()
+    self.progression_locations_model.setStringList(self.cached_item_locations.keys())
+    self.ui.progression_locations.setModel(self.progression_locations_model)
+    
+    self.ui.include_location.clicked.connect(self.include_location_for_progression)
+    self.excluded_locations_model = QStringListModel()
+    self.excluded_locations_model.setStringList([])
+    self.ui.excluded_locations.setModel(self.excluded_locations_model)
+    
     # We use an Options instance to represent the defaults instead of directly accessing each options default so that
     # default_factory works correctly.
     self.default_options = Options()
@@ -66,8 +78,6 @@ class WWRandomizerWindow(QMainWindow):
     self.default_options.custom_colors = self.ui.tab_player_customization.get_all_colors()
     
     self.load_settings()
-    
-    self.cached_item_locations = Logic.load_and_parse_item_locations()
     
     self.ui.starting_pohs.valueChanged.connect(self.update_health_label)
     self.ui.starting_hcs.valueChanged.connect(self.update_health_label)
@@ -171,6 +181,16 @@ class WWRandomizerWindow(QMainWindow):
   def remove_from_starting_gear(self):
     self.move_selected_rows(self.ui.starting_gear, self.ui.randomized_gear)
     self.ui.randomized_gear.model().sourceModel().sort(0)
+    self.update_settings()
+  
+  def exclude_location_from_progression(self):
+    self.move_selected_rows(self.ui.progression_locations, self.ui.excluded_locations)
+    self.ui.excluded_locations.model().sort(0)
+    self.update_settings()
+  
+  def include_location_for_progression(self):
+    self.move_selected_rows(self.ui.excluded_locations, self.ui.progression_locations)
+    self.ui.progression_locations.model().sort(0)
     self.update_settings()
   
   def update_health_label(self):
@@ -639,6 +659,7 @@ class WWRandomizerWindow(QMainWindow):
   
   def ensure_valid_combination_of_options(self):
     items_to_filter_out = []
+    locations_to_filter_out = []
     should_enable_options = {}
     for option in Options.all:
       should_enable_options[option.name] = True
@@ -672,6 +693,34 @@ class WWRandomizerWindow(QMainWindow):
     if not (dungeon_entrances_random and non_dungeon_entrances_random):
       should_enable_options["mix_entrances"] = False
     
+    filter_sunken_treasure = True
+    if options.progression_triforce_charts or options.progression_treasure_charts:
+      filter_sunken_treasure = False
+    progress_locations = Logic.filter_locations_for_progression_static(
+      self.cached_item_locations.keys(),
+      self.cached_item_locations,
+      options,
+      filter_sunken_treasure=filter_sunken_treasure,
+      filter_excluded_locations=False
+    )
+    for location_name in self.cached_item_locations.keys():
+      # Handle sunken treasure separately from other locations.
+      types = self.cached_item_locations[location_name]["Types"]
+      if "Sunken Treasure" in types and not filter_sunken_treasure:
+        if options.randomize_charts:
+          continue
+        
+        original_item = self.cached_item_locations[location_name]["Original item"]
+        original_item_is_shard = original_item.startswith("Triforce Shard ")
+        if options.progression_triforce_charts and original_item_is_shard:
+          continue
+        if options.progression_treasure_charts and not original_item_is_shard:
+          continue
+        locations_to_filter_out.append(location_name)
+      
+      if location_name not in progress_locations:
+        locations_to_filter_out.append(location_name)
+    
     self.filtered_rgear.setFilterStrings(items_to_filter_out)
     
     for item in items_to_filter_out:
@@ -690,6 +739,12 @@ class WWRandomizerWindow(QMainWindow):
       print("Gear list invalid, resetting")
       for opt in ["randomized_gear", "starting_gear"]:
         self.set_option_value(opt, self.default_options[opt])
+    
+    options.excluded_locations = sorted(set(options.excluded_locations) - set(locations_to_filter_out))
+    options.progression_locations = sorted(set(progress_locations) - set(options.excluded_locations) - set(locations_to_filter_out))
+    
+    self.set_option_value("progression_locations", options.progression_locations)
+    self.set_option_value("excluded_locations", options.excluded_locations)
     
     for option in Options.all:
       if option.name == "custom_colors":

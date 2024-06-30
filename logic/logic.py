@@ -211,10 +211,17 @@ class Logic:
       filter_sunken_treasure=True
     )
     num_progress_locations = len(progress_locations)
+    
+    num_charts_excluded = sum(location_name.endswith(" - Sunken Treasure") for location_name in options.excluded_locations)
+    max_sunken_treasure_locations = 0
     if options.progression_triforce_charts:
-      num_progress_locations += 8
+      max_sunken_treasure_locations += 8
     if options.progression_treasure_charts:
-      num_progress_locations += 41
+      max_sunken_treasure_locations += 41
+    if options.randomize_charts:
+      num_progress_locations += min(max_sunken_treasure_locations, 49 - num_charts_excluded)
+    else:
+      num_progress_locations += max_sunken_treasure_locations - num_charts_excluded
     
     return num_progress_locations
   
@@ -479,18 +486,22 @@ class Logic:
     self.cached_items_are_useful[item_name] = False
     return False
   
-  def filter_locations_for_progression(self, locations_to_filter, filter_sunken_treasure=False):
+  def filter_locations_for_progression(self, locations_to_filter, filter_sunken_treasure=False, filter_excluded_locations=True):
     return Logic.filter_locations_for_progression_static(
       locations_to_filter,
       self.item_locations,
       self.options,
-      filter_sunken_treasure=filter_sunken_treasure
+      filter_sunken_treasure=filter_sunken_treasure,
+      filter_excluded_locations=filter_excluded_locations
     )
   
   @staticmethod
-  def filter_locations_for_progression_static(locations_to_filter: list[str], item_locations: dict[str, dict], options: Options, filter_sunken_treasure=False):
+  def filter_locations_for_progression_static(locations_to_filter: list[str], item_locations: dict[str, dict], options: Options, filter_sunken_treasure=False, filter_excluded_locations=True):
     filtered_locations = []
     for location_name in locations_to_filter:
+      if filter_excluded_locations and location_name in options.excluded_locations:
+        continue
+      
       types = item_locations[location_name]["Types"]
       if "No progression" in types:
         continue
@@ -766,7 +777,8 @@ class Logic:
       self.item_locations.keys(),
       self.item_locations,
       self.options,
-      filter_sunken_treasure=filter_sunken_treasure
+      filter_sunken_treasure=filter_sunken_treasure,
+      filter_excluded_locations=self.rando.fully_initialized,
     )
     
     items_needed = {}
