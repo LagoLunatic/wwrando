@@ -822,6 +822,33 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addWidget(self.groupBox_5)
 
+        self.groupBox_logic_tweaks = QGroupBox(self.tab_advanced)
+        self.groupBox_logic_tweaks.setObjectName(u"groupBox_logic_tweaks")
+        self.gridLayout_logic_tweaks = QGridLayout(self.groupBox_logic_tweaks)
+        self.gridLayout_logic_tweaks.setObjectName(u"gridLayout_logic_tweaks")
+        self.open_drc = QCheckBox(self.groupBox_logic_tweaks)
+        self.open_drc.setObjectName(u"open_drc")
+
+        self.gridLayout_logic_tweaks.addWidget(self.open_drc, 0, 0, 1, 1)
+
+        self.widget_logic_tweaks_1 = QWidget(self.groupBox_logic_tweaks)
+        self.widget_logic_tweaks_1.setObjectName(u"widget_logic_tweaks_1")
+
+        self.gridLayout_logic_tweaks.addWidget(self.widget_logic_tweaks_1, 0, 1, 1, 1)
+
+        self.widget_logic_tweaks_2 = QWidget(self.groupBox_logic_tweaks)
+        self.widget_logic_tweaks_2.setObjectName(u"widget_logic_tweaks_2")
+
+        self.gridLayout_logic_tweaks.addWidget(self.widget_logic_tweaks_2, 0, 2, 1, 1)
+
+        self.widget_logic_tweaks_3 = QWidget(self.groupBox_logic_tweaks)
+        self.widget_logic_tweaks_3.setObjectName(u"widget_logic_tweaks_3")
+
+        self.gridLayout_logic_tweaks.addWidget(self.widget_logic_tweaks_3, 0, 3, 1, 1)
+
+
+        self.verticalLayout_8.addWidget(self.groupBox_logic_tweaks)
+
         self.groupBox_6 = QGroupBox(self.tab_advanced)
         self.groupBox_6.setObjectName(u"groupBox_6")
         self.gridLayout_8 = QGridLayout(self.groupBox_6)
@@ -1004,7 +1031,8 @@ class Ui_MainWindow(object):
         QWidget.setTabOrder(self.num_barren_hints, self.num_path_hints)
         QWidget.setTabOrder(self.num_path_hints, self.cryptic_hints)
         QWidget.setTabOrder(self.cryptic_hints, self.prioritize_remote_hints)
-        QWidget.setTabOrder(self.prioritize_remote_hints, self.do_not_generate_spoiler_log)
+        QWidget.setTabOrder(self.prioritize_remote_hints, self.open_drc)
+        QWidget.setTabOrder(self.open_drc, self.do_not_generate_spoiler_log)
         QWidget.setTabOrder(self.do_not_generate_spoiler_log, self.dry_run)
 
         self.retranslateUi(MainWindow)
@@ -1121,6 +1149,8 @@ class Ui_MainWindow(object):
         self.label_for_num_location_hints.setText(QCoreApplication.translate("MainWindow", u"Location Hints", None))
         self.label_for_num_item_hints.setText(QCoreApplication.translate("MainWindow", u"Item Hints", None))
         self.label_for_num_path_hints.setText(QCoreApplication.translate("MainWindow", u"Path Hints", None))
+        self.groupBox_logic_tweaks.setTitle(QCoreApplication.translate("MainWindow", u"Logic Tweaks", None))
+        self.open_drc.setText(QCoreApplication.translate("MainWindow", u"Open DRC", None))
         self.groupBox_6.setTitle(QCoreApplication.translate("MainWindow", u"Additional Advanced Options", None))
         self.do_not_generate_spoiler_log.setText(QCoreApplication.translate("MainWindow", u"Do Not Generate Spoiler Log", None))
         self.dry_run.setText(QCoreApplication.translate("MainWindow", u"Dry Run", None))

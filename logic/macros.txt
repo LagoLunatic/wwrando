@@ -264,7 +264,14 @@ Can Reach Wind Temple Tall Basement Room:
   # Activating the giant fan is not necessary.
 
 Can Access Dungeon Entrance on Dragon Roost Island:
-  Nothing
+  DRC Initially Open
+  | Empty Bottle
+  | Bombs
+  | Power Bracelets
+  | Can Fly With Deku Leaf Outdoors
+  # Vanilla you need to water the Bomb Flowers at the entrance to blow up the Boulder.
+  # We change that boulder so it can be destroyed by normal Bombs or lifted with Power Bracelets
+  # You can also leaf over the gap (easier with Din's Pearl or playing Wind's Requiem)
 Can Access Forest Haven:
   Grappling Hook | Can Fly With Deku Leaf Outdoors
   # Grappling over the waterfall is very difficult without killing the Boko Baba there - but only if you start grappling from the top. You can grapple from the bottom up to avoid that Boko Baba entirely, so there's no extra requirement here for swordless.
@@ -1139,6 +1146,8 @@ In Required Bosses Mode:
   Option "required_bosses" Enabled
 Outside Required Bosses Mode:
   Option "required_bosses" Disabled
+DRC Initially Open:
+  Option "open_drc" Enabled
 
 # Macros to wrap difficulty level checks.
 Obscure 1:

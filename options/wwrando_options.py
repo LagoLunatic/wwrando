@@ -317,6 +317,13 @@ class Options(BaseOptions):
     description="When this option is selected, certain locations that are out of the way and time-consuming to complete will take precedence over normal location hints.",
   )
   #endregion
+
+  #region Logic Tweaks
+  open_drc: bool = option(
+    default=True,
+    description="Allow DRC entrance to be accessed from the beginning of the game with no items"
+  )
+  #endregion
   
   #region Tweaks
   swift_sail: bool = option(

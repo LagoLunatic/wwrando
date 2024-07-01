@@ -1172,6 +1172,31 @@
              </widget>
             </item>
             <item>
+             <widget class="QGroupBox" name="groupBox_logic_tweaks">
+              <property name="title">
+               <string>Logic Tweaks</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_logic_tweaks">
+               <item row="0" column="0">
+                <widget class="QCheckBox" name="open_drc">
+                 <property name="text">
+                  <string>Open DRC</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QWidget" name="widget_logic_tweaks_1" native="true"/>
+               </item>
+               <item row="0" column="2">
+                <widget class="QWidget" name="widget_logic_tweaks_2" native="true"/>
+               </item>
+               <item row="0" column="3">
+                <widget class="QWidget" name="widget_logic_tweaks_3" native="true"/>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
              <widget class="QGroupBox" name="groupBox_6">
               <property name="title">
                <string>Additional Advanced Options</string>
@@ -1420,6 +1445,7 @@
   <tabstop>num_path_hints</tabstop>
   <tabstop>cryptic_hints</tabstop>
   <tabstop>prioritize_remote_hints</tabstop>
+  <tabstop>open_drc</tabstop>
   <tabstop>do_not_generate_spoiler_log</tabstop>
   <tabstop>dry_run</tabstop>
  </tabstops>

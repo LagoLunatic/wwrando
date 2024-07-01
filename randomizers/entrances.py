@@ -185,7 +185,7 @@ FAIRY_FOUNTAIN_EXITS = [
 
 
 DUNGEON_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS = [
-  "Dungeon Entrance on Dragon Roost Island",
+  "Dungeon Entrance on Dragon Roost Island", # Conditional on the "Open DRC" option
 ]
 SECRET_CAVE_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS = [
   "Secret Cave Entrance on Pawprint Isle",
@@ -314,7 +314,7 @@ class EntranceRandomizer(BaseRandomizer):
         or self.options.progression_savage_labyrinth:
       self.entrance_names_with_no_requirements += SECRET_CAVE_ENTRANCE_NAMES_WITH_NO_REQUIREMENTS
     
-    if self.options.progression_dungeons:
+    if self.options.progression_dungeons and self.options.open_drc:
       self.exit_names_with_no_requirements += DUNGEON_EXIT_NAMES_WITH_NO_REQUIREMENTS
     if self.options.progression_puzzle_secret_caves:
       self.exit_names_with_no_requirements += PUZZLE_SECRET_CAVE_EXIT_NAMES_WITH_NO_REQUIREMENTS
@@ -464,7 +464,8 @@ class EntranceRandomizer(BaseRandomizer):
         e for e in relevant_entrances
         if e.entrance_name in self.entrance_names_with_no_requirements
       ]
-      self.safety_entrance = self.rng.choice(possible_safety_entrances)
+      if possible_safety_entrances:
+        self.safety_entrance = self.rng.choice(possible_safety_entrances)
     
     # We calculate which exits are terminal (the end of a nested chain) per-set instead of for all
     # entrances. This is so that, for example, Ice Ring Isle counts as terminal when its inner cave
@@ -1138,4 +1139,18 @@ class EntranceRandomizer(BaseRandomizer):
     zone_exit = ZoneExit.all[boss_arena_name]
     outermost_entrance = self.get_outermost_entrance_for_exit(zone_exit)
     return outermost_entrance.island_name
+
+  def can_assign_safety_entrance(self) -> bool:
+    # We need to be able to assign at least one safety entrance with progression
+    # in one of the sets of entrances to be randomized
+    if not self.is_enabled():
+      return True
+    for entrances, exits in self.get_all_entrance_sets_to_be_randomized():
+      if (
+        any(entr.entrance_name in self.entrance_names_with_no_requirements for entr in entrances)
+        and any(ex.unique_name in self.exit_names_with_no_requirements for ex in exits)
+      ):
+        return True
+    return False
+
   #endregion
