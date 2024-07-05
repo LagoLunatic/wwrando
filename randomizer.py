@@ -72,6 +72,7 @@ RNG_CHANGING_OPTIONS = [
   "num_item_hints",
   "cryptic_hints",
   "prioritize_remote_hints",
+  "hint_importance",
   "do_not_generate_spoiler_log",
 ]
 
