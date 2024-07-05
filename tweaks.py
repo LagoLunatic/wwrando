@@ -2701,3 +2701,38 @@ def enable_hero_mode(self: WWRandomizer):
 def set_default_targeting_mode_to_switch(self: WWRandomizer):
   targeting_mode_addr = self.main_custom_symbols["option_targeting_mode"]
   self.dol.write_data(fs.write_u8, targeting_mode_addr, 1)
+
+def replace_drc_entrance_boulder_with_normal_boulder(self: WWRandomizer):
+  room = self.get_arc("files/res/Stage/Adanmae/Room0.arc").get_file("room.dzr", DZx)
+
+  flower_only_boulder = next(a for a in room.entries_by_type(ACTR) if a.name == "Eskban")
+
+  bombable_boulder = room.add_entity(ACTR)
+  bombable_boulder.name = "Ebrock"
+  bombable_boulder.switch_to_set = flower_only_boulder.destroyed_switch
+  bombable_boulder.dropped_item_id = 63 # nothing
+  bombable_boulder.item_pickup_flag = 127 # nothing
+  bombable_boulder.type = 2 # large boulder
+  # Used same unknown params as the boulders inside DRC
+  bombable_boulder.unknown_param_5 = 7
+  bombable_boulder.unknown_param_6 = 1
+  bombable_boulder.destroyed_event_index = 0xff # no event, remove cutscene
+
+  bombable_boulder.x_pos = flower_only_boulder.x_pos
+  bombable_boulder.x_rot = flower_only_boulder.x_rot
+  bombable_boulder.z_pos = flower_only_boulder.z_pos
+  # Ebrock.destroyed_event_index uses bits in z_rot, and we don't really care about z_rot in the first place
+  # bombable_boulder.z_rot = flower_only_boulder.z_rot # destroyed_event_index
+  bombable_boulder.y_pos = flower_only_boulder.y_pos
+  bombable_boulder.y_rot = flower_only_boulder.y_rot
+
+  room.remove_entity(flower_only_boulder, ACTR)
+  room.save_changes()
+
+  patcher.apply_patch(self, "speedup_drc_water_raise")
+  
+def open_drc(self: WWRandomizer):
+  patcher.apply_patch(self, "disable_dins_pearl_lava")
+  
+  open_drc_address = self.main_custom_symbols["open_drc"]
+  self.dol.write_data(fs.write_u8, open_drc_address, 1)

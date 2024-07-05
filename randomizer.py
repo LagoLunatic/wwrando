@@ -268,7 +268,15 @@ class WWRandomizer:
     else:
       self.dungeons_and_caves_only_start = False
     self.logic.update_entrance_connection_macros() # Reset the entrance macros.
-    
+
+    if self.dungeons_and_caves_only_start and not self.entrances.can_assign_safety_entrance():
+      msg = "No guaranteed accessible locations at the beginning of the game.\n"
+      if self.dungeons_only_start and not self.options.open_drc:
+        msg += 'Consider enabling more progression settings, adding starting items or enabling "Open DRC"'
+      else:
+        msg += "Consider enabling more progression settings or adding starting items"
+      raise TooFewProgressionLocationsError(msg)
+  
     self.fully_initialized = True
   
   def get_max_progress_length(self) -> int:
@@ -322,6 +330,10 @@ class WWRandomizer:
       tweaks.update_starting_gear(self, self.options.starting_gear)
       if self.options.chest_type_matches_contents:
         tweaks.replace_dark_wood_chest_texture(self)
+      if self.options.open_drc:
+        tweaks.open_drc(self)
+      else:
+        tweaks.replace_drc_entrance_boulder_with_normal_boulder(self)
       if self.options.remove_title_and_ending_videos:
         tweaks.remove_title_and_ending_videos(self)
       if self.options.remove_music:
