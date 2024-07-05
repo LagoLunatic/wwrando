@@ -226,7 +226,7 @@ class EnemyRandomizer(BaseRandomizer):
     # enemy randomizer currently randomizes params when reading and saving each enemy.
     # This should be changed in the future so that params are randomized in _randomize, remembered,
     # and then saved in _save.
-    self.rng = self.rando.get_new_rng()
+    self.reset_rng()
     
     self.save_changed_enemies_and_randomize_their_params()
     
