@@ -31,17 +31,17 @@ class RequiredBossesRandomizer(BaseRandomizer):
     
     # These variables will remain empty if required bosses mode is off.
     # The randomly selected dungeon boss locations that are required in required bosses mode.
-    self.required_boss_item_locations = []
+    self.required_boss_item_locations: list[str] = []
     # The dungeons corresponding to the required bosses mode required boss locations.
-    self.required_dungeons = []
+    self.required_dungeons: list[str] = []
     # The bosses required in required bosses mode.
-    self.required_bosses = []
+    self.required_bosses: list[str] = []
     # The item locations that should not have any items in them in required bosses mode.
-    self.banned_locations = []
+    self.banned_locations: list[str] = []
     # The dungeons that are guaranteed to not have anything important in required bosses mode.
-    self.banned_dungeons = []
+    self.banned_dungeons: list[str] = []
     # The bosses that are guaranteed to not have anything important in required bosses mode.
-    self.banned_bosses = []
+    self.banned_bosses: list[str] = []
   
   def is_enabled(self) -> bool:
     return self.options.required_bosses

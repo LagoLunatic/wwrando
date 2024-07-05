@@ -55,7 +55,7 @@ class Logic:
     self.remaining_item_locations = list(self.item_locations.keys())
     self.prerandomization_item_locations = {}
     
-    self.done_item_locations = {}
+    self.done_item_locations: dict[str, str | None] = {}
     for location_name in self.item_locations:
       self.done_item_locations[location_name] = None
     

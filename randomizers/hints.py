@@ -2,6 +2,7 @@ import os
 from collections import Counter, deque
 from enum import Enum
 import math
+from dataclasses import dataclass
 
 from ruamel.yaml import YAML
 yaml = YAML(typ="safe")
@@ -93,6 +94,13 @@ class Hint:
       repr(self.reward),
       repr(self.importance),
     )
+
+@dataclass(frozen=True)
+class PlacedItem:
+  zone_name: str
+  entrance_zone: str
+  specific_location_name: str
+  item_name: str
 
 
 class HintsRandomizer(BaseRandomizer):
@@ -706,7 +714,7 @@ class HintsRandomizer(BaseRandomizer):
     dungeon_paths = self.rando.boss_reqs.required_dungeons.copy()
     non_dungeon_paths = ["Hyrule", "Ganon's Tower"]
     path_goals = dungeon_paths + non_dungeon_paths
-    required_locations_for_paths = {goal: [] for goal in path_goals}
+    required_locations_for_paths: dict[str, list[PlacedItem]] = {goal: [] for goal in path_goals}
     
     # Determine which locations are required to beat the seed.
     # Items are implicitly referred to by their location to handle duplicate item names (i.e., progressive items and
@@ -727,35 +735,35 @@ class HintsRandomizer(BaseRandomizer):
       # Determine the item name for the given location.
       zone_name, specific_location_name = self.logic.split_location_name_by_zone(location_name)
       entrance_zone = self.rando.entrances.get_entrance_zone_for_item_location(location_name)
-      item_tuple = (zone_name, entrance_zone, specific_location_name, item_name)
+      placed_item = PlacedItem(zone_name, entrance_zone, specific_location_name, item_name)
       
       # Check and record if the location is required for path goals.
       requirements_met = self.check_location_required_for_paths(location_name, path_goals)
       for goal_name, requirement_met in requirements_met.items():
         if requirement_met:
-          required_locations_for_paths[goal_name].append(item_tuple)
+          required_locations_for_paths[goal_name].append(placed_item)
       
       # Add items that are on paths to required bosses mode dungeons to the Hyrule and Ganon's Tower paths.
       for dungeon_path_name in dungeon_paths:
-        for item_tuple in required_locations_for_paths[dungeon_path_name]:
+        for other_placed_item in required_locations_for_paths[dungeon_path_name]:
           for non_dungeon_path_name in non_dungeon_paths:
-            if item_tuple not in required_locations_for_paths[non_dungeon_path_name]:
-              required_locations_for_paths[non_dungeon_path_name].append(item_tuple)
+            if other_placed_item not in required_locations_for_paths[non_dungeon_path_name]:
+              required_locations_for_paths[non_dungeon_path_name].append(other_placed_item)
     
     return required_locations_for_paths
   
-  def get_path_hint(self, unhinted_locations, hinted_locations, path_name):
+  def get_path_hint(self, unhinted_placed_items: list[PlacedItem], hinted_locations, path_name):
     valid_path_hint = False
     while not valid_path_hint:
-      if len(unhinted_locations) == 0:
+      if len(unhinted_placed_items) == 0:
         return None, None
       
       # Pick a location uniformly at random from the list of hintable locations.
-      zone_name, entrance_zone, specific_location_name, item_name = self.rng.choice(unhinted_locations)
-      hinted_location = "%s - %s" % (zone_name, specific_location_name)
+      placed_item = self.rng.choice(unhinted_placed_items)
+      hinted_location = "%s - %s" % (placed_item.zone_name, placed_item.specific_location_name)
       
       # Regardless of whether we use the location, remove that location from being hinted.
-      unhinted_locations.remove((zone_name, entrance_zone, specific_location_name, item_name))
+      unhinted_placed_items.remove(placed_item)
       
       # The location is a valid hint if it has not already been hinted at.
       if hinted_location not in hinted_locations:
@@ -764,10 +772,10 @@ class HintsRandomizer(BaseRandomizer):
     # Record hinted zone, item, and path goal.
     if self.logic.is_dungeon_location(hinted_location):
       # If it's a dungeon, use the dungeon name.
-      hint_zone = zone_name
+      hint_zone = placed_item.zone_name
     else:
       # Otherwise, use the entrance zone name.
-      hint_zone = entrance_zone
+      hint_zone = placed_item.entrance_zone
     
     path_hint = Hint(HintType.PATH, hint_zone, self.DUNGEON_NAME_TO_BOSS_NAME[path_name])
     
@@ -1074,13 +1082,17 @@ class HintsRandomizer(BaseRandomizer):
     # Flatten the list of path locations for reference for hint importance
     self.path_locations = set()
     for goal_name, path_locations in required_locations_for_paths.items():
-      for zone_name, entrance_zone, specific_location_name, item_name in path_locations:
-        self.path_locations.add("%s - %s" % (zone_name, specific_location_name))
+      for placed_item in path_locations:
+        self.path_locations.add("%s - %s" % (placed_item.zone_name, placed_item.specific_location_name))
     
     # Filter out the locations of dungeon keys as being path when key-lunacy is disabled
     if not self.options.keylunacy:
       for dungeon_name, dungeon_paths in required_locations_for_paths.items():
-        required_locations_for_paths[dungeon_name] = [item_tuple for item_tuple in dungeon_paths if not item_tuple[3].endswith(" Key")]
+        required_locations_for_paths[dungeon_name] = [
+          placed_item
+          for placed_item in dungeon_paths
+          if not placed_item.item_name.endswith(" Key")
+        ]
     
     # Generate path hints.
     # We hint at max `self.max_path_hints` zones at random.
@@ -1095,18 +1107,18 @@ class HintsRandomizer(BaseRandomizer):
     # Hyrule and Ganondorf. This way, the path to the required dungeon takes hint priority for that item.
     if self.max_path_hints > 0:
       for dungeon_name in dungeon_paths:
-        for item_tuple in required_locations_for_paths[dungeon_name]:
-          if item_tuple in required_locations_for_paths["Hyrule"]:
-            required_locations_for_paths["Hyrule"].remove(item_tuple)
-          if item_tuple in required_locations_for_paths["Ganon's Tower"]:
-            required_locations_for_paths["Ganon's Tower"].remove(item_tuple)
+        for placed_item in required_locations_for_paths[dungeon_name]:
+          if placed_item in required_locations_for_paths["Hyrule"]:
+            required_locations_for_paths["Hyrule"].remove(placed_item)
+          if placed_item in required_locations_for_paths["Ganon's Tower"]:
+            required_locations_for_paths["Ganon's Tower"].remove(placed_item)
     
     # Likewise, remove items that are hinted on the path to Hyrule from the path to Ganondorf. This way, the path to
     # Hyrule takes hint priority over the path to Ganondorf for that item.
     if self.max_path_hints > 0:
-      for item_tuple in required_locations_for_paths["Hyrule"]:
-        if item_tuple in required_locations_for_paths["Ganon's Tower"]:
-          required_locations_for_paths["Ganon's Tower"].remove(item_tuple)
+      for placed_item in required_locations_for_paths["Hyrule"]:
+        if placed_item in required_locations_for_paths["Ganon's Tower"]:
+          required_locations_for_paths["Ganon's Tower"].remove(placed_item)
     
     # Generate a path hint for each required bosses mode dungeon.
     hinted_path_zones = []
