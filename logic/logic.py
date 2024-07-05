@@ -207,7 +207,7 @@ class Logic:
   @staticmethod
   def get_num_progression_locations_static(item_locations: dict[str, dict], options: Options):
     progress_locations = Logic.filter_locations_for_progression_static(
-      item_locations.keys(),
+      list(item_locations.keys()),
       item_locations,
       options,
       filter_sunken_treasure=True
@@ -224,7 +224,7 @@ class Logic:
     if not self.options.required_bosses:
       return 0
     
-    all_locations = self.item_locations.keys()
+    all_locations = list(self.item_locations.keys())
     progress_locations = self.filter_locations_for_progression(all_locations)
     location_counts_by_dungeon = {}
     
@@ -259,7 +259,7 @@ class Logic:
     return max_banned_locations
   
   def get_progress_and_non_progress_locations(self):
-    all_locations = self.item_locations.keys()
+    all_locations = list(self.item_locations.keys())
     progress_locations = self.filter_locations_for_progression(all_locations, filter_sunken_treasure=True)
     nonprogress_locations = []
     for location_name in all_locations:
@@ -481,7 +481,7 @@ class Logic:
     self.cached_items_are_useful[item_name] = False
     return False
   
-  def filter_locations_for_progression(self, locations_to_filter, filter_sunken_treasure=False):
+  def filter_locations_for_progression(self, locations_to_filter: list[str], filter_sunken_treasure=False):
     return Logic.filter_locations_for_progression_static(
       locations_to_filter,
       self.item_locations,
@@ -765,7 +765,7 @@ class Logic:
     if self.options.progression_triforce_charts or self.options.progression_treasure_charts:
       filter_sunken_treasure = False
     progress_locations = Logic.filter_locations_for_progression_static(
-      self.item_locations.keys(),
+      list(self.item_locations.keys()),
       self.item_locations,
       self.options,
       filter_sunken_treasure=filter_sunken_treasure
@@ -1069,6 +1069,7 @@ class Logic:
   
   def check_progressive_item_req(self, req_name: str):
     match = re.search(r"^(Progressive .+) x(\d+)$", req_name)
+    assert match
     item_name = match.group(1)
     num_required = int(match.group(2))
     
@@ -1077,6 +1078,7 @@ class Logic:
   
   def check_small_key_req(self, req_name: str):
     match = re.search(r"^(.+ Small Key) x(\d+)$", req_name)
+    assert match
     small_key_name = match.group(1)
     num_keys_required = int(match.group(2))
     
@@ -1085,6 +1087,7 @@ class Logic:
   
   def check_item_location_requirement(self, req_name: str):
     match = re.search(r"^Can Access Item Location \"([^\"]+)\"$", req_name)
+    assert match
     item_location_name = match.group(1)
     
     return self.check_location_accessible(item_location_name)

@@ -15,11 +15,11 @@ class ZoneEntrance:
   scls_exit_index: int
   spawn_id: int
   entrance_name: str
-  island_name: str = None
-  warp_out_stage_name: str = None
-  warp_out_room_num: int = None
-  warp_out_spawn_id: int = None
-  nested_in: 'ZoneExit' = None
+  island_name: str | None = None
+  warp_out_stage_name: str | None = None
+  warp_out_room_num: int | None = None
+  warp_out_spawn_id: int | None = None
+  nested_in: 'ZoneExit | None' = None
   
   @property
   def is_nested(self):
@@ -41,12 +41,12 @@ class ZoneEntrance:
 class ZoneExit:
   stage_name: str
   room_num: int
-  scls_exit_index: int
+  scls_exit_index: int | None
   spawn_id: int
   unique_name: str
   _: KW_ONLY
-  boss_stage_name: str = None
-  zone_name: str = None
+  boss_stage_name: str | None = None
+  zone_name: str | None = None
   # If zone_name is specified, this exit will assume by default that it owns all item locations in
   # that zone which are behind randomizable entrances. If a single zone has multiple randomizable
   # entrances, only one of them at most can use zone_name. The rest must have their item locations
@@ -1047,7 +1047,7 @@ class EntranceRandomizer(BaseRandomizer):
     outermost_entrance = self.get_outermost_entrance_for_exit(zone_exit)
     return outermost_entrance.island_name
   
-  def get_all_zones_for_item_location(self, location_name: str) -> list[str]:
+  def get_all_zones_for_item_location(self, location_name: str) -> set[str]:
     # Helper function to return a set of zone names that include the location.
     #
     # All returned zones are either an island name or a dungeon name - that is, if the entrance to

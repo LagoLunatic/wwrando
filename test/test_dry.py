@@ -80,7 +80,7 @@ def test_trick_logic_checks():
 
 def test_parse_string_option_to_enum():
   options = Options()
-  options.logic_precision = "Normal"
+  options.logic_precision = "Normal" # pyright: ignore [reportAttributeAccessIssue]
   rando = dry_rando_with_options(options)
   assert isinstance(rando.options.logic_precision, StrEnum)
 

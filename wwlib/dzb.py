@@ -28,12 +28,12 @@ class DZB:
     
     self.unknown_1 = 0
     
-    self.vertices = []
-    self.faces = []
-    self.octree_blocks = []
-    self.octree_nodes = []
-    self.groups = []
-    self.properties = []
+    self.vertices: list[Vertex] = []
+    self.faces: list[Face] = []
+    self.octree_blocks: list[OctreeBlock] = []
+    self.octree_nodes: list[OctreeNode] = []
+    self.groups: list[Group] = []
+    self.properties: list[Property] = []
   
   def read(self, data):
     self.data = data
@@ -504,6 +504,9 @@ class OctreeBlock:
 
 class OctreeNode:
   DATA_SIZE = 0x14
+  
+  block: OctreeBlock | None
+  child_nodes: list['OctreeNode']
   
   def __init__(self, dzb_data):
     self.dzb_data = dzb_data

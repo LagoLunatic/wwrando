@@ -239,7 +239,7 @@ class DZx(GCLibFile): # DZR or DZS, same format
         entries += chunk.entries
     return entries
   
-  def add_entity(self, chunk_type: Type[ChunkEntryT], layer: Optional[DZxLayer] = None):
+  def add_entity(self, chunk_type: Type[ChunkEntryT], layer: DZxLayer = DZxLayer.Default):
     # If no layer is passed, it will default to DZxLayer.Default.
     layer = DZxLayer(layer)
     
@@ -260,7 +260,7 @@ class DZx(GCLibFile): # DZR or DZS, same format
     
     return entity
   
-  def remove_entity(self, entity, chunk_type: Type[ChunkEntryT], layer: DZxLayer = None):
+  def remove_entity(self, entity, chunk_type: Type[ChunkEntryT], layer: DZxLayer = DZxLayer.Default):
     assert hasattr(entity, "name")
     
     # If no layer is passed, it will default to DZxLayer.Default.

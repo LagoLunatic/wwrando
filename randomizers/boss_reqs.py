@@ -85,7 +85,7 @@ class RequiredBossesRandomizer(BaseRandomizer):
     if len(possible_boss_item_locations) != 6:
       raise Exception("Number of boss item locations is incorrect: " + ", ".join(possible_boss_item_locations))
     if num_required_bosses > 6 or num_required_bosses < 1:
-      raise Exception(f"Number of required bosses is invalid: {len(num_required_bosses)}")
+      raise Exception(f"Number of required bosses is invalid: {num_required_bosses}")
     
     self.required_boss_item_locations = self.rng.sample(possible_boss_item_locations, num_required_bosses)
     

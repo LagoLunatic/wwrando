@@ -18,7 +18,7 @@ class BaseRandomizer:
     self.rando = rando
     self.logic = rando.logic
     self.options = rando.options
-    self.rng = None
+    self._rng = None
     self.made_any_changes = False
   
   def is_enabled(self) -> bool:
@@ -48,13 +48,19 @@ class BaseRandomizer:
     """The message displayed to the user during the save step."""
     return "Applying changes..."
   
+  @property
+  def rng(self):
+    if self._rng is None:
+      raise Exception("Attempted to use the RNG outside of the randomization step.")
+    return self._rng
+  
   def reset_rng(self):
-    self.rng = self.rando.get_new_rng()
+    self._rng = self.rando.get_new_rng()
   
   def randomize(self):
     self.reset_rng()
     self._randomize()
-    self.rng = None
+    self._rng = None
     self.made_any_changes = True
   
   def _randomize(self):

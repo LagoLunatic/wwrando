@@ -1,3 +1,7 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+  from randomizer import WWRandomizer
 
 from subprocess import call
 from subprocess import DEVNULL
@@ -30,7 +34,7 @@ def get_bin(name):
   return os.path.join(devkitpath(), name + ".exe")
 
 
-def disassemble_all_code(self):
+def disassemble_all_code(self: WWRandomizer):
   if not os.path.isfile(get_bin("powerpc-eabi-objdump")):
     raise Exception(r"Failed to disassemble code: Could not find devkitPPC. devkitPPC should be installed to: C:\devkitPro\devkitPPC")
   
@@ -75,7 +79,7 @@ def disassemble_all_code(self):
       data.seek(0)
       f.write(data.read())
   
-  all_rels_by_path = {}
+  all_rels_by_path: dict[str, REL] = {}
   all_rel_symbols_by_path = {}
   for file_path_in_gcm in all_rel_paths:
     basename_with_ext = os.path.basename(file_path_in_gcm)
@@ -141,7 +145,7 @@ def disassemble_file(bin_path, asm_path):
   if result != 0:
     raise Exception("Disassembler call failed")
 
-def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm, main_symbols, all_rel_symbols_by_path, all_rels_by_path):
+def add_relocations_and_symbols_to_rel(asm_path, rel_path, file_path_in_gcm: str, main_symbols, all_rel_symbols_by_path, all_rels_by_path: dict[str, REL]):
   rel = all_rels_by_path[file_path_in_gcm]
   rel_symbol_names = all_rel_symbols_by_path[file_path_in_gcm]
   
@@ -303,7 +307,7 @@ ALL_LOAD_OR_STORE_OPCODES = [
   "stfdux",
 ]
 
-def add_symbols_to_main(self, asm_path, main_symbols):
+def add_symbols_to_main(self: WWRandomizer, asm_path, main_symbols):
   out_str = ""
   with open(asm_path) as f:
     last_lis_match = None
@@ -436,8 +440,8 @@ def add_symbols_to_main(self, asm_path, main_symbols):
     f.write(out_str)
 
 
-def get_list_of_all_rels(self):
-  all_rel_paths = []
+def get_list_of_all_rels(self: WWRandomizer):
+  all_rel_paths: list[str] = []
   
   for file_path in self.gcm.files_by_path:
     if file_path.startswith("files/rels/"):
@@ -450,7 +454,7 @@ def get_list_of_all_rels(self):
   
   return all_rel_paths
 
-def find_rel_by_module_num(all_rels_by_path, module_num):
+def find_rel_by_module_num(all_rels_by_path: dict[str, REL], module_num):
   for rel_path, rel in all_rels_by_path.items():
     if rel.id == module_num:
       return (rel, rel_path)
@@ -465,7 +469,7 @@ def get_main_symbols(framework_map_contents):
     main_symbols[address] = name
   return main_symbols
 
-def get_rel_symbols(rel, rel_map_data):
+def get_rel_symbols(rel: REL, rel_map_data: str):
   rel_map_lines = rel_map_data.splitlines()
   found_memory_map = False
   next_section_index = 0
@@ -526,7 +530,7 @@ def get_padded_comment_string_for_line(line):
   
   return (" "*spaces_needed) + "; "
 
-def check_offset_in_executable_dol_section(self, offset):
+def check_offset_in_executable_dol_section(self: WWRandomizer, offset):
   section_index = self.dol.convert_offset_to_section_index(offset)
   if section_index is None:
     return False

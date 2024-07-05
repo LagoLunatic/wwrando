@@ -25,7 +25,7 @@ import customizer
 from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS
 from data_tables import DataTables
 from wwlib.events import EventList
-from wwlib.dzx import DZx, ACTR, EVNT, FILI, PLYR, SCLS, SCOB, SHIP, TGDR, TRES, Pale
+from wwlib.dzx import DZx, DZxLayer, ACTR, EVNT, FILI, PLYR, SCLS, SCOB, SHIP, TGDR, TRES, Pale
 from options.wwrando_options import SwordMode
 
 try:
@@ -372,10 +372,10 @@ def add_ganons_tower_warp_to_ff2(self: WWRandomizer):
   
   dzx = self.get_arc("files/res/Stage/sea/Room1.arc").get_file("room.dzr", DZx)
   
-  layer_2_actors = dzx.entries_by_type_and_layer(ACTR, layer=2)
+  layer_2_actors = dzx.entries_by_type_and_layer(ACTR, layer=DZxLayer.Layer2)
   layer_2_warp = next(x for x in layer_2_actors if x.name == "Warpmj")
   
-  layer_1_warp = dzx.add_entity(ACTR, layer=1)
+  layer_1_warp = dzx.add_entity(ACTR, layer=DZxLayer.Layer1)
   layer_1_warp.name = layer_2_warp.name
   layer_1_warp.params = layer_2_warp.params
   layer_1_warp.x_pos = layer_2_warp.x_pos
@@ -907,7 +907,7 @@ def add_pirate_ship_to_windfall(self: WWRandomizer):
   ship_dzs = self.get_arc("files/res/Stage/Asoko/Stage.arc").get_file("stage.dzs", DZx)
   event_list = self.get_arc("files/res/Stage/Asoko/Stage.arc").get_file("event_list.dat", EventList)
   
-  windfall_layer_2_actors = windfall_dzr.entries_by_type_and_layer(ACTR, layer=2)
+  windfall_layer_2_actors = windfall_dzr.entries_by_type_and_layer(ACTR, layer=DZxLayer.Layer2)
   layer_2_pirate_ship = next(x for x in windfall_layer_2_actors if x.name == "Pirates")
   
   default_layer_pirate_ship = windfall_dzr.add_entity(ACTR)
@@ -1247,11 +1247,11 @@ def add_inter_dungeon_warp_pots(self: WWRandomizer):
 
 def remove_makar_kidnapping_event(self: WWRandomizer):
   dzx = self.get_arc("files/res/Stage/kaze/Room3.arc").get_file("room.dzr", DZx)
-  actors = dzx.entries_by_type_and_layer(ACTR, layer=None)
+  actors = dzx.entries_by_type_and_layer(ACTR, layer=DZxLayer.Default)
   
   # Remove the AND switch actor that makes the Floormasters appear after unlocking the door.
   and_switch_actor = next(x for x in actors if x.name == "AND_SW2")
-  dzx.remove_entity(and_switch_actor, ACTR, layer=None)
+  dzx.remove_entity(and_switch_actor, ACTR, layer=DZxLayer.Default)
   
   # Remove the enable spawn switch from the Wizzrobe so it's just always there.
   wizzrobe = next(x for x in actors if x.name == "wiz_r")
@@ -1452,7 +1452,7 @@ def add_hint_signs(self: WWRandomizer):
   msg.text_alignment = 3 # Centered text alignment
   
   dzx = self.get_arc("files/res/Stage/M_NewD2/Room2.arc").get_file("room.dzr", DZx)
-  bomb_flowers = [actor for actor in dzx.entries_by_type_and_layer(ACTR, layer=None) if actor.name == "BFlower"]
+  bomb_flowers = [actor for actor in dzx.entries_by_type_and_layer(ACTR, layer=DZxLayer.Default) if actor.name == "BFlower"]
   bomb_flowers[1].name = "Kanban"
   bomb_flowers[1].params = new_message_id
   bomb_flowers[1].y_rot = 0x2000
@@ -1621,7 +1621,7 @@ def add_chest_in_place_of_jabun_cutscene(self: WWRandomizer):
   # This is so they appear during the day too, not just at night.
   outset_dzr = self.get_arc("files/res/Stage/sea/Room44.arc").get_file("room.dzr", DZx)
   
-  layer_5_actors = outset_dzr.entries_by_type_and_layer(ACTR, layer=5)
+  layer_5_actors = outset_dzr.entries_by_type_and_layer(ACTR, layer=DZxLayer.Layer5)
   layer_5_door = next(x for x in layer_5_actors if x.name == "Ajav")
   layer_5_whirlpool = next(x for x in layer_5_actors if x.name == "Auzu")
   
@@ -1647,8 +1647,8 @@ def add_chest_in_place_of_jabun_cutscene(self: WWRandomizer):
   layer_none_whirlpool.z_rot = layer_5_whirlpool.z_rot
   layer_none_whirlpool.enemy_number = layer_5_whirlpool.enemy_number
   
-  outset_dzr.remove_entity(layer_5_door, ACTR, layer=5)
-  outset_dzr.remove_entity(layer_5_whirlpool, ACTR, layer=5)
+  outset_dzr.remove_entity(layer_5_door, ACTR, layer=DZxLayer.Layer5)
+  outset_dzr.remove_entity(layer_5_whirlpool, ACTR, layer=DZxLayer.Layer5)
   
   outset_dzr.save_changes()
   
@@ -1675,12 +1675,12 @@ def add_chest_in_place_of_master_sword(self: WWRandomizer):
   ms_chamber_dzr = self.get_arc("files/res/Stage/kenroom/Room0.arc").get_file("room.dzr", DZx)
   
   # Remove the Master Sword entities.
-  ms_actors = [x for x in ms_chamber_dzr.entries_by_type_and_layer(ACTR, layer=None) if x.name in ["VmsMS", "VmsDZ"]]
+  ms_actors = [x for x in ms_chamber_dzr.entries_by_type_and_layer(ACTR, layer=DZxLayer.Default) if x.name in ["VmsMS", "VmsDZ"]]
   for actor in ms_actors:
-    ms_chamber_dzr.remove_entity(actor, ACTR, layer=None)
+    ms_chamber_dzr.remove_entity(actor, ACTR, layer=DZxLayer.Default)
   
   # Copy the entities necessary for the Mighty Darknuts fight from layer 5 to the default layer.
-  layer_5_actors = ms_chamber_dzr.entries_by_type_and_layer(ACTR, layer=5)
+  layer_5_actors = ms_chamber_dzr.entries_by_type_and_layer(ACTR, layer=DZxLayer.Layer5)
   layer_5_actors_to_copy = [x for x in layer_5_actors if x.name in ["Tn", "ALLdie", "Yswdr00"]]
   
   for orig_actor in layer_5_actors_to_copy:
@@ -1697,7 +1697,7 @@ def add_chest_in_place_of_master_sword(self: WWRandomizer):
   
   # Remove the entities on layer 5 that are no longer necessary.
   for orig_actor in layer_5_actors:
-    ms_chamber_dzr.remove_entity(orig_actor, ACTR, layer=5)
+    ms_chamber_dzr.remove_entity(orig_actor, ACTR, layer=DZxLayer.Layer5)
   
   
   # Add the chest.
@@ -2566,7 +2566,7 @@ def fix_helmaroc_king_table_softlock(self: WWRandomizer):
   # Simply remove this table, as this should presumably fix the bug, and the table seems to serve no
   # purpose anyway (the two stools beside it don't appear during the fight to begin with).
   fftower_dzr = self.get_arc("files/res/Stage/M2tower/Room0.arc").get_file("room.dzr", DZx)
-  actors = fftower_dzr.entries_by_type_and_layer(ACTR, layer=None)
+  actors = fftower_dzr.entries_by_type_and_layer(ACTR, layer=DZxLayer.Default)
   table = next(x for x in actors if x.name == "Otble")
   fftower_dzr.remove_entity(table, ACTR)
 
@@ -2578,7 +2578,7 @@ def make_dungeon_joy_pendant_locations_flexible(self: WWRandomizer):
   # an unbeatable seed if the player gets the purple rupee first.
   # To fix this, we give the purple rupee a different item pickup flag that was originally unused.
   dzr = self.get_arc("files/res/Stage/M_NewD2/Room0.arc").get_file("room.dzr", DZx)
-  tingle_item = dzr.entries_by_type_and_layer(ACTR, layer=None)[0x1C]
+  tingle_item = dzr.entries_by_type_and_layer(ACTR, layer=DZxLayer.Default)[0x1C]
   tingle_item.item_pickup_flag = 0x16 # Unused item pickup flag for Dragon Roost Cavern
   tingle_item.save_changes()
   
@@ -2586,7 +2586,7 @@ def make_dungeon_joy_pendant_locations_flexible(self: WWRandomizer):
   # item placed here can be obtained multiple times. This was presumably unintentional as all the
   # other dungeon joy pendants have pickup flags, so we give it a new flag.
   dzr = self.get_arc("files/res/Stage/kindan/Room7.arc").get_file("room.dzr", DZx)
-  pot = dzr.entries_by_type_and_layer(ACTR, layer=None)[0xE0]
+  pot = dzr.entries_by_type_and_layer(ACTR, layer=DZxLayer.Default)[0xE0]
   pot.item_pickup_flag = 0x16 # Unused item pickup flag for Forbidden Woods
   pot.save_changes()
   
@@ -2596,11 +2596,11 @@ def make_dungeon_joy_pendant_locations_flexible(self: WWRandomizer):
   # after destroying the stone head without picking up the item and then come back.
   # To avoid this, we remove the destroyed switch from the stone heads so that they always reappear.
   dzr = self.get_arc("files/res/Stage/kaze/Room1.arc").get_file("room.dzr", DZx)
-  stone_head = dzr.entries_by_type_and_layer(ACTR, layer=None)[0x10]
+  stone_head = dzr.entries_by_type_and_layer(ACTR, layer=DZxLayer.Default)[0x10]
   stone_head.destroyed_switch = 0xFF
   stone_head.save_changes()
   dzr = self.get_arc("files/res/Stage/kaze/Room7.arc").get_file("room.dzr", DZx)
-  stone_head = dzr.entries_by_type_and_layer(ACTR, layer=None)[0x2E]
+  stone_head = dzr.entries_by_type_and_layer(ACTR, layer=DZxLayer.Default)[0x2E]
   stone_head.destroyed_switch = 0xFF
   stone_head.save_changes()
 

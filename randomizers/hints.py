@@ -30,7 +30,12 @@ class ItemImportance(Enum):
 
 
 class Hint:
-  def __init__(self, type: HintType, place, reward=None, importance=None):
+  type: HintType
+  place: str
+  reward: str | None
+  importance: ItemImportance | None
+  
+  def __init__(self, type: HintType, place: str, reward: str | None = None, importance: ItemImportance | None = None):
     assert place is not None
     if type == HintType.BARREN: assert reward is None
     if type != HintType.BARREN: assert reward is not None
@@ -148,13 +153,13 @@ class HintsRandomizer(BaseRandomizer):
   #endregion
   
   
-  cryptic_item_hints = None
-  cryptic_zone_hints = None
-  location_hints = None
+  cryptic_item_hints: dict[str, str] = None
+  cryptic_zone_hints: dict[str, str] = None
+  location_hints: dict[str, dict] = None
   
   def __init__(self, rando):
     super().__init__(rando)
-    self.path_logic = None
+    self._path_logic = None
     self.path_logic_initial_state = None
     
     # Define instance variable shortcuts for hint distribution options.
@@ -213,8 +218,14 @@ class HintsRandomizer(BaseRandomizer):
   def progress_save_text(self) -> str:
     return "Saving hints..."
   
+  @property
+  def path_logic(self):
+    if self._path_logic is None:
+      raise Exception("Hints randomizer attempted to use uninitialized path logic.")
+    return self._path_logic
+  
   def _randomize(self):
-    self.path_logic = Logic(self.rando)
+    self._path_logic = Logic(self.rando)
     self.path_logic_initial_state = self.path_logic.save_simulated_playthrough_state()
     
     # Generate the hints that will be distributed over the hint placement options
@@ -871,9 +882,9 @@ class HintsRandomizer(BaseRandomizer):
     return barren_hint
   
   
-  def filter_out_hinted_barren_locations(self, hintable_locations, hinted_barren_zones):
+  def filter_out_hinted_barren_locations(self, hintable_locations: list[str], hinted_barren_zones: list[Hint]):
     # Remove locations in hinted barren areas.
-    new_hintable_locations = []
+    new_hintable_locations: list[str] = []
     barrens = [hint.place for hint in hinted_barren_zones]
     for location_name in hintable_locations:
       entrance_zones = self.rando.entrances.get_all_zones_for_item_location(location_name)
@@ -916,6 +927,7 @@ class HintsRandomizer(BaseRandomizer):
   
   def check_is_legal_item_hint(self, location_name, progress_locations, previously_hinted_locations):
     item_name = self.logic.done_item_locations[location_name]
+    assert item_name is not None
     
     if not self.check_item_can_be_hinted_at(item_name):
       return False
@@ -934,7 +946,7 @@ class HintsRandomizer(BaseRandomizer):
     
     return True
   
-  def get_legal_item_hints(self, progress_locations, hinted_barren_zones, previously_hinted_locations):
+  def get_legal_item_hints(self, progress_locations, hinted_barren_zones: list[Hint], previously_hinted_locations):
     # Helper function to build a list of locations which may be hinted as item hints in this seed.
     
     # Filter out locations which are invalid to be hinted at for item hints.
@@ -1157,7 +1169,7 @@ class HintsRandomizer(BaseRandomizer):
     # We select at most `self.max_barren_hints` zones at random to hint as barren. Barren zones are weighted by the
     # square root of the number of locations at that zone.
     unhinted_barren_zones = self.get_barren_zones(progress_locations, [hint.place for hint in hinted_remote_locations])
-    hinted_barren_zones = []
+    hinted_barren_zones: list[Hint] = []
     while len(unhinted_barren_zones) > 0 and len(hinted_barren_zones) < self.max_barren_hints:
       # Weight each barren zone by the square root of the number of locations there.
       zone_weights = [math.sqrt(location_counter[zone]) for zone in unhinted_barren_zones]
