@@ -7,9 +7,11 @@ import os
 import tempfile
 import shutil
 import struct
-import yaml
 import traceback
 import sys
+
+from ruamel.yaml import YAML
+yaml_dumper = YAML(typ="rt") # Use RoundTripDumper for pretty-formatted dumps.
 
 asm_dir = os.path.dirname(__file__)
 
@@ -33,15 +35,15 @@ if not os.path.isfile(get_bin("powerpc-eabi-as")):
   raise Exception(r"Failed to assemble code: Could not find devkitPPC. devkitPPC should be installed to: C:\devkitPro\devkitPPC")
 
 # Change how yaml dumps lists so each element isn't on a separate line.
-yaml.Dumper.add_representer(
+yaml_dumper.representer.add_representer(
   list,
   lambda dumper, data: dumper.represent_sequence(u'tag:yaml.org,2002:seq', data, flow_style=True)
 )
 
 # Output integers as hexadecimal.
-yaml.Dumper.add_representer(
+yaml_dumper.representer.add_representer(
   int,
-  lambda dumper, data: yaml.ScalarNode('tag:yaml.org,2002:int', "0x%02X" % data)
+  lambda dumper, data: dumper.represent_scalar('tag:yaml.org,2002:int', "0x%02X" % data)
 )
 
 temp_dir = tempfile.mkdtemp()
@@ -52,7 +54,7 @@ custom_symbols = {}
 custom_symbols["sys/main.dol"] = {}
 
 with open(asm_dir + "/free_space_start_offsets.txt", "r") as f:
-  free_space_start_offsets = yaml.safe_load(f)
+  free_space_start_offsets = yaml_dumper.load(f)
 
 next_free_space_offsets = {}
 for file_path, offset in free_space_start_offsets.items():
@@ -562,7 +564,7 @@ try:
     
     diff_path = os.path.join(asm_dir, "patch_diffs", patch_name + "_diff.txt")
     with open(diff_path, "w", newline='\n') as f:
-      f.write(yaml.dump(diffs, default_flow_style=False, sort_keys=False))
+      yaml_dumper.dump(diffs, f)
   
   # Write the custom symbols to a text file.
   # Delete any entries in custom_symbols that have no custom symbols to avoid clutter.
@@ -574,7 +576,7 @@ try:
     output_custom_symbols[file_path] = custom_symbols_for_file
   
   with open(asm_dir + "/custom_symbols.txt", "w", newline='\n') as f:
-    f.write(yaml.dump(output_custom_symbols, default_flow_style=False, sort_keys=False))
+    yaml_dumper.dump(output_custom_symbols, f)
 except Exception as e:
   stack_trace = traceback.format_exc()
   error_message = str(e) + "\n\n" + stack_trace

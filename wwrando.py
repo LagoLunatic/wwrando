@@ -209,12 +209,13 @@ def run_no_ui(args):
   from options.wwrando_options import Options
   from seedgen import seedgen
   from wwrando_paths import SETTINGS_PATH, IS_RUNNING_FROM_SOURCE
-  import yaml
   import cProfile, pstats
+  from ruamel.yaml import YAML
+  yaml = YAML(typ="safe")
   
   options = Options()
   with open(SETTINGS_PATH) as f:
-    settings: dict = yaml.safe_load(f)
+    settings: dict = yaml.load(f)
     for option_name, option_value in settings.items():
       if option_name not in options.by_name:
         continue

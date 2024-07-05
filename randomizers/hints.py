@@ -2,7 +2,9 @@ import os
 from collections import Counter, deque
 from enum import Enum
 import math
-import yaml
+
+from ruamel.yaml import YAML
+yaml = YAML(typ="safe")
 
 from logic.logic import Logic
 from randomizers.base_randomizer import BaseRandomizer
@@ -440,11 +442,11 @@ class HintsRandomizer(BaseRandomizer):
     if HintsRandomizer.cryptic_item_hints and HintsRandomizer.cryptic_zone_hints and HintsRandomizer.location_hints:
       return
     with open(os.path.join(DATA_PATH, "progress_item_hints.txt"), "r") as f:
-      HintsRandomizer.cryptic_item_hints = yaml.safe_load(f)
+      HintsRandomizer.cryptic_item_hints = yaml.load(f)
     with open(os.path.join(DATA_PATH, "zone_name_hints.txt"), "r") as f:
-      HintsRandomizer.cryptic_zone_hints = yaml.safe_load(f)
+      HintsRandomizer.cryptic_zone_hints = yaml.load(f)
     with open(os.path.join(DATA_PATH, "location_hints.txt"), "r") as f:
-      HintsRandomizer.location_hints = yaml.safe_load(f)
+      HintsRandomizer.location_hints = yaml.load(f)
   
   @staticmethod
   def get_hint_item_name(item_name):

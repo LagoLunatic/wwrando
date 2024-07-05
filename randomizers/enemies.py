@@ -3,7 +3,9 @@ import os
 import copy
 import re
 import math
-import yaml
+
+from ruamel.yaml import YAML
+yaml = YAML(typ="safe")
 
 from randomizers.base_randomizer import BaseRandomizer
 from wwlib import stage_searcher
@@ -142,8 +144,8 @@ class EnemyRandomizer(BaseRandomizer):
     super().__init__(rando)
     
     with open(os.path.join(DATA_PATH, "enemy_types.txt"), "r") as f:
-      self.enemy_types = yaml.safe_load(f)
-      
+      self.enemy_types = yaml.load(f)
+    
     self.enemy_locations = Logic.load_and_parse_enemy_locations()
     
     # We must compile the human-written placement categories each enemy type is allowed in to account

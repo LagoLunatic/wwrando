@@ -3,11 +3,13 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
   from randomizer import WWRandomizer
 
-import yaml
 import re
 import copy
 import os
 from contextlib import contextmanager
+
+from ruamel.yaml import YAML
+yaml = YAML(typ="safe")
 
 from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS, DUNGEON_PROGRESS_ITEMS, DUNGEON_NONPROGRESS_ITEMS
 from wwrando_paths import LOGIC_PATH
@@ -627,7 +629,7 @@ class Logic:
       return copy.deepcopy(Logic.initial_item_locations)
     
     with open(os.path.join(LOGIC_PATH, "item_locations.txt")) as f:
-      item_locations = yaml.safe_load(f)
+      item_locations = yaml.load(f)
     
     for location_name in item_locations:
       req_string = item_locations[location_name]["Need"]
@@ -649,7 +651,7 @@ class Logic:
       return self.macros
     
     with open(os.path.join(LOGIC_PATH, "macros.txt")) as f:
-      macro_strings = yaml.safe_load(f)
+      macro_strings = yaml.load(f)
     
     self.macros = {}
     for macro_name, req_string in macro_strings.items():
@@ -1133,7 +1135,7 @@ class Logic:
   @staticmethod
   def load_and_parse_enemy_locations() -> dict[str, list[dict]]:
     with open(os.path.join(LOGIC_PATH, "enemy_locations.txt")) as f:
-      enemy_locations = yaml.safe_load(f)
+      enemy_locations = yaml.load(f)
     
     return enemy_locations
   

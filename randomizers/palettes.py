@@ -1,7 +1,9 @@
 
 import os
-import yaml
 from io import BytesIO
+
+from ruamel.yaml import YAML
+yaml = YAML(typ="safe")
 
 from gclib import fs_helpers as fs
 from gclib import texture_utils
@@ -23,7 +25,7 @@ class PaletteRandomizer(BaseRandomizer):
     super().__init__(rando)
     
     with open(os.path.join(DATA_PATH, "palette_randomizable_files.txt"), "r") as f:
-      self.palette_randomizable_files: list[dict] = yaml.safe_load(f)
+      self.palette_randomizable_files: list[dict] = yaml.load(f)
     
     self.file_group_name_to_hv_shift: dict[str, tuple] = {}
   

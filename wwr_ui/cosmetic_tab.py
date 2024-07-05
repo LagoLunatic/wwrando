@@ -8,12 +8,14 @@ if TYPE_CHECKING:
   from wwr_ui.randomizer_window import WWRandomizerWindow
 
 import os
-import yaml
 import random
 import colorsys
 import zipfile
 import shutil
 import traceback
+
+from ruamel.yaml import YAML
+yaml_dumper = YAML(typ="rt") # Use RoundTripDumper for pretty-formatted dumps.
 
 from wwrando_paths import ASSETS_PATH, CUSTOM_MODELS_PATH, RANDO_ROOT_PATH
 import customizer
@@ -627,7 +629,7 @@ class CosmeticTab(QWidget):
     custom_preset["is_casual"] = self.get_option_value("player_in_casual_clothes")
     
     with open(preset_path, "w") as f:
-      yaml.dump(custom_preset, f, default_flow_style=False, sort_keys=False)
+      yaml_dumper.dump(custom_preset, f)
     
     QMessageBox.information(
       self, "Custom colors saved",
@@ -640,7 +642,7 @@ class CosmeticTab(QWidget):
       return
     
     with open(preset_path) as f:
-      custom_preset = yaml.safe_load(f)
+      custom_preset = yaml_dumper.load(f)
     
     model_name = custom_preset["model_name"]
     custom_colors = custom_preset["colors"]

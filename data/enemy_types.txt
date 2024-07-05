@@ -15,8 +15,8 @@
   Death switch param name: disable_spawn_on_death_switch
   Path param name: path_index
   Allow near pits: True # Dies when falling in pits, but properly sets it death switch, so we allow it.
-  Can be killed with thrown objects: Yes # 3 hits
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # 3 hits
+  Can be killed with bomb flowers: True
 -
   Pretty name: Green ChuChu
   Actor name: c_green
@@ -34,8 +34,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True # TODO CHECK (they can jump off while trying to attack the player, but don't by themselves. do they die in the pit, or still count as a living enemy?)
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Red ChuChu
   Actor name: c_red
@@ -53,8 +53,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Yellow ChuChu
   Actor name: c_kiiro
@@ -72,8 +72,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Blue ChuChu
   Actor name: c_blue
@@ -91,8 +91,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Dark ChuChu
   Actor name: c_black
@@ -110,8 +110,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
 -
   Pretty name: Kargaroc
   Actor name: Bb
@@ -129,8 +129,8 @@
   Death switch param name: null
   Path param name: path_index
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Lantern Moblin
   Actor name: mo2
@@ -148,8 +148,8 @@
   Death switch param name: disable_spawn_on_death_switch
   Path param name: path_index
   Allow near pits: True # Dies instantly when over a pit. In vanilla it didn't set its death switch but this was fixed.
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Blue Moblin
   Actor name: mo2
@@ -167,8 +167,8 @@
   Death switch param name: disable_spawn_on_death_switch
   Path param name: path_index
   Allow near pits: True # Dies instantly when over a pit. In vanilla it didn't set its death switch but this was fixed.
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Peahat
   Actor name: p_hat
@@ -186,8 +186,8 @@
   Death switch param name: disable_spawn_on_death_switch
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Seahat
   Actor name: p_hat
@@ -205,8 +205,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
 -
   Pretty name: Armos Knight
   Actor name: amos
@@ -224,8 +224,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Armos
   Actor name: amos2
@@ -243,8 +243,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Inanimate Armos
   Actor name: amos2
@@ -262,8 +262,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
 -
   Pretty name: Dexivine
   Actor name: Sss
@@ -281,8 +281,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
   # Note: Cannot escape from a Dexivine that catches you without some weapon to cut it down.
 -
   Pretty name: Keese
@@ -301,8 +301,8 @@
   Death switch param name: null
   Path param name: path_index
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # 1 hit
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # 1 hit
+  Can be killed with bomb flowers: True
 -
   Pretty name: Fire Keese
   Actor name: Fkeeth
@@ -320,8 +320,8 @@
   Death switch param name: null
   Path param name: path_index
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Freshwater Octorok
   Actor name: Oq
@@ -339,8 +339,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
 -
   Pretty name: Saltwater Octorok
   Actor name: Oqw
@@ -358,8 +358,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
 -
   Pretty name: Saltwater Octorok Spawner
   Actor name: Oqw
@@ -377,8 +377,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
 -
   Pretty name: Wizzrobe
   Actor name: wiz_r
@@ -396,8 +396,8 @@
   Death switch param name: disable_spawn_on_death_switch
   Path param name: path_index
   Allow near pits: True
-  Can be killed with thrown objects: Yes # Takes two pots to kill.
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # Takes two pots to kill.
+  Can be killed with bomb flowers: True
 -
   Pretty name: ReDead
   Actor name: Rdead1
@@ -415,8 +415,8 @@
   Death switch param name: disable_spawn_on_death_switch # Param added by the randomizer
   Path param name: null
   Allow near pits: True # TODO CHECK (note that if they fall down a small ledge, they keep trying to return to their spawn point but can't because it's high up now)
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Sitting ReDead
   Actor name: Rdead2
@@ -434,8 +434,8 @@
   Death switch param name: disable_spawn_on_death_switch # Param added by the randomizer
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Poe
   Actor name: pow
@@ -453,8 +453,8 @@
   Death switch param name: null
   Path param name: path_index
   Allow near pits: False # If they happen to go over the edge, they float down into the pit and don't come back up. (e.g. in Cave01/Room1)
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
 -
   Pretty name: Chasing Morth
   Actor name: kuro_s
@@ -472,8 +472,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: False
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
   # Note: These don't count as being alive, if only morths are in a room the room will consider itself completed immediately.
 -
   Pretty name: Morth
@@ -492,8 +492,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: False
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
   # Note: These don't count as being alive, if only morths are in a room the room will consider itself completed immediately.
 -
   Pretty name: Miniblin
@@ -512,8 +512,8 @@
   Death switch param name: null # TODO irregular_switch acts as this for single miniblins, but it's buggy for permanent switches. perhaps we could make use of it, but replace the switch that's set with a temporary switch...?
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # 1 hit
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # 1 hit
+  Can be killed with bomb flowers: True
 -
   Pretty name: Rat
   Actor name: nezumi
@@ -531,8 +531,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: False # Rats run off by themselves, often before the player even sees them.
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Bombchu
   Actor name: nezumi
@@ -550,8 +550,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: False # Rats run off by themselves, often before the player even sees them.
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
 -
   Pretty name: Rat Hole
   Actor name: nezuana
@@ -569,8 +569,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: False # Rats run off by themselves, often before the player even sees them.
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Bombchu Hole
   Actor name: nezuana
@@ -588,8 +588,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: False # Rats run off by themselves, often before the player even sees them.
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
 -
   Pretty name: Rat and Bombchu Hole
   Actor name: nezuana
@@ -607,8 +607,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: False # Rats run off by themselves, often before the player even sees them.
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
 -
   Pretty name: Stalfos
   Actor name: Stal
@@ -626,8 +626,8 @@
   Death switch param name: disable_spawn_on_death_switch
   Path param name: null
   Allow near pits: True # Dies instantly when over a pit. In vanilla it didn't set its death switch but this was fixed. TODO: Still doesn't die in lava pits though.
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Darknut
   Actor name: Tn
@@ -645,8 +645,8 @@
   Death switch param name: disable_spawn_on_death_switch
   Path param name: path_index
   Allow near pits: True # Dies instantly when over a pit. In vanilla it didn't set its death switch but this was fixed.
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
 -
   Pretty name: Boko Baba
   Actor name: bbaba
@@ -664,8 +664,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: No # Needs 2 hits, but it's not possible to throw the second one fast enough
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: False # Needs 2 hits, but it's not possible to throw the second one fast enough
+  Can be killed with bomb flowers: True
 -
   Pretty name: Boko Bud Boko Baba
   Actor name: bbaba
@@ -683,8 +683,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
 -
   Pretty name: Magtail
   Actor name: magtail
@@ -702,8 +702,8 @@
   Death switch param name: disable_spawn_on_death_switch
   Path param name: path_index
   Allow near pits: False # If it falls in the sea, it dies, but doesn't set its death switch. TODO: try to code it to set that properly. also TODO: I assume these work in lava pits? if so, I may need to separate lava vs sea pits into separate conditions.
-  Can be killed with thrown objects: No # They do take damage from thrown objects, but it's annoying to hit them and just two objects isn't enough to kill it, so don't make this required.
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: False # They do take damage from thrown objects, but it's annoying to hit them and just two objects isn't enough to kill it, so don't make this required.
+  Can be killed with bomb flowers: True
 -
   Pretty name: Red Bubble
   Actor name: bable
@@ -721,8 +721,8 @@
   Death switch param name: null
   Path param name: path_index
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: No
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: False
+  Can be killed with bomb flowers: True
 -
   Pretty name: Blue Bubble
   Actor name: bable
@@ -740,8 +740,8 @@
   Death switch param name: null
   Path param name: path_index
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Inanimate Bubble
   Actor name: bable
@@ -759,8 +759,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
 -
   Pretty name: Wingless Mothula
   Actor name: gmos
@@ -778,8 +778,8 @@
   Death switch param name: disable_spawn_on_death_switch
   Path param name: null
   Allow near pits: False # They don't die in pits.
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Winged Mothula
   Actor name: gmos
@@ -797,8 +797,8 @@
   Death switch param name: disable_spawn_on_death_switch
   Path param name: null
   Allow near pits: False # They turn into wingless ones, which then don't die in pits.
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: Yes
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: True
 -
   Pretty name: Cross-Sector Gyorg Spawner
   Actor name: GyCtrl
@@ -816,8 +816,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
 -
   Pretty name: Gyorg Spawner
   Actor name: GyCtrlB
@@ -835,8 +835,8 @@
   Death switch param name: null
   Path param name: null
   Allow near pits: True
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False
 #-
 #  Pretty name: Blue Beamos
 #  Actor name: Hmos1
@@ -898,8 +898,8 @@
   Death switch param name: null
   Path param name: path_index
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No # Floormasters actually can be killed by bombs but this is annoying to do.
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False # Floormasters actually can be killed by bombs but this is annoying to do.
 -
   Pretty name: Floormaster
   Actor name: Fmastr2
@@ -917,5 +917,5 @@
   Death switch param name: null
   Path param name: path_index
   Allow near pits: True # TODO CHECK
-  Can be killed with thrown objects: Yes # TODO CHECK
-  Can be killed with bomb flowers: No # Floormasters actually can be killed by bombs but this is annoying to do.
+  Can be killed with thrown objects: True # TODO CHECK
+  Can be killed with bomb flowers: False # Floormasters actually can be killed by bombs but this is annoying to do.

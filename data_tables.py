@@ -1,12 +1,13 @@
 
 import os
-import yaml
+from ruamel.yaml import YAML
+yaml = YAML(typ="safe")
 
 from wwrando_paths import DATA_PATH
 
 def read_actor_info():
   with open(os.path.join(DATA_PATH, "actor_info.txt"), "r") as f:
-    actor_info = yaml.safe_load(f)
+    actor_info = yaml.load(f)
   
   actor_name_to_class_name = {}
   for actor_name, actor_info in actor_info.items():
@@ -20,7 +21,7 @@ def read_actor_info():
 
 def read_actor_params():
   with open(os.path.join(DATA_PATH, "actor_parameters.txt"), "r") as f:
-    case_sensitive_actor_parameters = yaml.safe_load(f)
+    case_sensitive_actor_parameters = yaml.load(f)
   
   actor_parameters = {}
   for class_name, params in case_sensitive_actor_parameters.items():

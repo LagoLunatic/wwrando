@@ -7,10 +7,14 @@ from wwr_ui.update_checker import check_for_updates, LATEST_RELEASE_DOWNLOAD_PAG
 from wwr_ui.inventory import INVENTORY_ITEMS, DEFAULT_STARTING_ITEMS, DEFAULT_RANDOMIZED_ITEMS
 
 import os
-import yaml
+import sys
 import traceback
 from enum import StrEnum
 from collections import Counter
+
+from ruamel.yaml import YAML
+from ruamel.yaml.error import YAMLError
+yaml_dumper = YAML(typ="rt") # Use RoundTripDumper for pretty-formatted dumps.
 
 from options.wwrando_options import Options, SwordMode
 from randomizer import WWRandomizer, TooFewProgressionLocationsError, InvalidCleanISOError, PermalinkWrongVersionError, PermalinkWrongCommitError
@@ -351,15 +355,14 @@ class WWRandomizerWindow(QMainWindow):
     if os.path.isfile(SETTINGS_PATH):
       try:
         with open(SETTINGS_PATH) as f:
-          self.settings = yaml.safe_load(f)
-      except yaml.error.YAMLError as e:
+          self.settings = yaml_dumper.load(f)
+      except YAMLError as e:
         QMessageBox.critical(
           self, "Invalid settings.txt",
           "Failed to load settings from settings.txt.\n\n"
           "Remove the corrupted settings.txt before trying to load the randomizer again.\n"
         )
-        self.close()
-        return
+        sys.exit(1)
       if self.settings is None:
         self.settings = {}
     else:
@@ -383,7 +386,7 @@ class WWRandomizerWindow(QMainWindow):
   
   def save_settings(self):
     with open(SETTINGS_PATH, "w") as f:
-      yaml.dump(self.settings, f, default_flow_style=False, sort_keys=False)
+      yaml_dumper.dump(self.settings, f)
   
   def update_settings(self):
     self.settings["clean_iso_path"] = self.ui.clean_iso_path.text()
@@ -836,8 +839,8 @@ class UpdateCheckerThread(QThread):
     new_version = check_for_updates()
     self.finished_checking_for_updates.emit(new_version)
 
-# Allows PyYAML to dump StrEnums as strings.
-yaml.Dumper.add_multi_representer(
+# Allows yaml to dump StrEnums as strings.
+yaml_dumper.representer.add_multi_representer(
   StrEnum,
   lambda dumper, data: dumper.represent_scalar('tag:yaml.org,2002:str', str(data.value))
 )

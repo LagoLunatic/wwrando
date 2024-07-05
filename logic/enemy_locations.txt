@@ -3,7 +3,7 @@
 # Outset Island Fairy Woods
 A_mori:
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Bokoblins
 #    & Can Defeat Kargarocs
@@ -29,7 +29,7 @@ A_mori:
 #      Placement category: Air
 #      Path: A_mori/Room0.arc/Layer0/Actor007
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Morths
     & Can Defeat Mothulas
@@ -72,7 +72,7 @@ A_mori:
       Placement category: Ground
       Path: A_mori/Room0.arc/Layer2/Actor008
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Morths
 #    & Can Defeat Mothulas
@@ -115,7 +115,7 @@ A_mori:
 #      Placement category: Ground
 #      Path: A_mori/Room0.arc/Layer3/Actor008
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Mothulas
 #  Enemies:
@@ -128,10 +128,10 @@ A_mori:
 # Submarines
 Abship:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Five-Star Isles - Submarine"
-  Has throwable objects: Yes # 6 pots # TODO: less objects than enemies
+  Has throwable objects: True # 6 pots # TODO: less objects than enemies
   Actors to replace with ALLdies:
     - Abship/Room0.arc/Actor005
   Enemies:
@@ -172,10 +172,10 @@ Abship:
       Placement category: Ceiling
       Path: Abship/Room0.arc/Actor00D
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Six-Eye Reef - Submarine"
-  Has throwable objects: Yes # 6 barrels # TODO: there's less objects than enemies. how to handle this? guarantee at least one of the placed enemies has a weapon you can steal?
+  Has throwable objects: True # 6 barrels # TODO: there's less objects than enemies. how to handle this? guarantee at least one of the placed enemies has a weapon you can steal?
   Actors to replace with ALLdies:
     - Abship/Room1.arc/Actor006
   Enemies:
@@ -218,10 +218,10 @@ Abship:
       Placement category: Pot
       Path: Abship/Room1.arc/Actor012
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Bomb Island - Submarine"
-  Has throwable objects: Yes # 4 barrels and 2 pots # TODO: less objects than enemies
+  Has throwable objects: True # 4 barrels and 2 pots # TODO: less objects than enemies
   Actors to replace with ALLdies:
     - Abship/Room2.arc/Actor005
   Enemies:
@@ -254,7 +254,7 @@ Abship:
       Placement category: Ground
       Path: Abship/Room2.arc/Actor007
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Moblins
   Enemies:
@@ -275,7 +275,7 @@ Abship:
       Placement category: Ground
       Path: Abship/Room4.arc/Actor00A
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Bombchus
     & Can Defeat Rats
@@ -297,7 +297,7 @@ Abship:
       Placement category: Ground
       Path: Abship/Room5.arc/Actor003
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Wizzrobes at Range
@@ -369,7 +369,7 @@ Abship:
       Path: Abship/Room6.arc/Actor013
       Position: [-300, -1000, -1700]
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Miniblins
   Free memory: 1142496
@@ -432,7 +432,7 @@ Abship:
 # Bomb Island Cave
 Cave01:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Bomb Island - Cave"
   Actors to replace with ALLdies:
@@ -449,7 +449,7 @@ Cave01:
       Path: Cave01/Room0.arc/Actor002
       Position: [-1700, -200, 700]
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Bomb Island - Cave"
   Actors to replace with ALLdies:
@@ -466,7 +466,7 @@ Cave01:
       Path: Cave01/Room1.arc/Actor00A
       Position: [2500, -50, 800]
 #- # Unused layer
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Magtails
 #  Enemies:
@@ -479,7 +479,7 @@ Cave01:
 # Star Island Cave
 Cave02:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Star Island - Cave"
   Enemies:
@@ -530,7 +530,7 @@ Cave02:
 # Cliff Plateau Isles Cave
 Cave03:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Boko Babas
   Enemies:
@@ -551,7 +551,7 @@ Cave03:
 # Rock Spire Isle Cave
 Cave04:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Keese
   Free memory: 1429984
@@ -669,7 +669,7 @@ Cave04:
 # Horseshoe Island Cave
 Cave05:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Mothulas
     & Can Defeat Winged Mothulas
@@ -691,7 +691,7 @@ Cave05:
 # Pawprint Isle Wizzrobe Cave
 Cave07:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Pawprint Isle - Wizzrobe Cave"
   Enemies:
@@ -730,7 +730,7 @@ Cave07:
 # Savage Labyrinth
 Cave09:
 - # Floor 1
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Free memory: 1511488
@@ -776,7 +776,7 @@ Cave09:
       Placement category: Air
       Path: Cave09/Room1.arc/Actor00B
 - # Floor 2
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -805,7 +805,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room2.arc/Actor007
 - # Floor 3
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -826,7 +826,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room3.arc/Actor005
 - # Floor 4
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -855,7 +855,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room4.arc/Actor007
 - # Floor 5
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -876,7 +876,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room5.arc/Actor004
 - # Floor 6
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -913,7 +913,7 @@ Cave09:
       Placement category: Air
       Path: Cave09/Room11.arc/Actor009
 - # Floor 7
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -942,7 +942,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room12.arc/Actor007
 - # Floor 8
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -971,7 +971,7 @@ Cave09:
       Placement category: Air
       Path: Cave09/Room13.arc/Actor007
 - # Floor 9
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -984,7 +984,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room14.arc/Actor003
 - # Floor 21
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1001,7 +1001,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room6.arc/Actor004
 - # Floor 22
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1022,7 +1022,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room7.arc/Actor005
 - # Floor 23
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1035,7 +1035,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room8.arc/Actor002
 - # Floor 24
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1064,7 +1064,7 @@ Cave09:
       Placement category: Pot
       Path: Cave09/Room9.arc/Actor007
 - # Floor 25
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1085,7 +1085,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room10.arc/Actor005
 - # Floor 26
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1102,7 +1102,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room16.arc/Actor004
 - # Floor 27
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1123,7 +1123,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room17.arc/Actor005
 - # Floor 28
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1144,7 +1144,7 @@ Cave09:
       Placement category: Ground
       Path: Cave09/Room18.arc/Actor005
 - # Floor 29
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1161,7 +1161,7 @@ Cave09:
 # Savage Labyrinth
 Cave10:
 - # Floor 11
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1190,7 +1190,7 @@ Cave10:
       Placement category: Air
       Path: Cave10/Room1.arc/Actor007
 - # Floor 12
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1211,7 +1211,7 @@ Cave10:
       Placement category: Ceiling
       Path: Cave10/Room2.arc/Actor005
 - # Floor 13
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1236,7 +1236,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room3.arc/Actor006
 - # Floor 14
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1257,7 +1257,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room4.arc/Actor005
 - # Floor 15
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1282,7 +1282,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room5.arc/Actor006
 - # Floor 16
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1311,7 +1311,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room11.arc/Actor007
 - # Floor 17
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1348,7 +1348,7 @@ Cave10:
       Placement category: Pot
       Path: Cave10/Room12.arc/Actor00C
 - # Floor 18
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1373,7 +1373,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room13.arc/Actor006
 - # Floor 19
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 30"
   Enemies:
@@ -1386,7 +1386,7 @@ Cave10:
       Placement category: Air
       Path: Cave10/Room14.arc/Actor003
 - # Floor 41
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Free memory: 1424976
@@ -1488,7 +1488,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room6.arc/Actor019
 - # Floor 42
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Free memory: 1424976
@@ -1614,7 +1614,7 @@ Cave10:
       Placement category: Ceiling
       Path: Cave10/Room7.arc/Actor01F
 - # Floor 43
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
@@ -1639,7 +1639,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room8.arc/Actor006
 - # Floor 44
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Free memory: 1417936
@@ -1709,7 +1709,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room9.arc/Actor011
 - # Floor 45
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
@@ -1738,7 +1738,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room10.arc/Actor007
 - # Floor 46
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
@@ -1763,7 +1763,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room16.arc/Actor006
 - # Floor 47
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
@@ -1788,7 +1788,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room17.arc/Actor006
 - # Floor 48
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
@@ -1805,7 +1805,7 @@ Cave10:
       Placement category: Ground
       Path: Cave10/Room18.arc/Actor008
 - # Floor 49
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
@@ -1830,7 +1830,7 @@ Cave10:
 # Savage Labyrinth
 Cave11:
 - # Floor 31
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
@@ -1859,7 +1859,7 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room1.arc/Actor007
 - # Floor 32
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
@@ -1884,7 +1884,7 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room2.arc/Actor006
 - # Floor 33
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
@@ -1913,7 +1913,7 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room3.arc/Actor007
 - # Floor 34
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
@@ -1938,7 +1938,7 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room4.arc/Actor006
 - # Floor 35
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
@@ -1955,7 +1955,7 @@ Cave11:
       Placement category: Air
       Path: Cave11/Room5.arc/Actor004
 - # Floor 36
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
@@ -1980,7 +1980,7 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room11.arc/Actor006
 - # Floor 37
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
@@ -2009,7 +2009,7 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room12.arc/Actor006
 - # Floor 38
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
@@ -2042,7 +2042,7 @@ Cave11:
       Placement category: Ground
       Path: Cave11/Room13.arc/Actor008
 - # Floor 39
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Outset Island - Savage Labyrinth - Floor 50"
   Enemies:
@@ -2072,7 +2072,7 @@ Cave11:
       Path: Cave11/Room14.arc/Actor007
 # Bunch of unused floors below:
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Magtails
 #  Enemies:
@@ -2089,7 +2089,7 @@ Cave11:
 #      Placement category: Ground
 #      Path: Cave11/Room6.arc/Actor004
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Fire Keese
 #  Enemies:
@@ -2122,7 +2122,7 @@ Cave11:
 #      Placement category: Air
 #      Path: Cave11/Room7.arc/Actor008
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Bokoblins
 #  Enemies:
@@ -2143,7 +2143,7 @@ Cave11:
 #      Placement category: Ground
 #      Path: Cave11/Room8.arc/Actor004
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Darknuts
 #  Enemies:
@@ -2164,7 +2164,7 @@ Cave11:
 #      Placement category: Ground
 #      Path: Cave11/Room9.arc/Actor005
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Yellow ChuChus
 #  Enemies:
@@ -2193,7 +2193,7 @@ Cave11:
 #      Placement category: Ceiling
 #      Path: Cave11/Room16.arc/Actor005
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Armos
 #  Enemies:
@@ -2214,7 +2214,7 @@ Cave11:
 #      Placement category: Ground
 #      Path: Cave11/Room17.arc/Actor003
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Armos Knights
 #  Enemies:
@@ -2227,7 +2227,7 @@ Cave11:
 #      Placement category: Ground
 #      Path: Cave11/Room18.arc/Actor001
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Darknuts
 #  Enemies:
@@ -2244,7 +2244,7 @@ Cave11:
 # Ganon's Tower Entrance
 GanonA:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -2269,7 +2269,7 @@ GanonA:
 # Ganon's Tower Before Gohma Rematch
 GanonB:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Red Bubbles
   Enemies:
@@ -2294,7 +2294,7 @@ GanonB:
 # Ganon's Tower Before Molgera Rematch
 GanonC:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Bokoblins
@@ -2316,7 +2316,7 @@ GanonC:
 # Ganon's Tower Before Kalle Demos Rematch
 GanonD:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Peahats
   Enemies:
@@ -2333,7 +2333,7 @@ GanonD:
 # Ganon's Tower Before Jalhalla Rematch
 GanonE:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Red Bubbles
     & Can Defeat Poes
@@ -2369,7 +2369,7 @@ GanonE:
       Placement category: Ground
       Path: GanonE/Room0.arc/Actor042
 #- # Unused layer
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Stalfos
 #  Enemies:
@@ -2382,7 +2382,7 @@ GanonE:
 # Ganon's Tower Maze
 GanonJ:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Moblins
   Enemies:
@@ -2411,10 +2411,10 @@ GanonJ:
       Placement category: Ground
       Path: GanonJ/Room0.arc/Actor00A
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Bokoblins
-  Has throwable objects: Yes # 12 pots # TODO: less objects than enemies
+  Has throwable objects: True # 12 pots # TODO: less objects than enemies
   Free memory: 1295088
   Enemies:
     -
@@ -2482,7 +2482,7 @@ GanonJ:
       Placement category: Ground
       Path: GanonJ/Room3.arc/Actor01B
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Darknuts
   Enemies:
@@ -2499,7 +2499,7 @@ GanonJ:
       Placement category: Ground
       Path: GanonJ/Room6.arc/Actor00D
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Miniblins
@@ -2539,7 +2539,7 @@ GanonJ:
       Placement category: Ground
       Path: GanonJ/Room9.arc/Actor016
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -2552,7 +2552,7 @@ GanonJ:
 # Ganon's Tower Puppet Ganon
 GanonK:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Morths
   Enemies:
@@ -2573,7 +2573,7 @@ GanonK:
 # Ganon's Tower Stairs To Puppet Ganon
 GanonL:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Darknuts
@@ -2607,7 +2607,7 @@ GanonL:
 # Ganon's Tower Stairs To Phantom Ganon
 GanonN:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Miniblins
   Enemies:
@@ -2636,7 +2636,7 @@ GanonN:
 # Hyrule Castle Interior
 Hyroom:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Darknuts
@@ -2711,7 +2711,7 @@ Hyroom:
       Placement category: Ground
       Path: Hyroom/Room0.arc/Layer0/Actor010
 #-
-#  Must defeat enemies: No
+#  Must defeat enemies: False
 #  Original requirements:
 #    Can Defeat Moblins
 #    & Can Defeat Darknuts
@@ -2786,7 +2786,7 @@ Hyroom:
 #      Placement category: Ground
 #      Path: Hyroom/Room0.arc/Layer1/Actor010
 #-
-#  Must defeat enemies: No
+#  Must defeat enemies: False
 #  Original requirements:
 #    Can Defeat Moblins
 #    & Can Defeat Darknuts
@@ -2865,7 +2865,7 @@ Hyroom:
 # Master Sword Chamber
 kenroom:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Darknuts
   Actors to remove:
@@ -2881,7 +2881,7 @@ kenroom:
       Placement category: Ground
       Path: kenroom/Room0.arc/Actor00A
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Darknuts
 #  Enemies:
@@ -2898,7 +2898,7 @@ kenroom:
 # Hyrule Castle
 Hyrule:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Peahats
@@ -2960,7 +2960,7 @@ Hyrule:
       Placement category: Ground
       Path: Hyrule/Room0.arc/Layer4/Actor00C
 #-
-#  Must defeat enemies: No
+#  Must defeat enemies: False
 #  Original requirements:
 #    Can Defeat Moblins
 #    & Can Defeat Peahats
@@ -3026,7 +3026,7 @@ Hyrule:
 # Ice Ring Isle Inner Cave
 ITest62:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Ice Ring Isle - Inner Cave - Chest"
   Enemies:
@@ -3055,7 +3055,7 @@ ITest62:
 # Shark Island Cave
 ITest63:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Shark Island - Cave"
   Free memory: 1411392
@@ -3242,7 +3242,7 @@ ITest63:
 # Forsaken Fortress Tower (2nd visit)
 M2tower:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -3267,7 +3267,7 @@ M2tower:
 # Earth Temple
 M_Dai:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Moblins
   Enemies:
@@ -3284,7 +3284,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room1.arc/Actor006
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Red ChuChus
     & Can Defeat Green ChuChus
@@ -3327,7 +3327,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room2.arc/Actor018
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Floormasters
     & Can Defeat Red Bubbles
@@ -3349,7 +3349,7 @@ M_Dai:
       Placement category: Air
       Path: M_Dai/Room4.arc/Actor007
 -
-  Must defeat enemies: Yes # Beating the enemies isn't technically required but they can get in the way of solving the puzzle.
+  Must defeat enemies: True # Beating the enemies isn't technically required but they can get in the way of solving the puzzle.
   Original requirements:
     Can Defeat Green ChuChus
     & Can Defeat Red ChuChus
@@ -3393,7 +3393,7 @@ M_Dai:
       Placement category: Ceiling:ChecksConditionSwitch
       Path: M_Dai/Room5.arc/Actor014
 -
-  Must defeat enemies: Yes # Not strictly necessary but the enemy can get in the way.
+  Must defeat enemies: True # Not strictly necessary but the enemy can get in the way.
   Original requirements:
     Fire Arrows
     & Can Defeat Floormasters
@@ -3403,7 +3403,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room6.arc/Actor004
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Fire Arrows
     & Can Defeat Floormasters
@@ -3425,7 +3425,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room7.arc/Actor00F
 -
-  Must defeat enemies: Yes # Not needed just to get the item, but is necessary to make the ladder fall and escape from the room without saving and reloading.
+  Must defeat enemies: True # Not needed just to get the item, but is necessary to make the ladder fall and escape from the room without saving and reloading.
   Original requirements:
     Fire Arrows
     & Can Defeat Floormasters
@@ -3444,7 +3444,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room8.arc/Actor009
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Blue Bubbles
     & Can Defeat Red Bubbles
@@ -3471,7 +3471,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room9.arc/Actor017
 -
-  Must defeat enemies: Yes # Not technically necessary, but some enemies can get in the way of aiming the light reflections.
+  Must defeat enemies: True # Not technically necessary, but some enemies can get in the way of aiming the light reflections.
   Original requirements:
     Can Defeat ReDeads
   Enemies:
@@ -3484,10 +3484,10 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room10.arc/Actor004
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Floormasters
-  #Has throwable objects: Yes # 16 skulls
+  #Has throwable objects: True # 16 skulls
   Enemies:
     -
       Original enemy: Floormaster
@@ -3514,7 +3514,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room11.arc/Actor005
 -
-  Must defeat enemies: Yes # Not technically necessary, but reflecting the light with Medli is basically impossible with any of the enemies in the main part of the room still alive.
+  Must defeat enemies: True # Not technically necessary, but reflecting the light with Medli is basically impossible with any of the enemies in the main part of the room still alive.
   Original requirements:
     Can Defeat Poes
     & Can Defeat Floormasters
@@ -3553,7 +3553,7 @@ M_Dai:
       Placement category: Air
       Path: M_Dai/Room13.arc/Actor014
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat ReDeads
     & Can Defeat Keese
@@ -3596,7 +3596,7 @@ M_Dai:
       Placement category: Air
       Path: M_Dai/Room14.arc/Actor019
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Floormasters
   Enemies:
@@ -3613,7 +3613,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room15.arc/Actor005
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Blue Bubbles
     & Can Defeat Darknuts
@@ -3631,7 +3631,7 @@ M_Dai:
       Placement category: Ground
       Path: M_Dai/Room17.arc/Actor00C
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Stalfos
   Enemies:
@@ -3652,7 +3652,7 @@ M_Dai:
 # Earth Temple Stalfos Miniboss Room
 M_DaiMB:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Stalfos
   Enemies:
@@ -3673,10 +3673,10 @@ M_DaiMB:
 # Dragon Roost Cavern Moblin Miniboss Room
 M_Dra09:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Nothing
-  Has throwable objects: Yes # 8 pots
+  Has throwable objects: True # 8 pots
   Enemies:
     -
       Original enemy: Kargaroc # More accurately, a Kargaroc that drops a Moblin
@@ -3697,7 +3697,7 @@ M_Dra09:
 # Dragon Roost Cavern
 M_NewD2:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
   Free memory: 995888
@@ -3715,7 +3715,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room0.arc/Actor001
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Red ChuChus
@@ -3757,7 +3757,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room1.arc/Actor00B
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Keese
     & Can Defeat Fire Keese
@@ -3780,7 +3780,7 @@ M_NewD2:
       Placement category: Air
       Path: M_NewD2/Room2.arc/Actor028
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Bokoblins
@@ -3798,7 +3798,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room3.arc/Actor00D
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Keese
   Enemies:
@@ -3823,10 +3823,10 @@ M_NewD2:
       Placement category: Ceiling
       Path: M_NewD2/Room4.arc/Actor018
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Nothing
-  Has throwable objects: Yes # 27 pots
+  Has throwable objects: True # 27 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -3841,10 +3841,10 @@ M_NewD2:
       Placement category: Pot
       Path: M_NewD2/Room6.arc/Actor021
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Nothing
-  Has throwable objects: Yes # 7 pots on the top level, 2 pots on the bottom level
+  Has throwable objects: True # 7 pots on the top level, 2 pots on the bottom level
   # TODO: need a stick to cut the ropes!
   Actors to replace with ALLdies:
     - M_NewD2/Room7.arc/Actor010
@@ -3868,7 +3868,7 @@ M_NewD2:
       Path: M_NewD2/Room7.arc/Actor00F
       Position offset: [0, -500, 0]
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Magtails
   Enemies:
@@ -3877,7 +3877,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room8.arc/Actor008
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Magtails
   Enemies:
@@ -3886,7 +3886,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room10.arc/Actor00D
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Red ChuChus
@@ -3917,7 +3917,7 @@ M_NewD2:
       Placement category: Ceiling
       Path: M_NewD2/Room11.arc/Actor00E
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Magtails
   Actors to replace with ALLdies:
@@ -3930,7 +3930,7 @@ M_NewD2:
       Position: [5647, -200, -2800]
       Y Rotation: 0xA1C0
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Red ChuChus
   Enemies:
@@ -3939,7 +3939,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room13.arc/Actor00A
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Rats
   Enemies:
@@ -3948,7 +3948,7 @@ M_NewD2:
       Placement category: Ground
       Path: M_NewD2/Room14.arc/Actor00B
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Fire Keese
   Enemies:
@@ -3961,7 +3961,7 @@ M_NewD2:
       Placement category: Air
       Path: M_NewD2/Room15.arc/Actor008
 #- # Unused room
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Magtails
 #  Enemies:
@@ -3974,7 +3974,7 @@ M_NewD2:
 # Forsaken Fortress Exterior (1st visit)
 #MajyuE: # Inaccessible in rando
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Bokoblins
 #    & Can Defeat Moblins
@@ -4000,7 +4000,7 @@ M_NewD2:
 #      Placement category: Ground
 #      Path: MajyuE/Room0.arc/Actor015
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Floormasters
 #  Enemies:
@@ -4017,7 +4017,7 @@ M_NewD2:
 # Ice Ring Isle Cave
 MiniHyo:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Keese
   Free memory: 1351456
@@ -4039,7 +4039,7 @@ MiniHyo:
 # Fire Mountain Cave
 MiniKaz:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Magtails
   Free memory: 1200304
@@ -4089,7 +4089,7 @@ MiniKaz:
 # Ghost Ship
 PShip:
 #- # Unused room
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat ReDeads
 #    & Can Defeat Wizzrobes
@@ -4107,7 +4107,7 @@ PShip:
 #      Placement category: Ground
 #      Path: PShip/Room0.arc/Actor00C
 #- # Unused room
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Red Bubbles
 #  Enemies:
@@ -4120,7 +4120,7 @@ PShip:
 #      Placement category: Ground
 #      Path: PShip/Room0.arc/Layer8/Actor001
 #- # Unused room
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Wizzrobes
 #  Enemies:
@@ -4129,7 +4129,7 @@ PShip:
 #      Placement category: Ground
 #      Path: PShip/Room1.arc/Actor00B
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Poes
@@ -4151,7 +4151,7 @@ PShip:
 # Tower of the Gods
 Siren:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Yellow ChuChus
   Enemies:
@@ -4164,7 +4164,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room0.arc/Actor009
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Armos
     & Can Defeat Red Bubbles
@@ -4182,7 +4182,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room1.arc/Actor004
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Yellow ChuChus
   Enemies:
@@ -4203,7 +4203,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room2.arc/Actor007
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Yellow ChuChus
   Enemies:
@@ -4232,7 +4232,7 @@ Siren:
       Placement category: Ceiling
       Path: Siren/Room3.arc/Actor018
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Yellow ChuChus
   Enemies:
@@ -4241,7 +4241,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room4.arc/Actor00A
 -
-  Must defeat enemies: Yes # You don't have to be able to beat the enemies technically, but they can get in the way of solving the puzzle if you can't.
+  Must defeat enemies: True # You don't have to be able to beat the enemies technically, but they can get in the way of solving the puzzle if you can't.
   Original requirements:
     Can Defeat Yellow ChuChus
   Enemies:
@@ -4266,7 +4266,7 @@ Siren:
       Placement category: Ceiling
       Path: Siren/Room5.arc/Actor014
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Rats
   Enemies:
@@ -4279,7 +4279,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room6.arc/Actor007
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Keese
     & Can Defeat Wizzrobes
@@ -4297,7 +4297,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room8.arc/Actor010
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Red Bubbles
   Enemies:
@@ -4310,7 +4310,7 @@ Siren:
       Placement category: Air
       Path: Siren/Room9.arc/Actor00E
 -
-  Must defeat enemies: Yes # Not technically needed but the enemies can interfere with carrying the Servant of the Tower across.
+  Must defeat enemies: True # Not technically needed but the enemies can interfere with carrying the Servant of the Tower across.
   Original requirements:
     Can Defeat Yellow ChuChus
     & Can Defeat Armos
@@ -4341,7 +4341,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room11.arc/Actor00C
 -
-  Must defeat enemies: Yes # Not necessary but they can interfere with carrying the Servant of the Tower
+  Must defeat enemies: True # Not necessary but they can interfere with carrying the Servant of the Tower
   Original requirements:
     Can Defeat Armos
     & Can Defeat Red Bubbles
@@ -4359,7 +4359,7 @@ Siren:
       Placement category: Air
       Path: Siren/Room14.arc/Actor008
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Armos
   Actors to replace with ALLdies:
@@ -4374,7 +4374,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room17.arc/Actor00A
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Kargarocs
   Enemies:
@@ -4387,7 +4387,7 @@ Siren:
       Placement category: Air
       Path: Siren/Room18.arc/Actor003
 -
-  Must defeat enemies: No # Chest appears when playing Wind's Requiem
+  Must defeat enemies: False # Chest appears when playing Wind's Requiem
   Original requirements:
     Can Defeat Armos Knights
   Enemies:
@@ -4400,7 +4400,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room21.arc/Actor001
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Armos Knights
   Enemies:
@@ -4413,7 +4413,7 @@ Siren:
       Placement category: Ground
       Path: Siren/Room22.arc/Actor001
 #- # Unused miniboss room
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Darknuts
 #  Enemies:
@@ -4426,7 +4426,7 @@ Siren:
 # Tower of the Gods Darknut Miniboss Room
 SirenMB:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Darknuts
   Actors to remove:
@@ -4443,7 +4443,7 @@ SirenMB:
 # Boating Course Cave
 SubD71:
 -
-  Must defeat enemies: Yes # Killing the enemies is not necessary, but hitting the switches without being able to kill them could be very annoying depending on what the enemies are.
+  Must defeat enemies: True # Killing the enemies is not necessary, but hitting the switches without being able to kill them could be very annoying depending on what the enemies are.
   Original requirements:
     Can Defeat Miniblins
   Free memory: 1399856
@@ -4507,7 +4507,7 @@ SubD71:
       Placement category: Ground
       Path: SubD71/Room0.arc/Actor011
 #- # Unused layer
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Miniblins
 #  Enemies:
@@ -4516,7 +4516,7 @@ SubD71:
 #      Placement category: Ground
 #      Path: SubD71/Room0.arc/Layerb/Actor000
 #- # Unused room
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Red Bubbles
 #    & Can Defeat Wizzrobes
@@ -4543,7 +4543,7 @@ SubD71:
 #      Placement category: Ground
 #      Path: SubD71/Room1.arc/Actor00F
 #- # Unused room
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Stalfos
 #  Enemies:
@@ -4572,7 +4572,7 @@ SubD71:
 #      Placement category: Ground
 #      Path: SubD71/Room1.arc/Layer8/Actor009
 #- # Unused room
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Stalfos
 #    & Can Defeat Poes
@@ -4599,7 +4599,7 @@ SubD71:
 #      Placement category: Ground
 #      Path: SubD71/Room2.arc/Actor010
 #- # Unused room
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat ReDeads
 #    & Can Defeat Red Bubbles
@@ -4642,7 +4642,7 @@ SubD71:
 # Stone Watcher Island Cave
 TF_01:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Stone Watcher Island - Cave"
   Existing actors to modify:
@@ -4668,7 +4668,7 @@ TF_01:
       Placement category: Ground
       Path: TF_01/Room1.arc/Actor002
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Stone Watcher Island - Cave"
   Enemies:
@@ -4693,7 +4693,7 @@ TF_01:
       Placement category: Ground
       Path: TF_01/Room2.arc/Actor004
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Stone Watcher Island - Cave"
   Enemies:
@@ -4710,7 +4710,7 @@ TF_01:
       Placement category: Ground
       Path: TF_01/Room3.arc/Actor002
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Stone Watcher Island - Cave"
   Enemies:
@@ -4731,7 +4731,7 @@ TF_01:
       Placement category: Ground
       Path: TF_01/Room4.arc/Actor003
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Stone Watcher Island - Cave"
   Enemies:
@@ -4748,7 +4748,7 @@ TF_01:
 # Overlook Island Cave
 TF_02:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Overlook Island - Cave"
   Enemies:
@@ -4769,10 +4769,10 @@ TF_02:
       Placement category: Ground:ChecksConditionSwitch
       Path: TF_02/Room1.arc/Actor00C
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Overlook Island - Cave"
-  Has throwable objects: Yes # 5 pots, 5 enemies
+  Has throwable objects: True # 5 pots, 5 enemies
   Enemies:
     -
       Original enemy: Bokoblin
@@ -4795,7 +4795,7 @@ TF_02:
       Placement category: Pot
       Path: TF_02/Room2.arc/Actor004
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Overlook Island - Cave"
   Enemies:
@@ -4808,10 +4808,10 @@ TF_02:
       Placement category: Ground
       Path: TF_02/Room3.arc/Actor001
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Overlook Island - Cave"
-  Has bomb flowers: Yes
+  Has bomb flowers: True
   Enemies:
     -
       Original enemy: Armos Knight
@@ -4826,7 +4826,7 @@ TF_02:
       Placement category: Ground
       Path: TF_02/Room4.arc/Actor002
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Overlook Island - Cave"
   Enemies:
@@ -4844,7 +4844,7 @@ TF_02:
 #TF_03:
 #- # Unused room
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Armos Knights
 #  Enemies:
@@ -4853,7 +4853,7 @@ TF_02:
 #      Placement category: Ground
 #      Path: TF_03/Room1.arc/Actor001
 #- # Unused room
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Bokoblins
 #  Enemies:
@@ -4862,7 +4862,7 @@ TF_02:
 #      Placement category: Ground
 #      Path: TF_03/Room1.arc/Layer8/Actor000
 #- # Unused room
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Moblins
 #  Enemies:
@@ -4871,7 +4871,7 @@ TF_02:
 #      Placement category: Ground
 #      Path: TF_03/Room2.arc/Actor000
 #- # Unused room
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Moblins
 #  Enemies:
@@ -4880,7 +4880,7 @@ TF_02:
 #      Placement category: Ground
 #      Path: TF_03/Room3.arc/Actor000
 #- # Unused room
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Moblins
 #  Enemies:
@@ -4889,7 +4889,7 @@ TF_02:
 #      Placement category: Ground
 #      Path: TF_03/Room4.arc/Actor000
 #- # Unused room
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Moblins
 #  Enemies:
@@ -4903,7 +4903,7 @@ TF_02:
 # Cabana Labyrinth
 TF_04:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Rats
     & Can Defeat ReDeads
@@ -4954,10 +4954,10 @@ TF_04:
 # Dragon Roost Island Secret Cave
 TF_06:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Dragon Roost Island - Secret Cave"
-  #Has throwable objects: Yes # 2 pots, 3 enemies
+  #Has throwable objects: True # 2 pots, 3 enemies
   Enemies:
     -
       Original enemy: Red ChuChu
@@ -4972,10 +4972,10 @@ TF_06:
       Placement category: Ground
       Path: TF_06/Room2.arc/Actor006
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Dragon Roost Island - Secret Cave"
-  Has throwable objects: Yes # 4 pots, 3 enemies
+  Has throwable objects: True # 4 pots, 3 enemies
   Enemies:
     -
       Original enemy: Bokoblin
@@ -4990,10 +4990,10 @@ TF_06:
       Placement category: Ground
       Path: TF_06/Room3.arc/Actor007
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Dragon Roost Island - Secret Cave"
-  #Has throwable objects: Yes # 3 pots, 4 enemies
+  #Has throwable objects: True # 3 pots, 4 enemies
   Enemies:
     -
       Original enemy: Keese
@@ -5012,10 +5012,10 @@ TF_06:
       Placement category: Air
       Path: TF_06/Room4.arc/Actor008
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Dragon Roost Island - Secret Cave"
-  Has throwable objects: Yes # 5 pots, 2 enemies
+  Has throwable objects: True # 5 pots, 2 enemies
   Enemies:
     -
       Original enemy: Wingless Mothula
@@ -5030,7 +5030,7 @@ TF_06:
 # Pawprint Isle Chuchu Cave
 TyuTyu:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Red ChuChus
     & Can Defeat Green ChuChus
@@ -5113,7 +5113,7 @@ TyuTyu:
 # Diamond Steppe Island Warp Maze
 WarpD:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Floormasters
   Enemies:
@@ -5142,7 +5142,7 @@ WarpD:
 # Wind Temple
 kaze:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Stalfos
@@ -5156,7 +5156,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room0.arc/Actor014
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Armos
   Enemies:
@@ -5169,7 +5169,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room1.arc/Actor00F
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Armos Knights
     & Can Defeat Peahats
@@ -5207,7 +5207,7 @@ kaze:
       Placement category: Air
       Path: kaze/Room2.arc/Actor037
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Floormasters
@@ -5250,7 +5250,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room3.arc/Actor01A
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Wind Temple - Chest Behind Seven Armos"
   Enemies:
@@ -5283,7 +5283,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room4.arc/Actor006
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Floormasters
     & Can Defeat Peahats
@@ -5313,7 +5313,7 @@ kaze:
       Placement category: Air
       Path: kaze/Room5.arc/Actor00C
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Wizzrobes
     & Can Defeat Peahats
@@ -5381,7 +5381,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room7.arc/Actor040
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Wind Temple - Big Key Chest"
   Enemies:
@@ -5398,7 +5398,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room8.arc/Actor002
 -
-  Must defeat enemies: No # The enemies can get in the way of the puzzle, but if you start by destroying the cracked floor second from the left, no enemies will be spawned on your first fall.
+  Must defeat enemies: False # The enemies can get in the way of the puzzle, but if you start by destroying the cracked floor second from the left, no enemies will be spawned on your first fall.
   Original requirements:
     Can Defeat Floormasters
     & Can Defeat Green ChuChus
@@ -5467,7 +5467,7 @@ kaze:
       Placement category: Ground:ChecksConditionSwitch
       Path: kaze/Room9.arc/Actor02C
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Wind Temple - Kill All Enemies in Tall Basement Room"
   Enemies:
@@ -5484,7 +5484,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room10.arc/Actor014
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Armos Knights
     & Can Defeat Peahats
@@ -5586,7 +5586,7 @@ kaze:
       Placement category: Ground
       Path: kaze/Room11.arc/Actor04F
 -
-  Must defeat enemies: Yes # Not strictly necessary, but the flying enemies get in the way of Makar flying.
+  Must defeat enemies: True # Not strictly necessary, but the flying enemies get in the way of Makar flying.
   Original requirements:
     Can Access Wind Temple
     & Can Play Command Melody
@@ -5637,7 +5637,7 @@ kaze:
 # Wind Temple Wizzrobe Miniboss Room
 kazeMB:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Wind Temple - Wizzrobe Miniboss Room"
   Enemies:
@@ -5655,7 +5655,7 @@ kazeMB:
 # Forbidden Woods Mothula Miniboss Room
 kinMB:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Winged Mothulas
   New actors to add:
@@ -5672,7 +5672,7 @@ kinMB:
 # Forbidden Woods
 kindan:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Green ChuChus
   Free memory: 935808
@@ -5722,7 +5722,7 @@ kindan:
       Placement category: Ground
       Path: kindan/Room0.arc/Actor032
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Boko Babas
     & Can Defeat Green ChuChus
@@ -5774,7 +5774,7 @@ kindan:
       Placement category: Ground
       Path: kindan/Room1.arc/Actor06F
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Boko Babas
     & Can Defeat Peahats
@@ -5797,7 +5797,7 @@ kindan:
       Placement category: Air
       Path: kindan/Room3.arc/Actor010
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Morths
     & Can Defeat Green ChuChus
@@ -5848,7 +5848,7 @@ kindan:
       Placement category: Ceiling
       Path: kindan/Room6.arc/Actor017
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Peahats
   Enemies:
@@ -5861,7 +5861,7 @@ kindan:
       Placement category: Air
       Path: kindan/Room8.arc/Actor00E
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Mothulas
     & Can Defeat Peahats
@@ -5895,7 +5895,7 @@ kindan:
       Placement category: Air
       Path: kindan/Room9.arc/Actor01D
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Dexivines
     & Can Defeat Morths
@@ -5952,7 +5952,7 @@ kindan:
       Placement category: Ground
       Path: kindan/Room11.arc/Actor033
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Freshwater Octoroks
     & Can Defeat Green ChuChus
@@ -6004,7 +6004,7 @@ kindan:
       Placement category: Ground
       Path: kindan/Room12.arc/Actor05E
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Kargarocs
   Enemies:
@@ -6019,7 +6019,7 @@ kindan:
       Path: kindan/Room13.arc/Actor019
       Position: [-6600, 563.4323, -800]
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Morths
     & Can Defeat Peahats
@@ -6054,7 +6054,7 @@ kindan:
       Placement category: Ground
       Path: kindan/Room14.arc/Actor00A
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Defeat Mothulas
   Actors to replace with ALLdies:
@@ -6069,7 +6069,7 @@ kindan:
       Placement category: Ground
       Path: kindan/Room15.arc/Actor09A
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Morths
     & Can Defeat Green ChuChus
@@ -6103,7 +6103,7 @@ kindan:
 # Forsaken Fortress Interior (2nd visit)
 ma2room:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bombchus
     & Can Defeat Moblins
@@ -6122,7 +6122,7 @@ ma2room:
       Placement category: Ground
       Path: ma2room/Room0.arc/Actor002
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Miniblins
@@ -6168,7 +6168,7 @@ ma2room:
       Path: ma2room/Room1.arc/Actor014
       Position offset: [-150, 0, -150]
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bombchus
     & Can Defeat Moblins
@@ -6191,7 +6191,7 @@ ma2room:
       Placement category: Ground
       Path: ma2room/Room2.arc/Actor00C
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Moblins
     & Can Defeat Bombchus
@@ -6228,7 +6228,7 @@ ma2room:
       Placement category: Ground
       Path: ma2room/Room3.arc/Actor016
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
   Free memory: 1193888
@@ -6242,7 +6242,7 @@ ma2room:
 # Forsaken Fortress Interior (3rd visit)
 #ma3room: # Inaccessible in rando
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Rats
 #    & Can Defeat Keese
@@ -6272,7 +6272,7 @@ ma2room:
 #      Placement category: Ceiling
 #      Path: ma3room/Room0.arc/Actor02B
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Keese
 #  Enemies:
@@ -6285,7 +6285,7 @@ ma2room:
 #      Placement category: Ceiling
 #      Path: ma3room/Room1.arc/Actor00A
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Rats
 #    & Can Defeat Keese
@@ -6311,7 +6311,7 @@ ma2room:
 #      Placement category: Ceiling
 #      Path: ma3room/Room2.arc/Actor00B
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Keese
 #    & Can Defeat Rats
@@ -6345,7 +6345,7 @@ ma2room:
 #      Placement category: Ceiling
 #      Path: ma3room/Room3.arc/Actor017
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Keese
 #  Enemies:
@@ -6374,7 +6374,7 @@ ma2room:
 # Forsaken Fortress Interior (1st visit)
 #majroom: # Inaccessible in rando
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Rats
 #    & Can Defeat Moblins
@@ -6392,7 +6392,7 @@ ma2room:
 #      Placement category: Ground
 #      Path: majroom/Room0.arc/Actor002
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Miniblins
 #  Enemies:
@@ -6417,7 +6417,7 @@ ma2room:
 #      Placement category: Ground
 #      Path: majroom/Room1.arc/Actor019
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Moblins
 #  Enemies:
@@ -6430,7 +6430,7 @@ ma2room:
 #      Placement category: Ground
 #      Path: majroom/Room1.arc/Layerb/Actor003
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Rats
 #    & Can Defeat Moblins
@@ -6448,7 +6448,7 @@ ma2room:
 #      Placement category: Ground
 #      Path: majroom/Room2.arc/Actor002
 #-
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Keese
 #    & Can Defeat Rats
@@ -6491,7 +6491,7 @@ ma2room:
 # Forsaken Fortress Sector
 sea/Room1.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Miniblins
@@ -6555,7 +6555,7 @@ sea/Room1.arc:
       Path: sea/Room1.arc/Layer1/Actor028
       Position offset: [-200, -700, 200]
 #- # Unused layer in rando
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Rats
 #  Free memory: 558464
@@ -6569,7 +6569,7 @@ sea/Room1.arc:
 #      Placement category: Ground
 #      Path: sea/Room1.arc/Layer2/Actor006
 #- # Unused layer in rando
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Rats
 #  Free memory: 558464
@@ -6587,7 +6587,7 @@ sea/Room1.arc:
 # Star Island
 sea/Room2.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Miniblins
@@ -6636,7 +6636,7 @@ sea/Room2.arc:
 # Northern Fairy Island
 sea/Room3.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -6661,7 +6661,7 @@ sea/Room3.arc:
 # Crescent Moon Island
 sea/Room5.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Gyorgs
   Enemies:
@@ -6674,7 +6674,7 @@ sea/Room5.arc:
 # Seven-Star Isles
 sea/Room6.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Kargarocs
   Enemies:
@@ -6687,10 +6687,10 @@ sea/Room6.arc:
       Placement category: Air
       Path: sea/Room6.arc/Actor008
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Seven-Star Isles - Northern Lookout Platform"
-  Has throwable objects: Yes # 4 (12 objects split over 3 platforms)
+  Has throwable objects: True # 4 (12 objects split over 3 platforms)
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -6698,20 +6698,20 @@ sea/Room6.arc:
       Path: sea/Room6.arc/Actor024
       Position offset: [200, 0, 200] # Move it out of the guard rail.
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Seven-Star Isles - Center Lookout Platform"
-  Has throwable objects: Yes # 4 (12 objects split over 3 platforms)
+  Has throwable objects: True # 4 (12 objects split over 3 platforms)
   Enemies:
     -
       Original enemy: Wizzrobe
       Placement category: Ground:SetsDeathSwitch,HasPit
       Path: sea/Room6.arc/Actor025
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Seven-Star Isles - Southern Lookout Platform"
-  Has throwable objects: Yes # 4 (12 objects split over 3 platforms)
+  Has throwable objects: True # 4 (12 objects split over 3 platforms)
   Enemies:
     -
       Original enemy: Wizzrobe
@@ -6726,10 +6726,10 @@ sea/Room6.arc:
 # Pawprint Isle
 sea/Room12.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Pawprint Isle - Lookout Platform - Defeat the Enemies"
-  Has throwable objects: Yes # 8 pots
+  Has throwable objects: True # 8 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -6742,10 +6742,10 @@ sea/Room12.arc:
       Path: sea/Room12.arc/Actor02E
       Position offset: [0, -200, 0]
 - # Rafts
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
-  Has throwable objects: Yes # 1 barrel and 2 pots
+  Has throwable objects: True # 1 barrel and 2 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -6762,7 +6762,7 @@ sea/Room12.arc:
 # Dragon Roost Island
 sea/Room13.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Keese
@@ -6785,7 +6785,7 @@ sea/Room13.arc:
       Placement category: Ceiling # Technically has a pit, but it's far from the enemy
       Path: sea/Room13.arc/Layer0/Actor00A
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Keese
@@ -6812,7 +6812,7 @@ sea/Room13.arc:
 # Western Fairy Island
 sea/Room15.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -6841,7 +6841,7 @@ sea/Room15.arc:
 # Rock Spire Isle
 sea/Room16.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -6890,7 +6890,7 @@ sea/Room16.arc:
 # Tingle Island
 sea/Room17.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Gyorgs
   Enemies:
@@ -6903,7 +6903,7 @@ sea/Room17.arc:
 # Northern Triangle Island
 sea/Room18.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Saltwater Octoroks
   Enemies:
@@ -6916,10 +6916,10 @@ sea/Room18.arc:
 # Eastern Fairy Island
 sea/Room19.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Eastern Fairy Island - Lookout Platform - Defeat the Cannons and Enemies"
-  Has throwable objects: Yes # 4 pots
+  Has throwable objects: True # 4 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -6941,7 +6941,7 @@ sea/Room19.arc:
 # Fire Mountain
 sea/Room20.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Bokoblins
@@ -6960,7 +6960,7 @@ sea/Room20.arc:
 # Star Belt Archipelago
 sea/Room21.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Seahats
     & Can Defeat Kargarocs
@@ -7027,7 +7027,7 @@ sea/Room21.arc:
 # Cyclops Reef
 sea/Room24.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Seahats
   Enemies:
@@ -7072,10 +7072,10 @@ sea/Room24.arc:
       Placement category: Sea
       Path: sea/Room24.arc/Actor009
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Cyclops Reef - Lookout Platform - Defeat the Enemies"
-  Has throwable objects: Yes # 2 barrels and 6 pots
+  Has throwable objects: True # 2 barrels and 6 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -7102,7 +7102,7 @@ sea/Room24.arc:
 # Six-Eye Reef
 sea/Room25.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Saltwater Octoroks
@@ -7141,7 +7141,7 @@ sea/Room25.arc:
 # Eastern Triangle Island
 sea/Room27.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Saltwater Octoroks
   Enemies:
@@ -7178,7 +7178,7 @@ sea/Room27.arc:
 # Thorned Fairy Island
 sea/Room28.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Seahats
   Enemies:
@@ -7195,10 +7195,10 @@ sea/Room28.arc:
       Placement category: Sea
       Path: sea/Room28.arc/Actor002
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Thorned Fairy Island - Southwestern Lookout Platform - Defeat the Enemies"
-  Has throwable objects: Yes # 4 barrels and 3 pots
+  Has throwable objects: True # 4 barrels and 3 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -7225,7 +7225,7 @@ sea/Room28.arc:
 # Needle Rock Isle
 sea/Room29.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Kargarocs
   Enemies:
@@ -7255,7 +7255,7 @@ sea/Room29.arc:
 # 1177744 free memory for the entire room, but it's split into two groups
 sea/Room30.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Kargarocs
@@ -7289,10 +7289,10 @@ sea/Room30.arc:
       Placement category: Air:HasPit
       Path: sea/Room30.arc/Actor009
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Islet of Steel - Lookout Platform - Defeat the Enemies"
-  Has throwable objects: Yes # 4 barrels and 8 pots
+  Has throwable objects: True # 4 barrels and 8 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -7317,7 +7317,7 @@ sea/Room30.arc:
 # Stone Watcher Island
 sea/Room31.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -7336,7 +7336,7 @@ sea/Room31.arc:
 # Southern Triangle Island
 sea/Room32.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Seahats
   Enemies:
@@ -7373,10 +7373,10 @@ sea/Room32.arc:
 # Bomb Island
 sea/Room34.arc:
 -
-  Must defeat enemies: Yes
+  Must defeat enemies: True
   Original requirements:
     Can Access Item Location "Bomb Island - Lookout Platform - Defeat the Enemies"
-  Has throwable objects: Yes # 4 pots
+  Has throwable objects: True # 4 pots
   Enemies:
     -
       Original enemy: Bokoblin
@@ -7389,7 +7389,7 @@ sea/Room34.arc:
       Path: sea/Room34.arc/Actor042
       Position offset: [0, -200, 0]
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
   Enemies:
@@ -7403,7 +7403,7 @@ sea/Room34.arc:
 # Bird's Peak Rock
 sea/Room35.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Kargarocs
   Enemies:
@@ -7432,11 +7432,11 @@ sea/Room35.arc:
 # Five-Eye Reef
 sea/Room37.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Gyorgs
     & Can Defeat Bokoblins
-  Has throwable objects: Yes # 4 barrels and 8 pots
+  Has throwable objects: True # 4 barrels and 8 pots
   Enemies:
     -
       Original enemy: Gyorg Spawner
@@ -7481,7 +7481,7 @@ sea/Room37.arc:
 # Shark Island
 sea/Room38.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Saltwater Octoroks
   Free memory: 1039296
@@ -7539,10 +7539,10 @@ sea/Room38.arc:
 # Southern Fairy Island
 sea/Room39.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
-  Has throwable objects: Yes # 31 objects
+  Has throwable objects: True # 31 objects
   Enemies:
     -
       Original enemy: Bokoblin
@@ -7585,7 +7585,7 @@ sea/Room39.arc:
 # Forest Haven
 sea/Room41.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Peahats
     & Can Defeat Boko Babas
@@ -7637,7 +7637,7 @@ sea/Room41.arc:
       Placement category: Ground:HasPit
       Path: sea/Room41.arc/Actor0CF
 #- # Unused layer
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Boko Babas
 #    & Can Defeat Freshwater Octoroks
@@ -7656,7 +7656,7 @@ sea/Room41.arc:
 # Cliff Plateau Isles
 sea/Room42.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Gyorgs
     & Can Defeat Bokoblins
@@ -7703,7 +7703,7 @@ sea/Room42.arc:
 # Horseshoe Island
 sea/Room43.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Seahats
     & Can Defeat Bokoblins
@@ -7771,7 +7771,7 @@ sea/Room43.arc:
 # Outset Island
 sea/Room44.arc:
 - # Outset at night
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Green ChuChus
     & Can Defeat Red ChuChus
@@ -7819,7 +7819,7 @@ sea/Room44.arc:
       Placement category: Ground
       Path: sea/Room44.arc/Layer5/Actor01D
 #- # Unused layer
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Keese
 #  Enemies:
@@ -7872,7 +7872,7 @@ sea/Room44.arc:
 #      Placement category: Air
 #      Path: sea/Room44.arc/Layer6/Actor00B
 #- # Unused layer
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Keese
 #  Enemies:
@@ -7909,7 +7909,7 @@ sea/Room44.arc:
 #      Placement category: Air
 #      Path: sea/Room44.arc/Layer7/Actor013
 #- # Unused layer
-#  Must defeat enemies: Yes
+#  Must defeat enemies: True
 #  Original requirements:
 #    Can Defeat Morths
 #    & Can Defeat Keese
@@ -7952,7 +7952,7 @@ sea/Room44.arc:
 # Two-Eye Reef
 sea/Room46.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Kargarocs
@@ -8015,7 +8015,7 @@ sea/Room46.arc:
 # Angular Isles
 sea/Room47.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Bokoblins
     & Can Defeat Gyorgs
@@ -8041,7 +8041,7 @@ sea/Room47.arc:
 # Boating Course
 sea/Room48.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Seahats
     & Can Defeat Bokoblins
@@ -8096,7 +8096,7 @@ sea/Room48.arc:
 # Five-Star Isles
 sea/Room49.arc:
 -
-  Must defeat enemies: No
+  Must defeat enemies: False
   Original requirements:
     Can Defeat Kargarocs
     & Can Defeat Bokoblins

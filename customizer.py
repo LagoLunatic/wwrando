@@ -5,10 +5,12 @@ if TYPE_CHECKING:
 
 import os
 import re
-import yaml
 from io import BytesIO
 import glob
 from PIL import Image
+
+from ruamel.yaml import YAML
+yaml = YAML(typ="safe")
 
 from gclib import fs_helpers as fs
 from gclib import texture_utils
@@ -62,15 +64,12 @@ def get_model_metadata(custom_model_name):
       with open(metadata_path) as f:
         metadata_str = f.read()
       
-      # Automatically convert any tabs in the metadata to two spaces since pyyaml doesn't like tabs.
-      metadata_str = metadata_str.replace("\t", "  ")
-      
-      old_format_match = re.search(r"^ +\S[^:]*: +[0-9A-F]{6}$", metadata_str, re.IGNORECASE | re.MULTILINE)
+      old_format_match = re.search(r"^ +\S[^:]*: +\"?[0-9A-F]{6}\"?$", metadata_str, re.IGNORECASE | re.MULTILINE)
       new_format_match = re.search(r"^ +\S[^:]*: +0x[0-9A-F]{6}$", metadata_str, re.IGNORECASE | re.MULTILINE)
       if old_format_match and not new_format_match:
-        use_old_color_format = True
+        metadata_str = re.sub(r"^( +\S[^:]*: +)\"?([0-9A-F]{6})\"?$", r"\g<1>0x\g<2>", metadata_str, flags = re.IGNORECASE | re.MULTILINE)
       
-      metadata = yaml.safe_load(metadata_str)
+      metadata = yaml.load(metadata_str)
     except Exception as e:
       error_message = str(e)
       return {
@@ -99,7 +98,7 @@ def get_model_metadata(custom_model_name):
         
         for custom_color_name, hex_color in value.items():
           try:
-            value[custom_color_name] = parse_hex_color(hex_color, use_old_color_format)
+            value[custom_color_name] = parse_hex_color(hex_color)
           except InvalidColorError:
             error_message = "Custom color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (custom_color_name, repr(hex_color))
             return {
@@ -125,7 +124,7 @@ def get_model_metadata(custom_model_name):
         for preset_name, preset in value.items():
           for custom_color_name, hex_color in preset.items():
             try:
-              preset[custom_color_name] = parse_hex_color(hex_color, use_old_color_format)
+              preset[custom_color_name] = parse_hex_color(hex_color)
             except InvalidColorError:
               error_message = "Color preset \"%s\"'s color \"%s\" has an invalid base color specified in metadata.txt: \"%s\"" % (preset_name, custom_color_name, repr(hex_color))
               return {
@@ -141,10 +140,7 @@ def get_model_metadata(custom_model_name):
     
     return metadata
 
-def parse_hex_color(hex_color, use_old_color_format):
-  if use_old_color_format:
-    return parse_hex_color_old_format(hex_color)
-  
+def parse_hex_color(hex_color):
   if isinstance(hex_color, str) and (match := re.match(r"^0x([0-9A-F]{6})$", hex_color)):
     hex_color = int(match.group(1), 16)
   
@@ -152,21 +148,6 @@ def parse_hex_color(hex_color, use_old_color_format):
     r = (hex_color & 0xFF0000) >> 16
     g = (hex_color & 0x00FF00) >> 8
     b = (hex_color & 0x0000FF) >> 0
-    return [r, g, b]
-  else:
-    raise InvalidColorError()
-
-def parse_hex_color_old_format(hex_color):
-  if isinstance(hex_color, int):
-    hex_color_string = "%06d" % hex_color
-  elif isinstance(hex_color, str):
-    hex_color_string = hex_color
-  else:
-    raise InvalidColorError()
-
-  match = re.search(r"^([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})$", hex_color_string, re.IGNORECASE)
-  if match:
-    r, g, b = int(match.group(1), 16), int(match.group(2), 16), int(match.group(3), 16)
     return [r, g, b]
   else:
     raise InvalidColorError()

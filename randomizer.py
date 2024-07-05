@@ -3,11 +3,13 @@ import os
 import re
 from random import Random
 import hashlib
-import yaml
 import sys
 from typing import TypeVar, Callable
 from io import BytesIO
 import string
+
+from ruamel.yaml import YAML
+yaml = YAML(typ="safe")
 
 from gclib import fs_helpers as fs
 from gclib.bfn import BFN
@@ -713,10 +715,10 @@ class WWRandomizer:
       self.icon_name_pointer[item_id] = icon_name_pointer
     
     with open(os.path.join(ASM_PATH, "custom_symbols.txt"), "r") as f:
-      self.custom_symbols = yaml.safe_load(f)
+      self.custom_symbols = yaml.load(f)
     self.main_custom_symbols = self.custom_symbols["sys/main.dol"]
     with open(os.path.join(ASM_PATH, "free_space_start_offsets.txt"), "r") as f:
-      self.free_space_start_offsets = yaml.safe_load(f)
+      self.free_space_start_offsets = yaml.load(f)
   
   def register_renamed_item(self, item_id, item_name):
     self.item_name_to_id[item_name] = item_id
