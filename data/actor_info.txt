@@ -4043,11 +4043,13 @@ Bomb2:
   Actor ID: 0x0129
   Subtype: 0xFF
   GBA Name: 0x00
-Boko:
-  Class Name: d_a_boko
-  Actor ID: 0x01D5
-  Subtype: 0xFF
-  GBA Name: 0x00
+# The vanilla game had two identical entries under Boko.
+# We comment the second one out here as the game stops searching the list at the first matching key.
+# Boko:
+#   Class Name: d_a_boko
+#   Actor ID: 0x01D5
+#   Subtype: 0xFF
+#   GBA Name: 0x00
 Arrow:
   Class Name: d_a_arrow
   Actor ID: 0x01DE
@@ -4088,11 +4090,13 @@ Ritem:
   Actor ID: 0x0104
   Subtype: 0xFF
   GBA Name: 0x00
-Sitem:
-  Class Name: d_a_shop_item
-  Actor ID: 0x0105
-  Subtype: 0xFF
-  GBA Name: 0x00
+# The vanilla game had two different entries under Sitem.
+# We comment the second one out here as the game stops searching the list at the first matching key.
+# Sitem:
+#   Class Name: d_a_shop_item
+#   Actor ID: 0x0105
+#   Subtype: 0xFF
+#   GBA Name: 0x00
 Ditem:
   Class Name: d_a_demo_item
   Actor ID: 0x0103
