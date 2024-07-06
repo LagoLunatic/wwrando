@@ -3,6 +3,6 @@ PySide6~=6.6.0
 ruamel.yaml==0.18.6
 Pillow>=10.2.0
 appdirs==1.4.4
-certifi==2023.7.22
+certifi==2024.7.4
 tqdm>=4.65.0
 -r ./gclib/requirements.txt
