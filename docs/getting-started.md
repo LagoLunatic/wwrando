@@ -11,7 +11,7 @@ To play Wind Waker Randomizer, you need three things:
 
 !!! note
     It is not recommended to use RetroArch or a legacy build of Dolphin, as they are both very outdated.  
-    Use a recent beta or development build of Dolphin instead.  
+    Use a recent release or development build of Dolphin instead.  
 
 ## Extracting
 

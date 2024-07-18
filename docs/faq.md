@@ -90,7 +90,7 @@ If you want to experience The Wind Waker's story, it is recommended to play the 
 
 You are most likely using RetroArch or a legacy version of Dolphin. These emulators are very old and sometimes crash when playing Wind Waker (both the vanilla game and the randomizer).
 
-It is recommended that you play on a recent *beta or development* build of Dolphin, which can be downloaded from [here](https://en.dolphin-emu.org/download/).
+It is recommended that you play on a recent release or development build of Dolphin, which can be downloaded from [here](https://en.dolphin-emu.org/download/).
 
 ## The game crashes after the GameCube boot up animation.
 
