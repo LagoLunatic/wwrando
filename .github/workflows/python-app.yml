@@ -5,10 +5,12 @@ on:
     branches: [ master ]
     paths-ignore:
       - 'docs/**'
+      - '.github/workflows/publish-site.yml'
   pull_request:
     branches: [ master ]
     paths-ignore:
       - 'docs/**'
+      - '.github/workflows/publish-site.yml'
   workflow_dispatch:
     inputs:
       version:

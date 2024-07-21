@@ -1,9 +1,11 @@
 name: Publish Website
+
 on:
   push:
     branches: [ master ]
     paths:
       - 'docs/**'
+      - '.github/workflows/publish-site.yml'
   workflow_dispatch:
 
 permissions:
