@@ -673,7 +673,7 @@ class CosmeticTab(QWidget):
         continue
       hex_color = custom_colors[color_name]
       try:
-        custom_colors_to_set[color_name] = customizer.parse_hex_color(hex_color, False)
+        custom_colors_to_set[color_name] = customizer.parse_hex_color(hex_color)
         found_any_valid = True
       except customizer.InvalidColorError:
         error_message = "Custom color \"%s\" is invalid: \"%s\"" % (color_name, repr(hex_color))
