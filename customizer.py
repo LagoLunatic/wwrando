@@ -69,6 +69,9 @@ def get_model_metadata(custom_model_name):
       if old_format_match and not new_format_match:
         metadata_str = re.sub(r"^( +\S[^:]*: +)\"?([0-9A-F]{6})\"?$", r"\g<1>0x\g<2>", metadata_str, flags = re.IGNORECASE | re.MULTILINE)
       
+      # Hack to remove tab indentation because it's not valid YAML.
+      metadata_str = re.sub(r"\t", r"  ", metadata_str, flags = re.IGNORECASE | re.MULTILINE)
+      
       metadata = yaml.load(metadata_str)
     except Exception as e:
       error_message = str(e)
