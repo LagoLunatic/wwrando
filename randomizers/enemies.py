@@ -527,25 +527,37 @@ class EnemyRandomizer(BaseRandomizer):
           spawn_switch_param_name = original_enemy_type["Enable spawn switch param name"]
           
           if spawn_switch_param_name is None:
-            raise Exception("An enemy location specified that it must check a switch before spawning, but the original enemy there is not documented to be able to check a switch before spawning.")
+            raise Exception(
+              f"An enemy location specified that it must check a switch before spawning, but the original enemy there is not documented to be able to check a switch before spawning.\n\n"
+              f"Enemy location: {path}"
+            )
           
           spawn_switch_to_check = getattr(enemy, spawn_switch_param_name)
           if spawn_switch_to_check in [0xFE, 0xFF] or spawn_switch_to_check >= 0xF0:
             # 0xFE is invalid for Stalfos.
-            raise Exception("Switch index to check before spawning the enemy is not valid for all enemy types: %02X" % spawn_switch_to_check)
+            raise Exception(
+              f"Switch index to check before spawning the enemy is not valid for all enemy types: {spawn_switch_to_check:02X}\n\n"
+              f"Enemy location: {path}"
+            )
         
         if "SetsDeathSwitch" in conditions:
           # We need to copy the switch ID the original enemy set on death to the randomized enemy.
           death_switch_param_name = original_enemy_type["Death switch param name"]
           
           if death_switch_param_name is None:
-            raise Exception("An enemy location specified that it must set a switch on death, but the original enemy there is not documented to be able to set a switch on death.")
+            raise Exception(
+              f"An enemy location specified that it must set a switch on death, but the original enemy there is not documented to be able to set a switch on death.\n\n"
+              f"Enemy location: {path}"
+            )
           
           death_switch_to_set = getattr(enemy, death_switch_param_name)
           if death_switch_to_set in [0x00, 0x80, 0xFF] or death_switch_to_set >= 0xF0:
             # 0x00 is invalid for ???
             # 0x80 is invalid for ???
-            raise Exception("Switch index to set on enemy death is not valid for all enemy types: %02X" % death_switch_to_set)
+            raise Exception(
+              f"Switch index to set on enemy death is not valid for all enemy types: {death_switch_to_set:02X}\n\n"
+              f"Enemy location: {path}"
+            )
       
       # We attempt to copy the path the original enemy followed to the randomized enemy.
       path_index_param_name = original_enemy_type["Path param name"]
@@ -599,7 +611,10 @@ class EnemyRandomizer(BaseRandomizer):
         death_switch_param_name = new_enemy_data["Death switch param name"]
         if death_switch_param_name is None:
           if DEBUG_ENEMY_NAME_TO_PLACE_EVERYWHERE is None:
-            raise Exception("Tried to place an enemy type that cannot set a switch on death in a location that requires a switch be set on death: %s" % enemy.name)
+            raise Exception(
+              f"Tried to place an enemy type that cannot set a switch on death in a location that requires a switch be set on death: {enemy.name}\n\n"
+              f"Enemy location: {path}"
+            )
         else:
           setattr(enemy, death_switch_param_name, death_switch_to_set)
       

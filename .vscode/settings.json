@@ -18,4 +18,5 @@
     // "-vv", // Increases verbosity
   ],
   "editor.tabSize": 2,
+  "python.analysis.typeCheckingMode": "off",
 }
