@@ -52,6 +52,8 @@ def disable_all_progression_location_options(options: Options):
 
 def enable_all_options(options: Options):
   enable_all_progression_location_options(options)
+  # options.progression_locations
+  # options.excluded_locations
   
   options.sword_mode = SwordMode.SWORDLESS
   options.keylunacy = True

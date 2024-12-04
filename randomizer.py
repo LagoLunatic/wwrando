@@ -4,6 +4,7 @@ import re
 from random import Random
 import hashlib
 import sys
+import zlib
 from typing import TypeVar, Callable
 from io import BytesIO
 import string
@@ -529,6 +530,14 @@ class WWRandomizer:
       elif option.name == "randomized_gear":
         # Handled above.
         continue
+      elif option.name == "excluded_locations":
+        assert issubclass(typing.get_origin(option.type) or option.type, list)
+        for location_name in Logic.load_and_parse_item_locations():
+          bit = location_name in value
+          bitswriter.write(bit, 1)
+      elif option.name == "progression_locations":
+        # Handled above.
+        continue
       else:
         raise Exception(f"Option {option.name} of type {option.type} is not currently supported by the permalink system.")
     
@@ -536,7 +545,7 @@ class WWRandomizer:
     
     for byte in bitswriter.bytes:
       permalink += struct.pack(">B", byte)
-    base64_encoded_permalink = base64.b64encode(permalink).decode("ascii")
+    base64_encoded_permalink = base64.b64encode(zlib.compress(permalink)).decode("ascii")
     return base64_encoded_permalink
   
   @classmethod
@@ -545,7 +554,7 @@ class WWRandomizer:
     if not base64_encoded_permalink:
       raise Exception(f"Permalink is blank.")
     
-    permalink = base64.b64decode(base64_encoded_permalink)
+    permalink = zlib.decompress(base64.b64decode(base64_encoded_permalink))
     given_version_num, seed, options_bytes = permalink.split(b"\0", 2)
     given_version_num = given_version_num.decode("ascii")
     seed = seed.decode("ascii")
@@ -616,6 +625,20 @@ class WWRandomizer:
       elif option.name == "randomized_gear":
         # Handled above.
         continue
+      elif option.name == "excluded_locations":
+        assert issubclass(typing.get_origin(option.type) or option.type, list)
+        excluded_list = []
+        progression_list = []
+        for location_name in Logic.load_and_parse_item_locations():
+          excluded = bitsreader.read(1)
+          if excluded == 1:
+            excluded_list.append(location_name)
+          else:
+            progression_list.append(location_name)
+        options.excluded_locations = sorted(excluded_list)
+      elif option.name == "progression_locations":
+        # Use default for now. This option will be updated later.
+        options.progression_locations = option.default_factory()
       else:
         raise Exception(f"Option {option.name} of type {option.type} is not currently supported by the permalink system.")
     
@@ -1016,7 +1039,7 @@ class WWRandomizer:
     non_disabled_options = [
       option.name for option in Options.all
       if self.options[option.name] not in [False, [], {}]
-      and option.name != "randomized_gear" # Just takes up space
+      and option.name not in ["randomized_gear", "progression_locations"] # Just takes up space
     ]
     option_strings = []
     for option_name in non_disabled_options:
