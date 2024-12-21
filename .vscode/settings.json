@@ -1,7 +1,4 @@
 {
-  "python.analysis.extraPaths": [
-    "gclib",
-  ],
   "qtForPython.uic.options": [
     "-o", "${resourceDirname}${pathSeparator}uic${pathSeparator}ui_${resourceBasenameNoExtension}.py",
   ],
@@ -18,5 +15,7 @@
     // "-vv", // Increases verbosity
   ],
   "editor.tabSize": 2,
-  "python.analysis.typeCheckingMode": "off",
+  "files.associations": {
+    "*.spec": "python",
+  },
 }

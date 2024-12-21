@@ -1,0 +1,6 @@
+{
+  "typeCheckingMode": "off",
+  "extraPaths": [
+    "gclib"
+  ],
+}
