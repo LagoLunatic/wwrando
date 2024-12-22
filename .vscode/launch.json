@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "UI",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/wwrando.py",
             "console": "integratedTerminal",
@@ -18,7 +18,7 @@
         },
         {
             "name": "No UI",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/wwrando.py",
             "console": "integratedTerminal",
@@ -31,7 +31,7 @@
         },
         {
             "name": "Dry",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/wwrando.py",
             "console": "integratedTerminal",
@@ -45,7 +45,7 @@
         },
         {
             "name": "No Item Rando",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/wwrando.py",
             "console": "integratedTerminal",
@@ -59,7 +59,7 @@
         },
         {
             "name": "Dry No Item Rando",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/wwrando.py",
             "console": "integratedTerminal",
@@ -74,7 +74,7 @@
         },
         {
             "name": "Bulk Test",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/wwrando.py",
             "console": "integratedTerminal",
@@ -88,7 +88,7 @@
         },
         {
             "name": "Bulk Test, No Item Rando",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/wwrando.py",
             "console": "integratedTerminal",
@@ -103,7 +103,7 @@
         },
         {
             "name": "Profile",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/wwrando.py",
             "console": "integratedTerminal",
@@ -117,7 +117,7 @@
         },
         {
             "name": "Profile (Dry)",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/wwrando.py",
             "console": "integratedTerminal",
@@ -132,7 +132,7 @@
         },
         {
             "name": "Python: Current File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
