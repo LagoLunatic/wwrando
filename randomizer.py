@@ -490,7 +490,7 @@ class WWRandomizer:
     permalink += b"\0"
     
     bitswriter = PackedBitsWriter()
-    for option in Options.all:
+    for option in Options.all():
       if not option.permalink:
         continue
       
@@ -566,7 +566,7 @@ class WWRandomizer:
     prev_randomize_enemy_palettes_value = options.randomize_enemy_palettes
     
     bitsreader = PackedBitsReader(option_bytes)
-    for option in Options.all:
+    for option in Options.all():
       if not option.permalink:
         continue
       
@@ -1014,7 +1014,7 @@ class WWRandomizer:
     
     header += "Options selected:\n  "
     non_disabled_options = [
-      option.name for option in Options.all
+      option.name for option in Options.all()
       if self.options[option.name] not in [False, [], {}]
       and option.name != "randomized_gear" # Just takes up space
     ]

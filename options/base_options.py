@@ -37,7 +37,7 @@ class Option(Field):
 def option(default=MISSING, default_factory=MISSING,
            description="", choice_descriptions={},
            minimum: Optional[int] = None, maximum: Optional[int] = None,
-           permalink=True, hidden=False, unbeatable=False):
+           permalink=True, hidden=False, unbeatable=False) -> Any:
   if default is MISSING and default_factory is MISSING:
     raise ValueError('must specify either default or default_factory')
   return Option(
@@ -49,12 +49,10 @@ def option(default=MISSING, default_factory=MISSING,
 
 class BaseOptions:
   @classmethod
-  @property
-  def all(cls) -> tuple[Option]:
+  def all(cls) -> tuple[Option, ...]:
     return fields(cls)
   
   @classmethod
-  @property
   def by_name(cls) -> dict[str, Option]:
     return {
       name: field
@@ -64,7 +62,7 @@ class BaseOptions:
   
   dict = asdict
   
-  def __getitem__(self, option_name) -> Option:
+  def __getitem__(self, option_name) -> Any:
     fields = getattr(self, _FIELDS)
     field = fields[option_name]
     if field._field_type is not _FIELD:
@@ -81,8 +79,7 @@ class BaseOptions:
   def validate(self):
     """Attempts to convert the values of all options to be valid."""
     
-    options: tuple[Option] = self.all # Not sure why this type hint doesn't work automatically here.
-    for option in options:
+    for option in self.all():
       value = self[option.name]
       
       option_type = typing.get_origin(option.type) or option.type

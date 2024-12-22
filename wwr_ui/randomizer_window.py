@@ -85,7 +85,7 @@ class WWRandomizerWindow(QMainWindow):
     
     self.ui.label_for_clean_iso_path.linkActivated.connect(self.show_clean_iso_explanation)
     
-    for option in Options.all:
+    for option in Options.all():
       if option.name == "custom_colors":
         continue
       widget = self.findChild(QWidget, option.name)
@@ -304,7 +304,7 @@ class WWRandomizerWindow(QMainWindow):
       self.ui.update_checker_label.setText(new_text)
   
   def initialize_option_widgets(self):
-    for option in Options.all:
+    for option in Options.all():
       if option.name == "custom_colors":
         continue
       widget = self.findChild(QWidget, option.name)
@@ -340,7 +340,7 @@ class WWRandomizerWindow(QMainWindow):
       )
       return
     
-    for option in Options.all:
+    for option in Options.all():
       if option.name == "custom_colors":
         self.ui.tab_player_customization.reset_color_selectors_to_model_default_colors()
         continue
@@ -375,7 +375,7 @@ class WWRandomizerWindow(QMainWindow):
     if "seed" in self.settings:
       self.ui.seed.setText(self.settings["seed"])
     
-    for option in Options.all:
+    for option in Options.all():
       if option.name in self.settings:
         if option.name in ["custom_color_preset", "custom_colors"]:
           # Colors and color presents not loaded yet, handle this later
@@ -396,7 +396,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ensure_valid_combination_of_options()
     self.ui.tab_player_customization.disable_invalid_cosmetic_options()
     
-    for option in Options.all:
+    for option in Options.all():
       self.settings[option.name] = self.get_option_value(option.name)
     
     self.save_settings()
@@ -469,7 +469,7 @@ class WWRandomizerWindow(QMainWindow):
       seed, options = WWRandomizer.decode_permalink(base64_encoded_permalink, options, allow_different_commit=True)
     
     self.ui.seed.setText(seed)
-    for option in Options.all:
+    for option in Options.all():
       if option.permalink:
         self.set_option_value(option.name, options[option.name])
     
@@ -510,8 +510,8 @@ class WWRandomizerWindow(QMainWindow):
   
   def get_option_from_widget(self, widget: QObject):
     option_name = widget.objectName().removeprefix("label_for_")
-    if option_name in Options.by_name:
-      return Options.by_name[option_name]
+    if option_name in Options.by_name():
+      return Options.by_name()[option_name]
     else:
       return None
   
@@ -548,7 +548,7 @@ class WWRandomizerWindow(QMainWindow):
       return self.ui.tab_player_customization.get_all_colors()
     
     widget = self.findChild(QWidget, option_name)
-    option = Options.by_name[option_name]
+    option = Options.by_name()[option_name]
     if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
       return widget.isChecked()
     elif isinstance(widget, QComboBox):
@@ -570,7 +570,7 @@ class WWRandomizerWindow(QMainWindow):
       if isinstance(model, ModelFilterOut):
         model = model.sourceModel()
       model.sort(0)
-      return [model.data(model.index(i), Qt.ItemDataRole.DisplayRole) for i in range(model.rowCount())]
+      return [model.data(model.index(i, 0), Qt.ItemDataRole.DisplayRole) for i in range(model.rowCount())]
     else:
       print("Option widget is invalid: %s" % option_name)
     
@@ -582,7 +582,7 @@ class WWRandomizerWindow(QMainWindow):
       return
     
     widget = self.findChild(QWidget, option_name)
-    option = Options.by_name[option_name]
+    option = Options.by_name()[option_name]
     if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
       widget.setChecked(bool(new_value))
     elif isinstance(widget, QComboBox):
@@ -635,7 +635,7 @@ class WWRandomizerWindow(QMainWindow):
   
   def get_all_options_from_widget_values(self):
     options_dict = {}
-    for option in Options.all:
+    for option in Options.all():
       options_dict[option.name] = self.get_option_value(option.name)
     options = Options(**options_dict)
     return options
@@ -643,7 +643,7 @@ class WWRandomizerWindow(QMainWindow):
   def ensure_valid_combination_of_options(self):
     items_to_filter_out = []
     should_enable_options = {}
-    for option in Options.all:
+    for option in Options.all():
       should_enable_options[option.name] = True
     
     options = self.get_all_options_from_widget_values()
@@ -694,7 +694,7 @@ class WWRandomizerWindow(QMainWindow):
       for opt in ["randomized_gear", "starting_gear"]:
         self.set_option_value(opt, self.default_options[opt])
     
-    for option in Options.all:
+    for option in Options.all():
       if option.name == "custom_colors":
         continue
       widget = self.findChild(QWidget, option.name)

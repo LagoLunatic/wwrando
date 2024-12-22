@@ -217,7 +217,7 @@ def run_no_ui(args):
   with open(SETTINGS_PATH) as f:
     settings: dict = yaml.load(f)
     for option_name, option_value in settings.items():
-      if option_name not in options.by_name:
+      if option_name not in options.by_name():
         continue
       options[option_name] = option_value
   

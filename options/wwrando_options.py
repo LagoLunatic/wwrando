@@ -1,4 +1,4 @@
-from dataclasses import dataclass, KW_ONLY
+from dataclasses import dataclass
 from enum import StrEnum
 
 from options.base_options import BaseOptions, option
