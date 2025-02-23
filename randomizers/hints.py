@@ -665,7 +665,10 @@ class HintsRandomizer(BaseRandomizer):
     while self.path_logic.unplaced_progress_items:
       progress_items_in_this_sphere = {}
       
-      accessible_locations = self.path_logic.get_accessible_remaining_locations(for_progression=False)
+      # Only consider progress locations.
+      accessible_locations = self.path_logic.get_accessible_remaining_locations(for_progression=True)
+      accessible_locations = list(set(accessible_locations) - set(self.rando.boss_reqs.banned_locations))
+      
       locations_in_this_sphere = [
         loc for loc in accessible_locations
         if loc not in previously_accessible_locations
@@ -697,9 +700,6 @@ class HintsRandomizer(BaseRandomizer):
           previously_accessible_locations += newly_accessible_small_key_locations
           continue # Redo this loop iteration with the small key locations no longer being considered 'remaining'.
       
-      
-      # Hide duplicated progression items (e.g. Empty Bottles) when they are placed in non-progression locations to avoid confusion and inconsistency.
-      locations_in_this_sphere = self.path_logic.filter_locations_for_progression(locations_in_this_sphere)
       
       for location_name in locations_in_this_sphere:
         item_name = self.logic.done_item_locations[location_name]
