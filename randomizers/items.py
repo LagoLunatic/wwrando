@@ -619,21 +619,35 @@ class ItemRandomizer(BaseRandomizer):
     logic = Logic(self.rando)
     previously_accessible_locations = []
     game_beatable = False
+    banned_keys = [
+      f"{logic.DUNGEON_NAME_TO_SHORT_DUNGEON_NAME[dungeon_name]} {key_name}"
+      for dungeon_name in self.rando.boss_reqs.banned_dungeons
+      for key_name in ["Small Key", "Big Key"]
+    ]
     while True:
       progress_items_in_this_sphere = {}
       
-      accessible_locations = logic.get_accessible_remaining_locations(for_progression=False)
+      accessible_locations = logic.get_accessible_remaining_locations(for_progression=True)
+      accessible_locations = [
+        loc for loc in accessible_locations
+        if loc not in self.rando.boss_reqs.banned_locations
+      ]
       locations_in_this_sphere = [
         loc for loc in accessible_locations
         if loc not in previously_accessible_locations
       ]
       if not locations_in_this_sphere:
-        if logic.unplaced_progress_items:
+        unplaced_progress_items_minus_banned_keys = [
+          item_name for item_name in logic.unplaced_progress_items
+          if item_name not in banned_keys
+        ]
+        if unplaced_progress_items_minus_banned_keys:
           raise Exception("Failed to calculate progression spheres")
         else:
           remaining_inaccessible_locations = [
             loc for loc in logic.filter_locations_for_progression(logic.remaining_item_locations, filter_sunken_treasure=True)
             if loc not in previously_accessible_locations
+            and loc not in self.rando.boss_reqs.banned_locations
           ]
           if remaining_inaccessible_locations:
             raise Exception("Failed to calculate progression spheres")
