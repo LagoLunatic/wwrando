@@ -5,4 +5,4 @@ pillow>=11.1.0
 appdirs==1.4.4
 certifi==2025.1.31
 tqdm>=4.67.1
--r ./gclib/requirements_full.txt
+-r ./gclib/requirements.txt
