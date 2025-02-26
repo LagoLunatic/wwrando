@@ -11,6 +11,7 @@ from gclib.bti import BTI
 from gclib.j3d import J3D
 from gclib.j3d_chunks.mat3 import MAT3
 from gclib.j3d_chunks.mdl3 import MDL3, BPRegister
+from gclib.j3d_chunks.bp_command import TEV_REGISTERH, TEV_REGISTERL
 from gclib.j3d_chunks.tex1 import TEX1
 from gclib.j3d_chunks.trk1 import TRK1, ColorAnimation
 from gclib.jpa import JParticle100
@@ -206,7 +207,7 @@ class PaletteRandomizer(BaseRandomizer):
     for entry in mdl3.entries:
       tev_color_commands = [
         com for com in entry.bp_commands
-        if com.register >= BPRegister.TEV_REGISTERL_0.value and com.register <= BPRegister.TEV_REGISTERH_3.value
+        if isinstance(com, TEV_REGISTERL) or isinstance(com, TEV_REGISTERH)
       ]
       assert len(tev_color_commands) % 2 == 0 # They should come in pairs of low and high
       
@@ -220,30 +221,31 @@ class PaletteRandomizer(BaseRandomizer):
           # The only time they're not properly paired is when the hi command gets duplicated an additional 2 times.
           assert last_hi_command is not None
           assert last_hi_command.register == hi_command.register == lo_command.register
-          assert last_hi_command_orig_value == hi_command.value == lo_command.value
+          assert last_hi_command_orig_value == hi_command.bitfield == lo_command.bitfield
           
           # Update the color here too
-          hi_command.value = last_hi_command.value
-          lo_command.value = last_hi_command.value
+          hi_command.bitfield = last_hi_command.bitfield
+          lo_command.bitfield = last_hi_command.bitfield
           
           continue
         
-        last_hi_command = hi_command
-        last_hi_command_orig_value = hi_command.value
+        assert isinstance(lo_command, TEV_REGISTERL)
+        assert isinstance(hi_command, TEV_REGISTERH)
         
-        r = (lo_command.value & 0x0007FF)
-        g = (hi_command.value & 0x7FF000) >> 12
-        b = (hi_command.value & 0x0007FF)
-        a = (lo_command.value & 0x7FF000) >> 12
+        last_hi_command = hi_command
+        last_hi_command_orig_value = hi_command.bitfield
+        
+        r = lo_command.r
+        g = hi_command.g
+        b = hi_command.b
+        a = lo_command.a
         
         r, g, b = texture_utils.hsv_shift_color((r, g, b), h_shift, v_shift)
         
-        lo_command.value &= ~0x7FF7FF
-        hi_command.value &= ~0x7FF7FF
-        lo_command.value |= ((r <<  0) & 0x0007FF)
-        hi_command.value |= ((g << 12) & 0x7FF000)
-        hi_command.value |= ((b <<  0) & 0x0007FF)
-        lo_command.value |= ((a << 12) & 0x7FF000)
+        lo_command.r = r
+        hi_command.g = g
+        hi_command.b = b
+        lo_command.a = a
   
   def shift_all_colors_in_trk1(self, file_name, trk1: TRK1, h_shift, v_shift):
     animations: list[ColorAnimation] = []
