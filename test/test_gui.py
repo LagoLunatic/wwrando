@@ -9,6 +9,7 @@ def make_rando_window() -> WWRandomizerWindow:
 
 def test_gui_launches(qtbot):
   window = make_rando_window()
+  window.save_settings()
 
 def test_cosmetic_tab(qtbot):
   window = make_rando_window()
