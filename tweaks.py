@@ -1272,7 +1272,7 @@ def add_chart_number_to_item_get_messages(self: WWRandomizer):
     if item_name.startswith("Treasure Chart "):
       msg = self.bmg.messages_by_id[101 + item_id]
       msg.string = msg.string.replace("a \\{1A 06 FF 00 00 01}Treasure Chart", "\\{1A 06 FF 00 00 01}%s" % item_name)
-    elif item_name.startswith("Triforce Chart ") and not "deciphered" in item_name:
+    elif item_name.startswith("Triforce Chart ") and "deciphered" not in item_name:
       msg = self.bmg.messages_by_id[101 + item_id]
       msg.string = msg.string.replace("a \\{1A 06 FF 00 00 01}Triforce Chart", "\\{1A 06 FF 00 00 01}%s" % item_name)
 
@@ -2616,7 +2616,7 @@ def prevent_fairy_island_softlocks(self: WWRandomizer):
   # To fix this, we move the spawn coming out of the pit on Western Fairy Island back a bit so you
   # just barely don't get hit by the ring of flames. Then, you can save and reload while standing
   # behind the flames to be placed outside of them.
-  wfi_dzr = self.get_arc(f"files/res/Stage/sea/Room15.arc").get_file("room.dzr", DZx)
+  wfi_dzr = self.get_arc("files/res/Stage/sea/Room15.arc").get_file("room.dzr", DZx)
   spawn = next(spawn for spawn in wfi_dzr.entries_by_type(PLYR) if spawn.spawn_id == 1)
   spawn.x_pos = -320170.0
   spawn.save_changes()

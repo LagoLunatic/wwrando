@@ -951,7 +951,7 @@ def search_all_bmds(self):
       #   bbox_j_idx_cnt[joint_index] += 1
       #   bbox_j_name_cnt[joint_name] += 1
       
-      # if not "MDL3" in bmd.chunk_by_type:
+      # if "MDL3" not in bmd.chunk_by_type:
       #   continue
       
       # for i, mdl_entry in enumerate(bmd.mdl3.entries):

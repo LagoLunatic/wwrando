@@ -666,7 +666,7 @@ class EntranceRandomizer(BaseRandomizer):
           possible_remaining_exits = [
             ex for ex in possible_remaining_exits
             if ex in terminal_exits and
-            not ex in (DUNGEON_EXITS + BOSS_EXITS)
+            ex not in (DUNGEON_EXITS + BOSS_EXITS)
           ]
       
       if not possible_remaining_exits:
