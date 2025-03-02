@@ -1,9 +1,6 @@
 
 ### Version 1.11.0 (in progress, not released yet)
 
-Supported operating systems:
-* Windows 8.1 is now supported again after Version 1.10.0 introduced an error on this operating system. If you are on Windows 8.1, please download the "windows-qt5" build instead of the normal "windows" build.
-
 New features:
 * Added a Nested Entrance Randomizer for shuffling dungeon entrances **and** boss entrances with each other, allowing dungeons to be inside of other dungeons, linked together.
   * For example: You could go through Dragon Roost Cavern, but instead of the boss door taking you to Gohma, it may take you into Tower of the Gods. Then, after getting to the end of Tower of the Gods, the boss door takes you to Kalle Demos instead of Gohdan.
@@ -24,8 +21,9 @@ New features:
 * Added optional Trap Chests that will damage you instead of giving you an item.
 * You can now carry enemy weapons through doors.
 * Added a Hero Mode difficulty option that causes you to take four times more damage than normal, and prevents heart refills from dropping.
+* Added a "Hint Importance" option that adds additional information to hints that lets you know if a progress item is required, not required, or possibly required on this seed.
 * You can now choose to start the game with only one or two Heart Containers, instead of the usual three.
-* You can now choose to start the game with the Tingle Statues
+* You can now choose to start the game with the Tingle Statues.
 * The randomizer's UI now supports dark mode on Windows 10+.
 
 Changes:
@@ -51,6 +49,9 @@ Bug fixes:
 * Fixed a rare vanilla bug that could cause Zelda to become temporarily frozen during the fight against Ganondorf. The bug occurred if you managed to reflect one of Zelda's Light Arrows back at Ganondorf during the first phase of the fight instead of the third one, while locked on to Ganondorf, and his HP was low enough to enter the second phase of the fight upon being hit.
 * Fixed a vanilla softlock that could occur when using glitches during the Helmaroc King fight.
 * Fixed a vanilla bug where opening certain chests while holding an enemy weapon would cause the weapon to teleport up into the air or out of bounds.
+
+Supported operating systems:
+* Windows 8.1 is now supported again after version 1.10.0 introduced an error on this operating system. If you are on Windows 8.1, please download the "windows-qt5" build instead of the normal "windows" build.
 
 ### Version 1.10.0 (released 2023-01-06)
 
