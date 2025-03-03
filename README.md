@@ -70,12 +70,14 @@ If you're on Linux, run this command instead: `sudo apt-get install python3.12`
 Open the wwrando folder in a command prompt and install dependencies by running:  
 `py -3.12 -m pip install -r requirements.txt` (on Windows)  
 `python3 -m pip install -r requirements.txt` (on Mac)  
-`python3 -m pip install $(cat requirements.txt) --user` (on Linux)  
+`python3 -m pip install -r requirements.txt --user` (on Linux)  
 
 Then run the randomizer with:  
-`py wwrando.py` (on Windows)  
+`py -3.12 wwrando.py` (on Windows)  
 `python3 wwrando.py` (on Mac)  
 `python3 wwrando.py` (on Linux)  
 
 Optionally, you can also install `requirements_full.txt` with the same process you used for `requirements.txt` above.  
 `requirements_full.txt` will install additional libraries that speed up texture recoloring, as well as for building a distributable version of the randomizer. You can still run the randomizer from source without these.  
+
+If you are on Windows 8 or below, use `requirements_qt5.txt`/`requirements_qt5_full.txt` instead of the normal requirements files.  
