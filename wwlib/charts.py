@@ -5,7 +5,9 @@ from gclib.gclib_file import GCLibFile
 class ChartList(GCLibFile):
   def __init__(self, file_entry_or_data = None):
     super().__init__(file_entry_or_data)
-    self.read()
+    
+    if file_entry_or_data is not None:
+      self.read()
     
   def read(self):
     self.num_charts = fs.read_u32(self.data, 0)

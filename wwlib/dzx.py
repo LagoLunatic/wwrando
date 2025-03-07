@@ -211,7 +211,8 @@ class DZx(GCLibFile): # DZR or DZS, same format
     
     self.chunks: list[Chunk] = []
     
-    self.read()
+    if file_entry_or_data is not None:
+      self.read()
     
   def read(self):
     num_chunks = fs.read_u32(self.data, 0)

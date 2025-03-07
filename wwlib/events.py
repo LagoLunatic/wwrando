@@ -7,7 +7,9 @@ class EventList(GCLibFile):
   
   def __init__(self, file_entry_or_data = None):
     super().__init__(file_entry_or_data)
-    self.read()
+    
+    if file_entry_or_data is not None:
+      self.read()
   
   def read(self):
     event_list_offset = fs.read_u32(self.data, 0x00)

@@ -733,7 +733,6 @@ class WWRandomizer:
     else:
       data = self.gcm.read_file_data(arc_path)
       arc = RARC(data)
-      arc.read()
       self.arcs_by_path[arc_path] = arc
       return arc
   
@@ -819,7 +818,6 @@ class WWRandomizer:
       raise Exception("Cannot replace RARC that doesn't exist: " + arc_path)
     
     arc = RARC(new_data)
-    arc.read()
     self.arcs_by_path[arc_path] = arc
   
   def replace_raw_file(self, file_path, new_data):
