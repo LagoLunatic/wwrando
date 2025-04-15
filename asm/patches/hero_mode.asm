@@ -30,9 +30,21 @@ damage_multiplier:
   ; Remove the branch that skips switching hearts out for rupees when the player's health is not 100% full.
   nop
 
-; Prevent the Keese in Puppet Ganon's fight from dropping hearts.
+; Prevent the disappear clouds of smoke from dropping hearts (e.g. the Keese in Puppet Ganon's fight).
 .org 0x8038B0C0 ; In ki_item_d$4029 (table used in daDisappear_Execute)
   .int 0x01 ; Green Rupee
+
+.close
+
+; Just changing the item table used by Puppet Ganon's Keese creates an issue due to them always
+; prioritizing the heart drop in the table if you have 2 or less hearts. This means they'll never
+; drop arrows or magic if your health is too low, which can result in you being softlocked due to
+; Light Arrows being needed to defeat Puppet Ganon.
+; So we also change the Keese's logic to skip this check entirely so the other checks still run.
+.open "files/rels/d_a_ki.rel" ; Keese
+.org 0x326C ; In ki_fail_move
+  ; Always take the branch for if your health is above 2 hearts.
+  b 0x3278
 
 .close
 
