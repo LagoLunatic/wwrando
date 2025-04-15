@@ -6,19 +6,19 @@
         {
             "label": "Assemble Patches",
             "type": "shell",
-            "command": "python ${workspaceFolder}/asm/assemble.py",
-            "problemMatcher": []
+            "command": "${command:python.interpreterPath} ${workspaceFolder}/asm/assemble.py",
+            "problemMatcher": [],
         },
         {
             "label": "Print Used Vanilla Flags",
             "type": "shell",
-            "command": "python ${workspaceFolder}/wwrando.py -noui -printflags",
+            "command": "${command:python.interpreterPath} ${workspaceFolder}/wwrando.py -noui -printflags",
             "problemMatcher": []
         },
         {
             "label": "Disassemble Vanilla Code",
             "type": "shell",
-            "command": "python ${workspaceFolder}/wwrando.py -noui -disassemble",
+            "command": "${command:python.interpreterPath} ${workspaceFolder}/wwrando.py -noui -disassemble",
             "problemMatcher": []
         },
         {
