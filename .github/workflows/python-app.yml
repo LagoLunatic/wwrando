@@ -42,7 +42,7 @@ jobs:
             upload_path_suffix: '.zip'
             reqs_file: requirements_full.txt
           - name: Linux
-            os: ubuntu-latest
+            os: ubuntu-22.04
             artifact: linux
             upload_path_suffix: '/*'
             reqs_file: requirements_full.txt
