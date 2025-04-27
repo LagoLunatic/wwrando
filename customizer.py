@@ -173,6 +173,7 @@ def get_all_custom_model_names():
     if folder_name in ["Link", "Random"]:
       continue
     custom_model_names.append(folder_name)
+  custom_model_names.sort()
   return custom_model_names
 
 def decide_on_link_model(self: WWRandomizer):
