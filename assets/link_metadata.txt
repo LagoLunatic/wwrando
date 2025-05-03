@@ -95,11 +95,10 @@ casual_color_presets:
     Sclera: 0x000000
     Shirt: 0x333333
     Shirt Emblem: 0xD8D9DB
+    Armbands: 0x736B69
     Pants: 0x898E91
     Shoes: 0x464646
     Shoe Soles: 0x464646
-    Belt: 0xA4A09D
-    Belt Buckle: 0xBABB93
   Green Link:
     Hair: 0x9CF543
     Shirt: 0x5AB24A
