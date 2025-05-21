@@ -1,3 +1,8 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+  from randomizer import WWRandomizer
+
 import os
 import re
 from collections import Counter, defaultdict
@@ -21,17 +26,21 @@ def try_int_convert(string):
 def split_string_for_natural_sort(string):
   return [try_int_convert(c) for c in re.split("([0-9]+)", string)]
 
-def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_name_to_limit_to=None, exclude_unused=True) -> Generator[tuple[DZx, str], None, None]:
-  all_filenames = list(self.gcm.files_by_path.keys())
+def each_gcm_file_path(self: WWRandomizer) -> Generator[str]:
+  all_file_paths = list(self.gcm.files_by_path.keys())
   
   # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
-  all_filenames.sort(key=lambda filename: split_string_for_natural_sort(filename))
+  all_file_paths.sort(key=lambda file_path: split_string_for_natural_sort(file_path))
   
+  for file_path in all_file_paths:
+    yield file_path
+
+def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_name_to_limit_to=None, exclude_unused=True) -> Generator[tuple[DZx, str, str], None, None]:
   all_stage_arc_paths = []
   all_room_arc_paths = []
-  for filename in all_filenames:
-    stage_match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", filename, re.IGNORECASE)
-    room_match = re.search(r"files/res/Stage/([^/]+)/Room\d+.arc", filename, re.IGNORECASE)
+  for file_path in each_gcm_file_path(self):
+    stage_match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", file_path, re.IGNORECASE)
+    room_match = re.search(r"files/res/Stage/([^/]+)/Room\d+.arc", file_path, re.IGNORECASE)
     
     if stage_match and exclude_stages:
       continue
@@ -45,7 +54,7 @@ def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_n
         continue
       if stage_name_to_limit_to and stage_name_to_limit_to != stage_name:
         continue
-      all_stage_arc_paths.append(filename)
+      all_stage_arc_paths.append(file_path)
     
     if room_match:
       stage_name = room_match.group(1)
@@ -54,34 +63,52 @@ def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_n
         continue
       if stage_name_to_limit_to and stage_name_to_limit_to != stage_name:
         continue
-      all_room_arc_paths.append(filename)
+      all_room_arc_paths.append(file_path)
   
   for stage_arc_path in all_stage_arc_paths:
     dzs = self.get_arc(stage_arc_path).get_file("stage.dzs", DZx)
+    match = re.search(r"^files/res/Stage/([^/]+)/", stage_arc_path, re.IGNORECASE)
+    assert match
+    stage_name = match.group(1)
     if dzs is None:
       continue
-    yield(dzs, stage_arc_path)
+    yield(dzs, stage_arc_path, stage_name)
   for room_arc_path in all_room_arc_paths:
     dzr = self.get_arc(room_arc_path).get_file("room.dzr", DZx)
+    match = re.search(r"^files/res/Stage/([^/]+)/", stage_arc_path, re.IGNORECASE)
+    assert match
+    stage_name = match.group(1)
     if dzr is None:
       continue
-    yield(dzr, room_arc_path)
+    yield(dzr, room_arc_path, stage_name)
 
-def each_stage(self, exclude_unused=True) -> Generator[tuple[DZx, str], None, None]:
+def each_stage(self, exclude_unused=True) -> Generator[tuple[DZx, str, str], None, None]:
   return each_stage_and_room(self, exclude_rooms=True, exclude_unused=exclude_unused)
 
-def each_room(self, exclude_unused=True) -> Generator[tuple[DZx, str], None, None]:
+def each_room(self, exclude_unused=True) -> Generator[tuple[DZx, str, str], None, None]:
   return each_stage_and_room(self, exclude_stages=True, exclude_unused=exclude_unused)
 
-def each_stage_with_rooms(self, exclude_unused=True) -> Generator[tuple[DZx, str, list[tuple[DZx, str]]], None, None]:
-  for dzs, stage_arc_path in each_stage(self, exclude_unused=exclude_unused):
-    match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
-    stage_name = match.group(1)
-    
+def each_stage_with_rooms(self, exclude_unused=True) -> Generator[tuple[DZx, str, str, list[tuple[DZx, str]]], None, None]:
+  for dzs, stage_arc_path, stage_name in each_stage(self, exclude_unused=exclude_unused):
     rooms = []
-    for dzr, room_arc_path in each_stage_and_room(self, exclude_stages=True, stage_name_to_limit_to=stage_name, exclude_unused=exclude_unused):
+    for dzr, room_arc_path, _ in each_stage_and_room(self, exclude_stages=True, stage_name_to_limit_to=stage_name, exclude_unused=exclude_unused):
       rooms.append((dzr, room_arc_path))
-    yield(dzs, stage_arc_path, rooms)
+    yield(dzs, stage_arc_path, stage_name, rooms)
+
+def each_rel(self: WWRandomizer) -> Generator[str, None, None]:
+  for file_path in each_gcm_file_path(self):
+    if not file_path.startswith("files/rels/"):
+      continue
+    yield file_path
+  
+  rels_arc = self.get_arc("files/RELS.arc")
+  for file_entry in rels_arc.file_entries:
+    if file_entry.is_dir:
+      continue
+    if file_entry.name == "f_pc_profile_lst.rel":
+      continue
+    rel_path = "files/rels/%s" % file_entry.name
+    yield rel_path
 
 def print_all_used_switches(self):
   used_switches_by_stage_id = {}
@@ -107,9 +134,7 @@ def print_all_used_switches(self):
     
     used_switches_list[stage_id][room_arc_path_short].append((switch, location_identifier))
   
-  for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
-    match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
-    stage_name = match.group(1)
+  for dzs, stage_arc_path, stage_name, rooms in each_stage_with_rooms(self, exclude_unused=False):
     stage_info = dzs.entries_by_type(STAG)[0]
     stage_id = stage_info.stage_id
     
@@ -335,9 +360,7 @@ def print_all_used_switches(self):
 def print_all_used_item_pickup_flags(self):
   used_item_flags_by_stage_id = {}
   used_item_flags_by_stage_id_unused = {}
-  for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
-    match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
-    stage_name = match.group(1)
+  for dzs, stage_arc_path, stage_name, rooms in each_stage_with_rooms(self, exclude_unused=False):
     stage_info = dzs.entries_by_type(STAG)[0]
     stage_id = stage_info.stage_id
     
@@ -438,7 +461,7 @@ def print_all_used_item_pickup_flags(self):
 def print_all_used_chest_open_flags(self):
   used_chest_flags_by_stage_id = {}
   used_chest_flags_by_stage_id[1] = []
-  for dzs, stage_arc_path, rooms in each_stage_with_rooms(self):
+  for dzs, stage_arc_path, stage_name, rooms in each_stage_with_rooms(self):
     stage_info = dzs.entries_by_type(STAG)[0]
     stage_id = stage_info.stage_id
     if stage_id not in used_chest_flags_by_stage_id:
@@ -504,7 +527,7 @@ def print_all_used_salvage_flags(self):
 def print_all_event_flags_used_by_stb_cutscenes(self):
   with open("Used event bits (from STB cutscenes only).txt", "w") as f:
     f.write("Event flags:\n")
-    for dzs, stage_arc_path in each_stage(self):
+    for dzs, stage_arc_path, stage_name in each_stage(self):
       event_list = self.get_arc(stage_arc_path).get_file("event_list.dat", EventList)
       for event in event_list.events:
         package = [x for x in event.actors if x.name == "PACKAGE"]
@@ -521,14 +544,11 @@ def print_all_event_list_actions(self):
   # Build a list of all actions used by all actors in the game.
   all_actors = {}
   
-  for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
+  for dzs, stage_arc_path, stage_name, rooms in each_stage_with_rooms(self, exclude_unused=False):
     stage_arc = self.get_arc(stage_arc_path)
     event_list = stage_arc.get_file("event_list.dat", EventList)
     if event_list is None:
       continue
-    
-    match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
-    stage_name = match.group(1)
     
     for event in event_list.events:
       stage_and_event_name = "%s:%s" % (stage_name, event.name)
@@ -628,14 +648,12 @@ def print_all_event_list_actions(self):
 
 def print_stages_for_each_stage_id(self):
   stage_names_by_stage_id = {}
-  for dzs, stage_arc_path, rooms in each_stage_with_rooms(self):
+  for dzs, stage_arc_path, stage_name, rooms in each_stage_with_rooms(self):
     stage_info = dzs.entries_by_type(STAG)[0]
     stage_id = stage_info.stage_id
     if stage_id not in stage_names_by_stage_id:
       stage_names_by_stage_id[stage_id] = []
     
-    match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
-    stage_name = match.group(1)
     stage_names_by_stage_id[stage_id].append(stage_name)
   
   stage_names_by_stage_id = dict(sorted(
@@ -753,7 +771,7 @@ def print_actor_info(self):
 def print_all_entity_params(self):
   with open("All Entity Params.txt", "w") as f:
     f.write("   name   params xrot zrot    stage/arc    chunk/index\n")
-    for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
+    for dzs, stage_arc_path, stage_name, rooms in each_stage_with_rooms(self, exclude_unused=False):
       stage_and_rooms = [(dzs, stage_arc_path)] + rooms
       for dzx, arc_path in stage_and_rooms:
         for chunk_type in [ACTR, SCOB, TRES, TGOB, TGSC, DOOR, TGDR]:
@@ -770,28 +788,9 @@ def print_all_entity_params(self):
               f.write(out_str + "\n")
 
 
-def print_all_actor_instance_sizes(self):
-  all_filenames = list(self.gcm.files_by_path.keys())
-  
-  # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
-  all_filenames.sort(key=lambda filename: split_string_for_natural_sort(filename))
-  
-  rel_paths = []
-  for filename in all_filenames:
-    if not filename.startswith("files/rels/"):
-      continue
-    rel_paths.append(filename)
-  
-  rels_arc = self.get_arc("files/RELS.arc")
-  for file_entry in rels_arc.file_entries:
-    if file_entry.is_dir:
-      continue
-    if file_entry.name == "f_pc_profile_lst.rel":
-      continue
-    rel_paths.append("files/rels/%s" % file_entry.name)
-  
+def print_all_actor_instance_sizes(self: WWRandomizer):
   profile_name_to_actor_size = []
-  for rel_path in rel_paths:
+  for rel_path in each_rel(self):
     rel = self.get_rel(rel_path)
     basename = os.path.splitext(os.path.basename(rel_path))[0]
     #print(basename)
@@ -801,13 +800,9 @@ def print_all_actor_instance_sizes(self):
     for symbol_name, symbol_address in symbols.items():
       if symbol_name.startswith("g_profile_"):
         profile_name = symbol_name
-    
-    #print(profile_name)
-    profile_offset = symbols[profile_name]
-    actor_size = rel.read_data(fs.read_u32, profile_offset+0x10)
-    #print("%X" % actor_size)
-    
-    profile_name_to_actor_size.append((profile_name, actor_size))
+        profile_offset = symbols[profile_name]
+        actor_size = rel.read_data(fs.read_u32, profile_offset+0x10)
+        profile_name_to_actor_size.append((profile_name, actor_size))
   
   main_symbols = self.get_symbol_map("files/maps/framework.map")
   for symbol_name, symbol_address in main_symbols.items():
@@ -824,27 +819,8 @@ def print_all_actor_instance_sizes(self):
       f.write("%-19s: %5X\n" % (class_name, actor_size))
 
 def print_all_actor_listids(self):
-  all_filenames = list(self.gcm.files_by_path.keys())
-  
-  # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
-  all_filenames.sort(key=lambda filename: split_string_for_natural_sort(filename))
-  
-  rel_paths = []
-  for filename in all_filenames:
-    if not filename.startswith("files/rels/"):
-      continue
-    rel_paths.append(filename)
-  
-  rels_arc = self.get_arc("files/RELS.arc")
-  for file_entry in rels_arc.file_entries:
-    if file_entry.is_dir:
-      continue
-    if file_entry.name == "f_pc_profile_lst.rel":
-      continue
-    rel_paths.append("files/rels/%s" % file_entry.name)
-  
   profile_name_to_listid = []
-  for rel_path in rel_paths:
+  for rel_path in each_rel(self):
     rel = self.get_rel(rel_path)
     basename = os.path.splitext(os.path.basename(rel_path))[0]
     #print(basename)
@@ -854,13 +830,9 @@ def print_all_actor_listids(self):
     for symbol_name, symbol_address in symbols.items():
       if symbol_name.startswith("g_profile_"):
         profile_name = symbol_name
-    
-    #print(profile_name)
-    profile_offset = symbols[profile_name]
-    actor_listid = rel.read_data(fs.read_u16, profile_offset+0x04)
-    #print("%X" % actor_listid)
-    
-    profile_name_to_listid.append((profile_name, actor_listid))
+        profile_offset = symbols[profile_name]
+        actor_listid = rel.read_data(fs.read_u16, profile_offset+0x04)
+        profile_name_to_listid.append((profile_name, actor_listid))
   
   main_symbols = self.get_symbol_map("files/maps/framework.map")
   for symbol_name, symbol_address in main_symbols.items():
@@ -876,13 +848,43 @@ def print_all_actor_listids(self):
       class_name = profile_name[len("g_profile_"):]
       f.write("%-19s: %5X\n" % (class_name, actor_listid))
 
+def print_all_actor_priorities(self):
+  profile_name_to_priority = []
+  for rel_path in each_rel(self):
+    rel = self.get_rel(rel_path)
+    basename = os.path.splitext(os.path.basename(rel_path))[0]
+    #print(basename)
+    
+    symbols = self.get_symbol_map("files/maps/%s.map" % basename)
+    profile_name = None
+    for symbol_name, symbol_address in symbols.items():
+      if symbol_name.startswith("g_profile_"):
+        profile_name = symbol_name
+        profile_offset = symbols[profile_name]
+        actor_priority = rel.read_data(fs.read_u16, profile_offset+0x20)
+        profile_name_to_priority.append((profile_name, actor_priority))
+  
+  main_symbols = self.get_symbol_map("files/maps/framework.map")
+  for symbol_name, symbol_address in main_symbols.items():
+    if symbol_name.startswith("g_profile_"):
+      actor_priority = self.dol.read_data(fs.read_u16, symbol_address+0x20)
+      profile_name_to_priority.append((symbol_name, actor_priority))
+  
+  profile_name_to_priority.sort(key=lambda x: x[1])
+  
+  with open("Actor Priorities.txt", "w") as f:
+    for profile_name, actor_priority in profile_name_to_priority:
+      assert profile_name.startswith("g_profile_")
+      class_name = profile_name[len("g_profile_"):]
+      f.write("%-19s: %5X\n" % (class_name, actor_priority))
+
 def print_actor_class_occurrences(self):
   occs = {}
   for class_name in DataTables.actor_parameters:
     if class_name in ["d_a_switch_op"]:
       continue
     occs[class_name] = 0
-  for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
+  for dzs, stage_arc_path, stage_name, rooms in each_stage_with_rooms(self, exclude_unused=False):
     stage_and_rooms = [(dzs, stage_arc_path)] + rooms
     classes_seen_in_stage = []
     for dzx, arc_path in stage_and_rooms:
@@ -911,16 +913,11 @@ def print_actor_class_occurrences(self):
       f.write("%20s: %d\n" % (k, v))
 
 def search_all_bmds(self):
-  all_filenames = list(self.gcm.files_by_path.keys())
-  
-  # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
-  all_filenames.sort(key=lambda filename: split_string_for_natural_sort(filename))
-  
   # j_idx_cnt = Counter()
   # bbox_j_idx_cnt = Counter()
   # j_name_cnt = Counter()
   # bbox_j_name_cnt = Counter()
-  for arc_path in all_filenames:
+  for arc_path in each_gcm_file_path(self):
     if not arc_path.endswith(".arc"):
       continue
     rarc = self.get_arc(arc_path)
@@ -989,14 +986,9 @@ def search_all_bmds(self):
   #     f.write(f"{joint_index:{max_joint_index_len}d}: {bboxed}/{total} ({100*bboxed/total:.0f}%)\n")
 
 def search_all_dzbs(self):
-  all_filenames = list(self.gcm.files_by_path.keys())
-  
-  # Sort the file names for determinism. And use natural sorting so the room numbers are in order.
-  all_filenames.sort(key=lambda filename: split_string_for_natural_sort(filename))
-  
   seen_cam_behavior_vals = []
   seen_octree_block_face_counts = Counter()
-  for arc_path in all_filenames:
+  for arc_path in each_gcm_file_path(self):
     if not arc_path.endswith(".arc"):
       continue
     for file_entry in self.get_arc(arc_path).file_entries:
@@ -1045,13 +1037,12 @@ def search_all_dzbs(self):
   #   print(f"{num_faces:-2d}: {count}")
 
 def print_all_used_particle_banks(self):
-  for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
-    match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
-    stage_name = match.group(1)
+  for dzs, stage_arc_path, stage_name, rooms in each_stage_with_rooms(self, exclude_unused=False):
     particle_bank = dzs.entries_by_type(STAG)[0].loaded_particle_bank
     if particle_bank == 0xFF:
       for dzr, room_arc_path in rooms:
         match = re.search(r"files/res/Stage/([^/]+)/([^.]+).arc", room_arc_path, re.IGNORECASE)
+        assert match
         room_name = match.group(2)
         particle_bank = dzr.entries_by_type(FILI)[0].loaded_particle_bank
         if particle_bank == 0xFF:
@@ -1068,9 +1059,7 @@ def print_all_used_particle_banks(self):
 
 def print_all_spawn_types(self):
   spawns_by_type = defaultdict(list)
-  for dzs, stage_arc_path, rooms in each_stage_with_rooms(self, exclude_unused=False):
-    match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
-    stage_name = match.group(1)
+  for dzs, stage_arc_path, stage_name, rooms in each_stage_with_rooms(self, exclude_unused=False):
     stage_info = dzs.entries_by_type(STAG)[0]
     stage_id = stage_info.stage_id
     
@@ -1089,9 +1078,7 @@ def print_all_spawn_types(self):
 
 def print_all_stage_types(self):
   stages_by_type = defaultdict(list)
-  for dzs, stage_arc_path in each_stage(self, exclude_unused=False):
-    match = re.search(r"files/res/Stage/([^/]+)/Stage.arc", stage_arc_path, re.IGNORECASE)
-    stage_name = match.group(1)
+  for dzs, stage_arc_path, stage_name in each_stage(self, exclude_unused=False):
     stage_info = dzs.entries_by_type(STAG)[0]
     stage_id = stage_info.stage_id
     stage_type = stage_info.stage_type
@@ -1106,8 +1093,14 @@ def print_all_stage_types(self):
         f.write(f"  {stage_name}\n")
 
 def print_all_filis(self):
-  for dzr, room_arc_path in each_room(self, exclude_unused=False):
+  for dzr, room_arc_path, stage_name in each_room(self, exclude_unused=False):
     fili = dzr.entries_by_type(FILI)[0]
     if fili.params & 1 == 0:
       continue
     print(f"{fili.params:08X} {room_arc_path}")
+
+def print_all_messages(self):
+  # self.bmg = self.get_arc("files/res/Msg/bmgres.arc").get_file("zel_00.bmg", BMG)
+  for i in range(0x10):
+    if 101 + i in self.bmg.messages_by_id:
+      print(i, self.bmg.messages_by_id[101 + i].string)

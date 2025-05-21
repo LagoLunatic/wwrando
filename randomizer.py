@@ -133,7 +133,7 @@ class WWRandomizer:
     self.arcs_by_path: dict[str, RARC] = {}
     self.jpcs_by_path: dict[str, JPC100] = {}
     self.rels_by_path: dict[str, REL] = {}
-    self.symbol_maps_by_path: dict[str, dict[int, str]] = {}
+    self.symbol_maps_by_path: dict[str, dict[str, int]] = {}
     self.raw_files_by_path: dict[str, BytesIO] = {}
     self.used_actor_ids = list(range(0x1F6))
     
@@ -771,7 +771,7 @@ class WWRandomizer:
       self.rels_by_path[rel_path] = rel
       return rel
   
-  def get_symbol_map(self, map_path):
+  def get_symbol_map(self, map_path) -> dict[str, int]:
     map_path = map_path.replace("\\", "/")
     
     if map_path in self.symbol_maps_by_path:
