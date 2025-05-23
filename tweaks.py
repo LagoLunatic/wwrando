@@ -1991,15 +1991,15 @@ def add_spawns_outside_boss_doors(self: WWRandomizer):
   """Creates new spawns in dungeons for use when exiting the boss doors."""
   
   rooms_to_add_new_spawns_to = [
-    ("M_NewD2", 10, TGDR, None, 11),
-    #("kindan", 16, TGDR, None, 13), # Already has a spawn, ID 1.
-    ("Siren", 18, TGDR, None, 13),
-    ("sea", 1, ACTR, 1, 56),
-    ("M_Dai", 15, TGDR, None, 17),
-    ("kaze", 12, TGDR, None, 13),
+    ("M_NewD2", 10, TGDR, None, "door20"),
+    ("kindan", 16, TGDR, None, "door20"), # Already has a spawn, ID 1.
+    ("Siren", 18, TGDR, None, "door20"),
+    ("sea", 1, ACTR, 1, "SMBdor"),
+    ("M_Dai", 15, TGDR, None, "door12"),
+    ("kaze", 12, TGDR, None, "door12"),
   ]
   
-  for stage_name, room_number, chunk, layer, boss_door_index in rooms_to_add_new_spawns_to:
+  for stage_name, room_number, chunk, layer, door_name in rooms_to_add_new_spawns_to:
     new_spawn_id = 27
     
     dzs = self.get_arc("files/res/Stage/%s/Stage.arc" % stage_name).get_file("stage.dzs", DZx)
@@ -2010,7 +2010,14 @@ def add_spawns_outside_boss_doors(self: WWRandomizer):
     else:
       dzx_for_door = dzr
     
-    door = dzx_for_door.entries_by_type_and_layer(chunk, layer=layer)[boss_door_index]
+    doors = [
+      actor for actor in dzx_for_door.entries_by_type_and_layer(chunk, layer=layer)
+      if actor.name == door_name
+      and (door_name == "SMBdor" or actor.from_room_num == actor.to_room_num == room_number)
+    ]
+    assert len(doors) == 1
+    door = doors[0]
+    
     spawn_dist_from_door = 200
     y_rot = door.y_rot
     if door.from_room_num != room_number and door.from_room_num != 63:

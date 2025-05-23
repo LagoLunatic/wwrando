@@ -497,7 +497,7 @@ class HintsRandomizer(BaseRandomizer):
     island_dzr = self.rando.get_arc("files/res/Stage/sea/Room%d.arc" % island_num).get_file("room.dzr", DZx)
     island_actors = island_dzr.entries_by_type(ACTR)
     hoho_actors = [x for x in island_actors if x.name == "Ah"]
-    assert len(hoho_actors) > 0
+    # assert len(hoho_actors) > 0
     
     dest_sector_mult = next(mult for mult in mults if mult.room_index == island_num_to_look_towards)
     
