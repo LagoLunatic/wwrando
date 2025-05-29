@@ -37,7 +37,9 @@ a = Analysis(['wwrando.py'],
                'version.txt',
                'wwr_ui/*.ui',
              ]),
-             hiddenimports=[],
+             hiddenimports=[
+               '_cffi_backend', # For imagequant (gclib)
+             ],
              hookspath=[],
              runtime_hooks=[],
              excludes=[],
