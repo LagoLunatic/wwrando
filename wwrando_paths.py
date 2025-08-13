@@ -4,7 +4,8 @@ import platform
 
 import appdirs
 
-try:
+import sys
+if getattr(sys, 'frozen', False) and hasattr(sys, "_MEIPASS"):
   from sys import _MEIPASS # pyright: ignore [reportAttributeAccessIssue]
   RANDO_ROOT_PATH = _MEIPASS
   IS_RUNNING_FROM_SOURCE = False
@@ -19,7 +20,7 @@ try:
   else:
     CUSTOM_MODELS_PATH = os.path.join(".", "models")
     SETTINGS_PATH = os.path.join(".", "settings.txt")
-except ImportError:
+else:
   RANDO_ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
   IS_RUNNING_FROM_SOURCE = True
   SETTINGS_PATH = os.path.join(RANDO_ROOT_PATH, "settings.txt")
