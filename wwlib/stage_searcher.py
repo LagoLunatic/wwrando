@@ -75,7 +75,7 @@ def each_stage_and_room(self, exclude_stages=False, exclude_rooms=False, stage_n
     yield(dzs, stage_arc_path, stage_name)
   for room_arc_path in all_room_arc_paths:
     dzr = self.get_arc(room_arc_path).get_file("room.dzr", DZx)
-    match = re.search(r"^files/res/Stage/([^/]+)/", stage_arc_path, re.IGNORECASE)
+    match = re.search(r"^files/res/Stage/([^/]+)/", room_arc_path, re.IGNORECASE)
     assert match
     stage_name = match.group(1)
     if dzr is None:
@@ -244,7 +244,7 @@ def print_all_used_switches(self):
             #      print("!!!! %02X %s %s %s" % (param_val, actor.name, attr_name, arc_path))
             
             if "switch" in attr_name and "num_switches" not in attr_name:
-              if attr_name in ["invert_spawn_condition_switch", "dont_check_enable_spawn_switch"]:
+              if attr_name in ["invert_spawn_condition_switch", "dont_check_enable_spawn_switch", "should_set_switch"]:
                 continue
               
               attr_switch = getattr(actor, attr_name)
