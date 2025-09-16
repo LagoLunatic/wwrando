@@ -1,8 +1,11 @@
 
 d_a_acorn_leaf:
-  unknown_param_1:
+  dropped_item_id:
     Bitfield name: params
-    Mask: 0x80000000
+    Mask: 0x0000003F
+  item_pickup_flag:
+    Bitfield name: params
+    Mask: 0x00001FC0
 
 d_a_agbsw0:
   gba_message_id:

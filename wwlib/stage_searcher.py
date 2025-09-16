@@ -420,7 +420,7 @@ def print_all_used_item_pickup_flags(self):
               
               if class_name in ["d_a_item", "d_a_race_item", "d_a_tag_kb_item"]:
                 item_name = self.item_names[actor.item_id]
-              elif class_name in ["d_a_tsubo", "d_a_switem", "d_a_obj_barrel2", "d_a_obj_movebox", "d_a_obj_homen", "d_a_stone", "d_a_stone2", "d_a_obj_bemos"]:
+              elif class_name in ["d_a_tsubo", "d_a_switem", "d_a_obj_barrel2", "d_a_obj_movebox", "d_a_obj_homen", "d_a_stone", "d_a_stone2", "d_a_obj_bemos", "d_a_acorn_leaf"]:
                 if actor.dropped_item_id < 0x20:
                   item_name = self.item_names[actor.dropped_item_id]
                 elif actor.dropped_item_id == 0x3F:
