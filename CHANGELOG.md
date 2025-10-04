@@ -52,6 +52,7 @@ Bug fixes:
 
 Supported operating systems:
 * Windows 8.1 is now supported again after version 1.10.0 introduced an error on this operating system. If you are on Windows 8.1, please download the "windows-qt5" build instead of the normal "windows" build.
+* Mac builds can no longer be offered due to macOS updates making apps more difficult to create. Mac users should [run the randomizer from source](./README.md#running-the-randomizer-from-source) instead.
 
 ### Version 1.10.0 (released 2023-01-06)
 

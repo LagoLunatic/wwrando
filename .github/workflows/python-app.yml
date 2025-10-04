@@ -36,11 +36,11 @@ jobs:
             artifact: windows-qt5
             upload_path_suffix: '/*'
             reqs_file: requirements_qt5_full.txt
-          - name: MacOS
-            os: macos-latest
-            artifact: macos
-            upload_path_suffix: '.zip'
-            reqs_file: requirements_full.txt
+          # - name: MacOS
+          #   os: macos-latest
+          #   artifact: macos
+          #   upload_path_suffix: '.zip'
+          #   reqs_file: requirements_full.txt
           - name: Linux
             os: ubuntu-22.04
             artifact: linux
