@@ -125,6 +125,9 @@ files/rels/d_a_bdk.rel:
 files/rels/d_a_boko.rel:
   check_phantom_ganons_sword_should_disappear: 0x4B88
   phantom_ganon_maze_stage_name: 0x4BC4
+files/rels/d_a_npc_people.rel:
+  sam_decorate_town_require_pedestals_to_exist: 0xCF18
+  create_item_and_set_event_bit_for_townsperson: 0xCF64
 files/rels/d_a_rd.rel:
   redead_check_disable_spawn_switch: 0x61E4
   redead_set_death_switch: 0x6224
@@ -143,8 +146,6 @@ files/rels/d_a_obj_ftree.rel:
   create_item_for_withered_trees_without_setting_speeds: 0x535C
   withered_tree_item_try_give_momentum: 0x5384
   withered_tree_item_speeds: 0x53F8
-files/rels/d_a_npc_people.rel:
-  create_item_and_set_event_bit_for_townsperson: 0xCF18
 files/rels/d_a_npc_photo.rel:
   lenzo_set_deluxe_picto_box_event_bit: 0x5EC8
 files/rels/d_a_npc_rsh1.rel:

@@ -590,3 +590,45 @@ check_helmaroc_king_landing_timeout:
 .org 0x26A8 ; In daBoko_c::procCarry
   nop
 .close
+
+
+
+
+; Fix a vanilla bug in the "Decorate the Town" sidequest where Sam can be tricked into handing over the reward without the player ever decorating a pedestal.
+; Sam's reward gate, isUo1FdaiAll, just compares daDai_c::getMaxDaiza() and daDai_c::getDaizaSetItemNum(), two static counters that are reset to 0 on stage change and incremented by Joy Pedestal actors as they spawn.
+; If the player receives the Delivery Bag while already outdoors on Windfall, the Joy Pedestals don't spawn until the scene is reloaded, so both counters stay at 0, and the equality check returns true.
+.open "files/rels/d_a_npc_people.rel" ; Sam (and other Windfall NPCs)
+.org 0x9260 ; In daNpcPeople_c::isUo1FdaiAll
+  b sam_decorate_town_require_pedestals_to_exist
+
+; Require at least one pedestal to have spawned in the current stage before considering the quest complete.
+.org @NextFreeSpace
+.global sam_decorate_town_require_pedestals_to_exist
+sam_decorate_town_require_pedestals_to_exist:
+  stwu sp, -0x10 (sp)
+  mflr r0
+  stw r0, 0x14 (sp)
+  stw r31, 0xC (sp)
+  
+  bl getMaxDaiza__7daDai_cFv
+  cmpwi r3, 0
+  beq sam_decorate_town_require_pedestals_to_exist_return_false ; No pedestals have spawned yet, so the quest can't be complete
+  mr r31, r3 ; Save MaxDaiza for the comparison below
+  
+  bl getDaizaSetItemNum__7daDai_cFv
+  cmpw r3, r31
+  bne sam_decorate_town_require_pedestals_to_exist_return_false ; Not every spawned pedestal has an item placed on it
+  
+  li r3, 1
+  b sam_decorate_town_require_pedestals_to_exist_end
+  
+  sam_decorate_town_require_pedestals_to_exist_return_false:
+  li r3, 0
+  
+  sam_decorate_town_require_pedestals_to_exist_end:
+  lwz r31, 0xC (sp)
+  lwz r0, 0x14 (sp)
+  mtlr r0
+  addi sp, sp, 0x10
+  blr
+.close
