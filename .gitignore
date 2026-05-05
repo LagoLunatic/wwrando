@@ -15,3 +15,4 @@ profileresults*.png
 /site
 .coverage
 .env
+/.idea/

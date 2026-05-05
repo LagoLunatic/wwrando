@@ -862,6 +862,116 @@
             </item>
            </layout>
           </widget>
+          <widget class="QWidget" name="tab_custom_item_placement">
+           <attribute name="title">
+            <string>Custom Item Placement</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_custom_item_placement">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_custom_item_placement_select">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_custom_item_select">
+                <item>
+                 <widget class="QLabel" name="label_for_custom_item">
+                  <property name="text">
+                   <string>Item to Place</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="custom_item_to_place">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_custom_location_select">
+                <item>
+                 <widget class="QLabel" name="label_for_custom_location">
+                  <property name="text">
+                   <string>Location</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="custom_location_to_place">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_place_button">
+                <item>
+                 <spacer name="verticalSpacer_place_button">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="place_item_button">
+                  <property name="text">
+                   <string>Place Item</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QTableWidget" name="custom_placement_list">
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+              <property name="rowCount">
+               <number>0</number>
+              </property>
+              <property name="columnCount">
+               <number>2</number>
+              </property>
+              <column>
+               <property name="text">
+                <string>Item</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Location</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="remove_placement_button">
+              <property name="text">
+               <string>Remove Selected Placement</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
           <widget class="QWidget" name="tab_advanced">
            <attribute name="title">
             <string>Advanced Options</string>

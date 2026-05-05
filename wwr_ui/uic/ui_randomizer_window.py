@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'randomizer_window.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.2
+## Created by: Qt User Interface Compiler version 6.11.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -17,10 +17,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractItemView, QAbstractSpinBox, QApplication, QCheckBox,
     QComboBox, QFrame, QGridLayout, QGroupBox,
-    QHBoxLayout, QLabel, QLineEdit, QListView,
-    QMainWindow, QPushButton, QScrollArea, QSizePolicy,
-    QSpacerItem, QSpinBox, QTabWidget, QVBoxLayout,
-    QWidget)
+    QHBoxLayout, QHeaderView, QLabel, QLineEdit,
+    QListView, QMainWindow, QPushButton, QScrollArea,
+    QSizePolicy, QSpacerItem, QSpinBox, QTabWidget,
+    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
 
 from wwr_ui.cosmetic_tab import CosmeticTab
 
@@ -593,6 +593,87 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.addLayout(self.horizontalLayout_random_starting_items)
 
         self.tabWidget.addTab(self.tab_starting_items, "")
+        self.tab_custom_item_placement = QWidget()
+        self.tab_custom_item_placement.setObjectName(u"tab_custom_item_placement")
+        self.verticalLayout_custom_item_placement = QVBoxLayout(self.tab_custom_item_placement)
+        self.verticalLayout_custom_item_placement.setObjectName(u"verticalLayout_custom_item_placement")
+        self.horizontalLayout_custom_item_placement_select = QHBoxLayout()
+        self.horizontalLayout_custom_item_placement_select.setObjectName(u"horizontalLayout_custom_item_placement_select")
+        self.verticalLayout_custom_item_select = QVBoxLayout()
+        self.verticalLayout_custom_item_select.setObjectName(u"verticalLayout_custom_item_select")
+        self.label_for_custom_item = QLabel(self.tab_custom_item_placement)
+        self.label_for_custom_item.setObjectName(u"label_for_custom_item")
+
+        self.verticalLayout_custom_item_select.addWidget(self.label_for_custom_item)
+
+        self.custom_item_to_place = QComboBox(self.tab_custom_item_placement)
+        self.custom_item_to_place.setObjectName(u"custom_item_to_place")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.custom_item_to_place.sizePolicy().hasHeightForWidth())
+        self.custom_item_to_place.setSizePolicy(sizePolicy2)
+
+        self.verticalLayout_custom_item_select.addWidget(self.custom_item_to_place)
+
+
+        self.horizontalLayout_custom_item_placement_select.addLayout(self.verticalLayout_custom_item_select)
+
+        self.verticalLayout_custom_location_select = QVBoxLayout()
+        self.verticalLayout_custom_location_select.setObjectName(u"verticalLayout_custom_location_select")
+        self.label_for_custom_location = QLabel(self.tab_custom_item_placement)
+        self.label_for_custom_location.setObjectName(u"label_for_custom_location")
+
+        self.verticalLayout_custom_location_select.addWidget(self.label_for_custom_location)
+
+        self.custom_location_to_place = QComboBox(self.tab_custom_item_placement)
+        self.custom_location_to_place.setObjectName(u"custom_location_to_place")
+        sizePolicy2.setHeightForWidth(self.custom_location_to_place.sizePolicy().hasHeightForWidth())
+        self.custom_location_to_place.setSizePolicy(sizePolicy2)
+
+        self.verticalLayout_custom_location_select.addWidget(self.custom_location_to_place)
+
+
+        self.horizontalLayout_custom_item_placement_select.addLayout(self.verticalLayout_custom_location_select)
+
+        self.verticalLayout_place_button = QVBoxLayout()
+        self.verticalLayout_place_button.setObjectName(u"verticalLayout_place_button")
+        self.verticalSpacer_place_button = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_place_button.addItem(self.verticalSpacer_place_button)
+
+        self.place_item_button = QPushButton(self.tab_custom_item_placement)
+        self.place_item_button.setObjectName(u"place_item_button")
+
+        self.verticalLayout_place_button.addWidget(self.place_item_button)
+
+
+        self.horizontalLayout_custom_item_placement_select.addLayout(self.verticalLayout_place_button)
+
+
+        self.verticalLayout_custom_item_placement.addLayout(self.horizontalLayout_custom_item_placement_select)
+
+        self.custom_placement_list = QTableWidget(self.tab_custom_item_placement)
+        if (self.custom_placement_list.columnCount() < 2):
+            self.custom_placement_list.setColumnCount(2)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.custom_placement_list.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.custom_placement_list.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        self.custom_placement_list.setObjectName(u"custom_placement_list")
+        self.custom_placement_list.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.custom_placement_list.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.custom_placement_list.setRowCount(0)
+        self.custom_placement_list.setColumnCount(2)
+
+        self.verticalLayout_custom_item_placement.addWidget(self.custom_placement_list)
+
+        self.remove_placement_button = QPushButton(self.tab_custom_item_placement)
+        self.remove_placement_button.setObjectName(u"remove_placement_button")
+
+        self.verticalLayout_custom_item_placement.addWidget(self.remove_placement_button)
+
+        self.tabWidget.addTab(self.tab_custom_item_placement, "")
         self.tab_advanced = QWidget()
         self.tab_advanced.setObjectName(u"tab_advanced")
         self.verticalLayout_8 = QVBoxLayout(self.tab_advanced)
@@ -1099,6 +1180,15 @@ class Ui_MainWindow(object):
         self.current_health.setText(QCoreApplication.translate("MainWindow", u"Current Starting Health: 3 hearts", None))
         self.label_for_num_extra_starting_items.setText(QCoreApplication.translate("MainWindow", u"Extra Random Starting Items", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_starting_items), QCoreApplication.translate("MainWindow", u"Starting Items", None))
+        self.label_for_custom_item.setText(QCoreApplication.translate("MainWindow", u"Item to Place", None))
+        self.label_for_custom_location.setText(QCoreApplication.translate("MainWindow", u"Location", None))
+        self.place_item_button.setText(QCoreApplication.translate("MainWindow", u"Place Item", None))
+        ___qtablewidgetitem = self.custom_placement_list.horizontalHeaderItem(0)
+        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Item", None))
+        ___qtablewidgetitem1 = self.custom_placement_list.horizontalHeaderItem(1)
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Location", None))
+        self.remove_placement_button.setText(QCoreApplication.translate("MainWindow", u"Remove Selected Placement", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_custom_item_placement), QCoreApplication.translate("MainWindow", u"Custom Item Placement", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Required Bosses", None))
         self.required_bosses.setText(QCoreApplication.translate("MainWindow", u"Required Bosses Mode", None))
         self.label_for_num_required_bosses.setText(QCoreApplication.translate("MainWindow", u"Number of Required Bosses", None))

@@ -72,7 +72,15 @@ class WWRandomizerWindow(QMainWindow):
     self.load_settings()
     
     self.cached_item_locations = Logic.load_and_parse_item_locations()
-    
+
+    self.ui.place_item_button.clicked.connect(self.add_custom_placement)
+    self.ui.remove_placement_button.clicked.connect(self.remove_custom_placement)
+    self.ui.custom_item_to_place.addItems(sorted(INVENTORY_ITEMS))
+    self.ui.custom_location_to_place.addItems(sorted(self.cached_item_locations.keys()))
+    self.ui.custom_placement_list.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+    self.update_custom_item_list()
+
     self.ui.starting_pohs.valueChanged.connect(self.update_health_label)
     self.ui.starting_hcs.valueChanged.connect(self.update_health_label)
     
@@ -86,7 +94,7 @@ class WWRandomizerWindow(QMainWindow):
     self.ui.label_for_clean_iso_path.linkActivated.connect(self.show_clean_iso_explanation)
     
     for option in Options.all():
-      if option.name == "custom_colors":
+      if option.name in ["custom_colors", "custom_item_locations"]:
         continue
       widget = self.findChild(QWidget, option.name)
       label_for_option = self.findChild(QLabel, "label_for_" + option.name)
@@ -305,7 +313,7 @@ class WWRandomizerWindow(QMainWindow):
   
   def initialize_option_widgets(self):
     for option in Options.all():
-      if option.name == "custom_colors":
+      if option.name in ["custom_colors", "custom_item_locations"]:
         continue
       widget = self.findChild(QWidget, option.name)
       if isinstance(widget, QAbstractButton):
@@ -404,7 +412,8 @@ class WWRandomizerWindow(QMainWindow):
     self.encode_permalink()
     
     self.update_total_progress_locations()
-  
+    self.update_custom_item_list()
+
   def update_total_progress_locations(self):
     options = self.get_all_options_from_widget_values()
     num_progress_locations = Logic.get_num_progression_locations_static(self.cached_item_locations, options)
@@ -412,7 +421,40 @@ class WWRandomizerWindow(QMainWindow):
     text = "Progression Locations: Where Should Progress Items Be Placed? " \
       f"(Selected: {num_progress_locations} Locations Available)"
     self.ui.progression_locations_groupbox.setTitle(text)
-  
+
+  def update_custom_item_list(self):
+    if not hasattr(self.ui, "custom_item_to_place"):
+      return
+
+    current_item = self.ui.custom_item_to_place.currentText()
+    self.ui.custom_item_to_place.blockSignals(True)
+    self.ui.custom_item_to_place.clear()
+
+    randomized_gear = self.get_option_value("randomized_gear")
+    self.ui.custom_item_to_place.addItems(sorted(list(set(randomized_gear))))
+
+    # Restore previous selection if still available
+    index = self.ui.custom_item_to_place.findText(current_item)
+    if index != -1:
+      self.ui.custom_item_to_place.setCurrentIndex(index)
+    self.ui.custom_item_to_place.blockSignals(False)
+
+    # Also remove any custom placements that are no longer valid (excess count or missing)
+    item_counts = {}
+    for item_name in randomized_gear:
+      item_counts[item_name] = item_counts.get(item_name, 0) + 1
+
+    placed_counts = {}
+    rows_to_remove = []
+    for i in range(self.ui.custom_placement_list.rowCount()):
+      item_name = self.ui.custom_placement_list.item(i, 0).text()
+      placed_counts[item_name] = placed_counts.get(item_name, 0) + 1
+      if item_name not in item_counts or placed_counts[item_name] > item_counts[item_name]:
+        rows_to_remove.append(i)
+
+    for i in reversed(rows_to_remove):
+      self.ui.custom_placement_list.removeRow(i)
+
   def permalink_modified(self):
     permalink = self.ui.permalink.text()
     try:
@@ -546,7 +588,14 @@ class WWRandomizerWindow(QMainWindow):
   def get_option_value(self, option_name):
     if option_name == "custom_colors":
       return self.ui.tab_player_customization.get_all_colors()
-    
+    if option_name == "custom_item_locations":
+      custom_item_locations = {}
+      for i in range(self.ui.custom_placement_list.rowCount()):
+        item_name = self.ui.custom_placement_list.item(i, 0).text()
+        location_name = self.ui.custom_placement_list.item(i, 1).text()
+        custom_item_locations[location_name] = item_name
+      return custom_item_locations
+
     widget = self.findChild(QWidget, option_name)
     option = Options.by_name()[option_name]
     if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
@@ -580,7 +629,15 @@ class WWRandomizerWindow(QMainWindow):
     if option_name == "custom_colors":
       print("Setting custom_colors via set_option_value not supported")
       return
-    
+    if option_name == "custom_item_locations":
+      self.ui.custom_placement_list.setRowCount(0)
+      for location_name, item_name in new_value.items():
+        row_count = self.ui.custom_placement_list.rowCount()
+        self.ui.custom_placement_list.insertRow(row_count)
+        self.ui.custom_placement_list.setItem(row_count, 0, QTableWidgetItem(item_name))
+        self.ui.custom_placement_list.setItem(row_count, 1, QTableWidgetItem(location_name))
+      return
+
     widget = self.findChild(QWidget, option_name)
     option = Options.by_name()[option_name]
     if isinstance(widget, QCheckBox) or isinstance(widget, QRadioButton):
@@ -695,7 +752,7 @@ class WWRandomizerWindow(QMainWindow):
         self.set_option_value(opt, self.default_options[opt])
     
     for option in Options.all():
-      if option.name == "custom_colors":
+      if option.name in ["custom_colors", "custom_item_locations"]:
         continue
       widget = self.findChild(QWidget, option.name)
       label_for_option = self.findChild(QLabel, "label_for_" + option.name)
@@ -722,7 +779,43 @@ class WWRandomizerWindow(QMainWindow):
           widget.show()
         else:
           widget.hide()
-  
+
+  def add_custom_placement(self):
+    item_name = self.ui.custom_item_to_place.currentText()
+    location_name = self.ui.custom_location_to_place.currentText()
+
+    # Check if location is already used
+    for i in range(self.ui.custom_placement_list.rowCount()):
+      if self.ui.custom_placement_list.item(i, 1).text() == location_name:
+        QMessageBox.warning(self, "Location already used", f"The location '{location_name}' is already assigned to '{self.ui.custom_placement_list.item(i, 0).text()}'.")
+        return
+
+    # Check if item count is exceeded
+    randomized_gear = self.get_option_value("randomized_gear")
+    total_count = randomized_gear.count(item_name)
+    placed_count = 0
+    for i in range(self.ui.custom_placement_list.rowCount()):
+      if self.ui.custom_placement_list.item(i, 0).text() == item_name:
+        placed_count += 1
+
+    if placed_count >= total_count:
+      QMessageBox.warning(self, "Item count exceeded", f"You cannot place any more of '{item_name}' because it has already reached its maximum count in the pool ({total_count}).")
+      return
+
+    row_count = self.ui.custom_placement_list.rowCount()
+    self.ui.custom_placement_list.insertRow(row_count)
+    self.ui.custom_placement_list.setItem(row_count, 0, QTableWidgetItem(item_name))
+    self.ui.custom_placement_list.setItem(row_count, 1, QTableWidgetItem(location_name))
+
+    self.update_settings()
+
+  def remove_custom_placement(self):
+    indices = self.ui.custom_placement_list.selectionModel().selectedRows()
+    for index in sorted(indices, reverse=True):
+      self.ui.custom_placement_list.removeRow(index.row())
+
+    self.update_settings()
+
   def open_about(self):
     text = """Wind Waker Randomizer Version %s<br><br>
       Created by LagoLunatic<br><br>
