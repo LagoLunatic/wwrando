@@ -1,7 +1,7 @@
 QtPy==2.4.3
 PySide6~=6.11.0
 ruamel.yaml~=0.19.1
-pillow>=11.1.0
+pillow>=12.2.0
 appdirs==1.4.4
 certifi==2026.2.25
 tqdm>=4.67.1
