@@ -9,6 +9,7 @@ import shutil
 import struct
 import traceback
 import sys
+from collections import defaultdict
 
 from ruamel.yaml import YAML
 yaml_dumper = YAML(typ="rt") # Use RoundTripDumper for pretty-formatted dumps.
@@ -573,7 +574,16 @@ try:
     if file_path != "sys/main.dol" and len(custom_symbols_for_file) == 0:
       continue
     
-    output_custom_symbols[file_path] = custom_symbols_for_file
+    symbol_address_to_names = defaultdict(list)
+    for symbol_name, symbol_address in custom_symbols_for_file.items():
+      symbol_address_to_names[symbol_address].append(symbol_name)
+      if len(symbol_address_to_names[symbol_address]) > 1:
+        symbol_address_to_names[symbol_address].sort()
+    
+    output_custom_symbols[file_path] = {}
+    for symbol_address, symbol_names in symbol_address_to_names.items():
+      for symbol_name in symbol_names:
+        output_custom_symbols[file_path][symbol_name] = symbol_address
   
   with open(asm_dir + "/custom_symbols.txt", "w", newline='\n') as f:
     yaml_dumper.dump(output_custom_symbols, f)
