@@ -11,7 +11,8 @@ from wwlib.dzx import DZx, ACTR, SCOB, TRES, DZxLayer
 from wwlib.events import EventList
 from tweaks import add_trap_chest_event_to_stage
 
-class DungeonItemPlacementError(Exception): pass
+class ItemPlacementError(Exception): pass
+class DungeonItemPlacementError(ItemPlacementError): pass
 
 class ItemRandomizer(BaseRandomizer):
   def __init__(self, rando):
@@ -53,7 +54,7 @@ class ItemRandomizer(BaseRandomizer):
         self.randomize_progression_items_forward_fill()
         
         break
-      except Exception:
+      except ItemPlacementError:
         if attempt == max_attempts - 1:
           raise
         
@@ -291,7 +292,7 @@ class ItemRandomizer(BaseRandomizer):
         ]
       
       if not accessible_undone_locations:
-        raise Exception("No locations left to place progress items!")
+        raise ItemPlacementError("No locations left to place progress items!")
       
       # If the player gained access to any predetermined item locations, we need to give them those items.
       newly_accessible_predetermined_item_locations = [
@@ -326,13 +327,13 @@ class ItemRandomizer(BaseRandomizer):
         possible_items.remove(prerand_item)
       
       if len(possible_items) == 0:
-        raise Exception("Only items left to place are predetermined items at inaccessible locations!")
+        raise ItemPlacementError("Only items left to place are predetermined items at inaccessible locations!")
       
       # Filter out items that are not valid in any of the locations we might use.
       possible_items = self.logic.filter_items_by_any_valid_location(possible_items, accessible_undone_locations)
       
       if len(possible_items) == 0:
-        raise Exception("Not enough valid locations left for any of the unplaced progress items!")
+        raise ItemPlacementError("Not enough valid locations left for any of the unplaced progress items!")
       
       # Remove duplicates from the list so items like swords and bows aren't so likely to show up early.
       # We exclude dungeon items from this so that small keys can still be front-loaded when shuffled outside their own dungeon.
@@ -360,7 +361,7 @@ class ItemRandomizer(BaseRandomizer):
         item_name = self.logic.get_first_useful_item(shuffled_list)
         if item_name is None:
           if must_place_useful_item:
-            raise Exception("No useful progress items to place!")
+            raise ItemPlacementError("No useful progress items to place!")
           else:
             # We'd like to be placing a useful item, but there are no useful items to place.
             # Instead we choose an item that isn't useful yet by itself, but has a high usefulness fraction.
