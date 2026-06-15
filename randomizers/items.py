@@ -180,20 +180,18 @@ class ItemRandomizer(BaseRandomizer):
     pre_place_any_dungeon = self.options.required_bosses
     own_dungeon_or_any_dungeon = (DungeonItemShuffleMode.OWN_DUNGEON, DungeonItemShuffleMode.ANY_DUNGEON)
     own_dungeon_only = (DungeonItemShuffleMode.OWN_DUNGEON,)
-    small_key_modes = own_dungeon_or_any_dungeon if pre_place_any_dungeon else own_dungeon_only
-    big_key_modes = own_dungeon_or_any_dungeon if pre_place_any_dungeon else own_dungeon_only
-    map_compass_modes = own_dungeon_or_any_dungeon if pre_place_any_dungeon else own_dungeon_only
+    dungeon_item_modes = own_dungeon_or_any_dungeon if pre_place_any_dungeon else own_dungeon_only
     
     for item_name in small_keys_to_place:
-      if self.options.shuffle_small_keys in small_key_modes:
+      if self.options.shuffle_small_keys in dungeon_item_modes:
         self.place_dungeon_item(item_name)
       self.logic.add_owned_item(item_name)
     for item_name in big_keys_to_place:
-      if self.options.shuffle_big_keys in big_key_modes:
+      if self.options.shuffle_big_keys in dungeon_item_modes:
         self.place_dungeon_item(item_name)
       self.logic.add_owned_item(item_name)
     for item_name in other_dungeon_items_to_place:
-      if self.options.shuffle_maps_and_compasses in map_compass_modes:
+      if self.options.shuffle_maps_and_compasses in dungeon_item_modes:
         self.place_dungeon_item(item_name)
     
     # Remove the items we temporarily added.
