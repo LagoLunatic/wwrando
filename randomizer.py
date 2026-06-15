@@ -251,7 +251,7 @@ class WWRandomizer:
     
     if num_progress_locations - max_required_bosses_banned_locations < num_items_needing_locations:
       error_message = "Not enough progress locations to place all progress items.\n\n"
-      error_message += "Total progress items: %d\n" % num_items_needing_locations
+      error_message += "Progress items needing locations: %d\n" % num_items_needing_locations
       error_message += "Progress locations with current options: %d\n" % num_progress_locations
       if max_required_bosses_banned_locations > 0:
         error_message += "Maximum Required Bosses Mode banned locations: %d\n" % max_required_bosses_banned_locations
