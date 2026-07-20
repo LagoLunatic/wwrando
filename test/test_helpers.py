@@ -74,6 +74,7 @@ def enable_all_options(options: Options):
   
   options.required_bosses = True
   options.num_required_bosses = 4
+  options.prioritize_required_bosses = True
   
   options.chest_type_matches_contents = True
   

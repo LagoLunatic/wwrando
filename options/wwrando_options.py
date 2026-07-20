@@ -171,6 +171,10 @@ class Options(BaseOptions):
     description="Select the number of randomly-chosen bosses that are required in Required Bosses Mode.<br>"
       "The door to Puppet Ganon will not unlock until you've defeated all of these bosses. Nothing in dungeons for other bosses will ever be required.",
   )
+  prioritize_required_bosses: bool = option(
+    default=False,
+    description="Guarantees that each required boss's Heart Container location will contain a progress item.",
+  )
   chest_type_matches_contents: bool = option(
     default=False,
     description="Changes the chest type to reflect its contents. A metal chest has a progress item, a wooden chest has a non-progress item or a consumable, and a green chest has a potentially required dungeon key.",

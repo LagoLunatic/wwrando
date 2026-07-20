@@ -658,6 +658,7 @@ class WWRandomizerWindow(QMainWindow):
     
     if not options.required_bosses:
       should_enable_options["num_required_bosses"] = False
+      should_enable_options["prioritize_required_bosses"] = False
     
     if options.num_location_hints == 0:
       should_enable_options["prioritize_remote_hints"] = False

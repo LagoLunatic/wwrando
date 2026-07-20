@@ -623,10 +623,10 @@ class Ui_MainWindow(object):
 
         self.gridLayout_6.addLayout(self.horizontalLayout_8, 0, 1, 1, 1)
 
-        self.widget_4 = QWidget(self.groupBox_4)
-        self.widget_4.setObjectName(u"widget_4")
+        self.prioritize_required_bosses = QCheckBox(self.groupBox_4)
+        self.prioritize_required_bosses.setObjectName(u"prioritize_required_bosses")
 
-        self.gridLayout_6.addWidget(self.widget_4, 0, 2, 1, 1)
+        self.gridLayout_6.addWidget(self.prioritize_required_bosses, 0, 2, 1, 1)
 
         self.widget_5 = QWidget(self.groupBox_4)
         self.widget_5.setObjectName(u"widget_5")
@@ -997,7 +997,8 @@ class Ui_MainWindow(object):
         QWidget.setTabOrder(self.starting_pohs, self.num_extra_starting_items)
         QWidget.setTabOrder(self.num_extra_starting_items, self.required_bosses)
         QWidget.setTabOrder(self.required_bosses, self.num_required_bosses)
-        QWidget.setTabOrder(self.num_required_bosses, self.hero_mode)
+        QWidget.setTabOrder(self.num_required_bosses, self.prioritize_required_bosses)
+        QWidget.setTabOrder(self.prioritize_required_bosses, self.hero_mode)
         QWidget.setTabOrder(self.hero_mode, self.logic_obscurity)
         QWidget.setTabOrder(self.logic_obscurity, self.logic_precision)
         QWidget.setTabOrder(self.logic_precision, self.hoho_hints)
@@ -1102,6 +1103,7 @@ class Ui_MainWindow(object):
         self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Required Bosses", None))
         self.required_bosses.setText(QCoreApplication.translate("MainWindow", u"Required Bosses Mode", None))
         self.label_for_num_required_bosses.setText(QCoreApplication.translate("MainWindow", u"Number of Required Bosses", None))
+        self.prioritize_required_bosses.setText(QCoreApplication.translate("MainWindow", u"Prioritize Required Bosses", None))
         self.groupBox_9.setTitle(QCoreApplication.translate("MainWindow", u"Difficulty Options", None))
         self.hero_mode.setText(QCoreApplication.translate("MainWindow", u"Hero Mode", None))
         self.label_for_logic_obscurity.setText(QCoreApplication.translate("MainWindow", u"Obscure Tricks Required", None))

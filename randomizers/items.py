@@ -51,6 +51,9 @@ class ItemRandomizer(BaseRandomizer):
         print(location_name)
     
     self.randomize_consumable_items()
+    
+    if self.options.required_bosses and self.options.prioritize_required_bosses:
+      self.ensure_boss_locations_have_progress_items()
   
   def _save(self):
     for location_name, item_name in self.logic.done_item_locations.items():
@@ -191,6 +194,64 @@ class ItemRandomizer(BaseRandomizer):
     location_name = self.rng.choice(possible_locations)
     self.logic.set_prerandomization_item_location(location_name, item_name)
   
+  def check_is_swappable_item_for_boss_location(self, location_name, item_name, boss_location_name, boss_item_name):
+    # Don't swap with another required boss location.
+    if location_name in self.rando.boss_reqs.required_boss_item_locations:
+      return False
+    
+    # Only swap progress items onto a boss location.
+    if item_name not in self.rando.all_randomized_progress_items:
+      return False
+    
+    # Don't swap dungeon items onto a boss location.
+    if self.logic.is_dungeon_item(item_name):
+      return False
+    
+    # Check if both items are valid in swapped locations.
+    if not self.logic.check_item_valid_in_location(item_name, boss_location_name):
+      return False
+    if not self.logic.check_item_valid_in_location(boss_item_name, location_name):
+      return False
+    
+    return True
+  
+  def ensure_boss_locations_have_progress_items(self):
+    for boss_location_name in self.rando.boss_reqs.required_boss_item_locations:
+      boss_item_name = self.logic.done_item_locations.get(boss_location_name)
+      if boss_item_name is None or boss_item_name in self.rando.all_randomized_progress_items:
+        # Boss location already has a progress item or hasn't been filled yet.
+        continue
+      
+      # Determine which locations have items that are swappable with the boss item.
+      candidate_swap_locations = [
+        (location_name, item_name)
+        for location_name, item_name in self.logic.done_item_locations.items()
+        if self.check_is_swappable_item_for_boss_location(
+          location_name, item_name, boss_location_name, boss_item_name
+        )
+      ]
+      self.rng.shuffle(candidate_swap_locations)
+      
+      swapped = False
+      for candidate_location_name, candidate_item_name in candidate_swap_locations:
+        # Swap items between the two locations.
+        self.logic.done_item_locations[boss_location_name] = candidate_item_name
+        self.logic.done_item_locations[candidate_location_name] = boss_item_name
+        
+        try:
+          # Verify the game is still beatable.
+          self.calculate_playthrough_progression_spheres()
+          swapped = True
+          break
+        except Exception:
+          # If not, revert the swap and try another candidate location.
+          self.logic.done_item_locations[boss_location_name] = boss_item_name
+          self.logic.done_item_locations[candidate_location_name] = candidate_item_name
+      
+      # If no valid swap was found, raise an Exception.
+      if not swapped:
+        raise Exception(f"Unable to place progress item at boss location: {boss_location_name}")
+  
   def randomize_progression_items_forward_fill(self):
     accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
     if self.logic.unplaced_progress_items and len(accessible_undone_locations) == 0:
@@ -318,6 +379,15 @@ class ItemRandomizer(BaseRandomizer):
         ]
         if possible_locations_without_sunken_treasures:
           possible_locations = possible_locations_without_sunken_treasures
+      
+      # If required bosses are prioritized to have progress items, force placement on boss locations.
+      if self.options.required_bosses and self.options.prioritize_required_bosses and not self.logic.is_dungeon_item(item_name):
+        boss_locations = [
+          location_name for location_name in self.rando.boss_reqs.required_boss_item_locations
+          if location_name in possible_locations and location_name in self.logic.remaining_item_locations
+        ]
+        if boss_locations:
+          possible_locations = boss_locations
       
       # We weight it so newly accessible locations are more likely to be chosen.
       # This way there is still a good chance it will not choose a new location.

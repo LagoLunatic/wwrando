@@ -901,7 +901,11 @@
                 </layout>
                </item>
                <item row="0" column="2">
-                <widget class="QWidget" name="widget_4" native="true"/>
+                <widget class="QCheckBox" name="prioritize_required_bosses">
+                 <property name="text">
+                  <string>Prioritize Required Bosses</string>
+                 </property>
+                </widget>
                </item>
                <item row="0" column="3">
                 <widget class="QWidget" name="widget_5" native="true"/>
@@ -1415,6 +1419,7 @@
   <tabstop>num_extra_starting_items</tabstop>
   <tabstop>required_bosses</tabstop>
   <tabstop>num_required_bosses</tabstop>
+  <tabstop>prioritize_required_bosses</tabstop>
   <tabstop>hero_mode</tabstop>
   <tabstop>logic_obscurity</tabstop>
   <tabstop>logic_precision</tabstop>
