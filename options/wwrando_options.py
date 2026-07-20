@@ -22,6 +22,15 @@ class TrickDifficulty(StrEnum):
 
 @dataclass
 class Options(BaseOptions):
+  def validate(self):
+    super().validate()
+    
+    if self.excluded_locations:
+      from logic.logic import Logic
+      
+      valid_locations = set(Logic.load_and_parse_item_locations(deepcopy=False).keys())
+      self.excluded_locations = sorted({loc for loc in self.excluded_locations if loc in valid_locations})
+  
   #region Progress locations
   progression_dungeons: bool = option(
     default=True,
@@ -137,6 +146,16 @@ class Options(BaseOptions):
     default=True,
     description="Miscellaneous locations that don't fit into any of the above categories (outdoors chests, wind shrine, Cyclos, etc).<br>"
       "<u>If this is not checked, they will still be randomized</u>, but will only contain optional items you don't need to beat the game.",
+  )
+  
+  progression_locations: list[str] = option(
+    default_factory=lambda: [],
+    permalink=False,
+    description="Randomized locations that can have progress items.",
+  )
+  excluded_locations: list[str] = option(
+    default_factory=lambda: [],
+    description="Randomized locations that cannot have progress items.",
   )
   #endregion
   

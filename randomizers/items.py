@@ -36,6 +36,8 @@ class ItemRandomizer(BaseRandomizer):
     return "Saving items..."
   
   def _randomize(self):
+    self.logic.initialize_from_randomizer_state()
+    
     if not self.options.keylunacy:
       self.randomize_dungeon_items()
     

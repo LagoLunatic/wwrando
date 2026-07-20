@@ -4,6 +4,7 @@ import re
 from random import Random
 import hashlib
 import sys
+import zlib
 from typing import TypeVar, Callable
 from io import BytesIO
 import string
@@ -238,9 +239,22 @@ class WWRandomizer:
     num_progress_locations = self.logic.get_num_progression_locations()
     max_required_bosses_banned_locations = self.logic.get_max_required_bosses_banned_locations()
     self.all_randomized_progress_items = self.logic.unplaced_progress_items.copy()
-    if num_progress_locations - max_required_bosses_banned_locations < len(self.all_randomized_progress_items):
+    num_progress_items = len(self.all_randomized_progress_items)
+    
+    # If sunken treasure locations are progression, we need to take into account locations that are excluded and adjust the progress item count.
+    if options.progression_triforce_charts or options.progression_treasure_charts:
+      num_charts_excluded = self.logic.get_num_charts_excluded()
+      if options.randomize_charts:
+        max_sunken_treasure_locations = 0
+        if options.progression_triforce_charts:
+          max_sunken_treasure_locations += 8
+        if options.progression_treasure_charts:
+          max_sunken_treasure_locations += 41
+        num_progress_items -= max(0, max_sunken_treasure_locations + num_charts_excluded - 49)
+    
+    if num_progress_locations - max_required_bosses_banned_locations < num_progress_items:
       error_message = "Not enough progress locations to place all progress items.\n\n"
-      error_message += "Total progress items: %d\n" % len(self.all_randomized_progress_items)
+      error_message += "Total progress items: %d\n" % num_progress_items
       error_message += "Progress locations with current options: %d\n" % num_progress_locations
       if max_required_bosses_banned_locations > 0:
         error_message += "Maximum Required Bosses Mode banned locations: %d\n" % max_required_bosses_banned_locations
@@ -529,6 +543,12 @@ class WWRandomizer:
       elif option.name == "randomized_gear":
         # Handled above.
         continue
+      elif option.name == "excluded_locations":
+        assert issubclass(typing.get_origin(option.type) or option.type, list)
+        value_set = set(value)
+        for location_name in Logic.load_and_parse_item_locations(deepcopy=False):
+          bit = location_name in value_set
+          bitswriter.write(bit, 1)
       else:
         raise Exception(f"Option {option.name} of type {option.type} is not currently supported by the permalink system.")
     
@@ -536,7 +556,7 @@ class WWRandomizer:
     
     for byte in bitswriter.bytes:
       permalink += struct.pack(">B", byte)
-    base64_encoded_permalink = base64.b64encode(permalink).decode("ascii")
+    base64_encoded_permalink = base64.b64encode(zlib.compress(permalink)).decode("ascii")
     return base64_encoded_permalink
   
   @classmethod
@@ -545,7 +565,11 @@ class WWRandomizer:
     if not base64_encoded_permalink:
       raise Exception(f"Permalink is blank.")
     
-    permalink = base64.b64decode(base64_encoded_permalink)
+    raw_permalink = base64.b64decode(base64_encoded_permalink)
+    try:
+      permalink = zlib.decompress(raw_permalink)
+    except zlib.error:
+      permalink = raw_permalink
     given_version_num, seed, options_bytes = permalink.split(b"\0", 2)
     given_version_num = given_version_num.decode("ascii")
     seed = seed.decode("ascii")
@@ -616,6 +640,14 @@ class WWRandomizer:
       elif option.name == "randomized_gear":
         # Handled above.
         continue
+      elif option.name == "excluded_locations":
+        assert issubclass(typing.get_origin(option.type) or option.type, list)
+        excluded_list = []
+        for location_name in Logic.load_and_parse_item_locations(deepcopy=False):
+          excluded = bitsreader.read(1)
+          if excluded == 1:
+            excluded_list.append(location_name)
+        options.excluded_locations = sorted(excluded_list)
       else:
         raise Exception(f"Option {option.name} of type {option.type} is not currently supported by the permalink system.")
     
@@ -1017,7 +1049,7 @@ class WWRandomizer:
     non_disabled_options = [
       option.name for option in Options.all()
       if self.options[option.name] not in [False, [], {}]
-      and option.name != "randomized_gear" # Just takes up space
+      and option.name not in ["randomized_gear", "progression_locations"] # Just takes up space
     ]
     option_strings = []
     for option_name in non_disabled_options:
