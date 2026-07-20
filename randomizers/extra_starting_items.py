@@ -1,9 +1,9 @@
-import typing
-from logic.item_types import DUNGEON_PROGRESS_ITEMS
+from collections import Counter
 
-from randomizers.base_randomizer import BaseRandomizer
 import tweaks
-from options.wwrando_options import SwordMode
+from logic.item_types import DUNGEON_SMALL_KEYS, DUNGEON_BIG_KEYS, DUNGEON_MAPS_AND_COMPASSES
+from options.wwrando_options import DungeonItemShuffleMode, SwordMode
+from randomizers.base_randomizer import BaseRandomizer
 
 DISALLOWED_RANDOM_STARTING_ITEMS = set([
   # There's a separate option for number of starting triforce shards that we'd need to mess with.
@@ -20,7 +20,6 @@ DISALLOWED_RANDOM_STARTING_ITEMS = set([
   # Tingle Statues: These seem to work fine
   # Boat's Sail, Wind Waker, Wind's Requiem: Mandatory starting items
   # Empty Bottle: Can only start with one Empty Bottle from the UI, but seems to work ok with more
-  # DUNGEON_PROGRESS_ITEMS # Seem to work fine at least in keylunacy (enforced below)
 ])
 
 DELIVERY_BAG_ITEMS = set([
@@ -33,12 +32,20 @@ DELIVERY_BAG_ITEMS = set([
 class ExtraStartingItemsRandomizer(BaseRandomizer):
   def __init__(self, rando):
     super().__init__(rando)
+    self.starting_dungeon_items = []
     self.random_starting_items = []
   
   def is_enabled(self) -> bool:
     return (
       self.rando.items.is_enabled() and
-      self.options.num_extra_starting_items > 0
+      (self.has_starting_dungeon_items() or self.options.num_extra_starting_items > 0)
+    )
+  
+  def has_starting_dungeon_items(self) -> bool:
+    return (
+      self.options.shuffle_small_keys == DungeonItemShuffleMode.START_WITH or
+      self.options.shuffle_big_keys == DungeonItemShuffleMode.START_WITH or
+      self.options.shuffle_maps_and_compasses == DungeonItemShuffleMode.START_WITH
     )
   
   @property
@@ -50,6 +57,13 @@ class ExtraStartingItemsRandomizer(BaseRandomizer):
     return 0
   
   def _randomize(self):
+    # Add starting dungeon items first.
+    self.add_starting_dungeon_items()
+    
+    # Then, handle random starting items.
+    if self.options.num_extra_starting_items == 0:
+      return
+    
     initial_sphere_0_checks = self.logic.get_accessible_remaining_locations(for_progression=True)
     for remaining_random_starting_items in range(self.options.num_extra_starting_items, 0, -1):
       max_fraction = remaining_random_starting_items
@@ -88,7 +102,24 @@ class ExtraStartingItemsRandomizer(BaseRandomizer):
     if self.random_starting_items and len(self.logic.get_accessible_remaining_locations(for_progression=True)) <= len(initial_sphere_0_checks):
       # This would indicate a logic bug, the filtering above should prevent it
       raise Exception("Random starting items didn't unlock at least one check")
-      
+  
+  def add_starting_dungeon_items(self):
+    starting_gear = Counter(self.options.starting_gear)
+    
+    dungeon_items_to_add = []
+    if self.options.shuffle_small_keys == DungeonItemShuffleMode.START_WITH:
+      dungeon_items_to_add += DUNGEON_SMALL_KEYS
+    if self.options.shuffle_big_keys == DungeonItemShuffleMode.START_WITH:
+      dungeon_items_to_add += DUNGEON_BIG_KEYS
+    if self.options.shuffle_maps_and_compasses == DungeonItemShuffleMode.START_WITH:
+      dungeon_items_to_add += DUNGEON_MAPS_AND_COMPASSES
+    
+    remaining_dungeon_items_to_add = Counter(dungeon_items_to_add) - starting_gear
+    for item, count in remaining_dungeon_items_to_add.items():
+      for _ in range(count):
+        self.logic.add_owned_item(item)
+        self.starting_dungeon_items.append(item)
+  
   def filter_possible_random_starting_items(self, max_fraction: int) -> list[str]:
     item_names_to_check = self.logic.unplaced_progress_items.copy()
     need_sunken_treasure = any(item.startswith("Treasure Chart ") or item.startswith("Triforce Chart ") for item in item_names_to_check)
@@ -107,8 +138,10 @@ class ExtraStartingItemsRandomizer(BaseRandomizer):
       # don't want to give a progression item if we don't have its bag since
       # it's impossible to see the item until you get delivery bag in that case
       available_items -= DELIVERY_BAG_ITEMS
-    if not self.options.keylunacy:
-      available_items -= set(DUNGEON_PROGRESS_ITEMS)
+    if self.options.shuffle_small_keys in (DungeonItemShuffleMode.VANILLA, DungeonItemShuffleMode.START_WITH):
+      available_items -= set(DUNGEON_SMALL_KEYS)
+    if self.options.shuffle_big_keys in (DungeonItemShuffleMode.VANILLA, DungeonItemShuffleMode.START_WITH):
+      available_items -= set(DUNGEON_BIG_KEYS)
     
     # To avoid treasure charts overwhelming everything when enabled, group them so they have the same weight as any other item
     if set(self.logic.treasure_chart_names).intersection(available_items):
@@ -135,7 +168,7 @@ class ExtraStartingItemsRandomizer(BaseRandomizer):
     # This tweak is written in an idempotent way, so this should be ok to call a second time.
     tweaks.update_starting_gear(
       self.rando,
-      self.options.starting_gear + self.random_starting_items
+      self.options.starting_gear + self.random_starting_items + self.starting_dungeon_items
     )
   
   def write_to_spoiler_log(self) -> str:

@@ -22,6 +22,7 @@ from gclib.gcm import GCM
 from gclib.jpc import JPC100
 import tweaks
 from asm import patcher
+from logic.item_types import DUNGEON_BIG_KEYS, DUNGEON_SMALL_KEYS
 from logic.logic import Logic
 from wwlib.charts import ChartList
 from wwrando_paths import DATA_PATH, ASM_PATH, IS_RUNNING_FROM_SOURCE, SEEDGEN_PATH
@@ -30,7 +31,7 @@ from wwlib import stage_searcher
 from asm import disassemble
 from asm import elf2rel
 
-from options.wwrando_options import Options, SwordMode
+from options.wwrando_options import DungeonItemShuffleMode, Options, SwordMode
 from wwr_ui.inventory import REGULAR_ITEMS, PROGRESSIVE_ITEMS
 from packedbits import PackedBitsReader, PackedBitsWriter
 import base64
@@ -238,9 +239,19 @@ class WWRandomizer:
     num_progress_locations = self.logic.get_num_progression_locations()
     max_required_bosses_banned_locations = self.logic.get_max_required_bosses_banned_locations()
     self.all_randomized_progress_items = self.logic.unplaced_progress_items.copy()
-    if num_progress_locations - max_required_bosses_banned_locations < len(self.all_randomized_progress_items):
+    
+    # Items going into starting inventory via START_WITH won't need locations.
+    num_items_needing_locations = len(self.all_randomized_progress_items)
+    if self.options.shuffle_small_keys == DungeonItemShuffleMode.START_WITH:
+      for key in set(DUNGEON_SMALL_KEYS):
+        num_items_needing_locations -= self.all_randomized_progress_items.count(key)
+    if self.options.shuffle_big_keys == DungeonItemShuffleMode.START_WITH:
+      for key in set(DUNGEON_BIG_KEYS):
+        num_items_needing_locations -= self.all_randomized_progress_items.count(key)
+    
+    if num_progress_locations - max_required_bosses_banned_locations < num_items_needing_locations:
       error_message = "Not enough progress locations to place all progress items.\n\n"
-      error_message += "Total progress items: %d\n" % len(self.all_randomized_progress_items)
+      error_message += "Progress items needing locations: %d\n" % num_items_needing_locations
       error_message += "Progress locations with current options: %d\n" % num_progress_locations
       if max_required_bosses_banned_locations > 0:
         error_message += "Maximum Required Bosses Mode banned locations: %d\n" % max_required_bosses_banned_locations
@@ -525,7 +536,7 @@ class WWRandomizer:
         unique_progressive_items = list(set(PROGRESSIVE_ITEMS))
         unique_progressive_items.sort()
         for item_name in unique_progressive_items:
-          bitswriter.write(value.count(item_name), 2)
+          bitswriter.write(value.count(item_name), 3)
       elif option.name == "randomized_gear":
         # Handled above.
         continue
@@ -605,7 +616,7 @@ class WWRandomizer:
         unique_progressive_items = list(set(PROGRESSIVE_ITEMS))
         unique_progressive_items.sort()
         for item_name in unique_progressive_items:
-          amount = bitsreader.read(2)
+          amount = bitsreader.read(3)
           randamount = PROGRESSIVE_ITEMS.count(item_name) - amount
           for i in range(amount):
             starting_list.append(item_name)

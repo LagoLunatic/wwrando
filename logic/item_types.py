@@ -125,18 +125,39 @@ DUPLICATABLE_CONSUMABLE_ITEMS = \
   \
    3 * ["Joy Pendant"]
 
-DUNGEON_PROGRESS_ITEMS = \
-  ["DRC Big Key"] *1 + ["DRC Small Key"] *4 + \
-  ["FW Big Key"]  *1 + ["FW Small Key"]  *1 + \
-  ["TotG Big Key"]*1 + ["TotG Small Key"]*2 + \
-  ["FF Big Key"]  *0 + ["FF Small Key"]  *0 + \
-  ["ET Big Key"]  *1 + ["ET Small Key"]  *3 + \
-  ["WT Big Key"]  *1 + ["WT Small Key"]  *2
+DUNGEON_SMALL_KEYS = \
+  ["DRC Small Key"] *4 + \
+  ["FW Small Key"]  *1 + \
+  ["TotG Small Key"]*2 + \
+  ["ET Small Key"]  *3 + \
+  ["WT Small Key"]  *2
 
-DUNGEON_NONPROGRESS_ITEMS = \
-  ["DRC Dungeon Map", "DRC Compass"] + \
-  ["FW Dungeon Map", "FW Compass"] + \
-  ["TotG Dungeon Map", "TotG Compass"] + \
-  ["FF Dungeon Map", "FF Compass"] + \
-  ["ET Dungeon Map", "ET Compass"] + \
-  ["WT Dungeon Map", "WT Compass"]
+DUNGEON_BIG_KEYS = [
+  "DRC Big Key",
+  "FW Big Key",
+  "TotG Big Key",
+  "ET Big Key",
+  "WT Big Key",
+]
+
+DUNGEON_MAPS = [
+  "DRC Dungeon Map",
+  "FW Dungeon Map",
+  "TotG Dungeon Map",
+  "FF Dungeon Map",
+  "ET Dungeon Map",
+  "WT Dungeon Map",
+]
+
+DUNGEON_COMPASSES = [
+  "DRC Compass",
+  "FW Compass",
+  "TotG Compass",
+  "FF Compass",
+  "ET Compass",
+  "WT Compass",
+]
+
+DUNGEON_MAPS_AND_COMPASSES = DUNGEON_MAPS + DUNGEON_COMPASSES
+DUNGEON_PROGRESS_ITEMS = DUNGEON_SMALL_KEYS + DUNGEON_BIG_KEYS
+DUNGEON_NONPROGRESS_ITEMS = DUNGEON_MAPS_AND_COMPASSES

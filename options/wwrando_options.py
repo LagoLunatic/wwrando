@@ -5,6 +5,14 @@ from options.base_options import BaseOptions, option
 
 from wwr_ui.inventory import DEFAULT_STARTING_ITEMS, DEFAULT_RANDOMIZED_ITEMS
 
+class DungeonItemShuffleMode(StrEnum):
+  VANILLA = "Vanilla"
+  START_WITH = "Start With"
+  OWN_DUNGEON = "Own Dungeon"
+  ANY_DUNGEON = "Any Dungeon"
+  OVERWORLD = "Overworld"
+  ANYWHERE = "Anywhere"
+
 class SwordMode(StrEnum):
   START_WITH_SWORD = "Start with Hero's Sword"
   NO_STARTING_SWORD = "No Starting Sword"
@@ -140,11 +148,64 @@ class Options(BaseOptions):
   )
   #endregion
   
-  #region Modes
-  keylunacy: bool = option(
-    default=False,
-    description="Allows dungeon keys (as well as maps and compasses) to appear anywhere in the game, not just in the dungeon they're for.",
+  #region Dungeon Items
+  shuffle_small_keys: DungeonItemShuffleMode = option(
+    default=DungeonItemShuffleMode.OWN_DUNGEON,
+    description="Controls where small keys can be placed.",
+    choice_descriptions={
+      DungeonItemShuffleMode.VANILLA:
+        "Vanilla: Small keys will be in their original locations.",
+      DungeonItemShuffleMode.START_WITH:
+        "Start With: You will start the game with all small keys.",
+      DungeonItemShuffleMode.OWN_DUNGEON:
+        "Own Dungeon: Small keys will be shuffled within their own dungeons.",
+      DungeonItemShuffleMode.ANY_DUNGEON:
+        "Any Dungeon: Small keys can appear in any dungeon.",
+      DungeonItemShuffleMode.OVERWORLD:
+        "Overworld: Small keys will only appear outside of dungeons.",
+      DungeonItemShuffleMode.ANYWHERE:
+        "Anywhere: Small keys can appear anywhere in the game.",
+    },
   )
+  shuffle_big_keys: DungeonItemShuffleMode = option(
+    default=DungeonItemShuffleMode.OWN_DUNGEON,
+    description="Controls where Big Keys can be placed.",
+    choice_descriptions={
+      DungeonItemShuffleMode.VANILLA:
+        "Vanilla: Big Keys will be in their original locations.",
+      DungeonItemShuffleMode.START_WITH:
+        "Start With: You will start the game with all Big Keys.",
+      DungeonItemShuffleMode.OWN_DUNGEON:
+        "Own Dungeon: Big Keys will be shuffled within their own dungeons.",
+      DungeonItemShuffleMode.ANY_DUNGEON:
+        "Any Dungeon: Big Keys can appear in any dungeon.",
+      DungeonItemShuffleMode.OVERWORLD:
+        "Overworld: Big Keys will only appear outside of dungeons.",
+      DungeonItemShuffleMode.ANYWHERE:
+        "Anywhere: Big Keys can appear anywhere in the game.",
+    },
+  )
+  shuffle_maps_and_compasses: DungeonItemShuffleMode = option(
+    default=DungeonItemShuffleMode.OWN_DUNGEON,
+    description="Controls where dungeon maps and compasses can be placed.",
+    choice_descriptions={
+      DungeonItemShuffleMode.VANILLA:
+        "Vanilla: Dungeon maps and compasses will be in their original locations.",
+      DungeonItemShuffleMode.START_WITH:
+        "Start With: You will start the game with all dungeon maps and compasses.",
+      DungeonItemShuffleMode.OWN_DUNGEON:
+        "Own Dungeon: Dungeon maps and compasses will be shuffled within their own dungeons.",
+      DungeonItemShuffleMode.ANY_DUNGEON:
+        "Any Dungeon: Dungeon maps and compasses can appear in any dungeon.",
+      DungeonItemShuffleMode.OVERWORLD:
+        "Overworld: Dungeon maps and compasses will only appear outside of dungeons.",
+      DungeonItemShuffleMode.ANYWHERE:
+        "Anywhere: Dungeon maps and compasses can appear anywhere in the game.",
+    },
+  )
+  #endregion
+  
+  #region Modes
   sword_mode: SwordMode = option(
     default=SwordMode.START_WITH_SWORD,
     description="Controls whether you start with the Hero's Sword, the Hero's Sword is randomized, or if there are no swords in the entire game.<br>"

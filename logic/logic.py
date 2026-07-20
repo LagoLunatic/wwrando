@@ -11,10 +11,20 @@ from contextlib import contextmanager
 from ruamel.yaml import YAML
 yaml = YAML(typ="safe")
 
-from logic.item_types import PROGRESS_ITEMS, NONPROGRESS_ITEMS, CONSUMABLE_ITEMS, DUPLICATABLE_CONSUMABLE_ITEMS, DUNGEON_PROGRESS_ITEMS, DUNGEON_NONPROGRESS_ITEMS
+from logic.item_types import (
+  PROGRESS_ITEMS,
+  NONPROGRESS_ITEMS,
+  CONSUMABLE_ITEMS,
+  DUPLICATABLE_CONSUMABLE_ITEMS,
+  DUNGEON_PROGRESS_ITEMS,
+  DUNGEON_NONPROGRESS_ITEMS,
+  DUNGEON_SMALL_KEYS,
+  DUNGEON_BIG_KEYS,
+  DUNGEON_MAPS_AND_COMPASSES,
+)
 from wwrando_paths import LOGIC_PATH
 from randomizers import entrances
-from options.wwrando_options import Options, SwordMode
+from options.wwrando_options import Options, SwordMode, DungeonItemShuffleMode
 
 class Logic:
   DUNGEON_NAMES = {
@@ -150,8 +160,12 @@ class Logic:
     self.clear_req_caches()
     self.make_useless_progress_items_nonprogress()
     
-    # Add the randomly-selected extra starting items (without incidence on other progress items).
     if self.rando.extra_start_items.is_enabled():
+      # Add starting dungeon items.
+      for item in self.rando.extra_start_items.starting_dungeon_items:
+        self.add_owned_item(item)
+      
+      # Add the randomly-selected extra starting items (without incidence on other progress items).
       for item in self.rando.extra_start_items.random_starting_items:
         # Needs to happen after make useless_progress_items_nonprogress to ensure other progress
         # items aren't made nonprogress by the extra random items being in the starting inventory
@@ -181,6 +195,10 @@ class Logic:
   def load_simulated_playthrough_state(self, vars_backup):
     for attr_name, value in vars_backup.items():
       setattr(self, attr_name, copy.deepcopy(value))
+  
+  @property
+  def small_keys_placed_in_own_dungeon(self) -> bool:
+    return self.options.shuffle_small_keys in (DungeonItemShuffleMode.VANILLA, DungeonItemShuffleMode.OWN_DUNGEON)
   
   def set_location_to_item(self, location_name, item_name):
     #print("Setting %s to %s" % (location_name, item_name))
@@ -552,21 +570,55 @@ class Logic:
     
     return filtered_locations
   
+  def get_dungeon_item_shuffle_mode(self, item_name: str) -> DungeonItemShuffleMode:
+    if item_name in DUNGEON_SMALL_KEYS:
+      return self.options.shuffle_small_keys
+    elif item_name in DUNGEON_BIG_KEYS:
+      return self.options.shuffle_big_keys
+    elif item_name in DUNGEON_MAPS_AND_COMPASSES:
+      return self.options.shuffle_maps_and_compasses
+    else:
+      return DungeonItemShuffleMode.OWN_DUNGEON
+  
+  def check_dungeon_item_valid_in_location(self, item_name: str, location_name: str) -> bool:
+    types = self.item_locations[location_name]["Types"]
+    shuffle_mode = self.get_dungeon_item_shuffle_mode(item_name)
+    
+    short_dungeon_name = item_name.split(" ")[0]
+    dungeon_name = self.DUNGEON_NAMES[short_dungeon_name]
+    is_in_any_dungeon = self.is_dungeon_location(location_name)
+    is_in_own_dungeon = self.is_dungeon_location(location_name, dungeon_name_to_match=dungeon_name)
+    
+    if shuffle_mode == DungeonItemShuffleMode.START_WITH:
+      return False
+    elif shuffle_mode == DungeonItemShuffleMode.VANILLA or shuffle_mode == DungeonItemShuffleMode.OWN_DUNGEON:
+      if not is_in_own_dungeon:
+        return False
+      elif "Boss" in types:
+        # Don't allow dungeon items to be placed on the dungeon boss.
+        return False
+      elif "Randomizable Miniboss Room" in types and self.options.randomize_miniboss_entrances:
+        # Don't allow dungeon items to be placed in miniboss rooms when they are randomized.
+        return False
+    elif shuffle_mode == DungeonItemShuffleMode.ANY_DUNGEON:
+      if not is_in_any_dungeon:
+        return False
+      # Don't allow items from required dungeons to be placed in banned locations.
+      if dungeon_name in self.rando.boss_reqs.required_dungeons and location_name in self.rando.boss_reqs.banned_locations:
+        return False
+    elif shuffle_mode == DungeonItemShuffleMode.OVERWORLD:
+      if is_in_any_dungeon:
+        return False
+    
+    return True
+  
   def check_item_valid_in_location(self, item_name: str, location_name: str):
     types = self.item_locations[location_name]["Types"]
     paths = self.item_locations[location_name]["Paths"]
     
-    # Don't allow dungeon items to appear outside their proper dungeon when Key-Lunacy is off.
-    if self.is_dungeon_item(item_name) and not self.options.keylunacy:
-      short_dungeon_name = item_name.split(" ")[0]
-      dungeon_name = self.DUNGEON_NAMES[short_dungeon_name]
-      if not self.is_dungeon_location(location_name, dungeon_name_to_match=dungeon_name):
-        return False
-      if "Boss" in types:
-        # Don't allow dungeon items to be placed on the dungeon boss.
-        return False
-      if "Randomizable Miniboss Room" in types and self.options.randomize_miniboss_entrances:
-        # Don't allow dungeon items to be placed in miniboss rooms when they are randomized.
+    # Check dungeon item placement based on shuffle mode.
+    if self.is_dungeon_item(item_name):
+      if not self.check_dungeon_item_valid_in_location(item_name, location_name):
         return False
     
     # Beedle's shop does not work properly if the same item is in multiple slots of the same shop.
@@ -850,6 +902,45 @@ class Logic:
       # Outside the dungeon.
       return False
     return True
+  
+  def get_vanilla_item_locations(self, vanilla_item_name: str, zone_name: str | None = None) -> list[str]:
+    # Filter down locations to search to a specific zone, if specified.
+    if zone_name is not None:
+      if zone_name not in self.locations_by_zone_name:
+        return []
+      locations_to_search = self.locations_by_zone_name[zone_name]
+    else:
+      locations_to_search = self.item_locations.keys()
+    
+    # Loop through all locations in the zone, identifying all that have the item as the original item.
+    matching_locations = []
+    for location_name in locations_to_search:
+      original_item = self.item_locations[location_name].get("Original item")
+      if original_item == vanilla_item_name:
+        matching_locations.append(location_name)
+    
+    return matching_locations
+  
+  def get_vanilla_dungeon_item_locations(self, item_name: str) -> list[str]:
+    # Get the dungeon name of the item.
+    short_dungeon_name = item_name.split(" ")[0]
+    dungeon_name = self.DUNGEON_NAMES.get(short_dungeon_name)
+    if not dungeon_name:
+      return []
+    
+    # Determine the base item type (without dungeon prefix).
+    if item_name.endswith(" Small Key"):
+      vanilla_item_name = "Small Key"
+    elif item_name.endswith(" Big Key"):
+      vanilla_item_name = "Big Key"
+    elif item_name.endswith(" Dungeon Map"):
+      vanilla_item_name = "Dungeon Map"
+    elif item_name.endswith(" Compass"):
+      vanilla_item_name = "Compass"
+    else:
+      return []
+    
+    return self.get_vanilla_item_locations(vanilla_item_name, zone_name=dungeon_name)
   
   @staticmethod
   def parse_logic_expression(string: str):

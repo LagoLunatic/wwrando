@@ -109,12 +109,12 @@ jobs:
         if: ${{ env.game_test_files_token != '' }}
         run: |
           pip install pytest pytest-cov
-          pytest test --cov --cov-report=html
+          pytest test --cov --cov-report=html -m "not thorough"
       - name: Test with pytest (without saving)
         if: ${{ env.game_test_files_token == '' }}
         run: |
           pip install pytest pytest-cov
-          pytest test --cov --cov-report=html -m "not saving"
+          pytest test --cov --cov-report=html -m "not saving and not thorough"
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
         with:

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>914</width>
-    <height>757</height>
+    <height>830</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,7 +41,7 @@
          <x>0</x>
          <y>0</y>
          <width>879</width>
-         <height>600</height>
+         <height>673</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -71,7 +71,7 @@
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
-             <layout class="QGridLayout" name="gridLayout">
+             <layout class="QGridLayout" name="layout_files">
               <item row="2" column="1">
                <widget class="QLineEdit" name="seed"/>
               </item>
@@ -320,27 +320,13 @@
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="groupBox_2">
+             <widget class="QGroupBox" name="item_randomizer_modes_groupbox">
               <property name="title">
                <string>Item Randomizer Modes</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_3">
-               <item row="6" column="5">
-                <widget class="QCheckBox" name="trap_chests">
-                 <property name="text">
-                  <string>Enable Trap Chests</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="3">
-                <widget class="QCheckBox" name="keylunacy">
-                 <property name="text">
-                  <string>Key-Lunacy</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="2">
-                <layout class="QHBoxLayout" name="horizontalLayout_4">
+               <item row="0" column="1">
+                <layout class="QHBoxLayout" name="layout_num_starting_triforce_shards">
                  <item>
                   <widget class="QLabel" name="label_for_num_starting_triforce_shards">
                    <property name="sizePolicy">
@@ -359,15 +345,116 @@
                  </item>
                 </layout>
                </item>
-               <item row="6" column="4">
-                <widget class="QCheckBox" name="chest_type_matches_contents">
-                 <property name="text">
-                  <string>Chest Type Matches Contents</string>
-                 </property>
-                </widget>
+               <item row="2" column="2">
+                <layout class="QHBoxLayout" name="layout_shuffle_maps_and_compasses">
+                 <item>
+                  <widget class="QLabel" name="label_for_shuffle_maps_and_compasses">
+                   <property name="text">
+                    <string>Dungeon Maps and Compasses</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="shuffle_maps_and_compasses">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="currentText">
+                    <string>Vanilla</string>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>Vanilla</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Start With</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Own Dungeon</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Any Dungeon</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Overworld</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Anywhere</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
                </item>
-               <item row="6" column="0">
-                <layout class="QHBoxLayout" name="horizontalLayout_3">
+               <item row="2" column="1">
+                <layout class="QHBoxLayout" name="layout_shuffle_big_keys">
+                 <item>
+                  <widget class="QLabel" name="label_for_shuffle_big_keys">
+                   <property name="text">
+                    <string>Big Keys</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="shuffle_big_keys">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="currentText">
+                    <string>Vanilla</string>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>Vanilla</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Start With</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Own Dungeon</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Any Dungeon</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Overworld</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Anywhere</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="0" column="0">
+                <layout class="QHBoxLayout" name="layout_sword_mode">
                  <item>
                   <widget class="QLabel" name="label_for_sword_mode">
                    <property name="text">
@@ -402,24 +489,85 @@
                  </item>
                 </layout>
                </item>
+               <item row="2" column="0">
+                <layout class="QHBoxLayout" name="layout_shuffle_small_keys">
+                 <item>
+                  <widget class="QLabel" name="label_for_shuffle_small_keys">
+                   <property name="text">
+                    <string>Small Keys</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="shuffle_small_keys">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="currentText">
+                    <string>Vanilla</string>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>Vanilla</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Start With</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Own Dungeon</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Any Dungeon</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Overworld</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Anywhere</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="3" column="0">
+                <widget class="QCheckBox" name="chest_type_matches_contents">
+                 <property name="text">
+                  <string>Chest Type Matches Contents</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QCheckBox" name="trap_chests">
+                 <property name="text">
+                  <string>Enable Trap Chests</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </widget>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_19">
-              <item>
-               <widget class="QGroupBox" name="groupBox_7">
+             <layout class="QGridLayout" name="layout_other_randomizer_settings">
+              <item row="0" column="0">
+               <widget class="QGroupBox" name="entrance_randomizer_groupbox">
                 <property name="title">
                  <string>Entrance Randomizer Options</string>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_9">
-                 <item row="0" column="2">
-                  <widget class="QCheckBox" name="randomize_miniboss_entrances">
-                   <property name="text">
-                    <string>Nested Minibosses</string>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="0" column="0">
                   <widget class="QCheckBox" name="randomize_dungeon_entrances">
                    <property name="text">
@@ -427,10 +575,17 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="0">
-                  <widget class="QCheckBox" name="randomize_secret_cave_entrances">
+                 <item row="1" column="2">
+                  <widget class="QCheckBox" name="randomize_fairy_fountain_entrances">
                    <property name="text">
-                    <string>Secret Caves</string>
+                    <string>Fairy Fountains</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QCheckBox" name="randomize_miniboss_entrances">
+                   <property name="text">
+                    <string>Nested Minibosses</string>
                    </property>
                   </widget>
                  </item>
@@ -448,15 +603,15 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="2">
-                  <widget class="QCheckBox" name="randomize_fairy_fountain_entrances">
+                 <item row="1" column="0">
+                  <widget class="QCheckBox" name="randomize_secret_cave_entrances">
                    <property name="text">
-                    <string>Fairy Fountains</string>
+                    <string>Secret Caves</string>
                    </property>
                   </widget>
                  </item>
                  <item row="2" column="0" colspan="3">
-                  <layout class="QHBoxLayout" name="horizontalLayout_5">
+                  <layout class="QHBoxLayout" name="layout_mix_entrances">
                    <item>
                     <widget class="QLabel" name="label_for_mix_entrances">
                      <property name="text">
@@ -489,16 +644,16 @@
                 </layout>
                </widget>
               </item>
-              <item>
-               <widget class="QGroupBox" name="groupBox_8">
+              <item row="0" column="1">
+               <widget class="QGroupBox" name="other_randomizers_groupbox">
                 <property name="title">
                  <string>Other Randomizers</string>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_10">
-                 <item row="1" column="1">
-                  <widget class="QCheckBox" name="randomize_enemies">
+                 <item row="1" column="0">
+                  <widget class="QCheckBox" name="randomize_enemy_palettes">
                    <property name="text">
-                    <string>Randomize Enemy Locations</string>
+                    <string>Randomize Enemy Palettes</string>
                    </property>
                   </widget>
                  </item>
@@ -509,13 +664,6 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="0">
-                  <widget class="QCheckBox" name="randomize_enemy_palettes">
-                   <property name="text">
-                    <string>Randomize Enemy Palettes</string>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="0" column="0">
                   <widget class="QCheckBox" name="randomize_starting_island">
                    <property name="text">
@@ -523,8 +671,15 @@
                    </property>
                   </widget>
                  </item>
+                 <item row="1" column="1">
+                  <widget class="QCheckBox" name="randomize_enemies">
+                   <property name="text">
+                    <string>Randomize Enemy Locations</string>
+                   </property>
+                  </widget>
+                 </item>
                  <item row="2" column="0">
-                  <widget class="QWidget" name="widget_2" native="true"/>
+                  <widget class="QWidget" name="widget" native="true"/>
                  </item>
                 </layout>
                </widget>
@@ -532,7 +687,7 @@
              </layout>
             </item>
             <item>
-             <widget class="QGroupBox" name="groupBox_3">
+             <widget class="QGroupBox" name="convenience_tweaks_groupbox">
               <property name="title">
                <string>Convenience Tweaks</string>
               </property>
@@ -626,7 +781,7 @@
              </widget>
             </item>
             <item>
-             <spacer name="verticalSpacer_7">
+             <spacer name="randomizer_settings_spacer">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -649,9 +804,9 @@
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <layout class="QHBoxLayout" name="layout_gear">
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_5">
+               <layout class="QVBoxLayout" name="layout_randomized_gear">
                 <item>
                  <widget class="QLabel" name="label_for_randomized_gear">
                   <property name="text">
@@ -672,9 +827,9 @@
                </layout>
               </item>
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_6">
+               <layout class="QVBoxLayout" name="layout_gear_buttons">
                 <item>
-                 <spacer name="verticalSpacer">
+                 <spacer name="gear_buttons_spacer_top">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
                   </property>
@@ -713,7 +868,7 @@
                  </widget>
                 </item>
                 <item>
-                 <spacer name="verticalSpacer_2">
+                 <spacer name="gear_buttons_spacer_bottom">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
                   </property>
@@ -728,7 +883,7 @@
                </layout>
               </item>
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_7">
+               <layout class="QVBoxLayout" name="layout_starting_gear">
                 <item>
                  <widget class="QLabel" name="label_for_starting_gear">
                   <property name="text">
@@ -751,7 +906,7 @@
              </layout>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <layout class="QHBoxLayout" name="layout_starting_health">
               <item>
                <widget class="QLabel" name="label_for_starting_hcs">
                 <property name="text">
@@ -806,7 +961,7 @@
                </widget>
               </item>
               <item>
-               <spacer name="horizontalSpacer_3">
+               <spacer name="starting_health_spacer">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -821,7 +976,7 @@
              </layout>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_random_starting_items">
+             <layout class="QHBoxLayout" name="layout_random_starting_items">
               <item>
                <widget class="QLabel" name="label_for_num_extra_starting_items">
                 <property name="text">
@@ -846,7 +1001,7 @@
                </widget>
               </item>
               <item>
-               <spacer name="horizontalSpacer_random_starting_item">
+               <spacer name="random_starting_items_spacer">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -868,20 +1023,16 @@
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_8">
             <item>
-             <widget class="QGroupBox" name="groupBox_4">
+             <widget class="QGroupBox" name="required_bosses_groupbox">
               <property name="title">
                <string>Required Bosses</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_6">
-               <item row="0" column="0">
-                <widget class="QCheckBox" name="required_bosses">
-                 <property name="text">
-                  <string>Required Bosses Mode</string>
-                 </property>
-                </widget>
+               <item row="0" column="2">
+                <widget class="QWidget" name="widget_2" native="true"/>
                </item>
                <item row="0" column="1">
-                <layout class="QHBoxLayout" name="horizontalLayout_8">
+                <layout class="QHBoxLayout" name="layout_required_bosses">
                  <item>
                   <widget class="QLabel" name="label_for_num_required_bosses">
                    <property name="sizePolicy">
@@ -900,65 +1051,34 @@
                  </item>
                 </layout>
                </item>
-               <item row="0" column="2">
-                <widget class="QWidget" name="widget_4" native="true"/>
+               <item row="0" column="0">
+                <widget class="QCheckBox" name="required_bosses">
+                 <property name="text">
+                  <string>Required Bosses Mode</string>
+                 </property>
+                </widget>
                </item>
                <item row="0" column="3">
-                <widget class="QWidget" name="widget_5" native="true"/>
+                <widget class="QWidget" name="widget_3" native="true"/>
                </item>
               </layout>
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="groupBox_9">
+             <widget class="QGroupBox" name="difficulty_options_groupbox">
               <property name="title">
                <string>Difficulty Options</string>
               </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_22">
-               <item>
+              <layout class="QGridLayout" name="gridLayout_5">
+               <item row="0" column="0">
                 <widget class="QCheckBox" name="hero_mode">
                  <property name="text">
                   <string>Hero Mode</string>
                  </property>
                 </widget>
                </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_20">
-                 <item>
-                  <widget class="QLabel" name="label_for_logic_obscurity">
-                   <property name="text">
-                    <string>Obscure Tricks Required</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QComboBox" name="logic_obscurity">
-                   <item>
-                    <property name="text">
-                     <string>None</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Normal</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Hard</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Very Hard</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_21">
+               <item row="0" column="2">
+                <layout class="QHBoxLayout" name="layout_logic_precision">
                  <item>
                   <widget class="QLabel" name="label_for_logic_precision">
                    <property name="text">
@@ -992,14 +1112,49 @@
                  </item>
                 </layout>
                </item>
-               <item>
-                <widget class="QWidget" name="widget_10" native="true"/>
+               <item row="0" column="1">
+                <layout class="QHBoxLayout" name="layout_logic_obscurity">
+                 <item>
+                  <widget class="QLabel" name="label_for_logic_obscurity">
+                   <property name="text">
+                    <string>Obscure Tricks Required</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="logic_obscurity">
+                   <item>
+                    <property name="text">
+                     <string>None</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Normal</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Hard</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Very Hard</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="0" column="3">
+                <widget class="QWidget" name="widget_4" native="true"/>
                </item>
               </layout>
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="groupBox_5">
+             <widget class="QGroupBox" name="hint_options_groupbox">
               <property name="title">
                <string>Hint Options</string>
               </property>
@@ -1029,7 +1184,7 @@
                 </widget>
                </item>
                <item row="5" column="2">
-                <layout class="QHBoxLayout" name="horizontalLayout_16">
+                <layout class="QHBoxLayout" name="layout_num_barren_hints">
                  <item>
                   <widget class="QLabel" name="label_for_num_barren_hints">
                    <property name="text">
@@ -1079,7 +1234,7 @@
                 </widget>
                </item>
                <item row="5" column="1">
-                <layout class="QHBoxLayout" name="horizontalLayout_17">
+                <layout class="QHBoxLayout" name="layout_num_location_hints">
                  <item>
                   <widget class="QLabel" name="label_for_num_location_hints">
                    <property name="text">
@@ -1104,12 +1259,12 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QWidget" name="widget_8" native="true"/>
+                  <widget class="QWidget" name="widget_6" native="true"/>
                  </item>
                 </layout>
                </item>
                <item row="5" column="0">
-                <layout class="QHBoxLayout" name="horizontalLayout_9">
+                <layout class="QHBoxLayout" name="layout_num_item_hints">
                  <item>
                   <widget class="QLabel" name="label_for_num_item_hints">
                    <property name="text">
@@ -1134,12 +1289,12 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QWidget" name="widget_9" native="true"/>
+                  <widget class="QWidget" name="widget_5" native="true"/>
                  </item>
                 </layout>
                </item>
                <item row="5" column="3">
-                <layout class="QHBoxLayout" name="horizontalLayout_15">
+                <layout class="QHBoxLayout" name="layout_num_path_hints">
                  <item>
                   <widget class="QLabel" name="label_for_num_path_hints">
                    <property name="text">
@@ -1164,7 +1319,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QWidget" name="widget_6" native="true"/>
+                  <widget class="QWidget" name="widget_8" native="true"/>
                  </item>
                 </layout>
                </item>
@@ -1179,7 +1334,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="groupBox_6">
+             <widget class="QGroupBox" name="additional_advanced_groupbox">
               <property name="title">
                <string>Additional Advanced Options</string>
               </property>
@@ -1192,10 +1347,10 @@
                 </widget>
                </item>
                <item row="0" column="2">
-                <widget class="QWidget" name="widget_11" native="true"/>
+                <widget class="QWidget" name="widget_9" native="true"/>
                </item>
                <item row="0" column="3">
-                <widget class="QWidget" name="widget_12" native="true"/>
+                <widget class="QWidget" name="widget_10" native="true"/>
                </item>
                <item row="0" column="1">
                 <widget class="QCheckBox" name="dry_run">
@@ -1208,7 +1363,7 @@
              </widget>
             </item>
             <item>
-             <spacer name="verticalSpacer_3">
+             <spacer name="advanced_spacer">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -1253,7 +1408,7 @@
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="layout_permalink">
       <item>
        <widget class="QLabel" name="label_for_permalink">
         <property name="text">
@@ -1277,7 +1432,7 @@
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="layout_bottom_buttons">
       <item>
        <widget class="QPushButton" name="about_button">
         <property name="text">
@@ -1286,7 +1441,7 @@
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer">
+       <spacer name="bottom_buttons_spacer_left">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -1312,7 +1467,7 @@
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer_2">
+       <spacer name="bottom_buttons_spacer_right">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -1378,7 +1533,9 @@
   <tabstop>progression_treasure_charts</tabstop>
   <tabstop>sword_mode</tabstop>
   <tabstop>num_starting_triforce_shards</tabstop>
-  <tabstop>keylunacy</tabstop>
+  <tabstop>shuffle_small_keys</tabstop>
+  <tabstop>shuffle_big_keys</tabstop>
+  <tabstop>shuffle_maps_and_compasses</tabstop>
   <tabstop>chest_type_matches_contents</tabstop>
   <tabstop>trap_chests</tabstop>
   <tabstop>randomize_dungeon_entrances</tabstop>
@@ -1427,6 +1584,7 @@
   <tabstop>num_path_hints</tabstop>
   <tabstop>cryptic_hints</tabstop>
   <tabstop>prioritize_remote_hints</tabstop>
+  <tabstop>hint_importance</tabstop>
   <tabstop>do_not_generate_spoiler_log</tabstop>
   <tabstop>dry_run</tabstop>
  </tabstops>

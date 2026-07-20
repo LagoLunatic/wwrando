@@ -5,10 +5,14 @@ import re
 from logic.logic import Logic
 
 from gclib import fs_helpers as fs
+from options.wwrando_options import DungeonItemShuffleMode
 from randomizers.base_randomizer import BaseRandomizer
 from wwlib.dzx import DZx, ACTR, SCOB, TRES, DZxLayer
 from wwlib.events import EventList
 from tweaks import add_trap_chest_event_to_stage
+
+class ItemPlacementError(Exception): pass
+class DungeonItemPlacementError(ItemPlacementError): pass
 
 class ItemRandomizer(BaseRandomizer):
   def __init__(self, rando):
@@ -36,10 +40,29 @@ class ItemRandomizer(BaseRandomizer):
     return "Saving items..."
   
   def _randomize(self):
-    if not self.options.keylunacy:
-      self.randomize_dungeon_items()
+    state_backup = self.logic.save_simulated_playthrough_state()
+    prerand_backup = dict(self.logic.prerandomization_item_locations)
+    done_backup = dict(self.logic.done_item_locations)
+    remaining_backup = list(self.logic.remaining_item_locations)
+    drc_failsafe_backup = self.drc_failsafe_location
     
-    self.randomize_progression_items_forward_fill()
+    max_attempts = 10
+    for attempt in range(max_attempts):
+      try:
+        self.randomize_dungeon_items()
+        
+        self.randomize_progression_items_forward_fill()
+        
+        break
+      except ItemPlacementError:
+        if attempt == max_attempts - 1:
+          raise
+        
+        self.logic.load_simulated_playthrough_state(state_backup)
+        self.logic.prerandomization_item_locations = dict(prerand_backup)
+        self.logic.done_item_locations = dict(done_backup)
+        self.logic.remaining_item_locations = list(remaining_backup)
+        self.drc_failsafe_location = drc_failsafe_backup
     
     self.randomize_unique_nonprogress_items()
     
@@ -111,34 +134,66 @@ class ItemRandomizer(BaseRandomizer):
         "Dragon Roost Cavern - Bird's Nest",
       ])
     
-    # Randomize small keys.
-    small_keys_to_place = [
+    # Collect all dungeon items to place.
+    # Sorted up front for determinism across retries.
+    small_keys_to_place = sorted([
       item_name for item_name in (self.logic.unplaced_progress_items + self.logic.unplaced_nonprogress_items)
       if item_name.endswith(" Small Key")
-    ]
-    assert len(small_keys_to_place) > 0
-    for item_name in small_keys_to_place:
-      self.place_dungeon_item(item_name)
-      self.logic.add_owned_item(item_name) # Temporarily add small keys to the player's inventory while placing them.
-    
-    # Randomize big keys.
-    big_keys_to_place = [
+    ])
+    big_keys_to_place = sorted([
       item_name for item_name in (self.logic.unplaced_progress_items + self.logic.unplaced_nonprogress_items)
       if item_name.endswith(" Big Key")
-    ]
-    assert len(big_keys_to_place) > 0
-    for item_name in big_keys_to_place:
-      self.place_dungeon_item(item_name)
-      self.logic.add_owned_item(item_name) # Temporarily add big keys to the player's inventory while placing them.
-    
-    # Randomize dungeon maps and compasses.
-    other_dungeon_items_to_place = [
+    ])
+    other_dungeon_items_to_place = sorted([
       item_name for item_name in (self.logic.unplaced_progress_items + self.logic.unplaced_nonprogress_items)
       if item_name.endswith(" Dungeon Map")
       or item_name.endswith(" Compass")
-    ]
+    ])
+    
+    # Shuffle the lists so that the dungeon items are not always placed in the same order.
+    self.rng.shuffle(small_keys_to_place)
+    self.rng.shuffle(big_keys_to_place)
+    self.rng.shuffle(other_dungeon_items_to_place)
+    
+    # First, place all vanilla shuffle mode items to reserve their vanilla locations.
+    for_progression = self.options.progression_dungeons
+    for item_name in small_keys_to_place:
+      if self.options.shuffle_small_keys == DungeonItemShuffleMode.VANILLA:
+        self.place_item_at_vanilla_location(item_name, for_progression=for_progression)
+      self.logic.add_owned_item(item_name) # Temporarily add small keys to the player's inventory while placing them.
+    for item_name in big_keys_to_place:
+      if self.options.shuffle_big_keys == DungeonItemShuffleMode.VANILLA:
+        self.place_item_at_vanilla_location(item_name, for_progression=for_progression)
+      self.logic.add_owned_item(item_name) # Temporarily add big keys to the player's inventory while placing them.
     for item_name in other_dungeon_items_to_place:
-      self.place_dungeon_item(item_name)
+      if self.options.shuffle_maps_and_compasses == DungeonItemShuffleMode.VANILLA:
+        self.place_item_at_vanilla_location(item_name, for_progression=for_progression)
+    
+    # Remove the dungeon items we temporarily added.
+    for item_name in small_keys_to_place:
+      self.logic.remove_owned_item(item_name)
+    for item_name in big_keys_to_place:
+      self.logic.remove_owned_item(item_name)
+    
+    # Then, place OWN_DUNGEON shuffle mode dungeon items, plus ANY_DUNGEON items if Required Bosses Mode is on.
+    # ANY_DUNGEON items need to fit across all dungeons (including banned ones, which forward fill excludes), so we pre-place them and rely on the prerand exception in forward fill to bring them in.
+    # When Required Bosses Mode is off, banned locations don't exist and forward fill can handle ANY_DUNGEON placement directly along the accessibility chain.
+    pre_place_any_dungeon = self.options.required_bosses
+    own_dungeon_or_any_dungeon = (DungeonItemShuffleMode.OWN_DUNGEON, DungeonItemShuffleMode.ANY_DUNGEON)
+    own_dungeon_only = (DungeonItemShuffleMode.OWN_DUNGEON,)
+    dungeon_item_modes = own_dungeon_or_any_dungeon if pre_place_any_dungeon else own_dungeon_only
+    
+    for item_name in small_keys_to_place:
+      if self.options.shuffle_small_keys in dungeon_item_modes:
+        self.place_dungeon_item(item_name)
+      self.logic.add_owned_item(item_name)
+    for item_name in big_keys_to_place:
+      if self.options.shuffle_big_keys in dungeon_item_modes:
+        self.place_dungeon_item(item_name)
+      self.logic.add_owned_item(item_name)
+    for item_name in other_dungeon_items_to_place:
+      if self.options.shuffle_maps_and_compasses in dungeon_item_modes:
+        self.place_dungeon_item(item_name)
     
     # Remove the items we temporarily added.
     for item_name in items_to_temporarily_add:
@@ -148,9 +203,9 @@ class ItemRandomizer(BaseRandomizer):
     for item_name in big_keys_to_place:
       self.logic.remove_owned_item(item_name)
     
-    # Reset the dungeon entrance macros.
+    # Reset the dungeon entrance macros to real shuffled values for forward fill.
     self.logic.update_entrance_connection_macros()
-
+  
   def place_dungeon_item(self, item_name):
     if self.options.progression_dungeons:
       # If dungeons themselves are progress, do not allow dungeon items to appear in any dungeon
@@ -186,10 +241,33 @@ class ItemRandomizer(BaseRandomizer):
       ]
     
     if not possible_locations:
-      raise Exception("No valid locations left to place dungeon items!")
+      raise DungeonItemPlacementError("No valid locations left to place dungeon items!")
     
     location_name = self.rng.choice(possible_locations)
     self.logic.set_prerandomization_item_location(location_name, item_name)
+  
+  def place_item_at_vanilla_location(self, item_name: str, for_progression: bool = True):
+    # Get a list of all the vanilla locations of the item.
+    if self.logic.is_dungeon_item(item_name):
+      vanilla_locations = self.logic.get_vanilla_dungeon_item_locations(item_name)
+    else:
+      vanilla_locations = self.logic.get_vanilla_item_locations(item_name)
+    
+    if not vanilla_locations:
+      raise DungeonItemPlacementError(f"No vanilla locations found for {item_name}!")
+    
+    if for_progression:
+      # Filter locations for progression locations only.
+      vanilla_locations = self.logic.filter_locations_for_progression(vanilla_locations)
+    
+    # Find a vanilla location that hasn't been filled yet.
+    for location_name in vanilla_locations:
+      if location_name not in self.logic.prerandomization_item_locations:
+        # Place the item at that location.
+        self.logic.set_prerandomization_item_location(location_name, item_name)
+        return
+    
+    raise DungeonItemPlacementError(f"No vanilla locations left to place {item_name}!")
   
   def randomize_progression_items_forward_fill(self):
     accessible_undone_locations = self.logic.get_accessible_remaining_locations(for_progression=True)
@@ -214,7 +292,7 @@ class ItemRandomizer(BaseRandomizer):
         ]
       
       if not accessible_undone_locations:
-        raise Exception("No locations left to place progress items!")
+        raise ItemPlacementError("No locations left to place progress items!")
       
       # If the player gained access to any predetermined item locations, we need to give them those items.
       newly_accessible_predetermined_item_locations = [
@@ -249,16 +327,16 @@ class ItemRandomizer(BaseRandomizer):
         possible_items.remove(prerand_item)
       
       if len(possible_items) == 0:
-        raise Exception("Only items left to place are predetermined items at inaccessible locations!")
+        raise ItemPlacementError("Only items left to place are predetermined items at inaccessible locations!")
       
       # Filter out items that are not valid in any of the locations we might use.
       possible_items = self.logic.filter_items_by_any_valid_location(possible_items, accessible_undone_locations)
       
       if len(possible_items) == 0:
-        raise Exception("Not enough valid locations left for any of the unplaced progress items!")
+        raise ItemPlacementError("Not enough valid locations left for any of the unplaced progress items!")
       
       # Remove duplicates from the list so items like swords and bows aren't so likely to show up early.
-      # We exclude dungeon items from this so that small keys can still be front-loaded in Key-Lunacy.
+      # We exclude dungeon items from this so that small keys can still be front-loaded when shuffled outside their own dungeon.
       # With small keys de-duplicated too, dungeons can be inaccessible until late in the seed (especially when nested).
       unique_possible_items = []
       for item_name in possible_items:
@@ -283,7 +361,7 @@ class ItemRandomizer(BaseRandomizer):
         item_name = self.logic.get_first_useful_item(shuffled_list)
         if item_name is None:
           if must_place_useful_item:
-            raise Exception("No useful progress items to place!")
+            raise ItemPlacementError("No useful progress items to place!")
           else:
             # We'd like to be placing a useful item, but there are no useful items to place.
             # Instead we choose an item that isn't useful yet by itself, but has a high usefulness fraction.
@@ -655,7 +733,7 @@ class ItemRandomizer(BaseRandomizer):
             break
       
       
-      if not self.options.keylunacy:
+      if self.logic.small_keys_placed_in_own_dungeon:
         # If the player gained access to any small keys, we need to give them the keys without counting that as a new sphere.
         newly_accessible_predetermined_item_locations = [
           loc for loc in locations_in_this_sphere

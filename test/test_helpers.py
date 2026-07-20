@@ -1,4 +1,4 @@
-from options.wwrando_options import Options, SwordMode, EntranceMixMode, TrickDifficulty
+from options.wwrando_options import DungeonItemShuffleMode, EntranceMixMode, Options, SwordMode, TrickDifficulty
 
 def enable_all_progression_location_options(options: Options):
   options.progression_dungeons = True
@@ -54,7 +54,9 @@ def enable_all_options(options: Options):
   enable_all_progression_location_options(options)
   
   options.sword_mode = SwordMode.SWORDLESS
-  options.keylunacy = True
+  options.shuffle_small_keys = DungeonItemShuffleMode.ANYWHERE
+  options.shuffle_big_keys = DungeonItemShuffleMode.ANYWHERE
+  options.shuffle_maps_and_compasses = DungeonItemShuffleMode.ANYWHERE
   
   options.mix_entrances = EntranceMixMode.MIX_DUNGEONS
   options.randomize_dungeon_entrances = True
