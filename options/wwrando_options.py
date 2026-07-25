@@ -410,7 +410,14 @@ class Options(BaseOptions):
       "Guaranteed to unlock at least one additional location at the start.",
   )
   #endregion
-  
+
+  # region Custom item placement
+  custom_item_locations: dict[str, str] = option(
+    default_factory=dict,
+    description="Custom locations to place specific items at.",
+  )
+  # endregion
+
   #region Cosmetic
   custom_player_model: str = option(
     default="Link",

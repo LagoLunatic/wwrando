@@ -202,7 +202,10 @@ class WWRandomizer:
     self.using_custom_sail_texture = False
     
     self.logic = Logic(self)
-    
+
+    for location_name, item_name in self.options.custom_item_locations.items():
+      self.logic.set_prerandomization_item_location(location_name, item_name)
+
     self.items = ItemRandomizer(self)
     self.charts = ChartRandomizer(self)
     self.starting_island = StartingIslandRandomizer(self)
@@ -529,6 +532,17 @@ class WWRandomizer:
       elif option.name == "randomized_gear":
         # Handled above.
         continue
+      elif option.name == "custom_item_locations":
+        all_location_names = sorted(Logic.load_and_parse_item_locations().keys())
+        all_item_names = sorted(list(set(REGULAR_ITEMS + PROGRESSIVE_ITEMS)))
+
+        bitswriter.write(len(value), 10)
+        for location_name, item_name in value.items():
+          location_index = all_location_names.index(location_name)
+          item_index = all_item_names.index(item_name)
+
+          bitswriter.write(location_index, 10)
+          bitswriter.write(item_index, 7)
       else:
         raise Exception(f"Option {option.name} of type {option.type} is not currently supported by the permalink system.")
     
@@ -616,6 +630,20 @@ class WWRandomizer:
       elif option.name == "randomized_gear":
         # Handled above.
         continue
+      elif option.name == "custom_item_locations":
+        all_location_names = sorted(Logic.load_and_parse_item_locations().keys())
+        all_item_names = sorted(list(set(REGULAR_ITEMS + PROGRESSIVE_ITEMS)))
+
+        num_custom_placements = bitsreader.read(10)
+        custom_item_locations = {}
+        for i in range(num_custom_placements):
+          loc_idx = bitsreader.read(10)
+          itm_idx = bitsreader.read(7)
+
+          loc_name = str(all_location_names[loc_idx])
+          itm_name = str(all_item_names[itm_idx])
+          custom_item_locations[loc_name] = itm_name
+        options.custom_item_locations = custom_item_locations
       else:
         raise Exception(f"Option {option.name} of type {option.type} is not currently supported by the permalink system.")
     
