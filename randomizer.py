@@ -58,24 +58,6 @@ from randomizers.extra_starting_items import ExtraStartingItemsRandomizer
 
 from version import VERSION, VERSION_WITHOUT_COMMIT
 
-# The below are options that could be used to cheat in races.
-# They do not naturally change algorithmic item distribution, but do change the availability of information on item distribution.
-# To prevent this possibility, we change the RNG seed itself for each one of these options that is selected.
-# This ensures that item distribution is different between people with the same seed but different hints, for example.
-RNG_CHANGING_OPTIONS = [
-  "fishmen_hints",
-  "hoho_hints",
-  "korl_hints",
-  "num_path_hints",
-  "num_barren_hints",
-  "num_location_hints",
-  "num_item_hints",
-  "cryptic_hints",
-  "prioritize_remote_hints",
-  "hint_importance",
-  "do_not_generate_spoiler_log",
-]
-
 class TooFewProgressionLocationsError(Exception): pass
 class InvalidCleanISOError(Exception): pass
 class PermalinkWrongVersionError(Exception): pass
@@ -98,6 +80,12 @@ class WWRandomizer:
     self.options = options
     self.seed = self.sanitize_seed(seed)
     self.permalink = self.encode_permalink(self.seed, self.options)
+    
+    seed_string = self.permalink
+    if self.options.do_not_generate_spoiler_log:
+      seed_string += SEED_KEY
+    
+    self.integer_seed = self.convert_string_to_integer_md5(seed_string)
     self.seed_hash = self.get_seed_hash()
     
     if cmd_line_args is None:
@@ -123,12 +111,6 @@ class WWRandomizer:
     self.test_room_args = None
     if cmd_line_args.test:
       self.test_room_args = cmd_line_args.test
-    
-    seed_string = self.seed
-    if self.options.do_not_generate_spoiler_log:
-      seed_string += SEED_KEY
-    
-    self.integer_seed = self.convert_string_to_integer_md5(seed_string)
     
     self.arcs_by_path: dict[str, RARC] = {}
     self.jpcs_by_path: dict[str, JPC100] = {}
@@ -953,13 +935,6 @@ class WWRandomizer:
   def get_new_rng(self):
     rng = Random()
     rng.seed(self.integer_seed)
-    
-    # Further change the RNG based on which RNG-changing options are enabled
-    for i, option in enumerate(RNG_CHANGING_OPTIONS):
-      value = self.options[option]
-      for j in range(1, 100 + i):
-        rng.getrandbits(value + 20 * i + j)
-    
     return rng
   
   def weighted_choice(self, rng: Random, seq: list[T], weight_conditions: list[tuple[int, Callable[[T], bool]]]) -> T:
@@ -979,27 +954,22 @@ class WWRandomizer:
   def get_seed_hash(self):
     # Generate some text that will be shown on the name entry screen which has two random character names that vary based on the permalink (so the seed and settings both change it).
     # This is so two players intending to play the same seed can verify if they really are on the same seed or not.
-
+    
     if not self.permalink:
       return None
-
-    if not self.options.do_not_generate_spoiler_log:
-      integer_seed = self.convert_string_to_integer_md5(self.permalink)
-    else:
-      # When no spoiler log is generated, the seed key also affects randomization, not just the data in the permalink.
-      integer_seed = self.convert_string_to_integer_md5(self.permalink + SEED_KEY)
+    
     temp_rng = Random()
-    temp_rng.seed(integer_seed)
-
+    temp_rng.seed(self.integer_seed)
+    
     with open(os.path.join(SEEDGEN_PATH, "names.txt")) as f:
       all_names = f.read().splitlines()
     valid_names = [name for name in all_names if len(name) <= 5]
-
+    
     name_1, name_2 = temp_rng.sample(valid_names, 2)
     name_1 = tweaks.upper_first_letter(name_1)
     name_2 = tweaks.upper_first_letter(name_2)
     return name_1 + " " + name_2
-
+  
   def get_log_header(self):
     header = ""
     
